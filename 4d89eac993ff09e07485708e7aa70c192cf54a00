@@ -109,6 +109,24 @@
     },
     {
       "key": {
+        "uuid": "76a9dff6_d6a6a3fd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-17T14:23:16Z",
+      "side": 1,
+      "message": "\u003e The idea of a \"robot account\" is not one I/we support.\n\nI would have appreciated if you made that more clear from the beginning. I re-read your initial comments again now and they just sounds like you\u0027d prefer a different implementation but don\u0027t disagree with the feature to begin with.\n\nAs I said, I think it\u0027s sane to solve this with group membership or with a bit, but solving it with permissions sounds overly complicated to me. Let\u0027s say we have these scenarios:\n\n1) Bots don\u0027t get added to the attention set\nA global \"ADD_TO_ATTENTION_SET\" capability.\n\n2) Bot requests execute on a different thread pool\nA global \"USE_INTERACTIVE_THREAD_POOL\" capability.\n\n3) Bots don\u0027t receive emails (I made this up just now)\nA global \"CAN_RECEIVE_EMAIL\" capability.\n\netc.\n\nI fundamentally think that permissions are for users to define who is allowed to take certain actions, not to feature gate parts of the system. Our permission system is flexible, but terribly complicated. It\u0027s imminent when we help users figure out their permissions (\"why can I not do X?\") or onboard new team members at Google who need to read up tons of things before they can help users and diagnose issues.\n\nThe type of the account is a fundamental account property. Like a name or some user preference (e.g. showing X lines of context in a diff). But I think that\u0027s undisputed. The question is rather what does that type trigger and should it trigger Gerrit to behave differently or should there rather be another config knob to allow overriding a default.\n\nYou could argue that all the things tigered by \"isRobot\" should be user preferences as well - or defined by some other mechanism like permissions or group membership. But the problem is that these user preferences affect the usability of the product as a whole - not just the user setting it: Consider a \"Add to me to attention set: yes/no\" preference. What if some users just opt out of that? That would break the feature as a whole because it only works if any human can be added to the attention set.\n\nThat said, I do think we can add some knobs for host admins to define bot behavior. For example: addBotsToAttentionSet might be a legitimate boolean Gerrit config. That is then a central decision made by the admin and it\u0027s way easier than granting capabilities on a set of accounts.\n\nI think I am now getting to my main point: Do you see a use case where bots *should* be added to the attention set? Or where they *should receive email?\n\nDon\u0027t get me wrong: I am not at all saying that the isRobot bit is the new super weapon. Maybe there are use cases in the future where we want to use a capability that we grant to the robots group while also allowing fine-grained overrides. I just can\u0027t see one now. Thread pool size could be one, but there we also have the same pattern of: humans have a default thread pool size, bots have a default thread pool size and *some accounts* can have an override. So granting a capability to the Registered Users (size\u003d1), Robots (size\u003d5) and \"ExcessiveUsers\" (size\u003d10) should also just work. So the robot bit and the magic system group don\u0027t actually stand in your way there. They are something to build upon and useful even in that case.\n\nI would rather have that basic building block and then make a case-by-case decision if we need more fine-grained controls.\n\nBy the way, similar other systems do distinguish user types:\nhttps://gitlab.com/gitlab-org/gitlab/-/issues/6883\nhttps://docs.github.com/en/github/site-policy/github-terms-of-service#3-account-requirements (see \"Machine account\").",
+      "parentUuid": "4cc50aa6_eeba0792",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

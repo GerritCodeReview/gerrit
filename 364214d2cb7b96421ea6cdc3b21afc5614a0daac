@@ -33,6 +33,29 @@
       "revId": "364214d2cb7b96421ea6cdc3b21afc5614a0daac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e3aa1e5_3e0c8b4b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-17T14:55:55Z",
+      "side": 1,
+      "message": "Is it possible that computeReason is empty or that is actually bug? If there is high probability that reason is empty than maybe use dom-if if reason is not empty?",
+      "range": {
+        "startLine": 104,
+        "startChar": 11,
+        "endLine": 104,
+        "endChar": 14
+      },
+      "revId": "364214d2cb7b96421ea6cdc3b21afc5614a0daac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

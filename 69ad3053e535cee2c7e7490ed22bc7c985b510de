@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0306751_99bb197e",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 456,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-17T12:12:49Z",
+      "side": 1,
+      "message": "wrong package",
+      "range": {
+        "startLine": 456,
+        "startChar": 22,
+        "endLine": 456,
+        "endChar": 76
+      },
+      "revId": "69ad3053e535cee2c7e7490ed22bc7c985b510de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

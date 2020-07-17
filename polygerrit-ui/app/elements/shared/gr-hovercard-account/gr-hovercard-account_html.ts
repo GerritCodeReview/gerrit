@@ -63,6 +63,9 @@ export const htmlTemplate = html`
       position: relative;
       top: 3px;
     }
+    .reason {
+      padding-top: var(--spacing-s);
+    }
   </style>
   <div id="container" role="tooltip" tabindex="-1">
     <template is="dom-if" if="[[_isShowing]]">
@@ -95,10 +98,20 @@ export const htmlTemplate = html`
         if="[[_computeShowLabelNeedsAttention(_config, highlightAttention, account, change)]]"
       >
         <div class="attention">
-          <iron-icon icon="gr-icons:attention"></iron-icon>
-          <span>
-            [[_computeText(account, _selfAccount)]] turn to take action.
-          </span>
+          <div>
+            <iron-icon icon="gr-icons:attention"></iron-icon>
+            <span>
+              [[_computeText(account, _selfAccount)]] turn to take action.
+            </span>
+          </div>
+          <div class="reason">
+            <span class="title">Reason:</span>
+            <span class="value">[[_computeReason(change)]]</span>,
+            <gr-date-formatter
+              has-tooltip
+              date-str="[[_computeLastUpdate(change)]]"
+            ></gr-date-formatter>
+          </div>
         </div>
       </template>
       <template

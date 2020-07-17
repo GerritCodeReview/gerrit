@@ -16,6 +16,29 @@
       "revId": "839a8aa836483e846d65c2c2f8d3f6ec3bf263e4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a8300bb9_71b6458e",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-17T12:00:46Z",
+      "side": 1,
+      "message": "wrong package name",
+      "range": {
+        "startLine": 399,
+        "startChar": 22,
+        "endLine": 399,
+        "endChar": 63
+      },
+      "revId": "839a8aa836483e846d65c2c2f8d3f6ec3bf263e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

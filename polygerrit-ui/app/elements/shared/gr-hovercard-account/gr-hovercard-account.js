@@ -130,7 +130,8 @@ class GrHovercardAccount extends GestureEventListeners(
         this._reportingDetails());
     this.$.restAPI.addToAttentionSet(this.change._number,
         this.account._account_id, 'manually added').then(obj => {
-      GerritNav.navigateToChange(this.change);
+      this.dispatchEventThroughTarget('hide-alert');
+      this.dispatchEventThroughTarget('reload');
     });
     this.hide();
   }
@@ -148,7 +149,8 @@ class GrHovercardAccount extends GestureEventListeners(
         this._reportingDetails());
     this.$.restAPI.removeFromAttentionSet(this.change._number,
         this.account._account_id, 'manually removed').then(obj => {
-      GerritNav.navigateToChange(this.change);
+      this.dispatchEventThroughTarget('hide-alert');
+      this.dispatchEventThroughTarget('reload');
     });
     this.hide();
   }

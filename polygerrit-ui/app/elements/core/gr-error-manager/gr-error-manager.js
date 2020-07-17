@@ -112,6 +112,7 @@ class GrErrorManager extends GestureEventListeners(
     this.listen(document, 'server-error', '_handleServerError');
     this.listen(document, 'network-error', '_handleNetworkError');
     this.listen(document, 'show-alert', '_handleShowAlert');
+    this.listen(document, 'hide-alert', '_hideAlert');
     this.listen(document, 'show-error', '_handleShowErrorDialog');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
     this.listen(document, 'show-auth-required', '_handleAuthRequired');
@@ -130,6 +131,7 @@ class GrErrorManager extends GestureEventListeners(
     this.unlisten(document, 'server-error', '_handleServerError');
     this.unlisten(document, 'network-error', '_handleNetworkError');
     this.unlisten(document, 'show-alert', '_handleShowAlert');
+    this.unlisten(document, 'hide-alert', '_hideAlert');
     this.unlisten(document, 'show-error', '_handleShowErrorDialog');
     this.unlisten(document, 'visibilitychange', '_handleVisibilityChange');
     this.unlisten(document, 'show-auth-required', '_handleAuthRequired');

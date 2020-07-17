@@ -40,6 +40,12 @@ suite('gr-hovercard-account tests', () => {
     );
 
     element.account = Object.assign({}, ACCOUNT);
+    element._config = {
+      change: {enable_attention_set: true},
+    };
+    element.change = {
+      attention_set: {},
+    };
     element.show({});
     flushAsynchronousOperations();
   });
@@ -81,6 +87,73 @@ suite('gr-hovercard-account tests', () => {
     flushAsynchronousOperations();
     assert.equal(element.shadowRoot.querySelector('.voteable .value').innerText,
         element.voteableText);
+  });
+
+  test('add to attention set', done => {
+    let apiResolve;
+    const apiPromise = new Promise(r => {
+      apiResolve = r;
+    });
+    sinon.stub(element.$.restAPI, 'addToAttentionSet')
+        .callsFake(() => apiPromise);
+    element.highlightAttention = true;
+    element._target = document.createElement('div');
+    flushAsynchronousOperations();
+    const showAlertListener = sinon.spy();
+    const hideAlertListener = sinon.spy();
+    const reloadListener = sinon.spy();
+    element.addEventListener('show-alert', showAlertListener);
+    element._target.addEventListener('hide-alert', hideAlertListener);
+    element._target.addEventListener('reload', reloadListener);
+
+    const button = element.shadowRoot.querySelector('.addToAttentionSet');
+    assert.isOk(button);
+    assert.isTrue(element._isShowing, 'hovercard is showing')
+    MockInteractions.tap(button);
+
+    assert.isTrue(showAlertListener.called, 'showAlertListener was called');
+    assert.isFalse(element._isShowing, 'hovercard is hidden')
+
+    apiResolve({});
+    flush(() => {
+      assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
+      assert.isTrue(reloadListener.called, 'reloadListener was called');
+      done();
+    });
+  });
+
+  test('remove from attention set', done => {
+    let apiResolve;
+    const apiPromise = new Promise(r => {
+      apiResolve = r;
+    });
+    sinon.stub(element.$.restAPI, 'removeFromAttentionSet')
+        .callsFake(() => apiPromise);
+    element.highlightAttention = true;
+    element.change = {attention_set: {31415926535: {}}};
+    element._target = document.createElement('div');
+    flushAsynchronousOperations();
+    const showAlertListener = sinon.spy();
+    const hideAlertListener = sinon.spy();
+    const reloadListener = sinon.spy();
+    element.addEventListener('show-alert', showAlertListener);
+    element._target.addEventListener('hide-alert', hideAlertListener);
+    element._target.addEventListener('reload', reloadListener);
+
+    const button = element.shadowRoot.querySelector('.removeFromAttentionSet');
+    assert.isOk(button);
+    assert.isTrue(element._isShowing, 'hovercard is showing')
+    MockInteractions.tap(button);
+
+    assert.isTrue(showAlertListener.called, 'showAlertListener was called');
+    assert.isFalse(element._isShowing, 'hovercard is hidden')
+
+    apiResolve({});
+    flush(() => {
+      assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
+      assert.isTrue(reloadListener.called, 'reloadListener was called');
+      done();
+    });
   });
 });
 

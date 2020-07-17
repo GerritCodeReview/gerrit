@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "0d124d1b_2fe98fac",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-17T16:02:39Z",
+      "side": 1,
+      "message": "I would also like to add a UI perspective: It would also be very helpful, if we can treat robot account differently in the UI.\n\nRobots should not appear in the \"Reviewers\" column on the dashboard: https://imgur.com/a/Np1FXa9\n\nRobots should be hidden or treated differently (add a robot avatar?) in the change metadata: https://imgur.com/a/EkKoNr4\n\nRobot entries in the Change Log should get a different visual treatment than human entries and also a different filtering logic: https://imgur.com/a/IcO9mHx\n\nI agree with Jörg and Patrick that robots should also get a different treatment in the backend in tons places where you don\u0027t want to create a separate config, capability or permission for each of those places.\n\nPatrick\u0027s reference to other systems having the same kind of distinction is also a good indicator for this proposal not being insane, I think. :-)",
+      "parentUuid": "53e5b546_61392b2a",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

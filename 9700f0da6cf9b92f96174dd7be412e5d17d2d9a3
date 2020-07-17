@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ddbdcd0_5b54cd12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-17T15:32:22Z",
+      "side": 1,
+      "message": "Comparing with Auto Merge, I did some manual resolutions; thanks for reviewing.",
+      "revId": "9700f0da6cf9b92f96174dd7be412e5d17d2d9a3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

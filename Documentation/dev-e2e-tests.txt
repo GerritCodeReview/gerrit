@@ -116,7 +116,7 @@ or validate the local setup. More complex scenarios can be further developed, un
     "cmd": "clone"
   },
   {
-    "url": "http://HOSTNAME:HTTP_PORT/_PROJECT",
+    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORT/_PROJECT",
     "cmd": "clone"
   }
 ]
@@ -153,10 +153,12 @@ currently be set with either one or many of these supported properties, from the
 * `-Dcom.google.gerrit.scenarios.hostname=localhost`
 * `-Dcom.google.gerrit.scenarios.ssh_port=29418`
 * `-Dcom.google.gerrit.scenarios.http_port=8080`
+* `-Dcom.google.gerrit.scenarios.http_scheme=http`
 
 Above, the properties can be set with values matching specific deployment topologies under test.
-The example values shown above are the currently coded default ones. The framework could support
-differing or more properties over time.
+The example values shown above are the currently coded default ones. For example, the `http` scheme
+above could be replaced with `https`. The framework could support differing or more properties over
+time.
 
 Plugin or otherwise non-core scenarios may do so just as well. The core java package
 `com.google.gerrit.scenarios` from the example above has to be replaced with the one under which

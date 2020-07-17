@@ -216,7 +216,7 @@ module.exports = {
       }
     },
     {
-      "files": ["*.html", "test.js", "test-infra.js", "template_test.js"],
+      "files": ["*.html", "test.js", "test-infra.js"],
       "rules": {
         "jsdoc/require-file-overview": "off"
       },
@@ -270,7 +270,7 @@ module.exports = {
       }
     },
     {
-      "files": ["test/functional/**/*.js", "template_test.js"],
+      "files": ["test/functional/**/*.js"],
       // Settings for functional tests. These scripts are node scripts.
       // Turn off "no-undef" to allow any global variable
       "env": {

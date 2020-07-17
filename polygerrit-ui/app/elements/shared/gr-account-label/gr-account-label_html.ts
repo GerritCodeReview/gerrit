@@ -78,7 +78,7 @@ export const htmlTemplate = html`
     </template>
     <template
       is="dom-if"
-      if="[[_computeShowAttentionIcon(_config, highlightAttention, account, change)]]"
+      if="[[_hasAttention(_config, highlightAttention, account, change, forceAttention)]]"
     >
       <iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
     </template>

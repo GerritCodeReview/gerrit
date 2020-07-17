@@ -88,6 +88,24 @@
       "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1cf0f0c_b86441cb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-07-17T16:16:56Z",
+      "side": 1,
+      "message": "To be clear, I defer to your expertise about better ways to fix this. :)",
+      "parentUuid": "0df7702b_ae69d027",
+      "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

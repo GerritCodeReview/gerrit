@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "96e59568_f36d083f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-17T18:18:01Z",
+      "side": 1,
+      "message": "Patrick proposed two solutions yesterday, (1) and (2). Solution (2) AFAIU sticks to the established concept of a non-interactive-user group. Are you also arguing against that?\n\nGerrit distinguishes between human comments and robot comments. And as part of the CI Reboot we believe that a vital building block will be the introduction of robot labels. Being a human or a robot fundamentally changes how you interact with Gerrit. And we have a lot of interaction of both types. I am very convinced that making this distinction a first class citizen of Gerrit Core is a huge step forward and makes the product easier to use and maintain.\n\nNote that none of my UI examples were related to the attention set. In this review we have already established ~10 different situations where a human and a robot should be treated differently. The introduction of capabilities or permissions for each of these situations sounds overly complex to me.",
+      "parentUuid": "30554835_24de0f65",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -279,6 +297,24 @@
       "writtenOn": "2020-07-17T17:50:41Z",
       "side": 1,
       "message": "I am disappointed that a +2 was given to this change when there are -1s with clear objections that have not been resolved. It is my understanding that we expect issues to be resolved before merging code. I think Martin\u0027s -2 is a reflection of that +2.",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc6698e5_8f942fb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-17T18:18:01Z",
+      "side": 1,
+      "message": "Sorry for the +2. It was not meant to express that we should ignore your concerns. It was just meant to express my personal opinion that I would be fine with submitting this. But I realize that this is not the established workflow. Excuse this mistake and let me downgrade to +1.",
+      "parentUuid": "d15322ba_2be27e76",
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

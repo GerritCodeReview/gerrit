@@ -163,6 +163,24 @@
     },
     {
       "key": {
+        "uuid": "30554835_24de0f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-17T17:50:41Z",
+      "side": 1,
+      "message": "Apparently I can\u0027t quote an earlier reply now? I thought that was something I could do until recently. Anyway...\n\nReplies to Patrick:\n\n\u003e I would have appreciated if you made that more clear from the beginning. I re-read your initial comments again now and they just sounds like you\u0027d prefer a different implementation but don\u0027t disagree with the feature to begin with.\n\nSorry, I\u0027ll try to word things clearer in the future.\n\n\u003e 1) Bots don\u0027t get added to the attention set\n\u003e A global \"ADD_TO_ATTENTION_SET\" capability.\n\u003e \n\u003e 2) Bot requests execute on a different thread pool\n\u003e A global \"USE_INTERACTIVE_THREAD_POOL\" capability.\n\u003e \n\u003e 3) Bots don\u0027t receive emails (I made this up just now)\n\u003e A global \"CAN_RECEIVE_EMAIL\" capability.\n\nThese seem like reasonable permissions to me. If you\u0027d prefer to have those as \"bits\" on an account, I guess you could, but I typically think of account bits as things the account \"owns\" vs capabilities as things the admins own. The first two here are things I think you\u0027d want admins to own and the third is more of an account saying for itself \"I don\u0027t get emails\".\n\n\u003e The type of the account is a fundamental account property. Like a name or some user preference (e.g. showing X lines of context in a diff). But I think that\u0027s undisputed.\n\nIt\u0027s not undisputed. I agree there can be value in accounts having types, but then we have to deal with things like LDAP having its own idea of an account type. How do you align those two?\n\n\u003e The question is rather what does that type trigger and should it trigger Gerrit to behave differently or should there rather be another config knob to allow overriding a default.\n\nIt could definitely be convenient to have defaults for different kinds of accounts, but I don\u0027t know that core Gerrit really needs to know about setting those defaults. I\u0027m sure Google\u0027s LDAP account properities look different from Qualcomm\u0027s or SAP\u0027s, yet I\u0027m sure we all have a \"robot\" type (maybe multiple?). This is a perfect problem for a plugin to solve, perhaps through automatic setting of bits/groups/perms/etc.\n\n\u003e But the problem is that these user preferences affect the usability of the product as a whole - not just the user setting it: Consider a \"Add to me to attention set: yes/no\" preference. What if some users just opt out of that? That would break the feature as a whole because it only works if any human can be added to the attention set.\n\nI didn\u0027t suggest user preferences. I agree that would not be a good fit for this use case.\n\n\u003e That said, I do think we can add some knobs for host admins to define bot behavior. For example: addBotsToAttentionSet might be a legitimate boolean Gerrit config. That is then a central decision made by the admin and it\u0027s way easier than granting capabilities on a set of accounts.\n\nHow is a Gerrit config simpler than granting capabilities? Why is one a \"central decision made by the admin\" and the other is not?\n\n\u003e I think I am now getting to my main point: Do you see a use case where bots *should* be added to the attention set?\n\nFrom what I understand of the attention set design, no.\n\n\u003e Or where they *should receive email?\n\nIf a bot wants to get email, why should I care?\n\n\u003e By the way, similar other systems do distinguish user types:\n\u003e https://gitlab.com/gitlab-org/gitlab/-/issues/6883\n\nHas been open for over 2 years \"Due to the longstanding problem this issue aims to solve, this is being kept open to continue collecting user feedback until we have finished validation a solution\". I think that acknowledges my point better than I could have made it. This is a complex problem that an \"isRobot\" flag doesn\u0027t solve.\n\n\u003e https://docs.github.com/en/github/site-policy/github-terms-of-service#3-account-requirements (see \"Machine account\").\n\nThis is about who is legally responsible for a bot\u0027s actions. That\u0027s very different from what we\u0027re discussing. If Gerrit has a use case like that you\u0027re trying to solve, that\u0027s a different change than this one and we can discuss those merits separately.\n\nReplies to Joerg:\n\n\u003e Maybe for context, we discovered this problem recently when we realized that bots were being added to the attention set and we didn\u0027t want that. If there had been a property isRobot() on the account it would likely not have happened.\n\nIf there had been a \"ADD_TO_ATTENTION_SET\" capability it also would not have happened (or would have been trivially rectified).\n\n\u003e Do you see a use case for account types other than human and robot?\n\nYes. Robot type 1. Robot type 2. Human reviewer. Human manager. Human integrator. Human that sometimes acts likea robot (manual verifiers). Etc. The possibilities are endless.\n\n\u003e Groups allow hierarchies and those semantics are not suitable for account types. Accounts can have multiple independent types, e.g. any type of account can be a testing account, an account managed by someone else etc. FWIW at Google we recently did a big migration to fix this exact problem. So if the plan is to support more types than human and robot I strongly advise against any hierarchical structure. It combines complexity with inflexibility :-) I realize that we could have some mantra like \"groups used for account types must not be hierarchical\" but that is again complicated and undiscoverable.\n\nSounds like Google had a problem. I\u0027m glad you were able to resolve it. I\u0027d prefer it if reviewers didn\u0027t assume that means everyone else has/had the same problem. I\u0027m also not suggesting account types be based on any kind of hierarchy. I\u0027m suggesting there not be account types (which I believe bypasses this whole problem?).\n\n\u003e What are the advantages of using groups over using a flag?\n\nI think you quote part of my reply about this below. Was there another part of my explanation from before that wasn\u0027t clear?\n\n\u003e You said \"If you are looking to express permissions (and it sounds like you are) then use permissions?\". It\u0027s not permissions we want to represent, but account types.\n\nIf robot accounts were treated the same for purposes of attention set, then you\u0027d say you don\u0027t need an account type, but a permission/capability. Perms are much more flexible than flags.\n\n\u003e Piggybacking on permissions or group membership adds an indirection and thus complexity.\n\nI completely disagree on this. Permissions are direct. Account types are indirect. You\u0027re inferring behavior from an account type vs directly reading a permission. If this isn\u0027t clear, let\u0027s stop talking about anything else and get a common understanding on this.\n\n\u003e I can totally see how the idea of adding even just a boolean to a central data type like accounts raises eyebrows, and that\u0027s a good thing. But the complexity is already there, because we already have robot accounts, and not expressing it, or expressing it by means that are already established but not intended for this purpose, does not make the complexity go away.\n\nI disagree about the complexity. Attention set missed this use case. Ben points out other use cases where the idea that the feature shouldn\u0027t apply to all accounts equally was missed. It\u0027s very straightforward to solve those through capabilities.",
+      "parentUuid": "0d124d1b_2fe98fac",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -244,6 +262,23 @@
       "writtenOn": "2020-07-17T17:20:47Z",
       "side": 1,
       "message": "This is not using existing functionality in Gerrit which attempts to achieve the same thing. Please get agreement on changing the existing functionality if you want this.\n\nAnother problem with this approach is that it is not LDAP friendly, the groups approach is.",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d15322ba_2be27e76",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-17T17:50:41Z",
+      "side": 1,
+      "message": "I am disappointed that a +2 was given to this change when there are -1s with clear objections that have not been resolved. It is my understanding that we expect issues to be resolved before merging code. I think Martin\u0027s -2 is a reflection of that +2.",
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8586dd2_27e77a19",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-18T10:04:12Z",
+      "side": 1,
+      "message": "Note that there no short-circuiting like\n\n  if (!this.hidden) return;\n\nI\u0027ve explained the reason in the discussion at\nhttps://gerrit-review.googlesource.com/c/gerrit/+/274439/4/polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js#324",
+      "revId": "213616e5aa87534accd640d7a42f982e07ca463d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -52,6 +52,24 @@
       "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8857a360_8b89be70",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-18T10:04:32Z",
+      "side": 1,
+      "message": "Calling only `_computeHidden` here does not necessarily do the right thing.\n\nAssume we have a change with empty related changes, and a plugin that is\nvisible. Let\u0027s assume `this.hidden` is false, as it should be.\n\nIf now the plugin loads new data, and sets itself to hidden, and triggers\nthe `new-section-loaded` event, we\u0027d enter `_computeHidden` and the\nshort-circuiting means we\u0027d exit immediately again.\n\nBut we should instead set `this.hidden` to true, as we now have empty related\nchanges and a hidden plugin.\n\nRemoving the short-circuiting helps in this case. But that\u0027s not sufficient.\nBecause consider having a change with non-trivial related changes and a plugin\nthat has visible content too. So `this.hidden` should be false because of both,\nthe related changes list and the plugin. If now the plugin loads new content\nand turns hidden and triggers `new-section-loaded` event, we\u0027d enter\n`_computeHidden` and (because the short-circuiting is assumed to be removed\n(see above)) we now set `this.hidden` only based on the plugins, which would\nset it to false, although there are non-trival related changes.\n\n\nThe other issue with short-circuiting `_computeHidden` is when we start with a\nchange with non-trivial related changes. `this.hidden` is of course false. Then\na new change without any related changes gets loaded. One by one, the parameters\nof `_resultsChanged` get set to falsy values. As long as some values are still not\nfalsy, `this.hidden` stays `false`. But when the last parameter gets set to a\nfalsy value, the for loop does no longer exits and we fall through to\n`_computeHidden` while `this.hidden` still being false. The short-circuiting would\ntrigger, leave `this.hidden` at false and not consider plugins. But it should\nconsider plugins in this case, as (with all other lists empty) plugins should\ndetermine `this.hidden`.\n    \nThere are of course ways to work around all of these issues. But they would only\ncomplicate the code further with little gain. I think the simplest solution is to\nsimply call `_resultsChanged`. Because that would avoid making the code more\ncomplicated, it\u0027s a cheap method to call, and it works reliably. I\u0027ve done so in\nPS8 (and I\u0027ve added tests of course)",
+      "parentUuid": "3245522e_fb7f3838",
+      "revId": "63f630c430ca49308594d6f88b193c44fbb7e206",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

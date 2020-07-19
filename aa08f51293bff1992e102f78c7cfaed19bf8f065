@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "76405c8b_fc957aab",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-19T17:07:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "28b4facb_768a065a",
+      "range": {
+        "startLine": 205,
+        "startChar": 34,
+        "endLine": 205,
+        "endChar": 38
+      },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab66fbc3_6ed310c2",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 10
@@ -130,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "8ba84d13_2f584785",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-19T17:07:21Z",
+      "side": 1,
+      "message": "Per ^ Ben and Tao.",
+      "parentUuid": "ab66fbc3_6ed310c2",
+      "range": {
+        "startLine": 204,
+        "startChar": 4,
+        "endLine": 208,
+        "endChar": 7
+      },
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04817acf_7e167f60",
         "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
         "patchSetId": 10
@@ -144,6 +192,24 @@
       "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4bd4f0c9_1b8e265f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-19T17:07:21Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "04817acf_7e167f60",
+      "revId": "aa08f51293bff1992e102f78c7cfaed19bf8f065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

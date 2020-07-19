@@ -22,6 +22,30 @@
       "revId": "0e516735922cf1b058a1bc1d3eb296acbbfee9da",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0d3401c_55526a3e",
+        "filename": "Documentation/rest-api-accounts.txt",
+        "patchSetId": 16
+      },
+      "lineNbr": 2765,
+      "author": {
+        "id": 1029953
+      },
+      "writtenOn": "2020-07-19T18:04:38Z",
+      "side": 1,
+      "message": "Thanks, done.",
+      "parentUuid": "0ec8f863_e02f6b7a",
+      "range": {
+        "startLine": 2765,
+        "startChar": 0,
+        "endLine": 2765,
+        "endChar": 23
+      },
+      "revId": "0e516735922cf1b058a1bc1d3eb296acbbfee9da",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

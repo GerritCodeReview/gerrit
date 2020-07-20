@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "45e69286_e95899ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-20T14:27:42Z",
+      "side": 1,
+      "message": "maybe `UNSAVED_MESSAGE` instead, or group them under one name space as `MESSAGE`",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 19
+      },
+      "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37d1eff5_3a6fa28a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 776,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-20T14:27:42Z",
+      "side": 1,
+      "message": "don\u0027t you need to reset this to false once it saved successfully ?",
+      "range": {
+        "startLine": 776,
+        "startChar": 17,
+        "endLine": 776,
+        "endChar": 30
+      },
+      "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cca769d_4fe3e79f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-20T14:27:42Z",
+      "side": 1,
+      "message": "add a test that first fail then success when retry with one more draft (saving 2 drafts) which should clear the existing status.",
+      "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

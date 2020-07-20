@@ -79,7 +79,7 @@ public class ProjectCacheImpl implements ProjectCache {
     return new CacheModule() {
       @Override
       protected void configure() {
-        cache(CACHE_NAME, Project.NameKey.class, ProjectState.class)
+        cache(CACHE_NAME, Project.NameKey.class, CachedProjectConfig.class)
             .loader(Loader.class)
             .refreshAfterWrite(Duration.ofMinutes(15))
             .expireAfterWrite(Duration.ofHours(1));
@@ -104,26 +104,29 @@ public class ProjectCacheImpl implements ProjectCache {
 
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
-  private final LoadingCache<Project.NameKey, ProjectState> byName;
+  private final LoadingCache<Project.NameKey, CachedProjectConfig> byName;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private final Provider<ProjectIndexer> indexer;
   private final Timer0 guessRelevantGroupsLatency;
+  private final ProjectState.Factory projectStateFactory;
 
   @Inject
   ProjectCacheImpl(
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
-      @Named(CACHE_NAME) LoadingCache<Project.NameKey, ProjectState> byName,
+      @Named(CACHE_NAME) LoadingCache<Project.NameKey, CachedProjectConfig> byName,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       Provider<ProjectIndexer> indexer,
-      MetricMaker metricMaker) {
+      MetricMaker metricMaker,
+      ProjectState.Factory projectStateFactory) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
     this.byName = byName;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
     this.indexer = indexer;
+    this.projectStateFactory = projectStateFactory;
 
     this.guessRelevantGroupsLatency =
         metricMaker.newTimer(
@@ -150,7 +153,7 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     try {
-      return Optional.of(byName.get(projectName));
+      return Optional.of(byName.get(projectName)).map(projectStateFactory::create);
     } catch (ExecutionException e) {
       if ((e.getCause() instanceof RepositoryNotFoundException)) {
         logger.atFine().log("Cannot find project %s", projectName.get());
@@ -227,7 +230,7 @@ public class ProjectCacheImpl implements ProjectCache {
       return all().stream()
           .map(n -> byName.getIfPresent(n))
           .filter(Objects::nonNull)
-          .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())
+          .flatMap(p -> p.getAllGroupUUIDs().stream())
           // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
           // against them just in case there is a bug or corner case.
           .filter(id -> id != null && id.get() != null)
@@ -249,7 +252,7 @@ public class ProjectCacheImpl implements ProjectCache {
   }
 
   @Singleton
-  static class Loader extends CacheLoader<Project.NameKey, ProjectState> {
+  static class Loader extends CacheLoader<Project.NameKey, CachedProjectConfig> {
     private final ProjectState.Factory projectStateFactory;
     private final GitRepositoryManager mgr;
     private final ProjectConfig.Factory projectConfigFactory;
@@ -276,28 +279,27 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     @Override
-    public ProjectState load(Project.NameKey key) throws Exception {
+    public CachedProjectConfig load(Project.NameKey key) throws Exception {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Loading project", Metadata.builder().projectName(key.get()).build())) {
         try (Repository git = mgr.openRepository(key)) {
           ProjectConfig cfg = projectConfigFactory.create(key);
           cfg.load(key, git);
-          return projectStateFactory.create(cfg.getCacheable());
+          return cfg.getCacheable();
         }
       }
     }
 
     @Override
-    public ListenableFuture<ProjectState> reload(Project.NameKey key, ProjectState oldState)
-        throws Exception {
+    public ListenableFuture<CachedProjectConfig> reload(
+        Project.NameKey key, CachedProjectConfig oldState) throws Exception {
       try (TraceTimer timer =
           TraceContext.newTimer(
               "Reload project", Metadata.builder().projectName(key.get()).build())) {
         try (Repository git = mgr.openRepository(key)) {
           Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
-          if (configRef != null
-              && configRef.getObjectId().equals(oldState.getConfig().getRevision().get())) {
+          if (configRef != null && configRef.getObjectId().equals(oldState.getRevision().get())) {
             refreshCounter.increment(CACHE_NAME, false);
             return Futures.immediateFuture(oldState);
           }

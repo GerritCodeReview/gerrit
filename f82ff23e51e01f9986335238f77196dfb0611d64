@@ -16,6 +16,24 @@
       "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8a66e9d_63531ec3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T09:07:47Z",
+      "side": 1,
+      "message": "an alert of similar priority can override another alert.\nSo a new error alert will override the previous error alert.\n\nDo you mean allow a less priority alert to override a more priority alert?",
+      "parentUuid": "8939bf78_6ea760df",
+      "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

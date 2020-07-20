@@ -42,6 +42,7 @@ import com.google.gerrit.index.project.ProjectData;
 import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -59,6 +60,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -69,7 +71,7 @@ public class ProjectState {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
-    ProjectState create(ProjectConfig config);
+    ProjectState create(CachedProjectConfig config);
   }
 
   private final boolean isAllProjects;
@@ -79,7 +81,6 @@ public class ProjectState {
   private final GitRepositoryManager gitMgr;
   private final List<CommentLinkInfo> commentLinks;
 
-  private final ProjectConfig config;
   private final CachedProjectConfig cachedConfig;
   private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
@@ -101,19 +102,19 @@ public class ProjectState {
       List<CommentLinkInfo> commentLinks,
       CapabilityCollection.Factory limitsFactory,
       TransferConfig transferConfig,
-      @Assisted ProjectConfig config) {
+      @Assisted CachedProjectConfig cachedProjectConfig) {
     this.projectCache = projectCache;
-    this.isAllProjects = config.getProject().getNameKey().equals(allProjectsName);
-    this.isAllUsers = config.getProject().getNameKey().equals(allUsersName);
+    this.isAllProjects = cachedProjectConfig.getProject().getNameKey().equals(allProjectsName);
+    this.isAllUsers = cachedProjectConfig.getProject().getNameKey().equals(allUsersName);
     this.allProjectsName = allProjectsName;
     this.gitMgr = gitMgr;
     this.commentLinks = commentLinks;
-    this.config = config;
-    this.cachedConfig = config.getCacheable();
+    this.cachedConfig = cachedProjectConfig;
     this.configs = new HashMap<>();
     this.capabilities =
         isAllProjects
-            ? limitsFactory.create(config.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
+            ? limitsFactory.create(
+                cachedProjectConfig.getAccessSection(AccessSection.GLOBAL_CAPABILITIES))
             : null;
     this.globalMaxObjectSizeLimit = transferConfig.getMaxObjectSizeLimit();
     this.inheritProjectMaxObjectSizeLimit = transferConfig.inheritProjectMaxObjectSizeLimit();
@@ -122,9 +123,9 @@ public class ProjectState {
       localOwners = Collections.emptySet();
     } else {
       HashSet<AccountGroup.UUID> groups = new HashSet<>();
-      AccessSection all = config.getAccessSection(AccessSection.ALL);
-      if (all != null) {
-        Permission owner = all.getPermission(Permission.OWNER);
+      Optional<AccessSection> all = cachedProjectConfig.getAccessSection(AccessSection.ALL);
+      if (all.isPresent()) {
+        Permission owner = all.get().getPermission(Permission.OWNER);
         if (owner != null) {
           for (PermissionRule rule : owner.getRules()) {
             GroupReference ref = rule.getGroup();
@@ -164,7 +165,7 @@ public class ProjectState {
   }
 
   public Project getProject() {
-    return config.getProject();
+    return cachedConfig.getProject();
   }
 
   public Project.NameKey getNameKey() {
@@ -179,11 +180,6 @@ public class ProjectState {
     return cachedConfig;
   }
 
-  // TODO(hiesel): Remove this method.
-  public ProjectConfig getBareConfig() {
-    return config;
-  }
-
   public ProjectLevelConfig getConfig(String fileName) {
     if (configs.containsKey(fileName)) {
       return configs.get(fileName);
@@ -191,7 +187,7 @@ public class ProjectState {
 
     ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
     try (Repository git = gitMgr.openRepository(getNameKey())) {
-      cfg.load(getNameKey(), git, config.getRevision());
+      cfg.load(getNameKey(), git, cachedConfig.getRevision().get());
     } catch (IOException | ConfigInvalidException e) {
       logger.atWarning().withCause(e).log("Failed to load %s for %s", fileName, getName());
     }
@@ -201,7 +197,7 @@ public class ProjectState {
   }
 
   public long getMaxObjectSizeLimit() {
-    return config.getMaxObjectSizeLimit();
+    return cachedConfig.getMaxObjectSizeLimit();
   }
 
   public boolean statePermitsRead() {
@@ -250,19 +246,21 @@ public class ProjectState {
   public EffectiveMaxObjectSizeLimit getEffectiveMaxObjectSizeLimit() {
     EffectiveMaxObjectSizeLimit result = new EffectiveMaxObjectSizeLimit();
 
-    result.value = config.getMaxObjectSizeLimit();
+    result.value = cachedConfig.getMaxObjectSizeLimit();
 
     if (inheritProjectMaxObjectSizeLimit) {
       for (ProjectState parent : parents()) {
-        long parentValue = parent.config.getMaxObjectSizeLimit();
+        long parentValue = parent.cachedConfig.getMaxObjectSizeLimit();
         if (parentValue > 0 && result.value > 0) {
           if (parentValue < result.value) {
             result.value = parentValue;
-            result.summary = String.format(OVERRIDDEN_BY_PARENT, parent.config.getName());
+            result.summary =
+                String.format(OVERRIDDEN_BY_PARENT, parent.cachedConfig.getProject().getNameKey());
           }
         } else if (parentValue > 0) {
           result.value = parentValue;
-          result.summary = String.format(INHERITED_FROM_PARENT, parent.config.getName());
+          result.summary =
+              String.format(INHERITED_FROM_PARENT, parent.cachedConfig.getProject().getNameKey());
         }
       }
     }
@@ -284,7 +282,7 @@ public class ProjectState {
   List<SectionMatcher> getLocalAccessSections() {
     List<SectionMatcher> sm = localAccessSections;
     if (sm == null) {
-      Collection<AccessSection> fromConfig = config.getAccessSections();
+      Collection<AccessSection> fromConfig = cachedConfig.getAccessSections().values();
       sm = new ArrayList<>(fromConfig.size());
       for (AccessSection section : fromConfig) {
         if (isAllProjects) {
@@ -481,6 +479,25 @@ public class ProjectState {
       }
     }
     return ImmutableList.copyOf(cls.values());
+  }
+
+  /**
+   * Returns the {@link Config} that got parsed from the {@code plugins} section of {@code
+   * project.config}. The returned instance is a defensive copy of the cached value. Returns an
+   * empty config in case we find no config for the given plugin name. This is useful when calling
+   * {@code PluginConfig#withInheritance(ProjectState.Factory)}
+   */
+  public PluginConfig getPluginConfig(String pluginName) {
+    if (getConfig().getPluginConfigs().containsKey(pluginName)) {
+      Config config = new Config();
+      try {
+        config.fromText(getConfig().getPluginConfigs().get(pluginName));
+      } catch (ConfigInvalidException e) {
+        throw new IllegalStateException("invalid plugin config for " + pluginName, e);
+      }
+      return PluginConfig.create(pluginName, config, Optional.of(getConfig()));
+    }
+    return PluginConfig.create(pluginName, new Config(), Optional.of(getConfig()));
   }
 
   public Optional<BranchOrderSection> getBranchOrderSection() {

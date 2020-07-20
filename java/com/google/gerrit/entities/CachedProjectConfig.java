@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -47,6 +48,17 @@ public abstract class CachedProjectConfig {
    */
   public Optional<GroupReference> getGroup(AccountGroup.UUID uuid) {
     return Optional.ofNullable(getGroups().get(uuid));
+  }
+
+  /**
+   * Returns the group reference for matching the given {@code name}, if the group is used by at
+   * least one rule.
+   */
+  public Optional<GroupReference> getGroupByName(@Nullable String name) {
+    if (name == null) {
+      return Optional.empty();
+    }
+    return getGroups().values().stream().filter(g -> name.equals(g.getName())).findAny();
   }
 
   /** Returns the account section containing visibility information about accounts. */
@@ -107,6 +119,8 @@ public abstract class CachedProjectConfig {
   public ImmutableList<SubscribeSection> getSubscribeSections(BranchNameKey branch) {
     return filterSubscribeSectionsByBranch(getSubscribeSections().values(), branch);
   }
+
+  public abstract ImmutableMap<String, String> getPluginConfigs();
 
   public static Builder builder() {
     return new AutoValue_CachedProjectConfig.Builder();
@@ -177,6 +191,13 @@ public abstract class CachedProjectConfig {
               e ->
                   extensionPanelSectionsBuilder()
                       .put(e.getKey(), ImmutableList.copyOf(e.getValue())));
+      return this;
+    }
+
+    abstract ImmutableMap.Builder<String, String> pluginConfigsBuilder();
+
+    public Builder addPluginConfig(String key, String value) {
+      pluginConfigsBuilder().put(key, value);
       return this;
     }
 

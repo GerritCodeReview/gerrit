@@ -17,7 +17,6 @@ package com.google.gerrit.server.account;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
@@ -33,12 +32,13 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 
 /** Caches active {@link GlobalCapability} set for a site. */
 public class CapabilityCollection {
   public interface Factory {
-    CapabilityCollection create(@Nullable AccessSection section);
+    CapabilityCollection create(Optional<AccessSection> section);
   }
 
   private final SystemGroupBackend systemGroupBackend;
@@ -56,13 +56,11 @@ public class CapabilityCollection {
   CapabilityCollection(
       SystemGroupBackend systemGroupBackend,
       @AdministrateServerGroups ImmutableSet<GroupReference> admins,
-      @Assisted @Nullable AccessSection section) {
+      @Assisted Optional<AccessSection> maybeSection) {
     this.systemGroupBackend = systemGroupBackend;
 
-    if (section == null) {
-      section = AccessSection.create(AccessSection.GLOBAL_CAPABILITIES);
-    }
-
+    AccessSection section =
+        maybeSection.orElse(AccessSection.create(AccessSection.GLOBAL_CAPABILITIES));
     Map<String, List<PermissionRule>> tmp = new HashMap<>();
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {

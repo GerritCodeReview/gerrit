@@ -18,35 +18,22 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
-import com.google.gerrit.entities.RefNames;
-import com.google.gerrit.server.git.meta.VersionedMetaData;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.Config;
 
 /** Configuration file in the projects refs/meta/config branch. */
-public class ProjectLevelConfig extends VersionedMetaData {
+public class ProjectLevelConfig {
   private final String fileName;
   private final ProjectState project;
   private Config cfg;
 
-  public ProjectLevelConfig(String fileName, ProjectState project) {
+  public ProjectLevelConfig(String fileName, ProjectState project, Config cfg) {
     this.fileName = fileName;
     this.project = project;
-  }
-
-  @Override
-  protected String getRefName() {
-    return RefNames.REFS_CONFIG;
-  }
-
-  @Override
-  protected void onLoad() throws IOException, ConfigInvalidException {
-    cfg = readConfig(fileName);
+    this.cfg = cfg;
   }
 
   public Config get() {
@@ -126,14 +113,5 @@ public class ProjectLevelConfig extends VersionedMetaData {
       }
     }
     return cfgWithInheritance;
-  }
-
-  @Override
-  protected boolean onSave(CommitBuilder commit) throws IOException, ConfigInvalidException {
-    if (commit.getMessage() == null || "".equals(commit.getMessage())) {
-      commit.setMessage("Updated configuration\n");
-    }
-    saveConfig(fileName, cfg);
-    return true;
   }
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "fe2a51b7_1404707b",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T12:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbb79857_703f15fd",
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b727579c_409463a8",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 16
@@ -33,6 +51,24 @@
       "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2680590b_08553807",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T12:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b727579c_409463a8",
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +135,72 @@
     },
     {
       "key": {
+        "uuid": "85683484_0e74aab9",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T12:55:12Z",
+      "side": 1,
+      "message": "https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js#776\n\ngr-diff-view for now assumes that having no patchNum in url implies user is navigating to a different page already.",
+      "parentUuid": "6c550d2f_b497dc99",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dff44785_aae3883f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T12:55:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79cafcda_111b40e8",
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29b9a975_e2b6ab25",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T12:55:12Z",
+      "side": 1,
+      "message": "I prefer the existing one.\nAny reason you want to change it?",
+      "parentUuid": "c48055d5_70a7cdab",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 58
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eed2e381_43fe7d7b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 16
@@ -110,6 +212,30 @@
       "writtenOn": "2020-07-14T08:25:05Z",
       "side": 1,
       "message": "Would it also be an option to just allow something like `!2` here instead of introducing a new pattern?",
+      "range": {
+        "startLine": 145,
+        "startChar": 32,
+        "endLine": 145,
+        "endChar": 70
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4fc1891_25d9eada",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T12:55:12Z",
+      "side": 1,
+      "message": "Perhaps but we still need the new pattern for the comment.\nI prefer adding a new route, it looks more clean and the url clearly denotes what it\u0027s supposed to be doing.",
+      "parentUuid": "eed2e381_43fe7d7b",
       "range": {
         "startLine": 145,
         "startChar": 32,

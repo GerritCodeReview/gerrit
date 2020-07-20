@@ -390,6 +390,23 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e651bcf8_17c0470f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-20T21:39:09Z",
+      "side": 1,
+      "message": "I am willing to give a non-Googler opinion on this change, but I need to take more time to review the details. I am on PTO this week (hence only checking e-mails in the evenings) but I am willing to spend more time next week.\n\nMy high-level comment is: we do have an existing concept in Gerrit (non-interactive user group), what is missing in that existing concept that justify the introduction of a bot-user? What\u0027s the difference between a bot-user and a non-interactive user?\n\nI a going to find some of the questions myself, by reading the code next week :-)",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -30,6 +30,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -1337,7 +1338,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
         rc.setStringList(NOTIFY, nc.getName(), KEY_EMAIL, email);
       }
 
-      if (nc.getNotify().equals(EnumSet.of(NotifyType.ALL))) {
+      if (nc.getNotify().equals(Sets.immutableEnumSet(NotifyType.ALL))) {
         rc.unset(NOTIFY, nc.getName(), KEY_TYPE);
       } else {
         List<String> types = new ArrayList<>(4);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "570c36e8_9553ca45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T13:04:50Z",
+      "side": 1,
+      "message": "For me, gerrit shows DRAFT twice:\nDRAFT DRAFT\n\nDid you push correct version for review?",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "478c7b2ad998b6508d98859ededf2d85c3cf07c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

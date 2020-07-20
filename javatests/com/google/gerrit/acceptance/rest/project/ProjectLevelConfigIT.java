@@ -173,4 +173,16 @@ public class ProjectLevelConfigIT extends AbstractDaemonTest {
 
     assertThat(state.getConfig(configName).get().toText()).isEqualTo(cfg.toText());
   }
+
+  @Test
+  public void brokenConfigDoesNotBlockPush() throws Exception {
+    String configName = "test.config";
+    PushOneCommit push =
+        pushFactory.create(
+            admin.newIdent(), testRepo, "Create Project Level Config", configName, "\\\\///");
+    push.to(RefNames.REFS_CONFIG).assertOkStatus();
+
+    ProjectState state = projectCache.get(project).get();
+    assertThat(state.getConfig(configName).get().toText()).isEmpty();
+  }
 }

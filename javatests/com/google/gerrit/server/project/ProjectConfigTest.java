@@ -459,7 +459,7 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    PluginConfig.Update pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames()).hasSize(2);
     assertThat(pluginCfg.getString("key1")).isEqualTo("value1");
     assertThat(pluginCfg.getStringList(("key2"))).isEqualTo(new String[] {"value2a", "value2b"});
@@ -469,7 +469,7 @@ public class ProjectConfigTest {
   public void readUnexistingPluginConfig() throws Exception {
     ProjectConfig cfg = factory.create(Project.nameKey("test"));
     cfg.load(db);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    PluginConfig.Update pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames()).isEmpty();
   }
 
@@ -487,7 +487,7 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    PluginConfig.Update pluginCfg = cfg.getPluginConfig("somePlugin");
     pluginCfg.setString("key1", "updatedValue1");
     pluginCfg.setStringList("key2", Arrays.asList("updatedValue2a", "updatedValue2b"));
     rev = commit(cfg);
@@ -509,9 +509,9 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    PluginConfig.Update pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames()).hasSize(1);
-    assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
+    assertThat(pluginCfg.asPluginConfig().getGroupReference("key1").get()).isEqualTo(developers);
   }
 
   @Test
@@ -540,9 +540,9 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    assertThat(pluginCfg.getNames()).hasSize(1);
-    assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
+    PluginConfig.Update pluginCfg = cfg.getPluginConfig("somePlugin");
+    assertThat(pluginCfg.asPluginConfig().getNames()).hasSize(1);
+    assertThat(pluginCfg.asPluginConfig().getGroupReference("key1").get()).isEqualTo(developers);
 
     pluginCfg.setGroupReference("key1", staff);
     rev = commit(cfg);
@@ -811,7 +811,7 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
+    PluginConfig.Update pluginCfg = cfg.getPluginConfig("somePlugin");
     pluginCfg.unset("key");
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))

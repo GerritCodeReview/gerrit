@@ -62,7 +62,6 @@ public class CapabilityCollection {
     if (section == null) {
       section = AccessSection.create(AccessSection.GLOBAL_CAPABILITIES);
     }
-
     Map<String, List<PermissionRule>> tmp = new HashMap<>();
     for (Permission permission : section.getPermissions()) {
       for (PermissionRule rule : permission.getRules()) {

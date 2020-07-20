@@ -268,7 +268,6 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
             .setMaxObjectSizeLimit(maxObjectSizeLimit)
             .setCheckReceivedObjects(checkReceivedObjects)
             .setExtensionPanelSections(extensionPanelSections);
-
     groupList.byUUID().values().forEach(g -> builder.addGroup(g));
     accessSections.values().forEach(a -> builder.addAccessSection(a));
     contributorAgreements.values().forEach(c -> builder.addContributorAgreement(c));
@@ -276,7 +275,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     subscribeSections.values().forEach(s -> builder.addSubscribeSection(s));
     commentLinkSections.values().forEach(c -> builder.addCommentLinkSection(c));
     labelSections.values().forEach(l -> builder.addLabelSection(l));
-
+    pluginConfigs
+        .entrySet()
+        .forEach(c -> builder.addPluginConfig(c.getKey(), c.getValue().toText()));
     return builder.build();
   }
 
@@ -1160,13 +1161,19 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     }
   }
 
-  public PluginConfig getPluginConfig(String pluginName) {
+  public void updatePluginConfig(
+      String pluginName, Consumer<PluginConfig.Update> pluginConfigUpdate) {
     Config pluginConfig = pluginConfigs.get(pluginName);
     if (pluginConfig == null) {
       pluginConfig = new Config();
       pluginConfigs.put(pluginName, pluginConfig);
     }
-    return new PluginConfig(pluginName, pluginConfig, this);
+    pluginConfigUpdate.accept(new PluginConfig.Update(pluginName, pluginConfig, Optional.of(this)));
+  }
+
+  public PluginConfig getPluginConfig(String pluginName) {
+    Config pluginConfig = pluginConfigs.getOrDefault(pluginName, new Config());
+    return PluginConfig.create(pluginName, pluginConfig, getCacheable());
   }
 
   private void readGroupList() throws IOException {

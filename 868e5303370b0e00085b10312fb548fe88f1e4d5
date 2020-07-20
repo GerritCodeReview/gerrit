@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a59c0eec_9a9fb08d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-20T15:17:34Z",
+      "side": 1,
+      "message": "Mirroring LC vote from https://gerrit-review.googlesource.com/c/gerrit/+/268846.",
+      "revId": "868e5303370b0e00085b10312fb548fe88f1e4d5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

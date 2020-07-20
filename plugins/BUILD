@@ -71,6 +71,7 @@ EXPORTS = [
     "//lib/jackson:jackson-core",
     "//lib:jgit-servlet",
     "//lib:jgit",
+    "//lib:jgit-ssh-jsch",
     "//lib:jsr305",
     "//lib/log:api",
     "//lib/log:log4j",

@@ -39,6 +39,7 @@ DEPLOY_ENV = [
     "//lib:gson",
     "//lib:guava-retrying",
     "//lib:jgit",
+    "//lib:jgit-ssh-jsch",
     "//lib:jsch",
     "//lib/commons:compress",
     "//lib/commons:lang",

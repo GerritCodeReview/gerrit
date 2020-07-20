@@ -256,24 +256,28 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
 
   /** Returns an immutable, thread-safe representation of this object that can be cached. */
   public CachedProjectConfig getCacheable() {
-    return CachedProjectConfig.builder()
-        .setProject(project)
-        .setAccountsSection(accountsSection)
-        .setGroups(ImmutableMap.copyOf(groupList.byUUID()))
-        .setAccessSections(ImmutableMap.copyOf(accessSections))
-        .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
-        .setContributorAgreements(ImmutableMap.copyOf(contributorAgreements))
-        .setNotifySections(ImmutableMap.copyOf(notifySections))
-        .setLabelSections(ImmutableMap.copyOf(labelSections))
-        .setMimeTypes(mimeTypes)
-        .setSubscribeSections(ImmutableMap.copyOf(subscribeSections))
-        .setCommentLinkSections(ImmutableMap.copyOf(commentLinkSections))
-        .setRulesId(Optional.ofNullable(rulesId))
-        .setRevision(Optional.ofNullable(getRevision()))
-        .setMaxObjectSizeLimit(maxObjectSizeLimit)
-        .setCheckReceivedObjects(checkReceivedObjects)
-        .setExtensionPanelSections(extensionPanelSections)
-        .build();
+    CachedProjectConfig.Builder builder =
+        CachedProjectConfig.builder()
+            .setProject(project)
+            .setAccountsSection(accountsSection)
+            .setGroups(ImmutableMap.copyOf(groupList.byUUID()))
+            .setAccessSections(ImmutableMap.copyOf(accessSections))
+            .setBranchOrderSection(Optional.ofNullable(branchOrderSection))
+            .setContributorAgreements(ImmutableMap.copyOf(contributorAgreements))
+            .setNotifySections(ImmutableMap.copyOf(notifySections))
+            .setLabelSections(ImmutableMap.copyOf(labelSections))
+            .setMimeTypes(mimeTypes)
+            .setSubscribeSections(ImmutableMap.copyOf(subscribeSections))
+            .setCommentLinkSections(ImmutableMap.copyOf(commentLinkSections))
+            .setRulesId(Optional.ofNullable(rulesId))
+            .setRevision(Optional.ofNullable(getRevision()))
+            .setMaxObjectSizeLimit(maxObjectSizeLimit)
+            .setCheckReceivedObjects(checkReceivedObjects)
+            .setExtensionPanelSections(extensionPanelSections);
+    pluginConfigs
+        .entrySet()
+        .forEach(c -> builder.addPluginConfig(c.getKey(), c.getValue().toText()));
+    return builder.build();
   }
 
   public static StoredCommentLinkInfo buildCommentLink(Config cfg, String name, boolean allowRaw)

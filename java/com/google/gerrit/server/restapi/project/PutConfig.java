@@ -176,7 +176,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
-      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
+      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md).getCacheable());
       return new ConfigInfoImpl(
           serverEnableSignedPush,
           state,

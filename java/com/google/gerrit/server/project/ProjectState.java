@@ -46,19 +46,16 @@ import com.google.gerrit.server.git.TransferConfig;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Cached information on a project. Must not contain any data derived from parents other than it's
@@ -79,7 +76,6 @@ public class ProjectState {
   private final List<CommentLinkInfo> commentLinks;
 
   private final CachedProjectConfig cachedConfig;
-  private final Map<String, ProjectLevelConfig> configs;
   private final Set<AccountGroup.UUID> localOwners;
   private final long globalMaxObjectSizeLimit;
   private final boolean inheritProjectMaxObjectSizeLimit;
@@ -107,7 +103,6 @@ public class ProjectState {
     this.gitMgr = gitMgr;
     this.commentLinks = commentLinks;
     this.cachedConfig = cachedProjectConfig;
-    this.configs = new HashMap<>();
     this.capabilities =
         isAllProjects
             ? limitsFactory.create(
@@ -178,19 +173,8 @@ public class ProjectState {
   }
 
   public ProjectLevelConfig getConfig(String fileName) {
-    if (configs.containsKey(fileName)) {
-      return configs.get(fileName);
-    }
-
-    ProjectLevelConfig cfg = new ProjectLevelConfig(fileName, this);
-    try (Repository git = gitMgr.openRepository(getNameKey())) {
-      cfg.load(getNameKey(), git, cachedConfig.getRevision().get());
-    } catch (IOException | ConfigInvalidException e) {
-      logger.atWarning().withCause(e).log("Failed to load %s for %s", fileName, getName());
-    }
-
-    configs.put(fileName, cfg);
-    return cfg;
+    Optional<Config> rawConfig = cachedConfig.getProjectLevelConfig(fileName);
+    return new ProjectLevelConfig(fileName, this, rawConfig.orElse(new Config()));
   }
 
   public long getMaxObjectSizeLimit() {

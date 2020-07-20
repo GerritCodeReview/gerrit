@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49ac9c1a_1757a9a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-20T21:45:13Z",
+      "side": 1,
+      "message": "Measuring the latency is always good, however, I am concerned about three things:\n1. The change is on stable-2.16, which is an EOL release where people expects only security fixes (or major P0/P1 bugs fixed)\n2. The additional field is in the middle of the log, which would break people\u0027s parsing of the values\n3. The change in the format of the httpd_log isn\u0027t documented\n\nWhat would you suggest as way forward to address those concerns?",
+      "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

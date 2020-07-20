@@ -283,7 +283,7 @@ public class ProjectCacheImpl implements ProjectCache {
         try (Repository git = mgr.openRepository(key)) {
           ProjectConfig cfg = projectConfigFactory.create(key);
           cfg.load(key, git);
-          return projectStateFactory.create(cfg);
+          return projectStateFactory.create(cfg.getCacheable());
         }
       }
     }
@@ -297,7 +297,7 @@ public class ProjectCacheImpl implements ProjectCache {
         try (Repository git = mgr.openRepository(key)) {
           Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
           if (configRef != null
-              && configRef.getObjectId().equals(oldState.getBareConfig().getRevision())) {
+              && configRef.getObjectId().equals(oldState.getConfig().getRevision().get())) {
             refreshCounter.increment(CACHE_NAME, false);
             return Futures.immediateFuture(oldState);
           }

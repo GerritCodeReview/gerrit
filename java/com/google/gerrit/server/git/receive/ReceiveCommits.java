@@ -1262,16 +1262,18 @@ class ReceiveCommits {
       String value = pluginCfg.getString(e.getExportName());
       String oldValue =
           projectState
-              .getBareConfig()
+              .getConfig()
               .getPluginConfig(e.getPluginName())
-              .getString(e.getExportName());
+              .map(c -> c.getString(e.getExportName()))
+              .orElse(null);
       if (configEntry.getType() == ProjectConfigEntryType.ARRAY) {
         oldValue =
             Arrays.stream(
                     projectState
-                        .getBareConfig()
+                        .getConfig()
                         .getPluginConfig(e.getPluginName())
-                        .getStringList(e.getExportName()))
+                        .map(c -> c.getStringList(e.getExportName()))
+                        .orElse(null))
                 .collect(joining("\n"));
       }
 

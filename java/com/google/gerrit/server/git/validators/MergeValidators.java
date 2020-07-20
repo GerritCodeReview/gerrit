@@ -47,6 +47,7 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
@@ -227,13 +228,13 @@ public class MergeValidators {
             ProjectConfigEntry configEntry = e.getProvider().get();
 
             String value = pluginCfg.getString(e.getExportName());
-            String oldValue =
+            Optional<String> oldValue =
                 destProject
-                    .getBareConfig()
+                    .getConfig()
                     .getPluginConfig(e.getPluginName())
-                    .getString(e.getExportName());
+                    .map(c -> c.getString(e.getExportName()));
 
-            if ((value == null ? oldValue != null : !value.equals(oldValue))
+            if ((value == null ? oldValue.isPresent() : !value.equals(oldValue.get()))
                 && !configEntry.isEditable(destProject)) {
               throw new MergeValidationException(PLUGIN_VALUE_NOT_EDITABLE);
             }

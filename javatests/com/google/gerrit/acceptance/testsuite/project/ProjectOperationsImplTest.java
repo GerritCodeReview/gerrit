@@ -30,7 +30,6 @@ import static com.google.gerrit.common.data.GlobalCapability.QUERY_LIMIT;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.group.SystemGroupBackend.PROJECT_OWNERS;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.ConfigSubject.assertThat;
 import static java.util.stream.Collectors.toList;
@@ -44,7 +43,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.server.project.ProjectConfig;
-import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
@@ -95,23 +93,6 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
 
     assertThat(projectOperations.project(key).getProjectConfig().getProject().getDescription())
         .isEqualTo("my fancy project");
-  }
-
-  @Test
-  public void mutatingResultOfGetProjectConfigDoesNotMutateGlobalCachedValue() throws Exception {
-    Project.NameKey key = projectOperations.newProject().create();
-    ProjectConfig projectConfig = projectOperations.project(key).getProjectConfig();
-    ProjectState cachedProjectState1 = projectCache.get(key).orElseThrow(illegalState(project));
-    ProjectConfig cachedProjectConfig1 = cachedProjectState1.getBareConfig();
-    assertThat(cachedProjectConfig1).isNotSameInstanceAs(projectConfig);
-    assertThat(cachedProjectConfig1.getProject().getDescription()).isEmpty();
-    assertThat(projectConfig.getProject().getDescription()).isEmpty();
-    projectConfig.updateProject(p -> p.setDescription("my fancy project"));
-
-    ProjectConfig cachedProjectConfig2 =
-        projectCache.get(key).orElseThrow(illegalState(project)).getBareConfig();
-    assertThat(cachedProjectConfig2).isNotSameInstanceAs(projectConfig);
-    assertThat(cachedProjectConfig2.getProject().getDescription()).isEmpty();
   }
 
   @Test

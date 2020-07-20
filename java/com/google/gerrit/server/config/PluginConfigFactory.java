@@ -150,7 +150,11 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'project.config' file of the specified project
    */
   public PluginConfig getFromProjectConfig(ProjectState projectState, String pluginName) {
-    return projectState.getBareConfig().getPluginConfig(pluginName);
+    // TODO: Return an Optional
+    return projectState
+        .getConfig()
+        .getPluginConfig(pluginName)
+        .orElseGet(() -> new PluginConfig(pluginName, new Config()));
   }
 
   /**

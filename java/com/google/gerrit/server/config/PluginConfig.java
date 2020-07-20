@@ -48,11 +48,15 @@ public class PluginConfig {
       return this;
     }
 
-    ProjectState state = projectStateFactory.create(projectConfig);
+    ProjectState state = projectStateFactory.create(projectConfig.getCacheable());
     ProjectState parent = Iterables.getFirst(state.parents(), null);
     if (parent != null) {
       PluginConfig parentPluginConfig =
-          parent.getBareConfig().getPluginConfig(pluginName).withInheritance(projectStateFactory);
+          parent
+              .getConfig()
+              .getPluginConfig(pluginName)
+              .orElseGet(() -> new PluginConfig(pluginName, new Config()))
+              .withInheritance(projectStateFactory);
       Set<String> allNames = cfg.getNames(PLUGIN, pluginName);
       cfg = copyConfig(cfg);
       for (String name : parentPluginConfig.cfg.getNames(PLUGIN, pluginName)) {

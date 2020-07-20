@@ -41,7 +41,6 @@ import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.EnableSignedPush;
 import com.google.gerrit.server.config.AllProjectsName;
-import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.extensions.webui.UiActions;
@@ -176,7 +175,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
-      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
+      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md).getCacheable());
       return new ConfigInfoImpl(
           serverEnableSignedPush,
           state,
@@ -202,7 +201,6 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throws BadRequestException {
     for (Map.Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
-      PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
       for (Map.Entry<String, ConfigValue> v : e.getValue().entrySet()) {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
@@ -213,10 +211,11 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                 v.getKey(), PARAMETER_NAME_PATTERN.pattern());
             continue;
           }
-          String oldValue = cfg.getString(v.getKey());
+          String oldValue = projectConfig.getPluginConfig(pluginName).getString(v.getKey());
           String value = v.getValue().value;
           if (projectConfigEntry.getType() == ProjectConfigEntryType.ARRAY) {
-            List<String> l = Arrays.asList(cfg.getStringList(v.getKey()));
+            List<String> l =
+                Arrays.asList(projectConfig.getPluginConfig(pluginName).getStringList(v.getKey()));
             oldValue = Joiner.on("\n").join(l);
             value = Joiner.on("\n").join(v.getValue().values);
           }
@@ -230,15 +229,18 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                 switch (projectConfigEntry.getType()) {
                   case BOOLEAN:
                     boolean newBooleanValue = Boolean.parseBoolean(value);
-                    cfg.setBoolean(v.getKey(), newBooleanValue);
+                    projectConfig.updatePluginConfig(
+                        pluginName, cfg -> cfg.setBoolean(v.getKey(), newBooleanValue));
                     break;
                   case INT:
                     int newIntValue = Integer.parseInt(value);
-                    cfg.setInt(v.getKey(), newIntValue);
+                    projectConfig.updatePluginConfig(
+                        pluginName, cfg -> cfg.setInt(v.getKey(), newIntValue));
                     break;
                   case LONG:
                     long newLongValue = Long.parseLong(value);
-                    cfg.setLong(v.getKey(), newLongValue);
+                    projectConfig.updatePluginConfig(
+                        pluginName, cfg -> cfg.setLong(v.getKey(), newLongValue));
                     break;
                   case LIST:
                     if (!projectConfigEntry.getPermittedValues().contains(value)) {
@@ -252,10 +254,13 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                     }
                     // $FALL-THROUGH$
                   case STRING:
-                    cfg.setString(v.getKey(), value);
+                    String valueToSet = value;
+                    projectConfig.updatePluginConfig(
+                        pluginName, cfg -> cfg.setString(v.getKey(), valueToSet));
                     break;
                   case ARRAY:
-                    cfg.setStringList(v.getKey(), v.getValue().values);
+                    projectConfig.updatePluginConfig(
+                        pluginName, cfg -> cfg.setStringList(v.getKey(), v.getValue().values));
                     break;
                   default:
                     logger.atWarning().log(
@@ -273,7 +278,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
             if (oldValue != null) {
               validateProjectConfigEntryIsEditable(
                   projectConfigEntry, projectState, v.getKey(), pluginName);
-              cfg.unset(v.getKey());
+              projectConfig.updatePluginConfig(pluginName, cfg -> cfg.unset(v.getKey()));
             }
           }
         } else {

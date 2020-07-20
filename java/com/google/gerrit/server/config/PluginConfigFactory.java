@@ -111,7 +111,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
       cfgSnapshot = FileSnapshot.save(configFile);
       cfg = cfgProvider.get();
     }
-    return new PluginConfig(pluginName, cfg);
+    return PluginConfig.create(pluginName, cfg, null);
   }
 
   /**
@@ -150,7 +150,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'project.config' file of the specified project
    */
   public PluginConfig getFromProjectConfig(ProjectState projectState, String pluginName) {
-    return projectState.getBareConfig().getPluginConfig(pluginName);
+    return projectState.getPluginConfig(pluginName);
   }
 
   /**

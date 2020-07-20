@@ -33,6 +33,7 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.internal.storage.file.FileSnapshot;
 import org.eclipse.jgit.lib.Config;
@@ -111,7 +112,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
       cfgSnapshot = FileSnapshot.save(configFile);
       cfg = cfgProvider.get();
     }
-    return new PluginConfig(pluginName, cfg);
+    return PluginConfig.create(pluginName, cfg, Optional.empty());
   }
 
   /**
@@ -150,7 +151,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
    * @return the plugin configuration from the 'project.config' file of the specified project
    */
   public PluginConfig getFromProjectConfig(ProjectState projectState, String pluginName) {
-    return projectState.getBareConfig().getPluginConfig(pluginName);
+    return projectState.getConfig().getPluginConfig(pluginName);
   }
 
   /**

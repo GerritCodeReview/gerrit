@@ -176,7 +176,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
-      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
+      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md).getCacheable());
       return new ConfigInfoImpl(
           serverEnableSignedPush,
           state,
@@ -202,7 +202,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throws BadRequestException {
     for (Map.Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
-      PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
+      PluginConfig.Update cfg = projectConfig.getPluginConfig(pluginName);
       for (Map.Entry<String, ConfigValue> v : e.getValue().entrySet()) {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {
@@ -213,10 +213,10 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
                 v.getKey(), PARAMETER_NAME_PATTERN.pattern());
             continue;
           }
-          String oldValue = cfg.getString(v.getKey());
+          String oldValue = cfg.asPluginConfig().getString(v.getKey());
           String value = v.getValue().value;
           if (projectConfigEntry.getType() == ProjectConfigEntryType.ARRAY) {
-            List<String> l = Arrays.asList(cfg.getStringList(v.getKey()));
+            List<String> l = Arrays.asList(cfg.asPluginConfig().getStringList(v.getKey()));
             oldValue = Joiner.on("\n").join(l);
             value = Joiner.on("\n").join(v.getValue().values);
           }

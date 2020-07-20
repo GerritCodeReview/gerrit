@@ -30,10 +30,14 @@ import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.NotifyConfig;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.StoredCommentLinkInfo;
+import com.google.gerrit.server.config.PluginConfig;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -58,6 +62,17 @@ public abstract class CachedProjectConfig {
    */
   public Optional<GroupReference> getGroup(AccountGroup.UUID uuid) {
     return Optional.ofNullable(getGroups().get(uuid));
+  }
+
+  /**
+   * Returns the group reference for matching the given {@code name}, if the group is used by at
+   * least one rule.
+   */
+  public Optional<GroupReference> getGroupByName(@Nullable String name) {
+    if (name == null) {
+      return Optional.empty();
+    }
+    return getGroups().values().stream().filter(g -> name.equals(g.getName())).findAny();
   }
 
   /** Returns the account section containing visibility information about accounts. */
@@ -122,6 +137,27 @@ public abstract class CachedProjectConfig {
     return filterSubscribeSectionsByBranch(getSubscribeSections().values(), branch);
   }
 
+  /**
+   * Returns the {@link Config} that got parsed from the {@code plugins} section of {@code
+   * project.config}. The returned instance is a defensive copy of the cached value. Returns an
+   * empty config in case we find no config for the given plugin name. This is useful when calling
+   * {@code PluginConfig#withInheritance(ProjectState.Factory)}
+   */
+  public PluginConfig getPluginConfig(String pluginName) {
+    if (getPluginConfigs().containsKey(pluginName)) {
+      Config config = new Config();
+      try {
+        config.fromText(getPluginConfigs().get(pluginName));
+      } catch (ConfigInvalidException e) {
+        throw new IllegalStateException("invalid plugin config for " + pluginName, e);
+      }
+      return PluginConfig.create(pluginName, config, Optional.of(this));
+    }
+    return PluginConfig.create(pluginName, new Config(), Optional.of(this));
+  }
+
+  abstract ImmutableMap<String, String> getPluginConfigs();
+
   public static Builder builder() {
     return new AutoValue_CachedProjectConfig.Builder();
   }
@@ -168,6 +204,13 @@ public abstract class CachedProjectConfig {
       ImmutableMap.Builder<String, ImmutableList<String>> b = ImmutableMap.builder();
       value.entrySet().forEach(e -> b.put(e.getKey(), ImmutableList.copyOf(e.getValue())));
       return setExtensionPanelSections(b.build());
+    }
+
+    abstract ImmutableMap.Builder<String, String> pluginConfigsBuilder();
+
+    public Builder addPluginConfig(String key, String value) {
+      pluginConfigsBuilder().put(key, value);
+      return this;
     }
 
     public abstract CachedProjectConfig build();

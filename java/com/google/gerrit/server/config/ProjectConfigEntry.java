@@ -372,7 +372,8 @@ public class ProjectConfigEntry {
     }
 
     private static String getValue(ProjectConfig cfg, Extension<ProjectConfigEntry> e) {
-      String value = cfg.getPluginConfig(e.getPluginName()).getString(e.getExportName());
+      String value =
+          cfg.getPluginConfig(e.getPluginName()).asPluginConfig().getString(e.getExportName());
       if (value == null) {
         value = e.getProvider().get().getDefaultValue();
       }

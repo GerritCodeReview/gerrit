@@ -25,6 +25,52 @@
     },
     {
       "key": {
+        "uuid": "c4941141_e5077deb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T14:43:03Z",
+      "side": 1,
+      "message": "Maybe use a different word/phrase here (like \"Failed to save\"). For example, if a user doesn\u0027t click \"Save\" button, the draft is in unsaved state but gerrit doesn\u0027t show anything in this case.",
+      "range": {
+        "startLine": 384,
+        "startChar": 39,
+        "endLine": 384,
+        "endChar": 46
+      },
+      "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5f19a5f_cca15eda",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 754,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T14:43:03Z",
+      "side": 1,
+      "message": "Maybe we should show a \"Save\" button again, so user can retry save action?",
+      "range": {
+        "startLine": 754,
+        "startChar": 4,
+        "endLine": 754,
+        "endChar": 28
+      },
+      "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "37d1eff5_3a6fa28a",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 6
@@ -41,6 +87,29 @@
         "startChar": 17,
         "endLine": 776,
         "endChar": 30
+      },
+      "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3ca890_4739f131",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 248,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T14:43:03Z",
+      "side": 1,
+      "message": "May be show a different text for failed draft and explain to a user what actions must be done to resolve it.",
+      "range": {
+        "startLine": 248,
+        "startChar": 17,
+        "endLine": 248,
+        "endChar": 160
       },
       "revId": "2c717ad2a8f2d3b53db73b994454b643d42e5fe9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

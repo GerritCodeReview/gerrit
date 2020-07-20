@@ -250,6 +250,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
   private Map<String, Config> pluginConfigs;
+  private Map<String, Config> projectLevelConfigs;
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
@@ -278,6 +279,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     pluginConfigs
         .entrySet()
         .forEach(c -> builder.addPluginConfig(c.getKey(), c.getValue().toText()));
+    projectLevelConfigs
+        .entrySet()
+        .forEach(c -> builder.addProjectLevelConfig(c.getKey(), c.getValue().toText()));
     return builder.build();
   }
 
@@ -655,6 +659,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadSubscribeSections(rc);
     mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
     loadPluginSections(rc);
+    loadProjectLevelConfigs();
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);
   }
@@ -1168,6 +1173,25 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
       pluginConfigs.put(pluginName, pluginConfig);
     }
     return new PluginConfig.Update(pluginName, pluginConfig, Optional.of(this));
+  }
+
+  private void loadProjectLevelConfigs() throws IOException {
+    projectLevelConfigs = new HashMap<>();
+    if (revision == null) {
+      return;
+    }
+    for (PathInfo pathInfo : getPathInfos(true)) {
+      if (pathInfo.path.endsWith(".config") && !PROJECT_CONFIG.equals(pathInfo.path)) {
+        String cfg = readUTF8(pathInfo.path);
+        Config parsedConfig = new Config();
+        try {
+          parsedConfig.fromText(cfg);
+          projectLevelConfigs.put(pathInfo.path, parsedConfig);
+        } catch (ConfigInvalidException e) {
+          error(ValidationError.create(pathInfo.path, "Cannot parse config " + e.getMessage()));
+        }
+      }
+    }
   }
 
   private void readGroupList() throws IOException {

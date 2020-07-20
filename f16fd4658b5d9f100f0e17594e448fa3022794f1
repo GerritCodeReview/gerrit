@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4592745_d7d51e9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T07:53:36Z",
+      "side": 1,
+      "message": "Everywhere show-attention and force-attention are the same and I can\u0027t find showAttention property in gr-account-label.\nIf show-attention property is not used/required anymore, please remove it from this file.",
+      "range": {
+        "startLine": 362,
+        "startChar": 10,
+        "endLine": 362,
+        "endChar": 77
+      },
+      "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3921d37_90ae91ba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T07:53:36Z",
+      "side": 1,
+      "message": "nit: may be in one of the future changes get rid of getter: google style guide doesn\u0027t allow it:\nhttps://google.github.io/styleguide/jsguide.html#features-classes-getters-and-setters",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdab780c_09031b3a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T07:53:36Z",
+      "side": 1,
+      "message": "I would like to have it opposite: hasAttention calls _computeShowAttentionIcon and pass all required parameters.\nWhen everything is in hasAttention it is easy to add new condition in hasAttention and forget to add parameter to _computeShowAttentionIcon.\n(the same issue with isAttentionSetEnabled).\n\nAlso it is not clear why _computeShowAttentionIcon depends on highlightAttention and config and I even wrote a comment to remove them, but then I realized that there is the call-chain _computeShowAttentionIcon -\u003e hasAttenation -\u003e isAttentionSetEnabled where these properties are used. Maybe isAttentionSetEnabled should be replaced with a method with parameters",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 28
+      },
+      "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

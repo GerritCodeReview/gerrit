@@ -34,9 +34,10 @@ public class ProjectLevelConfig extends VersionedMetaData {
   private final ProjectState project;
   private Config cfg;
 
-  public ProjectLevelConfig(String fileName, ProjectState project) {
+  public ProjectLevelConfig(String fileName, ProjectState project, Config cfg) {
     this.fileName = fileName;
     this.project = project;
+    this.cfg = cfg;
   }
 
   @Override

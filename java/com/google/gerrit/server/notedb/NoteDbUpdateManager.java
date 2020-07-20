@@ -268,6 +268,8 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
 
+  private boolean setNoLockLooseRefs;
+
   @Inject
   NoteDbUpdateManager(
       @GerritPersonIdent Provider<PersonIdent> serverIdent,
@@ -353,6 +355,18 @@ public class NoteDbUpdateManager implements AutoCloseable {
    */
   public NoteDbUpdateManager setAtomicRefUpdates(boolean atomicRefUpdates) {
     this.atomicRefUpdates = atomicRefUpdates;
+    return this;
+  }
+
+  /**
+   * Set whether not to lock loose refs when doing batch ref updates. This can be used if no other
+   * process or thread is accessing refs of the given project concurrently.
+   *
+   * @param noLockLooseRefs whether not to lock loose refs when doing batch ref updates
+   * @return this
+   */
+  public NoteDbUpdateManager setNoLockLooseRefs(boolean noLockLooseRefs) {
+    this.setNoLockLooseRefs = noLockLooseRefs;
     return this;
   }
 

@@ -177,6 +177,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean forceRebuild;
     private int sequenceGap = -1;
     private boolean autoMigrate;
+    private boolean offline;
 
     @Inject
     Builder(
@@ -379,6 +380,19 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Specify if this is an offline migration and no other processes are accessing the repositories
+     * being migrated
+     *
+     * @param offline whether this is an offline migration and no other processes are accessing the
+     *     repositories being migrated
+     * @return this
+     */
+    public Builder setOffline(boolean offline) {
+      this.offline = offline;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
@@ -516,7 +530,8 @@ public class NoteDbMigrator implements AutoCloseable {
   public void migrate() throws OrmException, IOException {
     if (!changes.isEmpty() || !projects.isEmpty() || !skipProjects.isEmpty()) {
       throw new MigrationException(
-          "Cannot set changes or projects or skipProjects during full migration; call rebuild() instead");
+          "Cannot set changes or projects or skipProjects during full migration; call rebuild()"
+              + " instead");
     }
     Optional<NotesMigrationState> maybeState = loadState();
     if (!maybeState.isPresent()) {
@@ -881,6 +896,14 @@ public class NoteDbMigrator implements AutoCloseable {
       ReviewDb db,
       ImmutableListMultimap<Project.NameKey, Change.Id> allChanges,
       Project.NameKey project) {
+    return rebuildProject(db, allChanges, project, false);
+  }
+
+  private boolean rebuildProject(
+      ReviewDb db,
+      ImmutableListMultimap<Project.NameKey, Change.Id> allChanges,
+      Project.NameKey project,
+      boolean offline) {
     checkArgument(allChanges.containsKey(project));
     boolean ok = true;
     ProgressMonitor pm =
@@ -926,7 +949,11 @@ public class NoteDbMigrator implements AutoCloseable {
           try (NoteDbUpdateManager manager =
               updateManagerFactory
                   .create(project)
-                  .setAtomicRefUpdates(false)
+                  // for offline migration use atomic ref update without locking loose refs
+                  // to avoid the runtime overhead of writing a huge number of loose refs or locks
+                  // for loose refs
+                  .setAtomicRefUpdates(offline ? true : false)
+                  .setNoLockLooseRefs(offline ? true : false)
                   .setSaveObjects(false)
                   .setChangeRepo(changeRepo, changeRw, changeIns, tmpChangeCmds)
                   .setAllUsersRepo(allUsersRepo, allUsersRw, allUsersIns, tmpAllUsersCmds)) {

@@ -253,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "4535cc2b_16fe57eb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-20T18:42:50Z",
+      "side": 1,
+      "message": "\u003e I hope that we will also have some non-Googlers expressing their thoughts and votes here, so that we can conclude this discussion.\n\u003e \n\u003e Note that the ESC had already planned a \"Vision\" workshop for the next Hackathon, which would have been nice to have in May. Settling for an overall direction between all maintainers with regards to exactly this discussion would have been part of it. It would have been really nice to see each other and debate this in person.\n\nGood idea! :) -Luca is I think AFK this week and David P. cannot focus on this yet. Can another ESC member organize a meeting to discuss this change, and series? Participants would be at least the ones that were actively involved so far in this review. I\u0027d keep the idea of iterating from the current base through increments, after agreeing on the goal and raw steps. (Starting from a design doc live review if need be, code/changes straight otherwise.)\n\nYou people meeting together to discuss these alternatives (pros, cons) would be the next step to help resume this important thread. Which ESC member would like to volunteer as the organizer for such a focused meeting? Feel free to invite community manager(s) as you see fit (or not). A 1-hour time-box should do it I think. Let\u0027s make the disagreements focused, precisely expressed, and non-personal. Demonstrated listening should keep negative emotions away.",
+      "parentUuid": "73b4d772_019d6fd5",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

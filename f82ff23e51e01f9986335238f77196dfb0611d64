@@ -52,6 +52,98 @@
       "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "827021f6_14b8c459",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T09:23:22Z",
+      "side": 1,
+      "message": "According to style guide (https://google.github.io/styleguide/jsguide.html#naming-enum-names), it should be ErrorType",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 17
+      },
+      "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5afd4cf1_956dfbb0",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T09:23:22Z",
+      "side": 1,
+      "message": "According to style guide (https://google.github.io/styleguide/jsguide.html#naming-enum-names), it should be ErrorTypesPriority or ErrorTypePriority",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4139ae2a_7a589d1a",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T09:23:22Z",
+      "side": 1,
+      "message": "Please, add a comment that bigger number has bigger priority",
+      "range": {
+        "startLine": 46,
+        "startChar": 6,
+        "endLine": 46,
+        "endChar": 26
+      },
+      "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dafc820_2598a25c",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-20T09:23:22Z",
+      "side": 1,
+      "message": "nit: you can make relation between ERROR_TYPES and ERROR_TYPES_PRIORITY more clear using this approach:\nconst ERROR_TYPES_PRIORITY \u003d {\n    [ERROR_TYPES.AUTH]: 3,\n    [ERROR_TYPES.NETWORK]: 2,\n    [ERROR_TYPES.GENERIC]: 1,\n}",
+      "range": {
+        "startLine": 47,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 13
+      },
+      "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

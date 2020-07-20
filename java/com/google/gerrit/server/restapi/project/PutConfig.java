@@ -176,7 +176,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
         throw new ResourceConflictException("Cannot update " + projectName);
       }
 
-      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md));
+      ProjectState state = projectStateFactory.create(projectConfigFactory.read(md).getCacheable());
       return new ConfigInfoImpl(
           serverEnableSignedPush,
           state,
@@ -202,7 +202,7 @@ public class PutConfig implements RestModifyView<ProjectResource, ConfigInput> {
       throws BadRequestException {
     for (Map.Entry<String, Map<String, ConfigValue>> e : pluginConfigValues.entrySet()) {
       String pluginName = e.getKey();
-      PluginConfig cfg = projectConfig.getPluginConfig(pluginName);
+      PluginConfig.Update cfg = projectConfig.getPluginConfig(pluginName);
       for (Map.Entry<String, ConfigValue> v : e.getValue().entrySet()) {
         ProjectConfigEntry projectConfigEntry = pluginConfigEntries.get(pluginName, v.getKey());
         if (projectConfigEntry != null) {

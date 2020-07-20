@@ -33,6 +33,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.BranchOrderSection;
 import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.StoredCommentLinkInfo;
 import com.google.gerrit.extensions.api.projects.CommentLinkInfo;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;

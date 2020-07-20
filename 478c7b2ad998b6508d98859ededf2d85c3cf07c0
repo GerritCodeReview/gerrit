@@ -22,6 +22,30 @@
       "revId": "478c7b2ad998b6508d98859ededf2d85c3cf07c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b922e314_02b8dd64",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T13:58:54Z",
+      "side": 1,
+      "message": "Sorry, messed up while rebasing.\nShould be fixed now.",
+      "parentUuid": "570c36e8_9553ca45",
+      "range": {
+        "startLine": 15,
+        "startChar": 13,
+        "endLine": 15,
+        "endChar": 40
+      },
+      "revId": "478c7b2ad998b6508d98859ededf2d85c3cf07c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -84,6 +84,24 @@
       "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8d9beac_5cdab757",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-20T15:38:24Z",
+      "side": 1,
+      "message": "Given that you don\u0027t use Jetty in production, would it be possible to no block fix releases for open source gerrit for such critical issue, that was even classified as security problem?",
+      "parentUuid": "d87ef239_ee70b767",
+      "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

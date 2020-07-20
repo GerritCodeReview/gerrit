@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "38c56a0c_b323fe9e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-20T15:08:23Z",
+      "side": 1,
+      "message": "Thanks David. Would you mind converting your score into an approval? (There was no other feedback since.)",
+      "revId": "fc96b5902978c32ffbf5713f777c17d7c8bbad70",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

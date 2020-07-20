@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "765a3b43_fc527f06",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T09:50:07Z",
+      "side": 1,
+      "message": "Probably this solution requires more thought.\nAdded a TODO to track this use case later.",
+      "parentUuid": "4b605014_cddb9eb4",
+      "revId": "f82ff23e51e01f9986335238f77196dfb0611d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "827021f6_14b8c459",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 2

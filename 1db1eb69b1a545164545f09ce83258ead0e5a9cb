@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "11d0e0c8_df628157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-20T10:23:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fb6e6f5_251594f9",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 52
+      },
+      "revId": "1db1eb69b1a545164545f09ce83258ead0e5a9cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09f6c6f4_58a78287",
         "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.js",
         "patchSetId": 1

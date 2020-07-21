@@ -16,6 +16,24 @@
       "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c63940d_185b16fc",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-21T22:38:33Z",
+      "side": 1,
+      "message": "Are you using the script: release-announcement.py from repository?\n\n  gerrit-release-tools\n\nto generate announcement mail?\n\nWithout installing the release.war in local Maven repository it was failing here:\n\n  Could not find war file for Gerrit \"foo\" in local Maven repository\n\nSee the code:\n\n  war \u003d os.path.join(\n        os.path.expanduser(\"~/.m2/repository/com/google/gerrit/gerrit-war/\"),\n        \"%(version)s/gerrit-war-%(version)s.war\" % data,\n    )\n    if not os.path.isfile(war):\n        print(\n            \"Could not find war file for Gerrit %s in local Maven repository\"\n            % data[\"version\"],\n            file\u003dsys.stderr,\n        )\n        sys.exit(1)\n\nHow it worked for you?",
+      "parentUuid": "bf5f82c9_f99b3842",
+      "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

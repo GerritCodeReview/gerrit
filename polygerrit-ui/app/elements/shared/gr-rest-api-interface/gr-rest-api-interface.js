@@ -23,8 +23,8 @@ import {GrEtagDecorator} from './gr-etag-decorator.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-apis/gr-rest-api-helper.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
 import {parseDate} from '../../../utils/date-util.js';
-import {authService} from './gr-auth.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
+import {appContext} from '../../../services/app-context.js';
 import {
   getParentIndex,
   isMergeParent,
@@ -83,7 +83,7 @@ export function _testOnlyResetGrRestApiSharedObjects() {
   pendingRequest = {};
   grEtagDecorator = new GrEtagDecorator;
   projectLookup = {};
-  authService.clearCache();
+  appContext.authService.clearCache();
 }
 
 /**
@@ -146,7 +146,7 @@ class GrRestApiInterface extends GestureEventListeners(
   /** @override */
   created() {
     super.created();
-    this._auth = authService;
+    this.authService = appContext.authService;
     this._initRestApiHelper();
   }
 
@@ -154,8 +154,8 @@ class GrRestApiInterface extends GestureEventListeners(
     if (this._restApiHelper) {
       return;
     }
-    if (this._cache && this._auth && this._sharedFetchPromises) {
-      this._restApiHelper = new GrRestApiHelper(this._cache, this._auth,
+    if (this._cache && this.authService && this._sharedFetchPromises) {
+      this._restApiHelper = new GrRestApiHelper(this._cache, this.authService,
           this._sharedFetchPromises, this);
     }
   }
@@ -867,7 +867,7 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   getLoggedIn() {
-    return this._auth.authCheck();
+    return this.authService.authCheck();
   }
 
   getIsAdmin() {

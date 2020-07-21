@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {appContext} from '../../../services/app-context.js';
+import {getBaseUrl} from '../utils/url-util.js';
 
 const MAX_AUTH_CHECK_WAIT_TIME_MS = 1000 * 30; // 30s
 const MAX_GET_TOKEN_RETRIES = 2;
@@ -24,9 +23,7 @@ const MAX_GET_TOKEN_RETRIES = 2;
  * Auth class.
  */
 export class Auth {
-  // TODO(taoalpha): this whole thing should be moved to a service
-
-  constructor() {
+  constructor(eventEmitter) {
     this._type = null;
     this._cachedTokenPromise = null;
     this._defaultOptions = {};
@@ -34,7 +31,7 @@ export class Auth {
     this._status = Auth.STATUS.UNDETERMINED;
     this._authCheckPromise = null;
     this._last_auth_check_time = Date.now();
-    this.eventEmitter = appContext.eventEmitter;
+    this.eventEmitter = eventEmitter;
   }
 
   get baseUrl() {
@@ -263,12 +260,3 @@ Auth.STATUS = {
 };
 
 Auth.CREDS_EXPIRED_MSG = 'Credentials expired.';
-// TODO(dmfilippov) move to appContext
-export const authService = new Auth();
-
-// TODO(dmfilippov) Remove the following lines with assignments
-// Plugins can use global Auth because it was accessible with
-// the global Gerrit... variable. To avoid breaking changes in plugins
-// temporary assign global variables.
-window.Gerrit = window.Gerrit || {};
-window.Gerrit.Auth = authService;

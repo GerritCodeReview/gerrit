@@ -18,6 +18,7 @@ import {appContext} from './app-context.js';
 import {FlagsService} from './flags.js';
 import {GrReporting} from './gr-reporting/gr-reporting.js';
 import {EventEmitter} from './gr-event-interface/gr-event-interface.js';
+import {Auth} from './gr-auth.js';
 
 const initializedServices = new Map();
 
@@ -48,5 +49,6 @@ export function initAppContext() {
   addService('reportingService',
       () => new GrReporting(appContext.flagsService));
   addService('eventEmitter', () => new EventEmitter());
+  addService('authService', () => new Auth(appContext.eventEmitter));
   Object.defineProperties(appContext, registeredServices);
 }

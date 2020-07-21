@@ -63,6 +63,30 @@
       "revId": "2b617fdd1dc1b111eb7efd1af287f533dd7b5895",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4843ba7_2240d73b",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-21T13:23:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3fce1a4f_e1d4c048",
+      "range": {
+        "startLine": 564,
+        "startChar": 7,
+        "endLine": 564,
+        "endChar": 54
+      },
+      "revId": "2b617fdd1dc1b111eb7efd1af287f533dd7b5895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

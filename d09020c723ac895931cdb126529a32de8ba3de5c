@@ -102,6 +102,24 @@
       "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b987c50_af8fdbb0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-07-21T06:14:29Z",
+      "side": 1,
+      "message": "To add to that: we are talking about \u0027stable-2.16\u0027 the version that you have probably moved from some years ago ;)",
+      "parentUuid": "f8d9beac_5cdab757",
+      "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

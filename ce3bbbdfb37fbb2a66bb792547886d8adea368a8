@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "bb42e49f_56999c0e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-21T15:19:18Z",
+      "side": 1,
+      "message": "\u003e\u003eWhat do we need this for?\nGerrit sends e-mails where comments are grouped by file names. The file name itself is a link. Because it is unclear what exactly user expects to see when link is clicked, Dhruv suggested to add special file link for e-mails and later adjust behavior, if needed. I supported him in this idea\n\n\u003e\u003e Instead I would rather support \"patchNum\" to understand\nAfter reading your comment and refreshing my memory, I started to think that patchNum must be removed from this path. I don\u0027t remember a reason why it was included in the path. I hope Dhruv can provide more context (we had offline discussion about the URL).",
+      "parentUuid": "526ff7d5_9546164c",
+      "revId": "ce3bbbdfb37fbb2a66bb792547886d8adea368a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfa0f646_51314e0e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 20

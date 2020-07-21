@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7876574c_979c4ab0",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 19
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-21T10:48:52Z",
+      "side": 1,
+      "message": "are we planning to keep this logic for how long ? If we want to start deprecate the dark-theme storage, might start sooner ? i.e: we can honor the value in `localStorage` if set and sync it to API once its not the same as default option, but we probably don\u0027t want to keep setting the localStorage, it may add problem as the preference go out of sync.\n\nmaybe try get the value from the localStorage and compare with current preference, if not the same, update preference, and then always use the preference to decide on theme ? so you always have single source of truth and after a few weeks, we can safely remove all items related to the localStorage.",
+      "range": {
+        "startLine": 208,
+        "startChar": 6,
+        "endLine": 214,
+        "endChar": 7
+      },
+      "revId": "6196cf3ef8af135b560d8a21b04c619170ba40d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

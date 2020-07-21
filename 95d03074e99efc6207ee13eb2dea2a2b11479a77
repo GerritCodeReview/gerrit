@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "847e0fe3_1dd65e85",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-21T13:19:40Z",
+      "side": 1,
+      "message": "Maybe add some prefix/suffix to avoid conflicts? Like \u0027_r_\u0027 or something else.\nI found in our code style for a \u0027.branch\u0027 class. It is in a different element, but it is not an unusual name. Prefix should protect us from unexpected conflicts with existing styles.",
+      "range": {
+        "startLine": 99,
+        "startChar": 11,
+        "endLine": 99,
+        "endChar": 56
+      },
+      "revId": "95d03074e99efc6207ee13eb2dea2a2b11479a77",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -22,6 +22,30 @@
       "revId": "95271d95558f4412d789692dc39c4824d18d0a8c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a23720b_50ea6318",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-21T15:03:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4cc66369_2294360d",
+      "range": {
+        "startLine": 45,
+        "startChar": 2,
+        "endLine": 45,
+        "endChar": 24
+      },
+      "revId": "95271d95558f4412d789692dc39c4824d18d0a8c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

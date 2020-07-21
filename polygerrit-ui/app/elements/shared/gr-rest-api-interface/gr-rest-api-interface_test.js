@@ -19,8 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-rest-api-interface.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
-import {authService} from './gr-auth.js';
 import {ListChangesOption} from '../../../utils/change-util.js';
+import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromElement('gr-rest-api-interface');
 
@@ -44,7 +44,8 @@ suite('gr-rest-api-interface tests', () => {
       },
     }));
     // fake auth
-    sinon.stub(authService, 'authCheck').returns(Promise.resolve(true));
+    sinon.stub(appContext.authService, 'authCheck')
+        .returns(Promise.resolve(true));
     element = basicFixture.instantiate();
     element._projectLookup = {};
   });
@@ -871,9 +872,9 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('gerrit auth is used', () => {
-    sinon.stub(authService, 'fetch').returns(Promise.resolve());
+    sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve());
     element._restApiHelper.fetchJSON({url: 'foo'});
-    assert(authService.fetch.called);
+    assert(appContext.authService.fetch.called);
   });
 
   test('getSuggestedAccounts does not return _fetchJSON', () => {
@@ -1295,7 +1296,7 @@ suite('gr-rest-api-interface tests', () => {
       done();
     };
     element.addEventListener('server-error', handler);
-    sinon.stub(authService, 'fetch').returns(Promise.resolve(res));
+    sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve(res));
     sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     element.getFileContent('1', 'tst/path', '1').then(() => {
       flushAsynchronousOperations();

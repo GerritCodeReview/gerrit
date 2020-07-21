@@ -539,6 +539,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
           type: Number,
           value: null,
         },
+        _shortcut_v_key_last_pressed: {
+          type: Number,
+          value: null,
+        },
         _shortcut_go_table: {
           type: Array,
           value() {
@@ -555,6 +559,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
     }
 
     modifierPressed(e) {
+      /* We are checking for g/v as modifiers pressed. There are cases such as
+       * pressing v and then /, where we want the handler for / to be triggered.
+       * TODO(dhruvsri): find a way to support that keyboard combination
+       */
       e = getKeyboardEvent(e);
       return e.altKey || e.ctrlKey || e.metaKey || e.shiftKey ||
         !!this._inGoKeyMode() || !!this._inVKeyMode();
@@ -686,6 +694,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
     }
 
     _handleVKeyDown(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) return;
       this._shortcut_v_key_last_pressed = Date.now();
     }
 
@@ -713,6 +722,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
     }
 
     _handleGoKeyDown(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) return;
       this._shortcut_go_key_last_pressed = Date.now();
     }
 

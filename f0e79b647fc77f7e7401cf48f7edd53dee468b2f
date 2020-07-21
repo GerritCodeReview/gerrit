@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2116b6f7_a5dcf100",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-21T18:09:48Z",
+      "side": 1,
+      "message": "David and I would need approval or review assistance, with this series and potentially others. Luca is AFK this week I think and David P. cannot focus on these nowadays. We basically run out of approvers these days, which sometimes blocks maintenance reviews that pile up. Hence adding you both in case you may help; other suggestions welcome.",
+      "revId": "f0e79b647fc77f7e7401cf48f7edd53dee468b2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

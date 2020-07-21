@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5a455c2_6891ffd1",
+        "filename": "WORKSPACE",
+        "patchSetId": 12
+      },
+      "lineNbr": 1229,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-21T12:02:46Z",
+      "side": 1,
+      "message": "Why it was re-added here?",
+      "range": {
+        "startLine": 1197,
+        "startChar": 0,
+        "endLine": 1229,
+        "endChar": 1
+      },
+      "revId": "bc9c057393456bc8add7cefa44bf5587e3257203",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

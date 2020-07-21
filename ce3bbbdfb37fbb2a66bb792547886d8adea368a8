@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "a353e4ec_f69680b7",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-21T16:07:15Z",
+      "side": 1,
+      "message": "Chatted with Dhruv about this. I think my main point is that \"/file\" could be an optional part of the existing DIFF route. And \"file\" is not a great term here, maybe better \"fromEmail\".\n\nAlso I don\u0027t think those file links in emails are a very important use case. Maybe just remove them or let them point to the first comment in the file. I would like to avoid additional complexity.",
+      "parentUuid": "bb42e49f_56999c0e",
+      "revId": "ce3bbbdfb37fbb2a66bb792547886d8adea368a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cfa0f646_51314e0e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 20

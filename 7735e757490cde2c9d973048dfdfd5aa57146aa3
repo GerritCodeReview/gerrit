@@ -321,6 +321,30 @@
     },
     {
       "key": {
+        "uuid": "6dfc694d_68f7bc77",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-21T14:15:53Z",
+      "side": 1,
+      "message": "Looking at paramsChanged method it does not look complicated to wait for comments to be loaded before setting these values. Can you have another look at resolving this TODO directly?",
+      "parentUuid": "884cc58c_6f042bec",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eed2e381_43fe7d7b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 16

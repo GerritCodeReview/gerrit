@@ -16,6 +16,40 @@
       "revId": "ce3bbbdfb37fbb2a66bb792547886d8adea368a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "526ff7d5_9546164c",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-21T14:15:53Z",
+      "side": 1,
+      "message": "What do we need this for? File comments should have a comment id, so we can use the COMMENT route for that.\n\nI would just drop this.\n\nIf we want to such a feature, then I would find it extremely weird to have these two patterns:\n\n/c/\u003cproject\u003e/+/\u003cchangeNum\u003e/\u003cpatchNum\u003e/\u003cpath\u003e\n/c/\u003cproject\u003e/+/\u003cchangeNum\u003e/file/\u003cpatchNum\u003e/\u003cpath\u003e\n\nInstead I would rather support \"patchNum\" to understand a special value like \"latest\" (note that \"edit\" is already supported).",
+      "revId": "ce3bbbdfb37fbb2a66bb792547886d8adea368a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cfa0f646_51314e0e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 810,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-21T14:15:53Z",
+      "side": 1,
+      "message": "You are making use of _patchRange here already, but you are overriding it in line 864 with something different. Then _commitRange will probably have the wrong values.\n\nI think we should just wait with setting _patchRange and _path until both change and comments are loaded. But then you also don\u0027t need to make the patchNum and the path part of the URL.",
+      "revId": "ce3bbbdfb37fbb2a66bb792547886d8adea368a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

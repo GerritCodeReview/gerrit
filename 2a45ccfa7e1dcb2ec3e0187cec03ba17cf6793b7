@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea22ca7c_1481c840",
+        "filename": "polygerrit-ui/app/embed/gr-diff-app-context-init.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-21T13:06:45Z",
+      "side": 1,
+      "message": "Yes, thanks!",
+      "parentUuid": "1c1bd9db_b7018e01",
+      "revId": "2a45ccfa7e1dcb2ec3e0187cec03ba17cf6793b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fce72260_751dd4ad",
         "filename": "polygerrit-ui/app/services/gr-auth_test.js",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "2a45ccfa7e1dcb2ec3e0187cec03ba17cf6793b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0947a5e9_1b73c10a",
+        "filename": "polygerrit-ui/app/services/gr-auth_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-21T13:06:45Z",
+      "side": 1,
+      "message": "No, we set appContext in common-test-setup.",
+      "parentUuid": "fce72260_751dd4ad",
+      "revId": "2a45ccfa7e1dcb2ec3e0187cec03ba17cf6793b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -120,6 +120,24 @@
       "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2d38dabf_88a83e58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-21T13:43:38Z",
+      "side": 1,
+      "message": "Well, this change on stable-2.16 will be merged up to master. So, it doesn\u0027t matter if we still use stable-2.16 or not.\n\nIn any case, I\u0027ve talked with the others and we have decided that the issue is critical enough that we can live with this minor version skew until we internally catch up to this newer version.",
+      "parentUuid": "8b987c50_af8fdbb0",
+      "revId": "d09020c723ac895931cdb126529a32de8ba3de5c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

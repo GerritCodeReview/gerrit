@@ -539,6 +539,10 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
           type: Number,
           value: null,
         },
+        _shortcut_v_key_last_pressed: {
+          type: Number,
+          value: null,
+        },
         _shortcut_go_table: {
           type: Array,
           value() {
@@ -686,6 +690,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
     }
 
     _handleVKeyDown(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) return;
       this._shortcut_v_key_last_pressed = Date.now();
     }
 
@@ -713,6 +718,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(superClass => {
     }
 
     _handleGoKeyDown(e) {
+      if (this.shouldSuppressKeyboardShortcut(e)) return;
       this._shortcut_go_key_last_pressed = Date.now();
     }
 

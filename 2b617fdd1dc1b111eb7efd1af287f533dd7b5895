@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2223961b_59168855",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 564,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-21T10:41:07Z",
+      "side": 1,
+      "message": "The bug was originally introduced by this code. Could you please remove it? modifierPressed is called in many places and other code might not expect these additional checks.",
+      "range": {
+        "startLine": 564,
+        "startChar": 7,
+        "endLine": 564,
+        "endChar": 54
+      },
+      "revId": "2b617fdd1dc1b111eb7efd1af287f533dd7b5895",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,251 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "320af895_279e6b35",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc that explains what this caches and why\n\nAlso missing JavaDoc for the get method.",
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "665c0d7f_e0ea639b",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "It\u0027s not common for a cache to return an API object (an *Info object). I would rather return an internal data type here and convert that later - e.g. an AutoValue.",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd3c9f0_576d48ef",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "Do we need the entire comment? That has a lot of fields, so potential for confusion as to what fields matter for this cache to produce a result.\n\nCould we accept only the comment UUID instead?",
+      "range": {
+        "startLine": 25,
+        "startChar": 80,
+        "endLine": 25,
+        "endChar": 91
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5308199d_f50e8751",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "This is problematic, because LabeledContextLineInfo is a mutable data type. Caching mutable objects means that different threads access the same same object. Worst case, they also modify it which leads to data races. In the end, we can only be sure that this is not happening if we cache immutable objects.\n\nIf you follow my earlier recommendation and use an AutoValue here that holds only primitive types or other immutable objects, we should be good.\n\nYou can choose to either make your AutoValue already contain a list of contexts OR cache an ImmutableList here. I\u0027d go for the former.",
+      "range": {
+        "startLine": 54,
+        "startChar": 60,
+        "endLine": 54,
+        "endChar": 82
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2132b5c3_c3929695",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "Key and Value are missing a serializer test that tests round-trip (de)serialization",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b54d02cf_4722da0a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "This should be the public API surface :-)",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 78
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "008ffd97_688996c1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "In your earlier change I commented on how what you have in commentContextUtil should go into CommentJson. Having this cache and it\u0027s loader changes the perspective of this a bit:\n\nThe logic to load context lines from a repo can easily be put here. Here we produce an AutoValue that we cache. In CommentJson, there is logic to turn that AutoValue into a LabelCommentContextInfo.\n\nI would not call any API endpoints here because we are not a lower layer (caches are part of lower-level server infrastructure). So I\u0027d also not rely on BinaryContent or the logic that creates it. Instead, just open the repo and load the file.",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 93
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3477ae7d_7e57f817",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "nit: just \"project\" (I think that\u0027s consistent with the rest of the names here)",
+      "range": {
+        "startLine": 362,
+        "startChar": 16,
+        "endLine": 362,
+        "endChar": 20
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c7ff52c_c0fbcc0a",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "patch_set_id",
+      "range": {
+        "startLine": 363,
+        "startChar": 9,
+        "endLine": 363,
+        "endChar": 11
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8d401bb_77c70f86",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "nit: uuid",
+      "range": {
+        "startLine": 364,
+        "startChar": 17,
+        "endLine": 364,
+        "endChar": 19
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c37a7028_3f48bb85",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T13:11:40Z",
+      "side": 1,
+      "message": "nit: comment what hasher is used.",
+      "range": {
+        "startLine": 365,
+        "startChar": 22,
+        "endLine": 365,
+        "endChar": 23
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

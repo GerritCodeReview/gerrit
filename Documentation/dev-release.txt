@@ -108,6 +108,7 @@ Tag the plugins:
 +
 ----
   bazel build release Documentation:searchfree
+  ./tools/maven/api.sh war_install
   ./tools/maven/api.sh install
 ----
 

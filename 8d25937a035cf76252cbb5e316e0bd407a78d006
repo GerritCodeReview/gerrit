@@ -34,6 +34,24 @@
       "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb4cb1fc_0f528832",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-21T22:42:54Z",
+      "side": 1,
+      "message": "\u003e Are you using the script: release-announcement.py from repository?\n\u003e \n\u003e   gerrit-release-tools\n\u003e \n\u003e to generate announcement mail?\n\nI see now what you meant by \"release note generation script\". I do not use the tool, because the message it is at times different, specifically when it includes important security fixes that are worth mentioning also in the announcement.\n\n\u003e Without installing the release.war in local Maven repository it was failing here:\n\u003e \n\u003e   Could not find war file for Gerrit \"foo\" in local Maven repository\n\u003e \n\u003e See the code:\n\u003e \n\u003e   war \u003d os.path.join(\n\u003e         os.path.expanduser(\"~/.m2/repository/com/google/gerrit/gerrit-war/\"),\n\u003e         \"%(version)s/gerrit-war-%(version)s.war\" % data,\n\u003e     )\n\u003e     if not os.path.isfile(war):\n\u003e         print(\n\u003e             \"Could not find war file for Gerrit %s in local Maven repository\"\n\u003e             % data[\"version\"],\n\u003e             file\u003dsys.stderr,\n\u003e         )\n\u003e         sys.exit(1)\n\u003e \n\u003e How it worked for you?\n\nI did not use the tool: the release announcement needs manual signing, message tweaking anyway, so it can\u0027t be fully automated.\n\nI know DavidP was using it, so it is possible a question for him?\nThanks for clarifying it.",
+      "parentUuid": "2c63940d_185b16fc",
+      "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,24 @@
       "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff011456_027a31ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-21T07:20:06Z",
+      "side": 1,
+      "message": "The position of thi new entry was chosen as it is, since it makes sense to put it next to other metrics (content length).\nWe introduced it into our internal fork and forgot to share this change. Since we are still on 2.16, I ported it over to stable-2.16. However, I agree that might not be the best branch. Should I rebase it on master? I would then also add the documentation.",
+      "parentUuid": "49ac9c1a_1757a9a4",
+      "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

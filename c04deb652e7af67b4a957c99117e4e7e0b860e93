@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "84cda242_c5eaa23f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-21T19:09:38Z",
+      "side": 1,
+      "message": "LC is needed because of the conflict in WORKSPACE file.",
+      "revId": "c04deb652e7af67b4a957c99117e4e7e0b860e93",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

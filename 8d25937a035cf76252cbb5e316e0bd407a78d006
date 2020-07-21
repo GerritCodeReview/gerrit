@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bf5f82c9_f99b3842",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-21T22:34:12Z",
+      "side": 1,
+      "message": "I don\u0027t have this command in the release script, and I have been releasing with it for a few years :-O\n\nSee https://gerrit.googlesource.com/gerrit-ci-scripts/+/refs/heads/master/jenkins-docker/slave-release/gerrit-release.sh#46\n\nWhat have I missed?\nI believe deploying to Maven Central was enough?",
+      "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

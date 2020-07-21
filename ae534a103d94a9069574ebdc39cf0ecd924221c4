@@ -100,6 +100,24 @@
     },
     {
       "key": {
+        "uuid": "6ce51c9e_5a79dbea",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-21T13:17:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90d0c5bb_04ca6dad",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "068034da_ae2440ef",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 47
@@ -114,6 +132,24 @@
       "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df47725b_98aaf1bd",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 1398,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-21T13:17:47Z",
+      "side": 1,
+      "message": "Yeah I added it for consistency since I added fileLink and therefore commentLink.",
+      "parentUuid": "068034da_ae2440ef",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

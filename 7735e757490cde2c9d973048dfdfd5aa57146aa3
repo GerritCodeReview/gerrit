@@ -273,6 +273,54 @@
     },
     {
       "key": {
+        "uuid": "884cc58c_6f042bec",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-21T10:42:54Z",
+      "side": 1,
+      "message": "Yeah, for now having patchNum in the url allows for not having to ask for it before paramsChanged in diffView.\nAdded a TODO as discussed to track removal of patchNUm and path from Url.",
+      "parentUuid": "a39008bc_8bffd792",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "981f9798_cf4cdf1a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-21T10:42:54Z",
+      "side": 1,
+      "message": "Discussed with Dmitrii offline.\n\nWe both agreed on /c/\u003cproject\u003e/+/\u003cchangeNum\u003e/comment/\u003ccommentId\u003e/\u003cpatchNum\u003e/\u003cpath\u003e/\n\nUpdated.",
+      "parentUuid": "5b4e4a96_9d4a928c",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 58
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eed2e381_43fe7d7b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 16

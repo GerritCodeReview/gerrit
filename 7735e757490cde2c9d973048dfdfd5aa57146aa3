@@ -345,6 +345,30 @@
     },
     {
       "key": {
+        "uuid": "13970ca4_55a4cf90",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-21T15:19:18Z",
+      "side": 1,
+      "message": "We discussed it with Dhruv offline and decided to write a TODO, because efforts is unclear and it can affect performance (additional research is required).\nIt is possible to make the last parts (/patchNum/path) optional in the future without breaking existing links.",
+      "parentUuid": "6dfc694d_68f7bc77",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "eed2e381_43fe7d7b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 16

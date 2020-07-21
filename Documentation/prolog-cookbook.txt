@@ -951,40 +951,40 @@ sum_list([X|T], Y, S) :- Z is X + Y, sum_list(T, Z, S).
 sum_list([], S, S).
 ----
 
-=== Example 14: Master and apprentice
-The master and apprentice example allow you to specify a user (the `master`)
-that must approve all changes done by another user (the `apprentice`).
+=== Example 14: Mentor and Mentee
+The mentor and mentee example allow you to specify a user (the `mentor`)
+that must approve all changes done by another user (the `mentee`).
 
 The code first checks if the commit author is in the apprentice database.
-If the commit is done by an `apprentice`, it will check if there is a `+2`
-review by the associated `master`.
+If the commit is done by a `mentee`, it will check if there is a `+2`
+review by the associated `mentor`.
 
 `rules.pl`
 [source,prolog]
 ----
-% master_apprentice(Master, Apprentice).
-% Extend this with appropriate user-id for your master/apprentice setup.
-master_apprentice(user(1000064), user(1000000)).
+% mentor_mentee(Mentor, Mentee).
+% Extend this with appropriate user-id for your mentor/mentee setup.
+mentor_mentee(user(1000064), user(1000000)).
 
 submit_rule(S) :-
     gerrit:default_submit(In),
     In =.. [submit | Ls],
-    add_apprentice_master(Ls, R),
+    add_mentee_mentor(Ls, R),
     S =.. [submit | R].
 
-check_master_approval(S1, S2, Master) :-
+check_mentor_approval(S1, S2, Mentor) :-
     gerrit:commit_label(label('Code-Review', 2), R),
-    R = Master, !,
-    S2 = [label('Master-Approval', ok(R)) | S1].
-check_master_approval(S1, [label('Master-Approval', need(_)) | S1], _).
+    R = Mentor, !,
+    S2 = [label('Mentor-Approval', ok(R)) | S1].
+check_mentor_approval(S1, [label('Mentor-Approval', need(_)) | S1], _).
 
-add_apprentice_master(S1, S2) :-
+add_mentee_mentor(S1, S2) :-
     gerrit:commit_author(Id),
-    master_apprentice(Master, Id),
+    mentor_mentee(Mentor, Id),
     !,
-    check_master_approval(S1, S2, Master).
+    check_mentor_approval(S1, S2, Mentor).
 
-add_apprentice_master(S, S).
+add_mentee_mentor(S, S).
 ----
 
 === Example 15: Make change submittable if all comments have been resolved

@@ -106,6 +106,24 @@
       "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "590175f7_06cea162",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-21T10:10:49Z",
+      "side": 1,
+      "message": "The root cause is actually a recent change on our end which caused the issue with `eventEmitter` is null, @milutin is fixing that, I will abandon this change after that. The cors blocking requests will fall into the same category as other exceptions on the auth-check call and prompt the right toast to refresh credentials.",
+      "parentUuid": "d1cf0f0c_b86441cb",
+      "revId": "c30ccdc5a01a36a46fed700c600c1e59c46dd7c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -407,6 +407,23 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "83fd6586_67c21857",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T07:54:02Z",
+      "side": 1,
+      "message": "I met with Ben and Edwin this morning to discuss how we can give this discussion enough room, so that all opinions are factored in and we choose the best path forward that strikes a balance.\n\nWe are on a tight schedule for attention set. To get out of this situation and allow for more discussions to happen, our proposal is to go with an interim solution that would allow us to roll out attention set to a handful of more dogfood hosts on googlesource.com.\n\nThe interim solution is to check group membership in “Non-Interactive Users” to gate if a user can be added to the attention set. The migration burden to get off the interim solution is on us.\n\nWe would like to schedule a meeting with everyone who has an interest in the topic next week to discuss. To us, a meeting looks like a better forum to discuss descending opinions and retain a constructive and positive atmosphere while at the same time coming to a conclusion in a timely manner rather than roundtrips with many people, discussing various issues interleaved that become hard to follow.\n\nWould that work for you?",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

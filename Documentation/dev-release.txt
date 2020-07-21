@@ -108,13 +108,14 @@ Tag the plugins:
 +
 ----
   bazel build release Documentation:searchfree
+  ./tools/maven/api.sh war_install
   ./tools/maven/api.sh install
 ----
 
 * Verify the WAR version:
 +
 ----
-  java -jar ~/dl/gerrit-$version.war --version
+  java -jar bazel-bin/release.war --version
 ----
 * Try upgrading a test site and launching the daemon
 

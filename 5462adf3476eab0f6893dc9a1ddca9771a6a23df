@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d771c0d3_58a7425d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 359,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-21T18:22:11Z",
+      "side": 1,
+      "message": "Add test for visual elements, i.e.\n1) Save button remains visible after the fail and is hidden after saving (you can use the isVisible function from this file)\n2) draftLabel contains correct text after fail and after success",
+      "range": {
+        "startLine": 359,
+        "startChar": 10,
+        "endLine": 359,
+        "endChar": 35
+      },
+      "revId": "5462adf3476eab0f6893dc9a1ddca9771a6a23df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

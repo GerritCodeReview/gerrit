@@ -88,6 +88,24 @@
       "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f799a659_91370772",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-21T22:53:39Z",
+      "side": 1,
+      "message": "Thanks for the fix, will try to use it next time :-)",
+      "parentUuid": "5c176cc6_3e045c12",
+      "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

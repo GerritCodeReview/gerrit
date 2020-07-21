@@ -271,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "5348adb8_45393973",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-21T16:36:07Z",
+      "side": 1,
+      "message": "Nasser:\n\"\"\"Yes. Further, account.isRobot() could be dynamic or configurable too, you\u0027re just assuming it isn\u0027t.\"\"\"\n\nThat would be the premise of the design, otherwise the whole proposal wouldn\u0027t be different from adding accounts to groups.\n\nLike Ben summarized, ISTM this discussion is at a point where we have \"flexibility and complexity\" vs. \"rigidity and simplicity\". Maybe we should have a basic, binding agreement on the direction in which we want Gerrit to develop. That seems to be a prerequisite for a meaningful evaluation of any design.",
+      "parentUuid": "4535cc2b_16fe57eb",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "23bfebdb_83de136b",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6

@@ -52,6 +52,24 @@
       "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "225a56c5_33c9de2c",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-21T22:49:01Z",
+      "side": 1,
+      "message": "\u003e I did not use the tool: the release announcement needs manual signing, message tweaking anyway, so it can\u0027t be fully automated.\n\nIt is all supported with --summary option. See the announcement 2.16.22 that I have just posted in the mailing list, it includes this summary section: \n\n  This release includes security fix for the Issue 12846 (500: Response header too large).\n  See also related CVE-2019-17638: https://nvd.nist.gov/vuln/detail/CVE-2019-17638.\n\nAlso note, that dev-release.txt document is explicitly mentioning to use that tool:\n\n  Send an email to the mailing list to announce the release. The content of the\n  announcement email is generated with the `release-announcement.py` script from\n  the gerrit-release-tools repository, which automatically includes all the\n  necessary links, hash values, and wraps the text in a PGP signature.",
+      "parentUuid": "fb4cb1fc_0f528832",
+      "revId": "8d25937a035cf76252cbb5e316e0bd407a78d006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

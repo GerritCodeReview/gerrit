@@ -15,22 +15,22 @@
  * limitations under the License.
  */
 
-import '../../../test/common-test-setup-karma.js';
-import {Auth, authService} from './gr-auth.js';
-import {appContext} from '../../../services/app-context.js';
-import {stubBaseUrl} from '../../../test/test-utils.js';
+import '../test/common-test-setup-karma.js';
+import {Auth} from './gr-auth.js';
+import {appContext} from './app-context.js';
+import {stubBaseUrl} from '../test/test-utils.js';
 
 suite('gr-auth', () => {
   let auth;
 
   setup(() => {
-    auth = authService;
+    auth = appContext.authService;
   });
 
   suite('Auth class methods', () => {
     let fakeFetch;
     setup(() => {
-      auth = new Auth();
+      auth = new Auth(appContext.eventEmitter);
       fakeFetch = sinon.stub(window, 'fetch');
     });
 
@@ -75,7 +75,7 @@ suite('gr-auth', () => {
     let fakeFetch;
     let clock;
     setup(() => {
-      auth = new Auth();
+      auth = new Auth(appContext.eventEmitter);
       clock = sinon.useFakeTimers();
       fakeFetch = sinon.stub(window, 'fetch');
     });

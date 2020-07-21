@@ -31,6 +31,20 @@ class MockFlagsService {
   }
 }
 
+class MockAuthService {
+  clearCache() {
+
+  }
+
+  get isAuthed() {
+    return false;
+  }
+
+  authCheck() {
+    return false;
+  }
+}
+
 // Setup mocks for appContext.
 // This is a temporary solution
 // TODO(dmfilippov): find a better solution for gr-diff
@@ -44,4 +58,5 @@ export function initDiffAppContext() {
   }
   setMock('flagsService', new MockFlagsService);
   setMock('reportingService', grReportingMock);
+  setMock('authService', new MockAuthService);
 }

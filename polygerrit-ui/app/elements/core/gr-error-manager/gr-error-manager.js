@@ -26,7 +26,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-error-manager_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
-import {authService} from '../../shared/gr-rest-api-interface/gr-auth.js';
 import {appContext} from '../../../services/app-context.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
@@ -98,7 +97,7 @@ class GrErrorManager extends GestureEventListeners(
     super();
 
     /** @type {!Auth} */
-    this._authService = authService;
+    this._authService = appContext.authService;
 
     /** @type {?Function} */
     this._authErrorHandlerDeregistrationHook;

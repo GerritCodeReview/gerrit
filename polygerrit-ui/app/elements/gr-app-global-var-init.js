@@ -49,7 +49,6 @@ import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-coun
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {util} from '../scripts/util.js';
 import page from 'page/page.mjs';
-import {Auth} from './shared/gr-rest-api-interface/gr-auth.js';
 import {appContext} from '../services/app-context.js';
 import {GrAdminApi} from './plugins/gr-admin-api/gr-admin-api.js';
 import {GrAnnotationActionsContext} from './shared/gr-js-api-interface/gr-annotation-actions-context.js';
@@ -109,7 +108,7 @@ export function initGlobalVariables() {
   window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
   window.util = util;
   window.page = page;
-  window.Auth = Auth;
+  window.Auth = appContext.authService;
   window.EventEmitter = appContext.eventEmitter;
   window.GrAdminApi = GrAdminApi;
   window.GrAnnotationActionsContext = GrAnnotationActionsContext;
@@ -137,6 +136,7 @@ export function initGlobalVariables() {
   window.Gerrit = window.Gerrit || {};
   window.Gerrit.Nav = GerritNav;
   window.Gerrit.getRootElement = getRootElement;
+  window.Gerrit.Auth = appContext.authService;
 
   window.Gerrit._pluginLoader = pluginLoader;
   window.Gerrit._endpoints = pluginEndpoints;

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d3a5542_64b5139a",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:58:17Z",
+      "side": 1,
+      "message": "I would make this it\u0027s own function so that we are sure we always hash the path with the same function.\n\nThat said, hashing a comment path is only needed within the context cache, right? We could then hide this from the outside completely and hash/match only within the cache.\n\nThe API surface of this method is not straightforward because the caller might not know what \"hashedPath\" is and how one could produce it.",
+      "range": {
+        "startLine": 189,
+        "startChar": 24,
+        "endLine": 189,
+        "endChar": 91
+      },
+      "revId": "b0d8b0fbd55f8049afe05fee007d719fcc12706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

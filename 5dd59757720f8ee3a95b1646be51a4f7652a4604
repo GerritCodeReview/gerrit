@@ -1,0 +1,320 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "debe4883_93d182e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "are\n\n(this commit makes that so and thus present tense is a better fit compared to future)\n\nhere and below",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b39f963_832dab26",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "Can we just add the enableContext argument to the existing API methods.\n\nIt\u0027s a breaking change, *but* one that any caller can fix very fast if you document that the old behavior is enableContext \u003d false.\n\nThis would help us to keep the API surface smaller which makes it easier to maintain.",
+      "range": {
+        "startLine": 349,
+        "startChar": 42,
+        "endLine": 349,
+        "endChar": 63
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "acdadeb6_49a1f3c0",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "missing .",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 12
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "924bfdbc_82c919d9",
+        "filename": "java/com/google/gerrit/extensions/common/LabeledContextLineInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "nit: missing JavaDoc",
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23e4355b_5e1786e4",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "I think this logic should just move into CommentJson\n\nUtil classes have the problem of being very generic (almost everything can be moved into a util). But having dozens of utils in the code base makes it hard to navigate around.",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d8b96c5_61d2b2c4",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "Spare the null state by using Optional\u003cProjectState\u003e and then isPresent/get",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8292b520_d3cef7f3",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "nit: easier to read as early return\n\nif (Path.isMagic) {\n  return;\n}\n...",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4030edd4_92e5d428",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "optional: When you use an AutoValue here you can spare the local assignment if you use a for loop\n\nfor (int i \u003d range.start(); i\u003c\u003drange.end(); i++)",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b3647d_687ca943",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "This is a specialized return type for the /content API. We might want to read the content directly from the repo here and then use that in your new cache.",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b47d228_6601c56c",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "Representing an tuple or a pair as a list makes the code hard to read and gets you into trouble potentially. What if there is 0 elements or 3?\n\nIt\u0027s always better to represent such strcutured data as an object. AutoValues are usually a good fit for an intermediate result that passes some sort of API boundary.\n\ne.g.\n@AutoValue\nabstract Range {\n  abstract start()\n  abstract end()\n  Range create() {\n  checkState(start\u003cend);\n  return new AutoValue_Range(start, end);\n }\n}",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 32
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f8bb411_7066df66",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we add more lines here than just the lines the comment was made on? (e.g. +/-5?)",
+      "range": {
+        "startLine": 78,
+        "startChar": 5,
+        "endLine": 82,
+        "endChar": 29
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8fd3ee2_70e65525",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "This class is a singleton, so it must not contain per-instance members. That would make it so that data from one requests leaks into another.\n\nLet\u0027s say two requests come in close to each other. One sets includeContext to true, the other to false and both start processing. Now we\u0027d have a race where the output depends on the order or requests.\n\nIf we use GET options like this, we have to remove the @Singleton annotation.",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9071f75_c07406ef",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "Please see my earlier comment. I think it\u0027d be nicer if the context was inlined in comment formatter (comment JSON) using a formatting option (setFillContext, just like we have setFillAccounts).",
+      "range": {
+        "startLine": 98,
+        "startChar": 68,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e3e211b_721825a6",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-21T12:55:20Z",
+      "side": 1,
+      "message": "This should also be done in CommentJSON",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

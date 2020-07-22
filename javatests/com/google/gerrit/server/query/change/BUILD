@@ -22,6 +22,7 @@ java_library(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/httpd",
         "//java/com/google/gerrit/index",
         "//java/com/google/gerrit/index:query_exception",
         "//java/com/google/gerrit/lifecycle",

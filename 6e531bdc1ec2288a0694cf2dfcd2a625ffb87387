@@ -51,6 +51,24 @@
       "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e765e896_79ca84e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-22T23:35:46Z",
+      "side": 1,
+      "message": "This should be rather raised a bug: the latency was present in the column format and not in the JSON format.\n\n@Thomas can you raise one and link as \u0027Bug: Issue NNN\u0027 footer?",
+      "parentUuid": "5070f249_a12df781",
+      "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

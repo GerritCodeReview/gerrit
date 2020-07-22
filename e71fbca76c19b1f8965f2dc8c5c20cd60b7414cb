@@ -188,6 +188,30 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce0ca2d4_97cb7d34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:35:34Z",
+      "side": 1,
+      "message": "1. leave two drafts\n2. open reply dialog\n3. edit both\n4. save on one, name it as A\n5. wait\n6. both are back to non-edit mode and only A has the edits saved",
+      "parentUuid": "0bf7688a_322e869a",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "e443c63702a228d94abc3f67a06d03932d12946b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84efc85e_a640532a",
+        "filename": "polygerrit-ui/app/polylint_test.sh",
+        "patchSetId": 5
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-22T12:37:30Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c989b3a1_ad566f6e",
+      "revId": "e443c63702a228d94abc3f67a06d03932d12946b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

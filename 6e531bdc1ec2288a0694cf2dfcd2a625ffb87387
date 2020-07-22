@@ -16,6 +16,24 @@
       "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95715298_92d55a7f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-07-22T07:58:39Z",
+      "side": 1,
+      "message": "forget my last comment about position of the new log entry, since this is json which typically is parsed using a generic json parser the position of the new entry shouldn\u0027t harm existing parsers",
+      "parentUuid": "1fdb6640_08062d3d",
+      "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

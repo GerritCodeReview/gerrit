@@ -413,6 +413,10 @@ class GrChangeView extends KeyboardShortcutMixin(
         type: Boolean,
         value: false,
       },
+      _currentlyEditingDrafts: {
+        type: Object,
+        value: {},
+      },
     };
   }
 
@@ -479,6 +483,9 @@ class GrChangeView extends KeyboardShortcutMixin(
 
     this.addEventListener('open-reply-dialog',
         e => this._openReplyDialog());
+
+    this.addEventListener('editing-draft-changed',
+        e => this._handleEditingDraftChanged(e));
   }
 
   /** @override */
@@ -862,7 +869,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   _handleCommentSave(e) {
     const draft = e.detail.comment;
     if (!draft.__draft) { return; }
-
+    this._currentlyEditingDrafts[draft.__draftID] = false;
     draft.patch_set = draft.patch_set || this._patchRange.patchNum;
 
     // The use of path-based notification helpers (set, push) can’t be used
@@ -891,10 +898,14 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._diffDrafts = diffDrafts;
   }
 
+  _handleEditingDraftChanged(e) {
+    const {draftID, editing} = e.detail;
+    this._currentlyEditingDrafts[draftID] = editing;
+  }
+
   _handleCommentDiscard(e) {
     const draft = e.detail.comment;
     if (!draft.__draft) { return; }
-
     if (!this._diffDrafts[draft.path]) {
       return;
     }
@@ -1585,6 +1596,20 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleReloadChange() {
+    if (Object.values(this._currentlyEditingDrafts).includes(true)) {
+      // user has a currently editing draft, so show a warning before reloading
+      this.dispatchEvent(new CustomEvent('show-alert', {
+        detail: {
+          message: 'You have unsaved drafts. Are you sure you want to reload?',
+          action: 'Reload',
+          callback: () => {
+            this.this._reload();
+          },
+        },
+        composed: true, bubbles: true,
+      }));
+      return;
+    }
     return this._reload();
   }
 

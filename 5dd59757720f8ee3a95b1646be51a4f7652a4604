@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "706981de_9534fd2c",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 349,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "I agree. Thanks for the tip. Done.\n\nNote: I just didn\u0027t want to modify existing callers. I modified them; they are very few and are just used for testing.",
+      "parentUuid": "5b39f963_832dab26",
+      "range": {
+        "startLine": 349,
+        "startChar": 42,
+        "endLine": 349,
+        "endChar": 63
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "acdadeb6_49a1f3c0",
         "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
         "patchSetId": 4
@@ -71,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "5911efea_489b3fe7",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "acdadeb6_49a1f3c0",
+      "range": {
+        "startLine": 29,
+        "startChar": 11,
+        "endLine": 29,
+        "endChar": 12
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "924bfdbc_82c919d9",
         "filename": "java/com/google/gerrit/extensions/common/LabeledContextLineInfo.java",
         "patchSetId": 4
@@ -85,6 +133,24 @@
       "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517e3972_1a32a908",
+        "filename": "java/com/google/gerrit/extensions/common/LabeledContextLineInfo.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "924bfdbc_82c919d9",
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "5cfe787d_03eb1bb9",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23e4355b_5e1786e4",
+      "range": {
+        "startLine": 36,
+        "startChar": 0,
+        "endLine": 36,
+        "endChar": 33
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d8b96c5_61d2b2c4",
         "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
         "patchSetId": 4
@@ -131,6 +221,30 @@
       "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00a47a41_968f7017",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d8b96c5_61d2b2c4",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 16
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +271,30 @@
     },
     {
       "key": {
+        "uuid": "4a6f796e_ff35a495",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8292b520_d3cef7f3",
+      "range": {
+        "startLine": 52,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 5
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4030edd4_92e5d428",
         "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
         "patchSetId": 4
@@ -177,6 +315,30 @@
       "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68dd9635_bc98f0be",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4030edd4_92e5d428",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 36
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +365,30 @@
     },
     {
       "key": {
+        "uuid": "9782a0a2_a730b49d",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84b3647d_687ca943",
+      "range": {
+        "startLine": 68,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 16
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4b47d228_6601c56c",
         "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
         "patchSetId": 4
@@ -223,6 +409,30 @@
       "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40fd3ddc_c627cf5c",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b47d228_6601c56c",
+      "range": {
+        "startLine": 74,
+        "startChar": 10,
+        "endLine": 74,
+        "endChar": 32
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "8139fc14_f4bf2a43",
+        "filename": "java/com/google/gerrit/server/CommentContextUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Yes this is true. In this change, I would keep the context lines to exactly the lines highlighted by the user when the comment was written. In a later change, the \"enable-context\" parameter will be changed to an integer parameter. This is because I preferred to keep this logic in a separate change.\n\nI also mentioned this in the commit message.",
+      "parentUuid": "2f8bb411_7066df66",
+      "range": {
+        "startLine": 78,
+        "startChar": 5,
+        "endLine": 82,
+        "endChar": 29
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b8fd3ee2_70e65525",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 4
@@ -269,6 +503,30 @@
       "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b03b94cc_859f8e14",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Makes sense. I encountered this problem while testing, so I had to explicitly set context to true or false from the change API.\nI removed the singleton annotation, since now each request may have a different value for context (making ListChangeComments stateful).",
+      "parentUuid": "b8fd3ee2_70e65525",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 33
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -295,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "41fba5ee_c96199e7",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Very nice. Thanks for the suggestion.\nDone.",
+      "parentUuid": "b9071f75_c07406ef",
+      "range": {
+        "startLine": 98,
+        "startChar": 68,
+        "endLine": 100,
+        "endChar": 59
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e3e211b_721825a6",
         "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
         "patchSetId": 4
@@ -315,6 +597,30 @@
       "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e13ddbb_96a8d0d0",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListChangeComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:00:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3e3e211b_721825a6",
+      "range": {
+        "startLine": 118,
+        "startChar": 0,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -67,6 +67,8 @@ class GerritSimulation extends Simulation {
     case ("number", number) =>
       val precedes = replaceKeyWith("_number", 0, number.toString)
       replaceProperty("number", 1, precedes)
+    case ("parent", parent) =>
+      replaceProperty("parent", "parent", parent.toString)
     case ("project", project) =>
       var precedes = replaceKeyWith("_project", name, project.toString)
       precedes = replaceOverride(precedes)

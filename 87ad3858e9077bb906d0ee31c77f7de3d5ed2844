@@ -16,6 +16,24 @@
       "revId": "87ad3858e9077bb906d0ee31c77f7de3d5ed2844",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a8c42a0_879e8133",
+        "filename": "Documentation/cmd-sequence-set.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-22T06:39:19Z",
+      "side": 1,
+      "message": "Fixed in: [1].\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/276241",
+      "parentUuid": "91d7537e_61367d34",
+      "revId": "87ad3858e9077bb906d0ee31c77f7de3d5ed2844",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -83,7 +83,7 @@ class GrFormattedText extends GestureEventListeners(
 
     // Add new content.
     for (const node of this._computeNodes(this._computeBlocks(content))) {
-      container.appendChild(node);
+      if (node) container.appendChild(node);
     }
   }
 
@@ -276,7 +276,7 @@ class GrFormattedText extends GestureEventListeners(
       if (block.type === 'quote') {
         const bq = document.createElement('blockquote');
         for (const node of this._computeNodes(block.blocks)) {
-          bq.appendChild(node);
+          if (node) bq.appendChild(node);
         }
         return bq;
       }
@@ -300,6 +300,9 @@ class GrFormattedText extends GestureEventListeners(
         }
         return ul;
       }
+
+      console.warn('Unrecognized type.');
+      return;
     });
   }
 }

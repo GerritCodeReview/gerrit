@@ -63,9 +63,8 @@ class GrSshEditor extends GestureEventListeners(
   }
 
   save() {
-    const promises = this._keysToRemove.map(key => {
-      this.$.restAPI.deleteAccountSSHKey(key.seq);
-    });
+    const promises = this._keysToRemove
+        .map(key => this.$.restAPI.deleteAccountSSHKey(key.seq));
 
     return Promise.all(promises).then(() => {
       this._keysToRemove = [];

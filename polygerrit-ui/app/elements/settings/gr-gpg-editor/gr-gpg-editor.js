@@ -72,9 +72,8 @@ class GrGpgEditor extends GestureEventListeners(
   }
 
   save() {
-    const promises = this._keysToRemove.map(key => {
-      this.$.restAPI.deleteAccountGPGKey(key.id);
-    });
+    const promises = this._keysToRemove
+        .map(key => this.$.restAPI.deleteAccountGPGKey(key.id));
 
     return Promise.all(promises).then(() => {
       this._keysToRemove = [];

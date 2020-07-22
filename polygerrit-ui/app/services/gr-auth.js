@@ -158,6 +158,7 @@ export class Auth {
         result = c.substring(key.length);
         return true;
       }
+      return false;
     });
     return result;
   }

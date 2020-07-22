@@ -22,6 +22,52 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a688cb0b_67f05f23",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T15:00:51Z",
+      "side": 1,
+      "message": "Should it be\nthis.set(\u0027comment.message\u0027, this._messageText);\n?\n(see line 385 in this file)",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 49
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e94ff140_eb3b81de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T15:00:51Z",
+      "side": 1,
+      "message": "I don\u0027t understand this part.\nIf gr-comment remains in editing mode, why do you set comment.message explicitly? I suppose that when user click save the _messageText is copied to comment.message anyway. And if user click discard - we should restore original message (from the comment.message).",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

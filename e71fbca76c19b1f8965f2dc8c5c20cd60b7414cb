@@ -402,6 +402,30 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4ee3090_d71902e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T17:34:12Z",
+      "side": 1,
+      "message": "actually, if move the logic to _commentMessageChanged, i will lose the ability to override the message even in editing mode when somehow the upcoming comment has a different message, it should rarely happen, but seems possible.",
+      "parentUuid": "128987d7_52955d4f",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

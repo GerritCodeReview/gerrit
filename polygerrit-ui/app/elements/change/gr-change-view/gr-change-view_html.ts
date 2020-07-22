@@ -409,7 +409,6 @@ export const htmlTemplate = html`
             edit-mode="[[_editMode]]"
             edit-based-on-current-patch-set="[[_hasEditBasedOnCurrentPatchSet(_allPatchSets)]]"
             private-by-default="[[_projectConfig.private_by_default]]"
-            on-reload-change="_handleReloadChange"
             on-edit-tap="_handleEditTap"
             on-stop-edit-tap="_handleStopEditTap"
             on-download-tap="_handleOpenDownloadDialog"

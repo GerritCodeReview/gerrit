@@ -69,6 +69,24 @@
       "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e04b4ac_5e7db58c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T13:22:40Z",
+      "side": 1,
+      "message": "we actually set tabindex as 0 when the hovercard shows up from the code:\n\n```\n\n    // Mark that the hovercard is now visible\n    this._isShowing \u003d true;\n    this.setAttribute(\u0027tabindex\u0027, 0);\n\n    // Add it to the DOM and calculate its position\n    this.container.appendChild(this);\n```\n\ntho I am fine to remove it, I guess its also fine to keep it and use `outline` for now.",
+      "parentUuid": "591824bf_b8254f8b",
+      "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

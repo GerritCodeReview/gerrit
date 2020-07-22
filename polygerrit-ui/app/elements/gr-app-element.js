@@ -575,13 +575,13 @@ class GrAppElement extends KeyboardShortcutMixin(
 
   _logWelcome() {
     console.group('Runtime Info');
-    console.log('Gerrit UI (PolyGerrit)');
-    console.log(`Gerrit Server Version: ${this._version}`);
+    console.info('Gerrit UI (PolyGerrit)');
+    console.info(`Gerrit Server Version: ${this._version}`);
     if (window.VERSION_INFO) {
-      console.log(`UI Version Info: ${window.VERSION_INFO}`);
+      console.info(`UI Version Info: ${window.VERSION_INFO}`);
     }
     if (this._feedbackUrl) {
-      console.log(`Please file bugs and feedback at: ${this._feedbackUrl}`);
+      console.info(`Please file bugs and feedback at: ${this._feedbackUrl}`);
     }
     console.groupEnd();
   }

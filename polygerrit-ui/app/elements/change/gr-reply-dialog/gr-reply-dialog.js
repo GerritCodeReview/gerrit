@@ -457,7 +457,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     for (const splice of indexSplices) {
       for (const account of splice.removed) {
         if (!this._reviewersPendingRemove[type]) {
-          console.err('Invalid type ' + type + ' for reviewer.');
+          console.error('Invalid type ' + type + ' for reviewer.');
           return;
         }
         this._reviewersPendingRemove[type].push(account);

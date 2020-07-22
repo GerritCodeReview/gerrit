@@ -286,9 +286,9 @@ export class GrReporting {
     if (opt_noLog) { return; }
     if (type !== ERROR.TYPE) {
       if (value !== undefined) {
-        console.log(`Reporting: ${name}: ${value}`);
+        console.info(`Reporting: ${name}: ${value}`);
       } else {
-        console.log(`Reporting: ${name}`);
+        console.info(`Reporting: ${name}`);
       }
     }
   }

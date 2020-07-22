@@ -51,7 +51,7 @@ class MyBindSample extends PolymerElement {
   }
 
   _onRevisionChanged(value) {
-    console.log(`(attributeHelper.bind) revision number: ${value._number}`);
+    console.info(`(attributeHelper.bind) revision number: ${value._number}`);
   }
 }
 

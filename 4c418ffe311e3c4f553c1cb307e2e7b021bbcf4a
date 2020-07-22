@@ -123,6 +123,23 @@
       "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b5357aa5_ce308ae2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-22T07:33:06Z",
+      "side": 1,
+      "message": "Thanks Thomas. Yeah, it\u0027s always a good idea to try to merge something up to master, to realize that this feature was already implemented.",
+      "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

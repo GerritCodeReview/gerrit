@@ -201,7 +201,7 @@ const REPO_TOKEN_PATTERN = /\${(project|repo)}/g;
 // gr-router and gr-app in the PolyGerritIndexHtml.soy file if needed
 const app = document.querySelector('#app');
 if (!app) {
-  console.log('No gr-app found (running tests)');
+  console.info('No gr-app found (running tests)');
 }
 
 // Setup listeners outside of the router component initialization.

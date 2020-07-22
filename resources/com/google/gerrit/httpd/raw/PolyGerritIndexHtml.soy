@@ -30,6 +30,8 @@
   {@param? changeRequestsPath: ?}
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDiffDetailHex: ?}
+  {@param? defaultDashboardHex: ?}
+  {@param? dashboardQuery: ?}
   {@param? preloadChangePage: ?}
   {@param? preloadDiffPage: ?}
   {@param? userIsAuthenticated: ?}
@@ -102,6 +104,9 @@
     {if $userIsAuthenticated}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {/if}
+  {/if}
+  {if $userIsAuthenticated and $defaultDashboardHex and $dashboardQuery}
+    <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0{for $query in $dashboardQuery}&q={$query}{/for}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
   {/if}
 
   {if $useGoogleFonts}

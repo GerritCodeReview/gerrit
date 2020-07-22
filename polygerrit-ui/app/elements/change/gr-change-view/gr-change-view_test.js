@@ -662,6 +662,13 @@ suite('gr-change-view tests', () => {
       });
     });
 
+    test('reload event from reply dialog is processed', () => {
+      const handleReloadStub = sinon.stub(element, '_handleReloadChange');
+      element.$.replyDialog.dispatchEvent(new CustomEvent('reload',
+          {bubbles: true, composed: true}));
+      assert.isTrue(handleReloadStub.called);
+    });
+
     test('shift + R should fetch and navigate to the latest patch set',
         done => {
           element._changeNum = '42';
@@ -681,16 +688,12 @@ suite('gr-change-view tests', () => {
             actions: {},
           };
 
-          navigateToChangeStub.restore();
-          navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange')
-              .callsFake((change, patchNum, basePatchNum) => {
-                assert.equal(change, element._change);
-                assert.isUndefined(patchNum);
-                assert.isUndefined(basePatchNum);
-                done();
-              });
-
+          const reloadChangeStub = sinon.stub(element, '_handleReloadChange');
           MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+          flush(() => {
+            assert.isTrue(reloadChangeStub.called);
+            done();
+          });
         });
 
     test('d should open download overlay', () => {

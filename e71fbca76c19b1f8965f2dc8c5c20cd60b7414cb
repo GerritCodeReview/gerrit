@@ -282,6 +282,30 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f68669e9_b9ae718e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T16:10:42Z",
+      "side": 1,
+      "message": "ya it only happens in thread-list (so in reply dialog, comment tabs, change log). I am not very happy with the method either, thought could improve that after comments in service.\n\n`_commentMessageChanged` won\u0027t work for the `unresolved` part, so if you edit two drafts, and mark one as resolved, and save on the other comment, that comment\u0027s resolved status will be overriden :( that\u0027s why I have it in commentUpdate part, let me take a look on the `cancel` case, its not urgent, I have not seen any reports on this issue before. let me know if you have other ideas.",
+      "parentUuid": "5554ec78_e73611a4",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

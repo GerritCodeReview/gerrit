@@ -164,6 +164,30 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bf7688a_322e869a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T15:32:35Z",
+      "side": 1,
+      "message": "Tried to have multiple comments in editing mode and then click \"Save\" or \"Discard\". Tried several different scenarios and didn\u0027t notice any problem.\nSome steps to reproduce the problem can help a lot.",
+      "parentUuid": "43614da6_54c080da",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

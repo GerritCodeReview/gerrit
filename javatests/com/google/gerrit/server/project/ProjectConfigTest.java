@@ -598,6 +598,27 @@ public class ProjectConfigTest {
   }
 
   @Test
+  public void readCommentLinksNoHtmlOrLinkAndMissingEnabled() throws Exception {
+    RevCommit rev =
+        tr.commit()
+            .add(
+                "project.config",
+                "[commentlink \"bugzilla\"]\n \tlink = http://bugs.example.com/show_bug.cgi?id=$2"
+                    + "\n \tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n")
+            .create();
+    ProjectConfig cfg = read(rev);
+    assertThat(cfg.getCommentLinkSections())
+        .containsExactly(
+            StoredCommentLinkInfo.builder("bugzilla")
+                .setMatch("(bug\\s+#?)(\\d+)")
+                .setLink("http://bugs.example.com/show_bug.cgi?id=$2")
+                .build());
+    StoredCommentLinkInfo stored = Iterables.getOnlyElement(cfg.getCommentLinkSections());
+    assertThat(StoredCommentLinkInfo.fromInfo(stored.toInfo(), stored.getEnabled()))
+        .isEqualTo(stored);
+  }
+
+  @Test
   public void readCommentLinkInvalidPattern() throws Exception {
     RevCommit rev =
         tr.commit()

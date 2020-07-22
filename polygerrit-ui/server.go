@@ -493,7 +493,11 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 var (
 	tsStartingCompilation     = "- Starting compilation in watch mode..."
 	tsFileChangeDetectedMsg   = "- File change detected. Starting incremental compilation..."
-	tsStartWatchingMsg        = regexp.MustCompile(`^.* - Found \d+ errors\. Watching for file changes\.$`)
+	// If there is only one error typescript outputs:
+	// Found 1 error
+	// In all other cases it outputs
+	// Found X errors
+	tsStartWatchingMsg        = regexp.MustCompile(`^.* - Found \d+ error(s)?\. Watching for file changes\.$`)
 	waitForNextChangeInterval = 1 * time.Second
 )
 

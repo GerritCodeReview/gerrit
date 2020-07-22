@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aee37a53_cfc3e616",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-22T13:12:46Z",
+      "side": 1,
+      "message": "so e.detail is not used anymore?\nProbably remove it from the event dispatch then.",
+      "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99d86bc2_8e5065ed",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-22T13:12:46Z",
+      "side": 1,
+      "message": "I cannot understand why this assignment is necessary.\nCan you please explain?",
+      "range": {
+        "startLine": 449,
+        "startChar": 8,
+        "endLine": 449,
+        "endChar": 31
+      },
+      "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0472bb91_0215c673",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-22T13:12:46Z",
+      "side": 1,
+      "message": "the name of this test and the one below seem to contradict each other.\nWhat is the reason for keeping or discarding resolved status? Mention this in the test name somewhere.",
+      "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

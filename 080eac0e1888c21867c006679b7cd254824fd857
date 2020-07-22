@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c12ffef6_5facb4ba",
+        "filename": "tools/node_tools/package.json",
+        "patchSetId": 14
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T08:28:01Z",
+      "side": 1,
+      "message": "It seems, it should be \"^2.0.0\" here (the same as in another file in this change:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/273256/14/package.json)\nThe same for @bazel/typescript and for yarn.lock",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 35
+      },
+      "revId": "080eac0e1888c21867c006679b7cd254824fd857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

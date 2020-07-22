@@ -33,7 +33,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-reply-dialog_html.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {ExperimentIds} from '../../../services/flags.js';
@@ -120,6 +119,12 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
    * Fires when the state of the send button (enabled/disabled) changes.
    *
    * @event send-disabled-changed
+   */
+
+  /**
+   * Fired to reload the change page.
+   *
+   * @event reload
    */
 
   constructor() {
@@ -1043,8 +1048,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _reload() {
-    // Load the current change without any patch range.
-    GerritNav.navigateToChange(this.change);
+    this.dispatchEvent(new CustomEvent('reload',
+        {detail: {loadLatestPatchset: true}, bubbles: false}));
     this.cancel();
   }
 

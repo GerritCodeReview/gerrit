@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "030b6673_7ad26f26",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T08:24:31Z",
+      "side": 1,
+      "message": "Good catch. I have apparently overlooked this during a previous refactoring. Removed.",
+      "parentUuid": "e4592745_d7d51e9b",
+      "range": {
+        "startLine": 362,
+        "startChar": 10,
+        "endLine": 362,
+        "endChar": 77
+      },
+      "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d3921d37_90ae91ba",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d94b439_4c65afba",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T08:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3921d37_90ae91ba",
+      "range": {
+        "startLine": 108,
+        "startChar": 2,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -92,6 +140,30 @@
       "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9d17141_3057236b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T08:24:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd5683f1_0f9a2efc",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 28
+      },
+      "revId": "f16fd4658b5d9f100f0e17594e448fa3022794f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

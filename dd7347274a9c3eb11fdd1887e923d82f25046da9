@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0c251d9a_3faabbe5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-22T13:12:13Z",
+      "side": 1,
+      "message": "Does this also fix the fact that a click next to the hovercard will then not be registered on the chip underneath it? From my (ancient) understanding of CSS, it looks like this will only remove the outline but the click would still not work.",
+      "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

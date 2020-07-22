@@ -21,6 +21,7 @@ import './gr-reply-dialog.js';
 import {mockPromise} from '../../../test/test-utils.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {appContext} from '../../../services/app-context.js';
+import {querySelectorAll} from '../../../utils/dom-util.js';
 
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 
@@ -1397,6 +1398,67 @@ suite('gr-reply-dialog tests', () => {
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isTrue(sendStub.called);
+  });
+
+  test('send button should be disabled when any comment in editing', () => {
+    element.draftCommentThreads = [
+      {
+        comments: [
+          {
+            __date: '2020-07-22 14:57:02.181',
+            message: 'test',
+            __draft: true,
+          },
+        ],
+      },
+      {
+        comments: [
+          {
+            __date: '2020-07-22 14:55:02.181',
+            message: 'aaa',
+            __draft: true,
+          },
+        ],
+      },
+    ];
+    flushAsynchronousOperations();
+    const comments = querySelectorAll(element, 'gr-comment');
+
+    flushAsynchronousOperations();
+    assert.isFalse(element.shadowRoot
+        .querySelector('gr-button.send').disabled);
+
+    // edit the first comment
+    MockInteractions.tap(comments[0].shadowRoot
+        .querySelector('gr-button.edit'));
+
+    flushAsynchronousOperations();
+    assert.isTrue(element.shadowRoot
+        .querySelector('gr-button.send').disabled);
+
+    // edit the second one
+    MockInteractions.tap(comments[1].shadowRoot
+        .querySelector('gr-button.edit'));
+
+    flushAsynchronousOperations();
+    assert.isTrue(element.shadowRoot
+        .querySelector('gr-button.send').disabled);
+
+    // save the first comment
+    MockInteractions.tap(comments[0].shadowRoot
+        .querySelector('gr-button.save'));
+
+    flushAsynchronousOperations();
+    assert.isTrue(element.shadowRoot
+        .querySelector('gr-button.send').disabled);
+
+    // save the second one
+    MockInteractions.tap(comments[1].shadowRoot
+        .querySelector('gr-button.save'));
+
+    flushAsynchronousOperations();
+    assert.isFalse(element.shadowRoot
+        .querySelector('gr-button.send').disabled);
   });
 
   test('getFocusStops', () => {

@@ -16,6 +16,75 @@
       "revId": "93a5d8b43cae1bf2aabb03236089518ea62fcee6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85662d01_940c5b5a",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 866,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-22T21:51:25Z",
+      "side": 1,
+      "message": "s/interin/interim/",
+      "range": {
+        "startLine": 866,
+        "startChar": 55,
+        "endLine": 866,
+        "endChar": 62
+      },
+      "revId": "93a5d8b43cae1bf2aabb03236089518ea62fcee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e2c72a1_eefb976e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-22T21:51:25Z",
+      "side": 1,
+      "message": "nit: Do you really need the TODO? I doubt you\u0027ll forget this code is here 😊",
+      "range": {
+        "startLine": 866,
+        "startChar": 4,
+        "endLine": 868,
+        "endChar": 81
+      },
+      "revId": "93a5d8b43cae1bf2aabb03236089518ea62fcee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3fb79ae_0f5431d0",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 876,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-22T21:51:25Z",
+      "side": 1,
+      "message": "Could be null? (not sure of the contract on getAllGroupReferences()).\n\nMaybe stick all of this in the try above?",
+      "range": {
+        "startLine": 876,
+        "startChar": 8,
+        "endLine": 876,
+        "endChar": 23
+      },
+      "revId": "93a5d8b43cae1bf2aabb03236089518ea62fcee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -181,6 +181,9 @@ link:cmd-reload-config.html[gerrit reload-config]::
 link:cmd-set-account.html[gerrit set-account]::
 	Change an account's settings.
 
+link:cmd-sequence-set.html[gerrit sequence set]::
+        Set new sequence value.
+
 link:cmd-sequence-show.html[gerrit sequence show]::
 	Display current sequence value.
 

@@ -30,8 +30,8 @@
   {@param? changeRequestsPath: ?}
   {@param? defaultChangeDetailHex: ?}
   {@param? defaultDiffDetailHex: ?}
-  {@param? preloadChangePage: ?}
-  {@param? preloadDiffPage: ?}
+  {@param? defaultDashboardHex: ?}
+  {@param? dashboardQuery: ?}
   {@param? userIsAuthenticated: ?}
   <!DOCTYPE html>{\n}
   <html lang="en">{\n}
@@ -85,24 +85,27 @@
     <link rel="icon" type="image/x-icon" href="{$canonicalPath}/favicon.ico">{\n}
   {/if}
   {if $changeRequestsPath}
-    {if $preloadChangePage and $defaultChangeDetailHex}
+    {if $defaultChangeDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultChangeDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {if $userIsAuthenticated}
         <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/?download-commands=true" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {/if}
     {/if}
-    {if $preloadDiffPage and $defaultDiffDetailHex}
+    {if $defaultDiffDetailHex}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/detail?O={$defaultDiffDetailHex}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {if $userIsAuthenticated}
         <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/edit/" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
       {/if}
+      <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script"/>
     {/if}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/comments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/robotcomments" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {if $userIsAuthenticated}
       <link rel="preload" href="{$canonicalPath}/{$changeRequestsPath}/drafts" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
     {/if}
-    <link rel="preload" href="{$staticResourcePath}/bower_components/highlightjs/highlight.min.js" as="script"/>
+  {/if}
+  {if $userIsAuthenticated and $defaultDashboardHex and $dashboardQuery}
+    <link rel="preload" href="{$canonicalPath}/changes/?O={$defaultDashboardHex}&S=0{for $query in $dashboardQuery}&q={$query}{/for}" as="fetch" type="application/json" crossorigin="anonymous"/>{\n}
   {/if}
 
   {if $useGoogleFonts}

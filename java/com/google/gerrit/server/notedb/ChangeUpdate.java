@@ -55,10 +55,12 @@ import com.google.common.collect.Table;
 import com.google.common.collect.TreeBasedTable;
 import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
@@ -66,6 +68,8 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.InternalGroupBackend;
+import com.google.gerrit.server.group.db.Groups;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
@@ -85,6 +89,7 @@ import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.CommitBuilder;
 import org.eclipse.jgit.lib.ObjectId;
@@ -119,6 +124,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final InternalGroupBackend internalGroupBackend;
+  private final Groups groupsCollection;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -164,6 +171,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
+      InternalGroupBackend internalGroupBackend,
+      Groups groups,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -174,6 +183,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        internalGroupBackend,
+        groups,
         notes,
         user,
         when,
@@ -197,6 +208,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      InternalGroupBackend internalGroupBackend,
+      Groups groups,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -207,6 +220,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.internalGroupBackend = internalGroupBackend;
+    this.groupsCollection = groups;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -385,7 +400,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * must first create the removal, and the addition will not take effect.
    */
   public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
-    if (updates == null || updates.isEmpty()) {
+    if (updates == null || updates.isEmpty() || isMemberOfNonInteractiveUsers(accountId)) {
+      // No updates to do. Robots don't change attention set.
       return;
     }
     checkArgument(
@@ -771,7 +787,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         || getNotes().getChange().isWorkInProgress()
         || status == Change.Status.MERGED) {
       // Attention set shouldn't change here for changes that are work in progress or are about to
-      // be submitted.
+      // be submitted or when the caller is a robot.
       return;
     }
     Set<Account.Id> currentReviewers =
@@ -829,6 +845,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         // Skip users that are not in the attention set: no need to remove them.
         continue;
       }
+
+      if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
+          && isMemberOfNonInteractiveUsers(attentionSetUpdate.account())) {
+        // Skip adding robots to the attention set.
+        continue;
+      }
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }
@@ -839,6 +861,28 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    */
   public void ignoreDefaultAttentionSetRules() {
     ignoreDefaultAttentionSetRules = true;
+  }
+
+  private boolean isMemberOfNonInteractiveUsers(Account.Id user) {
+    // TODO(hiesel, brohlfs, paiking): This is just an interim solution until we have figured out a
+    // plan
+    // Discussion is at: https://gerrit-review.googlesource.com/c/gerrit/+/274854
+    Stream<GroupReference> groupReferences;
+    try {
+      groupReferences = groupsCollection.getAllGroupReferences();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new StorageException(e);
+    }
+    Optional<AccountGroup.UUID> maybeUUID =
+        groupReferences
+            .filter(g -> g.getName().equals("Non-Interactive Users"))
+            .map(GroupReference::getUUID)
+            .findAny();
+    if (maybeUUID.isPresent() && internalGroupBackend.handles(maybeUUID.get())) {
+      return internalGroupBackend.get(maybeUUID.get()).getMembers().stream()
+          .anyMatch(member -> user.equals(member));
+    }
+    return false;
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {

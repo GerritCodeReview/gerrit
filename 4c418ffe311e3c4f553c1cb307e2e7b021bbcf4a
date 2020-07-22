@@ -106,6 +106,23 @@
       "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a79864_65fefc38",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-22T07:31:23Z",
+      "side": 1,
+      "message": "Done. Apparently the latency already existed in stable-3.0, at least in the text logs, but not in JSON,",
+      "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

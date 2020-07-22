@@ -66,6 +66,7 @@ import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.account.RobotClassifier;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
@@ -119,6 +120,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
+  private final RobotClassifier robotClassifier;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -164,6 +166,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
+      RobotClassifier robotClassifier,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -174,6 +177,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
+        robotClassifier,
         notes,
         user,
         when,
@@ -197,6 +201,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
+      RobotClassifier robotClassifier,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -207,6 +212,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
+    this.robotClassifier = robotClassifier;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -385,7 +391,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * must first create the removal, and the addition will not take effect.
    */
   public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
-    if (updates == null || updates.isEmpty()) {
+    if (updates == null || updates.isEmpty() || robotClassifier.isRobot(accountId)) {
+      // No updates to do. Robots don't change attention set.
       return;
     }
     checkArgument(
@@ -771,7 +778,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         || getNotes().getChange().isWorkInProgress()
         || status == Change.Status.MERGED) {
       // Attention set shouldn't change here for changes that are work in progress or are about to
-      // be submitted.
+      // be submitted or when the caller is a robot.
       return;
     }
     Set<Account.Id> currentReviewers =
@@ -827,6 +834,12 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.REMOVE
           && !currentUsersInAttentionSet.contains(attentionSetUpdate.account())) {
         // Skip users that are not in the attention set: no need to remove them.
+        continue;
+      }
+
+      if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
+          && robotClassifier.isRobot(attentionSetUpdate.account())) {
+        // Skip adding robots to the attention set.
         continue;
       }
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));

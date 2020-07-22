@@ -88,6 +88,24 @@
       "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97a05f4b_b63fbbab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-22T07:23:02Z",
+      "side": 1,
+      "message": "OK. However, this would still change the log format within a stable branch and may break parsing for some users.",
+      "parentUuid": "977e3caf_ade1c715",
+      "revId": "4c418ffe311e3c4f553c1cb307e2e7b021bbcf4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

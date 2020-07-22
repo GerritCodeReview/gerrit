@@ -263,7 +263,7 @@ export class PluginLoader {
     const pluginObj = this._updatePluginState(url, PluginState.LOADED);
     pluginObj.plugin = plugin;
     this._getReporting().pluginLoaded(plugin.getPluginName() || url);
-    console.log(`Plugin ${plugin.getPluginName() || url} installed.`);
+    console.info(`Plugin ${plugin.getPluginName() || url} installed.`);
     this._checkIfCompleted();
   }
 

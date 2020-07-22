@@ -1294,7 +1294,7 @@ class GrFileList extends KeyboardShortcutMixin(
       this._cancelForEachDiff = cancel;
 
       iter++;
-      console.log('Expanding diff', iter, 'of', initialCount, ':',
+      console.info('Expanding diff', iter, 'of', initialCount, ':',
           path);
       const diffElem = this._findDiffByPath(path, diffElements);
       if (!diffElem) {
@@ -1311,7 +1311,7 @@ class GrFileList extends KeyboardShortcutMixin(
     }).then(() => {
       this._cancelForEachDiff = null;
       this._nextRenderParams = null;
-      console.log('Finished expanding', initialCount, 'diff(s)');
+      console.info('Finished expanding', initialCount, 'diff(s)');
       this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
           EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
       /* Block diff cursor from auto scrolling after files are done rendering.

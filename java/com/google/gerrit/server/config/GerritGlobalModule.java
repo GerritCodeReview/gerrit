@@ -95,6 +95,7 @@ import com.google.gerrit.server.account.EmailExpander;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupControl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.NonInteractiveUserGroupRobotClassifier;
 import com.google.gerrit.server.account.VersionedAuthorizedKeys;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.auth.AuthBackend;
@@ -239,6 +240,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(GroupCacheImpl.module());
     install(GroupIncludeCacheImpl.module());
     install(MergeabilityCacheImpl.module());
+    install(NonInteractiveUserGroupRobotClassifier.module());
     install(PatchListCacheImpl.module());
     install(ProjectCacheImpl.module());
     install(SectionSortCache.module());

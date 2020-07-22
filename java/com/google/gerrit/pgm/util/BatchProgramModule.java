@@ -34,6 +34,7 @@ import com.google.gerrit.server.account.CapabilityCollection;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupCacheImpl;
 import com.google.gerrit.server.account.GroupIncludeCacheImpl;
+import com.google.gerrit.server.account.NonInteractiveUserGroupRobotClassifier;
 import com.google.gerrit.server.account.Realm;
 import com.google.gerrit.server.account.externalids.ExternalIdModule;
 import com.google.gerrit.server.cache.CacheRemovalListener;
@@ -164,6 +165,7 @@ public class BatchProgramModule extends FactoryModule {
     install(SectionSortCache.module());
     install(ChangeKindCacheImpl.module());
     install(MergeabilityCacheImpl.module());
+    install(NonInteractiveUserGroupRobotClassifier.module());
     install(TagCache.module());
     install(PureRevertCache.module());
     factory(CapabilityCollection.Factory.class);

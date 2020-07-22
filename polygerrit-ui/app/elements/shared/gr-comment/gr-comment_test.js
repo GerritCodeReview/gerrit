@@ -230,6 +230,32 @@ suite('gr-comment tests', () => {
         assert.isFalse(element._handleCancel.called);
       });
 
+      test('keep edits when comment updated without new message', () => {
+        element._messageText = 'test';
+        element.comment = {...element.comment};
+        assert.equal(element.comment.message, element._messageText);
+      });
+
+      test('discard edits when new comment coming in', () => {
+        element._messageText = 'test';
+        element.comment = {...element.comment, message: 'a'};
+        assert.equal(element.comment.message, 'a');
+      });
+
+      test('keep resolved status when new comment coming in', () => {
+        element._messageText = 'test';
+        element.resolved = true;
+        element.comment = {...element.comment};
+        assert.equal(element.comment.unresolved, false);
+      });
+
+      test('discard resolved status when new comment coming in', () => {
+        element._messageText = 'test';
+        element.resolved = true;
+        element.comment = {...element.comment, unresolved: true};
+        assert.equal(element.comment.unresolved, true);
+      });
+
       test('ctrl+enter saves', () => {
         MockInteractions.pressAndReleaseKeyOn(
             element.textarea, 13, 'ctrl'); // ctrl + enter

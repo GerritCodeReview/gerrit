@@ -38,6 +38,7 @@ import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {ExperimentIds} from '../../../services/flags.js';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
+import {querySelectorAll} from '../../../utils/dom-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
@@ -321,7 +322,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     });
 
     this.addEventListener('comment-editing-changed', e => {
-      this._commentEditing = e.detail;
+      this._computeIfEditingAnyComment();
     });
 
     // Plugins on reply-reviewers endpoint can take advantage of these
@@ -1024,6 +1025,11 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
 
   _computeSavingLabelClass(savingComments) {
     return savingComments ? 'saving' : '';
+  }
+
+  _computeIfEditingAnyComment(commentEditingSignal) {
+    return [...querySelectorAll(this, 'gr-comment')]
+        .some(commentEl => !!commentEl.editing);
   }
 
   _computeSendButtonDisabled(

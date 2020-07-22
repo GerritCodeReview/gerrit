@@ -38,6 +38,7 @@ import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.FakeRealm;
 import com.google.gerrit.server.account.GroupBackend;
 import com.google.gerrit.server.account.Realm;
+import com.google.gerrit.server.account.RobotClassifier;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
@@ -165,6 +166,7 @@ public abstract class AbstractChangeNotesTest {
                 bind(ExecutorService.class)
                     .annotatedWith(FanOutExecutor.class)
                     .toInstance(assertableFanOutExecutor);
+                bind(RobotClassifier.class).to(RobotClassifier.NoOp.class);
               }
             });
 

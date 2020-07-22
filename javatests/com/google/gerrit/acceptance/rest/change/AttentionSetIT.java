@@ -922,6 +922,28 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.reason()).isEqualTo("removed");
   }
 
+  @Test
+  public void robotsNotAddedToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    gApi.groups().id("Non-Interactive Users").addMembers(String.valueOf(user.id().get()));
+    // TODO(paiking): Adding robots explicitly should throw an exception and only implicit additions
+    // should fail silently.
+    change(r).addToAttentionSet(new AttentionSetInput(user.email(), "reason"));
+    change(r).addReviewer(user.email());
+
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void robotReviewDoesNotChangeAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // Admin is a robot
+    gApi.groups().id("Non-Interactive Users").addMembers(String.valueOf(admin.id().get()));
+    change(r).addReviewer(user.id().toString());
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(
       PushOneCommit.Result r, TestAccount account) {
     return r.getChange().attentionSet().stream()

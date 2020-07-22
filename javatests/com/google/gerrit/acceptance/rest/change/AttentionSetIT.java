@@ -21,6 +21,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -52,6 +53,7 @@ import org.junit.Test;
 public class AttentionSetIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
+  @Inject protected AccountCreator accountCreator;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -920,6 +922,32 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("removed");
+  }
+
+  @Test
+  public void robotsNotAddedToAttentionSet() throws Exception {
+    TestAccount robot =
+        accountCreator.create(
+            "robot1", "robot1@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+    PushOneCommit.Result r = createChange();
+    // TODO(paiking): Adding robots explicitly should throw an exception and only implicit additions
+    // should fail silently.
+    change(r).addToAttentionSet(new AttentionSetInput(robot.email(), "reason"));
+    change(r).addReviewer(robot.email());
+
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void robotReviewDoesNotChangeAttentionSet() throws Exception {
+    TestAccount robot =
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).addReviewer(user.id().toString());
+
+    assertThat(r.getChange().attentionSet()).isEmpty();
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

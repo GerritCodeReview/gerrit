@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b33217d8_b7dac1fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T11:26:50Z",
+      "side": 1,
+      "message": "why disable bubbling ? i thought you want the event bubbles up and let change view handles the event ?",
+      "range": {
+        "startLine": 1375,
+        "startChar": 15,
+        "endLine": 1375,
+        "endChar": 29
+      },
+      "revId": "feb9b99a8aa664f7a0a12aa87d66d3cf591e7e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c80c3d0_baab5f5a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 2148,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T11:26:50Z",
+      "side": 1,
+      "message": "arrow function, no need to bind `this` with that",
+      "range": {
+        "startLine": 2148,
+        "startChar": 22,
+        "endLine": 2148,
+        "endChar": 30
+      },
+      "revId": "feb9b99a8aa664f7a0a12aa87d66d3cf591e7e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

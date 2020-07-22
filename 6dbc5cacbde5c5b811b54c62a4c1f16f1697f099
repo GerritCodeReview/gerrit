@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e0b1e5a_613def09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-22T07:55:44Z",
+      "side": 1,
+      "message": "Has good tests in ProjectLevelConfigIT",
+      "revId": "6dbc5cacbde5c5b811b54c62a4c1f16f1697f099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

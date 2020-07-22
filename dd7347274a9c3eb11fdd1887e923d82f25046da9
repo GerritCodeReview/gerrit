@@ -16,6 +16,23 @@
       "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "591824bf_b8254f8b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T13:14:20Z",
+      "side": 1,
+      "message": "Maybe a better fix would be to remove the tabIndex\u003d\"-1\"? What is the point of letting the user focus the hovercard?",
+      "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

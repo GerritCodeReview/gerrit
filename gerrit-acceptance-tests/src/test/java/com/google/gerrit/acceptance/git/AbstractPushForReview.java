@@ -197,15 +197,6 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
-  @GerritConfig(name = "receive.enableSignedPush", value = "true")
-  @TestProjectInput(
-      enableSignedPush = InheritableBoolean.TRUE,
-      requireSignedPush = InheritableBoolean.TRUE)
-  public void nonSignedPushRejectedWhenSignPushRequired() throws Exception {
-    pushTo("refs/for/master").assertErrorStatus("push cert error");
-  }
-
-  @Test
   public void pushInitialCommitForRefsMetaConfigBranch() throws Exception {
     // delete refs/meta/config
     try (Repository repo = repoManager.openRepository(project);

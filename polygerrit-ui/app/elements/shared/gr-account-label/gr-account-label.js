@@ -49,6 +49,15 @@ class GrAccountLabel extends GestureEventListeners(
       change: Object,
       voteableText: String,
       /**
+       * Should this user be considered to be in the attention set, regardless
+       * of the current state of the change object? This can be used in a widget
+       * that allows the user to make adjustments to the attention set.
+       */
+      forceAttention: {
+        type: Boolean,
+        value: false,
+      },
+      /**
        * Should attention set related features be shown in the component? Note
        * that the information whether the user is in the attention set or not is
        * part of the ChangeInfo object in the change property.
@@ -90,19 +99,17 @@ class GrAccountLabel extends GestureEventListeners(
     this.$.restAPI.getConfig().then(config => { this._config = config; });
   }
 
-  get isAttentionSetEnabled() {
-    return !!this._config && !!this._config.change
-        && !!this._config.change.enable_attention_set
-        && !!this.highlightAttention && !!this.change && !!this.account;
+  _isAttentionSetEnabled(config, highlight, account, change) {
+    return !!config && !!config.change
+        && !!config.change.enable_attention_set
+        && !!highlight && !!change && !!account;
   }
 
-  get hasAttention() {
-    if (!this.isAttentionSetEnabled || !this.change.attention_set) return false;
-    return this.change.attention_set.hasOwnProperty(this.account._account_id);
-  }
-
-  _computeShowAttentionIcon(config, highlightAttention, account, change) {
-    return this.isAttentionSetEnabled && this.hasAttention;
+  _hasAttention(config, highlight, account, change, force) {
+    if (force) return true;
+    return this._isAttentionSetEnabled(config, highlight, account, change)
+        && change.attention_set
+        && change.attention_set.hasOwnProperty(account._account_id);
   }
 
   _computeName(account, config) {

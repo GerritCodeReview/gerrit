@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b4e8956_c80c8671",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-22T09:20:08Z",
+      "side": 1,
+      "message": "Restoring CRVW+2 from previous patch set (the merge was re-done with another commit, that bumped the version to SNAPSHOT).",
+      "revId": "59262ffbe5ed015ec4bb02da1093544ec5d40152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

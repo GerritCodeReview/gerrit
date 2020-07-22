@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "d93138d8_984dabfa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T17:24:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "381b849f_448aa74b",
+      "range": {
+        "startLine": 429,
+        "startChar": 12,
+        "endLine": 429,
+        "endChar": 16
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4ebb90e8_c06e6d96",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 2
@@ -92,6 +116,30 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12e1034_dd8f4bb1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T17:24:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "4ebb90e8_c06e6d96",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 27
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -321,6 +369,30 @@
       "side": 1,
       "message": "\u003e\u003e _commentMessageChanged` won\u0027t work for the `unresolved` part\nI think unresolved part works well in your fix.\n\nMy suggestion was only about removing this condition:\nif (this.comment.message \u003d\u003d\u003d oldComment.message) {\n  this.comment.message \u003d this._messageText;\n}\nand instead update the _commentMessageChanged",
       "parentUuid": "f68669e9_b9ae718e",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "128987d7_52955d4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T17:24:55Z",
+      "side": 1,
+      "message": "oh i see, i kind of want to have them in the same place. but ya I think having them in the `_commentMessageChanged` also works for me, will add a comment about that as well. thx",
+      "parentUuid": "e6ff4d55_35003185",
       "range": {
         "startLine": 435,
         "startChar": 36,

@@ -1,0 +1,119 @@
+= Gerrit Code Review - Attention Set
+
+The Attention Set will be part of the upcoming 3.3 release (due late 2020). At
+the moment it is available only on some `googlesource.com` hosts, enabled by
+the link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet] config
+option.
+
+[[whose-turn]]
+== Whose turn is it?
+
+Code Review is a turn-based workflow going back and forth between the change
+owner and reviewers. For every change Gerrit maintains an "Attention Set" with
+users that are currently expected to act on the change. Both on the dashboard
+and on the change page this is expressed by an arrow icon before the user name:
+
+image::images/user-attention-set-icon.png[Account chip with attention icon.]
+
+While the attention set brings clarity to the process it also comes along with
+responsibilities and expectations that all users must understand:
+
+* Reviewers are expected to respond timely when it is their turn. If you don't
+  plan to respond within ~24h, then you should either remove yourself from the
+  attention set or you should at least send a clarification message to the
+  owner.
+* Owners are expected to manage the attention set of their changes carefully.
+  They must make sure that reviewers are only in the attention set when the
+  owner waits for a response from them.
+
+On the plus side you can strictly ignore everyone else's changes, if you are not
+in the attention set. :-)
+
+==== Rules
+
+To help with the back and forth Gerrit applies some basic automated rules for
+changing the attention set:
+
+* If reviewers are added to a change, then they are added to the attention set.
+* If an active change is submitted, abandoned or reset to "work in progress",
+  then all users are removed from the attention set.
+* Replying (commenting, voting or just writing a change message) removes the
+  replying user from the attention set.
+** If a *reviewer* replies, then add the owner to the attention set.
+** If the *owner* replies, then add all reviewers to the attention set.
+
+*!IMPORTANT!* These rules are not meant to be super smart and to always do the
+right thing, e.g. if the owner sends a reply, then they will often have to
+individually select whose turn it is instead of adding *all* reviewers to the
+attention set.
+
+Note that just uploading a new patchset is not a relevant event for the
+attention set to change.
+
+==== Interaction
+
+There are two ways to interact with the attention set: The hovercard of owner
+and reviewer chips and the "Reply" dialog.
+
+*The hovercard* contains information about whether, why and when a user was added
+to the attention set. And it contains a menu entry for adding/removing the user
+to/from the attention set.
+
+image::images/user-attention-set-hovercard.png[User hovercard with info and action.]
+
+*The reply dialog* contains a section for controlling to whom the turn should be
+passed.
+
+image::images/user-attention-set-reply-modify.png[Reply dialog section for modifying.]
+
+If you do not click "MODIFY", then the backend will just apply the
+automated rules as stated above. If you click "MODIFY", then the section will
+expand and you can select and de-select users by clicking on their chips.
+
+image::images/user-attention-set-reply-select.png[Reply dialog section for selecting users.]
+
+==== Bots
+
+The attention set is meant for human reviews only. Triggering bots and reacting
+to their results is a different workflow and not in scope of the attenion set.
+Thus members of the "Non-Interactive Users" group will never be added to the
+attention set. And replies by such users will not add the owner to the attention
+set.
+
+==== Dashboard
+
+The default *dashboard* contains a new section at the top called "Your Turn". It
+lists all changes where the logged-in user is in the attention set. As an active
+developer one of your daily goals will be to iterate over this list and clear
+it.
+
+image::images/user-attention-set-dashboard.png[Dashboard with Your Turn section.]
+
+==== Assignee
+
+While the "Assignee" feature can still be used together with the attention set,
+we do not recommend doing so. Using both features is likely confusing. The
+distinct feature of the "Assignee" compared to the attention set is that only
+one user can be the assignee at the same time. So the assignee can be used to
+single out one person or escalated, if there are multiple reviewers. Since
+*every* reviewer in the attention set is expected to take action, singling out
+is not likely to be important and also still achievable with the attention set.
+Otherwise "Assignee" and "Attention Set" are very much overlapping, so we
+recommend to only use one of them.
+
+The "Assignee" feature can be turned on/off with the
+link:config-gerrit.html#change.enableAttentionSet[enableAssignee] config option.
+
+==== Bold Changes / Mark Reviewed
+
+Before the attention set feature changes were bolded in the dashboard when
+*something* happened and you could explicitly "mark a change reviewed" on the
+change page. This former way of keeping track of what you should look at has
+been replaced by the attention set.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

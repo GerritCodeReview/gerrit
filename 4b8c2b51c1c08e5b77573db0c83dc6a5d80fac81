@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cda407e_83ef0e4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 50
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T09:55:35Z",
+      "side": 1,
+      "message": "Let\u0027s wait until the parent change is submitted.",
+      "revId": "4b8c2b51c1c08e5b77573db0c83dc6a5d80fac81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "725fbec1_3e347560",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
+        "patchSetId": 50
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T09:55:35Z",
+      "side": 1,
+      "message": "Is this going to change to the new COMMENT route?",
+      "revId": "4b8c2b51c1c08e5b77573db0c83dc6a5d80fac81",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

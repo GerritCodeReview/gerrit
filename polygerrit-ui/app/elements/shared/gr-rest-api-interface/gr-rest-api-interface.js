@@ -989,7 +989,7 @@ class GrRestApiInterface extends GestureEventListeners(
             reportUrlAsIs: true,
           };
         })
-        .then(req => this._restApiHelper.fetchJSON(req))
+        .then(req => this._restApiHelper.fetchJSON(req, true))
         .then(response => {
           const iterateOverChanges = arr => {
             for (const change of (arr || [])) {

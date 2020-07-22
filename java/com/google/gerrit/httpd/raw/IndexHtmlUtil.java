@@ -38,7 +38,9 @@ import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -58,6 +60,7 @@ public class IndexHtmlUtil {
       Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "(/(.+))" + "/?$");
+  public static final Pattern DASHBOARD_PATTERN = Pattern.compile(".*/dashboard/.+$");
 
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
 
@@ -83,6 +86,22 @@ public class IndexHtmlUtil {
             ListChangesOption.ALL_COMMITS,
             ListChangesOption.ALL_REVISIONS,
             ListChangesOption.SKIP_DIFFSTAT);
+
+    return ListOption.toHex(options);
+  }
+
+  public static String getDefaultDashboardHex() {
+    Set<ListChangesOption> options =
+        ImmutableSet.of(
+            ListChangesOption.LABELS,
+            ListChangesOption.DETAILED_ACCOUNTS,
+            ListChangesOption.REVIEWED);
+    //Todo add Attention
+    // if (config && config.change && config.change.enable_attention_set) {
+    //   options.push(ListChangesOption.DETAILED_LABELS);
+    // } else {
+    //   options.push(ListChangesOption.REVIEWED);
+    // }
 
     return ListOption.toHex(options);
   }
@@ -217,6 +236,12 @@ public class IndexHtmlUtil {
 
       if (changeRequestsPath != null) {
         data.put("changeRequestsPath", changeRequestsPath);
+      } else {
+        Matcher dashboardMatcher = DASHBOARD_PATTERN.matcher(requestedURL);
+        if (dashboardMatcher.matches()) {
+          data.put("defaultDashboardHex", getDefaultDashboardHex());
+          data.put("dashboardQuery", computeDashboardQuery());
+        }
       }
     }
 
@@ -240,6 +265,45 @@ public class IndexHtmlUtil {
     // from the cannonical web URL.
     URI uri = new URI(canonicalURL);
     return uri.getPath().replaceAll("/$", "");
+  }
+
+
+  protected static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft limit:10";
+  protected static final String DASHBOARD_ASSIGNED_QUERY =
+      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open -is:ignored limit:25";
+  protected static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip limit:25";
+  protected static final String DASHBOARD_OUTGOING_QUERY =
+      "is:open owner:${user} -is:wip -is:ignored limit:25";
+  protected static final String DASHBOARD_INCOMING_QUERY =
+      "is:open -owner:${user} -is:wip -is:ignored (reviewer:${user} OR assignee:${user}) limit:25";
+  protected static final String CC_QUERY =
+      "is:open -is:ignored cc:${user} limit:10";
+  protected static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
+      "is:closed -is:ignored (-is:wip OR owner:self) "
+          + "(owner:${user} OR reviewer:${user} OR assignee:${user} "
+          + "OR cc:${user}) -age:4w limit:10";
+  protected static final String NEW_USER =
+          "owner:${user} limit:1"; 
+
+  private static List<String> computeDashboardQuery() {
+    List<String> list = new ArrayList<>();
+    // &q=has:draft limit:10
+    list.add(DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY);
+    //&q=assignee:self (-is:wip OR owner:self OR assignee:self) is:open -is:ignored limit:25
+    list.add(DASHBOARD_ASSIGNED_QUERY.replaceAll("\\$\\{user}", "self"));
+    // // &q=is:open owner:self is:wip limit:25
+    list.add(DASHBOARD_WORK_IN_PROGRESS_QUERY.replaceAll("\\$\\{user}", "self"));
+    // // &q=is:open owner:self -is:wip -is:ignored limit:25
+    list.add(DASHBOARD_OUTGOING_QUERY.replaceAll("\\$\\{user}", "self"));
+    // // &q=is:open -owner:self -is:wip -is:ignored (reviewer:self OR assignee:self) limit:25
+    list.add(DASHBOARD_INCOMING_QUERY.replaceAll("\\$\\{user}", "self"));
+    // //&q=is:open -is:ignored cc:self limit:10
+    list.add(CC_QUERY.replaceAll("\\$\\{user}", "self"));
+    // //&q=is:closed -is:ignored (-is:wip OR owner:self) (owner:self OR reviewer:self OR assignee:self OR cc:self) -age:4w limit:10
+    list.add(DASHBOARD_RECENTLY_CLOSED_QUERY.replaceAll("\\$\\{user}", "self"));
+    // //&q=owner:self limit:1
+    list.add(NEW_USER.replaceAll("\\$\\{user}", "self"));
+    return list;
   }
 
   private IndexHtmlUtil() {}

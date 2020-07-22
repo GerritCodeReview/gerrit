@@ -327,7 +327,7 @@ s   */
       // TODO(TS): Replace == null with === and check for null and undefined
       // eslint-disable-next-line eqeqeq
       if (paramValue == null) {
-        params.push(encodeURIComponent(p));
+        params.push(this.encodeRFC5987(p));
         continue;
       }
       // TODO(TS): Unclear, why do we need the following code.
@@ -337,10 +337,19 @@ s   */
         paramValue
       );
       for (const value of paramValueAsArray) {
-        params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
+        params.push(`${this.encodeRFC5987(p)}=${this.encodeRFC5987(value)}`);
       }
     }
     return getBaseUrl() + url + '?' + params.join('&');
+  }
+
+  // Backend encode url in RFC5987 and frontend needs to do same to match
+  // queries for preloading queries
+  encodeRFC5987(uri: string | number | boolean) {
+    return encodeURIComponent(uri).replace(
+      /['()*]/g,
+      c => '%' + c.charCodeAt(0).toString(16)
+    );
   }
 
   getResponseObject(response: Response): ParsedJSON {

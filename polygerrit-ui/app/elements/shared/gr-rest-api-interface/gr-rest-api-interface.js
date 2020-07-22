@@ -989,7 +989,7 @@ class GrRestApiInterface extends GestureEventListeners(
             reportUrlAsIs: true,
           };
         })
-        .then(req => this._restApiHelper.fetchJSON(req))
+        .then(req => this._restApiHelper.fetchJSON(req, true))
         .then(response => {
           const iterateOverChanges = arr => {
             for (const change of (arr || [])) {
@@ -1054,6 +1054,10 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   _getChangesOptionsHex(config) {
+    if (window.DEFAULT_DETAIL_HEXES
+        && window.DEFAULT_DETAIL_HEXES.dashboardPage) {
+      return window.DEFAULT_DETAIL_HEXES.dashboardPage;
+    }
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,

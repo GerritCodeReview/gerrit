@@ -33,6 +33,24 @@
       "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0335a7eb_0bbbb4d1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T13:15:51Z",
+      "side": 1,
+      "message": "That is hard to fix, because the hovercard needs some padding around it for allowing the mouse move onto it without being hidden.",
+      "parentUuid": "0c251d9a_3faabbe5",
+      "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

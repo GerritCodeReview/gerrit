@@ -150,7 +150,7 @@ export class GrRestApiHelper {
     const elapsed = (endTime - startTime);
     const startAt = new Date(startTime);
     const endAt = new Date(endTime);
-    console.log([
+    console.info([
       'HTTP',
       status,
       method,

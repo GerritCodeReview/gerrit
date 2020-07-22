@@ -50,8 +50,8 @@ class RepoCommandLow extends PolymerElement {
 
   connectedCallback() {
     super.connectedCallback();
-    console.log(this.repoName);
-    console.log(this.config);
+    console.info(this.repoName);
+    console.info(this.config);
     this.hidden = this.repoName !== 'All-Projects';
   }
 

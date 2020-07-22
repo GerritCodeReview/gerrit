@@ -70,7 +70,7 @@ module.exports = {
       "capIsNewExceptions": ["Polymer", "GestureEventListeners"],
       "capIsNewExceptionPattern": "^.*Mixin$"
     }],
-    "no-console": "off",
+    "no-console": ["error", { allow: ["warn", "error", "info", "assert", "group", "groupEnd"] }],
     "no-multiple-empty-lines": ["error", {"max": 1}],
     "no-prototype-builtins": "off",
     "no-redeclare": "off",

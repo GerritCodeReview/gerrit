@@ -194,7 +194,7 @@ class GrErrorManager extends GestureEventListeners(
           }));
         }
       }
-      console.log(`server error: ${errorText}`);
+      console.info(`server error: ${errorText}`);
     });
   }
 

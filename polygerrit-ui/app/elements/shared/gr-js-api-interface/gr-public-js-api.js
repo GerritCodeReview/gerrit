@@ -327,7 +327,7 @@ const deprecatedAPI = {
   _loadedGwt: () => {},
 
   install() {
-    console.log('Installing deprecated APIs is deprecated!');
+    console.info('Installing deprecated APIs is deprecated!');
     for (const method in this.deprecated) {
       if (method === 'install') continue;
       this[method] = this.deprecated[method];

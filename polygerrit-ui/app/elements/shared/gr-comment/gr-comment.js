@@ -431,9 +431,27 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     });
   }
 
-  _commentChanged(comment) {
-    this.editing = !!comment.__editing;
-    this.resolved = !comment.unresolved;
+  _commentChanged(comment, oldComment) {
+    if (this.editing && oldComment) {
+      // keep unsaved messages and resolve status
+      // if comment is under editing
+      // This usually happens when we save one comment while
+      // we have more comments under editing, most of times
+      // we probably don't want to lose all our edits on them
+      //
+      // Note: in the case that we do have a legit updated comment
+      // from API that has different message and status with current,
+      // we use the one from the API (consider current edits outdated)
+      if (this.comment.message === oldComment.message) {
+        this.comment.message = this._messageText;
+      }
+      if (this.comment.unresolved === oldComment.unresolved) {
+        this.comment.unresolved = !this.resolved;
+      }
+    } else {
+      this.editing = !!comment.__editing;
+      this.resolved = !comment.unresolved;
+    }
     if (this.editing) { // It's a new draft/reply, notify.
       this._fireUpdate();
     }

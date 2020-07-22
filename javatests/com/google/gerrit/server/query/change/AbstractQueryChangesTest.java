@@ -81,6 +81,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.httpd.raw.IndexPreloadingUtil;
 import com.google.gerrit.index.FieldDef;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.Schema;
@@ -195,22 +196,6 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
   protected CurrentUser user;
 
   private String systemTimeZone;
-
-  // These queries must be kept in sync with PolyGerrit:
-  // polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js
-
-  protected static final String DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY = "has:draft";
-  protected static final String DASHBOARD_ASSIGNED_QUERY =
-      "assignee:${user} (-is:wip OR " + "owner:self OR assignee:self) is:open -is:ignored";
-  protected static final String DASHBOARD_WORK_IN_PROGRESS_QUERY = "is:open owner:${user} is:wip";
-  protected static final String DASHBOARD_OUTGOING_QUERY =
-      "is:open owner:${user} -is:wip -is:ignored";
-  protected static final String DASHBOARD_INCOMING_QUERY =
-      "is:open -owner:${user} -is:wip -is:ignored (reviewer:${user} OR assignee:${user})";
-  protected static final String DASHBOARD_RECENTLY_CLOSED_QUERY =
-      "is:closed -is:ignored (-is:wip OR owner:self) "
-          + "(owner:${user} OR reviewer:${user} OR assignee:${user} "
-          + "OR cc:${user})";
 
   protected abstract Injector createInjector();
 
@@ -2766,7 +2751,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .draftAndDeleteCommentBy(user.getAccountId())
         .create(repo);
 
-    assertDashboardQuery("self", DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY, hasUnpublishedDraft);
+    assertDashboardQuery(
+        "self", IndexPreloadingUtil.DASHBOARD_HAS_UNPUBLISHED_DRAFTS_QUERY, hasUnpublishedDraft);
   }
 
   @Test
@@ -2790,11 +2776,13 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .assignTo(user.getAccountId())
         .mergeBy(user.getAccountId());
 
-    assertDashboardQuery("self", DASHBOARD_ASSIGNED_QUERY, selfOpenWip, otherOpenWip);
+    assertDashboardQuery(
+        "self", IndexPreloadingUtil.DASHBOARD_ASSIGNED_QUERY, selfOpenWip, otherOpenWip);
 
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
-    assertDashboardQuery(user.getUserName().get(), DASHBOARD_ASSIGNED_QUERY, otherOpenWip);
+    assertDashboardQuery(
+        user.getUserName().get(), IndexPreloadingUtil.DASHBOARD_ASSIGNED_QUERY, otherOpenWip);
   }
 
   @Test
@@ -2808,7 +2796,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     new DashboardChangeState(user.getAccountId()).mergeBy(user.getAccountId()).create(repo);
     new DashboardChangeState(createAccount("other")).wip().create(repo);
 
-    assertDashboardQuery("self", DASHBOARD_WORK_IN_PROGRESS_QUERY, ownedOpenWip);
+    assertDashboardQuery(
+        "self", IndexPreloadingUtil.DASHBOARD_WORK_IN_PROGRESS_QUERY, ownedOpenWip);
   }
 
   @Test
@@ -2826,11 +2815,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
 
     // Viewing one's own dashboard.
     assertDashboardQuery(
-        "self", DASHBOARD_OUTGOING_QUERY, ownedOpenReviewableIgnoredByOther, ownedOpenReviewable);
+        "self",
+        IndexPreloadingUtil.DASHBOARD_OUTGOING_QUERY,
+        ownedOpenReviewableIgnoredByOther,
+        ownedOpenReviewable);
 
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
-    assertDashboardQuery(user.getUserName().get(), DASHBOARD_OUTGOING_QUERY, ownedOpenReviewable);
+    assertDashboardQuery(
+        user.getUserName().get(),
+        IndexPreloadingUtil.DASHBOARD_OUTGOING_QUERY,
+        ownedOpenReviewable);
   }
 
   @Test
@@ -2862,13 +2857,17 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .create(repo);
 
     // Viewing one's own dashboard.
-    assertDashboardQuery("self", DASHBOARD_INCOMING_QUERY, assignedReviewable, reviewingReviewable);
+    assertDashboardQuery(
+        "self",
+        IndexPreloadingUtil.DASHBOARD_INCOMING_QUERY,
+        assignedReviewable,
+        reviewingReviewable);
 
     // Viewing another user's dashboard.
     requestContext.setContext(newRequestContext(otherAccountId));
     assertDashboardQuery(
         user.getUserName().get(),
-        DASHBOARD_INCOMING_QUERY,
+        IndexPreloadingUtil.DASHBOARD_INCOMING_QUERY,
         assignedReviewableIgnoredByAssignee,
         assignedReviewable,
         reviewingReviewableIgnoredByReviewer,
@@ -2980,7 +2979,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     // Viewing one's own dashboard.
     assertDashboardQuery(
         "self",
-        DASHBOARD_RECENTLY_CLOSED_QUERY,
+        IndexPreloadingUtil.DASHBOARD_RECENTLY_CLOSED_QUERY,
         abandonedAssigned,
         abandonedReviewing,
         abandonedOwnedWipIgnoredByOther,
@@ -2997,7 +2996,7 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     requestContext.setContext(newRequestContext(otherAccountId));
     assertDashboardQuery(
         user.getUserName().get(),
-        DASHBOARD_RECENTLY_CLOSED_QUERY,
+        IndexPreloadingUtil.DASHBOARD_RECENTLY_CLOSED_QUERY,
         abandonedAssignedWipIgnoredByUser,
         abandonedAssignedWip,
         abandonedAssignedIgnoredByUser,

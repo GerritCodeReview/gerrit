@@ -15,12 +15,19 @@
 package com.google.gerrit.httpd.raw;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.gerrit.httpd.raw.IndexHtmlUtil.CHANGE_URL_PATTERN;
-import static com.google.gerrit.httpd.raw.IndexHtmlUtil.DIFF_URL_PATTERN;
-import static com.google.gerrit.httpd.raw.IndexHtmlUtil.computeChangeRequestsPath;
+import static com.google.gerrit.httpd.raw.IndexHtmlUtil.dynamicTemplateData;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.experimentData;
 import static com.google.gerrit.httpd.raw.IndexHtmlUtil.staticTemplateData;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import com.google.common.collect.ImmutableList;
+import com.google.gerrit.extensions.api.GerritApi;
+import com.google.gerrit.extensions.api.accounts.Accounts;
+import com.google.gerrit.extensions.api.config.Config;
+import com.google.gerrit.extensions.api.config.Server;
+import com.google.gerrit.extensions.common.ServerInfo;
+import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.template.soy.data.SanitizedContent;
 import com.google.template.soy.data.UnsafeSanitizedContentOrdainer;
 import java.util.HashMap;
@@ -98,42 +105,27 @@ public class IndexHtmlUtilTest {
 
   @Test
   public void usePreloadRest() throws Exception {
-    Map<String, String[]> urlParms = new HashMap<>();
-    assertThat(
-            staticTemplateData(
-                "http://example.com/",
-                null,
-                null,
-                urlParms,
-                IndexHtmlUtilTest::ordain,
-                "/c/project/+/123"))
-        .containsExactly(
-            "canonicalPath", "",
-            "staticResourcePath", ordain(""),
+    Accounts accountsApi = mock(Accounts.class);
+    when(accountsApi.self()).thenThrow(new AuthException("user needs to be authenticated"));
+
+    Server serverApi = mock(Server.class);
+    when(serverApi.getVersion()).thenReturn("123");
+    when(serverApi.topMenus()).thenReturn(ImmutableList.of());
+    ServerInfo serverInfo = new ServerInfo();
+    serverInfo.defaultTheme = "my-default-theme";
+    when(serverApi.getInfo()).thenReturn(serverInfo);
+
+    Config configApi = mock(Config.class);
+    when(configApi.server()).thenReturn(serverApi);
+
+    GerritApi gerritApi = mock(GerritApi.class);
+    when(gerritApi.accounts()).thenReturn(accountsApi);
+    when(gerritApi.config()).thenReturn(configApi);
+
+    assertThat(dynamicTemplateData(gerritApi, "/c/project/+/123"))
+        .containsAtLeast(
             "defaultChangeDetailHex", "916314",
-            "defaultDiffDetailHex", "800014",
-            "preloadChangePage", "true",
             "changeRequestsPath", "changes/project~123");
-  }
-
-  @Test
-  public void computeChangePath() throws Exception {
-    assertThat(computeChangeRequestsPath("/c/project/+/123", CHANGE_URL_PATTERN))
-        .isEqualTo("changes/project~123");
-
-    assertThat(computeChangeRequestsPath("/c/project/+/124/2", CHANGE_URL_PATTERN))
-        .isEqualTo("changes/project~124");
-
-    assertThat(computeChangeRequestsPath("/c/project/src/+/23", CHANGE_URL_PATTERN))
-        .isEqualTo("changes/project%2Fsrc~23");
-
-    assertThat(computeChangeRequestsPath("/q/project/src/+/23", CHANGE_URL_PATTERN))
-        .isEqualTo(null);
-
-    assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", CHANGE_URL_PATTERN))
-        .isEqualTo(null);
-    assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", DIFF_URL_PATTERN))
-        .isEqualTo("changes/Scripts~232");
   }
 
   private static SanitizedContent ordain(String s) {

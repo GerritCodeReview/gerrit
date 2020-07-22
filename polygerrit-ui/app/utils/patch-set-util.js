@@ -143,7 +143,7 @@ export function computeAllPatchSets(change) {
   let patchNums = [];
   if (change.revisions && Object.keys(change.revisions).length) {
     const revisions = Object.keys(change.revisions)
-        .map(sha => Object.assign({sha}, change.revisions[sha]));
+        .map(sha => { return {sha, ...change.revisions[sha]}; });
     patchNums = sortRevisions(revisions)
         .map(e => {
           // TODO(kaspern): Mark which patchset an edit was made on, if an

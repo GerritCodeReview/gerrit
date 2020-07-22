@@ -173,7 +173,7 @@ class GrChangeMetadata extends GestureEventListeners(
   }
 
   _labelsChanged(labels) {
-    this.labels = Object.assign({}, labels) || null;
+    this.labels = ({...labels}) || null;
   }
 
   _changeChanged(change) {

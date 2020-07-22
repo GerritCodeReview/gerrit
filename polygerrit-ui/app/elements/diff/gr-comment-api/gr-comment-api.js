@@ -380,7 +380,7 @@ class ChangeComments {
     for (const file of Object.keys(comments)) {
       const commentsForFile = [];
       for (const comment of comments[file]) {
-        commentsForFile.push(Object.assign({__path: file}, comment));
+        commentsForFile.push({__path: file, ...comment});
       }
       commentArr = commentArr.concat(commentsForFile);
     }

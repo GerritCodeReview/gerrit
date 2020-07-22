@@ -29,7 +29,7 @@ suite('gr-reporting tests', () => {
   setup(() => {
     clock = sinon.useFakeTimers(NOW_TIME);
     service = new GrReporting(appContext.flagsService);
-    service._baselines = Object.assign({}, DEFAULT_STARTUP_TIMERS);
+    service._baselines = {...DEFAULT_STARTUP_TIMERS};
     sinon.stub(service, 'reporter');
   });
 

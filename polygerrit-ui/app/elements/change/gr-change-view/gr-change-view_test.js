@@ -457,11 +457,9 @@ suite('gr-change-view tests', () => {
       const queryMap = new Map();
       queryMap.set('tab', PrimaryTab.FINDINGS);
       // view is required
-      element.params = Object.assign(
-          {
-            view: GerritNav.View.CHANGE,
-          },
-          element.params, {queryMap});
+      element.params = {
+        view: GerritNav.View.CHANGE,
+        ...element.params, queryMap};
       flush(() => {
         assert.equal(element._activeTabs[0], PrimaryTab.FINDINGS);
         done();
@@ -473,11 +471,9 @@ suite('gr-change-view tests', () => {
       const queryMap = new Map();
       queryMap.set('tab', 'random');
       // view is required
-      element.params = Object.assign(
-          {
-            view: GerritNav.View.CHANGE,
-          },
-          element.params, {queryMap});
+      element.params = {
+        view: GerritNav.View.CHANGE,
+        ...element.params, queryMap};
       flush(() => {
         assert.equal(element._activeTabs[0], PrimaryTab.FILES);
         done();

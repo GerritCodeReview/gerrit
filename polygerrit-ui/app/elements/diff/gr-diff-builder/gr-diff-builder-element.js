@@ -312,7 +312,7 @@ class GrDiffBuilderElement extends GestureEventListeners(
       return;
     }
 
-    const localPrefs = Object.assign({}, prefs);
+    const localPrefs = {...prefs};
     if (this.path === COMMIT_MSG_PATH) {
       // override line_length for commit msg the same way as
       // in gr-diff

@@ -729,7 +729,7 @@ class GrDiffHost extends GestureEventListeners(
         isOnParent: comment.side === 'PARENT',
       };
       if (comment.range) {
-        newThread.range = Object.assign({}, comment.range);
+        newThread.range = {...comment.range};
       }
       threads.push(newThread);
     }

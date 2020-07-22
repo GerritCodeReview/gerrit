@@ -76,14 +76,14 @@ suite('gr-diff tests', () => {
 
   test('line limit with line_wrapping', () => {
     element = basicFixture.instantiate();
-    element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: true});
+    element.prefs = {...MINIMAL_PREFS, line_wrapping: true};
     flushAsynchronousOperations();
     assert.equal(getComputedStyleValue('--line-limit', element), '80ch');
   });
 
   test('line limit without line_wrapping', () => {
     element = basicFixture.instantiate();
-    element.prefs = Object.assign({}, MINIMAL_PREFS, {line_wrapping: false});
+    element.prefs = {...MINIMAL_PREFS, line_wrapping: false};
     flushAsynchronousOperations();
     assert.isNotOk(getComputedStyleValue('--line-limit', element));
   });
@@ -225,7 +225,7 @@ suite('gr-diff tests', () => {
       element.path = 'file.txt';
 
       element.$.diffBuilder._builder = element.$.diffBuilder._getDiffBuilder(
-          getMockDiffResponse(), Object.assign({}, MINIMAL_PREFS));
+          getMockDiffResponse(), {...MINIMAL_PREFS});
 
       // No thread groups.
       assert.isNotOk(element._getThreadGroupForLine(contentEl));
@@ -693,22 +693,22 @@ suite('gr-diff tests', () => {
 
       test('change in preferences re-renders diff', () => {
         sinon.stub(element, '_renderDiffTable');
-        element.prefs = Object.assign(
-            {}, MINIMAL_PREFS, {time_format: 'HHMM_12'});
+        element.prefs = {
+          ...MINIMAL_PREFS, time_format: 'HHMM_12'};
         element.flushDebouncer('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
       });
 
       test('adding/removing property in preferences re-renders diff', () => {
         const stub = sinon.stub(element, '_renderDiffTable');
-        const newPrefs1 = Object.assign({}, MINIMAL_PREFS,
-            {line_wrapping: true});
+        const newPrefs1 = {...MINIMAL_PREFS,
+          line_wrapping: true};
         element.prefs = newPrefs1;
         element.flushDebouncer('renderDiffTable');
         assert.isTrue(element._renderDiffTable.called);
         stub.reset();
 
-        const newPrefs2 = Object.assign({}, newPrefs1);
+        const newPrefs2 = {...newPrefs1};
         delete newPrefs2.line_wrapping;
         element.prefs = newPrefs2;
         element.flushDebouncer('renderDiffTable');
@@ -719,8 +719,8 @@ suite('gr-diff tests', () => {
           'noRenderOnPrefsChange', () => {
         sinon.stub(element, '_renderDiffTable');
         element.noRenderOnPrefsChange = true;
-        element.prefs = Object.assign(
-            {}, MINIMAL_PREFS, {time_format: 'HHMM_12'});
+        element.prefs = {
+          ...MINIMAL_PREFS, time_format: 'HHMM_12'};
         element.flushDebouncer('renderDiffTable');
         assert.isFalse(element._renderDiffTable.called);
       });
@@ -787,7 +787,7 @@ suite('gr-diff tests', () => {
     });
 
     test('large render w/ context = 10', done => {
-      element.prefs = Object.assign({}, MINIMAL_PREFS, {context: 10});
+      element.prefs = {...MINIMAL_PREFS, context: 10};
       function rendered() {
         assert.isTrue(renderStub.called);
         assert.isFalse(element._showWarning);
@@ -799,7 +799,7 @@ suite('gr-diff tests', () => {
     });
 
     test('large render w/ whole file and bypass', done => {
-      element.prefs = Object.assign({}, MINIMAL_PREFS, {context: -1});
+      element.prefs = {...MINIMAL_PREFS, context: -1};
       element._safetyBypass = 10;
       function rendered() {
         assert.isTrue(renderStub.called);
@@ -812,7 +812,7 @@ suite('gr-diff tests', () => {
     });
 
     test('large render w/ whole file and no bypass', done => {
-      element.prefs = Object.assign({}, MINIMAL_PREFS, {context: -1});
+      element.prefs = {...MINIMAL_PREFS, context: -1};
       function rendered() {
         assert.isFalse(renderStub.called);
         assert.isTrue(element._showWarning);
@@ -1028,7 +1028,7 @@ suite('gr-diff tests', () => {
     }
     setupSampleDiff({content});
     assertDiffTableWithContent();
-    element.diff = Object.assign({}, element.diff);
+    element.diff = {...element.diff};
     // immediately cleaned up
     assert.equal(element.$.diffTable.innerHTML, '');
     element._renderDiffTable();

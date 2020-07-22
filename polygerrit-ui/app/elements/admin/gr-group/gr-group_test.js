@@ -68,7 +68,7 @@ suite('gr-group tests', () => {
   });
 
   test('default values with external group', done => {
-    const groupExternal = Object.assign({}, group);
+    const groupExternal = {...group};
     groupExternal.id = 'external-group-id';
     groupStub.restore();
     groupStub = sinon.stub(

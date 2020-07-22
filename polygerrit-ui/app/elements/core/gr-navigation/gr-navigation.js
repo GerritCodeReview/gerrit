@@ -758,10 +758,10 @@ export const GerritNav = {
         .filter(section => (attentionEnabled || !section.attentionSetOnly))
         .filter(section => (assigneeEnabled || !section.assigneeOnly))
         .filter(section => (user === 'self' || !section.selfOnly))
-        .map(section => Object.assign({}, section, {
-          name: section.name,
-          query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
-        }));
+        .map(section => {
+          return {...section, name: section.name,
+            query: section.query.replace(USER_PLACEHOLDER_PATTERN, user)};
+        });
     return {title, sections};
   },
 };

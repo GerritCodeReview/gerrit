@@ -141,7 +141,7 @@ class GrApplyFixDialog extends GestureEventListeners(
 
   overridePartialPrefs(prefs) {
     // generate a smaller gr-diff than fullscreen for dialog
-    return Object.assign({}, prefs, {line_length: 50});
+    return {...prefs, line_length: 50};
   }
 
   onCancel(e) {

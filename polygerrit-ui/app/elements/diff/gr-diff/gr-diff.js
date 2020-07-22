@@ -880,7 +880,7 @@ class GrDiff extends GestureEventListeners(
    */
   _getBypassPrefs() {
     if (this._safetyBypass !== null) {
-      return Object.assign({}, this.prefs, {context: this._safetyBypass});
+      return {...this.prefs, context: this._safetyBypass};
     }
     return this.prefs;
   }

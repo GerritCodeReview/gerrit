@@ -39,7 +39,7 @@ suite('gr-hovercard-account tests', () => {
         new Promise(resolve => { '2'; })
     );
 
-    element.account = Object.assign({}, ACCOUNT);
+    element.account = {...ACCOUNT};
     element._config = {
       change: {enable_attention_set: true},
     };
@@ -72,7 +72,7 @@ suite('gr-hovercard-account tests', () => {
   });
 
   test('account status is displayed', () => {
-    element.account = Object.assign({status: 'OOO'}, ACCOUNT);
+    element.account = {status: 'OOO', ...ACCOUNT};
     flushAsynchronousOperations();
     assert.equal(element.shadowRoot.querySelector('.status .value').innerText,
         'OOO');

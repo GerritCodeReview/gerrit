@@ -509,14 +509,20 @@ class GrDiffProcessor extends GestureEventListeners(
 
       if (chunk.ab) {
         result.push(...this._splitAtChunkEnds(chunk.ab, chunkEnds)
-            .map(({lines, keyLocation}) =>
-              Object.assign({}, chunk, {ab: lines, keyLocation})));
+            .map(({lines, keyLocation}) => {
+              return {
+                ...chunk,
+                ab: lines,
+                keyLocation,
+              };
+            }));
       } else if (chunk.common) {
         const aChunks = this._splitAtChunkEnds(chunk.a, chunkEnds);
         const bChunks = this._splitAtChunkEnds(chunk.b, chunkEnds);
-        result.push(...aChunks.map(({lines, keyLocation}, i) =>
-          Object.assign(
-              {}, chunk, {a: lines, b: bChunks[i].lines, keyLocation})));
+        result.push(...aChunks.map(({lines, keyLocation}, i) => {
+          return {
+            ...chunk, a: lines, b: bChunks[i].lines, keyLocation};
+        }));
       }
     }
 

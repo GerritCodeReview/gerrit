@@ -134,9 +134,11 @@ export class Auth {
    * @return {!Promise<!Response>}
    */
   fetch(url, opt_options) {
-    const options = Object.assign({
+    const options = {
       headers: new Headers(),
-    }, this._defaultOptions, opt_options);
+      ...this._defaultOptions,
+      ...opt_options,
+    };
     if (this._type === Auth.TYPE.ACCESS_TOKEN) {
       return this._getAccessToken().then(
           accessToken =>

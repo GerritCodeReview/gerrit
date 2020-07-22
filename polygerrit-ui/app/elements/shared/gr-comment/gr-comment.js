@@ -453,10 +453,8 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
    * @return {!Object}
    */
   _getEventPayload(opt_mixin) {
-    return Object.assign({}, opt_mixin, {
-      comment: this.comment,
-      patchNum: this.patchNum,
-    });
+    return {...opt_mixin, comment: this.comment,
+      patchNum: this.patchNum};
   }
 
   _fireSave() {

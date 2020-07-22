@@ -51,7 +51,7 @@ suite('gr-editor-view tests', () => {
   suite('_paramsChanged', () => {
     test('incorrect view returns immediately', () => {
       element._paramsChanged(
-          Object.assign({}, mockParams, {view: GerritNav.View.DIFF}));
+          {...mockParams, view: GerritNav.View.DIFF});
       assert.notOk(element._changeNum);
     });
 
@@ -64,7 +64,7 @@ suite('gr-editor-view tests', () => {
       });
 
       const promises = element._paramsChanged(
-          Object.assign({}, mockParams, {view: GerritNav.View.EDIT}));
+          {...mockParams, view: GerritNav.View.EDIT});
 
       flushAsynchronousOperations();
       assert.equal(element._changeNum, mockParams.changeNum);

@@ -155,13 +155,11 @@ class GrJsApiInterface extends GestureEventListeners(
     //
     // assign on getter with existing property will report error
     // see Issue: 12286
-    const change = Object.assign({}, detail.change, {
-      get mergeable() {
-        console.warn('Accessing change.mergeable from SHOW_CHANGE is ' +
+    const change = {...detail.change, get mergeable() {
+      console.warn('Accessing change.mergeable from SHOW_CHANGE is ' +
             'deprecated! Use info.mergeable instead.');
-        return detail.info && detail.info.mergeable;
-      },
-    });
+      return detail.info && detail.info.mergeable;
+    }};
     const patchNum = detail.patchNum;
     const info = detail.info;
 

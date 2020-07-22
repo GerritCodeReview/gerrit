@@ -182,10 +182,10 @@ class GrRepoAccess extends GestureEventListeners(
           // Keep a copy of the original inherit from values separate from
           // the ones data bound to gr-autocomplete, so the original value
           // can be restored if the user cancels.
-          this._inheritsFrom = res.inherits_from ? Object.assign({},
-              res.inherits_from) : null;
-          this._originalInheritsFrom = res.inherits_from ? Object.assign({},
-              res.inherits_from) : null;
+          this._inheritsFrom = res.inherits_from ? ({
+            ...res.inherits_from}) : null;
+          this._originalInheritsFrom = res.inherits_from ? ({
+            ...res.inherits_from}) : null;
           // Initialize the filter value so when the user clicks edit, the
           // current value appears. If there is no parent repo, it is
           // initialized as an empty string.
@@ -282,7 +282,7 @@ class GrRepoAccess extends GestureEventListeners(
     }
     // Restore inheritFrom.
     if (this._inheritsFrom) {
-      this._inheritsFrom = Object.assign({}, this._originalInheritsFrom);
+      this._inheritsFrom = {...this._originalInheritsFrom};
       this._inheritFromFilter = this._inheritsFrom.name;
     }
     for (const key of Object.keys(this._local)) {

@@ -1489,7 +1489,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   _handleRefreshChange(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
     e.preventDefault();
-    GerritNav.navigateToChange(this._change);
+    this._handleReloadChange();
   }
 
   _handleToggleChangeStar(e) {
@@ -2146,8 +2146,7 @@ class GrChangeView extends KeyboardShortcutMixin(
             dismissOnNavigation: true,
             action: 'Reload',
             callback: function() {
-            // Load the current change without any patch range.
-              GerritNav.navigateToChange(this._change);
+              this._handleReloadChange();
             }.bind(this),
           },
           composed: true, bubbles: true,

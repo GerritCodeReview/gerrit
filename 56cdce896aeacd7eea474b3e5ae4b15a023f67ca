@@ -49,6 +49,46 @@
     },
     {
       "key": {
+        "uuid": "ca4e29a1_2e2c9e65",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T09:51:21Z",
+      "side": 1,
+      "message": "You can export a class and an interface with the same name? What does that mean?",
+      "range": {
+        "startLine": 28,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c12c45_c882f9d3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T09:51:21Z",
+      "side": 1,
+      "message": "Why did this get a `true` default value?",
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c5a38bb9_f0b45a45",
         "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.d.ts",
         "patchSetId": 8

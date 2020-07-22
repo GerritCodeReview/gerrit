@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6caf2b2e_c32c1d78",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:07:45Z",
+      "side": 1,
+      "message": "ya was a bit lazy for that, thanks for pointing out, will add a test.",
+      "parentUuid": "3c04a1dc_276b6649",
+      "range": {
+        "startLine": 324,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 0
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a688cb0b_67f05f23",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4bb742e4_54a26ae4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 446,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:07:45Z",
+      "side": 1,
+      "message": "it seems work just fine, but I can change to use `set`",
+      "parentUuid": "a688cb0b_67f05f23",
+      "range": {
+        "startLine": 446,
+        "startChar": 8,
+        "endLine": 446,
+        "endChar": 49
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e94ff140_eb3b81de",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2020-07-22T15:00:51Z",
       "side": 1,
       "message": "I don\u0027t understand this part.\nIf gr-comment remains in editing mode, why do you set comment.message explicitly? I suppose that when user click save the _messageText is copied to comment.message anyway. And if user click discard - we should restore original message (from the comment.message).",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75268c09_1c9095ff",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:07:45Z",
+      "side": 1,
+      "message": "as noted in the comments:\n```\n// This usually happens when we save one comment while\n// we have more comments under editing, most of times\n// we probably don\u0027t want to lose all our edits on them\n```\n\nthis is when you have multiple comments in editing mode at the same time, currently we are re-rendering the thread-list when save by getting a new copy of all comments. our data flow always flow from upward to the thread and then comment component. And when that happens, all comments will have `editing` reset to false and `_messageText` will be lost since no edit / discard or any actions involved, its just the comment input gets updated",
+      "parentUuid": "e94ff140_eb3b81de",
       "range": {
         "startLine": 435,
         "startChar": 36,

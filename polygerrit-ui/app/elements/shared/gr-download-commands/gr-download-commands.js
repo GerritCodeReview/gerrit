@@ -93,6 +93,11 @@ class GrDownloadCommands extends GestureEventListeners(
   _computeShowTabs(schemes) {
     return schemes.length > 1 ? '' : 'hidden';
   }
+
+  _computeClass(title) {
+    // Only retain [a-z] chars, so "Cherry Pick" becomes "cherrypick".
+    return '_label_' + title.replace(/[^a-z]+/gi, '').toLowerCase();
+  }
 }
 
 customElements.define(GrDownloadCommands.is, GrDownloadCommands);

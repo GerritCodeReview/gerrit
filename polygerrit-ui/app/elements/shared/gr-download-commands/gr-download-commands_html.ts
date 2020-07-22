@@ -66,6 +66,7 @@ export const htmlTemplate = html`
   <div class="commands" hidden$="[[!schemes.length]]" hidden="">
     <template is="dom-repeat" items="[[commands]]" as="command">
       <gr-shell-command
+        class$="[[_computeClass(command.title)]]"
         label="[[command.title]]"
         command="[[command.command]]"
       ></gr-shell-command>

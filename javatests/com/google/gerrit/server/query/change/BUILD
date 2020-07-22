@@ -30,6 +30,7 @@ java_library(
         "//java/com/google/gerrit/server/schema",
         "//java/com/google/gerrit/server/util/time",
         "//java/com/google/gerrit/testing:gerrit-test-util",
+        "//java/com/google/gerrit/httpd",
         "//lib:guava",
         "//lib:jgit",
         "//lib:jgit-junit",

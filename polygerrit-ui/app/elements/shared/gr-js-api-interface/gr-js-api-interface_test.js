@@ -198,7 +198,7 @@ suite('gr-js-api-interface tests', () => {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
-    const expectedChange = Object.assign({mergeable: false}, testChange);
+    const expectedChange = {mergeable: false, ...testChange};
     plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
     plugin.on(element.EventType.SHOW_CHANGE, (change, revision, info) => {
       assert.deepEqual(change, expectedChange);

@@ -38,7 +38,7 @@ GrEtagDecorator.prototype.getOptions = function(url, opt_options) {
   if (!etag) {
     return opt_options;
   }
-  const options = Object.assign({}, opt_options);
+  const options = {...opt_options};
   options.headers = options.headers || new Headers();
   options.headers.set('If-None-Match', this._etags.get(url));
   return options;

@@ -869,7 +869,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     // because the paths could contain dots in them. A new object must be
     // created to satisfy Polymer’s dirty checking.
     // https://github.com/Polymer/polymer/issues/3127
-    const diffDrafts = Object.assign({}, this._diffDrafts);
+    const diffDrafts = {...this._diffDrafts};
     if (!diffDrafts[draft.path]) {
       diffDrafts[draft.path] = [draft];
       this._diffDrafts = diffDrafts;
@@ -917,7 +917,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     // because the paths could contain dots in them. A new object must be
     // created to satisfy Polymer’s dirty checking.
     // https://github.com/Polymer/polymer/issues/3127
-    const diffDrafts = Object.assign({}, this._diffDrafts);
+    const diffDrafts = {...this._diffDrafts};
     diffDrafts[draft.path].splice(index, 1);
     if (diffDrafts[draft.path].length === 0) {
       delete diffDrafts[draft.path];

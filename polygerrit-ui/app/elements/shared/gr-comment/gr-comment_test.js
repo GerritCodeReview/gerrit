@@ -590,13 +590,11 @@ suite('gr-comment tests', () => {
     });
 
     test('robot comment layout', done => {
-      const comment = Object.assign({
-        robot_id: 'happy_robot_id',
+      const comment = {robot_id: 'happy_robot_id',
         url: '/robot/comment',
         author: {
           name: 'Happy Robot',
-        },
-      }, element.comment);
+        }, ...element.comment};
       element.comment = comment;
       element.collapsed = false;
       flush(() => {
@@ -627,12 +625,10 @@ suite('gr-comment tests', () => {
     });
 
     test('author name fallback to email', done => {
-      const comment = Object.assign({
-        url: '/robot/comment',
+      const comment = {url: '/robot/comment',
         author: {
           email: 'test@test.com',
-        },
-      }, element.comment);
+        }, ...element.comment};
       element.comment = comment;
       element.collapsed = false;
       flush(() => {

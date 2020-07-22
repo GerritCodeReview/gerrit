@@ -858,7 +858,7 @@ class GrChangeActions extends GestureEventListeners(
     if (!approval) {
       return null;
     }
-    const action = Object.assign({}, QUICK_APPROVE_ACTION);
+    const action = {...QUICK_APPROVE_ACTION};
     action.label = approval.label + approval.score;
     const review = {
       drafts: 'PUBLISH_ALL_REVISIONS',
@@ -899,7 +899,7 @@ class GrChangeActions extends GestureEventListeners(
       actions[a].label = this._getActionLabel(actions[a]);
 
       // Triggers a re-render by ensuring object inequality.
-      result.push(Object.assign({}, actions[a]));
+      result.push({...actions[a]});
     });
 
     let additionalActions = (additionalActionsChangeRecord &&
@@ -909,7 +909,7 @@ class GrChangeActions extends GestureEventListeners(
         .map(a => {
           a.__primary = primaryActionKeys.includes(a.__key);
           // Triggers a re-render by ensuring object inequality.
-          return Object.assign({}, a);
+          return {...a};
         });
     return result.concat(additionalActions).concat(pluginActions);
   }

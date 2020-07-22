@@ -223,7 +223,7 @@ class GrRangedCommentLayer extends GestureEventListeners(
         .map(range => {
           // Make a copy, so that the normalization below does not mess with
           // our map.
-          range = Object.assign({}, range);
+          range = {...range};
           range.end = range.end === -1 ? line.text.length : range.end;
 
           // Normalize invalid ranges where the start is after the end but the

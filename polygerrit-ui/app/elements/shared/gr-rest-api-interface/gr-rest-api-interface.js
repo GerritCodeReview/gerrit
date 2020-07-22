@@ -748,7 +748,7 @@ class GrRestApiInterface extends GestureEventListeners(
     if (cachedAccount) {
       // Replace object in cache with new object to force UI updates.
       this._cache.set('/accounts/self/detail',
-          Object.assign({}, cachedAccount, obj));
+          {...cachedAccount, ...obj});
     }
   }
 

@@ -1073,7 +1073,7 @@ class GrFileList extends KeyboardShortcutMixin(
     if (loading || !changeComments) { return; }
 
     const commentedPaths = changeComments.getPaths(patchRange);
-    const files = Object.assign({}, filesByPath);
+    const files = {...filesByPath};
     addUnmodifiedFiles(files, commentedPaths);
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {

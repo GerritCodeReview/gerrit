@@ -168,7 +168,7 @@ class GrAccountList extends GestureEventListeners(
     let itemTypeAdded = 'unknown';
     if (item.account) {
       const account =
-          Object.assign({}, item.account, {_pendingAdd: true});
+          {...item.account, _pendingAdd: true};
       this.push('accounts', account);
       itemTypeAdded = 'account';
     } else if (item.group) {
@@ -176,8 +176,8 @@ class GrAccountList extends GestureEventListeners(
         this.pendingConfirmation = item;
         return;
       }
-      const group = Object.assign({}, item.group,
-          {_pendingAdd: true, _group: true});
+      const group = {...item.group,
+        _pendingAdd: true, _group: true};
       this.push('accounts', group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
@@ -204,8 +204,8 @@ class GrAccountList extends GestureEventListeners(
   }
 
   confirmGroup(group) {
-    group = Object.assign(
-        {}, group, {confirmed: true, _pendingAdd: true, _group: true});
+    group = {
+      ...group, confirmed: true, _pendingAdd: true, _group: true};
     this.push('accounts', group);
     this.pendingConfirmation = null;
   }

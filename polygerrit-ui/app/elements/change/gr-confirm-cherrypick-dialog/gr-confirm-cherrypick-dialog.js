@@ -133,7 +133,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   updateStatus(change, status) {
-    this._statuses = Object.assign({}, this._statuses, {[change.id]: status});
+    this._statuses = {...this._statuses, [change.id]: status};
   }
 
   _computeStatus(change, statuses) {

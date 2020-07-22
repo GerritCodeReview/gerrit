@@ -175,9 +175,10 @@ suite('gr-change-actions tests', () => {
     });
 
     test('getActionDetails', () => {
-      element.revisionActions = Object.assign({
+      element.revisionActions = {
         'plugin~action': {},
-      }, element.revisionActions);
+        ...element.revisionActions,
+      };
       assert.isUndefined(element.getActionDetails('rubbish'));
       assert.strictEqual(element.revisionActions['plugin~action'],
           element.getActionDetails('plugin~action'));

@@ -115,10 +115,8 @@ class GrPatchRangeSelect extends GestureEventListeners(
       const basePatchNum = basePatch.num;
       const entry = this._createDropdownEntry(basePatchNum, 'Patchset ',
           _sortedRevisions, changeComments, this._getShaForPatch(basePatch));
-      dropdownContent.push(Object.assign({}, entry, {
-        disabled: this._computeLeftDisabled(
-            basePatch.num, patchNum, _sortedRevisions),
-      }));
+      dropdownContent.push({...entry, disabled: this._computeLeftDisabled(
+          basePatch.num, patchNum, _sortedRevisions)});
     }
 
     dropdownContent.push({
@@ -163,10 +161,11 @@ class GrPatchRangeSelect extends GestureEventListeners(
       const entry = this._createDropdownEntry(
           patchNum, patchNum === 'edit' ? '' : 'Patchset ', _sortedRevisions,
           changeComments, this._getShaForPatch(patch));
-      dropdownContent.push(Object.assign({}, entry, {
-        disabled: this._computeRightDisabled(basePatchNum, patchNum,
-            _sortedRevisions),
-      }));
+      dropdownContent.push({
+        ...entry,
+        disabled: this._computeRightDisabled(
+            basePatchNum, patchNum, _sortedRevisions),
+      });
     }
     return dropdownContent;
   }

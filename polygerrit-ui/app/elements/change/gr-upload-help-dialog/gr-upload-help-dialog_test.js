@@ -73,8 +73,8 @@ suite('gr-upload-help-dialog tests', () => {
       assert.isUndefined(
           element._computeFetchCommand(testRev, '', 'badscheme'));
 
-      const rev = Object.assign({}, testRev);
-      rev.fetch = Object.assign({}, testRev.fetch, {nocmds: {commands: {}}});
+      const rev = {...testRev};
+      rev.fetch = {...testRev.fetch, nocmds: {commands: {}}};
       assert.isUndefined(
           element._computeFetchCommand(rev, '', 'nocmds'));
 

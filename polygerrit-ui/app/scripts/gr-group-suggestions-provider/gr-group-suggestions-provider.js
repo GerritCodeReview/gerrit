@@ -25,7 +25,7 @@ export class GrGroupSuggestionsProvider {
         .then(groups => {
           if (!groups) { return []; }
           const keys = Object.keys(groups);
-          return keys.map(key => Object.assign({}, groups[key], {name: key}));
+          return keys.map(key => { return {...groups[key], name: key}; });
         });
   }
 

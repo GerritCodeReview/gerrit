@@ -115,7 +115,7 @@ function _filterLinks(filterFn, getAdminMenuLinks, opt_options) {
   // set in addition to the subsection that should be displayed if it
   // exists.
   for (const link of links) {
-    const linkCopy = Object.assign({}, link);
+    const linkCopy = {...link};
     if (linkCopy.name === 'Repositories' && repoName) {
       linkCopy.subsection = getRepoSubsections(repoName);
       expandedSection = linkCopy.subsection;

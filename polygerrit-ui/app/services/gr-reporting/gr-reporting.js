@@ -651,4 +651,4 @@ export class GrReporting {
   }
 }
 
-export const DEFAULT_STARTUP_TIMERS = Object.assign({}, STARTUP_TIMERS);
+export const DEFAULT_STARTUP_TIMERS = {...STARTUP_TIMERS};

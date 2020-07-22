@@ -22,10 +22,6 @@ import {parseDate} from '../../../utils/date-util.js';
 suite('gr-reviewer-updates-parser tests', () => {
   let instance;
 
-  setup(() => {
-
-  });
-
   test('ignores changes without messages', () => {
     const change = {};
     sinon.stub(

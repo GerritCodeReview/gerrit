@@ -86,7 +86,7 @@ class GrRegistrationDialog extends GestureEventListeners(
       // Using Object.assign here allows preservation of the default values
       // supplied in the value generating function of this._account, unless
       // they are overridden by properties in the account from the response.
-      this._account = Object.assign({}, this._account, account);
+      this._account = {...this._account, ...account};
     });
 
     const loadConfig = this.$.restAPI.getConfig().then(config => {

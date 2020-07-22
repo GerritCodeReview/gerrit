@@ -109,6 +109,7 @@ module.exports = {
     "prefer-const": "error",
     "prefer-promise-reject-errors": "error",
     "prefer-spread": "error",
+    "prefer-object-spread": "error",
     "quote-props": ["error", "consistent-as-needed"],
     "semi": ["error", "always"],
     "template-curly-spacing": "error",

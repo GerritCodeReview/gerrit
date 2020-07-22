@@ -390,7 +390,7 @@ class GrDiffView extends KeyboardShortcutMixin(
         changeNum, patchRange).then(changeFiles => {
       if (!changeFiles) return;
       const commentedPaths = changeComments.getPaths(patchRange);
-      const files = Object.assign({}, changeFiles);
+      const files = {...changeFiles};
       addUnmodifiedFiles(files, commentedPaths);
       this._files = {
         sortedFileList: Object.keys(files).sort(specialFilePathCompare),

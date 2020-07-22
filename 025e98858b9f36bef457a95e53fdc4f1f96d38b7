@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cff29db5_550c66c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-22T10:53:11Z",
+      "side": 1,
+      "message": "IIUC the linter will now catch any console.log statements and throw an error if found?\nIf that is the case then mention it here.",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 47
+      },
+      "revId": "025e98858b9f36bef457a95e53fdc4f1f96d38b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

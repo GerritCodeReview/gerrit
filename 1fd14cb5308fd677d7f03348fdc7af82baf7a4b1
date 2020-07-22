@@ -16,6 +16,24 @@
       "revId": "1fd14cb5308fd677d7f03348fdc7af82baf7a4b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5743aa8_2da6b3f0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T08:29:04Z",
+      "side": 1,
+      "message": "just checked, actually if the listener added to the component itself, they should be cleaned up once component destroyed, unless its on window or document.",
+      "parentUuid": "2c7a5f4c_48dc279d",
+      "revId": "1fd14cb5308fd677d7f03348fdc7af82baf7a4b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

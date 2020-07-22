@@ -685,16 +685,12 @@ suite('gr-change-view tests', () => {
             actions: {},
           };
 
-          navigateToChangeStub.restore();
-          navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange')
-              .callsFake((change, patchNum, basePatchNum) => {
-                assert.equal(change, element._change);
-                assert.isUndefined(patchNum);
-                assert.isUndefined(basePatchNum);
-                done();
-              });
-
+          const reloadChangeStub = sinon.stub(element, '_handleReloadChange');
           MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
+          flush(() => {
+            assert.isTrue(reloadChangeStub.called);
+            done();
+          });
         });
 
     test('d should open download overlay', () => {

@@ -19,20 +19,15 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
-import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.UsedAt.Project;
 import com.google.gerrit.extensions.api.GerritApi;
 import com.google.gerrit.extensions.api.accounts.AccountApi;
 import com.google.gerrit.extensions.api.config.Server;
-import com.google.gerrit.extensions.client.ListChangesOption;
-import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import com.google.template.soy.data.SanitizedContent;
@@ -44,61 +39,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.Function;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /** Helper for generating parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
 public class IndexHtmlUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  public static final String CHANGE_CANONICAL_URL = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String BASE_PATCH_NUM_URL_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
-  public static final Pattern CHANGE_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "?" + "/?$");
-  public static final Pattern DIFF_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "(/(.+))" + "/?$");
-
   private static final Gson GSON = OutputFormat.JSON_COMPACT.newGson();
-
-  public static String getDefaultChangeDetailHex() {
-    Set<ListChangesOption> options =
-        ImmutableSet.of(
-            ListChangesOption.ALL_COMMITS,
-            ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.CHANGE_ACTIONS,
-            ListChangesOption.DETAILED_LABELS,
-            ListChangesOption.DOWNLOAD_COMMANDS,
-            ListChangesOption.MESSAGES,
-            ListChangesOption.SUBMITTABLE,
-            ListChangesOption.WEB_LINKS,
-            ListChangesOption.SKIP_DIFFSTAT);
-
-    return ListOption.toHex(options);
-  }
-
-  public static String getDefaultDiffDetailHex() {
-    Set<ListChangesOption> options =
-        ImmutableSet.of(
-            ListChangesOption.ALL_COMMITS,
-            ListChangesOption.ALL_REVISIONS,
-            ListChangesOption.SKIP_DIFFSTAT);
-
-    return ListOption.toHex(options);
-  }
-
-  public static String computeChangeRequestsPath(String requestedURL, Pattern pattern) {
-    Matcher matcher = pattern.matcher(requestedURL);
-    if (matcher.matches()) {
-      Integer changeId = Ints.tryParse(matcher.group("changeNum"));
-      if (changeId != null) {
-        return "changes/" + Url.encode(matcher.group("project")) + "~" + changeId;
-      }
-    }
-
-    return null;
-  }
-
   /**
    * Returns both static and dynamic parameters of {@code index.html}. The result is to be used when
    * rendering the soy template.
@@ -121,7 +68,7 @@ public class IndexHtmlUtil {
                 urlParameterMap,
                 urlInScriptTagOrdainer,
                 requestedURL))
-        .putAll(dynamicTemplateData(gerritApi));
+        .putAll(dynamicTemplateData(gerritApi, requestedURL));
 
     Set<String> enabledExperiments = experimentData(urlParameterMap);
     if (!enabledExperiments.isEmpty()) {
@@ -131,14 +78,28 @@ public class IndexHtmlUtil {
   }
 
   /** Returns dynamic parameters of {@code index.html}. */
-  public static ImmutableMap<String, Object> dynamicTemplateData(GerritApi gerritApi)
-      throws RestApiException {
+  public static ImmutableMap<String, Object> dynamicTemplateData(
+      GerritApi gerritApi, String requestedURL) throws RestApiException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
     initialData.put("\"/config/server/info\"", serializeObject(GSON, serverApi.getInfo()));
     initialData.put("\"/config/server/version\"", serializeObject(GSON, serverApi.getVersion()));
     initialData.put("\"/config/server/top-menus\"", serializeObject(GSON, serverApi.topMenus()));
+
+    String page = IndexPreloadingUtil.route(requestedURL);
+    if (IndexPreloadingUtil.CHANGE_PAGE.equals(page)) {
+      data.put("defaultChangeDetailHex", IndexPreloadingUtil.getDefaultChangeDetailHex());
+      data.put(
+          "changeRequestsPath", IndexPreloadingUtil.computeChangeRequestsPath(requestedURL, page));
+    } else if (IndexPreloadingUtil.DIFF_PAGE.equals(page)) {
+      data.put("defaultDiffDetailHex", IndexPreloadingUtil.getDefaultDiffDetailHex());
+      data.put(
+          "changeRequestsPath", IndexPreloadingUtil.computeChangeRequestsPath(requestedURL, page));
+    } else if (IndexPreloadingUtil.DASHBOARD_PAGE.equals(page)) {
+      data.put("defaultDashboardHex", IndexPreloadingUtil.getDefaultDashboardHex(serverApi));
+      data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList(serverApi));
+    }
 
     try {
       AccountApi accountApi = gerritApi.accounts().self();
@@ -202,22 +163,6 @@ public class IndexHtmlUtil {
     }
     if (faviconPath != null) {
       data.put("faviconPath", faviconPath);
-    }
-    if (requestedURL != null) {
-      data.put("defaultChangeDetailHex", getDefaultChangeDetailHex());
-      data.put("defaultDiffDetailHex", getDefaultDiffDetailHex());
-
-      String changeRequestsPath = computeChangeRequestsPath(requestedURL, CHANGE_URL_PATTERN);
-      if (changeRequestsPath != null) {
-        data.put("preloadChangePage", "true");
-      } else {
-        changeRequestsPath = computeChangeRequestsPath(requestedURL, DIFF_URL_PATTERN);
-        data.put("preloadDiffPage", "true");
-      }
-
-      if (changeRequestsPath != null) {
-        data.put("changeRequestsPath", changeRequestsPath);
-      }
     }
 
     if (urlParameterMap.containsKey("ce")) {

@@ -249,6 +249,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
   attached() {
     super.attached();
     if (this.editing) {
+      this.dispatchEvent(new CustomEvent('editing-draft-changed', {
+        detail: {draftID: this.comment.__draftID, editing: true},
+        bubbles: true,
+      }));
       this.collapsed = false;
     } else if (this.comment) {
       this.collapsed = this.comment.collapsed;
@@ -421,7 +425,6 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     // Prevents a race condition in which removing the draft comment occurs
     // prior to it being saved.
     this.cancelDebouncer('store');
-
     this.$.storage.eraseDraftComment({
       changeNum: this.changeNum,
       patchNum: this._getPatchNum(),
@@ -613,7 +616,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
 
   _handleCancel(e) {
     e.preventDefault();
-
+    this.dispatchEvent(new CustomEvent('editing-draft-changed', {
+      detail: {draftID: this.comment.__draftID, editing: false},
+      bubbles: true,
+    }));
     if (!this.comment.message ||
         this.comment.message.trim().length === 0 ||
         !this.comment.id) {

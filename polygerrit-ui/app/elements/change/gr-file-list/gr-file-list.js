@@ -856,6 +856,10 @@ class GrFileList extends KeyboardShortcutMixin(
     if (this.shouldSuppressKeyboardShortcut(e) ||
         this.modifierPressed(e)) { return; }
     e.preventDefault();
+    this.dispatchEvent(new CustomEvent('editing-draft-changed', {
+      detail: {},
+      bubbles: true,
+    }));
     this.$.diffCursor.createCommentInPlace();
   }
 

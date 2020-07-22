@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8bb5ee77_c8905d5a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T15:23:40Z",
+      "side": 1,
+      "message": "Looks good, but we will also need logic for \"If a robot replies, then do NOT add the owner to the attention set.\" Or even better, only add the owner, if the robot replies with a negative vote. But adding the owner when GerritCI replies with +1 is really annoying, I find.",
+      "revId": "93a5d8b43cae1bf2aabb03236089518ea62fcee6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

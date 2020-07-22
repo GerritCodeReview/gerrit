@@ -245,14 +245,19 @@ export class GrRestApiHelper {
     for (const p in opt_params) {
       if (!opt_params.hasOwnProperty(p)) { continue; }
       if (opt_params[p] == null) {
-        params.push(encodeURIComponent(p));
+        params.push(this.encodeRFC5987(p));
         continue;
       }
       for (const value of [].concat(opt_params[p])) {
-        params.push(`${encodeURIComponent(p)}=${encodeURIComponent(value)}`);
+        params.push(`${this.encodeRFC5987(p)}=${this.encodeRFC5987(value)}`);
       }
     }
     return getBaseUrl() + url + '?' + params.join('&');
+  }
+
+  encodeRFC5987(uri) {
+    return encodeURIComponent(uri)
+        .replace(/['()*]/g, c => '%' + c.charCodeAt(0).toString(16));
   }
 
   /**

@@ -70,6 +70,30 @@
       "revId": "080eac0e1888c21867c006679b7cd254824fd857",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e2712964_a7f0df1c",
+        "filename": "tools/node_tools/package.json",
+        "patchSetId": 14
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-22T11:59:54Z",
+      "side": 1,
+      "message": "Thanks, Dmitrii!",
+      "parentUuid": "99dddd4e_94198efd",
+      "range": {
+        "startLine": 6,
+        "startChar": 4,
+        "endLine": 6,
+        "endChar": 35
+      },
+      "revId": "080eac0e1888c21867c006679b7cd254824fd857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7a663559_74ee6340",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T13:31:29Z",
+      "side": 1,
+      "message": "we still need it so we can recompute once user clicks on `Edit`, otherwise we don\u0027t even know that a comment is in editing mode :)",
+      "parentUuid": "aee37a53_cfc3e616",
+      "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99d86bc2_8e5065ed",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "ec8fab9b_07b8ea04",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 449,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T13:31:29Z",
+      "side": 1,
+      "message": "similar to we store edits in _messageText, we store the `resolved` status in `resolved` at first and sync it to drafts after saving. So when you edit two comments, if you mark one as resolved, and then save the other one, when we re-render, that comment will be re-rendered as unresolved again.",
+      "parentUuid": "99d86bc2_8e5065ed",
+      "range": {
+        "startLine": 449,
+        "startChar": 8,
+        "endLine": 449,
+        "endChar": 31
+      },
+      "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0472bb91_0215c673",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eda89e78_2f1fb515",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T13:31:29Z",
+      "side": 1,
+      "message": "ya forgot to update the text when copy...",
+      "parentUuid": "0472bb91_0215c673",
+      "revId": "7e4831f2d112f7f6bb31e85abe68a0d12413a55d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

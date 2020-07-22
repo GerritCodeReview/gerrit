@@ -49,6 +49,52 @@
     },
     {
       "key": {
+        "uuid": "381b849f_448aa74b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T16:05:28Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov",
+      "range": {
+        "startLine": 429,
+        "startChar": 12,
+        "endLine": 429,
+        "endChar": 16
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ebb90e8_c06e6d96",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T16:05:28Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 27
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a688cb0b_67f05f23",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
         "patchSetId": 2
@@ -203,6 +249,30 @@
       "side": 1,
       "message": "1. leave two drafts\n2. open reply dialog\n3. edit both\n4. save on one, name it as A\n5. wait\n6. both are back to non-edit mode and only A has the edits saved",
       "parentUuid": "0bf7688a_322e869a",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5554ec78_e73611a4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T16:05:28Z",
+      "side": 1,
+      "message": "Thank you, reproduced. It was not clear from the comments and commit message that the problem appears only in reply dialog and doesn\u0027t exist when you edit comments in file-list.\nI am a little bit worried that this solution (comparing old and new text) looks hackish.\nI downloaded this fix and noticed that the following scenario doesn\u0027t work:\nsteps 1 - 5 are the same\n6. Click \"Cancel\" on another comment. Expected: original text, Actual: edited text\n7. Click \"Send\". The comment from the step 6 posted with original text.\n\n\nBased on your explanation, what if instead of comparing text here you update _commentMessageChanged method:\n_commentMessageChanged(message) {\n    if (this.editing) { // In editing mode always preserve entered text\n      return;\n    }\n    this._messageText \u003d message || \u0027\u0027;\n  }\nIt seems, this also solves the problem described in your comment and also doesn\u0027t add unexpected problems with \"Cancel\" button.",
+      "parentUuid": "ce0ca2d4_97cb7d34",
       "range": {
         "startLine": 435,
         "startChar": 36,

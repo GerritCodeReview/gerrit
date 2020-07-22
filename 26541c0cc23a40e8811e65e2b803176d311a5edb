@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f0c26173_f5cd21d4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T08:10:16Z",
+      "side": 1,
+      "message": "forgot to remove ?\n\nalso it seems that you can use a bit padding between the reason and attention text, ignore if its already discussed with ux.",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "26541c0cc23a40e8811e65e2b803176d311a5edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b810a93f_e6eeb81b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -13,6 +36,29 @@
       "writtenOn": "2020-07-21T19:47:48Z",
       "side": 1,
       "message": "PTAL",
+      "revId": "26541c0cc23a40e8811e65e2b803176d311a5edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "454e0bb7_ee48ede3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T08:10:16Z",
+      "side": 1,
+      "message": "nit: why always have `\u003d\"\"`, i don\u0027t think you need it for has-tooltip",
+      "range": {
+        "startLine": 108,
+        "startChar": 25,
+        "endLine": 108,
+        "endChar": 28
+      },
       "revId": "26541c0cc23a40e8811e65e2b803176d311a5edb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -149,7 +149,7 @@ export interface UserDashboard {
 
 // NOTE: These queries are tested in Java. Any changes made to definitions
 // here require corresponding changes to:
-// javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
+// java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java
 const DEFAULT_SECTIONS: DashboardSection[] = [
   {
     // Changes with unpublished draft comments. This section is omitted when

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bce4dab6_72e60cf4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1375,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T11:31:35Z",
+      "side": 1,
+      "message": "nvm, this event is handled from `on-reload-change` from the html",
+      "parentUuid": "b33217d8_b7dac1fe",
+      "range": {
+        "startLine": 1375,
+        "startChar": 15,
+        "endLine": 1375,
+        "endChar": 29
+      },
+      "revId": "feb9b99a8aa664f7a0a12aa87d66d3cf591e7e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c80c3d0_baab5f5a",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 2
@@ -42,6 +66,23 @@
         "endLine": 2148,
         "endChar": 30
       },
+      "revId": "feb9b99a8aa664f7a0a12aa87d66d3cf591e7e6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a18036f_c581c850",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T11:31:35Z",
+      "side": 1,
+      "message": "when we use `gr-reply-dialog`, we are not listening the `reload-change` event, so if you want it to be handled, you need to add the `on-reload-change` as well from the change-view html.",
       "revId": "feb9b99a8aa664f7a0a12aa87d66d3cf591e7e6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

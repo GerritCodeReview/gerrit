@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "426a764e_587590aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-22T12:27:20Z",
+      "side": 1,
+      "message": "@Dmitrii can you also vote on Library-Compliance label?",
+      "revId": "6b6dfcbf2651f63d4b282572d46bf11b79e3ac3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "846d6bb6_a3d80c17",
+        "filename": "polygerrit-ui/app/constants/constants.d.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T07:54:56Z",
+      "side": 1,
+      "message": "Previous version .d.ts isn\u0027t correct and doesn\u0027t allow to import constants.js from other .ts file.",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 36
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5a38bb9_f0b45a45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.d.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T07:54:56Z",
+      "side": 1,
+      "message": "gr-button.js must not export GrButton class! Otherwise, typescript compiler crashes with internal error.\nBecause this is a temporary file only for the TS imports JS case, this is not a big problem for us.",
+      "range": {
+        "startLine": 22,
+        "startChar": 0,
+        "endLine": 22,
+        "endChar": 6
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097cdcda_5ab9db03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T07:54:56Z",
+      "side": 1,
+      "message": "npm run eslint\ncatches incorrect naming",
+      "range": {
+        "startLine": 28,
+        "startChar": 22,
+        "endLine": 28,
+        "endChar": 72
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad41ca1a_4cd65fb8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T07:54:56Z",
+      "side": 1,
+      "message": "This line is required only for google internal build.",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 75
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77e1d2a4_f9e67260",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.d.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T07:54:56Z",
+      "side": 1,
+      "message": "See comment about export in gr-button.d.ts",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 6
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bf5e582_47690e1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.d.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T07:54:56Z",
+      "side": 1,
+      "message": "This is a temporary file for TS imports JS case.\nFor simplicity, only methods are called from .ts files must be defined here. We can skip all other methods here.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

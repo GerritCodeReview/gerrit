@@ -112,7 +112,7 @@ export const htmlTemplate = html`
     .draft .draftTooltip {
       display: inline;
     }
-    .draft:not(.editing) .save,
+    .draft:not(.editing):not(.unableToSave) .save,
     .draft:not(.editing) .cancel {
       display: none;
     }
@@ -245,11 +245,11 @@ export const htmlTemplate = html`
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""
-          title="This draft is only visible to you. To publish drafts, click the 'Reply' or 'Start review' button at the top of the change or press the 'A' key."
+          title="[[_computeDraftTooltip(_unableToSave)]]"
           max-width="20em"
           show-icon=""
         >
-          <span class="draftLabel">DRAFT</span>
+          <span class="draftLabel">[[_computeDraftText(_unableToSave)]]</span>
         </gr-tooltip-content>
       </div>
       <div class="headerMiddle">

@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {__testOnly_UNSAVED_MESSAGE} from './gr-comment.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -353,6 +354,40 @@ suite('gr-comment tests', () => {
       MockInteractions.tap(element.shadowRoot
           .querySelector('.discard'));
       assert.isTrue(reportStub.calledOnce);
+    });
+
+    test('failed save draft request', done => {
+      element.draft = true;
+      const updateRequestStub = sinon.stub(element, '_updateRequestToast');
+      const diffDraftStub =
+        sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
+            Promise.resolve({ok: false}));
+      element._saveDraft();
+      flush(() => {
+        let args = updateRequestStub.lastCall.args;
+        assert.deepEqual(args, [0, true]);
+        assert.equal(element._getSavingMessage(...args),
+            __testOnly_UNSAVED_MESSAGE);
+        assert.equal(element.shadowRoot.querySelector('.draftLabel').innerText,
+            'DRAFT(Failed to save)');
+        assert.isTrue(isVisible(element.shadowRoot
+            .querySelector('.save')), 'save is visible');
+        diffDraftStub.returns(
+            Promise.resolve({ok: true}));
+        element._saveDraft();
+        flush(() => {
+          args = updateRequestStub.lastCall.args;
+          assert.deepEqual(args, [0]);
+          assert.equal(element._getSavingMessage(...args),
+              'All changes saved');
+          assert.equal(element.shadowRoot.querySelector('.draftLabel')
+              .innerText, 'DRAFT');
+          assert.isFalse(isVisible(element.shadowRoot
+              .querySelector('.save')), 'save is not visible');
+          assert.isFalse(element._unableToSave);
+          done();
+        });
+      });
     });
   });
 

@@ -764,6 +764,7 @@ export const htmlTemplate = html`
       can-be-started="[[_canStartReview]]"
       on-send="_handleReplySent"
       on-cancel="_handleReplyCancel"
+      on-reload-change="_handleReloadChange"
       on-autogrow="_handleReplyAutogrow"
       on-send-disabled-changed="_resetReplyOverlayFocusStops"
       hidden$="[[!_loggedIn]]"

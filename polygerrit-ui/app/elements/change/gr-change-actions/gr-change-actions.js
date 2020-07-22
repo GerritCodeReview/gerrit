@@ -1371,7 +1371,8 @@ class GrChangeActions extends GestureEventListeners(
         case ChangeActions.REBASE_EDIT:
         case ChangeActions.REBASE:
         case ChangeActions.SUBMIT:
-          GerritNav.navigateToChange(this.change);
+          this.dispatchEvent(new CustomEvent('reload-change',
+              {bubbles: false}));
           break;
         case ChangeActions.REVERT_SUBMISSION:
           if (!obj.revert_changes || !obj.revert_changes.length) return;
@@ -1433,8 +1434,8 @@ class GrChangeActions extends GestureEventListeners(
                   'uploaded to this change.',
                 action: 'Reload',
                 callback: () => {
-                // Load the current change without any patch range.
-                  GerritNav.navigateToChange(this.change);
+                  this.dispatchEvent(new CustomEvent('reload-change',
+                      {bubbles: false}));
                 },
               },
               composed: true, bubbles: true,

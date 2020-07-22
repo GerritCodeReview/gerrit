@@ -395,13 +395,14 @@ suite('gr-change-actions tests', () => {
       });
     });
 
-    test('rebase change calls navigateToChange', done => {
-      const navigateToChangeStub = sinon.stub(GerritNav, 'navigateToChange');
+    test('rebase change fires reload event', done => {
+      const eventStub = sinon.stub(element, 'dispatchEvent');
       sinon.stub(element.$.restAPI, 'getResponseObject').returns(
           Promise.resolve({}));
       element._handleResponse({__key: 'rebase'}, {});
       flush(() => {
-        assert.isTrue(navigateToChangeStub.called);
+        assert.isTrue(eventStub.called);
+        assert.equal(eventStub.lastCall.args[0].type, 'reload-change');
         done();
       });
     });

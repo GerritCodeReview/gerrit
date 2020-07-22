@@ -176,6 +176,10 @@ class GrAppElement extends KeyboardShortcutMixin(
         e => this._handleRpcLog(e));
     this.addEventListener('shortcut-triggered',
         e => this._handleShortcutTriggered(e));
+    // Ideally individual views should handle this event and respond with a soft
+    // reload. This is a catch-all for all views that cannot or have not
+    // implemented that.
+    this.addEventListener('reload', e => window.location.reload());
   }
 
   /** @override */

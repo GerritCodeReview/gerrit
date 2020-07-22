@@ -22,6 +22,30 @@
       "revId": "444b3bb1b979d44c8e0dfb09ee21d920dfa46483",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78f2569_5867a36d",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-22T20:44:56Z",
+      "side": 1,
+      "message": "In the end I find out that issue is not that content is not sanitized, but that soy by default is encoding in RFC5987[1] so bracket ( is %28. I couldn\u0027t change it on back-end so I changed it on front-end and it works well now.\n\nI will continue with refactoring and cleaning code in this change. \n\n[1]\nhttps://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/encodeURIComponent#Encoding_for_Content-Disposition_and_Link_headers:~:text\u003dencodeRFC5987ValueChars2",
+      "parentUuid": "0149dde6_78206c15",
+      "range": {
+        "startLine": 242,
+        "startChar": 42,
+        "endLine": 242,
+        "endChar": 64
+      },
+      "revId": "444b3bb1b979d44c8e0dfb09ee21d920dfa46483",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

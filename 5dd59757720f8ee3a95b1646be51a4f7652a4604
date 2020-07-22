@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "94bb9250_aba91a9b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-22T10:42:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "debe4883_93d182e0",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "5dd59757720f8ee3a95b1646be51a4f7652a4604",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b39f963_832dab26",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 4

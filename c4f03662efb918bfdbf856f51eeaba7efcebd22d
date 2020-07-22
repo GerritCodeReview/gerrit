@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef31c907_ce05269a",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T16:00:41Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b89a3322_d9460db8",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-22T16:00:41Z",
+      "side": 1,
+      "message": "Comment removed by: Dmitrii Filippov",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

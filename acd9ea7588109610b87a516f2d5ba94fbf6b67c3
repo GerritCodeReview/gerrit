@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ed52743_58ce92f3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:30:20Z",
+      "side": 1,
+      "message": "out of this change\u0027s scope, but you may want to emit a detail indicate where its from, so you may can add metric reporting for the reload-change with correct source",
+      "revId": "acd9ea7588109610b87a516f2d5ba94fbf6b67c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03896342_bf777ce3",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:30:20Z",
+      "side": 1,
+      "message": "add the new event here since its now emitting from the component",
+      "revId": "acd9ea7588109610b87a516f2d5ba94fbf6b67c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c901b08_ff6aa942",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-22T15:30:20Z",
+      "side": 1,
+      "message": "maybe add a test either in reply-dialog or in gr-change-view for this, since apparently we missed that before :)",
+      "revId": "acd9ea7588109610b87a516f2d5ba94fbf6b67c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5b77c58b_947acf9f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T09:17:22Z",
+      "side": 1,
+      "message": "I did remove the space, but apparently there is some commit hook that interprets this as a commit footer and adds the space. :-) Removed it again.\n\nAlso added the padding as suggested.",
+      "parentUuid": "f0c26173_f5cd21d4",
+      "range": {
+        "startLine": 9,
+        "startChar": 6,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "26541c0cc23a40e8811e65e2b803176d311a5edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b810a93f_e6eeb81b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -53,6 +77,30 @@
       "writtenOn": "2020-07-22T08:10:16Z",
       "side": 1,
       "message": "nit: why always have `\u003d\"\"`, i don\u0027t think you need it for has-tooltip",
+      "range": {
+        "startLine": 108,
+        "startChar": 25,
+        "endLine": 108,
+        "endChar": 28
+      },
+      "revId": "26541c0cc23a40e8811e65e2b803176d311a5edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47763fe0_9c31968e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-22T09:17:22Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "454e0bb7_ee48ede3",
       "range": {
         "startLine": 108,
         "startChar": 25,

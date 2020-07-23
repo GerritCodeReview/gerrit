@@ -1,0 +1,469 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b6d783d6_1a724311",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "This looks great Ben. Added a bunch of nits and suggestions to further improve.",
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a170335d_5a1a9ee6",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: comma",
+      "range": {
+        "startLine": 14,
+        "startChar": 22,
+        "endLine": 14,
+        "endChar": 23
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51e2aa13_f815e5a0",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: I\u0027d remove along here.",
+      "range": {
+        "startLine": 18,
+        "startChar": 68,
+        "endLine": 18,
+        "endChar": 73
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6e98c3f_044f8519",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "this feels like it might be a bit too strong and suggests that the AS will only work if people do this. Maybe rephrase like this: \n\nThe attention set brings clarity to the process, but also comes with\nresponsibilities and expectations. To provide the best outcome for all users, we suggest the following principles or best practices:",
+      "range": {
+        "startLine": 19,
+        "startChar": 49,
+        "endLine": 19,
+        "endChar": 64
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f17e120a_1b7be697",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: in a timely fashion",
+      "range": {
+        "startLine": 21,
+        "startChar": 36,
+        "endLine": 21,
+        "endChar": 42
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff73d627_2104ec98",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "again, maybe a bit less strongly: should",
+      "range": {
+        "startLine": 26,
+        "startChar": 7,
+        "endLine": 26,
+        "endChar": 11
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "190164c5_3e48914d",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: comma",
+      "range": {
+        "startLine": 34,
+        "startChar": 31,
+        "endLine": 34,
+        "endChar": 32
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "badd1d96_866a9f77",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "maybe clearer: change owner",
+      "range": {
+        "startLine": 43,
+        "startChar": 11,
+        "endLine": 43,
+        "endChar": 16
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41e737e9_47c5c5f7",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 46,
+        "startChar": 25,
+        "endLine": 46,
+        "endChar": 30
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85480df5_bf113c31",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "maybe softer: are expected to",
+      "range": {
+        "startLine": 46,
+        "startChar": 56,
+        "endLine": 46,
+        "endChar": 74
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9ee5a62_a708dbe2",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "as discussed yesterday, it\u0027d be great if the rules could be a little bit smarter here :) It would certainly match people\u0027s expectations better.",
+      "range": {
+        "startLine": 47,
+        "startChar": 48,
+        "endLine": 48,
+        "endChar": 13
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64a1f35b_7d2e588a",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: maybe add \"on both the Dashboard and Change page\"",
+      "range": {
+        "startLine": 56,
+        "startChar": 18,
+        "endLine": 56,
+        "endChar": 19
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0dbe48d_09a9fcad",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: maybe clearer \"an action\"",
+      "range": {
+        "startLine": 59,
+        "startChar": 38,
+        "endLine": 59,
+        "endChar": 50
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4168731_c01eb9af",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: It also",
+      "range": {
+        "startLine": 59,
+        "startChar": 22,
+        "endLine": 59,
+        "endChar": 29
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e38d7723_5b4e5e4f",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "maybe add for clarity:\n\nWhatever you select here will be the new state of the attention set for this change.",
+      "range": {
+        "startLine": 71,
+        "startChar": 71,
+        "endLine": 71,
+        "endChar": 73
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd807fc1_4594b6c0",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "maybe add something about expectations around removing others from the AS, as that came up so frequently during the canary interviews.",
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33442c45_bc348cb2",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "btw. didn\u0027t we have a nice \"All done. Congrats\" type thing in the original AS design mocks? I still think that might be a small positive reinforcement of that behavior.",
+      "range": {
+        "startLine": 87,
+        "startChar": 68,
+        "endLine": 88,
+        "endChar": 2
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52238e02_6a25aa0c",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "maybe add a not saying that one can also look at others\u0027 attention set on their dashboards?",
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219876c7_a2bcdb96",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "maybe clearer: So the assignee cane be used to escalate the need for a single person to act on a change,...",
+      "range": {
+        "startLine": 98,
+        "startChar": 22,
+        "endLine": 98,
+        "endChar": 34
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "517dcd7a_7f6d1067",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "or at least use the assignee only for exceptional cases.",
+      "range": {
+        "startLine": 102,
+        "startChar": 10,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4053e79a_d68380e2",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-23T04:51:48Z",
+      "side": 1,
+      "message": "nit: comma",
+      "range": {
+        "startLine": 109,
+        "startChar": 32,
+        "endLine": 109,
+        "endChar": 33
+      },
+      "revId": "97a0819b8260c7e5cf0fc6ce3ab4421c2aae723e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

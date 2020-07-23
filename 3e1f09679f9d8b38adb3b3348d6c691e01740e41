@@ -16,6 +16,23 @@
       "revId": "3e1f09679f9d8b38adb3b3348d6c691e01740e41",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a0ea72b_544b6a18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-23T11:00:52Z",
+      "side": 1,
+      "message": "Now, that change 276072 was merged, this merge should be re-done.",
+      "revId": "3e1f09679f9d8b38adb3b3348d6c691e01740e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

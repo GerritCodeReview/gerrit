@@ -144,7 +144,7 @@ public abstract class CachedProjectConfig {
     return Optional.empty();
   }
 
-  abstract ImmutableMap<String, String> getProjectLevelConfigs();
+  public abstract ImmutableMap<String, String> getProjectLevelConfigs();
 
   public static Builder builder() {
     return new AutoValue_CachedProjectConfig.Builder();

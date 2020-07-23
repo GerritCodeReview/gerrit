@@ -56,6 +56,8 @@ public class CachedProjectConfigSerializerTest {
           .setRevision(Optional.of(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")))
           .setRulesId(Optional.of(ObjectId.fromString("deadbeefdeadbeefdeadbeefdeadbeefdeadbeef")))
           .setExtensionPanelSections(ImmutableMap.of("key1", ImmutableList.of("val1", "val2")))
+          .addPluginConfig("plugin-key-1", "plugin-value-1")
+          .addProjectLevelConfig("project-level-key-1", "project-level-value-1")
           .build();
 
   @Test

@@ -87,6 +87,24 @@
       "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52357410_d307b477",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-23T13:19:49Z",
+      "side": 1,
+      "message": "Weird. Why would the hovercard as a whole have to be focusable? And having the hovercard focusable without a visual indication is also not great.\nAnyway, it is not so important.",
+      "parentUuid": "5e04b4ac_5e7db58c",
+      "revId": "dd7347274a9c3eb11fdd1887e923d82f25046da9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

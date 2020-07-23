@@ -34,6 +34,24 @@
       "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "536a24c1_1d46961d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-07-23T23:29:21Z",
+      "side": 1,
+      "message": "Maybe you can help me understand this urgency? As this change does not explain any need for urgency it is hard for me to grasp what the hurry is? I don\u0027t want to delay people\u0027s code form being merged, as I certainly have had my share of dealing with what feels like un-necesary delays in merging my code, however I am always leary of merging code with time constraints since it tends to lead to poorly thought out decisions. If this code has a \"bug like\" affect on running servers, then the safe thing to do when pressured for time would be to revert or turn off something affected by the bug instead of rushing the fix.",
+      "parentUuid": "79863ad5_20f83b92",
+      "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

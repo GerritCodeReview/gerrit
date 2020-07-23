@@ -69,6 +69,24 @@
       "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5b7d9f0_78ffc19a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-23T05:25:52Z",
+      "side": 1,
+      "message": "It would also make it easier to mention in release notes.",
+      "parentUuid": "e765e896_79ca84e8",
+      "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

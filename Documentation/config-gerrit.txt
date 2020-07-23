@@ -1065,10 +1065,17 @@ Caches formatted plugin resources, such as plugin documentation that
 has been converted from Markdown to HTML. The memoryLimit refers to
 the bytes of memory dedicated to storing the documentation.
 
+cache `"persisted_projects"`::
++
+Caches the project description records, from the `refs/meta/config`
+branch of each project. This is the persisted variant of the
+`projects` cache. The indention is for this cache to have an in-memory
+size of 0.
+
 cache `"projects"`::
 +
-Caches the project description records, from the `projects` table
-in the database.  If a project record is updated or deleted, this
+Caches the project description records, from the `refs/meta/config`
+branch of each project. If a project record is updated or deleted, this
 cache should be flushed.  Newly inserted projects do not require
 a cache flush, as they will be read upon first reference.
 

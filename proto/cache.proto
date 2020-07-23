@@ -491,3 +491,11 @@ message CachedProjectConfigProto {
     repeated string section = 1;
   }
 }
+
+// Serialized key for com.google.gerrit.server.project.ProjectCacheImpl.
+// Next ID: 4
+message ProjectCacheKeyProto {
+  string project = 1;
+  bytes revision = 2;
+  bytes global_config_revision = 3; // Hash of All-Projects-projects.config
+}

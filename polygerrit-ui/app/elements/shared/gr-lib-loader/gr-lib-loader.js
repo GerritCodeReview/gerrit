@@ -21,6 +21,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-lib-loader_html.js';
 
+// preloaded in PolyGerritIndexHtml.soy
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 
 /** @extends PolymerElement */

@@ -393,6 +393,30 @@
     },
     {
       "key": {
+        "uuid": "c413e968_c2beab59",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 16
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-23T13:04:34Z",
+      "side": 1,
+      "message": "I tried to implement the TODO now.\nPlease do a first pass as a sanity check. I will implement tests for it after the sanity pass.\n\nI had to reorder a few initialisations in some functions that depended on patchNum being present for. the proper url being found.\n\nAlso now, if the comment is not found(because it was deleted say), I have no way of determining the path or the patchNum so I decided to redirect to the Change Page with the same toast(comment not found).",
+      "parentUuid": "a1b83826_244c94d2",
+      "range": {
+        "startLine": 141,
+        "startChar": 40,
+        "endLine": 141,
+        "endChar": 50
+      },
+      "revId": "7735e757490cde2c9d973048dfdfd5aa57146aa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eed2e381_43fe7d7b",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 16

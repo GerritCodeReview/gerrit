@@ -26,7 +26,6 @@ import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
-import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Change;
@@ -201,7 +200,8 @@ public class StalenessChecker {
 
       // Quote everything except the '*'s, which become ".*".
       String regex =
-          Streams.stream(Splitter.on('*').split(pattern))
+          Splitter.on('*')
+              .splitToStream(pattern)
               .map(Pattern::quote)
               .collect(joining(".*", "^", "$"));
       return new AutoValue_StalenessChecker_RefStatePattern(

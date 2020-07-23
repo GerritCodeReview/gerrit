@@ -21,7 +21,6 @@ import static java.util.Objects.requireNonNull;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Streams;
 import com.google.common.primitives.Ints;
 import java.sql.Timestamp;
 import java.util.List;
@@ -55,7 +54,7 @@ public abstract class PatchSet {
   }
 
   public static ImmutableList<String> splitGroups(String joinedGroups) {
-    return Streams.stream(Splitter.on(',').split(joinedGroups)).collect(toImmutableList());
+    return Splitter.on(',').splitToStream(joinedGroups).collect(toImmutableList());
   }
 
   public static Id id(Change.Id changeId, int id) {

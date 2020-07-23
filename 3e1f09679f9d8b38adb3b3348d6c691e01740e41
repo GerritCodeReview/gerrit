@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5bd9d75_27cf55be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-23T07:36:16Z",
+      "side": 1,
+      "message": "Marco already uploaded this merge? Should we rather re-do merge for his commit?",
+      "revId": "3e1f09679f9d8b38adb3b3348d6c691e01740e41",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

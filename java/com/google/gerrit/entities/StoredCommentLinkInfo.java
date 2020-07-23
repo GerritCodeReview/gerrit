@@ -68,7 +68,7 @@ public abstract class StoredCommentLinkInfo {
   }
 
   /** Creates and returns a new {@link StoredCommentLinkInfo} instance with the same values. */
-  public static StoredCommentLinkInfo fromInfo(CommentLinkInfo src, boolean enabled) {
+  public static StoredCommentLinkInfo fromInfo(CommentLinkInfo src, Boolean enabled) {
     return builder(src.name)
         .setMatch(src.match)
         .setLink(src.link)

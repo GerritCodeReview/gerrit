@@ -50,6 +50,24 @@
       "revId": "6b6dfcbf2651f63d4b282572d46bf11b79e3ac3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ebc4af08_87265af8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-23T11:21:01Z",
+      "side": 1,
+      "message": "Right. Thanks for merging the delete-project plugin change and fixing the build.",
+      "parentUuid": "a2727c31_83a659cb",
+      "revId": "6b6dfcbf2651f63d4b282572d46bf11b79e3ac3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

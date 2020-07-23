@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a1033e9_2134697f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-07-23T13:30:55Z",
+      "side": 1,
+      "message": "I will add unit test later today. Could it be refactor like this?",
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

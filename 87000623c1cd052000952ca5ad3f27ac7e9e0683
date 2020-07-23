@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa86010a_9093db1c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-07-23T17:55:01Z",
+      "side": 1,
+      "message": "I think the commit message for this change should focus on this change and not an unmerged change. It is important that code stand on its own and make sense within the context of the current code base (I think this does, but the commit message does not). It would make sense to mention specific things that you think could be improved about this approach. I would not expect changes which are not a bug fixes to mention ideas of time pressure, so that probably isn\u0027t really relevant here (unless you plan to approach this as a bug fix, but then the time element relates to the behavior it would be fixing). In other words, this change is framed as bug fix for some potential future change that may or may not ever exist, instead of being framed as bug fix to existing behavior that this change is trying to fix.",
+      "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

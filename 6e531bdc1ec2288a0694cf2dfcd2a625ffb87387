@@ -87,6 +87,23 @@
       "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ddd771b_85300b87",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-23T05:50:15Z",
+      "side": 1,
+      "message": "I\u0027m planning to release 3.0.12 today evening and started updating the release notes. If this change will by finalized until then, it could be included in upcoming 3.0.12 release.",
+      "revId": "6e531bdc1ec2288a0694cf2dfcd2a625ffb87387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

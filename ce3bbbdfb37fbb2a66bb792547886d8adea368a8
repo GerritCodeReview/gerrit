@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "c3764cec_00db0f80",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 20
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-23T13:04:34Z",
+      "side": 1,
+      "message": "Yeah agree with Ben here, the file route isn\u0027t that important. I will just remove it.\nIt\u0027s unclear to me what the purpose of these file links in the email are.\nOn the FE side we can replace them with the first comment in the file.\nOn the BE emails we don\u0027t linkify them at all.",
+      "parentUuid": "a353e4ec_f69680b7",
+      "revId": "ce3bbbdfb37fbb2a66bb792547886d8adea368a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cfa0f646_51314e0e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 20

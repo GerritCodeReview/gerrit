@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4df5472c_cc7cc806",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-23T10:27:15Z",
+      "side": 1,
+      "message": "missing licence header",
+      "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33edc6b2_aa656984",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-23T10:27:15Z",
+      "side": 1,
+      "message": "This looks weird, in order to read plugin config values, we always need to get a PluginConfig.Update and then convert it to PluginConfig?",
+      "range": {
+        "startLine": 1260,
+        "startChar": 31,
+        "endLine": 1260,
+        "endChar": 86
+      },
+      "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17adfed7_400d2f1b",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-23T10:27:15Z",
+      "side": 1,
+      "message": "Does this mean we convert PluginConfig.Update to PluginConfig once for every iteration of the loop just to read the old value?",
+      "range": {
+        "startLine": 216,
+        "startChar": 28,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

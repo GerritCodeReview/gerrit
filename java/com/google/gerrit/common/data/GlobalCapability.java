@@ -14,6 +14,8 @@
 
 package com.google.gerrit.common.data;
 
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRange;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;

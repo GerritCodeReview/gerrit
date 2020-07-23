@@ -15,7 +15,7 @@
 package com.google.gerrit.server.restapi.project;
 
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.extensions.common.BatchLabelInput;
 import com.google.gerrit.extensions.common.LabelDefinitionInput;
 import com.google.gerrit.extensions.restapi.AuthException;

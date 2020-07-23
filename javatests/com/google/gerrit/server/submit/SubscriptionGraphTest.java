@@ -22,10 +22,10 @@ import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmoduleSubscription;
+import com.google.gerrit.entities.SubscribeSection;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.submit.SubscriptionGraph.DefaultFactory;

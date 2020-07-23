@@ -21,8 +21,8 @@ import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.a
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.extensions.client.SubmitType;
 import com.google.gerrit.extensions.common.ActionInfo;
 import com.google.inject.Inject;

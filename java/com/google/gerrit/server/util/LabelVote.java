@@ -18,7 +18,7 @@ import static com.google.common.base.Preconditions.checkArgument;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
-import com.google.gerrit.common.data.LabelType;
+import com.google.gerrit.entities.LabelType;
 
 /** A single vote on a label, consisting of a label name and a value. */
 @AutoValue

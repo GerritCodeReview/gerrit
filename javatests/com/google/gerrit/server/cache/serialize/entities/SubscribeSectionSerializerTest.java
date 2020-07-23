@@ -18,20 +18,21 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.server.cache.serialize.entities.SubscribeSectionSerializer.deserialize;
 import static com.google.gerrit.server.cache.serialize.entities.SubscribeSectionSerializer.serialize;
 
-import com.google.gerrit.common.data.SubscribeSection;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.SubscribeSection;
 import org.junit.Test;
 
 public class SubscribeSectionSerializerTest {
+  static final SubscribeSection ALL_VALUES_SET =
+      SubscribeSection.builder(Project.nameKey("project"))
+          .addMultiMatchRefSpec("multi")
+          .addMultiMatchRefSpec("multi2")
+          .addMatchingRefSpec("matching1")
+          .addMatchingRefSpec("matching2")
+          .build();
+
   @Test
   public void roundTrip() {
-    SubscribeSection autoValue =
-        SubscribeSection.builder(Project.nameKey("project"))
-            .addMultiMatchRefSpec("multi")
-            .addMultiMatchRefSpec("multi2")
-            .addMatchingRefSpec("matching1")
-            .addMatchingRefSpec("matching2")
-            .build();
-    assertThat(deserialize(serialize(autoValue))).isEqualTo(autoValue);
+    assertThat(deserialize(serialize(ALL_VALUES_SET))).isEqualTo(ALL_VALUES_SET);
   }
 }

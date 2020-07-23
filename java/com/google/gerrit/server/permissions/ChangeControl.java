@@ -19,10 +19,10 @@ import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BE
 
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRange;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRange;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;

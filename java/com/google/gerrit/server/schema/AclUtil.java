@@ -14,11 +14,11 @@
 
 package com.google.gerrit.server.schema;
 
-import com.google.gerrit.common.data.AccessSection;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
-import com.google.gerrit.common.data.PermissionRule;
+import com.google.gerrit.entities.AccessSection;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Permission;
+import com.google.gerrit.entities.PermissionRule;
 import com.google.gerrit.server.project.ProjectConfig;
 
 /**

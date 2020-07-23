@@ -22,9 +22,9 @@ import static com.google.gerrit.server.schema.AllProjectsInput.getDefaultCodeRev
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.common.Version;
-import com.google.gerrit.common.data.LabelType;
-import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.LabelType;
+import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.AllUsersName;

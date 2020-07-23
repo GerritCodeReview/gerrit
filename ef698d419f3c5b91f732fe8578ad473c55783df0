@@ -16,6 +16,24 @@
       "revId": "ef698d419f3c5b91f732fe8578ad473c55783df0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "393580c6_94412b22",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-23T11:53:57Z",
+      "side": 1,
+      "message": "Changes of the code-owners plugin are also effected by this. Tao is going to ask about this in Slack.",
+      "parentUuid": "a0772682_f8e37d95",
+      "revId": "ef698d419f3c5b91f732fe8578ad473c55783df0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

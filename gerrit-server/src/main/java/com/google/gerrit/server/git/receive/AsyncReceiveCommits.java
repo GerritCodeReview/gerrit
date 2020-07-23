@@ -102,9 +102,13 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     final MultiProgressMonitor progress;
 
     private final Collection<ReceiveCommand> commands;
+    private final ReceiveCommits rc;
 
     private Worker(Collection<ReceiveCommand> commands) {
       this.commands = commands;
+      rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
+      rc.init();
+      rc.setMessageSender(messageSender);
       progress = new MultiProgressMonitor(new MessageSenderOutputStream(), "Processing changes");
     }
 
@@ -160,7 +164,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     }
   }
 
-  private final ReceiveCommits rc;
+  private final ReceiveCommits.Factory factory;
   private final ReceivePack rp;
   private final ExecutorService executor;
   private final RequestScopePropagator scopePropagator;
@@ -169,6 +173,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
   private final long timeoutMillis;
   private final ProjectControl projectControl;
   private final Repository repo;
+  private final MessageSender messageSender;
+  private final SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers;
   private final AllRefsWatcher allRefsWatcher;
 
   @Inject
@@ -189,6 +195,7 @@ public class AsyncReceiveCommits implements PreReceiveHook {
       @Assisted @Nullable MessageSender messageSender,
       @Assisted SetMultimap<ReviewerStateInternal, Account.Id> extraReviewers)
       throws PermissionBackendException {
+    this.factory = factory;
     this.executor = executor;
     this.scopePropagator = scopePropagator;
     this.receiveConfig = receiveConfig;
@@ -196,6 +203,8 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     this.timeoutMillis = timeoutMillis;
     this.projectControl = projectControl;
     this.repo = repo;
+    this.messageSender = messageSender;
+    this.extraReviewers = extraReviewers;
 
     IdentifiedUser user = projectControl.getUser().asIdentifiedUser();
     ProjectState state = projectControl.getProjectState();
@@ -228,10 +237,6 @@ public class AsyncReceiveCommits implements PreReceiveHook {
     advHooks.add(new ReceiveCommitsAdvertiseRefsHook(queryProvider, projectName));
     advHooks.add(new HackPushNegotiateHook());
     rp.setAdvertiseRefsHook(AdvertiseRefsHookChain.newChain(advHooks));
-
-    rc = factory.create(projectControl, rp, allRefsWatcher, extraReviewers);
-    rc.init();
-    rc.setMessageSender(messageSender);
   }
 
   /** Determine if the user can upload commits. */

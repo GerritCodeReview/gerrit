@@ -15,6 +15,7 @@
 package com.google.gerrit.server.project;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.annotations.VisibleForTesting;
@@ -24,6 +25,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSortedSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
+import com.google.common.hash.Hashing;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
@@ -41,10 +43,17 @@ import com.google.gerrit.metrics.Description.Units;
 import com.google.gerrit.metrics.Field;
 import com.google.gerrit.metrics.MetricMaker;
 import com.google.gerrit.metrics.Timer0;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.CacheRefreshExecutor;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.proto.Cache;
+import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
+import com.google.gerrit.server.cache.serialize.ProtobufSerializer;
+import com.google.gerrit.server.cache.serialize.entities.CachedProjectConfigSerializer;
 import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
+import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
@@ -55,6 +64,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import com.google.protobuf.ByteString;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Objects;
@@ -63,9 +73,13 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
+import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 
 /** Cache of project information, including access rights. */
 @Singleton
@@ -74,16 +88,44 @@ public class ProjectCacheImpl implements ProjectCache {
 
   public static final String CACHE_NAME = "projects";
 
+  public static final String PERSISTED_CACHE_NAME = "persisted_projects";
+
   private static final String CACHE_LIST = "project_list";
 
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
+        // We split the project cache into two parts for performance reasons:
+        // 1) An in-memory part that has only the project name as key.
+        // 2) A persisted part that has the name and revision as key.
+        //
+        // When loading dashboards or returning change query results we potentially
+        // need to access hundreds of projects because each change could originate in
+        // a different project and, through inheritance, require us to check even more
+        // projects when evaluating permissions. It's not feasible to read the revision
+        // of refs/meta/config from each of these repos as that would require opening
+        // them all and reading their ref list or table.
+        // At the same time, we want the persisted cache to be immutable and we want it
+        // to be impossible that a value for a given key is out of date. We therefore
+        // require a revision in the key. That is in line with the rest of the caches in
+        // Gerrit.
+        //
+        // Splitting the cache into two chunks internally in this class allows us to retain
+        // the existing performance guarantees of not requiring reads for the repo for values
+        // cached in-memory but also to persist the cache which leads to a much improved
+        // cold-start behavior and in-memory miss latency.
         cache(CACHE_NAME, Project.NameKey.class, CachedProjectConfig.class)
-            .loader(Loader.class)
+            .loader(InMemoryLoader.class)
             .refreshAfterWrite(Duration.ofMinutes(15))
             .expireAfterWrite(Duration.ofHours(1));
+
+        persist(PERSISTED_CACHE_NAME, Cache.ProjectCacheKeyProto.class, CachedProjectConfig.class)
+            .loader(PersistedLoader.class)
+            .keySerializer(new ProtobufSerializer<>(Cache.ProjectCacheKeyProto.parser()))
+            .valueSerializer(PersistedProjectConfigSerializer.INSTANCE)
+            .diskLimit(-1)
+            .maximumWeight(0);
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)
@@ -105,7 +147,7 @@ public class ProjectCacheImpl implements ProjectCache {
 
   private final AllProjectsName allProjectsName;
   private final AllUsersName allUsersName;
-  private final LoadingCache<Project.NameKey, CachedProjectConfig> byName;
+  private final LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache;
   private final LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list;
   private final Lock listLock;
   private final Provider<ProjectIndexer> indexer;
@@ -116,14 +158,14 @@ public class ProjectCacheImpl implements ProjectCache {
   ProjectCacheImpl(
       final AllProjectsName allProjectsName,
       final AllUsersName allUsersName,
-      @Named(CACHE_NAME) LoadingCache<Project.NameKey, CachedProjectConfig> byName,
+      @Named(CACHE_NAME) LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache,
       @Named(CACHE_LIST) LoadingCache<ListKey, ImmutableSortedSet<Project.NameKey>> list,
       Provider<ProjectIndexer> indexer,
       MetricMaker metricMaker,
       ProjectState.Factory projectStateFactory) {
     this.allProjectsName = allProjectsName;
     this.allUsersName = allUsersName;
-    this.byName = byName;
+    this.inMemoryProjectCache = inMemoryProjectCache;
     this.list = list;
     this.listLock = new ReentrantLock(true /* fair */);
     this.indexer = indexer;
@@ -154,7 +196,7 @@ public class ProjectCacheImpl implements ProjectCache {
     }
 
     try {
-      return Optional.of(byName.get(projectName)).map(projectStateFactory::create);
+      return Optional.of(inMemoryProjectCache.get(projectName)).map(projectStateFactory::create);
     } catch (ExecutionException e) {
       if ((e.getCause() instanceof RepositoryNotFoundException)) {
         logger.atFine().log("Cannot find project %s", projectName.get());
@@ -174,7 +216,7 @@ public class ProjectCacheImpl implements ProjectCache {
   public void evict(Project.NameKey p) {
     if (p != null) {
       logger.atFine().log("Evict project '%s'", p.get());
-      byName.invalidate(p);
+      inMemoryProjectCache.invalidate(p);
     }
     indexer.get().index(p);
   }
@@ -229,7 +271,7 @@ public class ProjectCacheImpl implements ProjectCache {
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
       return all().stream()
-          .map(n -> byName.getIfPresent(n))
+          .map(n -> inMemoryProjectCache.getIfPresent(n))
           .filter(Objects::nonNull)
           .flatMap(p -> p.getAllGroupUUIDs().stream())
           // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
@@ -252,24 +294,52 @@ public class ProjectCacheImpl implements ProjectCache {
     }
   }
 
+  /**
+   * Returns a {@code MurMur128} hash of the contents of {@code etc/All-Projects-project.config}.
+   */
+  public static byte[] allProjectsFileProjectConfigHash(
+      AllProjectsName allProjectsName, SitePaths sitePaths) {
+    // Hash the contents of All-Projects-project.config
+    // This is a way for administrators to orchestrate project.config changes across many Gerrit
+    // instances.
+    // When this file changes, we need to make sure we disregard persistently cached project
+    // state.
+    FileBasedConfig fileBasedConfig =
+        new FileBasedConfig(
+            sitePaths
+                .etc_dir
+                .resolve(allProjectsName.get())
+                .resolve(ProjectConfig.PROJECT_CONFIG)
+                .toFile(),
+            FS.DETECTED);
+    try {
+      fileBasedConfig.load();
+    } catch (IOException | ConfigInvalidException e) {
+      throw new IllegalStateException(e);
+    }
+    return Hashing.murmur3_128().hashString(fileBasedConfig.toText(), UTF_8).asBytes();
+  }
+
   @Singleton
-  static class Loader extends CacheLoader<Project.NameKey, CachedProjectConfig> {
-    private final ProjectState.Factory projectStateFactory;
-    private final GitRepositoryManager mgr;
-    private final ProjectConfig.Factory projectConfigFactory;
+  static class InMemoryLoader extends CacheLoader<Project.NameKey, CachedProjectConfig> {
+    private final LoadingCache<Cache.ProjectCacheKeyProto, CachedProjectConfig> persistedCache;
+    private final GitRepositoryManager repoManager;
     private final ListeningExecutorService cacheRefreshExecutor;
     private final Counter2<String, Boolean> refreshCounter;
+    private final AllProjectsName allProjectsName;
+    private final byte[] allProjectsProjectConfig;
 
     @Inject
-    Loader(
-        ProjectState.Factory psf,
-        GitRepositoryManager g,
-        ProjectConfig.Factory projectConfigFactory,
+    InMemoryLoader(
+        @Named(PERSISTED_CACHE_NAME)
+            LoadingCache<Cache.ProjectCacheKeyProto, CachedProjectConfig> persistedCache,
+        GitRepositoryManager repoManager,
         @CacheRefreshExecutor ListeningExecutorService cacheRefreshExecutor,
-        MetricMaker metricMaker) {
-      projectStateFactory = psf;
-      mgr = g;
-      this.projectConfigFactory = projectConfigFactory;
+        MetricMaker metricMaker,
+        AllProjectsName allProjectsName,
+        SitePaths sitePaths) {
+      this.persistedCache = persistedCache;
+      this.repoManager = repoManager;
       this.cacheRefreshExecutor = cacheRefreshExecutor;
       refreshCounter =
           metricMaker.newCounter(
@@ -277,28 +347,37 @@ public class ProjectCacheImpl implements ProjectCache {
               new Description("count").setRate(),
               Field.ofString("cache", Metadata.Builder::className).build(),
               Field.ofBoolean("outdated", Metadata.Builder::outdated).build());
+      this.allProjectsName = allProjectsName;
+      this.allProjectsProjectConfig = allProjectsFileProjectConfigHash(allProjectsName, sitePaths);
     }
 
     @Override
-    public CachedProjectConfig load(Project.NameKey key) throws Exception {
-      try (TraceTimer timer =
-          TraceContext.newTimer(
-              "Loading project", Metadata.builder().projectName(key.get()).build())) {
-        try (Repository git = mgr.openRepository(key)) {
-          ProjectConfig cfg = projectConfigFactory.create(key);
-          cfg.load(key, git);
-          return cfg.getCacheable();
+    public CachedProjectConfig load(Project.NameKey key) throws IOException, ExecutionException {
+      try (TraceTimer ignored =
+              TraceContext.newTimer(
+                  "Loading project from serialized cache",
+                  Metadata.builder().projectName(key.get()).build());
+          Repository git = repoManager.openRepository(key)) {
+        Cache.ProjectCacheKeyProto.Builder keyProto =
+            Cache.ProjectCacheKeyProto.newBuilder().setProject(key.get());
+        Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
+        if (key.get().equals(allProjectsName.get())) {
+          keyProto.setGlobalConfigRevision(ByteString.copyFrom(allProjectsProjectConfig));
         }
+        if (configRef != null) {
+          keyProto.setRevision(ObjectIdConverter.create().toByteString(configRef.getObjectId()));
+        }
+        return persistedCache.get(keyProto.build());
       }
     }
 
     @Override
     public ListenableFuture<CachedProjectConfig> reload(
         Project.NameKey key, CachedProjectConfig oldState) throws Exception {
-      try (TraceTimer timer =
+      try (TraceTimer ignored =
           TraceContext.newTimer(
               "Reload project", Metadata.builder().projectName(key.get()).build())) {
-        try (Repository git = mgr.openRepository(key)) {
+        try (Repository git = repoManager.openRepository(key)) {
           Ref configRef = git.exactRef(RefNames.REFS_CONFIG);
           if (configRef != null && configRef.getObjectId().equals(oldState.getRevision().get())) {
             refreshCounter.increment(CACHE_NAME, false);
@@ -311,6 +390,52 @@ public class ProjectCacheImpl implements ProjectCache {
         refreshCounter.increment(CACHE_NAME, true);
         return cacheRefreshExecutor.submit(() -> load(key));
       }
+    }
+  }
+
+  @Singleton
+  static class PersistedLoader
+      extends CacheLoader<Cache.ProjectCacheKeyProto, CachedProjectConfig> {
+    private final GitRepositoryManager repoManager;
+    private final ProjectConfig.Factory projectConfigFactory;
+
+    @Inject
+    PersistedLoader(GitRepositoryManager repoManager, ProjectConfig.Factory projectConfigFactory) {
+      this.repoManager = repoManager;
+      this.projectConfigFactory = projectConfigFactory;
+    }
+
+    @Override
+    public CachedProjectConfig load(Cache.ProjectCacheKeyProto key) throws Exception {
+      Project.NameKey nameKey = Project.nameKey(key.getProject());
+      ObjectId revision =
+          key.getRevision().isEmpty()
+              ? null
+              : ObjectIdConverter.create().fromByteString(key.getRevision());
+      try (TraceTimer ignored =
+          TraceContext.newTimer(
+              "Loading project from repo", Metadata.builder().projectName(nameKey.get()).build())) {
+        try (Repository git = repoManager.openRepository(nameKey)) {
+          ProjectConfig cfg = projectConfigFactory.create(nameKey);
+          cfg.load(git, revision);
+          return cfg.getCacheable();
+        }
+      }
+    }
+  }
+
+  private enum PersistedProjectConfigSerializer implements CacheSerializer<CachedProjectConfig> {
+    INSTANCE;
+
+    @Override
+    public byte[] serialize(CachedProjectConfig value) {
+      return Protos.toByteArray(CachedProjectConfigSerializer.serialize(value));
+    }
+
+    @Override
+    public CachedProjectConfig deserialize(byte[] in) {
+      return CachedProjectConfigSerializer.deserialize(
+          Protos.parseUnchecked(Cache.CachedProjectConfigProto.parser(), in));
     }
   }
 
@@ -338,11 +463,11 @@ public class ProjectCacheImpl implements ProjectCache {
 
   @VisibleForTesting
   public void evictAllByName() {
-    byName.invalidateAll();
+    inMemoryProjectCache.invalidateAll();
   }
 
   @VisibleForTesting
   public long sizeAllByName() {
-    return byName.size();
+    return inMemoryProjectCache.size();
   }
 }

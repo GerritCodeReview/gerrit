@@ -58,6 +58,8 @@ import org.eclipse.jgit.lib.RefUpdate.Result;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.eclipse.jgit.util.RawParseUtils;
 import org.junit.Before;
 import org.junit.Rule;
@@ -818,6 +820,33 @@ public class ProjectConfigTest {
     assertThat(text(rev, "project.config"))
         .isEqualTo(
             "[commentlink \"bugzilla\"]\n\tmatch = \"(bug\\\\s+#?)(\\\\d+)\"\n\tlink = http://bugs.example.com/show_bug.cgi?id=$2\n");
+  }
+
+  @Test
+  public void allProjectsProjectConfigInSitePaths_hashForKeyChangesWithnFileChanges()
+      throws Exception {
+    Path tmp = Files.createTempFile("gerrit_test_", "_site");
+    Files.deleteIfExists(tmp);
+    SitePaths sitePaths = new SitePaths(tmp);
+    byte[] hashedContents =
+        ProjectCacheImpl.allProjectsFileProjectConfigHash(ALL_PROJECTS, sitePaths);
+    assertThat(hashedContents).isEqualTo(new byte[16]); // Empty/absent config
+    FileBasedConfig fileBasedConfig =
+        new FileBasedConfig(
+            sitePaths
+                .etc_dir
+                .resolve(ALL_PROJECTS.get())
+                .resolve(ProjectConfig.PROJECT_CONFIG)
+                .toFile(),
+            FS.DETECTED);
+    fileBasedConfig.setString("plugin", "my-plugin", "key", "value");
+    fileBasedConfig.save();
+    hashedContents = ProjectCacheImpl.allProjectsFileProjectConfigHash(ALL_PROJECTS, sitePaths);
+    assertThat(hashedContents)
+        .isEqualTo(
+            new byte[] {
+              -53, -97, -1, 52, -119, 104, -13, -41, -7, 82, -90, 126, -32, -13, -91, 49
+            });
   }
 
   private Path writeDefaultAllProjectsConfig(String... lines) throws IOException {

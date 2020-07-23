@@ -33,6 +33,24 @@
       "revId": "96d2fe78e4fbc7dea2eeb1eb971a7df345b27a53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6633a53_cee76098",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/BUILD",
+        "patchSetId": 7
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T10:48:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "117be7a1_419c4fd5",
+      "revId": "96d2fe78e4fbc7dea2eeb1eb971a7df345b27a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

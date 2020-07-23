@@ -30,14 +30,22 @@ module.exports = {
     "es6": true
   },
   "rules": {
+    // https://eslint.org/docs/rules/no-confusing-arrow
     "no-confusing-arrow": "error",
+    // https://eslint.org/docs/rules/newline-per-chained-call
     "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 2}],
+    // https://eslint.org/docs/rules/arrow-body-style
     "arrow-body-style": ["error", "as-needed",
       {"requireReturnForObjectLiteral": true}],
+    // https://eslint.org/docs/rules/arrow-parens
     "arrow-parens": ["error", "as-needed"],
+    // https://eslint.org/docs/rules/block-spacing
     "block-spacing": ["error", "always"],
+    // https://eslint.org/docs/rules/brace-style
     "brace-style": ["error", "1tbs", {"allowSingleLine": true}],
+    // https://eslint.org/docs/rules/camelcase
     "camelcase": "off",
+    // https://eslint.org/docs/rules/comma-dangle
     "comma-dangle": ["error", {
       "arrays": "always-multiline",
       "objects": "always-multiline",
@@ -45,7 +53,9 @@ module.exports = {
       "exports": "always-multiline",
       "functions": "never"
     }],
+    // https://eslint.org/docs/rules/eol-last
     "eol-last": "off",
+    // https://eslint.org/docs/rules/indent
     "indent": ["error", 2, {
       "MemberExpression": 2,
       "FunctionDeclaration": {"body": 1, "parameters": 2},
@@ -55,8 +65,11 @@ module.exports = {
       "ObjectExpression": 1,
       "SwitchCase": 1
     }],
+    // https://eslint.org/docs/rules/keyword-spacing
     "keyword-spacing": ["error", {"after": true, "before": true}],
+    // https://eslint.org/docs/rules/lines-between-class-members
     "lines-between-class-members": ["error", "always"],
+    // https://eslint.org/docs/rules/max-len
     "max-len": [
       "error",
       80,
@@ -66,15 +79,21 @@ module.exports = {
         "ignorePattern": "^import .*;$"
       }
     ],
+    // https://eslint.org/docs/rules/new-cap
     "new-cap": ["error", {
       "capIsNewExceptions": ["Polymer", "GestureEventListeners"],
       "capIsNewExceptionPattern": "^.*Mixin$"
     }],
+    // https://eslint.org/docs/rules/no-console
     "no-console": ["error", { allow: ["warn", "error", "info", "assert", "group", "groupEnd"] }],
+    // https://eslint.org/docs/rules/no-multiple-empty-lines
     "no-multiple-empty-lines": ["error", {"max": 1}],
+    // https://eslint.org/docs/rules/no-prototype-builtins
     "no-prototype-builtins": "off",
+    // https://eslint.org/docs/rules/no-redeclare
     "no-redeclare": "off",
     'array-callback-return': ['error', { allowImplicit: true }],
+    // https://eslint.org/docs/rules/no-restricted-syntax
     "no-restricted-syntax": [
       "error",
       {
@@ -88,11 +107,17 @@ module.exports = {
     ],
     // no-undef disables global variable.
     // "globals" declares allowed global variables.
+    // https://eslint.org/docs/rules/no-undef
     "no-undef": ["error"],
+    // https://eslint.org/docs/rules/no-useless-escape
     "no-useless-escape": "off",
+    // https://eslint.org/docs/rules/no-var
     "no-var": "error",
+    // https://eslint.org/docs/rules/operator-linebreak
     "operator-linebreak": "off",
+    // https://eslint.org/docs/rules/object-shorthand
     "object-shorthand": ["error", "always"],
+    // https://eslint.org/docs/rules/padding-line-between-statements
     "padding-line-between-statements": [
       "error",
       {
@@ -106,43 +131,80 @@ module.exports = {
         "next": "class"
       }
     ],
+    // https://eslint.org/docs/rules/prefer-arrow-callback
     "prefer-arrow-callback": "error",
+    // https://eslint.org/docs/rules/prefer-const
     "prefer-const": "error",
+    // https://eslint.org/docs/rules/prefer-promise-reject-errors
     "prefer-promise-reject-errors": "error",
+    // https://eslint.org/docs/rules/prefer-spread
     "prefer-spread": "error",
+    // https://eslint.org/docs/rules/prefer-object-spread
     "prefer-object-spread": "error",
+    // https://eslint.org/docs/rules/quote-props
     "quote-props": ["error", "consistent-as-needed"],
+    // https://eslint.org/docs/rules/semi
     "semi": ["error", "always"],
+    // https://eslint.org/docs/rules/template-curly-spacing
     "template-curly-spacing": "error",
 
+    // https://eslint.org/docs/rules/require-jsdoc
     "require-jsdoc": 0,
+    // https://eslint.org/docs/rules/valid-jsdoc
     "valid-jsdoc": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-alignment
     "jsdoc/check-alignment": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-examples
     "jsdoc/check-examples": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-indentation
     "jsdoc/check-indentation": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-param-names
     "jsdoc/check-param-names": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-syntax
     "jsdoc/check-syntax": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-tag-names
     "jsdoc/check-tag-names": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-check-types
     "jsdoc/check-types": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-implements-on-classes
     "jsdoc/implements-on-classes": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-match-description
     "jsdoc/match-description": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-newline-after-description
     "jsdoc/newline-after-description": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-no-types
     "jsdoc/no-types": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-no-undefined-types
     "jsdoc/no-undefined-types": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-description
     "jsdoc/require-description": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-description-complete-sentence
     "jsdoc/require-description-complete-sentence": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-example
     "jsdoc/require-example": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-hyphen-before-param-description
     "jsdoc/require-hyphen-before-param-description": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-jsdoc
     "jsdoc/require-jsdoc": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param
     "jsdoc/require-param": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param-description
     "jsdoc/require-param-description": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param-name
     "jsdoc/require-param-name": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param-type
     "jsdoc/require-param-type": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns
     "jsdoc/require-returns": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-check
     "jsdoc/require-returns-check": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-description
     "jsdoc/require-returns-description": 0,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-type
     "jsdoc/require-returns-type": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-valid-types
     "jsdoc/valid-types": 2,
+    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-file-overview
     "jsdoc/require-file-overview": ["error", {
       "tags": {
         "license": {
@@ -151,12 +213,17 @@ module.exports = {
         }
       }
     }],
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-self-import.md
     "import/no-self-import": 2,
     // The no-cycle rule is slow, because it doesn't cache dependencies.
     // Disable it.
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-cycle.md
     "import/no-cycle": 0,
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-useless-path-segments.md
     "import/no-useless-path-segments": 2,
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-unused-modules.md
     "import/no-unused-modules": 2,
+    // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md
     "import/no-default-export": 2,
     // Custom rule from the //tools/js/eslint-rules directory.
     // See //tools/js/eslint-rules/README.md for details

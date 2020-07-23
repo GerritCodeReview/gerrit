@@ -37,7 +37,8 @@ the project.  Often this is also used by contributors who don't like
 the change, but also aren't responsible for the project long-term
 and thus don't have final say on change submission.
 +
-Does not block submit.
+A -1 is considered obsolete once the next patchset is uploaded. Does not
+block submit.
 
 * 0 No score
 +

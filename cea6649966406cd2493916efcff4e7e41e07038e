@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "89e9623b_4ebaf418",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T08:06:44Z",
+      "side": 1,
+      "message": "We are testing at on some hosts on googlesource.com right now. If you build your Gerrit from master, you can enable it using: link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet].\n\n(this isn\u0027t exclusive for us, everyone can use it if they don\u0027t want to wait for releases)",
+      "range": {
+        "startLine": 3,
+        "startChar": 76,
+        "endLine": 6,
+        "endChar": 7
+      },
+      "revId": "cea6649966406cd2493916efcff4e7e41e07038e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

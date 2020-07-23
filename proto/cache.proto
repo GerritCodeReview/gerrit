@@ -465,7 +465,7 @@ message StoredCommentLinkInfoProto {
 }
 
 // Serialized form of com.google.gerrit.entities.CachedProjectConfigProto.
-// Next ID: 17
+// Next ID: 19
 message CachedProjectConfigProto {
   ProjectProto project = 1;
   repeated GroupReferenceProto group_list = 2;
@@ -483,6 +483,8 @@ message CachedProjectConfigProto {
   int64 max_object_size_limit = 14;
   bool check_received_objects = 15;
   map<string, ExtensionPanelSectionProto> extension_panels = 16;
+  map<string, string> plugin_configs = 17;
+  map<string, string> project_level_configs = 18;
 
   // Next ID: 2
   message ExtensionPanelSectionProto {

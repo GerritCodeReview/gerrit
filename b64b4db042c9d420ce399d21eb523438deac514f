@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "462bff72_85f0c679",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-23T10:51:09Z",
+      "side": 1,
+      "message": "Nit: modify this to 2020.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "20f0b858_8cfee221",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 5
@@ -36,6 +59,30 @@
       "writtenOn": "2020-07-23T08:26:15Z",
       "side": 1,
       "message": "Opening the repo is expensive performance-wise (not terribly, but it\u0027s also not for free), so we try to open it only when needed.\n\nThe way the code works right now we would open the repo once-per-comment and read the file content once per comment. Ideally, we would open it just once and then read each relevant file just once.\n\nI would follow a similar pattern as we do for the AccountLoader when loading accounts. The way this works is that in CommentJson you call getContext. But instead of filling in the full List\u003cLabeledContextLineInfo\u003e right away, you return an empty list that you keep a reference to. In addition to that reference, you also keep the path/commentinfo.\n\nAfter you are done with all the comments in CommentJson you call #fill on CommentContextLoader, just like we do with AccountLoader.\n\nIn that fill method, you can open the repo just once, read each file content just once and then loop over your comments and use the references to the lists to fill them.\n\nWe usually prefer self-contained APIs that take some arguments and return others, so for example:\n\nMap\u003cComment.UUID, List\u003cCommentContext\u003e\u003e getContext(List\u003cComment.UUID\u003e). But the way CommentJson is currently structured, that is not possible. Since we already use AccountLoader this way, following the same pattern here seems OK to me (even though, on a green field we might make a different choice).\n\nWDYT?",
+      "range": {
+        "startLine": 74,
+        "startChar": 9,
+        "endLine": 74,
+        "endChar": 62
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "67175596_fe0c391f",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-23T10:51:09Z",
+      "side": 1,
+      "message": "Thanks for the long explanation.\n\nYes, I agree that would be much better. I\u0027m just thinking that this change will be anyway overridden by introducing a cache, that would require going back again to a separate repo opening per comment.\n\nEven when using the cache getAll() which may optimize on the caching layer, for missed entries the loader is invoked separately per key, which would require opening the repo per comment. The way I see I can solve this is by modifying the cache key in the follow up CL to load context for all comments in the change, but that would require cache invalidations whenever a new comment is added, which I didn\u0027t want to do.",
+      "parentUuid": "20f0b858_8cfee221",
       "range": {
         "startLine": 74,
         "startChar": 9,

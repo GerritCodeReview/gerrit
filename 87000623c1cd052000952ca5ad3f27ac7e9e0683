@@ -16,6 +16,24 @@
       "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79863ad5_20f83b92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-23T19:40:23Z",
+      "side": 1,
+      "message": "If Patrick addresses this comment tomorrow morning, then can I +2 the change and let him submit without you having another look? It is important to us that we unblock testing the attention set features.",
+      "parentUuid": "fa86010a_9093db1c",
+      "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

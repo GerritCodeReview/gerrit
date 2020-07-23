@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "94cbd0fd_3f74e818",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T12:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4df5472c_cc7cc806",
+      "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33edc6b2_aa656984",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 4
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "d3224b09_39456b81",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T12:29:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33edc6b2_aa656984",
+      "range": {
+        "startLine": 1260,
+        "startChar": 31,
+        "endLine": 1260,
+        "endChar": 86
+      },
+      "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17adfed7_400d2f1b",
         "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
         "patchSetId": 4
@@ -62,6 +104,30 @@
       "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47ebead6_92cdb453",
+        "filename": "java/com/google/gerrit/server/restapi/project/PutConfig.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T12:29:03Z",
+      "side": 1,
+      "message": "Done. I\u0027ve added the same getters to PluginConfig update which then allows to not do these conversions.",
+      "parentUuid": "17adfed7_400d2f1b",
+      "range": {
+        "startLine": 216,
+        "startChar": 28,
+        "endLine": 216,
+        "endChar": 48
+      },
+      "revId": "c4fd8028f1fc9cb893e4c1e92be4fb4eb81c8387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

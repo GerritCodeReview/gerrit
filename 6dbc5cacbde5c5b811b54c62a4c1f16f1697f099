@@ -33,6 +33,24 @@
       "revId": "6dbc5cacbde5c5b811b54c62a4c1f16f1697f099",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc845256_2d21aa07",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T12:29:03Z",
+      "side": 1,
+      "message": "Done. Good question :-)",
+      "parentUuid": "0cd0f76e_36ee3f97",
+      "revId": "6dbc5cacbde5c5b811b54c62a4c1f16f1697f099",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

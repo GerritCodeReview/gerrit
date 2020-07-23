@@ -478,6 +478,24 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8e15eec_bb61d145",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-23T17:41:08Z",
+      "side": 1,
+      "message": "We discussed this at our CM meeting earlier today: I\u0027m about to send an invitation to every active participant from this thread.",
+      "parentUuid": "8864025a_bb3ea1b4",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

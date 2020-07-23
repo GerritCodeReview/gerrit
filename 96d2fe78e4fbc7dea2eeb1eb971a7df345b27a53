@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "e9eaac17_6a5a5883",
+        "filename": "java/com/google/gerrit/entities/AccountsSection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T11:02:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b88b7170_d0499c51",
+      "revId": "96d2fe78e4fbc7dea2eeb1eb971a7df345b27a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "117be7a1_419c4fd5",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/BUILD",
         "patchSetId": 7

@@ -426,6 +426,30 @@
       "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "999cc473_a32a4204",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 447,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-23T09:06:15Z",
+      "side": 1,
+      "message": "\u003e\u003e i will lose the ability to override the message even in editing mode when somehow the upcoming comment has a different message\n\nMaybe instead you can show a toast or tooltip about changes in the original comment? Silently overwriting user-written text also is not very good.\n\nWith your fix I am worried about the situation that after I click \"Send\" a comment can be posted with an unexpected (old) content, which wasn\u0027t visible in reply dialog (step 7 in steps above). Problem with \"Cancel\" is easy to notice and in the worst case it is enough to reload page - the original text appears back.",
+      "parentUuid": "d4ee3090_d71902e0",
+      "range": {
+        "startLine": 435,
+        "startChar": 36,
+        "endLine": 447,
+        "endChar": 7
+      },
+      "revId": "e71fbca76c19b1f8965f2dc8c5c20cd60b7414cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

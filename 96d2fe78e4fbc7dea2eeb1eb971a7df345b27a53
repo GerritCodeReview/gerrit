@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b88b7170_d0499c51",
+        "filename": "java/com/google/gerrit/entities/AccountsSection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-23T09:36:17Z",
+      "side": 1,
+      "message": "why do we have this class twice now?\n\nother class: java/com/google/gerrit/server/project/AccountsSection.java",
+      "revId": "96d2fe78e4fbc7dea2eeb1eb971a7df345b27a53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

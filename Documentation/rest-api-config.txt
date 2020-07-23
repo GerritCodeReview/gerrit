@@ -2011,7 +2011,7 @@ link:config-gerrit.html#user[user] section as link:#user-config-info[
 UserConfigInfo] entity.
 |`default_theme`           |optional|
 URL to a default PolyGerrit UI theme plugin, if available.
-Located in `/static/gerrit-theme.html` by default.
+Located in `/static/gerrit-theme.js` by default.
 |=======================================
 
 [[sshd-info]]

@@ -3187,12 +3187,6 @@ Whether content merge should be enabled for the project (`TRUE`,
 |`require_change_id`                           |`INHERIT` if not set|
 Whether the usage of Change-Ids is required for the project (`TRUE`,
 `FALSE`, `INHERIT`).
-|`enable_signed_push`                           |`INHERIT` if not set|
-Whether signed push validation is enabled on the project  (`TRUE`,
-`FALSE`, `INHERIT`).
-|`require_signed_push`                          |`INHERIT` if not set|
-Whether signed push validation is required on the project  (`TRUE`,
-`FALSE`, `INHERIT`).
 |`max_object_size_limit`     |optional|
 Max allowed Git object size for this project.
 Common unit suffixes of 'k', 'm', or 'g' are supported.

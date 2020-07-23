@@ -402,8 +402,6 @@ public abstract class AbstractDaemonTest {
       in.useContentMerge = ann.useContributorAgreements();
       in.useSignedOffBy = ann.useSignedOffBy();
       in.useContentMerge = ann.useContentMerge();
-      in.enableSignedPush = ann.enableSignedPush();
-      in.requireSignedPush = ann.requireSignedPush();
     } else {
       // Defaults should match TestProjectConfig, omitting nullable values.
       in.createEmptyCommit = true;

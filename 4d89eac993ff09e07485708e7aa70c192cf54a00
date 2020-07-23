@@ -460,6 +460,24 @@
       "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8864025a_bb3ea1b4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-23T11:57:23Z",
+      "side": 1,
+      "message": "\u003e We would like to schedule a meeting with everyone who has an interest in the topic next week to discuss.\n\nPing. Should we schedule a slot for next week?",
+      "parentUuid": "ac20fa20_1299dfc2",
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

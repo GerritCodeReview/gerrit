@@ -50,6 +50,64 @@
       "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ea8579f_0e34e5c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T15:09:24Z",
+      "side": 1,
+      "message": "For bolding you would have to add\n\n    .headerLeft gr-account-label {\n      --gr-account-label-text-style: {\n        font-weight: var(--font-weight-bold);\n      }\n    }",
+      "parentUuid": "9e1a2600_04777873",
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d4b64fa_59312077",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T15:09:24Z",
+      "side": 1,
+      "message": "maybe add hide-status",
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e9d8cc6_d2c6b6e4",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T15:09:24Z",
+      "side": 1,
+      "message": "Maybe also add a --spacing-s right margin. The author and the content are a bit close together I find.",
+      "range": {
+        "startLine": 242,
+        "startChar": 55,
+        "endLine": 242,
+        "endChar": 74
+      },
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

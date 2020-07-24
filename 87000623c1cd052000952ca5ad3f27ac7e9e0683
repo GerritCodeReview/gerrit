@@ -70,6 +70,24 @@
       "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa54b17_c5be242a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-07-24T16:13:03Z",
+      "side": 1,
+      "message": "\u003e We have a couple of internal stakeholders who really like to try this and are OK with improving it on the fly, but the robot rules were identified as a blocker.\n\nThanks for clarifying this. I think that it would be appropriate to have a discussion with those stakeholders about timeline expectations when it comes to merging code upstream as it is NOT appropriate to expect the community to make exceptions due to this.",
+      "parentUuid": "4468ab05_ab043190",
+      "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

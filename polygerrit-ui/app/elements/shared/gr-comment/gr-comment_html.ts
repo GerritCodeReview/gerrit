@@ -239,9 +239,7 @@ export const htmlTemplate = html`
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
       <div class="headerLeft">
-        <span class="authorName">
-          [[_computeAuthorName(comment, _serverConfig)]]
-        </span>
+        <gr-account-label account="[[comment.author]]"></gr-account-label>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

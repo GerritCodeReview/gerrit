@@ -29,6 +29,7 @@ import '../gr-storage/gr-storage.js';
 import '../gr-textarea/gr-textarea.js';
 import '../gr-tooltip-content/gr-tooltip-content.js';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.js';
+import '../gr-account-label/gr-account-label.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';

@@ -52,6 +52,24 @@
       "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d427600_3be55e3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1098470
+      },
+      "writtenOn": "2020-07-24T15:59:18Z",
+      "side": 1,
+      "message": "That\u0027s interesting w.r.t. to people\u0027s attachment to the favicon. I anticipated a bit of that which is why I tried to keep the shape\\outline exactly the same.",
+      "parentUuid": "a1e1605e_24a7c146",
+      "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93e3ea3d_69b0ecd4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T09:40:15Z",
+      "side": 1,
+      "message": "That is mostly a layout and aesthetical question. But there are two other reasons:\n1. In the middle at the bottom it is typically closer to the chips.\n2. The hint is only useful once, so giving it too much prominence feels awkward, because users will soon have learned how it works.",
+      "parentUuid": "86bdab0b_b82b7b95",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

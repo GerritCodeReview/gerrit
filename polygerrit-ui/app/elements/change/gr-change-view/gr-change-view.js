@@ -1029,11 +1029,19 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.fileList.collapseAllDiffs();
   }
 
+  _closeAllOverlays() {
+    // when navigating through relation chains, close any opened overlay
+    this.shadowRoot.querySelectorAll('gr-overlay').forEach(overlay =>
+      overlay.close());
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.CHANGE) {
       this._initialLoadComplete = false;
       return;
     }
+
+    this._closeAllOverlays();
 
     if (value.changeNum && value.project) {
       this.$.restAPI.setInProjectLookup(value.changeNum, value.project);

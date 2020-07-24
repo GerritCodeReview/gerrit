@@ -88,6 +88,24 @@
       "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9eee74f1_0148c0dc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-07-24T17:09:19Z",
+      "side": 1,
+      "message": "\u003e Nasser has expressed he is OK with this change by +1ing it\n\nJust to be clear, my +1 is my own and does not represent anything from Martin. I consistently see Martin approach change reviews in a more holistic way than I do (here I was mostly focused on the code) and that\u0027s a good reason why Martin\u0027s a maintainer here and I\u0027m not.\n\n\u003e \u003e We have a couple of internal stakeholders who really like to try this and are OK with improving it on the fly, but the robot rules were identified as a blocker.\n\n\u003e Thanks for clarifying this. I think that it would be appropriate to have a discussion with those stakeholders about timeline expectations when it comes to merging code upstream as it is NOT appropriate to expect the community to make exceptions due to this.\n\nI do agree with Martin\u0027s sentiments here. I think all of us working with an open source community have a duty to our customers and to that community to set expectations with customers.",
+      "parentUuid": "5fa54b17_c5be242a",
+      "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

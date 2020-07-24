@@ -16,6 +16,24 @@
       "revId": "7bb821f2280cfa2f0d2554504915011eae9c0c5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0525498_ce550b0d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-24T14:02:53Z",
+      "side": 1,
+      "message": "Was I supposed to use some property of it?\nUpdated with the basic account object for now.",
+      "parentUuid": "73ea1d20_7d420def",
+      "revId": "7bb821f2280cfa2f0d2554504915011eae9c0c5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

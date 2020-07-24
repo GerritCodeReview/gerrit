@@ -16,6 +16,23 @@
       "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "100aaad2_25340119",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T14:58:08Z",
+      "side": 1,
+      "message": "There is a problem with drafts: https://imgur.com/a/8wGJTBF",
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -71,6 +71,78 @@
     },
     {
       "key": {
+        "uuid": "a54b3023_fce9b0e5",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e810ea71_12b2b850",
+      "range": {
+        "startLine": 57,
+        "startChar": 6,
+        "endLine": 57,
+        "endChar": 7
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec271e57_307cfbf0",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "I am a little confused by those numbers, but done.",
+      "parentUuid": "1e0d708f_a551c357",
+      "range": {
+        "startLine": 57,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 9
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb24405a_46ff0506",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Done, I think. The docs are updated, I\u0027m not sure about the code (details in the other comment).",
+      "parentUuid": "3bf77a8c_7140cbd1",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cc1c7fe_c4f4f3d7",
         "filename": "java/gerrit/PRED_files_1.java",
         "patchSetId": 5
@@ -91,6 +163,30 @@
       "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f1111d_e9b2ff67",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0cc1c7fe_c4f4f3d7",
+      "range": {
+        "startLine": 62,
+        "startChar": 33,
+        "endLine": 62,
+        "endChar": 37
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e4df2794_acf1cb55",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Ack, thanks.",
+      "parentUuid": "9bc19724_e81b465d",
+      "range": {
+        "startLine": 67,
+        "startChar": 8,
+        "endLine": 67,
+        "endChar": 57
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3397146b_ecd4573f",
         "filename": "java/gerrit/PRED_files_1.java",
         "patchSetId": 5
@@ -137,6 +257,30 @@
       "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e65b86f5_e19c26cb",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "right",
+      "parentUuid": "3397146b_ecd4573f",
+      "range": {
+        "startLine": 82,
+        "startChar": 17,
+        "endLine": 82,
+        "endChar": 34
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "4c7009ef_a2f8e6b1",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 641,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50ea6229_bb8e8bea",
+      "range": {
+        "startLine": 641,
+        "startChar": 13,
+        "endLine": 641,
+        "endChar": 15
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a42b314b_37181915",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 5
@@ -186,6 +354,30 @@
     },
     {
       "key": {
+        "uuid": "1ed965a4_5fac8393",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "ChangeIT l.3795 is not exactly the same as what I can do here, so I essentially used \"member\" to find if the element exists in the list.\nI hope it\u0027s fine I didn\u0027t change it in RulesIT, since I would just be duplicating lots of code there to achieve it.",
+      "parentUuid": "a42b314b_37181915",
+      "range": {
+        "startLine": 649,
+        "startChar": 50,
+        "endLine": 649,
+        "endChar": 51
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aae67c5b_ffd4e0db",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 5
@@ -200,6 +392,24 @@
       "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "330191b5_e23aafc7",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 672,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aae67c5b_ffd4e0db",
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -223,6 +433,30 @@
       "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b49080e4_df5f32b8",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d357f317_c0bb7c95",
+      "range": {
+        "startLine": 674,
+        "startChar": 44,
+        "endLine": 674,
+        "endChar": 50
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

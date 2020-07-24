@@ -342,6 +342,29 @@
     },
     {
       "key": {
+        "uuid": "7b17dacb_b802ca1b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-07-24T20:39:53Z",
+      "side": 1,
+      "message": "I think it is important to have a solution that can be delegated to different teams sharing the same server without requiring members of those teams to be Gerrit admins. Is this approach amenable to that?",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 38
+      },
+      "revId": "4d89eac993ff09e07485708e7aa70c192cf54a00",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "1a8093fa_fa102cd9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

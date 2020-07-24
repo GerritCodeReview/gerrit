@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.server.rules;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.GitUtil.pushHead;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
@@ -76,11 +77,40 @@ public class RulesIT extends AbstractDaemonTest {
     assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
   }
 
+  @Test
+  public void testFileNamesPredicateWithANewFile() throws Exception {
+    modifySubmitRules("gerrit:files([file('a.txt', 'A', 'REGULAR')])");
+    assertThat(statusForRule()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
+  @Test
+  public void testFileNamesPredicateWithADeletedFile() throws Exception {
+    modifySubmitRules("gerrit:files([file('a.txt', 'D', 'REGULAR')])");
+    assertThat(statusForRuleRemoveFile()).isEqualTo(SubmitRecord.Status.OK);
+  }
+
   private SubmitRecord.Status statusForRule() throws Exception {
     String oldHead = projectOperations.project(project).getHead("master").name();
     PushOneCommit.Result result1 =
         pushFactory.create(user.newIdent(), testRepo).to("refs/for/master");
     testRepo.reset(oldHead);
+    return getStatus(result1);
+  }
+
+  private SubmitRecord.Status statusForRuleRemoveFile() throws Exception {
+    String oldHead = projectOperations.project(project).getHead("master").name();
+    // create a.txt
+    commitBuilder().add("a.txt", "4").message("subject").create();
+    pushHead(testRepo, "refs/heads/master", false);
+
+    // This implictly removes a.txt
+    PushOneCommit.Result result =
+        pushFactory.create(user.newIdent(), testRepo).rm("refs/for/master");
+    testRepo.reset(oldHead);
+    return getStatus(result);
+  }
+
+  private SubmitRecord.Status getStatus(PushOneCommit.Result result1) throws Exception {
     ChangeData cd = result1.getChange();
 
     Collection<SubmitRecord> records;

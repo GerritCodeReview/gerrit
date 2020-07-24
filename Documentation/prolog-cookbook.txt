@@ -1083,6 +1083,35 @@ It's only used to show `'Needs Is-Pure-Revert'` in the UI to clearly
 indicate to the user that the change has to be a pure revert in order
 to become submittable.
 
+=== Example 17: Make a change submittable if it doesn't include specific files
+
+We can block any change which contains a submodule file change:
+
+`rules.pl`
+[source,prolog]
+----
+submit_rule(submit(R)) :-
+  gerrit:includes_file(file(_,_,'SUBMODULE')),
+  !,
+  R = label('All-Submodules-Resolved', need(_)).
+submit_rule(submit(label('All-Submodules-Resolved', ok(A)))) :-
+  gerrit:commit_author(A).
+----
+
+We can also block specific files, modification type, or file type,
+by changing include_files/1 to a different parameter. E.g,
+include_files('a.txt',_,_) includes any update to "a.txt", and
+('a.txt','D',_) includes any deletion to "a.txt". Also, (_,_,_) includes
+any file (other than magic file).
+
+An inclusive list of possible arguments using the code above with variations
+of include_file:
+The first parameter is the file name.
+The second is the modification type ('A' for 'added', 'M' for 'modified',
+'D' for 'deleted', 'R' for 'renamed', 'C' for 'COPIED' and 'W' for 'rewrite').
+The third argument is the type of file, with the options being a submodule
+file 'SUBMODULE' and a non-submodule file being 'REGULAR'.
+
 == Examples - Submit Type
 The following examples show how to implement own submit type rules.
 

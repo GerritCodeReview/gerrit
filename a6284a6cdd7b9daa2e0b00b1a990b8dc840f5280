@@ -1,0 +1,255 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e6561ce6_bf5bb12f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "update",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5968def2_d151713a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 24
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "pattern",
+      "range": {
+        "startLine": 11,
+        "startChar": 5,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d27088b8_47ff2549",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3a82baf_e96a5b6f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "update",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcdb72ac_0ca52f66",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "unused, remove",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56175e50_dd95aece",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Nit: _patchrange is always set as a whole, so I would rather just observe \"_patchRange\" without \".*\".\n\nIf you stick with the current version, then may have to check patchRangeRecord.base to be undefined as in _getFiles().",
+      "range": {
+        "startLine": 259,
+        "startChar": 57,
+        "endLine": 259,
+        "endChar": 68
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05660f87_703cf208",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Maybe this could become a \"initPatchRange\" method instead?",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3636901d_bb46fa8f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "You are accessing a private property of the ChangeComments class here. Don\u0027t do that. Instead add a method to ChangeComments that finds a comment by id.",
+      "range": {
+        "startLine": 799,
+        "startChar": 34,
+        "endLine": 799,
+        "endChar": 43
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f1508ae_e64f9ccd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Can this be moved to line 987, so it does not have to be called twice?\n\nGenerally I don\u0027t think we want to or have to initialize anything other than the _changeNum before all the promises have resolved. That makes it easier to understand and change this method, e.g. in the way that you are currently doing. When all the promises have resolved, then we have the change, the comments and the prefs.",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a72d28a_653f40db",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Not your change, but it feels to me as if a more aggressive reset of properties is warranted at this point. Maybe:\n\n  this._change \u003d undefined;\n  this._files \u003d undefined;\n  this._path \u003d undefined;\n  this._patchRange \u003d undefined;\n  this._commitRange \u003d undefined;\n  this._changeComments \u003d undefined;\n\nWDYT?",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fb47a82_0bded7a6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Can the initialization of _patchRange and _path be moved to line 896?",
+      "range": {
+        "startLine": 856,
+        "startChar": 4,
+        "endLine": 863,
+        "endChar": 6
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b07ca2a7_f7415249",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Not your change, but despite the comment I don\u0027t understand why this can happen. Can you add a console.warn() before the return?\n\nAlso maybe move to line 842.",
+      "range": {
+        "startLine": 865,
+        "startChar": 4,
+        "endLine": 868,
+        "endChar": 76
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3f0dd05_a6e6d192",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 883,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:38:42Z",
+      "side": 1,
+      "message": "Can this be moved to line 896, so it does not have to be called twice?",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

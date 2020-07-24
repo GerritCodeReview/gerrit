@@ -179,6 +179,30 @@
     },
     {
       "key": {
+        "uuid": "a3f5385f_98dbe110",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T13:01:13Z",
+      "side": 1,
+      "message": "I don\u0027t really like that idea. The gr-diff-view is already suffering from ten people trying to make the least invasive change, but it is not actually that hard to look at the somewhat bigger picture.\n\nI find my comments rather small. That could all be fixed and cleaned up in 15 minutes.\n\nAlso, I have performance concerns, because I think it would be beneficial to keep loading change and comments in parallel.\n\nThis is an opportunity to clean up the paramsChanged() method: Kick off all the promises first, do all the initialization only when all promises have resolved.",
+      "parentUuid": "02f3cbc8_ea1b8398",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 25
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f1508ae_e64f9ccd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24

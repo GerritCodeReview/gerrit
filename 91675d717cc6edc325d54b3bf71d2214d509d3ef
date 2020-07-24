@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86bdab0b_b82b7b95",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-24T09:31:48Z",
+      "side": 1,
+      "message": "I am wondering if that wouldn\u0027t clearer as a separate, grey text under the \"Change attention set to\" line. But maybe there are good reasons for moving it down. Can you quickly elaborate why you think down there is best?",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

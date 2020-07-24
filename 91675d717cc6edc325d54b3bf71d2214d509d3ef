@@ -135,6 +135,24 @@
       "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aea5000_2d4761b6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T13:21:04Z",
+      "side": 1,
+      "message": "Maybe we should discuss that a bit in the team meeting, but I am not a big fan of extensive UI testing with tests like: If the function that controls a dom-if returns true, does the DOM element indeed show up?\n\nFor me unit testing methods like _computeNewAttention and _computeNewAttentionNames yields the most value.\n\nThe attention set gets into the reply dialog via `change`, which is passed in as a property by the parent, so that one could not faked at the API level.\n\nI could have inspected the proper DOM element where `_computeNewAttentionNames` feeds its value into, but then changing strings in the HTML template can easily break tests. For this kind of thing I prefer the manual visual testing that you have to do anyway to make sure that the UI looks good.",
+      "parentUuid": "e8f4be75_ea6e1706",
+      "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

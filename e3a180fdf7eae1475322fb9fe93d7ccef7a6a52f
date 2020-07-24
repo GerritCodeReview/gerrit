@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "404ed48d_54bd30d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-24T14:07:10Z",
+      "side": 1,
+      "message": "Looks like tests are super flaky.\nDon\u0027t wait for the CI.",
+      "revId": "e3a180fdf7eae1475322fb9fe93d7ccef7a6a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -32,6 +32,17 @@ suite('gr-overlay tests', () => {
     element = basicFixture.instantiate();
   });
 
+  test('popstate listener is attached on open and removed on close', () => {
+    const addEventListenerStub = sinon.stub(window, 'addEventListener');
+    const removeEventListenerStub = sinon.stub(window, 'removeEventListener');
+    element.open();
+    assert.isTrue(addEventListenerStub.called);
+    assert.equal(addEventListenerStub.lastCall.args[0], 'popstate');
+    element.close();
+    assert.isTrue(removeEventListenerStub.called);
+    assert.equal(removeEventListenerStub.lastCall.args[0], 'popstate');
+  });
+
   test('events are fired on fullscreen view', done => {
     sinon.stub(element, '_isMobile').returns(true);
     const openHandler = sinon.stub();
@@ -44,7 +55,7 @@ suite('gr-overlay tests', () => {
       assert.isTrue(element._fullScreenOpen);
       assert.isTrue(openHandler.called);
 
-      element._close();
+      element._overlayClosed();
       assert.isFalse(element._fullScreenOpen);
       assert.isTrue(closeHandler.called);
       done();
@@ -63,7 +74,7 @@ suite('gr-overlay tests', () => {
       assert.isFalse(element._fullScreenOpen);
       assert.isFalse(openHandler.called);
 
-      element._close();
+      element._overlayClosed();
       assert.isFalse(element._fullScreenOpen);
       assert.isFalse(closeHandler.called);
       done();

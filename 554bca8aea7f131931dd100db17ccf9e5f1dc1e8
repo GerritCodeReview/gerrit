@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "314d1c59_a173051e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-24T20:07:46Z",
+      "side": 1,
+      "message": "I do not agree with the statement made in the documentation. @Kane can you clarify?",
+      "revId": "554bca8aea7f131931dd100db17ccf9e5f1dc1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6836ff41_ee0b68a9",
+        "filename": "Documentation/config-labels.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-24T20:07:46Z",
+      "side": 1,
+      "message": "That isn\u0027t really true in general: it really depends on how the label is configured and what the next patchset is doing.",
+      "range": {
+        "startLine": 40,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 63
+      },
+      "revId": "554bca8aea7f131931dd100db17ccf9e5f1dc1e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

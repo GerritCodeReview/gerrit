@@ -118,6 +118,23 @@
       "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e8f4be75_ea6e1706",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-24T11:14:20Z",
+      "side": 1,
+      "message": "i was thinking something like fake the attention set response and check against the UI or certain fields instead of testing on private methods directly. but since that\u0027s most of our tests are, won\u0027t block the change for that.",
+      "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -54,6 +54,17 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 |`commit_stats/3`   |`commit_stats(5,20,50).`
     |Number of files modified, number of insertions and the number of deletions.
 
+|`files/3` |`files(file('modules/jgit', 'A', 'SUBMODULE')).`
+
+           |`files(file('a.txt', 'M', 'REGULAR')).'
+
+    |A list of tuples: The first argument is a file name of the current patchset.
+    The second argument is the modification type of this file, with the options being
+    'A' for 'added', 'M' for 'modified', 'D' for 'deleted', 'R' for 'renamed', 'C' for
+    'COPIED' and 'W' for 'rewrite'.
+    The third argument is the type of file, with the options being a submodule file
+    'SUBMODULE' and a non-submodule file being 'REGULAR'.
+
 |`pure_revert/1`     |`pure_revert(1).`
     |link:rest-api-changes.html#get-pure-revert[Pure revert] as integer atom (1 if
         the change is a pure revert, 0 otherwise)

@@ -20,14 +20,7 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     :host {
       display: inline-block;
-      /* Setting this really high, so all the following rules don't change
-           anything, only if --account-max-length is actually set to something
-           smaller like 20ch. */
-      max-width: var(--account-max-length, 500px);
-      overflow: hidden;
-      text-overflow: ellipsis;
       vertical-align: top;
-      white-space: nowrap;
     }
     a {
       color: var(--primary-text-color);

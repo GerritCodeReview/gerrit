@@ -66,11 +66,6 @@ class GrAccountLabel extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
-      blurred: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
       hideHovercard: {
         type: Boolean,
         value: false,

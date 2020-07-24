@@ -19,25 +19,26 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 export const htmlTemplate = html`
   <style include="shared-styles">
     :host {
-      display: inline;
       position: relative;
       border-radius: var(--label-border-radius);
+      /* Setting this really high, so all the following rules don't change
+           anything, only if --account-max-length is actually set to something
+           smaller like 20ch. */
+      max-width: var(--account-max-length, 500px);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
     :host::after {
       content: var(--account-label-suffix);
     }
-    :host(:not([blurred])) .overlay {
-      display: none;
+    :host([deselected]) {
+      background-color: white;
+      border: 1px solid #ddd;
     }
-    .overlay {
-      position: absolute;
-      pointer-events: none;
-      height: var(--line-height-normal);
-      right: 0;
-      left: 0;
-      background-color: var(--background-color-primary);
-      opacity: 0.5;
-      border-radius: var(--label-border-radius);
+    :host([selected]) {
+      background-color: #e8f0fe;
+      border: 1px solid #174ea6;
     }
     gr-avatar {
       height: var(--line-height-normal);
@@ -65,7 +66,6 @@ export const htmlTemplate = html`
       top: 2px;
     }
   </style>
-  <div class="overlay"></div>
   <span>
     <template is="dom-if" if="[[!hideHovercard]]">
       <gr-hovercard-account

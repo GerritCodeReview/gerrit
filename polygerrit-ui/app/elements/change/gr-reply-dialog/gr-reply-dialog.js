@@ -39,6 +39,7 @@ import {SpecialFilePath} from '../../../constants/constants.js';
 import {ExperimentIds} from '../../../services/flags.js';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {getDisplayName} from '../../../utils/display-name-util.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -773,6 +774,10 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
 
   _handleAttentionModify() {
     this._attentionModified = true;
+    // If the attention-detail section is expanded without dispatching this
+    // event, then the dialog may expand beyond the screen's bottom border.
+    this.dispatchEvent(new CustomEvent(
+        'iron-resize', {composed: true, bubbles: true}));
   }
 
   _showAttentionSummary(config, attentionModified) {
@@ -813,6 +818,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
             .map(id => parseInt(id)));
     const newAttention = new Set(this._currentAttentionSet);
     if (this._isOwner(user, change)) {
+      // TODO(brohlfs): Do not add all reviewers, just the ones that are replied
+      // to.
       reviewers.forEach(r => newAttention.add(r._account_id));
     } else {
       if (change.owner) {
@@ -821,6 +828,33 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     }
     if (user) newAttention.delete(user._account_id);
     this._newAttentionSet = newAttention;
+  }
+
+  _isNewAttentionEmpty(config, currentAttentionSet, newAttentionSet) {
+    return this._computeNewAttentionNames(
+        config, currentAttentionSet, newAttentionSet).length === 0;
+  }
+
+  _computeNewAttentionNames(config, currentAttentionSet, newAttentionSet) {
+    if ([currentAttentionSet, newAttentionSet].includes(undefined)) return '';
+    const addedNames = [...newAttentionSet]
+        .filter(id => !currentAttentionSet.has(id))
+        .map(id => this._findAccountById(id))
+        .filter(account => !!account)
+        .map(account => getDisplayName(config, account));
+    return addedNames.join(', ');
+  }
+
+  _findAccountById(accountId) {
+    let allAccounts = [];
+    if (this.change && this.change.owner) allAccounts.push(this.change.owner);
+    if (this._reviewers) allAccounts = [...allAccounts, ...this._reviewers];
+    if (this._ccs) allAccounts = [...allAccounts, ...this._ccs];
+    return allAccounts.find(r => r._account_id === accountId);
+  }
+
+  _computeShowAttentionCcs(ccs) {
+    return !!ccs && ccs.length > 0;
   }
 
   _accountOrGroupKey(entry) {

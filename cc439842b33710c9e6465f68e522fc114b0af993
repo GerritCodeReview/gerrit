@@ -33,6 +33,23 @@
       "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e1a2600_04777873",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T15:00:50Z",
+      "side": 1,
+      "message": "Maybe we should also have the author name bolded? Delphine, WDYT?\nhttps://imgur.com/a/KEFy2RH",
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

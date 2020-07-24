@@ -203,6 +203,30 @@
     },
     {
       "key": {
+        "uuid": "3420413e_4f9038e9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-24T13:46:52Z",
+      "side": 1,
+      "message": "Agree. Long term, it is better to clear paramsChanged rather than add a new level on top of existing one.",
+      "parentUuid": "a3f5385f_98dbe110",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 25
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1508ae_e64f9ccd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24

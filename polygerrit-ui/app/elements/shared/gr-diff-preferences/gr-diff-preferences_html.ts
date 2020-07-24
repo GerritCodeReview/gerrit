@@ -49,7 +49,7 @@ export const htmlTemplate = html`
         <input
           id="lineWrappingInput"
           type="checkbox"
-          checked$="[[diffPrefs.line_wrapping]]"
+          checked="[[diffPrefs.line_wrapping]]"
           on-change="_handleLineWrappingTap"
         />
       </span>
@@ -132,7 +132,7 @@ export const htmlTemplate = html`
         <input
           id="showTabsInput"
           type="checkbox"
-          checked$="[[diffPrefs.show_tabs]]"
+          checked="[[diffPrefs.show_tabs]]"
           on-change="_handleShowTabsTap"
         />
       </span>
@@ -143,7 +143,7 @@ export const htmlTemplate = html`
         <input
           id="showTrailingWhitespaceInput"
           type="checkbox"
-          checked$="[[diffPrefs.show_whitespace_errors]]"
+          checked="[[diffPrefs.show_whitespace_errors]]"
           on-change="_handleShowTrailingWhitespaceTap"
         />
       </span>
@@ -154,7 +154,7 @@ export const htmlTemplate = html`
         <input
           id="syntaxHighlightInput"
           type="checkbox"
-          checked$="[[diffPrefs.syntax_highlighting]]"
+          checked="[[diffPrefs.syntax_highlighting]]"
           on-change="_handleSyntaxHighlightTap"
         />
       </span>
@@ -165,7 +165,7 @@ export const htmlTemplate = html`
         <input
           id="automaticReviewInput"
           type="checkbox"
-          checked$="[[!diffPrefs.manual_review]]"
+          checked="[[!diffPrefs.manual_review]]"
           on-change="_handleAutomaticReviewTap"
         />
       </span>

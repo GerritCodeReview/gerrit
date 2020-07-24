@@ -70,6 +70,30 @@
       "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62409a52_6515f4f8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T10:33:22Z",
+      "side": 1,
+      "message": "Yeah, as I said it is \"mostly an aesthetical matter\". :-)\nMaybe let\u0027s discuss this when Delphine is back in the office hours or so. I don\u0027t think it is vital to tweak this right now. WDYT?",
+      "parentUuid": "1e3e2718_481ee550",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

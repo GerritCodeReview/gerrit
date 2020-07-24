@@ -62,6 +62,7 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
         () => this._close());
     this.addEventListener('iron-overlay-cancelled',
         () => this._close());
+    window.addEventListener('popstate', () => this._close());
   }
 
   open(...args) {

@@ -235,6 +235,11 @@ export const htmlTemplate = html`
       color: var(--deemphasized-text-color);
       margin-left: var(--spacing-s);
     }
+    gr-avatar {
+      height: var(--line-height-normal);
+      width: var(--line-height-normal);
+      vertical-align: top;
+    }
   </style>
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
@@ -242,6 +247,7 @@ export const htmlTemplate = html`
         <span class="authorName">
           [[_computeAuthorName(comment, _serverConfig)]]
         </span>
+        <gr-avatar account="[[comment.author]]" image-size="32"></gr-avatar>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

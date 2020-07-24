@@ -235,13 +235,22 @@ export const htmlTemplate = html`
       color: var(--deemphasized-text-color);
       margin-left: var(--spacing-s);
     }
+    .headerLeft gr-account-label {
+      --gr-account-label-text-style: {
+        font-weight: var(--font-weight-bold);
+      }
+      --account-max-length: 120px;
+      width: 120px;
+    }
   </style>
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
       <div class="headerLeft">
-        <span class="authorName">
-          [[_computeAuthorName(comment, _serverConfig)]]
-        </span>
+        <gr-account-label
+          account="[[_getAuthor(comment, _selfAccount)]]"
+          hide-status=""
+        >
+        </gr-account-label>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

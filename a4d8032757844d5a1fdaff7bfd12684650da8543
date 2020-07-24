@@ -70,6 +70,24 @@
       "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90724c5c_595ea920",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1109395
+      },
+      "writtenOn": "2020-07-24T18:53:45Z",
+      "side": 1,
+      "message": "This feature request https://buganizer.corp.google.com/issues/26719462 has languished for over 4.5 years.  favicon changing based on status has long proven successful in other internal developer tools (cider).  See the bug, users widely agree.\n\nMy take:  Don\u0027t spend effort making it a setting.  Just make it the default behavior.  Simpler.  Easier to maintain.  Does what people want.  Matches Cider.",
+      "parentUuid": "0d427600_3be55e3f",
+      "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

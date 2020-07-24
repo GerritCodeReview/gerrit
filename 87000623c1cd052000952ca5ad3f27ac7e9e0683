@@ -52,6 +52,24 @@
       "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4468ab05_ab043190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-24T08:43:16Z",
+      "side": 1,
+      "message": "\u003e I think the commit message for this change should focus on this change and not an unmerged change. It is important that code stand on its own and make sense within the context of the current code base (I think this does, but the commit message does not).\n\nDone. I explicitly mentioned what other options exist. Attention set as a whole is behind a feature flag and I expect that we figure out a long-term strategy before the next release, so that this gets changed before that.\n\nIf this change would introduce a bug, we’d fix it, of course, as always.\n\n\u003e If this code has a \"bug like\" affect on running servers, then the safe thing to do when pressured for time would be to revert or turn off something affected by the bug instead of rushing the fix.\n\nThe attention set project has been going on for a while and I remember that Ben took loads of time to hear everyone out and improve the design based on feedback. Like in every project, we don’t have infinite time, though. We have a couple of internal stakeholders who really like to try this and are OK with improving it on the fly, but the robot rules were identified as a blocker.\nAs mentioned in the other change, we have an honest interest in discussing different options for the robot behavior with you - I’ve mentioned some in this change - and then implementing what comes out of that discussion. \n\nNasser has expressed he is OK with this change by +1ing it and we have fixed your main point of criticism (commit message). We’re going to merge this change now with the promise to follow up on the discussion as agreed on.",
+      "parentUuid": "536a24c1_1d46961d",
+      "revId": "87000623c1cd052000952ca5ad3f27ac7e9e0683",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

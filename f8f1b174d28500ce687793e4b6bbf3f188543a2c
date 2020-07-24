@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "89f7aefa_d6ad46d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-24T08:19:59Z",
+      "side": 1,
+      "message": "Looks much better. 😊",
+      "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21635e62_73483be5",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
         "patchSetId": 1
@@ -36,6 +53,23 @@
         "endLine": 344,
         "endChar": 52
       },
+      "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26852d03_128d4a41",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-24T08:19:59Z",
+      "side": 1,
+      "message": "perhaps add tooltips for these icons?\nMight help with a11y.",
       "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

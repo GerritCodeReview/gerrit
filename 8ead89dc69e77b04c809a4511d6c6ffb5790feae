@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aae066a0_9ecc5c2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 27
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-24T07:09:04Z",
+      "side": 1,
+      "message": "JGit code must be adapted to upcoming sshd release 2.6.0. see: [1].\n\n@Matthias, @Thomas FYI.\n\n[1] http://paste.openstack.org/show/796274",
+      "revId": "8ead89dc69e77b04c809a4511d6c6ffb5790feae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

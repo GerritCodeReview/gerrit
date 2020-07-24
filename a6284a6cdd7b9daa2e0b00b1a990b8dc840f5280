@@ -156,6 +156,29 @@
     },
     {
       "key": {
+        "uuid": "02f3cbc8_ea1b8398",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-24T12:48:08Z",
+      "side": 1,
+      "message": "I didn\u0027t review chane in detail, because you asked for a sanity check.\nThe change has some updates in different methods, related to commentlink. This can be good from performance point of view, but for me it makes code less clear. \n\nI can suggest to call additional code for commentLink before any other code and make a minimal changes in existing code.\n\nFor example, this can be done in this way:\nrename _paramsChanged to _paramsChangedOld (I know, name is not good, i didn\u0027t think about better naming)\n\nThen, reimplement _paramsChanged:\n_paramsChanged(value) {\n  const loadCommentsPromise \u003d this._loadComments();\n  return getFullParams(value, loadCommentsPromise).then(fullParams \u003d\u003e _paramsChangedOld(fullParams, loadCommentsPromise));\n}\n\nfunction getFullParams(value, loadCommentsPromise) {\n  if(!value.commentLink) return Promise.resolve(value);\n  return loadCommentsPromise.then(comments \u003d\u003e getParamsForCommentLink(comments, value));\n}\n\nfunction getParamsForCommentLink(changeComments, params) {\n   // Use params.commentId to find path and patchnum\n   // Create new params or update existing one (I prefer create a new ony)\n   // return created/updated params\n}\n\nfunction _paramsChangedOld(value, loadCommentsPromise) {\n   // Code remains almost unchanged, except 1 line\n   ...\n   // Replace the line\n   // promises.push(this._loadComments());\n   // with\n   promises.push(loadCommentsPromise);\n   ...\n}\n\nWhat do you think about it?",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 25
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2f1508ae_e64f9ccd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24

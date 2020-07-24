@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "acdbd5c5_045fa58e",
+        "filename": "Documentation/prolog-change-facts.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-24T18:03:57Z",
+      "side": 1,
+      "message": "Oh, there is no other comment, I figured it out :-)",
+      "parentUuid": "eb24405a_46ff0506",
+      "range": {
+        "startLine": 57,
+        "startChar": 24,
+        "endLine": 57,
+        "endChar": 75
+      },
+      "revId": "24e16293fba11fae468706cd0684d9d0d4977cd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0cc1c7fe_c4f4f3d7",
         "filename": "java/gerrit/PRED_files_1.java",
         "patchSetId": 5

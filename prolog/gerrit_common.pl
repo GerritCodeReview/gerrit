@@ -429,3 +429,19 @@ split_commit_delta(Type, Path, _, Type, Path).
 commit_message_matches(Pattern) :-
   commit_message(Msg),
   regex_matches(Pattern, Msg).
+
+
+%% member/2:
+%%
+:- public member/2.
+%%
+member(X,[X|_]).
+member(X,[Y|T]) :- member(X,T).
+
+%% includes_file/1:
+%%
+:- public includes_file/1.
+%%
+includes_file(File) :-
+  files(List),
+  member(File, List).

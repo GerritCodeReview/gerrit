@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "b9ebf03e_760e9f5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T08:41:32Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a342041b_69890f57",
+      "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21635e62_73483be5",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
         "patchSetId": 1
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "60e3e380_e2428d30",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T08:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21635e62_73483be5",
+      "range": {
+        "startLine": 344,
+        "startChar": 44,
+        "endLine": 344,
+        "endChar": 52
+      },
+      "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "26852d03_128d4a41",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
         "patchSetId": 1
@@ -73,6 +115,24 @@
       "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "001c59ba_7c95e058",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T08:41:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26852d03_128d4a41",
+      "revId": "f8f1b174d28500ce687793e4b6bbf3f188543a2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

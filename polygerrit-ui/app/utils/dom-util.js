@@ -191,6 +191,20 @@ export function strToClassName(str = '', prefix = 'generated_') {
   return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, '_')}`;
 }
 
+/**
+ * Find and rewrite the href for the favicon link in <head>.
+ *
+ * @param {string} new_path The new href path to point to.
+ */
+export function setFavicon(new_path) {
+  let link = (document.querySelector('link[rel*=\'icon\']') ||
+              document.createElement('link'));
+  link.type = 'image/x-icon';
+  link.rel = 'shortcut icon';
+  link.href = new_path;
+  document.getElementsByTagName('head')[0].appendChild(link);
+}
+
 // shared API element
 let _sharedApiEl;
 

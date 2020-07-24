@@ -57,14 +57,16 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
 
   /** @override */
   created() {
+    this._boundHandleClose = () => this.close();
     super.created();
     this.addEventListener('iron-overlay-closed',
-        () => this._close());
+        () => this._overlayClosed());
     this.addEventListener('iron-overlay-cancelled',
-        () => this._close());
+        () => this._overlayClosed());
   }
 
   open(...args) {
+    window.addEventListener('popstate', this._boundHandleClose);
     return new Promise((resolve, reject) => {
       IronOverlayBehaviorImpl.open.apply(this, args);
       if (this._isMobile()) {
@@ -81,7 +83,9 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
     return window.matchMedia(`(max-width: ${BREAKPOINT_FULLSCREEN_OVERLAY})`);
   }
 
-  _close() {
+  // called after iron-overlay is closed. Does not actually close the overlay
+  _overlayClosed() {
+    window.removeEventListener('popstate', this._boundHandleClose);
     if (this._fullScreenOpen) {
       this.dispatchEvent(new CustomEvent('fullscreen-overlay-closed', {
         composed: true, bubbles: true,

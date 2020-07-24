@@ -16,6 +16,40 @@
       "revId": "8e2fb2ba1c50aa4468d64f369683e3a2360a80fd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca0afab_00bac7f2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:52:04Z",
+      "side": 1,
+      "message": "\u0027reload\u0027 and \u0027reload-change\u0027 are basically the same events. Let\u0027s remove one of them. I would keep the more generic \u0027reload\u0027.",
+      "revId": "8e2fb2ba1c50aa4468d64f369683e3a2360a80fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ce74a3_56e09a60",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 767,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:52:04Z",
+      "side": 1,
+      "message": "I think it would be better to just handle the event for all of \u003cgr-change-view\u003e similar to how the current \u0027reload\u0027 event is handled, and not add a listener per child component.",
+      "revId": "8e2fb2ba1c50aa4468d64f369683e3a2360a80fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

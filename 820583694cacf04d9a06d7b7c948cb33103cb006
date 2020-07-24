@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "30be15be_155bb2c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-24T12:52:04Z",
+      "side": 0,
+      "message": "So there is a difference between \u0027reload\u0027 and \u0027navigateToChange\u0027. The latter removes everything beyond the \u003cchangeNum\u003e from the URL:\n\n  /c/\u003cproject\u003e/+/\u003cchangeNum\u003e/[\u003cbasePatchNum|edit\u003e..][\u003cpatchNum|edit\u003e]\n\nSo the reload event may need to get a property, so that the caller can decide whether they want to keep the patchset choice or reset it.",
+      "revId": "820583694cacf04d9a06d7b7c948cb33103cb006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

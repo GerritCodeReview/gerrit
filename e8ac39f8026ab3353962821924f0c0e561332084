@@ -16,6 +16,24 @@
       "revId": "e8ac39f8026ab3353962821924f0c0e561332084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0c3e8b9_01ab921f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-24T07:02:14Z",
+      "side": 1,
+      "message": "Thanks, Michael. It seems that the problems were fixed meantime, and I released 2.6.0-alpha release on github: [1] and consumed it here.\n\n[1] https://github.com/davido/mina-sshd/releases/tag/v2.6.0-alpha",
+      "parentUuid": "8747de7b_b88cf9a1",
+      "revId": "e8ac39f8026ab3353962821924f0c0e561332084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -23,9 +23,17 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.common.data.SubmitRecord;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.CherryPickInput;
+import com.google.gerrit.server.project.SubmitRuleEvaluator;
+import com.google.gerrit.server.project.SubmitRuleOptions;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.testing.ConfigSuite;
 import com.google.inject.Inject;
+import java.util.Collection;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
@@ -47,6 +55,7 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
   }
 
   @Inject private ProjectOperations projectOperations;
+  @Inject private SubmitRuleEvaluator.Factory evaluatorFactory;
 
   @Test
   @GerritConfig(name = "submodule.enableSuperProjectSubscriptions", value = "false")
@@ -629,6 +638,132 @@ public class SubmoduleSubscriptionsIT extends AbstractSubmoduleSubscription {
     // Push succeeds, but gitlink update is skipped.
     pushChangeTo(subRepo, "master");
     expectToHaveSubmoduleState(superRepo, "master", subKey, badId);
+  }
+
+  @Test
+  public void blockSubmissionForChangesModifyingSpecifiedSubmodule() throws Exception {
+    ObjectId commitId = getCommitWithSubmoduleUpdate();
+
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = "branch";
+    cherryPickInput.allowConflicts = true;
+
+    // The rule will fail if the next change has a submodule file modification with subKey.
+    modifySubmitRulesToBlockSubmoduleChanges(String.format("file('%s','M','SUBMODULE')", subKey));
+
+    // Cherry-pick the newly created commit which contains a submodule update, to branch "branch".
+    ChangeApi changeApi =
+        gApi.projects().name(superKey.get()).commit(commitId.getName()).cherryPick(cherryPickInput);
+
+    // Add another file to this change for good measure.
+    PushOneCommit.Result result =
+        amendChange(changeApi.get().changeId, "subject", "newFile", "content");
+
+    assertThat(getStatus(result.getChange())).isEqualTo(SubmitRecord.Status.NOT_READY);
+    assertThat(gApi.changes().id(result.getChangeId()).get().submittable).isFalse();
+  }
+
+  @Test
+  public void blockSubmissionWithSubmodules() throws Exception {
+    ObjectId commitId = getCommitWithSubmoduleUpdate();
+    CherryPickInput cherryPickInput = new CherryPickInput();
+    cherryPickInput.destination = "branch";
+    cherryPickInput.allowConflicts = true;
+
+    // The rule will fail if the next change has any submodule file.
+    modifySubmitRulesToBlockSubmoduleChanges("file(_,_,'SUBMODULE')");
+
+    // Cherry-pick the newly created commit which contains a submodule update, to branch "branch".
+    ChangeApi changeApi =
+        gApi.projects().name(superKey.get()).commit(commitId.getName()).cherryPick(cherryPickInput);
+
+    // Add another file to this change for good measure.
+    PushOneCommit.Result result =
+        amendChange(changeApi.get().changeId, "subject", "newFile", "content");
+
+    assertThat(getStatus(result.getChange())).isEqualTo(SubmitRecord.Status.NOT_READY);
+    assertThat(gApi.changes().id(result.getChangeId()).get().submittable).isFalse();
+  }
+
+  @Test
+  public void doNotBlockSubmissionWithoutSubmodules() throws Exception {
+    modifySubmitRulesToBlockSubmoduleChanges("file(_,_,'SUBMODULE')");
+
+    PushOneCommit.Result result =
+        createChange(superRepo, "refs/heads/master", "subject", "newFile", "content", null);
+
+    assertThat(getStatus(result.getChange())).isEqualTo(SubmitRecord.Status.OK);
+    assertThat(gApi.changes().id(result.getChangeId()).get().submittable).isTrue();
+  }
+
+  private ObjectId getCommitWithSubmoduleUpdate() throws Exception {
+    allowMatchingSubmoduleSubscription(subKey, "refs/heads/*", superKey, "refs/heads/*");
+    // Create branch "branch" for the parent and the submodule
+    pushChangeTo(superRepo, "branch");
+    pushChangeTo(subRepo, "branch");
+
+    // Make the superRepo a parent repo of the subRepo, for both branches.
+    createSubmoduleSubscription(superRepo, "master", subKey, "master");
+    createSubmoduleSubscription(superRepo, "branch", subKey, "branch");
+    pushChangeTo(subRepo, "master");
+    pushChangeTo(subRepo, "branch");
+
+    // This push creates a new commit in subRepo, master branch, which makes superRepo update their
+    // submodule.
+    pushChangeTo(subRepo, "master");
+
+    // Fetch the commit from superRepo that Gerrit created automatically to fulfill the submodule
+    // subscription.
+    return superRepo
+        .git()
+        .fetch()
+        .setRemote("origin")
+        .call()
+        .getAdvertisedRef("refs/heads/" + "master")
+        .getObjectId();
+  }
+
+  private void modifySubmitRulesToBlockSubmoduleChanges(String file) throws Exception {
+    String newContent =
+        String.format(
+            "member(X,[X|_]).\n"
+                + "member(X,[Y|T]) :- member(X,T).\n"
+                + "submit_rule(submit(R)) :-\n"
+                + "  gerrit:files(List),\n"
+                + "  member(%s, List),\n"
+                + "  !,\n"
+                + "  R = label('All-Submodules-Resolved', need(_)).\n"
+                + "submit_rule(submit(label('All-Submodules-Resolved', ok(A)))) :-\n"
+                + "  gerrit:commit_author(A).",
+            file);
+
+    try (Repository repo = repoManager.openRepository(superKey);
+        TestRepository<Repository> testRepo = new TestRepository<>(repo)) {
+      testRepo
+          .branch(RefNames.REFS_CONFIG)
+          .commit()
+          .author(admin.newIdent())
+          .committer(admin.newIdent())
+          .add("rules.pl", newContent)
+          .message("Modify rules.pl")
+          .create();
+    }
+    projectCache.evict(superKey);
+  }
+
+  private SubmitRecord.Status getStatus(ChangeData cd) throws Exception {
+
+    Collection<SubmitRecord> records;
+    try (AutoCloseable changeIndex = disableChangeIndex()) {
+      try (AutoCloseable accountIndex = disableAccountIndex()) {
+        SubmitRuleEvaluator ruleEvaluator = evaluatorFactory.create(SubmitRuleOptions.defaults());
+        records = ruleEvaluator.evaluate(cd);
+      }
+    }
+
+    assertThat(records).hasSize(1);
+    SubmitRecord record = records.iterator().next();
+    return record.status;
   }
 
   private ObjectId directUpdateRef(Project.NameKey project, String ref) throws Exception {

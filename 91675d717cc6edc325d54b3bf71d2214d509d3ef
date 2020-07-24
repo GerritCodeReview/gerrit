@@ -46,6 +46,30 @@
       "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3e2718_481ee550",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1074328
+      },
+      "writtenOn": "2020-07-24T10:29:01Z",
+      "side": 1,
+      "message": "That makes sense. I was thinking like so: https://imgur.com/a/5hiyVcc\nThat should also satisfy these two properties and be a bit better on 2. imho. Wdyt?",
+      "parentUuid": "93e3ea3d_69b0ecd4",
+      "range": {
+        "startLine": 18,
+        "startChar": 1,
+        "endLine": 18,
+        "endChar": 48
+      },
+      "revId": "91675d717cc6edc325d54b3bf71d2214d509d3ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

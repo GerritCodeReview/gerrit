@@ -20,6 +20,7 @@ import '../../../styles/shared-styles.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {setFavicon} from '../../../utils/dom-util.js';
 import {htmlTemplate} from './gr-change-status_html.js';
 
 const ChangeStates = {
@@ -28,6 +29,16 @@ const ChangeStates = {
   MERGE_CONFLICT: 'Merge Conflict',
   WIP: 'WIP',
   PRIVATE: 'Private',
+  ACTIVE: 'Active',
+};
+
+const FaviconPaths = {
+  MERGED: '/favicons/merged.ico',
+  ABANDONED: '/favicons/abandoned.ico',
+  MERGE_CONFLICT: '/favicons/merge_conflict.ico',
+  WIP: '/favicons/wip.ico',
+  PRIVATE: '/favicons/private.ico',
+  ACTIVE: '/favicons/active.ico',
 };
 
 const WIP_TOOLTIP = 'This change isn\'t ready to be reviewed or submitted. ' +
@@ -58,12 +69,16 @@ class GrChangeStatus extends GestureEventListeners(
       },
       status: {
         type: String,
-        observer: '_updateChipDetails',
+        observer: '_updateUIDetails',
       },
       tooltipText: {
         type: String,
         value: '',
       },
+      faviconPath: {
+        type: String,
+        value: '',
+      }
     };
   }
 
@@ -78,26 +93,38 @@ class GrChangeStatus extends GestureEventListeners(
     return str.toLowerCase().replace(/\s/g, '-');
   }
 
-  _updateChipDetails(status, previousStatus) {
+  _updateUIDetails(status, previousStatus) {
     if (previousStatus) {
       this.classList.remove(this._toClassName(previousStatus));
     }
     this.classList.add(this._toClassName(status));
 
+    this.tooltipText = '';
     switch (status) {
       case ChangeStates.WIP:
         this.tooltipText = WIP_TOOLTIP;
+        this.faviconPath = FaviconPaths.WIP;
         break;
       case ChangeStates.PRIVATE:
         this.tooltipText = PRIVATE_TOOLTIP;
+        this.faviconPath = FaviconPaths.PRIVATE;
         break;
       case ChangeStates.MERGE_CONFLICT:
         this.tooltipText = MERGE_CONFLICT_TOOLTIP;
+        this.faviconPath = FaviconPaths.MERGE_CONFLICT;
         break;
-      default:
-        this.tooltipText = '';
+      case ChangeStates.MERGED:
+        this.faviconPath = FaviconPaths.MERGED;
+        break;
+      case ChangeStates.ABANDONED:
+        this.faviconPath = FaviconPaths.ABANDONED;
+        break;
+      case ChangeStates.ACTIVE:
+        this.faviconPath = FaviconPaths.ACTIVE;
         break;
     }
+
+    setFavicon(this.faviconPath);
   }
 }
 

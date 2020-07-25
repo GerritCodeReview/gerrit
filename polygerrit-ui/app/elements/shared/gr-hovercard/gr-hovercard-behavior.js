@@ -209,8 +209,8 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
     // from the hovercard but now hovering over the target (to stop an annoying
     // flicker effect), just return.
     if (opt_e) {
-      if (opt_e.toElement === this ||
-          (opt_e.fromElement === this && opt_e.toElement === this._target)) {
+      if (opt_e.relatedTarget === this ||
+          (opt_e.target === this && opt_e.relatedTarget === this._target)) {
         return;
       }
     }

@@ -51,6 +51,23 @@
       "revId": "49f800221f14f05c0a644c8ceb742b731d8d1583",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23acf85b_daa616c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-25T13:25:51Z",
+      "side": 1,
+      "message": "Can we get here approval? JGit change was merged, so that the latest JGit cannot be built any more on master, without this change.\n\n  ",
+      "revId": "49f800221f14f05c0a644c8ceb742b731d8d1583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

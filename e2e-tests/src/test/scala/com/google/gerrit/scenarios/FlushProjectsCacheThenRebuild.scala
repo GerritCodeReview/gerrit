@@ -20,30 +20,17 @@ import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
 
-class FlushProjectsCache extends CacheFlushSimulation {
+class FlushProjectsCacheThenRebuild extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val default: String = name
-
-  override def relativeRuntimeWeight = 2
 
   private val test: ScenarioBuilder = scenario(unique)
       .feed(data)
       .exec(httpRequest)
 
-  private val createProject = new CreateProject(default)
-  private val getCacheEntriesAfterProject = new GetProjectsCacheEntries(this)
-  private val checkCacheEntriesAfterFlush = new CheckProjectsCacheFlushEntries(this)
-  private val deleteProject = new DeleteProject(default)
+  private val checkCacheEntriesAfterFlush = new CheckProjectsCacheFlushEntries
+  private val rebuildCache = new ListProjects
 
   setUp(
-    createProject.test.inject(
-      nothingFor(stepWaitTime(createProject) seconds),
-      atOnceUsers(single)
-    ),
-    getCacheEntriesAfterProject.test.inject(
-      nothingFor(stepWaitTime(getCacheEntriesAfterProject) seconds),
-      atOnceUsers(single)
-    ),
     test.inject(
       nothingFor(stepWaitTime(this) seconds),
       atOnceUsers(single)
@@ -52,8 +39,8 @@ class FlushProjectsCache extends CacheFlushSimulation {
       nothingFor(stepWaitTime(checkCacheEntriesAfterFlush) seconds),
       atOnceUsers(single)
     ),
-    deleteProject.test.inject(
-      nothingFor(stepWaitTime(deleteProject) seconds),
+    rebuildCache.test.inject(
+      nothingFor(stepWaitTime(rebuildCache) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

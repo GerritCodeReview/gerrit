@@ -1481,7 +1481,7 @@ class GrChangeActions extends GestureEventListeners(
 
   _handleDownloadTap() {
     this.dispatchEvent(new CustomEvent('download-tap', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 

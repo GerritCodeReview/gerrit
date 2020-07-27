@@ -56,7 +56,7 @@ class GrConfirmDeleteCommentDialog extends GestureEventListeners(
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('confirm', {
       detail: {reason: this.message},
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 
@@ -64,7 +64,7 @@ class GrConfirmDeleteCommentDialog extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 }

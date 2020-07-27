@@ -340,7 +340,7 @@ class GrRelatedChangesList extends GestureEventListeners(
       if (results[i] && results[i].length > 0) {
         this.hidden = false;
         this.dispatchEvent(new CustomEvent('update', {
-          composed: true, bubbles: false,
+          composed: true, bubbles: true,
         }));
         return;
       }

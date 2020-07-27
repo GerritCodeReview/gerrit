@@ -74,7 +74,7 @@ class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
   _confirm() {
     this.dispatchEvent(new CustomEvent('confirm', {
       detail: {reason: this.message},
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 
@@ -82,7 +82,7 @@ class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 }

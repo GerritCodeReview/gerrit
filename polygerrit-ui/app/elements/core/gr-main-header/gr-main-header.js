@@ -335,7 +335,7 @@ class GrMainHeader extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('mobile-search', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 

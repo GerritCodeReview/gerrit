@@ -194,7 +194,7 @@ class GrConfirmRevertDialog extends GestureEventListeners(
     this.dispatchEvent(new CustomEvent('confirm', {
       detail: {revertType: this._revertType,
         message: this._message},
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 
@@ -203,7 +203,7 @@ class GrConfirmRevertDialog extends GestureEventListeners(
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {
       detail: {revertType: this._revertType},
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 }

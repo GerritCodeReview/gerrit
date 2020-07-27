@@ -422,7 +422,7 @@ suite('comment action tests with unresolved thread', () => {
     commentEl.dispatchEvent(
         new CustomEvent('create-fix-comment', {
           detail: {comment: commentEl.comment},
-          composed: true, bubbles: false,
+          composed: true, bubbles: true,
         }));
   });
 
@@ -454,7 +454,7 @@ suite('comment action tests with unresolved thread', () => {
     draftEl.dispatchEvent(
         new CustomEvent('comment-discard', {
           detail: {comment: draftEl.comment},
-          composed: true, bubbles: false,
+          composed: true, bubbles: true,
         }));
   });
 
@@ -486,7 +486,7 @@ suite('comment action tests with unresolved thread', () => {
         draftEl.dispatchEvent(
             new CustomEvent('comment-discard', {
               detail: {comment: draftEl.comment},
-              composed: true, bubbles: false,
+              composed: true, bubbles: true,
             }));
       });
 
@@ -565,7 +565,7 @@ suite('comment action tests with unresolved thread', () => {
     draftEl.dispatchEvent(
         new CustomEvent('comment-discard', {
           detail: {comment: draftEl.comment},
-          composed: true, bubbles: false,
+          composed: true, bubbles: true,
         }));
   });
 

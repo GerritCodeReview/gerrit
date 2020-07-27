@@ -97,7 +97,7 @@ class GrConfirmRevertSubmissionDialog extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('confirm', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 
@@ -105,7 +105,7 @@ class GrConfirmRevertSubmissionDialog extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 }

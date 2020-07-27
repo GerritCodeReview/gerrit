@@ -145,7 +145,7 @@ class GrDiffCursor extends GestureEventListeners(
       per element.
       */
       this.dispatchEvent(new CustomEvent('ready', {
-        composed: true, bubbles: false,
+        composed: true, bubbles: true,
       }));
     });
   }

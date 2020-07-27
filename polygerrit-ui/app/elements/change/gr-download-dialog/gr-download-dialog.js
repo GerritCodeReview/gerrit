@@ -209,7 +209,7 @@ class GrDownloadDialog extends GestureEventListeners(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('close', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
   }
 

@@ -620,7 +620,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
           this.draft = '';
           this._includeComments = true;
           this.dispatchEvent(new CustomEvent('send', {
-            composed: true, bubbles: false,
+            composed: true, bubbles: true,
           }));
           return accountAdditions;
         })
@@ -906,7 +906,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
 
   cancel() {
     this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
+      composed: true, bubbles: true,
     }));
     this.$.textarea.closeDropdown();
     this._purgeReviewersPendingRemove(true);

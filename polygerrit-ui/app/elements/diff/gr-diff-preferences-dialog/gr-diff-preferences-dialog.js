@@ -88,7 +88,7 @@ class GrDiffPreferencesDialog extends GestureEventListeners(
     this.diffPrefs = this._editableDiffPrefs;
     this.$.diffPreferences.save().then(() => {
       this.dispatchEvent(new CustomEvent('reload-diff-preference', {
-        composed: true, bubbles: false,
+        composed: true, bubbles: true,
       }));
 
       this.$.diffPrefsOverlay.close();

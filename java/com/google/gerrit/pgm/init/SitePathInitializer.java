@@ -108,6 +108,8 @@ public class SitePathInitializer {
     extractMailExample("AbandonedHtml.soy");
     extractMailExample("AddKey.soy");
     extractMailExample("AddKeyHtml.soy");
+    extractMailExample("AddToAttentionSet.soy");
+    extractMailExample("AddToAttentionSetHtml.soy");
     extractMailExample("ChangeFooter.soy");
     extractMailExample("ChangeFooterHtml.soy");
     extractMailExample("ChangeSubject.soy");
@@ -134,6 +136,8 @@ public class SitePathInitializer {
     extractMailExample("NewChangeHtml.soy");
     extractMailExample("RegisterNewEmail.soy");
     extractMailExample("RegisterNewEmailHtml.soy");
+    extractMailExample("RemoveFromAttentionSet.soy");
+    extractMailExample("RemoveFromAttentionSetHtml.soy");
     extractMailExample("ReplacePatchSet.soy");
     extractMailExample("ReplacePatchSetHtml.soy");
     extractMailExample("Restored.soy");

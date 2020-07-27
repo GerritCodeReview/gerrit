@@ -24,6 +24,7 @@ import java.util.Collection;
 
 /** Common helpers for dealing with attention set data structures. */
 public class AttentionSetUtil {
+
   /** Returns only updates where the user was added. */
   public static ImmutableSet<AttentionSetUpdate> additionsOnly(
       Collection<AttentionSetUpdate> updates) {

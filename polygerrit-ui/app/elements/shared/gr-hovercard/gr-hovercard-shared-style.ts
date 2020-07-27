@@ -29,6 +29,7 @@ GrHoverCardSharedStyle.innerHTML = `<template>
         display: none;
         z-index: 200;
         max-width: 600px;
+        outline: none;
       }
       :host(.hovered) {
         display: block;

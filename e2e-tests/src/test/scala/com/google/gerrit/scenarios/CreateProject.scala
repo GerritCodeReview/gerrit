@@ -28,7 +28,7 @@ class CreateProject extends ProjectSimulation {
 
   val test: ScenarioBuilder = scenario(unique)
       .feed(data)
-      .exec(httpRequest.body(RawFileBody(body)).asJson)
+      .exec(httpRequest.body(ElFileBody(body)).asJson)
 
   setUp(
     test.inject(

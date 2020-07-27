@@ -20,8 +20,6 @@ import './gr-hovercard.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
-//
-
 const basicFixture = fixtureFromTemplate(html`
 <gr-hovercard for="foo" id="bar"></gr-hovercard>
 `);
@@ -92,16 +90,16 @@ suite('gr-hovercard tests', () => {
     assert.equal(style.visibility, 'visible');
   });
 
-  test('showDelayed does not show immediately', done => {
-    element.showDelayedBy(100);
+  test('debounceShow does not show immediately', done => {
+    element.debounceShowBy(100);
     setTimeout(() => {
       assert.isFalse(element._isShowing);
       done();
     }, 0);
   });
 
-  test('showDelayed shows after delay', done => {
-    element.showDelayedBy(1);
+  test('debounceShow shows after delay', done => {
+    element.debounceShowBy(1);
     setTimeout(() => {
       assert.isTrue(element._isShowing);
       done();
@@ -113,9 +111,15 @@ suite('gr-hovercard tests', () => {
     assert.isFalse(element._isShowing);
     const enterHandler = event => {
       assert.isTrue(element._isScheduledToShow);
+      element._showDebouncer.flush();
+      assert.isTrue(element._isShowing);
+      assert.isFalse(element._isScheduledToShow);
       button.dispatchEvent(new CustomEvent('mouseleave'));
     };
     const leaveHandler = event => {
+      assert.isTrue(element._isScheduledToHide);
+      assert.isTrue(element._isShowing);
+      element._hideDebouncer.flush();
       assert.isFalse(element._isScheduledToShow);
       assert.isFalse(element._isShowing);
       button.removeEventListener('mouseenter', enterHandler);
@@ -136,6 +140,7 @@ suite('gr-hovercard tests', () => {
       MockInteractions.tap(button);
     };
     const leaveHandler = event => {
+      // no flush needed as hide will be called immediately
       assert.isFalse(element._isScheduledToShow);
       assert.isFalse(element._isShowing);
       button.removeEventListener('mouseenter', enterHandler);

@@ -16,6 +16,8 @@
  */
 import '../../../styles/shared-styles.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {Debouncer} from '@polymer/polymer/lib/utils/debounce.js';
+import {timeOut} from '@polymer/polymer/lib/utils/async.js';
 import {getRootElement} from '../../../scripts/rootElement.js';
 
 const HOVER_CLASS = 'hovered';
@@ -26,6 +28,14 @@ const HIDE_CLASS = 'hide';
  * over the element?
  */
 const SHOW_DELAY_MS = 500;
+
+/**
+ * How long should be wait before hiding the hovercard when the user moves from
+ * target to the hovercard.
+ *
+ * Note: this should be lower than SHOW_DELAY_MS to avoid flickering.
+ */
+const HIDE_DELAY_MS = 300;
 
 /**
  * The mixin for gr-hovercard-behavior.
@@ -116,18 +126,24 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   attached() {
     super.attached();
     if (!this._target) { this._target = this.target; }
-    this.listen(this._target, 'mouseenter', 'showDelayed');
-    this.listen(this._target, 'focus', 'showDelayed');
-    this.listen(this._target, 'mouseleave', 'hide');
-    this.listen(this._target, 'blur', 'hide');
-    this.listen(this._target, 'click', 'hide');
-  }
+    this.listen(this._target, 'mouseenter', 'debounceShow');
+    this.listen(this._target, 'focus', 'debounceShow');
+    this.listen(this._target, 'mouseleave', 'debounceHide');
+    this.listen(this._target, 'blur', 'debounceHide');
 
-  /** @override */
-  created() {
-    super.created();
+    // when click, dismiss immediately
+    this.listen(this._target, 'click', 'hide');
+
+    // cancel the hide if mouse now hover on the hovercard
+    this.addEventListener('mouseenter', () => {
+      this.cancelHideDebouncer();
+    });
+    // when leave hovercard, hide it immediately
     this.addEventListener('mouseleave',
-        e => this.hide(e));
+        e => {
+          this.cancelHideDebouncer();
+          this.hide();
+        });
   }
 
   /** @override */
@@ -146,11 +162,31 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   }
 
   removeListeners() {
-    this.unlisten(this._target, 'mouseenter', 'show');
-    this.unlisten(this._target, 'focus', 'show');
-    this.unlisten(this._target, 'mouseleave', 'hide');
-    this.unlisten(this._target, 'blur', 'hide');
+    this.unlisten(this._target, 'mouseenter', 'debounceShow');
+    this.unlisten(this._target, 'focus', 'debounceShow');
+    this.unlisten(this._target, 'mouseleave', 'debounceHide');
+    this.unlisten(this._target, 'blur', 'debounceHide');
     this.unlisten(this._target, 'click', 'hide');
+  }
+
+  debounceHide() {
+    this._isScheduledToHide = true;
+    this._hideDebouncer = Debouncer.debounce(
+        this._hideDebouncer,
+        timeOut.after(HIDE_DELAY_MS),
+        () => {
+          // This happens when hide immediately through click or mouse leave
+          // on the hovercard
+          if (!this._isScheduledToHide) return;
+          this.hide();
+          this._isScheduledToHide = false;
+        });
+  }
+
+  cancelHideDebouncer() {
+    if (this._hideDebouncer) {
+      this._hideDebouncer.cancel();
+    }
   }
 
   /**
@@ -194,6 +230,7 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    */
   hide(opt_e) {
     this._isScheduledToShow = false;
+    this._isScheduledToHide = false;
     if (!this._isShowing) {
       return;
     }
@@ -228,22 +265,26 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   /**
    * Shows/opens the hovercard with a fixed delay.
    */
-  showDelayed() {
-    this.showDelayedBy(SHOW_DELAY_MS);
+  debounceShow() {
+    this.debounceShowBy(SHOW_DELAY_MS);
   }
 
   /**
    * Shows/opens the hovercard with the given delay.
    */
-  showDelayedBy(delayMs) {
+  debounceShowBy(delayMs) {
+    this.cancelHideDebouncer();
     if (this._isShowing || this._isScheduledToShow) return;
     this._isScheduledToShow = true;
-    setTimeout(() => {
-      // This happens when the mouse leaves the target before the delay is over.
-      if (!this._isScheduledToShow) return;
-      this._isScheduledToShow = false;
-      this.show();
-    }, delayMs);
+    this._showDebouncer = Debouncer.debounce(
+        this._showDebouncer,
+        timeOut.after(delayMs),
+        () => {
+          // This happens when the mouse leaves the target before the delay is over.
+          if (!this._isScheduledToShow) return;
+          this._isScheduledToShow = false;
+          this.show();
+        });
   }
 
   /**
@@ -322,64 +363,40 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
 
     let hovercardLeft;
     let hovercardTop;
-    // There is a gap between the target and hovercard that we need to cover
-    // with (invisible) padding, such that mouseleave events won't result in
-    // hiding the hovercard before the user can reach it.
-    const padding = this.offset;
-    // For diagonal positioning we expect the user to move their mouse
-    // diagonally, so we increase the (invisible) padding (see above) such that
-    // more than just the gap is covered.
-    const diagonalPadding = 2 * this.offset;
     let cssText = '';
 
     switch (position) {
       case 'top':
         hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
         hovercardTop = targetTop - thisRect.height - this.offset;
-        cssText += `padding-bottom:${padding}px;`;
-        cssText += `margin-bottom:-${padding}px;`;
         break;
       case 'bottom':
         hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
         hovercardTop = targetTop + targetRect.height + this.offset;
-        cssText += `padding-top:${padding}px;`;
-        cssText += `margin-top:-${padding}px;`;
         break;
       case 'left':
         hovercardLeft = targetLeft - thisRect.width - this.offset;
         hovercardTop = targetTop + (targetRect.height - thisRect.height) / 2;
-        cssText += `padding-right:${padding}px;`;
-        cssText += `margin-right:-${padding}px;`;
         break;
       case 'right':
         hovercardLeft = targetLeft + targetRect.width + this.offset;
         hovercardTop = targetTop + (targetRect.height - thisRect.height) / 2;
-        cssText += `padding-left:${padding}px;`;
-        cssText += `margin-left:-${padding}px;`;
         break;
       case 'bottom-right':
         hovercardLeft = targetLeft + targetRect.width + this.offset;
         hovercardTop = targetTop;
-        cssText += `padding-left:${diagonalPadding}px;`;
-        cssText += `margin-left:-${diagonalPadding}px;`;
         break;
       case 'bottom-left':
         hovercardLeft = targetLeft - thisRect.width - this.offset;
         hovercardTop = targetTop;
-        cssText += `padding-right:${diagonalPadding}px;`;
-        cssText += `margin-right:-${diagonalPadding}px;`;
         break;
       case 'top-left':
         hovercardLeft = targetLeft - thisRect.width - this.offset;
         hovercardTop = targetTop + targetRect.height - thisRect.height;
-        cssText += `padding-right:${diagonalPadding}px;`;
-        cssText += `margin-right:-${diagonalPadding}px;`;
         break;
       case 'top-right':
         hovercardLeft = targetLeft + targetRect.width + this.offset;
         hovercardTop = targetTop + targetRect.height - thisRect.height;
-        cssText += `padding-left:${diagonalPadding}px;`;
-        cssText += `margin-left:-${diagonalPadding}px;`;
         break;
     }
 

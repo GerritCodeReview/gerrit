@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "046a8f90_93fe2b10",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T10:54:11Z",
+      "side": 1,
+      "message": "This will cause smaller active area and may cause more misses when move into the hovercard, especially for diagonal, I assume people rarely move right and down to try to move to the button area, they probably move directly (diagonal) to reach to the buttons instead. I tried a few times, and missed 3 times in a row lol\n\nhttps://imgur.com/a/e3NqPNe",
+      "range": {
+        "startLine": 11,
+        "startChar": 39,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "5fe42106006bc1bd35163533e77d5f7bcedc3be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ed3cb31_e518b449",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T10:54:11Z",
+      "side": 1,
+      "message": "the ",
+      "revId": "5fe42106006bc1bd35163533e77d5f7bcedc3be2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

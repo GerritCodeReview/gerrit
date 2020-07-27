@@ -49,8 +49,9 @@ per the local copy of link:config-gerrit.html[gerrit.config] located under
 This option automatically implies '--enable-sshd'.
 
 --console-log::
-	Send log messages to the console, instead of to the standard
-	log file '$site_path/logs/error_log'.
+	Send log messages to the console. Log files will still be written to
+	the error log file, if log.textLogging and/or log.jsonLogging is set to
+	'true'.
 
 --headless::
 	Don't start the default Gerrit UI. May be useful when Gerrit is

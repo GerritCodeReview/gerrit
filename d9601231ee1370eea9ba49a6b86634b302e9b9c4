@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "f4c667d6_d9e4b433",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T13:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d84ccf37_a2c738c0",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8abb5bb3_36f843d2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2020-07-27T10:56:21Z",
       "side": 1,
       "message": "Maybe name to \"resetPatchset\"? WDYT?",
+      "range": {
+        "startLine": 1376,
+        "startChar": 25,
+        "endLine": 1376,
+        "endChar": 43
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9c924a_3e0a25fd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T13:15:27Z",
+      "side": 1,
+      "message": "Reset to me does not imply that we are going to the latest.\nThis feels more explicit.",
+      "parentUuid": "8abb5bb3_36f843d2",
       "range": {
         "startLine": 1376,
         "startChar": 25,
@@ -56,6 +98,24 @@
       "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dff4b542_25742ab6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T13:15:27Z",
+      "side": 1,
+      "message": "Yeah created https://gerrit-review.googlesource.com/c/gerrit/+/276821 to fix all occurences",
+      "parentUuid": "343da7a4_34975215",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +165,30 @@
     },
     {
       "key": {
+        "uuid": "f3e7f342_78145afd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T13:15:27Z",
+      "side": 1,
+      "message": "Yes updated.",
+      "parentUuid": "54fdb2fe_73ad196b",
+      "range": {
+        "startLine": 1497,
+        "startChar": 9,
+        "endLine": 1497,
+        "endChar": 28
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6e7e53d_a1eb503b",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -116,6 +200,24 @@
       "writtenOn": "2020-07-27T10:56:21Z",
       "side": 1,
       "message": "It would be nice, if we had a check here, if params even contains an explicit patchset choice. If not, then a soft reload would still do.",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a453e31_a1b75f73",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T13:15:27Z",
+      "side": 1,
+      "message": "I\u0027m sorry I do not fully understand this.\nWhich params contain an explicit patchset choice?\nIf a new patchset is uploaded and we want users to reload, then we must not process the current patchset at all and let navigation go to the latest one.",
+      "parentUuid": "e6e7e53d_a1eb503b",
       "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -142,6 +244,30 @@
       "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac9fced_3cec9f36",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 2156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T13:15:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20659b7c_6752a16e",
+      "range": {
+        "startLine": 2156,
+        "startChar": 19,
+        "endLine": 2156,
+        "endChar": 38
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

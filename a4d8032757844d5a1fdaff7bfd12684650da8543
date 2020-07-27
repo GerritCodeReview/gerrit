@@ -88,6 +88,24 @@
       "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "705ad2e7_be5e9d15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T06:21:58Z",
+      "side": 1,
+      "message": "I am not so sure whether all users really want this feature.\n\nCritique is different in two fundamental ways:\n\n1. The color coding of CL status is much more prominent.\n2. Critique automatically updates the CL status.\n\nCider is different, because it uses color coding for build/test status, which is a different workflow.\n\nI would like to understand better what the benefit is of color coding the favicons. Maybe you can explain some scenarios where color coded favicons increase your productivity.\n\nI could see this being useful for telling you about:\n1. A change was submitted.\n2. Builds/Tests have failed.\n3. You were added to the attention set (this is a new feature, currently in dogfood phase).\n\nThe prerequisite for each of these is that the Gerrit UI gets information about that state change pushed (or polls for it). That is currently not the case.\n\nYou also have to consider browser notifications, which might be a better means of telling the user.\n\nI don\u0027t see a use case for \"abandoned\" and \"private\".",
+      "parentUuid": "90724c5c_595ea920",
+      "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

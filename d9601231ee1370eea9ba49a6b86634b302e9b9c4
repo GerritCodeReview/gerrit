@@ -19,6 +19,46 @@
     },
     {
       "key": {
+        "uuid": "8abb5bb3_36f843d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T10:56:21Z",
+      "side": 1,
+      "message": "Maybe name to \"resetPatchset\"? WDYT?",
+      "range": {
+        "startLine": 1376,
+        "startChar": 25,
+        "endLine": 1376,
+        "endChar": 43
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "343da7a4_34975215",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1377,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T10:56:21Z",
+      "side": 1,
+      "message": "Why false? Doesn\u0027t have to bubble up?\n\nI am surprised to see a fair number of bubbles:false in the code base. I was thinking that bubbles:false only makes sense, if you listen directly on where the element is fired.\n\nI am also confused by bubbles:false in combination with composed:true. I would have expected that \"composed\" is a kind of \"super-bubbling\", not just to the root, but also across the shadow boundary. Maybe \"bubbles\" is ignored when \"composed:true\" is set?\n\nMaybe you can enlighten me. :-)",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7302dda2_bd2209d0",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 5
@@ -58,6 +98,46 @@
         "startChar": 9,
         "endLine": 1497,
         "endChar": 28
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6e7e53d_a1eb503b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T10:56:21Z",
+      "side": 1,
+      "message": "It would be nice, if we had a check here, if params even contains an explicit patchset choice. If not, then a soft reload would still do.",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20659b7c_6752a16e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 2156,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T10:56:21Z",
+      "side": 1,
+      "message": "_reload",
+      "range": {
+        "startLine": 2156,
+        "startChar": 19,
+        "endLine": 2156,
+        "endChar": 38
       },
       "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

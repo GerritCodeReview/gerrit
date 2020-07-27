@@ -106,6 +106,24 @@
       "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8b268a1_b7bfd62c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1109395
+      },
+      "writtenOn": "2020-07-27T18:05:10Z",
+      "side": 1,
+      "message": "Right now, all Critique tabs are a favicon showing a green box with a green checkmark within.\n\nThis is misleading.  Most of those are not LGTM+Approved changes waiting for submission.\n\nThey contain a mix of submitted CLs, work in progress, things I\u0027m waiting for others on, things needing my attention.\n\nHighlighting the attention set and submitted status would be useful.  Attention set should include things like \"Submit was clicked, but the submit automation failed so you need to come back and look at it\".  I wouldn\u0027t differentiate presubmit/build/tests failed vs other forms of attention.\n\nI don\u0027t know how feasible it is for Chrome tab favicons to communicate this reliably.  At some point, tabs open too long, perhaps across a chrome restart, become idle and aren\u0027t actively loaded or run by Chrome until selected.  But even if the live status can\u0027t be kept up to date, differentiating between the status at the time it was last loaded would be helpful.\n\neven just a binary submitted vs not submitted would be helpful.  (grey for submitted?)\n\nI intentionally have submitted CL tabs open for reference and investigation intermixed with active CLs.  It\u0027d help visually differentiate those so I can more readily find what I need.  Assume a tab bar is full and icons-only.  There is never room for text up there.",
+      "parentUuid": "705ad2e7_be5e9d15",
+      "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

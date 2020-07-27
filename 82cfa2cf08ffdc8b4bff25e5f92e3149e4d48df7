@@ -52,6 +52,24 @@
       "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9dc0b49_19476131",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T15:26:50Z",
+      "side": 1,
+      "message": "`is scheduled` means its to be hidden in an async manner. when `hide` is called, its being hidden, not scheduled... the naming is following the `isScheduledToShow`",
+      "parentUuid": "24900a01_9ca98fdd",
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

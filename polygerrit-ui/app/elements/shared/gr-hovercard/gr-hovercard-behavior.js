@@ -22,13 +22,6 @@ const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
 
 /**
- * When the hovercard is positioned diagonally (bottom-left, bottom-right,
- * top-left, or top-right), we add additional (invisible) padding so that the
- * area that a user can hover over to access the hovercard is larger.
- */
-const DIAGONAL_OVERFLOW = 15;
-
-/**
  * How long should be wait before showing the hovercard when the user hovers
  * over the element?
  */
@@ -329,65 +322,56 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
 
     let hovercardLeft;
     let hovercardTop;
-    const diagonalPadding = this.offset + DIAGONAL_OVERFLOW;
     let cssText = '';
 
     switch (position) {
       case 'top':
         hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
         hovercardTop = targetTop - thisRect.height - this.offset;
-        cssText += `padding-bottom:${this.offset
-        }px; margin-bottom:-${this.offset}px;`;
+        cssText += `padding-bottom:${this.offset}px;`;
+        cssText += `margin-bottom:-${this.offset}px;`;
         break;
       case 'bottom':
         hovercardLeft = targetLeft + (targetRect.width - thisRect.width) / 2;
         hovercardTop = targetTop + targetRect.height + this.offset;
-        cssText +=
-            `padding-top:${this.offset}px; margin-top:-${this.offset}px;`;
+        cssText += `padding-top:${this.offset}px;`;
+        cssText += `margin-top:-${this.offset}px;`;
         break;
       case 'left':
         hovercardLeft = targetLeft - thisRect.width - this.offset;
         hovercardTop = targetTop + (targetRect.height - thisRect.height) / 2;
-        cssText +=
-            `padding-right:${this.offset}px; margin-right:-${this.offset}px;`;
+        cssText += `padding-right:${this.offset}px;`;
+        cssText += `margin-right:-${this.offset}px;`;
         break;
       case 'right':
         hovercardLeft = targetLeft + targetRect.width + this.offset;
         hovercardTop = targetTop + (targetRect.height - thisRect.height) / 2;
-        cssText +=
-            `padding-left:${this.offset}px; margin-left:-${this.offset}px;`;
+        cssText += `padding-left:${this.offset}px;`;
+        cssText += `margin-left:-${this.offset}px;`;
         break;
       case 'bottom-right':
         hovercardLeft = targetLeft + targetRect.width + this.offset;
-        hovercardTop = targetTop + targetRect.height + this.offset;
-        cssText += `padding-top:${diagonalPadding}px;`;
-        cssText += `padding-left:${diagonalPadding}px;`;
-        cssText += `margin-left:-${diagonalPadding}px;`;
-        cssText += `margin-top:-${diagonalPadding}px;`;
+        hovercardTop = targetTop;
+        cssText += `padding-left:${this.offset}px;`;
+        cssText += `margin-left:-${this.offset}px;`;
         break;
       case 'bottom-left':
         hovercardLeft = targetLeft - thisRect.width - this.offset;
-        hovercardTop = targetTop + targetRect.height + this.offset;
-        cssText += `padding-top:${diagonalPadding}px;`;
-        cssText += `padding-right:${diagonalPadding}px;`;
-        cssText += `margin-right:-${diagonalPadding}px;`;
-        cssText += `margin-top:-${diagonalPadding}px;`;
+        hovercardTop = targetTop;
+        cssText += `padding-right:${this.offset}px;`;
+        cssText += `margin-right:-${this.offset}px;`;
         break;
       case 'top-left':
         hovercardLeft = targetLeft - thisRect.width - this.offset;
-        hovercardTop = targetTop - thisRect.height - this.offset;
-        cssText += `padding-bottom:${diagonalPadding}px;`;
-        cssText += `padding-right:${diagonalPadding}px;`;
-        cssText += `margin-bottom:-${diagonalPadding}px;`;
-        cssText += `margin-right:-${diagonalPadding}px;`;
+        hovercardTop = targetTop + targetRect.height - thisRect.height;
+        cssText += `padding-right:${this.offset}px;`;
+        cssText += `margin-right:-${this.offset}px;`;
         break;
       case 'top-right':
         hovercardLeft = targetLeft + targetRect.width + this.offset;
-        hovercardTop = targetTop - thisRect.height - this.offset;
-        cssText += `padding-bottom:${diagonalPadding}px;`;
-        cssText += `padding-left:${diagonalPadding}px;`;
-        cssText += `margin-bottom:-${diagonalPadding}px;`;
-        cssText += `margin-left:-${diagonalPadding}px;`;
+        hovercardTop = targetTop + targetRect.height - thisRect.height;
+        cssText += `padding-left:${this.offset}px;`;
+        cssText += `margin-left:-${this.offset}px;`;
         break;
     }
 

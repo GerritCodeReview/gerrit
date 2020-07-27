@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d84ccf37_a2c738c0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1374,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T09:40:43Z",
+      "side": 1,
+      "message": "you will need `composed` if event listener is in a parent component",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7302dda2_bd2209d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T09:40:43Z",
+      "side": 1,
+      "message": "nit: be consistent, whitespace to wrap the comment",
+      "range": {
+        "startLine": 537,
+        "startChar": 43,
+        "endLine": 537,
+        "endChar": 44
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54fdb2fe_73ad196b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T09:40:43Z",
+      "side": 1,
+      "message": "don\u0027t you need to call _reload instead if you are removing _handleReloadChange ?",
+      "range": {
+        "startLine": 1497,
+        "startChar": 9,
+        "endLine": 1497,
+        "endChar": 28
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

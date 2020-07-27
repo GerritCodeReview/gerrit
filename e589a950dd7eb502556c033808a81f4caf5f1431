@@ -33,6 +33,24 @@
       "revId": "e589a950dd7eb502556c033808a81f4caf5f1431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24abd705_7fc5b14b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T12:42:09Z",
+      "side": 1,
+      "message": "You are right, but I am too swamped to go into more detail at the moment. Feel free to send me a change, if you have more time.",
+      "parentUuid": "3b0f7d4f_1bad8a70",
+      "revId": "e589a950dd7eb502556c033808a81f4caf5f1431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

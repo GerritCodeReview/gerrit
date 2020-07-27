@@ -95,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "820d5d6b_ab3941bd",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T14:50:01Z",
+      "side": 1,
+      "message": "\u003e I\u0027m just thinking that this change will be anyway overridden by introducing a cache\n\n\u003e Even when using the cache getAll() which may optimize on the caching layer, for missed entries the loader is invoked separately per key, which would require opening the repo per comment.\n\nNot necessarily. CacheLoader supports a #loadAll method that is called first and throws an exception that will make it fall back to sequential #load calls. You could implement loadAll in the loader for your new cache (seems useful also for your diff cache work IMO). That can open the repo just once and load each file just once.\n\nIf you get that work done now, you can just move the logic over later.\n\nWe\u0027d need a small internal adjustment for the getAll as well.",
+      "parentUuid": "67175596_fe0c391f",
+      "range": {
+        "startLine": 74,
+        "startChar": 9,
+        "endLine": 74,
+        "endChar": 62
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9187326d_85438516",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 5

@@ -459,6 +459,24 @@
     },
     {
       "key": {
+        "uuid": "dab590c9_bdf868df",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "Are you sure that they are all overridden before being used?\n\nPolymer has a lot of observing going on, so I have often seen bugs where one property had still the old value, but another was already initialized with a new value. That is why I think it is better to force undefined everywhere, if you init something.\n\nAny downside of this? Should be easy to add and I don\u0027t know what bad can come out of it.",
+      "parentUuid": "2a5a52ff_bb9c8eeb",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9fb47a82_0bded7a6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24
@@ -550,6 +568,30 @@
       "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7f429de8_67de16be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "Sure? :-)",
+      "parentUuid": "c457dcd1_29ffcb43",
+      "range": {
+        "startLine": 865,
+        "startChar": 4,
+        "endLine": 868,
+        "endChar": 76
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

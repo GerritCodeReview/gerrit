@@ -30,7 +30,7 @@ suggest following these principles:
 On the plus side you can strictly ignore everyone else's changes, if you are not
 in the attention set. :-)
 
-==== Rules
+=== Rules
 
 To help with the back and forth, Gerrit applies some basic automated rules for
 changing the attention set:
@@ -51,7 +51,7 @@ reviewers to the attention set.
 Note that just uploading a new patchset is not a relevant event for the
 attention set to change.
 
-==== Interaction
+=== Interaction
 
 There are two ways to interact with the attention set: The hovercard of owner
 and reviewer chips and the "Reply" dialog.
@@ -76,7 +76,7 @@ take action.
 
 image::images/user-attention-set-reply-select.png["reply dialog section for selecting users", align="center"]
 
-==== Bots
+=== Bots
 
 The attention set is meant for human reviews only. Triggering bots and reacting
 to their results is a different workflow and not in scope of the attenion set.
@@ -84,7 +84,7 @@ Thus members of the "Non-Interactive Users" group will never be added to the
 attention set. And replies by such users will not add the change owner to the
 attention set.
 
-==== Dashboard
+=== Dashboard
 
 The default *dashboard* contains a new section at the top called "Your Turn". It
 lists all changes where the logged-in user is in the attention set. As an active
@@ -96,7 +96,7 @@ image::images/user-attention-set-dashboard.png["dashboard with Your Turn section
 Note that you can also navigate to other users' dashboards to check their
 "Your Turn" section.
 
-==== Assignee
+=== Assignee
 
 While the "Assignee" feature can still be used together with the attention set,
 we do not recommend doing so. Using both features is likely confusing. The
@@ -111,7 +111,7 @@ recommend to only use one of them.
 The "Assignee" feature can be turned on/off with the
 link:config-gerrit.html#change.enableAttentionSet[enableAssignee] config option.
 
-==== Bold Changes / Mark Reviewed
+=== Bold Changes / Mark Reviewed
 
 Before the attention set feature, changes were bolded in the dashboard when
 *something* happened and you could explicitly "mark a change reviewed" on the

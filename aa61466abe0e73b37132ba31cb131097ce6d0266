@@ -16,6 +16,23 @@
       "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6d3ba1e8_416d76f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-27T19:10:17Z",
+      "side": 1,
+      "message": "PG test failure seems to be related:\n\n    gr-related-changes-list plugin tests\n    ��� \"before each\" hook for \"endpoint params\"\n      HeadlessChrome 69.0.3497 (Linux 0.0.0)\n    TypeError: Cannot read property \u0027create\u0027 of null\n        at window.fixture (polygerrit-ui/app/_pg_with_tests_out/test/common-test-setup.js:53:46)\n        at Context.setup (polygerrit-ui/app/_pg_with_tests_out/elements/change/gr-related-changes-list/gr-related-changes-list_test.js:486:19)\n",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2f7bb7c2_3776a916",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "You can drop that check, if you use\n\n  for (const path of Object.keys(comments)) {",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c0dc622_fcb64431",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "What about using `find` here?",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7ad75532_ece5f92c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "I agree that just \"params\" is a bit vague, but I am not sure whether the router only spits out urlParams, maybe routerParams would be better? Also maybe leave that to a separate refactoring change, because consistency is more important here. We should not call the same thing \"params\" and \"urlParams\" in the same file.",
+      "range": {
+        "startLine": 795,
+        "startChar": 18,
+        "endLine": 795,
+        "endChar": 27
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "022bcae5_74d3f838",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "reload event?",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43e55a3d_7cd803d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "For consistency please use `value` instead of `this.params`. That must be the same. Also the if() clause does not really make sense to me.",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb66861a_7a09b4ba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "Can you move these 10 lines into _initPatchRange() such that we only have\n\n  this._path \u003d ...\n  this._patchRange \u003d ...\n\nonce in the file.",
+      "range": {
+        "startLine": 872,
+        "startChar": 9,
+        "endLine": 881,
+        "endChar": 11
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbe935dd_0665ac5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "value is the same as this.params, so I don\u0027t think you have to pass it as a parameter",
+      "range": {
+        "startLine": 882,
+        "startChar": 31,
+        "endLine": 882,
+        "endChar": 36
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12fc4e2e_6a1fac28",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "Here and below: Why are you passing object fields into object methods?",
+      "range": {
+        "startLine": 882,
+        "startChar": 38,
+        "endLine": 882,
+        "endChar": 72
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "672db106_e5f1dfcc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:09:11Z",
+      "side": 1,
+      "message": "Why did you create these two new undocumented properties?\n\n  this._lineNum\n  this._leftSide\n\nMaybe call _initLineOfInterestAndCursor() with `comment` or create a `comment` property and call initComment() before initPath()?\n\nIs it important that line number and cursor are initialized in lines 838 and 839. Or can we do this here?",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

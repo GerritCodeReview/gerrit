@@ -108,6 +108,30 @@
     },
     {
       "key": {
+        "uuid": "297e5089_5bc2ec7e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T14:43:44Z",
+      "side": 1,
+      "message": "I guess then clearPatchset makes the most sense. It\u0027s just telling what the event wants to do.\nupdated to use that.",
+      "parentUuid": "33750b1d_a055dc12",
+      "range": {
+        "startLine": 1376,
+        "startChar": 25,
+        "endLine": 1376,
+        "endChar": 43
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "343da7a4_34975215",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 5

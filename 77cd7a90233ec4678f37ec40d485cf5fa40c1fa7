@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "19b1b143_cb38cad3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T13:05:42Z",
+      "side": 1,
+      "message": "nit: Preload dashboard queries\n\nThe commit message could also use one paragraph on why we\u0027re doing this and what we expect from it.",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 26
+      },
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a1033e9_2134697f",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -16,6 +39,92 @@
       "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f9bddc04_10c29cc9",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T13:05:42Z",
+      "side": 1,
+      "message": "nit: Once this is an enum (see my comment below), this can become a swtich-case.",
+      "range": {
+        "startLine": 91,
+        "startChar": 3,
+        "endLine": 91,
+        "endChar": 55
+      },
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10195670_3f6ab2b2",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T13:05:42Z",
+      "side": 1,
+      "message": "This should be an enum instead of matching strings:\n\nenum RequestedPage {\n  CHANGE,\n  DIFF,\n  DASHBOARD\n}\n\nIf each of these has a matcher, you can include that matcher in the enum as well:\n\n\nenum RequestedPage {\n  CHANGE(Pattern.compile(...)),\n  DIFF(Pattern.compile(...)),\n  DASHBOARD(Pattern.compile(...))\n\n  private final Pattern pattern;\n  RequestedPage(Pattern p) {this.pattern \u003d p;}\n}",
+      "range": {
+        "startLine": 38,
+        "startChar": 1,
+        "endLine": 40,
+        "endChar": 62
+      },
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f720f20f_46fc95ad",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T13:05:42Z",
+      "side": 1,
+      "message": "The chance for these to get out of sync without us noticing is growing a lot by this change. I would suggest we create some sort of resource file that we include in both the frontend and backend build and that we use to load these queries from. Here for preloading and in the frontend for sending requests.\n\nWe could use Protobuf to do this. For example\n\nresources.proto:\nmessage DashboardQueries {\n  string your_turn \u003d 1;\n  string assigned \u003d 2;\n  // ...\n}\n\nThen we can can create a serialized text-representation of that: resources.txt\n\nThat contains then values we want to share. After including that file into the FE/BE build, we can just parse that file using our proto and use it here and when sending queries.\n\nThere are potentially better ways to do this using other frameworks, but we already have Protobuf available, so it looks tempting to just use it.",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 82
+      },
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a2e007b_1337624e",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T13:05:42Z",
+      "side": 1,
+      "message": "Right now, it\u0027s hard to know what this method does. Sending a redirect? (That\u0027s what \u0027route\u0027 methods usually do).\n\nIt will get better when you use an enum and the method can be a \n\n/** Figures out which page the user is loading. */\nOptional\u003cRequestedPage\u003e parseRequestedPage(String url)\n...",
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

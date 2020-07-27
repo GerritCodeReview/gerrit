@@ -157,6 +157,30 @@
       "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48cead48_6580e0ce",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T09:48:43Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "3095dbda_e273fc4a",
+      "range": {
+        "startLine": 726,
+        "startChar": 0,
+        "endLine": 736,
+        "endChar": 18
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

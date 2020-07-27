@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "caa6c66d_a8913f20",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T09:48:43Z",
+      "side": 1,
+      "message": "needs to be auto-closed",
+      "range": {
+        "startLine": 56,
+        "startChar": 6,
+        "endLine": 56,
+        "endChar": 14
+      },
+      "revId": "342454514cffa16dfc4b617ff45bb0768c521405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ba61f33_396ea8e9",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T09:48:43Z",
+      "side": 1,
+      "message": "The current implementation is consistent with PRED__load_commit_labels_1, so I think it\u0027s fine. But I wonder if we could have made things easier if we exported a individual facts instead of a list:\n\na1.unify(new StructureTerm(file, fileNameTerm, changeType, fileType), engine.trail) // for each file\n\nthat should produce somehting like\nfile(x,y,z).\nfile(a,b,c).\n\ninstead of \n[file(x,y,z), file(a,b,c)]\n\nBut this is in line with PRED__load_commit_labels_1 so it looks good to me.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 72,
+        "endChar": 96
+      },
+      "revId": "342454514cffa16dfc4b617ff45bb0768c521405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35bbfb6d_eecfdf21",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T09:48:43Z",
+      "side": 1,
+      "message": "A map if something to a boolean is usually better represented as a Set:\n\n/** Returns the paths for all {@code GITLINK} files. */\nSet\u003cString\u003e getAllSubmodulePaths(Repository repo, RevTree tree, List\u003cPathListEntry\u003e patches) {\n  Set\u003cString\u003e allPaths \u003d patches.stream().filter(Patch::isMagic).map(PatchListEntry::getNewName).collect(...);\n  try (TreeWalk tw \u003d ...)\n}\n\nThis way, the tree walk can be auto-closed in this method and you don\u0027t have to iterate over the patches more than once.",
+      "range": {
+        "startLine": 83,
+        "startChar": 17,
+        "endLine": 83,
+        "endChar": 72
+      },
+      "revId": "342454514cffa16dfc4b617ff45bb0768c521405",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

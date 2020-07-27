@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d8ae5c7_0b3717c5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-27T15:19:58Z",
+      "side": 1,
+      "message": "L-C needed to unblock upstream merging; thanks.",
+      "revId": "2e170df0d18e4365be435bcbf47c19f7a4e54dcf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

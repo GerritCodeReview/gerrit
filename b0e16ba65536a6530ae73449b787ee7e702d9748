@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "514b43c9_91c9f359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-27T23:21:35Z",
+      "side": 1,
+      "message": "Provide: the --console-log flag stays, so there\u0027s no reason to use the past tense.",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 30
+      },
+      "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dfadbf8_3a948602",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-27T23:21:35Z",
+      "side": 1,
+      "message": "Which corresponding option?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 20
+      },
+      "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbeeb8ba_a294003f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-27T23:21:35Z",
+      "side": 1,
+      "message": "Rephrase using the imperative form.",
+      "range": {
+        "startLine": 21,
+        "startChar": 24,
+        "endLine": 23,
+        "endChar": 11
+      },
+      "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "653522cf_c2ca6a3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-27T23:21:35Z",
+      "side": 1,
+      "message": "There are no tests, but I guess that\u0027s because this was never really tested isn\u0027t it?\nBy looking at the code, it looks like it is breaking existing functionality though. Will do another check tomorrow, E2E.",
+      "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "25cc07c2_451d2be3",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-27T23:21:35Z",
+      "side": 1,
+      "message": "If consoleLog is true and there is nothing configured, then the logs would be generated both on disk and on the output. This is breaking existing functionality, isn\u0027t it?",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

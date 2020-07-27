@@ -16,6 +16,24 @@
       "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8120d104_dfd5f1d2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T15:19:41Z",
+      "side": 1,
+      "message": "when `hide` called, basically the hovercard is dismissed, you can think of it as everything back to initial state.",
+      "parentUuid": "a3c32c9c_83b97a03",
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

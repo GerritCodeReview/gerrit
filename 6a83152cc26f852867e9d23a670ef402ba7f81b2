@@ -39,6 +39,30 @@
       "revId": "6a83152cc26f852867e9d23a670ef402ba7f81b2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6e55dc3_8bca378a",
+        "filename": "Documentation/user-notify.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-27T15:21:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44203c0b_bd9d0509",
+      "range": {
+        "startLine": 12,
+        "startChar": 9,
+        "endLine": 12,
+        "endChar": 10
+      },
+      "revId": "6a83152cc26f852867e9d23a670ef402ba7f81b2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

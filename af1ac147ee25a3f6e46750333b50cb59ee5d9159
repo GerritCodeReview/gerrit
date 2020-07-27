@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9b5a9ed_3713fb01",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T07:58:29Z",
+      "side": 1,
+      "message": "Nice!",
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "defac221_e1fdbf82",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T07:58:29Z",
+      "side": 1,
+      "message": "Can we instantiate the treewalk just once and then iterate using treeWalk.next()?\n\nThat\u0027s the way that TreeWalk is supposed to be used (set a filter and a tree and then iterate over all files).\n\nThat\u0027d be cheaper, hence faster.",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17aed104_091334eb",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T07:58:29Z",
+      "side": 1,
+      "message": "nit: filePrologQuery",
+      "range": {
+        "startLine": 724,
+        "startChar": 63,
+        "endLine": 724,
+        "endChar": 67
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8389d22c_3fb89896",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-27T07:58:29Z",
+      "side": 1,
+      "message": "This seems pretty useful for anyone who wants to use your newly created submit rule. Can we put it in gerrit_common.pl and just use it here?\n\nIf that moves to gerrit_common.pl, it needs a more descriptive name and documentation.",
+      "range": {
+        "startLine": 726,
+        "startChar": 0,
+        "endLine": 736,
+        "endChar": 18
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

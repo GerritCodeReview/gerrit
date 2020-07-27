@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "af972346_e67d315b",
+        "filename": "java/gerrit/PRED_files_1.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-27T09:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "defac221_e1fdbf82",
+      "range": {
+        "startLine": 80,
+        "startChar": 0,
+        "endLine": 88,
+        "endChar": 5
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "17aed104_091334eb",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 7
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "2133c12f_2a4d0b10",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-27T09:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17aed104_091334eb",
+      "range": {
+        "startLine": 724,
+        "startChar": 63,
+        "endLine": 724,
+        "endChar": 67
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8389d22c_3fb89896",
         "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
         "patchSetId": 7
@@ -85,6 +133,30 @@
       "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3095dbda_e273fc4a",
+        "filename": "javatests/com/google/gerrit/acceptance/git/SubmoduleSubscriptionsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 736,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-27T09:18:35Z",
+      "side": 1,
+      "message": "It\u0027s a little bit more complicated than just copying it to gerrit_common.pl.\n\nI can extract to gerrit_common.pl just the part about a file existing in a list, which makes it better.\n\nI can also add it to the cookbook.",
+      "parentUuid": "8389d22c_3fb89896",
+      "range": {
+        "startLine": 726,
+        "startChar": 0,
+        "endLine": 736,
+        "endChar": 18
+      },
+      "revId": "af1ac147ee25a3f6e46750333b50cb59ee5d9159",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

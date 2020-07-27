@@ -331,9 +331,7 @@ public class Daemon extends SiteProgram {
     sysInjector.getInstance(PluginGuiceEnvironment.class).setDbCfgInjector(dbInjector, cfgInjector);
     manager.add(dbInjector, cfgInjector, sysInjector);
 
-    if (!consoleLog) {
-      manager.add(ErrorLogFile.start(getSitePath(), config));
-    }
+    manager.add(ErrorLogFile.start(getSitePath(), config, consoleLog));
 
     sshd &= !sshdOff();
     if (sshd) {

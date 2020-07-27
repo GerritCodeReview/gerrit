@@ -16,6 +16,23 @@
       "revId": "e589a950dd7eb502556c033808a81f4caf5f1431",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3b0f7d4f_1bad8a70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-27T12:04:46Z",
+      "side": 1,
+      "message": "compared to have a winder padding, I am thinking of debouncing and canceling the cancel of the hovercard:\n\nwhen mouse move out of the hovercard, start preparing for canceling with debounce as 100ms, and if mouseenter triggered in the hovercard, cancel the debouncer. so we don\u0027t need to use the padding to support the mouse movement.\n\nbut this might go out of the scope of this change.",
+      "revId": "e589a950dd7eb502556c033808a81f4caf5f1431",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

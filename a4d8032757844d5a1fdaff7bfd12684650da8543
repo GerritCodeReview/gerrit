@@ -124,6 +124,24 @@
       "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81cb5183_ac7afd4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1098470
+      },
+      "writtenOn": "2020-07-27T19:28:49Z",
+      "side": 1,
+      "message": "Discussion on the UI/UX gating is now tracked @ b/162249132, let\u0027s keep the discussion on this review to the implementation details.",
+      "parentUuid": "b8b268a1_b7bfd62c",
+      "revId": "a4d8032757844d5a1fdaff7bfd12684650da8543",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

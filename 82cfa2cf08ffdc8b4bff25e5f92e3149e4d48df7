@@ -34,6 +34,24 @@
       "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24900a01_9ca98fdd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T15:24:31Z",
+      "side": 1,
+      "message": "Yeah but _isScheduledToHide should be true since the hovercard is actually being scheduled to be hidden(since the function is being executed below the statement).\nI guess it\u0027s a bit nitty and fine to leave it as is but the variable name can definitely be better.",
+      "parentUuid": "8120d104_dfd5f1d2",
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

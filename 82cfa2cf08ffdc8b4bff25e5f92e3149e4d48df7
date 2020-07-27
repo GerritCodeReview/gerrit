@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a3c32c9c_83b97a03",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T15:08:24Z",
+      "side": 1,
+      "message": "this._isScheduledToHide \u003d false \u0026 this._isScheduledToShow \u003d false\nwhat is scheduled then?\nShould one of these value be true?\nIf not then we need better variable names.",
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

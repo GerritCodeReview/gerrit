@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "33750b1d_a055dc12",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1376,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T14:25:32Z",
+      "side": 1,
+      "message": "But as the event emitter you don\u0027t know what the receiver will do exactly. Your intent is to remove the specific patchset choice and change back to the default patchset choice. At some point in the future we may implement a different default choice of patchsets.\n\nThese would all work for me:\n`resetPatchsets`\n`defaultPatchsets`\n`clearPatchsets`",
+      "parentUuid": "ff9c924a_3e0a25fd",
+      "range": {
+        "startLine": 1376,
+        "startChar": 25,
+        "endLine": 1376,
+        "endChar": 43
+      },
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "343da7a4_34975215",
         "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
         "patchSetId": 5
@@ -221,6 +245,24 @@
       "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef16f548_a81c7bf0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 1826,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T14:25:32Z",
+      "side": 1,
+      "message": "Had another look. Apparently the router and  _paramsChanged are already smart enough to avoid a complete reload. So you can leave as is.",
+      "parentUuid": "6a453e31_a1b75f73",
+      "revId": "d9601231ee1370eea9ba49a6b86634b302e9b9c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b8c2d30_ea315945",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 1436,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T14:25:32Z",
+      "side": 0,
+      "message": "That sounds like a case of loadLatestPatchset\u003dtrue?",
+      "revId": "57e3dfb6d78358579795ef065dacccefe1836b59",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

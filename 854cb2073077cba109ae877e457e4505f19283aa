@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25476589_34786fe8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T17:13:20Z",
+      "side": 1,
+      "message": "What happens if `e.detail` is undefined?",
+      "range": {
+        "startLine": 538,
+        "startChar": 34,
+        "endLine": 538,
+        "endChar": 42
+      },
+      "revId": "854cb2073077cba109ae877e457e4505f19283aa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

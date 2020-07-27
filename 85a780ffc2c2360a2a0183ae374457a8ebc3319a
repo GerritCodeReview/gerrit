@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "709f671c_9d298146",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T15:34:49Z",
+      "side": 1,
+      "message": "Yeah bubbles false is fine since change-view is the parent of change-actions.\nUpdated",
+      "parentUuid": "07b941f4_e9118ed2",
+      "range": {
+        "startLine": 1392,
+        "startChar": 25,
+        "endLine": 1392,
+        "endChar": 30
+      },
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3480a64_bf5ce3bc",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
         "patchSetId": 9
@@ -39,6 +63,24 @@
       "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd7f6895_413dd357",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T15:34:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3480a64_bf5ce3bc",
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "2dfad1b8_b062c2f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 2156,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T15:34:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5ffd1f7_db474266",
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0bc6aa3f_7e45f5e2",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 9
@@ -73,6 +133,24 @@
       "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2cfe8f8_7d362835",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-27T15:34:49Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0bc6aa3f_7e45f5e2",
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "07b941f4_e9118ed2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1392,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T15:11:01Z",
+      "side": 1,
+      "message": "Why is `bubbles` false here and true above?",
+      "range": {
+        "startLine": 1392,
+        "startChar": 25,
+        "endLine": 1392,
+        "endChar": 30
+      },
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3480a64_bf5ce3bc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 1497,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T15:11:01Z",
+      "side": 1,
+      "message": "That is a change in behavior, because clearPatchset is false. Is that intended?",
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5ffd1f7_db474266",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 2156,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T15:11:01Z",
+      "side": 1,
+      "message": "That is a change in behavior, because clearPatchset is false. Is that intended?",
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bc6aa3f_7e45f5e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-27T15:11:01Z",
+      "side": 1,
+      "message": "Nit: I think it is sufficient to document the events that are component specific and that you want to know about when you want to understand the component. App-wide events should at some point rather get an enum in a util directory or so.",
+      "revId": "85a780ffc2c2360a2a0183ae374457a8ebc3319a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

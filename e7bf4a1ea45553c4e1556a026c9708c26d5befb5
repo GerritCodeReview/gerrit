@@ -175,6 +175,24 @@
       "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f6127b4_c6a4e6f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-28T12:37:39Z",
+      "side": 1,
+      "message": "actually, let me come back to you with that.",
+      "parentUuid": "e54d268f_299abba4",
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

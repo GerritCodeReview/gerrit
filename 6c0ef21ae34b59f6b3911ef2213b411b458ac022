@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "3eb9990d_4c639ecd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-28T15:35:22Z",
+      "side": 1,
+      "message": "Is it possible for bots to reply through the UI? I guess not, so it\u0027s not a problem.",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 64
+      },
+      "revId": "6c0ef21ae34b59f6b3911ef2213b411b458ac022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f6e3139_58f28ea5",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2

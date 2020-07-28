@@ -2201,6 +2201,20 @@ class GrChangeView extends KeyboardShortcutMixin(
     return patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
   }
 
+  _computeUploader(change) {
+    if (!change || !change.current_revision ||
+        !change.revisions[change.current_revision]) {
+      return undefined;
+    }
+    const rev = change.revisions[change.current_revision];
+
+    if (!rev.uploader ||
+        change.owner._account_id === rev.uploader._account_id) {
+      return undefined;
+    }
+    return rev.uploader;
+  }
+
   _handleFileActionTap(e) {
     e.preventDefault();
     const controls = this.$.fileListHeader

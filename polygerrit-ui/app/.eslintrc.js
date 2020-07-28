@@ -192,16 +192,12 @@ module.exports = {
     "jsdoc/require-param-description": 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param-name
     "jsdoc/require-param-name": 2,
-    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param-type
-    "jsdoc/require-param-type": 2,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns
     "jsdoc/require-returns": 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-check
     "jsdoc/require-returns-check": 0,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-description
     "jsdoc/require-returns-description": 0,
-    // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-type
-    "jsdoc/require-returns-type": 2,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-valid-types
     "jsdoc/valid-types": 2,
     // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-file-overview
@@ -248,6 +244,10 @@ module.exports = {
       // .js-only rules
       "files": ["**/*.js"],
       "rules": {
+        // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-param-type
+        "jsdoc/require-param-type": 2,
+        // https://github.com/gajus/eslint-plugin-jsdoc#eslint-plugin-jsdoc-rules-require-returns-type
+        "jsdoc/require-returns-type": 2,
         // The rule is required for .js files only, because typescript compiler
         // always checks import.
         "import/no-unresolved": 2,

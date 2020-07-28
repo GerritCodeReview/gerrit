@@ -35,7 +35,7 @@ import {htmlTemplate} from './gr-reply-dialog_html.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
-import {ExperimentIds} from '../../../services/flags.js';
+import {KnownExperimentId} from '../../../services/flags/flags.js';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
@@ -348,7 +348,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   ready() {
     super.ready();
     this._isPatchsetCommentsExperimentEnabled = this.flagsService
-        .isEnabled(ExperimentIds.PATCHSET_COMMENTS);
+        .isEnabled(KnownExperimentId.PATCHSET_COMMENTS);
     this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
   }
 

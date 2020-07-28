@@ -21,6 +21,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.hash.Hashing;
 import com.google.gerrit.entities.Change;
@@ -45,14 +46,17 @@ import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 /**
  * Caches the context lines of comments (source file content surrounding and including the lines
  * where the comment was written)
  */
-public class CommentContextCacheImpl implements CommentContextCache {
+public class CommentContextCacheImpl implements CommentContextCache<CommentInfo> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private static final String CACHE_NAME = "comment_context";
@@ -91,6 +95,32 @@ public class CommentContextCacheImpl implements CommentContextCache {
           String.format(
               "Failed to retrieve context for change %s, comment %s", changeId, comment.id),
           e);
+    }
+  }
+
+  @Override
+  public Map<CommentInfo, List<ContextLine>> getAll(
+      Project.NameKey project, Change.Id changeId, Collection<CommentInfo> comments) {
+    List<Key> keys = new ArrayList<>();
+    for (CommentInfo comment : comments) {
+      PatchSet.Id ps = PatchSet.id(changeId, comment.patchSet);
+      String hashedPath = Hashing.murmur3_128().hashString(comment.path, UTF_8).toString();
+      keys.add(Key.create(project, ps, comment.id, hashedPath));
+    }
+    try {
+      // TODO(ghareeb): implement batch cache loading
+      ImmutableMap<Key, ImmutableList<ContextLine>> all = contextCache.getAll(keys);
+      ImmutableMap.Builder result = ImmutableMap.builder();
+      for (CommentInfo comment : comments) {
+        PatchSet.Id ps = PatchSet.id(changeId, comment.patchSet);
+        String hashedPath = Hashing.murmur3_128().hashString(comment.path, UTF_8).toString();
+        Key k = Key.create(project, ps, comment.id, hashedPath);
+        result.put(comment, all.get(k));
+      }
+      return result.build();
+    } catch (ExecutionException e) {
+      throw new StorageException(
+          String.format("Failed to retrieve comments' context for change %s", changeId), e);
     }
   }
 

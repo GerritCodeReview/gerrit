@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0a99878_460a8ce5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-28T11:52:29Z",
+      "side": 1,
+      "message": "add \"a\" (or maybe \"the\", it\u0027s not clear-cut here).",
+      "range": {
+        "startLine": 13,
+        "startChar": 60,
+        "endLine": 13,
+        "endChar": 61
+      },
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3aa78e55_7a771aed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-28T11:52:29Z",
+      "side": 1,
+      "message": "confusing use of past tense.",
+      "range": {
+        "startLine": 16,
+        "startChar": 49,
+        "endLine": 16,
+        "endChar": 53
+      },
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d7ce2ed1_67694e72",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-28T11:52:29Z",
+      "side": 1,
+      "message": "that term is a bit too vague. i guess you mean specifically the \"new patchset\" notification watches?",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9cbd1fd_39317ad0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-28T11:52:29Z",
+      "side": 1,
+      "message": "thanks for pointing this out, but note that this doesn\u0027t address my use case adequately, as it would require me to configure a much more aggressive \"notification firehose\" than i already have to retain the notifications that interest me.",
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -39,13 +39,6 @@ export const htmlTemplate = html`
     .email {
       color: var(--deemphasized-text-color);
     }
-    .status iron-icon {
-      width: 14px;
-      height: 14px;
-      vertical-align: top;
-      position: relative;
-      top: 2px;
-    }
     .action {
       border-top: 1px solid var(--border-color);
       padding: var(--spacing-s) var(--spacing-l);
@@ -56,10 +49,21 @@ export const htmlTemplate = html`
     .attention {
       background-color: var(--emphasis-color);
     }
-    .attention iron-icon {
+    .attention a {
+      text-decoration: none;
+    }
+    iron-icon {
+      vertical-align: top;
+    }
+    .status iron-icon {
       width: 14px;
       height: 14px;
-      vertical-align: top;
+      position: relative;
+      top: 2px;
+    }
+    iron-icon.attentionIcon {
+      width: 14px;
+      height: 14px;
       position: relative;
       top: 3px;
     }
@@ -99,10 +103,31 @@ export const htmlTemplate = html`
       >
         <div class="attention">
           <div>
-            <iron-icon icon="gr-icons:attention"></iron-icon>
+            <iron-icon
+              class="attentionIcon"
+              icon="gr-icons:attention"
+            ></iron-icon>
             <span>
               [[_computeText(account, _selfAccount)]] turn to take action.
             </span>
+            <a
+              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
+              target="_blank"
+            >
+              <iron-icon
+                icon="gr-icons:bug"
+                title="report a problem"
+              ></iron-icon>
+            </a>
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              target="_blank"
+            >
+              <iron-icon
+                icon="gr-icons:help-outline"
+                title="read documentation"
+              ></iron-icon>
+            </a>
           </div>
           <div class="reason">
             <span class="title">Reason:</span>

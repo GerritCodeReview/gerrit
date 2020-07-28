@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4dc1aa13_74f49ff5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-28T20:55:50Z",
+      "side": 1,
+      "message": "Let\u0027s wait until the PR is merged.",
+      "revId": "2aa303aca6c5efd37396047ae5d86330b7ad3712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9898120_1aa31435",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
         "patchSetId": 1

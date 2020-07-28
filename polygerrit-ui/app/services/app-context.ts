@@ -15,11 +15,12 @@
  * limitations under the License.
  */
 import {FlagsService} from './flags/flags';
+import {EventEmitterService} from './gr-event-interface/gr-event-interface';
 
 interface AppContext {
   flagsService: FlagsService;
   reportingService: any;
-  eventEmitter: any;
+  eventEmitter: EventEmitterService;
   authService: any;
 }
 

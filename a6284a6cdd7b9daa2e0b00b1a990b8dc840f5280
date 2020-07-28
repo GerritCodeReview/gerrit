@@ -519,6 +519,24 @@
     },
     {
       "key": {
+        "uuid": "e1252d93_70841d8e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T14:18:57Z",
+      "side": 1,
+      "message": "Actually there are a bunch of tests failing because they need to explicitly initialise properties. If we reset them here, then those tests will fail.\nI would propose to do this change as a follow up.",
+      "parentUuid": "9f62bc2c_22d9e140",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fb47a82_0bded7a6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24

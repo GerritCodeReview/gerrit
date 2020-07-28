@@ -26,6 +26,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.RobotClassifier;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
@@ -55,6 +56,7 @@ public class ReplyAttentionSetUpdates {
   private final RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
+  private final RobotClassifier robotClassifier;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -62,12 +64,14 @@ public class ReplyAttentionSetUpdates {
       AddToAttentionSetOp.Factory addToAttentionSetOpFactory,
       RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory,
       ApprovalsUtil approvalsUtil,
-      AccountResolver accountResolver) {
+      AccountResolver accountResolver,
+      RobotClassifier robotClassifier) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
+    this.robotClassifier = robotClassifier;
   }
 
   /** Adjusts the attention set but only based on the automatic rules. */
@@ -79,7 +83,9 @@ public class ReplyAttentionSetUpdates {
       Account.Id currentUser)
       throws IOException, ConfigInvalidException, PermissionBackendException,
           UnprocessableEntityException {
-
+    if (robotClassifier.isRobot(currentUser)) {
+      return;
+    }
     Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet();
     for (String reviewer : potentiallyRemovedReviewers) {
       potentiallyRemovedReviewerIds.add(getAccountId(changeNotes, reviewer));
@@ -112,6 +118,10 @@ public class ReplyAttentionSetUpdates {
       // ChangeUpdate. Also, we should stop all other attention set updates that are part of
       // this method and happen in PostReview.
       bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
+      return;
+    }
+    if (robotClassifier.isRobot(currentUser)) {
+      botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
       return;
     }
     // Gets a set of all the CCs in this change. Updated reviewers will be defined as reviewers who
@@ -151,9 +161,7 @@ public class ReplyAttentionSetUpdates {
       Set<Account.Id> reviewers,
       Account.Id currentUser) {
     // Replying removes the publishing user from the attention set.
-    RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(currentUser, "removed on reply", false);
-    bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
+    removeFromAttentionSet(bu, changeNotes, currentUser, "removed on reply", false);
 
     // The rest of the conditions only apply if the change is ready for review
     if (!readyForReview) {
@@ -163,29 +171,21 @@ public class ReplyAttentionSetUpdates {
     Account.Id owner = changeNotes.getChange().getOwner();
     if (currentUser.equals(uploader) && !uploader.equals(owner)) {
       // When the uploader replies, add the owner to the attention set.
-      AddToAttentionSetOp addToAttentionSetOp =
-          addToAttentionSetOpFactory.create(owner, "uploader replied", false);
-      bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
+      addToAttentionSet(bu, changeNotes, owner, "uploader replied", false);
     }
     if (currentUser.equals(uploader) || currentUser.equals(owner)) {
       // When the owner or uploader replies, add the reviewers to the attention set.
       for (Account.Id reviewer : reviewers) {
-        AddToAttentionSetOp addToAttentionSetOp =
-            addToAttentionSetOpFactory.create(reviewer, "owner or uploader replied", false);
-        bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
+        addToAttentionSet(bu, changeNotes, reviewer, "owner or uploader replied", false);
       }
     }
     if (!currentUser.equals(uploader) && !currentUser.equals(owner)) {
       // When neither the uploader nor the owner (reviewer or cc) replies, add the owner and the
       // uploader to the attention set.
-      AddToAttentionSetOp addToAttentionSetOp =
-          addToAttentionSetOpFactory.create(owner, "reviewer or cc replied", false);
-      bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
+      addToAttentionSet(bu, changeNotes, owner, "reviewer or cc replied", false);
 
       if (owner.get() != uploader.get()) {
-        addToAttentionSetOp =
-            addToAttentionSetOpFactory.create(uploader, "reviewer or cc replied", false);
-        bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
+        addToAttentionSet(bu, changeNotes, uploader, "reviewer or cc replied", false);
       }
     }
   }
@@ -211,6 +211,52 @@ public class ReplyAttentionSetUpdates {
     }
   }
 
+  /**
+   * Bots don't process manual rules, but they do have one special rule: if voted negatively on a
+   * label, add the owner and uploader.
+   */
+  private void botsWithNegativeLabelsAddOwnerAndUploader(
+      BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input) {
+    if (input.labels.values().stream().anyMatch(vote -> vote < 0)) {
+      Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
+      Account.Id owner = changeNotes.getChange().getOwner();
+      addToAttentionSet(bu, changeNotes, owner, "A robot voted negatively on a label", false);
+      addToAttentionSet(bu, changeNotes, uploader, "A robot voted negatively on a label", false);
+    }
+  }
+
+  /**
+   * Adds the user to the attention set
+   *
+   * @param bu BatchUpdate to perform the updates to the attention set
+   * @param changeNotes current change
+   * @param user user to add to the attention set
+   * @param reason reason for adding
+   * @param notify whether or not to notify about this addition
+   */
+  private void addToAttentionSet(
+      BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
+    AddToAttentionSetOp addOwnerToAttentionSet =
+        addToAttentionSetOpFactory.create(user, reason, notify);
+    bu.addOp(changeNotes.getChangeId(), addOwnerToAttentionSet);
+  }
+
+  /**
+   * Removes the user from the attention set
+   *
+   * @param bu BatchUpdate to perform the updates to the attention set.
+   * @param changeNotes current change.
+   * @param user user to add remove from the attention set.
+   * @param reason reason for removing.
+   * @param notify whether or not to notify about this removal.
+   */
+  private void removeFromAttentionSet(
+      BatchUpdate bu, ChangeNotes changeNotes, Account.Id user, String reason, boolean notify) {
+    RemoveFromAttentionSetOp removeFromAttentionSetOp =
+        removeFromAttentionSetOpFactory.create(user, reason, notify);
+    bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
+  }
+
   private static boolean isReadyForReview(ChangeNotes changeNotes, ReviewInput input) {
     return (!changeNotes.getChange().isWorkInProgress() && !input.workInProgress) || input.ready;
   }
@@ -226,9 +272,7 @@ public class ReplyAttentionSetUpdates {
     Account.Id attentionUserId =
         getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
 
-    AddToAttentionSetOp addToAttentionSetOp =
-        addToAttentionSetOpFactory.create(attentionUserId, add.reason, true);
-    bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
+    addToAttentionSet(bu, changeNotes, attentionUserId, add.reason, true);
   }
 
   private void removeFromAttentionSet(
@@ -242,9 +286,7 @@ public class ReplyAttentionSetUpdates {
     Account.Id attentionUserId =
         getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
 
-    RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason, true);
-    bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
+    removeFromAttentionSet(bu, changeNotes, attentionUserId, remove.reason, true);
   }
 
   private Account.Id getAccountId(ChangeNotes changeNotes, String user)

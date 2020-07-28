@@ -981,7 +981,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void robotReviewDoesNotChangeAttentionSet() throws Exception {
+  public void robotAddingAReviewerChangeAttentionSet() throws Exception {
     TestAccount robot =
         accountCreator.create(
             "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
@@ -989,7 +989,40 @@ public class AttentionSetIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(robot.id());
     change(r).addReviewer(user.id().toString());
 
+    // Bots can still change the attention set, just not when replying.
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+  }
+
+  @Test
+  public void robotReviewDoesNotChangeAttentionSet() throws Exception {
+    TestAccount robot =
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).current().review(ReviewInput.recommend());
+
     assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void robotReviewWithNegativeLabelAddsOwner() throws Exception {
+    TestAccount robot =
+        accountCreator.create(
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).current().review(ReviewInput.dislike());
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("A robot voted negatively on a label");
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

@@ -78,3 +78,61 @@ export enum SpecialFilePath {
   COMMIT_MESSAGE = '/COMMIT_MSG',
   MERGE_LIST = '/MERGE_LIST',
 }
+
+/**
+ * @desc The reviewer state
+ */
+export enum RequirementStatus {
+  OK = 'OK',
+  NOT_READY = 'NOT_READY',
+  RULE_ERROR = 'RULE_ERROR',
+}
+
+/**
+ * @desc The reviewer state
+ */
+export enum ReviewerState {
+  REVIEWER = 'REVIEWER',
+  CC = 'CC',
+  REMOVED = 'REMOVED',
+}
+
+/**
+ * @desc The patchset kind
+ */
+export enum RevisionKind {
+  REWORK = 'REWORK',
+  TRIVIAL_REBASE = 'TRIVIAL_REBASE',
+  MERGE_FIRST_PARENT_UPDATE = 'MERGE_FIRST_PARENT_UPDATE',
+  NO_CODE_CHANGE = 'NO_CODE_CHANGE',
+  NO_CHANGE = 'NO_CHANGE',
+}
+
+/**
+ * @desc The status of fixing the problem
+ */
+export enum ProblemInfoStatus {
+  FIXED = 'FIXED',
+  FIX_FAILED = 'FIX_FAILED',
+}
+
+/**
+ * @desc The status of the file
+ */
+export enum FileInfoStatus {
+  ADDED = 'A',
+  DELETED = 'D',
+  RENAMED = 'R',
+  COPIED = 'C',
+  REWRITTEN = 'W',
+  // Modifed = 'M', but API not set it if the file was modified
+}
+
+/**
+ * @desc The status of the file
+ */
+export enum GpgKeyInfoStatus {
+  BAD = 'BAD',
+  OK = 'OK',
+  TRUSTED = 'TRUSTED',
+}

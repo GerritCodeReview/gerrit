@@ -1021,7 +1021,8 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._shownFileCount = e.detail.length;
   }
 
-  _expandAllDiffs() {
+  _expandAllDiffs(e) {
+    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
     this.$.fileList.expandAllDiffs();
   }
 

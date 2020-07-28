@@ -755,6 +755,7 @@ export const htmlTemplate = html`
     <gr-reply-dialog
       id="replyDialog"
       change="{{_change}}"
+      uploader="[[_computeUploader(_change)]]"
       patch-num="[[_computeLatestPatchNum(_allPatchSets)]]"
       permitted-labels="[[_change.permitted_labels]]"
       draft-comment-threads="[[_draftCommentThreads]]"

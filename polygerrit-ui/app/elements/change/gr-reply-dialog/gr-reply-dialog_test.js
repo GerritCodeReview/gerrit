@@ -200,31 +200,44 @@ suite('gr-reply-dialog tests', () => {
   });
 
   function checkComputeAttention(
-      userId, reviewerIds, ownerId, attSetIds, expectedIds) {
+      userId, reviewerIds, ownerId, attSetIds, replyToIds, expectedIds) {
     const user = {_account_id: userId};
-    const reviewers = reviewerIds.map(id => {
+    const reviewers = {base: reviewerIds.map(id => {
       return {_account_id: id};
-    });
+    })};
+    const draftThreads = [
+      {comments: []},
+    ];
+    replyToIds.forEach(id => draftThreads[0].comments.push({
+      author: {_account_id: id},
+    }));
     const change = {
       owner: {_account_id: ownerId},
       attention_set: {},
     };
     attSetIds.forEach(id => change.attention_set[id] = {});
-    element._computeNewAttention(user, reviewers, change);
-    assert.deepEqual(element._newAttentionSet, new Set(expectedIds));
+    element.change = change;
+    element._reviewers = reviewers.base;
+    element._computeNewAttention(user, reviewers, change, draftThreads);
+    assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 
   test('computeNewAttention', () => {
-    checkComputeAttention(null, [], 999, [], [999]);
-    checkComputeAttention(1, [], 999, [], [999]);
-    checkComputeAttention(1, [], 999, [1], [999]);
-    checkComputeAttention(1, [22], 999, [], [999]);
-    checkComputeAttention(1, [22], 999, [22], [22, 999]);
-    checkComputeAttention(1, [], 1, [], []);
-    checkComputeAttention(1, [], 1, [1], []);
-    checkComputeAttention(1, [22], 1, [], [22]);
-    checkComputeAttention(1, [22, 33], 1, [], [22, 33]);
-    checkComputeAttention(1, [22, 33], 1, [22, 33], [22, 33]);
+    checkComputeAttention(null, [], 999, [], [], [999]);
+    checkComputeAttention(1, [], 999, [], [], [999]);
+    checkComputeAttention(1, [], 999, [1], [], [999]);
+    checkComputeAttention(1, [22], 999, [], [], [999]);
+    checkComputeAttention(1, [22], 999, [22], [], [22, 999]);
+    checkComputeAttention(1, [22], 999, [], [22], [22, 999]);
+    checkComputeAttention(1, [22, 33], 999, [33], [22], [22, 33, 999]);
+    checkComputeAttention(1, [], 1, [], [], [1]);
+    checkComputeAttention(1, [], 1, [1], [], [1]);
+    checkComputeAttention(1, [22], 1, [], [], [1]);
+    checkComputeAttention(1, [22], 1, [], [22], [22]);
+    checkComputeAttention(1, [22, 33], 1, [33], [22], [22, 33]);
+    checkComputeAttention(1, [22, 33], 1, [], [22], [22]);
+    checkComputeAttention(1, [22, 33], 1, [], [22, 33], [22, 33]);
+    checkComputeAttention(1, [22, 33], 1, [22, 33], [], [22, 33]);
   });
 
   test('computeNewAttentionNames', () => {

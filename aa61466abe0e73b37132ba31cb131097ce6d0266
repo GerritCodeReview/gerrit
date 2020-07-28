@@ -50,6 +50,97 @@
       "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f8f23bda_a7b86726",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T08:58:02Z",
+      "side": 1,
+      "message": "the conflicts are from the karma migration for all tests :) core difference is the sinon and how we init the fixtures, comments left",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d50ec4d9_16680164",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T08:58:02Z",
+      "side": 1,
+      "message": "we now using `element \u003d basicFixture.instantiate();` to create the element",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce4de4d7_18247169",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T08:58:02Z",
+      "side": 1,
+      "message": "this is no longer needed after karma migration",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e55071cc_82ada376",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T08:58:02Z",
+      "side": 1,
+      "message": "`sinon.stub`",
+      "range": {
+        "startLine": 569,
+        "startChar": 15,
+        "endLine": 569,
+        "endChar": 22
+      },
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a10ccfc8_bd67cbd9",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T08:58:02Z",
+      "side": 1,
+      "message": "this is no longer needed after karma migration",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

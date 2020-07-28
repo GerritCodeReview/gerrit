@@ -22,6 +22,30 @@
       "revId": "c72142db36eefe506a7cbce6104e3f84352eb465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "069e26ec_51695d8a",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-07-28T07:35:06Z",
+      "side": 1,
+      "message": "Yes, that would also have been my reply to your last comment. First of all, I don\u0027t think that anybody is relying on logs only being sent to stderr in production. For me this looks rather like a development feature right now. In this context, writing a few logs to the harddrive by default shouldn\u0027t be an issue, especially it is easy to switch off. Thus, I think while this is in general maybe a breaking change, I would consider it a minor issue and would personally feel safe to add it to 3.0, if nobody else has any concerns.\nIf I understood Shawn\u0027s commit message [1] of when he added this correctly, this was the default mode in the beginning and file based logging was added only later.  This flag was basically a compatibility option.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/12575",
+      "parentUuid": "cf0d0e2e_6a80c0e7",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "c72142db36eefe506a7cbce6104e3f84352eb465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

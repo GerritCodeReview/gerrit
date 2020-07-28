@@ -43,6 +43,7 @@ import com.google.gerrit.server.comment.CommentContextCache;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -129,6 +130,17 @@ public class CommentJson {
       if (loader != null) {
         loader.fill();
       }
+
+      if (fillCommentContext) {
+        List<T> allComments = out.values().stream().flatMap(Collection::stream).collect(toList());
+        Map<CommentInfo, List<ContextLine>> allContext =
+            commentContextCache.getAll(project, changeId, allComments);
+        for (T c : allComments) {
+          c.contextLines =
+              allContext.get(c).stream().map(ctx -> toContextLine(ctx)).collect(toList());
+        }
+      }
+
       return out;
     }
 
@@ -144,6 +156,16 @@ public class CommentJson {
       if (loader != null) {
         loader.fill();
       }
+
+      if (fillCommentContext) {
+        Map<CommentInfo, List<ContextLine>> allContext =
+            commentContextCache.getAll(project, changeId, out);
+        for (T c : out) {
+          c.contextLines =
+              allContext.get(c).stream().map(ctx -> toContextLine(ctx)).collect(toList());
+        }
+      }
+
       return out;
     }
 
@@ -174,10 +196,6 @@ public class CommentJson {
         r.author = loader.get(c.author.getId());
       }
       r.commitId = c.getCommitId().getName();
-      if (fillCommentContext) {
-        List<ContextLine> contextLines = commentContextCache.get(project, changeId, r);
-        r.contextLines = contextLines.stream().map(ctx -> toContextLine(ctx)).collect(toList());
-      }
     }
 
     protected ContextLineInfo toContextLine(ContextLine c) {

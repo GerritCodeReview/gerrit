@@ -33,6 +33,23 @@
       "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "025d7804_c356827f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-28T08:49:33Z",
+      "side": 1,
+      "message": "Can someone from FE team check/help with the fixing the conflict resolution? Thanks.",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

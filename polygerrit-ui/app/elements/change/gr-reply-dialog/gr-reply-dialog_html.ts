@@ -351,7 +351,7 @@ export const htmlTemplate = html`
             target="_blank"
           >
             <iron-icon
-              icon="gr-icons:info"
+              icon="gr-icons:help-outline"
               title="read documentation"
             ></iron-icon>
           </a>

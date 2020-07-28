@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "908a1e8f_18c8cc0b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-28T22:13:45Z",
+      "side": 1,
+      "message": "The code doesn\u0027t actually check that popstate listener is removed. For example, if code passes () \u003d\u003e this.close() in both methods instead of _boundHandleClose, the test passes, but listener is not removed. You can compare the second parameters of addEventListenerStub/removeEventListenerStub and ensure that parameters are the same.",
+      "range": {
+        "startLine": 35,
+        "startChar": 8,
+        "endLine": 35,
+        "endChar": 66
+      },
+      "revId": "1dc9c0c2bff0013e4f607bb949b53c820f1d6bd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

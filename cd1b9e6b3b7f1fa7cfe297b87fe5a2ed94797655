@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "1e276844_cc1e9ab0",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "320af895_279e6b35",
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "665c0d7f_e0ea639b",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
         "patchSetId": 3
@@ -65,6 +83,54 @@
     },
     {
       "key": {
+        "uuid": "af7c09b3_c35bad6f",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "We need multiple fields: patchset, id and path.\n\nI also preferred to keep passing the CommentInfo to make the signature consistent when adding the CommentContextCache#getAll, which will accept a list of CommentInfo as well.\n\nAlternatively, I can let the caller directly pass the CommentContextCacheImpl.Key.",
+      "parentUuid": "3bd3c9f0_576d48ef",
+      "range": {
+        "startLine": 25,
+        "startChar": 80,
+        "endLine": 25,
+        "endChar": 91
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0469bd8_bfa1ba18",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "665c0d7f_e0ea639b",
+      "range": {
+        "startLine": 25,
+        "startChar": 25,
+        "endLine": 25,
+        "endChar": 29
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5308199d_f50e8751",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 3
@@ -85,6 +151,30 @@
       "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d48b599a_6ac20742",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Thanks for the tip. The pattern of wrapping a list in a class was used in some other caches. I used an ImmutableList because a wrapper class will only contain 1 field: the list.\n\nDone.",
+      "parentUuid": "5308199d_f50e8751",
+      "range": {
+        "startLine": 54,
+        "startChar": 60,
+        "endLine": 54,
+        "endChar": 82
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "85eb2d10_fc7bd183",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2132b5c3_c3929695",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 59,
+        "endChar": 48
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b54d02cf_4722da0a",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 3
@@ -131,6 +245,30 @@
       "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf1afdfb_8a55a59c",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "I meant to put it private. The public method is the one above.",
+      "parentUuid": "b54d02cf_4722da0a",
+      "range": {
+        "startLine": 82,
+        "startChar": 6,
+        "endLine": 82,
+        "endChar": 78
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "4b4d2121_09b16901",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "I tackled the feedback. Now the logic is: REST endpoint --\u003e commentJson --\u003e cache --\u003e load using CommentContextLoader.\n\nCommentContextLoader opens the repository directly without using another API.",
+      "parentUuid": "008ffd97_688996c1",
+      "range": {
+        "startLine": 173,
+        "startChar": 0,
+        "endLine": 188,
+        "endChar": 93
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3477ae7d_7e57f817",
         "filename": "proto/cache.proto",
         "patchSetId": 3
@@ -177,6 +339,30 @@
       "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d548fd1_59193744",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3477ae7d_7e57f817",
+      "range": {
+        "startLine": 362,
+        "startChar": 16,
+        "endLine": 362,
+        "endChar": 20
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "5fbbea59_b755bccd",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 363,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c7ff52c_c0fbcc0a",
+      "range": {
+        "startLine": 363,
+        "startChar": 9,
+        "endLine": 363,
+        "endChar": 11
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8d401bb_77c70f86",
         "filename": "proto/cache.proto",
         "patchSetId": 3
@@ -226,6 +436,30 @@
     },
     {
       "key": {
+        "uuid": "fbc8c442_b13902e6",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 364,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8d401bb_77c70f86",
+      "range": {
+        "startLine": 364,
+        "startChar": 17,
+        "endLine": 364,
+        "endChar": 19
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c37a7028_3f48bb85",
         "filename": "proto/cache.proto",
         "patchSetId": 3
@@ -246,6 +480,30 @@
       "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdad0b0b_1d0a6321",
+        "filename": "proto/cache.proto",
+        "patchSetId": 3
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c37a7028_3f48bb85",
+      "range": {
+        "startLine": 365,
+        "startChar": 22,
+        "endLine": 365,
+        "endChar": 23
+      },
+      "revId": "cd1b9e6b3b7f1fa7cfe297b87fe5a2ed94797655",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

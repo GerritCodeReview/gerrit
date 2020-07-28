@@ -534,7 +534,8 @@ class GrChangeView extends KeyboardShortcutMixin(
         e => this._setActiveSecondaryTab(e));
     this.addEventListener('reload', e => {
       e.stopPropagation();
-      this._reload();
+      this._reload(/* opt_isLocationChange= */false,
+          /* opt_clearPatchset= */e.detail && e.detail.clearPatchset);
     });
   }
 
@@ -1494,7 +1495,8 @@ class GrChangeView extends KeyboardShortcutMixin(
   _handleRefreshChange(e) {
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
     e.preventDefault();
-    GerritNav.navigateToChange(this._change);
+    this._reload(/* opt_isLocationChange= */false,
+        /* opt_clearPatchset= */true);
   }
 
   _handleToggleChangeStar(e) {
@@ -1583,10 +1585,6 @@ class GrChangeView extends KeyboardShortcutMixin(
       flush();
       this.$.replyOverlay.center();
     });
-  }
-
-  _handleReloadChange() {
-    return this._reload();
   }
 
   _handleGetChangeDetailError(response) {
@@ -1820,11 +1818,17 @@ class GrChangeView extends KeyboardShortcutMixin(
    *
    * @param {boolean=} opt_isLocationChange Reloads the related changes
    *     when true and ends reporting events that started on location change.
+   * @param {boolean=} opt_clearPatchset Reloads the related changes
+   *     ignoring any patchset choice made.
    * @return {Promise} A promise that resolves when the core data has loaded.
    *     Some non-core data loading may still be in-flight when the core data
    *     promise resolves.
    */
-  _reload(opt_isLocationChange) {
+  _reload(opt_isLocationChange, opt_clearPatchset) {
+    if (opt_clearPatchset) {
+      GerritNav.navigateToChange(this._change);
+      return;
+    }
     this._loading = true;
     this._relatedChangesCollapsed = true;
     this.reporting.time(CHANGE_RELOAD_TIMING_LABEL);
@@ -2150,10 +2154,10 @@ class GrChangeView extends KeyboardShortcutMixin(
             // Persist this alert.
             dismissOnNavigation: true,
             action: 'Reload',
-            callback: function() {
-            // Load the current change without any patch range.
-              GerritNav.navigateToChange(this._change);
-            }.bind(this),
+            callback: () => {
+              this._reload(/* opt_isLocationChange= */false,
+                  /* opt_clearPatchset= */true);
+            },
           },
           composed: true, bubbles: true,
         }));

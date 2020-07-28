@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ea8e7bf6_1bb7e62a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f7bb7c2_3776a916",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c0dc622_fcb64431",
         "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
         "patchSetId": 26
@@ -39,6 +57,30 @@
       "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d43a07b4_3fd4f290",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2c0dc622_fcb64431",
+      "range": {
+        "startLine": 87,
+        "startChar": 25,
+        "endLine": 87,
+        "endChar": 32
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "2f98e0c7_537be35c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 795,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Replaced with params.",
+      "parentUuid": "7ad75532_ece5f92c",
+      "range": {
+        "startLine": 795,
+        "startChar": 18,
+        "endLine": 795,
+        "endChar": 27
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "022bcae5_74d3f838",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -82,6 +148,24 @@
     },
     {
       "key": {
+        "uuid": "f4b9ef33_bd959113",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "The listener for reload i in change-view. I\u0027m not sure if there is a listener for it when diff-view fires it. Cannot find any occurrence of it.\nadded a TODO to track it later.",
+      "parentUuid": "022bcae5_74d3f838",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "43e55a3d_7cd803d9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -96,6 +180,24 @@
       "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c8bdc3a_ed91ddb2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 837,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Wanted to check for value.lineNum.\nUpdated now.",
+      "parentUuid": "43e55a3d_7cd803d9",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +221,30 @@
       "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e9c9dd_acec786e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 881,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Having it once is difficult since one time the value comes from the comment and one time it comes from the url params.\nMoved into _initPatchRange() as suggested.",
+      "parentUuid": "bb66861a_7a09b4ba",
+      "range": {
+        "startLine": 872,
+        "startChar": 9,
+        "endLine": 881,
+        "endChar": 11
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -168,6 +294,54 @@
     },
     {
       "key": {
+        "uuid": "5b34cf24_860a2a85",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Several occurrences in the file already exist of this pattern.\nI just looked at those. Updated now.",
+      "parentUuid": "12fc4e2e_6a1fac28",
+      "range": {
+        "startLine": 882,
+        "startChar": 38,
+        "endLine": 882,
+        "endChar": 72
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "11e9dd4c_481781a2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 882,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fbe935dd_0665ac5c",
+      "range": {
+        "startLine": 882,
+        "startChar": 31,
+        "endLine": 882,
+        "endChar": 36
+      },
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "672db106_e5f1dfcc",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 26
@@ -182,6 +356,24 @@
       "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eaf4a5ad_7645163f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 26
+      },
+      "lineNbr": 884,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Moved to _initPatchRange and removed the properties.\nReplaced with local variables.",
+      "parentUuid": "672db106_e5f1dfcc",
+      "revId": "ae38f59e410e03f2a2114dfcc60d809fca93a0c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

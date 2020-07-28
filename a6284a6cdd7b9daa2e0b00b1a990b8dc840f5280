@@ -389,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "b9212758_17eb48fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 841,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "\"I find my comments rather small. That could all be fixed and cleaned up in 15 minutes.\"\n\nI think this estimate was wildly off. Took a much longer time considering the refactoring and how fragile the tests are.\nMoving all the assignments and initialisations later means observers and all tests were now broken.",
+      "parentUuid": "3420413e_4f9038e9",
+      "range": {
+        "startLine": 841,
+        "startChar": 0,
+        "endLine": 841,
+        "endChar": 25
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f1508ae_e64f9ccd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 24
@@ -474,6 +498,24 @@
       "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f62bc2c_22d9e140",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 853,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "I did check they are all being overridden.\nI guess there is no downside except someone reading the code later might wonder why we explicitly set it to undefined thinking there might be a specific reason for it.\nI added it, should help in figuring out if something goes wrong.\nIdeally this code should have no effect at all.",
+      "parentUuid": "dab590c9_bdf868df",
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -592,6 +634,30 @@
       "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a59fe3c_700f5fa7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 24
+      },
+      "lineNbr": 868,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:57:00Z",
+      "side": 1,
+      "message": "Oversight. Done now.",
+      "parentUuid": "7f429de8_67de16be",
+      "range": {
+        "startLine": 865,
+        "startChar": 4,
+        "endLine": 868,
+        "endChar": 76
+      },
+      "revId": "a6284a6cdd7b9daa2e0b00b1a990b8dc840f5280",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

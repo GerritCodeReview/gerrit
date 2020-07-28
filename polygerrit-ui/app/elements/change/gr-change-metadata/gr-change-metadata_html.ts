@@ -143,7 +143,6 @@ export const htmlTemplate = html`
         <gr-account-link
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
           change="[[change]]"
-          highlight-attention
         ></gr-account-link>
       </span>
     </section>
@@ -153,7 +152,6 @@ export const htmlTemplate = html`
         <gr-account-link
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
           change="[[change]]"
-          highlight-attention
         ></gr-account-link>
       </span>
     </section>

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f5fe46e5_7ca61c94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-28T16:23:12Z",
+      "side": 1,
+      "message": "Thanks Ben, looks good to me.\nFYI I have sent proposed changes to swap the info icon and bug icon in the reply dialog so that the info icon of the AS section is vertically aligned with the Code-Owners info icon.",
+      "revId": "074bc2bd066fb8a5d6b0ccd9b1aa707d0ccb2709",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

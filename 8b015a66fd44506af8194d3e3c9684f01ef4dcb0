@@ -46,6 +46,30 @@
       "revId": "8b015a66fd44506af8194d3e3c9684f01ef4dcb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e21c1ed_63a32756",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T14:00:58Z",
+      "side": 1,
+      "message": "Ahh add a space, the rendering in the comments is not that good. Looked like empty quotes to me.",
+      "parentUuid": "a45274eb_daba8187",
+      "range": {
+        "startLine": 390,
+        "startChar": 12,
+        "endLine": 390,
+        "endChar": 40
+      },
+      "revId": "8b015a66fd44506af8194d3e3c9684f01ef4dcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

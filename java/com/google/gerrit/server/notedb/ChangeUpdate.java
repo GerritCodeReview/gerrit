@@ -137,7 +137,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private String topic;
   private String commit;
   private Map<Account.Id, AttentionSetUpdate> plannedAttentionSetUpdates;
-  private boolean ignoreDefaultAttentionSetRules;
+  private boolean ignoreFurtherAttentionSetUpdates;
   private Optional<Account.Id> assignee;
   private Set<String> hashtags;
   private String changeMessage;
@@ -391,7 +391,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * must first create the removal, and the addition will not take effect.
    */
   public void addToPlannedAttentionSetUpdates(Set<AttentionSetUpdate> updates) {
-    if (updates == null || updates.isEmpty() || robotClassifier.isRobot(accountId)) {
+    if (updates == null || updates.isEmpty() || ignoreFurtherAttentionSetUpdates) {
       // No updates to do. Robots don't change attention set.
       return;
     }
@@ -416,13 +416,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         .forEach(u -> plannedAttentionSetUpdates.putIfAbsent(u.account(), u));
   }
 
-  /**
-   * If we need to ignore default attention set rules, no need to add any new updates in this class.
-   */
   public void addToPlannedAttentionSetUpdates(AttentionSetUpdate update) {
-    if (ignoreDefaultAttentionSetRules) {
-      return;
-    }
     addToPlannedAttentionSetUpdates(ImmutableSet.of(update));
   }
 
@@ -850,8 +844,8 @@ public class ChangeUpdate extends AbstractChangeUpdate {
    * When set, default attention set rules are ignored (E.g, adding reviewers -> adds to attention
    * set, etc).
    */
-  public void ignoreDefaultAttentionSetRules() {
-    ignoreDefaultAttentionSetRules = true;
+  public void ignoreFurtherAttentionSetUpdates() {
+    ignoreFurtherAttentionSetUpdates = true;
   }
 
   private void addPatchSetFooter(StringBuilder sb, int ps) {

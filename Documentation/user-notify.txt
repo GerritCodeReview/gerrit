@@ -6,6 +6,15 @@ Gerrit can automatically notify users by email when new changes are
 uploaded for review, after comments have been posted on a change,
 or after the change has been submitted to a branch.
 
+[[recipient-types]]
+== Recipient Type
+
+Those are the available recipient types:
++
+* `to`: The standard To field is used; addresses are visible to all.
+* `cc`: The standard CC field is used; addresses are visible to all.
+* `bcc`: SMTP RCPT TO is used to hide the address.
+
 [[user]]
 == User Level Settings
 
@@ -114,10 +123,8 @@ Like email, this variable may be a list of options.
 Email header used to list the destination. If not set BCC is used.
 Only one value may be specified. To use different headers for each
 address list them in different notify blocks.
-+
-* `to`: The standard To field is used; addresses are visible to all.
-* `cc`: The standard CC field is used; addresses are visible to all.
-* `bcc`: SMTP RCPT TO is used to hide the address.
+
+The possible options are the link:#recipient-types[recipient types].
 
 [[notify.name.filter]]notify.<name>.filter::
 +

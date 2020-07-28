@@ -6004,7 +6004,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[action-info]]
@@ -6137,7 +6138,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `OWNER`.
 |`notify_details`  |optional|
 Additional information about whom to notify about the change creation
-as a map of recipient type to link:#notify-info[NotifyInfo] entity.
+as a map of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |===========================
 
 [[blame-info]]
@@ -6406,7 +6408,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`     |optional|
 Additional information about whom to notify about the change creation
-as a map of recipient type to link:#notify-info[NotifyInfo] entity.
+as a map of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |==================================
 
 [[change-message-info]]
@@ -6462,7 +6465,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`   |optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |`keep_reviewers`   |optional, defaults to false|
 If `true`, carries reviewers and ccs over from original change to newly created one.
 |`allow_conflicts`  |optional, defaults to false|
@@ -6655,7 +6659,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `OWNER` for WIP changes and `ALL` otherwise.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[delete-change-message-input]]
@@ -6701,7 +6706,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[delete-vote-input]]
@@ -6722,7 +6728,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[description-input]]
@@ -7186,8 +7193,8 @@ The `NotifyInfo` entity contains detailed information about who should
 be notified about an update. These notifications are sent out even if a
 `notify` option in the request input disables normal notifications.
 `NotifyInfo` entities are normally contained in a `notify_details` map
-in the request input where the key is the recipient type. The recipient
-type can be `TO`, `CC` and `BCC`.
+in the request input where the key is the
+link:user-notify.html#recipient-types[recipient type].
 
 [options="header",cols="1,^1,5"]
 |=======================
@@ -7242,7 +7249,8 @@ Allowed values are `NONE` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[pure-revert-info]]
@@ -7378,7 +7386,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the revert as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |`topic`         |optional|
 Name of the topic for the revert change. If not set, the default for Revert
 endpoint is the topic of the change being reverted, and the default for the
@@ -7471,7 +7480,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`                      |optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |`omit_duplicate_comments`             |optional|
 If `true`, comments with the same content at the same place will be omitted.
 |`on_behalf_of`                        |optional|
@@ -7574,7 +7584,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[revision-info]]
@@ -7721,7 +7732,8 @@ Allowed values are `NONE`, `OWNER`, `OWNER_REVIEWERS` and `ALL`. +
 If not set, the default is `ALL`.
 |`notify_details`|optional|
 Additional information about whom to notify about the update as a map
-of recipient type to link:#notify-info[NotifyInfo] entity.
+of link:user-notify.html#recipient-types[recipient type] to
+link:#notify-info[NotifyInfo] entity.
 |=============================
 
 [[submit-record]]

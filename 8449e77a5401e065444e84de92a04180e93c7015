@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ee51238_e97691da",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 11
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-28T09:29:00Z",
+      "side": 1,
+      "message": "Note that for Typescript this will have to be !!e.detail. Otherwise it will not be a boolean.",
+      "range": {
+        "startLine": 538,
+        "startChar": 34,
+        "endLine": 538,
+        "endChar": 42
+      },
+      "revId": "8449e77a5401e065444e84de92a04180e93c7015",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -28,6 +28,10 @@ export const htmlTemplate = html`
     .container {
       display: block;
     }
+    .flex-container {
+      display: flex;
+      flex-direction: column;
+    }
     gr-button {
       --gr-button: {
         padding: 0px 0px;
@@ -35,10 +39,11 @@ export const htmlTemplate = html`
     }
     gr-account-chip {
       display: inline-block;
+      margin-block-end: 6px;
     }
   </style>
   <div class="container">
-    <div>
+    <div class="flex-container">
       <template is="dom-repeat" items="[[_displayedReviewers]]" as="reviewer">
         <gr-account-chip
           class="reviewer"

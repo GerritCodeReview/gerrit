@@ -22,6 +22,30 @@
       "revId": "bfd90c6d407b2c0d6fec1750c2ab3ba4964a1c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf62a583_add52c54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T08:53:07Z",
+      "side": 1,
+      "message": "Me too! I updated it in the title but not here.",
+      "parentUuid": "8da70e7c_2171575e",
+      "range": {
+        "startLine": 10,
+        "startChar": 51,
+        "endLine": 10,
+        "endChar": 61
+      },
+      "revId": "bfd90c6d407b2c0d6fec1750c2ab3ba4964a1c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

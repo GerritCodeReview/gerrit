@@ -16,6 +16,23 @@
       "revId": "df9397f4a5a570ba9d57049a9aa1950ccfe7d6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a109725c_f9bf2708",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-28T16:19:33Z",
+      "side": 1,
+      "message": "Thanks Dhruv for working on this change, it looks nice with the avatar! I left a couple of comments related to margin and font style.\n\nAnother piece of feedback from my side would be to left align all starts of the comments. This mean we would need to add a default container for user name (for example 100px up to 120px width). I think it is ok if it reduces the current snippet of comment, because if users want to see the full comment they would click on the expand arrow.",
+      "revId": "df9397f4a5a570ba9d57049a9aa1950ccfe7d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

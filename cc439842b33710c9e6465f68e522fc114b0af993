@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "fcee908b_b253a3e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-28T16:19:33Z",
+      "side": 1,
+      "message": "I propose we use font-weight-medium (500) so it is consistent with other parts of the UI where an Avatar and a username is not displayed in a chip: Username attached to each change log entry and username next to voting label.",
+      "parentUuid": "9cba88ea_0980a764",
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d4b64fa_59312077",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
         "patchSetId": 3
@@ -204,6 +222,30 @@
       "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74922764_88c4d699",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-28T16:19:33Z",
+      "side": 1,
+      "message": "We could also use the same margin between username in change log entry, next to voting label and in comment card as they visually look similar.",
+      "parentUuid": "e749dcab_373d3c71",
+      "range": {
+        "startLine": 242,
+        "startChar": 55,
+        "endLine": 242,
+        "endChar": 74
+      },
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

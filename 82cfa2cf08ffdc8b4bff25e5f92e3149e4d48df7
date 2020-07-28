@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b247c039_dcda3941",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T09:30:30Z",
+      "side": 1,
+      "message": "ah copied from above, will update both then",
+      "parentUuid": "3932dc4f_0a43d0df",
+      "range": {
+        "startLine": 33,
+        "startChar": 19,
+        "endLine": 33,
+        "endChar": 21
+      },
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed84c2f8_66bdb2f8",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57116792_896d15cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T09:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed84c2f8_66bdb2f8",
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06ef625e_8cabee16",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T09:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20e880d5_41710048",
+      "range": {
+        "startLine": 144,
+        "startChar": 8,
+        "endLine": 144,
+        "endChar": 37
+      },
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -182,6 +248,54 @@
     },
     {
       "key": {
+        "uuid": "7716c6f4_bed43595",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T09:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "96623615_2290c86f",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 36
+      },
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "803c31e5_581cbc5a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T09:30:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9e889e2_96ccfe00",
+      "range": {
+        "startLine": 233,
+        "startChar": 4,
+        "endLine": 233,
+        "endChar": 36
+      },
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "09315c8f_95ca1e8d",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
         "patchSetId": 1
@@ -202,6 +316,30 @@
       "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03be7ac0_f5b65de3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-28T09:30:30Z",
+      "side": 1,
+      "message": "you are right, they should be symmetric",
+      "parentUuid": "09315c8f_95ca1e8d",
+      "range": {
+        "startLine": 275,
+        "startChar": 1,
+        "endLine": 277,
+        "endChar": 59
+      },
+      "revId": "82cfa2cf08ffdc8b4bff25e5f92e3149e4d48df7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

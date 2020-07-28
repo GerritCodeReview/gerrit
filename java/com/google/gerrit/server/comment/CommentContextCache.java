@@ -18,13 +18,15 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ContextLine;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommentInfo;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Caches the context lines of comments (source file content surrounding and including the lines
  * where the comment was written)
  */
-public interface CommentContextCache {
+public interface CommentContextCache<T extends CommentInfo> {
 
   /**
    * Returns the context line for a single comment.
@@ -36,4 +38,15 @@ public interface CommentContextCache {
    *     context.
    */
   List<ContextLine> get(Project.NameKey project, Change.Id changeId, CommentInfo comment);
+
+  /**
+   * Returns the context line for multiple comments at once.
+   *
+   * @param project The project that includes the change where the comment is written.
+   * @param changeId ID of the change where the comment was written.
+   * @param comments {@code Collection} of comments for which the context should be retrieved
+   * @return {@code Map} of {@code CommentInfo} to a {@code List} of {@code ContextLine}
+   */
+  Map<CommentInfo, List<ContextLine>> getAll(
+      Project.NameKey project, Change.Id changeId, Collection<T> comments);
 }

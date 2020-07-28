@@ -22,6 +22,30 @@
       "revId": "26991808b44d30679423b9a387c7905bd6401654",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba2f223e_e2e92ef9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T13:59:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/250255\n\nYes, this should be the correct change. Thanks for catching this.",
+      "parentUuid": "1308fc9b_d8cfdda3",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 56
+      },
+      "revId": "26991808b44d30679423b9a387c7905bd6401654",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

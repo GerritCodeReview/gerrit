@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "2e0e9d63_7dd38ceb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T19:33:50Z",
+      "side": 1,
+      "message": "Looking at the code[1] and inspecting the element, looks like we use font-weight-bold.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/polygerrit-ui/app/elements/change/gr-message/gr-message_html.ts#167",
+      "parentUuid": "fcee908b_b253a3e5",
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d4b64fa_59312077",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
         "patchSetId": 3
@@ -237,6 +255,30 @@
       "side": 1,
       "message": "We could also use the same margin between username in change log entry, next to voting label and in comment card as they visually look similar.",
       "parentUuid": "e749dcab_373d3c71",
+      "range": {
+        "startLine": 242,
+        "startChar": 55,
+        "endLine": 242,
+        "endChar": 74
+      },
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14dd84df_8a44f3d5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T19:33:50Z",
+      "side": 1,
+      "message": "Good point,\nI checked that there actually is no spacing between the avatar and the username in other places too.\nWDYT then? Should we add the spacing in all the occurrences of the avatar+name combo then?\nhttps://imgur.com/a/vcYGMQI is how it looks with the spacing.",
+      "parentUuid": "74922764_88c4d699",
       "range": {
         "startLine": 242,
         "startChar": 55,

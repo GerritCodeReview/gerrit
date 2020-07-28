@@ -20,6 +20,7 @@ import './gr-related-changes-list.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {resetPlugins} from '../../../test/test-utils.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
 
@@ -554,26 +555,99 @@ suite('gr-related-changes-list tests', () => {
           '(+ 2 non-visible changes)');
     });
   });
+});
 
-  suite('plugin endpoints', () => {
-    test('endpoint params', done => {
-      element.change = {labels: {}};
-      let hookEl;
-      let plugin;
-      pluginApi.install(
-          p => {
-            plugin = p;
-            plugin.hook('related-changes-section').getLastAttached()
-                .then(el => hookEl = el);
-          },
-          '0.1',
-          'http://some/plugins/url.html');
-      pluginLoader.loadPlugins([]);
-      flush(() => {
-        assert.strictEqual(hookEl.plugin, plugin);
-        assert.strictEqual(hookEl.change, element.change);
-        done();
-      });
+suite('gr-related-changes-list plugin tests', () => {
+  let element;
+
+  setup(() => {
+    resetPlugins();
+    element = basicFixture.instantiate();
+  });
+
+  teardown(() => {
+    resetPlugins();
+  });
+
+  test('endpoint params', done => {
+    element.change = {labels: {}};
+    let hookEl;
+    let plugin;
+    pluginApi.install(
+        p => {
+          plugin = p;
+          plugin.hook('related-changes-section').getLastAttached()
+              .then(el => hookEl = el);
+        },
+        '0.1',
+        'http://some/plugins/url1.html');
+    pluginLoader.loadPlugins([]);
+    flush(() => {
+      assert.strictEqual(hookEl.plugin, plugin);
+      assert.strictEqual(hookEl.change, element.change);
+      done();
+    });
+  });
+
+  test('hiding and unhiding', done => {
+    element.change = {labels: {}};
+    let hookEl;
+    let plugin;
+
+    // No changes, and no plugin. The element is still hidden.
+    element._resultsChanged({}, {}, [], [], []);
+    assert.isTrue(element.hidden);
+    pluginApi.install(
+        p => {
+          plugin = p;
+          plugin.hook('related-changes-section').getLastAttached()
+              .then(el => hookEl = el);
+        },
+        '0.1',
+        'http://some/plugins/url2.html');
+    pluginLoader.loadPlugins([]);
+    flush(() => {
+      // No changes, and plugin without hidden attribute. So it's visible.
+      element._resultsChanged({}, {}, [], [], []);
+      assert.isFalse(element.hidden);
+
+      // No changes, but plugin with true hidden attribute. So it's invisible.
+      hookEl.hidden = true;
+
+      element._resultsChanged({}, {}, [], [], []);
+      assert.isTrue(element.hidden);
+
+      // No changes, and plugin with false hidden attribute. So it's visible.
+      hookEl.hidden = false;
+      element._resultsChanged({}, {}, [], [], []);
+      assert.isFalse(element.hidden);
+
+      // Hiding triggered by plugin itself
+      hookEl.hidden = true;
+      hookEl.dispatchEvent(new CustomEvent('new-section-loaded', {
+        composed: true, bubbles: true,
+      }));
+      assert.isTrue(element.hidden);
+
+      // Unhiding triggered by plugin itself
+      hookEl.hidden = false;
+      hookEl.dispatchEvent(new CustomEvent('new-section-loaded', {
+        composed: true, bubbles: true,
+      }));
+      assert.isFalse(element.hidden);
+
+      // Hiding plugin keeps list visible, if there are changes
+      hookEl.hidden = false;
+      element._sameTopic = ['test'];
+      element._resultsChanged({}, {}, [], [], ['test']);
+      assert.isFalse(element.hidden);
+      hookEl.hidden = true;
+      hookEl.dispatchEvent(new CustomEvent('new-section-loaded', {
+        composed: true, bubbles: true,
+      }));
+      assert.isFalse(element.hidden);
+
+      done();
     });
   });
 });

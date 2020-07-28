@@ -16,6 +16,7 @@ package com.google.gerrit.pgm.http.jetty;
 
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_CONTENT_LENGTH;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_HOST;
+import static com.google.gerrit.pgm.http.jetty.HttpLog.P_LATENCY;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_METHOD;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_PROTOCOL;
 import static com.google.gerrit.pgm.http.jetty.HttpLog.P_REFERER;
@@ -46,6 +47,7 @@ public class HttpLogJsonLayout extends JsonLayout {
     public String protocol;
     public String status;
     public String contentLength;
+    public String latency;
     public String referer;
     public String userAgent;
 
@@ -59,6 +61,7 @@ public class HttpLogJsonLayout extends JsonLayout {
       this.protocol = getMdcString(event, P_PROTOCOL);
       this.status = getMdcString(event, P_STATUS);
       this.contentLength = getMdcString(event, P_CONTENT_LENGTH);
+      this.latency = getMdcString(event, P_LATENCY);
       this.referer = getMdcString(event, P_REFERER);
       this.userAgent = getMdcString(event, P_USER_AGENT);
     }

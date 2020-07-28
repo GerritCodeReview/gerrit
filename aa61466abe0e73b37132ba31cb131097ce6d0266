@@ -87,6 +87,24 @@
     },
     {
       "key": {
+        "uuid": "72baa9f6_f2636cc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-28T12:33:53Z",
+      "side": 1,
+      "message": "Thanks!",
+      "parentUuid": "f8f23bda_a7b86726",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d50ec4d9_16680164",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
         "patchSetId": 1
@@ -104,6 +122,24 @@
     },
     {
       "key": {
+        "uuid": "a34c5b76_35801f9c",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 566,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-28T12:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d50ec4d9_16680164",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce4de4d7_18247169",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
         "patchSetId": 1
@@ -118,6 +154,24 @@
       "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "536f0c80_4e614149",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 567,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-28T12:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce4de4d7_18247169",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -144,6 +198,30 @@
     },
     {
       "key": {
+        "uuid": "c9a6cda7_728cca24",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 569,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-28T12:33:53Z",
+      "side": 1,
+      "message": "Since there is no `_import` anymore (if I understood the code correctly), I dropped the whole stub.",
+      "parentUuid": "e55071cc_82ada376",
+      "range": {
+        "startLine": 569,
+        "startChar": 15,
+        "endLine": 569,
+        "endChar": 22
+      },
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a10ccfc8_bd67cbd9",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
         "patchSetId": 1
@@ -158,6 +236,24 @@
       "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "718fcdd8_217a920c",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 574,
+      "author": {
+        "id": 1012155
+      },
+      "writtenOn": "2020-07-28T12:33:53Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a10ccfc8_bd67cbd9",
+      "revId": "aa61466abe0e73b37132ba31cb131097ce6d0266",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

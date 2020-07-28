@@ -193,6 +193,24 @@
       "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb3ecfb8_9477493a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-28T21:10:04Z",
+      "side": 1,
+      "message": "thanks, i\u0027m all ears. ^^\n\nwhich reminds me, i actually had an idea ...\n\nto recap, the requirement is to not miss out on opportunities to intervene due to missing notifications/visualization as a result of not being added to the AS due to other participants\u0027 lack of attention or foresight (i\u0027ll file outright maliciousness under the latter).\nto address this, it\u0027s not actually necessary to be notified about any activity on the change as was done so far, and as my \"loose AS\" proposal suggested - it\u0027s only necessary to be notified about being _omitted_ from the AS when one could reasonably expect to be added.\n\nso, suppose a \"AS promiscuity\" setting with these options:\n- notify only about being added to the AS (default)\n- also be notified (with a slightly different mail) when only _other_ participants who are not the uploader are added to the AS, unless you\u0027re the uploader or owner (?)\n- also be notified when _any_ other participant of the review is added to the AS\n\nnote that this is applied also to participants who are only on CC.\n\nthe 2nd option is for completeness only; i would actually go straight for the 3rd one.\n\nboth latter options still leave a hole: if the other participants conspired to entirely bypass the AS and notify each other by other means (that\u0027s realistic for the last review round), one would still miss out. so an additional sufficient condition would be: _someone_ should have been added to the AS, i.e. a comment was posted or a score given.\n\nanyway, so far, this is trivially easy to implement within the framework you created - just a few side branches in code you added anyway, plus the option (which is mostly copy\u0026paste of existing code).\n\nhowever, to make this behave really neatly, we need an additional per-change per-user flag to avoid repeated notifications about not being added to the AS.\nthat flag would also come in handy for the dashboard presentation in a separate section.\nsaid flag would need to be reset when the change is visited, but ideally only after a confirmation when the visit is ended with no apparent action; that would also remove the user from the \"proper\" AS.\n\nas a cherry on top, the \"promiscuous AS\" option could be also set on a per-change basis (to be used when it becomes obvious that some fundamental discussion is needed, as these benefit from more \"multilateral\" communication).\n\nso in the end this is actually rather close to my previous \"loose AS\" proposal, but more (obviously) in line with your concept:\n- uploads are omitted as a trigger\n- it\u0027s structured as incremental improvements to AS, and stopping even after the first one would be adequate, even if not optimal\n\n\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n\nan alternative taken from the design doc review:\n\na per-user override to set a change to \"aggressive AS\" mode, where that user is always added to the AS (and cannot be removed except by themselves) whenever anyone else is/should be added, unless the user themselves is doing it. presumably, the default (applied when the user is added to a change) should be a user setting.\n\nthis has the advantage of being implementable with less effort, but it doesn\u0027t have the expressiveness of a separate level.",
+      "parentUuid": "9f6127b4_c6a4e6f7",
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

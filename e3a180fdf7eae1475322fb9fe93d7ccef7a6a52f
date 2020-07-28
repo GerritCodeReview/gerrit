@@ -39,6 +39,30 @@
       "revId": "e3a180fdf7eae1475322fb9fe93d7ccef7a6a52f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb80cf78_7950a475",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-28T10:54:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d76b8c4d_57b76d16",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 61
+      },
+      "revId": "e3a180fdf7eae1475322fb9fe93d7ccef7a6a52f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

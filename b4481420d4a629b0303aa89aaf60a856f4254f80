@@ -201,6 +201,23 @@
       "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a46617da_0986a0b1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-28T09:09:41Z",
+      "side": 1,
+      "message": "The decision upstream was to refactor the plugin and not to require to differentiate \nthe plugin behaviour based on whether or not uploader was granted submit permission.",
+      "revId": "b4481420d4a629b0303aa89aaf60a856f4254f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

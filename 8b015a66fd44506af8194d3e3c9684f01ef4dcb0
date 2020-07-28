@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a52d234_71fab645",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 390,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-28T13:32:48Z",
+      "side": 1,
+      "message": "this would look like \"DRAFT(Failed to save)\" if this triggers. Add a \u0027 \u0027?",
+      "range": {
+        "startLine": 390,
+        "startChar": 12,
+        "endLine": 390,
+        "endChar": 40
+      },
+      "revId": "8b015a66fd44506af8194d3e3c9684f01ef4dcb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

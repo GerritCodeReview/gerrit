@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5fe09cfa_ce4c7950",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done. \n\nI was thinking ContextLine \u003d {line_text}, and LabeledContextLine \u003d {line_text, line_number (label)}. Apparently it\u0027s not needed as a ContextLineInfo can hold other attributes for a context line.",
+      "parentUuid": "d310a6ef_051496f1",
+      "range": {
+        "startLine": 31,
+        "startChar": 14,
+        "endLine": 31,
+        "endChar": 21
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "462bff72_85f0c679",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b34888c1_28df35c2",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "462bff72_85f0c679",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -119,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "5a454600_18441bc0",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Oh, makes sense. Thanks.",
+      "parentUuid": "820d5d6b_ab3941bd",
+      "range": {
+        "startLine": 74,
+        "startChar": 9,
+        "endLine": 74,
+        "endChar": 62
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9187326d_85438516",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 5
@@ -139,6 +211,54 @@
       "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee072c27_505c2533",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Yes, it does not depend on the state. Done.",
+      "parentUuid": "9187326d_85438516",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 84,
+        "endChar": 11
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7324273d_2a76ca5b",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9187326d_85438516",
+      "range": {
+        "startLine": 84,
+        "startChar": 10,
+        "endLine": 84,
+        "endChar": 11
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -165,6 +285,30 @@
     },
     {
       "key": {
+        "uuid": "9789a278_eb4765c7",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bfbd596f_9eb19291",
+      "range": {
+        "startLine": 88,
+        "startChar": 6,
+        "endLine": 89,
+        "endChar": 38
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afdd7a7d_ea252f64",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 5
@@ -185,6 +329,30 @@
       "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b23fd0b2_3c5859d7",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-28T16:50:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afdd7a7d_ea252f64",
+      "range": {
+        "startLine": 91,
+        "startChar": 6,
+        "endLine": 92,
+        "endChar": 29
+      },
+      "revId": "b64b4db042c9d420ce399d21eb523438deac514f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

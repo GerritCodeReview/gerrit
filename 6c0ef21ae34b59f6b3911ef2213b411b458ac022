@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f6e3139_58f28ea5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-28T15:05:02Z",
+      "side": 1,
+      "message": "Make sure that you remember that uploader !\u003d owner is possible.\n\nMake sure you don\u0027t add users that are not CCs to the attention set (or maybe that\u0027s fine? but might need some UI changes).\n\nWhy can\u0027t the attention set become empty? What will you do if it is empty?\n\nAlso remember that --publish-comments behavior is unchanged, so if users push a change, then everyone will still be added to the attention set.\n",
+      "revId": "6c0ef21ae34b59f6b3911ef2213b411b458ac022",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -75,93 +75,104 @@ export const htmlTemplate = html`
     .fileName {
       padding: var(--spacing-m) var(--spacing-s) var(--spacing-m);
     }
+    .thread-container {
+      display: flex;
+    }
   </style>
-  <template is="dom-if" if="[[showFilePath]]">
-    <template is="dom-if" if="[[showFileName]]">
-      <div class="fileName">
-        <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
-          <span> [[_computeDisplayPath(path)]] </span>
+
+  <div class="thread-container">
+    <div>
+      <template is="dom-if" if="[[showFilePath]]">
+        <template is="dom-if" if="[[showFileName]]">
+          <div class="fileName">
+            <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
+              <span> [[_computeDisplayPath(path)]] </span>
+            </template>
+            <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
+              <a href$="[[_getDiffUrlForPath(path)]]">
+                [[_computeDisplayPath(path)]]
+              </a>
+            </template>
+          </div>
         </template>
-        <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
-          <a href$="[[_getDiffUrlForPath(path)]]">
-            [[_computeDisplayPath(path)]]
-          </a>
-        </template>
-      </div>
-    </template>
-    <div class="pathInfo">
-      <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
-        <a
-          href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
-          >[[_computeDisplayLine()]]</a
-        >
+        <div class="pathInfo">
+          <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
+            <a
+              href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
+              >[[_computeDisplayLine()]]</a
+            >
+          </template>
+        </div>
       </template>
-    </div>
-  </template>
-  <div
-    id="container"
-    class$="[[_computeHostClass(unresolved, isRobotComment)]]"
-  >
-    <template
-      id="commentList"
-      is="dom-repeat"
-      items="[[_orderedComments]]"
-      as="comment"
-    >
-      <gr-comment
-        comment="{{comment}}"
-        comments="{{comments}}"
-        robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
-        change-num="[[changeNum]]"
-        patch-num="[[patchNum]]"
-        draft="[[_isDraft(comment)]]"
-        show-actions="[[_showActions]]"
-        show-patchset="[[showPatchset]]"
-        comment-side="[[comment.__commentSide]]"
-        side="[[comment.side]]"
-        project-config="[[_projectConfig]]"
-        on-create-fix-comment="_handleCommentFix"
-        on-comment-discard="_handleCommentDiscard"
-        on-comment-save="_handleCommentSavedOrDiscarded"
-      ></gr-comment>
-    </template>
-    <div
-      id="commentInfoContainer"
-      hidden$="[[_hideActions(_showActions, _lastComment)]]"
-    >
-      <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
-      <div id="actions">
-        <gr-button
-          id="replyBtn"
-          link=""
-          class="action reply"
-          on-click="_handleCommentReply"
-          >Reply</gr-button
+      <div
+        id="container"
+        class$="[[_computeHostClass(unresolved, isRobotComment)]]"
+      >
+        <template
+          id="commentList"
+          is="dom-repeat"
+          items="[[_orderedComments]]"
+          as="comment"
         >
-        <gr-button
-          id="quoteBtn"
-          link=""
-          class="action quote"
-          on-click="_handleCommentQuote"
-          >Quote</gr-button
-        >
-        <template is="dom-if" if="[[unresolved]]">
-          <gr-button
-            id="ackBtn"
-            link=""
-            class="action ack"
-            on-click="_handleCommentAck"
-            >Ack</gr-button
-          >
-          <gr-button
-            id="doneBtn"
-            link=""
-            class="action done"
-            on-click="_handleCommentDone"
-            >Done</gr-button
-          >
+          <gr-comment
+            comment="{{comment}}"
+            comments="{{comments}}"
+            robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
+            change-num="[[changeNum]]"
+            patch-num="[[patchNum]]"
+            draft="[[_isDraft(comment)]]"
+            show-actions="[[_showActions]]"
+            show-patchset="[[showPatchset]]"
+            comment-side="[[comment.__commentSide]]"
+            side="[[comment.side]]"
+            project-config="[[_projectConfig]]"
+            on-create-fix-comment="_handleCommentFix"
+            on-comment-discard="_handleCommentDiscard"
+            on-comment-save="_handleCommentSavedOrDiscarded"
+          ></gr-comment>
         </template>
+        <div
+          id="commentInfoContainer"
+          hidden$="[[_hideActions(_showActions, _lastComment)]]"
+        >
+          <span id="unresolvedLabel" hidden$="[[!unresolved]]">Unresolved</span>
+          <div id="actions">
+            <gr-button
+              id="replyBtn"
+              link=""
+              class="action reply"
+              on-click="_handleCommentReply"
+              >Reply</gr-button
+            >
+            <gr-button
+              id="quoteBtn"
+              link=""
+              class="action quote"
+              on-click="_handleCommentQuote"
+              >Quote</gr-button
+            >
+            <template is="dom-if" if="[[unresolved]]">
+              <gr-button
+                id="ackBtn"
+                link=""
+                class="action ack"
+                on-click="_handleCommentAck"
+                >Ack</gr-button
+              >
+              <gr-button
+                id="doneBtn"
+                link=""
+                class="action done"
+                on-click="_handleCommentDone"
+                >Done</gr-button
+              >
+            </template>
+          </div>
+        </div>
       </div>
+    </div>
+    <div>
+      Context [[_context.context_lines]]
     </div>
   </div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

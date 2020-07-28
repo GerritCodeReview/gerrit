@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {FlagsService} from './flags/flags';
+
+export interface AppContext {
+  flagsService: FlagsService;
+  reportingService: any;
+  eventEmitter: any;
+  authService: any;
+}
 
 /**
  * The AppContext holds immortal singleton instances of services. It's a
@@ -21,9 +29,13 @@
  *
  * AppContext is initialized in ./app-context-init.js
  */
-export const appContext = {
-  flagsService: null,
-  reportingService: null,
-  eventEmitter: null,
-  authService: null,
+export const appContext: AppContext = {
+  // It is guaranteed that all fields in appContext is always initialized
+  // (except for shared gr-diff)
+  // We are using null! to suppress compiler message that elements here can't
+  // be null
+  flagsService: null!,
+  reportingService: null!,
+  eventEmitter: null!,
+  authService: null!,
 };

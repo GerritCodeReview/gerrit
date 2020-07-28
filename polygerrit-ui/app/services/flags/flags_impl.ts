@@ -14,37 +14,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {FlagsService} from './flags';
 
-/**
- * @enum
- * @desc Experiment ids used in Gerrit.
- */
-export const ExperimentIds = {
-  PATCHSET_COMMENTS: 'UiFeature__patchset_comments',
-};
+declare global {
+  interface Window {
+    ENABLED_EXPERIMENTS: string[];
+  }
+}
 
 /**
  * Flags service.
  *
  * Provides all related methods / properties regarding on feature flags.
  */
-export class FlagsService {
+export class FlagsServiceImplementation implements FlagsService {
+  private readonly _experiments: Set<string>;
+
   constructor() {
     // stores all enabled experiments
-    this._experiments = new Set();
-    this._loadExperiments();
+    this._experiments = this._loadExperiments();
   }
 
   /**
    * @param {string} experimentId
    * @returns {boolean}
    */
-  isEnabled(experimentId) {
+  isEnabled(experimentId: string): boolean {
     return this._experiments.has(experimentId);
   }
 
-  _loadExperiments() {
-    this._experiments = new Set(window.ENABLED_EXPERIMENTS);
+  _loadExperiments(): Set<string> {
+    return new Set(window.ENABLED_EXPERIMENTS);
   }
 
   /**

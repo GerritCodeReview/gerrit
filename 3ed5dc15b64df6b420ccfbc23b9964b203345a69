@@ -16,6 +16,23 @@
       "revId": "3ed5dc15b64df6b420ccfbc23b9964b203345a69",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "32c3f102_030866ee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-28T16:58:37Z",
+      "side": 1,
+      "message": "Thank you David, Tao and Christian 😊",
+      "revId": "3ed5dc15b64df6b420ccfbc23b9964b203345a69",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

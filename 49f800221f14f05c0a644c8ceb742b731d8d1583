@@ -68,6 +68,23 @@
       "revId": "49f800221f14f05c0a644c8ceb742b731d8d1583",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e7f46db_dc9d918c",
+        "filename": "modules/jgit",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-28T17:26:15Z",
+      "side": 1,
+      "message": "This is wrong SHA1, that corresponds to the intermediate patch set and not the final change that was merged: [1], [2].\n\n[1] https://git.eclipse.org/r/c/jgit/jgit/+/165268/3\n[2] https://git.eclipse.org/r/c/jgit/jgit/+/165268/7",
+      "revId": "49f800221f14f05c0a644c8ceb742b731d8d1583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

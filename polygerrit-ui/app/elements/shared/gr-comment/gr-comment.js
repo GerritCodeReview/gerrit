@@ -266,6 +266,17 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     this.$.restAPI.getConfig().then(cfg => {
       this._serverConfig = cfg;
     });
+    this.context = {
+      context_lines: 'The side on which the comment was added.' +
+        'Allowed values are REVISION and PARENT.\n' +
+        'If not set, the default is REVISION.\n',
+      context_highlight_range: {
+        start_line: 1,
+        start_char: 5,
+        end_line: 2,
+        end_char: 8,
+      },
+    };
   }
 
   /** @override */

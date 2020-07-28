@@ -43,7 +43,7 @@ public class ElasticContainer extends ElasticsearchContainer {
       case V6_7:
         return "blacktop/elasticsearch:6.7.2";
       case V6_8:
-        return "blacktop/elasticsearch:6.8.10";
+        return "blacktop/elasticsearch:6.8.11";
       case V7_0:
         return "blacktop/elasticsearch:7.0.1";
       case V7_1:

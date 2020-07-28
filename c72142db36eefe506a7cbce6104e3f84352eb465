@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf0d0e2e_6a80c0e7",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-28T07:25:30Z",
+      "side": 1,
+      "message": "This is set to true by default: that means we will always generate the error_log on the filesystem after this change, if it isn\u0027t explicitly denied. I don\u0027t believe it is a big problem though. WDYT?",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "c72142db36eefe506a7cbce6104e3f84352eb465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

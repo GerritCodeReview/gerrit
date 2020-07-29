@@ -22,6 +22,30 @@
       "revId": "cd0195db27905fcba56bf5c020858ee4f1c1aa4e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2c7fb25_4b2ab150",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-29T19:31:25Z",
+      "side": 1,
+      "message": "\u003e Depends on [1]\u0027s merge.\n\u003e \n\u003e [1] https://github.com/blacktop/docker-elasticsearch-alpine/pull/37\n\n-Merged by now. Re-running the check that was previously taking forever to conclude.",
+      "parentUuid": "dc20416c_5ce4ee78",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "cd0195db27905fcba56bf5c020858ee4f1c1aa4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

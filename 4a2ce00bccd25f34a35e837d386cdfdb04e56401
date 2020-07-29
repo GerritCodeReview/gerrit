@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b085d7ea_7a862d75",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T11:02:23Z",
+      "side": 1,
+      "message": "Swapped the icons. PTAL",
+      "revId": "4a2ce00bccd25f34a35e837d386cdfdb04e56401",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

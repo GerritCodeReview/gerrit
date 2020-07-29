@@ -55,7 +55,8 @@ public class PRED_files_1 extends Predicate.P1 {
     try (RevWalk revWalk = new RevWalk(StoredValues.REPOSITORY.get(engine))) {
       RevCommit commit = revWalk.parseCommit(StoredValues.getPatchSet(engine).commitId());
       List<PatchListEntry> patches = StoredValues.PATCH_LIST.get(engine).getPatches();
-      Set submodules = getAllSubmodulePaths(StoredValues.REPOSITORY.get(engine), commit, patches);
+      Set<String> submodules =
+          getAllSubmodulePaths(StoredValues.REPOSITORY.get(engine), commit, patches);
       for (PatchListEntry entry : patches) {
         if (Patch.isMagic(entry.getNewName())) {
           continue;
@@ -84,7 +85,7 @@ public class PRED_files_1 extends Predicate.P1 {
   private static Set<String> getAllSubmodulePaths(
       Repository repository, RevCommit commit, List<PatchListEntry> patches)
       throws PrologException, IOException {
-    Set<String> submodules = new HashSet();
+    Set<String> submodules = new HashSet<>();
     try (TreeWalk treeWalk = new TreeWalk(repository)) {
       treeWalk.addTree(commit.getTree());
       Set<String> allPaths =

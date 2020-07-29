@@ -87,6 +87,24 @@
       "revId": "df9397f4a5a570ba9d57049a9aa1950ccfe7d6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c585038b_7a5a28d3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T11:57:06Z",
+      "side": 1,
+      "message": "I think this requires a bit more consideration.\nIf there is a really long name, then how will the layout look?\nhttps://imgur.com/a/DnQac1f\nI checked with current behaviour and we hide more of the comment text. To align names would mean implementing overflow for names or having a lot of extra space for some names.\nPerhaps let\u0027s create a separate bug for this and implement in a different change?",
+      "parentUuid": "48238159_21cba2dd",
+      "revId": "df9397f4a5a570ba9d57049a9aa1950ccfe7d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

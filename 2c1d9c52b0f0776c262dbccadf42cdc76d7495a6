@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "7d7d82d4_daeb4396",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T07:10:26Z",
+      "side": 1,
+      "message": "I am not sure I understand.\n\n\u003e ... but make sure to only add users that are owner, uploader, \n\u003e reviewer or cc.\n\nSo you cannot add anyone that is not a reviewer or cc. If you are replying to someone that is not active on the change anymore, then we do not add them. I guess we could suggest adding them to CC in that case. But that is more of a long tail problem I find.\n\nWhether the current user is a reviewer or cc does not really matter for the logic.\n\nBut maybe I have misunderstood your concern?",
+      "parentUuid": "bccfc65b_cfb6bbea",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f43c022e_1be3900a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "dd046d59_144425e4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T07:10:26Z",
+      "side": 1,
+      "message": "Author and committer are different from owner and uploader.\n\nFor example if someone cherrypicks your change, then I think you are the author, but neither the owner nor the uploader. And I think you should play an active role in the review, if you are added actively to participate in the review. From my point of view author and committer are just metadata info. They are not actively taking part in the change or in the review, if they don\u0027t have any of the \"active\" roles: owner, uploader, reviewer, cc.",
+      "parentUuid": "f43c022e_1be3900a",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb8f3e00_9db10cc8",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
         "patchSetId": 4
@@ -47,6 +83,24 @@
       "writtenOn": "2020-07-29T06:59:59Z",
       "side": 1,
       "message": "no tests on the new uploader section ?",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "143841a3_197755af",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T07:10:26Z",
+      "side": 1,
+      "message": "will add",
+      "parentUuid": "cb8f3e00_9db10cc8",
       "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

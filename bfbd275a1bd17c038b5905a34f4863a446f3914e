@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bd28dcb6_d64b078e",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T15:03:52Z",
+      "side": 1,
+      "message": "maybe also re-export all these as well ? I think it might be more convenient for people to be able to import these from the same `common.ts` if they need it",
+      "revId": "bfbd275a1bd17c038b5905a34f4863a446f3914e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0875a86_00d94dd5",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T15:03:52Z",
+      "side": 1,
+      "message": "all these auto-generated or generated manually ?",
+      "revId": "bfbd275a1bd17c038b5905a34f4863a446f3914e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b89fa83d_7a94801f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-29T11:33:10Z",
+      "side": 1,
+      "message": "LGTM minus that we need to make sure that explicit modifications still work.",
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1bf5133d_443851b3",
+        "filename": "java/com/google/gerrit/server/change/AttentionSetUnchangedOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-29T11:33:10Z",
+      "side": 1,
+      "message": "When we have a fully working v1 of attention set, that\u0027d be a good point in time to take a day or two and look at the whole structure again and see if we can apply some refactoring to it to make it cleaner. For example: Check if there is a way to set \"ignore AS updates\" on the ChangeUpdate without enqueueing a BatchOp.\n\nThe whole AS code is relatively contained, so I think it\u0027s easy to spot readability and structural improvements once the whole picture is there.",
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a350524c_9e9be62a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-29T11:33:10Z",
+      "side": 1,
+      "message": "if (!owner.equals(uploader)) {\n...\n}",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 12
+      },
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "97063a42_b1b04551",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-29T11:33:10Z",
+      "side": 1,
+      "message": "Explicit changes made through a reply should still be possible IMO. Do we have a test for that?",
+      "range": {
+        "startLine": 992,
+        "startChar": 7,
+        "endLine": 992,
+        "endChar": 71
+      },
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

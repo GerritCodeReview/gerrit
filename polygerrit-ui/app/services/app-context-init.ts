@@ -14,17 +14,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {appContext} from './app-context.js';
-import {FlagsServiceImplementation} from './flags/flags_impl.js';
-import {GrReporting} from './gr-reporting/gr-reporting_impl.js';
-import {EventEmitter} from './gr-event-interface/gr-event-interface_impl.js';
-import {Auth} from './gr-auth/gr-auth_impl.js';
+import {appContext, AppContext} from './app-context';
+import {FlagsServiceImplementation} from './flags/flags_impl';
+import {GrReporting} from './gr-reporting/gr-reporting_impl';
+import {EventEmitter} from './gr-event-interface/gr-event-interface_impl';
+import {Auth} from './gr-auth/gr-auth_impl';
 
-const initializedServices = new Map();
+type ServiceName = keyof AppContext;
+type ServiceCreator<T> = () => T;
 
-function getService(serviceName, serviceInit) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const initializedServices: Map<ServiceName, any> = new Map();
+
+function getService<K extends ServiceName>(
+  serviceName: K,
+  serviceCreator: ServiceCreator<AppContext[K]>
+): AppContext[K] {
   if (!initializedServices.has(serviceName)) {
-    initializedServices.set(serviceName, serviceInit());
+    initializedServices.set(serviceName, serviceCreator());
   }
   return initializedServices.get(serviceName);
 }
@@ -33,22 +40,29 @@ function getService(serviceName, serviceInit) {
  * The AppContext lazy initializator for all services
  */
 export function initAppContext() {
-  const registeredServices = {};
-  function addService(serviceName, serviceCreator) {
-    if (registeredServices[serviceName]) {
-      throw new Error(`Service ${serviceName} already registered.`);
-    }
-    registeredServices[serviceName] = {
-      get() {
-        return getService(serviceName, serviceCreator);
+  function populateAppContext(
+    serviceCreators: {[P in ServiceName]: ServiceCreator<AppContext[P]>}
+  ) {
+    const registeredServices = Object.keys(serviceCreators).reduce(
+      (registeredServices, key) => {
+        const serviceName = key as ServiceName;
+        const serviceCreator = serviceCreators[serviceName];
+        registeredServices[serviceName] = {
+          get() {
+            return getService(serviceName, serviceCreator);
+          },
+        };
+        return registeredServices;
       },
-    };
+      {} as PropertyDescriptorMap
+    );
+    Object.defineProperties(appContext, registeredServices);
   }
 
-  addService('flagsService', () => new FlagsServiceImplementation());
-  addService('reportingService',
-      () => new GrReporting(appContext.flagsService));
-  addService('eventEmitter', () => new EventEmitter());
-  addService('authService', () => new Auth(appContext.eventEmitter));
-  Object.defineProperties(appContext, registeredServices);
+  populateAppContext({
+    flagsService: () => new FlagsServiceImplementation(),
+    reportingService: () => new GrReporting(appContext.flagsService),
+    eventEmitter: () => new EventEmitter(),
+    authService: () => new Auth(appContext.eventEmitter),
+  });
 }

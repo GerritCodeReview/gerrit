@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "a0476fd7_505be759",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-29T12:31:24Z",
+      "side": 1,
+      "message": "PR has been merged and the tags are now on docker hub; re-running the check.",
+      "revId": "2aa303aca6c5efd37396047ae5d86330b7ad3712",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9898120_1aa31435",
         "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
         "patchSetId": 1

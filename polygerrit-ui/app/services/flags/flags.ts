@@ -17,6 +17,7 @@
 
 export interface FlagsService {
   isEnabled(experimentId: string): boolean;
+  enabledExperiments: string[];
 }
 
 /**

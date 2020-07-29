@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "44a15acf_707524ad",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T11:40:38Z",
+      "side": 1,
+      "message": "1.\n\nNewly added reviewers and ccs are handled just fine.\n\nAs always, it is the owner\u0027s responsibility to manage the change. They can decide whether they want to add the commenter back to cc and the attention set or not. Rules are not perfect. Owner action is expected.\n\n2.\n\nI will have to ask Gal about that, but that is more of a backend logic thing, which I don\u0027t want to cover here. :-)",
+      "parentUuid": "60126265_d904ee46",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f43c022e_1be3900a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -107,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "18d97209_68fd5013",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T11:40:38Z",
+      "side": 1,
+      "message": "Good point. I was thinking that it needs the \"revisions\" on top of the change and I did not want pass it into the reply-dialog. But the revisions are part of the change, so we can as well compute the uploader inside the dialog. Done, thanks!",
+      "parentUuid": "8e4fe07d_4cbb03ce",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "519bc1ff_91ba4190",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 4
@@ -118,6 +154,30 @@
       "writtenOn": "2020-07-29T07:53:55Z",
       "side": 1,
       "message": "how is this string concatenation working?",
+      "range": {
+        "startLine": 323,
+        "startChar": 7,
+        "endLine": 323,
+        "endChar": 31
+      },
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b94055a5_0e3e6c02",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T11:40:38Z",
+      "side": 1,
+      "message": "I don\u0027t understand the comment.",
+      "parentUuid": "519bc1ff_91ba4190",
       "range": {
         "startLine": 323,
         "startChar": 7,
@@ -153,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "68d24caa_e510a518",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T11:40:38Z",
+      "side": 1,
+      "message": "I think that was just unclear wording. Changed it. PTAL",
+      "parentUuid": "6adaeda1_c32cf946",
+      "range": {
+        "startLine": 843,
+        "startChar": 7,
+        "endLine": 844,
+        "endChar": 25
+      },
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb8f3e00_9db10cc8",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
         "patchSetId": 4
@@ -185,6 +269,24 @@
       "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20b36722_3b0bbeb2",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T11:40:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "143841a3_197755af",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

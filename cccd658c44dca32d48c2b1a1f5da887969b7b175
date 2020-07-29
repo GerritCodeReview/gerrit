@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "53e4b4a4_0b51c61a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "If comment is not found then it would have to return undefined so I guess we won\u0027t be saving a line of code.\nUnless we allow the function to not return anything which seems bad practice I guess.",
+      "parentUuid": "6200a957_0c8a27dd",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d297f6a_f59002ab",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 28
@@ -53,6 +71,24 @@
     },
     {
       "key": {
+        "uuid": "e40b1231_93eca9ce",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "Bunch of tests were failing due to files being undefined.\nI did not investigate deeply.\nUpdated to return [].",
+      "parentUuid": "3d297f6a_f59002ab",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a640c512_c59d5d2e",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 28
@@ -67,6 +103,24 @@
       "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90db519a_85ac9fc2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "You mean why assign to a local variable?\nI saw there were multiple occurrences of this._change so it felt cleaner to assign a change object.\nupdated now.",
+      "parentUuid": "a640c512_c59d5d2e",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +147,30 @@
     },
     {
       "key": {
+        "uuid": "0bfb3d25_d63b864e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "796f5245_2819796f",
+      "range": {
+        "startLine": 798,
+        "startChar": 4,
+        "endLine": 800,
+        "endChar": 42
+      },
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f7b35673_b254c750",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 28
@@ -110,6 +188,24 @@
     },
     {
       "key": {
+        "uuid": "91f97ed7_278e4ee3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7b35673_b254c750",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e665ed17_82d5abcd",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 28
@@ -124,6 +220,24 @@
       "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "900a715a_727c9f7b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "Apparently the pathChanged observer is already doing this(fire the event title-change).\nNot sure why this function _fireTitleChange is needed then.\nRemoving it for now.",
+      "parentUuid": "e665ed17_82d5abcd",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -147,6 +261,30 @@
       "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c2f80ab_5d044374",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T15:09:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "baf30eca_33775b80",
+      "range": {
+        "startLine": 944,
+        "startChar": 36,
+        "endLine": 944,
+        "endChar": 49
+      },
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

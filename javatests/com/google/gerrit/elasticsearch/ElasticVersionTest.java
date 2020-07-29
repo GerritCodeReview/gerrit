@@ -22,9 +22,6 @@ import org.junit.Test;
 public class ElasticVersionTest extends GerritBaseTests {
   @Test
   public void supportedVersion() throws Exception {
-    assertThat(ElasticVersion.forVersion("6.6.0")).isEqualTo(ElasticVersion.V6_6);
-    assertThat(ElasticVersion.forVersion("6.6.1")).isEqualTo(ElasticVersion.V6_6);
-
     assertThat(ElasticVersion.forVersion("6.7.0")).isEqualTo(ElasticVersion.V6_7);
     assertThat(ElasticVersion.forVersion("6.7.1")).isEqualTo(ElasticVersion.V6_7);
 
@@ -69,7 +66,6 @@ public class ElasticVersionTest extends GerritBaseTests {
 
   @Test
   public void atLeastMinorVersion() throws Exception {
-    assertThat(ElasticVersion.V6_6.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
     assertThat(ElasticVersion.V6_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isTrue();
     assertThat(ElasticVersion.V6_8.isAtLeastMinorVersion(ElasticVersion.V6_8)).isTrue();
     assertThat(ElasticVersion.V7_0.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
@@ -85,7 +81,6 @@ public class ElasticVersionTest extends GerritBaseTests {
 
   @Test
   public void version6OrLater() throws Exception {
-    assertThat(ElasticVersion.V6_6.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_7.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V6_8.isV6OrLater()).isTrue();
     assertThat(ElasticVersion.V7_0.isV6OrLater()).isTrue();
@@ -101,7 +96,6 @@ public class ElasticVersionTest extends GerritBaseTests {
 
   @Test
   public void version7OrLater() throws Exception {
-    assertThat(ElasticVersion.V6_6.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_7.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V6_8.isV7OrLater()).isFalse();
     assertThat(ElasticVersion.V7_0.isV7OrLater()).isTrue();

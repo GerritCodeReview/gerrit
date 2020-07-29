@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8818e7b7_6d0f6eac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T15:05:14Z",
+      "side": 1,
+      "message": "I remember davido mentioned before that we should always add a reason when remove and override a vote from CI",
+      "revId": "5b09149dd3237022425bde36e8b89dfda9c4024c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

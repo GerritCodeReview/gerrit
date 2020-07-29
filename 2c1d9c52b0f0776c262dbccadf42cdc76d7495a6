@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bccfc65b_cfb6bbea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T06:59:59Z",
+      "side": 1,
+      "message": "what if the commenter is removed from reviewer / cc ? will it have problems if someone in attention set but not in reviewer/ cc ?",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f43c022e_1be3900a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T06:59:59Z",
+      "side": 1,
+      "message": "why is that ? I might want to have the change show up in my turn if someone comment on the patchset I uploaded even if I am not the owner. Or we rely on the owner to manually point to the uploader ?",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb8f3e00_9db10cc8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T06:59:59Z",
+      "side": 1,
+      "message": "no tests on the new uploader section ?",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

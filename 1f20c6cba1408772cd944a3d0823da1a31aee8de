@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c66888fd_163bbe0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:07:15Z",
+      "side": 1,
+      "message": "Change is stuck in CI queue, but `npm  run eslint \u0026\u0026 npm run test` was successful locally.",
+      "revId": "1f20c6cba1408772cd944a3d0823da1a31aee8de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

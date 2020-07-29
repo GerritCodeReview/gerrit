@@ -90,6 +90,69 @@
     },
     {
       "key": {
+        "uuid": "8e4fe07d_4cbb03ce",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_html.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 758,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T07:53:55Z",
+      "side": 1,
+      "message": "if we are already passing the change object,why keep _computeUploader in change-view?",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "519bc1ff_91ba4190",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T07:53:55Z",
+      "side": 1,
+      "message": "how is this string concatenation working?",
+      "range": {
+        "startLine": 323,
+        "startChar": 7,
+        "endLine": 323,
+        "endChar": 31
+      },
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6adaeda1_c32cf946",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 844,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T07:53:55Z",
+      "side": 1,
+      "message": "Why would attention set be empty if \"someone else replies\"?\nIIUC I add reviewers \u0027A\u0027,\u0027B\u0027 to the change who are in the AS.\n\u0027A\u0027 then replies to a comment left by \u0027B\u0027.\nThen shouldn\u0027t the AS be equal to \u0027B\u0027 and not be empty?",
+      "range": {
+        "startLine": 843,
+        "startChar": 7,
+        "endLine": 844,
+        "endChar": 25
+      },
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "cb8f3e00_9db10cc8",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_test.js",
         "patchSetId": 4

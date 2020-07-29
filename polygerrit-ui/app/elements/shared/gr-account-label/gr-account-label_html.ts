@@ -19,6 +19,8 @@ import {html} from '@polymer/polymer/lib/utils/html-tag';
 export const htmlTemplate = html`
   <style include="shared-styles">
     :host {
+      display: inline-block;
+      vertical-align: top;
       position: relative;
       border-radius: var(--label-border-radius);
       /* Setting this really high, so all the following rules don't change

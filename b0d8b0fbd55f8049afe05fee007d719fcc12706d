@@ -22,6 +22,30 @@
       "revId": "b0d8b0fbd55f8049afe05fee007d719fcc12706d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1321d2dd_2df54c15",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-29T08:01:25Z",
+      "side": 1,
+      "message": "Agree. The context cache would then need to retrieve all comments from this Util class and use the same hash function to hash the input and all comments paths for matching.\n\nI squashed this change with the next one and did undo the modifications of this change.",
+      "parentUuid": "6d3a5542_64b5139a",
+      "range": {
+        "startLine": 189,
+        "startChar": 24,
+        "endLine": 189,
+        "endChar": 91
+      },
+      "revId": "b0d8b0fbd55f8049afe05fee007d719fcc12706d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

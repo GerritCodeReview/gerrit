@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "367d1bf2_b2355b88",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-29T20:51:39Z",
+      "side": 1,
+      "message": "VR+1 for the updated doc which renders well locally.",
+      "revId": "ee4eefc34802ddd549e762633ea33ff35e01d235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "54b97bdf_128c23e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 28
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "looks good, just some nits left",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6200a957_0c8a27dd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "What about\n\n  let comment \u003d comments[path].find(...\n  if (comment) return comment;\n\nThen you don\u0027t have to complete the loop and save a line of code.",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d297f6a_f59002ab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "Maybe return []?\n\nIs it possible for `files` to be undefined? Do you know why this has changed?",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a640c512_c59d5d2e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 763,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "Why this assignment?",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "796f5245_2819796f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 800,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "Why assign these to local vars?",
+      "range": {
+        "startLine": 798,
+        "startChar": 4,
+        "endLine": 800,
+        "endChar": 42
+      },
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7b35673_b254c750",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 811,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "Thinking about it, it is probably not desirable to fire a reload event, because currently that would be interpreted as reloading the current view. But loading a diff view did not work, so you want to actively send the user to the change page. And for that a navigateToChange call seems adequate. Maybe remove the TODO. Sorry for the back and forth.",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e665ed17_82d5abcd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 815,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "No _fireTitleChange() here?\n\nIdeally we would only have one `this._path \u003d ...` assignment where we can also add the _fireTitleChange(). Alternatively, _fireTitleChange() could be an observer of _path.",
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "baf30eca_33775b80",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 28
+      },
+      "lineNbr": 944,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:44:04Z",
+      "side": 1,
+      "message": "accident?",
+      "range": {
+        "startLine": 944,
+        "startChar": 36,
+        "endLine": 944,
+        "endChar": 49
+      },
+      "revId": "cccd658c44dca32d48c2b1a1f5da887969b7b175",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

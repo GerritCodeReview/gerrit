@@ -405,6 +405,22 @@ export const htmlTemplate = html`
           </gr-account-label>
         </div>
       </div>
+      <template is="dom-if" if="[[_uploader]]">
+        <div class="peopleList">
+          <div class="peopleListLabel">Uploader</div>
+          <div>
+            <gr-account-label
+              account="[[_owner]]"
+              force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+              selected$="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+              deselected$="[[!_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+              hide-hovercard=""
+              on-click="_handleAttentionClick"
+            >
+            </gr-account-label>
+          </div>
+        </div>
+      </template>
       <div class="peopleList">
         <div class="peopleListLabel">Reviewers</div>
         <div>

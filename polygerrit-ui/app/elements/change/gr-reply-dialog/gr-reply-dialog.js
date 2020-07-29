@@ -197,6 +197,14 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
         computed: '_computeMessagePlaceholder(canBeStarted)',
       },
       _owner: Object,
+      /**
+       * This is only set, if an uploader exists for the latest patchset, and
+       * it is NOT the owner.
+       */
+      _uploader: {
+        type: Object,
+        computed: '_computeUploader(change)',
+      },
       /** @type {?} */
       _pendingConfirmationDetails: Object,
       _includeComments: {
@@ -315,7 +323,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       '_changeUpdated(change.reviewers.*, change.owner)',
       '_ccsChanged(_ccs.splices)',
       '_reviewersChanged(_reviewers.splices)',
-      '_computeNewAttention(_account, _reviewers, change)',
+      '_computeNewAttention(' +
+        '_account, _reviewers.*, change, draftCommentThreads)',
     ];
   }
 
@@ -546,25 +555,23 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       reviewInput.ready = true;
     }
 
-    if (this._attentionModified) {
-      reviewInput.ignore_default_attention_set_rules = true;
-      reviewInput.add_to_attention_set = [];
-      for (const user of this._newAttentionSet) {
-        if (!this._currentAttentionSet.has(user)) {
-          reviewInput.add_to_attention_set.push({
-            user,
-            reason: 'manually added in reply dialog',
-          });
-        }
+    reviewInput.ignore_default_attention_set_rules = true;
+    reviewInput.add_to_attention_set = [];
+    for (const user of this._newAttentionSet) {
+      if (!this._currentAttentionSet.has(user)) {
+        reviewInput.add_to_attention_set.push({
+          user,
+          reason: 'manually added in reply dialog',
+        });
       }
-      reviewInput.remove_from_attention_set = [];
-      for (const user of this._currentAttentionSet) {
-        if (!this._newAttentionSet.has(user)) {
-          reviewInput.remove_from_attention_set.push({
-            user,
-            reason: 'manually removed in reply dialog',
-          });
-        }
+    }
+    reviewInput.remove_from_attention_set = [];
+    for (const user of this._currentAttentionSet) {
+      if (!this._newAttentionSet.has(user)) {
+        reviewInput.remove_from_attention_set.push({
+          user,
+          reason: 'manually removed in reply dialog',
+        });
       }
     }
     this.reportAttentionSetChanges(this._attentionModified,
@@ -813,8 +820,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     return newAttention && account && newAttention.has(account._account_id);
   }
 
-  _computeNewAttention(user, reviewers, change) {
-    if ([user, reviewers, change].includes(undefined)) {
+  _computeNewAttention(user, reviewers, change, draftCommentThreads) {
+    if ([user, reviewers, change, draftCommentThreads].includes(undefined)) {
       return;
     }
     this._attentionModified = false;
@@ -822,17 +829,46 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
         new Set(Object.keys(change.attention_set || {})
             .map(id => parseInt(id)));
     const newAttention = new Set(this._currentAttentionSet);
-    if (this._isOwner(user, change)) {
-      // TODO(brohlfs): Do not add all reviewers, just the ones that are replied
-      // to.
-      reviewers.forEach(r => newAttention.add(r._account_id));
-    } else {
-      if (change.owner) {
+    // Add everyone that the user is replying to in a comment thread.
+    this._computeCommentAccounts(draftCommentThreads).forEach(
+        id => newAttention.add(id)
+    );
+    // Add all new reviewers.
+    reviewers.base.filter(r => r._pendingAdd)
+        .forEach(r => newAttention.add(r._account_id));
+    // Remove the current user.
+    if (user) newAttention.delete(user._account_id);
+    // Add the uploader, if someone else replies.
+    if (this._uploader && user &&
+        this._uploader._account_id !== user._account_id) {
+      newAttention.add(this._uploader._account_id);
+    }
+    // Add the owner, if someone else replies. Also add the owner, if the
+    // attention set would otherwise be empty.
+    if (change.owner) {
+      if (!this._isOwner(user, change) || newAttention.size === 0) {
         newAttention.add(change.owner._account_id);
       }
     }
-    if (user) newAttention.delete(user._account_id);
-    this._newAttentionSet = newAttention;
+    // Finally make sure that everyone in the attention set is still active as
+    // owner, reviewer or cc.
+    const allAccountIds = this._allAccounts()
+        .map(a => a._account_id)
+        .filter(id => !!id);
+    this._newAttentionSet = new Set(
+        [...newAttention].filter(id => allAccountIds.includes(id)));
+  }
+
+  _computeCommentAccounts(threads) {
+    const accountIds = new Set();
+    threads.forEach(thread => {
+      thread.comments.forEach(comment => {
+        if (comment.author) {
+          accountIds.add(comment.author._account_id);
+        }
+      });
+    });
+    return accountIds;
   }
 
   _isNewAttentionEmpty(config, currentAttentionSet, newAttentionSet) {
@@ -852,15 +888,34 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _findAccountById(accountId) {
+    return this._allAccounts().find(r => r._account_id === accountId);
+  }
+
+  _allAccounts() {
     let allAccounts = [];
     if (this.change && this.change.owner) allAccounts.push(this.change.owner);
+    if (this._uploader) allAccounts.push(this._uploader);
     if (this._reviewers) allAccounts = [...allAccounts, ...this._reviewers];
     if (this._ccs) allAccounts = [...allAccounts, ...this._ccs];
-    return allAccounts.find(r => r._account_id === accountId);
+    return allAccounts;
   }
 
   _computeShowAttentionCcs(ccs) {
     return !!ccs && ccs.length > 0;
+  }
+
+  _computeUploader(change) {
+    if (!change || !change.current_revision ||
+        !change.revisions[change.current_revision]) {
+      return undefined;
+    }
+    const rev = change.revisions[change.current_revision];
+
+    if (!rev.uploader ||
+        change.owner._account_id === rev.uploader._account_id) {
+      return undefined;
+    }
+    return rev.uploader;
   }
 
   _accountOrGroupKey(entry) {

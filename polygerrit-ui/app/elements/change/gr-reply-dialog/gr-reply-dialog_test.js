@@ -154,6 +154,9 @@ suite('gr-reply-dialog tests', () => {
 
         stubSaveReview(review => {
           assert.deepEqual(review, {
+            ignore_default_attention_set_rules: true,
+            add_to_attention_set: [],
+            remove_from_attention_set: [],
             drafts: 'PUBLISH_ALL_REVISIONS',
             labels: {
               'Code-Review': 0,
@@ -199,32 +202,54 @@ suite('gr-reply-dialog tests', () => {
     MockInteractions.tap(element.shadowRoot.querySelector('.send'));
   });
 
-  function checkComputeAttention(
-      userId, reviewerIds, ownerId, attSetIds, expectedIds) {
+  function checkComputeAttention(userId, reviewerIds, ownerId, attSetIds,
+      replyToIds, expectedIds, uploaderId) {
     const user = {_account_id: userId};
-    const reviewers = reviewerIds.map(id => {
+    const reviewers = {base: reviewerIds.map(id => {
       return {_account_id: id};
-    });
+    })};
+    const draftThreads = [
+      {comments: []},
+    ];
+    replyToIds.forEach(id => draftThreads[0].comments.push({
+      author: {_account_id: id},
+    }));
     const change = {
       owner: {_account_id: ownerId},
       attention_set: {},
     };
     attSetIds.forEach(id => change.attention_set[id] = {});
-    element._computeNewAttention(user, reviewers, change);
-    assert.deepEqual(element._newAttentionSet, new Set(expectedIds));
+    if (uploaderId) {
+      change.current_revision = 1;
+      change.revisions = [{}, {uploader: {_account_id: uploaderId}}];
+    }
+    element.change = change;
+    element._reviewers = reviewers.base;
+    flushAsynchronousOperations();
+    element._computeNewAttention(user, reviewers, change, draftThreads);
+    assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 
   test('computeNewAttention', () => {
-    checkComputeAttention(null, [], 999, [], [999]);
-    checkComputeAttention(1, [], 999, [], [999]);
-    checkComputeAttention(1, [], 999, [1], [999]);
-    checkComputeAttention(1, [22], 999, [], [999]);
-    checkComputeAttention(1, [22], 999, [22], [22, 999]);
-    checkComputeAttention(1, [], 1, [], []);
-    checkComputeAttention(1, [], 1, [1], []);
-    checkComputeAttention(1, [22], 1, [], [22]);
-    checkComputeAttention(1, [22, 33], 1, [], [22, 33]);
-    checkComputeAttention(1, [22, 33], 1, [22, 33], [22, 33]);
+    checkComputeAttention(null, [], 999, [], [], [999]);
+    checkComputeAttention(1, [], 999, [], [], [999]);
+    checkComputeAttention(1, [], 999, [1], [], [999]);
+    checkComputeAttention(1, [22], 999, [], [], [999]);
+    checkComputeAttention(1, [22], 999, [22], [], [22, 999]);
+    checkComputeAttention(1, [22], 999, [], [22], [22, 999]);
+    checkComputeAttention(1, [22, 33], 999, [33], [22], [22, 33, 999]);
+    checkComputeAttention(1, [], 1, [], [], [1]);
+    checkComputeAttention(1, [], 1, [1], [], [1]);
+    checkComputeAttention(1, [22], 1, [], [], [1]);
+    checkComputeAttention(1, [22], 1, [], [22], [22]);
+    checkComputeAttention(1, [22, 33], 1, [33], [22], [22, 33]);
+    checkComputeAttention(1, [22, 33], 1, [], [22], [22]);
+    checkComputeAttention(1, [22, 33], 1, [], [22, 33], [22, 33]);
+    checkComputeAttention(1, [22, 33], 1, [22, 33], [], [22, 33]);
+    // with uploader
+    checkComputeAttention(1, [], 1, [], [2], [2], 2);
+    checkComputeAttention(1, [], 1, [2], [], [2], 2);
+    checkComputeAttention(1, [], 3, [], [], [2, 3], 2);
   });
 
   test('computeNewAttentionNames', () => {
@@ -259,6 +284,9 @@ suite('gr-reply-dialog tests', () => {
 
         stubSaveReview(review => {
           assert.deepEqual(review, {
+            ignore_default_attention_set_rules: true,
+            add_to_attention_set: [],
+            remove_from_attention_set: [],
             drafts: 'PUBLISH_ALL_REVISIONS',
             labels: {
               'Code-Review': 0,
@@ -298,6 +326,9 @@ suite('gr-reply-dialog tests', () => {
 
         stubSaveReview(review => {
           assert.deepEqual(review, {
+            ignore_default_attention_set_rules: true,
+            add_to_attention_set: [],
+            remove_from_attention_set: [],
             drafts: 'KEEP',
             labels: {
               'Code-Review': 0,
@@ -329,6 +360,9 @@ suite('gr-reply-dialog tests', () => {
     element.draft = 'I wholeheartedly disapprove';
     stubSaveReview(review => {
       assert.deepEqual(review, {
+        ignore_default_attention_set_rules: true,
+        add_to_attention_set: [],
+        remove_from_attention_set: [],
         drafts: 'PUBLISH_ALL_REVISIONS',
         labels: {
           'Code-Review': -1,

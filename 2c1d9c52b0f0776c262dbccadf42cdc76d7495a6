@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "60126265_d904ee46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-29T07:17:44Z",
+      "side": 1,
+      "message": "I was thinking two cases:\n\n1. commenter is not in reviewer / cc when reply -\u003e they won\u0027t be shown in attention set, but the comment can be unresolved, so it\u0027s whose responsibility to notify the commenter ? and will they be added to AS if they were added to cc when reply (I am not sure if the current logic handle that case or not) ? \n2. commenter is in reviewer / cc when reply, they will be added to AS, but `robot` may remove them (like gwsq), will that leave the commenter in AS but not in reviewer / cc?",
+      "parentUuid": "7d7d82d4_daeb4396",
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f43c022e_1be3900a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

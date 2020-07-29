@@ -70,6 +70,7 @@ $_documentContainer.innerHTML = `
     --view-background-color: var(--background-color-primary);
     /* unique background colors */
     --assignee-highlight-color: #fcfad6;
+    --chip-selected-background-color: #e8f0fe;
     --edit-mode-background-color: #ebf5fb;
     --emphasis-color: #fff9c4;
     --hover-background-color: rgba(161, 194, 250, 0.2);

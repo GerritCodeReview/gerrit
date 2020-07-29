@@ -54,6 +54,7 @@ function getStyleEl() {
       /*   empty, because inheriting from app-theme is just fine
       /* unique background colors */
       --assignee-highlight-color: #3a361c;
+      --chip-selected-background-color: #3c4455;
       --edit-mode-background-color: #5c0a36;
       --emphasis-color: #383f4a;
       --hover-background-color: rgba(161, 194, 250, 0.2);

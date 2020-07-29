@@ -33,12 +33,19 @@ export const htmlTemplate = html`
       content: var(--account-label-suffix);
     }
     :host([deselected]) {
-      background-color: white;
-      border: 1px solid #ddd;
+      background-color: var(--chip-background-color);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      color: var(--deemphasized-text-color);
     }
     :host([selected]) {
-      background-color: #e8f0fe;
-      border: 1px solid #174ea6;
+      background-color: var(--chip-selected-background-color);
+      border: 1px solid var(--chip-selected-background-color);
+      border-radius: 8px;
+      color: var(--default-button-text-color);
+    }
+    :host([selected]) iron-icon.attention {
+      color: var(--default-button-text-color);
     }
     gr-avatar {
       height: var(--line-height-normal);

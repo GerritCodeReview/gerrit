@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "7b2304eb_5bce853f",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-29T15:36:07Z",
+      "side": 1,
+      "message": "I think, for plugins we can re-export everything in a separate file/files and publish the file/files separately. Plugins can import it",
+      "parentUuid": "2a26f7f7_0023fb11",
+      "revId": "bfbd275a1bd17c038b5905a34f4863a446f3914e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0875a86_00d94dd5",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 5

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "33f9289a_e05c6e0f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-29T13:15:00Z",
+      "side": 1,
+      "message": "\u003e Patch Set 13:\n\u003e \n\u003e I am still in favour of this change, shall we re-open and move to stable-3.0?\n\nPiggy-back from Issue 13201: can we re-open this change and move to stable-3.0?",
+      "revId": "1279c570d16a6fdb751b73ea6de00993b0d6780c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

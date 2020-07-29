@@ -288,6 +288,30 @@
       "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e23db7fc_6a2952e0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-29T09:59:56Z",
+      "side": 1,
+      "message": "I think it looks better without the spacing because the username is more visually connected to the avatar like in https://imgur.com/a/7RFZAbS. So let\u0027s keep it as no spacing (there is a visual space though but from the container of the avatar I suppose).",
+      "parentUuid": "14dd84df_8a44f3d5",
+      "range": {
+        "startLine": 242,
+        "startChar": 55,
+        "endLine": 242,
+        "endChar": 74
+      },
+      "revId": "cc439842b33710c9e6465f68e522fc114b0af993",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

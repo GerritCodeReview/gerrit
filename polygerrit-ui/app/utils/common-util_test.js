@@ -14,20 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {};
 
-declare global {
-  interface Window {
-    CANONICAL_PATH?: string;
-  }
+import '../test/common-test-setup-karma.js';
+import {hasOwnProperty} from './common-util.js';
 
-  interface Performance {
-    // typescript doesn't know about the memory property.
-    // Define it here, so it can be used everywhere
-    memory?: {
-      jsHeapSizeLimit: number;
-      totalJSHeapSize: number;
-      usedJSHeapSize: number;
+suite('common-util tests', () => {
+  test('hasOwnProperty', () => {
+    const obj = {
+      'abc': 3,
+      'name with spaces': 5,
     };
-  }
-}
+    assert.isTrue(hasOwnProperty(obj, 'abc'));
+    assert.isTrue(hasOwnProperty(obj, 'name with spaces'));
+    assert.isFalse(hasOwnProperty(obj, 'def'));
+  });
+});

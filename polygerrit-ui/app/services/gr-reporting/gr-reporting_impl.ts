@@ -14,6 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {AppContext} from '../app-context';
+import {FlagsService} from '../flags/flags';
+import {
+  EventDetails,
+  EventValue,
+  ReportingService,
+  Timer,
+} from './gr-reporting';
 
 // Latency reporting constants.
 
@@ -34,6 +42,7 @@ const LIFECYCLE = {
     DEFAULT: 'Default',
     EXTENSION_DETECTED: 'Extension detected',
     PLUGINS_INSTALLED: 'Plugins installed',
+    VISIBILITY: 'Visibility',
   },
 };
 
@@ -83,38 +92,48 @@ const TIMER = {
   METRICS_PLUGIN_LOADED: 'MetricsPluginLoaded',
 };
 
-const STARTUP_TIMERS = {};
-STARTUP_TIMERS[TIMER.PLUGINS_LOADED] = 0;
-STARTUP_TIMERS[TIMER.METRICS_PLUGIN_LOADED] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_CHANGE_DISPLAYED] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_CHANGE_LOAD_FULL] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_DASHBOARD_DISPLAYED] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_DISPLAYED] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_DIFF_VIEW_LOAD_FULL] = 0;
-STARTUP_TIMERS[TIMER.STARTUP_FILE_LIST_DISPLAYED] = 0;
-STARTUP_TIMERS[TIMING.EVENT.APP_STARTED] = 0;
-// WebComponentsReady timer is triggered from gr-router.
-STARTUP_TIMERS[TIMER.WEB_COMPONENTS_READY] = 0;
+const STARTUP_TIMERS = {
+  [TIMER.PLUGINS_LOADED]: 0,
+  [TIMER.METRICS_PLUGIN_LOADED]: 0,
+  [TIMER.STARTUP_CHANGE_DISPLAYED]: 0,
+  [TIMER.STARTUP_CHANGE_LOAD_FULL]: 0,
+  [TIMER.STARTUP_DASHBOARD_DISPLAYED]: 0,
+  [TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED]: 0,
+  [TIMER.STARTUP_DIFF_VIEW_DISPLAYED]: 0,
+  [TIMER.STARTUP_DIFF_VIEW_LOAD_FULL]: 0,
+  [TIMER.STARTUP_FILE_LIST_DISPLAYED]: 0,
+  [TIMING.EVENT.APP_STARTED]: 0,
+  // WebComponentsReady timer is triggered from gr-router.
+  [TIMER.WEB_COMPONENTS_READY]: 0,
+};
 
 const DRAFT_ACTION_TIMER = 'TimeBetweenDraftActions';
 const DRAFT_ACTION_TIMER_MAX = 2 * 60 * 1000; // 2 minutes.
 const SLOW_RPC_THRESHOLD = 500;
 
-export function initErrorReporter(appContext) {
+export function initErrorReporter(appContext: AppContext) {
   const reportingService = appContext.reportingService;
-  const onError = function(oldOnError, msg, url, line, column, error) {
+  // TODO(dmfilippo): TS-fix-any oldOnError - define correct type
+  const onError = function (
+    oldOnError: Function,
+    msg: string,
+    url: string,
+    line: number,
+    column: number,
+    error: Error
+  ) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
     }
     if (error) {
-      line = line || error.lineNumber;
-      column = column || error.columnNumber;
+      line = line || (error as any).lineNumber;
+      column = column || (error as any).columnNumber;
       let shortenedErrorStack = msg;
       if (error.stack) {
         const errorStackLines = error.stack.split('\n');
-        shortenedErrorStack = errorStackLines.slice(0,
-            Math.min(3, errorStackLines.length)).join('\n');
+        shortenedErrorStack = errorStackLines
+          .slice(0, Math.min(3, errorStackLines.length))
+          .join('\n');
       }
       msg = shortenedErrorStack || error.toString();
     }
@@ -124,22 +143,33 @@ export function initErrorReporter(appContext) {
       column,
       error,
     };
-    reportingService.reporter(ERROR.TYPE, ERROR.CATEGORY.EXCEPTION,
-        msg, payload);
+    reportingService.reporter(
+      ERROR.TYPE,
+      ERROR.CATEGORY.EXCEPTION,
+      msg,
+      payload
+    );
     return true;
   };
-
-  const catchErrors = function(opt_context) {
+  // TODO(dmfilippov): TS-fix-any unclear what is context
+  const catchErrors = function (opt_context?: any) {
     const context = opt_context || window;
     context.onerror = onError.bind(null, context.onerror);
-    context.addEventListener('unhandledrejection', e => {
-      const msg = e.reason.message;
-      const payload = {
-        error: e.reason,
-      };
-      reportingService.reporter(ERROR.TYPE,
-          ERROR.CATEGORY.EXCEPTION, msg, payload);
-    });
+    context.addEventListener(
+      'unhandledrejection',
+      (e: PromiseRejectionEvent) => {
+        const msg = e.reason.message;
+        const payload = {
+          error: e.reason,
+        };
+        reportingService.reporter(
+          ERROR.TYPE,
+          ERROR.CATEGORY.EXCEPTION,
+          msg,
+          payload
+        );
+      }
+    );
   };
 
   catchErrors();
@@ -148,7 +178,7 @@ export function initErrorReporter(appContext) {
   return {catchErrors};
 }
 
-export function initPerformanceReporter(appContext) {
+export function initPerformanceReporter(appContext: AppContext) {
   const reportingService = appContext.reportingService;
   // PerformanceObserver interface is a browser API.
   if (window.PerformanceObserver) {
@@ -159,9 +189,14 @@ export function initPerformanceReporter(appContext) {
         for (const task of list.getEntries()) {
           // We are interested in longtask longer than 200 ms (default is 50 ms)
           if (task.duration > 200) {
-            reportingService.reporter(TIMING.TYPE,
-                TIMING.CATEGORY.UI_LATENCY, `Task ${task.name}`,
-                Math.round(task.duration), {}, false);
+            reportingService.reporter(
+              TIMING.TYPE,
+              TIMING.CATEGORY.UI_LATENCY,
+              `Task ${task.name}`,
+              Math.round(task.duration),
+              {},
+              false
+            );
           }
         }
       });
@@ -170,7 +205,7 @@ export function initPerformanceReporter(appContext) {
   }
 }
 
-export function initVisibilityReporter(appContext) {
+export function initVisibilityReporter(appContext: AppContext) {
   const reportingService = appContext.reportingService;
   document.addEventListener('visibilitychange', () => {
     reportingService.onVisibilityChange();
@@ -181,6 +216,10 @@ export function initVisibilityReporter(appContext) {
 // a pageLoad metric it’s attached to its details for latency analysis.
 // It resets on locationChange.
 class HiddenDurationTimer {
+  public accHiddenDurationMs = 0;
+
+  public lastVisibleTimestampMs: number | null = null;
+
   constructor() {
     this.reset();
   }
@@ -203,8 +242,10 @@ class HiddenDurationTimer {
   }
 
   get hiddenDurationMs() {
-    if (document.visibilityState === 'hidden'
-      && this.lastVisibleTimestampMs !== null) {
+    if (
+      document.visibilityState === 'hidden' &&
+      this.lastVisibleTimestampMs !== null
+    ) {
       return this.accHiddenDurationMs + now() - this.lastVisibleTimestampMs;
     }
     return this.accHiddenDurationMs;
@@ -215,35 +256,80 @@ export function now() {
   return Math.round(window.performance.now());
 }
 
-export class GrReporting {
-  constructor(flagsService) {
+type PeformanceTimingEventName = keyof Omit<PerformanceTiming, 'toJSON'>;
+
+interface EventInfo {
+  type: string;
+  category: string;
+  name: string;
+  value?: EventValue;
+  eventStart: number;
+  eventDetails?: string;
+  repoName?: string;
+  inBackgroundTab?: boolean;
+  enabledExperiments?: string;
+}
+
+interface PageLoadDetails {
+  rpcList: SlowRpcCall[];
+  hiddenDurationMs: number;
+  screenSize?: {width: number; height: number};
+  viewport?: {width: number; height: number};
+  usedJSHeapSizeMb?: number;
+}
+
+export function hasOwnProperty(obj: any, prop: PropertyKey) {
+  return Object.prototype.hasOwnProperty.call(obj, prop);
+}
+
+interface SlowRpcCall {
+  anonymizedUrl: string;
+  elapsed: number;
+}
+
+type PendingReportInfo = [EventInfo, boolean | undefined];
+
+export class GrReporting implements ReportingService {
+  private readonly _flagsService: FlagsService;
+
+  private readonly _baselines = STARTUP_TIMERS;
+
+  private _reportRepoName: string | undefined;
+
+  private _timers: {timeBetweenDraftActions: Timer | null} = {
+    timeBetweenDraftActions: null,
+  };
+
+  private _pending: PendingReportInfo[] = [];
+
+  private _slowRpcList: SlowRpcCall[] = [];
+
+  public readonly hiddenDurationTimer = new HiddenDurationTimer();
+
+  constructor(flagsService: FlagsService) {
     this._flagsService = flagsService;
-    this._baselines = STARTUP_TIMERS;
-    this._timers = {
-      timeBetweenDraftActions: null,
-    };
-    this._reportRepoName = undefined;
-    this._pending = [];
-    this._slowRpcList = [];
-    this.hiddenDurationTimer = new HiddenDurationTimer();
   }
 
-  get performanceTiming() {
+  private get performanceTiming() {
     return window.performance.timing;
   }
 
-  get slowRpcSnapshot() {
+  private get slowRpcSnapshot() {
     return (this._slowRpcList || []).slice();
   }
 
-  _arePluginsLoaded() {
-    return this._baselines &&
-      !this._baselines.hasOwnProperty(TIMER.PLUGINS_LOADED);
+  private _arePluginsLoaded() {
+    return (
+      this._baselines && !hasOwnProperty(this._baselines, TIMER.PLUGINS_LOADED)
+    );
   }
 
-  _isMetricsPluginLoaded() {
-    return this._arePluginsLoaded() || this._baselines &&
-      !this._baselines.hasOwnProperty(TIMER.METRICS_PLUGIN_LOADED);
+  private _isMetricsPluginLoaded() {
+    return (
+      this._arePluginsLoaded() ||
+      (this._baselines &&
+        !hasOwnProperty(this._baselines, TIMER.METRICS_PLUGIN_LOADED))
+    );
   }
 
   /**
@@ -258,11 +344,23 @@ export class GrReporting {
    * @param {boolean|undefined} opt_noLog If true, the event will not be
    *     logged to the JS console.
    */
-  reporter(type, category, eventName, eventValue, eventDetails, opt_noLog) {
-    const eventInfo = this._createEventInfo(type, category,
-        eventName, eventValue, eventDetails);
+  reporter(
+    type: string,
+    category: string,
+    eventName: string,
+    eventValue?: EventValue,
+    eventDetails?: EventDetails,
+    opt_noLog?: boolean
+  ) {
+    const eventInfo = this._createEventInfo(
+      type,
+      category,
+      eventName,
+      eventValue,
+      eventDetails
+    );
     if (type === ERROR.TYPE && category === ERROR.CATEGORY.EXCEPTION) {
-      console.error(eventValue && eventValue.error || eventName);
+      console.error((eventValue && (eventValue as any).error) || eventName);
     }
 
     // We report events immediately when metrics plugin is loaded
@@ -280,10 +378,12 @@ export class GrReporting {
     }
   }
 
-  _reportEvent(eventInfo, opt_noLog) {
+  private _reportEvent(eventInfo: EventInfo, opt_noLog?: boolean) {
     const {type, value, name} = eventInfo;
     document.dispatchEvent(new CustomEvent(type, {detail: eventInfo}));
-    if (opt_noLog) { return; }
+    if (opt_noLog) {
+      return;
+    }
     if (type !== ERROR.TYPE) {
       if (value !== undefined) {
         console.info(`Reporting: ${name}: ${value}`);
@@ -293,8 +393,14 @@ export class GrReporting {
     }
   }
 
-  _createEventInfo(type, category, name, value, eventDetails) {
-    const eventInfo = {
+  private _createEventInfo(
+    type: string,
+    category: string,
+    name: string,
+    value?: EventValue,
+    eventDetails?: EventDetails
+  ): EventInfo {
+    const eventInfo: EventInfo = {
       type,
       category,
       name,
@@ -302,8 +408,10 @@ export class GrReporting {
       eventStart: now(),
     };
 
-    if (typeof(eventDetails) === 'object' &&
-      Object.entries(eventDetails).length !== 0) {
+    if (
+      typeof eventDetails === 'object' &&
+      Object.entries(eventDetails).length !== 0
+    ) {
       eventInfo.eventDetails = JSON.stringify(eventDetails);
     }
 
@@ -317,8 +425,9 @@ export class GrReporting {
     }
 
     if (this._flagsService.enabledExperiments.length) {
-      eventInfo.enabledExperiments =
-        JSON.stringify(this._flagsService.enabledExperiments);
+      eventInfo.enabledExperiments = JSON.stringify(
+        this._flagsService.enabledExperiments
+      );
     }
 
     return eventInfo;
@@ -335,30 +444,44 @@ export class GrReporting {
   onVisibilityChange() {
     this.hiddenDurationTimer.onVisibilityChange();
     const eventName = `Visibility changed to ${document.visibilityState}`;
-    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.VISIBILITY,
-        eventName, undefined, {
-          hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
-        }, true);
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.VISIBILITY,
+      eventName,
+      undefined,
+      {
+        hiddenDurationMs: this.hiddenDurationTimer.hiddenDurationMs,
+      },
+      true
+    );
   }
 
   /**
    * Browser's navigation and resource timings
    */
-  _reportNavResTimes() {
+  private _reportNavResTimes() {
     const perfEvents = Object.keys(this.performanceTiming.toJSON());
-    perfEvents.forEach(
-        eventName => this._reportPerformanceTiming(eventName)
+    perfEvents.forEach(eventName =>
+      this._reportPerformanceTiming(eventName as PeformanceTimingEventName)
     );
   }
 
-  _reportPerformanceTiming(eventName, eventDetails) {
+  private _reportPerformanceTiming(
+    eventName: PeformanceTimingEventName,
+    eventDetails?: EventDetails
+  ) {
     const eventTiming = this.performanceTiming[eventName];
     if (eventTiming > 0) {
-      const elapsedTime = eventTiming -
-          this.performanceTiming.navigationStart;
+      const elapsedTime = eventTiming - this.performanceTiming.navigationStart;
       // NavResTime - Navigation and resource timings.
-      this.reporter(TIMING.TYPE, TIMING.CATEGORY.UI_LATENCY,
-          `NavResTime - ${eventName}`, elapsedTime, eventDetails, true);
+      this.reporter(
+        TIMING.TYPE,
+        TIMING.CATEGORY.UI_LATENCY,
+        `NavResTime - ${eventName}`,
+        elapsedTime,
+        eventDetails,
+        true
+      );
     }
   }
 
@@ -379,13 +502,17 @@ export class GrReporting {
     this.hiddenDurationTimer.reset();
   }
 
-  locationChanged(page) {
-    this.reporter(NAVIGATION.TYPE, NAVIGATION.CATEGORY.LOCATION_CHANGED,
-        NAVIGATION.EVENT.PAGE, page);
+  locationChanged(page: string) {
+    this.reporter(
+      NAVIGATION.TYPE,
+      NAVIGATION.CATEGORY.LOCATION_CHANGED,
+      NAVIGATION.EVENT.PAGE,
+      page
+    );
   }
 
   dashboardDisplayed() {
-    if (this._baselines.hasOwnProperty(TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
+    if (hasOwnProperty(this._baselines, TIMER.STARTUP_DASHBOARD_DISPLAYED)) {
       this.timeEnd(TIMER.STARTUP_DASHBOARD_DISPLAYED, this._pageLoadDetails());
     } else {
       this.timeEnd(TIMER.DASHBOARD_DISPLAYED, this._pageLoadDetails());
@@ -393,7 +520,7 @@ export class GrReporting {
   }
 
   changeDisplayed() {
-    if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_DISPLAYED)) {
+    if (hasOwnProperty(this._baselines, TIMER.STARTUP_CHANGE_DISPLAYED)) {
       this.timeEnd(TIMER.STARTUP_CHANGE_DISPLAYED, this._pageLoadDetails());
     } else {
       this.timeEnd(TIMER.CHANGE_DISPLAYED, this._pageLoadDetails());
@@ -401,7 +528,7 @@ export class GrReporting {
   }
 
   changeFullyLoaded() {
-    if (this._baselines.hasOwnProperty(TIMER.STARTUP_CHANGE_LOAD_FULL)) {
+    if (hasOwnProperty(this._baselines, TIMER.STARTUP_CHANGE_LOAD_FULL)) {
       this.timeEnd(TIMER.STARTUP_CHANGE_LOAD_FULL);
     } else {
       this.timeEnd(TIMER.CHANGE_LOAD_FULL);
@@ -409,7 +536,7 @@ export class GrReporting {
   }
 
   diffViewDisplayed() {
-    if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
+    if (hasOwnProperty(this._baselines, TIMER.STARTUP_DIFF_VIEW_DISPLAYED)) {
       this.timeEnd(TIMER.STARTUP_DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
     } else {
       this.timeEnd(TIMER.DIFF_VIEW_DISPLAYED, this._pageLoadDetails());
@@ -417,7 +544,7 @@ export class GrReporting {
   }
 
   diffViewFullyLoaded() {
-    if (this._baselines.hasOwnProperty(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL)) {
+    if (hasOwnProperty(this._baselines, TIMER.STARTUP_DIFF_VIEW_LOAD_FULL)) {
       this.timeEnd(TIMER.STARTUP_DIFF_VIEW_LOAD_FULL);
     } else {
       this.timeEnd(TIMER.DIFF_VIEW_LOAD_FULL);
@@ -425,8 +552,9 @@ export class GrReporting {
   }
 
   diffViewContentDisplayed() {
-    if (this._baselines.hasOwnProperty(
-        TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED)) {
+    if (
+      hasOwnProperty(this._baselines, TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED)
+    ) {
       this.timeEnd(TIMER.STARTUP_DIFF_VIEW_CONTENT_DISPLAYED);
     } else {
       this.timeEnd(TIMER.DIFF_VIEW_CONTENT_DISPLAYED);
@@ -434,16 +562,17 @@ export class GrReporting {
   }
 
   fileListDisplayed() {
-    if (this._baselines.hasOwnProperty(TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
+    if (hasOwnProperty(this._baselines, TIMER.STARTUP_FILE_LIST_DISPLAYED)) {
       this.timeEnd(TIMER.STARTUP_FILE_LIST_DISPLAYED);
     } else {
       this.timeEnd(TIMER.FILE_LIST_DISPLAYED);
     }
   }
 
-  _pageLoadDetails() {
-    const details = {
+  private _pageLoadDetails(): PageLoadDetails {
+    const details: PageLoadDetails = {
       rpcList: this.slowRpcSnapshot,
+      hiddenDurationMs: this.hiddenDurationTimer.accHiddenDurationMs,
     };
 
     if (window.screen) {
@@ -461,37 +590,41 @@ export class GrReporting {
     }
 
     if (window.performance && window.performance.memory) {
-      const toMb = bytes => Math.round((bytes / (1024 * 1024)) * 100) / 100;
-      details.usedJSHeapSizeMb =
-        toMb(window.performance.memory.usedJSHeapSize);
+      const toMb = (bytes: number) =>
+        Math.round((bytes / (1024 * 1024)) * 100) / 100;
+      details.usedJSHeapSizeMb = toMb(window.performance.memory.usedJSHeapSize);
     }
 
     details.hiddenDurationMs = this.hiddenDurationTimer.hiddenDurationMs;
     return details;
   }
 
-  reportExtension(name) {
+  reportExtension(name: string) {
     this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.EXTENSION_DETECTED, name);
   }
 
-  pluginLoaded(name) {
+  pluginLoaded(name: string) {
     if (name.startsWith('metrics-')) {
       this.timeEnd(TIMER.METRICS_PLUGIN_LOADED);
     }
   }
 
-  pluginsLoaded(pluginsList) {
+  pluginsLoaded(pluginsList?: string[]) {
     this.timeEnd(TIMER.PLUGINS_LOADED);
     this.reporter(
-        LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
-        LIFECYCLE.CATEGORY.PLUGINS_INSTALLED, undefined,
-        {pluginsList: pluginsList || []}, true);
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
+      LIFECYCLE.CATEGORY.PLUGINS_INSTALLED,
+      undefined,
+      {pluginsList: pluginsList || []},
+      true
+    );
   }
 
   /**
    * Reset named timer.
    */
-  time(name) {
+  time(name: string) {
     this._baselines[name] = now();
     window.performance.mark(`${name}-start`);
   }
@@ -499,8 +632,10 @@ export class GrReporting {
   /**
    * Finish named timer and report it to server.
    */
-  timeEnd(name, eventDetails) {
-    if (!this._baselines.hasOwnProperty(name)) { return; }
+  timeEnd(name: string, eventDetails?: EventDetails) {
+    if (!hasOwnProperty(this._baselines, name)) {
+      return;
+    }
     const baseTime = this._baselines[name];
     delete this._baselines[name];
     this._reportTiming(name, now() - baseTime, eventDetails);
@@ -520,18 +655,22 @@ export class GrReporting {
    * Reports just line timeEnd, but additionally reports an average given a
    * denominator and a separate reporiting name for the average.
    *
-   * @param {string} name Timing name.
-   * @param {string} averageName Average timing name.
-   * @param {number} denominator Number by which to divide the total to
+   * @param name Timing name.
+   * @param averageName Average timing name.
+   * @param denominator Number by which to divide the total to
    *     compute the average.
    */
-  timeEndWithAverage(name, averageName, denominator) {
-    if (!this._baselines.hasOwnProperty(name)) { return; }
+  timeEndWithAverage(name: string, averageName: string, denominator: number) {
+    if (!hasOwnProperty(this._baselines, name)) {
+      return;
+    }
     const baseTime = this._baselines[name];
     this.timeEnd(name);
 
     // Guard against division by zero.
-    if (!denominator) { return; }
+    if (!denominator) {
+      return;
+    }
     const time = now() - baseTime;
     this._reportTiming(averageName, time / denominator);
   }
@@ -539,30 +678,35 @@ export class GrReporting {
   /**
    * Send a timing report with an arbitrary time value.
    *
-   * @param {string} name Timing name.
-   * @param {number} time The time to report as an integer of milliseconds.
-   * @param {Object} eventDetails non sensitive details
+   * @param name Timing name.
+   * @param time The time to report as an integer of milliseconds.
+   * @param eventDetails non sensitive details
    */
-  _reportTiming(name, time, eventDetails) {
-    this.reporter(TIMING.TYPE, TIMING.CATEGORY.UI_LATENCY, name, time,
-        eventDetails);
+  private _reportTiming(
+    name: string,
+    time: number,
+    eventDetails?: EventDetails
+  ) {
+    this.reporter(
+      TIMING.TYPE,
+      TIMING.CATEGORY.UI_LATENCY,
+      name,
+      time,
+      eventDetails
+    );
   }
 
   /**
    * Get a timer object to for reporing a user timing. The start time will be
    * the time that the object has been created, and the end time will be the
    * time that the "end" method is called on the object.
-   *
-   * @param {string} name Timing name.
-   * @returns {!Object} The timer object.
    */
-  getTimer(name) {
+  getTimer(name: string): Timer {
     let called = false;
-    let start;
-    let max = null;
+    let start: number;
+    let max: number | null = null;
 
-    const timer = {
-
+    const timer: Timer = {
       // Clear the timer and reset the start time.
       reset: () => {
         called = false;
@@ -579,7 +723,9 @@ export class GrReporting {
         const time = now() - start;
 
         // If a maximum is specified and the time exceeds it, do not report.
-        if (max && time > max) { return timer; }
+        if (max && time > max) {
+          return timer;
+        }
 
         this._reportTiming(name, time);
         return timer;
@@ -600,25 +746,43 @@ export class GrReporting {
   /**
    * Log timing information for an RPC.
    *
-   * @param {string} anonymizedUrl The URL of the RPC with tokens obfuscated.
-   * @param {number} elapsed The time elapsed of the RPC.
+   * @param anonymizedUrl The URL of the RPC with tokens obfuscated.
+   * @param elapsed The time elapsed of the RPC.
    */
-  reportRpcTiming(anonymizedUrl, elapsed) {
-    this.reporter(TIMING.TYPE, TIMING.CATEGORY.RPC, 'RPC-' + anonymizedUrl,
-        elapsed, {}, true);
+  reportRpcTiming(anonymizedUrl: string, elapsed: number) {
+    this.reporter(
+      TIMING.TYPE,
+      TIMING.CATEGORY.RPC,
+      'RPC-' + anonymizedUrl,
+      elapsed,
+      {},
+      true
+    );
     if (elapsed >= SLOW_RPC_THRESHOLD) {
       this._slowRpcList.push({anonymizedUrl, elapsed});
     }
   }
 
-  reportLifeCycle(eventName, details) {
-    this.reporter(LIFECYCLE.TYPE, LIFECYCLE.CATEGORY.DEFAULT, eventName,
-        undefined, details, true);
+  reportLifeCycle(eventName: string, details: EventDetails) {
+    this.reporter(
+      LIFECYCLE.TYPE,
+      LIFECYCLE.CATEGORY.DEFAULT,
+      eventName,
+      undefined,
+      details,
+      true
+    );
   }
 
-  reportInteraction(eventName, details) {
-    this.reporter(INTERACTION.TYPE, INTERACTION.CATEGORY.DEFAULT, eventName,
-        undefined, details, true);
+  reportInteraction(eventName: string, details: EventDetails) {
+    this.reporter(
+      INTERACTION.TYPE,
+      INTERACTION.CATEGORY.DEFAULT,
+      eventName,
+      undefined,
+      details,
+      true
+    );
   }
 
   /**
@@ -632,8 +796,9 @@ export class GrReporting {
     const timer = this._timers.timeBetweenDraftActions;
     if (!timer) {
       // Create a timer with a maximum length.
-      this._timers.timeBetweenDraftActions = this.getTimer(DRAFT_ACTION_TIMER)
-          .withMaximum(DRAFT_ACTION_TIMER_MAX);
+      this._timers.timeBetweenDraftActions = this.getTimer(
+        DRAFT_ACTION_TIMER
+      ).withMaximum(DRAFT_ACTION_TIMER_MAX);
       return;
     }
 
@@ -641,12 +806,16 @@ export class GrReporting {
     timer.end().reset();
   }
 
-  reportErrorDialog(message) {
-    this.reporter(ERROR.TYPE, ERROR.CATEGORY.ERROR_DIALOG,
-        'ErrorDialog: ' + message, {error: new Error(message)});
+  reportErrorDialog(message: string) {
+    this.reporter(
+      ERROR.TYPE,
+      ERROR.CATEGORY.ERROR_DIALOG,
+      'ErrorDialog: ' + message,
+      {error: new Error(message)}
+    );
   }
 
-  setRepoName(repoName) {
+  setRepoName(repoName: string) {
     this._reportRepoName = repoName;
   }
 }

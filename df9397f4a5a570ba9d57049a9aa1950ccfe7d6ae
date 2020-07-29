@@ -141,6 +141,24 @@
       "revId": "df9397f4a5a570ba9d57049a9aa1950ccfe7d6ae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4ff61fd8_74e2b610",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-29T12:46:43Z",
+      "side": 1,
+      "message": "Yes, beyond 20 chars or so we cannot accomodate a good layout anymore that fits for every name. We have to cut it off at some point in various parts of the UI to make it work, for example in dashboard columns, but also in change metadata.\n\nDid you ever interact with anyone on gerrit-review that had more than 12 chars in their first name?",
+      "parentUuid": "745b3f36_62044910",
+      "revId": "df9397f4a5a570ba9d57049a9aa1950ccfe7d6ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

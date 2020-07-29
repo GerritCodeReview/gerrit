@@ -16,7 +16,7 @@
  */
 import {appContext} from './app-context.js';
 import {FlagsServiceImplementation} from './flags/flags_impl.js';
-import {GrReporting} from './gr-reporting/gr-reporting.js';
+import {GrReporting} from './gr-reporting/gr-reporting_impl.js';
 import {EventEmitter} from './gr-event-interface/gr-event-interface_impl.js';
 import {Auth} from './gr-auth.js';
 

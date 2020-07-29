@@ -14,20 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-export {};
 
-declare global {
-  interface Window {
-    CANONICAL_PATH?: string;
-  }
-
-  interface Performance {
-    // typescript doesn't know about the memory property.
-    // Define it here, so it can be used everywhere
-    memory?: {
-      jsHeapSizeLimit: number;
-      totalJSHeapSize: number;
-      usedJSHeapSize: number;
-    };
-  }
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function hasOwnProperty(obj: any, prop: PropertyKey) {
+  // Typescript rules don't allow to use obj.hasOwnProperty directly
+  return Object.prototype.hasOwnProperty.call(obj, prop);
 }

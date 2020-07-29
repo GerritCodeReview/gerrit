@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.AccountCreator;
 import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
@@ -54,7 +53,6 @@ import org.junit.Test;
 public class AttentionSetIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject protected AccountCreator accountCreator;
   @Inject private FakeEmailSender email;
 
   /** Simulates a fake clock. Uses second granularity. */

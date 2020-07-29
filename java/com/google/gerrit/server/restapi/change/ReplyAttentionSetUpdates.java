@@ -80,7 +80,7 @@ public class ReplyAttentionSetUpdates {
       throws IOException, ConfigInvalidException, PermissionBackendException,
           UnprocessableEntityException {
 
-    Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet();
+    Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet<>();
     for (String reviewer : potentiallyRemovedReviewers) {
       potentiallyRemovedReviewerIds.add(getAccountId(changeNotes, reviewer));
     }

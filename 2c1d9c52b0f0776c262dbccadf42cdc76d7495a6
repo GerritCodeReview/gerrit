@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "54071a24_1d5b84d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-29T11:49:08Z",
+      "side": 1,
+      "message": "Ahh I got a bit confused by the formatting.\nIgnore.",
+      "parentUuid": "b94055a5_0e3e6c02",
+      "range": {
+        "startLine": 323,
+        "startChar": 7,
+        "endLine": 323,
+        "endChar": 31
+      },
+      "revId": "2c1d9c52b0f0776c262dbccadf42cdc76d7495a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6adaeda1_c32cf946",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 4

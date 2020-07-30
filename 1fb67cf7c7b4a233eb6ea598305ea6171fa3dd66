@@ -46,6 +46,30 @@
       "revId": "1fb67cf7c7b4a233eb6ea598305ea6171fa3dd66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "470b80ef_46716cd1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-30T13:06:42Z",
+      "side": 1,
+      "message": "I edited the specs for these suggestive chips https://imgur.com/4mNX4xv",
+      "parentUuid": "a24441d5_5f012530",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "1fb67cf7c7b4a233eb6ea598305ea6171fa3dd66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

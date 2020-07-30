@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c1705cc2_2e49539d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-30T13:06:42Z",
+      "side": 1,
+      "message": "Thanks Tao!\n\n1. For username next to votable labels, we will use the same UI as Username attached to each log in the change log https://imgur.com/QC6D4wG\n\n2. I did not see in the exports the design for chips in the Change log (when users are added as Reviewers or CC) https://imgur.com/uqxH0SS\n\n3. Non selected chips have a white background color and a border in Grey #dadce0  (which we use for --comment-separator-color: #dadce0 in the app theme).\n\nI\u0027ll follow up shortly with the dark theme specs and will cross reference with the exports.",
+      "revId": "ccf6eb7e8aaf41f4bc60b004411d501d510c902d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

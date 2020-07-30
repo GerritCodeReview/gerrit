@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "836be5f8_f3a77b5a",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T14:52:55Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "d7745a9a_4deac232",
+      "range": {
+        "startLine": 174,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1ad345_a42681c9",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 7
@@ -401,6 +425,30 @@
       "side": 1,
       "message": "Left a comment. This would be a programmer error, so it\u0027s OK to be an ISE IMO.",
       "parentUuid": "7b3f1984_9343b044",
+      "range": {
+        "startLine": 495,
+        "startChar": 6,
+        "endLine": 497,
+        "endChar": 7
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f243d5f_d748d2c4",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T14:52:55Z",
+      "side": 1,
+      "message": "Thanks. With the comment it\u0027s clear now.",
+      "parentUuid": "a0af21e8_151f226b",
       "range": {
         "startLine": 495,
         "startChar": 6,

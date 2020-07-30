@@ -259,35 +259,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
   }
 
-  /**
-   * There is currently a bug that adds the person who submitted the change as reviewer, which in
-   * turn adds them to the attention set. This test ensures this doesn't happen.
-   */
-  @Test
-  public void submitDoesNotAddReviewersToAttentionSet() throws Exception {
-    PushOneCommit.Result r = createChange("refs/heads/master", "file1", "content");
-
-    // Someone else approves, because if admin reviews, they will be added to the reviewers (and the
-    // bug won't be reproduced).
-    requestScopeOperations.setApiUser(accountCreator.admin2().id());
-    change(r).current().review(ReviewInput.approve().addUserToAttentionSet(user.email(), "reason"));
-
-    requestScopeOperations.setApiUser(admin.id());
-
-    change(r).attention(admin.email()).remove(new AttentionSetInput("remove"));
-    change(r).current().submit();
-
-    // Attention set updates that relate to the admin (the person who replied) are filtered out.
-    AttentionSetUpdate attentionSet =
-        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("remove");
-
-    change(r).addReviewer(user.email());
-  }
-
   @Test
   public void addedReviewersAreAddedToAttentionSetOnMergedChanges() throws Exception {
     PushOneCommit.Result r = createChange();

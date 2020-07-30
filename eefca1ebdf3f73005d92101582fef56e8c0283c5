@@ -34,6 +34,24 @@
       "revId": "eefca1ebdf3f73005d92101582fef56e8c0283c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a61519c3_06be3743",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T10:59:50Z",
+      "side": 1,
+      "message": "ya i agree, `authentication type used when sending requests` is a good one I would say.\n\npersonally I think it might be easier to add comments when define them compared to add them all later since you have better context when you define it, the description can just be why you want to introduce this enum and why it needs to be exported.\n\nI am fine with delaying it if it may slow down the migration consider we don\u0027t really have good documentation habit in the code base (might a good argument for adding that ;) ). I believe this is also a requirement within google, but ya doesn\u0027t necessary need to be one for open source.",
+      "parentUuid": "9aca5328_05f63ede",
+      "revId": "eefca1ebdf3f73005d92101582fef56e8c0283c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

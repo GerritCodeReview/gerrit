@@ -1,0 +1,205 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af162296_94520c4a",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "Can these be named more precisely? E.g. pluginName and pluginConfig?",
+      "range": {
+        "startLine": 199,
+        "startChar": 35,
+        "endLine": 199,
+        "endChar": 59
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0689250_5cc67aa4",
+        "filename": "java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "[optional] it\u0027s not recommended to use Optional for method parameters (see [1]), maybe this should stay Nullable?\n\nThis modification also looks unrelated?\n\n[1] https://stackoverflow.com/questions/31922866/why-should-java-8s-optional-not-be-used-in-arguments",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 63
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d183553a_27a8c9bb",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "Unused method that can be dropped?\n\nIf it\u0027s used, should it rather be moved into the test using it?",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51c19f77_4232e8c5",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "[optional] it\u0027s not recommended to use Optional for method parameters (see [1]), maybe this should rather be Nullable?",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 80
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "201c92ea_47f1dda3",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "Can this method be dropped? It\u0027s only used in a test.",
+      "range": {
+        "startLine": 174,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de1ad345_a42681c9",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "Why do we get a PluginConfig.Update here if we only read the plugin config?",
+      "range": {
+        "startLine": 1260,
+        "startChar": 6,
+        "endLine": 1260,
+        "endChar": 25
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ec946bb_09682511",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "With this method name it\u0027s a bit unexpected that a PluginConfig.Update and not a PluginConfig is returned.\nAll but one caller only seem to read, maybe change this method to return a PluginConfig and offer a dedicated method for update? Maybe an update method with a Consumer, so that updating a PluginConfig is consistent with how labels are updated (see updateLabelType method)?",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46e1ce61_96cfcddb",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "PluginConfig",
+      "range": {
+        "startLine": 485,
+        "startChar": 24,
+        "endLine": 485,
+        "endChar": 30
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b3f1984_9343b044",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:18:35Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we just throw the ConfigInvalidException?",
+      "range": {
+        "startLine": 495,
+        "startChar": 6,
+        "endLine": 497,
+        "endChar": 7
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

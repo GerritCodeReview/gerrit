@@ -16,6 +16,24 @@
       "revId": "ccf6eb7e8aaf41f4bc60b004411d501d510c902d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2e848e5_e1e33cb5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T13:14:34Z",
+      "side": 1,
+      "message": "voting changes moved to a separate change: https://gerrit-review.googlesource.com/c/gerrit/+/277375\n\nWill update styling related in this change.",
+      "parentUuid": "c1705cc2_2e49539d",
+      "revId": "ccf6eb7e8aaf41f4bc60b004411d501d510c902d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

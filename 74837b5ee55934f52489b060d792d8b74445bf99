@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9408cbb8_a593d7ff",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/CachedProjectConfigSerializerTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:37:14Z",
+      "side": 1,
+      "message": "Can you use more realistic test data?\ne.g. for addPluginConfig the parameters should be a pluginName + a JGit Config as string",
+      "range": {
+        "startLine": 59,
+        "startChar": 27,
+        "endLine": 60,
+        "endChar": 80
+      },
+      "revId": "74837b5ee55934f52489b060d792d8b74445bf99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

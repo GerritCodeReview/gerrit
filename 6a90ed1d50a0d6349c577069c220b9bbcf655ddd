@@ -22,6 +22,30 @@
       "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40407e80_7d67cf38",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:16:06Z",
+      "side": 1,
+      "message": "This is a compiler error (not from eslint), because AppContext defines all services as non-nullable.\nThe error can be disabled with @ts-ignore, but typescript style guide doesn\u0027t allow @ts-ignore.\nI agree, that this looks unusual, but can\u0027t find a better way. Making all properties nullable isn\u0027t possible, because all other code assumes (correctly) that all services are non-null.",
+      "parentUuid": "fcd405a4_5b582798",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

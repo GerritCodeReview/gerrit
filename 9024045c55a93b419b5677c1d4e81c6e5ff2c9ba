@@ -46,6 +46,30 @@
       "revId": "9024045c55a93b419b5677c1d4e81c6e5ff2c9ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "eb104b5f_63794b41",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 29
+      },
+      "lineNbr": 752,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-30T18:09:14Z",
+      "side": 1,
+      "message": "Would the test be hard to rewrite? Is it very valuable?\nAnyway, this was just an optional non-blocking comment.",
+      "parentUuid": "745f7760_ae08b04d",
+      "range": {
+        "startLine": 752,
+        "startChar": 11,
+        "endLine": 752,
+        "endChar": 29
+      },
+      "revId": "9024045c55a93b419b5677c1d4e81c6e5ff2c9ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

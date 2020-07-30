@@ -33,6 +33,24 @@
       "revId": "ee4eefc34802ddd549e762633ea33ff35e01d235",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b6cf9579_75a96ff4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-30T15:42:46Z",
+      "side": 1,
+      "message": "\u003e Should this be mentioned in the next v3.0.13 release notes as well?\n\n(Yes; I262dc4aa2.)",
+      "parentUuid": "54abdf34_46472919",
+      "revId": "ee4eefc34802ddd549e762633ea33ff35e01d235",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

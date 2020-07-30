@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.notedb.rebuild;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static com.google.gerrit.server.notedb.NotesMigration.SECTION_NOTE_DB;
@@ -34,6 +33,7 @@ import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
 import com.google.common.collect.SetMultimap;
@@ -47,6 +47,7 @@ import com.google.gerrit.common.FormatUtil;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.reviewdb.client.Change;
+import com.google.gerrit.reviewdb.client.Change.Id;
 import com.google.gerrit.reviewdb.client.Project;
 import com.google.gerrit.reviewdb.server.ReviewDb;
 import com.google.gerrit.reviewdb.server.ReviewDbWrapper;
@@ -119,6 +120,8 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private static final String AUTO_MIGRATE = "autoMigrate";
   private static final String TRIAL = "trial";
+
+  private static final int PROJECT_SLICE_MAX_REFS = 1000;
 
   public static boolean getAutoMigrate(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
@@ -716,9 +719,9 @@ public class NoteDbMigrator implements AutoCloseable {
    *
    * <p>To get to the point where this method is called from {@link #setNoteDbPrimary}, it means we
    * attempted to rebuild it, and encountered an error that was then caught in {@link
-   * #rebuildProject} and skipped. As a result, there is no {@code noteDbState} field in the change
-   * by the time we get to {@link #setNoteDbPrimary}, so {@code migrateToNoteDbPrimary} throws an
-   * exception.
+   * #rebuildProjectSlice} and skipped. As a result, there is no {@code noteDbState} field in the
+   * change by the time we get to {@link #setNoteDbPrimary}, so {@code migrateToNoteDbPrimary}
+   * throws an exception.
    *
    * <p>We have to do this hacky double-checking because we don't have a way for the rebuilding
    * phase to communicate to the primary storage migration phase that the change is skippable. It
@@ -835,17 +838,25 @@ public class NoteDbMigrator implements AutoCloseable {
       List<Project.NameKey> projectNames =
           Ordering.usingToString().sortedCopy(changesByProject.keySet());
       for (Project.NameKey project : projectNames) {
-        ListenableFuture<Boolean> future =
-            executor.submit(
-                () -> {
-                  try {
-                    return rebuildProject(contextHelper.getReviewDb(), changesByProject, project);
-                  } catch (Exception e) {
-                    logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
-                    return false;
-                  }
-                });
-        futures.add(future);
+        List<List<Id>> slices =
+            Lists.partition(changesByProject.get(project), PROJECT_SLICE_MAX_REFS);
+        int count = slices.size();
+        int sliceNumber = 1;
+        for (List<Change.Id> slice : slices) {
+          int sn = sliceNumber++;
+          ListenableFuture<Boolean> future =
+              executor.submit(
+                  () -> {
+                    try {
+                      return rebuildProjectSlice(
+                          contextHelper.getReviewDb(), project, slice, sn, count);
+                    } catch (Exception e) {
+                      logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
+                      return false;
+                    }
+                  });
+          futures.add(future);
+        }
       }
 
       boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
@@ -898,11 +909,12 @@ public class NoteDbMigrator implements AutoCloseable {
     return ins;
   }
 
-  private boolean rebuildProject(
+  private boolean rebuildProjectSlice(
       ReviewDb db,
-      ImmutableListMultimap<Project.NameKey, Change.Id> allChanges,
-      Project.NameKey project) {
-    checkArgument(allChanges.containsKey(project));
+      Project.NameKey project,
+      List<Change.Id> slice,
+      int sliceNumber,
+      int sliceCount) {
     boolean ok = true;
     ProgressMonitor pm =
         new TextProgressMonitor(
@@ -927,12 +939,18 @@ public class NoteDbMigrator implements AutoCloseable {
       ChainedReceiveCommands changeCmds = new ChainedReceiveCommands(changeRepo);
       ChainedReceiveCommands allUsersCmds = new ChainedReceiveCommands(allUsersRepo);
 
-      Collection<Change.Id> changes = allChanges.get(project);
-      pm.beginTask(FormatUtil.elide("Rebuilding " + project.get(), 50), changes.size());
+      pm.beginTask(
+          FormatUtil.elide(
+              String.format(
+                  "Rebuilding project %s, slice %d/%d", project.get(), sliceNumber, sliceCount),
+              60),
+          slice.size());
       int toSave = 0;
       try {
-        logger.atInfo().log("Starting to rebuild changes from project %s", project.get());
-        for (Change.Id changeId : changes) {
+        logger.atInfo().log(
+            "Starting to rebuild changes from project %s, slice %d/%d",
+            project.get(), sliceNumber, sliceCount);
+        for (Change.Id changeId : slice) {
           // NoteDbUpdateManager assumes that all commands in its OpenRepo were added by itself, so
           // we can't share the top-level ChainedReceiveCommands. Use a new set of commands sharing
           // the same underlying repo, and copy commands back to the top-level
@@ -982,7 +1000,9 @@ public class NoteDbMigrator implements AutoCloseable {
           }
           pm.update(1);
         }
-        logger.atInfo().log("Finished rebuilding changes from project %s", project.get());
+        logger.atInfo().log(
+            "Finished rebuilding changes of project %s, slice %d/%d",
+            project.get(), sliceNumber, sliceCount);
       } finally {
         pm.endTask();
       }

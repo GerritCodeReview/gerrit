@@ -16,6 +16,24 @@
       "revId": "eefca1ebdf3f73005d92101582fef56e8c0283c5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aca5328_05f63ede",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T10:54:37Z",
+      "side": 1,
+      "message": "\u003e\u003e I probably will enforce this rule before the fixit week :)\nMay be let\u0027s do it after the fixit week or at least let\u0027s discuss it in the chat?\nI suppose, it will require additional efforts every time when a new interface is defined. Writing a good JSDoc comments can take even more time than converting a code. And then we should review all comments as well - it slow down us more.\nI suggest to focus only on JS-\u003eTS migration next week and improve JSDoc/TSDoc comments separately.\n\nFor example, for this enum I can write a short comments like \"AuthType - defines authentication type\", but it doesn\u0027t give any additional information to a reader.",
+      "parentUuid": "4d16b6bf_915a0bd5",
+      "revId": "eefca1ebdf3f73005d92101582fef56e8c0283c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

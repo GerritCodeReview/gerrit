@@ -555,28 +555,30 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       reviewInput.ready = true;
     }
 
-    reviewInput.ignore_default_attention_set_rules = true;
-    reviewInput.add_to_attention_set = [];
-    for (const user of this._newAttentionSet) {
-      if (!this._currentAttentionSet.has(user)) {
-        reviewInput.add_to_attention_set.push({
-          user,
-          reason: 'manually added in reply dialog',
-        });
+    if (this._isAttentionSetEnabled(this.serverConfig)) {
+      reviewInput.ignore_default_attention_set_rules = true;
+      reviewInput.add_to_attention_set = [];
+      for (const user of this._newAttentionSet) {
+        if (!this._currentAttentionSet.has(user)) {
+          reviewInput.add_to_attention_set.push({
+            user,
+            reason: 'manually added in reply dialog',
+          });
+        }
       }
-    }
-    reviewInput.remove_from_attention_set = [];
-    for (const user of this._currentAttentionSet) {
-      if (!this._newAttentionSet.has(user)) {
-        reviewInput.remove_from_attention_set.push({
-          user,
-          reason: 'manually removed in reply dialog',
-        });
+      reviewInput.remove_from_attention_set = [];
+      for (const user of this._currentAttentionSet) {
+        if (!this._newAttentionSet.has(user)) {
+          reviewInput.remove_from_attention_set.push({
+            user,
+            reason: 'manually removed in reply dialog',
+          });
+        }
       }
+      this.reportAttentionSetChanges(this._attentionModified,
+          reviewInput.add_to_attention_set,
+          reviewInput.remove_from_attention_set);
     }
-    this.reportAttentionSetChanges(this._attentionModified,
-        reviewInput.add_to_attention_set,
-        reviewInput.remove_from_attention_set);
 
     if (this.draft != null) {
       if (this._isPatchsetCommentsExperimentEnabled) {

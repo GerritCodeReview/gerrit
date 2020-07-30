@@ -154,9 +154,6 @@ suite('gr-reply-dialog tests', () => {
 
         stubSaveReview(review => {
           assert.deepEqual(review, {
-            ignore_default_attention_set_rules: true,
-            add_to_attention_set: [],
-            remove_from_attention_set: [],
             drafts: 'PUBLISH_ALL_REVISIONS',
             labels: {
               'Code-Review': 0,
@@ -185,6 +182,9 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('modified attention set', done => {
+    element.serverConfig = {
+      change: {enable_attention_set: true},
+    };
     element._newAttentionSet = new Set([314]);
     const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
     MockInteractions.tap(buttonEl);
@@ -284,9 +284,6 @@ suite('gr-reply-dialog tests', () => {
 
         stubSaveReview(review => {
           assert.deepEqual(review, {
-            ignore_default_attention_set_rules: true,
-            add_to_attention_set: [],
-            remove_from_attention_set: [],
             drafts: 'PUBLISH_ALL_REVISIONS',
             labels: {
               'Code-Review': 0,
@@ -326,9 +323,6 @@ suite('gr-reply-dialog tests', () => {
 
         stubSaveReview(review => {
           assert.deepEqual(review, {
-            ignore_default_attention_set_rules: true,
-            add_to_attention_set: [],
-            remove_from_attention_set: [],
             drafts: 'KEEP',
             labels: {
               'Code-Review': 0,
@@ -360,9 +354,6 @@ suite('gr-reply-dialog tests', () => {
     element.draft = 'I wholeheartedly disapprove';
     stubSaveReview(review => {
       assert.deepEqual(review, {
-        ignore_default_attention_set_rules: true,
-        add_to_attention_set: [],
-        remove_from_attention_set: [],
         drafts: 'PUBLISH_ALL_REVISIONS',
         labels: {
           'Code-Review': -1,

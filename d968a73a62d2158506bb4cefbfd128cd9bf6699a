@@ -199,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "e83d2641_890bf042",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-07-30T13:41:55Z",
+      "side": 1,
+      "message": "Oswald, if you have a problem with any of the folks @google.com please reach out to me directly; I manage the entire gerrit team.",
+      "parentUuid": "34880201_a83b727c",
+      "revId": "d968a73a62d2158506bb4cefbfd128cd9bf6699a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "238f1209_721a60d0",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

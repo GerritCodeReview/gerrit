@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed2b78e7_cb04dd29",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-30T15:27:44Z",
+      "side": 1,
+      "message": "that\u0027s probably just me (due to not having followed things closely enough), but i find this explanation rather unhelpful. what are \"attention set emails\" and what are \"the other emails\"? what are \"manual reviews\"?",
+      "revId": "62eccaa2e59d2cffb0ab36eec1f7b9fcea5ccd9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

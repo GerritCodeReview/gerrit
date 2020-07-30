@@ -20,7 +20,7 @@ const Duration = {
   DAY: 1000 * 60 * 60 * 24,
 };
 
-export function parseDate(dateStr) {
+export function parseDate(dateStr: string) {
   // Timestamps are given in UTC and have the format
   // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
   // nanoseconds.
@@ -28,14 +28,14 @@ export function parseDate(dateStr) {
   return new Date(dateStr.replace(' ', 'T') + 'Z');
 }
 
-export function isValidDate(date) {
-  return date instanceof Date && !isNaN(date);
+export function isValidDate(date: Date) {
+  return date instanceof Date;
 }
 
 // similar to fromNow from moment.js
-export function fromNow(date) {
+export function fromNow(date: Date) {
   const now = new Date();
-  const secondsAgo = Math.round((now - date) / 1000);
+  const secondsAgo = Math.round((now.valueOf() - date.valueOf()) / 1000);
   if (secondsAgo <= 44) return 'just now';
   if (secondsAgo <= 89) return 'a minute ago';
   const minutesAgo = Math.round(secondsAgo / 60);
@@ -46,10 +46,10 @@ export function fromNow(date) {
   if (hoursAgo <= 35) return 'a day ago';
   const daysAgo = Math.round(hoursAgo / 24);
   if (daysAgo <= 25) return `${daysAgo} days ago`;
-  if (daysAgo <= 45) return `a month ago`;
+  if (daysAgo <= 45) return 'a month ago';
   const monthsAgo = Math.round(daysAgo / 30);
   if (daysAgo <= 319) return `${monthsAgo} months ago`;
-  if (daysAgo <= 547) return `a year ago`;
+  if (daysAgo <= 547) return 'a year ago';
   const yearsAgo = Math.round(daysAgo / 365);
   return `${yearsAgo} years ago`;
 }
@@ -57,21 +57,30 @@ export function fromNow(date) {
 /**
  * Return true if date is within 24 hours and on the same day.
  */
-export function isWithinDay(now, date) {
-  const diff = now - date;
-  return diff < Duration.DAY && date.getDay() == now.getDay();
+export function isWithinDay(now: Date, date: Date) {
+  const diff = now.valueOf() - date.valueOf();
+  return diff < Duration.DAY && date.getDay() === now.getDay();
 }
 
 /**
  * Returns true if date is from one to six months.
  */
-export function isWithinHalfYear(now, date) {
-  const diff = now - date;
+export function isWithinHalfYear(now: Date, date: Date) {
+  const diff = now.valueOf() - date.valueOf();
   return diff < 180 * Duration.DAY;
 }
+interface Options {
+  month?: string;
+  year?: string;
+  day?: string;
+  hour?: string;
+  hour12?: boolean;
+  minute?: string;
+  second?: string;
+}
 
-export function formatDate(date, format) {
-  const options = {};
+export function formatDate(date: Date, format: string) {
+  const options: Options = {};
   if (format.includes('MM')) {
     if (format.includes('MMM')) {
       options.month = 'short';
@@ -116,11 +125,13 @@ export function formatDate(date, format) {
   }
 
   const dtf = new Intl.DateTimeFormat(locale, options);
-  const parts = dtf.formatToParts(date).filter(o => o.type != 'literal')
-      .reduce((acc, o) => {
-        acc[o.type] = o.value;
-        return acc;
-      }, {});
+  const parts = dtf
+    .formatToParts(date)
+    .filter(o => o.type != 'literal')
+    .reduce((acc, o) => {
+      acc[o.type] = o.value;
+      return acc;
+    }, {});
   if (format.includes('YY')) {
     if (format.includes('YYYY')) {
       format = format.replace('YYYY', parts.year);
@@ -174,5 +185,5 @@ export function utcOffsetString() {
     const norm = Math.floor(Math.abs(num));
     return (norm < 10 ? '0' : '') + norm;
   };
-  return ` UTC${tzo >= 0 ? '+' : '-'}${pad(tzo / 60)}:${pad(tzo%60)}`;
+  return ` UTC${tzo >= 0 ? '+' : '-'}${pad(tzo / 60)}:${pad(tzo % 60)}`;
 }

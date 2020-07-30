@@ -29,6 +29,7 @@ import '../gr-storage/gr-storage.js';
 import '../gr-textarea/gr-textarea.js';
 import '../gr-tooltip-content/gr-tooltip-content.js';
 import '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog.js';
+import '../gr-account-label/gr-account-label.js';
 import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -226,6 +227,7 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
         type: Boolean,
         value: false,
       },
+      _selfAccount: Object,
     };
   }
 
@@ -255,6 +257,9 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
   /** @override */
   attached() {
     super.attached();
+    this.$.restAPI.getAccount().then(account => {
+      this._selfAccount = account;
+    });
     if (this.editing) {
       this.collapsed = false;
     } else if (this.comment) {
@@ -275,6 +280,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     if (this.textarea) {
       this.textarea.closeDropdown();
     }
+  }
+
+  _getAuthor(comment) {
+    return comment.author || this._selfAccount;
   }
 
   _onEditingChange(editing) {
@@ -488,6 +497,10 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
         composed: true, bubbles: true,
       }));
     });
+  }
+
+  _computeAccountLabelClass(draft) {
+    return draft ? 'draft' : '';
   }
 
   _draftChanged(draft) {

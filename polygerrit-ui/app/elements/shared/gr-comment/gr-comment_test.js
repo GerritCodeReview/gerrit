@@ -39,7 +39,14 @@ suite('gr-comment tests', () => {
 
     setup(() => {
       stub('gr-rest-api-interface', {
-        getAccount() { return Promise.resolve(null); },
+        getAccount() {
+          return Promise.resolve({
+            email: 'dhruvsri@google.com',
+            name: 'Dhruv Srivastava',
+            _account_id: 1083225,
+            avatars: [{url: 'abc', height: 32}],
+          });
+        },
       });
       element = basicFixture.instantiate();
       element.comment = {
@@ -310,6 +317,9 @@ suite('gr-comment tests', () => {
       test('create', () => {
         element.comment = {};
         return element._handleSave(mockEvent).then(() => {
+          assert.equal(element.shadowRoot.querySelector('gr-account-label').
+              shadowRoot.querySelector('span').innerText.trim(),
+          'Dhruv Srivastava');
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
           assert.equal(getTimerStub.lastCall.args[0], 'CreateDraftComment');
@@ -629,6 +639,7 @@ suite('gr-comment tests', () => {
         url: '/robot/comment',
         author: {
           name: 'Happy Robot',
+          display_name: 'Display name Robot',
         }, ...element.comment};
       element.comment = comment;
       element.collapsed = false;
@@ -643,8 +654,8 @@ suite('gr-comment tests', () => {
         assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
 
         const robotServiceName = element.shadowRoot
-            .querySelector('.authorName');
-        assert.equal(robotServiceName.textContent.trim(), 'happy_robot_id');
+            .querySelector('gr-account-label').shadowRoot.querySelector('span');
+        assert.equal(robotServiceName.textContent.trim(), 'Display name Robot');
 
         const authorName = element.shadowRoot
             .querySelector('.robotId');
@@ -668,7 +679,7 @@ suite('gr-comment tests', () => {
       element.collapsed = false;
       flush(() => {
         const authorName = element.shadowRoot
-            .querySelector('.authorName');
+            .querySelector('gr-account-label').shadowRoot.querySelector('span');
         assert.equal(authorName.innerText.trim(), 'test@test.com');
         done();
       });

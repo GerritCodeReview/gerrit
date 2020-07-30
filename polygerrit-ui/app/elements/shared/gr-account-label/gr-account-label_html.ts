@@ -50,9 +50,9 @@ export const htmlTemplate = html`
       color: var(--default-button-text-color);
     }
     gr-avatar {
-      height: var(--line-height-normal);
-      width: var(--line-height-normal);
-      vertical-align: top;
+      height: calc(var(--line-height-normal) - 2px);
+      width: calc(var(--line-height-normal) - 2px);
+      vertical-align: sub;
     }
     .text {
       @apply --gr-account-label-text-style;
@@ -61,11 +61,12 @@ export const htmlTemplate = html`
       @apply --gr-account-label-text-hover-style;
     }
     iron-icon.attention {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       vertical-align: top;
       position: relative;
-      top: 3px;
+      top: 4px;
+      padding-left: calc(1.5 * var(--spacing-s));
     }
     iron-icon.status {
       width: 14px;

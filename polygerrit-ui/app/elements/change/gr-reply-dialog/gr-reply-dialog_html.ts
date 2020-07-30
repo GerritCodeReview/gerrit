@@ -167,7 +167,7 @@ export const htmlTemplate = html`
     }
     .attention-detail gr-account-label {
       display: inline-block;
-      padding: var(--spacing-xs) var(--spacing-m);
+      padding: 0 var(--spacing-l) 0 var(--spacing-xs);
       margin-right: var(--spacing-m);
       user-select: none;
       --label-border-radius: 4px;

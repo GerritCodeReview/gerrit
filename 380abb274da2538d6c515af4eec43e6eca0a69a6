@@ -16,6 +16,24 @@
       "revId": "380abb274da2538d6c515af4eec43e6eca0a69a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08b95ce3_c6e2f1c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T10:11:56Z",
+      "side": 1,
+      "message": "Commit message was updated. This is not the reason, but just a phrase that broken tests are expected.",
+      "parentUuid": "f658d0d6_6ce57432",
+      "revId": "380abb274da2538d6c515af4eec43e6eca0a69a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

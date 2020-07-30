@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "736d5312_3722776e",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "953ff837_613968f3",
+      "range": {
+        "startLine": 130,
+        "startChar": 32,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1130b08_72c5f7d1",
         "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77940ae6_18d327a2",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1130b08_72c5f7d1",
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "ef6d2500_e87e3881",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 1,
+      "message": "Left a comment.",
+      "parentUuid": "e9ddd9b4_f6b37b98",
+      "range": {
+        "startLine": 139,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 7
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "83f95550_9ef76af5",
         "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
         "patchSetId": 5
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "ed619ea4_ec6fa8e3",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83f95550_9ef76af5",
+      "range": {
+        "startLine": 230,
+        "startChar": 41,
+        "endLine": 230,
+        "endChar": 65
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be126333_ebbe61f1",
         "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
         "patchSetId": 5
@@ -99,6 +189,30 @@
       "writtenOn": "2020-07-30T12:32:20Z",
       "side": 1,
       "message": "This assumes that all *.config files are Git config files. \nCan there be plugins that have a *.config file with a different format?",
+      "range": {
+        "startLine": 1184,
+        "startChar": 6,
+        "endLine": 1193,
+        "endChar": 7
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4377a4b3_b8d4c671",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 1,
+      "message": "Good find. They\u0027d have to read the file on their own, but it would be possible. I think this risk is OK to take (I don\u0027t know of any plugins that would use their own config format AND put files in refs/meta/config that end in .config).\n\nDo you think we should make this a warning instead?",
+      "parentUuid": "be126333_ebbe61f1",
       "range": {
         "startLine": 1184,
         "startChar": 6,

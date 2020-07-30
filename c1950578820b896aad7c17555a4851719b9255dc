@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "221a4d1a_bbf3033b",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 0,
+      "message": "I think we now auto-validate if the file is a parsable git-config file (which seems like a win to me). But besides that, you are right. I removed the methods because of your earlier comment about \"why do we pass in a config and also have the option to load one\". But brought them back now, though, in a separate inner class meant for IO. I am not sure \"Bare\" is the best name for it. Do you have a better suggestion?\n\nI would like to keep the I/O part separate from the rest (inheritance logic).",
+      "parentUuid": "64295c1a_9b16bd05",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b8580ec_5ab1f524",
         "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
         "patchSetId": 5
@@ -39,6 +57,30 @@
       "revId": "c1950578820b896aad7c17555a4851719b9255dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "560f1cb4_3b33cd84",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T15:16:26Z",
+      "side": 0,
+      "message": "See my earlier comment.",
+      "parentUuid": "6b8580ec_5ab1f524",
+      "range": {
+        "startLine": 131,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 3
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

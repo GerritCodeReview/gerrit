@@ -46,6 +46,30 @@
       "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bec73cb4_32a32a0c",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T11:22:35Z",
+      "side": 1,
+      "message": "I think you can just do `export const appContext \u003d {} as AppContext`, this is an easy way for lazy initialization of properties, and typescript actually allow that, example as follows:\n\n\u003e https://www.typescriptlang.org/play/?ssl\u003d1\u0026ssc\u003d1\u0026pln\u003d16\u0026pc\u003d12#",
+      "parentUuid": "40407e80_7d67cf38",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

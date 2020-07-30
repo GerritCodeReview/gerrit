@@ -34,7 +34,7 @@ $_documentContainer.innerHTML = `
      * Note that plugins might be using these variables, so removing a variable
      * can be a breaking change that should go into the release notes.
      */
-  
+
     /* text colors */
     --primary-text-color: black;
     --link-color: #2a66d9;
@@ -50,7 +50,7 @@ $_documentContainer.innerHTML = `
     --tooltip-text-color: white;
     --negative-red-text-color: #d93025;
     --positive-green-text-color: #188038;
-    
+
     /* background colors */
     /* primary background colors */
     --background-color-primary: #ffffff;
@@ -88,11 +88,11 @@ $_documentContainer.innerHTML = `
     --vote-color-neutral: #ebf5fb;
     --vote-color-recommended: #c9dfaf;
     --vote-color-rejected: #f7a1ad;
-  
+
     /* misc colors */
     --border-color: #e8e8e8;
     --comment-separator-color: #dadce0;
-  
+
     /* status colors */
     --status-merged: #188038;
     --status-abandoned: #5f6368;
@@ -102,7 +102,7 @@ $_documentContainer.innerHTML = `
     --status-active: #1976d2;
     --status-ready: #b80672;
     --status-custom: #681da8;
-  
+
     /* fonts */
     --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
     --header-font-family: 'Open Sans', 'Roboto', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol';
@@ -126,7 +126,7 @@ $_documentContainer.innerHTML = `
     --font-weight-h1: 400;
     --font-weight-h2: 400;
     --font-weight-h3: 400;
-  
+
     /* spacing */
     --spacing-xxs: 1px;
     --spacing-xs: 2px;
@@ -135,7 +135,7 @@ $_documentContainer.innerHTML = `
     --spacing-l: 12px;
     --spacing-xl: 16px;
     --spacing-xxl: 24px;
-  
+
     /* header and footer */
     --footer-background-color: transparent;
     --footer-border-top: none;
@@ -149,7 +149,7 @@ $_documentContainer.innerHTML = `
     --header-text-color: black;
     --header-title-content: 'Gerrit';
     --header-title-font-size: 1.75rem;
-  
+
     /* diff colors */
     --dark-add-highlight-color: #aaf2aa;
     --dark-rebased-add-highlight-color: #d7d7f9;
@@ -170,7 +170,7 @@ $_documentContainer.innerHTML = `
     --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;
     --coverage-not-covered: #ffd1a4;
-  
+
     /* syntax colors */
     --syntax-attr-color: #219;
     --syntax-attribute-color: var(--primary-text-color);
@@ -198,18 +198,18 @@ $_documentContainer.innerHTML = `
     --syntax-title-color: #0000c0;
     --syntax-type-color: #2a66d9;
     --syntax-variable-color: var(--primary-text-color);
-  
+
     /* elevation */
     --elevation-level-1: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 1px 3px 1px rgba(60, 64, 67, .15);
     --elevation-level-2: 0px 1px 2px 0px rgba(60, 64, 67, .30), 0px 2px 6px 2px rgba(60, 64, 67, .15);
     --elevation-level-3: 0px 1px 3px 0px rgba(60, 64, 67, .30), 0px 4px 8px 3px rgba(60, 64, 67, .15);
     --elevation-level-4: 0px 2px 3px 0px rgba(60, 64, 67, .30), 0px 6px 10px 4px rgba(60, 64, 67, .15);
     --elevation-level-5: 0px 4px 4px 0px rgba(60, 64, 67, .30), 0px 8px 12px 6px rgba(60, 64, 67, .15);
-  
+
     /* misc */
     --border-radius: 4px;
     --reply-overlay-z-index: 1000;
-  
+
     /* paper and iron component overrides */
     --iron-overlay-backdrop-background-color: black;
     --iron-overlay-backdrop-opacity: 0.32;

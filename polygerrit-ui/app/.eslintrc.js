@@ -92,7 +92,12 @@ module.exports = {
     "no-prototype-builtins": "off",
     // https://eslint.org/docs/rules/no-redeclare
     "no-redeclare": "off",
-    'array-callback-return': ['error', { allowImplicit: true }],
+    // https://eslint.org/docs/rules/no-trailing-spaces
+    "no-trailing-spaces": "error",
+    // https://eslint.org/docs/rules/no-irregular-whitespace
+    "no-irregular-whitespace": "error",
+    // https://eslint.org/docs/rules/array-callback-return
+    "array-callback-return": ['error', { allowImplicit: true }],
     // https://eslint.org/docs/rules/no-restricted-syntax
     "no-restricted-syntax": [
       "error",

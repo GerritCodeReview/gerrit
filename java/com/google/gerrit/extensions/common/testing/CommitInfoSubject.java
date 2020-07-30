@@ -18,11 +18,13 @@ import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.extensions.common.testing.GitPersonSubject.gitPersons;
 import static com.google.gerrit.truth.ListSubject.elements;
 
+import com.google.common.truth.Correspondence;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.truth.ListSubject;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 
 public class CommitInfoSubject extends Subject {
 
@@ -64,5 +66,9 @@ public class CommitInfoSubject extends Subject {
   public StringSubject message() {
     isNotNull();
     return check("message").that(commitInfo.message);
+  }
+
+  public static Correspondence<CommitInfo, String> hasCommit() {
+    return NullAwareCorrespondence.transforming(commitInfo -> commitInfo.commit, "hasCommit");
   }
 }

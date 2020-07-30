@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "86e3057e_efa249f4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "My remaining comments are just nits.",
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0eec019b_588b74a5",
+        "filename": "java/com/google/gerrit/server/CommentContextException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "Please remove this and throw a StorageException instead. We use checked exceptions very rarely and only for recoverable failures or statuses in the REST API.\n\nUnrecoverable failures are unchecked exceptions. That\u0027s nicer because they don\u0027t have to be declared and bring the request to a grinding halt.",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ef9ecf8_2a6a7ef6",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "needs JavaDoc explaining how this class is supposed to be used (with getcontext and fill) and what it does",
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "386e4484_49497f72",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "Nice!",
+      "range": {
+        "startLine": 101,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 1
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63ad7593_cbbc6dca",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 11
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f6085d9_2896674f",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "@Nullable",
+      "range": {
+        "startLine": 70,
+        "startChar": 38,
+        "endLine": 70,
+        "endChar": 40
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b661f9c_f4ac3607",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDraftComment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:29:26Z",
+      "side": 1,
+      "message": "Using a StorageException will make it so that you can spare all these declarations :-)",
+      "range": {
+        "startLine": 39,
+        "startChar": 41,
+        "endLine": 39,
+        "endChar": 64
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -969,7 +969,8 @@ public class NoteDbMigrator implements AutoCloseable {
         pm.endTask();
       }
 
-      pm.beginTask(FormatUtil.elide("Saving " + project.get(), 50), ProgressMonitor.UNKNOWN);
+      pm.beginTask(
+          FormatUtil.elide("Saving noteDb refs for " + project.get(), 60), ProgressMonitor.UNKNOWN);
       try {
         save(changeRepo, changeRw, changeIns, changeCmds);
         save(allUsersRepo, allUsersRw, allUsersIns, allUsersCmds);

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "64295c1a_9b16bd05",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:43:25Z",
+      "side": 0,
+      "message": "I think removing this also breaks the possibility for plugins to validate their configs on push, e.g. see how this is used in the code owners plugin:\nhttps://gerrit-review.googlesource.com/c/plugins/code-owners/+/275927/2/java/com/google/gerrit/plugins/codeowners/config/CodeOwnersPluginConfigValidator.java",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b8580ec_5ab1f524",
         "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
         "patchSetId": 5

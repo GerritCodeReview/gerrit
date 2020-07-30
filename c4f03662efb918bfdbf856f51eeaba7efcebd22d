@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "853cbb8a_da063f6c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.d.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-30T10:46:10Z",
+      "side": 1,
+      "message": "Any reason why this .js extension is not removed?",
+      "range": {
+        "startLine": 20,
+        "startChar": 79,
+        "endLine": 20,
+        "endChar": 91
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0bc56c1_017d796d",
         "filename": "polygerrit-ui/app/yarn.lock",
         "patchSetId": 10

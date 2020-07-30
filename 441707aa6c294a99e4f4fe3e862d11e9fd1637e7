@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "953ff837_613968f3",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:32:20Z",
+      "side": 1,
+      "message": "This statement seems to be incorrect.",
+      "range": {
+        "startLine": 130,
+        "startChar": 32,
+        "endLine": 131,
+        "endChar": 21
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1130b08_72c5f7d1",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:32:20Z",
+      "side": 1,
+      "message": "Maybe document this expectation in the javadoc?",
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9ddd9b4_f6b37b98",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:32:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we just throw ConfigInvalidException?",
+      "range": {
+        "startLine": 139,
+        "startChar": 5,
+        "endLine": 141,
+        "endChar": 7
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83f95550_9ef76af5",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 230,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:32:20Z",
+      "side": 1,
+      "message": "Can have better names, e.g. configFileName and config.",
+      "range": {
+        "startLine": 230,
+        "startChar": 41,
+        "endLine": 230,
+        "endChar": 65
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be126333_ebbe61f1",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-07-30T12:32:20Z",
+      "side": 1,
+      "message": "This assumes that all *.config files are Git config files. \nCan there be plugins that have a *.config file with a different format?",
+      "range": {
+        "startLine": 1184,
+        "startChar": 6,
+        "endLine": 1193,
+        "endChar": 7
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

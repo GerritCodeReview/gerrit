@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d16b6bf_915a0bd5",
+        "filename": "polygerrit-ui/app/services/gr-auth/gr-auth.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T10:26:16Z",
+      "side": 1,
+      "message": "nit: ideally all exported members should have jsdoc or tsdoc\n\nI probably will enforce this rule before the fixit week :)",
+      "revId": "eefca1ebdf3f73005d92101582fef56e8c0283c5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

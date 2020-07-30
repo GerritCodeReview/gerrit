@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "9ed935f9_60d2c005",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "17b1a557_277ff767",
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eec019b_588b74a5",
         "filename": "java/com/google/gerrit/server/CommentContextException.java",
         "patchSetId": 6
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "056faee7_4ff9586d",
+        "filename": "java/com/google/gerrit/server/CommentContextException.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0eec019b_588b74a5",
+      "range": {
+        "startLine": 17,
+        "startChar": 13,
+        "endLine": 17,
+        "endChar": 36
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ef9ecf8_2a6a7ef6",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 6
@@ -73,6 +115,24 @@
       "revId": "38b039027c485b05d42134a448941833493952db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26b90904_1c63904b",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ef9ecf8_2a6a7ef6",
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +182,30 @@
     },
     {
       "key": {
+        "uuid": "e8d3ae12_273909c2",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63ad7593_cbbc6dca",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 11
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1f6085d9_2896674f",
         "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
         "patchSetId": 6
@@ -145,6 +229,30 @@
     },
     {
       "key": {
+        "uuid": "985ec330_75b84243",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1f6085d9_2896674f",
+      "range": {
+        "startLine": 70,
+        "startChar": 38,
+        "endLine": 70,
+        "endChar": 40
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b661f9c_f4ac3607",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDraftComment.java",
         "patchSetId": 6
@@ -165,6 +273,30 @@
       "revId": "38b039027c485b05d42134a448941833493952db",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcb4e66f_6c23be13",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDraftComment.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "8b661f9c_f4ac3607",
+      "range": {
+        "startLine": 39,
+        "startChar": 41,
+        "endLine": 39,
+        "endChar": 64
+      },
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

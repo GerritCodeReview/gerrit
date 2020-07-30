@@ -68,7 +68,7 @@ export const htmlTemplate = html`
     gr-button[disabled] iron-icon {
       color: var(--border-color);
     }
-    gr-account-chip {
+    gr-account-link {
       margin-right: var(--spacing-xs);
     }
     iron-icon {
@@ -101,10 +101,9 @@ export const htmlTemplate = html`
           </gr-label>
         </td>
         <td>
-          <gr-account-chip
+          <gr-account-link
             account="[[mappedLabel.account]]"
-            transparent-background=""
-          ></gr-account-chip>
+          ></gr-account-link>
         </td>
         <td>
           <gr-button

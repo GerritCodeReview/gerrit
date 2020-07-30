@@ -5,6 +5,9 @@ We are testing at on some hosts on `googlesource.com` right now. If you build
 your Gerrit from master, you can enable it using
 link:config-gerrit.html#change.enableAttentionSet[enableAttentionSet].
 
+Report a bug or send feedback using
+link:https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set[this Monorail template].
+
 [[whose-turn]]
 == Whose turn is it?
 
@@ -39,9 +42,11 @@ changing the attention set:
 * If an active change is submitted, abandoned or reset to "work in progress",
   then all users are removed from the attention set.
 * Replying (commenting, voting or just writing a change message) removes the
-  replying user from the attention set.
-** If a *reviewer* replies, then add the change owner to the attention set.
-** If the *change owner* replies, then add all reviewers to the attention set.
+  replying user from the attention set. And it adds all participants of comment
+  conversations that the user is replying to.
+* If a *reviewer* replies, then the change owner (and uploader) are added to the
+  attention set.
+* Only owner, uploader, reviewers and ccs can be in the attention set.
 
 *!IMPORTANT!* These rules are not meant to be super smart and to always do the
 right thing, e.g. if the change owner sends a reply, then they are often
@@ -77,6 +82,8 @@ take action.
 image::images/user-attention-set-reply-select.png["reply dialog section for selecting users", align="center"]
 
 === Bots
+
+[Caveat: This is not fully implemented yet!]
 
 The attention set is meant for human reviews only. Triggering bots and reacting
 to their results is a different workflow and not in scope of the attenion set.

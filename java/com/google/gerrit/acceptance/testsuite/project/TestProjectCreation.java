@@ -15,10 +15,14 @@
 package com.google.gerrit.acceptance.testsuite.project;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.Optional;
+import java.util.Set;
+import org.eclipse.jgit.lib.Constants;
 
 @AutoValue
 public abstract class TestProjectCreation {
@@ -26,6 +30,8 @@ public abstract class TestProjectCreation {
   public abstract Optional<String> name();
 
   public abstract Optional<Project.NameKey> parent();
+
+  public abstract ImmutableSet<String> branches();
 
   public abstract Optional<Boolean> createEmptyCommit();
 
@@ -35,7 +41,9 @@ public abstract class TestProjectCreation {
 
   public static Builder builder(
       ThrowingFunction<TestProjectCreation, Project.NameKey> projectCreator) {
-    return new AutoValue_TestProjectCreation.Builder().projectCreator(projectCreator);
+    return new AutoValue_TestProjectCreation.Builder()
+        .branches(Constants.R_HEADS + Constants.MASTER)
+        .projectCreator(projectCreator);
   }
 
   @AutoValue.Builder
@@ -45,6 +53,16 @@ public abstract class TestProjectCreation {
     public abstract TestProjectCreation.Builder parent(Project.NameKey parent);
 
     public abstract TestProjectCreation.Builder submitType(SubmitType submitType);
+
+    /**
+     * Branches which should be created in the repository (with an empty root commit). Ignored if
+     * {@link #noEmptyCommit()} is used.
+     */
+    public TestProjectCreation.Builder branches(String branch1, String... otherBranches) {
+      return branches(Sets.union(ImmutableSet.of(branch1), ImmutableSet.copyOf(otherBranches)));
+    }
+
+    abstract TestProjectCreation.Builder branches(Set<String> branches);
 
     public abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
 

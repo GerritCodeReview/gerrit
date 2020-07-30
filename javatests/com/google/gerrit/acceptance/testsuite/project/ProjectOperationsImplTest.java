@@ -36,6 +36,7 @@ import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.entities.Permission;
@@ -43,6 +44,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.server.project.ProjectConfig;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.util.List;
 import org.eclipse.jgit.junit.TestRepository;
@@ -79,6 +81,36 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(branches).isNotEmpty();
     assertThat(branches.stream().map(x -> x.ref).collect(toList()))
         .isEqualTo(ImmutableList.of("HEAD", "refs/meta/config", "refs/heads/master"));
+  }
+
+  @Test
+  public void specifiedBranchesAreCreatedInNewProject() throws Exception {
+    Project.NameKey project =
+        projectOperations
+            .newProject()
+            .branches("test-branch", "refs/heads/another-test-branch")
+            .create();
+
+    List<BranchInfo> branches = gApi.projects().name(project.get()).branches().get();
+    assertThat(branches)
+        .comparingElementsUsing(hasBranchName())
+        .containsAtLeast("refs/heads/test-branch", "refs/heads/another-test-branch");
+  }
+
+  @Test
+  public void specifiedBranchesAreNotCreatedInNewProjectIfNoEmptyCommitRequested()
+      throws Exception {
+    Project.NameKey project =
+        projectOperations
+            .newProject()
+            .branches("test-branch", "refs/heads/another-test-branch")
+            .noEmptyCommit()
+            .create();
+
+    List<BranchInfo> branches = gApi.projects().name(project.get()).branches().get();
+    assertThat(branches)
+        .comparingElementsUsing(hasBranchName())
+        .containsNoneOf("refs/heads/test-branch", "refs/heads/another-test-branch");
   }
 
   @Test
@@ -570,5 +602,9 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
         TestRepository<Repository> tr = new TestRepository<>(repo)) {
       tr.delete(REFS_CONFIG);
     }
+  }
+
+  private static Correspondence<BranchInfo, String> hasBranchName() {
+    return NullAwareCorrespondence.transforming(branch -> branch.ref, "hasName");
   }
 }

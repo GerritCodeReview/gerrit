@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "6e6f6cc3_77371928",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T13:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "31c514a7_638cb2bd",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51492b58_134c2051",
         "filename": "polygerrit-ui/app/types/globals.ts",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d078a549_bd5cab7f",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T13:56:47Z",
+      "side": 1,
+      "message": "window.performance.memory is a browser property, not a language feature. All existing JavaScript standards (ES5\\ES6\\ES2018) doesn\u0027t include it.\n\nTypescript authours are not going to include .memory property in the Typescript library - see https://github.com/microsoft/TypeScript/issues/33155.\nProbably, we can use a third-party library, but in the current (only one interface) I don\u0027t think we should add such dependency.",
+      "parentUuid": "51492b58_134c2051",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -53,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "74891d82_3de575a2",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T13:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bbdd9a2_fcc86b9e",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "199a83f3_9bac7d11",
         "filename": "polygerrit-ui/app/utils/common-util_test.js",
         "patchSetId": 4
@@ -67,6 +121,24 @@
       "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "048e5bb7_2743104a",
+        "filename": "polygerrit-ui/app/utils/common-util_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T13:56:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "199a83f3_9bac7d11",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

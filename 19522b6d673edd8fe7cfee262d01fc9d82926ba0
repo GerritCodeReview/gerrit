@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4caf40d0_3ca1c26e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-30T15:34:17Z",
+      "side": 1,
+      "message": "Thanks Tao for working on this change, LGTM! ",
+      "revId": "19522b6d673edd8fe7cfee262d01fc9d82926ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

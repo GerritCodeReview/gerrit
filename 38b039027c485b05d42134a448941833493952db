@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "17b1a557_277ff767",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:37:38Z",
+      "side": 1,
+      "message": "Please document the new API fields.",
+      "revId": "38b039027c485b05d42134a448941833493952db",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0eec019b_588b74a5",
         "filename": "java/com/google/gerrit/server/CommentContextException.java",
         "patchSetId": 6

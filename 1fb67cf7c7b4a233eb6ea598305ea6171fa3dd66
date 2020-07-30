@@ -22,6 +22,30 @@
       "revId": "1fb67cf7c7b4a233eb6ea598305ea6171fa3dd66",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a24441d5_5f012530",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T12:08:10Z",
+      "side": 1,
+      "message": "Ah double checked with the mock, they do have 2px on the left, added :)",
+      "parentUuid": "ef14e442_a3c0dc6e",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "1fb67cf7c7b4a233eb6ea598305ea6171fa3dd66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

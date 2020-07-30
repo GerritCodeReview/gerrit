@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b5c809c7_89ee1497",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T10:19:51Z",
+      "side": 1,
+      "message": "I assume the license change is generated automatically, its a bit strange of the swapping for the local font and the polymer license",
+      "revId": "dd5e2a3da8a0d741fa3fb2497cf04d8883190ae4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

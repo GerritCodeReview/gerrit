@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef14e442_a3c0dc6e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:50:10Z",
+      "side": 1,
+      "message": "\"GerritCI\" and \"Tao\" chips - avatar doesn\u0027t have a space at left. Not sure how it should be. If Delphine confirms that this is OK, I will vote +2 for this change.",
+      "range": {
+        "startLine": 9,
+        "startChar": 12,
+        "endLine": 9,
+        "endChar": 39
+      },
+      "revId": "1fb67cf7c7b4a233eb6ea598305ea6171fa3dd66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

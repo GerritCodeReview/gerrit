@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "78f8b08e_f3babe86",
+        "filename": "java/com/google/gerrit/entities/CachedProjectConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af162296_94520c4a",
+      "range": {
+        "startLine": 199,
+        "startChar": 35,
+        "endLine": 199,
+        "endChar": 59
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f0689250_5cc67aa4",
         "filename": "java/com/google/gerrit/server/account/CapabilityCollection.java",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "c1950578820b896aad7c17555a4851719b9255dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "296eb488_148c1780",
+        "filename": "java/com/google/gerrit/server/account/CapabilityCollection.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f0689250_5cc67aa4",
+      "range": {
+        "startLine": 41,
+        "startChar": 32,
+        "endLine": 41,
+        "endChar": 63
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "261cb962_49c8ca69",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d183553a_27a8c9bb",
+      "range": {
+        "startLine": 52,
+        "startChar": 1,
+        "endLine": 55,
+        "endChar": 3
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51c19f77_4232e8c5",
         "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "c1950578820b896aad7c17555a4851719b9255dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6702f01e_0f726d63",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "51c19f77_4232e8c5",
+      "range": {
+        "startLine": 58,
+        "startChar": 37,
+        "endLine": 58,
+        "endChar": 80
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "d7745a9a_4deac232",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "That would mean we have to expose fields which I would rather not do. I don\u0027t think it\u0027s doing any harm specifically and even converting an Update to a config would be OK in the prod code.",
+      "parentUuid": "201c92ea_47f1dda3",
+      "range": {
+        "startLine": 174,
+        "startChar": 3,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "de1ad345_a42681c9",
         "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
         "patchSetId": 7
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "367042a2_f00989fb",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1260,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de1ad345_a42681c9",
+      "range": {
+        "startLine": 1260,
+        "startChar": 6,
+        "endLine": 1260,
+        "endChar": 25
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6ec946bb_09682511",
         "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
         "patchSetId": 7
@@ -154,6 +298,24 @@
       "revId": "c1950578820b896aad7c17555a4851719b9255dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86795da6_8f59406a",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 1164,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done. Feels nicer now :-)",
+      "parentUuid": "6ec946bb_09682511",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "2979111e_a0836e72",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 485,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46e1ce61_96cfcddb",
+      "range": {
+        "startLine": 485,
+        "startChar": 24,
+        "endLine": 485,
+        "endChar": 30
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b3f1984_9343b044",
         "filename": "java/com/google/gerrit/server/project/ProjectState.java",
         "patchSetId": 7
@@ -200,6 +386,30 @@
       "revId": "c1950578820b896aad7c17555a4851719b9255dc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0af21e8_151f226b",
+        "filename": "java/com/google/gerrit/server/project/ProjectState.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T14:28:34Z",
+      "side": 1,
+      "message": "Left a comment. This would be a programmer error, so it\u0027s OK to be an ISE IMO.",
+      "parentUuid": "7b3f1984_9343b044",
+      "range": {
+        "startLine": 495,
+        "startChar": 6,
+        "endLine": 497,
+        "endChar": 7
+      },
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

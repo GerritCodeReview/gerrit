@@ -56,6 +56,7 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -63,7 +64,9 @@ import com.google.gerrit.entities.PatchSetApproval;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ChangeApi;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
@@ -105,6 +108,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
 import org.eclipse.jgit.junit.TestRepository;
@@ -1335,6 +1339,39 @@ public abstract class AbstractSubmit extends AbstractDaemonTest {
       verify(changeIndexedListener, times(0))
           .onChangeScheduledForIndexing(project.get(), changeOtherBranch.getChange().getId().get());
     }
+  }
+
+  /**
+   * There is currently a bug that adds the person who submitted the change as reviewer, which in
+   * turn adds them to the attention set. This test ensures this doesn't happen.
+   */
+  @Test
+  public void submitDoesNotAddReviewersToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange("refs/heads/master", "file1", "content");
+
+    // Someone else approves, because if admin reviews, they will be added to the reviewers (and the
+    // bug won't be reproduced).
+    requestScopeOperations.setApiUser(accountCreator.admin2().id());
+    change(r).current().review(ReviewInput.approve().addUserToAttentionSet(user.email(), "reason"));
+
+    requestScopeOperations.setApiUser(admin.id());
+
+    change(r).attention(admin.email()).remove(new AttentionSetInput("remove"));
+    change(r).current().submit();
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("remove");
+  }
+
+  private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(
+      PushOneCommit.Result r, TestAccount account) {
+    return r.getChange().attentionSet().stream()
+        .filter(a -> a.account().get() == account.id().get())
+        .collect(Collectors.toList());
   }
 
   private void assertSubmitter(PushOneCommit.Result change) throws Throwable {

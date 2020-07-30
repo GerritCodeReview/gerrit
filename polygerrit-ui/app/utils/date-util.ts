@@ -20,7 +20,7 @@ const Duration = {
   DAY: 1000 * 60 * 60 * 24,
 };
 
-export function parseDate(dateStr) {
+export function parseDate(dateStr: string) {
   // Timestamps are given in UTC and have the format
   // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
   // nanoseconds.
@@ -28,14 +28,14 @@ export function parseDate(dateStr) {
   return new Date(dateStr.replace(' ', 'T') + 'Z');
 }
 
-export function isValidDate(date) {
-  return date instanceof Date && !isNaN(date);
+export function isValidDate(date: Date) {
+  return date instanceof Date;
 }
 
 // similar to fromNow from moment.js
-export function fromNow(date) {
+export function fromNow(date: Date) {
   const now = new Date();
-  const secondsAgo = Math.round((now - date) / 1000);
+  const secondsAgo = Math.round((now.valueOf() - date.valueOf()) / 1000);
   if (secondsAgo <= 44) return 'just now';
   if (secondsAgo <= 89) return 'a minute ago';
   const minutesAgo = Math.round(secondsAgo / 60);
@@ -57,20 +57,20 @@ export function fromNow(date) {
 /**
  * Return true if date is within 24 hours and on the same day.
  */
-export function isWithinDay(now, date) {
-  const diff = now - date;
-  return diff < Duration.DAY && date.getDay() == now.getDay();
+export function isWithinDay(now: Date, date: Date) {
+  const diff = now.valueOf() - date.valueOf();
+  return diff < Duration.DAY && date.getDay() === now.getDay();
 }
 
 /**
  * Returns true if date is from one to six months.
  */
-export function isWithinHalfYear(now, date) {
-  const diff = now - date;
+export function isWithinHalfYear(now: Date, date: Date) {
+  const diff = now.valueOf() - date.valueOf();
   return diff < 180 * Duration.DAY;
 }
 
-export function formatDate(date, format) {
+export function formatDate(date: Date, format: string) {
   const options = {};
   if (format.includes('MM')) {
     if (format.includes('MMM')) {

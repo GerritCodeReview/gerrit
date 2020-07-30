@@ -22,7 +22,6 @@ import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
 import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
 import '../../plugins/gr-external-style/gr-external-style.js';
 import '../../shared/gr-account-chip/gr-account-chip.js';
-import '../../shared/gr-account-link/gr-account-link.js';
 import '../../shared/gr-date-formatter/gr-date-formatter.js';
 import '../../shared/gr-editable-label/gr-editable-label.js';
 import '../../shared/gr-icons/gr-icons.js';

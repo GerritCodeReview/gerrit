@@ -963,11 +963,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
         accountCreator.create(
             "robot1", "robot1@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
     PushOneCommit.Result r = createChange();
-    // TODO(paiking): Adding robots explicitly should throw an exception and only implicit additions
-    // should fail silently.
-    change(r).addToAttentionSet(new AttentionSetInput(robot.email(), "reason"));
-    change(r).addReviewer(robot.email());
 
+    // Throw an error when adding a robot explicitly.
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> change(r).addToAttentionSet(new AttentionSetInput(robot.email(), "reason")));
+    assertThat(exception.getMessage())
+        .isEqualTo(
+            "robot1@example.com is a robot, and robots can't be added to the attention set.");
+
+    // Robots are not added implicitly.
+    change(r).addReviewer(robot.email());
     assertThat(r.getChange().attentionSet()).isEmpty();
   }
 

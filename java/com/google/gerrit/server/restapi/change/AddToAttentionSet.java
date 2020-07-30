@@ -19,10 +19,12 @@ import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.common.AccountInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
+import com.google.gerrit.server.account.RobotClassifier;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
@@ -46,6 +48,7 @@ public class AddToAttentionSet
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
   private final NotifyResolver notifyResolver;
+  private final RobotClassifier robotClassifier;
 
   @Inject
   AddToAttentionSet(
@@ -54,13 +57,15 @@ public class AddToAttentionSet
       AddToAttentionSetOp.Factory opFactory,
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend,
-      NotifyResolver notifyResolver) {
+      NotifyResolver notifyResolver,
+      RobotClassifier robotClassifier) {
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.opFactory = opFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
     this.notifyResolver = notifyResolver;
+    this.robotClassifier = robotClassifier;
   }
 
   @Override
@@ -69,6 +74,11 @@ public class AddToAttentionSet
     AttentionSetUtil.validateInput(input);
 
     Account.Id attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
+    if (robotClassifier.isRobot(attentionUserId)) {
+      throw new BadRequestException(
+          String.format(
+              "%s is a robot, and robots can't be added to the attention set.", input.user));
+    }
     try {
       permissionBackend
           .absentUser(attentionUserId)

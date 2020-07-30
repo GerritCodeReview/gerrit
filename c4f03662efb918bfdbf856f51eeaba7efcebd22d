@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "756d200b_d5842bea",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.d.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "No reason. It should be removed.",
+      "parentUuid": "853cbb8a_da063f6c",
+      "range": {
+        "startLine": 20,
+        "startChar": 79,
+        "endLine": 20,
+        "endChar": 91
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d0bc56c1_017d796d",
         "filename": "polygerrit-ui/app/yarn.lock",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea430c94_e5f899ed",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 10
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0bc56c1_017d796d",
+      "range": {
+        "startLine": 9,
+        "startChar": 2,
+        "endLine": 9,
+        "endChar": 14
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "be162b05_6c485631",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed286491_394cdbab",
+      "range": {
+        "startLine": 14,
+        "startChar": 2,
+        "endLine": 14,
+        "endChar": 10
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef31c907_ce05269a",
         "filename": "polygerrit-ui/app/yarn.lock",
         "patchSetId": 10
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "c727f51c_984ae98e",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 10
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef31c907_ce05269a",
+      "range": {
+        "startLine": 31,
+        "startChar": 11,
+        "endLine": 31,
+        "endChar": 12
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b89a3322_d9460db8",
         "filename": "polygerrit-ui/app/yarn.lock",
         "patchSetId": 10
@@ -114,6 +210,30 @@
       "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b75d59e_a9dbba62",
+        "filename": "polygerrit-ui/app/yarn.lock",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b89a3322_d9460db8",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 21
+      },
+      "revId": "c4f03662efb918bfdbf856f51eeaba7efcebd22d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

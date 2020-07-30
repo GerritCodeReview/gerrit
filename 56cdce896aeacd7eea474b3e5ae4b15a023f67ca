@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "06fd2a79_8698902a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dab5801a_2ea661f0",
+      "range": {
+        "startLine": 28,
+        "startChar": 17,
+        "endLine": 28,
+        "endChar": 40
+      },
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "24c12c45_c882f9d3",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
         "patchSetId": 8
@@ -128,6 +152,24 @@
       "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7cf653f_75348bb3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T11:58:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8224637_18e9d1f8",
+      "revId": "56cdce896aeacd7eea474b3e5ae4b15a023f67ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

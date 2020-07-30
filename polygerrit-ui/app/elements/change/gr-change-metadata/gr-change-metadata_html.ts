@@ -108,11 +108,11 @@ export const htmlTemplate = html`
     <section>
       <span class="title">Owner</span>
       <span class="value">
-        <gr-account-link
+        <gr-account-chip
           account="[[change.owner]]"
           change="[[change]]"
           highlight-attention
-        ></gr-account-link>
+        ></gr-account-chip>
         <template is="dom-if" if="[[_pushCertificateValidation]]">
           <gr-tooltip-content
             has-tooltip=""
@@ -130,29 +130,29 @@ export const htmlTemplate = html`
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.UPLOADER)]]">
       <span class="title">Uploader</span>
       <span class="value">
-        <gr-account-link
+        <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.UPLOADER)]]"
           change="[[change]]"
           highlight-attention
-        ></gr-account-link>
+        ></gr-account-chip>
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.AUTHOR)]]">
       <span class="title">Author</span>
       <span class="value">
-        <gr-account-link
+        <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.AUTHOR)]]"
           change="[[change]]"
-        ></gr-account-link>
+        ></gr-account-chip>
       </span>
     </section>
     <section class$="[[_computeShowRoleClass(change, _CHANGE_ROLE.COMMITTER)]]">
       <span class="title">Committer</span>
       <span class="value">
-        <gr-account-link
+        <gr-account-chip
           account="[[_getNonOwnerRole(change, _CHANGE_ROLE.COMMITTER)]]"
           change="[[change]]"
-        ></gr-account-link>
+        ></gr-account-chip>
       </span>
     </section>
     <template is="dom-if" if="[[_isAssigneeEnabled(serverConfig)]]">

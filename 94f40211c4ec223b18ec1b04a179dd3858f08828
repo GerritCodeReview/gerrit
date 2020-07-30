@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "31c514a7_638cb2bd",
+        "filename": "polygerrit-ui/app/services/gr-reporting/gr-reporting.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T11:15:09Z",
+      "side": 1,
+      "message": "can we add a TODO to restrict this later ?",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51492b58_134c2051",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T11:15:09Z",
+      "side": 1,
+      "message": "can not we add some basic esX lib to ts compiler options to have all types for web API ? I think the default only contains a bare minimum `dom`, Performance might exist in ES5, ES6 (we can get up to ES2018) as that\u0027s our target, that should include the Performance type i think.",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bbdd9a2_fcc86b9e",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T11:15:09Z",
+      "side": 1,
+      "message": "Maybe a sentence what should be put into this `common-util` compared to other utils we have for @fileoverview",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "199a83f3_9bac7d11",
+        "filename": "polygerrit-ui/app/utils/common-util_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T11:15:09Z",
+      "side": 1,
+      "message": "to truly test it, you might want to have an `obj` with `hasOwnProperty` overwritten to something else :) i mean that\u0027s the reason why we want to use `Object.prototype.hasOwnProperty.call` instead",
+      "revId": "94f40211c4ec223b18ec1b04a179dd3858f08828",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

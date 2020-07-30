@@ -95,6 +95,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -178,6 +179,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean forceRebuild;
     private int sequenceGap = -1;
     private boolean autoMigrate;
+    private boolean verbose;
 
     @Inject
     Builder(
@@ -380,6 +382,17 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Enable verbose log output
+     *
+     * @param verbose enable verbose log output
+     * @return this.
+     */
+    public Builder setVerbose(boolean verbose) {
+      this.verbose = verbose;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
@@ -409,7 +422,8 @@ public class NoteDbMigrator implements AutoCloseable {
           trial,
           forceRebuild,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
-          autoMigrate);
+          autoMigrate,
+          verbose);
     }
   }
 
@@ -440,6 +454,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean forceRebuild;
   private final int sequenceGap;
   private final boolean autoMigrate;
+  private final boolean verbose;
 
   private final AtomicLong globalChangeCounter = new AtomicLong();
 
@@ -468,7 +483,8 @@ public class NoteDbMigrator implements AutoCloseable {
       boolean trial,
       boolean forceRebuild,
       int sequenceGap,
-      boolean autoMigrate)
+      boolean autoMigrate,
+      boolean verbose)
       throws MigrationException {
     if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty()).stream()
             .filter(e -> e)
@@ -504,6 +520,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.forceRebuild = forceRebuild;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
+    this.verbose = verbose;
 
     // Stack notedb.config over gerrit.config, in the same way as GerritServerConfigProvider.
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
@@ -957,7 +974,8 @@ public class NoteDbMigrator implements AutoCloseable {
             logger.atSevere().withCause(t).log("Failed to rebuild change %s", changeId);
             ok = false;
           }
-          logger.atInfo().log("Rebuilt change %s", changeId.get());
+          logger.at(this.verbose ? Level.INFO : Level.FINE).log(
+              "Rebuilt change %s", changeId.get());
           long c = globalChangeCounter.incrementAndGet();
           if (c % 1000 == 0) {
             logger.atInfo().log("Total number of rebuilt changes %d", c);

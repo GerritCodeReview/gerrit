@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cdf4f638_6cedc860",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:37:47Z",
+      "side": 1,
+      "message": "Javadoc",
+      "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "194c7be4_1c651818",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:37:47Z",
+      "side": 1,
+      "message": "Please document this new cache",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 16
+      },
+      "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ac2afdf_ec7410d8",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-30T07:37:47Z",
+      "side": 1,
+      "message": "propagate the EE as StorageException\n\nreturning empty/default values is very hard to debug and it\u0027s generally preferred to just propagate exceptions.",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

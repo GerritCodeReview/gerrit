@@ -33,7 +33,7 @@ suite('common-util tests', () => {
       const F = function() {
         this.abc = 23;
       };
-      F.prototype.hasOwnProperty = function (key) {
+      F.prototype.hasOwnProperty = function(key) {
         return true;
       };
       const obj = new F();

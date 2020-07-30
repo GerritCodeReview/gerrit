@@ -16,6 +16,23 @@
       "revId": "d4f2cafce6f0e0a50c9508e6905af7a7f05e102b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bc12f2d4_a620779d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-30T18:14:40Z",
+      "side": 1,
+      "message": "Apparently CI is broken. I have self verified using \"npm run eslint \u0026\u0026 npm run test\".",
+      "revId": "d4f2cafce6f0e0a50c9508e6905af7a7f05e102b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

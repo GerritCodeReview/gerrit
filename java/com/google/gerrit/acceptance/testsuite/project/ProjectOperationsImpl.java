@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.RefNames.REFS_CONFIG;
 import static com.google.gerrit.server.project.ProjectConfig.PROJECT_CONFIG;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -43,12 +44,10 @@ import com.google.gerrit.server.project.ProjectCreator;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import org.apache.commons.lang.RandomStringUtils;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.junit.TestRepository;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectLoader;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
@@ -91,7 +90,8 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);
-    args.branch = Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
+    args.branch =
+        projectCreation.branches().stream().map(RefNames::fullName).collect(toImmutableList());
     args.createEmptyCommit = projectCreation.createEmptyCommit().orElse(true);
     projectCreation.parent().ifPresent(p -> args.newParent = p);
     // ProjectCreator wants non-null owner IDs.
@@ -211,9 +211,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     }
 
     private RevCommit headOrNull(String branch) {
-      if (!branch.startsWith(Constants.R_REFS)) {
-        branch = RefNames.REFS_HEADS + branch;
-      }
+      branch = RefNames.fullName(branch);
 
       try (Repository repo = repoManager.openRepository(nameKey);
           RevWalk rw = new RevWalk(repo)) {

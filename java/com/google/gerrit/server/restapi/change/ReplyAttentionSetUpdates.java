@@ -227,7 +227,7 @@ public class ReplyAttentionSetUpdates {
         getAccountIdAndValidateUser(changeNotes, add.user, accountsChangedInCommit);
 
     AddToAttentionSetOp addToAttentionSetOp =
-        addToAttentionSetOpFactory.create(attentionUserId, add.reason, true);
+        addToAttentionSetOpFactory.create(attentionUserId, add.reason, false);
     bu.addOp(changeNotes.getChangeId(), addToAttentionSetOp);
   }
 
@@ -243,7 +243,7 @@ public class ReplyAttentionSetUpdates {
         getAccountIdAndValidateUser(changeNotes, remove.user, accountsChangedInCommit);
 
     RemoveFromAttentionSetOp removeFromAttentionSetOp =
-        removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason, true);
+        removeFromAttentionSetOpFactory.create(attentionUserId, remove.reason, false);
     bu.addOp(changeNotes.getChangeId(), removeFromAttentionSetOp);
   }
 

@@ -516,7 +516,8 @@ public class NoteDbMigrator implements AutoCloseable {
   public void migrate() throws OrmException, IOException {
     if (!changes.isEmpty() || !projects.isEmpty() || !skipProjects.isEmpty()) {
       throw new MigrationException(
-          "Cannot set changes or projects or skipProjects during full migration; call rebuild() instead");
+          "Cannot set changes or projects or skipProjects during full migration; call rebuild()"
+              + " instead");
     }
     Optional<NotesMigrationState> maybeState = loadState();
     if (!maybeState.isPresent()) {

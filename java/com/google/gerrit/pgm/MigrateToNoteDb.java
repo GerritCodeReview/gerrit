@@ -146,6 +146,7 @@ public class MigrateToNoteDb extends SiteProgram {
               .setTrialMode(trial)
               .setForceRebuild(force)
               .setSequenceGap(sequenceGap)
+              .setVerbose(verbose)
               .build()) {
         if (!projects.isEmpty() || !changes.isEmpty() || !skipProjects.isEmpty()) {
           migrator.rebuild();

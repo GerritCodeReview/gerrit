@@ -91,13 +91,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -120,6 +123,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private static final String TRIAL = "trial";
 
   private static final int PROJECT_SLICE_MAX_REFS = 1000;
+  private static final int PACKREFS_INTERVAL = 1000;
 
   public static boolean getAutoMigrate(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
@@ -442,6 +446,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean forceRebuild;
   private final int sequenceGap;
   private final boolean autoMigrate;
+
+  private final AtomicLong globalChangeCounter = new AtomicLong();
 
   private NoteDbMigrator(
       SitePaths sitePaths,
@@ -822,21 +828,29 @@ public class NoteDbMigrator implements AutoCloseable {
             Lists.partition(changesByProject.get(project), PROJECT_SLICE_MAX_REFS);
         int count = slices.size();
         int sliceNumber = 1;
+        AtomicLong gcCounter = new AtomicLong();
+        ReentrantLock gcLock = new ReentrantLock();
         for (List<Change.Id> slice : slices) {
           int sn = sliceNumber++;
-        ListenableFuture<Boolean> future =
-            executor.submit(
-                () -> {
-                  try {
+          ListenableFuture<Boolean> future =
+              executor.submit(
+                  () -> {
+                    try {
                       return rebuildProjectSlice(
-                          contextHelper.getReviewDb(), project, slice, sn, count);
-                  } catch (Exception e) {
-                    logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
-                    return false;
-                  }
-                });
-        futures.add(future);
-      }
+                          contextHelper.getReviewDb(),
+                          project,
+                          slice,
+                          sn,
+                          count,
+                          gcCounter,
+                          gcLock);
+                    } catch (Exception e) {
+                      logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
+                      return false;
+                    }
+                  });
+          futures.add(future);
+        }
       }
 
       boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
@@ -894,7 +908,9 @@ public class NoteDbMigrator implements AutoCloseable {
       Project.NameKey project,
       List<Change.Id> slice,
       int sliceNumber,
-      int sliceCount) {
+      int sliceCount,
+      AtomicLong gcCounter,
+      ReentrantLock gcLock) {
     boolean ok = true;
     ProgressMonitor pm =
         new TextProgressMonitor(
@@ -972,6 +988,14 @@ public class NoteDbMigrator implements AutoCloseable {
             logger.atSevere().withCause(t).log("Failed to rebuild change %s", changeId);
             ok = false;
           }
+          logger.atInfo().log("Rebuilt change %s", changeId.get());
+          long c = globalChangeCounter.incrementAndGet();
+          if (gcCounter.incrementAndGet() % PACKREFS_INTERVAL == 0) {
+            packRefs(project, changeRepo, gcLock);
+          }
+          if (c % 1000 == 0) {
+            logger.atInfo().log("Total number of rebuilt changes %d", c);
+          }
           pm.update(1);
         }
         logger.atInfo().log(
@@ -1005,6 +1029,22 @@ public class NoteDbMigrator implements AutoCloseable {
       logger.atSevere().withCause(e).log("Failed to rebuild project %s", project);
     }
     return ok;
+  }
+
+  private void packRefs(Project.NameKey project, Repository repo, ReentrantLock gcLock) {
+    if (repo instanceof FileRepository && gcLock.tryLock()) {
+      try {
+        FileRepository r = (FileRepository) repo;
+        GC gc = new GC(r);
+        logger.atInfo().log("Packing refs of project %s", project);
+        gc.packRefs();
+      } catch (IOException e) {
+        logger.atSevere().withCause(e).log("Packing refs of project %s failed", project);
+      } finally {
+        gcLock.unlock();
+        logger.atInfo().log("Finished packing refs of project %s", project);
+      }
+    }
   }
 
   private void rebuild(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)

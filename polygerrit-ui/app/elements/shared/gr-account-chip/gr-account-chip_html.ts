@@ -26,8 +26,12 @@ export const htmlTemplate = html`
       align-items: center;
       background: var(--chip-background-color);
       border-radius: 0.75em;
+      border: 1px solid var(--border-color);
       display: inline-flex;
-      padding: 0 var(--spacing-m);
+      padding: 0 var(--spacing-l);
+    }
+    :host([removable]) .container {
+      padding-right: calc(1.5 * var(--spacing-s));
     }
     :host([show-avatar]) .container {
       padding-left: 0;
@@ -69,7 +73,6 @@ export const htmlTemplate = html`
     .transparentBackground,
     gr-button.transparentBackground {
       background-color: transparent;
-      padding: 0;
     }
     :host([disabled]) {
       opacity: 0.6;

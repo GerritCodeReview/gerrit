@@ -410,7 +410,7 @@ export const htmlTemplate = html`
           <div class="peopleListLabel">Uploader</div>
           <div>
             <gr-account-label
-              account="[[_owner]]"
+              account="[[_uploader]]"
               force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
               selected$="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
               deselected$="[[!_computeHasNewAttention(_uploader, _newAttentionSet)]]"

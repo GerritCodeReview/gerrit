@@ -70,6 +70,30 @@
       "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "466d2c29_2240cb57",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-30T13:14:13Z",
+      "side": 1,
+      "message": "Done. I don\u0027t see big difference between both solutions. Both solutions are cheats and they don\u0027t add any additional types safety.\n\napp-context-init.js is updated - otherwise tests can\u0027t mock services.",
+      "parentUuid": "bec73cb4_32a32a0c",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

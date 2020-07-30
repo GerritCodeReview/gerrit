@@ -59,6 +59,7 @@ import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.LabelId;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmissionId;
@@ -842,6 +843,15 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         // Skip adding robots to the attention set.
         continue;
       }
+
+      if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
+          && approvals.rowKeySet().contains(LabelId.legacySubmit().get())) {
+        // On submit, we sometimes can add the person who submitted the change as a reviewer, and in
+        // turn it will add that person to the attention set.
+        // This ensures we don't add users to the attention set on submit.
+        continue;
+      }
+
       addFooter(msg, FOOTER_ATTENTION, noteUtil.attentionSetUpdateToJson(attentionSetUpdate));
     }
   }

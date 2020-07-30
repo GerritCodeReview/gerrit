@@ -168,9 +168,12 @@ export const htmlTemplate = html`
     .attention-detail gr-account-label {
       display: inline-block;
       padding: var(--spacing-xs) var(--spacing-m);
-      margin-right: var(--spacing-m);
+      margin-right: var(--spacing-xs);
       user-select: none;
-      --label-border-radius: 4px;
+      --label-border-radius: 8px;
+    }
+    .attention-detail gr-account-label[selected] {
+      padding-left: 2px;
     }
     .attention-detail gr-account-label:focus {
       outline: none;

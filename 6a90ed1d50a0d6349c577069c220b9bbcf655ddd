@@ -94,6 +94,30 @@
       "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "202a3f48_36a8d40b",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T15:07:50Z",
+      "side": 1,
+      "message": "i would say its cleaner and easier to read",
+      "parentUuid": "466d2c29_2240cb57",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

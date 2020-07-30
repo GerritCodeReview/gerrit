@@ -16,6 +16,24 @@
       "revId": "62eccaa2e59d2cffb0ab36eec1f7b9fcea5ccd9d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb1e2a45_a2c1e535",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-30T22:16:57Z",
+      "side": 1,
+      "message": "enriched the commit message",
+      "parentUuid": "ed2b78e7_cb04dd29",
+      "revId": "62eccaa2e59d2cffb0ab36eec1f7b9fcea5ccd9d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

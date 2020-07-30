@@ -18,6 +18,7 @@ import static java.util.Objects.requireNonNull;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -33,7 +34,6 @@ import org.eclipse.jgit.lib.FileMode;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 /** A {@code TreeModification} which changes the content of a file. */
 public class ChangeFileContentModification implements TreeModification {
@@ -48,7 +48,8 @@ public class ChangeFileContentModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit) {
+  public List<DirCacheEditor.PathEdit> getPathEdits(
+      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents) {
     DirCacheEditor.PathEdit changeContentEdit = new ChangeContent(filePath, newContent, repository);
     return Collections.singletonList(changeContentEdit);
   }

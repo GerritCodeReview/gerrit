@@ -15,11 +15,12 @@
 package com.google.gerrit.server.edit.tree;
 
 import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 
 /** A specific modification of a Git tree. */
 public interface TreeModification {
@@ -30,11 +31,14 @@ public interface TreeModification {
    * shouldn't be changed.
    *
    * @param repository the affected Git repository
-   * @param baseCommit the commit to whose tree this modification is applied
+   * @param treeId tree to which the modification is applied. A value of {@code ObjectId.zero()}
+   *     indicates an empty tree.
+   * @param parents parent commits of the commit to whose tree this modification is applied
    * @return an ordered list of necessary {@code PathEdit}s
    * @throws IOException if problems arise when accessing the repository
    */
-  List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit)
+  List<DirCacheEditor.PathEdit> getPathEdits(
+      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
       throws IOException;
 
   /**

@@ -102,8 +102,8 @@ def declare_nongoogle_deps():
     # and httpasyncclient as necessary.
     maven_jar(
         name = "elasticsearch-rest-client",
-        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.0",
-        sha1 = "ab28f6110bdc7d2ec886e1d6ff29a6c8ee30b883",
+        artifact = "org.elasticsearch.client:elasticsearch-rest-client:7.8.1",
+        sha1 = "59feefe006a96a39f83b0dfb6780847e06c1d0a8",
     )
 
     maven_jar(

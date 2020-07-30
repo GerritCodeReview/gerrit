@@ -164,8 +164,8 @@
       // If the hovercard is already hidden or the user is now hovering over the
       //  hovercard or the user is returning from the hovercard but now hovering
       //  over the target (to stop an annoying flicker effect), just return.
-      if (!this._isShowing || e.toElement === this ||
-          (e.fromElement === this && e.toElement === this._target)) {
+      if (!this._isShowing || e.relatedTarget === this ||
+          (e.target === this && e.relatedTarget === this._target)) {
         return;
       }
 

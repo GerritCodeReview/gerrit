@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fcd405a4_5b582798",
+        "filename": "polygerrit-ui/app/services/app-context.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T10:25:05Z",
+      "side": 1,
+      "message": "this is quite strange, can not we use `/* eslint-disable */` for this block if the error is due to linter ?",
+      "range": {
+        "startLine": 35,
+        "startChar": 17,
+        "endLine": 35,
+        "endChar": 23
+      },
+      "revId": "6a90ed1d50a0d6349c577069c220b9bbcf655ddd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

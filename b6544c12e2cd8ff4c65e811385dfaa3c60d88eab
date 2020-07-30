@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5cf37fb1_41a98ea3",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf4f638_6cedc860",
+      "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "194c7be4_1c651818",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 6
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "afaf0844_5ad15867",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "194c7be4_1c651818",
+      "range": {
+        "startLine": 60,
+        "startChar": 9,
+        "endLine": 60,
+        "endChar": 16
+      },
+      "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ac2afdf_ec7410d8",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 6
@@ -62,6 +104,30 @@
       "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0637f368_5c456617",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-07-30T16:09:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ac2afdf_ec7410d8",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "b6544c12e2cd8ff4c65e811385dfaa3c60d88eab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,25 +1,3 @@
-is_no_code_style_branch('refs/heads/stable-2.9').
-is_no_code_style_branch('refs/heads/stable-2.10').
-is_no_code_style_branch('refs/heads/stable-2.11').
-is_no_code_style_branch('refs/heads/stable-2.12').
-is_no_code_style_branch('refs/heads/stable-2.13').
-
-submit_rule(submit(CR, V, L)) :-
-  gerrit:change_branch(B),
-  is_no_code_style_branch(B),
-  needs_library_compliance,
-  !,
-  gerrit:max_with_block(-2, 2, 'Code-Review', CR),
-  gerrit:max_with_block(-1, 1, 'Library-Compliance', L),
-  gerrit:max_with_block(-1, 1, 'Verified', V).
-
-submit_rule(submit(CR, V)) :-
-  gerrit:change_branch(B),
-  is_no_code_style_branch(B),
-  !,
-  gerrit:max_with_block(-2, 2, 'Code-Review', CR),
-  gerrit:max_with_block(-1, 1, 'Verified', V).
-
 submit_rule(submit(CR)) :-
   gerrit:change_branch('refs/meta/config'),
   !,

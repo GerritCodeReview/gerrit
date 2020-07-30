@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "542d8087_5095247d",
+        "filename": "java/com/google/gerrit/server/change/AttentionSetUnchangedOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-30T08:15:50Z",
+      "side": 1,
+      "message": "For sure.",
+      "parentUuid": "1bf5133d_443851b3",
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a350524c_9e9be62a",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 1
@@ -47,6 +65,30 @@
       "writtenOn": "2020-07-29T11:33:10Z",
       "side": 1,
       "message": "if (!owner.equals(uploader)) {\n...\n}",
+      "range": {
+        "startLine": 224,
+        "startChar": 6,
+        "endLine": 224,
+        "endChar": 12
+      },
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9abefeeb_0b1babb5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-30T08:15:50Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "a350524c_9e9be62a",
       "range": {
         "startLine": 224,
         "startChar": 6,
@@ -79,6 +121,30 @@
       "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8cbb2b98_057f6cf5",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 992,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-30T08:15:50Z",
+      "side": 1,
+      "message": "Yep made sure of it, added a test.",
+      "parentUuid": "97063a42_b1b04551",
+      "range": {
+        "startLine": 992,
+        "startChar": 7,
+        "endLine": 992,
+        "endChar": 71
+      },
+      "revId": "40a8a6a41a300d609fd4b60e118d8c643220bb29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

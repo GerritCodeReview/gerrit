@@ -34,6 +34,23 @@
       "revId": "ccf6eb7e8aaf41f4bc60b004411d501d510c902d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5de56721_f0947578",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-07-30T13:17:30Z",
+      "side": 1,
+      "message": "4. Use --deemphasized-text-color: #5F6368; for username in input chips https://imgur.com/BQrv26r ",
+      "revId": "ccf6eb7e8aaf41f4bc60b004411d501d510c902d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

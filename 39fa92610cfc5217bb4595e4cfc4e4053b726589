@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5d46cb63_181b28aa",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 558,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-30T15:24:44Z",
+      "side": 1,
+      "message": "this probably will break some tests (it should) :)",
+      "revId": "39fa92610cfc5217bb4595e4cfc4e4053b726589",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

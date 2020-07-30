@@ -63,6 +63,7 @@ class GrAccountChip extends GestureEventListeners(
       removable: {
         type: Boolean,
         value: false,
+        reflectToAttribute: true,
       },
       /**
        * Should attention set related features be shown in the component? Note

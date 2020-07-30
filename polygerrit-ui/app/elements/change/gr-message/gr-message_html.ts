@@ -268,7 +268,7 @@ export const htmlTemplate = html`
                 items="[[update.reviewers]]"
                 as="reviewer"
               >
-                <gr-account-link account="[[reviewer]]"> </gr-account-link>
+                <gr-account-chip account="[[reviewer]]"> </gr-account-chip>
               </template>
             </div>
           </template>

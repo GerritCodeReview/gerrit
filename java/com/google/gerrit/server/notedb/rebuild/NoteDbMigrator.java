@@ -97,6 +97,7 @@ import java.util.concurrent.atomic.AtomicLong;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
+import java.util.logging.Level;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
@@ -184,6 +185,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private boolean forceRebuild;
     private int sequenceGap = -1;
     private boolean autoMigrate;
+    private boolean verbose;
 
     @Inject
     Builder(
@@ -386,6 +388,17 @@ public class NoteDbMigrator implements AutoCloseable {
       return this;
     }
 
+    /**
+     * Enable verbose log output
+     *
+     * @param verbose enable verbose log output
+     * @return this.
+     */
+    public Builder setVerbose(boolean verbose) {
+      this.verbose = verbose;
+      return this;
+    }
+
     public NoteDbMigrator build() throws MigrationException {
       return new NoteDbMigrator(
           sitePaths,
@@ -415,7 +428,8 @@ public class NoteDbMigrator implements AutoCloseable {
           trial,
           forceRebuild,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
-          autoMigrate);
+          autoMigrate,
+          verbose);
     }
   }
 
@@ -446,6 +460,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean forceRebuild;
   private final int sequenceGap;
   private final boolean autoMigrate;
+  private final boolean verbose;
 
   private final AtomicLong globalChangeCounter = new AtomicLong();
 
@@ -474,7 +489,8 @@ public class NoteDbMigrator implements AutoCloseable {
       boolean trial,
       boolean forceRebuild,
       int sequenceGap,
-      boolean autoMigrate)
+      boolean autoMigrate,
+      boolean verbose)
       throws MigrationException {
     if (ImmutableList.of(!changes.isEmpty(), !projects.isEmpty(), !skipProjects.isEmpty()).stream()
             .filter(e -> e)
@@ -510,6 +526,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.forceRebuild = forceRebuild;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
+    this.verbose = verbose;
 
     // Stack notedb.config over gerrit.config, in the same way as GerritServerConfigProvider.
     this.gerritConfig = new FileBasedConfig(sitePaths.gerrit_config.toFile(), FS.detect());
@@ -820,47 +837,39 @@ public class NoteDbMigrator implements AutoCloseable {
 
     ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
-    try (ContextHelper contextHelper = new ContextHelper()) {
-      List<Project.NameKey> projectNames =
-          Ordering.usingToString().sortedCopy(changesByProject.keySet());
-      for (Project.NameKey project : projectNames) {
-        List<List<Id>> slices =
-            Lists.partition(changesByProject.get(project), PROJECT_SLICE_MAX_REFS);
-        int count = slices.size();
-        int sliceNumber = 1;
-        AtomicLong gcCounter = new AtomicLong();
-        ReentrantLock gcLock = new ReentrantLock();
-        for (List<Change.Id> slice : slices) {
-          int sn = sliceNumber++;
-          ListenableFuture<Boolean> future =
-              executor.submit(
-                  () -> {
-                    try {
-                      return rebuildProjectSlice(
-                          contextHelper.getReviewDb(),
-                          project,
-                          slice,
-                          sn,
-                          count,
-                          gcCounter,
-                          gcLock);
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
-                      return false;
-                    }
-                  });
-          futures.add(future);
-        }
+    List<Project.NameKey> projectNames =
+        Ordering.usingToString().sortedCopy(changesByProject.keySet());
+    for (Project.NameKey project : projectNames) {
+      List<List<Id>> slices =
+          Lists.partition(changesByProject.get(project), PROJECT_SLICE_MAX_REFS);
+      int count = slices.size();
+      int sliceNumber = 1;
+      AtomicLong gcCounter = new AtomicLong();
+      ReentrantLock gcLock = new ReentrantLock();
+      for (List<Change.Id> slice : slices) {
+        int sn = sliceNumber++;
+        ListenableFuture<Boolean> future =
+            executor.submit(
+                () -> {
+                  try (ContextHelper contextHelper = new ContextHelper()) {
+                    return rebuildProjectSlice(
+                        contextHelper.getReviewDb(), project, slice, sn, count, gcCounter, gcLock);
+                  } catch (Exception e) {
+                    logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
+                    return false;
+                  }
+                });
+        futures.add(future);
       }
+    }
 
-      boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
-      double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-      logger.atInfo().log(
-          "Rebuilt %d changes in %.01fs (%.01f/s)\n",
-          changesByProject.size(), t, changesByProject.size() / t);
-      if (!ok) {
-        throw new MigrationException("Rebuilding some changes failed, see log");
-      }
+    boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
+    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+    logger.atInfo().log(
+        "Rebuilt %d changes in %.01fs (%.01f/s)\n",
+        changesByProject.size(), t, changesByProject.size() / t);
+    if (!ok) {
+      throw new MigrationException("Rebuilding some changes failed, see log");
     }
   }
 
@@ -988,7 +997,8 @@ public class NoteDbMigrator implements AutoCloseable {
             logger.atSevere().withCause(t).log("Failed to rebuild change %s", changeId);
             ok = false;
           }
-          logger.atInfo().log("Rebuilt change %s", changeId.get());
+          logger.at(this.verbose ? Level.INFO : Level.FINE).log(
+              "Rebuilt change %s", changeId.get());
           long c = globalChangeCounter.incrementAndGet();
           if (gcCounter.incrementAndGet() % PACKREFS_INTERVAL == 0) {
             packRefs(project, changeRepo, gcLock);

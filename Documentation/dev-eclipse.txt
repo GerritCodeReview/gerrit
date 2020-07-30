@@ -42,6 +42,27 @@ that get saved to the `.project` file, for example adding Resource
 Filters on a folder, they will be overwritten the next time you run
 `tools/eclipse/project.py`.
 
+=== Eclipse project on MacOS ===
+
+By default, bazel uses `/private/var/tmp` as the
+link:https://docs.bazel.build/versions/master/output_directories.html[outputRoot on MacOS].
+This means that the eclipse project will reference libraries stored under that directory.
+
+However, MacOS runs periodic cleanup task which deletes the content under `/private/var/tmp`
+which wasn't accessed or modified for some days, by default 3 days. This can lead to a broken
+Eclipse project as referenced libraries get deleted. To mitigate this issue, the default
+treshold for the cleanup can be overriden by creating a configuration file under
+`/etc/periodic.conf` and setting a larger value for the `daily_clean_tmps_days`.
+
+An example `/etc/periodic.conf` file:
+
+----
+# This file overrides the settings from /etc/defaults/periodic.conf
+daily_clean_tmps_days="45"                              # If not accessed for
+----
+
+For more details about the proposed workaround see link:https://superuser.com/a/187105[this post]
+
 === Eclipse project with custom plugins ===
 
 To add custom plugins to the eclipse project add them to `tools/bzl/plugins.bzl`

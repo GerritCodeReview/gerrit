@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.joining;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.common.Die;
 import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.lifecycle.LifecycleManager;
 import com.google.gerrit.pgm.util.BatchProgramModule;
@@ -157,6 +158,8 @@ public class MigrateToNoteDb extends SiteProgram {
       gcAllUsers.run(w);
       // No closing of the PrintWriter here, as it would cascade down and eventually close
       // System.out and thereby swallow further output.
+    } catch (Exception e) {
+      throw new Die(e.getMessage(), e);
     } finally {
       stop();
     }

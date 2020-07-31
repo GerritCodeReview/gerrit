@@ -25,9 +25,30 @@
 
 /**
  * Wrapper for the Object.prototype.hasOwnProperty method
+ *
+ * The type guard will also ensure if it returns true,
+ * the obj to check should have the property.
+ *
+ * interface A {
+ *   a: number;
+ * }
+ *
+ * interface B {
+ *   b: number;
+ * }
+ *
+ * function testFn(a: A | B) {
+ *   if (hasOwnProperty(a, "a")) {
+ *     // with the type guard, it will defere a is A type
+ *     a.a = 2;
+ *   }
+ * // without the type guard, it will throw error:
+ * // Property 'a' does not exist on type 'A | B'.
+ * }
  */
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function hasOwnProperty(obj: any, prop: PropertyKey) {
-  // Typescript rules don't allow to use obj.hasOwnProperty directly
+export function hasOwnProperty<X extends {}, Y extends PropertyKey>(
+  obj: X,
+  prop: Y
+): obj is X & Record<Y, unknown> {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }

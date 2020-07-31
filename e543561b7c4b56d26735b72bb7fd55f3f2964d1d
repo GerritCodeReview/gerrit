@@ -16,6 +16,24 @@
       "revId": "e543561b7c4b56d26735b72bb7fd55f3f2964d1d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d1e156e9_2b5c65f1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T09:32:21Z",
+      "side": 1,
+      "message": "Thank you. Yes, didn\u0027t noticed it.",
+      "parentUuid": "621589cf_bfd61c99",
+      "revId": "e543561b7c4b56d26735b72bb7fd55f3f2964d1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

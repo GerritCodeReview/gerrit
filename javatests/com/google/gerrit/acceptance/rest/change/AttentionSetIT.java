@@ -488,13 +488,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet.reason()).isEqualTo("reason");
 
-    // This is the only email since emails are only sent for manual attention set updates (admin was
-    // also added because user replied, but no email was sent).
-    String emailBodyAddUser = Iterables.getOnlyElement(email.getMessages()).body();
-    assertThat(emailBodyAddUser)
-        .contains(
-            user.fullName()
-                + " added themselves to the attention set of this change.\n The reason is: reason.");
+    // No emails for adding to attention set were sent.
+    email.getMessages().isEmpty();
   }
 
   @Test
@@ -513,11 +508,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("reason");
 
-    String emailBodyAddUser = Iterables.getOnlyElement(email.getMessages()).body();
-    assertThat(emailBodyAddUser)
-        .contains(
-            user.fullName()
-                + " removed themselves from the attention set of this change.\n The reason is: reason.");
+    // No emails for removing from attention set were sent.
+    email.getMessages().isEmpty();
   }
 
   @Test

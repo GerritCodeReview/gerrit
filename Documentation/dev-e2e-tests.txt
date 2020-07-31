@@ -34,6 +34,22 @@ be formatted using the mainstream
 link:https://plugins.jetbrains.com/plugin/1347-scala[Scala plugin for IntelliJ]. The latter is not
 mandatory but preferred for `sbt` and Scala IDE purposes in this project.
 
+== IDE
+=== Eclipse
+link://http://scala-ide.org/docs/user/gettingstarted.html/[Install the Scala IDE plugin on Eclipse] then
+run sbt eclipse from the root directory of the e2e-tests. Import the e2e-tests file inside the Gerrit package.
+You will see errors in Eclipse telling you there are missing packages, which is due to the sbt-eclipse
+plugin not properly linking the Gerrit Gatling e2e-tests with Gatling Git plugin. You will have to right
+click on the root directory and choose the build path->link source option. In here you will have to browse to
+.sbt/1.0/staging and find the folder where gatling-git is contained, and choose that. It will link the gatling-git
+plugin to the project and then e2e-tests will not show the errors anymore. You will see errors in the gatling-git 
+directory present in Eclipse but these will not affect Gerrit Gatling development and can be ignored.
+
+=== Intellij
+link:https://plugins.jetbrains.com/plugin/1347-scala[Install Scala plugin for IntelliJ] and import the root 
+directory of the e2e-tests in Gerrit.
+
+
 == How to build the tests
 
 An link:https://www.scala-sbt.org/download.html[sbt-based installation] of

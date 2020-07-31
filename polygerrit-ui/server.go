@@ -168,17 +168,20 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		writer.Header().Set("Content-Type", "text/html")
 	} else if isJsFile {
 	  // The following code updates import statements.
-	  // 1. Keep all imports started with '.' character unchanged (i.e. all relative
-	  // imports like import ... from './a.js' or import ... from '../b/c/d.js'
-	  // 2. For other imports it adds '/node_modules/' prefix. Additionally,
-	  //   if an in imported file has .js or .mjs extension, the code keeps
-	  //   the file extension unchanged. Otherwise, it adds .js extension.
+	  // 1. if an in imported file has .js or .mjs extension, the code keeps
+    //	  the file extension unchanged. Otherwise, it adds .js extension
+	  // 2. For module imports it adds '/node_modules/' prefix.
 	  //   Examples:
 	  //   '@polymer/polymer.js' -> '/node_modules/@polymer/polymer.js'
     //   'page/page.mjs' -> '/node_modules/page.mjs'
     //   '@polymer/iron-icon' -> '/node_modules/@polymer/iron-icon.js'
-		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'([^/.].*?)(\\.(m?)js)?';$")
-		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2.${4}js';"))
+    //   './element/file' -> './element/file.js'
+    moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'(.*?)(\\.(m?)js)?';$")
+    data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '$2.${4}js';"))
+
+		moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
+
 		writer.Header().Set("Content-Type", "application/javascript")
 	} else if strings.HasSuffix(normalizedContentPath, ".css") {
 		writer.Header().Set("Content-Type", "text/css")

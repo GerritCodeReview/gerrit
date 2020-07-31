@@ -20,4 +20,14 @@ declare global {
   interface Window {
     CANONICAL_PATH?: string;
   }
+
+  interface Performance {
+    // typescript doesn't know about the memory property.
+    // Define it here, so it can be used everywhere
+    memory?: {
+      jsHeapSizeLimit: number;
+      totalJSHeapSize: number;
+      usedJSHeapSize: number;
+    };
+  }
 }

@@ -16,7 +16,7 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {GrReporting, DEFAULT_STARTUP_TIMERS, initErrorReporter} from './gr-reporting.js';
+import {GrReporting, DEFAULT_STARTUP_TIMERS, initErrorReporter} from './gr-reporting_impl.js';
 import {appContext} from '../app-context.js';
 suite('gr-reporting tests', () => {
   let service;

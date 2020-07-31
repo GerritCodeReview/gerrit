@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+import {
+  EventCallback,
+  EventEmitterService,
+  UnsubscribeMethod,
+} from './gr-event-interface';
 /**
  * An lite implementation of
  * https://nodejs.org/api/events.html#events_class_eventemitter.
@@ -29,27 +34,16 @@
  * }
  *
  */
-export class EventEmitter {
-  constructor() {
-    /**
-     * Shared events map from name to the listeners.
-     *
-     * @type {!Object<string, Array<eventCallback>>}
-     */
-    this._listenersMap = new Map();
-  }
+export class EventEmitter implements EventEmitterService {
+  private _listenersMap = new Map<string, EventCallback[]>();
 
   /**
    * Register an event listener to an event.
-   *
-   * @param {string} eventName
-   * @param {eventCallback} cb
-   * @returns {Function} Unsubscribe method
    */
-  addListener(eventName, cb) {
+  addListener(eventName: string, cb: EventCallback): UnsubscribeMethod {
     if (!eventName || !cb) {
       console.warn('A valid eventname and callback is required!');
-      return;
+      return () => {};
     }
 
     const listeners = this._listenersMap.get(eventName) || [];
@@ -61,14 +55,18 @@ export class EventEmitter {
     };
   }
 
-  // Alias for addListener.
-  on(eventName, cb) {
+  /**
+   * Alias for addListener.
+   */
+  on(eventName: string, cb: EventCallback): UnsubscribeMethod {
     return this.addListener(eventName, cb);
   }
 
-  // Attach event handler only once. Automatically removed.
-  once(eventName, cb) {
-    const onceWrapper = (...args) => {
+  /**
+   * Attach event handler only once. Automatically removed.
+   */
+  once(eventName: string, cb: EventCallback): UnsubscribeMethod {
+    const onceWrapper = (...args: any[]) => {
       cb(...args);
       this.off(eventName, onceWrapper);
     };
@@ -77,18 +75,17 @@ export class EventEmitter {
 
   /**
    * De-register an event listener to an event.
-   *
-   * @param {string} eventName
-   * @param {eventCallback} cb
    */
-  removeListener(eventName, cb) {
+  removeListener(eventName: string, cb: EventCallback): void {
     let listeners = this._listenersMap.get(eventName) || [];
     listeners = listeners.filter(listener => listener !== cb);
     this._listenersMap.set(eventName, listeners);
   }
 
-  // Alias to removeListener
-  off(eventName, cb) {
+  /**
+   * Alias to removeListener
+   */
+  off(eventName: string, cb: EventCallback): void {
     this.removeListener(eventName, cb);
   }
 
@@ -97,12 +94,9 @@ export class EventEmitter {
    * the event named eventName, in the order they were registered,
    * passing the supplied detail to each.
    *
-   * Returns true if the event had listeners, false otherwise.
-   *
-   * @param {string} eventName
-   * @param {*} detail
+   * @returns true if the event had listeners, false otherwise.
    */
-  emit(eventName, detail) {
+  emit(eventName: string, detail: any): boolean {
     const listeners = this._listenersMap.get(eventName) || [];
     for (const listener of listeners) {
       try {
@@ -114,17 +108,19 @@ export class EventEmitter {
     return listeners.length !== 0;
   }
 
-  // Alias to emit.
-  dispatch(eventName, detail) {
+  /**
+   * Alias to emit.
+   */
+  dispatch(eventName: string, detail: any): boolean {
     return this.emit(eventName, detail);
   }
 
   /**
    * Remove listeners for a specific event or all.
    *
-   * @param {string} eventName if not provided, will remove all
+   * @param eventName if not provided, will remove all
    */
-  removeAllListeners(eventName) {
+  removeAllListeners(eventName: string): void {
     if (eventName) {
       this._listenersMap.set(eventName, []);
     } else {

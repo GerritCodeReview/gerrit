@@ -15,10 +15,10 @@
  * limitations under the License.
  */
 
-import '../test/common-test-setup-karma.js';
-import {Auth} from './gr-auth.js';
-import {appContext} from './app-context.js';
-import {stubBaseUrl} from '../test/test-utils.js';
+import '../../test/common-test-setup-karma.js';
+import {Auth} from './gr-auth_impl.js';
+import {appContext} from '../app-context.js';
+import {stubBaseUrl} from '../../test/test-utils.js';
 
 suite('gr-auth', () => {
   let auth;

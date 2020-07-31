@@ -15,9 +15,14 @@
  * limitations under the License.
  */
 
-export type ChangeStatus = any;
-export namespace ChangeStatus {
-  export const ABANDONED: string;
-  export const MERGED: string;
-  export const NEW: string;
+export interface FlagsService {
+  isEnabled(experimentId: string): boolean;
+  enabledExperiments: string[];
+}
+
+/**
+ * @desc Experiment ids used in Gerrit.
+ */
+export enum KnownExperimentId {
+  PATCHSET_COMMENTS = 'UiFeature__patchset_comments',
 }

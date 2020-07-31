@@ -16,7 +16,7 @@
  */
 
 import '../../test/common-test-setup-karma.js';
-import {GrReporting} from './gr-reporting.js';
+import {GrReporting} from './gr-reporting_impl.js';
 import {grReportingMock} from './gr-reporting_mock.js';
 suite('gr-reporting_mock tests', () => {
   test('mocks all public methods', () => {

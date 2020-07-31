@@ -17,7 +17,7 @@
 
 import '../../test/common-test-setup-karma.js';
 import '../../elements/shared/gr-js-api-interface/gr-js-api-interface.js';
-import {EventEmitter} from './gr-event-interface.js';
+import {EventEmitter} from './gr-event-interface_impl.js';
 import {_testOnly_initGerritPluginApi} from '../../elements/shared/gr-js-api-interface/gr-gerrit.js';
 
 const basicFixture = fixtureFromElement('gr-js-api-interface');

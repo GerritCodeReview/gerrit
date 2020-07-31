@@ -191,7 +191,7 @@ suite('gr-reply-dialog tests', () => {
     flushAsynchronousOperations();
 
     stubSaveReview(review => {
-      assert.isTrue(review.ignore_default_attention_set_rules);
+      assert.isTrue(review.ignore_automatic_attention_set_rules);
       assert.deepEqual(review.add_to_attention_set, [{
         user: 314,
         reason: 'manually added in reply dialog',

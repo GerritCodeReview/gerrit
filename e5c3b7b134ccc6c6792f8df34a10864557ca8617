@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1aa0641e_23396a39",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T12:22:58Z",
+      "side": 1,
+      "message": "Dhruv, you added Tao and me as a reviewer. Do you mean that we should review different aspects of the change?",
+      "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

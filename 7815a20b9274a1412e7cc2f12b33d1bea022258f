@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d0bd378_30eb6d84",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T14:51:37Z",
+      "side": 1,
+      "message": "What does this comment mean?\n\"ensure the obj to check should have the property\".\nDoes it mean without this type guard obj might not have the property?",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "7815a20b9274a1412e7cc2f12b33d1bea022258f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96f2f035_43658750",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T14:51:37Z",
+      "side": 1,
+      "message": "defere?\ndid you mean defer?\nIf so I still do not see how \"defer\" makes sense.\ncan you please elaborate a bit?",
+      "range": {
+        "startLine": 42,
+        "startChar": 39,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "7815a20b9274a1412e7cc2f12b33d1bea022258f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

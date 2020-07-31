@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9616a332_1a1aca5c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-07-31T07:07:03Z",
+      "side": 1,
+      "message": "Note to the reviewers: This is a cherry-pick from master.\n\nThis change was simplified and de-coupled from \"Attention Set\" feature. It is needed for some plugins to check whether or not a committer is a bot (CI). In that case some checks should be skipped, lice contribution agreement checks or sign-off-by footer.\n\nThis is needed for Eclipse Foundation plugin: [1], as alternative approach for abandoned Submit rules check approach in change 275054.\n\n[1] https://github.com/EclipseFdn/gerrit-eca-plugin",
+      "revId": "b11ab8e919e328fdb47928391d539ded1ab005cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f6b0ac9_18e2a1db",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-31T09:38:01Z",
+      "side": 1,
+      "message": "nit: `contain`",
+      "range": {
+        "startLine": 19,
+        "startChar": 40,
+        "endLine": 19,
+        "endChar": 48
+      },
+      "revId": "a5ace2f77f3b0bcacc5606343e5d77f2cfbcca62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

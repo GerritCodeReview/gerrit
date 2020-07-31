@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb61365d_97c7e3b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T15:54:58Z",
+      "side": 1,
+      "message": "Maybe define explicitly action for a null object? Like\nconst item \u003d this._getObject(key);\nconst expiration \u003d ...\nif(item \u003d\u003d\u003d null || Date.now() - item.updated \u003e expiration) {\n  this._storage.removeItem(key)\n}",
+      "range": {
+        "startLine": 148,
+        "startChar": 37,
+        "endLine": 148,
+        "endChar": 53
+      },
+      "revId": "4d0c254df7234b9a436836664bde37236564f42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a495bd0_328a1a18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T15:54:58Z",
+      "side": 1,
+      "message": "To avoid || 0 you can use entries(). Together with the previous comment you can rewrite it like (you already updated code, so I think it is ok to update it slightly more)\nfor (const [prefix, expiration] of CLEANUP_PREFIXES_MAX_AGE_MAP.entries()) {\n   const item \u003d this._getObject(key);\n   if(!item || Date.now() - item.updated \u003e expiration) {\n      this._storage.removeItem(key);\n   }\n}",
+      "range": {
+        "startLine": 149,
+        "startChar": 29,
+        "endLine": 149,
+        "endChar": 72
+      },
+      "revId": "4d0c254df7234b9a436836664bde37236564f42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

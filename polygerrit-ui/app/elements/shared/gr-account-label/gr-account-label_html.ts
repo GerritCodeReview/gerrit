@@ -35,8 +35,8 @@ export const htmlTemplate = html`
       content: var(--account-label-suffix);
     }
     :host([deselected]) {
-      background-color: var(--chip-background-color);
-      border: 1px solid var(--border-color);
+      background-color: var(--background-color-primary);
+      border: 1px solid var(--comment-separator-color);
       border-radius: 8px;
       color: var(--deemphasized-text-color);
     }
@@ -44,15 +44,15 @@ export const htmlTemplate = html`
       background-color: var(--chip-selected-background-color);
       border: 1px solid var(--chip-selected-background-color);
       border-radius: 8px;
-      color: var(--default-button-text-color);
+      color: var(--chip-selected-text-color);
     }
     :host([selected]) iron-icon.attention {
-      color: var(--default-button-text-color);
+      color: var(--chip-selected-text-color);
     }
     gr-avatar {
-      height: var(--line-height-normal);
-      width: var(--line-height-normal);
-      vertical-align: top;
+      height: calc(var(--line-height-normal) - 2px);
+      width: calc(var(--line-height-normal) - 2px);
+      vertical-align: sub;
     }
     .text {
       @apply --gr-account-label-text-style;
@@ -61,11 +61,12 @@ export const htmlTemplate = html`
       @apply --gr-account-label-text-hover-style;
     }
     iron-icon.attention {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       vertical-align: top;
       position: relative;
-      top: 3px;
+      top: 4px;
+      padding-left: calc(1.5 * var(--spacing-s));
     }
     iron-icon.status {
       width: 14px;

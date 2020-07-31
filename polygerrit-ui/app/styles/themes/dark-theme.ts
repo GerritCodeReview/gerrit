@@ -35,6 +35,7 @@ function getStyleEl() {
       --comment-text-color: var(--primary-text-color);
       --deemphasized-text-color: #9aa0a6;
       --default-button-text-color: #8ab4f8;
+      --chip-selected-text-color: #d2e3fc;
       --error-text-color: red;
       --primary-button-text-color: black;
         /* Used on text color for change list doesn't need user's attention. */

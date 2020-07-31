@@ -41,6 +41,7 @@ $_documentContainer.innerHTML = `
     --comment-text-color: black;
     --deemphasized-text-color: #5F6368;
     --default-button-text-color: #2a66d9;
+    --chip-selected-text-color: var(--default-button-text-color);
     --error-text-color: red;
     --primary-button-text-color: white;
       /* Used on text color for change list that doesn't need user's attention. */

@@ -1,0 +1,112 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97652db9_353225e3",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T10:56:29Z",
+      "side": 1,
+      "message": "Is this still needed?",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15477f11_a58b242f",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T10:56:29Z",
+      "side": 1,
+      "message": "Is this still supported?",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83518078_e2be06d4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T10:56:29Z",
+      "side": 1,
+      "message": "I think I would experiment without these two variables first. My rationale is that you are either annoyed by these toasts being shown every time for comment links or you are not. But making a distinction between \"same session\" and \"new session\" does not make much sense to me.\n\nI think it is probably useful to always show the toast, also when you run into this scenario twice per session.\n\nWDYT?",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 8
+      },
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2842b4e9_08db72c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T10:56:29Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7eeaffd_be2a44a0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T10:56:29Z",
+      "side": 1,
+      "message": "If you add `\u0026\u0026 !!value.commentLink` here, then maybe you can just remove the _showToast variable?",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0ce2cd3_2c8ccc17",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T10:56:29Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

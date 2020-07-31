@@ -34,6 +34,24 @@
       "revId": "6e148b2b81a21e45e67f68ec563c9cfa2bf78030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "63857cd3_f3f6caf6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-31T09:00:35Z",
+      "side": 1,
+      "message": "Finally the CI backlog has been recovered.",
+      "parentUuid": "3024f769_72c038fa",
+      "revId": "6e148b2b81a21e45e67f68ec563c9cfa2bf78030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9cb1d24a_ac4007e4",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-31T14:59:13Z",
+      "side": 1,
+      "message": "the example below should be pretty clear, but if you want to see how it behaves in ts: https://www.typescriptlang.org/play/?ssl\u003d1\u0026ssc\u003d1\u0026pln\u003d2\u0026pc\u003d22#code/KYDwDg9gTgLgBAMwK4DsDGMCWEVwBYCGAzgPIDuKAClBGMLAJ4A8AGnKDMCgCZFwDeAXwA0cAJrsQnHn2q16MBgGlgDAHwAoOHAAUEAEYArAFxwWosDTCmxASlMHDcTHzYAyOACVgaaNyZioqgA1igQFGoCWnBQwDBIULiOAHSEpBRydIw6lrS2ANwagholoJCwiKgY2Lhp5FRWCgwATNF6RqYEKAwWVqaZTSoMtlHasfGJcCl1GY3ZuWAFRSWYKJxQCARowHAAgqPacASmKEgAtvr0hcUaq+ub23AAQgfa+ifnl1DXJcjoWDg4JwiDAAGIoHTHPZwAA+zxG-Gi2kwCF0Mwa8myBFEACICDjbAikYdtARkgQ4ABeODNQok4o3DR-aqA4FglDNSGmfZwp5EkkotHEeoDRic7FwPEE-kkw5kinU2nEhlAA",
+      "parentUuid": "7d0bd378_30eb6d84",
+      "range": {
+        "startLine": 29,
+        "startChar": 18,
+        "endLine": 30,
+        "endChar": 44
+      },
+      "revId": "7815a20b9274a1412e7cc2f12b33d1bea022258f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "96f2f035_43658750",
         "filename": "polygerrit-ui/app/utils/common-util.ts",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "7815a20b9274a1412e7cc2f12b33d1bea022258f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0911b1cf_db12a6c2",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-31T14:59:13Z",
+      "side": 1,
+      "message": "maybe `infer` is better, or more clear to say the ts will know that `a` is `A` type",
+      "parentUuid": "96f2f035_43658750",
+      "range": {
+        "startLine": 42,
+        "startChar": 39,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "7815a20b9274a1412e7cc2f12b33d1bea022258f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -22,6 +22,30 @@
       "revId": "33fb2e7906ac49d1e722a1394daadb5675ab3e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5363b0f_6d7e9335",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T13:36:00Z",
+      "side": 0,
+      "message": "How can both these conditions be true?\nNaN is an instance of Date?\nRunning \"NaN instanceof Date\" on the compiler gives me false as expected.\n\nThe check was I think intended for \"Invalid Date\" type. new Date(\u0027xxx\u0027) returns \"Invalid Date\" which is unfortunately of the type Date.\n\nThe actual check should be !isNan(date.getTime()) which is what I replaced it with.\nOfc JS being JS isNaN(new Date(\u0027xxx\u0027)) also returns true.",
+      "parentUuid": "738f0a81_ff97fd45",
+      "range": {
+        "startLine": 32,
+        "startChar": 29,
+        "endLine": 32,
+        "endChar": 46
+      },
+      "revId": "33fb2e7906ac49d1e722a1394daadb5675ab3e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

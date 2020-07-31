@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c7f2fefe_edd6e770",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T13:36:00Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eecbd9b_854fc40e",
+      "range": {
+        "startLine": 31,
+        "startChar": 28,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2934f198_9c821c83",
         "filename": "polygerrit-ui/app/utils/date-util.ts",
         "patchSetId": 4
@@ -80,6 +104,30 @@
       "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "018756dd_8c9d3755",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T13:36:00Z",
+      "side": 1,
+      "message": "The precise type is DateTimeFormatPartType.\nReplaced it with that.",
+      "parentUuid": "2934f198_9c821c83",
+      "range": {
+        "startLine": 134,
+        "startChar": 15,
+        "endLine": 134,
+        "endChar": 18
+      },
+      "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

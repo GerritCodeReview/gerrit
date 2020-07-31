@@ -3102,9 +3102,10 @@ Defaults to 10000.
 When security is enabled in Elasticsearch, the username and password must be provided.
 Note that the same username and password are used for all servers.
 
-For further information about Elasticsearch security, please refer to the documentation:
-
-* link:https://www.elastic.co/guide/en/elastic-stack-overview/6.6/security-getting-started.html[Elasticsearch 6.6]
+For further information about Elasticsearch security, please refer to
+link:https://www.elastic.co/guide/en/elasticsearch/reference/current/security-getting-started.html[the documentation].
+This is the current documentation link. Select another Elasticsearch version
+from the dropdown menu available on that page if need be.
 
 [[elasticsearch.username]]elasticsearch.username::
 +

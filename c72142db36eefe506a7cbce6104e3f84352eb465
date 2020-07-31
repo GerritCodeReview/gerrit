@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2fdfd3c9_232b8d7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-31T12:56:26Z",
+      "side": 1,
+      "message": "SGTM. Any opinion from other maintainers?",
+      "revId": "c72142db36eefe506a7cbce6104e3f84352eb465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cf0d0e2e_6a80c0e7",
         "filename": "Documentation/pgm-daemon.txt",
         "patchSetId": 4
@@ -46,6 +63,30 @@
       "revId": "c72142db36eefe506a7cbce6104e3f84352eb465",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0468347b_efbfc043",
+        "filename": "Documentation/pgm-daemon.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-31T12:56:26Z",
+      "side": 1,
+      "message": "SGTM",
+      "parentUuid": "069e26ec_51695d8a",
+      "range": {
+        "startLine": 53,
+        "startChar": 24,
+        "endLine": 53,
+        "endChar": 39
+      },
+      "revId": "c72142db36eefe506a7cbce6104e3f84352eb465",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

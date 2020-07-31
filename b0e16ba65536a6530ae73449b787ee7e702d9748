@@ -198,6 +198,30 @@
       "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dd6522c_ce8cac80",
+        "filename": "java/com/google/gerrit/pgm/util/ErrorLogFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-07-31T12:56:26Z",
+      "side": 1,
+      "message": "Can you also mention this side effect in the commit message? It would worth also preparing the change for the release notes, saying that the error_log would be always generated, unless explicitly disabled or switched to jsonLogging.",
+      "parentUuid": "25cc07c2_451d2be3",
+      "range": {
+        "startLine": 88,
+        "startChar": 4,
+        "endLine": 88,
+        "endChar": 90
+      },
+      "revId": "b0e16ba65536a6530ae73449b787ee7e702d9748",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

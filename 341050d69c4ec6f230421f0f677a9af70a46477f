@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "395b006d_c9d42fd8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-31T07:59:18Z",
+      "side": 1,
+      "message": "I agree, but for now this is just with the purpose of mitigating the spam. Before this change I\u0027m suppressing for everyone except the person who performed the action. Later when I bring this back, it sounds reasonable to maybe add just the owner and only to \"additions\": Idea in progress.",
+      "parentUuid": "8fcb9f10_78952d12",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efa0ecb7_b636da92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3
@@ -51,6 +69,41 @@
       "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bfb20d09_bd44daa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-31T07:59:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1093866_d2e45e7a",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e162a2c8_9737ea73",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-31T07:59:18Z",
+      "side": 1,
+      "message": "Manually verified.",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

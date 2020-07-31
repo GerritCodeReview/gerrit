@@ -83,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "8d447a85_a6654eff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 47
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T09:55:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d011524_08139719",
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90d0c5bb_04ca6dad",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.js",
         "patchSetId": 47
@@ -173,6 +191,30 @@
       "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2541dcb1_3a930731",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 47
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T09:55:38Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "0918909a_cbd2691b",
+      "range": {
+        "startLine": 109,
+        "startChar": 6,
+        "endLine": 109,
+        "endChar": 20
+      },
+      "revId": "ae534a103d94a9069574ebdc39cf0ecd924221c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

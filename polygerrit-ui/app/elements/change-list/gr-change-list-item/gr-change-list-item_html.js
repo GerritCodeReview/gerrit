@@ -255,12 +255,18 @@ export const htmlTemplate = html`
       </template>
     </gr-tooltip-content>
   </td>
-  <template is="dom-repeat" items="[[labelNames]]" as="labelName">
-    <td
-      title$="[[_computeLabelTitle(change, labelName)]]"
-      class$="[[_computeLabelClass(change, labelName)]]"
-    >
-      [[_computeLabelValue(change, labelName)]]
+  <template
+    is="dom-repeat"
+    items="[[_computeDashboardLabels(change, labelNames)]]"
+    as="labelName"
+  >
+    <td title$="[[labelName.title]]">
+      <template is="dom-if" if="[[labelName.icon]]">
+        <iron-icon class="icon" icon="[[labelName.icon]]"></iron-icon>
+      </template>
+      <template is="dom-if" if="[[!labelName.icon]]">
+        <span>[[_computeLabelValue(change, labelName)]]</span>
+      </template>
     </td>
   </template>
   <template

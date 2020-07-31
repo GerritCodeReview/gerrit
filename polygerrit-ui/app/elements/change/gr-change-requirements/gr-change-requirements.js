@@ -118,6 +118,7 @@ class GrChangeRequirements extends mixinBehaviors( [
       if (!labels.hasOwnProperty(label)) { continue; }
 
       const labelInfo = labels[label];
+      console.log(labelInfo);
       const icon = this._computeLabelIcon(labelInfo);
       const style = this._computeLabelClass(labelInfo);
       const path = labelInfo.optional ? '_optionalLabels' : '_requiredLabels';

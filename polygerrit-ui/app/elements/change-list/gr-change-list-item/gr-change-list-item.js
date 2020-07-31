@@ -94,7 +94,26 @@ class GrChangeListItem extends mixinBehaviors( [
       _dynamicCellEndpoints: {
         type: Array,
       },
+      _dashboardLabels: {
+        type: Array,
+      },
     };
+  }
+
+  _computeDashboardLabels(change, labelNames) {
+    const labels = change.labels;
+    this._dashboardLabels = [];
+    // console.log(labels);
+    for (const label in labels) {
+      if (!labels.hasOwnProperty(label)) { continue; }
+      const labelInfo = change.labels[label];
+      const icon = this._computeLabelIcon(labelInfo);
+      const style = this._computeLabelClass(change, labelInfo);
+      const title = this._computeLabelTitle(change, labelInfo);
+
+      this.push('_dashboardLabels', {label, icon, style, title, labelInfo});
+    }
+    return this._dashboardLabels;
   }
 
   /** @override */
@@ -122,7 +141,10 @@ class GrChangeListItem extends mixinBehaviors( [
   }
 
   _computeLabelClass(change, labelName) {
-    const label = change.labels[labelName];
+    const label = labelName;
+    console.log('start------------------');
+    console.log('change: ', change);
+    console.log('labelName: ', labelName);
     // Mimic a Set.
     const classes = {
       cell: true,
@@ -130,6 +152,7 @@ class GrChangeListItem extends mixinBehaviors( [
     };
     if (label) {
       if (label.approved) {
+        classes['approved'] = true;
         classes['u-green'] = true;
       }
       if (label.value == 1) {
@@ -140,23 +163,37 @@ class GrChangeListItem extends mixinBehaviors( [
         classes['u-red'] = true;
       }
       if (label.rejected) {
+        classes['rejected'] = true;
         classes['u-red'] = true;
       }
     } else {
+      console.log('label: ', label);
+      console.log('end-------------');
       classes['u-gray-background'] = true;
     }
     return Object.keys(classes).sort()
         .join(' ');
   }
 
+  /**
+   * @param {Object} labelInfo
+   * @return {string} The icon name, or undefined if no icon should
+   *     be used.
+   */
+  _computeLabelIcon(labelInfo) {
+    if (labelInfo.approved) { return 'gr-icons:check'; }
+    if (labelInfo.rejected) { return 'gr-icons:close'; }
+    return '';
+  }
+
   _computeLabelValue(change, labelName) {
     const label = change.labels[labelName];
     if (!label) { return ''; }
     if (label.approved) {
-      return '✓';
+      return 'gr-icons:check';
     }
     if (label.rejected) {
-      return '✕';
+      return 'gr-icons:close';
     }
     if (label.value > 0) {
       return '+' + label.value;

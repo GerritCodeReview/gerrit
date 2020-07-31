@@ -15,10 +15,20 @@
  * limitations under the License.
  */
 
-function getPathFromNode(el) {
-  if (!el.tagName || el.tagName === 'GR-APP'
-        || el instanceof DocumentFragment
-        || el instanceof HTMLSlotElement) {
+import {PolymerElement} from '@polymer/polymer';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {hasOwnProperty} from './common-util';
+
+interface PolymerEvent extends EventApi, Event {}
+
+function getPathFromNode(el: Element) {
+  if (
+    !el.tagName ||
+    el.tagName === 'GR-APP' ||
+    el instanceof DocumentFragment ||
+    el instanceof HTMLSlotElement
+  ) {
     return '';
   }
   let path = el.tagName.toLowerCase();
@@ -35,14 +45,19 @@ function getPathFromNode(el) {
  * Otherwise fallback to native method (in polymer 2).
  *
  */
-export function getComputedStyleValue(name, el) {
+export function getComputedStyleValue(
+  name: string,
+  el: Element | PolymerElement | LegacyElementMixin
+) {
   let style;
   if (window.ShadyCSS) {
-    style = ShadyCSS.getComputedStyleValue(el, name);
-  } else if (el.getComputedStyleValue) {
+    style = window.ShadyCSS.getComputedStyleValue(el as Element, name);
+    // `getComputedStyleValue` defined through LegacyElementMixin
+    // TODO: It should be safe to just use `getComputedStyle`, but just to be safe
+  } else if (hasOwnProperty(el, 'getComputedStyleValue')) {
     style = el.getComputedStyleValue(name);
   } else {
-    style = getComputedStyle(el).getPropertyValue(name);
+    style = getComputedStyle(el as Element).getPropertyValue(name);
   }
   return style;
 }
@@ -55,7 +70,7 @@ export function getComputedStyleValue(name, el) {
  * multiple shadow hosts.
  *
  */
-export function querySelector(el, selector) {
+export function querySelector(el: Element | ShadowRoot, selector: string) {
   let nodes = [el];
   let result = null;
   while (nodes.length) {
@@ -73,13 +88,16 @@ export function querySelector(el, selector) {
 
     // Add all nodes with shadowRoot and loop through
     const allShadowNodes = [...node.querySelectorAll('*')]
-        .filter(child => !!child.shadowRoot)
-        .map(child => child.shadowRoot);
+      .filter(
+        (child): child is Element & Record<'shadowRoot', ShadowRoot> =>
+          !!child.shadowRoot
+      )
+      .map(child => child.shadowRoot);
     nodes = nodes.concat(allShadowNodes);
 
     // Add shadowRoot of current node if has one
     // as its not included in node.querySelectorAll('*')
-    if (node.shadowRoot) {
+    if (hasOwnProperty(node, 'shadowRoot') && node.shadowRoot) {
       nodes.push(node.shadowRoot);
     }
   }
@@ -95,7 +113,7 @@ export function querySelector(el, selector) {
  *
  * Note: this can be very expensive, only use when have to.
  */
-export function querySelectorAll(el, selector) {
+export function querySelectorAll(el: Element | ShadowRoot, selector: string) {
   let nodes = [el];
   const results = new Set();
   while (nodes.length) {
@@ -104,18 +122,20 @@ export function querySelectorAll(el, selector) {
     if (!node || !node.querySelectorAll) continue;
 
     // Try find all from regular children
-    [...node.querySelectorAll(selector)]
-        .forEach(el => results.add(el));
+    [...node.querySelectorAll(selector)].forEach(el => results.add(el));
 
     // Add all nodes with shadowRoot and loop through
     const allShadowNodes = [...node.querySelectorAll('*')]
-        .filter(child => !!child.shadowRoot)
-        .map(child => child.shadowRoot);
+      .filter(
+        (child): child is Element & Record<'shadowRoot', ShadowRoot> =>
+          !!child.shadowRoot
+      )
+      .map(child => child.shadowRoot);
     nodes = nodes.concat(allShadowNodes);
 
     // Add shadowRoot of current node if has one
     // as its not included in node.querySelectorAll('*')
-    if (node.shadowRoot) {
+    if (hasOwnProperty(node, 'shadowRoot') && node.shadowRoot) {
       nodes.push(node.shadowRoot);
     }
   }
@@ -136,20 +156,24 @@ export function querySelectorAll(el, selector) {
  *  getEventPath(e); // eg: div.class1>p#pid.class2
  * }
  */
-export function getEventPath(e) {
+export function getEventPath(e: PolymerEvent) {
   if (!e) return '';
 
-  let path = e.path;
+  let path = e.path as Element[];
   if (!path || !path.length) {
     path = [];
-    let el = e.target;
+    let el = e.target as Element;
     while (el) {
       path.push(el);
-      el = el.parentNode || el.host;
+      if (el.parentElement) {
+        el = el.parentElement;
+      } else if (hasOwnProperty(el, 'host')) {
+        el = el.host as Element;
+      }
     }
   }
 
-  return path.reduce((domPath, curEl) => {
+  return path.reduce<string>((domPath: string, curEl: Element) => {
     const pathForEl = getPathFromNode(curEl);
     if (!pathForEl) return domPath;
     return domPath ? `${pathForEl}>${domPath}` : pathForEl;
@@ -167,10 +191,17 @@ export function getEventPath(e) {
  *     is not checked.
  * @return {boolean}
  */
-export function descendedFromClass(element, className, opt_stopElement) {
+export function descendedFromClass(
+  element: Element,
+  className: string,
+  opt_stopElement: Element
+) {
   let isDescendant = element.classList.contains(className);
-  while (!isDescendant && element.parentElement &&
-        (!opt_stopElement || element.parentElement !== opt_stopElement)) {
+  while (
+    !isDescendant &&
+    element.parentElement &&
+    (!opt_stopElement || element.parentElement !== opt_stopElement)
+  ) {
     isDescendant = element.classList.contains(className);
     element = element.parentElement;
   }
@@ -192,7 +223,9 @@ export function strToClassName(str = '', prefix = 'generated_') {
 }
 
 // shared API element
-let _sharedApiEl;
+// TODO: once gr-js-api-interface moved to ts
+// use GrJsApiInterface instead
+let _sharedApiEl: Element;
 
 export function getSharedApiEl() {
   if (!_sharedApiEl) {

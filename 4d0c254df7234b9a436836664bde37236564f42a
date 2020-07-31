@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "6ae32d0f_b40a6870",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T16:18:35Z",
+      "side": 1,
+      "message": "PTAL",
+      "revId": "4d0c254df7234b9a436836664bde37236564f42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb61365d_97c7e3b0",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
         "patchSetId": 1
@@ -25,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "b202313d_c967acd0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T16:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb61365d_97c7e3b0",
+      "range": {
+        "startLine": 148,
+        "startChar": 37,
+        "endLine": 148,
+        "endChar": 53
+      },
+      "revId": "4d0c254df7234b9a436836664bde37236564f42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a495bd0_328a1a18",
         "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
         "patchSetId": 1
@@ -45,6 +86,30 @@
       "revId": "4d0c254df7234b9a436836664bde37236564f42a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19bf454_eb40a23b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T16:18:35Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a495bd0_328a1a18",
+      "range": {
+        "startLine": 149,
+        "startChar": 29,
+        "endLine": 149,
+        "endChar": 72
+      },
+      "revId": "4d0c254df7234b9a436836664bde37236564f42a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "889bb183_1eb8a6f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-31T07:16:55Z",
+      "side": 1,
+      "message": "I\u0027m giving +2 as this change could be submitted. I added a question, though, and depending on your answer to it you might want to adjust this change.",
+      "revId": "18f699e9e5719550f78aa310046dba4f69742c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b404960e_9836e2d2",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-07-31T07:16:55Z",
+      "side": 1,
+      "message": "The constructor is still package-private. Is just opening up the visibility of the class sufficient for your use case without being able to instantiate the class?",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 18
+      },
+      "revId": "18f699e9e5719550f78aa310046dba4f69742c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

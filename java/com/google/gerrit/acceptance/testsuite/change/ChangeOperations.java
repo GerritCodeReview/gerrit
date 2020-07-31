@@ -75,5 +75,25 @@ public interface ChangeOperations {
      * @return the corresponding {@code TestChange}
      */
     TestChange get();
+
+    /**
+     * Starts the fluent chain to create a new patchset. The returned builder can be used to specify
+     * the attributes of the new patchset. To create the patchset for real, {@link
+     * TestPatchsetCreation.Builder#create()} must be called.
+     *
+     * <p>Example:
+     *
+     * <pre>
+     * PatchSet.Id createdPatchsetId = changeOperations
+     *     .change(changeId)
+     *     .newPatchset()
+     *     .file("file1")
+     *     .content("Line 1\nLine2\n")
+     *     .create();
+     * </pre>
+     *
+     * @return builder to create a new patchset
+     */
+    TestPatchsetCreation.Builder newPatchset();
   }
 }

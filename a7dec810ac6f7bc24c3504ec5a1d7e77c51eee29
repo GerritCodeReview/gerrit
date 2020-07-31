@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "2eab8c35_df7bb132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-31T11:52:02Z",
+      "side": 1,
+      "message": "so `ignore_default_attention_set_rules` is no longer used ? or it has a different meaning and should not be used here ? (that may be not a typo if so)\nI saw we still have `ignore_default_attention_set_rules` in some documentation, if its no longer used, maybe we should update them as well ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 4,
+        "endLine": 7,
+        "endChar": 8
+      },
+      "revId": "a7dec810ac6f7bc24c3504ec5a1d7e77c51eee29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "75bfd4c1_6cb1f96a",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 2

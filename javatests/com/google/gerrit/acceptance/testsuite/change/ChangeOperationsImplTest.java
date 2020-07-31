@@ -30,11 +30,14 @@ import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommitInfo;
 import com.google.gerrit.extensions.common.FileInfo;
+import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.inject.Inject;
@@ -297,7 +300,131 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     assertThat(change.changeId()).isEqualTo("I0123456789012345678901234567890123456789");
   }
 
+  @Test
+  public void newPatchsetCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    ChangeInfo unmodifiedChange = getChangeFromServer(changeId);
+    int originalPatchsetCount = unmodifiedChange.revisions.size();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).newPatchset().create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    assertThatMap(change.revisions).hasSize(originalPatchsetCount + 1);
+    RevisionInfo currentRevision = change.revisions.get(change.currentRevision);
+    assertThat(currentRevision._number).isEqualTo(patchsetId.get());
+  }
+
+  @Test
+  public void newPatchsetIsCopyOfPreviousPatchsetByDefault() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).newPatchset().create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    RevisionInfo patchsetRevision = getRevision(change, patchsetId);
+    assertThat(patchsetRevision.kind).isEqualTo(ChangeKind.NO_CHANGE);
+  }
+
+  @Test
+  public void newPatchsetCanHaveReplacedFileContent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+
+    PatchSet.Id patchsetId =
+        changeOperations
+            .change(changeId)
+            .newPatchset()
+            .file("file1")
+            .content("Different content")
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
+    assertThatMap(files).keys().containsExactly("file1");
+    BinaryResult fileContent = getFileContent(changeId, patchsetId, "file1");
+    assertThat(fileContent).asString().isEqualTo("Different content");
+  }
+
+  @Test
+  public void newPatchsetCanHaveAdditionalFile() throws Exception {
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+
+    PatchSet.Id patchsetId =
+        changeOperations
+            .change(changeId)
+            .newPatchset()
+            .file("file2")
+            .content("My file content")
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
+    assertThatMap(files).keys().containsExactly("file1", "file2");
+    BinaryResult fileContent = getFileContent(changeId, patchsetId, "file2");
+    assertThat(fileContent).asString().isEqualTo("My file content");
+  }
+
+  @Test
+  public void newPatchsetCanHaveLessFiles() throws Exception {
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Line 1")
+            .file("file2")
+            .content("Line one")
+            .create();
+
+    changeOperations.change(changeId).newPatchset().file("file2").delete().create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
+    assertThatMap(files).keys().containsExactly("file1");
+  }
+
+  @Test
+  public void newPatchsetCanHaveRenamedFile() throws Exception {
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Line 1")
+            .file("file2")
+            .content("Line one")
+            .create();
+
+    PatchSet.Id patchsetId =
+        changeOperations
+            .change(changeId)
+            .newPatchset()
+            .file("file2")
+            .renameTo("renamed file")
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
+    assertThatMap(files).keys().containsExactly("file1", "renamed file");
+    BinaryResult fileContent = getFileContent(changeId, patchsetId, "renamed file");
+    assertThat(fileContent).asString().isEqualTo("Line one");
+  }
+
   private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {
     return gApi.changes().id(changeId.get()).get();
+  }
+
+  private RevisionInfo getRevision(ChangeInfo change, PatchSet.Id patchsetId) {
+    return change.revisions.values().stream()
+        .filter(revision -> revision._number == patchsetId.get())
+        .findAny()
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Change %d doesn't have specified patchset %d.",
+                        change._number, patchsetId.get())));
+  }
+
+  private BinaryResult getFileContent(Change.Id changeId, PatchSet.Id patchsetId, String filePath)
+      throws RestApiException {
+    return gApi.changes().id(changeId.get()).revision(patchsetId.get()).file(filePath).content();
   }
 }

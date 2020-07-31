@@ -21,6 +21,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Strings;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.server.edit.tree.ChangeFileContentModification;
+import com.google.gerrit.server.edit.tree.DeleteFileModification;
+import com.google.gerrit.server.edit.tree.RenameFileModification;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import java.util.function.Consumer;
 
@@ -45,6 +47,16 @@ public class FileContentBuilder<T> {
         "Empty file content is not supported. Adjust test API if necessary.");
     modificationToBuilderAdder.accept(
         new ChangeFileContentModification(filePath, RawInputUtil.create(content)));
+    return builder;
+  }
+
+  public T delete() {
+    modificationToBuilderAdder.accept(new DeleteFileModification(filePath));
+    return builder;
+  }
+
+  public T renameTo(String newFilePath) {
+    modificationToBuilderAdder.accept(new RenameFileModification(filePath, newFilePath));
     return builder;
   }
 }

@@ -24,10 +24,13 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account.Id;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
@@ -35,6 +38,7 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.ChangeInserter.Factory;
+import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.edit.tree.TreeCreator;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -42,11 +46,14 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.CommitMessageUtil;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -69,6 +76,7 @@ import org.eclipse.jgit.util.ChangeIdUtil;
 public class ChangeOperationsImpl implements ChangeOperations {
   private final Sequences seq;
   private final ChangeInserter.Factory changeInserterFactory;
+  private final PatchSetInserter.Factory patchsetInserterFactory;
   private final GitRepositoryManager repositoryManager;
   private final AccountResolver resolver;
   private final IdentifiedUser.GenericFactory userFactory;
@@ -81,6 +89,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
   public ChangeOperationsImpl(
       Sequences seq,
       Factory changeInserterFactory,
+      PatchSetInserter.Factory patchsetInserterFactory,
       GitRepositoryManager repositoryManager,
       AccountResolver resolver,
       GenericFactory userFactory,
@@ -90,6 +99,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
       ChangeFinder changeFinder) {
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
+    this.patchsetInserterFactory = patchsetInserterFactory;
     this.repositoryManager = repositoryManager;
     this.resolver = resolver;
     this.userFactory = userFactory;
@@ -272,9 +282,13 @@ public class ChangeOperationsImpl implements ChangeOperations {
 
     @Override
     public TestChange get() {
+      return toTestChange(getChangeNotes().getChange());
+    }
+
+    private ChangeNotes getChangeNotes() {
       Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeId);
       checkState(changeNotes.isPresent(), "Tried to get non-existing test change.");
-      return toTestChange(changeNotes.get().getChange());
+      return changeNotes.get();
     }
 
     private TestChange toTestChange(Change change) {
@@ -282,6 +296,100 @@ public class ChangeOperationsImpl implements ChangeOperations {
           .numericChangeId(change.getId())
           .changeId(change.getKey().get())
           .build();
+    }
+
+    @Override
+    public TestPatchsetCreation.Builder newPatchset() {
+      return TestPatchsetCreation.builder(this::createPatchset);
+    }
+
+    private PatchSet.Id createPatchset(TestPatchsetCreation patchsetCreation)
+        throws IOException, RestApiException, UpdateException {
+      ChangeNotes changeNotes = getChangeNotes();
+      Project.NameKey project = changeNotes.getProjectName();
+      try (Repository repository = repositoryManager.openRepository(project);
+          ObjectInserter objectInserter = repository.newObjectInserter();
+          RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
+        Timestamp now = TimeUtil.nowTs();
+        ObjectId newPatchsetCommit =
+            createPatchsetCommit(
+                repository, revWalk, objectInserter, changeNotes, patchsetCreation, now);
+
+        PatchSet.Id patchsetId =
+            ChangeUtil.nextPatchSetId(repository, changeNotes.getCurrentPatchSet().id());
+        PatchSetInserter patchSetInserter =
+            getPatchSetInserter(changeNotes, newPatchsetCommit, patchsetId);
+
+        IdentifiedUser changeOwner = userFactory.create(changeNotes.getChange().getOwner());
+        try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
+          batchUpdate.setRepository(repository, revWalk, objectInserter);
+          batchUpdate.addOp(changeId, patchSetInserter);
+          batchUpdate.execute();
+        }
+        return patchsetId;
+      }
+    }
+
+    private ObjectId createPatchsetCommit(
+        Repository repository,
+        RevWalk revWalk,
+        ObjectInserter objectInserter,
+        ChangeNotes changeNotes,
+        TestPatchsetCreation patchsetCreation,
+        Timestamp now)
+        throws IOException {
+      ObjectId oldPatchsetCommitId = changeNotes.getCurrentPatchSet().commitId();
+      RevCommit oldPatchsetCommit = repository.parseCommit(oldPatchsetCommitId);
+
+      ObjectId tree =
+          createNewTree(
+              repository, revWalk, oldPatchsetCommitId, patchsetCreation.treeModifications());
+
+      String commitMessage = oldPatchsetCommit.getFullMessage();
+
+      ImmutableList<ObjectId> parentCommitIds = getParents(oldPatchsetCommit);
+      PersonIdent author = getAuthor(oldPatchsetCommit);
+      PersonIdent committer = getCommitter(oldPatchsetCommit, now);
+      return createCommit(objectInserter, tree, parentCommitIds, author, committer, commitMessage);
+    }
+
+    private PersonIdent getAuthor(RevCommit oldPatchsetCommit) {
+      return Optional.ofNullable(oldPatchsetCommit.getAuthorIdent()).orElse(serverIdent);
+    }
+
+    private PersonIdent getCommitter(RevCommit oldPatchsetCommit, Timestamp now) {
+      PersonIdent oldPatchsetCommitter =
+          Optional.ofNullable(oldPatchsetCommit.getCommitterIdent()).orElse(serverIdent);
+      if (asSeconds(now) == asSeconds(oldPatchsetCommitter.getWhen())) {
+        /* We need to ensure that the resulting commit SHA-1 is different from the old patchset.
+         * In real situations, this automatically happens as two patchsets won't have exactly the
+         * same commit timestamp even when the tree and commit message are the same. In tests,
+         * we can easily end up with the same timestamp as Git uses second precision for timestamps.
+         * We could of course require that tests must use TestTimeUtil#setClockStep but
+         * that would be an unnecessary nuisance for test writers. Hence, go with a simple solution
+         * here and simply add a second. */
+        now = Timestamp.from(now.toInstant().plusSeconds(1));
+      }
+      return new PersonIdent(oldPatchsetCommitter, now);
+    }
+
+    private long asSeconds(Date date) {
+      return date.getTime() / 1000;
+    }
+
+    private ImmutableList<ObjectId> getParents(RevCommit oldPatchsetCommit) {
+      return Arrays.stream(oldPatchsetCommit.getParents())
+          .map(ObjectId::toObjectId)
+          .collect(toImmutableList());
+    }
+
+    private PatchSetInserter getPatchSetInserter(
+        ChangeNotes changeNotes, ObjectId newPatchsetCommit, PatchSet.Id patchsetId) {
+      PatchSetInserter patchSetInserter =
+          patchsetInserterFactory.create(changeNotes, patchsetId, newPatchsetCommit);
+      patchSetInserter.setCheckAddPatchSetPermission(false);
+      patchSetInserter.setMessage(String.format("Uploaded patchset %d.", patchsetId.get()));
+      return patchSetInserter;
     }
   }
 }

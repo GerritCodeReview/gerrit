@@ -14,134 +14,159 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {customElement, property} from '@polymer/decorators';
+import {CommentRange, PatchSetNum} from '../../../types/common';
+
+export interface StorageLocation {
+  changeNum: number;
+  patchNum: PatchSetNum;
+  path: string;
+  line: number;
+  range: CommentRange;
+}
+
+export interface StorageObject {
+  message?: string;
+  updated: number;
+}
 
 const DURATION_DAY = 24 * 60 * 60 * 1000;
 
 // Clean up old entries no more frequently than one day.
 const CLEANUP_THROTTLE_INTERVAL = DURATION_DAY;
 
-const CLEANUP_PREFIXES_MAX_AGE_MAP = {
-  // respectfultip has a 14-day expiration
-  'respectfultip:': 14 * DURATION_DAY,
-  'draft:': DURATION_DAY,
-  'editablecontent:': DURATION_DAY,
-};
+const CLEANUP_PREFIXES_MAX_AGE_MAP = new Map<string, number>();
+CLEANUP_PREFIXES_MAX_AGE_MAP.set('respectfultip', 14 * DURATION_DAY);
+CLEANUP_PREFIXES_MAX_AGE_MAP.set('draft', DURATION_DAY);
+CLEANUP_PREFIXES_MAX_AGE_MAP.set('editablecontent', DURATION_DAY);
 
-/** @extends PolymerElement */
-class GrStorage extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get is() { return 'gr-storage'; }
-
-  static get properties() {
-    return {
-      _lastCleanup: Number,
-      /** @type {?Storage} */
-      _storage: {
-        type: Object,
-        value() {
-          return window.localStorage;
-        },
-      },
-      _exceededQuota: {
-        type: Boolean,
-        value: false,
-      },
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-storage': GrStorage;
   }
+}
 
-  getDraftComment(location) {
+export interface GrStorage {
+  $: {};
+}
+
+@customElement('gr-storage')
+export class GrStorage extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  @property({type: Number})
+  _lastCleanup = 0;
+
+  @property({type: Object})
+  _storage = window.localStorage;
+
+  @property({type: Boolean})
+  _exceededQuota = false;
+
+  getDraftComment(location: StorageLocation): StorageObject | null {
     this._cleanupItems();
     return this._getObject(this._getDraftKey(location));
   }
 
-  setDraftComment(location, message) {
+  setDraftComment(location: StorageLocation, message: string) {
     const key = this._getDraftKey(location);
     this._setObject(key, {message, updated: Date.now()});
   }
 
-  eraseDraftComment(location) {
+  eraseDraftComment(location: StorageLocation) {
     const key = this._getDraftKey(location);
     this._storage.removeItem(key);
   }
 
-  getEditableContentItem(key) {
+  getEditableContentItem(key: string): StorageObject | null {
     this._cleanupItems();
     return this._getObject(this._getEditableContentKey(key));
   }
 
-  setEditableContentItem(key, message) {
-    this._setObject(this._getEditableContentKey(key),
-        {message, updated: Date.now()});
+  setEditableContentItem(key: string, message: string) {
+    this._setObject(this._getEditableContentKey(key), {
+      message,
+      updated: Date.now(),
+    });
   }
 
-  getRespectfulTipVisibility() {
+  getRespectfulTipVisibility(): StorageObject | null {
     this._cleanupItems();
     return this._getObject('respectfultip:visibility');
   }
 
   setRespectfulTipVisibility(delayDays = 0) {
     this._cleanupItems();
-    this._setObject(
-        'respectfultip:visibility',
-        {updated: Date.now() + delayDays * DURATION_DAY}
-    );
+    this._setObject('respectfultip:visibility', {
+      updated: Date.now() + delayDays * DURATION_DAY,
+    });
   }
 
-  eraseEditableContentItem(key) {
+  eraseEditableContentItem(key: string) {
     this._storage.removeItem(this._getEditableContentKey(key));
   }
 
-  _getDraftKey(location) {
-    const range = location.range ?
-      `${location.range.start_line}-${location.range.start_character}` +
-            `-${location.range.end_character}-${location.range.end_line}` :
-      null;
-    let key = ['draft', location.changeNum, location.patchNum, location.path,
-      location.line || ''].join(':');
+  _getDraftKey(location: StorageLocation): string {
+    const range = location.range
+      ? `${location.range.start_line}-${location.range.start_character}` +
+        `-${location.range.end_character}-${location.range.end_line}`
+      : null;
+    let key = [
+      'draft',
+      location.changeNum,
+      location.patchNum,
+      location.path,
+      location.line || '',
+    ].join(':');
     if (range) {
       key = key + ':' + range;
     }
     return key;
   }
 
-  _getEditableContentKey(key) {
+  _getEditableContentKey(key: string): string {
     return `editablecontent:${key}`;
   }
 
   _cleanupItems() {
     // Throttle cleanup to the throttle interval.
-    if (this._lastCleanup &&
-        Date.now() - this._lastCleanup < CLEANUP_THROTTLE_INTERVAL) {
+    if (
+      this._lastCleanup &&
+      Date.now() - this._lastCleanup < CLEANUP_THROTTLE_INTERVAL
+    ) {
       return;
     }
     this._lastCleanup = Date.now();
 
     let item;
     Object.keys(this._storage).forEach(key => {
-      Object.keys(CLEANUP_PREFIXES_MAX_AGE_MAP).forEach(prefix => {
+      for (const prefix of CLEANUP_PREFIXES_MAX_AGE_MAP.keys()) {
         if (key.startsWith(prefix)) {
-          item = this._getObject(key);
-          const expiration = CLEANUP_PREFIXES_MAX_AGE_MAP[prefix];
+          item = this._getObject(key) || {updated: 0};
+          const expiration = CLEANUP_PREFIXES_MAX_AGE_MAP.get(prefix) || 0;
           if (Date.now() - item.updated > expiration) {
             this._storage.removeItem(key);
           }
         }
-      });
+      }
     });
   }
 
-  _getObject(key) {
+  _getObject(key: string): StorageObject | null {
     const serial = this._storage.getItem(key);
-    if (!serial) { return null; }
+    if (!serial) {
+      return null;
+    }
     return JSON.parse(serial);
   }
 
-  _setObject(key, obj) {
-    if (this._exceededQuota) { return; }
+  _setObject(key: string, obj: StorageObject) {
+    if (this._exceededQuota) {
+      return;
+    }
     try {
       this._storage.setItem(key, JSON.stringify(obj));
     } catch (exc) {
@@ -157,5 +182,3 @@ class GrStorage extends GestureEventListeners(
     }
   }
 }
-
-customElements.define(GrStorage.is, GrStorage);

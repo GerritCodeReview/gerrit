@@ -17,7 +17,7 @@
 import '../../../styles/gr-voting-styles.js';
 import '../../../styles/shared-styles.js';
 import '../gr-account-label/gr-account-label.js';
-import '../gr-account-chip/gr-account-chip.js';
+import '../gr-account-link/gr-account-link.js';
 import '../gr-button/gr-button.js';
 import '../gr-icons/gr-icons.js';
 import '../gr-label/gr-label.js';

@@ -183,7 +183,7 @@ suite('gr-account-link tests', () => {
       };
       flushAsynchronousOperations();
       const chips =
-          dom(element.root).querySelectorAll('gr-account-chip');
+          dom(element.root).querySelectorAll('gr-account-link');
       assert.equal(chips[0].account._account_id, element.account._account_id);
     });
   });

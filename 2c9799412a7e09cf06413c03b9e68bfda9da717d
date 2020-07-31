@@ -46,6 +46,30 @@
       "revId": "2c9799412a7e09cf06413c03b9e68bfda9da717d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fa7a06b_830378b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-tooltip/gr-tooltip.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T14:23:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab01477b_d2a580e2",
+      "range": {
+        "startLine": 52,
+        "startChar": 10,
+        "endLine": 52,
+        "endChar": 22
+      },
+      "revId": "2c9799412a7e09cf06413c03b9e68bfda9da717d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -60,29 +60,33 @@ suite('dom-util tests', () => {
 
     test('event with fake path', () => {
       assert.equal(getEventPath({path: []}), '');
-      assert.equal(getEventPath({path: [
-        {tagName: 'dd'},
-      ]}), 'dd');
+      const dd = document.createElement('dd');
+      assert.equal(getEventPath({path: [dd]}), 'dd');
     });
 
     test('event with fake complicated path', () => {
-      assert.equal(getEventPath({path: [
-        {tagName: 'dd', id: 'test', className: 'a b'},
-        {tagName: 'DIV', id: 'test2', className: 'a b c'},
-      ]}), 'div#test2.a.b.c>dd#test.a.b');
+      const dd = document.createElement('dd');
+      dd.setAttribute('id', 'test');
+      dd.className = 'a b';
+      const divNode = document.createElement('DIV');
+      divNode.id = 'test2';
+      divNode.className = 'a b c';
+      assert.equal(getEventPath(
+          {path: [dd, divNode]}),
+      'div#test2.a.b.c>dd#test.a.b'
+      );
     });
 
     test('event with fake target', () => {
-      const fakeTargetParent2 = {
-        tagName: 'DIV', id: 'test2', className: 'a b c',
-      };
-      const fakeTargetParent1 = {
-        parentNode: fakeTargetParent2,
-        tagName: 'dd',
-        id: 'test',
-        className: 'a b',
-      };
-      const fakeTarget = {tagName: 'SPAN', parentNode: fakeTargetParent1};
+      const fakeTargetParent1 = document.createElement('dd');
+      fakeTargetParent1.setAttribute('id', 'test');
+      fakeTargetParent1.className = 'a b';
+      const fakeTargetParent2 = document.createElement('DIV');
+      fakeTargetParent2.id = 'test2';
+      fakeTargetParent2.className = 'a b c';
+      fakeTargetParent2.appendChild(fakeTargetParent1);
+      const fakeTarget = document.createElement('SPAN');
+      fakeTargetParent1.appendChild(fakeTarget);
       assert.equal(
           getEventPath({target: fakeTarget}),
           'div#test2.a.b.c>dd#test.a.b>span'
@@ -97,7 +101,7 @@ suite('dom-util tests', () => {
       MockInteractions.click(aLink);
       assert.equal(
           path,
-          `html>body>test-fixture#${basicFixture.fixtureId}>` +
+          `test-fixture#${basicFixture.fixtureId}>` +
           'div#test.a.b.c>a.testBtn'
       );
     });

@@ -833,39 +833,37 @@ public class NoteDbMigrator implements AutoCloseable {
 
     ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
-    try (ContextHelper contextHelper = new ContextHelper()) {
-      List<Project.NameKey> projectNames =
-          Ordering.usingToString().sortedCopy(changesByProject.keySet());
-      for (Project.NameKey project : projectNames) {
-        List<List<Id>> slices =
-            Lists.partition(changesByProject.get(project), PROJECT_SLICE_MAX_REFS);
-        int count = slices.size();
-        int sliceNumber = 1;
-        for (List<Change.Id> slice : slices) {
-          int sn = sliceNumber++;
-          ListenableFuture<Boolean> future =
-              executor.submit(
-                  () -> {
-                    try {
-                      return rebuildProjectSlice(
-                          contextHelper.getReviewDb(), project, slice, sn, count);
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
-                      return false;
-                    }
-                  });
-          futures.add(future);
-        }
+    List<Project.NameKey> projectNames =
+        Ordering.usingToString().sortedCopy(changesByProject.keySet());
+    for (Project.NameKey project : projectNames) {
+      List<List<Id>> slices =
+          Lists.partition(changesByProject.get(project), PROJECT_SLICE_MAX_REFS);
+      int count = slices.size();
+      int sliceNumber = 1;
+      for (List<Change.Id> slice : slices) {
+        int sn = sliceNumber++;
+        ListenableFuture<Boolean> future =
+            executor.submit(
+                () -> {
+                  try (ContextHelper contextHelper = new ContextHelper()) {
+                    return rebuildProjectSlice(
+                        contextHelper.getReviewDb(), project, slice, sn, count);
+                  } catch (Exception e) {
+                    logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
+                    return false;
+                  }
+                });
+        futures.add(future);
       }
+    }
 
-      boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
-      double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-      logger.atInfo().log(
-          "Rebuilt %d changes in %.01fs (%.01f/s)\n",
-          changesByProject.size(), t, changesByProject.size() / t);
-      if (!ok) {
-        throw new MigrationException("Rebuilding some changes failed, see log");
-      }
+    boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
+    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+    logger.atInfo().log(
+        "Rebuilt %d changes in %.01fs (%.01f/s)\n",
+        changesByProject.size(), t, changesByProject.size() / t);
+    if (!ok) {
+      throw new MigrationException("Rebuilding some changes failed, see log");
     }
   }
 

@@ -11,11 +11,9 @@
       "updated": "2020-07-31T04:05:56Z"
     },
     "gerritforge:polygerrit-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "RUNNING",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/38%252F277338%252F5/1/console",
-      "started": "2020-07-31T04:06:48Z",
+      "state": "NOT_STARTED",
       "created": "2020-07-31T04:05:57Z",
-      "updated": "2020-07-31T04:06:48Z"
+      "updated": "2020-07-31T06:06:19Z"
     }
   }
 }

@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8fcb9f10_78952d12",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-31T00:20:48Z",
+      "side": 1,
+      "message": "thanks, makes sense now. 😊\nhaving just received your invitation for ben, i confirm that it\u0027s too spammy. 😄\nbut i wonder, are you now suppressing them for all participants or only others than the invitee? the former would seem counterproductive.",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efa0ecb7_b636da92",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-07-31T00:20:48Z",
+      "side": 1,
+      "message": "how many of these do you even want to retain? isn\u0027t the idea kinda that one gets a \"your attention is required\" mail and that\u0027s it - until they pass the baton? (taking this further, there wouldn\u0027t be even a need for per-change notifications - the first AS invitation on any change is sufficient; plus reminders if one slacks, with exponential back-off).\nof course, to make that really work, the UI would have to somehow visualize the changes since the last visit. which is (not so) incidentally also what i proposed for the \"loose AS\".\n\nof course, such parsimonious notifications would work only for a \"dashboard-centric\" workflow. a more traditional workflow where one already decides what to do based on the contents of activity notifications needs more mails, but note that if the user decided to ignore them, they would never take themselves out of the AS, which kinda defeats the idea of visibility to other participants.",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

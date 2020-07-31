@@ -555,7 +555,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       reviewInput.ready = true;
     }
 
-    reviewInput.ignore_default_attention_set_rules = true;
+    reviewInput.ignore_automatic_attention_set_rules = true;
     reviewInput.add_to_attention_set = [];
     for (const user of this._newAttentionSet) {
       if (!this._currentAttentionSet.has(user)) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "06af738e_6055c971",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 53
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T11:55:20Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "97652db9_353225e3",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15477f11_a58b242f",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 53
@@ -33,6 +51,24 @@
       "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3eee314d_35607fff",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 506,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T11:55:20Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "15477f11_a58b242f",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "f016d912_410164ef",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T11:55:20Z",
+      "side": 1,
+      "message": "Yeah, makes sense. We can always roll out partially and look at user feedback if it\u0027s too annoying.\nRemoved.",
+      "parentUuid": "83518078_e2be06d4",
+      "range": {
+        "startLine": 252,
+        "startChar": 4,
+        "endLine": 261,
+        "endChar": 8
+      },
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2842b4e9_08db72c6",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 53
@@ -73,6 +133,24 @@
       "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97b5d083_8348d0e8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T11:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2842b4e9_08db72c6",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +171,24 @@
     },
     {
       "key": {
+        "uuid": "24813ae0_473078f8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 969,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T11:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7eeaffd_be2a44a0",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b0ce2cd3_2c8ccc17",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
         "patchSetId": 53
@@ -107,6 +203,24 @@
       "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0833f52d_35673e81",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 53
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-07-31T11:55:20Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0ce2cd3_2c8ccc17",
+      "revId": "d1b1b9179c40d3df6b788094eca0ce5d5f5d8962",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

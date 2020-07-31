@@ -196,6 +196,7 @@ class GrPatchRangeSelect extends GestureEventListeners(
 
   _updateSortedRevisions(revisionsRecord) {
     const revisions = revisionsRecord.base;
+    if (!revisions) return;
     this._sortedRevisions = sortRevisions(Object.values(revisions));
   }
 

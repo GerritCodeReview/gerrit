@@ -79,6 +79,17 @@ class ChangeComments {
     return this._robotComments;
   }
 
+  findCommentById(commentId) {
+    const findComment = comments => {
+      let comment;
+      for (const path of Object.keys(comments)) {
+        comment = comment || comments[path].find(c => c.id === commentId);
+      }
+      return comment;
+    };
+    return findComment(this._comments) || findComment(this._robotComments);
+  }
+
   /**
    * Get an object mapping file paths to a boolean representing whether that
    * path contains diff comments in the given patch set (including drafts and
@@ -567,6 +578,8 @@ class ChangeComments {
       this._isInRevisionOfPatchRange(comment, range);
   }
 }
+
+export const _testOnly_findCommentById = new ChangeComments().findCommentById;
 
 /**
  * @extends PolymerElement

@@ -163,7 +163,7 @@ public class SubscriptionGraph {
     }
   }
 
-  static class DefaultFactory implements Factory {
+  public static class DefaultFactory implements Factory {
     private static final FluentLogger logger = FluentLogger.forEnclosingClass();
     private final ProjectCache projectCache;
     private final GitModules.Factory gitmodulesFactory;

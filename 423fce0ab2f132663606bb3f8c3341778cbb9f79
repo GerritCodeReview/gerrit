@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "748a028c_9b0ff662",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T16:19:44Z",
+      "side": 1,
+      "message": "tests are expected to fail, submitting together with child, which is verified",
+      "revId": "423fce0ab2f132663606bb3f8c3341778cbb9f79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

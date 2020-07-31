@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "1f4a84b9_3b4204d6",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 848,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-31T09:28:27Z",
+      "side": 1,
+      "message": "It\u0027s not exactly great that we spread the use of legacy submit, but I think this isn\u0027t adding much technical debt. IIRC getting rid of that label wasn\u0027t trivial and when we do it migrating that code seems cheap enough.",
+      "range": {
+        "startLine": 848,
+        "startChar": 44,
+        "endLine": 848,
+        "endChar": 72
+      },
+      "revId": "8e0afb2799116ffec0334be2444c7762ace1620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cb6b5f1_76e33fba",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -13,6 +36,29 @@
       "writtenOn": "2020-07-31T09:13:04Z",
       "side": 1,
       "message": "I think this is evident from the code, maybe mention what the change description says?",
+      "revId": "8e0afb2799116ffec0334be2444c7762ace1620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49697319_fc14f136",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AbstractSubmit.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1347,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-07-31T09:28:27Z",
+      "side": 1,
+      "message": "Can the test name just be declarative enough so that we don\u0027t need this java doc?\n\nThere is usually a bug that we want to protect against with a test. Could we just state that in the commit message instead of a java doc?",
+      "range": {
+        "startLine": 1344,
+        "startChar": 0,
+        "endLine": 1347,
+        "endChar": 5
+      },
       "revId": "8e0afb2799116ffec0334be2444c7762ace1620c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

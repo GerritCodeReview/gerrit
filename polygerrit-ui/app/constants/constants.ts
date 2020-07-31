@@ -136,3 +136,12 @@ export enum GpgKeyInfoStatus {
   OK = 'OK',
   TRUSTED = 'TRUSTED',
 }
+
+/**
+ * @desc Used for server config of accounts
+ */
+export enum DefaultDisplayNameConfig {
+  USERNAME = 'USERNAME',
+  FIRST_NAME = 'FIRST_NAME',
+  FULL_NAME = 'FULL_NAME',
+}

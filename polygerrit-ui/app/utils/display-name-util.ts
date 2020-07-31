@@ -14,50 +14,68 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {AccountInfo, GroupInfo, ServerInfo} from '../types/common';
+import {DefaultDisplayNameConfig} from '../constants/constants';
+
 const ANONYMOUS_NAME = 'Anonymous';
 
-export function getUserName(config, account) {
+export function getUserName(config: ServerInfo, account: AccountInfo): string {
   if (account && account.name) {
     return account.name;
   } else if (account && account.username) {
     return account.username;
   } else if (account && account.email) {
     return account.email;
-  } else if (config && config.user &&
-      config.user.anonymous_coward_name !== 'Anonymous Coward') {
+  } else if (
+    config &&
+    config.user &&
+    config.user.anonymous_coward_name !== 'Anonymous Coward'
+  ) {
     return config.user.anonymous_coward_name;
   }
 
   return ANONYMOUS_NAME;
 }
 
-export function getDisplayName(config, account) {
+export function getDisplayName(
+  config: ServerInfo,
+  account: AccountInfo
+): string {
   if (account && account.display_name) {
     return account.display_name;
   }
   if (!account || !account.name || !config || !config.accounts) {
     return getUserName(config, account);
   }
-  if (config.accounts.default_display_name === 'USERNAME'
-      && account.username) {
+  if (
+    config.accounts.default_display_name ===
+      DefaultDisplayNameConfig.USERNAME &&
+    account.username
+  ) {
     return account.username;
   }
-  if (config.accounts.default_display_name === 'FIRST_NAME') {
+  if (
+    config.accounts.default_display_name === DefaultDisplayNameConfig.FIRST_NAME
+  ) {
     return account.name.trim().split(' ')[0];
   }
   // Treat every other value as FULL_NAME.
   return account.name;
 }
 
-export function getAccountDisplayName(config, account) {
+export function getAccountDisplayName(
+  config: ServerInfo,
+  account: AccountInfo
+) {
   const reviewerName = getUserName(config, account);
   const reviewerEmail = _accountEmail(account.email);
   const reviewerStatus = account.status ? '(' + account.status + ')' : '';
   return [reviewerName, reviewerEmail, reviewerStatus]
-      .filter(p => p.length > 0).join(' ');
+    .filter(p => p.length > 0)
+    .join(' ');
 }
 
-function _accountEmail(email) {
+function _accountEmail(email?: string) {
   if (typeof email !== 'undefined') {
     return '<' + email + '>';
   }
@@ -66,6 +84,6 @@ function _accountEmail(email) {
 
 export const _testOnly_accountEmail = _accountEmail;
 
-export function getGroupDisplayName(group) {
+export function getGroupDisplayName(group: GroupInfo) {
   return group.name + ' (group)';
 }

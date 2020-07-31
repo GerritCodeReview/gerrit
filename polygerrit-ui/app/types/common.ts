@@ -901,3 +901,36 @@ export interface TopMenuItemInfo {
 export interface UserConfigInfo {
   anonymous_coward_name: string;
 }
+
+/*
+ * The CommentInfo entity contains information about an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export interface CommentInfo {
+  patch_set?: PatchSetNum;
+  id: string;
+  path?: string;
+  side?: string;
+  parent?: string;
+  line?: string;
+  range?: CommentRange;
+  in_reply_to?: string;
+  message?: string;
+  updated: string;
+  author?: AccountInfo;
+  tag?: string;
+  unresolved?: boolean;
+  change_message_id?: string;
+  commit_id?: string;
+}
+
+/**
+ * The CommentRange entity describes the range of an inline comment.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
+ */
+export interface CommentRange {
+  start_line: string;
+  start_character: string;
+  end_line: string;
+  end_character: string;
+}

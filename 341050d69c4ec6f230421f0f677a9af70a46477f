@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "f6b53a00_0297d39e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-07-31T08:02:09Z",
+      "side": 1,
+      "message": "sending the email to everyone except to person who performed the action*",
+      "parentUuid": "395b006d_c9d42fd8",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efa0ecb7_b636da92",
         "filename": "/COMMIT_MSG",
         "patchSetId": 3

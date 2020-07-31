@@ -33,6 +33,24 @@
       "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1093866_d2e45e7a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T05:47:56Z",
+      "side": 1,
+      "message": "I think the idea here is that we will keeping sending emails to ~everyone when someone posts a vote or comment. At that point we just want to avoid sending \u003e1 email at the same time.",
+      "parentUuid": "efa0ecb7_b636da92",
+      "revId": "341050d69c4ec6f230421f0f677a9af70a46477f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

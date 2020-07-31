@@ -341,6 +341,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _getProjectConfig(project) {
+    if (!project) return;
     return this.$.restAPI.getProjectConfig(project).then(
         config => {
           this._projectConfig = config;

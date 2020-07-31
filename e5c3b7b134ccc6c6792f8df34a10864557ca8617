@@ -34,6 +34,52 @@
       "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1eecbd9b_854fc40e",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T12:30:56Z",
+      "side": 1,
+      "message": "Based on the content of a method, I expect that input parameter can be of any type.\nexport function isValidDate(date: any)...\nOr even better:\nexport function isValidDate(date: any): date is Date",
+      "range": {
+        "startLine": 31,
+        "startChar": 28,
+        "endLine": 31,
+        "endChar": 38
+      },
+      "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2934f198_9c821c83",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T12:30:56Z",
+      "side": 1,
+      "message": "Typescript style guide recommends to use more precise name in this case, for example part_name",
+      "range": {
+        "startLine": 134,
+        "startChar": 15,
+        "endLine": 134,
+        "endChar": 18
+      },
+      "revId": "e5c3b7b134ccc6c6792f8df34a10864557ca8617",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

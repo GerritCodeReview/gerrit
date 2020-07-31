@@ -464,7 +464,6 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private final AtomicLong globalChangeCounter = new AtomicLong();
 
-  
   private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
@@ -838,7 +837,6 @@ public class NoteDbMigrator implements AutoCloseable {
 
     ImmutableListMultimap<Project.NameKey, Change.Id> changesByProject = getChangesByProject();
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
-    try (ContextHelper contextHelper = new ContextHelper()) {
       List<Project.NameKey> projectNames =
           Ordering.usingToString().sortedCopy(changesByProject.keySet());
       for (Project.NameKey project : projectNames) {
@@ -850,23 +848,17 @@ public class NoteDbMigrator implements AutoCloseable {
         ReentrantLock gcLock = new ReentrantLock();
         for (List<Change.Id> slice : slices) {
           int sn = sliceNumber++;
-          ListenableFuture<Boolean> future =
-              executor.submit(
-                  () -> {
-                    try {
-                      return rebuildProjectSlice(
-                          contextHelper.getReviewDb(),
-                          project,
-                          slice,
-                          sn,
-                          count,
-                          gcCounter,
-                          gcLock);
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
-                      return false;
-                    }
-                  });
+        ListenableFuture<Boolean> future =
+            executor.submit(
+                () -> {
+                  try (ContextHelper contextHelper = new ContextHelper()) {
+                    return rebuildProjectSlice(
+                        contextHelper.getReviewDb(), project, slice, sn, count, gcCounter, gcLock);
+                  } catch (Exception e) {
+                    logger.atSevere().withCause(e).log("Error rebuilding project %s", project);
+                    return false;
+                  }
+                });
         futures.add(future);
       }
       }
@@ -880,7 +872,6 @@ public class NoteDbMigrator implements AutoCloseable {
         throw new MigrationException("Rebuilding some changes failed, see log");
       }
     }
-  }
 
   private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {

@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79448a70_a90b7002",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T15:18:24Z",
+      "side": 1,
+      "message": "Looks good! Just 3 nits.",
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47573f34_1e8c34d2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T15:18:24Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e9b8362_a9d0f2cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T15:18:24Z",
+      "side": 1,
+      "message": "still needed?",
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ced2f75_9ef23156",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-07-31T15:18:24Z",
+      "side": 1,
+      "message": "Is comments[0].id guaranteed to be set, even for drafts?",
+      "range": {
+        "startLine": 236,
+        "startChar": 13,
+        "endLine": 236,
+        "endChar": 27
+      },
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

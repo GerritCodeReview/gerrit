@@ -46,6 +46,30 @@
       "revId": "33fb2e7906ac49d1e722a1394daadb5675ab3e5f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e0f416a0_f8e8c1cf",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-07-31T15:26:36Z",
+      "side": 0,
+      "message": "I think isNan(date.valueOf()) is better here (like you are doing in other places)\nisNaN(date) converts Date object to a number (I suppose, it use valueOf)",
+      "parentUuid": "d5363b0f_6d7e9335",
+      "range": {
+        "startLine": 32,
+        "startChar": 29,
+        "endLine": 32,
+        "endChar": 46
+      },
+      "revId": "33fb2e7906ac49d1e722a1394daadb5675ab3e5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

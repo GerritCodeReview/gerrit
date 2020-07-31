@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "75bfd4c1_6cb1f96a",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 559,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-07-31T11:48:37Z",
+      "side": 1,
+      "message": "FYI: you will need to change the same property in gr-reply-dialog_test.js to pass the test",
+      "revId": "a7dec810ac6f7bc24c3504ec5a1d7e77c51eee29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

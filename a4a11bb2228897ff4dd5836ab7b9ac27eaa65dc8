@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8442aa90_568c1ce4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-31T17:24:32Z",
+      "side": 1,
+      "message": "LGTM. Letting Edwin and Matthias review at will. May submit otherwise.",
+      "revId": "a4a11bb2228897ff4dd5836ab7b9ac27eaa65dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

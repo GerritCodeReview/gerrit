@@ -33,6 +33,24 @@
       "revId": "527d2d03ec42b38d3c02e772dc38fe7c5c485c50",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d88b6b6c_fc3fc33c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-07-31T17:50:46Z",
+      "side": 1,
+      "message": "\u003e +1 for the replication bump\n\nIn fact there is no bump, as shown by the Parent 1 and Auto Merge (in its own way) diffs.",
+      "parentUuid": "2aa8056e_39c35b4d",
+      "revId": "527d2d03ec42b38d3c02e772dc38fe7c5c485c50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,7 @@
 
 import {
   ChangeStatus,
+  DefaultDisplayNameConfig,
   FileInfoStatus,
   GpgKeyInfoStatus,
   ProblemInfoStatus,
@@ -179,6 +180,87 @@ export interface AccountInfo {
   _more_accounts?: boolean; // not set if false
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
+}
+
+/**
+ * The GroupAuditEventInfo entity contains information about an auditevent of a group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface GroupAuditEventInfo {
+  member: string;
+  type: string;
+  user: string;
+  date: string;
+}
+
+/**
+ * The GroupInfo entity contains information about a group. This can be a
+ * Gerrit internal group, or an external group that is known to Gerrit.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface GroupInfo {
+  id: string;
+  name: string;
+  url?: string;
+  options?: GroupOptionsInfo;
+  description?: string;
+  group_id?: string;
+  owner?: string;
+  owner_id?: string;
+  created_on?: string;
+  _more_groups?: boolean;
+  members?: AccountInfo[];
+  includes?: GroupInfo[];
+}
+
+/**
+ * The 'GroupInput' entity contains information for the creation of a new
+ * internal group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface GroupInput {
+  name?: string;
+  uuid?: string;
+  description?: string;
+  visible_to_all?: string;
+  owner_id?: string;
+  members?: string[];
+}
+
+/**
+ * Options of the group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface GroupOptionsInfo {
+  visible_to_all: boolean;
+}
+
+/**
+ * New options for a group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface GroupOptionsInput {
+  visible_to_all: boolean;
+}
+
+/**
+ * The GroupsInput entity contains information about groups that should be
+ * included into a group or that should be deleted from a group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface GroupsInput {
+  _one_group?: string;
+  groups?: string[];
+}
+
+/**
+ * The MembersInput entity contains information about accounts that should be
+ * added as members to a group or that should be deleted from the group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ */
+export interface MembersInput {
+  _one_member?: string;
+  members?: string[];
 }
 
 /**
@@ -414,4 +496,408 @@ export interface WebLinkInfo {
 export interface VotingRangeInfo {
   min: number;
   max: number;
+}
+
+/**
+ * The AccountsConfigInfo entity contains information about Gerrit configuration
+ * from the accounts section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface AccountsConfigInfo {
+  visibility: string;
+  default_display_name: DefaultDisplayNameConfig;
+}
+
+/**
+ * The AuthInfo entity contains information about the authentication
+ * configuration of the Gerrit server.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface AuthInfo {
+  type: string;
+  use_contributor_agreements: boolean;
+  contributor_agreements: boolean;
+  editable_account_fields: string;
+  login_url?: string;
+  login_text?: string;
+  switch_account_url?: string;
+  register_url?: string;
+  register_text?: string;
+  edit_full_name_url?: string;
+  http_password_url?: string;
+  git_basic_auth_policy?: string;
+}
+
+/**
+ * The CacheInfo entity contains information about a cache.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface CacheInfo {
+  name: string;
+  type: string;
+  entries: EntriesInfo;
+  average_get?: string;
+  hit_ratio: HitRatioInfo;
+}
+
+/**
+ * The CacheOperationInput entity contains information about an operation that
+ * should be executed on caches.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface CacheOperationInput {
+  operation: string;
+  caches?: string[];
+}
+
+/**
+ * The CapabilityInfo entity contains information about a capability.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface CapabilityInfo {
+  id: string;
+  name: string;
+}
+
+/**
+ * The ChangeConfigInfo entity contains information about Gerrit configuration
+ * from the change section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ChangeConfigInfo {
+  allow_blame: boolean;
+  large_change: string;
+  reply_label: string;
+  reply_tooltip: string;
+  update_delay: string;
+  submit_whole_topic: boolean;
+  disable_private_changes: boolean;
+  mergeability_computation_behavior: ChangeInfo;
+  enable_attention_set: boolean;
+  enable_assignee: boolean;
+}
+
+/**
+ * The ChangeIndexConfigInfo entity contains information about Gerrit
+ * configuration from the index.change section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ChangeIndexConfigInfo {
+  index_mergeable: boolean;
+}
+
+/**
+ * The CheckAccountExternalIdsResultInfo entity contains the result of running
+ * the account external ID consistency check.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface CheckAccountExternalIdsResultInfo {
+  problems: string;
+}
+
+/**
+ * The CheckAccountsResultInfo entity contains the result of running the account
+ * consistency check.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface CheckAccountsResultInfo {
+  problems: string;
+}
+
+/**
+ * The CheckGroupsResultInfo entity contains the result of running the group
+ * consistency check.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface CheckGroupsResultInfo {
+  problems: string;
+}
+
+/**
+ * The ConsistencyCheckInfo entity contains the results of running consistency
+ * checks.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ConsistencyCheckInfo {
+  check_accounts_result?: CheckAccountsResultInfo;
+  check_account_external_ids_result?: CheckAccountExternalIdsResultInfo;
+  check_groups_result?: CheckGroupsResultInfo;
+}
+
+/**
+ * The ConsistencyCheckInput entity contains information about which consistency
+ * checks should be run.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ConsistencyCheckInput {
+  check_accounts?: string;
+  check_account_external_ids?: string;
+  check_groups?: string;
+}
+
+/**
+ * The ConsistencyProblemInfo entity contains information about a consistency
+ * problem.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ConsistencyProblemInfo {
+  status: string;
+  message: string;
+}
+
+/**
+ * The entity describes the result of a reload of gerrit.config.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ConfigUpdateInfo {
+  applied: string;
+  rejected: string;
+}
+
+/**
+ * The entity describes an updated config value.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ConfigUpdateEntryInfo {
+  config_key: string;
+  old_value: string;
+  new_value: string;
+}
+
+/**
+ * The DownloadInfo entity contains information about supported download
+ * options.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface DownloadInfo {
+  schemes: string;
+  archives: string;
+}
+
+/**
+ * The DownloadSchemeInfo entity contains information about a supported download
+ * scheme and its commands.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface DownloadSchemeInfo {
+  url: string;
+  is_auth_required: boolean;
+  is_auth_supported: boolean;
+  commands: string;
+  clone_commands: string;
+}
+
+/**
+ * The EmailConfirmationInput entity contains information for confirming an
+ * email address.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface EmailConfirmationInput {
+  token: string;
+}
+
+/**
+ * The EntriesInfo entity contains information about the entries in acache.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface EntriesInfo {
+  mem?: string;
+  disk?: string;
+  space?: string;
+}
+
+/**
+ * The GerritInfo entity contains information about Gerrit configuration from
+ * the gerrit section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface GerritInfo {
+  all_projects_name: string;
+  all_users_name: string;
+  doc_search: string;
+  doc_url?: string;
+  edit_gpg_keys: boolean;
+  report_bug_url?: string;
+}
+
+/**
+ * The IndexConfigInfo entity contains information about Gerrit configuration
+ * from the index section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface IndexConfigInfo {
+  change: ChangeIndexConfigInfo;
+}
+
+/**
+ * The HitRatioInfo entity contains information about the hit ratio of a cache.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface HitRatioInfo {
+  mem: string;
+  disk?: string;
+}
+
+/**
+ * The IndexChangesInput contains a list of numerical changes IDs to index.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface IndexChangesInput {
+  changes: string;
+}
+
+/**
+ * The JvmSummaryInfo entity contains information about the JVM.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface JvmSummaryInfo {
+  vm_vendor: string;
+  vm_name: string;
+  vm_version: string;
+  os_name: string;
+  os_version: string;
+  os_arch: string;
+  user: string;
+  host?: string;
+  current_working_directory: string;
+  site: string;
+}
+
+/**
+ * The MemSummaryInfo entity contains information about the current memory
+ * usage.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface MemSummaryInfo {
+  total: string;
+  used: string;
+  free: string;
+  buffers: string;
+  max: string;
+  open_files?: string;
+}
+
+/**
+ * The PluginConfigInfo entity contains information about Gerrit extensions by
+ * plugins.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface PluginConfigInfo {
+  has_avatars: boolean;
+}
+
+/**
+ * The ReceiveInfo entity contains information about the configuration of
+ * git-receive-pack behavior on the server.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ReceiveInfo {
+  enableSignedPush?: string;
+}
+
+/**
+ * The ServerInfo entity contains information about the configuration of the
+ * Gerrit server.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ServerInfo {
+  accounts: AccountsConfigInfo;
+  auth: AuthInfo;
+  change: ChangeConfigInfo;
+  download: DownloadInfo;
+  gerrit: GerritInfo;
+  index: IndexConfigInfo;
+  note_db_enabled: boolean;
+  plugin: PluginConfigInfo;
+  receive?: ReceiveInfo;
+  suggest: SuggestInfo;
+  user: UserConfigInfo;
+  default_theme?: string;
+}
+
+/**
+ * The SuggestInfo entity contains information about Gerritconfiguration from
+ * the suggest section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface SuggestInfo {
+  from: string;
+}
+
+/**
+ * The SummaryInfo entity contains information about the current state of the
+ * server.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface SummaryInfo {
+  task_summary: TaskSummaryInfo;
+  mem_summary: MemSummaryInfo;
+  thread_summary: ThreadSummaryInfo;
+  jvm_summary?: JvmSummaryInfo;
+}
+
+/**
+ * The TaskInfo entity contains information about a task in a background work
+ * queue.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface TaskInfo {
+  id: string;
+  state: string;
+  start_time: string;
+  delay: string;
+  command: string;
+  remote_name?: string;
+  project?: string;
+}
+
+/**
+ * The TaskSummaryInfo entity contains information about the current tasks.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface TaskSummaryInfo {
+  total?: string;
+  running?: string;
+  ready?: string;
+  sleeping?: string;
+}
+
+/**
+ * The ThreadSummaryInfo entity contains information about the current threads.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface ThreadSummaryInfo {
+  cpus: string;
+  threads: string;
+  counts: string;
+}
+
+/**
+ * The TopMenuEntryInfo entity contains information about a top menu entry.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface TopMenuEntryInfo {
+  name: string;
+  items: string;
+}
+
+/**
+ * The TopMenuItemInfo entity contains information about a menu item ina top
+ * menu entry.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface TopMenuItemInfo {
+  url: string;
+  name: string;
+  target: string;
+  id?: string;
+}
+
+/**
+ * The UserConfigInfo entity contains information about Gerrit configuration
+ * from the user section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ */
+export interface UserConfigInfo {
+  anonymous_coward_name: string;
 }

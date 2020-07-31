@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1cb6b5f1_76e33fba",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 849,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-07-31T09:13:04Z",
+      "side": 1,
+      "message": "I think this is evident from the code, maybe mention what the change description says?",
+      "revId": "8e0afb2799116ffec0334be2444c7762ace1620c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

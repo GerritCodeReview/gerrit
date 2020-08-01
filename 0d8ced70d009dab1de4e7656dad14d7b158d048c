@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "61a63cac_6c1cc27f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-01T09:41:13Z",
+      "side": 1,
+      "message": "So far this is based on a guess. I am testing this right now on copies of our two sites.\nEach test takes a couple of hours to restore the copy and the test itself also takes a long time.\nHence I won\u0027t do many test iterations.\nI am currently testing with packing refs every 5k new refs. Will do another round with 1k.\n\nThe first successful offline migration using the current state of stable-2.16 took more\nthan a week execution time on a test server with 176 CPUs. Our new production servers\nhave 352 CPUs.\n\nI found yesterday that using one thread per available core was overloading the JVM,\nwith that default (176 threads on my test system) Java gc burnt 80% of CPU time.\nI am now testing with 80 threads where Java gc ratio is around 15%.\n\nHere the numbers from the currently running test on the smaller of the two sites\nwhich has the biggest repository (450k changes, \u003e1m refs before the migration):\n\nRAM 250g, 176 CPUs (Intel(R) Xeon(R) CPU E7-8880 v4 @ 2.20GHz)\n80 threads for migration\n\njava -Xms32g -Xmx128g -XX:+UseG1GC -XX:MaxGCPauseMillis\u003d5000 -jar ./bin/gerrit.war migrate-to-note-db -d /path/to/site --reindex\u003dfalse --threads\u003d80\n\n time\t        changes\tchange/sec\tchanges/min\tchanges/hour\n 10:01:15\t0\t\t\t\n 10:04:24\t100000\t529,10\t        31746\t        1904762\n 10:07:22\t150000\t280,90\t        16854\t        1011236\n 10:12:00\t200000\t179,86\t        10791\t         647482\n 10:20:15\t250000\t101,01\t         6061\t         363636\n 10:34:08\t300000\t60,02\t         3601\t         216086\n 10:46:47\t350000\t65,88\t         3953\t         237154\n 10:56:42\t400000\t84,03\t         5042\t         302521\n 11:08:43\t450000\t69,35\t         4161\t         249653\n 11:19:49\t500000\t75,08\t         4505\t         270270\n 11:28:28\t550000\t96,34\t         5780\t         346821\n 11:34:47\t600000\t131,93\t         7916\t         474934\n\nI think the slow down after 10:20 is caused by the fact that this site is dominated\nby 2 huge repositories. I found that on these repositories the migration is constantly\npacking refs on one thread which takes 1-2 min while dozens of other threads are creating new refs.\nThis has the effect that there are always \u003e20k loose refs in these repositories during the migration.\n\nMaybe I should try to limit the number of threads working on a single repository to less than\nthe 80 threads available in the executor to give the ref packing a chance to keep pace with\nthe creation of new refs.",
+      "parentUuid": "d87525ca_b8603e24",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

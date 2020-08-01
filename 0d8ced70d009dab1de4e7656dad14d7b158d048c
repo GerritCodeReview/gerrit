@@ -37,6 +37,41 @@
     },
     {
       "key": {
+        "uuid": "d87525ca_b8603e24",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-08-01T04:31:34Z",
+      "side": 1,
+      "message": "For Eclipse Foundation migration we packed refs every 1000 accounts: [1]. You could pack refs every 100 migrated changed, or make the account of refs configurable?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/224833/8/gerrit-server/src/main/java/com/google/gerrit/server/schema/Schema_146.java#144",
+      "parentUuid": "56fafe21_a54d5e53",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d74c68f9_09bd16ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-08-01T04:31:34Z",
+      "side": 1,
+      "message": "Reference issue 13033.",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7d1a59e7_51ad6684",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -51,6 +86,46 @@
       "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5d979f5_971743e5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-08-01T04:31:34Z",
+      "side": 1,
+      "message": "CI failure is not related:\n\n  java.nio.file.FileSystemException:\n  /var/jenkins_home/jobs/Gerrit-verifier-bazel/builds/90472/archive: No space left on device",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ad84ca4_2c87e389",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-08-01T04:31:34Z",
+      "side": 1,
+      "message": "To be consistent with accounts migration from Schema_146 we could pack refs every 100 migrated changes.",
+      "range": {
+        "startLine": 1014,
+        "startChar": 10,
+        "endLine": 1016,
+        "endChar": 11
+      },
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

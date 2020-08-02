@@ -80,7 +80,7 @@ suite('gr-diff-builder tests', () => {
   });
 
   suite('context control', () => {
-    function createContextLine(options) {
+    function createContextGroups(options) {
       const offset = options.offset || 0;
       const numLines = options.count || 10;
       const lines = [];
@@ -92,15 +92,12 @@ suite('gr-diff-builder tests', () => {
         lines.push(line);
       }
 
-      return {
-        contextGroups: [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)],
-      };
+      return [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)];
     }
 
     test('no +10 buttons for 10 or less lines', () => {
-      const contextLine = createContextLine({count: 10});
-
-      const td = builder._createContextControl({}, contextLine);
+      const contextGroups = createContextGroups({count: 10});
+      const td = builder._createContextControl({}, contextGroups);
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
@@ -108,10 +105,9 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('context control at the top', () => {
-      const contextLine = createContextLine({offset: 0, count: 20});
-
+      const contextGroups = createContextGroups({offset: 0, count: 20});
       builder._numLinesLeft = 50;
-      const td = builder._createContextControl({}, contextLine);
+      const td = builder._createContextControl({}, contextGroups);
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 2);
@@ -120,10 +116,9 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('context control in the middle', () => {
-      const contextLine = createContextLine({offset: 10, count: 20});
-
+      const contextGroups = createContextGroups({offset: 10, count: 20});
       builder._numLinesLeft = 50;
-      const td = builder._createContextControl({}, contextLine);
+      const td = builder._createContextControl({}, contextGroups);
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);
@@ -133,10 +128,9 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('context control at the top', () => {
-      const contextLine = createContextLine({offset: 30, count: 20});
-
+      const contextGroups = createContextGroups({offset: 30, count: 20});
       builder._numLinesLeft = 50;
-      const td = builder._createContextControl({}, contextLine);
+      const td = builder._createContextControl({}, contextGroups);
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 2);
@@ -1203,7 +1197,7 @@ suite('gr-diff-builder tests', () => {
       line.beforeNumber = 3;
       line.afterNumber = 5;
 
-      const result = builder._createBlameCell(line);
+      const result = builder._createBlameCell(line.beforeNumber);
 
       assert.isTrue(getBlameStub.calledWithExactly(3));
       assert.equal(result.getAttribute('data-line-number'), '3');

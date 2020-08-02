@@ -53,6 +53,8 @@ export function GrDiffGroup(type, opt_lines) {
   this.adds = [];
   /** @type {!Array<!GrDiffLine>} */
   this.removes = [];
+  /** @type {?Array<Object>} ?Array<!GrDiffGroup> */
+  this.contextGroups = null;
 
   /** Both start and end line are inclusive. */
   this.lineRange = {
@@ -126,10 +128,9 @@ GrDiffGroup.hideInContextControl = function(groups, hiddenStart, hiddenEnd) {
 
   const result = [...before];
   if (hidden.length) {
-    const ctxLine = new GrDiffLine(GrDiffLine.Type.CONTEXT_CONTROL);
-    ctxLine.contextGroups = hidden;
     const ctxGroup = new GrDiffGroup(
-        GrDiffGroup.Type.CONTEXT_CONTROL, [ctxLine]);
+        GrDiffGroup.Type.CONTEXT_CONTROL, []);
+    ctxGroup.contextGroups = hidden;
     result.push(ctxGroup);
   }
   result.push(...after);

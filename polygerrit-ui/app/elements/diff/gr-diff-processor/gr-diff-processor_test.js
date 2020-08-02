@@ -156,9 +156,9 @@ suite('gr-diff-processor tests', () => {
           // group[0] is the file group
 
           assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[1].lines[0].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[1].lines[0].contextGroups[0].lines.length, 90);
-          for (const l of groups[1].lines[0].contextGroups[0].lines) {
+          assert.instanceOf(groups[1].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[1].contextGroups[0].lines.length, 90);
+          for (const l of groups[1].contextGroups[0].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
           }
 
@@ -213,9 +213,9 @@ suite('gr-diff-processor tests', () => {
           }
 
           assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[3].lines[0].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[3].lines[0].contextGroups[0].lines.length, 90);
-          for (const l of groups[3].lines[0].contextGroups[0].lines) {
+          assert.instanceOf(groups[3].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[3].contextGroups[0].lines.length, 90);
+          for (const l of groups[3].contextGroups[0].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
@@ -323,26 +323,26 @@ suite('gr-diff-processor tests', () => {
           }
 
           assert.equal(groups[6].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.equal(groups[6].lines[0].contextGroups.length, 2);
+          assert.equal(groups[6].contextGroups.length, 2);
 
-          assert.equal(groups[6].lines[0].contextGroups[0].lines.length, 4);
-          assert.equal(groups[6].lines[0].contextGroups[0].removes.length, 2);
-          assert.equal(groups[6].lines[0].contextGroups[0].adds.length, 2);
-          for (const l of groups[6].lines[0].contextGroups[0].removes) {
+          assert.equal(groups[6].contextGroups[0].lines.length, 4);
+          assert.equal(groups[6].contextGroups[0].removes.length, 2);
+          assert.equal(groups[6].contextGroups[0].adds.length, 2);
+          for (const l of groups[6].contextGroups[0].removes) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
-          for (const l of groups[6].lines[0].contextGroups[0].adds) {
+          for (const l of groups[6].contextGroups[0].adds) {
             assert.equal(
                 l.text, '  all work and no play make jill a dull girl');
           }
 
           // The final chunk is completely hidden
           assert.equal(
-              groups[6].lines[0].contextGroups[1].type,
+              groups[6].contextGroups[1].type,
               GrDiffGroup.Type.BOTH);
-          assert.equal(groups[6].lines[0].contextGroups[1].lines.length, 3);
-          for (const l of groups[6].lines[0].contextGroups[1].lines) {
+          assert.equal(groups[6].contextGroups[1].lines.length, 3);
+          for (const l of groups[6].contextGroups[1].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
@@ -372,9 +372,9 @@ suite('gr-diff-processor tests', () => {
           }
 
           assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-          assert.instanceOf(groups[3].lines[0].contextGroups[0], GrDiffGroup);
-          assert.equal(groups[3].lines[0].contextGroups[0].lines.length, 80);
-          for (const l of groups[3].lines[0].contextGroups[0].lines) {
+          assert.instanceOf(groups[3].contextGroups[0], GrDiffGroup);
+          assert.equal(groups[3].contextGroups[0].lines.length, 80);
+          for (const l of groups[3].contextGroups[0].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
@@ -680,11 +680,10 @@ suite('gr-diff-processor tests', () => {
         // The first and last are uncollapsed context, whereas the middle has
         // a single context-control line.
         assert.equal(result.groups[0].lines.length, element.context);
-        assert.equal(result.groups[1].lines.length, 1);
         assert.equal(result.groups[2].lines.length, element.context);
 
         // The collapsed group has the hidden lines as its context group.
-        assert.equal(result.groups[1].lines[0].contextGroups[0].lines.length,
+        assert.equal(result.groups[1].contextGroups[0].lines.length,
             expectedCollapseSize);
       });
 
@@ -705,11 +704,10 @@ suite('gr-diff-processor tests', () => {
         assert.equal(result.groups.length, 2, 'Results in two groups');
 
         // Only the first group is collapsed.
-        assert.equal(result.groups[0].lines.length, 1);
         assert.equal(result.groups[1].lines.length, element.context);
 
         // The collapsed group has the hidden lines as its context group.
-        assert.equal(result.groups[0].lines[0].contextGroups[0].lines.length,
+        assert.equal(result.groups[0].contextGroups[0].lines.length,
             expectedCollapseSize);
       });
 
@@ -778,9 +776,8 @@ suite('gr-diff-processor tests', () => {
           // 2) The context before the key location.
           // The key location is not processed in this call to _processNext
           assert.equal(result.groups.length, 2);
-          assert.equal(result.groups[0].lines.length, 1);
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[0].lines[0].contextGroups[0].lines.length,
+          assert.equal(result.groups[0].contextGroups[0].lines.length,
               rows.length - element.context);
           assert.equal(result.groups[1].lines.length, element.context);
         });
@@ -807,9 +804,8 @@ suite('gr-diff-processor tests', () => {
           //    key location.
           assert.equal(result.groups.length, 2);
           assert.equal(result.groups[0].lines.length, element.context);
-          assert.equal(result.groups[1].lines.length, 1);
           // The collapsed group has the hidden lines as its context group.
-          assert.equal(result.groups[1].lines[0].contextGroups[0].lines.length,
+          assert.equal(result.groups[1].contextGroups[0].lines.length,
               rows.length - element.context);
         });
       });

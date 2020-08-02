@@ -16,6 +16,7 @@
  */
 import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 export function GrDiffBuilderUnified(diff, prefs, outputEl, layers) {
   GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
@@ -34,6 +35,11 @@ GrDiffBuilderUnified.prototype.buildSectionElement = function(group) {
   }
   if (group.ignoredWhitespaceOnly) {
     sectionEl.classList.add('ignoredWhitespaceOnly');
+  }
+  if (group.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
+    sectionEl.appendChild(
+        this._createContextRow(sectionEl, group.contextGroups));
+    return sectionEl;
   }
 
   for (let i = 0; i < group.lines.length; ++i) {
@@ -76,22 +82,26 @@ GrDiffBuilderUnified.prototype._createRow = function(section, line) {
   const row = this._createElement('tr', line.type);
   row.classList.add('diff-row', 'unified');
   row.tabIndex = -1;
-  row.appendChild(this._createBlameCell(line));
-
+  row.appendChild(this._createBlameCell(line.beforeNumber));
   let lineNumberEl = this._createLineEl(line, line.beforeNumber,
       GrDiffLine.Type.REMOVE, 'left');
   row.appendChild(lineNumberEl);
   lineNumberEl = this._createLineEl(line, line.afterNumber,
       GrDiffLine.Type.ADD, 'right');
   row.appendChild(lineNumberEl);
+  row.appendChild(this._createTextEl(lineNumberEl, line));
+  return row;
+};
 
-  const action = this._createContextControl(section, line);
-  if (action) {
-    row.appendChild(action);
-  } else {
-    const textEl = this._createTextEl(lineNumberEl, line);
-    row.appendChild(textEl);
-  }
+GrDiffBuilderUnified.prototype._createContextRow = function(section,
+    contextGroups) {
+  const row = this._createElement('tr', GrDiffGroup.Type.CONTEXT_CONTROL);
+  row.classList.add('diff-row', 'unified');
+  row.tabIndex = -1;
+  row.appendChild(this._createBlameCell(0));
+  row.appendChild(this._createElement('td', 'contextLineNum'));
+  row.appendChild(this._createElement('td', 'contextLineNum'));
+  row.appendChild(this._createContextControl(section, contextGroups));
   return row;
 };
 

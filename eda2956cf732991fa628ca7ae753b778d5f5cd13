@@ -34,6 +34,351 @@
       "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5c45e88_721f255b",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Based on the usage, el can be an EventTarget. With typeguard, the getPathFromNode requires one change in the first line: \nfunction isElement(el: EventTarget): el is Element {\n  return (el as Element).tagName !\u003d\u003d undefined;\n}\n\nfunction getPathFromNode(el: EventTarget): string {\n  if (!isElement(el) || el.tagName \u003d\u003d\u003d \u0027GR-APP\u0027\n      || el instanceof DocumentFragment\n      || el instanceof HTMLSlotElement) {\n    return \u0027\u0027;\n  }\n  let path \u003d el.tagName.toLowerCase();\n  if (el.id) path +\u003d `#${el.id}`;\n  if (el.className) path +\u003d `.${el.className.replace(/ /g, \u0027.\u0027)}`;\n  return path;\n}",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 46
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eef38c4f_9763a41d",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "It seems, PolymerElement can be removed - PolymerElement extends HtmlElement and HtmlElement extends Element.",
+      "range": {
+        "startLine": 63,
+        "startChar": 16,
+        "endLine": 63,
+        "endChar": 30
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09fd513a_8435ead8",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "With type guard \u0027as Element\u0027 is not required:\nfunction isLegacyElementMixin(el: Element | LegacyElementMixin): el is LegacyElementMixin {\n  return (el as any).getComputedStyleValue !\u003d\u003d undefined  ;\n}\n\nexport function getComputedStyleValue(name: string, el: Element | LegacyElementMixin) {\n  ...\n  } else if (isLegacyElementMixin(el)) {\n    style \u003d el.getComputedStyleValue(name);\n  } else {\n    style \u003d getComputedStyle(el).getPropertyValue(name);\n  }\n  ...\n}",
+      "range": {
+        "startLine": 73,
+        "startChar": 32,
+        "endLine": 73,
+        "endChar": 42
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75009492_ce37225a",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Please add return type. The code is quite complex and return type is not obvious for me",
+      "range": {
+        "startLine": 86,
+        "startChar": 16,
+        "endLine": 86,
+        "endChar": 29
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7970349_b00f52f0",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "This code can be hard to read. I can better understand a code with interface and type guard:\nexport interface ElementWithShadowRoot extends Element {\n  shadowRoot: ShadowRoot;\n}\n\nexport function isElementWithShadowRoot(\n  el: Element | ShadowRoot\n): el is ElementWithShadowRoot {\n  return !!(el as any).shadowRoot;\n}\n...\n\n...\n.filter(isElementWithShadowRoot)\n...",
+      "range": {
+        "startLine": 105,
+        "startChar": 8,
+        "endLine": 107,
+        "endChar": 0
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21538506_eccf465a",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Maybe use typeguard isElementWithShadowRoot (see comment above)",
+      "range": {
+        "startLine": 113,
+        "startChar": 8,
+        "endLine": 113,
+        "endChar": 47
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6a825e2_557954d9",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Please add return type",
+      "range": {
+        "startLine": 129,
+        "startChar": 16,
+        "endLine": 129,
+        "endChar": 32
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b435a71c_db8bfaff",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Maybe use typeguard isElementWithShadowRoot (see comment above)",
+      "range": {
+        "startLine": 143,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 0
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58bad1aa_6063937c",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Maybe use typeguard isElementWithShadowRoot (see comment above)",
+      "range": {
+        "startLine": 151,
+        "startChar": 8,
+        "endLine": 151,
+        "endChar": 47
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef8d6587_95482a18",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Please, remove.\nTypescript style guide says:\nOmit comments that are redundant with TypeScript",
+      "range": {
+        "startLine": 164,
+        "startChar": 1,
+        "endLine": 166,
+        "endChar": 0
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b995fcf_cb7836b6",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "It seems, e?: PolymerEvent better matches to the code - there is an \"if(!e)\" condition.",
+      "range": {
+        "startLine": 172,
+        "startChar": 29,
+        "endLine": 172,
+        "endChar": 30
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29e8b644_4dd3ff10",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Please, avoid rewriting a code.\nIf getPathFromNode accepts EventTarget as a parameter (see comments about), then changing\nel \u003d el.parentNode || el.host;\nto\nel \u003d (el as Node).parentNode || (el as ShadowRoot).host;\nallows typescript to infer all other types. (including types in path.reduce call)",
+      "range": {
+        "startLine": 175,
+        "startChar": 2,
+        "endLine": 190,
+        "endChar": 0
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adab681b_18cbb797",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Please, remove.\nTypescript style guide says:\nOmit comments that are redundant with TypeScript",
+      "range": {
+        "startLine": 203,
+        "startChar": 2,
+        "endLine": 204,
+        "endChar": 28
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ee0b41b_111ca003",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Please remove type - it is redundant with TypeScript",
+      "range": {
+        "startLine": 205,
+        "startChar": 10,
+        "endLine": 205,
+        "endChar": 20
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ac2f78a4_c9a0fe42",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T14:47:02Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 234,
+        "startChar": 0,
+        "endLine": 235,
+        "endChar": 25
+      },
+      "revId": "eda2956cf732991fa628ca7ae753b778d5f5cd13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

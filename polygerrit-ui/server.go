@@ -167,6 +167,15 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		// with the import error, so we can catch this problem easily.
 		writer.Header().Set("Content-Type", "text/html")
 	} else if isJsFile {
+	  // import ... from '@polymer/decorators'
+	  // must be transformed into
+	  // import ... from '@polymer/decorators/lib/decorators.js'
+	  // The correct way to do it is to use value of the "main" property
+	  // from the @polymer/decorators/package.json. However, parsing package.json
+	  // is overcomplicated right now, hard-code exact path here.
+    moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'@polymer/decorators';$")
+    data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '@polymer/decorators/lib/decorators.js';"))
+
 	  // The following code updates import statements.
 	  // 1. if an in imported file has .js or .mjs extension, the code keeps
     //	  the file extension unchanged. Otherwise, it adds .js extension
@@ -176,7 +185,7 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
     //   'page/page.mjs' -> '/node_modules/page.mjs'
     //   '@polymer/iron-icon' -> '/node_modules/@polymer/iron-icon.js'
     //   './element/file' -> './element/file.js'
-    moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'(.*?)(\\.(m?)js)?';$")
+    moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'(.*?)(\\.(m?)js)?';$")
     data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '$2.${4}js';"))
 
 		moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")

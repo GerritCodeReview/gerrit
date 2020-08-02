@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5dc39c44_707b63db",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-02T20:52:03Z",
+      "side": 1,
+      "message": "Ben or Tao - please review it. I added both of you to have review faster, but only one review is required.",
+      "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

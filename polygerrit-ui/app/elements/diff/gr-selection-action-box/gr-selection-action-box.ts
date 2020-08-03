@@ -14,77 +14,96 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-tooltip/gr-tooltip.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-selection-action-box_html.js';
+import '../../../styles/shared-styles';
+import {GrTooltip} from '../../shared/gr-tooltip/gr-tooltip';
+import {customElement, property} from '@polymer/decorators';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-selection-action-box_html';
 
-/**
- * @extends PolymerElement
- */
-class GrSelectionActionBox extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-selection-action-box': GrSelectionActionBox;
+  }
+}
 
-  static get is() { return 'gr-selection-action-box'; }
+export interface GrSelectionActionBox {
+  $: {
+    tooltip: GrTooltip;
+  };
+}
+
+@customElement('gr-selection-action-box')
+export class GrSelectionActionBox extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the comment creation action was taken (click).
    *
    * @event create-comment-requested
    */
 
-  static get properties() {
-    return {
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      positionBelow: Boolean,
-    };
-  }
+  @property({type: Object})
+  keyEventTarget: Record<string, any> = document.body;
+
+  @property({type: Boolean})
+  positionBelow = true;
 
   /** @override */
   created() {
     super.created();
 
     // See https://crbug.com/gerrit/4767
-    this.addEventListener('mousedown',
-        e => this._handleMouseDown(e));
+    this.addEventListener('mousedown', e => this._handleMouseDown(e));
   }
 
-  placeAbove(el) {
+  placeAbove(el: HTMLElement) {
     flush();
     const rect = this._getTargetBoundingRect(el);
     const boxRect = this.$.tooltip.getBoundingClientRect();
     const parentRect = this._getParentBoundingClientRect();
-    this.style.top =
-        rect.top - parentRect.top - boxRect.height - 6 + 'px';
-    this.style.left =
-        rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
+    if (parentRect === null) {
+      return;
+    }
+    this.style.top = `${rect.top - parentRect.top - boxRect.height - 6}px`;
+    this.style.left = `${
+      rect.left - parentRect.left + (rect.width - boxRect.width) / 2
+    }px`;
   }
 
-  placeBelow(el) {
+  placeBelow(el: HTMLElement) {
     flush();
     const rect = this._getTargetBoundingRect(el);
     const boxRect = this.$.tooltip.getBoundingClientRect();
     const parentRect = this._getParentBoundingClientRect();
-    this.style.top =
-    rect.top - parentRect.top + boxRect.height - 6 + 'px';
-    this.style.left =
-    rect.left - parentRect.left + (rect.width - boxRect.width) / 2 + 'px';
+    if (parentRect === null) {
+      return;
+    }
+    this.style.top = `${rect.top - parentRect.top + boxRect.height - 6}px`;
+    this.style.left = `${
+      rect.left - parentRect.left + (rect.width - boxRect.width) / 2
+    }px`;
   }
 
   _getParentBoundingClientRect() {
     // With native shadow DOM, the parent is the shadow root, not the gr-diff
     // element
-    const parent = this.parentElement || this.parentNode.host;
-    return parent.getBoundingClientRect();
+    if (this.parentElement) {
+      return this.parentElement.getBoundingClientRect();
+    }
+    if (this.parentNode !== null) {
+      return (this.parentNode as ShadowRoot).host.getBoundingClientRect();
+    }
+    return null;
   }
 
-  _getTargetBoundingRect(el) {
+  _getTargetBoundingRect(el: HTMLElement) {
     let rect;
     if (el instanceof Text) {
       const range = document.createRange();
@@ -97,14 +116,17 @@ class GrSelectionActionBox extends GestureEventListeners(
     return rect;
   }
 
-  _handleMouseDown(e) {
-    if (e.button !== 0) { return; } // 0 = main button
+  _handleMouseDown(e: MouseEvent) {
+    if (e.button !== 0) {
+      return;
+    } // 0 = main button
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('create-comment-requested', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('create-comment-requested', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 }
-
-customElements.define(GrSelectionActionBox.is, GrSelectionActionBox);

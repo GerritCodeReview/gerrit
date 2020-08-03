@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "14ea83f2_81fac4a3",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-03T19:36:02Z",
+      "side": 1,
+      "message": "Oh, already done. Sorry.",
+      "parentUuid": "ee3984c6_c65362fc",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 636,
+        "endChar": 0
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99457e67_319c1da8",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 2

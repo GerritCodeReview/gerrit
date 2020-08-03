@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "faa11532_b3c71724",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-03T13:34:05Z",
+      "side": 1,
+      "message": "You could a link to the issue here:\n\n  Bug: Issue 13214",
+      "revId": "977314c9b62b8c9409294bd185cbc2a6d64d0c5b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

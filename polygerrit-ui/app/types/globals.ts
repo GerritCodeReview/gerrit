@@ -23,6 +23,10 @@ declare global {
       getComputedStyleValue(el: Element, name: string): string;
     };
     HTMLImports?: {whenReady: (cb: () => void) => void};
+    linkify(
+      text: string,
+      options: {callback: (text: string, href?: string) => void}
+    ): void;
   }
 
   interface Performance {

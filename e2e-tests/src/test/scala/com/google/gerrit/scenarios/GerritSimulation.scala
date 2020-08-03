@@ -32,6 +32,7 @@ class GerritSimulation extends Simulation {
   protected val unique: String = name + "-" + this.hashCode()
   protected val single = 1
 
+  val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt
   private val powerFactor: Double = replaceProperty("power_factor", 1.0).toDouble
   protected val SecondsPerWeightUnit: Int = 2
   val maxExecutionTime: Int = (SecondsPerWeightUnit * relativeRuntimeWeight * powerFactor).toInt

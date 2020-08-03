@@ -901,6 +901,13 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void ownerNeverAddedAsReviewerToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).current().review(ReviewInput.approve().blockAutomaticAttentionSetRules());
+    assertThat(getAttentionSetUpdatesForUser(r, admin)).isEmpty();
+  }
+
+  @Test
   public void attentionSetStillChangesWithIgnoreAutomaticAttentionSetRulesWithInputList()
       throws Exception {
     PushOneCommit.Result r = createChange();

@@ -786,6 +786,10 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         getNotes().getReviewers().byState(ReviewerStateInternal.REVIEWER);
     Set<AttentionSetUpdate> updates = new HashSet<>();
     for (Map.Entry<Account.Id, ReviewerStateInternal> reviewer : reviewers.entrySet()) {
+      if (reviewer.getKey().equals(getNotes().getChange().getOwner())) {
+        // The owner can never be added as a reviewer and thus to the attention set.
+        continue;
+      }
       // Only add new reviewers to the attention set.
       if (reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
           && !currentReviewers.contains(reviewer.getKey())) {

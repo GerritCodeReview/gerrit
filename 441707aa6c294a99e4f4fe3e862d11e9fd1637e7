@@ -222,6 +222,30 @@
       "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "510d515c_869a6d3e",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-03T07:52:12Z",
+      "side": 1,
+      "message": "\u003e Good find. They\u0027d have to read the file on their own, but it would be possible.\n\u003e I think this risk is OK to take\n\nSure, I\u0027m not concerned about this part.\n\n\u003e (I don\u0027t know of any plugins that would use their\n\u003e own config format AND put files in refs/meta/config that end in .config).\n\nI\u0027m also not aware of any plugin that has such a custom config file, but it\u0027s possible.\n\nMay concern is, that all updates to the project.config will be rejected if such a file exists, since the validation error will make the validation of project.config fail.\n \n\u003e Do you think we should make this a warning instead?\n\nThis would be better, but I guess this alone would not solve the issue. Maybe we should also have a test for this?",
+      "parentUuid": "4377a4b3_b8d4c671",
+      "range": {
+        "startLine": 1184,
+        "startChar": 6,
+        "endLine": 1193,
+        "endChar": 7
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

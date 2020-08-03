@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "5d867283_9ffe7bb2",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-03T07:52:12Z",
+      "side": 0,
+      "message": "I think this LGTM, but I want to adapt the code-owners plugin to the change first, to be sure.",
+      "parentUuid": "221a4d1a_bbf3033b",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b8580ec_5ab1f524",
         "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
         "patchSetId": 5

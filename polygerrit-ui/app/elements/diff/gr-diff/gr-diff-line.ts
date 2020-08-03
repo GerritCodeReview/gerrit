@@ -15,37 +15,28 @@
  * limitations under the License.
  */
 
-/**
- * @constructor
- * @param {GrDiffLine.Type} type
- * @param {number|string=} opt_beforeLine
- * @param {number|string=} opt_afterLine
- */
-export function GrDiffLine(type, opt_beforeLine, opt_afterLine) {
-  this.type = type;
+type LineNumber = number | 'FILE';
 
-  /** @type {number|string} */
-  this.beforeNumber = opt_beforeLine || 0;
+export class GrDiffLine {
+  constructor(
+    readonly type: GrDiffLineType,
+    public beforeNumber: LineNumber = 0,
+    public afterNumber: LineNumber = 0
+  ) {}
 
-  /** @type {number|string} */
-  this.afterNumber = opt_afterLine || 0;
+  hasIntralineInfo = false;
 
-  /** @type {boolean} */
-  this.hasIntralineInfo = false;
+  readonly highlights: Highlights[] = [];
 
-  /** @type {!Array<GrDiffLine.Highlights>} */
-  this.highlights = [];
-
-  this.text = '';
+  text = '';
 }
 
-/** @enum {string} */
-GrDiffLine.Type = {
-  ADD: 'add',
-  BOTH: 'both',
-  BLANK: 'blank',
-  REMOVE: 'remove',
-};
+export enum GrDiffLineType {
+  ADD = 'add',
+  BOTH = 'both',
+  BLANK = 'blank',
+  REMOVE = 'remove',
+}
 
 /**
  * A line highlight object consists of three fields:
@@ -55,15 +46,13 @@ GrDiffLine.Type = {
  * - endIndex: (optional) Index of the character where the highlight should
  *   end. If omitted, the highlight is meant to be a continuation onto the
  *   next line.
- *
- * @typedef {{
- *  contentIndex: number,
- *  startIndex: number,
- *  endIndex: number
- * }}
  */
-GrDiffLine.Highlights;
+export interface Highlights {
+  contentIndex: number;
+  startIndex: number;
+  endIndex?: number;
+}
 
-GrDiffLine.FILE = 'FILE';
+export const FILE = 'FILE';
 
-GrDiffLine.BLANK_LINE = new GrDiffLine(GrDiffLine.Type.BLANK);
+export const BLANK_LINE = new GrDiffLine(GrDiffLineType.BLANK);

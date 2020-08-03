@@ -19,8 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff-group.js';
 import './gr-diff-builder.js';
 import './gr-diff-builder-unified.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilderUnified} from './gr-diff-builder-unified.js';
 
 suite('GrDiffBuilderUnified tests', () => {
@@ -44,15 +44,15 @@ suite('GrDiffBuilderUnified tests', () => {
 
     setup(() => {
       lines = [
-        new GrDiffLine(GrDiffLine.Type.BOTH, 1, 2),
-        new GrDiffLine(GrDiffLine.Type.BOTH, 2, 3),
-        new GrDiffLine(GrDiffLine.Type.BOTH, 3, 4),
+        new GrDiffLine(GrDiffLineType.BOTH, 1, 2),
+        new GrDiffLine(GrDiffLineType.BOTH, 2, 3),
+        new GrDiffLine(GrDiffLineType.BOTH, 3, 4),
       ];
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World";';
       lines[2].text = '  return True';
 
-      group = new GrDiffGroup(GrDiffGroup.Type.BOTH, lines);
+      group = new GrDiffGroup(GrDiffGroupType.BOTH, lines);
     });
 
     test('creates the section', () => {
@@ -102,17 +102,17 @@ suite('GrDiffBuilderUnified tests', () => {
 
     setup(() => {
       lines = [
-        new GrDiffLine(GrDiffLine.Type.REMOVE, 1),
-        new GrDiffLine(GrDiffLine.Type.REMOVE, 2),
-        new GrDiffLine(GrDiffLine.Type.ADD, 2),
-        new GrDiffLine(GrDiffLine.Type.ADD, 3),
+        new GrDiffLine(GrDiffLineType.REMOVE, 1),
+        new GrDiffLine(GrDiffLineType.REMOVE, 2),
+        new GrDiffLine(GrDiffLineType.ADD, 2),
+        new GrDiffLine(GrDiffLineType.ADD, 3),
       ];
       lines[0].text = 'def hello_world():';
       lines[1].text = '  print "Hello World"';
       lines[2].text = 'def hello_universe()';
       lines[3].text = '  print "Hello Universe"';
 
-      group = new GrDiffGroup(GrDiffGroup.Type.DELTA, lines);
+      group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
     });
 
     test('creates the section', () => {

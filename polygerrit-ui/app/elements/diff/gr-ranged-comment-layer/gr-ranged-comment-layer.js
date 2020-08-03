@@ -19,7 +19,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-ranged-comment-layer_html.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {strToClassName} from '../../../utils/dom-util.js';
 
 // Polymer 1 adds # before array's key, while Polymer 2 doesn't
@@ -79,13 +79,13 @@ class GrRangedCommentLayer extends GestureEventListeners(
    */
   annotate(el, lineNumberEl, line) {
     let ranges = [];
-    if (line.type === GrDiffLine.Type.REMOVE || (
-      line.type === GrDiffLine.Type.BOTH &&
+    if (line.type === GrDiffLineType.REMOVE || (
+      line.type === GrDiffLineType.BOTH &&
         el.getAttribute('data-side') !== 'right')) {
       ranges = ranges.concat(this._getRangesForLine(line, 'left'));
     }
-    if (line.type === GrDiffLine.Type.ADD || (
-      line.type === GrDiffLine.Type.BOTH &&
+    if (line.type === GrDiffLineType.ADD || (
+      line.type === GrDiffLineType.BOTH &&
         el.getAttribute('data-side') !== 'left')) {
       ranges = ranges.concat(this._getRangesForLine(line, 'right'));
     }
@@ -217,6 +217,8 @@ class GrRangedCommentLayer extends GestureEventListeners(
   }
 
   _getRangesForLine(line, side) {
+    console.error('_getRangesForLine1: ' + line.beforeNumber + '/' + line.afterNumber + '/' + side);
+    console.error('_getRangesForLine2: ' + this._rangesMap.left + '/' + this._rangesMap.right);
     const lineNum = side === 'left' ? line.beforeNumber : line.afterNumber;
     const ranges = this.get(['_rangesMap', side, lineNum]) || [];
     return ranges

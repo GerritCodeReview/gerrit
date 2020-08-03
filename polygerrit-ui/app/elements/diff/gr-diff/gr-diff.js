@@ -26,7 +26,7 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {htmlTemplate} from './gr-diff_html.js';
-import {GrDiffLine} from './gr-diff-line.js';
+import {GrDiffLine, FILE} from './gr-diff-line.js';
 import {DiffSide, rangesEqual} from './gr-diff-utils.js';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll.js';
 import {
@@ -395,8 +395,7 @@ class GrDiff extends GestureEventListeners(
 
     for (const threadEl of threadEls) {
       const commentSide = threadEl.getAttribute('comment-side');
-      const lineNum = Number(threadEl.getAttribute('line-num')) ||
-          GrDiffLine.FILE;
+      const lineNum = Number(threadEl.getAttribute('line-num')) || FILE;
       const commentRange = threadEl.range || {};
       keyLocations[commentSide][lineNum] = true;
       // Add start_line as well if exists,
@@ -521,7 +520,7 @@ class GrDiff extends GestureEventListeners(
 
     const value = el.getAttribute('data-value');
     let lineNum;
-    if (value !== GrDiffLine.FILE) {
+    if (value !== FILE) {
       lineNum = parseInt(value, 10);
       if (isNaN(lineNum)) {
         this.dispatchEvent(new CustomEvent('show-alert', {

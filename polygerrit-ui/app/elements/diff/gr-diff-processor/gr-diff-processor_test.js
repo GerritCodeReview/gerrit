@@ -17,8 +17,8 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-processor.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
+import {GrDiffLineType, FILE} from '../gr-diff/gr-diff-line.js';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 
 const basicFixture = fixtureFromElement('gr-diff-processor');
 
@@ -76,14 +76,14 @@ suite('gr-diff-processor tests', () => {
         assert.equal(groups.length, 4);
 
         let group = groups[0];
-        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.type, GrDiffGroupType.BOTH);
         assert.equal(group.lines.length, 1);
         assert.equal(group.lines[0].text, '');
-        assert.equal(group.lines[0].beforeNumber, GrDiffLine.FILE);
-        assert.equal(group.lines[0].afterNumber, GrDiffLine.FILE);
+        assert.equal(group.lines[0].beforeNumber, FILE);
+        assert.equal(group.lines[0].afterNumber, FILE);
 
         group = groups[1];
-        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.type, GrDiffGroupType.BOTH);
         assert.equal(group.lines.length, 2);
 
         function beforeNumberFn(l) { return l.beforeNumber; }
@@ -98,7 +98,7 @@ suite('gr-diff-processor tests', () => {
         ]);
 
         group = groups[2];
-        assert.equal(group.type, GrDiffGroup.Type.DELTA);
+        assert.equal(group.type, GrDiffGroupType.DELTA);
         assert.equal(group.lines.length, 3);
         assert.equal(group.adds.length, 1);
         assert.equal(group.removes.length, 2);
@@ -113,7 +113,7 @@ suite('gr-diff-processor tests', () => {
         ]);
 
         group = groups[3];
-        assert.equal(group.type, GrDiffGroup.Type.BOTH);
+        assert.equal(group.type, GrDiffGroupType.BOTH);
         assert.equal(group.lines.length, 3);
         assert.deepEqual(group.lines.map(beforeNumberFn), [5, 6, 7]);
         assert.deepEqual(group.lines.map(afterNumberFn), [4, 5, 6]);
@@ -133,11 +133,11 @@ suite('gr-diff-processor tests', () => {
       return element.process(content).then(() => {
         const groups = element.groups;
 
-        assert.equal(groups[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(groups[0].type, GrDiffGroupType.BOTH);
         assert.equal(groups[0].lines.length, 1);
         assert.equal(groups[0].lines[0].text, '');
-        assert.equal(groups[0].lines[0].beforeNumber, GrDiffLine.FILE);
-        assert.equal(groups[0].lines[0].afterNumber, GrDiffLine.FILE);
+        assert.equal(groups[0].lines[0].beforeNumber, FILE);
+        assert.equal(groups[0].lines[0].afterNumber, FILE);
       });
     });
 
@@ -155,14 +155,14 @@ suite('gr-diff-processor tests', () => {
 
           // group[0] is the file group
 
-          assert.equal(groups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+          assert.equal(groups[1].type, GrDiffGroupType.CONTEXT_CONTROL);
           assert.instanceOf(groups[1].contextGroups[0], GrDiffGroup);
           assert.equal(groups[1].contextGroups[0].lines.length, 90);
           for (const l of groups[1].contextGroups[0].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
           }
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 10);
           for (const l of groups[2].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
@@ -183,7 +183,7 @@ suite('gr-diff-processor tests', () => {
 
           // group[0] is the file group
 
-          assert.equal(groups[1].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[1].type, GrDiffGroupType.BOTH);
           assert.equal(groups[1].lines.length, 5);
           for (const l of groups[1].lines) {
             assert.equal(l.text, 'all work and no play make jack a dull boy');
@@ -205,14 +205,14 @@ suite('gr-diff-processor tests', () => {
           // group[0] is the file group
           // group[1] is the "a" group
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 10);
           for (const l of groups[2].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
 
-          assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+          assert.equal(groups[3].type, GrDiffGroupType.CONTEXT_CONTROL);
           assert.instanceOf(groups[3].contextGroups[0], GrDiffGroup);
           assert.equal(groups[3].contextGroups[0].lines.length, 90);
           for (const l of groups[3].contextGroups[0].lines) {
@@ -236,7 +236,7 @@ suite('gr-diff-processor tests', () => {
           // group[0] is the file group
           // group[1] is the "a" group
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 5);
           for (const l of groups[2].lines) {
             assert.equal(
@@ -280,14 +280,14 @@ suite('gr-diff-processor tests', () => {
           // The first three interleaved chunks are completely shown because
           // they are part of the context (3 * 3 <= 10)
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 3);
           for (const l of groups[2].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
 
-          assert.equal(groups[3].type, GrDiffGroup.Type.DELTA);
+          assert.equal(groups[3].type, GrDiffGroupType.DELTA);
           assert.equal(groups[3].lines.length, 6);
           assert.equal(groups[3].adds.length, 3);
           assert.equal(groups[3].removes.length, 3);
@@ -300,7 +300,7 @@ suite('gr-diff-processor tests', () => {
                 l.text, '  all work and no play make jill a dull girl');
           }
 
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[4].type, GrDiffGroupType.BOTH);
           assert.equal(groups[4].lines.length, 3);
           for (const l of groups[4].lines) {
             assert.equal(
@@ -309,7 +309,7 @@ suite('gr-diff-processor tests', () => {
 
           // The next chunk is partially shown, so it results in two groups
 
-          assert.equal(groups[5].type, GrDiffGroup.Type.DELTA);
+          assert.equal(groups[5].type, GrDiffGroupType.DELTA);
           assert.equal(groups[5].lines.length, 2);
           assert.equal(groups[5].adds.length, 1);
           assert.equal(groups[5].removes.length, 1);
@@ -322,7 +322,7 @@ suite('gr-diff-processor tests', () => {
                 l.text, '  all work and no play make jill a dull girl');
           }
 
-          assert.equal(groups[6].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+          assert.equal(groups[6].type, GrDiffGroupType.CONTEXT_CONTROL);
           assert.equal(groups[6].contextGroups.length, 2);
 
           assert.equal(groups[6].contextGroups[0].lines.length, 4);
@@ -340,7 +340,7 @@ suite('gr-diff-processor tests', () => {
           // The final chunk is completely hidden
           assert.equal(
               groups[6].contextGroups[1].type,
-              GrDiffGroup.Type.BOTH);
+              GrDiffGroupType.BOTH);
           assert.equal(groups[6].contextGroups[1].lines.length, 3);
           for (const l of groups[6].contextGroups[1].lines) {
             assert.equal(
@@ -364,14 +364,14 @@ suite('gr-diff-processor tests', () => {
           // group[0] is the file group
           // group[1] is the "a" group
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 10);
           for (const l of groups[2].lines) {
             assert.equal(
                 l.text, 'all work and no play make jill a dull girl');
           }
 
-          assert.equal(groups[3].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+          assert.equal(groups[3].type, GrDiffGroupType.CONTEXT_CONTROL);
           assert.instanceOf(groups[3].contextGroups[0], GrDiffGroup);
           assert.equal(groups[3].contextGroups[0].lines.length, 80);
           for (const l of groups[3].contextGroups[0].lines) {
@@ -379,7 +379,7 @@ suite('gr-diff-processor tests', () => {
                 l.text, 'all work and no play make jill a dull girl');
           }
 
-          assert.equal(groups[4].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[4].type, GrDiffGroupType.BOTH);
           assert.equal(groups[4].lines.length, 10);
           for (const l of groups[4].lines) {
             assert.equal(
@@ -403,7 +403,7 @@ suite('gr-diff-processor tests', () => {
           // group[0] is the file group
           // group[1] is the "a" group
 
-          assert.equal(groups[2].type, GrDiffGroup.Type.BOTH);
+          assert.equal(groups[2].type, GrDiffGroupType.BOTH);
           assert.equal(groups[2].lines.length, 5);
           for (const l of groups[2].lines) {
             assert.equal(
@@ -644,7 +644,7 @@ suite('gr-diff-processor tests', () => {
 
         // Results in one, uncollapsed group with all rows.
         assert.equal(result.groups.length, 1);
-        assert.equal(result.groups[0].type, GrDiffGroup.Type.BOTH);
+        assert.equal(result.groups[0].type, GrDiffGroupType.BOTH);
         assert.equal(result.groups[0].lines.length, rows.length);
 
         // Line numbers are set correctly.
@@ -820,22 +820,22 @@ suite('gr-diff-processor tests', () => {
 
       test('_linesFromRows', () => {
         const startLineNum = 10;
-        let result = element._linesFromRows(GrDiffLine.Type.ADD, rows,
+        let result = element._linesFromRows(GrDiffLineType.ADD, rows,
             startLineNum + 1);
 
         assert.equal(result.length, rows.length);
-        assert.equal(result[0].type, GrDiffLine.Type.ADD);
+        assert.equal(result[0].type, GrDiffLineType.ADD);
         assert.equal(result[0].afterNumber, startLineNum + 1);
         assert.notOk(result[0].beforeNumber);
         assert.equal(result[result.length - 1].afterNumber,
             startLineNum + rows.length);
         assert.notOk(result[result.length - 1].beforeNumber);
 
-        result = element._linesFromRows(GrDiffLine.Type.REMOVE, rows,
+        result = element._linesFromRows(GrDiffLineType.REMOVE, rows,
             startLineNum + 1);
 
         assert.equal(result.length, rows.length);
-        assert.equal(result[0].type, GrDiffLine.Type.REMOVE);
+        assert.equal(result[0].type, GrDiffLineType.REMOVE);
         assert.equal(result[0].beforeNumber, startLineNum + 1);
         assert.notOk(result[0].afterNumber);
         assert.equal(result[result.length - 1].beforeNumber,

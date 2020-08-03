@@ -122,22 +122,30 @@ export const AccessPermissions = {
   },
 };
 
+interface AccessPermission {
+  id: string;
+  name: string;
+}
+
 /**
- * @param {!Object} obj
  * @return {!Array} returns a sorted array sorted by the id of the original
  *    object.
  */
-export function toSortedPermissionsArray(obj) {
-  if (!obj) { return []; }
+export function toSortedPermissionsArray(
+  obj: Record<string, AccessPermission>
+) {
+  if (!obj) {
+    return [];
+  }
   return Object.keys(obj)
-      .map(key => {
-        return {
-          id: key,
-          value: obj[key],
-        };
-      })
-      .sort((a, b) =>
-        // Since IDs are strings, use localeCompare.
-        a.id.localeCompare(b.id)
-      );
+    .map(key => {
+      return {
+        id: key,
+        value: obj[key],
+      };
+    })
+    .sort((a, b) =>
+      // Since IDs are strings, use localeCompare.
+      a.id.localeCompare(b.id)
+    );
 }

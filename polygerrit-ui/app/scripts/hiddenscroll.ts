@@ -15,18 +15,17 @@
  * limitations under the License.
  */
 
-let hiddenscroll = undefined;
+let hiddenscroll: boolean | undefined = undefined;
 
 window.addEventListener('WebComponentsReady', () => {
   const elem = document.createElement('div');
-  elem.setAttribute(
-      'style', 'width:100px;height:100px;overflow:scroll');
+  elem.setAttribute('style', 'width:100px;height:100px;overflow:scroll');
   document.body.appendChild(elem);
   hiddenscroll = elem.offsetWidth === elem.clientWidth;
   elem.remove();
 });
 
-export function _setHiddenScroll(value) {
+export function _setHiddenScroll(value: boolean) {
   hiddenscroll = value;
 }
 

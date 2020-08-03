@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71ddf300_a9c5a2b2",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "Here and below - remove all redundant jsdoc comments(from the typescript style guide - \"Omit comments that are redundant with TypeScript\", there are more examples in the style guide).",
+      "range": {
+        "startLine": 59,
+        "startChar": 10,
+        "endLine": 59,
+        "endChar": 25
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f772400_be1fdc7b",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "While we are converting to Javascript, we can\u0027t be sure that PatchSetNum contains only number. I.e. javascript code can call this method and pass string as a and/or b.\nIt is better to keep the previous or replace it with `${a}` \u003d\u003d\u003d `${b}` and add\nTODO(TS): replace with a\u003d\u003d\u003db when the whole code is converted to typescript.",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ec20517_5ad513be",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "Typescript style guide recommends to use Array\u003c...\u003e only for \"complex\" types. Here it is better to use RevisionInfo[] (the same in other places in this file)",
+      "range": {
+        "startLine": 88,
+        "startChar": 13,
+        "endLine": 88,
+        "endChar": 32
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf8822a6_3d191425",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "With this return method has a different behavior.\nBefore it returns undefined, when item is not found. Now it returns empty object.\nFor example, in the gr-file-list-header there is the following code:\nconst rev \u003d getRevisionByPatchNum(change.revisions, patchNum);\nthis._patchsetDescription \u003d (rev \u0026\u0026 rev.description) ?\n    ...\n\nI.e. it expects that getRevisionByPatchNum can return undefined or null if revision is not found.\nThe code can return null or undefined instead of {} \n\nP.S. It seems, that JSDoc is not correct about return types - the method can return undefined.",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 12
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bac7efab_1ba12b3e",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "Please add a comment why here _number is number and not a string \u0027edit\u0027",
+      "range": {
+        "startLine": 127,
+        "startChar": 25,
+        "endLine": 127,
+        "endChar": 45
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79796239_c6069cf7",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "Please add\nTODO(TS): find a way to avoid \u0027as\u0027",
+      "range": {
+        "startLine": 150,
+        "startChar": 14,
+        "endLine": 150,
+        "endChar": 33
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed22f99d_e8bb5164",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "What about if(msg.tag \u0026\u0026 ...)  ? Will it work?",
+      "range": {
+        "startLine": 215,
+        "startChar": 8,
+        "endLine": 215,
+        "endChar": 35
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b70002f8_d7169689",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "The same as above - please keep temporary the old code and add TODO for the future.",
+      "range": {
+        "startLine": 311,
+        "startChar": 19,
+        "endLine": 311,
+        "endChar": 28
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

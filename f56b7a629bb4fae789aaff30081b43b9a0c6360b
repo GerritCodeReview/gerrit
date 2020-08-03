@@ -22,6 +22,30 @@
       "revId": "f56b7a629bb4fae789aaff30081b43b9a0c6360b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17804c56_47eb2b76",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:01:31Z",
+      "side": 1,
+      "message": "Typescript doesn\u0027t know when callback\nsha \u003d\u003e {...}\nis actually called. Suppose, that map calls this callback later, let say after 5 minutes (yes, we know that this is not possible, but typescript doesn\u0027t). change.revisions can be null at this time.\n\nThe workaround is to introduce local variable:\nif(change.revisions ...) {\n   const changeRevisision \u003d change.revisions;\n   const revisions... \u003d ...map(sha \u003d\u003e { return ...changeRevisions[sha]; });\n   ....\n}",
+      "parentUuid": "3ee2ea83_387a9ede",
+      "range": {
+        "startLine": 163,
+        "startChar": 24,
+        "endLine": 163,
+        "endChar": 40
+      },
+      "revId": "f56b7a629bb4fae789aaff30081b43b9a0c6360b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

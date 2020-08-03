@@ -872,6 +872,40 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void ownerNotAddedAsReviewerToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).current().review(ReviewInput.approve());
+    assertThat(getAttentionSetUpdatesForUser(r, admin)).isEmpty();
+  }
+
+  @Test
+  public void ownerNotAddedAsReviewerToAttentionSetWithoutAutomaticRules() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).current().review(ReviewInput.approve().blockAutomaticAttentionSetRules());
+    assertThat(getAttentionSetUpdatesForUser(r, admin)).isEmpty();
+  }
+
+  @Test
+  public void uploaderNotAddedAsReviewerToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    amendChangeWithUploader(r, project, user);
+    requestScopeOperations.setApiUser(user.id());
+
+    change(r).current().review(ReviewInput.recommend());
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
+  public void uploaderNotAddedAsReviewerToAttentionSetWithoutAutomaticRules() throws Exception {
+    PushOneCommit.Result r = createChange();
+    amendChangeWithUploader(r, project, user);
+    requestScopeOperations.setApiUser(user.id());
+
+    change(r).current().review(ReviewInput.recommend().blockAutomaticAttentionSetRules());
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
   public void attentionSetStillChangesWithIgnoreAutomaticAttentionSetRulesWithInputList()
       throws Exception {
     PushOneCommit.Result r = createChange();

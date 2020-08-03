@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "85bd6484_bb126e61",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-03T12:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ea3d317_00a2e38a",
+      "range": {
+        "startLine": 94,
+        "startChar": 2,
+        "endLine": 94,
+        "endChar": 30
+      },
+      "revId": "fff42277fab108ac6ff6ef5e7eb0cf8200b42b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4f3be8e_d534a24f",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "a83f89f8_0fe87c4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-03T12:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4f3be8e_d534a24f",
+      "range": {
+        "startLine": 106,
+        "startChar": 2,
+        "endLine": 106,
+        "endChar": 24
+      },
+      "revId": "fff42277fab108ac6ff6ef5e7eb0cf8200b42b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34fc4e9c_ef4c4e69",
         "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "fff42277fab108ac6ff6ef5e7eb0cf8200b42b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b445ec4b_e5d24256",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-03T12:26:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34fc4e9c_ef4c4e69",
+      "range": {
+        "startLine": 119,
+        "startChar": 2,
+        "endLine": 119,
+        "endChar": 18
+      },
+      "revId": "fff42277fab108ac6ff6ef5e7eb0cf8200b42b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

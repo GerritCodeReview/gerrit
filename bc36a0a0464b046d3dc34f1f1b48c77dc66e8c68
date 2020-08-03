@@ -16,6 +16,52 @@
       "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd441c93_7f84b419",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-03T10:03:44Z",
+      "side": 1,
+      "message": "indent looks off. Did you run gofmt ?",
+      "range": {
+        "startLine": 176,
+        "startChar": 1,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa39e1ee_8242d0ec",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-03T10:03:44Z",
+      "side": 1,
+      "message": "you can use ` to avoid having to escape \\",
+      "range": {
+        "startLine": 188,
+        "startChar": 44,
+        "endLine": 188,
+        "endChar": 46
+      },
+      "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

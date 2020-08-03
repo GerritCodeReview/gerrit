@@ -22,6 +22,30 @@
       "revId": "223ea73ba295c94b8ed7ad4488f12cfcf54eb756",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3e3a49c_26e7aa3d",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T09:10:52Z",
+      "side": 1,
+      "message": "haha indeed, but that may affect a lot places if we decide to go with that convention :) or take advantage of the js/ts itself :) \n\nI will keep it for now :)",
+      "parentUuid": "7cd77c66_6b433f75",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "223ea73ba295c94b8ed7ad4488f12cfcf54eb756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

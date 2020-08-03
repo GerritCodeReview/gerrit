@@ -16,7 +16,7 @@
  */
 
 export const GrEditConstants = {
-// Order corresponds to order in the UI.
+  // Order corresponds to order in the UI.
   Actions: {
     OPEN: {label: 'Add/Open/Upload', id: 'open'},
     DELETE: {label: 'Delete', id: 'delete'},
@@ -24,4 +24,3 @@ export const GrEditConstants = {
     RESTORE: {label: 'Restore', id: 'restore'},
   },
 };
-

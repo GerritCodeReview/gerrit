@@ -159,7 +159,7 @@ export class GrStorage extends GestureEventListeners(
     if (!serial) {
       return null;
     }
-    return JSON.parse(serial);
+    return JSON.parse(serial) as StorageObject;
   }
 
   _setObject(key: string, obj: StorageObject) {

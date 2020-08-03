@@ -31,3 +31,7 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
   // Typescript rules don't allow to use obj.hasOwnProperty directly
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
+
+// TODO(TS): move to common types once we have type utils
+// tslint:disable-next-line:no-any Required for constructor signature.
+export type Constructor<T> = new (...args: any[]) => T;

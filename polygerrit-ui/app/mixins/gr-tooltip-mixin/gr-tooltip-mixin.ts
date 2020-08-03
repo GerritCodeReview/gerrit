@@ -19,18 +19,30 @@ import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {getRootElement} from '../../scripts/rootElement';
 import {property, observe} from '@polymer/decorators';
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
-import {PolymerElementConstructor} from '@polymer/polymer/interfaces';
-import {ElementMixinConstructor} from '@polymer/polymer/lib/mixins/element-mixin';
 import {GrTooltip} from '../../elements/shared/gr-tooltip/gr-tooltip';
+import {PolymerElement} from '@polymer/polymer';
+import {Constructor} from '../../utils/common-util';
 
 const BOTTOM_OFFSET = 7.2; // Height of the arrow in tooltip.
+
+/** The interface corresponding to TooltipMixin */
+export interface TooltipMixinInterface {
+  hasTooltip: boolean;
+  positionBelow: boolean;
+  _isTouchDevice: boolean;
+  _tooltip: GrTooltip | null;
+  _titleText: string;
+  _hasSetupTooltipListeners: boolean;
+}
 
 /**
  * @polymer
  * @mixinFunction
  */
 export const TooltipMixin = dedupingMixin(
-  (superClass: PolymerElementConstructor & ElementMixinConstructor) => {
+  <T extends Constructor<PolymerElement>>(
+    superClass: T
+  ): T & Constructor<TooltipMixinInterface> => {
     /**
      * @polymer
      * @mixinClass
@@ -66,7 +78,8 @@ export const TooltipMixin = dedupingMixin(
       // Hanlder for hiding the tooltip, will be attached to certain events
       private readonly hideHandler: () => void;
 
-      constructor() {
+      // tslint:disable-next-line:no-any Required for constructor signature.
+      constructor(...args: any[]) {
         super();
         this.windowScrollHandler = () => this._handleWindowScroll();
         this.showHandler = () => this._handleShowTooltip();

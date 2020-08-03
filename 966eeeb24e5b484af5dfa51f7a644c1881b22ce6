@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b4d8f274_78f2f680",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-08-03T16:21:42Z",
+      "side": 1,
+      "message": "This seems to contradict the change description.",
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "600c6db0_15962486",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-08-03T16:21:42Z",
+      "side": 1,
+      "message": "Doesn\u0027t this bypass the code path you want to test?",
+      "range": {
+        "startLine": 906,
+        "startChar": 53,
+        "endLine": 906,
+        "endChar": 86
+      },
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

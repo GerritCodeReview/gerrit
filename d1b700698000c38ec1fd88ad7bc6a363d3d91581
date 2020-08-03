@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6e5b1a1_980ffd37",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T20:49:07Z",
+      "side": 1,
+      "message": "reflectToAttribute: true is missed\nNot sure how to add this attribute to a computed property",
+      "range": {
+        "startLine": 76,
+        "startChar": 6,
+        "endLine": 76,
+        "endChar": 18
+      },
+      "revId": "d1b700698000c38ec1fd88ad7bc6a363d3d91581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc60dd28_6555f335",
+        "filename": "polygerrit-ui/app/elements/shared/gr-button/gr-button.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T20:49:07Z",
+      "side": 1,
+      "message": "May be call this._disable here? Both has the same come",
+      "range": {
+        "startLine": 77,
+        "startChar": 11,
+        "endLine": 77,
+        "endChar": 40
+      },
+      "revId": "d1b700698000c38ec1fd88ad7bc6a363d3d91581",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

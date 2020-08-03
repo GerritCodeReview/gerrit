@@ -167,26 +167,26 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		// with the import error, so we can catch this problem easily.
 		writer.Header().Set("Content-Type", "text/html")
 	} else if isJsFile {
-	  // import ... from '@polymer/decorators'
-	  // must be transformed into
-	  // import ... from '@polymer/decorators/lib/decorators.js'
-	  // The correct way to do it is to use value of the "main" property
-	  // from the @polymer/decorators/package.json. However, parsing package.json
-	  // is overcomplicated right now, hard-code exact path here.
-    moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'@polymer/decorators';$")
-    data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '@polymer/decorators/lib/decorators.js';"))
+		// import ... from '@polymer/decorators'
+		// must be transformed into
+		// import ... from '@polymer/decorators/lib/decorators.js'
+		// The correct way to do it is to use value of the "main" property
+		// from the @polymer/decorators/package.json. However, parsing package.json
+		// is overcomplicated right now, hard-code exact path here.
+		moduleImportRegexp := regexp.MustCompile("(?m)^(import.*)'@polymer/decorators';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '@polymer/decorators/lib/decorators.js';"))
 
-	  // The following code updates import statements.
-	  // 1. if an in imported file has .js or .mjs extension, the code keeps
-    //	  the file extension unchanged. Otherwise, it adds .js extension
-	  // 2. For module imports it adds '/node_modules/' prefix.
-	  //   Examples:
-	  //   '@polymer/polymer.js' -> '/node_modules/@polymer/polymer.js'
-    //   'page/page.mjs' -> '/node_modules/page.mjs'
-    //   '@polymer/iron-icon' -> '/node_modules/@polymer/iron-icon.js'
-    //   './element/file' -> './element/file.js'
-    moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'(.*?)(\\.(m?)js)?';$")
-    data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '$2.${4}js';"))
+		// The following code updates import statements.
+		// 1. if an in imported file has .js or .mjs extension, the code keeps
+		//	  the file extension unchanged. Otherwise, it adds .js extension
+		// 2. For module imports it adds '/node_modules/' prefix.
+		//   Examples:
+		//   '@polymer/polymer.js' -> '/node_modules/@polymer/polymer.js'
+		//   'page/page.mjs' -> '/node_modules/page.mjs'
+		//   '@polymer/iron-icon' -> '/node_modules/@polymer/iron-icon.js'
+		//   './element/file' -> './element/file.js'
+		moduleImportRegexp = regexp.MustCompile(`(?m)^(import.*)'(.*?)(\.(m?)js)?';$`)
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '$2.${4}js';"))
 
 		moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
@@ -503,8 +503,8 @@ func (_ *server) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 // Additionally, the code analyzes messages produced by the typescript compiler
 // and allows to wait until compilation is finished.
 var (
-	tsStartingCompilation     = "- Starting compilation in watch mode..."
-	tsFileChangeDetectedMsg   = "- File change detected. Starting incremental compilation..."
+	tsStartingCompilation   = "- Starting compilation in watch mode..."
+	tsFileChangeDetectedMsg = "- File change detected. Starting incremental compilation..."
 	// If there is only one error typescript outputs:
 	// Found 1 error
 	// In all other cases it outputs

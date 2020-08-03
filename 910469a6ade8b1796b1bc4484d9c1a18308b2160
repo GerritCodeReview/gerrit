@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "115869c8_42c1e93c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-08-03T22:55:06Z",
+      "side": 1,
+      "message": "It seems like there is a problem with the deleteproject plugin, but I don\u0027t understand why that would not affect the parent changes also?\n\nplugins/delete-project/src/test/java/com/googlesource/gerrit/plugins/deleteproject/ConfigurationTest.java:59: error: PluginConfig is abstract; cannot be instantiated\n        .thenReturn(new PluginConfig(PLUGIN_NAME, new Config()));",
+      "revId": "910469a6ade8b1796b1bc4484d9c1a18308b2160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

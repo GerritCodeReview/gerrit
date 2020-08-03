@@ -16,7 +16,7 @@
  */
 
 import {GrDiffBuilder} from './gr-diff-builder.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group';
+import {GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 
 /** @constructor */
 export function GrDiffBuilderSideBySide(diff, prefs, outputEl, layers) {
@@ -37,7 +37,7 @@ GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
   if (group.ignoredWhitespaceOnly) {
     sectionEl.classList.add('ignoredWhitespaceOnly');
   }
-  if (group.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
+  if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
     sectionEl.appendChild(
         this._createContextRow(sectionEl, group.contextGroups));
     return sectionEl;
@@ -106,8 +106,8 @@ GrDiffBuilderSideBySide.prototype._createContextRow = function(section,
     contextGroups) {
   const row = this._createElement('tr');
   row.classList.add('diff-row', 'side-by-side');
-  row.setAttribute('left-type', GrDiffGroup.Type.CONTEXT_CONTROL);
-  row.setAttribute('right-type', GrDiffGroup.Type.CONTEXT_CONTROL);
+  row.setAttribute('left-type', GrDiffGroupType.CONTEXT_CONTROL);
+  row.setAttribute('right-type', GrDiffGroupType.CONTEXT_CONTROL);
   row.tabIndex = -1;
 
   row.appendChild(this._createBlameCell(0));

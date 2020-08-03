@@ -18,7 +18,10 @@
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 
-interface PolymerEvent extends EventApi, Event {}
+/**
+ * Event emitted from polymer elements.
+ */
+export interface PolymerEvent extends EventApi, Event {}
 
 interface ElementWithShadowRoot extends Element {
   shadowRoot: ShadowRoot;
@@ -179,7 +182,7 @@ export function querySelectorAll(
  *  getEventPath(e); // eg: div.class1>p#pid.class2
  * }
  */
-export function getEventPath(e?: PolymerEvent) {
+export function getEventPath<T extends PolymerEvent>(e?: T) {
   if (!e) return '';
 
   let path = e.path;

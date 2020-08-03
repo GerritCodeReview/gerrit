@@ -95,8 +95,9 @@ export const ChangeTableMixin = dedupingMixin(superClass => {
      * @return {!Array<string>} enabled columns, see isColumnEnabled().
      */
     getEnabledColumns(columns, config, experiments) {
-      return columns.filter(
-          col => this.isColumnEnabled(col, config, experiments));
+      return columns.filter(col =>
+        this.isColumnEnabled(col, config, experiments)
+      );
     }
 
     /**
@@ -110,7 +111,9 @@ export const ChangeTableMixin = dedupingMixin(superClass => {
      */
     getVisibleColumns(columns) {
       const projectIndex = columns.indexOf('Project');
-      if (projectIndex === -1) { return columns; }
+      if (projectIndex === -1) {
+        return columns;
+      }
       const newColumns = columns.slice(0);
       newColumns[projectIndex] = 'Repo';
       return newColumns;
@@ -119,4 +122,3 @@ export const ChangeTableMixin = dedupingMixin(superClass => {
 
   return Mixin;
 });
-

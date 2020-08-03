@@ -15,4 +15,7 @@
  * limitations under the License.
  */
 
+/**
+ * Returns the root element of the dom: body.
+ */
 export const getRootElement = () => document.body;

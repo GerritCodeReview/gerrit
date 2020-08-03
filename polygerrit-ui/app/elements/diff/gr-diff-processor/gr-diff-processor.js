@@ -17,8 +17,8 @@
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
+import {GrDiffGroup, GrDiffGroupType, hideInContextControl} from '../gr-diff/gr-diff-group.js';
 import {util} from '../../../scripts/util.js';
 
 const WHOLE_FILE = -1;
@@ -308,7 +308,7 @@ class GrDiffProcessor extends GestureEventListeners(
       const hiddenEnd = lineCount - (
         firstUncollapsibleChunkIndex === chunks.length ?
           0 : this.context);
-      groups = GrDiffGroup.hideInContextControl(
+      groups = hideInContextControl(
           groups, hiddenStart, hiddenEnd);
     }
 
@@ -353,7 +353,7 @@ class GrDiffProcessor extends GestureEventListeners(
    * @return {!Object} (GrDiffGroup)
    */
   _chunkToGroup(chunk, offsetLeft, offsetRight) {
-    const type = chunk.ab ? GrDiffGroup.Type.BOTH : GrDiffGroup.Type.DELTA;
+    const type = chunk.ab ? GrDiffGroupType.BOTH : GrDiffGroupType.DELTA;
     const lines = this._linesFromChunk(chunk, offsetLeft, offsetRight);
     const group = new GrDiffGroup(type, lines);
     group.keyLocation = chunk.keyLocation;
@@ -365,28 +365,28 @@ class GrDiffProcessor extends GestureEventListeners(
   _linesFromChunk(chunk, offsetLeft, offsetRight) {
     if (chunk.ab) {
       return chunk.ab.map((row, i) => this._lineFromRow(
-          GrDiffLine.Type.BOTH, offsetLeft, offsetRight, row, i));
+          GrDiffLineType.BOTH, offsetLeft, offsetRight, row, i));
     }
     let lines = [];
     if (chunk.a) {
       // Avoiding a.push(...b) because that causes callstack overflows for
       // large b, which can occur when large files are added removed.
       lines = lines.concat(this._linesFromRows(
-          GrDiffLine.Type.REMOVE, chunk.a, offsetLeft,
+          GrDiffLineType.REMOVE, chunk.a, offsetLeft,
           chunk[DiffHighlights.REMOVED]));
     }
     if (chunk.b) {
       // Avoiding a.push(...b) because that causes callstack overflows for
       // large b, which can occur when large files are added removed.
       lines = lines.concat(this._linesFromRows(
-          GrDiffLine.Type.ADD, chunk.b, offsetRight,
+          GrDiffLineType.ADD, chunk.b, offsetRight,
           chunk[DiffHighlights.ADDED]));
     }
     return lines;
   }
 
   /**
-   * @param {string} lineType (GrDiffLine.Type)
+   * @param {string} lineType (GrDiffLineType)
    * @param {!Array<string>} rows
    * @param {number} offset
    * @param {?Array<!Gerrit.IntralineInfo>=} opt_intralineInfos
@@ -400,7 +400,7 @@ class GrDiffProcessor extends GestureEventListeners(
   }
 
   /**
-   * @param {string} type (GrDiffLine.Type)
+   * @param {string} type (GrDiffLineType)
    * @param {number} offsetLeft
    * @param {number} offsetRight
    * @param {string} row
@@ -411,8 +411,8 @@ class GrDiffProcessor extends GestureEventListeners(
   _lineFromRow(type, offsetLeft, offsetRight, row, i, opt_highlights) {
     const line = new GrDiffLine(type);
     line.text = row;
-    if (type !== GrDiffLine.Type.ADD) line.beforeNumber = offsetLeft + i;
-    if (type !== GrDiffLine.Type.REMOVE) line.afterNumber = offsetRight + i;
+    if (type !== GrDiffLineType.ADD) line.beforeNumber = offsetLeft + i;
+    if (type !== GrDiffLineType.REMOVE) line.afterNumber = offsetRight + i;
     if (opt_highlights) {
       line.hasIntralineInfo = true;
       line.highlights = opt_highlights.filter(hl => hl.contentIndex === i);
@@ -423,10 +423,10 @@ class GrDiffProcessor extends GestureEventListeners(
   }
 
   _makeFileComments() {
-    const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+    const line = new GrDiffLine(GrDiffLineType.BOTH);
     line.beforeNumber = GrDiffLine.FILE;
     line.afterNumber = GrDiffLine.FILE;
-    return new GrDiffGroup(GrDiffGroup.Type.BOTH, [line]);
+    return new GrDiffGroup(GrDiffGroupType.BOTH, [line]);
   }
 
   /**

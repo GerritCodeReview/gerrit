@@ -14,70 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrDiffLine} from './gr-diff-line.js';
+import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
 
-/**
- * A chunk of the diff that should be rendered together.
- *
- * @constructor
- * @param {!GrDiffGroup.Type} type
- * @param {!Array<!GrDiffLine>=} opt_lines
- */
-export function GrDiffGroup(type, opt_lines) {
-  /** @type {!GrDiffGroup.Type} */
-  this.type = type;
-
-  /** @type {boolean} */
-  this.dueToRebase = false;
-
-  /**
-   * True means all changes in this line are whitespace changes that should
-   * not be highlighted as changed as per the user settings.
-   *
-   * @type{boolean}
-   */
-  this.ignoredWhitespaceOnly = false;
-
-  /**
-   * True means it should not be collapsed (because it was in the URL, or
-   * there is a comment on that line)
-   */
-  this.keyLocation = false;
-
-  /** @type {?HTMLElement} */
-  this.element = null;
-
-  /** @type {!Array<!GrDiffLine>} */
-  this.lines = [];
-  /** @type {!Array<!GrDiffLine>} */
-  this.adds = [];
-  /** @type {!Array<!GrDiffLine>} */
-  this.removes = [];
-  /** @type {?Array<Object>} ?Array<!GrDiffGroup> */
-  this.contextGroups = null;
-
-  /** Both start and end line are inclusive. */
-  this.lineRange = {
-    left: {start: null, end: null},
-    right: {start: null, end: null},
-  };
-
-  if (opt_lines) {
-    opt_lines.forEach(this.addLine, this);
-  }
-}
-
-/** @enum {string} */
-GrDiffGroup.Type = {
+export enum GrDiffGroupType {
   /** Unchanged context. */
-  BOTH: 'both',
+  BOTH = 'both',
 
   /** A widget used to show more context. */
-  CONTEXT_CONTROL: 'contextControl',
+  CONTEXT_CONTROL = 'contextControl',
 
   /** Added, removed or modified chunk. */
-  DELTA: 'delta',
-};
+  DELTA = 'delta',
+}
+
+export interface GrDiffLinePair {
+  left: GrDiffLine;
+  right: GrDiffLine;
+}
+
+interface Range {
+  start: number | null;
+  end: number | null;
+}
+
+interface GrDiffGroupRange {
+  left: Range;
+  right: Range;
+}
 
 /**
  * Hides lines in the given range behind a context control group.
@@ -91,36 +54,37 @@ GrDiffGroup.Type = {
  * If the hidden range is 1 line or less, nothing is hidden and no context
  * control group is created.
  *
- * @param {!Array<!GrDiffGroup>} groups Common groups, ordered by their line
- *     ranges.
- * @param {number} hiddenStart The first element to be hidden, as a
+ * @param groups Common groups, ordered by their line ranges.
+ * @param hiddenStart The first element to be hidden, as a
  *     non-negative line number offset relative to the first group's start
  *     line, left and right respectively.
- * @param {number} hiddenEnd The first visible element after the hidden range,
+ * @param hiddenEnd The first visible element after the hidden range,
  *     as a non-negative line number offset relative to the first group's
  *     start line, left and right respectively.
- * @return {!Array<!GrDiffGroup>}
  */
-GrDiffGroup.hideInContextControl = function(groups, hiddenStart, hiddenEnd) {
+export function hideInContextControl(
+  groups: GrDiffGroup[],
+  hiddenStart: number,
+  hiddenEnd: number
+): GrDiffGroup[] {
   if (groups.length === 0) return [];
   // Clamp hiddenStart and hiddenEnd - inspired by e.g. substring
   hiddenStart = Math.max(hiddenStart, 0);
   hiddenEnd = Math.max(hiddenEnd, hiddenStart);
 
-  let before = [];
+  let before: GrDiffGroup[] = [];
   let hidden = groups;
-  let after = [];
+  let after: GrDiffGroup[] = [];
 
   const numHidden = hiddenEnd - hiddenStart;
 
   // Only collapse if there is more than 1 line to be hidden.
   if (numHidden > 1) {
     if (hiddenStart) {
-      [before, hidden] = GrDiffGroup._splitCommonGroups(hidden, hiddenStart);
+      [before, hidden] = _splitCommonGroups(hidden, hiddenStart);
     }
     if (hiddenEnd) {
-      [hidden, after] = GrDiffGroup._splitCommonGroups(
-          hidden, hiddenEnd - hiddenStart);
+      [hidden, after] = _splitCommonGroups(hidden, hiddenEnd - hiddenStart);
     }
   } else {
     [hidden, after] = [[], hidden];
@@ -128,14 +92,13 @@ GrDiffGroup.hideInContextControl = function(groups, hiddenStart, hiddenEnd) {
 
   const result = [...before];
   if (hidden.length) {
-    const ctxGroup = new GrDiffGroup(
-        GrDiffGroup.Type.CONTEXT_CONTROL, []);
+    const ctxGroup = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL, []);
     ctxGroup.contextGroups = hidden;
     result.push(ctxGroup);
   }
   result.push(...after);
   return result;
-};
+}
 
 /**
  * Splits a list of common groups into two lists of groups.
@@ -145,27 +108,34 @@ GrDiffGroup.hideInContextControl = function(groups, hiddenStart, hiddenEnd) {
  * with some lines before and some lines after the split will be split into
  * two groups, which will be put into the first and second list.
  *
- * @param {!Array<!GrDiffGroup>} groups
- * @param {number} split A line number offset relative to the first group's
+ * @param groups
+ * @param split A line number offset relative to the first group's
  *     start line at which the groups should be split.
- * @return {!Array<!Array<!GrDiffGroup>>} The outer array has 2 elements, the
+ * @return The outer array has 2 elements, the
  *   list of groups before and the list of groups after the split.
  */
-GrDiffGroup._splitCommonGroups = function(groups, split) {
+function _splitCommonGroups(
+  groups: GrDiffGroup[],
+  split: number
+): GrDiffGroup[][] {
   if (groups.length === 0) return [[], []];
-  const leftSplit = groups[0].lineRange.left.start + split;
-  const rightSplit = groups[0].lineRange.right.start + split;
+  const leftSplit = (groups[0].lineRange.left.start || 0) + split;
+  const rightSplit = (groups[0].lineRange.right.start || 0) + split;
 
   const beforeGroups = [];
   const afterGroups = [];
   for (const group of groups) {
-    if (group.lineRange.left.end < leftSplit ||
-        group.lineRange.right.end < rightSplit) {
+    if (
+      (group.lineRange.left.end || 0) < leftSplit ||
+      (group.lineRange.right.end || 0) < rightSplit
+    ) {
       beforeGroups.push(group);
       continue;
     }
-    if (leftSplit <= group.lineRange.left.start ||
-        rightSplit <= group.lineRange.right.start) {
+    if (
+      leftSplit <= (group.lineRange.left.start || 0) ||
+      rightSplit <= (group.lineRange.right.start || 0)
+    ) {
       afterGroups.push(group);
       continue;
     }
@@ -173,8 +143,10 @@ GrDiffGroup._splitCommonGroups = function(groups, split) {
     const before = [];
     const after = [];
     for (const line of group.lines) {
-      if ((line.beforeNumber && line.beforeNumber < leftSplit) ||
-          (line.afterNumber && line.afterNumber < rightSplit)) {
+      if (
+        (line.beforeNumber && line.beforeNumber < leftSplit) ||
+        (line.afterNumber && line.afterNumber < rightSplit)
+      ) {
         before.push(line);
       } else {
         after.push(line);
@@ -182,102 +154,162 @@ GrDiffGroup._splitCommonGroups = function(groups, split) {
     }
 
     if (before.length) {
-      beforeGroups.push(before.length === group.lines.length ?
-        group : group.cloneWithLines(before));
+      beforeGroups.push(
+        before.length === group.lines.length
+          ? group
+          : group.cloneWithLines(before)
+      );
     }
     if (after.length) {
-      afterGroups.push(after.length === group.lines.length ?
-        group : group.cloneWithLines(after));
+      afterGroups.push(
+        after.length === group.lines.length
+          ? group
+          : group.cloneWithLines(after)
+      );
     }
   }
   return [beforeGroups, afterGroups];
-};
+}
 
 /**
- * Creates a new group with the same properties but different lines.
+ * A chunk of the diff that should be rendered together.
  *
- * The element property is not copied, because the original element is still a
- * rendering of the old lines, so that would not make sense.
- *
- * @param {!Array<!GrDiffLine>} lines
- * @return {!GrDiffGroup}
+ * @constructor
+ * @param {!GrDiffGroupType} type
+ * @param {!Array<!GrDiffLine>=} opt_lines
  */
-GrDiffGroup.prototype.cloneWithLines = function(lines) {
-  const group = new GrDiffGroup(this.type, lines);
-  group.dueToRebase = this.dueToRebase;
-  group.ignoredWhitespaceOnly = this.ignoredWhitespaceOnly;
-  return group;
-};
-
-/** @param {!GrDiffLine} line */
-GrDiffGroup.prototype.addLine = function(line) {
-  this.lines.push(line);
-
-  const notDelta = (this.type === GrDiffGroup.Type.BOTH ||
-      this.type === GrDiffGroup.Type.CONTEXT_CONTROL);
-  if (notDelta && (line.type === GrDiffLine.Type.ADD ||
-      line.type === GrDiffLine.Type.REMOVE)) {
-    throw Error('Cannot add delta line to a non-delta group.');
+export class GrDiffGroup {
+  constructor(readonly type: GrDiffGroupType, lines: GrDiffLine[] = []) {
+    lines.forEach((line: GrDiffLine) => this.addLine(line));
   }
 
-  if (line.type === GrDiffLine.Type.ADD) {
-    this.adds.push(line);
-  } else if (line.type === GrDiffLine.Type.REMOVE) {
-    this.removes.push(line);
+  dueToRebase = false;
+
+  /**
+   * True means all changes in this line are whitespace changes that should
+   * not be highlighted as changed as per the user settings.
+   */
+  ignoredWhitespaceOnly = false;
+
+  /**
+   * True means it should not be collapsed (because it was in the URL, or
+   * there is a comment on that line)
+   */
+  keyLocation = false;
+
+  element: HTMLElement | null = null;
+
+  lines: GrDiffLine[] = [];
+
+  adds: GrDiffLine[] = [];
+
+  removes: GrDiffLine[] = [];
+
+  contextGroups: GrDiffGroup[] = [];
+
+  /** Both start and end line are inclusive. */
+  lineRange: GrDiffGroupRange = {
+    left: {start: null, end: null},
+    right: {start: null, end: null},
+  };
+
+  /**
+   * Creates a new group with the same properties but different lines.
+   *
+   * The element property is not copied, because the original element is still a
+   * rendering of the old lines, so that would not make sense.
+   */
+  cloneWithLines(lines: GrDiffLine[]): GrDiffGroup {
+    const group = new GrDiffGroup(this.type, lines);
+    group.dueToRebase = this.dueToRebase;
+    group.ignoredWhitespaceOnly = this.ignoredWhitespaceOnly;
+    return group;
   }
-  this._updateRange(line);
-};
 
-/** @return {!Array<{left: GrDiffLine, right: GrDiffLine}>} */
-GrDiffGroup.prototype.getSideBySidePairs = function() {
-  if (this.type === GrDiffGroup.Type.BOTH ||
-      this.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
-    return this.lines.map(line => {
-      return {
-        left: line,
-        right: line,
-      };
-    });
-  }
+  addLine(line: GrDiffLine) {
+    this.lines.push(line);
 
-  const pairs = [];
-  let i = 0;
-  let j = 0;
-  while (i < this.removes.length || j < this.adds.length) {
-    pairs.push({
-      left: this.removes[i] || GrDiffLine.BLANK_LINE,
-      right: this.adds[j] || GrDiffLine.BLANK_LINE,
-    });
-    i++;
-    j++;
-  }
-  return pairs;
-};
-
-GrDiffGroup.prototype._updateRange = function(line) {
-  if (line.beforeNumber === 'FILE' || line.afterNumber === 'FILE') { return; }
-
-  if (line.type === GrDiffLine.Type.ADD ||
-      line.type === GrDiffLine.Type.BOTH) {
-    if (this.lineRange.right.start === null ||
-        line.afterNumber < this.lineRange.right.start) {
-      this.lineRange.right.start = line.afterNumber;
+    const notDelta =
+      this.type === GrDiffGroupType.BOTH ||
+      this.type === GrDiffGroupType.CONTEXT_CONTROL;
+    if (
+      notDelta &&
+      (line.type === GrDiffLineType.ADD || line.type === GrDiffLineType.REMOVE)
+    ) {
+      throw Error('Cannot add delta line to a non-delta group.');
     }
-    if (this.lineRange.right.end === null ||
-        line.afterNumber > this.lineRange.right.end) {
-      this.lineRange.right.end = line.afterNumber;
+
+    if (line.type === GrDiffLineType.ADD) {
+      this.adds.push(line);
+    } else if (line.type === GrDiffLineType.REMOVE) {
+      this.removes.push(line);
     }
+    this._updateRange(line);
   }
 
-  if (line.type === GrDiffLine.Type.REMOVE ||
-      line.type === GrDiffLine.Type.BOTH) {
-    if (this.lineRange.left.start === null ||
-        line.beforeNumber < this.lineRange.left.start) {
-      this.lineRange.left.start = line.beforeNumber;
+  getSideBySidePairs(): GrDiffLinePair[] {
+    if (
+      this.type === GrDiffGroupType.BOTH ||
+      this.type === GrDiffGroupType.CONTEXT_CONTROL
+    ) {
+      return this.lines.map(line => {
+        return {
+          left: line,
+          right: line,
+        };
+      });
     }
-    if (this.lineRange.left.end === null ||
-        line.beforeNumber > this.lineRange.left.end) {
-      this.lineRange.left.end = line.beforeNumber;
+
+    const pairs = [];
+    let i = 0;
+    let j = 0;
+    while (i < this.removes.length || j < this.adds.length) {
+      pairs.push({
+        left: this.removes[i] || BLANK_LINE,
+        right: this.adds[j] || BLANK_LINE,
+      });
+      i++;
+      j++;
+    }
+    return pairs;
+  }
+
+  _updateRange(line: GrDiffLine) {
+    if (line.beforeNumber === 'FILE' || line.afterNumber === 'FILE') {
+      return;
+    }
+
+    if (line.type === GrDiffLineType.ADD || line.type === GrDiffLineType.BOTH) {
+      if (
+        this.lineRange.right.start === null ||
+        line.afterNumber < this.lineRange.right.start
+      ) {
+        this.lineRange.right.start = line.afterNumber;
+      }
+      if (
+        this.lineRange.right.end === null ||
+        line.afterNumber > this.lineRange.right.end
+      ) {
+        this.lineRange.right.end = line.afterNumber;
+      }
+    }
+
+    if (
+      line.type === GrDiffLineType.REMOVE ||
+      line.type === GrDiffLineType.BOTH
+    ) {
+      if (
+        this.lineRange.left.start === null ||
+        line.beforeNumber < this.lineRange.left.start
+      ) {
+        this.lineRange.left.start = line.beforeNumber;
+      }
+      if (
+        this.lineRange.left.end === null ||
+        line.beforeNumber > this.lineRange.left.end
+      ) {
+        this.lineRange.left.end = line.beforeNumber;
+      }
     }
   }
-};
+}

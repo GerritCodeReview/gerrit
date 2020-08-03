@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-syntax-layer.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 
 const basicFixture = fixtureFromElement('gr-syntax-layer');
 
@@ -57,7 +57,7 @@ suite('gr-syntax-layer tests', () => {
     const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
     el.textContent = 'Etiam dui, blandit wisi.';
-    const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+    const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
 
     element.annotate(el, lineNumberEl, line);
@@ -74,7 +74,7 @@ suite('gr-syntax-layer tests', () => {
     const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
     el.textContent = str;
-    const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+    const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
     element._baseRanges[11] = [{
       start,
@@ -101,7 +101,7 @@ suite('gr-syntax-layer tests', () => {
     const annotationSpy = sinon.spy(GrAnnotation, 'annotateElement');
     const el = document.createElement('div');
     el.textContent = str;
-    const line = new GrDiffLine(GrDiffLine.Type.REMOVE);
+    const line = new GrDiffLine(GrDiffLineType.REMOVE);
     line.beforeNumber = 12;
     element._baseRanges[11] = [{
       start,

@@ -15,8 +15,8 @@
  * limitations under the License.
  */
 import {getBaseUrl} from '../../../utils/url-util.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
+import {GrDiffLineType} from '../gr-diff/gr-diff-line.js';
+import {GrDiffGroupType, hideInContextControl} from '../gr-diff/gr-diff-group.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 /**
@@ -187,8 +187,8 @@ GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
   for (const group of groups) {
     let content = null;
     for (const line of group.lines) {
-      if ((opt_side === 'left' && line.type === GrDiffLine.Type.ADD) ||
-          (opt_side === 'right' && line.type === GrDiffLine.Type.REMOVE)) {
+      if ((opt_side === 'left' && line.type === GrDiffLineType.ADD) ||
+          (opt_side === 'right' && line.type === GrDiffLineType.REMOVE)) {
         continue;
       }
       const lineNumber = opt_side === 'left' ?
@@ -293,11 +293,11 @@ GrDiffBuilder.prototype._createContextButton = function(
     groups.push(...contextGroups);
   } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
     text = '+' + context + ' above';
-    groups = GrDiffGroup.hideInContextControl(
+    groups = hideInContextControl(
         contextGroups, context, numLines);
   } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
     text = '+' + context + ' below';
-    groups = GrDiffGroup.hideInContextControl(
+    groups = hideInContextControl(
         contextGroups, 0, numLines - context);
   }
   const textSpan = this._createElement('span', 'showContext');
@@ -319,10 +319,10 @@ GrDiffBuilder.prototype._createContextButton = function(
 GrDiffBuilder.prototype._createLineEl = function(
     line, number, type, side) {
   const td = this._createElement('td');
-  if (line.type === GrDiffLine.Type.BLANK) {
+  if (line.type === GrDiffLineType.BLANK) {
     return td;
   }
-  if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
+  if (line.type === GrDiffLineType.BOTH || line.type === type) {
     // Both td and button need a number of classes/attributes for various
     // selectors to work.
     this._decorateLineEl(td, number, side);
@@ -346,9 +346,9 @@ GrDiffBuilder.prototype._createLineEl = function(
     // the empty line number column for added/removed lines. This should not
     // be announced to the screenreader.
     if (number > 0) {
-      if (line.type === GrDiffLine.Type.REMOVE) {
+      if (line.type === GrDiffLineType.REMOVE) {
         button.setAttribute('aria-label', `${number} removed`);
-      } else if (line.type === GrDiffLine.Type.ADD) {
+      } else if (line.type === GrDiffLineType.ADD) {
         button.setAttribute('aria-label', `${number} added`);
       }
     }
@@ -365,7 +365,7 @@ GrDiffBuilder.prototype._decorateLineEl = function(el, number, side) {
 GrDiffBuilder.prototype._createTextEl = function(
     lineNumberEl, line, opt_side) {
   const td = this._createElement('td');
-  if (line.type !== GrDiffLine.Type.BLANK) {
+  if (line.type !== GrDiffLineType.BLANK) {
     td.classList.add('content');
   }
 
@@ -523,7 +523,7 @@ GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {
  * @return {boolean}
  */
 GrDiffBuilder.prototype._isTotal = function(group) {
-  return group.type === GrDiffGroup.Type.DELTA &&
+  return group.type === GrDiffGroupType.DELTA &&
       (!group.adds.length || !group.removes.length) &&
       !(!group.adds.length && !group.removes.length);
 };

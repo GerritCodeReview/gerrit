@@ -15,11 +15,17 @@
  * limitations under the License.
  */
 
-import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+
+// tslint:disable-next-line:no-any Required for constructor signature.
+type Constructor<T> = new (...args: any[]) => T;
 
 // In .d.ts, the mixinBehaviors clears all type information about superClass.
 // As a workaround, we define IronFitMixin manually here and after conversion
 // to typescript we can define correct typing here as well.
-export const IronFitMixin = superClass => mixinBehaviors(
-    [IronFitBehavior], superClass);
+export const IronFitMixin = <T extends Constructor<PolymerElement>>(
+  superClass: T
+): T & Constructor<IronFitBehavior> =>
+  mixinBehaviors([IronFitBehavior], superClass);

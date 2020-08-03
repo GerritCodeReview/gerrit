@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ff4630c9_98add784",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:50:27Z",
+      "side": 1,
+      "message": "Please follow",
+      "revId": "26a64f674d3ff22429ea44d9d3671121d051b134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "db0eba9e_5b605a78",
+        "filename": "polygerrit-ui/app/mixins/gr-list-view-mixin/gr-list-view-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:50:27Z",
+      "side": 1,
+      "message": "Please update Mixin according to the example from Tao",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 66
+      },
+      "revId": "26a64f674d3ff22429ea44d9d3671121d051b134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7c1d6d3_c08c0e1a",
+        "filename": "polygerrit-ui/app/mixins/gr-list-view-mixin/gr-list-view-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:50:27Z",
+      "side": 1,
+      "message": "What about generics? They should better express input and output type:\ncomputeShownItems\u003cT\u003e(items: T[]): T[] {...}\nWill the work here?",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "26a64f674d3ff22429ea44d9d3671121d051b134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c13c90_8494cada",
+        "filename": "polygerrit-ui/app/mixins/gr-list-view-mixin/gr-list-view-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:50:27Z",
+      "side": 1,
+      "message": "Interface can be used to define input parameter type:\nparams?: {filter?: string};",
+      "range": {
+        "startLine": 46,
+        "startChar": 21,
+        "endLine": 46,
+        "endChar": 48
+      },
+      "revId": "26a64f674d3ff22429ea44d9d3671121d051b134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70021496_792c9eec",
+        "filename": "polygerrit-ui/app/mixins/gr-list-view-mixin/gr-list-view-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:50:27Z",
+      "side": 1,
+      "message": "Interface can be used to define input parameter type:\nparams?: {offset?: number};",
+      "range": {
+        "startLine": 53,
+        "startChar": 29,
+        "endLine": 53,
+        "endChar": 48
+      },
+      "revId": "26a64f674d3ff22429ea44d9d3671121d051b134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

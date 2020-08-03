@@ -23,8 +23,11 @@ import {
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
+<<<<<<< HEAD
   ActionInfo,
   GroupInfo,
+=======
+>>>>>>> ce28320dc8... Convert patch-set-util into ts
   ChangeInfo,
 } from '../../../types/common';
 
@@ -169,6 +172,7 @@ export interface RestApiService {
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K
   ): RestApiTagNameMap[K];
+  // TODO(TS): Specify a proper type after gr-rest-api-interface is converted
   getChangeDetail(
     changeNum: number | string,
     opt_errFn?: Function,

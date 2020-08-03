@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "44be46b1_82a6a466",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-08-03T07:51:36Z",
+      "side": 1,
+      "message": "I quite like this change. Thanks!",
+      "revId": "bcc6bb9eeed2319cd25c3d3069daab409bd7fccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12f7756f_6eb1aa89",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-08-03T07:51:36Z",
+      "side": 1,
+      "message": "(Optional) Micro optimization, not sure if it\u0027s worth it: You seem to create the exact context control twice. Maybe use cloneNode()?",
+      "revId": "bcc6bb9eeed2319cd25c3d3069daab409bd7fccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "35476922_7d45d601",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 244,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-08-03T07:51:36Z",
+      "side": 1,
+      "message": "(Optional) Would now be a good time to add some type info for the params here? Maybe that would make TS conversion easier, too?",
+      "revId": "bcc6bb9eeed2319cd25c3d3069daab409bd7fccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecb790fb_3ffc142c",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-event-helper/gr-event-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "It seems, UnsubscribeMethod from services/gr-event-interface/gr-event-interface.ts can be used instead of any here (you can UnsubscribeMethod to a different file, with a common types)",
+      "range": {
+        "startLine": 30,
+        "startChar": 18,
+        "endLine": 30,
+        "endChar": 21
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9effd030_845d7cc9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-event-helper/gr-event-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "Can it be\nprivate readonly\n?",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 30,
+        "endChar": 16
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e215a5f6_e3c9e97e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-event-helper/gr-event-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "nit: maybe you can use ?. (otional chaining)",
+      "range": {
+        "startLine": 90,
+        "startChar": 20,
+        "endLine": 90,
+        "endChar": 58
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aceebcb_abe45797",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "It seems, endpoint is mandatory (everywhere it is used as endpoint!)",
+      "range": {
+        "startLine": 34,
+        "startChar": 2,
+        "endLine": 34,
+        "endChar": 11
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "220ca07d_255aef70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "Here and below: please add \nprivate readonly or readonly where possible:\nTS style guide: Mark properties that are never reassigned outside of the constructor with the readonly modifier (these need not be deeply immutable).",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 12
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8283037_4d8edf95",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "Can you specify exact type of elements in the set? (Set\u003c...\u003e)",
+      "range": {
+        "startLine": 50,
+        "startChar": 18,
+        "endLine": 50,
+        "endChar": 21
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec24137e_3e64a20c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:11:06Z",
+      "side": 1,
+      "message": "Can constructor be removed?",
+      "range": {
+        "startLine": 54,
+        "startChar": 2,
+        "endLine": 54,
+        "endChar": 18
+      },
+      "revId": "46573dff020c7e3aa8c4dafa3fb29335979a49d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

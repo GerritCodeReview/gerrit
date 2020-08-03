@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3549f024_be7d2ab4",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T16:43:59Z",
+      "side": 1,
+      "message": "nit: you can remove desc variable and instead return exact values.",
+      "range": {
+        "startLine": 606,
+        "startChar": 6,
+        "endLine": 606,
+        "endChar": 41
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9c327fa_10dc0179",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T16:43:59Z",
+      "side": 1,
+      "message": "activeShortcutsBySection.get(section) never returns null, because of a previous condition. get(section)!.push(shortcutHelp) should work.",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 636,
+        "endChar": 0
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "99457e67_319c1da8",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T16:43:59Z",
+      "side": 1,
+      "message": "nit: you can assign value at the property initializer:\n_shortcut_go_table \u003d new Map\u003cstring, string\u003e();\nSame for _shortcut_v_table",
+      "range": {
+        "startLine": 806,
+        "startChar": 8,
+        "endLine": 806,
+        "endChar": 44
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

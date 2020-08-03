@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "326316bc_140e9478",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T08:59:27Z",
+      "side": 1,
+      "message": "I don\u0027t see any problem",
+      "revId": "bcc6bb9eeed2319cd25c3d3069daab409bd7fccd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12f7756f_6eb1aa89",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.js",
         "patchSetId": 1

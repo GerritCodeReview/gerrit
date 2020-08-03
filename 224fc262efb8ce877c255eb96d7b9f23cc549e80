@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "da18afe0_9b956a9f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-03T10:08:28Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "47573f34_1e8c34d2",
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e9b8362_a9d0f2cc",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.js",
         "patchSetId": 56
@@ -50,6 +68,24 @@
       "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed025ed7_c1595446",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_test.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-03T10:08:28Z",
+      "side": 1,
+      "message": "removed.",
+      "parentUuid": "5e9b8362_a9d0f2cc",
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +109,30 @@
       "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fad77fb_b58cac6a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.js",
+        "patchSetId": 56
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-03T10:08:28Z",
+      "side": 1,
+      "message": "Yeah after saving a draft, the id is assigned.\nBut I realised that we don\u0027t actually check for drafts in diff-view when we are trying to find the matching comments.\nHence I defaulted to the old url behaviour if the comment is a draft.",
+      "parentUuid": "3ced2f75_9ef23156",
+      "range": {
+        "startLine": 236,
+        "startChar": 13,
+        "endLine": 236,
+        "endChar": 27
+      },
+      "revId": "224fc262efb8ce877c255eb96d7b9f23cc549e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

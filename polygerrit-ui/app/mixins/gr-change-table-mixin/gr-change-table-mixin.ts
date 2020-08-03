@@ -16,107 +16,126 @@
  */
 
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
+import {PolymerElement} from '@polymer/polymer';
+import {Constructor} from '../../utils/common-util';
+import {property} from '@polymer/decorators';
+import {ServerInfo} from '../../types/common';
 
 /**
  * @polymer
  * @mixinFunction
  */
-export const ChangeTableMixin = dedupingMixin(superClass => {
-  /**
-   * @polymer
-   * @mixinClass
-   */
-  class Mixin extends superClass {
-    static get properties() {
-      return {
-        columnNames: {
-          type: Array,
-          value: [
-            'Subject',
-            'Status',
-            'Owner',
-            'Assignee',
-            'Reviewers',
-            'Comments',
-            'Repo',
-            'Branch',
-            'Updated',
-            'Size',
-          ],
-          readOnly: true,
-        },
-      };
-    }
-
+export const ChangeTableMixin = dedupingMixin(
+  <T extends Constructor<PolymerElement>>(
+    superClass: T
+  ): T & Constructor<ChangeTableMixinInterface> => {
     /**
-     * Returns the complement to the given column array
-     *
-     * @param {Array} columns
-     * @return {!Array}
+     * @polymer
+     * @mixinClass
      */
-    getComplementColumns(columns) {
-      return this.columnNames.filter(column => !columns.includes(column));
-    }
+    class Mixin extends superClass {
+      @property({type: Array, readOnly: true})
+      columnNames: string[] = [
+        'Subject',
+        'Status',
+        'Owner',
+        'Assignee',
+        'Reviewers',
+        'Comments',
+        'Repo',
+        'Branch',
+        'Updated',
+        'Size',
+      ];
 
-    /**
-     * @param {string} columnToCheck
-     * @param {!Array} columnsToDisplay
-     * @return {boolean}
-     */
-    isColumnHidden(columnToCheck, columnsToDisplay) {
-      if ([columnsToDisplay, columnToCheck].includes(undefined)) {
-        return false;
+      /**
+       * Returns the complement to the given column array
+       *
+       */
+      getComplementColumns(columns: string[]) {
+        return this.columnNames.filter(column => !columns.includes(column));
       }
-      return !columnsToDisplay.includes(columnToCheck);
+
+      isColumnHidden(
+        columnToCheck: string | undefined,
+        columnsToDisplay: string[] | undefined
+      ) {
+        if ([columnsToDisplay, columnToCheck].includes(undefined)) {
+          return false;
+        }
+        return !columnsToDisplay.includes(columnToCheck);
+      }
+
+      /**
+       * Is the column disabled by a server config or experiment? For example the
+       * assignee feature might be disabled and thus the corresponding column is
+       * also disabled.
+       *
+       */
+      isColumnEnabled(
+        column: string,
+        config: ServerInfo,
+        experiments: string[]
+      ) {
+        if (!config || !config.change) return true;
+        if (column === 'Assignee') return !!config.change.enable_assignee;
+        if (column === 'Comments')
+          return experiments.includes('comments-column');
+        if (column === 'Reviewers') return !!config.change.enable_attention_set;
+        return true;
+      }
+
+      /**
+       * @return {!Array<string>} enabled columns, see isColumnEnabled().
+       */
+      getEnabledColumns(
+        columns: string[],
+        config: ServerInfo,
+        experiments: string[]
+      ) {
+        return columns.filter(col =>
+          this.isColumnEnabled(col, config, experiments)
+        );
+      }
+
+      /**
+       * The Project column was renamed to Repo, but some users may have
+       * preferences that use its old name. If that column is found, rename it
+       * before use.
+       *
+       * @return {!Array<string>} If the column was renamed, returns a new array
+       *     with the corrected name. Otherwise, it returns the original param.
+       */
+      getVisibleColumns(columns: string[]) {
+        const projectIndex = columns.indexOf('Project');
+        if (projectIndex === -1) {
+          return columns;
+        }
+        const newColumns = [...columns];
+        newColumns[projectIndex] = 'Repo';
+        return newColumns;
+      }
     }
 
-    /**
-     * Is the column disabled by a server config or experiment? For example the
-     * assignee feature might be disabled and thus the corresponding column is
-     * also disabled.
-     *
-     * @param {string} column
-     * @param {Object} config
-     * @param {!Array<string>} experiments
-     * @return {boolean}
-     */
-    isColumnEnabled(column, config, experiments) {
-      if (!config || !config.change) return true;
-      if (column === 'Assignee') return !!config.change.enable_assignee;
-      if (column === 'Comments') return experiments.includes('comments-column');
-      if (column === 'Reviewers') return !!config.change.enable_attention_set;
-      return true;
-    }
-
-    /**
-     * @param {!Array<string>} columns
-     * @param {Object} config
-     * @param {!Array<string>} experiments
-     * @return {!Array<string>} enabled columns, see isColumnEnabled().
-     */
-    getEnabledColumns(columns, config, experiments) {
-      return columns.filter(
-          col => this.isColumnEnabled(col, config, experiments));
-    }
-
-    /**
-     * The Project column was renamed to Repo, but some users may have
-     * preferences that use its old name. If that column is found, rename it
-     * before use.
-     *
-     * @param {!Array<string>} columns
-     * @return {!Array<string>} If the column was renamed, returns a new array
-     *     with the corrected name. Otherwise, it returns the original param.
-     */
-    getVisibleColumns(columns) {
-      const projectIndex = columns.indexOf('Project');
-      if (projectIndex === -1) { return columns; }
-      const newColumns = columns.slice(0);
-      newColumns[projectIndex] = 'Repo';
-      return newColumns;
-    }
+    return Mixin;
   }
+);
 
-  return Mixin;
-});
-
+export interface ChangeTableMixinInterface {
+  getComplementColumns(columns: string[]): string[];
+  isColumnHidden(
+    columnToCheck: string | undefined,
+    columnsToDisplay: string[] | undefined
+  ): boolean;
+  isColumnEnabled(
+    column: string,
+    config: ServerInfo,
+    experiments: string[]
+  ): boolean;
+  getEnabledColumns(
+    columns: string[],
+    config: ServerInfo,
+    experiments: string[]
+  ): string[];
+  getVisibleColumns(columns: string[]): string[];
+}

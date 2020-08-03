@@ -15,14 +15,16 @@
  * limitations under the License.
  */
 
-import {SpecialFilePath} from '../constants/constants.js';
+import {SpecialFilePath, FileInfoStatus} from '../constants/constants';
+import {FileInfo} from '../types/common';
+import {hasOwnProperty} from './common-util';
 
 /**
  * @param {string} a
  * @param {string} b
  * @return {number}
  */
-export function specialFilePathCompare(a, b) {
+export function specialFilePathCompare(a: string, b: string) {
   // The commit message always goes first.
   if (a === SpecialFilePath.COMMIT_MESSAGE) {
     return -1;
@@ -63,20 +65,28 @@ export function specialFilePathCompare(a, b) {
   return aFile.localeCompare(bFile) || a.localeCompare(b);
 }
 
-export function shouldHideFile(file) {
+export function shouldHideFile(file: string) {
   return file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
 }
 
-export function addUnmodifiedFiles(files, commentedPaths) {
+export function addUnmodifiedFiles(
+  files: {[filename: string]: FileInfo},
+  commentedPaths: {[fileName: string]: boolean}
+) {
   if (!commentedPaths) return;
   Object.keys(commentedPaths).forEach(commentedPath => {
-    if (files.hasOwnProperty(commentedPath) ||
-      shouldHideFile(commentedPath)) { return; }
-    files[commentedPath] = {status: 'U'};
+    if (hasOwnProperty(files, commentedPath) || shouldHideFile(commentedPath)) {
+      return;
+    }
+    // TODO(TS): either change FileInfo to mark delta and size optional
+    // or fill in 0 here
+    files[commentedPath] = {
+      status: FileInfoStatus.UNMODIFIED,
+    } as FileInfo;
   });
 }
 
-export function computeDisplayPath(path) {
+export function computeDisplayPath(path: string) {
   if (path === SpecialFilePath.COMMIT_MESSAGE) {
     return 'Commit message';
   } else if (path === SpecialFilePath.MERGE_LIST) {
@@ -85,15 +95,16 @@ export function computeDisplayPath(path) {
   return path;
 }
 
-export function isMagicPath(path) {
-  return !!path &&
-      (path === SpecialFilePath.COMMIT_MESSAGE || path ===
-          SpecialFilePath.MERGE_LIST);
+export function isMagicPath(path: string) {
+  return (
+    !!path &&
+    (path === SpecialFilePath.COMMIT_MESSAGE ||
+      path === SpecialFilePath.MERGE_LIST)
+  );
 }
 
-export function computeTruncatedPath(path) {
-  return truncatePath(
-      computeDisplayPath(path));
+export function computeTruncatedPath(path: string) {
+  return truncatePath(computeDisplayPath(path));
 }
 
 /**
@@ -105,15 +116,13 @@ export function computeTruncatedPath(path) {
  * // returns 'text.html'
  * util.truncatePath.('text.html');
  *
- * @param {string} path
- * @param {number=} opt_threshold
- * @return {string} Returns the truncated value of a URL.
  */
-export function truncatePath(path, opt_threshold) {
-  const threshold = opt_threshold || 1;
+export function truncatePath(path: string, threshold = 1) {
   const pathPieces = path.split('/');
 
-  if (pathPieces.length <= threshold) { return path; }
+  if (pathPieces.length <= threshold) {
+    return path;
+  }
 
   const index = pathPieces.length - threshold;
   // Character is an ellipsis.

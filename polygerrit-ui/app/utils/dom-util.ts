@@ -117,7 +117,7 @@ export function querySelector(
     }
 
     // Add all nodes with shadowRoot and loop through
-    const allShadowNodes = [...node.querySelectorAll('*')]
+    const allShadowNodes = [...node.querySelectorAll('*').values()]
       .filter(isElementWithShadowRoot)
       .map(child => child.shadowRoot);
     nodes = nodes.concat(allShadowNodes);
@@ -152,10 +152,10 @@ export function querySelectorAll(
     if (!node || !node.querySelectorAll) continue;
 
     // Try find all from regular children
-    [...node.querySelectorAll(selector)].forEach(el => results.add(el));
+    node.querySelectorAll(selector).forEach(el => results.add(el));
 
     // Add all nodes with shadowRoot and loop through
-    const allShadowNodes = [...node.querySelectorAll('*')]
+    const allShadowNodes = [...node.querySelectorAll('*').values()]
       .filter(isElementWithShadowRoot)
       .map(child => child.shadowRoot);
     nodes = nodes.concat(allShadowNodes);

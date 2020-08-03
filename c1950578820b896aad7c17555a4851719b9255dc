@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "42f89fd4_8156b8a6",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-03T07:55:33Z",
+      "side": 0,
+      "message": "Can you please rebase this change, so that I can try adapting the code-owners plugin?",
+      "parentUuid": "5d867283_9ffe7bb2",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b8580ec_5ab1f524",
         "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
         "patchSetId": 5

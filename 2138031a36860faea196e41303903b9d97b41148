@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "ee3984c6_c65362fc",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-03T19:35:20Z",
+      "side": 1,
+      "message": "I really miss Java\u0027s getOrDefault and putIfAbsent methods. :-)\n\nI am with Dmitrii here. ! is made for asserting something that ts cannot infer. It avoids more complicated type dances and makes the code easier to read, i.e. just shorter in most cases.",
+      "parentUuid": "59a5cb38_1f56877d",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 636,
+        "endChar": 0
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99457e67_319c1da8",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 2

@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "58dbc1f1_a6802281",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-03T16:31:58Z",
+      "side": 1,
+      "message": "what is this supposed to mean here?",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f12078f3_07bd1834",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-03T16:31:58Z",
+      "side": 1,
+      "message": "should be \u0027it\u0027.",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a793ee0_3319d2c0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-03T16:31:58Z",
+      "side": 1,
+      "message": "i think the filtering criterion here should be \"last uploader\", not \"owner\".",
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b4d8f274_78f2f680",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2

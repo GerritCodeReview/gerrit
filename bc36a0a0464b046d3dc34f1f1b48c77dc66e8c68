@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "8fe7d803_9f0a08d6",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T12:33:17Z",
+      "side": 1,
+      "message": "No, forgot about it.\nFixed https://gerrit-review.googlesource.com/c/gerrit/+/277614",
+      "parentUuid": "dd441c93_7f84b419",
+      "range": {
+        "startLine": 176,
+        "startChar": 1,
+        "endLine": 176,
+        "endChar": 5
+      },
+      "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa39e1ee_8242d0ec",
         "filename": "polygerrit-ui/server.go",
         "patchSetId": 1
@@ -62,6 +86,30 @@
       "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e90a07c3_eb191e46",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T12:33:17Z",
+      "side": 1,
+      "message": "Done - https://gerrit-review.googlesource.com/c/gerrit/+/277614",
+      "parentUuid": "fa39e1ee_8242d0ec",
+      "range": {
+        "startLine": 188,
+        "startChar": 44,
+        "endLine": 188,
+        "endChar": 46
+      },
+      "revId": "bc36a0a0464b046d3dc34f1f1b48c77dc66e8c68",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "63f71376_7138a90e",
+        "filename": "polygerrit-ui/app/utils/access-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T19:05:52Z",
+      "side": 1,
+      "message": "Please delete the type.",
+      "range": {
+        "startLine": 131,
+        "startChar": 11,
+        "endLine": 131,
+        "endChar": 19
+      },
+      "revId": "da2deea05601f17c66ff47f3f2cc9eb967ad946c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

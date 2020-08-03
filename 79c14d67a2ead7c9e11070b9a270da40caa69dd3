@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "153c3c1d_ba422805",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-03T19:21:03Z",
+      "side": 1,
+      "message": "Overriding \"Verified\", because it is expected to fail and the child was successfully verified.",
+      "revId": "79c14d67a2ead7c9e11070b9a270da40caa69dd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

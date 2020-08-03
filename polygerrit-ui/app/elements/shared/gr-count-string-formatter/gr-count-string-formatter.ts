@@ -17,40 +17,28 @@
 export const GrCountStringFormatter = {
   /**
    * Returns a count plus string that is pluralized when necessary.
-   *
-   * @param {number} count
-   * @param {string} noun
-   * @return {string}
    */
-  computePluralString(count, noun) {
+  computePluralString(count: number, noun: string): string {
     return this.computeString(count, noun) + (count > 1 ? 's' : '');
   },
 
   /**
    * Returns a count plus string that is not pluralized.
-   *
-   * @param {number} count
-   * @param {string} noun
-   * @return {string}
    */
-  computeString(count, noun) {
+  computeString(count: number, noun: string): string {
     if (count === 0) {
       return '';
     }
-    return count + ' ' + noun;
+    return `${count} ${noun}`;
   },
 
   /**
    * Returns a count plus arbitrary text.
-   *
-   * @param {number} count
-   * @param {string} text
-   * @return {string}
    */
-  computeShortString(count, text) {
+  computeShortString(count: number, text: string): string {
     if (count === 0) {
       return '';
     }
-    return count + text;
+    return `${count}${text}`;
   },
 };

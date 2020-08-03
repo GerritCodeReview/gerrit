@@ -1,4 +1,3 @@
-
 /**
  * @license
  * Copyright (C) 2016 The Android Open Source Project
@@ -15,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {sanitizeDOMValue} from '@polymer/polymer/lib/utils/settings.js';
+import {sanitizeDOMValue} from '@polymer/polymer/lib/utils/settings';
 
 // TODO(wyatta): refactor this to be <MARK> rather than <HL>.
 const ANNOTATION_TAG = 'HL';
@@ -25,19 +23,16 @@ const ANNOTATION_TAG = 'HL';
 const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
 export const GrAnnotation = {
-
   /**
    * The DOM API textContent.length calculation is broken when the text
    * contains Unicode. See https://mathiasbynens.be/notes/javascript-unicode .
    *
-   * @param  {!Text} node text node.
-   * @return {number} The length of the text.
    */
-  getLength(node) {
-    return this.getStringLength(node.textContent);
+  getLength(node: Node | ChildNode) {
+    return this.getStringLength(node.textContent || '');
   },
 
-  getStringLength(str) {
+  getStringLength(str: string) {
     return str.replace(REGEX_ASTRAL_SYMBOL, '_').length;
   },
 
@@ -45,21 +40,20 @@ export const GrAnnotation = {
    * Annotates the [offset, offset+length) text segment in the parent with the
    * element definition provided as arguments.
    *
-   * @param {!Element} parent the node whose contents will be annotated.
-   * @param {number} offset the 0-based offset from which the annotation will
-   *   start.
-   * @param {number} length of the annotated text.
-   * @param {GrAnnotation.ElementSpec} elementSpec the spec to create the
-   *   annotating element.
    */
-  annotateWithElement(parent, offset, length, {tagName, attributes = {}}) {
-    let childNodes;
+  annotateWithElement(
+    parent: Element | Text | Node,
+    offset: number,
+    length: number,
+    {tagName, attributes = {}}
+  ) {
+    let childNodes: Array<ChildNode>;
 
     if (parent instanceof Element) {
       childNodes = Array.from(parent.childNodes);
     } else if (parent instanceof Text) {
       childNodes = [parent];
-      parent = parent.parentNode;
+      parent = parent.parentNode as Node;
     } else {
       return;
     }
@@ -74,7 +68,7 @@ export const GrAnnotation = {
       }
 
       if (offset > 0) {
-        node = this.splitNode(node, offset);
+        node = this.splitNode(node, offset) as ChildNode;
         offset = 0;
       }
       if (this.getLength(node) > length) {
@@ -90,9 +84,9 @@ export const GrAnnotation = {
     const sanitizer = sanitizeDOMValue;
     for (const [name, value] of Object.entries(attributes)) {
       wrapper.setAttribute(
-          name, sanitizer ?
-            sanitizer(value, name, 'attribute', wrapper) :
-            value);
+        name,
+        sanitizer ? sanitizer(value, name, 'attribute', wrapper) : value
+      );
     }
     for (const inner of nestedNodes) {
       parent.replaceChild(wrapper, inner);
@@ -105,8 +99,13 @@ export const GrAnnotation = {
    * element. If the element has child elements, the range is split and
    * applied as deeply as possible.
    */
-  annotateElement(parent, offset, length, cssClass) {
-    const nodes = [].slice.apply(parent.childNodes);
+  annotateElement(
+    parent: HTMLElement,
+    offset: number,
+    length: number,
+    cssClass: string
+  ) {
+    const nodes: Array<HTMLElement | Text> = [].slice.apply(parent.childNodes);
     let nodeLength;
     let subLength;
 
@@ -141,19 +140,17 @@ export const GrAnnotation = {
 
   /**
    * Wraps node in annotation tag with cssClass, replacing the node in DOM.
-   *
-   * @return {!Element} Wrapped node.
    */
-  wrapInHighlight(node, cssClass) {
+  wrapInHighlight(node: Element | Text | HTMLElement, cssClass: string) {
     let hl;
-    if (node.tagName === ANNOTATION_TAG) {
+    if (!(node instanceof Text) && node.tagName === ANNOTATION_TAG) {
       hl = node;
       hl.classList.add(cssClass);
     } else {
       hl = document.createElement(ANNOTATION_TAG);
       hl.className = cssClass;
-      dom(node.parentElement).replaceChild(hl, node);
-      dom(hl).appendChild(node);
+      if (node.parentElement) node.parentElement.replaceChild(hl, node);
+      hl.appendChild(node);
     }
     return hl;
   },
@@ -161,13 +158,13 @@ export const GrAnnotation = {
   /**
    * Splits Text Node and wraps it in hl with cssClass.
    * Wraps trailing part after split, tailing one if opt_firstPart is true.
-   *
-   * @param {!Node} node
-   * @param {number} offset
-   * @param {string} cssClass
-   * @param {boolean=} opt_firstPart
    */
-  splitAndWrapInHighlight(node, offset, cssClass, opt_firstPart) {
+  splitAndWrapInHighlight(
+    node: Text,
+    offset: number,
+    cssClass: string,
+    opt_firstPart: boolean
+  ) {
     if (this.getLength(node) === offset || offset === 0) {
       return this.wrapInHighlight(node, cssClass);
     } else {
@@ -175,7 +172,8 @@ export const GrAnnotation = {
         this.splitNode(node, offset);
         // Node points to first part of the Text, second one is sibling.
       } else {
-        node = this.splitNode(node, offset);
+        // if node is Text then splitNode will return a Text
+        node = this.splitNode(node, offset) as Text;
       }
       return this.wrapInHighlight(node, cssClass);
     }
@@ -184,29 +182,28 @@ export const GrAnnotation = {
   /**
    * Splits Node at offset.
    * If Node is Element, it's cloned and the node at offset is split too.
-   *
-   * @param {!Node} node
-   * @param {number} offset
-   * @return {!Node} Trailing Node.
    */
-  splitNode(element, offset) {
+  splitNode(element: Text | Element | ChildNode, offset: number) {
     if (element instanceof Text) {
       return this.splitTextNode(element, offset);
     }
     const tail = element.cloneNode(false);
-    element.parentElement.insertBefore(tail, element.nextSibling);
+
+    if (element.parentElement)
+      element.parentElement.insertBefore(tail, element.nextSibling);
     // Skip nodes before offset.
     let node = element.firstChild;
-    while (node &&
-        this.getLength(node) <= offset ||
-        this.getLength(node) === 0) {
+    while (
+      node &&
+      (this.getLength(node) <= offset || this.getLength(node) === 0)
+    ) {
       offset -= this.getLength(node);
       node = node.nextSibling;
     }
-    if (this.getLength(node) > offset) {
+    if (node && this.getLength(node) > offset) {
       tail.appendChild(this.splitNode(node, offset));
     }
-    while (node.nextSibling) {
+    while (node && node.nextSibling) {
       tail.appendChild(node.nextSibling);
     }
     return tail;
@@ -218,12 +215,10 @@ export const GrAnnotation = {
    * DOM Api for splitText() is broken for Unicode:
    * https://mathiasbynens.be/notes/javascript-unicode
    *
-   * @param {!Text} node
-   * @param {number} offset
    * @return {!Text} Trailing Text Node.
    */
-  splitTextNode(node, offset) {
-    if (node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
+  splitTextNode(node: Text, offset: number) {
+    if (node.textContent && node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
       // TODO (viktard): Polyfill Array.from for IE10.
       const head = Array.from(node.textContent);
       const tail = head.splice(offset);
@@ -242,7 +237,7 @@ export const GrAnnotation = {
     }
   },
 
-  _annotateText(node, offset, length, cssClass) {
+  _annotateText(node: Text, offset: number, length: number, cssClass: string) {
     const nodeLength = this.getLength(node);
 
     // There are four cases:
@@ -262,8 +257,12 @@ export const GrAnnotation = {
       this.splitAndWrapInHighlight(node, offset, cssClass, false);
     } else {
       // Case 4
-      this.splitAndWrapInHighlight(this.splitTextNode(node, offset), length,
-          cssClass, true);
+      this.splitAndWrapInHighlight(
+        this.splitTextNode(node, offset),
+        length,
+        cssClass,
+        true
+      );
     }
   },
 };

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "34c93080_d447bbb7",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T10:07:52Z",
+      "side": 1,
+      "message": "`private` ? i thought we agree to have `private` later ?\n\nif you are asking why they are not properties, for my understanding, @property only needed if you want them to be registered with polymer, so they have property effects on them, that doesn\u0027t apply to these handlers.",
+      "parentUuid": "76cab62e_222ffc2c",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3eea19d2_912b0872",
         "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
         "patchSetId": 2
@@ -59,6 +83,30 @@
       "writtenOn": "2020-08-03T10:03:45Z",
       "side": 1,
       "message": "It seems, it can be `readonly`\nFrom typescript style guide:\n\u003e\u003eMark properties that are never reassigned outside of the constructor with the readonly modifier (these need not be deeply immutable).",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 26
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4575142e_0922bff6",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T10:07:52Z",
+      "side": 1,
+      "message": "hmm so should we start adding these data modifiers ? per my understanding `read-only` will be in the same group as `private`, should we start doing for both ?",
+      "parentUuid": "3eea19d2_912b0872",
       "range": {
         "startLine": 61,
         "startChar": 6,

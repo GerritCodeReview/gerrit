@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3319f723_86e86bb4",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T10:36:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b3c318ea_df58f22d",
+      "range": {
+        "startLine": 49,
+        "startChar": 6,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76cab62e_222ffc2c",
         "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
         "patchSetId": 2
@@ -139,6 +163,30 @@
       "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e63278f7_bfe658de",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T10:36:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cc9d520_d18871a4",
+      "range": {
+        "startLine": 178,
+        "startChar": 8,
+        "endLine": 178,
+        "endChar": 36
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

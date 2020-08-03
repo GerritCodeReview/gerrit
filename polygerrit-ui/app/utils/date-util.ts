@@ -80,6 +80,23 @@ interface Options {
   second?: string;
 }
 
+// TODO(dmfilippov): TS-Fix review this type. All fields here must be optional,
+// but this require some changes in the code. During JS->TS migration
+// we want to avoid code changes where possible, so for simplicity we
+// define it with almost all fields mandatory
+interface DateTimeFormatParts {
+  year: string;
+  month: string;
+  day: string;
+  hour: string;
+  minute: string;
+  second: string;
+  dayPeriod: string;
+  dayperiod?: string;
+  // Object can have other properties, but our code doesn't use it
+  [key: string]: string | undefined;
+}
+
 export function formatDate(date: Date, format: string) {
   const options: Options = {};
   if (format.includes('MM')) {
@@ -132,7 +149,7 @@ export function formatDate(date: Date, format: string) {
     .reduce((acc, o: Intl.DateTimeFormatPart) => {
       acc[o.type] = o.value;
       return acc;
-    }, {} as {[DateTimeFormatPartType: string]: string});
+    }, {} as DateTimeFormatParts);
   if (format.includes('YY')) {
     if (format.includes('YYYY')) {
       format = format.replace('YYYY', parts.year);

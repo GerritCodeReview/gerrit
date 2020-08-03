@@ -125,7 +125,8 @@ export enum FileInfoStatus {
   RENAMED = 'R',
   COPIED = 'C',
   REWRITTEN = 'W',
-  // Modifed = 'M', but API not set it if the file was modified
+  // Modifed = 'M', // but API not set it if the file was modified
+  UNMODIFIED = 'U', // Not returned by BE, but added by UI for certain files
 }
 
 /**

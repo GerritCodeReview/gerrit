@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "c645fc89_3131ed2d",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:21:26Z",
+      "side": 1,
+      "message": "sorry, maybe I didn\u0027t explain it well.\nFor polymer properties - do not add private and do not remove \u0027_\u0027.\nFor other properties - we shouldn\u0027t remove \u0027_\u0027 prefix from the name, but adding `private` or `private readonly` are safe if the compiler doesn\u0027t report errors.",
+      "parentUuid": "34c93080_d447bbb7",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3eea19d2_912b0872",
         "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "hmm so should we start adding these data modifiers ? per my understanding `read-only` will be in the same group as `private`, should we start doing for both ?",
       "parentUuid": "3eea19d2_912b0872",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 26
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f6107c_db403760",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T11:21:26Z",
+      "side": 1,
+      "message": "See my comments above.\nprivate/private readonly don\u0027t affect the JavaScript code and it is safe to add them right now.",
+      "parentUuid": "4575142e_0922bff6",
       "range": {
         "startLine": 61,
         "startChar": 6,

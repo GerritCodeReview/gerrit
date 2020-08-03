@@ -487,9 +487,12 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    pluginCfg.setString("key1", "updatedValue1");
-    pluginCfg.setStringList("key2", Arrays.asList("updatedValue2a", "updatedValue2b"));
+    cfg.updatePluginConfig(
+        "somePlugin",
+        pluginCfg -> {
+          pluginCfg.setString("key1", "updatedValue1");
+          pluginCfg.setStringList("key2", Arrays.asList("updatedValue2a", "updatedValue2b"));
+        });
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(
@@ -511,7 +514,7 @@ public class ProjectConfigTest {
     ProjectConfig cfg = read(rev);
     PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
     assertThat(pluginCfg.getNames()).hasSize(1);
-    assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
+    assertThat(pluginCfg.getGroupReference("key1").get()).isEqualTo(developers);
   }
 
   @Test
@@ -540,11 +543,10 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    assertThat(pluginCfg.getNames()).hasSize(1);
-    assertThat(pluginCfg.getGroupReference("key1")).isEqualTo(developers);
-
-    pluginCfg.setGroupReference("key1", staff);
+    assertThat(cfg.getPluginConfig("somePlugin").getNames()).hasSize(1);
+    assertThat(cfg.getPluginConfig("somePlugin").getGroupReference("key1").get())
+        .isEqualTo(developers);
+    cfg.updatePluginConfig("somePlugin", pluginCfg -> pluginCfg.setGroupReference("key1", staff));
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo("[plugin \"somePlugin\"]\n\tkey1 = " + staff.toConfigValue() + "\n");
@@ -811,8 +813,7 @@ public class ProjectConfigTest {
     update(rev);
 
     ProjectConfig cfg = read(rev);
-    PluginConfig pluginCfg = cfg.getPluginConfig("somePlugin");
-    pluginCfg.unset("key");
+    cfg.updatePluginConfig("somePlugin", pluginCfg -> pluginCfg.unset("key"));
     rev = commit(cfg);
     assertThat(text(rev, "project.config"))
         .isEqualTo(

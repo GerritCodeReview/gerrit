@@ -20,11 +20,16 @@
 // file contains code inside <script>...</script> and can't be imported
 // in es6 modules.
 
+interface ImportHrefElement extends HTMLLinkElement {
+  __dynamicImportLoaded?: boolean;
+}
+
 // run a callback when HTMLImports are ready or immediately if
 // this api is not available.
-function whenImportsReady(cb) {
-  if (window.HTMLImports) {
-    HTMLImports.whenReady(cb);
+function whenImportsReady(cb: () => void) {
+  const win = window as Window;
+  if (win.HTMLImports) {
+    win.HTMLImports.whenReady(cb);
   } else {
     cb();
   }
@@ -39,37 +44,43 @@ function whenImportsReady(cb) {
  * element will contain the imported document contents.
  *
  * @memberof Polymer
- * @param {string} href URL to document to load.
- * @param {?function(!Event):void=} onload Callback to notify when an import successfully
+ * @param href URL to document to load.
+ * @param onload Callback to notify when an import successfully
  *   loaded.
- * @param {?function(!ErrorEvent):void=} onerror Callback to notify when an import
+ * @param onerror Callback to notify when an import
  *   unsuccessfully loaded.
- * @param {boolean=} optAsync True if the import should be loaded `async`.
+ * @param async True if the import should be loaded `async`.
  *   Defaults to `false`.
- * @return {!HTMLLinkElement} The link element for the URL to be loaded.
+ * @return The link element for the URL to be loaded.
  */
-export function importHref(href, onload, onerror, optAsync) {
-  let link = /** @type {HTMLLinkElement} */
-      (document.head.querySelector('link[href="' + href + '"][import-href]'));
+export function importHref(
+  href: string,
+  onload: (e: Event) => void,
+  onerror: (e: Event) => void,
+  async = false
+): HTMLLinkElement {
+  let link = document.head.querySelector(
+    'link[href="' + href + '"][import-href]'
+  ) as ImportHrefElement;
   if (!link) {
-    link = /** @type {HTMLLinkElement} */ (document.createElement('link'));
+    link = document.createElement('link') as ImportHrefElement;
     link.rel = 'import';
     link.href = href;
     link.setAttribute('import-href', '');
   }
   // always ensure link has `async` attribute if user specified one,
   // even if it was previously not async. This is considered less confusing.
-  if (optAsync) {
+  if (async) {
     link.setAttribute('async', '');
   }
   // NOTE: the link may now be in 3 states: (1) pending insertion,
   // (2) inflight, (3) already loaded. In each case, we need to add
   // event listeners to process callbacks.
-  const cleanup = function() {
+  const cleanup = function () {
     link.removeEventListener('load', loadListener);
     link.removeEventListener('error', errorListener);
   };
-  const loadListener = function(event) {
+  const loadListener = function (event: Event) {
     cleanup();
     // In case of a successful load, cache the load event on the link so
     // that it can be used to short-circuit this method in the future when
@@ -81,7 +92,7 @@ export function importHref(href, onload, onerror, optAsync) {
       });
     }
   };
-  const errorListener = function(event) {
+  const errorListener = function (event: Event) {
     cleanup();
     // In case of an error, remove the link from the document so that it
     // will be automatically created again the next time `importHref` is
@@ -97,7 +108,7 @@ export function importHref(href, onload, onerror, optAsync) {
   };
   link.addEventListener('load', loadListener);
   link.addEventListener('error', errorListener);
-  if (link.parentNode == null) {
+  if (link.parentNode === null) {
     document.head.appendChild(link);
     // if the link already loaded, dispatch a fake load event
     // so that listeners are called and get a proper event argument.

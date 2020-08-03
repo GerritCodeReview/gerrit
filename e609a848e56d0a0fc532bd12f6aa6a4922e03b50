@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2be2722f_d68aa0ad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-03T21:17:04Z",
+      "side": 1,
+      "message": "Ping please, for this whole yet rather trivial series; thanks.",
+      "revId": "e609a848e56d0a0fc532bd12f6aa6a4922e03b50",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

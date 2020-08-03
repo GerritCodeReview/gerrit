@@ -25,4 +25,24 @@ public interface PerPatchsetOperations {
    * @return the corresponding {@code TestPatchset}
    */
   TestPatchset get();
+
+  /**
+   * Starts the fluent chain to create a new comment. The returned builder can be used to specify
+   * the attributes of the new comment. To create the comment for real, {@link
+   * TestCommentCreation.Builder#create()} must be called.
+   *
+   * <p>Example:
+   *
+   * <pre>
+   * String createdCommentUuid = changeOperations
+   *     .change(changeId)
+   *     .currentPatchset()
+   *     .onLine(2)
+   *     .ofFile("file1")
+   *     .create();
+   * </pre>
+   *
+   * @return builder to create a new comment
+   */
+  TestCommentCreation.Builder newComment();
 }

@@ -19,6 +19,9 @@ export {};
 declare global {
   interface Window {
     CANONICAL_PATH?: string;
+    ShadyCSS?: {
+      getComputedStyleValue(el: Element, name: string): string;
+    };
   }
 
   interface Performance {

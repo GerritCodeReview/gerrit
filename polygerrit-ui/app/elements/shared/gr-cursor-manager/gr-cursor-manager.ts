@@ -25,11 +25,15 @@ const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 /** @extends PolymerElement */
 class GrCursorManager extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-cursor-manager'; }
+  static get is() {
+    return 'gr-cursor-manager';
+  }
 
   static get properties() {
     return {
@@ -127,10 +131,19 @@ class GrCursorManager extends GestureEventListeners(
    * @private
    */
 
-  next(opt_condition, opt_getTargetHeight, opt_clipToTop,
-      opt_navigateToNextFile) {
-    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop,
-        opt_navigateToNextFile);
+  next(
+    opt_condition,
+    opt_getTargetHeight,
+    opt_clipToTop,
+    opt_navigateToNextFile
+  ) {
+    this._moveCursor(
+      1,
+      opt_condition,
+      opt_getTargetHeight,
+      opt_clipToTop,
+      opt_navigateToNextFile
+    );
   }
 
   previous(opt_condition) {
@@ -150,11 +163,13 @@ class GrCursorManager extends GestureEventListeners(
     if (!this.stops || !this._isIntersectionObserverSupported()) {
       return;
     }
-    const filteredStops = opt_condition ? this.stops.filter(opt_condition)
+    const filteredStops = opt_condition
+      ? this.stops.filter(opt_condition)
       : this.stops;
     const dims = this._getWindowDims();
-    const windowCenter =
-        Math.round((dims.innerHeight + this.scrollTopMargin) / 2);
+    const windowCenter = Math.round(
+      (dims.innerHeight + this.scrollTopMargin) / 2
+    );
 
     let closestToTheCenter = null;
     let minDistanceToCenter = null;
@@ -170,15 +185,18 @@ class GrCursorManager extends GestureEventListeners(
         // In Edge it is recommended to use intersectionRatio instead of
         // isIntersecting.
         const isInsideViewport =
-            entry.isIntersecting || entry.intersectionRatio > 0;
+          entry.isIntersecting || entry.intersectionRatio > 0;
         if (!isInsideViewport) {
           return;
         }
-        const center = entry.boundingClientRect.top + Math.round(
-            entry.boundingClientRect.height / 2);
+        const center =
+          entry.boundingClientRect.top +
+          Math.round(entry.boundingClientRect.height / 2);
         const distanceToWindowCenter = Math.abs(center - windowCenter);
-        if (minDistanceToCenter === null ||
-            distanceToWindowCenter < minDistanceToCenter) {
+        if (
+          minDistanceToCenter === null ||
+          distanceToWindowCenter < minDistanceToCenter
+        ) {
           closestToTheCenter = entry.target;
           minDistanceToCenter = distanceToWindowCenter;
         }
@@ -225,7 +243,9 @@ class GrCursorManager extends GestureEventListeners(
     this._updateIndex();
     this._decorateTarget();
 
-    if (opt_noScroll) { this.scrollMode = behavior; }
+    if (opt_noScroll) {
+      this.scrollMode = behavior;
+    }
   }
 
   unsetCursor() {
@@ -276,8 +296,13 @@ class GrCursorManager extends GestureEventListeners(
    *     if user presses next on the last diff chunk
    * @private
    */
-  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop,
-      opt_navigateToNextFile) {
+  _moveCursor(
+    delta,
+    opt_condition,
+    opt_getTargetHeight,
+    opt_clipToTop,
+    opt_navigateToNextFile
+  ) {
     if (!this.stops.length) {
       this.unsetCursor();
       return;
@@ -299,24 +324,31 @@ class GrCursorManager extends GestureEventListeners(
      */
     if (opt_navigateToNextFile && this.index === newIndex) {
       if (newIndex === this.stops.length - 1) {
-        if (this._lastDisplayedNavigateToNextFileToast && (Date.now() -
-          this._lastDisplayedNavigateToNextFileToast <=
-            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS)) {
+        if (
+          this._lastDisplayedNavigateToNextFileToast &&
+          Date.now() - this._lastDisplayedNavigateToNextFileToast <=
+            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
+        ) {
           // reset for next file
           this._lastDisplayedNavigateToNextFileToast = null;
-          this.dispatchEvent(new CustomEvent(
-              'navigate-to-next-unreviewed-file', {
-                composed: true, bubbles: true,
-              }));
+          this.dispatchEvent(
+            new CustomEvent('navigate-to-next-unreviewed-file', {
+              composed: true,
+              bubbles: true,
+            })
+          );
           return;
         }
         this._lastDisplayedNavigateToNextFileToast = Date.now();
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {
-            message: 'Press n again to navigate to next unreviewed file',
-          },
-          composed: true, bubbles: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {
+              message: 'Press n again to navigate to next unreviewed file',
+            },
+            composed: true,
+            bubbles: true,
+          })
+        );
         return;
       }
     }
@@ -324,7 +356,9 @@ class GrCursorManager extends GestureEventListeners(
     this.index = newIndex;
     this.target = newTarget;
 
-    if (!this.target) { return; }
+    if (!this.target) {
+      return;
+    }
 
     if (opt_getTargetHeight) {
       this._targetHeight = opt_getTargetHeight(newTarget);
@@ -332,7 +366,9 @@ class GrCursorManager extends GestureEventListeners(
       this._targetHeight = newTarget.scrollHeight;
     }
 
-    if (this.focusOnMove) { this.target.focus(); }
+    if (this.focusOnMove) {
+      this.target.focus();
+    }
 
     this._decorateTarget();
   }
@@ -371,9 +407,12 @@ class GrCursorManager extends GestureEventListeners(
     }
     do {
       newIndex = newIndex + delta;
-    } while ((delta > 0 || newIndex > 0) &&
-             (delta < 0 || newIndex < this.stops.length - 1) &&
-             opt_condition && !opt_condition(this.stops[newIndex]));
+    } while (
+      (delta > 0 || newIndex > 0) &&
+      (delta < 0 || newIndex < this.stops.length - 1) &&
+      opt_condition &&
+      !opt_condition(this.stops[newIndex])
+    );
 
     newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
 
@@ -412,9 +451,11 @@ class GrCursorManager extends GestureEventListeners(
    */
   _getTop(target) {
     let top = target.offsetTop;
-    for (let offsetParent = target.offsetParent;
+    for (
+      let offsetParent = target.offsetParent;
       offsetParent;
-      offsetParent = offsetParent.offsetParent) {
+      offsetParent = offsetParent.offsetParent
+    ) {
       top += offsetParent.offsetTop;
     }
     return top;
@@ -425,15 +466,21 @@ class GrCursorManager extends GestureEventListeners(
    */
   _targetIsVisible(top) {
     const dims = this._getWindowDims();
-    return this.scrollMode === ScrollMode.KEEP_VISIBLE &&
-        top > (dims.pageYOffset + this.scrollTopMargin) &&
-        top < dims.pageYOffset + dims.innerHeight;
+    return (
+      this.scrollMode === ScrollMode.KEEP_VISIBLE &&
+      top > dims.pageYOffset + this.scrollTopMargin &&
+      top < dims.pageYOffset + dims.innerHeight
+    );
   }
 
   _calculateScrollToValue(top, target) {
     const dims = this._getWindowDims();
-    return top + this.scrollTopMargin - (dims.innerHeight / 3) +
-        (target.offsetHeight / 2);
+    return (
+      top +
+      this.scrollTopMargin -
+      dims.innerHeight / 3 +
+      target.offsetHeight / 2
+    );
   }
 
   _scrollToTarget() {
@@ -443,8 +490,9 @@ class GrCursorManager extends GestureEventListeners(
 
     const dims = this._getWindowDims();
     const top = this._getTop(this.target);
-    const bottomIsVisible = this._targetHeight ?
-      this._targetIsVisible(top + this._targetHeight) : true;
+    const bottomIsVisible = this._targetHeight
+      ? this._targetIsVisible(top + this._targetHeight)
+      : true;
     const scrollToValue = this._calculateScrollToValue(top, this.target);
 
     if (this._targetIsVisible(top)) {

@@ -16,6 +16,7 @@
  */
 
 import {GrDiffBuilder} from './gr-diff-builder.js';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 
 /** @constructor */
 export function GrDiffBuilderSideBySide(diff, prefs, outputEl, layers) {
@@ -36,6 +37,12 @@ GrDiffBuilderSideBySide.prototype.buildSectionElement = function(group) {
   if (group.ignoredWhitespaceOnly) {
     sectionEl.classList.add('ignoredWhitespaceOnly');
   }
+  if (group.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
+    sectionEl.appendChild(
+        this._createContextRow(sectionEl, group.contextGroups));
+    return sectionEl;
+  }
+
   const pairs = group.getSideBySidePairs();
   for (let i = 0; i < pairs.length; i++) {
     sectionEl.appendChild(this._createRow(sectionEl, pairs[i].left,
@@ -79,7 +86,7 @@ GrDiffBuilderSideBySide.prototype._createRow = function(section, leftLine,
   row.setAttribute('right-type', rightLine.type);
   row.tabIndex = -1;
 
-  row.appendChild(this._createBlameCell(leftLine));
+  row.appendChild(this._createBlameCell(leftLine.beforeNumber));
 
   this._appendPair(section, row, leftLine, leftLine.beforeNumber,
       GrDiffBuilder.Side.LEFT);
@@ -92,13 +99,23 @@ GrDiffBuilderSideBySide.prototype._appendPair = function(section, row, line,
     lineNumber, side) {
   const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
   row.appendChild(lineNumberEl);
-  const action = this._createContextControl(section, line);
-  if (action) {
-    row.appendChild(action);
-  } else {
-    const textEl = this._createTextEl(lineNumberEl, line, side);
-    row.appendChild(textEl);
-  }
+  row.appendChild(this._createTextEl(lineNumberEl, line, side));
+};
+
+GrDiffBuilderSideBySide.prototype._createContextRow = function(section,
+    contextGroups) {
+  const row = this._createElement('tr');
+  row.classList.add('diff-row', 'side-by-side');
+  row.setAttribute('left-type', GrDiffGroup.Type.CONTEXT_CONTROL);
+  row.setAttribute('right-type', GrDiffGroup.Type.CONTEXT_CONTROL);
+  row.tabIndex = -1;
+
+  row.appendChild(this._createBlameCell(0));
+  row.appendChild(this._createElement('td', 'contextLineNum'));
+  row.appendChild(this._createContextControl(section, contextGroups));
+  row.appendChild(this._createElement('td', 'contextLineNum'));
+  row.appendChild(this._createContextControl(section, contextGroups));
+  return row;
 };
 
 GrDiffBuilderSideBySide.prototype._getNextContentOnSide = function(

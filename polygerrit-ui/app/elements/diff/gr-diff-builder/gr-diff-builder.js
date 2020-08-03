@@ -240,12 +240,13 @@ GrDiffBuilder.prototype.getSectionsByLineRange = function(
       group => group.element);
 };
 
-GrDiffBuilder.prototype._createContextControl = function(section, line) {
-  if (!line.contextGroups) return null;
+GrDiffBuilder.prototype._createContextControl = function(
+    section, contextGroups) {
+  if (!contextGroups) return null;
 
-  const leftStart = line.contextGroups[0].lineRange.left.start;
+  const leftStart = contextGroups[0].lineRange.left.start;
   const leftEnd =
-      line.contextGroups[line.contextGroups.length - 1].lineRange.left.end;
+      contextGroups[contextGroups.length - 1].lineRange.left.end;
 
   const numLines = leftEnd - leftStart + 1;
 
@@ -256,22 +257,24 @@ GrDiffBuilder.prototype._createContextControl = function(section, line) {
 
   if (showPartialLinks && leftStart > 1) {
     td.appendChild(this._createContextButton(
-        GrDiffBuilder.ContextButtonType.ABOVE, section, line, numLines));
+        GrDiffBuilder.ContextButtonType.ABOVE, section, contextGroups,
+        numLines));
   }
 
   td.appendChild(this._createContextButton(
-      GrDiffBuilder.ContextButtonType.ALL, section, line, numLines));
+      GrDiffBuilder.ContextButtonType.ALL, section, contextGroups, numLines));
 
   if (showPartialLinks && leftEnd < this._numLinesLeft) {
     td.appendChild(this._createContextButton(
-        GrDiffBuilder.ContextButtonType.BELOW, section, line, numLines));
+        GrDiffBuilder.ContextButtonType.BELOW, section, contextGroups,
+        numLines));
   }
 
   return td;
 };
 
-GrDiffBuilder.prototype._createContextButton = function(type, section, line,
-    numLines) {
+GrDiffBuilder.prototype._createContextButton = function(
+    type, section, contextGroups, numLines) {
   const context = PARTIAL_CONTEXT_AMOUNT;
 
   const button = this._createElement('gr-button', 'showContext');
@@ -287,15 +290,15 @@ GrDiffBuilder.prototype._createContextButton = function(type, section, line,
 
     text = 'Show ' + numLines + ' common line';
     if (numLines > 1) { text += 's'; }
-    groups.push(...line.contextGroups);
+    groups.push(...contextGroups);
   } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
     text = '+' + context + ' above';
-    groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-        context, numLines);
+    groups = GrDiffGroup.hideInContextControl(
+        contextGroups, context, numLines);
   } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
     text = '+' + context + ' below';
-    groups = GrDiffGroup.hideInContextControl(line.contextGroups,
-        0, numLines - context);
+    groups = GrDiffGroup.hideInContextControl(
+        contextGroups, 0, numLines - context);
   }
   const textSpan = this._createElement('span', 'showContext');
   dom(textSpan).textContent = text;
@@ -319,11 +322,6 @@ GrDiffBuilder.prototype._createLineEl = function(
   if (line.type === GrDiffLine.Type.BLANK) {
     return td;
   }
-  if (line.type === GrDiffLine.Type.CONTEXT_CONTROL) {
-    td.classList.add('contextLineNum');
-    return td;
-  }
-
   if (line.type === GrDiffLine.Type.BOTH || line.type === type) {
     // Both td and button need a number of classes/attributes for various
     // selectors to work.
@@ -638,14 +636,14 @@ ${commit.commit_msg}`;
  * Create a blame cell for the given base line. Blame information will be
  * included in the cell if available.
  *
- * @param {GrDiffLine} line
+ * @param {number} lineNumber
  * @return {HTMLTableDataCellElement}
  */
-GrDiffBuilder.prototype._createBlameCell = function(line) {
+GrDiffBuilder.prototype._createBlameCell = function(lineNumber) {
   const blameTd = this._createElement('td', 'blame');
-  blameTd.setAttribute('data-line-number', line.beforeNumber);
-  if (line.beforeNumber) {
-    const content = this._getBlameForBaseLine(line.beforeNumber);
+  blameTd.setAttribute('data-line-number', lineNumber);
+  if (lineNumber) {
+    const content = this._getBlameForBaseLine(lineNumber);
     if (content) {
       blameTd.appendChild(content);
     }

@@ -36,9 +36,6 @@ export function GrDiffLine(type, opt_beforeLine, opt_afterLine) {
   /** @type {!Array<GrDiffLine.Highlights>} */
   this.highlights = [];
 
-  /** @type {?Array<Object>} ?Array<!GrDiffGroup> */
-  this.contextGroups = null;
-
   this.text = '';
 }
 
@@ -47,7 +44,6 @@ GrDiffLine.Type = {
   ADD: 'add',
   BOTH: 'both',
   BLANK: 'blank',
-  CONTEXT_CONTROL: 'contextControl',
   REMOVE: 'remove',
 };
 

@@ -138,13 +138,8 @@ suite('gr-diff-group tests', () => {
       assert.equal(collapsedGroups[0], groups[0]);
 
       assert.equal(collapsedGroups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(collapsedGroups[1].lines.length, 1);
-      assert.equal(
-          collapsedGroups[1].lines[0].type, GrDiffLine.Type.CONTEXT_CONTROL);
-      assert.equal(
-          collapsedGroups[1].lines[0].contextGroups.length, 1);
-      assert.equal(
-          collapsedGroups[1].lines[0].contextGroups[0], groups[1]);
+      assert.equal(collapsedGroups[1].contextGroups.length, 1);
+      assert.equal(collapsedGroups[1].contextGroups[0], groups[1]);
 
       assert.equal(collapsedGroups[2], groups[2]);
     });
@@ -159,27 +154,23 @@ suite('gr-diff-group tests', () => {
       assert.deepEqual(collapsedGroups[1].removes, [groups[1].removes[0]]);
 
       assert.equal(collapsedGroups[2].type, GrDiffGroup.Type.CONTEXT_CONTROL);
-      assert.equal(collapsedGroups[2].lines.length, 1);
-      assert.equal(
-          collapsedGroups[2].lines[0].type, GrDiffLine.Type.CONTEXT_CONTROL);
-      assert.equal(
-          collapsedGroups[2].lines[0].contextGroups.length, 2);
+      assert.equal(collapsedGroups[2].contextGroups.length, 2);
 
       assert.equal(
-          collapsedGroups[2].lines[0].contextGroups[0].type,
+          collapsedGroups[2].contextGroups[0].type,
           GrDiffGroup.Type.DELTA);
       assert.deepEqual(
-          collapsedGroups[2].lines[0].contextGroups[0].adds,
+          collapsedGroups[2].contextGroups[0].adds,
           groups[1].adds.slice(1));
       assert.deepEqual(
-          collapsedGroups[2].lines[0].contextGroups[0].removes,
+          collapsedGroups[2].contextGroups[0].removes,
           groups[1].removes.slice(1));
 
       assert.equal(
-          collapsedGroups[2].lines[0].contextGroups[1].type,
+          collapsedGroups[2].contextGroups[1].type,
           GrDiffGroup.Type.BOTH);
       assert.deepEqual(
-          collapsedGroups[2].lines[0].contextGroups[1].lines,
+          collapsedGroups[2].contextGroups[1].lines,
           [groups[2].lines[0]]);
 
       assert.equal(collapsedGroups[3].type, GrDiffGroup.Type.BOTH);

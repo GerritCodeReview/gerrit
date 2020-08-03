@@ -392,8 +392,10 @@ export class ShortcutManager {
   }
 
   getShortcut(shortcutName) {
-    const binding = this.bindings.get(shortcutName);
-    return binding ? this.describeBinding(binding) : '';
+    const bindings = this.bindings.get(shortcutName);
+    return bindings
+      ? bindings.map(binding => this.describeBinding(binding)).join(', ')
+      : '';
   }
 
   activeShortcutsBySection() {

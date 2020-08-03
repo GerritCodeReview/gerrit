@@ -28,7 +28,7 @@ const basicFixture =
 
 const withinOverlayFixture = fixtureFromTemplate(html`
 <gr-overlay>
-  <keyboard-shortcut-mixin-test-element>      
+  <keyboard-shortcut-mixin-test-element>
   </keyboard-shortcut-mixin-test-element>
 </gr-overlay>
 `);
@@ -71,6 +71,15 @@ suite('keyboard-shortcut-mixin tests', () => {
       assert.deepEqual(
           mgr.getBindingsForShortcut(NEXT_FILE),
           [']', '}', 'right']);
+    });
+
+    test('getShortcut', () => {
+      const mgr = new ShortcutManager();
+      const NEXT_FILE = Shortcut.NEXT_FILE;
+
+      assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
+      mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
+      assert.equal(mgr.getShortcut(NEXT_FILE), '], }, →');
     });
 
     suite('binding descriptions', () => {

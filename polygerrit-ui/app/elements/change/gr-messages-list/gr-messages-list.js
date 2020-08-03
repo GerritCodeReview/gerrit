@@ -334,7 +334,7 @@ class GrMessagesList extends KeyboardShortcutMixin(
   }
 
   _computeExpandAllTitle(_expandAllState) {
-    if (_expandAllState === ExpandAllState.COLLAPSED_ALL) {
+    if (_expandAllState === ExpandAllState.COLLAPSE_ALL) {
       return this.createTitle(
           Shortcut.COLLAPSE_ALL_MESSAGES, ShortcutSection.ACTIONS);
     }

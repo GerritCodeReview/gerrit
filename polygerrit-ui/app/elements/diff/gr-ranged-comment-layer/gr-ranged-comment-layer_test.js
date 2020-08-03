@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff-line.js';
 import './gr-ranged-comment-layer.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 
 const basicFixture = fixtureFromElement('gr-ranged-comment-layer');
 
@@ -84,12 +84,12 @@ suite('gr-ranged-comment-layer', () => {
       annotateElementStub = sinon.stub(GrAnnotation, 'annotateElement');
       el = document.createElement('div');
       el.setAttribute('data-side', 'left');
-      line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      line = new GrDiffLine(GrDiffLineType.BOTH);
       line.text = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit,';
     });
 
     test('type=Remove no-comment', () => {
-      line.type = GrDiffLine.Type.REMOVE;
+      line.type = GrDiffLineType.REMOVE;
       line.beforeNumber = 40;
 
       element.annotate(el, lineNumberEl, line);
@@ -98,7 +98,7 @@ suite('gr-ranged-comment-layer', () => {
     });
 
     test('type=Remove has-comment', () => {
-      line.type = GrDiffLine.Type.REMOVE;
+      line.type = GrDiffLineType.REMOVE;
       line.beforeNumber = 36;
       const expectedStart = 6;
       const expectedLength = line.text.length - expectedStart;
@@ -114,7 +114,7 @@ suite('gr-ranged-comment-layer', () => {
     });
 
     test('type=Remove has-comment hovering', () => {
-      line.type = GrDiffLine.Type.REMOVE;
+      line.type = GrDiffLineType.REMOVE;
       line.beforeNumber = 36;
       element.set(['commentRanges', 0, 'hovering'], true);
 
@@ -134,7 +134,7 @@ suite('gr-ranged-comment-layer', () => {
     });
 
     test('type=Both has-comment', () => {
-      line.type = GrDiffLine.Type.BOTH;
+      line.type = GrDiffLineType.BOTH;
       line.beforeNumber = 36;
 
       const expectedStart = 6;
@@ -151,7 +151,7 @@ suite('gr-ranged-comment-layer', () => {
     });
 
     test('type=Both has-comment off side', () => {
-      line.type = GrDiffLine.Type.BOTH;
+      line.type = GrDiffLineType.BOTH;
       line.beforeNumber = 36;
       el.setAttribute('data-side', 'right');
 
@@ -161,7 +161,7 @@ suite('gr-ranged-comment-layer', () => {
     });
 
     test('type=Add has-comment', () => {
-      line.type = GrDiffLine.Type.ADD;
+      line.type = GrDiffLineType.ADD;
       line.afterNumber = 12;
       el.setAttribute('data-side', 'right');
 

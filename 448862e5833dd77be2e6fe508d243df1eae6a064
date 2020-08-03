@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b38ab455_ab825ce0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-03T16:22:43Z",
+      "side": 1,
+      "message": "The rest-api changes are still left.\nSending now for a review for sanity check of approaches and typescriptness of the code.",
+      "revId": "448862e5833dd77be2e6fe508d243df1eae6a064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

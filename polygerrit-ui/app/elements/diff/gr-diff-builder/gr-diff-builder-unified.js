@@ -14,9 +14,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group';
+import {GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 
 export function GrDiffBuilderUnified(diff, prefs, outputEl, layers) {
   GrDiffBuilder.call(this, diff, prefs, outputEl, layers);
@@ -36,7 +36,7 @@ GrDiffBuilderUnified.prototype.buildSectionElement = function(group) {
   if (group.ignoredWhitespaceOnly) {
     sectionEl.classList.add('ignoredWhitespaceOnly');
   }
-  if (group.type === GrDiffGroup.Type.CONTEXT_CONTROL) {
+  if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
     sectionEl.appendChild(
         this._createContextRow(sectionEl, group.contextGroups));
     return sectionEl;
@@ -46,7 +46,7 @@ GrDiffBuilderUnified.prototype.buildSectionElement = function(group) {
     const line = group.lines[i];
     // If only whitespace has changed and the settings ask for whitespace to
     // be ignored, only render the right-side line in unified diff mode.
-    if (group.ignoredWhitespaceOnly && line.type == GrDiffLine.Type.REMOVE) {
+    if (group.ignoredWhitespaceOnly && line.type == GrDiffLineType.REMOVE) {
       continue;
     }
     sectionEl.appendChild(this._createRow(sectionEl, line));
@@ -84,10 +84,10 @@ GrDiffBuilderUnified.prototype._createRow = function(section, line) {
   row.tabIndex = -1;
   row.appendChild(this._createBlameCell(line.beforeNumber));
   let lineNumberEl = this._createLineEl(line, line.beforeNumber,
-      GrDiffLine.Type.REMOVE, 'left');
+      GrDiffLineType.REMOVE, 'left');
   row.appendChild(lineNumberEl);
   lineNumberEl = this._createLineEl(line, line.afterNumber,
-      GrDiffLine.Type.ADD, 'right');
+      GrDiffLineType.ADD, 'right');
   row.appendChild(lineNumberEl);
   row.appendChild(this._createTextEl(lineNumberEl, line));
   return row;
@@ -95,7 +95,7 @@ GrDiffBuilderUnified.prototype._createRow = function(section, line) {
 
 GrDiffBuilderUnified.prototype._createContextRow = function(section,
     contextGroups) {
-  const row = this._createElement('tr', GrDiffGroup.Type.CONTEXT_CONTROL);
+  const row = this._createElement('tr', GrDiffGroupType.CONTEXT_CONTROL);
   row.classList.add('diff-row', 'unified');
   row.tabIndex = -1;
   row.appendChild(this._createBlameCell(0));

@@ -15,26 +15,29 @@
  * limitations under the License.
  */
 
-/** @enum {string} */
-export const DiffSide = {
-  LEFT: 'left',
-  RIGHT: 'right',
-};
+import {CommentRange} from '../../../types/common';
+
+export enum DiffSide {
+  LEFT = 'left',
+  RIGHT = 'right',
+}
 
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
  * true if both are falsy or if neither are falsy and have the same position
  * values.
- *
- * @param {Range=} a range 1
- * @param {Range=} b range 2
- * @return {boolean}
  */
-export function rangesEqual(a, b) {
-  if (!a && !b) { return true; }
-  if (!a || !b) { return false; }
-  return a.start_line === b.start_line &&
-      a.start_character === b.start_character &&
-      a.end_line === b.end_line &&
-      a.end_character === b.end_character;
+export function rangesEqual(a: CommentRange, b: CommentRange): boolean {
+  if (!a && !b) {
+    return true;
+  }
+  if (!a || !b) {
+    return false;
+  }
+  return (
+    a.start_line === b.start_line &&
+    a.start_character === b.start_character &&
+    a.end_line === b.end_line &&
+    a.end_character === b.end_character
+  );
 }

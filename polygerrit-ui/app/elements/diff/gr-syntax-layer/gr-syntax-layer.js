@@ -20,7 +20,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-syntax-layer_html.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
+import {GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {util} from '../../../scripts/util.js';
 
 const LANGUAGE_MAP = {
@@ -208,11 +208,11 @@ class GrSyntaxLayer extends GestureEventListeners(
 
     // Determine the side.
     let side;
-    if (line.type === GrDiffLine.Type.REMOVE || (
-      line.type === GrDiffLine.Type.BOTH &&
+    if (line.type === GrDiffLineType.REMOVE || (
+      line.type === GrDiffLineType.BOTH &&
         el.getAttribute('data-side') !== 'right')) {
       side = 'left';
-    } else if (line.type === GrDiffLine.Type.ADD || (
+    } else if (line.type === GrDiffLineType.ADD || (
       el.getAttribute('data-side') !== 'left')) {
       side = 'right';
     }

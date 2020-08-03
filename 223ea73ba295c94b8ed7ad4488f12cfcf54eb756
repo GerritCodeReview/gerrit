@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cd77c66_6b433f75",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T09:08:35Z",
+      "side": 1,
+      "message": "nit: I would prefer\nlet tagName: string | null \u003d null;\n\nI always forget that \u0027\u0027 is treated as a false in Javascript, that is opposite to many other languages.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 19
+      },
+      "revId": "223ea73ba295c94b8ed7ad4488f12cfcf54eb756",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "01d722b4_8f2f11e1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T19:23:19Z",
+      "side": 1,
+      "message": "Oh, I didn\u0027t notice that getBoundingClientRect is a method of the Element interface, i.e. this code doesn\u0027t work with arbitrary Node.\nSeems the best definition is\nel: Text | Element\nthen you can write in else:\nrect \u003d el.getBoundingClientRect();\nTypescript automatically validates that type is correct (i.e. as HTMLElement is not needed).\n\nThe same type Text|Element should be used in placeBelow and in placeAbove.",
+      "range": {
+        "startLine": 114,
+        "startChar": 14,
+        "endLine": 114,
+        "endChar": 54
+      },
+      "revId": "dce4099ee35d5441c332d4a5ace5aee98fbc578a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

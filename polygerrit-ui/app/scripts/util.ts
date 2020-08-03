@@ -15,10 +15,15 @@
  * limitations under the License.
  */
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+interface CancelablePromise<any> extends Promise<any> {
+  cancel: Function;
+}
+
 // TODO (dmfilippov): Each function must be exported separately. According to
 // the code style guide, a namespacing is not allowed.
 export const util = {
-  getCookie(name) {
+  getCookie(name: string) {
     const key = name + '=';
     const cookies = document.cookie.split(';');
     for (let i = 0; i < cookies.length; i++) {
@@ -41,22 +46,28 @@ export const util = {
    * {isCancelled: true} synchronously. If the inner promise for a cancelled
    * promise resolves or rejects this is ignored.
    */
-  makeCancelable: promise => {
+  makeCancelable: (promise: Promise<any>) => {
     // True if the promise is either resolved or reject (possibly cancelled)
     let isDone = false;
 
-    let rejectPromise;
+    let rejectPromise: Function;
 
-    const wrappedPromise = new Promise((resolve, reject) => {
-      rejectPromise = reject;
-      promise.then(val => {
-        if (!isDone) resolve(val);
-        isDone = true;
-      }, error => {
-        if (!isDone) reject(error);
-        isDone = true;
-      });
-    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const wrappedPromise: CancelablePromise<any> = new Promise(
+      (resolve, reject) => {
+        rejectPromise = reject;
+        promise.then(
+          val => {
+            if (!isDone) resolve(val);
+            isDone = true;
+          },
+          error => {
+            if (!isDone) reject(error);
+            isDone = true;
+          }
+        );
+      }
+    ) as CancelablePromise<any>;
 
     wrappedPromise.cancel = () => {
       if (isDone) return;

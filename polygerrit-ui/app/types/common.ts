@@ -319,6 +319,7 @@ export interface ChangeMessageInfo {
  * fields are returned by default.  Additional fields can be obtained by
  * adding o parameters as described in Query Changes.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revision-info
+ * basePatchNum is present in case RevisionInfo is of type 'edit'
  */
 export interface RevisionInfo {
   kind: RevisionKind;
@@ -334,6 +335,11 @@ export interface RevisionInfo {
   commit_with_footers?: boolean;
   push_certificate?: PushCertificateInfo;
   description?: string;
+  basePatchNum?: PatchSetNum;
+}
+
+export interface RevisionWithSha extends RevisionInfo {
+  sha: string;
 }
 
 /**

@@ -19,6 +19,7 @@ export {};
 declare global {
   interface Window {
     CANONICAL_PATH?: string;
+    HTMLImports?: {whenReady: (cb: () => void) => void};
   }
 
   interface Performance {

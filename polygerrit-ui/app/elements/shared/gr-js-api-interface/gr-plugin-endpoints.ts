@@ -15,58 +15,87 @@
  * limitations under the License.
  */
 
-import {importHref} from '../../../scripts/import-href.js';
+import {importHref} from '../../../scripts/import-href';
 
-/** @constructor */
+type Callback = (value: any) => void;
+
+interface ModuleInfo {
+  moduleName: string;
+  // TODO(brohlfs): Convert type to GrPlugin.
+  plugin: any;
+  pluginUrl: URL;
+  type?: string;
+  // TODO(brohlfs): Convert type to GrDomHook.
+  domHook: any;
+  slot?: string;
+}
+
+interface Options {
+  endpoint?: string;
+  dynamicEndpoint?: string;
+  slot?: string;
+  type?: string;
+  moduleName?: string;
+  // TODO(brohlfs): Convert type to GrDomHook.
+  domHook?: any;
+}
+
 export class GrPluginEndpoints {
-  constructor() {
-    this._endpoints = {};
-    this._callbacks = {};
-    this._dynamicPlugins = {};
-    this._importedUrls = new Set();
-    this._pluginLoaded = false;
-  }
+  _endpoints = new Map<string, ModuleInfo[]>();
+
+  _callbacks = new Map<string, ((value: any) => void)[]>();
+
+  _dynamicPlugins = new Map<string, Set<string>>();
+
+  _importedUrls = new Set();
+
+  _pluginLoaded = false;
+
+  constructor() {}
 
   setPluginsReady() {
     this._pluginLoaded = true;
   }
 
-  onNewEndpoint(endpoint, callback) {
-    if (!this._callbacks[endpoint]) {
-      this._callbacks[endpoint] = [];
+  onNewEndpoint(endpoint: string, callback: Callback) {
+    if (!this._callbacks.has(endpoint)) {
+      this._callbacks.set(endpoint, []);
     }
-    this._callbacks[endpoint].push(callback);
+    this._callbacks.get(endpoint)!.push(callback);
   }
 
-  onDetachedEndpoint(endpoint, callback) {
-    if (this._callbacks[endpoint]) {
-      this._callbacks[endpoint] = this._callbacks[endpoint].filter(
-          cb => cb !== callback
-      );
+  onDetachedEndpoint(endpoint: string, callback: Callback) {
+    if (this._callbacks.has(endpoint)) {
+      const filteredCallbacks = this._callbacks
+        .get(endpoint)!
+        .filter((cb: Callback) => cb !== callback);
+      this._callbacks.set(endpoint, filteredCallbacks);
     }
   }
 
-  _getOrCreateModuleInfo(plugin, opts) {
+  _getOrCreateModuleInfo(plugin: any, opts: Options): ModuleInfo {
     const {endpoint, slot, type, moduleName, domHook} = opts;
-    const existingModule = this._endpoints[endpoint].find(
-        info =>
+    const existingModule = this._endpoints
+      .get(endpoint!)!
+      .find(
+        (info: ModuleInfo) =>
           info.plugin === plugin &&
-        info.moduleName === moduleName &&
-        info.domHook === domHook &&
-        info.slot === slot
-    );
+          info.moduleName === moduleName &&
+          info.domHook === domHook &&
+          info.slot === slot
+      );
     if (existingModule) {
       return existingModule;
     } else {
-      const newModule = {
-        moduleName,
+      const newModule: ModuleInfo = {
+        moduleName: moduleName!,
         plugin,
         pluginUrl: plugin._url,
         type,
         domHook,
         slot,
       };
-      this._endpoints[endpoint].push(newModule);
+      this._endpoints.get(endpoint!)!.push(newModule);
       return newModule;
     }
   }
@@ -81,16 +110,17 @@ export class GrPluginEndpoints {
    * @param {Object} plugin
    * @param {Object} opts
    */
-  registerModule(plugin, opts) {
-    const {endpoint, dynamicEndpoint} = opts;
+  registerModule(plugin: any, opts: Options) {
+    const endpoint = opts.endpoint!;
+    const dynamicEndpoint = opts.dynamicEndpoint;
     if (dynamicEndpoint) {
-      if (!this._dynamicPlugins[dynamicEndpoint]) {
-        this._dynamicPlugins[dynamicEndpoint] = new Set();
+      if (!this._dynamicPlugins.has(dynamicEndpoint)) {
+        this._dynamicPlugins.set(dynamicEndpoint, new Set());
       }
-      this._dynamicPlugins[dynamicEndpoint].add(endpoint);
+      this._dynamicPlugins.get(dynamicEndpoint)!.add(endpoint);
     }
-    if (!this._endpoints[endpoint]) {
-      this._endpoints[endpoint] = [];
+    if (!this._endpoints.has(endpoint)) {
+      this._endpoints.set(endpoint, []);
     }
     const moduleInfo = this._getOrCreateModuleInfo(plugin, opts);
     // TODO: the logic below seems wrong when:
@@ -98,13 +128,13 @@ export class GrPluginEndpoints {
     // one register before plugins ready
     // the other done after, then only the later one will have the callbacks
     // invoked.
-    if (this._pluginLoaded && this._callbacks[endpoint]) {
-      this._callbacks[endpoint].forEach(callback => callback(moduleInfo));
+    if (this._pluginLoaded && this._callbacks.has(endpoint)) {
+      this._callbacks.get(endpoint)!.forEach(callback => callback(moduleInfo));
     }
   }
 
-  getDynamicEndpoints(dynamicEndpoint) {
-    const plugins = this._dynamicPlugins[dynamicEndpoint];
+  getDynamicEndpoints(dynamicEndpoint: string): string[] {
+    const plugins = this._dynamicPlugins.get(dynamicEndpoint);
     if (!plugins) return [];
     return Array.from(plugins);
   }
@@ -112,45 +142,28 @@ export class GrPluginEndpoints {
   /**
    * Get detailed information about modules registered with an extension
    * endpoint.
-   *
-   * @param {string} name Endpoint name.
-   * @param {?{
-   *   type: (string|undefined),
-   *   moduleName: (string|undefined)
-   * }} opt_options
-   * @return {!Array<{
-   *   moduleName: string,
-   *   plugin: Plugin,
-   *   pluginUrl: String,
-   *   type: EndpointType,
-   *   domHook: !Object
-   * }>}
    */
-  getDetails(name, opt_options) {
-    const type = opt_options && opt_options.type;
-    const moduleName = opt_options && opt_options.moduleName;
-    if (!this._endpoints[name]) {
+  getDetails(name: string, options?: Options): ModuleInfo[] {
+    const type = options && options.type;
+    const moduleName = options && options.moduleName;
+    if (!this._endpoints.has(name)) {
       return [];
+    } else {
+      return this._endpoints
+        .get(name)!
+        .filter(
+          (item: ModuleInfo) =>
+            (!type || item.type === type) &&
+            (!moduleName || moduleName === item.moduleName)
+        );
     }
-    return this._endpoints[name].filter(
-        item =>
-          (!type || item.type === type) &&
-        (!moduleName || moduleName == item.moduleName)
-    );
   }
 
   /**
    * Get detailed module names for instantiating at the endpoint.
-   *
-   * @param {string} name Endpoint name.
-   * @param {?{
-   *   type: (string|undefined),
-   *   moduleName: (string|undefined)
-   * }} opt_options
-   * @return {!Array<string>}
    */
-  getModules(name, opt_options) {
-    const modulesData = this.getDetails(name, opt_options);
+  getModules(name: string, options?: Options): string[] {
+    const modulesData = this.getDetails(name, options);
     if (!modulesData.length) {
       return [];
     }
@@ -159,64 +172,48 @@ export class GrPluginEndpoints {
 
   /**
    * Get plugin URLs with element and module definitions.
-   *
-   * @param {string} name Endpoint name.
-   * @param {?{
-   *   type: (string|undefined),
-   *   moduleName: (string|undefined)
-   * }} opt_options
-   * @return {!Array<!URL>}
    */
-  getPlugins(name, opt_options) {
-    const modulesData = this.getDetails(name, opt_options);
+  getPlugins(name: string, options?: Options): URL[] {
+    const modulesData = this.getDetails(name, options);
     if (!modulesData.length) {
       return [];
     }
     return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
   }
 
-  importUrl(pluginUrl) {
-    let timerId;
-    return Promise
-        .race([
-          new Promise((resolve, reject) => {
-            this._importedUrls.add(pluginUrl.href);
-            importHref(pluginUrl, resolve, reject);
-          }),
-          // Timeout after 3s
-          new Promise(r => timerId = setTimeout(r, 3000)),
-        ])
-        .finally(() => {
-          if (timerId) clearTimeout(timerId);
-        });
+  importUrl(pluginUrl: URL) {
+    let timerId: any;
+    return Promise.race([
+      new Promise((resolve, reject) => {
+        this._importedUrls.add(pluginUrl.href);
+        importHref(pluginUrl.href, resolve, reject);
+      }),
+      // Timeout after 3s
+      new Promise(r => (timerId = setTimeout(r, 3000))),
+    ]).finally(() => {
+      if (timerId) clearTimeout(timerId);
+    });
   }
 
   /**
    * Get plugin URLs with element and module definitions.
-   *
-   * @param {string} name Endpoint name.
-   * @param {?{
-   *   type: (string|undefined),
-   *   moduleName: (string|undefined)
-   * }} opt_options
-   * @return {!Array<!Promise<void>>}
    */
-  getAndImportPlugins(name, opt_options) {
+  getAndImportPlugins(name: string, options?: Options) {
     return Promise.all(
-        this.getPlugins(name, opt_options).map(pluginUrl => {
-          if (this._importedUrls.has(pluginUrl.href)) {
-            return Promise.resolve();
-          }
+      this.getPlugins(name, options).map(pluginUrl => {
+        if (this._importedUrls.has(pluginUrl.href)) {
+          return Promise.resolve();
+        }
 
-          // TODO: we will deprecate html plugins entirely
-          // for now, keep the original behavior and import
-          // only for html ones
-          if (pluginUrl && pluginUrl.pathname.endsWith('.html')) {
-            return this.importUrl(pluginUrl);
-          } else {
-            return Promise.resolve();
-          }
-        })
+        // TODO: we will deprecate html plugins entirely
+        // for now, keep the original behavior and import
+        // only for html ones
+        if (pluginUrl && pluginUrl.pathname.endsWith('.html')) {
+          return this.importUrl(pluginUrl);
+        } else {
+          return Promise.resolve();
+        }
+      })
     );
   }
 }

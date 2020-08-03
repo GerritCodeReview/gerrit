@@ -15,88 +15,100 @@
  * limitations under the License.
  */
 
-/** @constructor */
-export function GrEventHelper(element) {
-  this.element = element;
-  this._unsubscribers = [];
+interface EventWithPath extends Event {
+  path?: HTMLElement[];
 }
 
-/**
- * Add a callback to arbitrary event.
- * The callback may return false to prevent event bubbling.
- *
- * @param {string} event Event name
- * @param {function(Event):boolean} callback
- * @return {function()} Unsubscribe function.
- */
-GrEventHelper.prototype.on = function(event, callback) {
-  return this._listen(this.element, callback, {event});
-};
+export interface ListenOptions {
+  event?: string;
+  capture?: boolean;
+}
 
-/**
- * Alias of onClick
- *
- * @see onClick
- */
-GrEventHelper.prototype.onTap = function(callback) {
-  return this._listen(this.element, callback);
-};
+export class GrEventHelper {
+  constructor(readonly element: HTMLElement) {}
 
-/**
- * Add a callback to element click or touch.
- * The callback may return false to prevent event bubbling.
- *
- * @param {function(Event):boolean} callback
- * @return {function()} Unsubscribe function.
- */
-GrEventHelper.prototype.onClick = function(callback) {
-  return this._listen(this.element, callback);
-};
+  _unsubscribers: any[] = [];
 
-/**
- * Alias of captureClick
- *
- * @see captureClick
- */
-GrEventHelper.prototype.captureTap = function(callback) {
-  return this._listen(this.element.parentElement, callback, {capture: true});
-};
+  /**
+   * Add a callback to arbitrary event.
+   * The callback may return false to prevent event bubbling.
+   *
+   * @param {string} event Event name
+   * @param {function(Event):boolean} callback
+   * @return {function()} Unsubscribe function.
+   */
+  on(event: string, callback: (event: Event) => boolean) {
+    return this._listen(this.element, callback, {event});
+  }
 
-/**
- * Add a callback to element click or touch ahead of normal flow.
- * Callback is installed on parent during capture phase.
- * https://www.w3.org/TR/DOM-Level-3-Events/#event-flow
- * The callback may return false to cancel regular event listeners.
- *
- * @param {function(Event):boolean} callback
- * @return {function()} Unsubscribe function.
- */
-GrEventHelper.prototype.captureClick = function(callback) {
-  return this._listen(this.element.parentElement, callback, {capture: true});
-};
+  /**
+   * Alias of onClick
+   *
+   * @see onClick
+   */
+  onTap(callback: (event: Event) => boolean) {
+    return this._listen(this.element, callback);
+  }
 
-GrEventHelper.prototype._listen = function(container, callback, opt_options) {
-  const capture = opt_options && opt_options.capture;
-  const event = opt_options && opt_options.event || 'click';
-  const handler = e => {
-    if (e.path.indexOf(this.element) !== -1) {
-      let mayContinue = true;
-      try {
-        mayContinue = callback(e);
-      } catch (e) {
-        console.warn(`Plugin error handing event: ${e}`);
+  /**
+   * Add a callback to element click or touch.
+   * The callback may return false to prevent event bubbling.
+   *
+   * @param {function(Event):boolean} callback
+   * @return {function()} Unsubscribe function.
+   */
+  onClick(callback: (event: Event) => boolean) {
+    return this._listen(this.element, callback);
+  }
+
+  /**
+   * Alias of captureClick
+   *
+   * @see captureClick
+   */
+  captureTap(callback: (event: Event) => boolean) {
+    const parent = this.element.parentElement!;
+    return this._listen(parent, callback, {capture: true});
+  }
+
+  /**
+   * Add a callback to element click or touch ahead of normal flow.
+   * Callback is installed on parent during capture phase.
+   * https://www.w3.org/TR/DOM-Level-3-Events/#event-flow
+   * The callback may return false to cancel regular event listeners.
+   */
+  captureClick(callback: (event: Event) => boolean) {
+    const parent = this.element.parentElement!;
+    return this._listen(parent, callback, {capture: true});
+  }
+
+  _listen(
+    container: HTMLElement,
+    callback: (event: Event) => boolean,
+    opt_options?: ListenOptions | null
+  ) {
+    const capture = !!opt_options && !!opt_options.capture;
+    const event = (opt_options && opt_options.event) || 'click';
+    const handler = (e: EventWithPath) => {
+      if (!e.path) return;
+      if (e.path.indexOf(this.element) !== -1) {
+        let mayContinue = true;
+        try {
+          mayContinue = callback(e);
+        } catch (exception) {
+          console.warn(`Plugin error handing event: ${exception}`);
+        }
+        if (mayContinue === false) {
+          e.stopImmediatePropagation();
+          e.stopPropagation();
+          e.preventDefault();
+        }
       }
-      if (mayContinue === false) {
-        e.stopImmediatePropagation();
-        e.stopPropagation();
-        e.preventDefault();
-      }
-    }
-  };
-  container.addEventListener(event, handler, capture);
-  const unsubscribe = () =>
-    container.removeEventListener(event, handler, capture);
-  this._unsubscribers.push(unsubscribe);
-  return unsubscribe;
-};
-
+    };
+    container.addEventListener(event, handler, capture);
+    const unsubscribe = () =>
+      container.removeEventListener(event, handler, capture);
+    this._unsubscribers.push(unsubscribe);
+    return unsubscribe;
+  }
+}

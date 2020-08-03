@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "09905fb1_85e022a8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-08-03T18:39:30Z",
+      "side": 1,
+      "message": "\u003e Maybe I should try to limit the number of threads working on a single repository to less than\n\u003e the 80 threads available in the executor to give the ref packing a chance to keep pace with\n\u003e the creation of new refs.\n\nI would lower the ref-repacking threshold to a lower number than 5K before I would try to reduce the number of threads. Even with one thread I would expect 5K to big too big. I suspect it would need to be at most 1K, and as David O points out, 100 might even be better, particularly if... (see next question),\n\nAre we creating loose objects or packfiles also during the migration? If so, these could slow things down additionally even if we have refs being packed. In my experience having over 300 pack files will make lookups very slow. If each new ref also results in a new pack file, this could be the next slowdown after you repack refs.\n\nIf we are not creating new pack files, but only loose objects, then I suspect we could get away with quite a few loose objects (10K-100K?) without a serious performance impact (I have never identified a specific problematic number for loose objects)? With large migrations, even such a large number might get hit though, and we may need to additionally repack loose objects every now and then also?",
+      "parentUuid": "61a63cac_6c1cc27f",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

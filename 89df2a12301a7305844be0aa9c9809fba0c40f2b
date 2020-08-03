@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "8a8ff694_2e45290f",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T11:23:56Z",
+      "side": 1,
+      "message": "np. added private to these newly added ones",
+      "parentUuid": "c645fc89_3131ed2d",
+      "range": {
+        "startLine": 58,
+        "startChar": 6,
+        "endLine": 58,
+        "endChar": 24
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3eea19d2_912b0872",
         "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
         "patchSetId": 2
@@ -188,6 +212,30 @@
       "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "303de8dd_f1b5d206",
+        "filename": "polygerrit-ui/app/mixins/gr-tooltip-mixin/gr-tooltip-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T11:23:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d3f6107c_db403760",
+      "range": {
+        "startLine": 61,
+        "startChar": 6,
+        "endLine": 61,
+        "endChar": 26
+      },
+      "revId": "89df2a12301a7305844be0aa9c9809fba0c40f2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

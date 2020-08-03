@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "784a05f7_d1a05a37",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 530,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T19:58:18Z",
+      "side": 1,
+      "message": "Will have a separate change for that, i am trying to not modify any code logic for migrations.",
+      "parentUuid": "b6ddc8ca_8050e03c",
+      "range": {
+        "startLine": 530,
+        "startChar": 51,
+        "endLine": 530,
+        "endChar": 59
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3549f024_be7d2ab4",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 2

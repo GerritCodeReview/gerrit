@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "51bfca77_8e151d66",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 606,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T17:07:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3549f024_be7d2ab4",
+      "range": {
+        "startLine": 606,
+        "startChar": 6,
+        "endLine": 606,
+        "endChar": 41
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9c327fa_10dc0179",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "201b1b77_bf689844",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T17:07:20Z",
+      "side": 1,
+      "message": "I would prefer to not having `!` in the code. ideally the ts should be able to infer that (and I actually think they probably will in future versions). So no harm of keeping the `if` imo",
+      "parentUuid": "a9c327fa_10dc0179",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 636,
+        "endChar": 0
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "99457e67_319c1da8",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2020-08-03T16:43:59Z",
       "side": 1,
       "message": "nit: you can assign value at the property initializer:\n_shortcut_go_table \u003d new Map\u003cstring, string\u003e();\nSame for _shortcut_v_table",
+      "range": {
+        "startLine": 806,
+        "startChar": 8,
+        "endLine": 806,
+        "endChar": 44
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "877d053e_4a421545",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T17:07:20Z",
+      "side": 1,
+      "message": "ya i knew, but I am not sure how that interpreted inside, for cases that we do want to use the same object across instances:\n\n```\n a: {\n   type: Object,\n   value: new Map() // this will be used across all instances\n }\n```\n\ni think by setting the value in constructor, it will make sure each instance has its own Map",
+      "parentUuid": "99457e67_319c1da8",
       "range": {
         "startLine": 806,
         "startChar": 8,

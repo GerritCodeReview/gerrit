@@ -14,28 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {customElement, property} from '@polymer/decorators';
 
-/** @extends PolymerElement */
-class GrEndpointParam extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get is() { return 'gr-endpoint-param'; }
-
-  static get properties() {
-    return {
-      name: String,
-      value: {
-        type: Object,
-        notify: true,
-        observer: '_valueChanged',
-      },
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-endpoint-param': GrEndpointParam;
   }
+}
 
-  _valueChanged(newValue, oldValue) {
+@customElement('gr-endpoint-param')
+export class GrEndpointParam extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  @property({type: String})
+  name = '';
+
+  @property({
+    type: Object,
+    notify: true,
+    observer: GrEndpointParam.prototype._valueChanged,
+  })
+  value: Record<string, unknown> | undefined = undefined;
+
+  private _valueChanged(
+    newValue: Record<string, unknown>,
+    _oldValue: Record<string, unknown>
+  ) {
     /* In polymer 2 the following change was made:
     "Property change notifications (property-changed events) aren't fired when
     the value changes as a result of a binding from the host"
@@ -50,5 +57,3 @@ class GrEndpointParam extends GestureEventListeners(
     this.dispatchEvent(new CustomEvent('value-changed', {detail}));
   }
 }
-
-customElements.define(GrEndpointParam.is, GrEndpointParam);

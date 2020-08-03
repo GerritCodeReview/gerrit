@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b171a1bd_1e9cbea9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-selection-action-box/gr-selection-action-box.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T12:17:45Z",
+      "side": 1,
+      "message": "It seems, Text doesn\u0027t extend HTMLElement - from lib.dom.d.ts\ninterface Text extends CharacterData, Slotable {\ninterface CharacterData extends Node, ChildNode, NonDocumentTypeChildNode {\n\nCould you please try to use Node instead of HTMLElement here and in other methods?",
+      "range": {
+        "startLine": 108,
+        "startChar": 22,
+        "endLine": 108,
+        "endChar": 26
+      },
+      "revId": "a73748376352c5b7b8f6d7a6fd9930733a92e6e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

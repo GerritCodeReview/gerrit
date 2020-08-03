@@ -4540,6 +4540,21 @@ Values should use common unit suffixes to express their setting:
 +
 By default, 30s.
 
+[[sshd.gracefulStopTimeout]]sshd.gracefulStopTimeout::
++
+Set a graceful stop time. If set, the daemon ensures that all incoming
+calls are preserved for a maximum period of time, before starting
+the graceful shutdown process. During this period, no new requests
+will be accepted. This option is meant to be used in setups performing
+rolling updates.
++
+Values should use common unit suffixes to express their setting:
++
+* s, sec, second, seconds
+* m, min, minute, minutes
++
+By default, 0 seconds (immediate shutdown).
+
 [[sshd.maxConnectionsPerUser]]sshd.maxConnectionsPerUser::
 +
 Maximum number of concurrent SSH sessions that a user account

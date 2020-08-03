@@ -54,6 +54,7 @@ import java.nio.file.spi.FileSystemProvider;
 import java.security.InvalidKeyException;
 import java.security.KeyPair;
 import java.security.PublicKey;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -62,6 +63,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
@@ -140,6 +142,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor daemonAcceptor;
   private final Config cfg;
+  private final long gracefulStopTimeout;
 
   @Inject
   SshDaemon(
@@ -208,6 +211,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final boolean enableCompression = cfg.getBoolean("sshd", "enableCompression", false);
 
     SshSessionBackend backend = cfg.getEnum("sshd", null, "backend", SshSessionBackend.NIO2);
+
+    gracefulStopTimeout = cfg.getTimeUnit("sshd", null, "gracefulStopTimeout", 0, TimeUnit.SECONDS);
 
     System.setProperty(
         IoServiceFactoryFactory.class.getName(),
@@ -338,6 +343,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   public synchronized void stop() {
     if (daemonAcceptor != null) {
       try {
+        if (gracefulStopTimeout > 0) {
+          logger.atInfo().log(
+              "Stopping SSHD sessions gracefully with timeout %d seconds.", gracefulStopTimeout);
+          daemonAcceptor.unbind(daemonAcceptor.getBoundAddresses());
+          waitForSessionClose();
+        }
         daemonAcceptor.close(true).await();
         shutdownExecutors();
         logger.atInfo().log("Stopped Gerrit SSHD");
@@ -345,6 +356,24 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
         logger.atWarning().withCause(e).log("Exception caught while closing");
       } finally {
         daemonAcceptor = null;
+      }
+    }
+  }
+
+  private void waitForSessionClose() {
+    LocalTime timeout = LocalTime.now().plusSeconds(gracefulStopTimeout);
+    for (IoSession io : daemonAcceptor.getManagedSessions().values()) {
+      logger.atFine().log("Waiting for session %s to stop.", io.getId());
+      while (!io.isClosed()) {
+        if (LocalTime.now().isAfter(timeout)) {
+          logger.atInfo().log("Timed out waiting for SSH sessions. Closing SSHD immediately");
+          return;
+        }
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
       }
     }
   }

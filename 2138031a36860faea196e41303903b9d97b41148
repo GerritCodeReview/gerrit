@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "59a5cb38_1f56877d",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 636,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:33:50Z",
+      "side": 1,
+      "message": "It makes code harder to read for me. I.e. I see that the value can\u0027t be null and at the same time there is a condition to check it for null.\nSo, I have to analyze code more carefully why author wrote the condition and what I missed.",
+      "parentUuid": "201b1b77_bf689844",
+      "range": {
+        "startLine": 634,
+        "startChar": 10,
+        "endLine": 636,
+        "endChar": 0
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "99457e67_319c1da8",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 2
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "ya i knew, but I am not sure how that interpreted inside, for cases that we do want to use the same object across instances:\n\n```\n a: {\n   type: Object,\n   value: new Map() // this will be used across all instances\n }\n```\n\ni think by setting the value in constructor, it will make sure each instance has its own Map",
       "parentUuid": "99457e67_319c1da8",
+      "range": {
+        "startLine": 806,
+        "startChar": 8,
+        "endLine": 806,
+        "endChar": 44
+      },
+      "revId": "2138031a36860faea196e41303903b9d97b41148",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ae8459b_a276fcdb",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 806,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-03T18:33:50Z",
+      "side": 1,
+      "message": "Typescript moves all properties initializers into the constructor, so in JS there is no difference between both approaches.",
+      "parentUuid": "877d053e_4a421545",
       "range": {
         "startLine": 806,
         "startChar": 8,

@@ -61,7 +61,11 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.mina.transport.socket.SocketSessionConfig;
 import org.apache.sshd.common.BaseBuilder;
@@ -70,6 +74,8 @@ import org.apache.sshd.common.cipher.Cipher;
 import org.apache.sshd.common.compression.BuiltinCompressions;
 import org.apache.sshd.common.compression.Compression;
 import org.apache.sshd.common.forward.DefaultForwarderFactory;
+import org.apache.sshd.common.future.CloseFuture;
+import org.apache.sshd.common.future.SshFutureListener;
 import org.apache.sshd.common.io.AbstractIoServiceFactory;
 import org.apache.sshd.common.io.IoAcceptor;
 import org.apache.sshd.common.io.IoServiceFactory;
@@ -140,6 +146,7 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   private final List<HostKey> hostKeys;
   private volatile IoAcceptor daemonAcceptor;
   private final Config cfg;
+  private final long gracefulStopTimeout;
 
   @Inject
   SshDaemon(
@@ -208,6 +215,8 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     final boolean enableCompression = cfg.getBoolean("sshd", "enableCompression", false);
 
     SshSessionBackend backend = cfg.getEnum("sshd", null, "backend", SshSessionBackend.NIO2);
+
+    gracefulStopTimeout = cfg.getTimeUnit("sshd", null, "gracefulStopTimeout", 0, TimeUnit.SECONDS);
 
     System.setProperty(
         IoServiceFactoryFactory.class.getName(),
@@ -338,6 +347,12 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
   public synchronized void stop() {
     if (daemonAcceptor != null) {
       try {
+        if (gracefulStopTimeout > 0) {
+          logger.atInfo().log(
+              "Stopping SSHD sessions gracefully with timeout %d seconds.", gracefulStopTimeout);
+          daemonAcceptor.unbind(daemonAcceptor.getBoundAddresses());
+          waitForSessionClose();
+        }
         daemonAcceptor.close(true).await();
         shutdownExecutors();
         logger.atInfo().log("Stopped Gerrit SSHD");
@@ -346,6 +361,35 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
       } finally {
         daemonAcceptor = null;
       }
+    }
+  }
+
+  private void waitForSessionClose() {
+    ArrayList<CompletableFuture<Boolean>> sessionCloseFutures = new ArrayList<>();
+    for (IoSession io : daemonAcceptor.getManagedSessions().values()) {
+      logger.atFine().log("Waiting for session %s to stop.", io.getId());
+      CompletableFuture<Boolean> closeFuture = new CompletableFuture<>();
+      io.addCloseFutureListener(
+          new SshFutureListener<CloseFuture>() {
+
+            @Override
+            public void operationComplete(CloseFuture future) {
+              closeFuture.complete(io.isClosed());
+            }
+          });
+      sessionCloseFutures.add(closeFuture);
+    }
+
+    CompletableFuture<Void> allClosed =
+        CompletableFuture.allOf(
+            sessionCloseFutures.toArray(new CompletableFuture[sessionCloseFutures.size()]));
+    try {
+      allClosed.get(gracefulStopTimeout, TimeUnit.SECONDS);
+    } catch (InterruptedException | ExecutionException e) {
+      e.printStackTrace();
+    } catch (TimeoutException e) {
+      logger.atWarning().log(
+          "Waiting for SSH sessions to close timed out. SSHD will be shut down immediately.");
     }
   }
 

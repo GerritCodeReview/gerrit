@@ -14,96 +14,85 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-cursor-manager_html.js';
-import {ScrollMode} from '../../../constants/constants.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-cursor-manager_html';
+import {ScrollMode} from '../../../constants/constants';
+import {customElement, property, observe} from '@polymer/decorators';
+
+export interface GrCursorManager {
+  $: {};
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-cursor-manager': GrCursorManager;
+  }
+}
 
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
-/** @extends PolymerElement */
-class GrCursorManager extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-cursor-manager'; }
-
-  static get properties() {
-    return {
-      stops: {
-        type: Array,
-        value() {
-          return [];
-        },
-        observer: '_updateIndex',
-      },
-      /**
-       * @type {?Object}
-       */
-      target: {
-        type: Object,
-        notify: true,
-        observer: '_scrollToTarget',
-      },
-      /**
-       * The height of content intended to be included with the target.
-       *
-       * @type {?number}
-       */
-      _targetHeight: Number,
-
-      /**
-       * The index of the current target (if any). -1 otherwise.
-       */
-      index: {
-        type: Number,
-        value: -1,
-        notify: true,
-      },
-
-      /**
-       * The class to apply to the current target. Use null for no class.
-       */
-      cursorTargetClass: {
-        type: String,
-        value: null,
-      },
-
-      /**
-       * The scroll behavior for the cursor. Values are 'never' and
-       * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
-       * the viewport.
-       * TODO (beckysiegel) figure out why it can be undefined
-       *
-       * @type {string|undefined}
-       */
-      scrollMode: {
-        type: String,
-        value: ScrollMode.NEVER,
-      },
-
-      /**
-       * When true, will call element.focus() during scrolling.
-       */
-      focusOnMove: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * The scrollTopMargin defines height of invisible area at the top
-       * of the page. If cursor locates inside this margin - it is
-       * not visible, because it is covered by some other element.
-       */
-      scrollTopMargin: {
-        type: Number,
-        value: 0,
-      },
-    };
+@customElement('gr-cursor-manager')
+export class GrCursorManager extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Object, notify: true})
+  target: HTMLElement | null = null;
+
+  /**
+   * The height of content intended to be included with the target.
+   */
+  @property({type: Number})
+  _targetHeight: number | null = null;
+
+  /**
+   * The index of the current target (if any). -1 otherwise.
+   */
+  @property({type: Number, notify: true})
+  index = -1;
+
+  /**
+   * The class to apply to the current target. Use null for no class.
+   */
+  @property({type: String})
+  cursorTargetClass: string | null = null;
+
+  /**
+   * The scroll behavior for the cursor. Values are 'never' and
+   * 'keep-visible'. 'keep-visible' will only scroll if the cursor is beyond
+   * the viewport.
+   * TODO (beckysiegel) figure out why it can be undefined
+   *
+   * @type {string|undefined}
+   */
+  @property({type: String})
+  scrollMode: string = ScrollMode.NEVER;
+
+  /**
+   * When true, will call element.focus() during scrolling.
+   */
+  @property({type: Boolean})
+  focusOnMove = false;
+
+  /**
+   * The scrollTopMargin defines height of invisible area at the top
+   * of the page. If cursor locates inside this margin - it is
+   * not visible, because it is covered by some other element.
+   */
+  @property({type: Number})
+  scrollTopMargin = 0;
+
+  @property({type: Number})
+  _lastDisplayedNavigateToNextFileToast: number | null = null;
+
+  @property({type: Array})
+  stops: Element[] = [];
 
   /** @override */
   detached() {
@@ -127,13 +116,22 @@ class GrCursorManager extends GestureEventListeners(
    * @private
    */
 
-  next(opt_condition, opt_getTargetHeight, opt_clipToTop,
-      opt_navigateToNextFile) {
-    this._moveCursor(1, opt_condition, opt_getTargetHeight, opt_clipToTop,
-        opt_navigateToNextFile);
+  next(
+    opt_condition?: Function,
+    opt_getTargetHeight?: Function,
+    opt_clipToTop?: boolean,
+    opt_navigateToNextFile?: boolean
+  ) {
+    this._moveCursor(
+      1,
+      opt_condition,
+      opt_getTargetHeight,
+      opt_clipToTop,
+      opt_navigateToNextFile
+    );
   }
 
-  previous(opt_condition) {
+  previous(opt_condition?: Function) {
     this._moveCursor(-1, opt_condition);
   }
 
@@ -146,18 +144,20 @@ class GrCursorManager extends GestureEventListeners(
    * @param {!Function=} opt_condition Optional condition. If a condition
    *    is passed only stops which meet conditions are taken into account.
    */
-  moveToVisibleArea(opt_condition) {
+  moveToVisibleArea(opt_condition?: (arg0: Element) => boolean) {
     if (!this.stops || !this._isIntersectionObserverSupported()) {
       return;
     }
-    const filteredStops = opt_condition ? this.stops.filter(opt_condition)
+    const filteredStops = opt_condition
+      ? this.stops.filter(opt_condition)
       : this.stops;
     const dims = this._getWindowDims();
-    const windowCenter =
-        Math.round((dims.innerHeight + this.scrollTopMargin) / 2);
+    const windowCenter = Math.round(
+      (dims.innerHeight + this.scrollTopMargin) / 2
+    );
 
-    let closestToTheCenter = null;
-    let minDistanceToCenter = null;
+    let closestToTheCenter: Element | null = null;
+    let minDistanceToCenter: number | null = null;
     let unobservedCount = filteredStops.length;
 
     const observer = new IntersectionObserver(entries => {
@@ -170,21 +170,24 @@ class GrCursorManager extends GestureEventListeners(
         // In Edge it is recommended to use intersectionRatio instead of
         // isIntersecting.
         const isInsideViewport =
-            entry.isIntersecting || entry.intersectionRatio > 0;
+          entry.isIntersecting || entry.intersectionRatio > 0;
         if (!isInsideViewport) {
           return;
         }
-        const center = entry.boundingClientRect.top + Math.round(
-            entry.boundingClientRect.height / 2);
+        const center =
+          entry.boundingClientRect.top +
+          Math.round(entry.boundingClientRect.height / 2);
         const distanceToWindowCenter = Math.abs(center - windowCenter);
-        if (minDistanceToCenter === null ||
-            distanceToWindowCenter < minDistanceToCenter) {
+        if (
+          minDistanceToCenter === null ||
+          distanceToWindowCenter < minDistanceToCenter
+        ) {
           closestToTheCenter = entry.target;
           minDistanceToCenter = distanceToWindowCenter;
         }
       });
       unobservedCount -= entries.length;
-      if (unobservedCount == 0 && closestToTheCenter) {
+      if (unobservedCount === 0 && closestToTheCenter) {
         // set cursor when all stops were observed.
         // In most cases the target is visible, so scroll is not
         // needed. But in rare cases the target can become invisible
@@ -209,11 +212,10 @@ class GrCursorManager extends GestureEventListeners(
   /**
    * Set the cursor to an arbitrary element.
    *
-   * @param {!HTMLElement} element
    * @param {boolean=} opt_noScroll prevent any potential scrolling in response
    *   setting the cursor.
    */
-  setCursor(element, opt_noScroll) {
+  setCursor(element: Element, opt_noScroll?: boolean) {
     let behavior;
     if (opt_noScroll) {
       behavior = this.scrollMode;
@@ -221,11 +223,13 @@ class GrCursorManager extends GestureEventListeners(
     }
 
     this.unsetCursor();
-    this.target = element;
+    this.target = element as HTMLElement;
     this._updateIndex();
     this._decorateTarget();
 
-    if (opt_noScroll) { this.scrollMode = behavior; }
+    if (opt_noScroll && behavior) {
+      this.scrollMode = behavior;
+    }
   }
 
   unsetCursor() {
@@ -255,7 +259,7 @@ class GrCursorManager extends GestureEventListeners(
     }
   }
 
-  setCursorAtIndex(index, opt_noScroll) {
+  setCursorAtIndex(index: number, opt_noScroll?: boolean) {
     this.setCursor(this.stops[index], opt_noScroll);
   }
 
@@ -276,8 +280,13 @@ class GrCursorManager extends GestureEventListeners(
    *     if user presses next on the last diff chunk
    * @private
    */
-  _moveCursor(delta, opt_condition, opt_getTargetHeight, opt_clipToTop,
-      opt_navigateToNextFile) {
+  _moveCursor(
+    delta: number,
+    opt_condition?: Function,
+    opt_getTargetHeight?: Function,
+    opt_clipToTop?: boolean,
+    opt_navigateToNextFile?: boolean
+  ) {
     if (!this.stops.length) {
       this.unsetCursor();
       return;
@@ -299,32 +308,41 @@ class GrCursorManager extends GestureEventListeners(
      */
     if (opt_navigateToNextFile && this.index === newIndex) {
       if (newIndex === this.stops.length - 1) {
-        if (this._lastDisplayedNavigateToNextFileToast && (Date.now() -
-          this._lastDisplayedNavigateToNextFileToast <=
-            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS)) {
+        if (
+          this._lastDisplayedNavigateToNextFileToast &&
+          Date.now() - this._lastDisplayedNavigateToNextFileToast <=
+            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
+        ) {
           // reset for next file
           this._lastDisplayedNavigateToNextFileToast = null;
-          this.dispatchEvent(new CustomEvent(
-              'navigate-to-next-unreviewed-file', {
-                composed: true, bubbles: true,
-              }));
+          this.dispatchEvent(
+            new CustomEvent('navigate-to-next-unreviewed-file', {
+              composed: true,
+              bubbles: true,
+            })
+          );
           return;
         }
         this._lastDisplayedNavigateToNextFileToast = Date.now();
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {
-            message: 'Press n again to navigate to next unreviewed file',
-          },
-          composed: true, bubbles: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {
+              message: 'Press n again to navigate to next unreviewed file',
+            },
+            composed: true,
+            bubbles: true,
+          })
+        );
         return;
       }
     }
 
     this.index = newIndex;
-    this.target = newTarget;
+    this.target = newTarget as HTMLElement;
 
-    if (!this.target) { return; }
+    if (!newTarget) {
+      return;
+    }
 
     if (opt_getTargetHeight) {
       this._targetHeight = opt_getTargetHeight(newTarget);
@@ -332,7 +350,9 @@ class GrCursorManager extends GestureEventListeners(
       this._targetHeight = newTarget.scrollHeight;
     }
 
-    if (this.focusOnMove) { this.target.focus(); }
+    if (this.target && this.focusOnMove) {
+      this.target.focus();
+    }
 
     this._decorateTarget();
   }
@@ -359,7 +379,11 @@ class GrCursorManager extends GestureEventListeners(
    * @return {number} the new index.
    * @private
    */
-  _getNextindex(delta, opt_condition, opt_clipToTop) {
+  _getNextindex(
+    delta: number,
+    opt_condition?: Function,
+    opt_clipToTop?: boolean
+  ) {
     if (!this.stops.length) {
       return -1;
     }
@@ -371,9 +395,12 @@ class GrCursorManager extends GestureEventListeners(
     }
     do {
       newIndex = newIndex + delta;
-    } while ((delta > 0 || newIndex > 0) &&
-             (delta < 0 || newIndex < this.stops.length - 1) &&
-             opt_condition && !opt_condition(this.stops[newIndex]));
+    } while (
+      (delta > 0 || newIndex > 0) &&
+      (delta < 0 || newIndex < this.stops.length - 1) &&
+      opt_condition &&
+      !opt_condition(this.stops[newIndex])
+    );
 
     newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
 
@@ -390,6 +417,7 @@ class GrCursorManager extends GestureEventListeners(
     return newIndex;
   }
 
+  @observe('stops')
   _updateIndex() {
     if (!this.target) {
       this.index = -1;
@@ -410,12 +438,14 @@ class GrCursorManager extends GestureEventListeners(
    * @param {!Object} target Target to scroll to.
    * @return {number} Distance to top of the target.
    */
-  _getTop(target) {
-    let top = target.offsetTop;
-    for (let offsetParent = target.offsetParent;
+  _getTop(target: HTMLElement) {
+    let top: number = target.offsetTop;
+    for (
+      let offsetParent = target.offsetParent;
       offsetParent;
-      offsetParent = offsetParent.offsetParent) {
-      top += offsetParent.offsetTop;
+      offsetParent = (offsetParent as HTMLElement).offsetParent
+    ) {
+      top += (offsetParent as HTMLElement).offsetTop;
     }
     return top;
   }
@@ -423,19 +453,26 @@ class GrCursorManager extends GestureEventListeners(
   /**
    * @return {boolean}
    */
-  _targetIsVisible(top) {
+  _targetIsVisible(top: number) {
     const dims = this._getWindowDims();
-    return this.scrollMode === ScrollMode.KEEP_VISIBLE &&
-        top > (dims.pageYOffset + this.scrollTopMargin) &&
-        top < dims.pageYOffset + dims.innerHeight;
+    return (
+      this.scrollMode === ScrollMode.KEEP_VISIBLE &&
+      top > dims.pageYOffset + this.scrollTopMargin &&
+      top < dims.pageYOffset + dims.innerHeight
+    );
   }
 
-  _calculateScrollToValue(top, target) {
+  _calculateScrollToValue(top: number, target: HTMLElement) {
     const dims = this._getWindowDims();
-    return top + this.scrollTopMargin - (dims.innerHeight / 3) +
-        (target.offsetHeight / 2);
+    return (
+      top +
+      this.scrollTopMargin -
+      dims.innerHeight / 3 +
+      target.offsetHeight / 2
+    );
   }
 
+  @observe('target')
   _scrollToTarget() {
     if (!this.target || this.scrollMode === ScrollMode.NEVER) {
       return;
@@ -443,8 +480,9 @@ class GrCursorManager extends GestureEventListeners(
 
     const dims = this._getWindowDims();
     const top = this._getTop(this.target);
-    const bottomIsVisible = this._targetHeight ?
-      this._targetIsVisible(top + this._targetHeight) : true;
+    const bottomIsVisible = this._targetHeight
+      ? this._targetIsVisible(top + this._targetHeight)
+      : true;
     const scrollToValue = this._calculateScrollToValue(top, this.target);
 
     if (this._targetIsVisible(top)) {
@@ -473,5 +511,3 @@ class GrCursorManager extends GestureEventListeners(
     };
   }
 }
-
-customElements.define(GrCursorManager.is, GrCursorManager);

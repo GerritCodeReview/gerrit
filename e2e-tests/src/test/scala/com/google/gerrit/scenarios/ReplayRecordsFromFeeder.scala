@@ -51,11 +51,11 @@ class ReplayRecordsFromFeeder extends GitSimulation {
       rampUsers(10) during (5 seconds),
       constantUsersPerSec(20) during (15 seconds),
       constantUsersPerSec(20) during (15 seconds) randomized
-    ),
+    ).protocols(gitProtocol),
     deleteProject.test.inject(
       nothingFor(maxBeforeDelete seconds),
       atOnceUsers(single)
     ),
-  ).protocols(gitProtocol, httpProtocol)
+  ).protocols(httpProtocol)
       .maxDuration(maxExecutionTime seconds)
 }

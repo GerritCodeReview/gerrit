@@ -93,6 +93,30 @@
       "revId": "baf6bc1a06d6250d207bbfa40746c74eefa89d58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd3ea6e0_f2807a8d",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 494,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-08-03T20:02:23Z",
+      "side": 1,
+      "message": "Improved.",
+      "parentUuid": "27d7afda_8a4d2ed8",
+      "range": {
+        "startLine": 494,
+        "startChar": 61,
+        "endLine": 494,
+        "endChar": 92
+      },
+      "revId": "baf6bc1a06d6250d207bbfa40746c74eefa89d58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

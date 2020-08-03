@@ -30,6 +30,8 @@ export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
 
 export type PatchSetNum = BrandType<'edit' | number, '_patchSet'>;
+export const EditPatchSetNum = 'edit' as PatchSetNum;
+
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
 export type LegacyChangeId = BrandType<number, '_legacyChangeId'>;
@@ -42,6 +44,11 @@ export type GitRef = BrandType<string, '_gitRef'>;
 export type RequirementType = BrandType<string, '_requirementType'>;
 export type TrackingId = BrandType<string, '_trackingId'>;
 export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
+export type RepositoryName = BrandType<string, '_repositoryName'>;
+export type GroupId = BrandType<string, '_groupId'>;
+
+// The ID of the dashboard, in the form of '<ref>:<path>'
+export type DashboardId = BrandType<string, '_dahsboardId'>;
 
 // The 8-char hex GPG key ID.
 export type GpgKeyId = BrandType<string, '_gpgKeyId'>;
@@ -163,6 +170,7 @@ export interface ChangeInfo {
   cherry_pick_of_change?: NumericChangeId;
   cherry_pick_of_patch_set?: PatchSetNum;
   contains_git_conflicts?: boolean;
+  internalHost?: string; // TODO(TS): provide an explanation what is its
 }
 
 /**
@@ -199,7 +207,7 @@ export interface GroupAuditEventInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
  */
 export interface GroupInfo {
-  id: string;
+  id: GroupId;
   name: string;
   url?: string;
   options?: GroupOptionsInfo;

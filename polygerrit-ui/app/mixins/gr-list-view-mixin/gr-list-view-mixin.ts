@@ -15,51 +15,49 @@
  * limitations under the License.
  */
 
-import {encodeURL, getBaseUrl} from '../../utils/url-util.js';
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
+import {encodeURL, getBaseUrl} from '../../utils/url-util';
+import {PolymerElementConstructor} from '@polymer/polymer/interfaces';
+import {ElementMixinConstructor} from '@polymer/polymer/lib/mixins/element-mixin';
+import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 
 /**
  * @polymer
  * @mixinFunction
  */
-export const ListViewMixin = dedupingMixin(superClass => {
-  /**
-   * @polymer
-   * @mixinClass
-   */
-  class Mixin extends superClass {
-    computeLoadingClass(loading) {
-      return loading ? 'loading' : '';
-    }
-
-    computeShownItems(items) {
-      return items.slice(0, 25);
-    }
-
-    getUrl(path, item) {
-      return getBaseUrl() + path + encodeURL(item, true);
-    }
-
+export const ListViewMixin = dedupingMixin(
+  (superClass: PolymerElementConstructor & ElementMixinConstructor) => {
     /**
-     * @param {Object} params
-     * @return {string}
+     * @polymer
+     * @mixinClass
      */
-    getFilterValue(params) {
-      if (!params) { return ''; }
-      return params.filter || '';
-    }
-
-    /**
-     * @param {Object} params
-     * @return {number}
-     */
-    getOffsetValue(params) {
-      if (params && params.offset) {
-        return params.offset;
+    class Mixin extends superClass {
+      computeLoadingClass(loading: boolean): string {
+        return loading ? 'loading' : '';
       }
-      return 0;
-    }
-  }
 
-  return Mixin;
-});
+      computeShownItems(items: Record<string, any>[]) {
+        return items.slice(0, 25);
+      }
+
+      getUrl(path: string, item: string) {
+        return getBaseUrl() + path + encodeURL(item, true);
+      }
+
+      getFilterValue(params: Record<string, any>): string {
+        if (!params) {
+          return '';
+        }
+        return params.filter || '';
+      }
+
+      getOffsetValue(params: Record<string, any>): number {
+        if (params && params.offset) {
+          return params.offset;
+        }
+        return 0;
+      }
+    }
+
+    return Mixin;
+  }
+);

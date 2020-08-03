@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8451ebdd_1515c95e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-03T09:05:13Z",
+      "side": 1,
+      "message": "The test will fail as expected due to the renaming, should be fixed with the change in the same relation chain",
+      "revId": "500d74d5384601df07acaa78ff1506136640431b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

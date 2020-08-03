@@ -14,29 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-key-binding-display_html.js';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-key-binding-display_html';
+import {customElement, property} from '@polymer/decorators';
 
-/** @extends PolymerElement */
-class GrKeyBindingDisplay extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-key-binding-display'; }
-
-  static get properties() {
-    return {
-      /** @type {Array<Array<string>>}
-       * Each entry in the binding represents an array that is a keyboard
-       * shortcut containing [modifier, combination]
-       */
-      binding: Array,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-key-binding-display': GrKeyBindingDisplay;
   }
+}
+
+@customElement('gr-key-binding-display')
+export class GrKeyBindingDisplay extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Array})
+  binding: Array<Array<string>>;
 
   _computeModifiers(binding) {
     return binding.slice(0, binding.length - 1);
@@ -46,5 +46,3 @@ class GrKeyBindingDisplay extends GestureEventListeners(
     return binding[binding.length - 1];
   }
 }
-
-customElements.define(GrKeyBindingDisplay.is, GrKeyBindingDisplay);

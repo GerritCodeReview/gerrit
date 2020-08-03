@@ -14,6 +14,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {
+  BranchName,
+  ChangeInfo,
+  PatchSetNum,
+  ProjectName,
+  TopicName,
+  RepositoryName,
+  GroupId,
+  DashboardId,
+  NumericChangeId,
+  LegacyChangeId,
+  EditPatchSetNum,
+  ChangeConfigInfo,
+  CommitId,
+  Hashtag,
+  UrlEncodedCommentId,
+} from '../../../types/common';
 
 // Navigation parameters object format:
 //
@@ -83,15 +100,57 @@ const uninitialized = () => {
   console.warn('Use of uninitialized routing');
 };
 
-const EDIT_PATCHNUM = 'edit';
-const PARENT_PATCHNUM = 'PARENT';
+const uninitializedNavigate: NavigateCallback = () => {
+  uninitialized();
+  return '';
+};
+
+const uninitializedGenerateUrl: GenerateUrlCallback = () => {
+  uninitialized();
+  return '';
+};
+
+const uninitializedGenerateWebLinks: GenerateWebLinksCallback = () => {
+  uninitialized();
+  return [];
+};
+
+const uninitializedMapCommentLinks: MapCommentLinksCallback = () => {
+  uninitialized();
+  return '';
+};
+
+// TODO(TS): PatchSetNum type express an API type, it is not good to add
+// PARENT into it. Find a better way to add PARENT patchset into our code
+type ParentPatchSetNum = 'PARENT';
+const PARENT_PATCHNUM: ParentPatchSetNum = 'PARENT';
 
 const USER_PLACEHOLDER_PATTERN = /\${user}/g;
+
+export interface DashboardSection {
+  name: string;
+  query: string;
+  suffixForDashboard: string;
+  attentionSetOnly?: boolean;
+  selfOnly?: boolean;
+  hideIfEmpty?: boolean;
+  assigneeOnly?: boolean;
+  isOutgoing?: boolean;
+}
+
+export interface UserDashboardConfig {
+  change?: ChangeConfigInfo;
+}
+
+export interface UserDashboard {
+  title: string;
+  sections: DashboardSection[];
+}
 
 // NOTE: These queries are tested in Java. Any changes made to definitions
 // here require corresponding changes to:
 // javatests/com/google/gerrit/server/query/change/AbstractQueryChangesTest.java
-const DEFAULT_SECTIONS = [
+const DEFAULT_SECTIONS: DashboardSection[] = [
   {
     // Changes with unpublished draft comments. This section is omitted when
     // viewing other users, so we don't need to filter anything out.
@@ -112,8 +171,9 @@ const DEFAULT_SECTIONS = [
   {
     // Changes that are assigned to the viewed user.
     name: 'Assigned reviews',
-    query: 'assignee:${user} (-is:wip OR owner:self OR assignee:self) ' +
-        'is:open -is:ignored',
+    query:
+      'assignee:${user} (-is:wip OR owner:self OR assignee:self) ' +
+      'is:open -is:ignored',
     hideIfEmpty: true,
     suffixForDashboard: 'limit:25',
     assigneeOnly: true,
@@ -140,8 +200,9 @@ const DEFAULT_SECTIONS = [
     // is associated with (as either a reviewer or the assignee). Changes
     // ignored by the viewing user are filtered out.
     name: 'Incoming reviews',
-    query: 'is:open -owner:${user} -is:wip -is:ignored ' +
-        '(reviewer:${user} OR assignee:${user})',
+    query:
+      'is:open -owner:${user} -is:wip -is:ignored ' +
+      '(reviewer:${user} OR assignee:${user})',
     suffixForDashboard: 'limit:25',
   },
   {
@@ -157,69 +218,199 @@ const DEFAULT_SECTIONS = [
     // Changes ignored by the viewing user are filtered out, and so are WIP
     // changes not owned by the viewing user (the one instance of
     // 'owner:self' is intentional and implements this logic).
-    query: 'is:closed -is:ignored (-is:wip OR owner:self) ' +
-        '(owner:${user} OR reviewer:${user} OR assignee:${user} ' +
-        'OR cc:${user})',
+    query:
+      'is:closed -is:ignored (-is:wip OR owner:self) ' +
+      '(owner:${user} OR reviewer:${user} OR assignee:${user} ' +
+      'OR cc:${user})',
     suffixForDashboard: '-age:4w limit:10',
   },
 ];
 
+export interface GenerateUrlSearchViewParameters {
+  view: GerritView.SEARCH;
+  query?: string;
+  offset?: number;
+  project?: ProjectName;
+  branch?: BranchName;
+  topic?: TopicName;
+  // TODO(TS): Define more precise type (enum?)
+  statuses?: string[];
+  hashtag?: string;
+  host?: string;
+  owner?: string;
+}
+
+export interface GenerateUrlChangeViewParameters {
+  view: GerritView.CHANGE;
+  // TODO(TS): NumericChangeId - not sure about it, may be it can be removeds
+  changeNum: NumericChangeId | LegacyChangeId;
+  project: ProjectName;
+  patchNum?: PatchSetNum;
+  basePatchNum?: PatchSetNum;
+  edit?: boolean;
+  host?: string;
+  messageHash?: string;
+}
+
+export interface GenerateUrlRepoViewParameters {
+  view: GerritView.REPO;
+  repoName: RepositoryName;
+  detail?: RepoDetailView;
+}
+
+export interface GenerateUrlDashboardViewParameters {
+  view: GerritView.DASHBOARD;
+  user?: string;
+  repo?: RepositoryName;
+  dashboard?: DashboardId;
+}
+
+export interface GenerateUrlGroupViewParameters {
+  view: GerritView.GROUP;
+  groupId: GroupId;
+  detail?: GroupDetailView;
+}
+
+export interface GenerateUrlEditViewParameters {
+  view: GerritView.EDIT;
+  changeNum: NumericChangeId | LegacyChangeId;
+  project: ProjectName;
+  path: string;
+  patchNum: PatchSetNum;
+  lineNum?: number;
+}
+
+export interface GenerateUrlRootViewParameters {
+  view: GerritView.ROOT;
+}
+
+export interface GenerateUrlSettingsViewParameters {
+  view: GerritView.SETTINGS;
+}
+
+export interface GenerateUrlDiffViewParameters {
+  view: GerritView.DIFF;
+  changeNum: NumericChangeId | LegacyChangeId;
+  project: ProjectName;
+  path?: string;
+  patchNum?: PatchSetNum;
+  basePatchNum?: PatchSetNum | ParentPatchSetNum;
+  lineNum?: number;
+  leftSide?: boolean;
+  commentId?: UrlEncodedCommentId;
+}
+
+export type GenerateUrlParameters =
+  | GenerateUrlSearchViewParameters
+  | GenerateUrlChangeViewParameters
+  | GenerateUrlRepoViewParameters
+  | GenerateUrlDashboardViewParameters
+  | GenerateUrlGroupViewParameters
+  | GenerateUrlEditViewParameters
+  | GenerateUrlRootViewParameters
+  | GenerateUrlSettingsViewParameters
+  | GenerateUrlDiffViewParameters;
+
+export interface GenerateWebLinksPatchsetParameters {
+  type: WeblinkType.PATCHSET;
+  repo: RepositoryName;
+  commit: CommitId;
+  // TODO(TS): provide better typing
+  options?: unknown;
+}
+export interface GenerateWebLinksFileParameters {
+  type: WeblinkType.FILE;
+  repo: RepositoryName;
+  commit: CommitId;
+  file: string;
+  // TODO(TS): provide better typing
+  options?: unknown;
+}
+export interface GenerateWebLinksChangeParameters {
+  type: WeblinkType.CHANGE;
+  repo: RepositoryName;
+  commit: CommitId;
+  // TODO(TS): provide better typing
+  options?: unknown;
+}
+
+export type GenerateWebLinksParameters =
+  | GenerateWebLinksPatchsetParameters
+  | GenerateWebLinksFileParameters
+  | GenerateWebLinksChangeParameters;
+
+export type NavigateCallback = (target: string, redirect?: boolean) => void;
+export type GenerateUrlCallback = (params: GenerateUrlParameters) => string;
+export type GenerateWebLinksCallback = (
+  params: GenerateWebLinksParameters
+) => WebLink[] | WebLink;
+
+// TODO(TS): type is not clear until more code converted to a typescript.
+export type MapCommentLinksCallback = (commentLink: unknown) => unknown;
+
+export interface WebLink {
+  label: string;
+  url: string;
+}
+
+export enum GerritView {
+  ADMIN = 'admin',
+  AGREEMENTS = 'agreements',
+  CHANGE = 'change',
+  DASHBOARD = 'dashboard',
+  DIFF = 'diff',
+  DOCUMENTATION_SEARCH = 'documentation-search',
+  EDIT = 'edit',
+  GROUP = 'group',
+  PLUGIN_SCREEN = 'plugin-screen',
+  REPO = 'repo',
+  ROOT = 'root',
+  SEARCH = 'search',
+  SETTINGS = 'settings',
+}
+
+export enum GroupDetailView {
+  MEMBERS = 'members',
+  LOG = 'log',
+}
+
+export enum RepoDetailView {
+  ACCESS = 'access',
+  BRANCHES = 'branches',
+  COMMANDS = 'commands',
+  DASHBOARDS = 'dashboards',
+  TAGS = 'tags',
+}
+
+export enum WeblinkType {
+  CHANGE = 'change',
+  FILE = 'file',
+  PATCHSET = 'patchset',
+}
+
 // TODO(dmfilippov) Convert to class, extract consts, give better name and
 // expose as a service from appContext
 export const GerritNav = {
+  View: GerritView,
 
-  View: {
-    ADMIN: 'admin',
-    AGREEMENTS: 'agreements',
-    CHANGE: 'change',
-    DASHBOARD: 'dashboard',
-    DIFF: 'diff',
-    DOCUMENTATION_SEARCH: 'documentation-search',
-    EDIT: 'edit',
-    GROUP: 'group',
-    PLUGIN_SCREEN: 'plugin-screen',
-    REPO: 'repo',
-    ROOT: 'root',
-    SEARCH: 'search',
-    SETTINGS: 'settings',
-  },
+  GroupDetailView,
 
-  GroupDetailView: {
-    MEMBERS: 'members',
-    LOG: 'log',
-  },
+  RepoDetailView,
 
-  RepoDetailView: {
-    ACCESS: 'access',
-    BRANCHES: 'branches',
-    COMMANDS: 'commands',
-    DASHBOARDS: 'dashboards',
-    TAGS: 'tags',
-  },
+  WeblinkType,
 
-  WeblinkType: {
-    CHANGE: 'change',
-    FILE: 'file',
-    PATCHSET: 'patchset',
-  },
+  _navigate: uninitializedNavigate,
 
-  /** @type {Function} */
-  _navigate: uninitialized,
+  _generateUrl: uninitializedGenerateUrl,
 
-  /** @type {Function} */
-  _generateUrl: uninitialized,
+  _generateWeblinks: uninitializedGenerateWebLinks,
 
-  /** @type {Function} */
-  _generateWeblinks: uninitialized,
+  mapCommentlinks: uninitializedMapCommentLinks,
 
-  /** @type {Function} */
-  mapCommentlinks: uninitialized,
-
-  /**
-   * @param {number=} patchNum
-   * @param {number|string=} basePatchNum
-   */
-  _checkPatchRange(patchNum, basePatchNum) {
+  _checkPatchRange(
+    patchNum?: PatchSetNum,
+    basePatchNum?: PatchSetNum | ParentPatchSetNum
+  ) {
     if (basePatchNum && !patchNum) {
       throw new Error('Cannot use base patch number without patch number.');
     }
@@ -228,13 +419,13 @@ export const GerritNav = {
   /**
    * Setup router implementation.
    *
-   * @param {function(!string, boolean=)} navigate the router-abstracted equivalent of
+   * @param navigate the router-abstracted equivalent of
    *     `window.location.href = ...` or window.location.replace(...). The
    *     string is a new location and boolean defines is it redirect or not
    *     (true means redirect, i.e. equivalent of window.location.replace).
-   * @param {function(!Object): string} generateUrl generates a URL given
+   * @param generateUrl generates a URL given
    *     navigation parameters, detailed in the file header.
-   * @param {function(!Object): string} generateWeblinks weblinks generator
+   * @param generateWeblinks weblinks generator
    *     function takes single payload parameter with type property that
    *  determines which
    *     part of the UI is the consumer of the weblinks. type property can
@@ -246,11 +437,16 @@ export const GerritNav = {
    *     - For change type, payload will also contain string properties:
    *         repo, commit. If server provides weblinks, those will be passed
    *         as options.weblinks property on the main payload object.
-   * @param {function(!Object): Object} mapCommentlinks provides an escape
+   * @param mapCommentlinks provides an escape
    *     hatch to modify the commentlinks object, e.g. if it contains any
    *     relative URLs.
    */
-  setup(navigate, generateUrl, generateWeblinks, mapCommentlinks) {
+  setup(
+    navigate: NavigateCallback,
+    generateUrl: GenerateUrlCallback,
+    generateWeblinks: GenerateWebLinksCallback,
+    mapCommentlinks: MapCommentLinksCallback
+  ) {
     this._navigate = navigate;
     this._generateUrl = generateUrl;
     this._generateWeblinks = generateWeblinks;
@@ -258,84 +454,85 @@ export const GerritNav = {
   },
 
   destroy() {
-    this._navigate = uninitialized;
-    this._generateUrl = uninitialized;
-    this._generateWeblinks = uninitialized;
-    this.mapCommentlinks = uninitialized;
+    this._navigate = uninitializedNavigate;
+    this._generateUrl = uninitializedGenerateUrl;
+    this._generateWeblinks = uninitializedGenerateWebLinks;
+    this.mapCommentlinks = uninitializedMapCommentLinks;
   },
 
   /**
    * Generate a URL for the given route parameters.
-   *
-   * @param {Object} params
-   * @return {string}
    */
-  _getUrlFor(params) {
+  _getUrlFor(params: GenerateUrlParameters) {
     return this._generateUrl(params);
   },
 
-  getUrlForSearchQuery(query, opt_offset) {
+  getUrlForSearchQuery(query: string, offset?: number) {
     return this._getUrlFor({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       query,
-      offset: opt_offset,
+      offset,
     });
   },
 
   /**
-   * @param {!string} project The name of the project.
-   * @param {boolean=} opt_openOnly When true, only search open changes in
-   *     the project.
-   * @param {string=} opt_host The host in which to search.
-   * @return {string}
+   * @param project The name of the project.
+   * @param openOnly When true, only search open changes in the project.
+   * @param host The host in which to search.
    */
-  getUrlForProjectChanges(project, opt_openOnly, opt_host) {
+  getUrlForProjectChanges(
+    project: ProjectName,
+    openOnly?: boolean,
+    host?: string
+  ) {
     return this._getUrlFor({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       project,
-      statuses: opt_openOnly ? ['open'] : [],
-      host: opt_host,
+      statuses: openOnly ? ['open'] : [],
+      host,
     });
   },
 
   /**
-   * @param {string} branch The name of the branch.
-   * @param {string} project The name of the project.
-   * @param {string=} opt_status The status to search.
-   * @param {string=} opt_host The host in which to search.
-   * @return {string}
+   * @param branch The name of the branch.
+   * @param project The name of the project.
+   * @param status The status to search.
+   * @param host The host in which to search.
    */
-  getUrlForBranch(branch, project, opt_status, opt_host) {
+  getUrlForBranch(
+    branch: BranchName,
+    project: ProjectName,
+    status?: string,
+    host?: string
+  ) {
     return this._getUrlFor({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       branch,
       project,
-      statuses: opt_status ? [opt_status] : undefined,
-      host: opt_host,
+      statuses: status ? [status] : undefined,
+      host,
     });
   },
 
   /**
-   * @param {string} topic The name of the topic.
-   * @param {string=} opt_host The host in which to search.
-   * @return {string}
+   * @param topic The name of the topic.
+   * @param host The host in which to search.
    */
-  getUrlForTopic(topic, opt_host) {
+  getUrlForTopic(topic: TopicName, host?: string) {
     return this._getUrlFor({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       topic,
       statuses: ['open', 'merged'],
-      host: opt_host,
+      host,
     });
   },
 
   /**
-   * @param {string} hashtag The name of the hashtag.
-   * @return {string}
+   * @param hashtag The name of the hashtag.
    */
-  getUrlForHashtag(hashtag) {
+  getUrlForHashtag(hashtag: Hashtag) {
     return this._getUrlFor({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       hashtag,
       statuses: ['open', 'merged'],
     });
@@ -343,24 +540,21 @@ export const GerritNav = {
 
   /**
    * Navigate to a search for changes with the given status.
-   *
-   * @param {string} status
    */
-  navigateToStatusSearch(status) {
-    this._navigate(this._getUrlFor({
-      view: GerritNav.View.SEARCH,
-      statuses: [status],
-    }));
+  navigateToStatusSearch(status: string) {
+    this._navigate(
+      this._getUrlFor({
+        view: GerritView.SEARCH,
+        statuses: [status],
+      })
+    );
   },
 
   /**
    * Navigate to a search query
-   *
-   * @param {string} query
-   * @param {number=} opt_offset
    */
-  navigateToSearchQuery(query, opt_offset) {
-    return this._navigate(this.getUrlForSearchQuery(query, opt_offset));
+  navigateToSearchQuery(query: string, offset?: number) {
+    return this._navigate(this.getUrlForSearchQuery(query, offset));
   },
 
   /**
@@ -371,90 +565,100 @@ export const GerritNav = {
   },
 
   /**
-   * @param {!Object} change The change object.
-   * @param {number=} opt_patchNum
-   * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
-   *     used for none.
-   * @param {boolean=} opt_isEdit
-   * @param {string=} opt_messageHash
-   * @return {string}
+   * @param change The change object.
+   * @param basePatchNum The string 'PARENT' can be used for none.
    */
-  getUrlForChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit,
-      opt_messageHash) {
-    if (opt_basePatchNum === PARENT_PATCHNUM) {
-      opt_basePatchNum = undefined;
+  getUrlForChange(
+    change: ChangeInfo,
+    patchNum?: PatchSetNum,
+    basePatchNum?: PatchSetNum | ParentPatchSetNum,
+    isEdit?: boolean,
+    messageHash?: string
+  ) {
+    if (basePatchNum === PARENT_PATCHNUM) {
+      basePatchNum = undefined;
     }
 
-    this._checkPatchRange(opt_patchNum, opt_basePatchNum);
+    this._checkPatchRange(patchNum, basePatchNum);
     return this._getUrlFor({
-      view: GerritNav.View.CHANGE,
+      view: GerritView.CHANGE,
       changeNum: change._number,
       project: change.project,
-      patchNum: opt_patchNum,
-      basePatchNum: opt_basePatchNum,
-      edit: opt_isEdit,
+      patchNum,
+      basePatchNum,
+      edit: isEdit,
       host: change.internalHost || undefined,
-      messageHash: opt_messageHash,
+      messageHash,
     });
   },
 
-  /**
-   * @param {number} changeNum
-   * @param {string} project The name of the project.
-   * @param {number=} opt_patchNum
-   * @return {string}
-   */
-  getUrlForChangeById(changeNum, project, opt_patchNum) {
+  getUrlForChangeById(
+    changeNum: NumericChangeId,
+    project: ProjectName,
+    patchNum?: PatchSetNum
+  ) {
     return this._getUrlFor({
-      view: GerritNav.View.CHANGE,
+      view: GerritView.CHANGE,
       changeNum,
       project,
-      patchNum: opt_patchNum,
+      patchNum,
     });
   },
 
   /**
-   * @param {!Object} change The change object.
-   * @param {number=} opt_patchNum
-   * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
-   *     used for none.
-   * @param {boolean=} opt_isEdit
-   * @param {boolean=} opt_redirect redirect to a change - if true, the current
+   * @param change The change object.
+   * @param basePatchNum The string 'PARENT' can be used for none.
+   * @param redirect redirect to a change - if true, the current
    *     location (i.e. page which makes redirect) is not added to a history.
    *     I.e. back/forward buttons skip current location
    *
    */
-  navigateToChange(change, opt_patchNum, opt_basePatchNum, opt_isEdit,
-      opt_redirect) {
-    this._navigate(this.getUrlForChange(change, opt_patchNum,
-        opt_basePatchNum, opt_isEdit), opt_redirect);
+  navigateToChange(
+    change: ChangeInfo,
+    patchNum?: PatchSetNum,
+    basePatchNum?: PatchSetNum,
+    isEdit?: boolean,
+    redirect?: boolean
+  ) {
+    this._navigate(
+      this.getUrlForChange(change, patchNum, basePatchNum, isEdit),
+      redirect
+    );
   },
 
   /**
-   * @param {{ _number: number, project: string }} change The change object.
-   * @param {string} path The file path.
-   * @param {number=} opt_patchNum
-   * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
-   *     used for none.
-   * @param {number|string=} opt_lineNum
-   * @return {string}
+   * @param change The change object.
+   * @param path The file path.
+   * @param basePatchNum The string 'PARENT' can be used for none.
    */
-  getUrlForDiff(change, path, opt_patchNum, opt_basePatchNum, opt_lineNum) {
-    return this.getUrlForDiffById(change._number, change.project, path,
-        opt_patchNum, opt_basePatchNum, opt_lineNum);
+  getUrlForDiff(
+    change: ChangeInfo,
+    path: string,
+    patchNum?: PatchSetNum,
+    basePatchNum?: PatchSetNum | ParentPatchSetNum,
+    lineNum?: number
+  ) {
+    return this.getUrlForDiffById(
+      change._number,
+      change.project,
+      path,
+      patchNum,
+      basePatchNum,
+      lineNum
+    );
   },
 
   /**
-   * @param {number} changeNum
-   * @param {string} project The name of the project.
-   * @param {string} path The file path.
-   * @param {number} patchNum
-   * @param {number} commentId
-   * @return {string}
+   * @param project The name of the project.
+   * @param path The file path.
    */
-  getUrlForComment(changeNum, project, commentId) {
+  getUrlForComment(
+    changeNum: NumericChangeId | LegacyChangeId,
+    project: ProjectName,
+    commentId: UrlEncodedCommentId
+  ) {
     return this._getUrlFor({
-      view: GerritNav.View.DIFF,
+      view: GerritView.DIFF,
       changeNum,
       project,
       commentId,
@@ -462,119 +666,125 @@ export const GerritNav = {
   },
 
   /**
-   * @param {number} changeNum
-   * @param {string} project The name of the project.
-   * @param {string} path The file path.
-   * @param {number=} opt_patchNum
-   * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
-   *     used for none.
-   * @param {number=} opt_lineNum
-   * @param {boolean=} opt_leftSide
-   * @return {string}
+   * @param path The file path.
+   * @param basePatchNum The string 'PARENT' can be used for none.
    */
-  getUrlForDiffById(changeNum, project, path, opt_patchNum,
-      opt_basePatchNum, opt_lineNum, opt_leftSide) {
-    if (opt_basePatchNum === PARENT_PATCHNUM) {
-      opt_basePatchNum = undefined;
+  getUrlForDiffById(
+    changeNum: NumericChangeId | LegacyChangeId,
+    project: ProjectName,
+    path: string,
+    patchNum?: PatchSetNum,
+    basePatchNum?: PatchSetNum | ParentPatchSetNum,
+    lineNum?: number,
+    leftSide?: boolean
+  ) {
+    if (basePatchNum === PARENT_PATCHNUM) {
+      basePatchNum = undefined;
     }
 
-    this._checkPatchRange(opt_patchNum, opt_basePatchNum);
+    this._checkPatchRange(patchNum, basePatchNum);
     return this._getUrlFor({
-      view: GerritNav.View.DIFF,
+      view: GerritView.DIFF,
       changeNum,
       project,
       path,
-      patchNum: opt_patchNum,
-      basePatchNum: opt_basePatchNum,
-      lineNum: opt_lineNum,
-      leftSide: opt_leftSide,
+      patchNum,
+      basePatchNum,
+      lineNum,
+      leftSide,
     });
   },
 
   /**
-   * @param {{ _number: number, project: string }} change The change object.
-   * @param {string} path The file path.
-   * @param {number=} opt_patchNum
-   * @param {number=} opt_lineNum
-   * @return {string}
+   * @param change The change object.
+   * @param path The file path.
    */
-  getEditUrlForDiff(change, path, opt_patchNum, opt_lineNum) {
-    return this.getEditUrlForDiffById(change._number, change.project, path,
-        opt_patchNum, opt_lineNum);
+  getEditUrlForDiff(
+    change: ChangeInfo,
+    path: string,
+    patchNum?: PatchSetNum,
+    lineNum?: number
+  ) {
+    return this.getEditUrlForDiffById(
+      change._number,
+      change.project,
+      path,
+      patchNum,
+      lineNum
+    );
   },
 
   /**
-   * @param {number} changeNum
-   * @param {string} project The name of the project.
-   * @param {string} path The file path.
-   * @param {number|string=} opt_patchNum The patchNum the file content
-   *    should be based on, or ${EDIT_PATCHNUM} if left undefined.
-   * @param {number=} opt_lineNum The line number to pass to the inline editor.
-   * @return {string}
+   * @param project The name of the project.
+   * @param path The file path.
+   * @param patchNum The patchNum the file content should be based on, or
+   *   ${EditPatchSetNum} if left undefined.
+   * @param lineNum The line number to pass to the inline editor.
    */
-  getEditUrlForDiffById(changeNum, project, path, opt_patchNum, opt_lineNum) {
+  getEditUrlForDiffById(
+    changeNum: NumericChangeId | LegacyChangeId,
+    project: ProjectName,
+    path: string,
+    patchNum?: PatchSetNum,
+    lineNum?: number
+  ) {
     return this._getUrlFor({
-      view: GerritNav.View.EDIT,
+      view: GerritView.EDIT,
       changeNum,
       project,
       path,
-      patchNum: opt_patchNum || EDIT_PATCHNUM,
-      lineNum: opt_lineNum,
+      patchNum: patchNum || EditPatchSetNum,
+      lineNum,
     });
   },
 
   /**
-   * @param {!Object} change The change object.
-   * @param {string} path The file path.
-   * @param {number=} opt_patchNum
-   * @param {number|string=} opt_basePatchNum The string 'PARENT' can be
-   *     used for none.
+   * @param change The change object.
+   * @param path The file path.
+   * @param basePatchNum The string 'PARENT' can be used for none.
    */
-  navigateToDiff(change, path, opt_patchNum, opt_basePatchNum) {
-    this._navigate(this.getUrlForDiff(change, path, opt_patchNum,
-        opt_basePatchNum));
+  navigateToDiff(
+    change: ChangeInfo,
+    path: string,
+    patchNum?: PatchSetNum,
+    basePatchNum?: PatchSetNum | ParentPatchSetNum
+  ) {
+    this._navigate(this.getUrlForDiff(change, path, patchNum, basePatchNum));
   },
 
   /**
-   * @param {string} owner The name of the owner.
-   * @return {string}
+   * @param owner The name of the owner.
    */
-  getUrlForOwner(owner) {
+  getUrlForOwner(owner: string) {
     return this._getUrlFor({
-      view: GerritNav.View.SEARCH,
+      view: GerritView.SEARCH,
       owner,
     });
   },
 
   /**
-   * @param {string} user The name of the user.
-   * @return {string}
+   * @param user The name of the user.
    */
-  getUrlForUserDashboard(user) {
+  getUrlForUserDashboard(user: string) {
     return this._getUrlFor({
-      view: GerritNav.View.DASHBOARD,
+      view: GerritView.DASHBOARD,
       user,
     });
   },
 
-  /**
-   * @return {string}
-   */
   getUrlForRoot() {
     return this._getUrlFor({
-      view: GerritNav.View.ROOT,
+      view: GerritView.ROOT,
     });
   },
 
   /**
-   * @param {string} repo The name of the repo.
-   * @param {string} dashboard The ID of the dashboard, in the form of
-   *     '<ref>:<path>'.
-   * @return {string}
+   * @param repo The name of the repo.
+   * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.
    */
-  getUrlForRepoDashboard(repo, dashboard) {
+  getUrlForRepoDashboard(repo: RepositoryName, dashboard: DashboardId) {
     return this._getUrlFor({
-      view: GerritNav.View.DASHBOARD,
+      view: GerritView.DASHBOARD,
       repo,
       dashboard,
     });
@@ -582,203 +792,173 @@ export const GerritNav = {
 
   /**
    * Navigate to an arbitrary relative URL.
-   *
-   * @param {string} relativeUrl
    */
-  navigateToRelativeUrl(relativeUrl) {
+  navigateToRelativeUrl(relativeUrl: string) {
     if (!relativeUrl.startsWith('/')) {
       throw new Error('navigateToRelativeUrl with non-relative URL');
     }
     this._navigate(relativeUrl);
   },
 
-  /**
-   * @param {string} repoName
-   * @return {string}
-   */
-  getUrlForRepo(repoName) {
+  getUrlForRepo(repoName: RepositoryName) {
     return this._getUrlFor({
-      view: GerritNav.View.REPO,
+      view: GerritView.REPO,
       repoName,
     });
   },
 
   /**
    * Navigate to a repo settings page.
-   *
-   * @param {string} repoName
    */
-  navigateToRepo(repoName) {
+  navigateToRepo(repoName: RepositoryName) {
     this._navigate(this.getUrlForRepo(repoName));
   },
 
-  /**
-   * @param {string} repoName
-   * @return {string}
-   */
-  getUrlForRepoTags(repoName) {
+  getUrlForRepoTags(repoName: RepositoryName) {
     return this._getUrlFor({
-      view: GerritNav.View.REPO,
+      view: GerritView.REPO,
       repoName,
-      detail: GerritNav.RepoDetailView.TAGS,
+      detail: RepoDetailView.TAGS,
     });
   },
 
-  /**
-   * @param {string} repoName
-   * @return {string}
-   */
-  getUrlForRepoBranches(repoName) {
+  getUrlForRepoBranches(repoName: RepositoryName) {
     return this._getUrlFor({
-      view: GerritNav.View.REPO,
+      view: GerritView.REPO,
       repoName,
       detail: GerritNav.RepoDetailView.BRANCHES,
     });
   },
 
-  /**
-   * @param {string} repoName
-   * @return {string}
-   */
-  getUrlForRepoAccess(repoName) {
+  getUrlForRepoAccess(repoName: RepositoryName) {
     return this._getUrlFor({
-      view: GerritNav.View.REPO,
+      view: GerritView.REPO,
       repoName,
       detail: GerritNav.RepoDetailView.ACCESS,
     });
   },
 
-  /**
-   * @param {string} repoName
-   * @return {string}
-   */
-  getUrlForRepoCommands(repoName) {
+  getUrlForRepoCommands(repoName: RepositoryName) {
     return this._getUrlFor({
-      view: GerritNav.View.REPO,
+      view: GerritView.REPO,
       repoName,
       detail: GerritNav.RepoDetailView.COMMANDS,
     });
   },
 
-  /**
-   * @param {string} repoName
-   * @return {string}
-   */
-  getUrlForRepoDashboards(repoName) {
+  getUrlForRepoDashboards(repoName: RepositoryName) {
     return this._getUrlFor({
-      view: GerritNav.View.REPO,
+      view: GerritView.REPO,
       repoName,
       detail: GerritNav.RepoDetailView.DASHBOARDS,
     });
   },
 
-  /**
-   * @param {string} groupId
-   * @return {string}
-   */
-  getUrlForGroup(groupId) {
+  getUrlForGroup(groupId: GroupId) {
     return this._getUrlFor({
-      view: GerritNav.View.GROUP,
+      view: GerritView.GROUP,
       groupId,
     });
   },
 
-  /**
-   * @param {string} groupId
-   * @return {string}
-   */
-  getUrlForGroupLog(groupId) {
+  getUrlForGroupLog(groupId: GroupId) {
     return this._getUrlFor({
-      view: GerritNav.View.GROUP,
+      view: GerritView.GROUP,
       groupId,
       detail: GerritNav.GroupDetailView.LOG,
     });
   },
 
-  /**
-   * @param {string} groupId
-   * @return {string}
-   */
-  getUrlForGroupMembers(groupId) {
+  getUrlForGroupMembers(groupId: GroupId) {
     return this._getUrlFor({
-      view: GerritNav.View.GROUP,
+      view: GerritView.GROUP,
       groupId,
-      detail: GerritNav.GroupDetailView.MEMBERS,
+      detail: GroupDetailView.MEMBERS,
     });
   },
 
   getUrlForSettings() {
-    return this._getUrlFor({view: GerritNav.View.SETTINGS});
+    return this._getUrlFor({view: GerritView.SETTINGS});
   },
 
-  /**
-   * @param {string} repo
-   * @param {string} commit
-   * @param {string} file
-   * @param {Object=} opt_options
-   * @return {
-   *   Array<{label: string, url: string}>|
-   *   {label: string, url: string}
-   *  }
-   */
-  getFileWebLinks(repo, commit, file, opt_options) {
-    const params = {type: GerritNav.WeblinkType.FILE, repo, commit, file};
-    if (opt_options) {
-      params.options = opt_options;
+  getFileWebLinks(
+    repo: RepositoryName,
+    commit: CommitId,
+    file: string,
+    options?: unknown
+  ): WebLink[] {
+    const params: GenerateWebLinksFileParameters = {
+      type: WeblinkType.FILE,
+      repo,
+      commit,
+      file,
+    };
+    if (options) {
+      params.options = options;
     }
-    return [].concat(this._generateWeblinks(params));
+    return ([] as WebLink[]).concat(this._generateWeblinks(params));
   },
 
-  /**
-   * @param {string} repo
-   * @param {string} commit
-   * @param {Object=} opt_options
-   * @return {{label: string, url: string}}
-   */
-  getPatchSetWeblink(repo, commit, opt_options) {
-    const params = {type: GerritNav.WeblinkType.PATCHSET, repo, commit};
-    if (opt_options) {
-      params.options = opt_options;
+  getPatchSetWeblink(
+    repo: RepositoryName,
+    commit: CommitId,
+    options?: unknown
+  ): WebLink {
+    const params: GenerateWebLinksPatchsetParameters = {
+      type: WeblinkType.PATCHSET,
+      repo,
+      commit,
+    };
+    if (options) {
+      params.options = options;
     }
     const result = this._generateWeblinks(params);
     if (Array.isArray(result)) {
-      return result.pop();
+      // TODO(TS): Unclear what to do with empty array.
+      // Either write a comment why result can't be empty or change the return
+      // type or add a check.
+      return result.pop() as WebLink;
     } else {
       return result;
     }
   },
 
-  /**
-   * @param {string} repo
-   * @param {string} commit
-   * @param {Object=} opt_options
-   * @return {
-   *   Array<{label: string, url: string}>|
-   *   {label: string, url: string}
-   *  }
-   */
-  getChangeWeblinks(repo, commit, opt_options) {
-    const params = {type: GerritNav.WeblinkType.CHANGE, repo, commit};
-    if (opt_options) {
-      params.options = opt_options;
+  getChangeWeblinks(
+    repo: RepositoryName,
+    commit: CommitId,
+    options?: unknown
+  ): WebLink[] {
+    const params: GenerateWebLinksChangeParameters = {
+      type: WeblinkType.CHANGE,
+      repo,
+      commit,
+    };
+    if (options) {
+      params.options = options;
     }
-    return [].concat(this._generateWeblinks(params));
+    return ([] as WebLink[]).concat(this._generateWeblinks(params));
   },
 
-  getUserDashboard(user = 'self', sections = DEFAULT_SECTIONS,
-      title = '', config = {}) {
+  getUserDashboard(
+    user = 'self',
+    sections = DEFAULT_SECTIONS,
+    title = '',
+    config: UserDashboardConfig = {}
+  ): UserDashboard {
     const attentionEnabled =
-        config.change && !!config.change.enable_attention_set;
-    const assigneeEnabled =
-        config.change && !!config.change.enable_assignee;
+      config.change && !!config.change.enable_attention_set;
+    const assigneeEnabled = config.change && !!config.change.enable_assignee;
     sections = sections
-        .filter(section => (attentionEnabled || !section.attentionSetOnly))
-        .filter(section => (assigneeEnabled || !section.assigneeOnly))
-        .filter(section => (user === 'self' || !section.selfOnly))
-        .map(section => {
-          return {...section, name: section.name,
-            query: section.query.replace(USER_PLACEHOLDER_PATTERN, user)};
-        });
+      .filter(section => attentionEnabled || !section.attentionSetOnly)
+      .filter(section => assigneeEnabled || !section.assigneeOnly)
+      .filter(section => user === 'self' || !section.selfOnly)
+      .map(section => {
+        return {
+          ...section,
+          name: section.name,
+          query: section.query.replace(USER_PLACEHOLDER_PATTERN, user),
+        };
+      });
     return {title, sections};
   },
 };

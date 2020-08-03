@@ -15,85 +15,83 @@
  * limitations under the License.
  */
 
-/** @constructor */
-export function GrAttributeHelper(element) {
-  this.element = element;
-  this._promises = {};
+export class GrAttributeHelper {
+  private readonly _promises = new Map<string, Promise<any>>();
+
+  constructor(public element: any) {}
+
+  _getChangedEventName(name: string): string {
+    return name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + '-changed';
+  }
+
+  /**
+   * Returns true if the property is defined on wrapped element.
+   */
+  _elementHasProperty(name: string) {
+    return this.element[name] !== undefined;
+  }
+
+  _reportValue(callback: (value: any) => void, value: any) {
+    try {
+      callback(value);
+    } catch (e) {
+      console.info(e);
+    }
+  }
+
+  /**
+   * Binds callback to property updates.
+   *
+   * @param {string} name Property name.
+   * @param {function(?)} callback
+   * @return {function()} Unbind function.
+   */
+  bind(name: string, callback: (value: any) => void) {
+    const attributeChangedEventName = this._getChangedEventName(name);
+    const changedHandler = (e: CustomEvent) =>
+      this._reportValue(callback, e.detail.value);
+    const unbind = () =>
+      this.element.removeEventListener(
+        attributeChangedEventName,
+        changedHandler
+      );
+    this.element.addEventListener(attributeChangedEventName, changedHandler);
+    if (this._elementHasProperty(name)) {
+      this._reportValue(callback, this.element[name]);
+    }
+    return unbind;
+  }
+
+  /**
+   * Get value of the property from wrapped object. Waits for the property
+   * to be initialized if it isn't defined.
+   *
+   * @param {string} name Property name.
+   * @return {!Promise<?>}
+   */
+  get(name: string) {
+    if (this._elementHasProperty(name)) {
+      return Promise.resolve(this.element[name]);
+    }
+    if (!this._promises.has(name)) {
+      let resolve: (value: any) => void;
+      const promise = new Promise(r => (resolve = r));
+      const unbind = this.bind(name, value => {
+        resolve(value);
+        unbind();
+      });
+      this._promises.set(name, promise);
+    }
+    return this._promises.get(name);
+  }
+
+  /**
+   * Sets value and dispatches event to force notify.
+   */
+  set(name: string, value: any) {
+    this.element[name] = value;
+    this.element.dispatchEvent(
+      new CustomEvent(this._getChangedEventName(name), {detail: {value}})
+    );
+  }
 }
-
-GrAttributeHelper.prototype._getChangedEventName = function(name) {
-  return name.replace(/([a-z])([A-Z])/g, '$1-$2').toLowerCase() + '-changed';
-};
-
-/**
- * Returns true if the property is defined on wrapped element.
- *
- * @param {string} name
- * @return {boolean}
- */
-GrAttributeHelper.prototype._elementHasProperty = function(name) {
-  return this.element[name] !== undefined;
-};
-
-GrAttributeHelper.prototype._reportValue = function(callback, value) {
-  try {
-    callback(value);
-  } catch (e) {
-    console.info(e);
-  }
-};
-
-/**
- * Binds callback to property updates.
- *
- * @param {string} name Property name.
- * @param {function(?)} callback
- * @return {function()} Unbind function.
- */
-GrAttributeHelper.prototype.bind = function(name, callback) {
-  const attributeChangedEventName = this._getChangedEventName(name);
-  const changedHandler = e => this._reportValue(callback, e.detail.value);
-  const unbind = () => this.element.removeEventListener(
-      attributeChangedEventName, changedHandler);
-  this.element.addEventListener(
-      attributeChangedEventName, changedHandler);
-  if (this._elementHasProperty(name)) {
-    this._reportValue(callback, this.element[name]);
-  }
-  return unbind;
-};
-
-/**
- * Get value of the property from wrapped object. Waits for the property
- * to be initialized if it isn't defined.
- *
- * @param {string} name Property name.
- * @return {!Promise<?>}
- */
-GrAttributeHelper.prototype.get = function(name) {
-  if (this._elementHasProperty(name)) {
-    return Promise.resolve(this.element[name]);
-  }
-  if (!this._promises[name]) {
-    let resolve;
-    const promise = new Promise(r => resolve = r);
-    const unbind = this.bind(name, value => {
-      resolve(value);
-      unbind();
-    });
-    this._promises[name] = promise;
-  }
-  return this._promises[name];
-};
-
-/**
- * Sets value and dispatches event to force notify.
- *
- * @param {string} name Property name.
- * @param {?} value
- */
-GrAttributeHelper.prototype.set = function(name, value) {
-  this.element[name] = value;
-  this.element.dispatchEvent(
-      new CustomEvent(this._getChangedEventName(name), {detail: {value}}));
-};

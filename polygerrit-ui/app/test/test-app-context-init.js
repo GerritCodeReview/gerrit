@@ -17,7 +17,7 @@
 
 // Init app context before any other imports
 import {initAppContext} from '../services/app-context-init.js';
-import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
+import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
 import {appContext} from '../services/app-context.js';
 
 initAppContext();

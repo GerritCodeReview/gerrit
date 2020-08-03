@@ -22,6 +22,7 @@ declare global {
     ShadyCSS?: {
       getComputedStyleValue(el: Element, name: string): string;
     };
+    HTMLImports?: {whenReady: (cb: () => void) => void};
   }
 
   interface Performance {

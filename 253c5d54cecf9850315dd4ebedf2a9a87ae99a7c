@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "69756f5f_55c7d6b9",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T11:32:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "899149e6_80d39bc8",
+      "revId": "253c5d54cecf9850315dd4ebedf2a9a87ae99a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fb59e038_6cbf1481",
         "filename": "polygerrit-ui/app/utils/display-name-util.ts",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "253c5d54cecf9850315dd4ebedf2a9a87ae99a7c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cee2b552_46fe4701",
+        "filename": "polygerrit-ui/app/utils/display-name-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T11:32:22Z",
+      "side": 1,
+      "message": "\u003e\u003eIs that the same as `config?`?\nconfig? means that config is an optional parameter. Can\u0027t use it here, because the next parameter (account) is mandatory.\n\n\u003e\u003e Do we have a rule whether to prefer `?` or `| undefined`?\nNo. Personally, I prefer \u0027?\u0027 where this is possible.",
+      "parentUuid": "fb59e038_6cbf1481",
+      "revId": "253c5d54cecf9850315dd4ebedf2a9a87ae99a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

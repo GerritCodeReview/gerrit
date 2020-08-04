@@ -173,7 +173,7 @@ export class GrLinkTextParser {
   ): void {
     if (href) {
       const a = document.createElement('a');
-      a.href = href;
+      a.setAttribute('href', href);
       a.textContent = text;
       a.target = '_blank';
       a.rel = 'noopener';

@@ -33,7 +33,7 @@ import {htmlTemplate} from './gr-change-list-item_html.js';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {truncatePath} from '../../../utils/path-list-util.js';
@@ -107,7 +107,7 @@ class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
   attached() {
     super.attached();
     pluginLoader.awaitPluginsLoaded().then(() => {
-      this._dynamicCellEndpoints = pluginEndpoints.getDynamicEndpoints(
+      this._dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
           'change-list-item-cell');
     });
   }

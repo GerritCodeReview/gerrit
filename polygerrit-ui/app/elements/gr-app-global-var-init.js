@@ -41,7 +41,7 @@ import {GrEtagDecorator} from './shared/gr-rest-api-interface/gr-etag-decorator.
 import {GrThemeApi} from './plugins/gr-theme-api/gr-theme-api.js';
 import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.js';
 import {GrLinkTextParser} from './shared/gr-linked-text/link-text-parser.js';
-import {pluginEndpoints, GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints, GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {GrReviewerUpdatesParser} from './shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
 import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
@@ -139,7 +139,8 @@ export function initGlobalVariables() {
   window.Gerrit.Auth = appContext.authService;
 
   window.Gerrit._pluginLoader = pluginLoader;
-  window.Gerrit._endpoints = pluginEndpoints;
+  // TODO: should define as a getter
+  window.Gerrit._endpoints = getPluginEndpoints();
 
   window.Gerrit.slotToContent = slot => slot;
   window.Gerrit.rangesEqual = rangesEqual;

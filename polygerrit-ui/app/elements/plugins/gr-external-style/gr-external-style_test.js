@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-external-style.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -66,7 +66,7 @@ suite('gr-external-style integration tests', () => {
   };
 
   setup(() => {
-    sinon.stub(pluginEndpoints, 'importUrl')
+    sinon.stub(getPluginEndpoints(), 'importUrl')
         .callsFake( url => Promise.resolve());
     sinon.stub(pluginLoader, 'awaitPluginsLoaded')
         .returns(Promise.resolve());
@@ -81,7 +81,7 @@ suite('gr-external-style integration tests', () => {
   test('imports plugin-provided module', async () => {
     lateRegister();
     await new Promise(flush);
-    assert.isTrue(pluginEndpoints.importUrl.calledWith(new URL(TEST_URL)));
+    assert.isTrue(getPluginEndpoints().importUrl.calledWith(new URL(TEST_URL)));
   });
 
   test('applies plugin-provided styles', async () => {
@@ -96,7 +96,7 @@ suite('gr-external-style integration tests', () => {
     plugin.registerStyleModule('foo', 'some-module');
     await new Promise(flush);
     // since loaded, should not call again
-    assert.isFalse(pluginEndpoints.importUrl.calledOnce);
+    assert.isFalse(getPluginEndpoints().importUrl.calledOnce);
   });
 
   test('does not double apply', async () => {

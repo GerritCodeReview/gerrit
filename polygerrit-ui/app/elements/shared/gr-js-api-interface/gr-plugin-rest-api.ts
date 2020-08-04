@@ -14,8 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
-type ErrorFunction<T extends Response> = (response: T, error: Error) => void;
+import {ErrorCallback, RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 /**
  * Enum for all http methods used in Gerrit.
@@ -28,16 +27,17 @@ export enum HttpMethod {
   PUT = 'PUT',
 }
 
-// TODO(TS): use GrRestApiInterface once gr-rest-api-interface migrated
-let restApi: any;
+let restApi: RestApiService | null = null;
 
 export function _testOnlyResetRestApi() {
   restApi = null;
 }
 
-function getRestApi() {
+function getRestApi(): RestApiService {
   if (!restApi) {
-    restApi = document.createElement('gr-rest-api-interface');
+    restApi = (document.createElement(
+      'gr-rest-api-interface'
+    ) as unknown) as RestApiService;
   }
   return restApi;
 }
@@ -76,13 +76,13 @@ export class GrPluginRestApi {
   /**
    * Fetch and return native browser REST API Response.
    */
-  fetch<T extends Response, K>(
+  fetch(
     method: HttpMethod,
     url: string,
-    payload?: K,
-    errFn?: ErrorFunction<T>,
+    payload?: unknown,
+    errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<T> {
+  ): Promise<Response> {
     return getRestApi().send(
       method,
       this.prefix + url,
@@ -95,14 +95,14 @@ export class GrPluginRestApi {
   /**
    * Fetch and parse REST API response, if request succeeds.
    */
-  send<T extends Response, K>(
+  send(
     method: HttpMethod,
     url: string,
-    payload?: K,
-    errFn?: ErrorFunction<T>,
+    payload?: unknown,
+    errFn?: ErrorCallback,
     contentType?: string
   ) {
-    return this.fetch<T, K>(method, url, payload, errFn, contentType).then(
+    return this.fetch(method, url, payload, errFn, contentType).then(
       response => {
         if (response.status < 200 || response.status >= 300) {
           return response.text().then(text => {
@@ -119,30 +119,30 @@ export class GrPluginRestApi {
     );
   }
 
-  get<T extends Response>(url: string) {
-    return this.send<T, undefined>(HttpMethod.GET, url);
+  get(url: string) {
+    return this.send(HttpMethod.GET, url);
   }
 
-  post<T extends Response, K>(
+  post(
     url: string,
-    payload?: K,
-    errFn?: ErrorFunction<T>,
+    payload?: unknown,
+    errFn?: ErrorCallback,
     contentType?: string
   ) {
-    return this.send<T, K>(HttpMethod.POST, url, payload, errFn, contentType);
+    return this.send(HttpMethod.POST, url, payload, errFn, contentType);
   }
 
-  put<T extends Response, K>(
+  put(
     url: string,
-    payload?: K,
-    errFn?: ErrorFunction<T>,
+    payload?: unknown,
+    errFn?: ErrorCallback,
     contentType?: string
   ) {
-    return this.send<T, K>(HttpMethod.PUT, url, payload, errFn, contentType);
+    return this.send(HttpMethod.PUT, url, payload, errFn, contentType);
   }
 
-  delete<T extends Response>(url: string) {
-    return this.fetch<T, undefined>(HttpMethod.DELETE, url).then(response => {
+  delete(url: string) {
+    return this.fetch(HttpMethod.DELETE, url).then(response => {
       if (response.status !== 204) {
         return response.text().then(text => {
           if (text) {

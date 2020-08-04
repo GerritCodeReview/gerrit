@@ -15,11 +15,14 @@
  * limitations under the License.
  */
 
-import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
-import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class.js';
+import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
+import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {Constructor} from '../../utils/common-util';
 
-// In .d.ts, the mixinBehaviors clears all type information about superClass.
-// As a workaround, we define IronOverlayMixin manually here and after
-// conversion to typescript we can define correct typing here as well.
-export const IronOverlayMixin = superClass => mixinBehaviors(
-    [IronOverlayBehavior], superClass);
+// The mixinBehaviors clears all type information about superClass.
+// As a workaround, we define IronFitMixin with correct type.
+export const IronFitMixin = <T extends Constructor<PolymerElement>>(
+  superClass: T
+): T & Constructor<IronFitBehavior> =>
+  mixinBehaviors([IronFitBehavior], superClass);

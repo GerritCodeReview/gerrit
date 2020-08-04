@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "899149e6_80d39bc8",
+        "filename": "polygerrit-ui/app/scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-04T09:12:21Z",
+      "side": 1,
+      "message": "Optional: I find it nice that in TS you don\u0027t have to define and assign fields. You can just add \"readonly\" to the constructor parameter.",
+      "revId": "253c5d54cecf9850315dd4ebedf2a9a87ae99a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb59e038_6cbf1481",
+        "filename": "polygerrit-ui/app/utils/display-name-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-04T09:12:21Z",
+      "side": 1,
+      "message": "Is that the same as `config?`?\nDo we have a rule whether to prefer `?` or `| undefined`?",
+      "revId": "253c5d54cecf9850315dd4ebedf2a9a87ae99a7c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

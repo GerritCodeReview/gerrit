@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1207995f_54e2a4bb",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "should this be a API type instead ?",
+      "range": {
+        "startLine": 329,
+        "startChar": 17,
+        "endLine": 329,
+        "endChar": 24
+      },
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a5c3db9_65d624ef",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 372,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "can we just do: `View: GerritView` ? similar to other ones, or its intended that View is just a subset of GerritView ?",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4456e09d_d9854693",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 424,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "nit: extra whitespace",
+      "range": {
+        "startLine": 424,
+        "startChar": 11,
+        "endLine": 424,
+        "endChar": 12
+      },
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71e81a9c_cdf8c6d2",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "`private` ? or you want to leave it in a separate change ?",
+      "range": {
+        "startLine": 468,
+        "startChar": 2,
+        "endLine": 468,
+        "endChar": 12
+      },
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ccfd2c5_5e3da0fd",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "any particular reason to keep these ? I noticed that you removed some and kept some, curious about the criteria",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "641e7a08_0951acfb",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 921,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "why union ? from the code it seems always return [] ?",
+      "range": {
+        "startLine": 921,
+        "startChar": 5,
+        "endLine": 921,
+        "endChar": 24
+      },
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "830e15fb_688dab3b",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T08:57:15Z",
+      "side": 1,
+      "message": "maybe add a return type here, especially the `section` part :)",
+      "range": {
+        "startLine": 938,
+        "startChar": 3,
+        "endLine": 938,
+        "endChar": 4
+      },
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

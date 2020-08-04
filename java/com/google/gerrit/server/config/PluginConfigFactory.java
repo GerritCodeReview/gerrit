@@ -111,7 +111,7 @@ public class PluginConfigFactory implements ReloadPluginListener {
       cfgSnapshot = FileSnapshot.save(configFile);
       cfg = cfgProvider.get();
     }
-    return PluginConfig.create(pluginName, cfg, null);
+    return PluginConfig.createFromGerritConfig(pluginName, cfg);
   }
 
   /**

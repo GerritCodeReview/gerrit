@@ -15,15 +15,18 @@
  * limitations under the License.
  */
 
-import {getBaseUrl} from '../../../utils/url-util.js';
+import {getBaseUrl} from '../../../utils/url-util';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 export const PRELOADED_PROTOCOL = 'preloaded:';
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
 
-let _restAPI;
+let _restAPI: RestApiService | undefined;
 export function getRestAPI() {
   if (!_restAPI) {
-    _restAPI = document.createElement('gr-rest-api-interface');
+    _restAPI = (document.createElement(
+      'gr-rest-api-interface'
+    ) as unknown) as RestApiService;
   }
   return _restAPI;
 }
@@ -33,7 +36,7 @@ export function getRestAPI() {
  *
  * @param {string|URL} url
  */
-export function getPluginNameFromUrl(url) {
+export function getPluginNameFromUrl(url: URL | string) {
   if (!(url instanceof URL)) {
     try {
       url = new URL(url);
@@ -52,14 +55,16 @@ export function getPluginNameFromUrl(url) {
     pathname = url.href.replace(window.ASSETS_PATH, '');
   }
   // Site theme is server from predefined path.
-  if ([
-    '/static/gerrit-theme.html',
-    '/static/gerrit-theme.js',
-  ].includes(pathname)) {
+  if (
+    ['/static/gerrit-theme.html', '/static/gerrit-theme.js'].includes(pathname)
+  ) {
     return 'gerrit-theme';
   } else if (!pathname.startsWith('/plugins')) {
-    console.warn('Plugin not being loaded from /plugins base path:',
-        url.href, '— Unable to determine name.');
+    console.warn(
+      'Plugin not being loaded from /plugins base path:',
+      url.href,
+      '— Unable to determine name.'
+    );
     return null;
   }
 
@@ -72,27 +77,33 @@ export function getPluginNameFromUrl(url) {
 }
 
 // TODO(taoalpha): to be deprecated.
-export function send(method, url, opt_callback, opt_payload) {
-  return getRestAPI().send(method, url, opt_payload)
-      .then(response => {
-        if (response.status < 200 || response.status >= 300) {
-          return response.text().then(text => {
-            if (text) {
-              return Promise.reject(new Error(text));
-            } else {
-              return Promise.reject(new Error(response.status));
-            }
-          });
-        } else {
-          return getRestAPI().getResponseObject(response);
-        }
-      })
-      .then(response => {
-        if (opt_callback) {
-          opt_callback(response);
-        }
-        return response;
-      });
+export function send(
+  method: string,
+  url: string,
+  opt_callback?: Function,
+  opt_payload?: string | number | Record<string, any>
+) {
+  return getRestAPI()
+    .send(method, url, opt_payload)
+    .then(response => {
+      if (response.status < 200 || response.status >= 300) {
+        return response.text().then((text: string | undefined) => {
+          if (text) {
+            return Promise.reject(new Error(text));
+          } else {
+            return Promise.reject(new Error(`Status: ${response.status}`));
+          }
+        });
+      } else {
+        return getRestAPI().getResponseObject(response);
+      }
+    })
+    .then(response => {
+      if (opt_callback) {
+        opt_callback(response);
+      }
+      return response;
+    });
 }
 
 // TEST only methods / properties
@@ -100,4 +111,3 @@ export function send(method, url, opt_callback, opt_payload) {
 export function testOnly_resetInternalState() {
   _restAPI = undefined;
 }
-

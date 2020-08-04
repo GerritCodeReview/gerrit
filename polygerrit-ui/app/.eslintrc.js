@@ -268,6 +268,8 @@ module.exports = {
       "rules": {
         // The following rules is required to match internal google rules
         "@typescript-eslint/restrict-plus-operands": "error",
+        // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
+        "node/no-unsupported-features/node-builtins": "off",
       },
       "parserOptions": {
         "project": path.resolve(__dirname, "./tsconfig_eslint.json"),

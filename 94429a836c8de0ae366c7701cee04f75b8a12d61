@@ -231,6 +231,24 @@
     },
     {
       "key": {
+        "uuid": "7d5f5695_ca8f42d8",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T11:10:55Z",
+      "side": 1,
+      "message": "Done. I removed all @param without an additional text and also I removed some @param where additional text exists, but doesn\u0027t provide useful information; I preserve @param with text if I think text can be useful.",
+      "parentUuid": "240053c1_0671bed4",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2588ac6_87794ec0",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 1
@@ -245,6 +263,24 @@
       "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26dc686b_cff9bcc9",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T11:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2588ac6_87794ec0",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -265,6 +301,24 @@
     },
     {
       "key": {
+        "uuid": "cc73b1e1_d94ff5a1",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T11:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9342c171_238cc89c",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7654fd3c_57e3b363",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 1
@@ -279,6 +333,24 @@
       "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afd4d925_8142e833",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T11:10:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7654fd3c_57e3b363",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

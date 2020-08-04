@@ -19,7 +19,6 @@ import static com.google.gerrit.server.account.externalids.ExternalId.SCHEME_USE
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.RefNames;
@@ -114,21 +113,20 @@ public class AccountCacheImpl implements AccountCache {
                 ? defaultPreferenceCache.get(ref.getObjectId())
                 : DefaultPreferencesCache.EMPTY;
 
-        Set<CachedAccountDetails.Key> keys =
-            Sets.newLinkedHashSetWithExpectedSize(accountIds.size());
+        ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
         for (Account.Id id : accountIds) {
           Ref userRef = allUsers.exactRef(RefNames.refsUsers(id));
           if (userRef == null) {
             continue;
           }
-          keys.add(CachedAccountDetails.Key.create(id, userRef.getObjectId()));
-        }
-        ImmutableMap.Builder<Account.Id, AccountState> result = ImmutableMap.builder();
-        for (Map.Entry<CachedAccountDetails.Key, CachedAccountDetails> account :
-            accountDetailsCache.getAll(keys).entrySet()) {
+
           result.put(
-              account.getKey().accountId(),
-              AccountState.forCachedAccount(account.getValue(), defaultPreferences, externalIds));
+              id,
+              AccountState.forCachedAccount(
+                  accountDetailsCache.get(
+                      CachedAccountDetails.Key.create(id, userRef.getObjectId())),
+                  defaultPreferences,
+                  externalIds));
         }
         return result.build();
       }

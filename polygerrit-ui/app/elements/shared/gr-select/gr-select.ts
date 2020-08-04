@@ -14,41 +14,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {customElement, property, observe} from '@polymer/decorators';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-select': GrSelect;
+  }
+}
 
 /**
- * @extends PolymerElement
+ * GrSelect `gr-select` component.
  */
-class GrSelect extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get is() { return 'gr-select'; }
-
+@customElement('gr-select')
+export class GrSelect extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
   static get template() {
-    return html`
-      <slot></slot>
-    `;
+    return html` <slot></slot> `;
   }
 
-  static get properties() {
-    return {
-      bindValue: {
-        type: String,
-        notify: true,
-        observer: '_updateValue',
-      },
-    };
-  }
+  @property({type: String, notify: true})
+  bindValue?: string;
 
   get nativeSelect() {
     // gr-select is not a shadow component
     // TODO(taoalpha): maybe we should convert
     // it into a shadow dom component instead
-    return this.querySelector('select');
+    // TODO(TS): should warn if no `select` detected.
+    return this.querySelector('select')!;
   }
 
+  @observe('bindValue')
   _updateValue() {
     // It's possible to have a value of 0.
     if (this.bindValue !== undefined) {
@@ -58,7 +58,9 @@ class GrSelect extends GestureEventListeners(
       // before options from a dom-repeat were rendered previously.
       // See https://bugs.chromium.org/p/gerrit/issues/detail?id=7735
       this.async(() => {
-        this.nativeSelect.value = this.bindValue;
+        // TODO(TS): maybe should check for undefined before assigning
+        // or fallback to ''
+        this.nativeSelect.value = this.bindValue!;
       }, 1);
     }
   }
@@ -74,20 +76,16 @@ class GrSelect extends GestureEventListeners(
   /** @override */
   created() {
     super.created();
-    this.addEventListener('change',
-        () => this._valueChanged());
-    this.addEventListener('dom-change',
-        () => this._updateValue());
+    this.addEventListener('change', () => this._valueChanged());
+    this.addEventListener('dom-change', () => this._updateValue());
   }
 
   /** @override */
   ready() {
     super.ready();
     // If not set via the property, set bind-value to the element value.
-    if (this.bindValue == undefined && this.nativeSelect.options.length > 0) {
+    if (this.bindValue === undefined && this.nativeSelect.options.length > 0) {
       this.bindValue = this.nativeSelect.value;
     }
   }
 }
-
-customElements.define(GrSelect.is, GrSelect);

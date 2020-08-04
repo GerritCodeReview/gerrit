@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "f3d77823_40b6aab6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-04T14:36:40Z",
+      "side": 1,
+      "message": "gr-cursor-manager.ts is also ready for review",
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "076b1d59_eace345d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
         "patchSetId": 11

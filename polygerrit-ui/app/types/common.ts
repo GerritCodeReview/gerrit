@@ -71,6 +71,9 @@ export type StarLabel = BrandType<string, '_startLabel'>;
 export type SubmitType = BrandType<string, '_submitType'>;
 export type CommitId = BrandType<string, '_commitId'>;
 
+// The UUID of the group
+export type GroupId = BrandType<string, '_groupId'>;
+
 // The timezone offset from UTC in minutes
 export type TimezoneOffset = BrandType<number, '_timezoneOffset'>;
 
@@ -191,6 +194,15 @@ export interface GroupAuditEventInfo {
   type: string;
   user: string;
   date: string;
+}
+
+/**
+ * The GroupBaseInfo entity contains base information about the group.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#group-base-info
+ */
+export interface GroupBaseInfo {
+  id: GroupId;
+  name: string;
 }
 
 /**

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b652296_c6e4d563",
+        "filename": "polygerrit-ui/app/elements/shared/gr-linked-text/link-text-parser.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-04T09:16:29Z",
+      "side": 1,
+      "message": "remove line",
+      "revId": "fc2a0fd5e2b655daac734f0b3ab7d10feeb898d4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

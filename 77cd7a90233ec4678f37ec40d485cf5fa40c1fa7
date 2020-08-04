@@ -231,6 +231,30 @@
     },
     {
       "key": {
+        "uuid": "98d5832d_8643c1f7",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-04T20:55:54Z",
+      "side": 1,
+      "message": "First I would like to clarify impact:\nIf preloading will go out of sync, Gerrit will work as well as before this change. We will lose only improvement in latency and we will send 1 more query request to server that will not be used for each cold dashboard page load.\n\nI would like to have synchronization. I am not sure how much effort I should put to it.\n\n0 Level - Writing comment/warning in both code places that queries should be sync - same as before - Done\n\n1 Level - Putting query request as string to javascript property in index (soy) - we do it for change and diff change detail hexes \n\n2 Level - Create enum on frontend and protobuf in backend for query string like polygerrit-ui/app/utils/change-util.ts. We would change string to number representation. \n\n3 Level - Introduce protobuf to frontend, share one file in build as you suggested in your original comment.\n\nI don\u0027t have any prior knowledge about protobuf so it\u0027s hard for me to estimate how much it can time it can take me to implement. \n\nI will start tomorrow with Level 1 - and I will try Level 2 this week when I am waiting for CI results for typescript migration 😊 to at least have estimation how much work it is for me.",
+      "parentUuid": "5eb9df8e_555e1517",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 82
+      },
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a2e007b_1337624e",
         "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
         "patchSetId": 5

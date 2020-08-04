@@ -84,6 +84,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
   private final BatchUpdate.Factory batchUpdateFactory;
   private final ProjectCache projectCache;
   private final ChangeFinder changeFinder;
+  private final PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory;
 
   @Inject
   public ChangeOperationsImpl(
@@ -96,7 +97,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
       @GerritPersonIdent PersonIdent serverIdent,
       BatchUpdate.Factory batchUpdateFactory,
       ProjectCache projectCache,
-      ChangeFinder changeFinder) {
+      ChangeFinder changeFinder,
+      PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory) {
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
     this.patchsetInserterFactory = patchsetInserterFactory;
@@ -107,6 +109,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
     this.batchUpdateFactory = batchUpdateFactory;
     this.projectCache = projectCache;
     this.changeFinder = changeFinder;
+    this.perPatchsetOperationsFactory = perPatchsetOperationsFactory;
   }
 
   @Override
@@ -390,6 +393,18 @@ public class ChangeOperationsImpl implements ChangeOperations {
       patchSetInserter.setCheckAddPatchSetPermission(false);
       patchSetInserter.setMessage(String.format("Uploaded patchset %d.", patchsetId.get()));
       return patchSetInserter;
+    }
+
+    @Override
+    public PerPatchsetOperations patchset(PatchSet.Id patchsetId) {
+      return perPatchsetOperationsFactory.create(getChangeNotes(), patchsetId);
+    }
+
+    @Override
+    public PerPatchsetOperations currentPatchset() {
+      ChangeNotes changeNotes = getChangeNotes();
+      return perPatchsetOperationsFactory.create(
+          changeNotes, changeNotes.getChange().currentPatchSetId());
     }
   }
 }

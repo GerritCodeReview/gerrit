@@ -17,6 +17,7 @@
 package com.google.gerrit.acceptance.testsuite.change;
 
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 
 /**
  * An aggregation of operations on changes for test purposes.
@@ -97,5 +98,20 @@ public interface ChangeOperations {
      * @return builder to create a new patchset
      */
     TestPatchsetCreation.Builder newPatchset();
+
+    /**
+     * Starts the fluent chain for querying or modifying a patchset. Please see the methods of
+     * {@link PerPatchsetOperations} for details on possible operations.
+     *
+     * @return an aggregation of operations on a specific patchset
+     */
+    PerPatchsetOperations patchset(PatchSet.Id patchsetId);
+
+    /**
+     * Like {@link #patchset(PatchSet.Id)} but for the current patchset.
+     *
+     * @return an aggregation of operations on a specific patchset
+     */
+    PerPatchsetOperations currentPatchset();
   }
 }

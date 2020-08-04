@@ -207,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "5eb9df8e_555e1517",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T15:57:44Z",
+      "side": 1,
+      "message": "\u003e I agree we should make sure that queries are not out of sync. However I think this is out of scope of this change and it will make this change very complex.\n\nIt doesn\u0027t have (and should not) to be in this change. Could be a change that this change depends on.\n\n\u003e If they go - we will get warning in browser console\nThat requires a knowledgeable human to continuously look at these logs. I would rather not rely on humans to catch regressions :-) Imagine what happens when you are not around to look at these logs.\n\n\u003e Could we create it as follow-up task for it? This sounds as something that needs small design doc and discussion.\n\nCan we have that discussion now? If it turns out to be more work that we can currently handle (or that you want to do in the backend) I\u0027d be OK with scheduling this for fixing it later, but I would like for us to at least try :-)\n\nThe problem is that these things pile up and it\u0027s hard to get them done after-the-fact.",
+      "parentUuid": "f98ee0b8_969bd55e",
+      "range": {
+        "startLine": 50,
+        "startChar": 0,
+        "endLine": 51,
+        "endChar": 82
+      },
+      "revId": "77cd7a90233ec4678f37ec40d485cf5fa40c1fa7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "7a2e007b_1337624e",
         "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
         "patchSetId": 5

@@ -1041,7 +1041,9 @@ export const KeyboardShortcutMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
 ): T & Constructor<KeyboardShortcutMixinInterface> => {
   return InternalKeyboardShortcutMixin(
-    mixinBehaviors([IronA11yKeysBehavior], superClass)
+    // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
+    // which will fail the type check due to missing IronA11yKeysBehavior interface
+    mixinBehaviors([IronA11yKeysBehavior], superClass) as any
   );
 };
 

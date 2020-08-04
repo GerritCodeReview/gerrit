@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "6d9cca79_47a9b754",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-04T13:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "23da573e_fd78d24c",
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0ba04e31_4f69a666",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 4
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "5428c822_064944e7",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-04T13:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ba04e31_4f69a666",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 59
+      },
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60483813_63e187ca",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 4
@@ -73,6 +115,24 @@
       "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "644a42e2_881b39b4",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-04T13:42:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60483813_63e187ca",
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

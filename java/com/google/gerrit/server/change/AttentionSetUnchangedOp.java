@@ -21,14 +21,14 @@ import com.google.gerrit.server.update.ChangeContext;
 
 /**
  * Ensures that the attention set will not be changed, thus blocks {@link RemoveFromAttentionSetOp}
- * and {@link AddToAttentionSetOp}.
+ * and {@link AddToAttentionSetOp} and updates in {@link ChangeUpdate}.
  */
 public class AttentionSetUnchangedOp implements BatchUpdateOp {
 
   @Override
   public boolean updateChange(ChangeContext ctx) throws RestApiException {
     ChangeUpdate update = ctx.getUpdate(ctx.getChange().currentPatchSetId());
-    update.ignoreDefaultAttentionSetRules();
+    update.ignoreFurtherAttentionSetUpdates();
     return true;
   }
 }

@@ -15,7 +15,21 @@
  * limitations under the License.
  */
 
-let restApi;
+type ErrorFunction<T extends Response> = (response: T, error: Error) => void;
+
+/**
+ * Enum for all http methods used in Gerrit.
+ * TODO(TS): might move to common later.
+ */
+export enum HttpMethod {
+  POST = 'POST',
+  GET = 'GET',
+  DELETE = 'DELETE',
+  PUT = 'PUT',
+}
+
+// TODO(TS): use GrRestApiInterface once gr-rest-api-interface migrated
+let restApi: any;
 
 export function _testOnlyResetRestApi() {
   restApi = null;
@@ -28,124 +42,117 @@ function getRestApi() {
   return restApi;
 }
 
-export function GrPluginRestApi(opt_prefix) {
-  this.opt_prefix = opt_prefix || '';
-}
+export class GrPluginRestApi {
+  constructor(private readonly prefix = '') {}
 
-GrPluginRestApi.prototype.getLoggedIn = function() {
-  return getRestApi().getLoggedIn();
-};
+  getLoggedIn() {
+    return getRestApi().getLoggedIn();
+  }
 
-GrPluginRestApi.prototype.getVersion = function() {
-  return getRestApi().getVersion();
-};
+  getVersion() {
+    return getRestApi().getVersion();
+  }
 
-GrPluginRestApi.prototype.getConfig = function() {
-  return getRestApi().getConfig();
-};
+  getConfig() {
+    return getRestApi().getConfig();
+  }
 
-GrPluginRestApi.prototype.invalidateReposCache = function() {
-  getRestApi().invalidateReposCache();
-};
+  invalidateReposCache() {
+    getRestApi().invalidateReposCache();
+  }
 
-GrPluginRestApi.prototype.getAccount = function() {
-  return getRestApi().getAccount();
-};
+  getAccount() {
+    return getRestApi().getAccount();
+  }
 
-GrPluginRestApi.prototype.getAccountCapabilities = function(capabilities) {
-  return getRestApi().getAccountCapabilities(capabilities);
-};
+  getAccountCapabilities(capabilities: string[]) {
+    return getRestApi().getAccountCapabilities(capabilities);
+  }
 
-GrPluginRestApi.prototype.getRepos =
-  function(filter, reposPerPage, opt_offset) {
-    return getRestApi().getRepos(filter, reposPerPage, opt_offset);
-  };
+  getRepos(filter: string, reposPerPage: number, offset?: number) {
+    return getRestApi().getRepos(filter, reposPerPage, offset);
+  }
 
-/**
- * Fetch and return native browser REST API Response.
- *
- * @param {string} method HTTP Method (GET, POST, etc)
- * @param {string} url URL without base path or plugin prefix
- * @param {Object=} payload Respected for POST and PUT only.
- * @param {?function(?Response, string=)=} opt_errFn
- *    passed as null sometimes.
- * @return {!Promise}
- */
-GrPluginRestApi.prototype.fetch = function(method, url, opt_payload,
-    opt_errFn, opt_contentType) {
-  return getRestApi().send(method, this.opt_prefix + url, opt_payload,
-      opt_errFn, opt_contentType);
-};
+  /**
+   * Fetch and return native browser REST API Response.
+   */
+  fetch<T extends Response, K>(
+    method: HttpMethod,
+    url: string,
+    payload?: K,
+    errFn?: ErrorFunction<T>,
+    contentType?: string
+  ): Promise<T> {
+    return getRestApi().send(
+      method,
+      this.prefix + url,
+      payload,
+      errFn,
+      contentType
+    );
+  }
 
-/**
- * Fetch and parse REST API response, if request succeeds.
- *
- * @param {string} method HTTP Method (GET, POST, etc)
- * @param {string} url URL without base path or plugin prefix
- * @param {Object=} payload Respected for POST and PUT only.
- * @param {?function(?Response, string=)=} opt_errFn
- *    passed as null sometimes.
- * @return {!Promise} resolves on success, rejects on error.
- */
-GrPluginRestApi.prototype.send = function(method, url, opt_payload,
-    opt_errFn, opt_contentType) {
-  return this.fetch(method, url, opt_payload, opt_errFn, opt_contentType)
-      .then(response => {
+  /**
+   * Fetch and parse REST API response, if request succeeds.
+   */
+  send<T extends Response, K>(
+    method: HttpMethod,
+    url: string,
+    payload?: K,
+    errFn?: ErrorFunction<T>,
+    contentType?: string
+  ) {
+    return this.fetch<T, K>(method, url, payload, errFn, contentType).then(
+      response => {
         if (response.status < 200 || response.status >= 300) {
           return response.text().then(text => {
             if (text) {
               return Promise.reject(new Error(text));
             } else {
-              return Promise.reject(new Error(response.status));
+              return Promise.reject(new Error(`${response.status}`));
             }
           });
         } else {
           return getRestApi().getResponseObject(response);
         }
-      });
-};
+      }
+    );
+  }
 
-/**
- * @param {string} url URL without base path or plugin prefix
- * @return {!Promise} resolves on success, rejects on error.
- */
-GrPluginRestApi.prototype.get = function(url) {
-  return this.send('GET', url);
-};
+  get<T extends Response>(url: string) {
+    return this.send<T, undefined>(HttpMethod.GET, url);
+  }
 
-/**
- * @param {string} url URL without base path or plugin prefix
- * @return {!Promise} resolves on success, rejects on error.
- */
-GrPluginRestApi.prototype.post = function(url, opt_payload, opt_errFn,
-    opt_contentType) {
-  return this.send('POST', url, opt_payload, opt_errFn, opt_contentType);
-};
+  post<T extends Response, K>(
+    url: string,
+    payload?: K,
+    errFn?: ErrorFunction<T>,
+    contentType?: string
+  ) {
+    return this.send<T, K>(HttpMethod.POST, url, payload, errFn, contentType);
+  }
 
-/**
- * @param {string} url URL without base path or plugin prefix
- * @return {!Promise} resolves on success, rejects on error.
- */
-GrPluginRestApi.prototype.put = function(url, opt_payload, opt_errFn,
-    opt_contentType) {
-  return this.send('PUT', url, opt_payload, opt_errFn, opt_contentType);
-};
+  put<T extends Response, K>(
+    url: string,
+    payload?: K,
+    errFn?: ErrorFunction<T>,
+    contentType?: string
+  ) {
+    return this.send<T, K>(HttpMethod.PUT, url, payload, errFn, contentType);
+  }
 
-/**
- * @param {string} url URL without base path or plugin prefix
- * @return {!Promise} resolves on 204, rejects on error.
- */
-GrPluginRestApi.prototype.delete = function(url) {
-  return this.fetch('DELETE', url).then(response => {
-    if (response.status !== 204) {
-      return response.text().then(text => {
-        if (text) {
-          return Promise.reject(new Error(text));
-        } else {
-          return Promise.reject(new Error(response.status));
-        }
-      });
-    }
-    return response;
-  });
-};
+  delete<T extends Response>(url: string) {
+    return this.fetch<T, undefined>(HttpMethod.DELETE, url).then(response => {
+      if (response.status !== 204) {
+        return response.text().then(text => {
+          if (text) {
+            return Promise.reject(new Error(text));
+          } else {
+            return Promise.reject(new Error(`${response.status}`));
+          }
+        });
+      }
+      return response;
+    });
+  }
+}

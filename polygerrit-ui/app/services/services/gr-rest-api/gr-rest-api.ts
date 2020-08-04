@@ -100,4 +100,13 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[]>;
+  send(
+    method: string,
+    url: string,
+    opt_body?: string | number | Record<string, unknown>,
+    opt_errFn?: Function,
+    opt_contentType?: string,
+    opt_headers?: Headers
+  ): Promise<Response>;
+  getResponseObject(response: Response): unknown;
 }

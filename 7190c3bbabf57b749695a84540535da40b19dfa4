@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "556cc37c_42d3e684",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-04T13:09:47Z",
+      "side": 1,
+      "message": "The code in this change is correct but it unnecessarily uses CompletableFuture for a task\nthat can be done with a simpler construct.",
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23da573e_fd78d24c",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-04T13:09:47Z",
+      "side": 1,
+      "message": "The same logic can be achieved with a more basic Java concurrency aid: CountDownLatch [1].\nYou need to create a CountDownLatch with the count \u003d number of sessions:\n\n  CountDownLatch allDone \u003d CountDownLatch(sessions.count());\n\nat this line count down once:\n\n  allDone.countDown();\n\n[1] https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CountDownLatch.html",
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ba04e31_4f69a666",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-04T13:09:47Z",
+      "side": 1,
+      "message": "Here the code gets simplified with the CountDownLatch:\n\n  allDone.await(gracefulStopTimeout, TimeUnit.SECONDS);",
+      "range": {
+        "startLine": 383,
+        "startChar": 0,
+        "endLine": 387,
+        "endChar": 59
+      },
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60483813_63e187ca",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 389,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-04T13:09:47Z",
+      "side": 1,
+      "message": "Don\u0027t do that, instead log the exception.",
+      "revId": "7190c3bbabf57b749695a84540535da40b19dfa4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

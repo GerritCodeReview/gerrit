@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3667dc68_52020c57",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-04T14:33:31Z",
+      "side": 1,
+      "message": "gr-annotation.ts is ready for review.",
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "076b1d59_eace345d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-04T14:33:31Z",
+      "side": 1,
+      "message": "This import is now showing as broken on my IDE.\nCan you please check if it\u0027s broken on your setup too(perhaps I missed some installation).",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa3101a_19aa7c0d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-04T14:33:31Z",
+      "side": 1,
+      "message": "An error is \"Binding element \u0027tagName\u0027 implicitly has an \u0027any\u0027 type.\".\nNot sure how to fix this.",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22eabd70_daa4634a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-04T14:33:31Z",
+      "side": 1,
+      "message": "Not sure what this code is doing but it\u0027s throwing an error.\nCan\u0027t find any other usage in our codebase.",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 24
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

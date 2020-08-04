@@ -19,7 +19,10 @@ import {DefaultDisplayNameConfig} from '../constants/constants';
 
 const ANONYMOUS_NAME = 'Anonymous';
 
-export function getUserName(config: ServerInfo, account: AccountInfo): string {
+export function getUserName(
+  config?: ServerInfo,
+  account?: AccountInfo
+): string {
   if (account && account.name) {
     return account.name;
   } else if (account && account.username) {
@@ -38,8 +41,8 @@ export function getUserName(config: ServerInfo, account: AccountInfo): string {
 }
 
 export function getDisplayName(
-  config: ServerInfo,
-  account: AccountInfo
+  config?: ServerInfo,
+  account?: AccountInfo
 ): string {
   if (account && account.display_name) {
     return account.display_name;
@@ -64,7 +67,7 @@ export function getDisplayName(
 }
 
 export function getAccountDisplayName(
-  config: ServerInfo,
+  config: ServerInfo | undefined,
   account: AccountInfo
 ) {
   const reviewerName = getUserName(config, account);

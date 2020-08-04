@@ -37,9 +37,11 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -88,6 +90,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
   @Test
   public void validateComments_commentOK() throws Exception {
     PushOneCommit.Result result = createChange();
+    gApi.changes().id(result.getChangeId()).addReviewer(user.email());
     String changeId = result.getChangeId();
     String revId = result.getCommit().getName();
     when(mockCommentValidator.validateComments(
@@ -102,6 +105,24 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendResult.assertOkStatus();
     amendResult.assertNotMessage("Comment validation failure:");
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  public void emailsSentOnPublishComments() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    sender.clear();
+
+    String revId = result.getCommit().getName();
+    DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, comment);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+
+    List<FakeEmailSender.Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(2);
+    assertThat(messages.get(0).body()).contains("new patch set");
+    assertThat(messages.get(1).body()).contains("has posted comments on this change");
   }
 
   @Test

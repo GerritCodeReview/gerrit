@@ -2,6 +2,69 @@
   "comments": [
     {
       "key": {
+        "uuid": "797dc808_d608a114",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:56:56Z",
+      "side": 1,
+      "message": "Update\n\nAssuming my related comment upstream to squash.",
+      "range": {
+        "startLine": 10,
+        "startChar": 38,
+        "endLine": 11,
+        "endChar": 13
+      },
+      "revId": "f1ba030df03d766287dc7e4262c1fc3f6c70125d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b08cbfe_2636c73a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:56:56Z",
+      "side": 1,
+      "message": "I proposed, upstream in [2], to move the latter to GerritHub, where that project resides nowadays.",
+      "revId": "f1ba030df03d766287dc7e4262c1fc3f6c70125d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "69d7a175_d8387e17",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:56:56Z",
+      "side": 1,
+      "message": "is",
+      "range": {
+        "startLine": 19,
+        "startChar": 29,
+        "endLine": 19,
+        "endChar": 31
+      },
+      "revId": "f1ba030df03d766287dc7e4262c1fc3f6c70125d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cec8f5c_1912ccaa",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -13,6 +76,23 @@
       "writtenOn": "2020-07-31T15:14:11Z",
       "side": 1,
       "message": "Verified on forked gatling-git project, but needs [2] to be merged beforehand.",
+      "revId": "f1ba030df03d766287dc7e4262c1fc3f6c70125d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f744b2e_34cb44ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:56:56Z",
+      "side": 1,
+      "message": "Thanks for this WIP, @Hamza. Nits herein, beside the otherwise \"bigger\" squash.",
       "revId": "f1ba030df03d766287dc7e4262c1fc3f6c70125d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8887b30a_4d9200fd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T13:49:15Z",
+      "side": 1,
+      "message": "to avoid \u0027any\u0027 I updated RestApiService interface and upload a new change on top of this change",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "de0fe8c84fcc2c98216e329b003c9328c709d697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cb04a393_785c71a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T13:49:15Z",
+      "side": 1,
+      "message": "Could you please show how generics can help?\nAs I can see, the K can be replaced with unknown - method doesn\u0027t care about input type and I don\u0027t see how K add type safety.\n\nT extends Response - I assume, developer should define own interface, like\ninterface MyResponse extends Response {\n...\n}\nThought this is possible, I don\u0027t know when it can be useful.\nI remove generics in my change and keep Response instead of T extends Response, please take a look",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "de0fe8c84fcc2c98216e329b003c9328c709d697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

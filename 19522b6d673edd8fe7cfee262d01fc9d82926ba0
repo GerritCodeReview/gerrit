@@ -16,6 +16,23 @@
       "revId": "19522b6d673edd8fe7cfee262d01fc9d82926ba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dd04cb72_9af1b2c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-04T09:30:32Z",
+      "side": 1,
+      "message": "Please never use anything other than \"top\" or \"baseline\" for vertical-align. :-)\n\nIf you zoom in you will see that the rendering of the account chip is not precise. gr-account-label will have 20.2 px height instead of the expected 20px (line-height). The additional 0.2px come from gr-avatar to fitting into the line-height because of this \"sub\" alignment.\n\nI think what you want here is:\n\n  vertical-align: top;\n  position: relative;\n  top: 1px;\n\nThe gr-account-chip padding-left also needs to be reduced from 2px to 1px for matching the spec:\n\n  :host([show-avatar]) .container {\n    padding-left: var(--spacing-xxs);\n  }\n\nhttps://imgur.com/a/VpYLf9B",
+      "revId": "19522b6d673edd8fe7cfee262d01fc9d82926ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

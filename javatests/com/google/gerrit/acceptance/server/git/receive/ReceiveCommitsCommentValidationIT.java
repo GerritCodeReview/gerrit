@@ -37,9 +37,11 @@ import com.google.gerrit.extensions.config.FactoryModule;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidator;
+import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Module;
+import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
@@ -102,6 +104,32 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     amendResult.assertOkStatus();
     amendResult.assertNotMessage("Comment validation failure:");
     assertThat(testCommentHelper.getPublishedComments(result.getChangeId())).hasSize(1);
+  }
+
+  @Test
+  public void emailsSentOnPublishCommentsHaveDifferentMessageIds() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    gApi.changes().id(changeId).addReviewer(user.email());
+    sender.clear();
+
+    String revId = result.getCommit().getName();
+    DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
+    testCommentHelper.addDraft(changeId, revId, comment);
+    amendChange(changeId, "refs/for/master%publish-comments", admin, testRepo);
+
+    List<FakeEmailSender.Message> messages = sender.getMessages();
+    assertThat(messages).hasSize(2);
+
+    FakeEmailSender.Message newPatchsetMessage = messages.get(0);
+    assertThat(newPatchsetMessage.body()).contains("new patch set");
+    assertThat(newPatchsetMessage.headers().get("Message-ID").toString())
+        .doesNotContain("EmailReviewComments");
+
+    FakeEmailSender.Message newCommentsMessage = messages.get(1);
+    assertThat(newCommentsMessage.body()).contains("has posted comments on this change");
+    assertThat(newCommentsMessage.headers().get("Message-ID").toString())
+        .contains("EmailReviewComments");
   }
 
   @Test

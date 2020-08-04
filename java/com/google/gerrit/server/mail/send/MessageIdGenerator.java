@@ -17,6 +17,7 @@ package com.google.gerrit.server.mail.send;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.auto.value.AutoValue;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -62,6 +63,12 @@ public class MessageIdGenerator {
    * @return MessageId that depends on the patchset.
    */
   public MessageId fromChangeUpdate(RepoView repoView, PatchSet.Id patchsetId) {
+    return fromChangeUpdateAndReason(repoView, patchsetId, null);
+  }
+
+  public MessageId fromChangeUpdateAndReason(
+      RepoView repoView, PatchSet.Id patchsetId, @Nullable String reason) {
+    String suffix = (reason != null) ? ("-" + reason) : "";
     String metaRef = patchsetId.changeId().toRefPrefix() + "meta";
     Optional<ObjectId> metaSha1;
     try {
@@ -70,7 +77,7 @@ public class MessageIdGenerator {
       throw new StorageException("unable to extract info for Message-Id", ex);
     }
     return metaSha1
-        .map(optional -> new AutoValue_MessageIdGenerator_MessageId(optional.getName()))
+        .map(optional -> new AutoValue_MessageIdGenerator_MessageId(optional.getName() + suffix))
         .orElseThrow(() -> new IllegalStateException(metaRef + " doesn't exist"));
   }
 

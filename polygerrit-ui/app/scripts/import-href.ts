@@ -64,8 +64,8 @@ export function importHref(
   ) as ImportHrefElement;
   if (!link) {
     link = document.createElement('link') as ImportHrefElement;
-    link.rel = 'import';
-    link.href = href;
+    link.setAttribute('rel', 'import');
+    link.setAttribute('href', href);
     link.setAttribute('import-href', '');
   }
   // always ensure link has `async` attribute if user specified one,

@@ -65,6 +65,24 @@
     },
     {
       "key": {
+        "uuid": "09c20b80_a227a06e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-04T12:10:01Z",
+      "side": 1,
+      "message": "That\u0027s a really good point: I fixed this bug in the predecessor change (uploader was added as reviewer for some reason) so I fixed the underlying bug, and this change is no longer needed. Added tests anyway.",
+      "parentUuid": "2a793ee0_3319d2c0",
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b4d8f274_78f2f680",
         "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
         "patchSetId": 2
@@ -79,6 +97,24 @@
       "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7a0dbd3_4917e8a0",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 790,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-04T12:10:01Z",
+      "side": 1,
+      "message": "removed anyway.",
+      "parentUuid": "b4d8f274_78f2f680",
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -102,6 +138,30 @@
       "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18f7197e_953576aa",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 906,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-04T12:10:01Z",
+      "side": 1,
+      "message": "you\u0027re right, nice catch!\nRebased it, and now both cases work. This change is now just a bunch of tests since everything was already fixed by this change.",
+      "parentUuid": "600c6db0_15962486",
+      "range": {
+        "startLine": 906,
+        "startChar": 53,
+        "endLine": 906,
+        "endChar": 86
+      },
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

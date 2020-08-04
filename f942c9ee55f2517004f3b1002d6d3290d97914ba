@@ -1,0 +1,152 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73344b3d_604e3b30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "IntelliJ",
+      "range": {
+        "startLine": 10,
+        "startChar": 40,
+        "endLine": 10,
+        "endChar": 48
+      },
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d842482_603feace",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "I would squash this commit into its base one, as one necessarily goes with the other I think.",
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff899e4e_7ea720c2",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "Blank lines missing 1. above and 2. below.",
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0869cf59_895d4951",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "Would itemize (bullet-list) the above steps or ordered ideas.",
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dc42aa03_14458dac",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "IntelliJ\n\nAlso, would start with this section first, as IDEA is the preferred IDE still for e2e-tests development (cf. L32-35 above).",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f8e337d_24b9e494",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "Blank line above.",
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2d3ef0b_6647a626",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "Redundant with L32-35 further above.",
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d09faff_4a1243c3",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T19:51:15Z",
+      "side": 1,
+      "message": "Extra blank line, would remove.",
+      "revId": "f942c9ee55f2517004f3b1002d6d3290d97914ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

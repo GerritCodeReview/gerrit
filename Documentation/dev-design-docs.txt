@@ -127,6 +127,16 @@ link:dev-processes.html#steering-committee[engineering steering
 committee] within 14 calendar days whether the proposed feature is in
 scope of the project and if it can be accepted.
 
+[[meetings]]
+=== Meeting discussions
+
+If the Gerrit review doesn't start efficiently enough, stalls, gets off-track
+too much or becomes overly complex, one can use a meeting to refocus it. From
+that review thread, the organizer can volunteer oneself, or be proposed (even
+requested) by a reviewer. link:https://www.gerritcodereview.com/members.html#community-managers[
+Community managers] may help facilitate that if ultimately necessary. The
+organizer is expected to use a Google Calendar/Meet event for that matter.
+
 [[watch-designs]]
 == How to get notified for new design docs?
 

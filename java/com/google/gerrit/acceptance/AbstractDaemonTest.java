@@ -802,6 +802,24 @@ public abstract class AbstractDaemonTest {
   private static final List<Character> RANDOM =
       Chars.asList('a', 'b', 'c', 'd', 'e', 'f', 'g', 'h');
 
+  protected PushOneCommit.Result amendChangeWithUploader(
+      PushOneCommit.Result change, Project.NameKey projectName, TestAccount account)
+      throws Exception {
+    TestRepository<InMemoryRepository> repo = cloneProject(projectName, account);
+    GitUtil.fetch(repo, "refs/*:refs/*");
+    repo.reset(change.getCommit());
+    PushOneCommit.Result result =
+        amendChange(
+            change.getChangeId(),
+            "refs/for/master",
+            account,
+            repo,
+            "new subject",
+            "new file",
+            "new content");
+    return result;
+  }
+
   protected PushOneCommit.Result amendChange(String changeId) throws Exception {
     return amendChange(changeId, "refs/for/master", admin, testRepo);
   }

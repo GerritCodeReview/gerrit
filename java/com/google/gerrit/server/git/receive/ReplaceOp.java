@@ -348,7 +348,7 @@ public class ReplaceOp implements BatchUpdateOp {
     return true;
   }
 
-  private static ImmutableList<AddReviewerInput> getReviewerInputs(
+  private ImmutableList<AddReviewerInput> getReviewerInputs(
       @Nullable MagicBranchInput magicBranch,
       MailRecipients fromFooters,
       Change change,
@@ -362,13 +362,15 @@ public class ReplaceOp implements BatchUpdateOp {
                     change,
                     psInfo.getCommitId(),
                     psInfo.getAuthor().getAccount(),
-                    NotifyHandling.NONE)),
+                    NotifyHandling.NONE,
+                    newPatchSet.uploader())),
             Streams.stream(
                 newAddReviewerInputFromCommitIdentity(
                     change,
                     psInfo.getCommitId(),
                     psInfo.getCommitter().getAccount(),
-                    NotifyHandling.NONE)));
+                    NotifyHandling.NONE,
+                    newPatchSet.uploader())));
     if (magicBranch != null) {
       inputs =
           Streams.concat(

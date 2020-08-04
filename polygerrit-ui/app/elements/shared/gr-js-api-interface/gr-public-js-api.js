@@ -32,7 +32,7 @@ import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
-import {pluginEndpoints} from './gr-plugin-endpoints.js';
+import {getPluginEndpoints} from './gr-plugin-endpoints.js';
 
 import {
   PRELOADED_PROTOCOL,
@@ -92,7 +92,7 @@ export class Plugin {
   }
 
   registerStyleModule(endpoint, moduleName) {
-    pluginEndpoints.registerModule(this, {
+    getPluginEndpoints().registerModule(this, {
       endpoint,
       type: EndpointType.STYLE,
       moduleName,
@@ -139,7 +139,7 @@ export class Plugin {
     const slot = (opt_options && opt_options.slot) || '';
     const domHook = this._domHooks.getDomHook(endpoint, opt_moduleName);
     const moduleName = opt_moduleName || domHook.getModuleName();
-    pluginEndpoints.registerModule(this, {
+    getPluginEndpoints().registerModule(this, {
       slot,
       endpoint,
       type,

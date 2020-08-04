@@ -28,7 +28,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {patchNumEquals} from '../../../utils/patch-set-util.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 
 /**
  * @extends PolymerElement
@@ -372,7 +372,7 @@ class GrRelatedChangesList extends GestureEventListeners(
     // to check for that and stay visible if we find any such visible content.
     // (We consider plugins visible except if it's main element has the hidden
     // attribute set to true.)
-    const plugins = pluginEndpoints.getDetails('related-changes-section');
+    const plugins = getPluginEndpoints().getDetails('related-changes-section');
     this.hidden = !(plugins.some(plugin => (
       (!plugin.domHook)
         || plugin.domHook.getAllAttached().some(

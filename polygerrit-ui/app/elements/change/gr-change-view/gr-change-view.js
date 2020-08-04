@@ -55,7 +55,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 
@@ -501,9 +501,9 @@ class GrChangeView extends KeyboardShortcutMixin(
     pluginLoader.awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
-            pluginEndpoints.getDynamicEndpoints('change-view-tab-header');
+            getPluginEndpoints().getDynamicEndpoints('change-view-tab-header');
           this._dynamicTabContentEndpoints =
-            pluginEndpoints.getDynamicEndpoints('change-view-tab-content');
+            getPluginEndpoints().getDynamicEndpoints('change-view-tab-content');
           if (this._dynamicTabContentEndpoints.length !==
           this._dynamicTabHeaderEndpoints.length) {
             console.warn('Different number of tab headers and tab content.');

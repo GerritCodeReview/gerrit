@@ -31,7 +31,7 @@ import {appContext} from '../../../services/app-context.js';
 import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
 import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 
@@ -168,7 +168,7 @@ class GrChangeList extends ChangeTableMixin(
   attached() {
     super.attached();
     pluginLoader.awaitPluginsLoaded().then(() => {
-      this._dynamicHeaderEndpoints = pluginEndpoints.getDynamicEndpoints(
+      this._dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
           'change-list-header');
     });
   }

@@ -37,7 +37,7 @@ import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
@@ -311,15 +311,15 @@ class GrFileList extends KeyboardShortcutMixin(
   attached() {
     super.attached();
     pluginLoader.awaitPluginsLoaded().then(() => {
-      this._dynamicHeaderEndpoints = pluginEndpoints
+      this._dynamicHeaderEndpoints = getPluginEndpoints()
           .getDynamicEndpoints('change-view-file-list-header');
-      this._dynamicContentEndpoints = pluginEndpoints
+      this._dynamicContentEndpoints = getPluginEndpoints()
           .getDynamicEndpoints('change-view-file-list-content');
-      this._dynamicPrependedHeaderEndpoints = pluginEndpoints
+      this._dynamicPrependedHeaderEndpoints = getPluginEndpoints()
           .getDynamicEndpoints('change-view-file-list-header-prepend');
-      this._dynamicPrependedContentEndpoints = pluginEndpoints
+      this._dynamicPrependedContentEndpoints = getPluginEndpoints()
           .getDynamicEndpoints('change-view-file-list-content-prepend');
-      this._dynamicSummaryEndpoints = pluginEndpoints
+      this._dynamicSummaryEndpoints = getPluginEndpoints()
           .getDynamicEndpoints('change-view-file-list-summary');
 
       if (this._dynamicHeaderEndpoints.length !==

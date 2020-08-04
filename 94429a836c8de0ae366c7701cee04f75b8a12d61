@@ -213,6 +213,75 @@
     },
     {
       "key": {
+        "uuid": "240053c1_0671bed4",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 546,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T10:39:14Z",
+      "side": 1,
+      "message": "I meant for all other places as well. If you want to keep us on tsdoc convention, we can follow that, just be consistent.\n\n\u003e https://github.com/microsoft/tsdoc",
+      "parentUuid": "5793ec00_423caf2e",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2588ac6_87794ec0",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 573,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T10:39:14Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9342c171_238cc89c",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 616,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T10:39:14Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7654fd3c_57e3b363",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-04T10:39:14Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "94429a836c8de0ae366c7701cee04f75b8a12d61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "641e7a08_0951acfb",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 1

@@ -27,6 +27,7 @@ declare global {
       text: string,
       options: {callback: (text: string, href?: string) => void}
     ): void;
+    ASSETS_PATH?: string;
   }
 
   interface Performance {

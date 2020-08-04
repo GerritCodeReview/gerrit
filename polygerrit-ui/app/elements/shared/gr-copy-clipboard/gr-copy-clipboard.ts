@@ -14,55 +14,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/shared-styles.js';
-import '../gr-button/gr-button.js';
-import '../gr-icons/gr-icons.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-copy-clipboard_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/shared-styles';
+import '../gr-button/gr-button';
+import '../gr-icons/gr-icons';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-copy-clipboard_html';
+import {GrButton} from '../gr-button/gr-button';
+import {customElement, property} from '@polymer/decorators';
+import {IronIconElement} from '@polymer/iron-icon';
 
 const COPY_TIMEOUT_MS = 1000;
 
-/** @extends PolymerElement */
-class GrCopyClipboard extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-copy-clipboard'; }
-
-  static get properties() {
-    return {
-      text: String,
-      buttonTitle: String,
-      hasTooltip: {
-        type: Boolean,
-        value: false,
-      },
-      hideInput: {
-        type: Boolean,
-        value: false,
-      },
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-copy-clipboard': GrCopyClipboard;
   }
+}
+
+export interface GrCopyClipboard {
+  $: {button: GrButton; icon: IronIconElement; input: HTMLInputElement};
+}
+
+/** @extends PolymerElement */
+@customElement('gr-copy-clipboard')
+export class GrCopyClipboard extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: String})
+  text: string | undefined;
+
+  @property({type: String})
+  buttonTitle: string | undefined;
+
+  @property({type: Boolean})
+  hasTooltip = false;
+
+  @property({type: Boolean})
+  hideInput = false;
 
   focusOnCopy() {
     this.$.button.focus();
   }
 
-  _computeInputClass(hideInput) {
+  _computeInputClass(hideInput: boolean) {
     return hideInput ? 'hideInput' : '';
   }
 
-  _handleInputClick(e) {
+  _handleInputClick(e: MouseEvent) {
     e.preventDefault();
-    dom(e).rootTarget.select();
+    ((dom(e) as EventApi).rootTarget as HTMLInputElement).select();
   }
 
-  _copyToClipboard(e) {
+  _copyToClipboard(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
 
@@ -77,9 +88,8 @@ class GrCopyClipboard extends GestureEventListeners(
     }
     this.$.icon.icon = 'gr-icons:check';
     this.async(
-        () => this.$.icon.icon = 'gr-icons:content-copy',
-        COPY_TIMEOUT_MS);
+      () => (this.$.icon.icon = 'gr-icons:content-copy'),
+      COPY_TIMEOUT_MS
+    );
   }
 }
-
-customElements.define(GrCopyClipboard.is, GrCopyClipboard);

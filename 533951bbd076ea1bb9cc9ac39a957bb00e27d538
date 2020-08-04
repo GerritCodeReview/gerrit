@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "25c0a34d_e57a8b76",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:03:50Z",
+      "side": 1,
+      "message": "Maybe remove jsdoc, so later we can find it and write better comment",
+      "range": {
+        "startLine": 29,
+        "startChar": 3,
+        "endLine": 29,
+        "endChar": 23
+      },
+      "revId": "533951bbd076ea1bb9cc9ac39a957bb00e27d538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bec3a40_7a2fe474",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-etag-decorator.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:03:50Z",
+      "side": 1,
+      "message": "It seems, that headers in ETagOption is optional.\nCode is more type-safe if headers is optional in ETagOption and optionsCopy defined as\nconst optionsCopy: ETagOption \u003d {...options};",
+      "range": {
+        "startLine": 45,
+        "startChar": 4,
+        "endLine": 45,
+        "endChar": 50
+      },
+      "revId": "533951bbd076ea1bb9cc9ac39a957bb00e27d538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,10 +16,13 @@
  */
 
 import {
+  AccountDetailInfo,
   AccountInfo,
+  CapabilityInfo,
   GroupBaseInfo,
   NumericChangeId,
   ServerInfo,
+  ProjectInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response, err?: Error) => void;
@@ -62,6 +65,26 @@ export type SuggestedReviewerInfo =
 export interface RestApiService {
   getConfig(): Promise<ServerInfo>;
   getLoggedIn(): Promise<boolean>;
+  getVersion(): Promise<string>;
+  invalidateReposCache(): void;
+  getAccount(): Promise<AccountDetailInfo>;
+  getAccountCapabilities(params?: string[]): Promise<CapabilityInfo>;
+  getRepos(
+    filter: string,
+    reposPerPage: number,
+    offset?: number
+  ): Promise<ProjectInfo>;
+  send(
+    method: string,
+    url: string,
+    body?: unknown,
+    errFn?: ErrorCallback,
+    contentType?: string,
+    headers?: unknown
+  ): Promise<Response>;
+
+  getResponseObject(response: Response): null | unknown;
+
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
     input: string,

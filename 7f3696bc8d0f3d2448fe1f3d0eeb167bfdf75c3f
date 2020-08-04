@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "8cf08dd3_9cdeaa8e",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "Please, add TODO",
+      "parentUuid": "70a771dc_4f4862ee",
+      "range": {
+        "startLine": 65,
+        "startChar": 9,
+        "endLine": 65,
+        "endChar": 16
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5ec20517_5ad513be",
         "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
         "patchSetId": 6
@@ -190,6 +214,76 @@
     },
     {
       "key": {
+        "uuid": "28e98eaa_69408e92",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "Don\u0027t remove JS Doc completely if there is some useful text in JSDoc. Removing types from JSDoc is enough.\nFor example, @param revision and @return text gives additional information, it is better to preserve it. patchNum can be deleted.",
+      "parentUuid": "f7e83560_8384d1c6",
+      "range": {
+        "startLine": 96,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 12
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e2cf5d1_5275b338",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "I would like to keep this information",
+      "range": {
+        "startLine": 104,
+        "startChar": 20,
+        "endLine": 105,
+        "endChar": 20
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da8a9b5a_5d38a4a5",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "It would be good to keep this information",
+      "range": {
+        "startLine": 123,
+        "startChar": 20,
+        "endLine": 123,
+        "endChar": 55
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bac7efab_1ba12b3e",
         "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
         "patchSetId": 6
@@ -277,6 +371,53 @@
         "startChar": 14,
         "endLine": 150,
         "endChar": 33
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54925ddd_f0128901",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "\u003e\u003e Why do we need to avoid \"as\"?\nSuppose, that we add \u0027PARENT\u0027 as a possible value to PatchSetNum.\nWith \"as\" this code will compile without a problem and we can forget to update it.\nIt is good when typescript checks everything for us.\n\n\u003e\u003e If \"as\" is not the solution then how do we use the fact that we know the type here?\nOne idea - type guards. They are used in a similar situations, when there are several possible choices and you want to avoid \"as\".\nBut I am not sure can we use type guards here - this is why I asked to write a TODO.",
+      "parentUuid": "ffcad9fa_b4a1126f",
+      "range": {
+        "startLine": 150,
+        "startChar": 14,
+        "endLine": 150,
+        "endChar": 33
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57cd101b_24651ae0",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "It would be good to keep this information. please restore deleted JSDocs with useful information.",
+      "range": {
+        "startLine": 167,
+        "startChar": 29,
+        "endLine": 169,
+        "endChar": 0
       },
       "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -375,6 +516,30 @@
       "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "559811e5_a44df6ae",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "Add TODO",
+      "parentUuid": "d5b9d7bb_7dab50e6",
+      "range": {
+        "startLine": 311,
+        "startChar": 19,
+        "endLine": 311,
+        "endChar": 28
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7f8a2a57_604a24b5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "There are other files in this change.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 22
+      },
+      "revId": "150a00eaef77b6c19807e3ad32da9d8b03271ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5eb1b03_483bff2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-04T12:46:06Z",
+      "side": 1,
+      "message": "I reviewed only patch-set-util.ts\nThere are typescript errors in other files - should I review them anyway? ",
+      "revId": "150a00eaef77b6c19807e3ad32da9d8b03271ff1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

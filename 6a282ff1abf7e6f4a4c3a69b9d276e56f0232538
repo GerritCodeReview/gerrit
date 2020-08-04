@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "2dbe803c_f33c63d9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-04T22:06:23Z",
+      "side": 1,
+      "message": "name that option explicitly ?",
+      "range": {
+        "startLine": 15,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 10
+      },
+      "revId": "6a282ff1abf7e6f4a4c3a69b9d276e56f0232538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "818c49b7_fc29c994",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-04T22:06:23Z",
+      "side": 1,
+      "message": "if",
+      "range": {
+        "startLine": 28,
+        "startChar": 0,
+        "endLine": 28,
+        "endChar": 2
+      },
+      "revId": "6a282ff1abf7e6f4a4c3a69b9d276e56f0232538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bde516e9_2c8d0dd9",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 5
@@ -16,6 +62,46 @@
       "revId": "6a282ff1abf7e6f4a4c3a69b9d276e56f0232538",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f937c479_a2ee8ef2",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-04T22:06:23Z",
+      "side": 1,
+      "message": "add a test ?",
+      "revId": "6a282ff1abf7e6f4a4c3a69b9d276e56f0232538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0854f73_12e4ab50",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 381,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-04T22:06:23Z",
+      "side": 1,
+      "message": "Timeout waiting for SSH session to close",
+      "range": {
+        "startLine": 381,
+        "startChar": 13,
+        "endLine": 381,
+        "endChar": 46
+      },
+      "revId": "6a282ff1abf7e6f4a4c3a69b9d276e56f0232538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

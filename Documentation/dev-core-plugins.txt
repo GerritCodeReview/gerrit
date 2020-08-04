@@ -155,6 +155,52 @@ core plugin:
    link:https://www.gerritcodereview.com/news.html[project news].
 --
 
+[[removing]]
+=== Removing Core Plugins
+
+A core plugin could be subject to NOT be considered core anymore if:
+
+1. Does not respect the license:
++
+The plugin code or the libraries used are not following anymore the
+Apache License Version 2.0.
+
+2. Is out of scope:
++
+The plugin functionality has gone outside the Gerrit-related scope,
+has a clear scope or conflict with other core plugins or existing and
+planned Gerrit core features.
+
+NOTE: The plugin would need to remain core until the planned replacement gets
+implemented. Otherwise the feature is likely missing between the removal and
+planned implementation times.
+
+3. Is not relevant:
++
+The plugin functionality is no more relevant to a majority of the Gerrit community:
++
+--
+** An out of the box Gerrit installation won’t be missing anything if the plugin is
+   not installed.
+** It isn’t anymore used by most sites.
+** Multiple parties (different organizations/companies) have abandoned the use of
+   the plugin and agree that it should not be anymore a core plugin.
+** If the same or similar functionality is provided by multiple plugins, the plugin
+   is not a clear recommended solution anymore by the community.
+** Whether a plugin is no more relevant to a majority of the Gerrit community must be
+   discussed on a case-by-case basis. In case of doubt, it’s up to the engineering
+   steering committee to make a decision.
+--
+
+4. Degraded code quality:
++
+The plugin code maintenance is lacking and has not anymore good test coverage.
+Maintaining the plugin code creates a significant overhead for the Gerrit maintainers.
+
+5. Outdated documentation:
++
+The plugin functionality documented is significantly outdated.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

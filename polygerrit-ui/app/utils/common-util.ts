@@ -35,3 +35,12 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
 // TODO(TS): move to common types once we have type utils
 // tslint:disable-next-line:no-any Required for constructor signature.
 export type Constructor<T> = new (...args: any[]) => T;
+
+/**
+ * Use the function for compile-time checking that all possible input
+ * values are processed
+ */
+export function assertNever(obj: never, msg: string): never {
+  console.error(msg, obj);
+  throw new Error(msg);
+}

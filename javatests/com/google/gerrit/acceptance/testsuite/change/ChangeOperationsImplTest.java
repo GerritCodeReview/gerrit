@@ -306,6 +306,33 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void currentPatchsetOfExistingChangeCanBeRetrieved() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    TestPatchset patchset = changeOperations.change(changeId).currentPatchset().get();
+
+    ChangeInfo expectedChange = getChangeFromServer(changeId);
+    String expectedCommitId = expectedChange.currentRevision;
+    int expectedPatchsetNumber = expectedChange.revisions.get(expectedCommitId)._number;
+    assertThat(patchset.commitId()).isEqualTo(ObjectId.fromString(expectedCommitId));
+    assertThat(patchset.patchsetId()).isEqualTo(PatchSet.id(changeId, expectedPatchsetNumber));
+  }
+
+  @Test
+  public void earlierPatchsetOfExistingChangeCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    PatchSet.Id earlierPatchsetId =
+        changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id currentPatchsetId = changeOperations.change(changeId).newPatchset().create();
+
+    TestPatchset earlierPatchset =
+        changeOperations.change(changeId).patchset(earlierPatchsetId).get();
+
+    assertThat(earlierPatchset.patchsetId()).isEqualTo(earlierPatchsetId);
+    assertThat(earlierPatchset.patchsetId()).isNotEqualTo(currentPatchsetId);
+  }
+
+  @Test
   public void newPatchsetCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
     ChangeInfo unmodifiedChange = getChangeFromServer(changeId);

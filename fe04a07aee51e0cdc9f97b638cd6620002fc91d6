@@ -217,6 +217,30 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "58179f4d_a0c0a98c",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T15:00:20Z",
+      "side": 1,
+      "message": "If you find that the get/fill pattern isn\u0027t needed anymore in CommentJson, this change can just remove it.",
+      "parentUuid": "4725980e_78dfe882",
+      "range": {
+        "startLine": 208,
+        "startChar": 5,
+        "endLine": 210,
+        "endChar": 17
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

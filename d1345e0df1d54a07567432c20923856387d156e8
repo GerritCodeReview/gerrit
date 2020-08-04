@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0e5aa304_0c7f4f32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:56:25Z",
+      "side": 1,
+      "message": "Can you squash this into the previous change? It\u0027s hard to tell them apart I think because the big picture of how this works (caching per ps, how filling works, how often repos get opened, etc.) is important to see.",
+      "revId": "d1345e0df1d54a07567432c20923856387d156e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

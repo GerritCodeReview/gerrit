@@ -16,6 +16,23 @@
       "revId": "38e2e58d626c00b8528f019fdf0d61216357ed6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "68ca6eec_12f42b2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-04T20:34:25Z",
+      "side": 1,
+      "message": "I think we have to establish a process for who gets to review these merge changes.\n\nI understand that with David P being less active this is more difficult. But I would prefer, if\n\n* mostly non-Googlers manages the stable branches and their merges.\n* if Googlers are involved it is clear who is chosen and why.",
+      "revId": "38e2e58d626c00b8528f019fdf0d61216357ed6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

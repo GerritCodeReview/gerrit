@@ -25,4 +25,4 @@ import {Constructor} from '../../utils/common-util';
 export const IronFitMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
 ): T & Constructor<IronFitBehavior> =>
-  mixinBehaviors([IronFitBehavior], superClass);
+  mixinBehaviors([IronFitBehavior], superClass) as any;

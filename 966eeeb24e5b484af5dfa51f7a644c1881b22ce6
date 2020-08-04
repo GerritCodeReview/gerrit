@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11b848da_ecd3f332",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-04T12:23:56Z",
+      "side": 1,
+      "message": "just that added reviewers by default get added to the attention set (explanation why the owner got added).",
+      "parentUuid": "58dbc1f1_a6802281",
+      "range": {
+        "startLine": 7,
+        "startChar": 42,
+        "endLine": 7,
+        "endChar": 45
+      },
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f12078f3_07bd1834",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9603f4fe_8a9fb828",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-04T12:23:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "f12078f3_07bd1834",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 23
+      },
+      "revId": "966eeeb24e5b484af5dfa51f7a644c1881b22ce6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

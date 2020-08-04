@@ -33,6 +33,24 @@
       "revId": "05d9a4ad3c449a46037bdddc6ab50ff9e3ee3ed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cc98f836_915e6ef2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T21:39:14Z",
+      "side": 1,
+      "message": "\u003e Out of curiosity: why the stable-3.1 branch?\n\nCuriosity is usually fine I think. Because, that is where this doc started I think; and we still maintain this downstream branch.",
+      "parentUuid": "a64175ac_c1da7fdb",
+      "revId": "05d9a4ad3c449a46037bdddc6ab50ff9e3ee3ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

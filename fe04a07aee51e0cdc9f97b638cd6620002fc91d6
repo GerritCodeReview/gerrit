@@ -16,6 +16,207 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dd37e10_fea7ff41",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "Now I am puzzled: Why does this still use the Repo directly?\n\nI imagined this to work the following:\n\n1) CommentJson want to format X comments\n2) Calls the CommentContextLoader#getContext X times\n3) Calls #fill when it\u0027s done \n3a) The context loader calls #getAll on the cache\n3b) the cache has some values in memory or on disk and backfills the rest using Loader#loadAll\n\nThis assumes the cache caches on the per-comment level (returning n context lines per comment).\n\nIt could cache per-patch set, etc. but then you have the known eviction issue (a single new comment forces us to evict unrelated entries and recompute more than is needed).",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 46
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "765d4224_35e3eba8",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "s (plural)",
+      "range": {
+        "startLine": 30,
+        "startChar": 28,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b891623b_02e8e35d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "ImmutableList (better to be explicit in the API). That also creates a better feeling for callers as they know the state they get is thread-safe",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1b34c2e_acf4eacf",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "This is an API object that cannot be part of any storage-level API.\n\nPlease use the respective fields instead (UUID, path?).",
+      "range": {
+        "startLine": 38,
+        "startChar": 69,
+        "endLine": 38,
+        "endChar": 88
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9978a7e5_2ff2211a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "Why do we turn this off?",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "828c6350_948e41f1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "Should we have a weigher here?",
+      "range": {
+        "startLine": 68,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a4bf2ff_ee95ed16",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "Please leave a comment why this is hashed",
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c6f3d99_e2ba80fd",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "orElseThrow(() -\u003e new IllegalArgumentException(\"unable to find comment for \" + key)\n\nThis should never happen, so we need to make it an HTTP 500 and stop here.",
+      "range": {
+        "startLine": 206,
+        "startChar": 15,
+        "endLine": 206,
+        "endChar": 28
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4725980e_78dfe882",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-04T14:52:38Z",
+      "side": 1,
+      "message": "This pattern is an OK fit when you have to backfill many contexts, but in this case we\u0027re only loading a single context, so we can just have that be returned. \n\nThat said, please see my other comment. You might actually not need that call here.",
+      "range": {
+        "startLine": 208,
+        "startChar": 5,
+        "endLine": 210,
+        "endChar": 17
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

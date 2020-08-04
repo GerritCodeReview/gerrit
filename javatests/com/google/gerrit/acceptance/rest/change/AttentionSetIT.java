@@ -607,6 +607,26 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void reviewDoesNotAddReviewerWithoutAutomaticRules() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput reviewInput = ReviewInput.recommend().blockAutomaticAttentionSetRules();
+
+    change(r).current().review(reviewInput);
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
+  public void reviewDoesNotAddReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput reviewInput = ReviewInput.recommend();
+
+    change(r).current().review(reviewInput);
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
   public void cantAddSameUserTwice() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput reviewInput =

@@ -33,6 +33,24 @@
       "revId": "38e2e58d626c00b8528f019fdf0d61216357ed6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f05e9e72_f7d3d992",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-04T21:33:21Z",
+      "side": 1,
+      "message": "\u003e I think we have to establish a process for who gets to review these merge changes.\n\u003e \n\u003e I understand that with David P being less active this is more difficult. But I would prefer, if\n\u003e \n\u003e * mostly non-Googlers manages the stable branches and their merges.\n\u003e * if Googlers are involved it is clear who is chosen and why.\n\nFor merged-up commits made by Googlers or else, in the case of manual conflict resolutions (cf. Auto Merge), I\u0027d expect those authors to co-review. That\u0027s how I at least have been working so far, along with some maintainer colleagues. If the added reviewer prefers not to be part of the attention set that way, this can be replied so and the review may shift elsewhere.\n\nI myself am not working on these merge-ups just for me or Ericsson, but also as a core maintainer. I also do so when I authored downstream commits to then merge up. I consider having to merge downstream commits up an author duty. In that spirit, I sometimes happen to work on resolving merges for changes I didn\u0027t own myself, too. As merge-ups of course often include both owned and others\u0027 commits.\n\nIf me or another committer cannot get reviews for merge-up changes, that is, with the needed reviewers, then that may be difficult indeed. If I\u0027m added in turn to merge-up reviews including commits I authored downstream, even for branches I don\u0027t use internally, then I think I should help. I still consider my time as important as any other reviewers\u0027 time, here.\n\nI\u0027m adding @Edwin and @Matthias to this relevant community topic, yes. Thanks @Ben for having raised it.",
+      "parentUuid": "68ca6eec_12f42b2c",
+      "revId": "38e2e58d626c00b8528f019fdf0d61216357ed6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

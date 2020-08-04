@@ -25,4 +25,6 @@ import {Constructor} from '../../utils/common-util';
 export const IronFitMixin = <T extends Constructor<PolymerElement>>(
   superClass: T
 ): T & Constructor<IronFitBehavior> =>
-  mixinBehaviors([IronFitBehavior], superClass);
+  // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
+  // which will fail the type check due to missing IronFitBehavior interface
+  mixinBehaviors([IronFitBehavior], superClass) as any;

@@ -15,21 +15,36 @@
  * limitations under the License.
  */
 
-/** @constructor */
-export function GrAdminApi(plugin) {
-  this.plugin = plugin;
-  plugin.on('admin-menu-links', this);
-  this._menuLinks = [];
+/** Interface for menu link */
+export interface MenuLink {
+  text: string;
+  url: string;
+  capability: string | null;
+}
+
+// TODO(TS): replace with Plugin once gr-public-js-api migrated
+interface PluginApi {
+  on(eventName: string, adminApi: GrAdminApi): void;
 }
 
 /**
- * @param {string} text
- * @param {string} url
+ * GrAdminApi class.
+ *
+ * Defines common methods to register / retrieve menu links.
  */
-GrAdminApi.prototype.addMenuLink = function(text, url, opt_capability) {
-  this._menuLinks.push({text, url, capability: opt_capability || null});
-};
+export class GrAdminApi {
+  // TODO(TS): maybe define as enum if its a limited set
+  private menuLinks: MenuLink[] = [];
 
-GrAdminApi.prototype.getMenuLinks = function() {
-  return this._menuLinks.slice(0);
-};
+  constructor(private readonly plugin: PluginApi) {
+    this.plugin.on('admin-menu-links', this);
+  }
+
+  addMenuLink(text: string, url: string, capability?: string) {
+    this.menuLinks.push({text, url, capability: capability || null});
+  }
+
+  getMenuLinks(): MenuLink[] {
+    return this.menuLinks.slice(0);
+  }
+}

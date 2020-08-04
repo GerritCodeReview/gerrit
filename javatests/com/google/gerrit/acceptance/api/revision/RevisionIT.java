@@ -1892,6 +1892,13 @@ public class RevisionIT extends AbstractDaemonTest {
     assertThat(approvals).hasSize(2);
   }
 
+  @Test
+  public void uploaderNotAddedAsReviewer() throws Exception {
+    PushOneCommit.Result result = createChange();
+    amendChangeWithUploader(result, project, user);
+    assertThat(result.getChange().reviewers().all()).isEmpty();
+  }
+
   private static void assertCherryPickResult(
       ChangeInfo changeInfo, CherryPickInput input, String srcChangeId) throws Exception {
     assertThat(changeInfo.changeId).isEqualTo(srcChangeId);

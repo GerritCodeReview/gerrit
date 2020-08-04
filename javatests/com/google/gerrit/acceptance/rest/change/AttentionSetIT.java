@@ -21,7 +21,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
-import com.google.gerrit.acceptance.GitUtil;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
@@ -43,8 +42,6 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
 import java.util.stream.Collectors;
-import org.eclipse.jgit.internal.storage.dfs.InMemoryRepository;
-import org.eclipse.jgit.junit.TestRepository;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -730,20 +727,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   public void repliesAddsOwnerAndUploader() throws Exception {
     // Create change with owner: admin
     PushOneCommit.Result r = createChange();
-
-    // Clone, fetch, and checkout the change with user, and then create a new patchset.
-    TestRepository<InMemoryRepository> repo = cloneProject(project, user);
-    GitUtil.fetch(repo, "refs/*:refs/*");
-    repo.reset(r.getCommit());
-    r =
-        amendChange(
-            r.getChangeId(),
-            "refs/for/master",
-            user,
-            repo,
-            "new subject",
-            "new file",
-            "new content");
+    r = amendChangeWithUploader(r, project, user);
 
     TestAccount user2 = accountCreator.user2();
     requestScopeOperations.setApiUser(user2.id());
@@ -817,20 +801,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void uploaderRepliesAddsOwnerAndReviewersOnly() throws Exception {
     PushOneCommit.Result r = createChange();
-
-    // Clone, fetch, and checkout the change with user, and then create a new patchset.
-    TestRepository<InMemoryRepository> repo = cloneProject(project, user);
-    GitUtil.fetch(repo, "refs/*:refs/*");
-    repo.reset(r.getCommit());
-    r =
-        amendChange(
-            r.getChangeId(),
-            "refs/for/master",
-            user,
-            repo,
-            "new subject",
-            "new file",
-            "new content");
+    r = amendChangeWithUploader(r, project, user);
 
     // Add reviewer and cc
     TestAccount reviewer = accountCreator.user2();

@@ -129,8 +129,12 @@ public class ReviewerAdder {
   }
 
   public static Optional<InternalAddReviewerInput> newAddReviewerInputFromCommitIdentity(
-      Change change, ObjectId commitId, @Nullable Account.Id accountId, NotifyHandling notify) {
-    if (accountId == null || accountId.equals(change.getOwner())) {
+      Change change,
+      ObjectId commitId,
+      @Nullable Account.Id accountId,
+      NotifyHandling notify,
+      Account.Id mostRecentUploader) {
+    if (accountId == null || accountId.equals(mostRecentUploader)) {
       // If git ident couldn't be resolved to a user, or if it's not forged, do nothing.
       return Optional.empty();
     }

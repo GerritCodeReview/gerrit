@@ -51,6 +51,29 @@
       "revId": "05d9a4ad3c449a46037bdddc6ab50ff9e3ee3ed7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9cd6ae7d_05da51d4",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-04T21:45:09Z",
+      "side": 1,
+      "message": "I wouldn\u0027t restrict that to Google services, any meeting platform the attendees have access to should be fine",
+      "range": {
+        "startLine": 138,
+        "startChar": 31,
+        "endLine": 138,
+        "endChar": 52
+      },
+      "revId": "05d9a4ad3c449a46037bdddc6ab50ff9e3ee3ed7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

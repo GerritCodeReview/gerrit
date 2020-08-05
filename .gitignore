@@ -48,5 +48,7 @@
 !/plugins/webhooks
 /test_site
 /tools/format
+/tools/node_tools
+/tools/polygerrit-updater
 /.ts-out/*
 !/.ts-out/README.md

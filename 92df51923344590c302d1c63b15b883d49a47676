@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1759e618_282d7cad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-shell-command/gr-shell-command.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T11:06:55Z",
+      "side": 1,
+      "message": "nit: shorter form should also work: if(this.shadowRoot) and if(copyClipboard)",
+      "range": {
+        "startLine": 46,
+        "startChar": 4,
+        "endLine": 46,
+        "endChar": 35
+      },
+      "revId": "92df51923344590c302d1c63b15b883d49a47676",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -87,6 +87,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -101,6 +102,7 @@ import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
 import org.eclipse.jgit.internal.storage.file.FileRepository;
+import org.eclipse.jgit.internal.storage.file.GC;
 import org.eclipse.jgit.internal.storage.file.PackInserter;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Config;
@@ -112,6 +114,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 
@@ -123,6 +126,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private static final String TRIAL = "trial";
 
   private static final int PROJECT_SLICE_MAX_REFS = 1000;
+  private static final int GC_INTERVAL = 10000;
 
   public static boolean getAutoMigrate(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
@@ -1047,6 +1051,9 @@ public class NoteDbMigrator implements AutoCloseable {
                 c, totalChangeCount, (100.0 * c) / totalChangeCount);
           }
           pc = ctx.changesMigratedCount.incrementAndGet();
+          if (pc % GC_INTERVAL == 0) {
+            gc(project, changeRepo, ctx.gcLock);
+          }
           pm.update(1);
         }
         logger.atInfo().log(
@@ -1083,6 +1090,30 @@ public class NoteDbMigrator implements AutoCloseable {
       Thread.currentThread().setName(oldThreadName);
     }
     return ok;
+  }
+
+  private void gc(Project.NameKey project, Repository repo, ReentrantLock gcLock) {
+    if (repo instanceof FileRepository && gcLock.tryLock()) {
+      try {
+        FileRepository r = (FileRepository) repo;
+        GC gc = new GC(r);
+        // known limitation in jgit 5.1: bitmap index creation is slow due to bug 562740,
+        // see https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+        logger.atInfo().log("Running GC on project %s", project);
+        PackConfig pconfig = new PackConfig(repo);
+        pconfig.setBuildBitmaps(false);
+        // let auto gc decide when gc needs to really do something
+        gc.setAuto(true);
+        gc.setPackConfig(pconfig);
+        gc.gc();
+        logger.atInfo().log("Finished GC on project %s", project);
+      } catch (IOException | ParseException e) {
+        logger.atSevere().withCause(e).log("GC of project %s failed", project);
+      } finally {
+        gcLock.unlock();
+        logger.atFine().log("Released gc lock for project %s", project);
+      }
+    }
   }
 
   private void rebuild(ReviewDb db, Change.Id changeId, NoteDbUpdateManager manager)

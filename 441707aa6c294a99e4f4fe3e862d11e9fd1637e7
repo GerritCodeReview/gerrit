@@ -246,6 +246,30 @@
       "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f9106bb_9bfa5172",
+        "filename": "java/com/google/gerrit/server/project/ProjectConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 1193,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-05T12:49:07Z",
+      "side": 1,
+      "message": "I added a test and removed the error. It doesn\u0027t print a warning on the push path, but it also didn\u0027t do that before. So the changes don\u0027t break any existing behavior.\n\nI think we could improve in the following ways later on:\n1) Print a warning on the git push\n2) Store the ValidationErrors in CachedProjectConfig and propagate them when a caller wants a config that previously didn\u0027t parse correctly.",
+      "parentUuid": "510d515c_869a6d3e",
+      "range": {
+        "startLine": 1184,
+        "startChar": 6,
+        "endLine": 1193,
+        "endChar": 7
+      },
+      "revId": "441707aa6c294a99e4f4fe3e862d11e9fd1637e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

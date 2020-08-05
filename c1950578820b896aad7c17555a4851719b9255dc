@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "ee704006_9c681c33",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-05T12:49:07Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "42f89fd4_8156b8a6",
+      "revId": "c1950578820b896aad7c17555a4851719b9255dc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b8580ec_5ab1f524",
         "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
         "patchSetId": 5

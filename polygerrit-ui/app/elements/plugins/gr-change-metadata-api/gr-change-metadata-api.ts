@@ -1,3 +1,5 @@
+import {GrAttributeHelper} from '../gr-attribute-helper/gr-attribute-helper';
+
 /**
  * @license
  * Copyright (C) 2018 The Android Open Source Project
@@ -15,21 +17,40 @@
  * limitations under the License.
  */
 
-/** @constructor */
-export function GrChangeMetadataApi(plugin) {
-  this._hook = null;
-  this.plugin = plugin;
+type HookCallback = (el: Element) => void;
+interface HookApi {
+  onAttached(callback: HookCallback): void;
+}
+interface PluginAPI {
+  hook(hookname: string): HookApi;
+  attributeHelper(element: Element): GrAttributeHelper;
 }
 
-GrChangeMetadataApi.prototype._createHook = function() {
-  this._hook = this.plugin.hook('change-metadata-item');
-};
+/** @constructor */
+export class GrChangeMetadataApi {
+  // TODO(TS): Convert to GrDomHook once converted
+  private _hook: HookApi | null;
 
-GrChangeMetadataApi.prototype.onLabelsChanged = function(callback) {
-  if (!this._hook) {
-    this._createHook();
+  // TODO(TS): Convert type to GrPlugin.
+  public plugin: PluginAPI;
+
+  constructor(plugin: PluginAPI) {
+    this.plugin = plugin;
+    this._hook = null;
   }
-  this._hook.onAttached(element =>
-    this.plugin.attributeHelper(element).bind('labels', callback));
-  return this;
-};
+
+  _createHook() {
+    this._hook = this.plugin.hook('change-metadata-item');
+  }
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  onLabelsChanged(callback: (value: any) => void) {
+    if (!this._hook) {
+      this._createHook();
+    }
+    this._hook!.onAttached((element: Element) =>
+      this.plugin.attributeHelper(element).bind('labels', callback)
+    );
+    return this;
+  }
+}

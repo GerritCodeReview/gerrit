@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecbb119b_87d78302",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 14
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-05T08:26:15Z",
+      "side": 1,
+      "message": "gr-change-table-mixin.ts is ready for review.",
+      "revId": "d642fbcf59bffa942ba7425b2ae2447fd0c05f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9f9ffc1_bc5d503c",
+        "filename": "polygerrit-ui/app/mixins/gr-change-table-mixin/gr-change-table-mixin.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-05T08:26:15Z",
+      "side": 1,
+      "message": "Typescript is giving me an error that \"columnsToDisplay\" can be undefined but it\u0027s being checked right above in the includes().\nThere is no promise being resolved here so not sure why this error is there.",
+      "range": {
+        "startLine": 66,
+        "startChar": 16,
+        "endLine": 66,
+        "endChar": 55
+      },
+      "revId": "d642fbcf59bffa942ba7425b2ae2447fd0c05f38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

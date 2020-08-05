@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4c5ce319_b224ff9f",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestPatchset.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-05T08:40:04Z",
+      "side": 1,
+      "message": "Should this representation contain more information, such as uploader, files, etc?",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "232a30bfab49383f6be904b2973b4f7f1e8a02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -14,26 +14,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-overlay_html.js';
-import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin.js';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-overlay_html';
+import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin';
+import {customElement, property} from '@polymer/decorators';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 const BREAKPOINT_FULLSCREEN_OVERLAY = '50em';
 
-/**
- * @extends PolymerElement
- */
-class GrOverlay extends IronOverlayMixin(GestureEventListeners(
-    LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-overlay': GrOverlay;
+  }
+}
 
-  static get is() { return 'gr-overlay'; }
+@customElement('gr-overlay')
+export class GrOverlay extends IronOverlayMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when a fullscreen overlay is closed
    *
@@ -46,33 +52,40 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
    * @event fullscreen-overlay-opened
    */
 
-  static get properties() {
-    return {
-      _fullScreenOpen: {
-        type: Boolean,
-        value: false,
-      },
-    };
+  @property({type: Boolean})
+  private _fullScreenOpen = false;
+
+  private _boundHandleClose: () => void = () => super.close();
+
+  private focusableNodes: Node[] | undefined;
+
+  get _focusableNodes() {
+    if (this.focusableNodes) {
+      return this.focusableNodes;
+    }
+    return super._focusableNodes;
   }
 
   /** @override */
   created() {
-    this._boundHandleClose = () => this.close();
     super.created();
-    this.addEventListener('iron-overlay-closed',
-        () => this._overlayClosed());
-    this.addEventListener('iron-overlay-cancelled',
-        () => this._overlayClosed());
+    this.addEventListener('iron-overlay-closed', () => this._overlayClosed());
+    this.addEventListener('iron-overlay-cancelled', () =>
+      this._overlayClosed()
+    );
   }
 
-  open(...args) {
+  open() {
     window.addEventListener('popstate', this._boundHandleClose);
     return new Promise((resolve, reject) => {
-      IronOverlayBehaviorImpl.open.apply(this, args);
+      super.open.apply(this);
       if (this._isMobile()) {
-        this.dispatchEvent(new CustomEvent('fullscreen-overlay-opened', {
-          composed: true, bubbles: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('fullscreen-overlay-opened', {
+            composed: true,
+            bubbles: true,
+          })
+        );
         this._fullScreenOpen = true;
       }
       this._awaitOpen(resolve, reject);
@@ -87,9 +100,12 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
   _overlayClosed() {
     window.removeEventListener('popstate', this._boundHandleClose);
     if (this._fullScreenOpen) {
-      this.dispatchEvent(new CustomEvent('fullscreen-overlay-closed', {
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('fullscreen-overlay-closed', {
+          composed: true,
+          bubbles: true,
+        })
+      );
       this._fullScreenOpen = false;
     }
   }
@@ -97,16 +113,15 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
   /**
    * Override the focus stops that iron-overlay-behavior tries to find.
    */
-  setFocusStops(stops) {
-    this.__firstFocusableNode = stops.start;
-    this.__lastFocusableNode = stops.end;
+  setFocusStops(stops: GrOverlayStops) {
+    this.focusableNodes = [stops.start, stops.end];
   }
 
   /**
    * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
    * opening. Eventually replace with a direct way to listen to the overlay.
    */
-  _awaitOpen(fn, reject) {
+  _awaitOpen(fn: (this: GrOverlay) => void, reject: (error: Error) => void) {
     let iters = 0;
     const step = () => {
       this.async(() => {
@@ -127,4 +142,7 @@ class GrOverlay extends IronOverlayMixin(GestureEventListeners(
   }
 }
 
-customElements.define(GrOverlay.is, GrOverlay);
+export interface GrOverlayStops {
+  start: Node;
+  end: Node;
+}

@@ -14,9 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
-export function GrPluginActionContext(plugin, action, change, revision) {
+import { GrPluginRestApi } from "./gr-plugin-rest-api";
+
+
+export function GrPluginActionContext(plugin: GrPluginRestApi, action, change, revision) {
   this.action = action;
   this.plugin = plugin;
   this.change = change;
@@ -24,81 +26,83 @@ export function GrPluginActionContext(plugin, action, change, revision) {
   this._popups = [];
 }
 
-GrPluginActionContext.prototype.popup = function(element) {
+GrPluginActionContext.prototype.popup = function (element) {
   this._popups.push(this.plugin.deprecated.popup(element));
 };
 
-GrPluginActionContext.prototype.hide = function() {
+GrPluginActionContext.prototype.hide = function () {
   for (const popupApi of this._popups) {
     popupApi.close();
   }
   this._popups.splice(0);
 };
 
-GrPluginActionContext.prototype.refresh = function() {
+GrPluginActionContext.prototype.refresh = function () {
   window.location.reload();
 };
 
-GrPluginActionContext.prototype.textfield = function() {
+GrPluginActionContext.prototype.textfield = function () {
   return document.createElement('paper-input');
 };
 
-GrPluginActionContext.prototype.br = function() {
+GrPluginActionContext.prototype.br = function () {
   return document.createElement('br');
 };
 
-GrPluginActionContext.prototype.msg = function(text) {
+GrPluginActionContext.prototype.msg = function (text: string) {
   const label = document.createElement('gr-label');
-  dom(label).appendChild(document.createTextNode(text));
+  label.appendChild(document.createTextNode(text));
   return label;
 };
 
-GrPluginActionContext.prototype.div = function(...els) {
+GrPluginActionContext.prototype.div = function (...els) {
   const div = document.createElement('div');
   for (const el of els) {
-    dom(div).appendChild(el);
+    div.appendChild(el);
   }
   return div;
 };
 
-GrPluginActionContext.prototype.button = function(label, callbacks) {
+GrPluginActionContext.prototype.button = function (label: string, callbacks) {
   const onClick = callbacks && callbacks.onclick;
   const button = document.createElement('gr-button');
-  dom(button).appendChild(document.createTextNode(label));
+  button.appendChild(document.createTextNode(label));
   if (onClick) {
     this.plugin.eventHelper(button).onTap(onClick);
   }
   return button;
 };
 
-GrPluginActionContext.prototype.checkbox = function() {
+GrPluginActionContext.prototype.checkbox = function () {
   const checkbox = document.createElement('input');
   checkbox.type = 'checkbox';
   return checkbox;
 };
 
-GrPluginActionContext.prototype.label = function(checkbox, title) {
+GrPluginActionContext.prototype.label = function (checkbox, title: string) {
   return this.div(checkbox, this.msg(title));
 };
 
-GrPluginActionContext.prototype.prependLabel = function(title, checkbox) {
+GrPluginActionContext.prototype.prependLabel = function (title: string, checkbox) {
   return this.label(checkbox, title);
 };
 
-GrPluginActionContext.prototype.call = function(payload, onSuccess) {
+GrPluginActionContext.prototype.call = function (payload: unknown, onSuccess) {
   if (!this.action.__url) {
     console.warn(`Unable to ${this.action.method} to ${this.action.__key}!`);
     return;
   }
-  this.plugin.restApi()
-      .send(this.action.method, this.action.__url, payload)
-      .then(onSuccess)
-      .catch(error => {
-        document.dispatchEvent(new CustomEvent('show-alert', {
+  this.plugin
+    .restApi()
+    .send(this.action.method, this.action.__url, payload)
+    .then(onSuccess)
+    .catch(error => {
+      document.dispatchEvent(
+        new CustomEvent('show-alert', {
           detail: {
             message: `Plugin network error: ${error}`,
           },
-        }));
-      });
+        })
+      );
+    });
 };
-

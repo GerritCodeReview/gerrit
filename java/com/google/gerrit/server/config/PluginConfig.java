@@ -61,6 +61,13 @@ public abstract class PluginConfig {
         pluginName, copyConfig(cfg), Optional.ofNullable(projectConfig), groupReferences.build());
   }
 
+  public static PluginConfig createFromGerritConfig(String pluginName, Config cfg) {
+    // There is no need to make a defensive copy here because this value won't be cached.
+    // gerrit.config uses baseConfig's (a member of Config) which would also make defensive copies
+    // fail.
+    return new AutoValue_PluginConfig(pluginName, cfg, Optional.empty(), ImmutableMap.of());
+  }
+
   PluginConfig withInheritance(ProjectState.Factory projectStateFactory) {
     checkState(projectConfig().isPresent(), "no project config provided");
 

@@ -19,6 +19,7 @@ export {};
 declare global {
   interface Window {
     CANONICAL_PATH?: string;
+    INITIAL_DATA?: {[key: string]: string};
     ShadyCSS?: {
       getComputedStyleValue(el: Element, name: string): string;
     };

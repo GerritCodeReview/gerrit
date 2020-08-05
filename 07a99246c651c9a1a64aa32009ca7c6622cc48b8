@@ -22,6 +22,30 @@
       "revId": "07a99246c651c9a1a64aa32009ca7c6622cc48b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53778c0a_ee35af07",
+        "filename": "javatests/com/google/gerrit/server/edit/tree/TreeCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done. The IDE setting seems to have changed since the last time I added a new file. Fortunately, I could switch it to line comments now. All of the other new files I added in this whole chain will be affected as well. I\u0027ll adjust them.",
+      "parentUuid": "d0c897a9_c39a62a1",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "07a99246c651c9a1a64aa32009ca7c6622cc48b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

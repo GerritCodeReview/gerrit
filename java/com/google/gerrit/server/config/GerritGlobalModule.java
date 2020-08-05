@@ -433,6 +433,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), DynamicOptions.DynamicBean.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeOperatorFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
+    DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeIsOperandFactory.class);
     DynamicSet.setOf(binder(), ChangeAttributeFactory.class);
 
     install(new GitwebConfig.LegacyModule(cfg));

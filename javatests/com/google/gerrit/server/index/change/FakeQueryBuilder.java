@@ -44,6 +44,7 @@ public class FakeQueryBuilder extends ChangeQueryBuilder {
             null,
             null,
             null,
+            null,
             indexes,
             null,
             null,

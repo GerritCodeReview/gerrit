@@ -51,7 +51,7 @@ suite('gr-dom-hooks tests', () => {
     });
 
     test('public hook API has only public methods', () => {
-      assert.deepEqual(Object.keys(hook), PUBLIC_METHODS);
+      assert.deepEqual(Object.keys(hook).sort(), PUBLIC_METHODS.sort());
     });
 
     test('registers placeholder class', () => {
@@ -73,7 +73,7 @@ suite('gr-dom-hooks tests', () => {
     });
 
     test('public hook API has only public methods', () => {
-      assert.deepEqual(Object.keys(hook), PUBLIC_METHODS);
+      assert.deepEqual(Object.keys(hook).sort(), PUBLIC_METHODS.sort());
     });
 
     test('getModuleName()', () => {

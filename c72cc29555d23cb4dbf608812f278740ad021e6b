@@ -16,6 +16,24 @@
       "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f4e276b6_97dc5da8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T08:37:49Z",
+      "side": 1,
+      "message": "Sorry, you decided to use enum in js. Didn\u0027t notice it.",
+      "parentUuid": "1c339ba8_326eb886",
+      "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

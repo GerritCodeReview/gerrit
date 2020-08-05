@@ -18,80 +18,81 @@
 // Limit cache size because /change/detail responses may be large.
 const MAX_CACHE_SIZE = 30;
 
-/** @constructor */
-export function GrEtagDecorator() {
-  this._etags = new Map();
-  this._payloadCache = new Map();
+/**
+ * Option to send with etag requests.
+ */
+export interface ETagOption {
+  headers?: Headers;
 }
 
 /**
- * Get or upgrade fetch options to include an ETag in a request.
+ * GrTagDecorator class.
  *
- * @param {string} url The URL being fetched.
- * @param {!Object=} opt_options Optional options object in which to include
- *     the ETag request header. If omitted, the result will be a fresh option
- *     set.
- * @return {!Object}
+ * Defines common methods to help cache and build ETag into a request header.
  */
-GrEtagDecorator.prototype.getOptions = function(url, opt_options) {
-  const etag = this._etags.get(url);
-  if (!etag) {
-    return opt_options;
-  }
-  const options = {...opt_options};
-  options.headers = options.headers || new Headers();
-  options.headers.set('If-None-Match', this._etags.get(url));
-  return options;
-};
+export class GrEtagDecorator {
+  _etags = new Map<string, string | null>();
 
-/**
- * Handle a response to a request with ETag headers, potentially incorporating
- * its result in the payload cache.
- *
- * @param {string} url The URL of the request.
- * @param {!Response} response The response object.
- * @param {string} payload The raw, unparsed JSON contained in the response
- *     body. Note: because response.text() cannot be read twice, this must be
- *     provided separately.
- */
-GrEtagDecorator.prototype.collect = function(url, response, payload) {
-  if (!response ||
-      !response.ok ||
-      response.status !== 200 ||
-      response.status === 304) {
-    // 304 Not Modified means etag is still valid.
-    return;
-  }
-  this._payloadCache.set(url, payload);
-  const etag = response.headers && response.headers.get('etag');
-  if (!etag) {
-    this._etags.delete(url);
-  } else {
-    this._etags.set(url, etag);
-    this._truncateCache();
-  }
-};
+  _payloadCache = new Map<string, string>();
 
-/**
- * Get the cached payload for a given URL.
- *
- * @param {string} url
- * @return {string|undefined} Returns the unparsed JSON payload from the
- *     cache.
- */
-GrEtagDecorator.prototype.getCachedPayload = function(url) {
-  return this._payloadCache.get(url);
-};
-
-/**
- * Limit the cache size to MAX_CACHE_SIZE.
- */
-GrEtagDecorator.prototype._truncateCache = function() {
-  for (const url of this._etags.keys()) {
-    if (this._etags.size <= MAX_CACHE_SIZE) {
-      break;
+  /**
+   * Get or upgrade fetch options to include an ETag in a request.
+   *
+   */
+  getOptions(url: string, options?: ETagOption) {
+    const etag = this._etags.get(url);
+    if (!etag) {
+      return options;
     }
-    this._etags.delete(url);
-    this._payloadCache.delete(url);
+    const optionsCopy: ETagOption = {...options};
+    optionsCopy.headers = optionsCopy.headers || new Headers();
+    optionsCopy.headers.set('If-None-Match', etag);
+    return optionsCopy;
   }
-};
+
+  /**
+   * Handle a response to a request with ETag headers, potentially incorporating
+   * its result in the payload cache.
+   *
+   *
+   * @param url The URL of the request.
+   * @param response The response object.
+   * @param payload The raw, unparsed JSON contained in the response
+   *     body. Note: because response.text() cannot be read twice, this must be
+   *     provided separately.
+   */
+  collect(url: string, response: Response, payload: string) {
+    if (!response || !response.ok || response.status !== 200) {
+      // 304 Not Modified means etag is still valid.
+      return;
+    }
+    this._payloadCache.set(url, payload);
+    const etag = response.headers && response.headers.get('etag');
+    if (!etag) {
+      this._etags.delete(url);
+    } else {
+      this._etags.set(url, etag);
+      this._truncateCache();
+    }
+  }
+
+  /**
+   * Get the cached payload for a given URL.
+   */
+  getCachedPayload(url: string) {
+    return this._payloadCache.get(url);
+  }
+
+  /**
+   * Limit the cache size to MAX_CACHE_SIZE.
+   */
+  _truncateCache() {
+    for (const url of this._etags.keys()) {
+      if (this._etags.size <= MAX_CACHE_SIZE) {
+        break;
+      }
+      this._etags.delete(url);
+      this._payloadCache.delete(url);
+    }
+  }
+}

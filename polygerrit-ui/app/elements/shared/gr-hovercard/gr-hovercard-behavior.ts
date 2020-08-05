@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {Debouncer} from '@polymer/polymer/lib/utils/debounce.js';
-import {timeOut} from '@polymer/polymer/lib/utils/async.js';
-import {getRootElement} from '../../../scripts/rootElement.js';
+import '../../../styles/shared-styles';
+import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {Debouncer} from '@polymer/polymer/lib/utils/debounce';
+import {timeOut} from '@polymer/polymer/lib/utils/async';
+import {getRootElement} from '../../../scripts/rootElement';
+
 
 const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
@@ -54,7 +55,7 @@ const HIDE_DELAY_MS = 300;
  *
  * customElements.define(GrHovercard.is, GrHovercard);
  *
- * @see gr-hovercard.js
+ * @see gr-hovercard.ts
  *
  * // following annotations are required for polylint
  * @polymer
@@ -190,7 +191,7 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    * Hovercard elements are created outside of <gr-app>, so if you want to fire
    * events, then you probably want to do that through the target element.
    */
-  dispatchEventThroughTarget(eventName) {
+  dispatchEventThroughTarget(eventName: string) {
     this._target.dispatchEvent(new CustomEvent(eventName, {
       bubbles: true,
       composed: true,
@@ -223,9 +224,8 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    * `mouseleave` event on the hovercard's `target` element (as long as the
    * user is not hovering over the hovercard).
    *
-   * @param {Event} opt_e DOM Event (e.g. `mouseleave` event)
    */
-  hide(opt_e) {
+  hide(opt_e?: MouseEvent) {
     this.cancelHideDebouncer();
     this.cancelShowDebouncer();
     if (!this._isShowing) {
@@ -269,7 +269,7 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
   /**
    * Shows/opens the hovercard with the given delay.
    */
-  debounceShowBy(delayMs) {
+  debounceShowBy(delayMs: number) {
     this.cancelHideDebouncer();
     if (this._isShowing || this._isScheduledToShow) return;
     this._isScheduledToShow = true;
@@ -352,7 +352,7 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
    * update the position of the tooltip while it is already visible (the
    * target element has moved and the tooltip is still open).
    */
-  updatePositionTo(position) {
+  updatePositionTo(position: string) {
     if (!this._target) { return; }
 
     // Make sure that thisRect will not get any paddings and such included
@@ -419,3 +419,21 @@ export const hovercardBehaviorMixin = superClass => class extends superClass {
     this._target = this.target;
   }
 };
+
+export interface GrHovercardBehaviorInterface {
+  attached(): void;
+  ready(): void;
+  removeListeners(): void;
+  debounceHide() : void;
+  cancelHideDebouncer(): void;
+  dispatchEventThroughTarget(eventName: string): void;
+  hide(opt_e?: MouseEvent): void;
+  debounceShow(): void;
+  debounceShowBy(delayMs: number): void;
+  cancelShowDebouncer(): void;
+  show(): void;
+  updatePosition(): void;
+  _isInsideViewport(): boolean;
+  updatePositionTo(position: string): void;
+  _forChanged(): void;
+}

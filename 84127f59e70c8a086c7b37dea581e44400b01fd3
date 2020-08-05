@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1b31a565_0bb7fa15",
+        "filename": "polygerrit-ui/app/scripts/util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T08:08:20Z",
+      "side": 1,
+      "message": "Maybe try to use generics here:\ninterface CancelablePromise\u003cT\u003e extends Promise\u003cT\u003e",
+      "range": {
+        "startLine": 19,
+        "startChar": 0,
+        "endLine": 19,
+        "endChar": 53
+      },
+      "revId": "84127f59e70c8a086c7b37dea581e44400b01fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1fcafe7_32f036b3",
+        "filename": "polygerrit-ui/app/scripts/util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T08:08:20Z",
+      "side": 1,
+      "message": "Why not exact type?\ncancel(): void;",
+      "range": {
+        "startLine": 20,
+        "startChar": 2,
+        "endLine": 20,
+        "endChar": 18
+      },
+      "revId": "84127f59e70c8a086c7b37dea581e44400b01fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e316e8f_85bdbd14",
+        "filename": "polygerrit-ui/app/scripts/util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T08:08:20Z",
+      "side": 1,
+      "message": "Will it work with generics?\nmakeCancelable\u003cT\u003e(promise: Promise\u003cT\u003e) {",
+      "range": {
+        "startLine": 49,
+        "startChar": 2,
+        "endLine": 49,
+        "endChar": 42
+      },
+      "revId": "84127f59e70c8a086c7b37dea581e44400b01fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50f05d29_3947b2a1",
+        "filename": "polygerrit-ui/app/scripts/util.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T08:08:20Z",
+      "side": 1,
+      "message": "Can you use this type?\n(reason?: any) \u003d\u003e void\n\nTypescript uses this type for reject callback, I think it should work here as well",
+      "range": {
+        "startLine": 53,
+        "startChar": 23,
+        "endLine": 53,
+        "endChar": 31
+      },
+      "revId": "84127f59e70c8a086c7b37dea581e44400b01fd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

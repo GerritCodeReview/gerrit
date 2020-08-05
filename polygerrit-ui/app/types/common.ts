@@ -47,7 +47,6 @@ export type RequirementType = BrandType<string, '_requirementType'>;
 export type TrackingId = BrandType<string, '_trackingId'>;
 export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
 export type RepositoryName = BrandType<string, '_repositoryName'>;
-export type GroupId = BrandType<string, '_groupId'>;
 
 // The URL encoded UUID of the comment
 export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;

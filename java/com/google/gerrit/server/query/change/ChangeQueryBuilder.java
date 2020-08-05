@@ -117,11 +117,13 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
    * <p>bind(ChangeHasOperandFactory.class) .annotatedWith(Exports.named("your has operand"))
    * .to(YourClass.class);
    */
-  private interface ChangeOperandFactory {
+  public interface ChangeOperandFactory {
     Predicate<ChangeData> create(ChangeQueryBuilder builder) throws QueryParseException;
   }
 
   public interface ChangeHasOperandFactory extends ChangeOperandFactory {}
+
+  public interface ChangeIsOperandFactory extends ChangeOperandFactory {}
 
   private static final Pattern PAT_LEGACY_ID = Pattern.compile("^[1-9][0-9]*$");
   private static final Pattern PAT_CHANGE_ID = Pattern.compile(CHANGE_ID_PATTERN);
@@ -218,6 +220,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     final CommentsUtil commentsUtil;
     final ConflictsCache conflictsCache;
     final DynamicMap<ChangeHasOperandFactory> hasOperands;
+    final DynamicMap<ChangeIsOperandFactory> isOperands;
     final DynamicMap<ChangeOperatorFactory> opFactories;
     final GitRepositoryManager repoManager;
     final GroupBackend groupBackend;
@@ -244,6 +247,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
         DynamicMap<ChangeHasOperandFactory> hasOperands,
+        DynamicMap<ChangeIsOperandFactory> isOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         PermissionBackend permissionBackend,
@@ -273,6 +277,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           rewriter,
           opFactories,
           hasOperands,
+          isOperands,
           userFactory,
           self,
           permissionBackend,
@@ -304,6 +309,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
         ChangeIndexRewriter rewriter,
         DynamicMap<ChangeOperatorFactory> opFactories,
         DynamicMap<ChangeHasOperandFactory> hasOperands,
+        DynamicMap<ChangeIsOperandFactory> isOperands,
         IdentifiedUser.GenericFactory userFactory,
         Provider<CurrentUser> self,
         PermissionBackend permissionBackend,
@@ -351,6 +357,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       this.starredChangesUtil = starredChangesUtil;
       this.accountCache = accountCache;
       this.hasOperands = hasOperands;
+      this.isOperands = isOperands;
       this.groupMembers = groupMembers;
       this.changeIsVisbleToPredicateFactory = changeIsVisbleToPredicateFactory;
       this.operatorAliasConfig = operatorAliasConfig;
@@ -364,6 +371,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
           rewriter,
           opFactories,
           hasOperands,
+          isOperands,
           userFactory,
           Providers.of(otherUser),
           permissionBackend,
@@ -643,6 +651,14 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException("'is:wip' operator is not supported by change index version");
     }
 
+    // for plugins the value will be operandName_pluginName
+    List<String> names = Lists.newArrayList(Splitter.on('_').split(value));
+    if (names.size() == 2) {
+      ChangeIsOperandFactory op = args.isOperands.get(names.get(1), names.get(0));
+      if (op != null) {
+        return op.create(this);
+      }
+    }
     return status(value);
   }
 

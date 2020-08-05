@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f3a91c16_10c93b0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T11:28:14Z",
+      "side": 1,
+      "message": "I have run both eslintfix and test locally, this ps should not fail again lol",
+      "revId": "cb682aa192f187d52758c6b7db771a862d0cad62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -14,13 +14,12 @@
 
 package com.google.gerrit.server.edit.tree;
 
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.treewalk.TreeWalk;
 
@@ -36,19 +35,23 @@ public class RenameFileModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit)
+  public List<DirCacheEditor.PathEdit> getPathEdits(
+      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
       throws IOException {
+    if (ObjectId.zeroId().equals(treeId)) {
+      return ImmutableList.of();
+    }
+
     try (RevWalk revWalk = new RevWalk(repository)) {
-      revWalk.parseHeaders(baseCommit);
       try (TreeWalk treeWalk =
-          TreeWalk.forPath(revWalk.getObjectReader(), currentFilePath, baseCommit.getTree())) {
+          TreeWalk.forPath(revWalk.getObjectReader(), currentFilePath, treeId)) {
         if (treeWalk == null) {
-          return Collections.emptyList();
+          return ImmutableList.of();
         }
         DirCacheEditor.DeletePath deletePathEdit = new DirCacheEditor.DeletePath(currentFilePath);
         AddPath addPathEdit =
             new AddPath(newFilePath, treeWalk.getFileMode(0), treeWalk.getObjectId(0));
-        return Arrays.asList(deletePathEdit, addPathEdit);
+        return ImmutableList.of(deletePathEdit, addPathEdit);
       }
     }
   }

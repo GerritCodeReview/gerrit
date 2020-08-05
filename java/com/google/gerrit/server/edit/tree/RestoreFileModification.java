@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.edit.tree;
 
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -36,16 +38,16 @@ public class RestoreFileModification implements TreeModification {
   }
 
   @Override
-  public List<DirCacheEditor.PathEdit> getPathEdits(Repository repository, RevCommit baseCommit)
+  public List<DirCacheEditor.PathEdit> getPathEdits(
+      Repository repository, ObjectId treeId, ImmutableList<? extends ObjectId> parents)
       throws IOException {
-    if (baseCommit.getParentCount() == 0) {
+    if (parents.isEmpty()) {
       DirCacheEditor.DeletePath deletePath = new DirCacheEditor.DeletePath(filePath);
       return Collections.singletonList(deletePath);
     }
 
-    RevCommit base = baseCommit.getParent(0);
     try (RevWalk revWalk = new RevWalk(repository)) {
-      revWalk.parseHeaders(base);
+      RevCommit base = revWalk.parseCommit(parents.get(0));
       try (TreeWalk treeWalk =
           TreeWalk.forPath(revWalk.getObjectReader(), filePath, base.getTree())) {
         if (treeWalk == null) {

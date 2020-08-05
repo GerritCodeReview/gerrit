@@ -498,7 +498,7 @@ public class ChangeEditModifier {
       throws BadRequestException, IOException, InvalidChangeOperationException {
     ObjectId newTreeId;
     try {
-      TreeCreator treeCreator = new TreeCreator(baseCommit);
+      TreeCreator treeCreator = TreeCreator.basedOn(baseCommit);
       treeCreator.addTreeModifications(treeModifications);
       newTreeId = treeCreator.createNewTreeAndGetId(repository);
     } catch (InvalidPathException e) {

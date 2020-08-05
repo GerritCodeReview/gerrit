@@ -16,6 +16,7 @@ package com.google.gerrit.server.edit.tree;
 
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableList;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -31,15 +32,26 @@ import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
  * A creator for a new Git tree. To create the new tree, the tree of another commit is taken as a
- * basis and modified.
+ * basis and modified. Alternatively, an empty tree can serve as base.
  */
 public class TreeCreator {
 
-  private final RevCommit baseCommit;
+  private final ObjectId baseTreeId;
+  private final ImmutableList<? extends ObjectId> baseParents;
   private final List<TreeModification> treeModifications = new ArrayList<>();
 
-  public TreeCreator(RevCommit baseCommit) {
-    this.baseCommit = requireNonNull(baseCommit, "baseCommit is required");
+  public static TreeCreator basedOn(RevCommit baseCommit) {
+    requireNonNull(baseCommit, "baseCommit is required");
+    return new TreeCreator(baseCommit.getTree(), ImmutableList.copyOf(baseCommit.getParents()));
+  }
+
+  public static TreeCreator basedOnEmptyTree() {
+    return new TreeCreator(ObjectId.zeroId(), ImmutableList.of());
+  }
+
+  private TreeCreator(ObjectId baseTreeId, ImmutableList<? extends ObjectId> baseParents) {
+    this.baseTreeId = requireNonNull(baseTreeId, "baseTree is required");
+    this.baseParents = baseParents;
   }
 
   /**
@@ -78,8 +90,9 @@ public class TreeCreator {
     try (ObjectReader objectReader = repository.newObjectReader()) {
       DirCache dirCache = DirCache.newInCore();
       DirCacheBuilder dirCacheBuilder = dirCache.builder();
-      dirCacheBuilder.addTree(
-          new byte[0], DirCacheEntry.STAGE_0, objectReader, baseCommit.getTree());
+      if (!ObjectId.zeroId().equals(baseTreeId)) {
+        dirCacheBuilder.addTree(new byte[0], DirCacheEntry.STAGE_0, objectReader, baseTreeId);
+      }
       dirCacheBuilder.finish();
       return dirCache;
     }
@@ -88,7 +101,8 @@ public class TreeCreator {
   private List<DirCacheEditor.PathEdit> getPathEdits(Repository repository) throws IOException {
     List<DirCacheEditor.PathEdit> pathEdits = new ArrayList<>();
     for (TreeModification treeModification : treeModifications) {
-      pathEdits.addAll(treeModification.getPathEdits(repository, baseCommit));
+      pathEdits.addAll(
+          treeModification.getPathEdits(repository, baseTreeId, ImmutableList.copyOf(baseParents)));
     }
     return pathEdits;
   }

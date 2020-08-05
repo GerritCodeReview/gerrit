@@ -16,6 +16,63 @@
       "revId": "5a624e305352ae9cd441ad8d94d8cc9c5cc2d137",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ed60f866_e951ec1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-05T16:31:13Z",
+      "side": 1,
+      "message": "Thanks again @Hamza.",
+      "revId": "5a624e305352ae9cd441ad8d94d8cc9c5cc2d137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1fb4ee01_88c3c261",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-05T16:31:13Z",
+      "side": 1,
+      "message": "I\u0027d prefer that we preserve the original text for the IntelliJ case. Otherwise that gets closer to an unrelated change part. We can then simply insert an Eclipse subsection, as already done below. If still willing to propose an amend for the IntelliJ text, that should rather be a follow-up change to review separately.",
+      "range": {
+        "startLine": 32,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 37
+      },
+      "revId": "5a624e305352ae9cd441ad8d94d8cc9c5cc2d137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8e0edf9_426c45fc",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-05T16:31:13Z",
+      "side": 1,
+      "message": "If applying the comment above, then this new section would need a similar, related, brief introduction first. The latter may lead to changing some of the text below.",
+      "revId": "5a624e305352ae9cd441ad8d94d8cc9c5cc2d137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

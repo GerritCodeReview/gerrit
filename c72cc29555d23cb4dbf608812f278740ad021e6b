@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c339ba8_326eb886",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T08:26:37Z",
+      "side": 1,
+      "message": "Only 3 files has .ts extension, all other files have .js extension.\nI will review files anyway, but we can\u0027t submit it.",
+      "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

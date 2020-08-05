@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cfac1739_770c52d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T09:45:52Z",
+      "side": 1,
+      "message": "override Verified as failure expected for this renaming change",
+      "revId": "088fe3dac032c652e1ede44bd32587ffbaaaec6a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

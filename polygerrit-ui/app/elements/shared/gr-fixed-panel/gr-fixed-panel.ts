@@ -22,11 +22,15 @@ import {htmlTemplate} from './gr-fixed-panel_html.js';
 
 /** @extends PolymerElement */
 class GrFixedPanel extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-fixed-panel'; }
+  static get is() {
+    return 'gr-fixed-panel';
+  }
 
   static get properties() {
     return {
@@ -87,15 +91,14 @@ class GrFixedPanel extends GestureEventListeners(
   }
 
   _updateFloatingHeight(floatingDisabled, isMeasured, headerHeight) {
-    if ([
-      floatingDisabled,
-      isMeasured,
-      headerHeight,
-    ].some(arg => arg === undefined)) {
+    if (
+      [floatingDisabled, isMeasured, headerHeight].some(
+        arg => arg === undefined
+      )
+    ) {
       return;
     }
-    this.floatingHeight =
-        (!floatingDisabled && isMeasured) ? headerHeight : 0;
+    this.floatingHeight = !floatingDisabled && isMeasured ? headerHeight : 0;
   }
 
   /** @override */
@@ -148,9 +151,13 @@ class GrFixedPanel extends GestureEventListeners(
   }
 
   update() {
-    this.debounce('update', () => {
-      this._updateDebounced();
-    }, 100);
+    this.debounce(
+      'update',
+      () => {
+        this._updateDebounced();
+      },
+      100
+    );
   }
 
   _updateOnScroll() {
@@ -219,8 +226,9 @@ class GrFixedPanel extends GestureEventListeners(
   }
 
   _isFloatingNeeded() {
-    return this.keepOnScroll ||
-      document.body.scrollWidth > document.body.clientWidth;
+    return (
+      this.keepOnScroll || document.body.scrollWidth > document.body.clientWidth
+    );
   }
 
   _maybeFloatHeader() {

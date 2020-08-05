@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b7de4131_7630aa1e",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4548,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-05T22:29:55Z",
+      "side": 1,
+      "message": "How the shutdown is made graceful, after the waiting for all incoming connections to be ended? I believe that the timeout is the maximum time that we keep the shutdown graceful and, after the timeout, the shutdown is forced (not graceful).",
+      "range": {
+        "startLine": 4548,
+        "startChar": 4,
+        "endLine": 4548,
+        "endChar": 12
+      },
+      "revId": "0b0a19137fb7ac7dfd3222a5261f3a0d4bcfbcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249809aa_5b5eaa44",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4550,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-05T22:29:55Z",
+      "side": 1,
+      "message": "restarts.",
+      "range": {
+        "startLine": 4550,
+        "startChar": 8,
+        "endLine": 4550,
+        "endChar": 15
+      },
+      "revId": "0b0a19137fb7ac7dfd3222a5261f3a0d4bcfbcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdda8e29_0f9a88d5",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-05T22:29:55Z",
+      "side": 1,
+      "message": "ioSessions can change, between L367 and L368, correct?",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 368,
+        "endChar": 37
+      },
+      "revId": "0b0a19137fb7ac7dfd3222a5261f3a0d4bcfbcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

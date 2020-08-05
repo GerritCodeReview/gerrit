@@ -14,71 +14,77 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-fixed-panel_html.js';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-fixed-panel_html';
+import {customElement, property, observe} from '@polymer/decorators';
+
+export interface GrFixedPanel {
+  $: {
+    header: Element;
+  };
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-fixed-panel': GrFixedPanel;
+  }
+}
+
+@customElement('gr-fixed-panel')
 
 /** @extends PolymerElement */
-class GrFixedPanel extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-fixed-panel'; }
-
-  static get properties() {
-    return {
-      floatingDisabled: {
-        type: Boolean,
-        value: false,
-      },
-      readyForMeasure: {
-        type: Boolean,
-        observer: '_readyForMeasureObserver',
-      },
-      keepOnScroll: {
-        type: Boolean,
-        value: false,
-      },
-      _isMeasured: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * Initial offset from the top of the document, in pixels.
-       */
-      _topInitial: Number,
-
-      /**
-       * Current offset from the top of the window, in pixels.
-       */
-      _topLast: Number,
-
-      _headerHeight: Number,
-      _headerFloating: {
-        type: Boolean,
-        value: false,
-      },
-      _observer: {
-        type: Object,
-        value: null,
-      },
-      /**
-       * If place before any other content defines how much
-       * of the content below it is covered by this panel
-       */
-      floatingHeight: {
-        type: Number,
-        value: 0,
-        notify: true,
-      },
-
-      _webComponentsReady: Boolean,
-    };
+export class GrFixedPanel extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Boolean})
+  floatingDisabled = false;
+
+  @property({type: Boolean})
+  readyForMeasure = false;
+
+  @property({type: Boolean})
+  keepOnScroll = false;
+
+  @property({type: Boolean})
+  _isMeasured = false;
+
+  /**
+   * Initial offset from the top of the document, in pixels.
+   */
+  @property({type: Number})
+  _topInitial: number | null = null;
+
+  /**
+   * Current offset from the top of the window, in pixels.
+   */
+  @property({type: Number})
+  _topLast: number | null = null;
+
+  @property({type: Number})
+  _headerHeight: number | null = null;
+
+  @property({type: Boolean})
+  _headerFloating = false;
+
+  @property({type: Object})
+  _observer: any = null;
+
+  /**
+   * If place before any other content defines how much
+   * of the content below it is covered by this panel
+   */
+  @property({type: Number, notify: true})
+  floatingHeight = 0;
+
+  @property({type: Boolean})
+  _webComponentsReady = false;
 
   static get observers() {
     return [
@@ -86,16 +92,15 @@ class GrFixedPanel extends GestureEventListeners(
     ];
   }
 
-  _updateFloatingHeight(floatingDisabled, isMeasured, headerHeight) {
-    if ([
-      floatingDisabled,
-      isMeasured,
-      headerHeight,
-    ].some(arg => arg === undefined)) {
+  _updateFloatingHeight(floatingDisabled: boolean, isMeasured: boolean, headerHeight: number) {
+    if (
+      [floatingDisabled, isMeasured, headerHeight].some(
+        arg => arg === undefined
+      )
+    ) {
       return;
     }
-    this.floatingHeight =
-        (!floatingDisabled && isMeasured) ? headerHeight : 0;
+    this.floatingHeight = !floatingDisabled && isMeasured ? headerHeight : 0;
   }
 
   /** @override */
@@ -124,7 +129,8 @@ class GrFixedPanel extends GestureEventListeners(
     }
   }
 
-  _readyForMeasureObserver(readyForMeasure) {
+  @observe('readyForMeasure')
+  _readyForMeasureObserver(readyForMeasure: boolean) {
     if (readyForMeasure) {
       this.update();
     }
@@ -148,9 +154,13 @@ class GrFixedPanel extends GestureEventListeners(
   }
 
   update() {
-    this.debounce('update', () => {
-      this._updateDebounced();
-    }, 100);
+    this.debounce(
+      'update',
+      () => {
+        this._updateDebounced();
+      },
+      100
+    );
   }
 
   _updateOnScroll() {
@@ -219,8 +229,9 @@ class GrFixedPanel extends GestureEventListeners(
   }
 
   _isFloatingNeeded() {
-    return this.keepOnScroll ||
-      document.body.scrollWidth > document.body.clientWidth;
+    return (
+      this.keepOnScroll || document.body.scrollWidth > document.body.clientWidth
+    );
   }
 
   _maybeFloatHeader() {

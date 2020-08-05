@@ -56,7 +56,6 @@ import com.google.inject.TypeLiteral;
 import com.google.inject.name.Named;
 import java.io.IOException;
 import java.time.Duration;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.concurrent.ExecutionException;
@@ -224,9 +223,7 @@ public class ProjectCacheImpl implements ProjectCache {
   @Override
   public Set<AccountGroup.UUID> guessRelevantGroupUUIDs() {
     try (Timer0.Context ignored = guessRelevantGroupsLatency.start()) {
-      return all().stream()
-          .map(n -> byName.getIfPresent(n))
-          .filter(Objects::nonNull)
+      return byName.asMap().values().stream()
           .flatMap(p -> p.getConfig().getAllGroupUUIDs().stream())
           // getAllGroupUUIDs shouldn't really return null UUIDs, but harden
           // against them just in case there is a bug or corner case.

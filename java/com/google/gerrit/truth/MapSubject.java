@@ -17,6 +17,7 @@ package com.google.gerrit.truth;
 import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IntegerSubject;
 import com.google.common.truth.IterableSubject;
 import com.google.common.truth.Subject;
 import java.util.Map;
@@ -50,5 +51,10 @@ public class MapSubject extends com.google.common.truth.MapSubject {
   public IterableSubject values() {
     isNotNull();
     return check("values()").that(map.values());
+  }
+
+  public IntegerSubject size() {
+    isNotNull();
+    return check("size()").that(map.size());
   }
 }

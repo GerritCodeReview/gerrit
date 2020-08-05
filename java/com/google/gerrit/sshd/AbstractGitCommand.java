@@ -85,6 +85,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   private void service() throws IOException, PermissionBackendException, Failure {
+    registerGracefulShutdown();
     project = projectState.getProject();
     projectName = project.getNameKey();
 
@@ -98,6 +99,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
       runImpl();
     } finally {
       repo.close();
+      deregisterGracefulShutdown();
     }
   }
 

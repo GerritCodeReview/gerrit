@@ -19,6 +19,7 @@ import com.google.gerrit.server.CurrentUser;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.apache.sshd.common.AttributeStore.AttributeKey;
 
 /** Global data related to an active SSH connection. */
@@ -35,10 +36,14 @@ public class SshSession {
   private volatile String authError;
   private volatile String peerAgent;
 
+  private volatile AtomicInteger gracefulShutdownThreadCount;
+
   SshSession(int sessionId, SocketAddress peer) {
     this.sessionId = sessionId;
     this.remoteAddress = peer;
     this.remoteAsString = format(remoteAddress);
+
+    this.gracefulShutdownThreadCount = new AtomicInteger(0);
   }
 
   SshSession(SshSession parent, SocketAddress peer, CurrentUser user) {
@@ -56,6 +61,18 @@ public class SshSession {
   /** Unique session number, assigned during connect. */
   public int getSessionId() {
     return sessionId;
+  }
+
+  public boolean requiresGracefulShutdown() {
+    return gracefulShutdownThreadCount.get() > 0;
+  }
+
+  public void registerGracefulShutdown() {
+    gracefulShutdownThreadCount.getAndIncrement();
+  }
+
+  public void deregisterGracefulShutdown() {
+    gracefulShutdownThreadCount.getAndDecrement();
   }
 
   /** Identity of the authenticated user account on the socket. */

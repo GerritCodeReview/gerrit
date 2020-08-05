@@ -401,6 +401,14 @@ public abstract class BaseCommand implements Command {
     }
   }
 
+  protected void registerGracefulShutdown() {
+    context.getSession().registerGracefulShutdown();
+  }
+
+  protected void deregisterGracefulShutdown() {
+    context.getSession().deregisterGracefulShutdown();
+  }
+
   protected String getTaskDescription() {
     String[] ta = getTrimmedArguments();
     if (ta != null) {

@@ -22,6 +22,30 @@
       "revId": "232a30bfab49383f6be904b2973b4f7f1e8a02d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cc0d94e_b5374629",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestPatchset.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T13:06:36Z",
+      "side": 1,
+      "message": "Likely yes, but not necessarily in this change. From the commit message I understand that it is intentionally only adding the most basic properties for now and the focus on establishing the framework first.",
+      "parentUuid": "4c5ce319_b224ff9f",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "232a30bfab49383f6be904b2973b4f7f1e8a02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

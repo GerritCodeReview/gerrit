@@ -46,6 +46,30 @@
       "revId": "232a30bfab49383f6be904b2973b4f7f1e8a02d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e86b68c2_565a7668",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestPatchset.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T13:29:08Z",
+      "side": 1,
+      "message": "What Edwin wrote is exactly my thinking. :-)\n\nWe can add additional properties as soon as we need them. With the framework in place, it shouldn\u0027t be that much effort anymore.\n\nI\u0027m currently just adding the basic frame and the properties/functionalities which I\u0027ll need for other tests. That\u0027s still enough ground to cover (e.g. creating merge commits as change is not supported yet) because of which I don\u0027t have enough time to look into each and every possible attribute.",
+      "parentUuid": "5cc0d94e_b5374629",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 34
+      },
+      "revId": "232a30bfab49383f6be904b2973b4f7f1e8a02d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

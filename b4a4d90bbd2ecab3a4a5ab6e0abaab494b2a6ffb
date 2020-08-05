@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "988f0cf9_462eabdc",
+        "filename": "java/com/google/gerrit/extensions/common/testing/CommentInfoSubject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T14:40:20Z",
+      "side": 1,
+      "message": "just \"commentInfos\"?",
+      "range": {
+        "startLine": 34,
+        "startChar": 24,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "b4a4d90bbd2ecab3a4a5ab6e0abaab494b2a6ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

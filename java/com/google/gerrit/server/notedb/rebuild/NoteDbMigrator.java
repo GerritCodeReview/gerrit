@@ -87,6 +87,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -114,6 +115,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.TextProgressMonitor;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.storage.pack.PackConfig;
 import org.eclipse.jgit.transport.ReceiveCommand;
 import org.eclipse.jgit.util.FS;
 
@@ -126,6 +128,7 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private static final int PROJECT_SLICE_MAX_REFS = 1000;
   private static final int PACKREFS_INTERVAL = 1000;
+  private static final int GC_INTERVAL = 10000;
 
   public static boolean getAutoMigrate(Config cfg) {
     return cfg.getBoolean(SECTION_NOTE_DB, NoteDbTable.CHANGES.key(), AUTO_MIGRATE, false);
@@ -1054,8 +1057,10 @@ public class NoteDbMigrator implements AutoCloseable {
                 c, totalChangeCount, (100.0 * c) / totalChangeCount);
           }
 
-          if (pc % PACKREFS_INTERVAL == 0) {
-            packRefs(project, changeRepo, ctx.gcLock);
+          if (pc % GC_INTERVAL == 0) {
+            gc(project, changeRepo, ctx.gcLock, true);
+          } else if (pc % PACKREFS_INTERVAL == 0) {
+            gc(project, changeRepo, ctx.gcLock, false);
           }
           pm.update(1);
         }
@@ -1094,18 +1099,33 @@ public class NoteDbMigrator implements AutoCloseable {
     return ok;
   }
 
-  private void packRefs(Project.NameKey project, Repository repo, ReentrantLock gcLock) {
+  private void gc(Project.NameKey project, Repository repo, ReentrantLock gcLock, boolean fullGC) {
     if (repo instanceof FileRepository && gcLock.tryLock()) {
       try {
         FileRepository r = (FileRepository) repo;
         GC gc = new GC(r);
-        logger.atInfo().log("Packing refs of project %s", project);
-        gc.packRefs();
-      } catch (IOException e) {
-        logger.atSevere().withCause(e).log("Packing refs of project %s failed", project);
+        if (fullGC) {
+          // TODO(ms): Enable bitmap index when this JGit performance issue is fixed:
+          // https://bugs.eclipse.org/bugs/show_bug.cgi?id=562740
+          logger.atInfo().log("Running GC on project %s", project);
+          PackConfig pconfig = new PackConfig(repo);
+          pconfig.setBuildBitmaps(false);
+          // let auto gc decide when gc needs to really do something
+          gc.setAuto(true);
+          gc.setPackConfig(pconfig);
+          gc.gc();
+          logger.atInfo().log("Finished GC on project %s", project);
+        } else {
+          logger.atInfo().log("Packing refs of project %s", project);
+          gc.packRefs();
+          logger.atInfo().log("Finished packing refs of project %s", project);
+        }
+      } catch (IOException | ParseException e) {
+        logger.atSevere().withCause(e).log(
+            fullGC ? "GC" : "Packing refs" + " of project %s failed", project);
       } finally {
         gcLock.unlock();
-        logger.atInfo().log("Finished packing refs of project %s", project);
+        logger.atFine().log("Released gc lock for project %s", project);
       }
     }
   }

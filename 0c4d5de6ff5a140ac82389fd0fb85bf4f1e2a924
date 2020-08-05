@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "27486390_9714dfb2",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done for all affected files.",
+      "parentUuid": "dca57363_6381967d",
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6adef360_c4d23109",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
         "patchSetId": 1
@@ -56,6 +74,30 @@
       "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a32116ee_e7ba7f72",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6adef360_c4d23109",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 13
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -82,6 +124,30 @@
     },
     {
       "key": {
+        "uuid": "0b74ede6_51f5619d",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d6470365_635d7a1e",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "994703c9_9c772034",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
         "patchSetId": 1
@@ -102,6 +168,30 @@
       "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba68fd86_dc9d35e3",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "994703c9_9c772034",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +218,30 @@
     },
     {
       "key": {
+        "uuid": "3b92086b_c729eb67",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62878440_e5cfe3be",
+      "range": {
+        "startLine": 170,
+        "startChar": 17,
+        "endLine": 170,
+        "endChar": 19
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f5cc53d_2d7e0736",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
         "patchSetId": 1
@@ -151,6 +265,30 @@
     },
     {
       "key": {
+        "uuid": "31a851c5_65418932",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f5cc53d_2d7e0736",
+      "range": {
+        "startLine": 182,
+        "startChar": 18,
+        "endLine": 182,
+        "endChar": 24
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f2ed1537_4507a836",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
         "patchSetId": 1
@@ -171,6 +309,30 @@
       "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5e13b2f_708512a6",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T08:01:23Z",
+      "side": 1,
+      "message": "True. I added additional lines to also remove those permissions from All-Projects.\n\nBy default, the test API of projects creates a new project just as child of All-Projects. I know that tests should be more explicit but unfortunately the test API of projects doesn\u0027t allow to explicitly express that a project should only inherit from All-Projects. I could add that but I\u0027m already covering many extra miles in this whole series that I now would like to focus on my actual goal which is writing tests and code for porting comments. ;-)",
+      "parentUuid": "f2ed1537_4507a836",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 77
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

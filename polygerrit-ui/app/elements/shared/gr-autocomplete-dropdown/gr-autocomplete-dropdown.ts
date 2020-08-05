@@ -28,11 +28,18 @@ import {IronFitMixin} from '../../../mixins/iron-fit-mixin/iron-fit-mixin.js';
 /**
  * @extends PolymerElement
  */
-class GrAutocompleteDropdown extends IronFitMixin(KeyboardShortcutMixin(
-    GestureEventListeners(LegacyElementMixin(PolymerElement)))) {
-  static get template() { return htmlTemplate; }
+class GrAutocompleteDropdown extends IronFitMixin(
+  KeyboardShortcutMixin(
+    GestureEventListeners(LegacyElementMixin(PolymerElement))
+  )
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-autocomplete-dropdown'; }
+  static get is() {
+    return 'gr-autocomplete-dropdown';
+  }
   /**
    * Fired when the dropdown is closed.
    *
@@ -126,25 +133,31 @@ class GrAutocompleteDropdown extends IronFitMixin(KeyboardShortcutMixin(
   _handleTab(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('item-selected', {
-      detail: {
-        trigger: 'tab',
-        selected: this.$.cursor.target,
-      },
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('item-selected', {
+        detail: {
+          trigger: 'tab',
+          selected: this.$.cursor.target,
+        },
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _handleEnter(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('item-selected', {
-      detail: {
-        trigger: 'enter',
-        selected: this.$.cursor.target,
-      },
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('item-selected', {
+        detail: {
+          trigger: 'enter',
+          selected: this.$.cursor.target,
+        },
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _handleEscape() {
@@ -157,22 +170,30 @@ class GrAutocompleteDropdown extends IronFitMixin(KeyboardShortcutMixin(
     e.stopPropagation();
     let selected = e.target;
     while (!selected.classList.contains('autocompleteOption')) {
-      if (!selected || selected === this) { return; }
+      if (!selected || selected === this) {
+        return;
+      }
       selected = selected.parentElement;
     }
-    this.dispatchEvent(new CustomEvent('item-selected', {
-      detail: {
-        trigger: 'click',
-        selected,
-      },
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('item-selected', {
+        detail: {
+          trigger: 'click',
+          selected,
+        },
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _fireClose() {
-    this.dispatchEvent(new CustomEvent('dropdown-closed', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('dropdown-closed', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   getCursorTarget() {
@@ -184,7 +205,8 @@ class GrAutocompleteDropdown extends IronFitMixin(KeyboardShortcutMixin(
       if (!this.isHidden) {
         flush();
         this._suggestionEls = Array.from(
-            this.$.suggestions.querySelectorAll('li'));
+          this.$.suggestions.querySelectorAll('li')
+        );
         this._resetCursorIndex();
       }
     } else {

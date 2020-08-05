@@ -22,6 +22,9 @@ declare global {
     ShadyCSS?: {
       getComputedStyleValue(el: Element, name: string): string;
     };
+    ShadyDOM?: {
+      inUse?: boolean;
+    };
     HTMLImports?: {whenReady: (cb: () => void) => void};
     linkify(
       text: string,

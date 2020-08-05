@@ -34,6 +34,52 @@
       "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7ad8c55d_13ca69be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-line.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T09:34:52Z",
+      "side": 1,
+      "message": "I think, at this stage it is not necessary to replace GrDiffLine.Type, GrDiffLine.File everywhere.\nYou already did it and that\u0027s great. If in the future you don\u0027t want to make such big updates, you can instead use static properties:\n\nThere is a way to do it - it is possible to define a static properties on a class:\nexport class GrDiffLine {\n   // TODO(TS): remove this properties\n   static readonly Type \u003d GrDiffLineType;\n   static readonly File \u003d FILE;\n   static readonly BLANK_LINE \u003d new GrDiffLine(...)\n}\n\nP.S. If plugins use GrDiffLine.Type, etc... - you can still add these static properties to avoid changes in plugins.",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 23
+      },
+      "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2445438f_da41a10e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-line.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T09:34:52Z",
+      "side": 1,
+      "message": "I suppose you already checked it, but just to be sure - Are there plugins which use GrDiffLine.Type, etc..?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

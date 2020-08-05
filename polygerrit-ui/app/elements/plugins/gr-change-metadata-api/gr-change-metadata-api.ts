@@ -16,20 +16,33 @@
  */
 
 /** @constructor */
-export function GrChangeMetadataApi(plugin) {
-  this._hook = null;
-  this.plugin = plugin;
-}
+export class GrChangeMetadataApi {
+  // TODO(TS): Convert to GrDomHook once converted
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  private _hook: any;
 
-GrChangeMetadataApi.prototype._createHook = function() {
-  this._hook = this.plugin.hook('change-metadata-item');
-};
+  // TODO(TS): Convert type to GrPlugin.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  public plugin: any;
 
-GrChangeMetadataApi.prototype.onLabelsChanged = function(callback) {
-  if (!this._hook) {
-    this._createHook();
+  // TODO(TS): Convert type to GrPlugin.
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  constructor(plugin: any) {
+    this.plugin = plugin;
+    this._hook = null;
   }
-  this._hook.onAttached(element =>
-    this.plugin.attributeHelper(element).bind('labels', callback));
-  return this;
-};
+
+  _createHook() {
+    this._hook = this.plugin.hook('change-metadata-item');
+  }
+
+  onLabelsChanged(callback: Function) {
+    if (!this._hook) {
+      this._createHook();
+    }
+    this._hook.onAttached((element: Element) =>
+      this.plugin.attributeHelper(element).bind('labels', callback)
+    );
+    return this;
+  }
+}

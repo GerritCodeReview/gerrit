@@ -51,6 +51,24 @@
       "revId": "38e2e58d626c00b8528f019fdf0d61216357ed6f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "40ead642_3a97bab3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-05T09:54:41Z",
+      "side": 1,
+      "message": "Sorry, I did not realize that this is actually a no-conflict merge. For that one I think everyone of us is happy to +2 it. I just did not really want to look into elasticsearch related code. :-)\n\nWe probably do not really a process then. Trying to somehow fairly distribute the load over maintainers should be good enough.\n\nI just wanted to avoid the situation where I am manually picked as Google\u0027s default reviewer of merges just because I am most responsive or something. :-)",
+      "parentUuid": "f05e9e72_f7d3d992",
+      "revId": "38e2e58d626c00b8528f019fdf0d61216357ed6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

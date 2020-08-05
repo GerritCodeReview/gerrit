@@ -1,0 +1,158 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4dadd1a5_cf3ac865",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "maybe define this union type as an alias for better readability",
+      "range": {
+        "startLine": 122,
+        "startChar": 35,
+        "endLine": 122,
+        "endChar": 66
+      },
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b22102df_51fb924a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "why we need to export this ?",
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92d787be_53885572",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 288,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "compare to ParsedJSON, why not use generic types in this case ? like\n\n```\nfetchJSON\u003cT\u003e(\n    req: FetchJSONRequest,\n    noAcceptHeader?: boolean\n  ): Promise\u003cT\u003e {}\n```\n\nand get change can be:\n```\ngetChange() {\n  return this.api.fetchJSON\u003cChangeInfo\u003e(xxx);\n}\n```",
+      "range": {
+        "startLine": 285,
+        "startChar": 2,
+        "endLine": 288,
+        "endChar": 26
+      },
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4ab80e8_ac63a0a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 345,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "nit: remove, the type is pretty obviously",
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16c77587_beb3d017",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 352,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a847f1_bd27f65b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 370,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "ditto",
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "647c86af_be97c69c",
+        "filename": "polygerrit-ui/app/services/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "maybe `dispatchEvent\u003cT\u003e(event: Event, detail?: T): boolean;`",
+      "range": {
+        "startLine": 68,
+        "startChar": 2,
+        "endLine": 68,
+        "endChar": 57
+      },
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f735c7b9_232f50ae",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T14:35:38Z",
+      "side": 1,
+      "message": "optional",
+      "revId": "f6a0f12ae95920a4619501bf4fac32a268550803",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

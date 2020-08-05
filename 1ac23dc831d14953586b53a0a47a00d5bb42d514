@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a46efab9_bd5fe4f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T12:52:59Z",
+      "side": 1,
+      "message": "Seems not ready for review - some files were not converted.",
+      "revId": "1ac23dc831d14953586b53a0a47a00d5bb42d514",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

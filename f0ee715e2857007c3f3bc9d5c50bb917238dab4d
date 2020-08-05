@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "543b1343_192a68ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T09:47:32Z",
+      "side": 1,
+      "message": "Somehow I can not rebase from the UI \"due to some conflicts when merging\" and the UI shows `Active`... while rebase locally doesn\u0027t show any conflicts...",
+      "revId": "f0ee715e2857007c3f3bc9d5c50bb917238dab4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

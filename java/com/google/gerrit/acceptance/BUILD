@@ -84,6 +84,7 @@ java_library2(
         "//lib:jimfs",
         "//lib/auto:auto-value",
         "//lib/auto:auto-value-annotations",
+        "//lib/flogger:api",
         "//lib/httpcomponents:fluent-hc",
         "//lib/httpcomponents:httpclient",
         "//lib/httpcomponents:httpcore",

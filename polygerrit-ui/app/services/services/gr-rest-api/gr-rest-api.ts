@@ -23,6 +23,7 @@ import {
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
+  ActionInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -75,8 +76,45 @@ export interface GrReplyDialog {
   setPluginMessage(message: string): void;
 }
 
+// Copied from gr-change-actions.js
+export enum ActionType {
+  CHANGE = 'change',
+  REVISION = 'revision',
+}
+
+// Copied from gr-change-actions.js
+export enum ActionPriority {
+  CHANGE = 2,
+  DEFAULT = 0,
+  PRIMARY = 3,
+  REVIEW = -3,
+  REVISION = 1,
+}
+
+// TODO(TS) remove interface when GrChangeActions is converted to typescript
+export interface GrChangeActions extends Element {
+  RevisionActions?: Record<string, string>;
+  ChangeActions: Record<string, string>;
+  ActionType: Record<string, string>;
+  primaryActionKeys: string[];
+  push(propName: 'primaryActionKeys', value: string): void;
+  hideQuickApproveAction(): void;
+  setActionOverflow(type: ActionType, key: string, overflow: boolean): void;
+  setActionPriority(
+    type: ActionType,
+    key: string,
+    overflow: ActionPriority
+  ): void;
+  setActionHidden(type: ActionType, key: string, hidden: boolean): void;
+  addActionButton(type: ActionType, label: string): string;
+  removeActionButton(key: string): void;
+  setActionButtonProp(key: string, prop: string, value: string): void;
+  getActionDetails(actionName: string): ActionInfo;
+}
+
 export interface RestApiTagNameMap {
   [ApiElement.REPLY_DIALOG]: GrReplyDialog;
+  [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
 }
 
 export interface RestApiService {

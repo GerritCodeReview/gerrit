@@ -62,6 +62,11 @@ export type SuggestedReviewerInfo =
   | SuggestedReviewerAccountInfo
   | SuggestedReviewerGroupInfo;
 
+export enum ApiElement {
+  CHANGE_ACTIONS = 'changeactions',
+  REPLY_DIALOG = 'replydialog',
+}
+
 export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed
@@ -103,4 +108,6 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[]>;
+
+  getElement(elementKey: ApiElement): Element;
 }

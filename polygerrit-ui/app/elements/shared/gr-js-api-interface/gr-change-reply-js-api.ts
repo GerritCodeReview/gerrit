@@ -15,60 +15,141 @@
  * limitations under the License.
  */
 
+import {
+  ApiElement,
+  RestApiService,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
+
+// TODO(TS): remove when GrReplyDialog converted to typescript
+interface GrReplyDialog {
+  getLabelValue(label: string): string;
+  setLabelValue(label: string, value: string): void;
+  send(includeComments?: boolean, startReview?: boolean): Promise<unknown>;
+  setPluginMessage(message: string): void;
+}
+
+// TODO(TS): maybe move interfaces\types to other files when convertion complete
+interface LabelsChangedDetail {
+  name: string;
+  value: string;
+}
+interface ValueChangedDetail {
+  value: string;
+}
+
+interface GerritHtmlElementEventMap {
+  'value-changed': CustomEvent<ValueChangedDetail>;
+  'labels-changed': CustomEvent<LabelsChangedDetail>;
+}
+
+interface GerritHtmlElement extends EventTarget {
+  addEventListener<K extends keyof GerritHtmlElementEventMap>(
+    type: K,
+    listener: (
+      this: GerritHtmlElement,
+      ev: GerritHtmlElementEventMap[K]
+    ) => any,
+    options?: boolean | AddEventListenerOptions
+  ): void;
+  addEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | AddEventListenerOptions
+  ): void;
+
+  removeEventListener<K extends keyof GerritHtmlElementEventMap>(
+    type: K,
+    listener: (
+      this: GerritHtmlElement,
+      ev: GerritHtmlElementEventMap[K]
+    ) => any,
+    options?: boolean | EventListenerOptions
+  ): void;
+  removeEventListener(
+    type: string,
+    listener: EventListenerOrEventListenerObject,
+    options?: boolean | EventListenerOptions
+  ): void;
+}
+
+type HookCallback = (el: {content: GerritHtmlElement}) => void;
+type ReplyChangedCallback = (text: string) => void;
+type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
+
+interface HookApi {
+  onAttached(callback: HookCallback): void;
+  onDetached(callback: HookCallback): void;
+}
+
+interface PluginApi {
+  hook(hookName: string): HookApi;
+}
+
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
  */
 export class GrChangeReplyInterface {
-  constructor(plugin, sharedApiElement) {
-    this.plugin = plugin;
-    this.sharedApiElement = sharedApiElement;
+  constructor(
+    readonly plugin: PluginApi,
+    readonly sharedApiElement: RestApiService
+  ) {}
+
+  get _el(): GrReplyDialog {
+    return (this.sharedApiElement.getElement(
+      ApiElement.REPLY_DIALOG
+    ) as unknown) as GrReplyDialog;
   }
 
-  get _el() {
-    return this.sharedApiElement.getElement(
-        this.sharedApiElement.Element.REPLY_DIALOG);
-  }
-
-  getLabelValue(label) {
+  getLabelValue(label: string) {
     return this._el.getLabelValue(label);
   }
 
-  setLabelValue(label, value) {
+  setLabelValue(label: string, value: string) {
     this._el.setLabelValue(label, value);
   }
 
-  send(opt_includeComments) {
-    this._el.send(opt_includeComments);
+  send(includeComments?: boolean) {
+    this._el.send(includeComments);
   }
 
-  addReplyTextChangedCallback(handler) {
+  addReplyTextChangedCallback(handler: ReplyChangedCallback) {
     const hookApi = this.plugin.hook('reply-text');
-    const registeredHandler = e => handler(e.detail.value);
+    const registeredHandler = (e: CustomEvent<ValueChangedDetail>) =>
+      handler(e.detail.value);
     hookApi.onAttached(el => {
-      if (!el.content) { return; }
+      if (!el.content) {
+        return;
+      }
       el.content.addEventListener('value-changed', registeredHandler);
     });
     hookApi.onDetached(el => {
-      if (!el.content) { return; }
+      if (!el.content) {
+        return;
+      }
       el.content.removeEventListener('value-changed', registeredHandler);
     });
   }
 
-  addLabelValuesChangedCallback(handler) {
+  addLabelValuesChangedCallback(handler: LabelsChangedCallback) {
     const hookApi = this.plugin.hook('reply-label-scores');
-    const registeredHandler = e => handler(e.detail);
+    const registeredHandler = (e: CustomEvent<LabelsChangedDetail>) =>
+      handler(e.detail);
     hookApi.onAttached(el => {
-      if (!el.content) { return; }
+      if (!el.content) {
+        return;
+      }
       el.content.addEventListener('labels-changed', registeredHandler);
     });
 
     hookApi.onDetached(el => {
-      if (!el.content) { return; }
+      if (!el.content) {
+        return;
+      }
       el.content.removeEventListener('labels-changed', registeredHandler);
     });
   }
 
-  showMessage(message) {
+  showMessage(message: string) {
     return this._el.setPluginMessage(message);
   }
 }

@@ -446,8 +446,6 @@ suite('gr-js-api-interface tests', () => {
       const stub = sinon.stub();
       plugin.deprecated.onAction('change', 'foo', ctx => {
         assert.isTrue(ctx instanceof GrPluginActionContext);
-        assert.strictEqual(ctx.change, change);
-        assert.strictEqual(ctx.revision, revision);
         assert.strictEqual(ctx.action, actionDetails);
         assert.strictEqual(ctx.plugin, plugin);
         stub();

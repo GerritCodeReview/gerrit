@@ -101,7 +101,7 @@ export const TooltipMixin = dedupingMixin(
       @observe('hasTooltip')
       _setupTooltipListeners() {
         if (!this.mouseenterHandler) {
-          this.mouseenterHandler = () => this._handleShowTooltip();
+          this.mouseenterHandler = this.showHandler;
         }
 
         if (!this.hasTooltip) {
@@ -151,7 +151,7 @@ export const TooltipMixin = dedupingMixin(
 
         this._tooltip = tooltip;
         window.addEventListener('scroll', this.windowScrollHandler);
-        this.addEventListener('mouseleave', this.showHandler);
+        this.addEventListener('mouseleave', this.hideHandler);
         this.addEventListener('click', this.hideHandler);
       }
 

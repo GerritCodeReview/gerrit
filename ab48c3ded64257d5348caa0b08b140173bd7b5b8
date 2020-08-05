@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a82d144_4aa29092",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-slot/gr-endpoint-slot.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T16:12:50Z",
+      "side": 1,
+      "message": "Could you please write more comments, why it always has a value?",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "ab48c3ded64257d5348caa0b08b140173bd7b5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

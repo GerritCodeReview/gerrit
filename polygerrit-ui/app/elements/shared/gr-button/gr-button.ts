@@ -73,7 +73,7 @@ export class GrButton extends LegacyElementMixin(
   }
 
   @property({
-    computed: 'computeAriaDisable(disabled, loading)',
+    computed: 'computeAriaDisabled(disabled, loading)',
     reflectToAttribute: true,
     type: Boolean,
   })

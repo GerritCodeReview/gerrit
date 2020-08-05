@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5cea4660_5fdccb0e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T12:08:08Z",
+      "side": 1,
+      "message": "Ignore it:) I tested my change and accidentally added this comment",
+      "parentUuid": "2684ee46_e1a2f06c",
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "465d4353_e09e91a5",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
         "patchSetId": 1

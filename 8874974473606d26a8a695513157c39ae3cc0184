@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "29bafcba_d3a7f5e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Same for me. Use getSanitizeDOMValue",
+      "parentUuid": "076b1d59_eace345d",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8aa3101a_19aa7c0d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
         "patchSetId": 11
@@ -82,6 +106,30 @@
     },
     {
       "key": {
+        "uuid": "de392561_b32a5d6a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Adding a type should fix it:\ntagName: string,\n\nBetter solution is to use an ElementSpec interface - also see my comments about it at the end of the file.\nSeems this is actually an ElementSpec:\nannotateWithElement(..., elSpec: ElementSpec) {\n  const tagName \u003d elSpec.tagName;\n  const attributes \u003d elSpec.attributes || {};\n  ...\n}",
+      "parentUuid": "8aa3101a_19aa7c0d",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "22eabd70_daa4634a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
         "patchSetId": 11
@@ -93,6 +141,30 @@
       "writtenOn": "2020-08-04T14:33:31Z",
       "side": 1,
       "message": "Not sure what this code is doing but it\u0027s throwing an error.\nCan\u0027t find any other usage in our codebase.",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 24
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b5e3697_57307eb9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "This is a type definition for closure-compiler. Replace it with:\nexport interface ElementSpec {\n   tagName: string;\n   attributes?: {[attributeName: string]: string | undefined}\n}\n\n(not sure about attributes type - update it as you need)",
+      "parentUuid": "22eabd70_daa4634a",
       "range": {
         "startLine": 278,
         "startChar": 0,

@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e9b80b6f_586da8a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "I reviewed gr-annotation.ts only",
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "15e65f03_845a96e2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "ChildNode extends Node, so getLength(node: Node) can accept ChildNode object as well. You can remove |ChildNode",
+      "range": {
+        "startLine": 31,
+        "startChar": 23,
+        "endLine": 31,
+        "endChar": 34
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f032912f_bc3ed10c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Both Element and Text extend Node, so parent:Element|Text|Node is equal to parent:Node",
+      "range": {
+        "startLine": 45,
+        "startChar": 12,
+        "endLine": 45,
+        "endChar": 33
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6f8ba9b_11e0c9bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "See my comment in patchset 11",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 30
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3ca2031_b4a31235",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Replace with Node[], then you can change splitNode to splitNode(element:Node):Node + remove \"as ChildNode\" from this method",
+      "range": {
+        "startLine": 50,
+        "startChar": 20,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "352cbcb6_0455ea8b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "parent.parentNode is Node or null.\nparent.parentNode! is better - it says to typescript that parentNode can\u0027t be null (and add to @param text that Text must have a non-null parentNode)",
+      "range": {
+        "startLine": 56,
+        "startChar": 15,
+        "endLine": 56,
+        "endChar": 32
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a662a30_fc4c0b1e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Add type here nestedNodes: Node[]",
+      "range": {
+        "startLine": 61,
+        "startChar": 4,
+        "endLine": 61,
+        "endChar": 25
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bd5d3a9_091fe8bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "HTMLElement extends Element, |HTMLElement can be removed",
+      "range": {
+        "startLine": 144,
+        "startChar": 39,
+        "endLine": 144,
+        "endChar": 52
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3b3ba40_8574a7de",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "opt_ prefix in javascript usually shows that parameter is optional.\nTry to define the parameter as opt_firstPart?: boolean (optionally, it to firstPart?: boolean)",
+      "range": {
+        "startLine": 166,
+        "startChar": 4,
+        "endLine": 166,
+        "endChar": 17
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9b1a02_55a820c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Replace with Node",
+      "range": {
+        "startLine": 186,
+        "startChar": 21,
+        "endLine": 186,
+        "endChar": 47
+      },
+      "revId": "57e685391ff60e8383d892864ff66a4d10c49bdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

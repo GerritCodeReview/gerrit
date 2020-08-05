@@ -708,6 +708,30 @@
       "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f031559d_bf3bfaac",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T10:46:18Z",
+      "side": 1,
+      "message": "Yes. In the future, when our code base is converted to Typescript completely - we should use a \u003d\u003d\u003d b. Typescript guarantees that everywhere in ts files the Patchset is number or EDIT (there are exceptions for JSON.parse, but it is easy to find and fix). Typescript can\u0027t check JS files, so right now a\u003d\u003d\u003db can break a code, because we are unsure about JS files.",
+      "parentUuid": "e8fa568f_6f9db5a1",
+      "range": {
+        "startLine": 311,
+        "startChar": 19,
+        "endLine": 311,
+        "endChar": 28
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

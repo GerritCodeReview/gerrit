@@ -14,39 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {html} from '@polymer/polymer/lib/utils/html-tag';
+import {customElement, property} from '@polymer/decorators';
 
-class CustomPluginHeader extends PolymerElement {
-  static get is() {
-    return 'gr-custom-plugin-header';
-  }
-
-  static get properties() {
-    return {
-      logoUrl: String,
-      title: String,
-    };
-  }
-
-  static get template() {
-    return html`
-    <style>
-      img {
-        width: 1em;
-        height: 1em;
-        vertical-align: middle;
-      }
-      .title {
-        margin-left: var(--spacing-xs);
-      }
-    </style>
-    <span>
-      <img src="[[logoUrl]]" hidden\$="[[!logoUrl]]">
-      <span class="title">[[title]]</span>
-    </span>
-`;
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-custom-plugin-header': GrCustomPluginHeader;
   }
 }
 
-customElements.define(CustomPluginHeader.is, CustomPluginHeader);
+@customElement('gr-custom-plugin-header')
+export class GrCustomPluginHeader extends PolymerElement {
+  @property({type: String})
+  logoUrl = '';
+
+  @property({type: String})
+  title = '';
+
+  static get template() {
+    return html`
+      <style>
+        img {
+          width: 1em;
+          height: 1em;
+          vertical-align: middle;
+        }
+        .title {
+          margin-left: var(--spacing-xs);
+        }
+      </style>
+      <span>
+        <img src="[[logoUrl]]" hidden$="[[!logoUrl]]" />
+        <span class="title">[[title]]</span>
+      </span>
+    `;
+  }
+}

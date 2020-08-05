@@ -14,21 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import './gr-custom-plugin-header.js';
+import './gr-custom-plugin-header';
+import {GrCustomPluginHeader} from './gr-custom-plugin-header';
 
-/** @constructor */
-export function GrThemeApi(plugin) {
-  this.plugin = plugin;
+// TODO(TS): replace with Plugin once gr-public-js-api migrated
+interface PluginApi {
+  hook(
+    endpointName: string,
+    option: {replace?: boolean}
+  ): {
+    onAttached(callback: (el: Element) => void): void;
+  };
 }
 
-GrThemeApi.prototype.setHeaderLogoAndTitle = function(logoUrl, title) {
-  this.plugin.hook('header-title', {replace: true}).onAttached(
-      element => {
-        const customHeader =
-              document.createElement('gr-custom-plugin-header');
-        customHeader.logoUrl = logoUrl;
-        customHeader.title = title;
-        element.appendChild(customHeader);
-      });
-};
+/**
+ * Defines api for theme, can be used to set header logo and title.
+ */
+export class GrThemeApi {
+  constructor(private readonly plugin: PluginApi) {}
 
+  setHeaderLogoAndTitle(logoUrl: string, title: string) {
+    this.plugin.hook('header-title', {replace: true}).onAttached(element => {
+      const customHeader: GrCustomPluginHeader = document.createElement(
+        'gr-custom-plugin-header'
+      );
+      customHeader.logoUrl = logoUrl;
+      customHeader.title = title;
+      element.appendChild(customHeader);
+    });
+  }
+}

@@ -22,6 +22,30 @@
       "revId": "a75fc36a2086a8d3b65c699bc086cb08e34dab76",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "802ff80b_298c2f59",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T14:33:13Z",
+      "side": 1,
+      "message": "Done. That was an oversight. As I was wondering why none of the tests failed with that code, I looked a bit into how this PatchSet.Id is used. From what I saw, it doesn\u0027t really matter which PatchSet.Id we provide here. The PatchSet.Id specified inside of the comment determines the target patchset.",
+      "parentUuid": "1f2fb802_11682780",
+      "range": {
+        "startLine": 131,
+        "startChar": 41,
+        "endLine": 131,
+        "endChar": 60
+      },
+      "revId": "a75fc36a2086a8d3b65c699bc086cb08e34dab76",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

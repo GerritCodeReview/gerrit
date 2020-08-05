@@ -48,6 +48,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Override
   public void start(Environment env) {
+    enableGracefulStop();
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {

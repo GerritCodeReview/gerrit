@@ -189,6 +189,7 @@ public class Daemon extends SiteProgram {
   private AbstractModule luceneModule;
   private Module emailModule;
   private List<Module> testSysModules = new ArrayList<>();
+  private List<Module> testSshModules = new ArrayList<>();
   private Module auditEventModule;
 
   private Runnable serverStarted;
@@ -317,6 +318,11 @@ public class Daemon extends SiteProgram {
   @VisibleForTesting
   public void addAdditionalSysModuleForTesting(@Nullable Module... modules) {
     testSysModules.addAll(Arrays.asList(modules));
+  }
+
+  @VisibleForTesting
+  public void addAdditionalSshModuleForTesting(@Nullable Module... modules) {
+    testSshModules.addAll(Arrays.asList(modules));
   }
 
   @VisibleForTesting
@@ -523,6 +529,8 @@ public class Daemon extends SiteProgram {
             slave,
             sysInjector.getInstance(DownloadConfig.class),
             sysInjector.getInstance(LfsPluginAuthCommand.Module.class)));
+
+    modules.addAll(testSshModules);
     if (!slave) {
       modules.add(new IndexCommandsModule(sysInjector));
     }

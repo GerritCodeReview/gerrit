@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7db3cee2_6b55292b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T20:26:21Z",
+      "side": 1,
+      "message": "GrPluginActionContext object is passed to a plugin. It is better to keep all information in it and do not remove change and revision from it.\nI.e. it would be good to have public fields action, plugin, change and revision",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "3e4a460effc831b1cc66f16087554670c23c980b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a493d076_db4447a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T20:26:21Z",
+      "side": 1,
+      "message": "It seems, plugin and action should be public (see comment above)",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 11
+      },
+      "revId": "3e4a460effc831b1cc66f16087554670c23c980b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

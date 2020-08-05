@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2684ee46_e1a2f06c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T11:51:52Z",
+      "side": 1,
+      "message": "asdasd",
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "465d4353_e09e91a5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T11:51:52Z",
+      "side": 1,
+      "message": "Why not void?",
+      "range": {
+        "startLine": 58,
+        "startChar": 35,
+        "endLine": 58,
+        "endChar": 42
+      },
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee554e40_84683e2d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T11:51:52Z",
+      "side": 1,
+      "message": "Please use void if code doesn\u0027t expect any return value.",
+      "range": {
+        "startLine": 124,
+        "startChar": 53,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b6f2978_a6ff685c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T11:51:52Z",
+      "side": 1,
+      "message": "Based on the code, I think the type is fn:(this:GrOverlay)\u003d\u003evoid\nThis is strange and I don\u0027t know why it was implemented in this way, but let\u0027s define type accordingly.",
+      "range": {
+        "startLine": 124,
+        "startChar": 17,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

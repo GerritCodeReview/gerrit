@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0c897a9_c39a62a1",
+        "filename": "javatests/com/google/gerrit/server/edit/tree/TreeCreatorTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T06:39:07Z",
+      "side": 1,
+      "message": "should use \u0027//\u0027 style comments to be consistent with other files",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "07a99246c651c9a1a64aa32009ca7c6622cc48b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

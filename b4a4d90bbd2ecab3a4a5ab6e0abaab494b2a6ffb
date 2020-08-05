@@ -22,6 +22,30 @@
       "revId": "b4a4d90bbd2ecab3a4a5ab6e0abaab494b2a6ffb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3097a81a_cb92e0a3",
+        "filename": "java/com/google/gerrit/extensions/common/testing/CommentInfoSubject.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-05T14:52:00Z",
+      "side": 1,
+      "message": "Yes. Copy-paste error. ;-)",
+      "parentUuid": "988f0cf9_462eabdc",
+      "range": {
+        "startLine": 34,
+        "startChar": 24,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "b4a4d90bbd2ecab3a4a5ab6e0abaab494b2a6ffb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

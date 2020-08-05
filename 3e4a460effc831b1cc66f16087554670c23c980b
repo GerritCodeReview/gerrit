@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ff73219d_be2f47c5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-05T20:39:48Z",
+      "side": 1,
+      "message": "Yeah, you are right. I had second thoughts as well about this.",
+      "parentUuid": "7db3cee2_6b55292b",
+      "range": {
+        "startLine": 44,
+        "startChar": 13,
+        "endLine": 44,
+        "endChar": 34
+      },
+      "revId": "3e4a460effc831b1cc66f16087554670c23c980b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a493d076_db4447a8",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.ts",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "3e4a460effc831b1cc66f16087554670c23c980b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36efd3d9_7cc971f6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-action-context.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-05T20:39:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a493d076_db4447a8",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 11
+      },
+      "revId": "3e4a460effc831b1cc66f16087554670c23c980b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

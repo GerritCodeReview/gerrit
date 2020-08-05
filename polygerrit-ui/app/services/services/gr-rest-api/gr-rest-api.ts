@@ -25,7 +25,7 @@ import {
   ProjectInfo,
 } from '../../../types/common';
 
-export type ErrorCallback = (response?: Response, err?: Error) => void;
+export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 
 /**
  * Contains information about an account that can be added to a change
@@ -63,6 +63,9 @@ export type SuggestedReviewerInfo =
   | SuggestedReviewerGroupInfo;
 
 export interface RestApiService {
+  // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
+  // and it must be removed
+  dispatchEvent(event: Event, detail?: unknown): boolean;
   getConfig(): Promise<ServerInfo>;
   getLoggedIn(): Promise<boolean>;
   getVersion(): Promise<string>;

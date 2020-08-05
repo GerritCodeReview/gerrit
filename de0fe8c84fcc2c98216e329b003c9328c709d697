@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "04e672bf_ce2ed423",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T08:51:10Z",
+      "side": 1,
+      "message": "Nice!",
+      "parentUuid": "8887b30a_4d9200fd",
+      "range": {
+        "startLine": 32,
+        "startChar": 13,
+        "endLine": 32,
+        "endChar": 16
+      },
+      "revId": "de0fe8c84fcc2c98216e329b003c9328c709d697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cb04a393_785c71a0",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "de0fe8c84fcc2c98216e329b003c9328c709d697",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e151d3d2_b3c3acdf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-05T08:51:10Z",
+      "side": 1,
+      "message": "oh I just thought it might be benefit to allow you define what type you expect back from response for generic methods like fetch / post. I am fine without it, we can add when we really need it.",
+      "parentUuid": "cb04a393_785c71a0",
+      "range": {
+        "startLine": 79,
+        "startChar": 7,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "de0fe8c84fcc2c98216e329b003c9328c709d697",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

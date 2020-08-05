@@ -22,8 +22,10 @@ export function GrDomHooksManager(plugin) {
   this._hooks = {};
 }
 
-GrDomHooksManager.prototype._getHookName = function(endpointName,
-    opt_moduleName) {
+GrDomHooksManager.prototype._getHookName = function (
+  endpointName,
+  opt_moduleName
+) {
   if (opt_moduleName) {
     return endpointName + ' ' + opt_moduleName;
   } else {
@@ -36,8 +38,10 @@ GrDomHooksManager.prototype._getHookName = function(endpointName,
   }
 };
 
-GrDomHooksManager.prototype.getDomHook = function(endpointName,
-    opt_moduleName) {
+GrDomHooksManager.prototype.getDomHook = function (
+  endpointName,
+  opt_moduleName
+) {
   const hookName = this._getHookName(endpointName, opt_moduleName);
   if (!this._hooks[hookName]) {
     this._hooks[hookName] = new GrDomHook(hookName, opt_moduleName);
@@ -58,9 +62,11 @@ export function GrDomHook(hookName, opt_moduleName) {
   }
 }
 
-GrDomHook.prototype._createPlaceholder = function(hookName) {
+GrDomHook.prototype._createPlaceholder = function (hookName) {
   class HookPlaceholder extends PolymerElement {
-    static get is() { return hookName; }
+    static get is() {
+      return hookName;
+    }
 
     static get properties() {
       return {
@@ -73,7 +79,7 @@ GrDomHook.prototype._createPlaceholder = function(hookName) {
   customElements.define(HookPlaceholder.is, HookPlaceholder);
 };
 
-GrDomHook.prototype.handleInstanceDetached = function(instance) {
+GrDomHook.prototype.handleInstanceDetached = function (instance) {
   const index = this._instances.indexOf(instance);
   if (index !== -1) {
     this._instances.splice(index, 1);
@@ -81,7 +87,7 @@ GrDomHook.prototype.handleInstanceDetached = function(instance) {
   this._detachCallbacks.forEach(callback => callback(instance));
 };
 
-GrDomHook.prototype.handleInstanceAttached = function(instance) {
+GrDomHook.prototype.handleInstanceAttached = function (instance) {
   this._instances.push(instance);
   this._attachCallbacks.forEach(callback => callback(instance));
 };
@@ -92,13 +98,13 @@ GrDomHook.prototype.handleInstanceAttached = function(instance) {
  *
  * @return {!Promise<!Element>}
  */
-GrDomHook.prototype.getLastAttached = function() {
+GrDomHook.prototype.getLastAttached = function () {
   if (this._instances.length) {
     return Promise.resolve(this._instances.slice(-1)[0]);
   }
   if (!this._lastAttachedPromise) {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => (resolve = r));
     this._attachCallbacks.push(resolve);
     this._lastAttachedPromise = promise.then(element => {
       this._lastAttachedPromise = null;
@@ -115,7 +121,7 @@ GrDomHook.prototype.getLastAttached = function() {
 /**
  * Get all DOM hook elements.
  */
-GrDomHook.prototype.getAllAttached = function() {
+GrDomHook.prototype.getAllAttached = function () {
   return this._instances;
 };
 
@@ -125,7 +131,7 @@ GrDomHook.prototype.getAllAttached = function() {
  *
  * @param {function(Element)} callback
  */
-GrDomHook.prototype.onAttached = function(callback) {
+GrDomHook.prototype.onAttached = function (callback) {
   this._attachCallbacks.push(callback);
   return this;
 };
@@ -136,7 +142,7 @@ GrDomHook.prototype.onAttached = function(callback) {
  *
  * @param {function(Element)} callback
  */
-GrDomHook.prototype.onDetached = function(callback) {
+GrDomHook.prototype.onDetached = function (callback) {
   this._detachCallbacks.push(callback);
   return this;
 };
@@ -144,11 +150,11 @@ GrDomHook.prototype.onDetached = function(callback) {
 /**
  * Name of DOM hook element that will be installed into the endpoint.
  */
-GrDomHook.prototype.getModuleName = function() {
+GrDomHook.prototype.getModuleName = function () {
   return this._moduleName;
 };
 
-GrDomHook.prototype.getPublicAPI = function() {
+GrDomHook.prototype.getPublicAPI = function () {
   const result = {};
   const exposedMethods = [
     'onAttached',

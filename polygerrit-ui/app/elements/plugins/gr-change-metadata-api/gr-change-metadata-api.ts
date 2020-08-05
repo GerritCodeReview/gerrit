@@ -21,15 +21,16 @@ export function GrChangeMetadataApi(plugin) {
   this.plugin = plugin;
 }
 
-GrChangeMetadataApi.prototype._createHook = function() {
+GrChangeMetadataApi.prototype._createHook = function () {
   this._hook = this.plugin.hook('change-metadata-item');
 };
 
-GrChangeMetadataApi.prototype.onLabelsChanged = function(callback) {
+GrChangeMetadataApi.prototype.onLabelsChanged = function (callback) {
   if (!this._hook) {
     this._createHook();
   }
   this._hook.onAttached(element =>
-    this.plugin.attributeHelper(element).bind('labels', callback));
+    this.plugin.attributeHelper(element).bind('labels', callback)
+  );
   return this;
 };

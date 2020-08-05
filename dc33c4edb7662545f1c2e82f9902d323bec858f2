@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "c7f6c867_43197ae7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-05T12:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "465d4353_e09e91a5",
+      "range": {
+        "startLine": 58,
+        "startChar": 35,
+        "endLine": 58,
+        "endChar": 42
+      },
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ee554e40_84683e2d",
         "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
         "patchSetId": 1
@@ -103,6 +127,54 @@
       "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ccff0cc_bc11e80e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-05T12:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee554e40_84683e2d",
+      "range": {
+        "startLine": 124,
+        "startChar": 53,
+        "endLine": 124,
+        "endChar": 60
+      },
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7305429c_04bffa24",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-05T12:56:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b6f2978_a6ff685c",
+      "range": {
+        "startLine": 124,
+        "startChar": 17,
+        "endLine": 124,
+        "endChar": 25
+      },
+      "revId": "dc33c4edb7662545f1c2e82f9902d323bec858f2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

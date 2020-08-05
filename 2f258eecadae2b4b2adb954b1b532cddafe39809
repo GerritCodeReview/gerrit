@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77cc8688_fc2f0ff2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-styles-api/gr-styles-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T20:13:54Z",
+      "side": 1,
+      "message": "nit: constructor reassigns it, can be defined as className: string",
+      "range": {
+        "startLine": 41,
+        "startChar": 10,
+        "endLine": 41,
+        "endChar": 24
+      },
+      "revId": "2f258eecadae2b4b2adb954b1b532cddafe39809",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

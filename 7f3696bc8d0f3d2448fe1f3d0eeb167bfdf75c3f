@@ -732,6 +732,30 @@
       "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2d5426b_d0960aa5",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-05T14:03:30Z",
+      "side": 1,
+      "message": "There is no equality check happening in this function.\nCan you take another look at this?",
+      "parentUuid": "f031559d_bf3bfaac",
+      "range": {
+        "startLine": 311,
+        "startChar": 19,
+        "endLine": 311,
+        "endChar": 28
+      },
+      "revId": "7f3696bc8d0f3d2448fe1f3d0eeb167bfdf75c3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

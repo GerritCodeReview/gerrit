@@ -83,6 +83,30 @@
     },
     {
       "key": {
+        "uuid": "d7c575ae_87b45a8d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-05T14:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29bafcba_d3a7f5e7",
+      "range": {
+        "startLine": 17,
+        "startChar": 8,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8aa3101a_19aa7c0d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
         "patchSetId": 11
@@ -130,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "d8cd33c5_b151268e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-05T14:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "de392561_b32a5d6a",
+      "range": {
+        "startLine": 48,
+        "startChar": 5,
+        "endLine": 48,
+        "endChar": 12
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "22eabd70_daa4634a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
         "patchSetId": 11
@@ -174,6 +222,30 @@
       "revId": "8874974473606d26a8a695513157c39ae3cc0184",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8e5e4e_4758f280",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-05T14:03:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b5e3697_57307eb9",
+      "range": {
+        "startLine": 278,
+        "startChar": 0,
+        "endLine": 278,
+        "endChar": 24
+      },
+      "revId": "8874974473606d26a8a695513157c39ae3cc0184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

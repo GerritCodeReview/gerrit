@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d73de6cf_8ce1a1ce",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "Nice! Wanted this API for a long time!\n\nOnly nits :)",
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dca57363_6381967d",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperations.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "nit: here and in the other new files, please use \u0027//\u0027 style comments for consistency with the code base",
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6adef360_c4d23109",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "ChangeInserter.Factory to avoid import of the Factory class",
+      "range": {
+        "startLine": 83,
+        "startChar": 6,
+        "endLine": 83,
+        "endChar": 13
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6470365_635d7a1e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "IdentifiedUser.GenericFactory",
+      "range": {
+        "startLine": 86,
+        "startChar": 6,
+        "endLine": 86,
+        "endChar": 20
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "994703c9_9c772034",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "NameKey classes should not be imported.",
+      "range": {
+        "startLine": 146,
+        "startChar": 4,
+        "endLine": 146,
+        "endChar": 11
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62878440_e5cfe3be",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "nit: Account.Id",
+      "range": {
+        "startLine": 170,
+        "startChar": 17,
+        "endLine": 170,
+        "endChar": 19
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f5cc53d_2d7e0736",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "maybe \"authorAndCommitter\"",
+      "range": {
+        "startLine": 182,
+        "startChar": 18,
+        "endLine": 182,
+        "endChar": 24
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f2ed1537_4507a836",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T07:16:07Z",
+      "side": 1,
+      "message": "read permissions may still be inherited from the parent project",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 173,
+        "endChar": 77
+      },
+      "revId": "0c4d5de6ff5a140ac82389fd0fb85bf4f1e2a924",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "76355c5c_342e39d6",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/CachedProjectConfigSerializerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-05T14:30:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5a4023e3_f190c0d5",
+      "range": {
+        "startLine": 59,
+        "startChar": 27,
+        "endLine": 59,
+        "endChar": 41
+      },
+      "revId": "1bf7f3ed76bc80b20bb45819060fcd4c38275c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dbf08d5d_f7aea7c1",
         "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/CachedProjectConfigSerializerTest.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "1bf7f3ed76bc80b20bb45819060fcd4c38275c15",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e374ccc1_16e41aac",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/CachedProjectConfigSerializerTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-05T14:30:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dbf08d5d_f7aea7c1",
+      "range": {
+        "startLine": 60,
+        "startChar": 33,
+        "endLine": 60,
+        "endChar": 54
+      },
+      "revId": "1bf7f3ed76bc80b20bb45819060fcd4c38275c15",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

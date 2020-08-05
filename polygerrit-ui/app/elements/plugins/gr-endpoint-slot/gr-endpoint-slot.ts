@@ -14,16 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {customElement, property} from '@polymer/decorators';
 
-class GrEndpointSlot extends PolymerElement {
-  static get is() { return 'gr-endpoint-slot'; }
-
-  static get properties() {
-    return {
-      name: String,
-    };
-  }
+/**
+ * `gr-endpoint-slot` is used when need control over where
+ * the registered element should appear inside of the endpoint.
+ */
+@customElement('gr-endpoint-slot')
+export class GrEndpointSlot extends PolymerElement {
+  @property({type: String})
+  name!: string; // required
 }
-
-customElements.define(GrEndpointSlot.is, GrEndpointSlot);

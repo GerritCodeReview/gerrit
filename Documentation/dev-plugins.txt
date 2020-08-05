@@ -742,7 +742,8 @@ Plugins can define new search operands to extend change searching.
 Plugin methods implementing search operands (returning a
 `Predicate<ChangeData>`), must be defined on a class implementing
 one of the `ChangeQueryBuilder.ChangeOperandsFactory` interfaces
-(.e.g., ChangeQueryBuilder.ChangeHasOperandFactory).  The specific
+(.e.g., ChangeQueryBuilder.ChangeHasOperandFactory or
+ChangeQueryBuilder.ChangeIsOperandFactory).  The specific
 `ChangeOperandFactory` class must also be bound to the `DynamicSet` from
 a module's `configure()` method in the plugin.
 

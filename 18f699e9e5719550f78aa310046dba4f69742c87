@@ -39,6 +39,30 @@
       "revId": "18f699e9e5719550f78aa310046dba4f69742c87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9951c2f1_b51a835b",
+        "filename": "java/com/google/gerrit/server/submit/SubscriptionGraph.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1087688
+      },
+      "writtenOn": "2020-08-05T17:19:57Z",
+      "side": 1,
+      "message": "I have checked with my teammates and I think making promoting the visibility of the class is sufficient for now. Could you help me to submit the change? Thanks!",
+      "parentUuid": "b404960e_9836e2d2",
+      "range": {
+        "startLine": 172,
+        "startChar": 4,
+        "endLine": 172,
+        "endChar": 18
+      },
+      "revId": "18f699e9e5719550f78aa310046dba4f69742c87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -48,6 +48,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Override
   public void start(Environment env) {
+    registerGracefulShutdown();
     Context ctx = context.subContext(newSession(), context.getCommandLine());
     final Context old = sshScope.set(ctx);
     try {
@@ -85,19 +86,23 @@ public abstract class AbstractGitCommand extends BaseCommand {
   }
 
   private void service() throws IOException, PermissionBackendException, Failure {
-    project = projectState.getProject();
-    projectName = project.getNameKey();
-
     try {
-      repo = repoManager.openRepository(projectName);
-    } catch (RepositoryNotFoundException e) {
-      throw new Failure(1, "fatal: '" + project.getName() + "': not a git archive", e);
-    }
+      project = projectState.getProject();
+      projectName = project.getNameKey();
 
-    try {
-      runImpl();
+      try {
+        repo = repoManager.openRepository(projectName);
+      } catch (RepositoryNotFoundException e) {
+        throw new Failure(1, "fatal: '" + project.getName() + "': not a git archive", e);
+      }
+
+      try {
+        runImpl();
+      } finally {
+        repo.close();
+      }
     } finally {
-      repo.close();
+      deregisterGracefulShutdown();
     }
   }
 

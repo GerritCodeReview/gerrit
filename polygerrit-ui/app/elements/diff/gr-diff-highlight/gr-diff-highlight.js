@@ -22,7 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-highlight_html.js';
 import {GrAnnotation} from './gr-annotation.js';
-import {GrRangeNormalizer} from './gr-range-normalizer.js';
+import {normalize} from './gr-range-normalizer.js';
 import {strToClassName} from '../../../utils/dom-util.js';
 
 /**
@@ -245,7 +245,7 @@ class GrDiffHighlight extends GestureEventListeners(
    * @return {!Object} fixed normalized range
    */
   _normalizeRange(domRange) {
-    const range = GrRangeNormalizer.normalize(domRange);
+    const range = normalize(domRange);
     return this._fixTripleClickSelection({
       start: this._normalizeSelectionSide(
           range.startContainer, range.startOffset),

@@ -146,3 +146,12 @@ export enum DefaultDisplayNameConfig {
   FIRST_NAME = 'FIRST_NAME',
   FULL_NAME = 'FULL_NAME',
 }
+
+/**
+ * @desc The state of the projects
+ */
+export enum ProjectState {
+  ACTIVE = 'ACTIVE',
+  READ_ONLY = 'READ_ONLY',
+  HIDDEN = 'HIDDEN',
+}

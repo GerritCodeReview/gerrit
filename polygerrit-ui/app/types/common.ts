@@ -21,6 +21,7 @@ import {
   FileInfoStatus,
   GpgKeyInfoStatus,
   ProblemInfoStatus,
+  ProjectState,
   RequirementStatus,
   ReviewerState,
   RevisionKind,
@@ -37,6 +38,7 @@ export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
 export type LegacyChangeId = BrandType<number, '_legacyChangeId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
 export type ProjectName = BrandType<string, '_projectName'>;
+export type UrlEncodedProjectName = BrandType<string, '_urlEncodedProjectName'>;
 export type TopicName = BrandType<string, '_topicName'>;
 export type AccountId = BrandType<number, '_accountId'>;
 export type HttpMethod = BrandType<string, '_httpMethod'>;
@@ -194,6 +196,14 @@ export interface AccountInfo {
   _more_accounts?: boolean; // not set if false
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
+}
+
+/**
+ * The AccountDetailInfo entity contains detailed information about an account.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-detail-info
+ */
+export interface AccountDetailInfo extends AccountInfo {
+  registered_on: Timestamp;
 }
 
 /**
@@ -956,4 +966,34 @@ export interface CommentRange {
   start_character: string;
   end_line: string;
   end_character: string;
+}
+
+/**
+ * The ProjectInfo entity contains information about a project
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-info
+ */
+export interface ProjectInfo {
+  id: UrlEncodedProjectName;
+  // name is not set if returned in a map where the project name is used as
+  // map key
+  name?: ProjectName;
+  // ?-<n> if the parent project is not visible (<n> is a number which
+  // is increased for each non-visible project).
+  parent?: ProjectName;
+  description?: string;
+  state?: ProjectState;
+  branches?: {[branchName: string]: CommitId};
+  // labels is filled for Create Project and Get Project calls.
+  labels?: {[labelName: string]: LabelTypeInfo};
+  // Links to the project in external sites
+  web_links?: WebLinkInfo[];
+}
+
+/**
+ * The LabelTypeInfo entity contains metadata about the labels that a project
+ * has.
+ */
+export interface LabelTypeInfo {
+  values: {[value: string]: string};
+  default_value: number;
 }

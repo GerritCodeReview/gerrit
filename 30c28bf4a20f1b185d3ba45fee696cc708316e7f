@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac8d68a3_06972abc",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-05T13:46:21Z",
+      "side": 1,
+      "message": "Can this be:\n\n  public Config getConfig() {\n    if (cfg \u003d\u003d null) {\n      cfg \u003d new Config();\n    }\n    return cfg;\n  }\n\nso that it\u0027s consistent with the get() method in ProjectLevelConfig?\n\nI\u0027m trying to adapt the code-owners plugin in [1] to this change and this is breaking the tests.\n\n[1] https://gerrit-review.googlesource.com/c/plugins/code-owners/+/277858",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 52,
+        "endChar": 0
+      },
+      "revId": "30c28bf4a20f1b185d3ba45fee696cc708316e7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

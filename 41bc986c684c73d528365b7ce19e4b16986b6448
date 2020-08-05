@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19554b7e_d77cb118",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-theme-api/gr-custom-plugin-header.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-05T12:06:28Z",
+      "side": 1,
+      "message": "nit:\nimg is a void element, and there google style guide says:\nhttps://google.github.io/styleguide/htmlcssguide.html#Document_Type\n\u003e\u003eAlthough fine with HTML, do not close void elements, i.e. write \u003cbr\u003e, not \u003cbr /\u003e.\n\nFeel free to ignore this comment, we have it in other places in our code, for example \u003chr /\u003e",
+      "range": {
+        "startLine": 48,
+        "startChar": 54,
+        "endLine": 48,
+        "endChar": 56
+      },
+      "revId": "41bc986c684c73d528365b7ce19e4b16986b6448",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

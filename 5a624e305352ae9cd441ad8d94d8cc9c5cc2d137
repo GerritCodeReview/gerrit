@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d872e072_5168ed2c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1094140
+      },
+      "writtenOn": "2020-08-05T00:42:58Z",
+      "side": 1,
+      "message": "Squashed with (now abandoned) child commit.",
+      "revId": "5a624e305352ae9cd441ad8d94d8cc9c5cc2d137",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

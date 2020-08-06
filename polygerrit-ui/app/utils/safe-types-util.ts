@@ -20,12 +20,11 @@ const SAFE_URL_PATTERN = /^(https?:\/\/|mailto:|[^:/?#]*(?:[/?#]|$))/i;
 /**
  * Wraps a string to be used as a URL. An error is thrown if the string cannot
  * be considered safe.
- *
- * @constructor
- * @param {string} url the unwrapped, potentially unsafe URL.
  */
 class SafeUrl {
-  constructor(url) {
+  private readonly _url: string;
+
+  constructor(url: string) {
     if (!SAFE_URL_PATTERN.test(url)) {
       throw new Error(`URL not marked as safe: ${url}`);
     }
@@ -41,10 +40,8 @@ export const _testOnly_SafeUrl = SafeUrl;
 
 /**
  * Get the string representation of the safe URL.
- *
- * @returns {string}
  */
-export function safeTypesBridge(value, type) {
+export function safeTypesBridge(value: string | SafeUrl, type: string): string {
   // If the value is being bound to a URL, ensure the value is wrapped in the
   // SafeUrl type first. If the URL is not safe, allow the SafeUrl constructor
   // to surface the error.
@@ -62,7 +59,7 @@ export function safeTypesBridge(value, type) {
 
   // If the value is being bound to a string or a constant, then the string
   // can be used as is.
-  if (type === 'STRING' || type === 'CONSTANT') {
+  if (typeof value === 'string' && (type === 'STRING' || type === 'CONSTANT')) {
     return value;
   }
 

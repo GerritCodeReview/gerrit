@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-highlight.js';
-import {GrRangeNormalizer} from './gr-range-normalizer.js';
+import {_getTextOffset} from './gr-range-normalizer.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 // Splitting long lines in html into shorter rows breaks tests:
@@ -565,11 +565,11 @@ suite('gr-diff-highlight', () => {
     test('GrRangeNormalizer._getTextOffset computes text offset', () => {
       let content = stubContent(140, 'left');
       let child = content.lastChild.lastChild;
-      let result = GrRangeNormalizer._getTextOffset(content, child);
+      let result = _getTextOffset(content, child);
       assert.equal(result, 75);
       content = stubContent(146, 'right');
       child = content.lastChild;
-      result = GrRangeNormalizer._getTextOffset(content, child);
+      result = _getTextOffset(content, child);
       assert.equal(result, 0);
     });
 

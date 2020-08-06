@@ -146,3 +146,8 @@ export enum DefaultDisplayNameConfig {
   FIRST_NAME = 'FIRST_NAME',
   FULL_NAME = 'FULL_NAME',
 }
+
+export enum Side {
+  LEFT = 'left',
+  RIGHT = 'right',
+}

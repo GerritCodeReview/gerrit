@@ -27,6 +27,9 @@ import {
   GroupNameToGroupInfoMap,
   ParsedJSON,
   RequestPayload,
+  PatchSetNum,
+  ChangeInfo,
+  BranchInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -152,6 +155,21 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<GroupNameToGroupInfoMap | undefined>;
+  executeChangeAction(
+    changeNum: number,
+    method: string,
+    endpoint: string,
+    opt_patchNum?: PatchSetNum,
+    opt_payload?: unknown,
+    opt_errFn?: Function
+  ): Promise<ChangeInfo>;
+  getRepoBranches(
+    filter: string,
+    repo: string,
+    reposBranchesPerPage: number,
+    opt_offset?: number,
+    opt_errFn?: Function
+  ): Promise<BranchInfo[]>;
 
   getChangeDetail(
     changeNum: number | string,

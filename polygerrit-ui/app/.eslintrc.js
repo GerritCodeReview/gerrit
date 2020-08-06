@@ -270,6 +270,7 @@ module.exports = {
         "@typescript-eslint/restrict-plus-operands": "error",
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         "node/no-unsupported-features/node-builtins": "off",
+        "jsdoc/no-types": 2,
       },
       "parserOptions": {
         "project": path.resolve(__dirname, "./tsconfig_eslint.json"),

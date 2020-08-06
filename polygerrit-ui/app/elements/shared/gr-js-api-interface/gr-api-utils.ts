@@ -33,8 +33,6 @@ export function getRestAPI() {
 
 /**
  * Retrieves the name of the plugin base on the url.
- *
- * @param {string|URL} url
  */
 export function getPluginNameFromUrl(url: URL | string) {
   if (!(url instanceof URL)) {

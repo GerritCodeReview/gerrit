@@ -75,10 +75,8 @@ export class GrLinkedText extends GestureEventListeners(
    * Because either the source text or the linkification config has changed,
    * the content should be re-parsed.
    *
-   * @param {string|null|undefined} content The raw, un-linkified source
-   *     string to parse.
-   * @param {Object|null|undefined} config The server config specifying
-   *     commentLink patterns
+   * @param content The raw, un-linkified source string to parse.
+   * @param config The server config specifying commentLink patterns
    */
   @observe('content', 'config')
   _contentOrConfigChanged(

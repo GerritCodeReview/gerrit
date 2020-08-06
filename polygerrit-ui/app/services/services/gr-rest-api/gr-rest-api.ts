@@ -23,6 +23,7 @@ import {
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
+  ChangeInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -103,4 +104,9 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[]>;
+  getChangeDetail(
+    changeNum: number | string,
+    opt_errFn?: Function,
+    opt_cancelCondition?: Function
+  ): Promise<ChangeInfo>;
 }

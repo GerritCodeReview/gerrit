@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b1661d31_cb274317",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5417dbd0_4d4ae3be",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "30e96355_845cff31",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
         "patchSetId": 3
@@ -39,6 +63,24 @@
       "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ed1c392_11b5d55e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "30e96355_845cff31",
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "d40345af_be91fda7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c157b0c1_1224f27b",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93786c24_8543acf1",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
         "patchSetId": 3
@@ -85,6 +151,30 @@
       "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d4aa9b3_15377a6c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93786c24_8543acf1",
+      "range": {
+        "startLine": 58,
+        "startChar": 18,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -135,6 +225,30 @@
     },
     {
       "key": {
+        "uuid": "8dea138a_b60e24a3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Ahh did not know about this ?: syntax works for assignment too.\nNice!.",
+      "parentUuid": "073533a1_9a536774",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3f16b774_3bc723d3",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
         "patchSetId": 3
@@ -155,6 +269,30 @@
       "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8b9ae28_f7150bba",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3f16b774_3bc723d3",
+      "range": {
+        "startLine": 85,
+        "startChar": 58,
+        "endLine": 85,
+        "endChar": 68
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -181,6 +319,30 @@
     },
     {
       "key": {
+        "uuid": "4df08388_0b1030fa",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "replaced with [] when initialising.",
+      "parentUuid": "ce03c02b_3006752e",
+      "range": {
+        "startLine": 106,
+        "startChar": 33,
+        "endLine": 106,
+        "endChar": 47
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "961fd632_412d6731",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
         "patchSetId": 3
@@ -201,6 +363,30 @@
       "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d6177779_89c89790",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T12:49:24Z",
+      "side": 1,
+      "message": "Added empty string if it does not exist.\nProbably can be undefined.",
+      "parentUuid": "961fd632_412d6731",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 64
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

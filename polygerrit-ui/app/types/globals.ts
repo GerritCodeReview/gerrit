@@ -32,6 +32,9 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
+    Polymer: {
+      importHref?: (href: string, onload: (e: Event) => void, onerror: (e: Event) => void, async?: boolean) => HTMLLinkElement;
+    }
   }
 
   interface Performance {

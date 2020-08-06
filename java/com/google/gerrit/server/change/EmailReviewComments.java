@@ -137,7 +137,9 @@ public class EmailReviewComments implements Runnable, RequestContext {
       emailSender.setPatchSetComment(patchSetComment);
       emailSender.setLabels(labels);
       emailSender.setNotify(notify);
-      emailSender.setMessageId(messageIdGenerator.fromChangeUpdate(repoView, patchSet.id()));
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdateAndReason(
+              repoView, patchSet.id(), "EmailReviewComments"));
       emailSender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());

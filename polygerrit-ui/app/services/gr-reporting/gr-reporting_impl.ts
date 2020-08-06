@@ -333,13 +333,7 @@ export class GrReporting implements ReportingService {
    * Reporter reports events. Events will be queued if metrics plugin is not
    * yet installed.
    *
-   * @param {string} type
-   * @param {string} category
-   * @param {string} eventName
-   * @param {string|number} eventValue
-   * @param {Object} eventDetails
-   * @param {boolean|undefined} opt_noLog If true, the event will not be
-   *     logged to the JS console.
+   * @param noLog If true, the event will not be logged to the JS console.
    */
   reporter(
     type: string,
@@ -347,7 +341,7 @@ export class GrReporting implements ReportingService {
     eventName: string,
     eventValue?: EventValue,
     eventDetails?: EventDetails,
-    opt_noLog?: boolean
+    noLog?: boolean
   ) {
     const eventInfo = this._createEventInfo(
       type,
@@ -362,10 +356,10 @@ export class GrReporting implements ReportingService {
 
     // We report events immediately when metrics plugin is loaded
     if (this._isMetricsPluginLoaded() && !this._pending.length) {
-      this._reportEvent(eventInfo, opt_noLog);
+      this._reportEvent(eventInfo, noLog);
     } else {
       // We cache until metrics plugin is loaded
-      this._pending.push([eventInfo, opt_noLog]);
+      this._pending.push([eventInfo, noLog]);
       if (this._isMetricsPluginLoaded()) {
         this._pending.forEach(([eventInfo, opt_noLog]) => {
           this._reportEvent(eventInfo, opt_noLog);

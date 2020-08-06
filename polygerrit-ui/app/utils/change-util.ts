@@ -122,9 +122,6 @@ export function listChangesOptionsToHex(...args: number[]) {
   return v.toString(16);
 }
 
-/**
- *  @return {string}
- */
 export function changeBaseURL(
   project: string,
   changeNum: ChangeNum,

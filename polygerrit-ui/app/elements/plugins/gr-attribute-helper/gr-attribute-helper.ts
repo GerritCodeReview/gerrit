@@ -42,9 +42,8 @@ export class GrAttributeHelper {
   /**
    * Binds callback to property updates.
    *
-   * @param {string} name Property name.
-   * @param {function(?)} callback
-   * @return {function()} Unbind function.
+   * @param name Property name.
+   * @return Unbind function.
    */
   bind(name: string, callback: (value: any) => void) {
     const attributeChangedEventName = this._getChangedEventName(name);

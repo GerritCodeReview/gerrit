@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c7735aab_9c8250b8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T10:10:48Z",
+      "side": 1,
+      "message": "I agree with Tao comments (except one about removing \u0027_\u0027 prefix).\nI don\u0027t have anything to add.\n\n",
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d1bb0754_0fb25dca",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
         "patchSetId": 2
@@ -30,6 +47,30 @@
       "writtenOn": "2020-08-06T06:56:26Z",
       "side": 1,
       "message": "why keep `_` if its private ? they are not used in template right ?",
+      "range": {
+        "startLine": 111,
+        "startChar": 14,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c0e1d2b_279c90c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T10:10:48Z",
+      "side": 1,
+      "message": "Let\u0027s not rename it in a classes, which extends other classes.",
+      "parentUuid": "dd5953f1_741afe9d",
       "range": {
         "startLine": 111,
         "startChar": 14,

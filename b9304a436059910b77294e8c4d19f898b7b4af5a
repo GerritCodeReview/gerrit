@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1bb0754_0fb25dca",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "maybe also update here",
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd5953f1_741afe9d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "why keep `_` if its private ? they are not used in template right ?",
+      "range": {
+        "startLine": 111,
+        "startChar": 14,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a3a1674_0834df50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "can we also replace the `listen` with `addEventListener` ? its fine if you want to leave it to another change tho",
+      "range": {
+        "startLine": 125,
+        "startChar": 13,
+        "endLine": 125,
+        "endChar": 19
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b576148_7fdb36c2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "maybe just do the casting above once.",
+      "range": {
+        "startLine": 211,
+        "startChar": 29,
+        "endLine": 211,
+        "endChar": 43
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63aa7556_fb2d8494",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "remove `opt_`, as the `?` is indicating optional already",
+      "range": {
+        "startLine": 227,
+        "startChar": 11,
+        "endLine": 227,
+        "endChar": 16
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fa79f84_741db0c9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "This can be moved to Enum and then you can use that enum everywhere.",
+      "range": {
+        "startLine": 386,
+        "startChar": 16,
+        "endLine": 386,
+        "endChar": 19
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50b9dec9_58e8b831",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "maybe remove this and add `private` for the method instead",
+      "range": {
+        "startLine": 432,
+        "startChar": 10,
+        "endLine": 432,
+        "endChar": 17
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5e201a_c1033c91",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:56:26Z",
+      "side": 1,
+      "message": "personal opinion, I only define exported properties / methods here, not sure why you want to have private methods on the interface ?",
+      "range": {
+        "startLine": 459,
+        "startChar": 2,
+        "endLine": 459,
+        "endChar": 13
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

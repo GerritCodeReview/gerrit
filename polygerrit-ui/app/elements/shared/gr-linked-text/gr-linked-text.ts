@@ -22,8 +22,7 @@ import 'ba-linkify/ba-linkify';
 import {htmlTemplate} from './gr-linked-text_html';
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {customElement, property} from '@polymer/decorators';
-import {observe} from '@polymer/decorators/lib/decorators';
+import {customElement, property, observe} from '@polymer/decorators';
 
 declare global {
   interface HTMLElementTagNameMap {

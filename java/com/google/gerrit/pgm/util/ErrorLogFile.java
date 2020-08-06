@@ -49,11 +49,12 @@ public class ErrorLogFile {
     root.addAppender(dst);
   }
 
-  public static LifecycleListener start(Path sitePath, Config config) throws IOException {
+  public static LifecycleListener start(Path sitePath, Config config, boolean consoleLog)
+      throws IOException {
     Path logdir =
         FileUtil.mkdirsOrDie(new SitePaths(sitePath).logs_dir, "Cannot create log directory");
     if (SystemLog.shouldConfigure()) {
-      initLogSystem(logdir, config);
+      initLogSystem(logdir, config, consoleLog);
     }
 
     return new LifecycleListener() {
@@ -67,18 +68,28 @@ public class ErrorLogFile {
     };
   }
 
-  private static void initLogSystem(Path logdir, Config config) {
+  private static void initLogSystem(Path logdir, Config config, boolean consoleLog) {
     Logger root = LogManager.getRootLogger();
     root.removeAllAppenders();
 
+    PatternLayout errorLogLayout = new PatternLayout("[%d] [%t] %-5p %c %x: %m%n");
+
+    if (consoleLog) {
+      ConsoleAppender dst = new ConsoleAppender();
+      dst.setLayout(errorLogLayout);
+      dst.setTarget("System.err");
+      dst.setThreshold(Level.INFO);
+      dst.activateOptions();
+
+      root.addAppender(dst);
+    }
+
     boolean json = config.getBoolean("log", "jsonLogging", false);
-    boolean text = config.getBoolean("log", "textLogging", true) || !json;
+    boolean text = config.getBoolean("log", "textLogging", true) || !(json || consoleLog);
     boolean rotate = config.getBoolean("log", "rotate", true);
 
     if (text) {
-      root.addAppender(
-          SystemLog.createAppender(
-              logdir, LOG_NAME, new PatternLayout("[%d] [%t] %-5p %c %x: %m%n"), rotate));
+      root.addAppender(SystemLog.createAppender(logdir, LOG_NAME, errorLogLayout, rotate));
     }
 
     if (json) {

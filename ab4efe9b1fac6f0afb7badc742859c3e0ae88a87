@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5417dbd0_4d4ae3be",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "if you don\u0027t need to define any element or other property, this is not needed, the default ElementMixin has `$` defined with even a better type:\n\n`$: {[key: string]: Element}`",
+      "range": {
+        "startLine": 24,
+        "startChar": 0,
+        "endLine": 26,
+        "endChar": 1
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "30e96355_845cff31",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "nit: better have decorator adjacent to the class without any comments in between",
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c157b0c1_1224f27b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "remove, its pretty clear its extending from PolymerElement",
+      "range": {
+        "startLine": 42,
+        "startChar": 13,
+        "endLine": 42,
+        "endChar": 27
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93786c24_8543acf1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "nit: for simple types, usually use `XXX[]` for array, save you a few keystrokes",
+      "range": {
+        "startLine": 58,
+        "startChar": 18,
+        "endLine": 58,
+        "endChar": 28
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f1d1c28_98c6ff4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "nit: don\u0027t we have an enum for side ?",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f16b774_3bc723d3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "its better to just do `this.side \u0026\u0026 !lineNUmberEl.xxx` compared to casting\n\nand usually we add a comment for casting with `!`",
+      "range": {
+        "startLine": 85,
+        "startChar": 58,
+        "endLine": 85,
+        "endChar": 68
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce03c02b_3006752e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "i think its safe to init `coverageRanges` with empty arrays. its an input, we would expect it to be overridden by parent always, otherwise just guard with a `if` (it doesn\u0027t make sense to execute this with `!` here)",
+      "range": {
+        "startLine": 106,
+        "startChar": 33,
+        "endLine": 106,
+        "endChar": 47
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "961fd632_412d6731",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:28:48Z",
+      "side": 1,
+      "message": "this may worth guard with if, assign undefined or null to title is meaningless and its not guaranteed the value always exists (or it is ?)",
+      "range": {
+        "startLine": 124,
+        "startChar": 5,
+        "endLine": 124,
+        "endChar": 64
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

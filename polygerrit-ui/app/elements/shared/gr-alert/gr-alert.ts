@@ -14,78 +14,91 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-button/gr-button.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-alert_html.js';
-import {getRootElement} from '../../../scripts/rootElement.js';
+import '../gr-button/gr-button';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-alert_html';
+import {getRootElement} from '../../../scripts/rootElement';
+import {customElement, property} from '@polymer/decorators';
 
-/** @extends PolymerElement */
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-alert': GrAlert;
+  }
+}
+
+@customElement('gr-alert')
 class GrAlert extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-alert'; }
   /**
    * Fired when the action button is pressed.
    *
    * @event action
    */
 
-  static get properties() {
-    return {
-      text: String,
-      actionText: String,
-      /** @type {?string} */
-      type: String,
-      shown: {
-        type: Boolean,
-        value: true,
-        readOnly: true,
-        reflectToAttribute: true,
-      },
-      toast: {
-        type: Boolean,
-        value: true,
-        reflectToAttribute: true,
-      },
+  @property({type: String})
+  text?: string;
 
-      _hideActionButton: Boolean,
-      _boundTransitionEndHandler: {
-        type: Function,
-        value() { return this._handleTransitionEnd.bind(this); },
-      },
-      _actionCallback: Function,
-    };
-  }
+  @property({type: String})
+  actionText?: string;
+
+  @property({type: String})
+  type?: string;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  shown = true;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  toast = true;
+
+  @property({type: Boolean})
+  _hideActionButton?: boolean;
+
+  @property()
+  _boundTransitionEndHandler?: (
+    this: HTMLElement,
+    ev: TransitionEvent
+  ) => unknown;
+
+  @property()
+  _actionCallback?: () => void;
 
   /** @override */
   attached() {
     super.attached();
+    this._boundTransitionEndHandler = this._handleTransitionEnd.bind(this);
     this.addEventListener('transitionend', this._boundTransitionEndHandler);
   }
 
   /** @override */
   detached() {
     super.detached();
-    this.removeEventListener('transitionend',
-        this._boundTransitionEndHandler);
+    if (this._boundTransitionEndHandler) {
+      this.removeEventListener(
+        'transitionend',
+        this._boundTransitionEndHandler
+      );
+    }
   }
 
-  show(text, opt_actionText, opt_actionCallback) {
+  show(text: string, opt_actionText: string, opt_actionCallback?: () => void) {
     this.text = text;
     this.actionText = opt_actionText;
     this._hideActionButton = !opt_actionText;
     this._actionCallback = opt_actionCallback;
     getRootElement().appendChild(this);
-    this._setShown(true);
+    this.shown = true;
   }
 
   hide() {
-    this._setShown(false);
+    this.shown = false;
     if (this._hasZeroTransitionDuration()) {
       getRootElement().removeChild(this);
     }
@@ -98,16 +111,18 @@ class GrAlert extends GestureEventListeners(
     return duration === 0;
   }
 
-  _handleTransitionEnd(e) {
-    if (this.shown) { return; }
+  _handleTransitionEnd() {
+    if (this.shown) {
+      return;
+    }
 
     getRootElement().removeChild(this);
   }
 
-  _handleActionTap(e) {
+  _handleActionTap(e: MouseEvent) {
     e.preventDefault();
-    if (this._actionCallback) { this._actionCallback(); }
+    if (this._actionCallback) {
+      this._actionCallback();
+    }
   }
 }
-
-customElements.define(GrAlert.is, GrAlert);

@@ -25,6 +25,7 @@ import {
   ProjectInfo,
   ActionInfo,
   GroupInfo,
+  PatchSetNum,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -164,6 +165,14 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<Record<string, GroupInfo>>;
+  executeChangeAction(
+    changeNum: number,
+    method: string,
+    endpoint: string,
+    opt_patchNum?: PatchSetNum,
+    opt_payload?: unknown,
+    opt_errFn?: Function
+  ): Promise<Response>;
 
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K

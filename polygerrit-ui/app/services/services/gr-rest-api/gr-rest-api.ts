@@ -24,6 +24,7 @@ import {
   ServerInfo,
   ProjectInfo,
   ActionInfo,
+  GroupInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -116,7 +117,6 @@ export interface RestApiTagNameMap {
   [ApiElement.REPLY_DIALOG]: GrReplyDialog;
   [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
 }
-
 export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed
@@ -158,6 +158,11 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[]>;
+  getSuggestedGroups(
+    input: string,
+    n?: number,
+    errFn?: ErrorCallback
+  ): Promise<Record<string, GroupInfo>>;
 
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K

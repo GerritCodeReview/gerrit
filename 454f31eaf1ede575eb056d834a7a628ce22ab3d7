@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "be7459e5_5c7b3cc9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T06:44:40Z",
+      "side": 1,
+      "message": "Override Verified as failure are expected and will be resolved in the other change",
+      "revId": "454f31eaf1ede575eb056d834a7a628ce22ab3d7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

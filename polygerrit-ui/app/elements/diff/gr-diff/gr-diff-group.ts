@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {BLANK_LINE, GrDiffLine, GrDiffLineType} from './gr-diff-line';
+import {Side} from '../../../constants/constants';
 
 export enum GrDiffGroupType {
   /** Unchanged context. */
@@ -40,6 +41,10 @@ interface Range {
 interface GrDiffGroupRange {
   left: Range;
   right: Range;
+}
+
+export function rangeBySide(range: GrDiffGroupRange, side: Side): Range {
+  return side === Side.LEFT ? range.left : range.right;
 }
 
 /**

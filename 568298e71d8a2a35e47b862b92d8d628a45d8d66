@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7792dda1_1ed3f43e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-06T08:47:48Z",
+      "side": 1,
+      "message": "This is still not a good solution, since one command in a session serving multiple commands that is not required to be gracefully shut down, will keep the session open until timeout.",
+      "revId": "568298e71d8a2a35e47b862b92d8d628a45d8d66",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8989c22f_132fc78a",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T15:49:34Z",
+      "side": 1,
+      "message": "this interface is returned from the computeAllPatchSets function. Because the function is exported, this interface should be exported too.",
+      "range": {
+        "startLine": 35,
+        "startChar": 0,
+        "endLine": 35,
+        "endChar": 18
+      },
+      "revId": "022ffe84ba4f928af95587331baa138618dbc58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "098283e0_e6e3522c",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T15:49:34Z",
+      "side": 1,
+      "message": "Please, add TODO - see https://gerrit-review.googlesource.com/c/gerrit/+/277591/6..19/polygerrit-ui/app/utils/patch-set-util.ts#b150",
+      "range": {
+        "startLine": 143,
+        "startChar": 24,
+        "endLine": 143,
+        "endChar": 34
+      },
+      "revId": "022ffe84ba4f928af95587331baa138618dbc58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea6b7256_4701f38c",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T15:49:34Z",
+      "side": 1,
+      "message": "This is not a safe change. As we discussed earlier, we can\u0027t be sure that PatchSet is number everywhere and JS doesn\u0027t accidentally convert number to a string,\nCompare:\n\u003e\u003ex\u003d{};x[1]\u003dtrue;x[\"1\"]\ntrue\n\u003e\u003ex\u003dnew Map();x.set(1, true); x.get(\"1\")\nundefined\n\nHow to solve: \n1) return object back\nor\n2) use Map\u003cstring, boolean\u003e and convert keys to string.\nAdd comment that later we should change it to PatchSetNum",
+      "range": {
+        "startLine": 201,
+        "startChar": 2,
+        "endLine": 201,
+        "endChar": 53
+      },
+      "revId": "022ffe84ba4f928af95587331baa138618dbc58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb546e61_39075d6c",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 266,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T15:49:34Z",
+      "side": 1,
+      "message": "Move !detail before the first use (i.e. before call to computeAllPatchSets)",
+      "range": {
+        "startLine": 266,
+        "startChar": 8,
+        "endLine": 266,
+        "endChar": 15
+      },
+      "revId": "022ffe84ba4f928af95587331baa138618dbc58c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

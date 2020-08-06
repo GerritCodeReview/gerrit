@@ -39,6 +39,7 @@ final class AproposCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
+    enableGracefulStop();
     try {
       List<QueryDocumentationExecutor.DocResult> res = searcher.doQuery(q);
       for (DocResult docResult : res) {

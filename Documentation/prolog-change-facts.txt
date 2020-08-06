@@ -58,7 +58,7 @@ of them we must use a qualified name like `gerrit:change_branch(X)`.
 
            |`files(file('a.txt', 'M', 'REGULAR')).'
 
-    |A list of tuples: The first argument is a file name of the current patchset.
+    A list of tuples: The first argument is a file name of the current patchset.
     The second argument is the modification type of this file, with the options being
     'A' for 'added', 'M' for 'modified', 'D' for 'deleted', 'R' for 'renamed', 'C' for
     'COPIED' and 'W' for 'rewrite'.

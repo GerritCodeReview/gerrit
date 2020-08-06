@@ -62,6 +62,23 @@ export type SuggestedReviewerInfo =
   | SuggestedReviewerAccountInfo
   | SuggestedReviewerGroupInfo;
 
+export enum ApiElement {
+  CHANGE_ACTIONS = 'changeactions',
+  REPLY_DIALOG = 'replydialog',
+}
+
+// TODO(TS): remove when GrReplyDialog converted to typescript
+export interface GrReplyDialog {
+  getLabelValue(label: string): string;
+  setLabelValue(label: string, value: string): void;
+  send(includeComments?: boolean, startReview?: boolean): Promise<unknown>;
+  setPluginMessage(message: string): void;
+}
+
+export interface RestApiTagNameMap {
+  [ApiElement.REPLY_DIALOG]: GrReplyDialog;
+}
+
 export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed
@@ -103,4 +120,8 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[]>;
+
+  getElement<K extends keyof RestApiTagNameMap>(
+    elementKey: K
+  ): RestApiTagNameMap[K];
 }

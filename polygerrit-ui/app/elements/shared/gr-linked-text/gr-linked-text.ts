@@ -14,56 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import 'ba-linkify/ba-linkify.js';
-import {htmlTemplate} from './gr-linked-text_html.js';
-import {GrLinkTextParser} from './link-text-parser.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import 'ba-linkify/ba-linkify';
+import {htmlTemplate} from './gr-linked-text_html';
+import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {observe} from '@polymer/decorators/lib/decorators';
 
-/** @extends PolymerElement */
-class GrLinkedText extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-linked-text': GrLinkedText;
+  }
+}
 
-  static get is() { return 'gr-linked-text'; }
+export interface GrLinkedText {
+  $: {
+    output: HTMLSpanElement;
+  };
+}
 
-  static get properties() {
-    return {
-      removeZeroWidthSpace: Boolean,
-      content: {
-        type: String,
-        observer: '_contentChanged',
-      },
-      pre: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      disabled: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      config: Object,
-    };
+@customElement('gr-linked-text')
+export class GrLinkedText extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_contentOrConfigChanged(content, config)',
-    ];
-  }
+  @property({type: Boolean})
+  removeZeroWidthSpace?: boolean;
 
-  _contentChanged(content) {
+  // content default is null, because this.$.output.textContent is string|null
+  @property({type: String})
+  content: string | null = null;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  pre = false;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  disabled = false;
+
+  @property({type: Object})
+  config?: LinkTextParserConfig;
+
+  @observe('content')
+  _contentChanged(content: string | null) {
     // In the case where the config may not be set (perhaps due to the
     // request for it still being in flight), set the content anyway to
     // prevent waiting on the config to display the text.
-    if (this.config != null) { return; }
+    if (!this.config) {
+      return;
+    }
     this.$.output.textContent = content;
   }
 
@@ -76,13 +81,25 @@ class GrLinkedText extends GestureEventListeners(
    * @param {Object|null|undefined} config The server config specifying
    *     commentLink patterns
    */
-  _contentOrConfigChanged(content, config) {
+  @observe('content', 'config')
+  _contentOrConfigChanged(
+    content: string | null,
+    config?: LinkTextParserConfig
+  ) {
+    if (!config) {
+      return;
+    }
+
+    // TODO(TS): mapCommentlinks always has value, remove
     if (!GerritNav.mapCommentlinks) return;
     config = GerritNav.mapCommentlinks(config);
-    const output = dom(this.$.output);
+    const output = this.$.output;
     output.textContent = '';
-    const parser = new GrLinkTextParser(config,
-        this._handleParseResult.bind(this), this.removeZeroWidthSpace);
+    const parser = new GrLinkTextParser(
+      config,
+      this._handleParseResult.bind(this),
+      this.removeZeroWidthSpace
+    );
     parser.parse(content);
 
     // Ensure that external links originating from HTML commentlink configs
@@ -108,17 +125,19 @@ class GrLinkedText extends GestureEventListeners(
    *   element should be created and attached to the resulting DOM.
    * - To attach an arbitrary fragment: when called with only the `fragment`
    *   argument, the fragment should be attached to the resulting DOM as is.
-   *
-   * @param {string|null} text
-   * @param {string|null} href
-   * @param  {DocumentFragment|undefined} fragment
    */
-  _handleParseResult(text, href, fragment) {
-    const output = dom(this.$.output);
+  private _handleParseResult(
+    text: string | null,
+    href: string | null,
+    fragment?: DocumentFragment
+  ) {
+    const output = this.$.output;
     if (href) {
       const a = document.createElement('a');
       a.href = href;
-      a.textContent = text;
+      // GrLinkTextParser either pass text and href together or
+      // only DocumentFragment - see LinkTextParserCallback
+      a.textContent = text!;
       a.target = '_blank';
       a.rel = 'noopener';
       output.appendChild(a);
@@ -127,5 +146,3 @@ class GrLinkedText extends GestureEventListeners(
     }
   }
 }
-
-customElements.define(GrLinkedText.is, GrLinkedText);

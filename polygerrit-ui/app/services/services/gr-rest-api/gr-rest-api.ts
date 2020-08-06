@@ -23,6 +23,7 @@ import {
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
+  ChangeInfo,
   ActionInfo,
   GroupInfo,
 } from '../../../types/common';
@@ -168,4 +169,9 @@ export interface RestApiService {
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K
   ): RestApiTagNameMap[K];
+  getChangeDetail(
+    changeNum: number | string,
+    opt_errFn?: Function,
+    opt_cancelCondition?: Function
+  ): Promise<ChangeInfo>;
 }

@@ -16,23 +16,29 @@
  */
 
 /**
- * @template T
- * @param {!Array<T>} array
- * @param {!Function} fn An iteratee function to be passed each element of
+ * @param fn An iteratee function to be passed each element of
  *     the array in order. Must return a promise, and the following
  *     iteration will not begin until resolution of the promise returned by
  *     the previous iteration.
  *
  *     An optional second argument to fn is a callback that will halt the
  *     loop if called.
- * @return {!Promise<undefined>}
  */
-export function asyncForeach(array, fn) {
-  if (!array.length) { return Promise.resolve(); }
+export function asyncForeach<T>(
+  array: T[],
+  fn: (item: T, stopCallback: () => void) => Promise<T>
+): Promise<T | void> {
+  if (!array.length) {
+    return Promise.resolve();
+  }
   let stop = false;
-  const stopCallback = () => { stop = true; };
-  return fn(array[0], stopCallback).then(exit => {
-    if (stop) { return Promise.resolve(); }
+  const stopCallback = () => {
+    stop = true;
+  };
+  return fn(array[0], stopCallback).then(() => {
+    if (stop) {
+      return Promise.resolve();
+    }
     return asyncForeach(array.slice(1), fn);
   });
 }

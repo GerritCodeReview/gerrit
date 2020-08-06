@@ -24,6 +24,7 @@ import {
   ServerInfo,
   ProjectInfo,
   ActionInfo,
+  GroupInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -67,7 +68,6 @@ export enum ApiElement {
   CHANGE_ACTIONS = 'changeactions',
   REPLY_DIALOG = 'replydialog',
 }
-
 // TODO(TS): remove when GrReplyDialog converted to typescript
 export interface GrReplyDialog {
   getLabelValue(label: string): string;
@@ -75,13 +75,11 @@ export interface GrReplyDialog {
   send(includeComments?: boolean, startReview?: boolean): Promise<unknown>;
   setPluginMessage(message: string): void;
 }
-
 // Copied from gr-change-actions.js
 export enum ActionType {
   CHANGE = 'change',
   REVISION = 'revision',
 }
-
 // Copied from gr-change-actions.js
 export enum ActionPriority {
   CHANGE = 2,
@@ -90,7 +88,6 @@ export enum ActionPriority {
   REVIEW = -3,
   REVISION = 1,
 }
-
 // TODO(TS) remove interface when GrChangeActions is converted to typescript
 export interface GrChangeActions extends Element {
   RevisionActions?: Record<string, string>;
@@ -116,7 +113,6 @@ export interface RestApiTagNameMap {
   [ApiElement.REPLY_DIALOG]: GrReplyDialog;
   [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
 }
-
 export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed

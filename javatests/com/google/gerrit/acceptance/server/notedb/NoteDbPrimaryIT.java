@@ -60,6 +60,7 @@ import com.google.gerrit.server.notedb.NoteDbChangeState;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
 import com.google.gerrit.server.notedb.TestChangeRebuilderWrapper;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.ConfigSuite;
@@ -101,6 +102,7 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
   @Inject private ChangeUpdate.Factory updateFactory;
   @Inject private InternalUser.Factory internalUserFactory;
   @Inject private RetryHelper retryHelper;
+  @Inject private ProjectCache projectCache;
 
   private PrimaryStorageMigrator migrator;
 
@@ -125,7 +127,8 @@ public class NoteDbPrimaryIT extends AbstractDaemonTest {
         queryProvider,
         updateFactory,
         internalUserFactory,
-        retryHelper);
+        retryHelper,
+        projectCache);
   }
 
   @After

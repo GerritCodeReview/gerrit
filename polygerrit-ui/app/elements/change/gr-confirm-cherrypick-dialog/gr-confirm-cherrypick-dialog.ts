@@ -14,18 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {appContext} from '../../../services/app-context.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/shared-styles';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-confirm-cherrypick-dialog_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {appContext} from '../../../services/app-context';
+import {customElement, property, observe} from '@polymer/decorators';
+import {ChangeInfo} from '../../../types/common';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-cherrypick-dialog': GrConfirmCherrypickDialog;
+  }
+}
 
 const SUGGESTIONS_LIMIT = 15;
 const CHANGE_SUBJECT_LIMIT = 50;
@@ -34,14 +43,14 @@ const CHERRY_PICK_TYPES = {
   TOPIC: 2,
 };
 
-/**
- * @extends PolymerElement
- */
-class GrConfirmCherrypickDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+@customElement('gr-confirm-cherrypick-dialog')
+export class GrConfirmCherrypickDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-confirm-cherrypick-dialog'; }
   /**
    * Fired when the confirm button is pressed.
    *
@@ -54,62 +63,66 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
    * @event cancel
    */
 
-  static get properties() {
-    return {
-      branch: {
-        type: String,
-        observer: '_updateBranch',
-      },
-      baseCommit: String,
-      changeStatus: String,
-      commitMessage: String,
-      commitNum: String,
-      message: String,
-      project: String,
-      changes: Array,
-      _query: {
-        type: Function,
-        value() {
-          return this._getProjectBranchesSuggestions.bind(this);
-        },
-      },
-      _showCherryPickTopic: {
-        type: Boolean,
-        value: false,
-      },
-      _changesCount: Number,
-      _cherryPickType: {
-        type: Number,
-        value: CHERRY_PICK_TYPES.SINGLE_CHANGE,
-      },
-      _duplicateProjectChanges: {
-        type: Boolean,
-        value: false,
-      },
-      // Status of each change that is being cherry picked together
-      _statuses: Object,
-      _invalidBranch: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+  @property({type: String})
+  branch?: string;
+
+  @property({type: String})
+  baseCommit?: string;
+
+  @property({type: String})
+  changeStatus?: string;
+
+  @property({type: String})
+  commitMessage?: string;
+
+  @property({type: String})
+  commitNum?: string;
+
+  @property({type: String})
+  message?: string;
+
+  @property({type: String})
+  project?: string;
+
+  @property({type: Array})
+  changes: ChangeInfo[] = [];
+
+  @property({type: Object})
+  _query: Function;
+
+  @property({type: Boolean})
+  _showCherryPickTopic = false;
+
+  @property({type: Number})
+  _changesCount?: number;
+
+  @property({type: Number})
+  _cherryPickType = CHERRY_PICK_TYPES.SINGLE_CHANGE;
+
+  @property({type: Boolean})
+  _duplicateProjectChanges = false;
+
+  @property({type: Object})
+  // Status of each change that is being cherry picked together
+  _statuses: Record<string, string>;
+
+  @property({type: Boolean})
+  _invalidBranch = false;
+
+  @property({type: Object})
+  reporting: ReportingService;
 
   constructor() {
     super();
+    this._statuses = {};
     this.reporting = appContext.reportingService;
+    this._query = this._getProjectBranchesSuggestions.bind(this);
   }
 
-  static get observers() {
-    return [
-      '_computeMessage(changeStatus, commitNum, commitMessage)',
-    ];
-  }
-
-  updateChanges(changes) {
+  updateChanges(changes: ChangeInfo[]) {
     this.changes = changes;
     this._statuses = {};
-    const projects = {};
+    const projects: Record<string, boolean> = {};
     this._duplicateProjectChanges = false;
     changes.forEach(change => {
       if (projects[change.project]) {
@@ -121,29 +134,33 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
     this._showCherryPickTopic = changes.length > 1;
   }
 
-  _updateBranch(branch) {
+  @observe('branch')
+  _updateBranch(branch: string) {
     const invalidChars = [',', ' '];
-    this._invalidBranch = branch && invalidChars.some(c => branch.includes(c));
+    this._invalidBranch = !!(
+      branch && invalidChars.some(c => branch.includes(c))
+    );
   }
 
-  _computeTopicErrorMessage(duplicateProjectChanges) {
+  _computeTopicErrorMessage(duplicateProjectChanges: boolean) {
     if (duplicateProjectChanges) {
       return 'Two changes cannot be of the same project';
     }
+    return '';
   }
 
-  updateStatus(change, status) {
+  updateStatus(change: ChangeInfo, status: string) {
     this._statuses = {...this._statuses, [change.id]: status};
   }
 
-  _computeStatus(change, statuses) {
+  _computeStatus(change: ChangeInfo, statuses: Record<string, string>) {
     if (!change || !statuses || !statuses[change.id]) return 'NOT STARTED';
     return statuses[change.id].status;
   }
 
   _computeStatusClass(change, statuses) {
     if (!change || !statuses || !statuses[change.id]) return '';
-    return statuses[change.id].status === 'FAILED' ? 'error': '';
+    return statuses[change.id].status === 'FAILED' ? 'error' : '';
   }
 
   _computeError(change, statuses) {
@@ -164,19 +181,20 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   _computeCancelLabel(statuses) {
-    const isRunningChange = Object.values(statuses).
-        some(v => v.status === 'RUNNING');
+    const isRunningChange = Object.values(statuses).some(
+      v => v.status === 'RUNNING'
+    );
     return isRunningChange ? 'Close' : 'Cancel';
   }
 
-  _computeDisableCherryPick(cherryPickType, duplicateProjectChanges,
-      statuses) {
-    const duplicateProject = (cherryPickType === CHERRY_PICK_TYPES.TOPIC) &&
-      duplicateProjectChanges;
+  _computeDisableCherryPick(cherryPickType, duplicateProjectChanges, statuses) {
+    const duplicateProject =
+      cherryPickType === CHERRY_PICK_TYPES.TOPIC && duplicateProjectChanges;
     if (duplicateProject) return true;
     if (!statuses) return false;
-    const isRunningChange = Object.values(statuses).
-        some(v => v.status === 'RUNNING');
+    const isRunningChange = Object.values(statuses).some(
+      v => v.status === 'RUNNING'
+    );
     return isRunningChange;
   }
 
@@ -196,13 +214,10 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
     this._cherryPickType = CHERRY_PICK_TYPES.TOPIC;
   }
 
+  @observe('changeStatus', 'commitNum', 'commitMessage')
   _computeMessage(changeStatus, commitNum, commitMessage) {
     // Polymer 2: check for undefined
-    if ([
-      changeStatus,
-      commitNum,
-      commitMessage,
-    ].includes(undefined)) {
+    if ([changeStatus, commitNum, commitMessage].includes(undefined)) {
       return;
     }
 
@@ -215,25 +230,21 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   _generateRandomCherryPickTopic(change) {
-    const randomString = Math.random().toString(36)
-        .substr(2, 10);
+    const randomString = Math.random().toString(36).substr(2, 10);
     const message = `cherrypick-${change.topic}-${randomString}`;
     return message;
   }
 
   _handleCherryPickFailed(change, response) {
     response.text().then(errText => {
-      this.updateStatus(change,
-          {status: 'FAILED', msg: errText});
+      this.updateStatus(change, {status: 'FAILED', msg: errText});
     });
   }
 
   _handleCherryPickTopic() {
-    const topic = this._generateRandomCherryPickTopic(
-        this.changes[0]);
+    const topic = this._generateRandomCherryPickTopic(this.changes[0]);
     this.changes.forEach(change => {
-      this.updateStatus(change,
-          {status: 'RUNNING'});
+      this.updateStatus(change, {status: 'RUNNING'});
       const payload = {
         destination: this.branch,
         base: null,
@@ -245,17 +256,26 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
         this._handleCherryPickFailed(change, response);
       };
       const patchNum = change.revisions[change.current_revision]._number;
-      this.$.restAPI.executeChangeAction(change._number, 'POST', '/cherrypick',
-          patchNum, payload, handleError).then(response => {
-        this.updateStatus(change, {status: 'SUCCESSFUL'});
-        const failedOrPending = Object.values(this._statuses).find(
-            v => v.status !== 'SUCCESSFUL');
-        if (!failedOrPending) {
-          /* This needs some more work, as the new topic may not always be
+      this.$.restAPI
+        .executeChangeAction(
+          change._number,
+          'POST',
+          '/cherrypick',
+          patchNum,
+          payload,
+          handleError
+        )
+        .then(response => {
+          this.updateStatus(change, {status: 'SUCCESSFUL'});
+          const failedOrPending = Object.values(this._statuses).find(
+            v => v.status !== 'SUCCESSFUL'
+          );
+          if (!failedOrPending) {
+            /* This needs some more work, as the new topic may not always be
           created, instead we may end up creating a new patchset */
-          GerritNav.navigateToSearchQuery(`topic: "${topic}"`);
-        }
-      });
+            GerritNav.navigateToSearchQuery(`topic: "${topic}"`);
+          }
+        });
     });
   }
 
@@ -268,17 +288,23 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
       return;
     }
     // Cherry pick single change
-    this.dispatchEvent(new CustomEvent('confirm', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
   _handleCancelTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('cancel', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
   resetFocus() {
@@ -289,25 +315,27 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
-    return this.$.restAPI.getRepoBranches(
-        input, this.project, SUGGESTIONS_LIMIT).then(response => {
-      const branches = [];
-      let branch;
-      for (const key in response) {
-        if (!response.hasOwnProperty(key)) { continue; }
-        if (response[key].ref.startsWith('refs/heads/')) {
-          branch = response[key].ref.substring('refs/heads/'.length);
-        } else {
-          branch = response[key].ref;
+    return this.$.restAPI
+      .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
+      .then(response => {
+        const branches = [];
+        let branch;
+        for (const key in response) {
+          if (!response.hasOwnProperty(key)) {
+            continue;
+          }
+          if (response[key].ref.startsWith('refs/heads/')) {
+            branch = response[key].ref.substring('refs/heads/'.length);
+          } else {
+            branch = response[key].ref;
+          }
+          branches.push({
+            name: branch,
+          });
         }
-        branches.push({
-          name: branch,
-        });
-      }
-      return branches;
-    });
+        return branches;
+      });
   }
 }
 
-customElements.define(GrConfirmCherrypickDialog.is,
-    GrConfirmCherrypickDialog);
+customElements.define(GrConfirmCherrypickDialog.is, GrConfirmCherrypickDialog);

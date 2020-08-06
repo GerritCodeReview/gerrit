@@ -16,6 +16,93 @@
       "revId": "2d984f2775d5d29fac7dfd7396b0d3daa401b93e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b4ee1323_e86c4644",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:15:13Z",
+      "side": 1,
+      "message": "In the previous change in the chain (Rename files from .js to .ts for TypeScript conversion) you renamed gr-diff-builder-unified.js to .ts\nProbably, locally you already converted gr-diff-builder, but didn\u0027t upload it.\nI have the same errors locally.",
+      "parentUuid": "fa1af955_8ba486b9",
+      "revId": "2d984f2775d5d29fac7dfd7396b0d3daa401b93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7e8c803_ace9f153",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:15:13Z",
+      "side": 1,
+      "message": "To avoid as HTMLElement, you can use instanceof Element.\nfunction _getContentTextParent(target: Node): Node | null {\n  let element: Element | null;\n  if (target instanceof Element) {\n    element \u003d target;\n  } else {\n    element \u003d target.parentElement;\n  }\n\n...\n\nTogether with other 2 comments it allows to write code without any \u0027...as ...\u0027",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "2d984f2775d5d29fac7dfd7396b0d3daa401b93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "949c8178_2e6243bf",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:15:13Z",
+      "side": 1,
+      "message": "It can accept null and undefined:\nnode: Node | null | undefined",
+      "range": {
+        "startLine": 73,
+        "startChar": 37,
+        "endLine": 73,
+        "endChar": 41
+      },
+      "revId": "2d984f2775d5d29fac7dfd7396b0d3daa401b93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ef9171_4650999b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-range-normalizer.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:15:13Z",
+      "side": 1,
+      "message": "Method can be called with null: node?: Node | null or node: Node | null | undefined",
+      "range": {
+        "startLine": 102,
+        "startChar": 27,
+        "endLine": 102,
+        "endChar": 31
+      },
+      "revId": "2d984f2775d5d29fac7dfd7396b0d3daa401b93e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

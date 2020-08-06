@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-type LineNumber = number | 'FILE';
+export type LineNumber = number | 'FILE';
 
 export enum GrDiffLineType {
   ADD = 'add',

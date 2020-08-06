@@ -155,3 +155,8 @@ export enum ProjectState {
   READ_ONLY = 'READ_ONLY',
   HIDDEN = 'HIDDEN',
 }
+
+export enum Side {
+  LEFT = 'left',
+  RIGHT = 'right',
+}

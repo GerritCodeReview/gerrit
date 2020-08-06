@@ -14,26 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {getAccountDisplayName} from '../../utils/display-name-util.js';
+import {getAccountDisplayName} from '../../utils/display-name-util';
+import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
+import {AccountInfo} from '../../types/common';
 
 export class GrEmailSuggestionsProvider {
-  constructor(restAPI) {
-    this._restAPI = restAPI;
+  constructor(private _restAPI: RestApiService) {}
+
+  getSuggestions(input: string) {
+    return this._restAPI.getSuggestedAccounts(`${input}`).then(accounts => {
+      if (!accounts) {
+        return [];
+      }
+      return accounts;
+    });
   }
 
-  getSuggestions(input) {
-    return this._restAPI.getSuggestedAccounts(`${input}`)
-        .then(accounts => {
-          if (!accounts) { return []; }
-          return accounts;
-        });
-  }
-
-  makeSuggestionItem(account) {
+  makeSuggestionItem(account: AccountInfo) {
     return {
-      name: getAccountDisplayName(null, account),
+      name: getAccountDisplayName(undefined, account),
       value: {account, count: 1},
     };
   }
 }
-

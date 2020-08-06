@@ -66,8 +66,6 @@ export class GrAttributeHelper {
    * Get value of the property from wrapped object. Waits for the property
    * to be initialized if it isn't defined.
    *
-   * @param {string} name Property name.
-   * @return {!Promise<?>}
    */
   get(name: string) {
     if (this._elementHasProperty(name)) {

@@ -146,12 +146,6 @@ export function changeIsOpen(change?: Change) {
   return change && change.status === ChangeStatus.NEW;
 }
 
-/**
- * @param {!Object} change
- * @param {!Object=} opt_options
- *
- * @return {!Array}
- */
 export function changeStatuses(
   change: Change,
   opt_options?: ChangeStatusesOptions
@@ -191,10 +185,6 @@ export function changeStatuses(
   return states;
 }
 
-/**
- * @param {!Object} change
- * @return {string}
- */
 export function changeStatusString(change: Change) {
   return changeStatuses(change).join(', ');
 }

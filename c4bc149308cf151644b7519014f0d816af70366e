@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b75c8a32_05efafc8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-06T15:33:20Z",
+      "side": 1,
+      "message": "Re-running the checks now. Nit below. Thanks for these merge-ups.",
+      "revId": "c4bc149308cf151644b7519014f0d816af70366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "202c3cea_98bdc868",
+        "filename": "Documentation/dev-design-docs.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-06T15:33:20Z",
+      "side": 1,
+      "message": ",role\u003dexternal,window\u003d_blank]",
+      "range": {
+        "startLine": 145,
+        "startChar": 18,
+        "endLine": 145,
+        "endChar": 19
+      },
+      "revId": "c4bc149308cf151644b7519014f0d816af70366e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

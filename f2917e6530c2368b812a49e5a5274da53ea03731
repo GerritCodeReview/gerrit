@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e37b470c_7013a441",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T13:05:21Z",
+      "side": 1,
+      "message": "sorry, last check and noticed this :) remove",
+      "revId": "f2917e6530c2368b812a49e5a5274da53ea03731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40d6198e_35ddae1e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T13:05:21Z",
+      "side": 1,
+      "message": "these types are part of jsdoc, for tsdoc we don\u0027t need them any more",
+      "range": {
+        "startLine": 75,
+        "startChar": 11,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "f2917e6530c2368b812a49e5a5274da53ea03731",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

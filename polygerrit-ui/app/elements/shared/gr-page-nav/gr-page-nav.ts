@@ -21,6 +21,18 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-page-nav_html';
 import {customElement, property} from '@polymer/decorators';
 
+/**
+ * Augment the interface on top of PolymerElement
+ * for gr-page-nav.
+ */
+export interface GrPageNav {
+  $: {
+    // Note: this is needed to access $.nav
+    // with dotted property access
+    nav: HTMLElement;
+  };
+}
+
 @customElement('gr-page-nav')
 export class GrPageNav extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)

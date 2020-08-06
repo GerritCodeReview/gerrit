@@ -24,6 +24,7 @@ import {
   ServerInfo,
   ProjectInfo,
   ActionInfo,
+  GroupInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -158,6 +159,11 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[]>;
+  getSuggestedGroups(
+    input: string,
+    n?: number,
+    errFn?: ErrorCallback
+  ): Promise<Record<string, GroupInfo>>;
 
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K

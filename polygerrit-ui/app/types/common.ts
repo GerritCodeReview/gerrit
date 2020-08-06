@@ -232,7 +232,7 @@ export interface GroupBaseInfo {
  */
 export interface GroupInfo {
   id: GroupId;
-  name: string;
+  name?: string;
   url?: string;
   options?: GroupOptionsInfo;
   description?: string;

@@ -934,3 +934,115 @@ export interface CommentRange {
   end_line: string;
   end_character: string;
 }
+
+/**
+ * The DiffContent entity contains information about the content differences in a file.
+ */
+export interface DiffContent {
+  a?: string;
+  b?: string;
+  ab?: string;
+  // The inner array is always of length two. The first entry is the 'skip'
+  // length. The second entry is the 'edit' length.
+  edit_a: number[][];
+  edit_b: number[][];
+  due_to_rebase: boolean;
+  skip?: string;
+  common?: string;
+}
+
+/**
+ * The DiffFileMetaInfo entity contains meta information about a file diff.
+ */
+export interface DiffFileMetaInfo {
+  name: string;
+  content_type: string;
+  lines: string;
+  web_links?: WebLinkInfo[];
+}
+
+/**
+ * The DiffInfo entity contains information about the diff of a file in a revision.
+ */
+export interface DiffInfo {
+  meta_a: DiffFileMetaInfo;
+  meta_b: DiffFileMetaInfo;
+  change_type: string;
+  intraline_status: string;
+  diff_header: string;
+  content: DiffContent[];
+  web_links?: DiffWebLinkInfo[];
+  binary: boolean;
+}
+
+/**
+ * The DiffWebLinkInfo entity describes a link on a diff screen to an external site.
+ */
+export interface DiffWebLinkInfo {
+  name: string;
+  url: string;
+  image_url: string;
+  show_on_side_by_side_diff_view: string;
+  show_on_unified_diff_view: string;
+}
+
+/**
+ * The DiffPreferencesInfo entity contains information about the diff preferences of a user.
+ */
+export interface DiffPreferencesInfo {
+  context: string;
+  expand_all_comments: boolean;
+  ignore_whitespace: string;
+  intraline_difference: boolean;
+  line_length: number;
+  cursor_blink_rate: string;
+  manual_review: boolean;
+  retain_header: boolean;
+  show_line_endings: boolean;
+  show_tabs: boolean;
+  show_whitespace_errors: boolean;
+  skip_deleted: boolean;
+  skip_uncommented: boolean;
+  syntax_highlighting: boolean;
+  hide_top_menu: boolean;
+  auto_hide_diff_table_header: boolean;
+  hide_line_numbers: boolean;
+  tab_size: number;
+  font_size: string;
+  hide_empty_pane: boolean;
+  match_brackets: boolean;
+  line_wrapping: boolean;
+  show_file_comment_button: boolean;
+}
+
+/**
+ * The RangeInfo entity stores the coordinates of a range.
+ */
+export interface RangeInfo {
+  start: number;
+  end: number;
+}
+
+/**
+ * The BlameInfo entity stores the commit metadata with the row coordinates where it applies.
+ */
+export interface BlameInfo {
+  author: string;
+  id: string;
+  time: number;
+  commit_msg: string;
+  ranges: RangeInfo[];
+}
+
+/**
+ * Images are retrieved by using the file content API and the body is just the
+ * HTML response.
+ */
+export interface ImageInfo {
+  body: string;
+  type: string;
+  _name: string;
+  _expectedType: string;
+  _width: number;
+  _height: number;
+}

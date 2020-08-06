@@ -15,30 +15,26 @@
  * limitations under the License.
  */
 
-import {GrDiffBuilderUnified} from './gr-diff-builder-unified.js';
+import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
+import {DiffInfo, DiffPreferencesInfo} from '../../../types/common';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 
-/** @constructor */
-export function GrDiffBuilderBinary(diff, prefs, outputEl) {
-  GrDiffBuilderUnified.call(this, diff, prefs, outputEl, []);
+export class GrDiffBuilderBinary extends GrDiffBuilderUnified {
+  constructor(
+    diff: DiffInfo,
+    prefs: DiffPreferencesInfo,
+    outputEl: HTMLElement
+  ) {
+    super(diff, prefs, outputEl);
+  }
+
+  buildSectionElement(): HTMLElement {
+    const section = this._createElement('tbody', 'binary-diff');
+    const line = new GrDiffLine(GrDiffLineType.BOTH, 'FILE', 'FILE');
+    const fileRow = this._createRow(line);
+    const contentTd = fileRow.querySelector('td.both.file')!;
+    contentTd.textContent = ' Difference in binary files';
+    section.appendChild(fileRow);
+    return section;
+  }
 }
-
-GrDiffBuilderBinary.prototype = Object.create(GrDiffBuilderUnified.prototype);
-GrDiffBuilderBinary.prototype.constructor = GrDiffBuilderBinary;
-
-// This method definition is a no-op to satisfy the parent type.
-GrDiffBuilderBinary.prototype.addColumns = function(outputEl, fontSize) {};
-
-GrDiffBuilderBinary.prototype.buildSectionElement = function() {
-  const section = this._createElement('tbody', 'binary-diff');
-  const fileRow = this._createRow(section, {
-    beforeNumber: 'FILE',
-    afterNumber: 'FILE',
-    type: 'both',
-    text: '',
-  });
-  const contentTd = fileRow.querySelector('td.both.file');
-  contentTd.textContent = ' Difference in binary files';
-
-  section.appendChild(fileRow);
-  return section;
-};

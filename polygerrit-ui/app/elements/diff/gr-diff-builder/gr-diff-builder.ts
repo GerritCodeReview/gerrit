@@ -14,10 +14,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {GrDiffLineType} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroupType, hideInContextControl} from '../gr-diff/gr-diff-group.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {getBaseUrl} from '../../../utils/url-util';
+import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
+import {
+  GrDiffGroup,
+  GrDiffGroupType,
+  hideInContextControl,
+  rangeBySide,
+} from '../gr-diff/gr-diff-group';
+import {BlameInfo, DiffInfo, DiffPreferencesInfo} from '../../../types/common';
+import {Side} from '../../../constants/constants';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -41,625 +47,717 @@ import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
  */
 const REGEX_TAB_OR_SURROGATE_PAIR = /\t|[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
-export function GrDiffBuilder(diff, prefs, outputEl, layers) {
-  this._diff = diff;
-  this._numLinesLeft = this._diff.content ? this._diff.content.reduce(
-      (sum, chunk) => {
-        const left = chunk.a || chunk.ab;
-        return sum + (left ? left.length : 0);
-      }, 0) : 0;
-  this._prefs = prefs;
-  this._outputEl = outputEl;
-  this.groups = [];
-  this._blameInfo = null;
-
-  this.layers = layers || [];
-
-  if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
-    throw Error('Invalid tab size from preferences.');
-  }
-
-  if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
-    throw Error('Invalid line length from preferences.');
-  }
-
-  this._layerUpdateListener = this._handleLayerUpdate.bind(this);
-  for (const layer of this.layers) {
-    if (layer.addListener) {
-      layer.addListener(this._layerUpdateListener);
-    }
-  }
-}
-
-GrDiffBuilder.prototype.clear = function() {
-  for (const layer of this.layers) {
-    if (layer.removeListener) {
-      layer.removeListener(this._layerUpdateListener);
-    }
-  }
-};
-
-GrDiffBuilder.GroupType = {
-  ADDED: 'b',
-  BOTH: 'ab',
-  REMOVED: 'a',
-};
-
-GrDiffBuilder.Highlights = {
-  ADDED: 'edit_b',
-  REMOVED: 'edit_a',
-};
-
-GrDiffBuilder.Side = {
-  LEFT: 'left',
-  RIGHT: 'right',
-};
-
-GrDiffBuilder.ContextButtonType = {
-  ABOVE: 'above',
-  BELOW: 'below',
-  ALL: 'all',
-};
-
 const PARTIAL_CONTEXT_AMOUNT = 10;
 
-/**
- * Abstract method
- *
- * @param {string} outputEl
- * @param {number} fontSize
- */
-GrDiffBuilder.prototype.addColumns = function() {
-  throw Error('Subclasses must implement addColumns');
-};
+enum ContextButtonType {
+  ABOVE = 'above',
+  BELOW = 'below',
+  ALL = 'all',
+}
 
-/**
- * Abstract method
- *
- * @param {Object} group
- */
-GrDiffBuilder.prototype.buildSectionElement = function() {
-  throw Error('Subclasses must implement buildSectionElement');
-};
+export interface ContextEvent extends Event {
+  detail: {
+    groups: GrDiffGroup[];
+    section: HTMLElement;
+    numLines: number;
+  };
+}
 
-GrDiffBuilder.prototype.emitGroup = function(group, opt_beforeSection) {
-  const element = this.buildSectionElement(group);
-  this._outputEl.insertBefore(element, opt_beforeSection);
-  group.element = element;
-};
+export abstract class GrDiffBuilder {
+  private readonly _diff: DiffInfo;
 
-GrDiffBuilder.prototype.getGroupsByLineRange = function(
-    startLine, endLine, opt_side) {
-  const groups = [];
-  for (let i = 0; i < this.groups.length; i++) {
-    const group = this.groups[i];
-    if (group.lines.length === 0) {
-      continue;
-    }
-    let groupStartLine = 0;
-    let groupEndLine = 0;
-    if (opt_side) {
-      groupStartLine = group.lineRange[opt_side].start;
-      groupEndLine = group.lineRange[opt_side].end;
+  private readonly _numLinesLeft: number;
+
+  private readonly _prefs: DiffPreferencesInfo;
+
+  protected readonly _outputEl: HTMLElement;
+
+  private readonly groups: GrDiffGroup[];
+
+  private _blameInfo: BlameInfo[] | null;
+
+  private readonly _layerUpdateListener: (
+    start: LineNumber,
+    end: LineNumber,
+    side: Side
+  ) => void;
+
+  constructor(
+    diff: DiffInfo,
+    prefs: DiffPreferencesInfo,
+    outputEl: HTMLElement,
+    // TODO(TS): Replace any by a layer interface.
+    readonly layers: any[] = []
+  ) {
+    this._diff = diff;
+    this._numLinesLeft = this._diff.content
+      ? this._diff.content.reduce((sum, chunk) => {
+          const left = chunk.a || chunk.ab;
+          return sum + (left ? left.length : 0);
+        }, 0)
+      : 0;
+    this._prefs = prefs;
+    this._outputEl = outputEl;
+    this.groups = [];
+    this._blameInfo = null;
+
+    if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
+      throw Error('Invalid tab size from preferences.');
     }
 
-    if (groupStartLine === 0) { // Line was removed or added.
-      groupStartLine = groupEndLine;
+    if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
+      throw Error('Invalid line length from preferences.');
     }
-    if (groupEndLine === 0) { // Line was removed or added.
-      groupEndLine = groupStartLine;
-    }
-    if (startLine <= groupEndLine && endLine >= groupStartLine) {
-      groups.push(group);
+
+    this._layerUpdateListener = this._handleLayerUpdate.bind(this);
+    for (const layer of this.layers) {
+      if (layer.addListener) {
+        layer.addListener(this._layerUpdateListener);
+      }
     }
   }
-  return groups;
-};
 
-GrDiffBuilder.prototype.getContentTdByLine = function(
-    lineNumber, opt_side, opt_root) {
-  const root = dom(opt_root || this._outputEl);
-  const sideSelector = opt_side ? ('.' + opt_side) : '';
-  return root.querySelector('td.lineNum[data-value="' + lineNumber +
-    '"]' + sideSelector + ' ~ td.content');
-};
+  clear() {
+    for (const layer of this.layers) {
+      if (layer.removeListener) {
+        layer.removeListener(this._layerUpdateListener);
+      }
+    }
+  }
 
-GrDiffBuilder.prototype.getContentByLine = function(
-    lineNumber, opt_side, opt_root) {
-  return this.getContentTdByLine(lineNumber, opt_side, opt_root)
-      .querySelector('.contentText');
-};
+  // TODO(TS): Convert to enum.
+  static readonly GroupType = {
+    ADDED: 'b',
+    BOTH: 'ab',
+    REMOVED: 'a',
+  };
 
-/**
- * Find line elements or line objects by a range of line numbers and a side.
- *
- * @param {number} start The first line number
- * @param {number} end The last line number
- * @param {string} opt_side The side of the range. Either 'left' or 'right'.
- * @param {!Array<GrDiffLine>} out_lines The output list of line objects. Use
- *     null if not desired.
- * @param  {!Array<HTMLElement>} out_elements The output list of line elements.
- *     Use null if not desired.
- */
-GrDiffBuilder.prototype.findLinesByRange = function(start, end, opt_side,
-    out_lines, out_elements) {
-  const groups = this.getGroupsByLineRange(start, end, opt_side);
-  for (const group of groups) {
-    let content = null;
-    for (const line of group.lines) {
-      if ((opt_side === 'left' && line.type === GrDiffLineType.ADD) ||
-          (opt_side === 'right' && line.type === GrDiffLineType.REMOVE)) {
+  // TODO(TS): Convert to enum.
+  static readonly Highlights = {
+    ADDED: 'edit_b',
+    REMOVED: 'edit_a',
+  };
+
+  // TODO(TS): Convert to enum.
+  static readonly Side = {
+    LEFT: 'left',
+    RIGHT: 'right',
+  };
+
+  // TODO(TS): Replace usages with ContextButtonType enum.
+  static readonly ContextButtonType = {
+    ABOVE: 'above',
+    BELOW: 'below',
+    ALL: 'all',
+  };
+
+  abstract addColumns(outputEl: HTMLElement, fontSize: number): void;
+
+  abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
+
+  emitGroup(group: GrDiffGroup, opt_beforeSection: HTMLElement) {
+    const element = this.buildSectionElement(group);
+    this._outputEl.insertBefore(element, opt_beforeSection);
+    group.element = element;
+  }
+
+  getGroupsByLineRange(
+    startLine: LineNumber,
+    endLine: LineNumber,
+    side?: Side
+  ) {
+    const groups = [];
+    for (let i = 0; i < this.groups.length; i++) {
+      const group = this.groups[i];
+      if (group.lines.length === 0) {
         continue;
       }
-      const lineNumber = opt_side === 'left' ?
-        line.beforeNumber : line.afterNumber;
-      if (lineNumber < start || lineNumber > end) { continue; }
+      let groupStartLine = 0;
+      let groupEndLine = 0;
+      if (side) {
+        const range = rangeBySide(group.lineRange, side);
+        groupStartLine = range.start || 0;
+        groupEndLine = range.end || 0;
+      }
 
-      if (out_lines) { out_lines.push(line); }
-      if (out_elements) {
-        if (content) {
-          content = this._getNextContentOnSide(content, opt_side);
-        } else {
-          content = this.getContentByLine(lineNumber, opt_side,
-              group.element);
+      if (groupStartLine === 0) {
+        // Line was removed or added.
+        groupStartLine = groupEndLine;
+      }
+      if (groupEndLine === 0) {
+        // Line was removed or added.
+        groupEndLine = groupStartLine;
+      }
+      if (startLine <= groupEndLine && endLine >= groupStartLine) {
+        groups.push(group);
+      }
+    }
+    return groups;
+  }
+
+  getContentTdByLine(
+    lineNumber: LineNumber,
+    side?: Side,
+    opt_root?: HTMLElement
+  ): Element | null {
+    const root = opt_root || this._outputEl;
+    const sideSelector: string = side ? `.${side}` : '';
+    return root.querySelector(
+      `td.lineNum[data-value="${lineNumber}"]${sideSelector} ~ td.content`
+    );
+  }
+
+  getContentByLine(
+    lineNumber: LineNumber,
+    side?: Side,
+    root?: HTMLElement
+  ): HTMLElement | null {
+    const td = this.getContentTdByLine(lineNumber, side, root);
+    return td ? td.querySelector('.contentText') : null;
+  }
+
+  /**
+   * Find line elements or line objects by a range of line numbers and a side.
+   *
+   * @param start The first line number
+   * @param end The last line number
+   * @param opt_side The side of the range. Either 'left' or 'right'.
+   * @param out_lines The output list of line objects. Use
+   *     null if not desired.
+   * @param out_elements The output list of line elements.
+   *     Use null if not desired.
+   */
+  findLinesByRange(
+    start: LineNumber,
+    end: LineNumber,
+    opt_side: Side,
+    out_lines: GrDiffLine[],
+    out_elements: HTMLElement[]
+  ) {
+    const groups = this.getGroupsByLineRange(start, end, opt_side);
+    for (const group of groups) {
+      let content: HTMLElement | null = null;
+      for (const line of group.lines) {
+        if (
+          (opt_side === 'left' && line.type === GrDiffLineType.ADD) ||
+          (opt_side === 'right' && line.type === GrDiffLineType.REMOVE)
+        ) {
+          continue;
         }
-        if (content) { out_elements.push(content); }
+        const lineNumber =
+          opt_side === 'left' ? line.beforeNumber : line.afterNumber;
+        if (lineNumber < start || lineNumber > end) {
+          continue;
+        }
+
+        if (out_lines) {
+          out_lines.push(line);
+        }
+        if (out_elements) {
+          if (content) {
+            content = this._getNextContentOnSide(content, opt_side);
+          } else if (group.element) {
+            content = this.getContentByLine(
+              lineNumber,
+              opt_side,
+              group.element
+            );
+          }
+          if (content) {
+            out_elements.push(content);
+          }
+        }
       }
     }
   }
-};
 
-/**
- * Re-renders the DIV.contentText elements for the given side and range of
- * diff content.
- */
-GrDiffBuilder.prototype._renderContentByRange = function(start, end, side) {
-  const lines = [];
-  const elements = [];
-  let line;
-  let el;
-  this.findLinesByRange(start, end, side, lines, elements);
-  for (let i = 0; i < lines.length; i++) {
-    line = lines[i];
-    el = elements[i];
-    if (!el) {
-      // Cannot re-render an element if it does not exist. This can happen
-      // if lines are collapsed and not visible on the page yet.
-      continue;
+  /**
+   * Re-renders the DIV.contentText elements for the given side and range of
+   * diff content.
+   */
+  _renderContentByRange(start: LineNumber, end: LineNumber, side: Side) {
+    const lines: GrDiffLine[] = [];
+    const elements: HTMLElement[] = [];
+    let line;
+    let el;
+    this.findLinesByRange(start, end, side, lines, elements);
+    for (let i = 0; i < lines.length; i++) {
+      line = lines[i];
+      el = elements[i];
+      if (!el || !el.parentElement) {
+        // Cannot re-render an element if it does not exist. This can happen
+        // if lines are collapsed and not visible on the page yet.
+        continue;
+      }
+      const lineNumberEl = this._getLineNumberEl(el, side);
+      if (!lineNumberEl) continue;
+      el.parentElement.replaceChild(
+        this._createTextEl(lineNumberEl, line, side).firstChild!,
+        el
+      );
     }
-    const lineNumberEl = this._getLineNumberEl(el, side);
-    el.parentElement.replaceChild(
-        this._createTextEl(lineNumberEl, line, side).firstChild,
-        el);
-  }
-};
-
-GrDiffBuilder.prototype.getSectionsByLineRange = function(
-    startLine, endLine, opt_side) {
-  return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
-      group => group.element);
-};
-
-GrDiffBuilder.prototype._createContextControl = function(
-    section, contextGroups) {
-  if (!contextGroups) return null;
-
-  const leftStart = contextGroups[0].lineRange.left.start;
-  const leftEnd =
-      contextGroups[contextGroups.length - 1].lineRange.left.end;
-
-  const numLines = leftEnd - leftStart + 1;
-
-  if (numLines === 0) return null;
-
-  const td = this._createElement('td');
-  const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
-
-  if (showPartialLinks && leftStart > 1) {
-    td.appendChild(this._createContextButton(
-        GrDiffBuilder.ContextButtonType.ABOVE, section, contextGroups,
-        numLines));
   }
 
-  td.appendChild(this._createContextButton(
-      GrDiffBuilder.ContextButtonType.ALL, section, contextGroups, numLines));
-
-  if (showPartialLinks && leftEnd < this._numLinesLeft) {
-    td.appendChild(this._createContextButton(
-        GrDiffBuilder.ContextButtonType.BELOW, section, contextGroups,
-        numLines));
+  getSectionsByLineRange(
+    startLine: LineNumber,
+    endLine: LineNumber,
+    opt_side: Side
+  ) {
+    return this.getGroupsByLineRange(startLine, endLine, opt_side).map(
+      group => group.element
+    );
   }
 
-  return td;
-};
+  _createContextControl(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[]
+  ): HTMLElement {
+    const leftStart = contextGroups[0].lineRange.left.start!;
+    const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
+    const numLines = leftEnd - leftStart + 1;
 
-GrDiffBuilder.prototype._createContextButton = function(
-    type, section, contextGroups, numLines) {
-  const context = PARTIAL_CONTEXT_AMOUNT;
+    if (numLines === 0) console.error('context group without lines');
 
-  const button = this._createElement('gr-button', 'showContext');
-  button.setAttribute('link', true);
-  button.setAttribute('no-uppercase', true);
+    const td = this._createElement('td');
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
 
-  let text;
-  let groups = []; // The groups that replace this one if tapped.
-  if (type === GrDiffBuilder.ContextButtonType.ALL) {
-    const icon = this._createElement('iron-icon', 'showContext');
-    icon.setAttribute('icon', 'gr-icons:unfold-more');
-    dom(button).appendChild(icon);
+    if (showPartialLinks && leftStart > 1) {
+      td.appendChild(
+        this._createContextButton(
+          ContextButtonType.ABOVE,
+          section,
+          contextGroups,
+          numLines
+        )
+      );
+    }
 
-    text = 'Show ' + numLines + ' common line';
-    if (numLines > 1) { text += 's'; }
-    groups.push(...contextGroups);
-  } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-    text = '+' + context + ' above';
-    groups = hideInContextControl(
-        contextGroups, context, numLines);
-  } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-    text = '+' + context + ' below';
-    groups = hideInContextControl(
-        contextGroups, 0, numLines - context);
-  }
-  const textSpan = this._createElement('span', 'showContext');
-  dom(textSpan).textContent = text;
-  dom(button).appendChild(textSpan);
+    td.appendChild(
+      this._createContextButton(
+        ContextButtonType.ALL,
+        section,
+        contextGroups,
+        numLines
+      )
+    );
 
-  button.addEventListener('tap', e => {
-    e.detail = {
-      groups,
-      section,
-      numLines,
-    };
-    // Let it bubble up the DOM tree.
-  });
+    if (showPartialLinks && leftEnd < this._numLinesLeft) {
+      td.appendChild(
+        this._createContextButton(
+          ContextButtonType.BELOW,
+          section,
+          contextGroups,
+          numLines
+        )
+      );
+    }
 
-  return button;
-};
-
-GrDiffBuilder.prototype._createLineEl = function(
-    line, number, type, side) {
-  const td = this._createElement('td');
-  if (line.type === GrDiffLineType.BLANK) {
     return td;
   }
-  if (line.type === GrDiffLineType.BOTH || line.type === type) {
-    // Both td and button need a number of classes/attributes for various
-    // selectors to work.
-    this._decorateLineEl(td, number, side);
-    td.classList.add('lineNum');
 
-    if (this._prefs.show_file_comment_button === false && number === 'FILE') {
+  _createContextButton(
+    type: ContextButtonType,
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    numLines: number
+  ) {
+    const context = PARTIAL_CONTEXT_AMOUNT;
+    const button = this._createElement('gr-button', 'showContext');
+    button.setAttribute('link', 'true');
+    button.setAttribute('no-uppercase', 'true');
+
+    let text = '';
+    let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
+    if (type === GrDiffBuilder.ContextButtonType.ALL) {
+      const icon = this._createElement('iron-icon', 'showContext');
+      icon.setAttribute('icon', 'gr-icons:unfold-more');
+      button.appendChild(icon);
+
+      text = `Show ${numLines} common line`;
+      if (numLines > 1) {
+        text += 's';
+      }
+      groups.push(...contextGroups);
+    } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
+      text = `+${context} above`;
+      groups = hideInContextControl(contextGroups, context, numLines);
+    } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
+      text = `+${context} below`;
+      groups = hideInContextControl(contextGroups, 0, numLines - context);
+    }
+    const textSpan = this._createElement('span', 'showContext');
+    textSpan.textContent = text;
+    button.appendChild(textSpan);
+
+    button.addEventListener('tap', e => {
+      const event = e as ContextEvent;
+      event.detail = {
+        groups,
+        section,
+        numLines,
+      };
+      // Let it bubble up the DOM tree.
+    });
+
+    return button;
+  }
+
+  _createLineEl(
+    line: GrDiffLine,
+    number: LineNumber,
+    type: GrDiffLineType,
+    side: Side
+  ) {
+    const td = this._createElement('td');
+    if (line.type === GrDiffLineType.BLANK) {
       return td;
     }
+    if (line.type === GrDiffLineType.BOTH || line.type === type) {
+      // Both td and button need a number of classes/attributes for various
+      // selectors to work.
+      this._decorateLineEl(td, number, side);
+      td.classList.add('lineNum');
 
-    const button = this._createElement('button');
-    td.appendChild(button);
-    button.tabIndex = -1;
-    this._decorateLineEl(button, number, side);
-
-    button.classList.add('lineNumButton');
-
-    button.textContent = number === 'FILE' ? 'File' : number;
-
-    // Add aria-labels for valid line numbers.
-    // For unified diff, this method will be called with number set to 0 for
-    // the empty line number column for added/removed lines. This should not
-    // be announced to the screenreader.
-    if (number > 0) {
-      if (line.type === GrDiffLineType.REMOVE) {
-        button.setAttribute('aria-label', `${number} removed`);
-      } else if (line.type === GrDiffLineType.ADD) {
-        button.setAttribute('aria-label', `${number} added`);
+      if (this._prefs.show_file_comment_button === false && number === 'FILE') {
+        return td;
       }
-    }
-  }
 
-  return td;
-};
+      const button = this._createElement('button');
+      td.appendChild(button);
+      button.tabIndex = -1;
+      this._decorateLineEl(button, number, side);
 
-GrDiffBuilder.prototype._decorateLineEl = function(el, number, side) {
-  el.classList.add(side);
-  el.dataset.value = number;
-};
+      button.classList.add('lineNumButton');
 
-GrDiffBuilder.prototype._createTextEl = function(
-    lineNumberEl, line, opt_side) {
-  const td = this._createElement('td');
-  if (line.type !== GrDiffLineType.BLANK) {
-    td.classList.add('content');
-  }
+      button.textContent = number === 'FILE' ? 'File' : number.toString();
 
-  // If intraline info is not available, the entire line will be
-  // considered as changed and marked as dark red / green color
-  if (!line.hasIntralineInfo) {
-    td.classList.add('no-intraline-info');
-  }
-  td.classList.add(line.type);
-
-  if (line.beforeNumber !== 'FILE') {
-    const lineLimit =
-        !this._prefs.line_wrapping ? this._prefs.line_length : Infinity;
-    const contentText =
-        this._formatText(line.text, this._prefs.tab_size, lineLimit);
-
-    if (opt_side) {
-      contentText.setAttribute('data-side', opt_side);
-    }
-
-    for (const layer of this.layers) {
-      if (typeof layer.annotate == 'function') {
-        layer.annotate(contentText, lineNumberEl, line);
+      // Add aria-labels for valid line numbers.
+      // For unified diff, this method will be called with number set to 0 for
+      // the empty line number column for added/removed lines. This should not
+      // be announced to the screenreader.
+      if (number > 0) {
+        if (line.type === GrDiffLineType.REMOVE) {
+          button.setAttribute('aria-label', `${number} removed`);
+        } else if (line.type === GrDiffLineType.ADD) {
+          button.setAttribute('aria-label', `${number} added`);
+        }
       }
     }
 
-    td.appendChild(contentText);
-  } else {
-    td.classList.add('file');
+    return td;
   }
 
-  return td;
-};
+  _decorateLineEl(el: HTMLElement, number: LineNumber, side: Side) {
+    el.classList.add(side);
+    el.dataset.value = number.toString();
+  }
 
-/**
- * Returns a 'div' element containing the supplied |text| as its innerText,
- * with '\t' characters expanded to a width determined by |tabSize|, and the
- * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is
- * desired.
- *
- * @param {string} text The text to be formatted.
- * @param {number} tabSize The width of each tab stop.
- * @param {number} lineLimit The column after which to wrap lines.
- * @return {HTMLElement}
- */
-GrDiffBuilder.prototype._formatText = function(text, tabSize, lineLimit) {
-  const contentText = this._createElement('div', 'contentText');
+  _createTextEl(lineNumberEl: HTMLElement, line: GrDiffLine, opt_side?: Side) {
+    const td = this._createElement('td');
+    if (line.type !== GrDiffLineType.BLANK) {
+      td.classList.add('content');
+    }
 
-  let columnPos = 0;
-  let textOffset = 0;
-  for (const segment of text.split(REGEX_TAB_OR_SURROGATE_PAIR)) {
-    if (segment) {
-      // |segment| contains only normal characters. If |segment| doesn't fit
-      // entirely on the current line, append chunks of |segment| followed by
-      // line breaks.
-      let rowStart = 0;
-      let rowEnd = lineLimit - columnPos;
-      while (rowEnd < segment.length) {
+    // If intraline info is not available, the entire line will be
+    // considered as changed and marked as dark red / green color
+    if (!line.hasIntralineInfo) {
+      td.classList.add('no-intraline-info');
+    }
+    td.classList.add(line.type);
+
+    if (line.beforeNumber !== 'FILE') {
+      const lineLimit = !this._prefs.line_wrapping
+        ? this._prefs.line_length
+        : Infinity;
+      const contentText = this._formatText(
+        line.text,
+        this._prefs.tab_size,
+        lineLimit
+      );
+
+      if (opt_side) {
+        contentText.setAttribute('data-side', opt_side);
+      }
+
+      for (const layer of this.layers) {
+        if (typeof layer.annotate === 'function') {
+          layer.annotate(contentText, lineNumberEl, line);
+        }
+      }
+
+      td.appendChild(contentText);
+    } else {
+      td.classList.add('file');
+    }
+
+    return td;
+  }
+
+  /**
+   * Returns a 'div' element containing the supplied |text| as its innerText,
+   * with '\t' characters expanded to a width determined by |tabSize|, and the
+   * text wrapped at column |lineLimit|, which may be Infinity if no wrapping is
+   * desired.
+   *
+   * @param text The text to be formatted.
+   * @param tabSize The width of each tab stop.
+   * @param lineLimit The column after which to wrap lines.
+   */
+  _formatText(text: string, tabSize: number, lineLimit: number): HTMLElement {
+    const contentText = this._createElement('div', 'contentText');
+
+    let columnPos = 0;
+    let textOffset = 0;
+    for (const segment of text.split(REGEX_TAB_OR_SURROGATE_PAIR)) {
+      if (segment) {
+        // |segment| contains only normal characters. If |segment| doesn't fit
+        // entirely on the current line, append chunks of |segment| followed by
+        // line breaks.
+        let rowStart = 0;
+        let rowEnd = lineLimit - columnPos;
+        while (rowEnd < segment.length) {
+          contentText.appendChild(
+            document.createTextNode(segment.substring(rowStart, rowEnd))
+          );
+          contentText.appendChild(this._createElement('span', 'br'));
+          columnPos = 0;
+          rowStart = rowEnd;
+          rowEnd += lineLimit;
+        }
+        // Append the last part of |segment|, which fits on the current line.
         contentText.appendChild(
-            document.createTextNode(segment.substring(rowStart, rowEnd)));
-        contentText.appendChild(this._createElement('span', 'br'));
-        columnPos = 0;
-        rowStart = rowEnd;
-        rowEnd += lineLimit;
+          document.createTextNode(segment.substring(rowStart))
+        );
+        columnPos += segment.length - rowStart;
+        textOffset += segment.length;
       }
-      // Append the last part of |segment|, which fits on the current line.
-      contentText.appendChild(
-          document.createTextNode(segment.substring(rowStart)));
-      columnPos += (segment.length - rowStart);
-      textOffset += segment.length;
-    }
-    if (textOffset < text.length) {
-      // Handle the special character at |textOffset|.
-      if (text.startsWith('\t', textOffset)) {
-        // Append a single '\t' character.
-        let effectiveTabSize = tabSize - (columnPos % tabSize);
-        if (columnPos + effectiveTabSize > lineLimit) {
-          contentText.appendChild(this._createElement('span', 'br'));
-          columnPos = 0;
-          effectiveTabSize = tabSize;
+      if (textOffset < text.length) {
+        // Handle the special character at |textOffset|.
+        if (text.startsWith('\t', textOffset)) {
+          // Append a single '\t' character.
+          let effectiveTabSize = tabSize - (columnPos % tabSize);
+          if (columnPos + effectiveTabSize > lineLimit) {
+            contentText.appendChild(this._createElement('span', 'br'));
+            columnPos = 0;
+            effectiveTabSize = tabSize;
+          }
+          contentText.appendChild(this._getTabWrapper(effectiveTabSize));
+          columnPos += effectiveTabSize;
+          textOffset++;
+        } else {
+          // Append a single surrogate pair.
+          if (columnPos >= lineLimit) {
+            contentText.appendChild(this._createElement('span', 'br'));
+            columnPos = 0;
+          }
+          contentText.appendChild(
+            document.createTextNode(text.substring(textOffset, textOffset + 2))
+          );
+          textOffset += 2;
+          columnPos += 1;
         }
-        contentText.appendChild(this._getTabWrapper(effectiveTabSize));
-        columnPos += effectiveTabSize;
-        textOffset++;
-      } else {
-        // Append a single surrogate pair.
-        if (columnPos >= lineLimit) {
-          contentText.appendChild(this._createElement('span', 'br'));
-          columnPos = 0;
-        }
-        contentText.appendChild(document.createTextNode(
-            text.substring(textOffset, textOffset + 2)));
-        textOffset += 2;
-        columnPos += 1;
       }
     }
+    return contentText;
   }
-  return contentText;
-};
 
-/**
- * Returns a <span> element holding a '\t' character, that will visually
- * occupy |tabSize| many columns.
- *
- * @param {number} tabSize The effective size of this tab stop.
- * @return {HTMLElement}
- */
-GrDiffBuilder.prototype._getTabWrapper = function(tabSize) {
-  // Force this to be a number to prevent arbitrary injection.
-  const result = this._createElement('span', 'tab');
-  result.style['tab-size'] = tabSize;
-  result.style['-moz-tab-size'] = tabSize;
-  result.innerText = '\t';
-  return result;
-};
+  /**
+   * Returns a <span> element holding a '\t' character, that will visually
+   * occupy |tabSize| many columns.
+   *
+   * @param tabSize The effective size of this tab stop.
+   */
+  _getTabWrapper(tabSize: number): HTMLElement {
+    // Force this to be a number to prevent arbitrary injection.
+    const result = this._createElement('span', 'tab');
+    result.setAttribute(
+      'style',
+      `tab-size: ${tabSize}; -moz-tab-size: ${tabSize};`
+    );
+    result.innerText = '\t';
+    return result;
+  }
 
-GrDiffBuilder.prototype._createElement = function(tagName, classStr) {
-  const el = document.createElement(tagName);
-  // When Shady DOM is being used, these classes are added to account for
-  // Polymer's polyfill behavior. In order to guarantee sufficient
-  // specificity within the CSS rules, these are added to every element.
-  // Since the Polymer DOM utility functions (which would do this
-  // automatically) are not being used for performance reasons, this is
-  // done manually.
-  el.classList.add('style-scope', 'gr-diff');
-  if (classStr) {
-    for (const className of classStr.split(' ')) {
-      el.classList.add(className);
+  _createElement(tagName: string, classStr?: string): HTMLElement {
+    const el = document.createElement(tagName);
+    // When Shady DOM is being used, these classes are added to account for
+    // Polymer's polyfill behavior. In order to guarantee sufficient
+    // specificity within the CSS rules, these are added to every element.
+    // Since the Polymer DOM utility functions (which would do this
+    // automatically) are not being used for performance reasons, this is
+    // done manually.
+    el.classList.add('style-scope', 'gr-diff');
+    if (classStr) {
+      for (const className of classStr.split(' ')) {
+        el.classList.add(className);
+      }
     }
+    return el;
   }
-  return el;
-};
 
-GrDiffBuilder.prototype._handleLayerUpdate = function(start, end, side) {
-  this._renderContentByRange(start, end, side);
-};
+  _handleLayerUpdate(start: LineNumber, end: LineNumber, side: Side) {
+    this._renderContentByRange(start, end, side);
+  }
 
-/**
- * Finds the next DIV.contentText element following the given element, and on
- * the same side. Will only search within a group.
- *
- * @param {HTMLElement} content
- * @param {string} side Either 'left' or 'right'
- * @return {HTMLElement}
- */
-GrDiffBuilder.prototype._getNextContentOnSide = function(content, side) {
-  throw Error('Subclasses must implement _getNextContentOnSide');
-};
+  /**
+   * Finds the next DIV.contentText element following the given element, and on
+   * the same side. Will only search within a group.
+   */
+  abstract _getNextContentOnSide(
+    content: HTMLElement,
+    side: Side
+  ): HTMLElement | null;
 
-/**
- * Determines whether the given group is either totally an addition or totally
- * a removal.
- *
- * @param {!Object} group (GrDiffGroup)
- * @return {boolean}
- */
-GrDiffBuilder.prototype._isTotal = function(group) {
-  return group.type === GrDiffGroupType.DELTA &&
+  /**
+   * Determines whether the given group is either totally an addition or totally
+   * a removal.
+   */
+  _isTotal(group: GrDiffGroup): boolean {
+    return (
+      group.type === GrDiffGroupType.DELTA &&
       (!group.adds.length || !group.removes.length) &&
-      !(!group.adds.length && !group.removes.length);
-};
+      !(!group.adds.length && !group.removes.length)
+    );
+  }
 
-/**
- * Set the blame information for the diff. For any already-rendered line,
- * re-render its blame cell content.
- *
- * @param {Object} blame
- */
-GrDiffBuilder.prototype.setBlame = function(blame) {
-  this._blameInfo = blame;
+  /**
+   * Set the blame information for the diff. For any already-rendered line,
+   * re-render its blame cell content.
+   */
+  setBlame(blame: BlameInfo[]) {
+    this._blameInfo = blame;
 
-  // TODO(wyatta): make this loop asynchronous.
-  for (const commit of blame) {
-    for (const range of commit.ranges) {
-      for (let i = range.start; i <= range.end; i++) {
-        // TODO(wyatta): this query is expensive, but, when traversing a
-        // range, the lines are consecutive, and given the previous blame
-        // cell, the next one can be reached cheaply.
-        const el = this._getBlameByLineNum(i);
-        if (!el) { continue; }
-        // Remove the element's children (if any).
-        while (el.hasChildNodes()) {
-          el.removeChild(el.lastChild);
+    // TODO(wyatta): make this loop asynchronous.
+    for (const commit of blame) {
+      for (const range of commit.ranges) {
+        for (let i = range.start; i <= range.end; i++) {
+          // TODO(wyatta): this query is expensive, but, when traversing a
+          // range, the lines are consecutive, and given the previous blame
+          // cell, the next one can be reached cheaply.
+          const el = this._getBlameByLineNum(i);
+          if (!el) {
+            continue;
+          }
+          // Remove the element's children (if any).
+          while (el.hasChildNodes()) {
+            el.removeChild(el.lastChild!);
+          }
+          const blame = this._getBlameForBaseLine(i, commit);
+          if (blame) el.appendChild(blame);
         }
-        const blame = this._getBlameForBaseLine(i, commit);
-        el.appendChild(blame);
       }
     }
   }
-};
 
-/**
- * Find the blame cell for a given line number.
- *
- * @param {number} lineNum
- * @return {HTMLTableDataCellElement}
- */
-GrDiffBuilder.prototype._getBlameByLineNum = function(lineNum) {
-  const root = dom(this._outputEl);
-  return root.querySelector(`td.blame[data-line-number="${lineNum}"]`);
-};
+  /**
+   * Find the blame cell for a given line number.
+   */
+  _getBlameByLineNum(lineNum: number): Element | null {
+    return this._outputEl.querySelector(
+      `td.blame[data-line-number="${lineNum}"]`
+    );
+  }
 
-/**
- * Given a base line number, return the commit containing that line in the
- * current set of blame information. If no blame information has been
- * provided, null is returned.
- *
- * @param {number} lineNum
- * @return {Object} The commit information.
- */
-GrDiffBuilder.prototype._getBlameCommitForBaseLine = function(lineNum) {
-  if (!this._blameInfo) { return null; }
+  /**
+   * Given a base line number, return the commit containing that line in the
+   * current set of blame information. If no blame information has been
+   * provided, null is returned.
+   *
+   * @param lineNum
+   * @return The commit information.
+   */
+  _getBlameCommitForBaseLine(lineNum: LineNumber) {
+    if (!this._blameInfo) {
+      return null;
+    }
 
-  for (const blameCommit of this._blameInfo) {
-    for (const range of blameCommit.ranges) {
-      if (range.start <= lineNum && range.end >= lineNum) {
-        return blameCommit;
+    for (const blameCommit of this._blameInfo) {
+      for (const range of blameCommit.ranges) {
+        if (range.start <= lineNum && range.end >= lineNum) {
+          return blameCommit;
+        }
       }
     }
+    return null;
   }
-  return null;
-};
 
-/**
- * Given the number of a base line, get the content for the blame cell of that
- * line. If there is no blame information for that line, returns null.
- *
- * @param {number} lineNum
- * @param {Object=} opt_commit Optionally provide the commit object, so that
- *     it does not need to be searched.
- * @return {HTMLSpanElement}
- */
-GrDiffBuilder.prototype._getBlameForBaseLine = function(lineNum, opt_commit) {
-  const commit = opt_commit || this._getBlameCommitForBaseLine(lineNum);
-  if (!commit) { return null; }
+  /**
+   * Given the number of a base line, get the content for the blame cell of that
+   * line. If there is no blame information for that line, returns null.
+   *
+   * @param lineNum
+   * @param opt_commit Optionally provide the commit object, so that
+   *     it does not need to be searched.
+   */
+  _getBlameForBaseLine(
+    lineNum: LineNumber,
+    opt_commit?: BlameInfo
+  ): HTMLElement | null {
+    const commit = opt_commit || this._getBlameCommitForBaseLine(lineNum);
+    if (!commit) {
+      return null;
+    }
 
-  const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
+    const isStartOfRange = commit.ranges.some(r => r.start === lineNum);
 
-  const date = (new Date(commit.time * 1000)).toLocaleDateString();
-  const blameNode = this._createElement('span',
-      isStartOfRange ? 'startOfRange' : '');
+    const date = new Date(commit.time * 1000).toLocaleDateString();
+    const blameNode = this._createElement(
+      'span',
+      isStartOfRange ? 'startOfRange' : ''
+    );
 
-  const shaNode = this._createElement('a', 'blameDate');
-  shaNode.innerText = `${date}`;
-  shaNode.setAttribute('href', `${getBaseUrl()}/q/${commit.id}`);
-  blameNode.appendChild(shaNode);
+    const shaNode = this._createElement('a', 'blameDate');
+    shaNode.innerText = `${date}`;
+    shaNode.setAttribute('href', `${getBaseUrl()}/q/${commit.id}`);
+    blameNode.appendChild(shaNode);
 
-  const shortName = commit.author.split(' ')[0];
-  const authorNode = this._createElement('span', 'blameAuthor');
-  authorNode.innerText = ` ${shortName}`;
-  blameNode.appendChild(authorNode);
+    const shortName = commit.author.split(' ')[0];
+    const authorNode = this._createElement('span', 'blameAuthor');
+    authorNode.innerText = ` ${shortName}`;
+    blameNode.appendChild(authorNode);
 
-  const hoverCardFragment = this._createElement('span', 'blameHoverCard');
-  hoverCardFragment.innerText =
-    `Commit ${commit.id}
+    const hoverCardFragment = this._createElement('span', 'blameHoverCard');
+    hoverCardFragment.innerText = `Commit ${commit.id}
 Author: ${commit.author}
 Date: ${date}
 
 ${commit.commit_msg}`;
-  const hovercard = this._createElement('gr-hovercard');
-  hovercard.appendChild(hoverCardFragment);
-  blameNode.appendChild(hovercard);
+    const hovercard = this._createElement('gr-hovercard');
+    hovercard.appendChild(hoverCardFragment);
+    blameNode.appendChild(hovercard);
 
-  return blameNode;
-};
-
-/**
- * Create a blame cell for the given base line. Blame information will be
- * included in the cell if available.
- *
- * @param {number} lineNumber
- * @return {HTMLTableDataCellElement}
- */
-GrDiffBuilder.prototype._createBlameCell = function(lineNumber) {
-  const blameTd = this._createElement('td', 'blame');
-  blameTd.setAttribute('data-line-number', lineNumber);
-  if (lineNumber) {
-    const content = this._getBlameForBaseLine(lineNumber);
-    if (content) {
-      blameTd.appendChild(content);
-    }
+    return blameNode;
   }
-  return blameTd;
-};
 
-/**
- * Finds the line number element given the content element by walking up the
- * DOM tree to the diff row and then querying for a .lineNum element on the
- * requested side.
- *
- * TODO(brohlfs): Consolidate this with getLineEl... methods in html file.
- */
-GrDiffBuilder.prototype._getLineNumberEl = function(content, side) {
-  let row = content;
-  while (row && !row.classList.contains('diff-row')) row = row.parentElement;
-  return row ? row.querySelector('.lineNum.' + side) : null;
-};
+  /**
+   * Create a blame cell for the given base line. Blame information will be
+   * included in the cell if available.
+   *
+   * @param {number} lineNumber
+   * @return {HTMLTableDataCellElement}
+   */
+  _createBlameCell(lineNumber: LineNumber) {
+    const blameTd = this._createElement('td', 'blame');
+    blameTd.setAttribute('data-line-number', lineNumber.toString());
+    if (lineNumber) {
+      const content = this._getBlameForBaseLine(lineNumber);
+      if (content) {
+        blameTd.appendChild(content);
+      }
+    }
+    return blameTd;
+  }
+
+  /**
+   * Finds the line number element given the content element by walking up the
+   * DOM tree to the diff row and then querying for a .lineNum element on the
+   * requested side.
+   *
+   * TODO(brohlfs): Consolidate this with getLineEl... methods in html file.
+   */
+  _getLineNumberEl(content: HTMLElement, side: Side): HTMLElement | null {
+    let row: HTMLElement | null = content;
+    while (row && !row.classList.contains('diff-row')) row = row.parentElement;
+    return row ? (row.querySelector('.lineNum.' + side) as HTMLElement) : null;
+  }
+}

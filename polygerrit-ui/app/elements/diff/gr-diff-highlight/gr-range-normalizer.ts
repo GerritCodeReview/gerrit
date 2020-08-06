@@ -30,11 +30,11 @@ const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
  */
 export function normalize(range: Range) {
   const startContainer = _getContentTextParent(range.startContainer);
-  const startOffset = range.startOffset +
-      _getTextOffset(startContainer, range.startContainer);
+  const startOffset =
+    range.startOffset + _getTextOffset(startContainer, range.startContainer);
   const endContainer = _getContentTextParent(range.endContainer);
-  const endOffset = range.endOffset + _getTextOffset(endContainer,
-      range.endContainer);
+  const endOffset =
+    range.endOffset + _getTextOffset(endContainer, range.endContainer);
   return {
     startContainer,
     startOffset,

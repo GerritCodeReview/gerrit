@@ -80,6 +80,54 @@
       "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "475c1a0e_d0b0f95a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-line.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-06T20:01:10Z",
+      "side": 1,
+      "message": "Yes, checked.",
+      "parentUuid": "2445438f_da41a10e",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 25
+      },
+      "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1f7823b0_9cbfea0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-line.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-06T20:01:10Z",
+      "side": 1,
+      "message": "Thanks for the tip. Added.",
+      "parentUuid": "7ad8c55d_13ca69be",
+      "range": {
+        "startLine": 20,
+        "startChar": 13,
+        "endLine": 20,
+        "endChar": 23
+      },
+      "revId": "c72cc29555d23cb4dbf608812f278740ad021e6b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -14,74 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-limited-text_html.js';
-import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-limited-text_html';
+import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
+import {customElement, observe, property} from '@polymer/decorators';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-limited-text': GrLimitedText;
+  }
+}
 
 /**
  * The gr-limited-text element is for displaying text with a maximum length
  * (in number of characters) to display. If the length of the text exceeds the
  * configured limit, then an ellipsis indicates that the text was truncated
  * and a tooltip containing the full text is enabled.
- *
- * @extends PolymerElement
  */
-class GrLimitedText extends TooltipMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-limited-text'; }
-
-  static get properties() {
-    return {
-    /** The un-truncated text to display. */
-      text: {
-        type: String,
-        value: '',
-      },
-
-      /** The maximum length for the text to display before truncating. */
-      limit: {
-        type: Number,
-        value: null,
-      },
-
-      tooltip: {
-        type: String,
-        value: '',
-      },
-
-      /** Boolean property used by TooltipMixin. */
-      hasTooltip: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * Disable the tooltip.
-       * When set to true, will not show tooltip even text is over limit
-       */
-      disableTooltip: {
-        type: Boolean,
-        value: false,
-      },
-    };
+@customElement('gr-limited-text')
+export class GrLimitedText extends TooltipMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_updateTitle(text, tooltip, limit)',
-    ];
-  }
+  /** The un-truncated text to display. */
+  @property({type: String})
+  text = '';
+
+  /** The maximum length for the text to display before truncating. */
+  @property({type: Number})
+  limit: number | null = null;
+
+  @property({type: String})
+  tooltip = '';
+
+  /** Boolean property used by TooltipMixin. */
+  @property({type: Boolean})
+  hasTooltip = false;
+
+  /** Boolean property used by TooltipMixin. */
+  @property({type: Boolean})
+  disableTooltip = false;
 
   /**
    * The text or limit have changed. Recompute whether a tooltip needs to be
    * enabled.
    */
-  _updateTitle(text, tooltip, limit) {
+  @observe('text', 'tooltip', 'limit')
+  _updateTitle(text: string, tooltip: string, limit?: number) {
     // Polymer 2: check for undefined
     if ([text, limit, tooltip].includes(undefined)) {
       return;
@@ -91,7 +75,7 @@ class GrLimitedText extends TooltipMixin(
     if (this.hasTooltip && !this.disableTooltip) {
       // Combine the text and title if over-length
       if (limit && text.length > limit) {
-        this.title = `${text}${tooltip? ` (${tooltip})` : ''}`;
+        this.title = `${text}${tooltip ? ` (${tooltip})` : ''}`;
       } else {
         this.title = tooltip;
       }
@@ -100,12 +84,10 @@ class GrLimitedText extends TooltipMixin(
     }
   }
 
-  _computeDisplayText(text, limit) {
+  _computeDisplayText(text: string, limit?: number) {
     if (!!limit && !!text && text.length > limit) {
       return text.substr(0, limit - 1) + '…';
     }
     return text;
   }
 }
-
-customElements.define(GrLimitedText.is, GrLimitedText);

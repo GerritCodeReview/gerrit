@@ -1,0 +1,147 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64a869fd_7686260a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "can these be moved to an enum ?",
+      "range": {
+        "startLine": 41,
+        "startChar": 3,
+        "endLine": 41,
+        "endChar": 16
+      },
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f3e5db2_10261191",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "how this is used ? I don\u0027t see usage of this in the code part ?",
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86dac19a_276134f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "do we expect listener to return something ?",
+      "range": {
+        "startLine": 51,
+        "startChar": 9,
+        "endLine": 51,
+        "endChar": 12
+      },
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "056086fb_b525056f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "TODO(TS) is better for tracking (tho it probably should fail once hook moved to ts, still a good habit to have them for things you want to revisit later)\n\nditto on PluginApi",
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24ba06f2_54de85e7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "private ?",
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dd00943_7cc83702",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "can we define it a bit more generic base on the key ? something like:\n\n```\ngetElement(key: EnumKey): KeyElMap[EnumKey];\n```\n\ndid not test, not sure whether it will work or not.",
+      "range": {
+        "startLine": 98,
+        "startChar": 34,
+        "endLine": 98,
+        "endChar": 44
+      },
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7336f181_c8535f7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-change-reply-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:01:06Z",
+      "side": 1,
+      "message": "`)` is not needed",
+      "range": {
+        "startLine": 100,
+        "startChar": 16,
+        "endLine": 100,
+        "endChar": 17
+      },
+      "revId": "c7c4d487550ba490e1f8ca56d6dda1a97f17c463",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

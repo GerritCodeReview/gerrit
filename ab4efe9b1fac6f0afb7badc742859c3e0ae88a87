@@ -111,6 +111,30 @@
     },
     {
       "key": {
+        "uuid": "073533a1_9a536774",
+        "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T12:32:11Z",
+      "side": 1,
+      "message": "BTW, if we don\u0027t assign `null` to this property in out code, its better to define it as `side?: string`, since default polymer value will always `undefined` not null :)",
+      "parentUuid": "7f1d1c28_98c6ff4e",
+      "range": {
+        "startLine": 61,
+        "startChar": 8,
+        "endLine": 61,
+        "endChar": 14
+      },
+      "revId": "ab4efe9b1fac6f0afb7badc742859c3e0ae88a87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3f16b774_3bc723d3",
         "filename": "polygerrit-ui/app/elements/diff/gr-coverage-layer/gr-coverage-layer.ts",
         "patchSetId": 3

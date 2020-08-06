@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d11d877a_9a3af860",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-06T17:00:49Z",
+      "side": 1,
+      "message": "Note below.\n\n@Hamza, if you could score the Verified again, based on your testing of these steps, that would be great. I\u0027m running out of time to test those myself. I also use IntelliJ locally so far for Scala.",
+      "revId": "2e37e27af77598a9ed8f056e0fb78709d7a578d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57897b54_3fb1e525",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 8
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-06T17:00:49Z",
+      "side": 1,
+      "message": "This page renders well locally. Note that this way of numbering list items renders as truly incrementing ones.",
+      "range": {
+        "startLine": 53,
+        "startChar": 0,
+        "endLine": 53,
+        "endChar": 2
+      },
+      "revId": "2e37e27af77598a9ed8f056e0fb78709d7a578d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

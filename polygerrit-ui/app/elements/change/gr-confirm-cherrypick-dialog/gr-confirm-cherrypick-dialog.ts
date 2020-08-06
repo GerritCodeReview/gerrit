@@ -38,10 +38,15 @@ const CHERRY_PICK_TYPES = {
  * @extends PolymerElement
  */
 class GrConfirmCherrypickDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-confirm-cherrypick-dialog'; }
+  static get is() {
+    return 'gr-confirm-cherrypick-dialog';
+  }
   /**
    * Fired when the confirm button is pressed.
    *
@@ -101,9 +106,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   static get observers() {
-    return [
-      '_computeMessage(changeStatus, commitNum, commitMessage)',
-    ];
+    return ['_computeMessage(changeStatus, commitNum, commitMessage)'];
   }
 
   updateChanges(changes) {
@@ -143,7 +146,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
 
   _computeStatusClass(change, statuses) {
     if (!change || !statuses || !statuses[change.id]) return '';
-    return statuses[change.id].status === 'FAILED' ? 'error': '';
+    return statuses[change.id].status === 'FAILED' ? 'error' : '';
   }
 
   _computeError(change, statuses) {
@@ -164,19 +167,20 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   _computeCancelLabel(statuses) {
-    const isRunningChange = Object.values(statuses).
-        some(v => v.status === 'RUNNING');
+    const isRunningChange = Object.values(statuses).some(
+      v => v.status === 'RUNNING'
+    );
     return isRunningChange ? 'Close' : 'Cancel';
   }
 
-  _computeDisableCherryPick(cherryPickType, duplicateProjectChanges,
-      statuses) {
-    const duplicateProject = (cherryPickType === CHERRY_PICK_TYPES.TOPIC) &&
-      duplicateProjectChanges;
+  _computeDisableCherryPick(cherryPickType, duplicateProjectChanges, statuses) {
+    const duplicateProject =
+      cherryPickType === CHERRY_PICK_TYPES.TOPIC && duplicateProjectChanges;
     if (duplicateProject) return true;
     if (!statuses) return false;
-    const isRunningChange = Object.values(statuses).
-        some(v => v.status === 'RUNNING');
+    const isRunningChange = Object.values(statuses).some(
+      v => v.status === 'RUNNING'
+    );
     return isRunningChange;
   }
 
@@ -198,11 +202,7 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
 
   _computeMessage(changeStatus, commitNum, commitMessage) {
     // Polymer 2: check for undefined
-    if ([
-      changeStatus,
-      commitNum,
-      commitMessage,
-    ].includes(undefined)) {
+    if ([changeStatus, commitNum, commitMessage].includes(undefined)) {
       return;
     }
 
@@ -215,25 +215,21 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
   }
 
   _generateRandomCherryPickTopic(change) {
-    const randomString = Math.random().toString(36)
-        .substr(2, 10);
+    const randomString = Math.random().toString(36).substr(2, 10);
     const message = `cherrypick-${change.topic}-${randomString}`;
     return message;
   }
 
   _handleCherryPickFailed(change, response) {
     response.text().then(errText => {
-      this.updateStatus(change,
-          {status: 'FAILED', msg: errText});
+      this.updateStatus(change, {status: 'FAILED', msg: errText});
     });
   }
 
   _handleCherryPickTopic() {
-    const topic = this._generateRandomCherryPickTopic(
-        this.changes[0]);
+    const topic = this._generateRandomCherryPickTopic(this.changes[0]);
     this.changes.forEach(change => {
-      this.updateStatus(change,
-          {status: 'RUNNING'});
+      this.updateStatus(change, {status: 'RUNNING'});
       const payload = {
         destination: this.branch,
         base: null,
@@ -245,17 +241,26 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
         this._handleCherryPickFailed(change, response);
       };
       const patchNum = change.revisions[change.current_revision]._number;
-      this.$.restAPI.executeChangeAction(change._number, 'POST', '/cherrypick',
-          patchNum, payload, handleError).then(response => {
-        this.updateStatus(change, {status: 'SUCCESSFUL'});
-        const failedOrPending = Object.values(this._statuses).find(
-            v => v.status !== 'SUCCESSFUL');
-        if (!failedOrPending) {
-          /* This needs some more work, as the new topic may not always be
+      this.$.restAPI
+        .executeChangeAction(
+          change._number,
+          'POST',
+          '/cherrypick',
+          patchNum,
+          payload,
+          handleError
+        )
+        .then(response => {
+          this.updateStatus(change, {status: 'SUCCESSFUL'});
+          const failedOrPending = Object.values(this._statuses).find(
+            v => v.status !== 'SUCCESSFUL'
+          );
+          if (!failedOrPending) {
+            /* This needs some more work, as the new topic may not always be
           created, instead we may end up creating a new patchset */
-          GerritNav.navigateToSearchQuery(`topic: "${topic}"`);
-        }
-      });
+            GerritNav.navigateToSearchQuery(`topic: "${topic}"`);
+          }
+        });
     });
   }
 
@@ -268,17 +273,23 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
       return;
     }
     // Cherry pick single change
-    this.dispatchEvent(new CustomEvent('confirm', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
   _handleCancelTap(e) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('cancel', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
   resetFocus() {
@@ -289,25 +300,27 @@ class GrConfirmCherrypickDialog extends GestureEventListeners(
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
-    return this.$.restAPI.getRepoBranches(
-        input, this.project, SUGGESTIONS_LIMIT).then(response => {
-      const branches = [];
-      let branch;
-      for (const key in response) {
-        if (!response.hasOwnProperty(key)) { continue; }
-        if (response[key].ref.startsWith('refs/heads/')) {
-          branch = response[key].ref.substring('refs/heads/'.length);
-        } else {
-          branch = response[key].ref;
+    return this.$.restAPI
+      .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
+      .then(response => {
+        const branches = [];
+        let branch;
+        for (const key in response) {
+          if (!response.hasOwnProperty(key)) {
+            continue;
+          }
+          if (response[key].ref.startsWith('refs/heads/')) {
+            branch = response[key].ref.substring('refs/heads/'.length);
+          } else {
+            branch = response[key].ref;
+          }
+          branches.push({
+            name: branch,
+          });
         }
-        branches.push({
-          name: branch,
-        });
-      }
-      return branches;
-    });
+        return branches;
+      });
   }
 }
 
-customElements.define(GrConfirmCherrypickDialog.is,
-    GrConfirmCherrypickDialog);
+customElements.define(GrConfirmCherrypickDialog.is, GrConfirmCherrypickDialog);

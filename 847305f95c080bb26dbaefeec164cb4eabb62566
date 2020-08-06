@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b63607f0_7dd69543",
+        "filename": "java/com/google/gerrit/sshd/SshSession.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-06T15:21:28Z",
+      "side": 1,
+      "message": "I checked the commands that Gerrit accepts via SSH and I was unable to find any command that would spawn multiple concurrent subcommands. That means a boolean would be enough here. That would make thinks a lot easier. Please comment, if I missed anything.",
+      "revId": "847305f95c080bb26dbaefeec164cb4eabb62566",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

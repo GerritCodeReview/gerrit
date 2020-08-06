@@ -14,25 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-confirm-abandon-dialog_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-confirm-abandon-dialog_html';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {customElement, property} from '@polymer/decorators';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+
+export interface GrConfirmAbandonDialog {
+  $: {
+    messageInput: IronAutogrowTextareaElement;
+  };
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-abandon-dialog': GrConfirmAbandonDialog;
+  }
+}
 
 /**
  * @extends PolymerElement
  */
-class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(
-            PolymerElement))) {
-  static get template() { return htmlTemplate; }
+@customElement('gr-confirm-abandon-dialog')
+export class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-confirm-abandon-dialog'; }
   /**
    * Fired when the confirm button is pressed.
    *
@@ -45,11 +60,8 @@ class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
    * @event cancel
    */
 
-  static get properties() {
-    return {
-      message: String,
-    };
-  }
+  @property({type: String})
+  message?: string;
 
   get keyBindings() {
     return {
@@ -61,30 +73,34 @@ class GrConfirmAbandonDialog extends KeyboardShortcutMixin(
     this.$.messageInput.textarea.focus();
   }
 
-  _handleEnterKey(e) {
+  _handleEnterKey() {
     this._confirm();
   }
 
-  _handleConfirmTap(e) {
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this._confirm();
   }
 
   _confirm() {
-    this.dispatchEvent(new CustomEvent('confirm', {
-      detail: {reason: this.message},
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('confirm', {
+        detail: {reason: this.message},
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _handleCancelTap(e) {
+  _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('cancel', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 }
-
-customElements.define(GrConfirmAbandonDialog.is, GrConfirmAbandonDialog);

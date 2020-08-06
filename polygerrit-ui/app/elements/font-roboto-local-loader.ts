@@ -16,5 +16,4 @@
  */
 
 // Place all code related to font-roboto-local here
-import '@polymer/font-roboto-local/roboto.js';
-
+import '@polymer/font-roboto-local/roboto';

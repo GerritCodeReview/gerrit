@@ -14,9 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {initAppContext} from '../services/app-context-init.js';
-import {initVisibilityReporter, initPerformanceReporter, initErrorReporter} from '../services/gr-reporting/gr-reporting_impl.js';
-import {appContext} from '../services/app-context.js';
+import {initAppContext} from '../services/app-context-init';
+import {
+  initVisibilityReporter,
+  initPerformanceReporter,
+  initErrorReporter,
+} from '../services/gr-reporting/gr-reporting_impl';
+import {appContext} from '../services/app-context';
 
 if (!window.Polymer) {
   window.Polymer = {

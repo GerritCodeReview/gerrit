@@ -60,3 +60,4 @@ var GrDisplayNameUtils;
 var GrReviewerSuggestionsProvider;
 var page;
 var util;
+var Polymer: any;

@@ -32,7 +32,6 @@ import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
-import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.Ordering;
@@ -69,7 +68,6 @@ import com.google.gerrit.server.notedb.NoteDbTable;
 import com.google.gerrit.server.notedb.NoteDbUpdateManager;
 import com.google.gerrit.server.notedb.NotesMigrationState;
 import com.google.gerrit.server.notedb.PrimaryStorageMigrator;
-import com.google.gerrit.server.notedb.PrimaryStorageMigrator.NoNoteDbStateException;
 import com.google.gerrit.server.notedb.RepoSequence;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder.NoPatchSetsException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -489,7 +487,6 @@ public class NoteDbMigrator implements AutoCloseable {
   private final ImmutableList<Change.Id> changes;
   private final OutputStream progressOut;
   private final NotesMigrationState stopAtState;
-  private final ProjectCache projectCache;
   private final boolean trial;
   private final boolean forceRebuild;
   private final int sequenceGap;
@@ -556,7 +553,6 @@ public class NoteDbMigrator implements AutoCloseable {
     this.changes = changes;
     this.progressOut = progressOut;
     this.stopAtState = stopAtState;
-    this.projectCache = projectCache;
     this.trial = trial;
     this.forceRebuild = forceRebuild;
     this.sequenceGap = sequenceGap;
@@ -710,34 +706,16 @@ public class NoteDbMigrator implements AutoCloseable {
 
     try (ContextHelper contextHelper = new ContextHelper()) {
       List<ListenableFuture<Boolean>> futures =
-          allChanges.stream()
+          Lists.partition(allChanges, PROJECT_SLICE_MAX_REFS).stream()
               .map(
-                  id ->
+                  partition ->
                       executor.submit(
                           () -> {
                             try (ManualRequestContext ctx = contextHelper.open()) {
-                              try {
-                                primaryStorageMigrator.migrateToNoteDbPrimary(id);
-                              } catch (NoNoteDbStateException e) {
-                                if (canSkipPrimaryStorageMigration(
-                                    ctx.getReviewDbProvider().get(), id)) {
-                                  logger.atWarning().withCause(e).log(
-                                      "Change %s previously failed to rebuild;"
-                                          + " skipping primary storage migration",
-                                      id);
-                                } else {
-                                  throw e;
-                                }
-                              }
-                              return true;
-                            } catch (Exception e) {
-                              logger.atSevere().withCause(e).log(
-                                  "Error migrating primary storage for %s", id);
-                              return false;
+                              return primaryStorageMigrator.migrateToNoteDbPrimary(partition);
                             }
                           }))
               .collect(toList());
-
       boolean ok = futuresToBoolean(futures, "Error migrating primary storage");
       double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
       logger.atInfo().log(
@@ -749,41 +727,6 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     return disableReviewDb(prev);
-  }
-
-  /**
-   * Checks whether a change is so corrupt that it can be completely skipped by the primary storage
-   * migration step.
-   *
-   * <p>To get to the point where this method is called from {@link #setNoteDbPrimary}, it means we
-   * attempted to rebuild it, and encountered an error that was then caught in {@link
-   * #rebuildProjectSlice} and skipped. As a result, there is no {@code noteDbState} field in the
-   * change by the time we get to {@link #setNoteDbPrimary}, so {@code migrateToNoteDbPrimary}
-   * throws an exception.
-   *
-   * <p>We have to do this hacky double-checking because we don't have a way for the rebuilding
-   * phase to communicate to the primary storage migration phase that the change is skippable. It
-   * would be possible to store this info in some field in this class, but there is no guarantee
-   * that the rebuild and primary storage migration phases are run in the same JVM invocation.
-   *
-   * <p>In an ideal world, we could do this through the {@link
-   * com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage} enum, having a separate value
-   * for errors. However, that would be an invasive change touching many non-migration-related parts
-   * of the NoteDb migration code, which is too risky to attempt in the stable branch where this bug
-   * had to be fixed.
-   *
-   * <p>As of this writing, there are only two cases where this happens: when a change has no patch
-   * sets, or the project doesn't exist.
-   */
-  private boolean canSkipPrimaryStorageMigration(ReviewDb db, Change.Id id) {
-    try {
-      return Iterables.isEmpty(unwrapDb(db).patchSets().byChange(id))
-          || projectCache.get(unwrapDb(db).changes().get(id).getProject()) == null;
-    } catch (Exception e) {
-      logger.atSevere().withCause(e).log(
-          "Error checking if change %s can be skipped, assuming no", id);
-      return false;
-    }
   }
 
   private NotesMigrationState disableReviewDb(NotesMigrationState prev) throws IOException {

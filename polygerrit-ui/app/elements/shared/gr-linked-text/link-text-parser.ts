@@ -16,6 +16,7 @@
  */
 
 import {getBaseUrl} from '../../../utils/url-util';
+import {Pattern} from '../../core/gr-navigation/gr-navigation';
 
 /**
  * Pattern describing URLs with supported protocols.
@@ -31,12 +32,7 @@ export interface CommentLinkItem {
   html: HTMLAnchorElement | DocumentFragment;
 }
 
-export interface Pattern {
-  enabled: boolean | null;
-  match: string;
-  html?: string;
-  link?: string;
-}
+export type LinkTextParserConfig = Pattern[];
 
 export class GrLinkTextParser {
   private readonly baseUrl = getBaseUrl();
@@ -56,7 +52,7 @@ export class GrLinkTextParser {
    *     R=<email> and CC=<email> expressions.
    */
   constructor(
-    private readonly linkConfig: Pattern[],
+    private readonly linkConfig: LinkTextParserConfig,
     private readonly callback: LinkTextParserCallback,
     private readonly removeZeroWidthSpace?: boolean
   ) {
@@ -289,7 +285,7 @@ export class GrLinkTextParser {
    * Parse the given source text and emit callbacks for the items that are
    * parsed.
    */
-  parse(text?: string) {
+  parse(text?: string | null) {
     if (text) {
       window.linkify(text, {
         callback: this.parseChunk.bind(this),
@@ -347,33 +343,33 @@ export class GrLinkTextParser {
    * and emit parse result callbacks.
    *
    * @param text The raw source text.
-   * @param patterns A comment links specification object.
+   * @param config A comment links specification object.
    */
-  parseLinks(text: string, patterns: Pattern[]) {
+  parseLinks(text: string, config: LinkTextParserConfig) {
     // The outputArray is used to store all of the matches found for all
     // patterns.
     const outputArray: CommentLinkItem[] = [];
-    for (const p in patterns) {
+    for (const p in config) {
       // TODO(TS): it seems, the following line can be rewritten as:
       // if(enabled === false || enabled === 0 || enabled === '')
       // Should be double-checked before update
       // eslint-disable-next-line eqeqeq
-      if (patterns[p].enabled != null && patterns[p].enabled == false) {
+      if (config[p].enabled != null && config[p].enabled == false) {
         continue;
       }
       // PolyGerrit doesn't use hash-based navigation like the GWT UI.
       // Account for this.
-      const html = patterns[p].html;
-      const link = patterns[p].link;
+      const html = config[p].html;
+      const link = config[p].link;
       if (html) {
-        patterns[p].html = html.replace(/<a href="#\//g, '<a href="/');
+        config[p].html = html.replace(/<a href="#\//g, '<a href="/');
       } else if (link) {
         if (link[0] === '#') {
-          patterns[p].link = link.substr(1);
+          config[p].link = link.substr(1);
         }
       }
 
-      const pattern = new RegExp(patterns[p].match, 'g');
+      const pattern = new RegExp(config[p].match, 'g');
 
       let match;
       let textToCheck = text;
@@ -385,10 +381,10 @@ export class GrLinkTextParser {
           pattern,
           // Either html or link has a value. Otherwise an exception is thrown
           // in the code below.
-          (patterns[p].html || patterns[p].link)!
+          (config[p].html || config[p].link)!
         );
 
-        if (patterns[p].html) {
+        if (config[p].html) {
           let i;
           // Skip portion of replacement string that is equal to original to
           // allow overlapping patterns.
@@ -405,7 +401,7 @@ export class GrLinkTextParser {
             match[0].length - i,
             outputArray
           );
-        } else if (patterns[p].link) {
+        } else if (config[p].link) {
           this.addLink(
             match[0],
             result,

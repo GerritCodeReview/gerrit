@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "7eeeb39c_9ca6142d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d1bb0754_0fb25dca",
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd5953f1_741afe9d",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
         "patchSetId": 2
@@ -83,6 +101,30 @@
     },
     {
       "key": {
+        "uuid": "0ad6de11_9a1e4e57",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "0c0e1d2b_279c90c3",
+      "range": {
+        "startLine": 111,
+        "startChar": 14,
+        "endLine": 111,
+        "endChar": 15
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6a3a1674_0834df50",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
         "patchSetId": 2
@@ -103,6 +145,30 @@
       "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2557981_1419741a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "I will leave it for another change that removes legacyElement from this.",
+      "parentUuid": "6a3a1674_0834df50",
+      "range": {
+        "startLine": 125,
+        "startChar": 13,
+        "endLine": 125,
+        "endChar": 19
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -129,6 +195,30 @@
     },
     {
       "key": {
+        "uuid": "40c64e61_4a1b4925",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b576148_7fdb36c2",
+      "range": {
+        "startLine": 211,
+        "startChar": 29,
+        "endLine": 211,
+        "endChar": 43
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63aa7556_fb2d8494",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
         "patchSetId": 2
@@ -149,6 +239,30 @@
       "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "310b831b_22a22087",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "63aa7556_fb2d8494",
+      "range": {
+        "startLine": 227,
+        "startChar": 11,
+        "endLine": 227,
+        "endChar": 16
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -175,6 +289,30 @@
     },
     {
       "key": {
+        "uuid": "c33726c2_914ca372",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Yes, but it looks like bigger change, which is not necessary. And there are some questionable things like this.position is @property type string. \n\nTHanks for suggestions,I tried and I felt, it\u0027s not worth it since I am not sure if it will behave same.",
+      "parentUuid": "5fa79f84_741db0c9",
+      "range": {
+        "startLine": 386,
+        "startChar": 16,
+        "endLine": 386,
+        "endChar": 19
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50b9dec9_58e8b831",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
         "patchSetId": 2
@@ -198,6 +336,30 @@
     },
     {
       "key": {
+        "uuid": "3fdd6dcc_c0a2bc76",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50b9dec9_58e8b831",
+      "range": {
+        "startLine": 432,
+        "startChar": 10,
+        "endLine": 432,
+        "endChar": 17
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c5e201a_c1033c91",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
         "patchSetId": 2
@@ -218,6 +380,30 @@
       "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eeafb686_81e5430d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 459,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-06T18:55:58Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c5e201a_c1033c91",
+      "range": {
+        "startLine": 459,
+        "startChar": 2,
+        "endLine": 459,
+        "endChar": 13
+      },
+      "revId": "b9304a436059910b77294e8c4d19f898b7b4af5a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

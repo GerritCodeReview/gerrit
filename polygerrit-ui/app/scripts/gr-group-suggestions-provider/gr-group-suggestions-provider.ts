@@ -15,22 +15,28 @@
  * limitations under the License.
  */
 
+import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
+import {GroupBaseInfo} from '../../types/common';
+
 export class GrGroupSuggestionsProvider {
-  constructor(restAPI) {
-    this._restAPI = restAPI;
+  constructor(private _restAPI: RestApiService) {}
+
+  getSuggestions(input: string) {
+    return this._restAPI.getSuggestedGroups(`${input}`).then(groups => {
+      if (!groups) {
+        return [];
+      }
+      const keys = Object.keys(groups);
+      return keys.map(key => {
+        return {...groups[key], name: key};
+      });
+    });
   }
 
-  getSuggestions(input) {
-    return this._restAPI.getSuggestedGroups(`${input}`)
-        .then(groups => {
-          if (!groups) { return []; }
-          const keys = Object.keys(groups);
-          return keys.map(key => { return {...groups[key], name: key}; });
-        });
-  }
-
-  makeSuggestionItem(suggestion) {
-    return {name: suggestion.name,
-      value: {group: {name: suggestion.name, id: suggestion.id}}};
+  makeSuggestionItem(suggestion: GroupBaseInfo) {
+    return {
+      name: suggestion.name,
+      value: {group: {name: suggestion.name, id: suggestion.id}},
+    };
   }
 }

@@ -998,3 +998,10 @@ export interface LabelTypeInfo {
   values: {[value: string]: string};
   default_value: number;
 }
+
+export interface BranchInfo {
+  ref: GitRef;
+  revision: string;
+  can_delete?: boolean;
+  web_links: WebLinkInfo[];
+}

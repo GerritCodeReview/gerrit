@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c992bc74_cc4d81c2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-06T07:02:13Z",
+      "side": 1,
+      "message": "Since there were no further objections and the release notes were already updated, I will submit this change.",
+      "revId": "773777e61335a65c8a73969a0dc9503ab263d33f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

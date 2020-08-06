@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5070b199_e3b77070",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-06T18:08:03Z",
+      "side": 1,
+      "message": "\u003e \u003e \u003e Patch Set 3: Library-Compliance-1\n\u003e \u003e \u003e \n\u003e \u003e \u003e We need to upgrade our internal version first. I can\u0027t give you a time estimate, though.\n\u003e \u003e \n\u003e \u003e Any progress on this?  It would be nice if we can complete this upgrade before 2.16.19 which will be the last release on 2.16 before EOL.\n\u003e \n\u003e No, there hasn\u0027t been any progress yet. We raised the priority for doing the internal upgrade but we\u0027ll have to see whether we can complete it in time. Do you have a timeline for 2.16.19?\n\n@Alice \u0026co, would it be possible to renew the LC score based on the latest at Google? -Thanks. Also, this dependency is now up to version 2.8.5 indeed. Not sure if that is the currently checked version; just to highlight this if needed.",
+      "revId": "52b4e599f1a20ed8962b75b5428549761029a3d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

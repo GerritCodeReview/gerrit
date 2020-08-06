@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64b778cc_f8d54035",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T14:54:50Z",
+      "side": 1,
+      "message": "`@polymer/decorators/lib/decorators` may not exists, like within google :) ",
+      "revId": "2f1cfd228ad0ebcf5d1ac33452c3460ed540a123",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

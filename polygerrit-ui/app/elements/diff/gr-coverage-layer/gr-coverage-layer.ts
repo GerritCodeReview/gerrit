@@ -14,11 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-coverage-layer_html.js';
-import {CoverageType} from '../../../types/types.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-coverage-layer_html';
+import {CoverageType} from '../../../types/types';
+import {customElement, property} from '@polymer/decorators';
+
+export interface GrCoverageLayer {
+  $: {};
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-coverage-layer': GrCoverageLayer;
+  }
+}
 
 const TOOLTIP_MAP = new Map([
   [CoverageType.COVERED, 'Covered by tests.'],
@@ -27,57 +38,58 @@ const TOOLTIP_MAP = new Map([
   [CoverageType.NOT_INSTRUMENTED, 'Not instrumented by any tests.'],
 ]);
 
+@customElement('gr-coverage-layer')
 /** @extends PolymerElement */
-class GrCoverageLayer extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-coverage-layer'; }
-
-  static get properties() {
-    return {
-    /**
-     * Must be sorted by code_range.start_line.
-     * Must only contain ranges that match the side.
-     *
-     * @type {!Array<!Gerrit.CoverageRange>}
-     */
-      coverageRanges: Array,
-      side: String,
-
-      /**
-       * We keep track of the line number from the previous annotate() call,
-       * and also of the index of the coverage range that had matched.
-       * annotate() calls are coming in with increasing line numbers and
-       * coverage ranges are sorted by line number. So this is a very simple
-       * and efficient way for finding the coverage range that matches a given
-       * line number.
-       */
-      _lineNumber: {
-        type: Number,
-        value: 0,
-      },
-      _index: {
-        type: Number,
-        value: 0,
-      },
-    };
+export class GrCoverageLayer extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  /**
+   * Must be sorted by code_range.start_line.
+   * Must only contain ranges that match the side.
+   *
+   * @type {!Array<!Gerrit.CoverageRange>}
+   */
+  // TODO(TS): convert into AnnotationLayer once gr-diff-is converted
+  @property({type: Array})
+  coverageRanges: Array<any> | null = null;
+
+  @property({type: String})
+  side: string | null = null;
+
+  /**
+   * We keep track of the line number from the previous annotate() call,
+   * and also of the index of the coverage range that had matched.
+   * annotate() calls are coming in with increasing line numbers and
+   * coverage ranges are sorted by line number. So this is a very simple
+   * and efficient way for finding the coverage range that matches a given
+   * line number.
+   */
+  @property({type: Number})
+  _lineNumber = 0;
+
+  @property({type: Number})
+  _index = 0;
 
   /**
    * Layer method to add annotations to a line.
    *
-   * @param {!HTMLElement} el Not used for this layer.
+   * @param {!HTMLElement} _el Not used for this layer. (unused parameter)
    * @param {!HTMLElement} lineNumberEl The <td> element with the line number.
    * @param {!Object} line Not used for this layer.
    */
-  annotate(el, lineNumberEl, line) {
-    if (!lineNumberEl || !lineNumberEl.classList.contains(this.side)) {
+  annotate(_el: HTMLElement, lineNumberEl: HTMLElement) {
+    if (!lineNumberEl || !lineNumberEl.classList.contains(this.side!)) {
       return;
     }
-    const elementLineNumber = parseInt(
-        lineNumberEl.getAttribute('data-value'), 10);
+    let elementLineNumber;
+    const dataValue = lineNumberEl.getAttribute('data-value');
+    if (dataValue) {
+      elementLineNumber = parseInt(dataValue, 10);
+    }
     if (!elementLineNumber || elementLineNumber < 1) return;
 
     // If the line number is smaller than before, then we have to reset our
@@ -90,8 +102,8 @@ class GrCoverageLayer extends GestureEventListeners(
 
     // We simply loop through all the coverage ranges until we find one that
     // matches the line number.
-    while (this._index < this.coverageRanges.length) {
-      const coverageRange = this.coverageRanges[this._index];
+    while (this._index < this.coverageRanges!.length) {
+      const coverageRange = this.coverageRanges![this._index];
 
       // If the line number has moved past the current coverage range, then
       // try the next coverage range.
@@ -109,10 +121,8 @@ class GrCoverageLayer extends GestureEventListeners(
 
       // The line number is within the current coverage range. Style it!
       lineNumberEl.classList.add(coverageRange.type);
-      lineNumberEl.title = TOOLTIP_MAP.get(coverageRange.type);
+      lineNumberEl.title = TOOLTIP_MAP.get(coverageRange.type)!;
       return;
     }
   }
 }
-
-customElements.define(GrCoverageLayer.is, GrCoverageLayer);

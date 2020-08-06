@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bdde73e3_d817f9ff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-06T10:36:06Z",
+      "side": 1,
+      "message": "Small change so sending to you to reduce load on Dmitrii.",
+      "revId": "29745914bc2ca4a4ce7e233fc8dc31c4a8eb10b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

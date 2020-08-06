@@ -51,7 +51,7 @@ declare global {
   }
 }
 
-interface Suggestion {
+export interface Suggestion {
   name: string;
   label?: string;
   value?: string;

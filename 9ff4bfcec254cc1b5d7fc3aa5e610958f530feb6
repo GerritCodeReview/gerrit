@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0b70853_9fe91a05",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "This type is used only in patch-set util and can be moved there (without \u0027export\u0027).",
+      "range": {
+        "startLine": 373,
+        "startChar": 17,
+        "endLine": 373,
+        "endChar": 32
+      },
+      "revId": "9ff4bfcec254cc1b5d7fc3aa5e610958f530feb6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

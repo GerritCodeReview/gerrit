@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f909e9c7_98f8a565",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "remove type",
+      "range": {
+        "startLine": 78,
+        "startChar": 10,
+        "endLine": 78,
+        "endChar": 18
+      },
+      "revId": "48d285e4445607dd7db8f7e4b9319f4814e40b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd43b90a_a847d8d6",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "optionally: This description also can be removed, because it is known that RevisionInfo is provided by Api",
+      "range": {
+        "startLine": 78,
+        "startChar": 19,
+        "endLine": 78,
+        "endChar": 69
+      },
+      "revId": "48d285e4445607dd7db8f7e4b9319f4814e40b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da093d12_f5280d64",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "Remove type",
+      "range": {
+        "startLine": 79,
+        "startChar": 11,
+        "endLine": 79,
+        "endChar": 19
+      },
+      "revId": "48d285e4445607dd7db8f7e4b9319f4814e40b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcc01ee2_bb2bb233",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "Here and below - please remove types",
+      "range": {
+        "startLine": 97,
+        "startChar": 11,
+        "endLine": 97,
+        "endChar": 19
+      },
+      "revId": "48d285e4445607dd7db8f7e4b9319f4814e40b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb31fbce_a9815090",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "The sortRevisions doesn\u0027t use sha property RevisionWithSha. You cans use generics to express that input and output arrays have the same type:\nexport function sortRevisions\u003cT extends RevisionInfo\u003e(revisions: T[]): T[] {",
+      "range": {
+        "startLine": 137,
+        "startChar": 41,
+        "endLine": 137,
+        "endChar": 56
+      },
+      "revId": "48d285e4445607dd7db8f7e4b9319f4814e40b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7f6bb7f_95850b51",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T12:46:42Z",
+      "side": 1,
+      "message": "Please add return type to this function, it is not clear for me what is the output type here",
+      "range": {
+        "startLine": 164,
+        "startChar": 16,
+        "endLine": 164,
+        "endChar": 35
+      },
+      "revId": "48d285e4445607dd7db8f7e4b9319f4814e40b43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

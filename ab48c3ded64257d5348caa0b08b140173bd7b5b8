@@ -22,6 +22,30 @@
       "revId": "ab48c3ded64257d5348caa0b08b140173bd7b5b8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6295a4c_0b52aae5",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-slot/gr-endpoint-slot.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-06T10:30:19Z",
+      "side": 1,
+      "message": "ah did not see this one, done",
+      "parentUuid": "2a82d144_4aa29092",
+      "range": {
+        "startLine": 27,
+        "startChar": 17,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "ab48c3ded64257d5348caa0b08b140173bd7b5b8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

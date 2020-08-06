@@ -15,6 +15,7 @@
 package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.Preconditions.checkState;
+import static com.google.gerrit.reviewdb.server.ReviewDbUtil.unwrapDb;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.NANOSECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
@@ -27,6 +28,7 @@ import com.github.rholder.retry.WaitStrategies;
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Stopwatch;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -45,6 +47,7 @@ import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage;
 import com.google.gerrit.server.notedb.NoteDbChangeState.RefState;
 import com.google.gerrit.server.notedb.rebuild.ChangeRebuilder;
+import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -61,6 +64,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -104,6 +108,7 @@ public class PrimaryStorageMigrator {
   private final long skewMs;
   private final long timeoutMs;
   private final Retryer<NoteDbChangeState> testEnsureRebuiltRetryer;
+  private ProjectCache projectCache;
 
   @Inject
   PrimaryStorageMigrator(
@@ -116,7 +121,8 @@ public class PrimaryStorageMigrator {
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      ProjectCache projectCache) {
     this(
         cfg,
         db,
@@ -128,7 +134,8 @@ public class PrimaryStorageMigrator {
         queryProvider,
         updateFactory,
         internalUserFactory,
-        retryHelper);
+        retryHelper,
+        projectCache);
   }
 
   @VisibleForTesting
@@ -143,7 +150,8 @@ public class PrimaryStorageMigrator {
       Provider<InternalChangeQuery> queryProvider,
       ChangeUpdate.Factory updateFactory,
       InternalUser.Factory internalUserFactory,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      ProjectCache projectCache) {
     this.db = db;
     this.repoManager = repoManager;
     this.allUsers = allUsers;
@@ -154,6 +162,7 @@ public class PrimaryStorageMigrator {
     this.updateFactory = updateFactory;
     this.internalUserFactory = internalUserFactory;
     this.retryHelper = retryHelper;
+    this.projectCache = projectCache;
     skewMs = NoteDbChangeState.getReadOnlySkew(cfg);
 
     String s = "notedb";
@@ -164,6 +173,64 @@ public class PrimaryStorageMigrator {
             "primaryStorageMigrationTimeout",
             MILLISECONDS.convert(60, SECONDS),
             MILLISECONDS);
+  }
+
+  public boolean migrateToNoteDbPrimary(Collection<Change.Id> changes) {
+    boolean result = true;
+    for (Change.Id id : changes) {
+      try {
+        try {
+          migrateToNoteDbPrimary(id);
+        } catch (NoNoteDbStateException e) {
+          if (canSkipPrimaryStorageMigration(db(), id)) {
+            logger.atWarning().withCause(e).log(
+                "Change %s previously failed to rebuild;" + " skipping primary storage migration",
+                id);
+          } else {
+            throw e;
+          }
+        }
+      } catch (Exception e) {
+        logger.atSevere().withCause(e).log("Error migrating primary storage for %s", id);
+        result = false;
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Checks whether a change is so corrupt that it can be completely skipped by the primary storage
+   * migration step.
+   *
+   * <p>To get to the point where this method is called from {@link #setNoteDbPrimary}, it means we
+   * attempted to rebuild it, and encountered an error that was then caught in {@link
+   * #rebuildProjectSlice} and skipped. As a result, there is no {@code noteDbState} field in the
+   * change by the time we get to {@link #setNoteDbPrimary}, so {@code migrateToNoteDbPrimary}
+   * throws an exception.
+   *
+   * <p>We have to do this hacky double-checking because we don't have a way for the rebuilding
+   * phase to communicate to the primary storage migration phase that the change is skippable. It
+   * would be possible to store this info in some field in this class, but there is no guarantee
+   * that the rebuild and primary storage migration phases are run in the same JVM invocation.
+   *
+   * <p>In an ideal world, we could do this through the {@link
+   * com.google.gerrit.server.notedb.NoteDbChangeState.PrimaryStorage} enum, having a separate value
+   * for errors. However, that would be an invasive change touching many non-migration-related parts
+   * of the NoteDb migration code, which is too risky to attempt in the stable branch where this bug
+   * had to be fixed.
+   *
+   * <p>As of this writing, there are only two cases where this happens: when a change has no patch
+   * sets, or the project doesn't exist.
+   */
+  private boolean canSkipPrimaryStorageMigration(ReviewDb db, Change.Id id) {
+    try {
+      return Iterables.isEmpty(unwrapDb(db).patchSets().byChange(id))
+          || projectCache.get(unwrapDb(db).changes().get(id).getProject()) == null;
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log(
+          "Error checking if change %s can be skipped, assuming no", id);
+      return false;
+    }
   }
 
   /**

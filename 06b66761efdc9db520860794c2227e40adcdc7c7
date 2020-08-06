@@ -16,6 +16,167 @@
       "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "523b8397_75f94267",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "nit: remove opt_ prefix",
+      "range": {
+        "startLine": 201,
+        "startChar": 4,
+        "endLine": 201,
+        "endChar": 12
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "15329d86_cc082188",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "Why do you need this condition? The last parameter in getContentByLine is optional, i.e. if group.element is not set - getContentByLine still returns something",
+      "range": {
+        "startLine": 259,
+        "startChar": 17,
+        "endLine": 259,
+        "endChar": 35
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d0304e9e_d9517527",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "_createTextEl passes lineNumberEl to a layer.annotate method.\nAll annotate methods either don\u0027t use this parameter or contain a check for null\\undefined.\n\nCould you please explain a little bit why this condition is required?",
+      "range": {
+        "startLine": 293,
+        "startChar": 6,
+        "endLine": 293,
+        "endChar": 33
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36f7ad60_15b4513c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "Is return missed here?",
+      "range": {
+        "startLine": 319,
+        "startChar": 24,
+        "endLine": 319,
+        "endChar": 69
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dc58109_b3b6057e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "nit: you can use `${number}` instead",
+      "range": {
+        "startLine": 432,
+        "startChar": 56,
+        "endLine": 432,
+        "endChar": 73
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "39aa2921_c2469a46",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "nit: `${number}`",
+      "range": {
+        "startLine": 452,
+        "startChar": 23,
+        "endLine": 452,
+        "endChar": 40
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08401117_4d85a1bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 741,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-06T14:43:42Z",
+      "side": 1,
+      "message": "nit: `${lineNumber}`",
+      "range": {
+        "startLine": 741,
+        "startChar": 45,
+        "endLine": 741,
+        "endChar": 66
+      },
+      "revId": "06b66761efdc9db520860794c2227e40adcdc7c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

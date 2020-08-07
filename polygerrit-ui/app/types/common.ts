@@ -1110,3 +1110,85 @@ export interface ImageInfo {
   _width: number;
   _height: number;
 }
+
+/**
+ * A boolean value that can also be inherited.
+ */
+export interface InheritedBooleanInfo {
+  value: string;
+  configured_value: string;
+  inherited_value?: string;
+}
+
+/**
+ * The MaxObjectSizeLimitInfo entity contains information about themax object
+ * size limit of a project.
+ */
+export interface MaxObjectSizeLimitInfo {
+  value?: string;
+  configured_value?: string;
+  summary?: string;
+}
+
+/**
+ * Information about the default submittype of a project, taking into account
+ * project inheritance.
+ */
+export interface SubmitTypeInfo {
+  value: string;
+  configured_value: string;
+  inherited_value: string;
+}
+
+/**
+ * The CommentLinkInfo entity describes acommentlink.
+ */
+export interface CommentLinkInfo {
+  match: string;
+  link: string;
+  enabled?: boolean;
+}
+
+/**
+ * The ConfigParameterInfo entity describes a project configurationparameter.
+ */
+export interface ConfigParameterInfo {
+  display_name?: string;
+  description?: string;
+  warning?: string;
+  type: string;
+  value?: string;
+  values?: string[];
+  editable: boolean;
+  permitted_values?: string[];
+  inheritable: boolean;
+  configured_value?: string;
+  inherited_value?: string;
+}
+
+/**
+ * The ConfigInfo entity contains information about the effective
+ * projectconfiguration.
+ */
+export interface ConfigInfo {
+  description?: string;
+  use_contributor_agreements?: InheritedBooleanInfo;
+  use_content_merge?: InheritedBooleanInfo;
+  use_signed_off_by?: InheritedBooleanInfo;
+  create_new_change_for_all_not_in_target?: InheritedBooleanInfo;
+  require_change_id?: InheritedBooleanInfo;
+  enable_signed_push?: InheritedBooleanInfo;
+  require_signed_push?: InheritedBooleanInfo;
+  reject_implicit_merges?: InheritedBooleanInfo;
+  private_by_default: InheritedBooleanInfo;
+  work_in_progress_by_default: InheritedBooleanInfo;
+  max_object_size_limit: MaxObjectSizeLimitInfo;
+  default_submit_type: SubmitTypeInfo;
+  submit_type: string;
+  match_author_to_committer_date?: InheritedBooleanInfo;
+  state?: string;
+  commentlinks: {[name: string]: CommentLinkInfo};
+  plugin_config?: ConfigParameterInfo;
+  actions?: {[viewName: string]: ActionInfo};
+  reject_empty_commit?: InheritedBooleanInfo;
+}

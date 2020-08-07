@@ -14,26 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/shared-styles.js';
-import '../gr-storage/gr-storage.js';
-import '../gr-button/gr-button.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-editable-content_html.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/shared-styles';
+import '../gr-storage/gr-storage';
+import '../gr-button/gr-button';
+import {GrStorage} from '../gr-storage/gr-storage';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {customElement, property} from '@polymer/decorators/lib/decorators';
+import {htmlTemplate} from './gr-editable-content_html';
 
 const RESTORED_MESSAGE = 'Content restored from a previous edit.';
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
-/**
- * @extends PolymerElement
- */
-class GrEditableContent extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-editable-content': GrEditableContent;
+  }
+}
 
-  static get is() { return 'gr-editable-content'; }
+export interface GrEditableContent {
+  $: {
+    storage: GrStorage;
+  };
+}
+
+@customElement('gr-editable-content')
+export class GrEditableContent extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the save button is pressed.
    *
@@ -52,39 +66,32 @@ class GrEditableContent extends GestureEventListeners(
    * @event show-alert
    */
 
-  static get properties() {
-    return {
-      content: {
-        notify: true,
-        type: String,
-        observer: '_contentChanged',
-      },
-      disabled: {
-        reflectToAttribute: true,
-        type: Boolean,
-        value: false,
-      },
-      editing: {
-        observer: '_editingChanged',
-        type: Boolean,
-        value: false,
-      },
-      removeZeroWidthSpace: Boolean,
-      // If no storage key is provided, content is not stored.
-      storageKey: String,
-      _saveDisabled: {
-        computed: '_computeSaveDisabled(disabled, content, _newContent)',
-        type: Boolean,
-        value: true,
-      },
-      _newContent: {
-        type: String,
-        observer: '_newContentChanged',
-      },
-    };
-  }
+  @property({type: String, notify: true, observer: '_contentChanged'})
+  content?: string;
 
-  _contentChanged(content) {
+  @property({type: Boolean, reflectToAttribute: true})
+  disabled = false;
+
+  @property({type: Boolean, observer: '_editingChanged'})
+  editing = false;
+
+  @property({type: Boolean})
+  removeZeroWidthSpace?: boolean;
+
+  // If no storage key is provided, content is not stored.
+  @property({type: String})
+  storageKey?: string;
+
+  @property({
+    type: Boolean,
+    computed: '_computeSaveDisabled(disabled, content, _newContent)',
+  })
+  _saveDisabled = true;
+
+  @property({type: String, observer: '_newContentChanged'})
+  _newContent?: string;
+
+  _contentChanged() {
     /* A changed content means that either a different change has been loaded
      * or new content was saved. Either way, let's reset the component.
      */
@@ -93,27 +100,31 @@ class GrEditableContent extends GestureEventListeners(
   }
 
   focusTextarea() {
-    this.shadowRoot.querySelector('iron-autogrow-textarea').textarea.focus();
+    this.shadowRoot!.querySelector('iron-autogrow-textarea')!.textarea.focus();
   }
 
-  _newContentChanged(newContent, oldContent) {
-    if (!this.storageKey) { return; }
+  _newContentChanged(newContent: string) {
+    if (!this.storageKey) return;
 
-    this.debounce('store', () => {
-      if (newContent.length) {
-        this.$.storage.setEditableContentItem(this.storageKey, newContent);
-      } else {
-        // This does not really happen, because we don't clear newContent
-        // after saving (see below). So this only occurs when the user clears
-        // all the content in the editable textarea. But <gr-storage> cleans
-        // up itself after one day, so we are not so concerned about leaving
-        // some garbage behind.
-        this.$.storage.eraseEditableContentItem(this.storageKey);
-      }
-    }, STORAGE_DEBOUNCE_INTERVAL_MS);
+    this.debounce(
+      'store',
+      () => {
+        if (newContent.length) {
+          this.$.storage.setEditableContentItem(this.storageKey!, newContent);
+        } else {
+          // This does not really happen, because we don't clear newContent
+          // after saving (see below). So this only occurs when the user clears
+          // all the content in the editable textarea. But <gr-storage> cleans
+          // up itself after one day, so we are not so concerned about leaving
+          // some garbage behind.
+          this.$.storage.eraseEditableContentItem(this.storageKey!);
+        }
+      },
+      STORAGE_DEBOUNCE_INTERVAL_MS
+    );
   }
 
-  _editingChanged(editing) {
+  _editingChanged(editing: boolean) {
     // This method is for initializing _newContent when you start editing.
     // Restoring content from local storage is not perfect and has
     // some issues:
@@ -128,21 +139,22 @@ class GrEditableContent extends GestureEventListeners(
     // content from local storage when you enter editing mode for the first
     // time. Otherwise it is better to just keep the last editing state from
     // the same session.
-    if (!editing || this._newContent) {
-      return;
-    }
+    if (!editing || this._newContent) return;
 
     let content;
     if (this.storageKey) {
-      const storedContent =
-          this.$.storage.getEditableContentItem(this.storageKey);
+      const storedContent = this.$.storage.getEditableContentItem(
+        this.storageKey
+      );
       if (storedContent && storedContent.message) {
         content = storedContent.message;
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {message: RESTORED_MESSAGE},
-          bubbles: true,
-          composed: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: RESTORED_MESSAGE},
+            bubbles: true,
+            composed: true,
+          })
+        );
       }
     }
     if (!content) {
@@ -150,33 +162,41 @@ class GrEditableContent extends GestureEventListeners(
     }
 
     // TODO(wyatta) switch linkify sequence, see issue 5526.
-    this._newContent = this.removeZeroWidthSpace ?
-      content.replace(/^R=\u200B/gm, 'R=') :
-      content;
+    this._newContent = this.removeZeroWidthSpace
+      ? content.replace(/^R=\u200B/gm, 'R=')
+      : content;
   }
 
-  _computeSaveDisabled(disabled, content, newContent) {
+  _computeSaveDisabled(
+    disabled?: boolean,
+    content?: string,
+    newContent?: string
+  ): boolean {
     return disabled || !newContent || content === newContent;
   }
 
-  _handleSave(e) {
+  _handleSave(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('editable-content-save', {
-      detail: {content: this._newContent},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('editable-content-save', {
+        detail: {content: this._newContent},
+        composed: true,
+        bubbles: true,
+      })
+    );
     // It would be nice, if we would set this._newContent = undefined here,
     // but we can only do that when we are sure that the save operation has
     // succeeded.
   }
 
-  _handleCancel(e) {
+  _handleCancel(e: Event) {
     e.preventDefault();
     this.editing = false;
-    this.dispatchEvent(new CustomEvent('editable-content-cancel', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('editable-content-cancel', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 }
-
-customElements.define(GrEditableContent.is, GrEditableContent);

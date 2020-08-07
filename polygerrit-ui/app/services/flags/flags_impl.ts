@@ -35,10 +35,6 @@ export class FlagsServiceImplementation implements FlagsService {
     this._experiments = this._loadExperiments();
   }
 
-  /**
-   * @param {string} experimentId
-   * @returns {boolean}
-   */
   isEnabled(experimentId: string): boolean {
     return this._experiments.has(experimentId);
   }
@@ -47,9 +43,6 @@ export class FlagsServiceImplementation implements FlagsService {
     return new Set(window.ENABLED_EXPERIMENTS);
   }
 
-  /**
-   * @returns {string[]} array of all enabled experiments.
-   */
   get enabledExperiments() {
     return [...this._experiments];
   }

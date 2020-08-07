@@ -19,11 +19,6 @@ import {SpecialFilePath, FileInfoStatus} from '../constants/constants';
 import {FileInfo} from '../types/common';
 import {hasOwnProperty} from './common-util';
 
-/**
- * @param {string} a
- * @param {string} b
- * @return {number}
- */
 export function specialFilePathCompare(a: string, b: string) {
   // The commit message always goes first.
   if (a === SpecialFilePath.COMMIT_MESSAGE) {

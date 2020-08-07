@@ -230,9 +230,6 @@ export function descendedFromClass(
  * For class names, naming rules:
  * Must begin with a letter A-Z or a-z
  * Can be followed by: letters (A-Za-z), digits (0-9), hyphens ("-"), and underscores ("_")
- *
- * @param {string} str
- * @param {string} prefix
  */
 export function strToClassName(str = '', prefix = 'generated_') {
   return `${prefix}${str.replace(/[^a-zA-Z0-9-_]/g, '_')}`;

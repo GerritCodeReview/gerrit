@@ -104,9 +104,6 @@ export class GrPluginEndpoints {
    * Dynamic plugins are registered to a specific prefix, such as
    * 'change-list-header'. These plugins are then fetched by prefix to determine
    * which endpoints to dynamically add to the page.
-   *
-   * @param {Object} plugin
-   * @param {Object} opts
    */
   registerModule(plugin: any, opts: Options) {
     const endpoint = opts.endpoint!;

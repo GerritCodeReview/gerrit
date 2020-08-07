@@ -14,58 +14,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-icons/gr-icons.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-star_html.js';
+import '../gr-icons/gr-icons';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-star_html';
+import {customElement, property} from '@polymer/decorators';
+import {ChangeInfo} from '../../../types/common';
 
-/** @extends PolymerElement */
-class GrChangeStar extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-star': GrChangeStar;
+  }
+}
 
-  static get is() { return 'gr-change-star'; }
+@customElement('gr-change-star')
+export class GrChangeStar extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when star state is toggled.
    *
    * @event toggle-star
    */
 
-  static get properties() {
-    return {
-    /** @type {?} */
-      change: {
-        type: Object,
-        notify: true,
-      },
-    };
-  }
+  @property({type: Object, notify: true})
+  change!: ChangeInfo; // required as a component input
 
-  _computeStarClass(starred) {
+  _computeStarClass(starred: boolean) {
     return starred ? 'active' : '';
   }
 
-  _computeStarIcon(starred) {
+  _computeStarIcon(starred: boolean) {
     // Hollow star is used to indicate inactive state.
     return `gr-icons:star${starred ? '' : '-border'}`;
   }
 
-  _computeAriaLabel(starred) {
+  _computeAriaLabel(starred: boolean) {
     return starred ? 'Unstar this change' : 'Star this change';
   }
 
   toggleStar() {
     const newVal = !this.change.starred;
     this.set('change.starred', newVal);
-    this.dispatchEvent(new CustomEvent('toggle-star', {
-      bubbles: true,
-      composed: true,
-      detail: {change: this.change, starred: newVal},
-    }));
+    this.dispatchEvent(
+      new CustomEvent('toggle-star', {
+        bubbles: true,
+        composed: true,
+        detail: {change: this.change, starred: newVal},
+      })
+    );
   }
 }
-
-customElements.define(GrChangeStar.is, GrChangeStar);

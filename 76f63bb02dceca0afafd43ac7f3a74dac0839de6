@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f574b0c_f38f7f92",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "nit: remove opt_ prefix, \u0027?\u0027 already shows that this is an optional parameter",
+      "range": {
+        "startLine": 175,
+        "startChar": 4,
+        "endLine": 175,
+        "endChar": 17
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "685b8f6a_8244f514",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "Seems this property is not used in a templates and it was not in a JS properties. \n@property can be removed and instead TS property can be declared:\nprivate _lastDisplayedNavigateToNextFileToast",
+      "range": {
+        "startLine": 91,
+        "startChar": 2,
+        "endLine": 91,
+        "endChar": 27
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a9edf9e_853b1ed5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "here and below: remove opt_ prefix, the \u0027?\u0027 already shows that parameter is optional",
+      "range": {
+        "startLine": 120,
+        "startChar": 4,
+        "endLine": 120,
+        "endChar": 17
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc34dbc4_75d9742f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "remove opt_ prefix",
+      "range": {
+        "startLine": 147,
+        "startChar": 20,
+        "endLine": 147,
+        "endChar": 33
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e31c1b72_41c1d448",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "remove opt_ prefix",
+      "range": {
+        "startLine": 218,
+        "startChar": 30,
+        "endLine": 218,
+        "endChar": 42
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bbfedcb_47d3324c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "Seems the method expects that element is always HTMLElement. Maybe change type of the element parameter to HTMLElement?",
+      "range": {
+        "startLine": 226,
+        "startChar": 26,
+        "endLine": 226,
+        "endChar": 40
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daae6893_c407f205",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "remove opt_ prefix",
+      "range": {
+        "startLine": 285,
+        "startChar": 4,
+        "endLine": 285,
+        "endChar": 17
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "418c4dd5_ab154c42",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "With newTarget instead of this.target you can remove \u0027this.target \u0026\u0026\u0027",
+      "range": {
+        "startLine": 353,
+        "startChar": 8,
+        "endLine": 353,
+        "endChar": 19
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ffdd3b11_cfe2f60c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 26
+      },
+      "lineNbr": 384,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:07:54Z",
+      "side": 1,
+      "message": "remove opt_ prefix",
+      "range": {
+        "startLine": 384,
+        "startChar": 4,
+        "endLine": 384,
+        "endChar": 17
+      },
+      "revId": "76f63bb02dceca0afafd43ac7f3a74dac0839de6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

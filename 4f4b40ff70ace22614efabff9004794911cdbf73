@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0263d64_8aa46060",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-07T15:07:37Z",
+      "side": 1,
+      "message": "requests",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 11
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c782db3_929a9345",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-07T15:07:37Z",
+      "side": 1,
+      "message": "intention",
+      "range": {
+        "startLine": 1072,
+        "startChar": 22,
+        "endLine": 1072,
+        "endChar": 31
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fe61de1_b4a83d44",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-07T15:07:37Z",
+      "side": 1,
+      "message": "the",
+      "range": {
+        "startLine": 116,
+        "startChar": 48,
+        "endLine": 116,
+        "endChar": 52
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6b994aa_6c51a229",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-07T15:07:37Z",
+      "side": 1,
+      "message": "Can you mention here that global_config_revision will only be populated for the All-Projects project?",
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

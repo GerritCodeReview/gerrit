@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "49207df5_56598a5e",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-07T14:42:08Z",
+      "side": 1,
+      "message": "Please update this comment based on what we end up doing (see next comment).",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc066af_67474a05",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-07T14:42:08Z",
+      "side": 1,
+      "message": "Tests will fail if this is not updated :-)\n\nShould we check both \"Non-Interactive Users\" and \"Service Users\" until the migration is complete? (also maybe add a test to ensure both are supported for the time being).",
+      "range": {
+        "startLine": 55,
+        "startChar": 45,
+        "endLine": 55,
+        "endChar": 66
+      },
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5152a167_e05d7e22",
+        "filename": "java/com/google/gerrit/server/schema/Schema_184.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-07T14:42:08Z",
+      "side": 1,
+      "message": "Should be updated",
+      "range": {
+        "startLine": 37,
+        "startChar": 1,
+        "endLine": 43,
+        "endChar": 0
+      },
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -88,6 +88,14 @@ public class CachedProjectConfigSerializer {
     proto.getCommentLinksList().stream()
         .map(StoredCommentLinkInfoSerializer::deserialize)
         .forEach(builder::addCommentLinkSection);
+    proto
+        .getPluginConfigsMap()
+        .entrySet()
+        .forEach(e -> builder.addPluginConfig(e.getKey(), e.getValue()));
+    proto
+        .getProjectLevelConfigsMap()
+        .entrySet()
+        .forEach(e -> builder.addProjectLevelConfig(e.getKey(), e.getValue()));
 
     return builder.build();
   }
@@ -150,6 +158,9 @@ public class CachedProjectConfigSerializer {
     autoValue.getCommentLinkSections().values().stream()
         .map(StoredCommentLinkInfoSerializer::serialize)
         .forEach(builder::addCommentLinks);
+    builder.putAllPluginConfigs(autoValue.getPluginConfigs());
+    builder.putAllProjectLevelConfigs(autoValue.getProjectLevelConfigs());
+
     return builder.build();
   }
 

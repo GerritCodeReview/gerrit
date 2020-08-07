@@ -22,6 +22,30 @@
       "revId": "5a1ea596d1d2194725368693de7c371ad0e42e1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2ea8c32_debf9e45",
+        "filename": "polygerrit-ui/app/elements/shared/gr-change-star/gr-change-star.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T12:51:16Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "85a2b073_3830c83f",
+      "range": {
+        "startLine": 47,
+        "startChar": 23,
+        "endLine": 47,
+        "endChar": 55
+      },
+      "revId": "5a1ea596d1d2194725368693de7c371ad0e42e1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

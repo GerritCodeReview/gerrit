@@ -14,44 +14,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-linked-text/gr-linked-text.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-formatted-text_html.js';
+import '../gr-linked-text/gr-linked-text';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {customElement, property} from '@polymer/decorators/lib/decorators';
+import {htmlTemplate} from './gr-formatted-text_html';
+import {CommentLinks} from '../../../types/common';
 
-// eslint-disable-next-line no-unused-vars
-const QUOTE_MARKER_PATTERN = /\n\s?>\s/g;
 const CODE_MARKER_PATTERN = /^(`{1,3})([^`]+?)\1$/;
 
-/** @extends PolymerElement */
-class GrFormattedText extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+interface Block {
+  type: string;
+  text?: string;
+  blocks?: Block[];
+  items?: string[];
+}
 
-  static get is() { return 'gr-formatted-text'; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-formatted-text': GrFormattedText;
+  }
+}
 
-  static get properties() {
-    return {
-      content: {
-        type: String,
-        observer: '_contentChanged',
-      },
-      config: Object,
-      noTrailingMargin: {
-        type: Boolean,
-        value: false,
-      },
-    };
+export interface GrFormattedText {
+  $: {
+    container: HTMLElement;
+  };
+}
+
+@customElement('gr-formatted-text')
+export class GrFormattedText extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
+  @property({type: String, observer: '_contentChanged'})
+  content?: string;
+
+  @property({type: Object})
+  config?: CommentLinks;
+
+  @property({type: Boolean})
+  noTrailingMargin = false;
+
   static get observers() {
-    return [
-      '_contentOrConfigChanged(content, config)',
-    ];
+    return ['_contentOrConfigChanged(content, config)'];
   }
 
   /** @override */
@@ -62,19 +73,19 @@ class GrFormattedText extends GestureEventListeners(
     }
   }
 
-  _contentChanged(content) {
+  _contentChanged(content: string) {
     // In the case where the config may not be set (perhaps due to the
     // request for it still being in flight), set the content anyway to
     // prevent waiting on the config to display the text.
-    if (this.config) { return; }
+    if (this.config) return;
     this._contentOrConfigChanged(content);
   }
 
   /**
    * Given a source string, update the DOM inside #container.
    */
-  _contentOrConfigChanged(content) {
-    const container = dom(this.$.container);
+  _contentOrConfigChanged(content?: string) {
+    const container = this.$.container;
 
     // Remove existing content.
     while (container.firstChild) {
@@ -106,12 +117,9 @@ class GrFormattedText extends GestureEventListeners(
    * list of blocks contained in the quote.
    *
    * NOTE: Strings appearing in all block objects are NOT escaped.
-   *
-   * @param {string} content
-   * @return {!Array<!Object>}
    */
-  _computeBlocks(content) {
-    if (!content) { return []; }
+  _computeBlocks(content?: string): Block[] {
+    if (!content) return [];
 
     const result = [];
     const lines = content.replace(/[\s\n\r\t]+$/g, '').split('\n');
@@ -123,7 +131,7 @@ class GrFormattedText extends GestureEventListeners(
 
       if (this._isCodeMarkLine(lines[i])) {
         // handle multi-line code
-        let nextI = i+1;
+        let nextI = i + 1;
         while (!this._isCodeMarkLine(lines[nextI]) && nextI < lines.length) {
           nextI++;
         }
@@ -131,7 +139,7 @@ class GrFormattedText extends GestureEventListeners(
         if (this._isCodeMarkLine(lines[nextI])) {
           result.push({
             type: 'code',
-            text: lines.slice(i+1, nextI).join('\n'),
+            text: lines.slice(i + 1, nextI).join('\n'),
           });
           i = nextI;
           continue;
@@ -143,7 +151,7 @@ class GrFormattedText extends GestureEventListeners(
 
       if (this._isSingleLineCode(lines[i])) {
         // no guard check as _isSingleLineCode tested on the pattern
-        const codeContent = lines[i].match(CODE_MARKER_PATTERN)[2];
+        const codeContent = lines[i].match(CODE_MARKER_PATTERN)![2];
         result.push({type: 'code', text: codeContent});
       } else if (this._isList(lines[i])) {
         let nextI = i + 1;
@@ -157,8 +165,9 @@ class GrFormattedText extends GestureEventListeners(
         while (this._isQuote(lines[nextI])) {
           nextI++;
         }
-        const blockLines = lines.slice(i, nextI)
-            .map(l => l.replace(/^[ ]?>[ ]?/, ''));
+        const blockLines = lines
+          .slice(i, nextI)
+          .map(l => l.replace(/^[ ]?>[ ]?/, ''));
         result.push({
           type: 'quote',
           blocks: this._computeBlocks(blockLines.join('\n')),
@@ -167,8 +176,10 @@ class GrFormattedText extends GestureEventListeners(
       } else if (this._isPreFormat(lines[i])) {
         let nextI = i + 1;
         // include pre or all regular lines but stop at next new line
-        while (this._isPreFormat(lines[nextI])
-         || (this._isRegularLine(lines[nextI]) && lines[nextI].length)) {
+        while (
+          this._isPreFormat(lines[nextI]) ||
+          (this._isRegularLine(lines[nextI]) && lines[nextI].length)
+        ) {
           nextI++;
         }
         result.push({
@@ -202,58 +213,56 @@ class GrFormattedText extends GestureEventListeners(
    *
    * TODO(taoalpha): maybe we should also support nested list
    *
-   * @param {!Array<string>} lines The block containing the list.
+   * @param lines The block containing the list.
    */
-  _makeList(lines) {
-    const block = {type: 'list', items: []};
-    let line;
-
+  _makeList(lines: string[]) {
+    const items = [];
     for (let i = 0; i < lines.length; i++) {
-      line = lines[i];
+      let line = lines[i];
       line = line.substring(1).trim();
-      block.items.push(line);
+      items.push(line);
     }
-    return block;
+    return {type: 'list', items};
   }
 
-  _isRegularLine(line) {
+  _isRegularLine(line: string) {
     // line can not be recognized by existing patterns
     if (line === undefined) return false;
-    return !this._isQuote(line) && !this._isCodeMarkLine(line)
-    && !this._isSingleLineCode(line) && !this._isList(line) &&
-    !this._isPreFormat(line);
+    return (
+      !this._isQuote(line) &&
+      !this._isCodeMarkLine(line) &&
+      !this._isSingleLineCode(line) &&
+      !this._isList(line) &&
+      !this._isPreFormat(line)
+    );
   }
 
-  _isQuote(line) {
+  _isQuote(line: string) {
     return line && (line.startsWith('> ') || line.startsWith(' > '));
   }
 
-  _isCodeMarkLine(line) {
+  _isCodeMarkLine(line: string) {
     return line && line.trim() === '```';
   }
 
-  _isSingleLineCode(line) {
+  _isSingleLineCode(line: string) {
     return line && CODE_MARKER_PATTERN.test(line);
   }
 
-  _isPreFormat(line) {
+  _isPreFormat(line: string) {
     return line && /^[ \t]/.test(line);
   }
 
-  _isList(line) {
+  _isList(line: string) {
     return line && /^[-*] /.test(line);
   }
 
-  /**
-   * @param {string} content
-   * @param {boolean=} opt_isPre
-   */
-  _makeLinkedText(content, opt_isPre) {
+  _makeLinkedText(content = '', isPre?: boolean) {
     const text = document.createElement('gr-linked-text');
     text.config = this.config;
     text.content = content;
     text.pre = true;
-    if (opt_isPre) {
+    if (isPre) {
       text.classList.add('pre');
     }
     return text;
@@ -261,11 +270,8 @@ class GrFormattedText extends GestureEventListeners(
 
   /**
    * Map an array of block objects to an array of DOM nodes.
-   *
-   * @param  {!Array<!Object>} blocks
-   * @return {!Array<!HTMLElement>}
    */
-  _computeNodes(blocks) {
+  _computeNodes(blocks: Block[]): HTMLElement[] {
     return blocks.map(block => {
       if (block.type === 'paragraph') {
         const p = document.createElement('p');
@@ -275,7 +281,7 @@ class GrFormattedText extends GestureEventListeners(
 
       if (block.type === 'quote') {
         const bq = document.createElement('blockquote');
-        for (const node of this._computeNodes(block.blocks)) {
+        for (const node of this._computeNodes(block.blocks || [])) {
           if (node) bq.appendChild(node);
         }
         return bq;
@@ -283,7 +289,7 @@ class GrFormattedText extends GestureEventListeners(
 
       if (block.type === 'code') {
         const code = document.createElement('code');
-        code.textContent = block.text;
+        code.textContent = block.text || '';
         return code;
       }
 
@@ -293,7 +299,8 @@ class GrFormattedText extends GestureEventListeners(
 
       if (block.type === 'list') {
         const ul = document.createElement('ul');
-        for (const item of block.items) {
+        const items = block.items || [];
+        for (const item of items) {
           const li = document.createElement('li');
           li.appendChild(this._makeLinkedText(item));
           ul.appendChild(li);
@@ -302,9 +309,7 @@ class GrFormattedText extends GestureEventListeners(
       }
 
       console.warn('Unrecognized type.');
-      return;
+      return document.createElement('span');
     });
   }
 }
-
-customElements.define(GrFormattedText.is, GrFormattedText);

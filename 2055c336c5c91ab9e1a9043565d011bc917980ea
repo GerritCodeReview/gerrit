@@ -48,6 +48,29 @@
     },
     {
       "key": {
+        "uuid": "d6721286_8d2584e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 28
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T14:44:47Z",
+      "side": 1,
+      "message": "Add some explanation here, for example:\n// entry.target is an item from the filteredStops array,\n// i.e. it is an HTMLElement",
+      "range": {
+        "startLine": 182,
+        "startChar": 10,
+        "endLine": 182,
+        "endChar": 58
+      },
+      "revId": "2055c336c5c91ab9e1a9043565d011bc917980ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0e04e4a3_19e947b5",
         "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
         "patchSetId": 28

@@ -15,33 +15,36 @@
  * limitations under the License.
  */
 
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-icons/gr-icons.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-create-change-help_html.js';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icons/gr-icons';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {customElement} from '@polymer/decorators';
+import {htmlTemplate} from './gr-create-change-help_html';
 
-/** @extends PolymerElement */
-class GrCreateChangeHelp extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-create-change-help'; }
-
-  /**
-   * Fired when the "Create change" button is tapped.
-   *
-   * @event create-tap
-   */
-
-  _handleCreateTap(e) {
-    e.preventDefault();
-    this.dispatchEvent(
-        new CustomEvent('create-tap', {bubbles: true, composed: true}));
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-change-help': GrCreateChangeHelp;
   }
 }
 
-customElements.define(GrCreateChangeHelp.is, GrCreateChangeHelp);
+@customElement('gr-create-change-help')
+class GrCreateChangeHelp extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  /**
+   * Fired when the "Create change" button is tapped.
+   */
+  _handleCreateTap(e: Event) {
+    e.preventDefault();
+    this.dispatchEvent(
+      new CustomEvent('create-tap', {bubbles: true, composed: true})
+    );
+  }
+}

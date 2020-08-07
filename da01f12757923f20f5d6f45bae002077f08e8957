@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "68b81fd9_f48e5129",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T15:39:55Z",
+      "side": 1,
+      "message": "optional: default value for computed property looks unusual.\nInstead property can be defined as\n_saveDisabled!: boolean;",
+      "range": {
+        "startLine": 89,
+        "startChar": 2,
+        "endLine": 89,
+        "endChar": 22
+      },
+      "revId": "da01f12757923f20f5d6f45bae002077f08e8957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c69b846_acf5f0bc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-content/gr-editable-content.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T15:39:55Z",
+      "side": 1,
+      "message": "optional: you can avoid ! using a temporary variaable:\nif (!this.storageKey) return;\nconst storageKey \u003d this.storageKey;\n    this.debounce(\n...\n          this.$.storage.setEditableContentItem(storageKey, newContent);\n...\n         this.$.storage.eraseEditableContentItem(storageKey);\n\nActually, it seems like a bug in the current implementation: if storageKey is changed immediately after newContent is assigned, then newContent can be assigned to a wrong key. Temporary variable fixes this problem. Not sure should we fix it right now or not.",
+      "range": {
+        "startLine": 113,
+        "startChar": 48,
+        "endLine": 113,
+        "endChar": 64
+      },
+      "revId": "da01f12757923f20f5d6f45bae002077f08e8957",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

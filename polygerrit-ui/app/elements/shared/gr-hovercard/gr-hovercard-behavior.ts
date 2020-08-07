@@ -43,6 +43,15 @@ const SHOW_DELAY_MS = 500;
 const HIDE_DELAY_MS = 300;
 
 /**
+ * Augment the interface with detailed $.
+ */
+export interface HovercardElInterface {
+  $: {
+    container: HTMLElement;
+  };
+}
+
+/**
  * The mixin for gr-hovercard-behavior.
  *
  * @example
@@ -60,7 +69,11 @@ const HIDE_DELAY_MS = 300;
  * @mixinFunction
  */
 export const hovercardBehaviorMixin = dedupingMixin(
-  <T extends Constructor<PolymerElement & LegacyElementMixin>>(
+  <
+    T extends Constructor<
+      PolymerElement & LegacyElementMixin & HovercardElInterface
+    >
+  >(
     superClass: T
   ): T & Constructor<GrHovercardBehaviorInterface> => {
     /**
@@ -374,7 +387,6 @@ export const hovercardBehaviorMixin = dedupingMixin(
 
         let hovercardLeft;
         let hovercardTop;
-        let cssText = '';
 
         switch (position) {
           case 'top':
@@ -415,8 +427,8 @@ export const hovercardBehaviorMixin = dedupingMixin(
             break;
         }
 
-        cssText += `left:${hovercardLeft}px; top:${hovercardTop}px;`;
-        this.style.cssText = cssText;
+        this.style.left = `${hovercardLeft}px`;
+        this.style.top = `${hovercardTop}px`;
       }
 
       /**

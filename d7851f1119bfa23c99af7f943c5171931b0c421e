@@ -1,0 +1,211 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "507a710f_16f5d675",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1003,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "Here and below: could you please add links to a doc",
+      "range": {
+        "startLine": 1003,
+        "startChar": 2,
+        "endLine": 1003,
+        "endChar": 46
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c0ddf6b_e6809f2f",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1007,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "Please make it as enum",
+      "range": {
+        "startLine": 1007,
+        "startChar": 2,
+        "endLine": 1007,
+        "endChar": 26
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5abf2994_0d3dbf5c",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1016,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "Should it be number?",
+      "range": {
+        "startLine": 1016,
+        "startChar": 10,
+        "endLine": 1016,
+        "endChar": 16
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd168190_903be967",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1026,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "Please make it as enum.\nAnd it seems other fields should be enum too",
+      "range": {
+        "startLine": 1026,
+        "startChar": 9,
+        "endLine": 1026,
+        "endChar": 15
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbf371c2_68b248d7",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "Please make it as enum",
+      "range": {
+        "startLine": 1047,
+        "startChar": 8,
+        "endLine": 1047,
+        "endChar": 14
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24fa038d_50edf34c",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1050,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "According to doc, it is optional",
+      "range": {
+        "startLine": 1050,
+        "startChar": 2,
+        "endLine": 1050,
+        "endChar": 11
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e9913f8_f377a2ea",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "According to doc, it is optional",
+      "range": {
+        "startLine": 1052,
+        "startChar": 2,
+        "endLine": 1052,
+        "endChar": 22
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7879df56_2adbc9f2",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1075,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "Please make it as enum (the same as SubmitTypeInfo.value)",
+      "range": {
+        "startLine": 1075,
+        "startChar": 15,
+        "endLine": 1075,
+        "endChar": 21
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6b21eeb_9d8a15e5",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1077,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T12:10:15Z",
+      "side": 1,
+      "message": "This is a ProjectState",
+      "range": {
+        "startLine": 1077,
+        "startChar": 10,
+        "endLine": 1077,
+        "endChar": 16
+      },
+      "revId": "d7851f1119bfa23c99af7f943c5171931b0c421e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

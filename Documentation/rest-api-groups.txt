@@ -67,12 +67,12 @@ by group name.
       "owner_id": "834ec36dd5e0ed21a2ff5d7e2255da082d63bbd7",
       "created_on": "2013-02-01 09:59:32.126000000"
     },
-    "Non-Interactive Users": {
+    "Service Users": {
       "id": "5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "url": "#/admin/groups/uuid-5057f3cbd3519d6ab69364429a89ffdffba50f73",
       "options": {
       },
-      "description": "Users who perform batch actions on Gerrit",
+      "description": "Service accounts that interact with Gerrit",
       "group_id": 4,
       "owner": "Administrators",
       "owner_id": "6a1e70e1a88782771a91808c8af9bbb7a9871389",

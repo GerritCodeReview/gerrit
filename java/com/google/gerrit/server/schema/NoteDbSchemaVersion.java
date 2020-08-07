@@ -19,6 +19,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.group.SystemGroupBackend;
+import com.google.gerrit.server.index.group.GroupIndexCollection;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -30,7 +31,7 @@ import org.eclipse.jgit.lib.PersonIdent;
  * <p>Implementations must have a single non-private constructor with no arguments (e.g. the default
  * constructor).
  */
-interface NoteDbSchemaVersion {
+public interface NoteDbSchemaVersion {
   @Singleton
   class Arguments {
     final GitRepositoryManager repoManager;
@@ -39,6 +40,7 @@ interface NoteDbSchemaVersion {
     final ProjectConfig.Factory projectConfigFactory;
     final SystemGroupBackend systemGroupBackend;
     final PersonIdent serverUser;
+    final GroupIndexCollection groupIndexCollection;
 
     @Inject
     Arguments(
@@ -47,13 +49,15 @@ interface NoteDbSchemaVersion {
         AllUsersName allUsers,
         ProjectConfig.Factory projectConfigFactory,
         SystemGroupBackend systemGroupBackend,
-        @GerritPersonIdent PersonIdent serverUser) {
+        @GerritPersonIdent PersonIdent serverUser,
+        GroupIndexCollection groupIndexCollection) {
       this.repoManager = repoManager;
       this.allProjects = allProjects;
       this.allUsers = allUsers;
       this.projectConfigFactory = projectConfigFactory;
       this.systemGroupBackend = systemGroupBackend;
       this.serverUser = serverUser;
+      this.groupIndexCollection = groupIndexCollection;
     }
   }
 

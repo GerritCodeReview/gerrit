@@ -32,6 +32,6 @@ public class ListGroupsIT extends AbstractDaemonTest {
     Map<String, GroupInfo> groupMap =
         newGson()
             .fromJson(response.getReader(), new TypeToken<Map<String, GroupInfo>>() {}.getType());
-    assertThat(groupMap.keySet()).containsExactly("Administrators", "Non-Interactive Users");
+    assertThat(groupMap.keySet()).containsExactly("Administrators", "Service Users");
   }
 }

@@ -16,11 +16,14 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.group.InternalGroup;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
 import com.google.inject.Scopes;
 import com.google.inject.Singleton;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import javax.inject.Inject;
 
@@ -40,21 +43,48 @@ public class ServiceUserClassifierImpl implements ServiceUserClassifier {
   }
 
   private final GroupCache groupCache;
+  private final InternalGroupBackend internalGroupBackend;
+  private final IdentifiedUser.GenericFactory identifiedUserFactory;
 
   @Inject
-  ServiceUserClassifierImpl(GroupCache groupCache) {
+  ServiceUserClassifierImpl(
+      GroupCache groupCache,
+      InternalGroupBackend internalGroupBackend,
+      IdentifiedUser.GenericFactory identifiedUserFactory) {
     this.groupCache = groupCache;
+    this.internalGroupBackend = internalGroupBackend;
+    this.identifiedUserFactory = identifiedUserFactory;
   }
 
   @Override
   public boolean isServiceUser(Account.Id user) {
-    // TODO(hiesel, brohlfs, paiking): This is just an interim solution until we have figured out a
-    // long-term solution.
-    // Discussion is at: https://gerrit-review.googlesource.com/c/gerrit/+/274854
-    Optional<InternalGroup> maybeGroup =
-        groupCache.get(AccountGroup.nameKey("Non-Interactive Users"));
-    if (maybeGroup.isPresent()) {
-      return maybeGroup.get().getMembers().stream().anyMatch(member -> user.equals(member));
+    Optional<InternalGroup> maybeGroup = groupCache.get(AccountGroup.nameKey("Service Users"));
+    if (!maybeGroup.isPresent()) {
+      return false;
+    }
+    List<AccountGroup.UUID> toTraverse = new ArrayList<>();
+    toTraverse.add(maybeGroup.get().getGroupUUID());
+    while (!toTraverse.isEmpty()) {
+      InternalGroup next =
+          groupCache
+              .get(toTraverse.remove(0))
+              .orElseThrow(() -> new IllegalStateException("invalid subgroup"));
+      boolean hasExternalSubgroup =
+          next.getSubgroups().stream().anyMatch(g -> !internalGroupBackend.handles(g));
+      if (next.getMembers().contains(user)) {
+        // The user is a member of the 'Service Users' group or a subgroup.
+        return true;
+      }
+      if (hasExternalSubgroup) {
+        // 'Service Users' contains an external subgroup, so we have to default to the more
+        // expensive evaluation of
+        // getting all of the user's group memberships.
+        return identifiedUserFactory
+            .create(user)
+            .getEffectiveGroups()
+            .contains(maybeGroup.get().getGroupUUID());
+      }
+      toTraverse.addAll(next.getSubgroups());
     }
     return false;
   }

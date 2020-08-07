@@ -44,9 +44,9 @@ let getDocsBaseUrlCachedPromise: Promise<string | null> | undefined;
 /**
  * Get the docs base URL from either the server config or by probing.
  *
- * @param {Object} config The server config.
- * @param {!Object} restApi A REST API instance
- * @return {!Promise<string>} A promise that resolves with the docs base
+ * @param config The server config.
+ * @param restApi A REST API instance
+ * @return A promise that resolves with the docs base
  *     URL.
  */
 export function getDocsBaseUrl(

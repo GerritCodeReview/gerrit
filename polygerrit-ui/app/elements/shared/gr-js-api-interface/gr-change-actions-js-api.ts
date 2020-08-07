@@ -42,9 +42,6 @@ export class GrChangeActionsInterface {
 
   /**
    * Set gr-change-actions element to a GrChangeActionsInterface instance.
-   *
-   * @param {!GrChangeActionsInterface} api
-   * @param {!Element} el gr-change-actions
    */
   private setEl(el?: GrChangeActions) {
     if (!el) {

@@ -128,7 +128,7 @@ interface AccessPermission {
 }
 
 /**
- * @return {!Array} returns a sorted array sorted by the id of the original
+ * @return a sorted array sorted by the id of the original
  *    object.
  */
 export function toSortedPermissionsArray(

@@ -14,102 +14,106 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GerritNav} from '../elements/core/gr-navigation/gr-navigation.js';
+import {
+  GerritNav,
+  GerritView,
+  RepoDetailView,
+  GroupDetailView,
+} from '../elements/core/gr-navigation/gr-navigation';
+import {
+  RepositoryName,
+  GroupId,
+  AccountDetailInfo,
+  CapabilityInfo,
+} from '../types/common';
+import {MenuLink} from '../elements/plugins/gr-admin-api/gr-admin-api';
+import {hasOwnProperty} from './common-util';
 
-const ADMIN_LINKS = [{
-  name: 'Repositories',
-  noBaseUrl: true,
-  url: '/admin/repos',
-  view: 'gr-repo-list',
-  viewableToAll: true,
-}, {
-  name: 'Groups',
-  section: 'Groups',
-  noBaseUrl: true,
-  url: '/admin/groups',
-  view: 'gr-admin-group-list',
-}, {
-  name: 'Plugins',
-  capability: 'viewPlugins',
-  section: 'Plugins',
-  noBaseUrl: true,
-  url: '/admin/plugins',
-  view: 'gr-plugin-list',
-}];
+const ADMIN_LINKS: NavLink[] = [
+  {
+    name: 'Repositories',
+    noBaseUrl: true,
+    url: '/admin/repos',
+    view: 'gr-repo-list',
+    viewableToAll: true,
+  },
+  {
+    name: 'Groups',
+    section: 'Groups',
+    noBaseUrl: true,
+    url: '/admin/groups',
+    view: 'gr-admin-group-list',
+  },
+  {
+    name: 'Plugins',
+    capability: 'viewPlugins',
+    section: 'Plugins',
+    noBaseUrl: true,
+    url: '/admin/plugins',
+    view: 'gr-plugin-list',
+  },
+];
 
-/**
- * @param {!Object} account
- * @param {!Function} getAccountCapabilities
- * @param {!Function} getAdminMenuLinks
- *  Possible aguments in options:
- *    repoName?: string
- *    groupId?: string,
- *    groupName?: string,
- *    groupIsInternal?: boolean,
- *    isAdmin?: boolean,
- *    groupOwner?: boolean,
- * @param {!Object=} opt_options
- * @return {Promise<!Object>}
- */
-export function getAdminLinks(account, getAccountCapabilities,
-    getAdminMenuLinks, opt_options) {
+export function getAdminLinks(
+  account: AccountDetailInfo,
+  getAccountCapabilities: (params?: string[]) => Promise<CapabilityInfo>,
+  getAdminMenuLinks: () => MenuLink[],
+  options?: AdminNavLinksOption
+) {
   if (!account) {
-    return Promise.resolve(_filterLinks(link => link.viewableToAll,
-        getAdminMenuLinks, opt_options));
+    return Promise.resolve(
+      _filterLinks(link => !!link.viewableToAll, getAdminMenuLinks, options)
+    );
   }
-  return getAccountCapabilities()
-      .then(capabilities => _filterLinks(
-          link => !link.capability
-          || capabilities.hasOwnProperty(link.capability),
-          getAdminMenuLinks,
-          opt_options));
+  return getAccountCapabilities().then(capabilities =>
+    _filterLinks(
+      link => !link.capability || hasOwnProperty(capabilities, link.capability),
+      getAdminMenuLinks,
+      options
+    )
+  );
 }
 
-/**
- * @param {!Function} filterFn
- * @param {!Function} getAdminMenuLinks
- *  Possible aguments in options:
- *    repoName?: string
- *    groupId?: string,
- *    groupName?: string,
- *    groupIsInternal?: boolean,
- *    isAdmin?: boolean,
- *    groupOwner?: boolean,
- * @param {!Object|undefined} opt_options
- * @return {Promise<!Object>}
- */
-function _filterLinks(filterFn, getAdminMenuLinks, opt_options) {
+function _filterLinks(
+  filterFn: (link: NavLink) => boolean,
+  getAdminMenuLinks: () => MenuLink[],
+  options?: AdminNavLinksOption
+) {
   let links = ADMIN_LINKS.slice(0);
   let expandedSection;
 
-  const isExternalLink = link => link.url[0] !== '/';
+  const isExternalLink = (link: MenuLink) => link.url[0] !== '/';
 
   // Append top-level links that are defined by plugins.
-  links.push(...getAdminMenuLinks().map(link => {
-    return {
-      url: link.url,
-      name: link.text,
-      capability: link.capability || null,
-      noBaseUrl: !isExternalLink(link),
-      view: null,
-      viewableToAll: !link.capability,
-      target: isExternalLink(link) ? '_blank' : null,
-    };
-  }));
+  links.push(
+    ...getAdminMenuLinks().map((link: MenuLink) => {
+      return {
+        url: link.url,
+        name: link.text,
+        capability: link.capability || null,
+        noBaseUrl: !isExternalLink(link),
+        view: null,
+        viewableToAll: !link.capability,
+        target: isExternalLink(link) ? '_blank' : null,
+      } as NavLink;
+    })
+  );
 
   links = links.filter(filterFn);
 
   const filteredLinks = [];
-  const repoName = opt_options && opt_options.repoName;
-  const groupId = opt_options && opt_options.groupId;
-  const groupName = opt_options && opt_options.groupName;
-  const groupIsInternal = opt_options && opt_options.groupIsInternal;
-  const isAdmin = opt_options && opt_options.isAdmin;
-  const groupOwner = opt_options && opt_options.groupOwner;
+  const repoName = options && options.repoName;
+  const groupId = options && options.groupId;
+  const groupName = options && options.groupName;
+  const groupIsInternal = options && options.groupIsInternal;
+  const isAdmin = options && options.isAdmin;
+  const groupOwner = options && options.groupOwner;
 
   // Don't bother to get sub-navigation items if only the top level links
   // are needed. This is used by the main header dropdown.
-  if (!repoName && !groupId) { return {links, expandedSection}; }
+  if (!repoName && !groupId) {
+    return {links, expandedSection};
+  }
 
   // Otherwise determine the full set of links and return both the full
   // set in addition to the subsection that should be displayed if it
@@ -120,8 +124,13 @@ function _filterLinks(filterFn, getAdminMenuLinks, opt_options) {
       linkCopy.subsection = getRepoSubsections(repoName);
       expandedSection = linkCopy.subsection;
     } else if (linkCopy.name === 'Groups' && groupId && groupName) {
-      linkCopy.subsection = getGroupSubsections(groupId, groupName,
-          groupIsInternal, isAdmin, groupOwner);
+      linkCopy.subsection = getGroupSubsections(
+        groupId,
+        groupName,
+        groupIsInternal,
+        isAdmin,
+        groupOwner
+      );
       expandedSection = linkCopy.subsection;
     }
     filteredLinks.push(linkCopy);
@@ -129,16 +138,22 @@ function _filterLinks(filterFn, getAdminMenuLinks, opt_options) {
   return {links: filteredLinks, expandedSection};
 }
 
-export function getGroupSubsections(groupId, groupName, groupIsInternal,
-    isAdmin, groupOwner) {
-  const subsection = {
+export function getGroupSubsections(
+  groupId: GroupId,
+  groupName: string,
+  groupIsInternal?: boolean,
+  isAdmin?: boolean,
+  groupOwner?: boolean
+) {
+  const children: SubsectionInterface[] = [];
+  const subsection: SubsectionInterface = {
     name: groupName,
     view: GerritNav.View.GROUP,
     url: GerritNav.getUrlForGroup(groupId),
-    children: [],
+    children,
   };
   if (groupIsInternal) {
-    subsection.children.push({
+    children.push({
       name: 'Members',
       detailType: GerritNav.GroupDetailView.MEMBERS,
       view: GerritNav.View.GROUP,
@@ -146,52 +161,81 @@ export function getGroupSubsections(groupId, groupName, groupIsInternal,
     });
   }
   if (groupIsInternal && (isAdmin || groupOwner)) {
-    subsection.children.push(
-        {
-          name: 'Audit Log',
-          detailType: GerritNav.GroupDetailView.LOG,
-          view: GerritNav.View.GROUP,
-          url: GerritNav.getUrlForGroupLog(groupId),
-        }
-    );
+    children.push({
+      name: 'Audit Log',
+      detailType: GerritNav.GroupDetailView.LOG,
+      view: GerritNav.View.GROUP,
+      url: GerritNav.getUrlForGroupLog(groupId),
+    });
   }
   return subsection;
 }
 
-export function getRepoSubsections(repoName) {
+export function getRepoSubsections(repoName: RepositoryName) {
   return {
     name: repoName,
     view: GerritNav.View.REPO,
     url: GerritNav.getUrlForRepo(repoName),
-    children: [{
-      name: 'Access',
-      view: GerritNav.View.REPO,
-      detailType: GerritNav.RepoDetailView.ACCESS,
-      url: GerritNav.getUrlForRepoAccess(repoName),
-    },
-    {
-      name: 'Commands',
-      view: GerritNav.View.REPO,
-      detailType: GerritNav.RepoDetailView.COMMANDS,
-      url: GerritNav.getUrlForRepoCommands(repoName),
-    },
-    {
-      name: 'Branches',
-      view: GerritNav.View.REPO,
-      detailType: GerritNav.RepoDetailView.BRANCHES,
-      url: GerritNav.getUrlForRepoBranches(repoName),
-    },
-    {
-      name: 'Tags',
-      view: GerritNav.View.REPO,
-      detailType: GerritNav.RepoDetailView.TAGS,
-      url: GerritNav.getUrlForRepoTags(repoName),
-    },
-    {
-      name: 'Dashboards',
-      view: GerritNav.View.REPO,
-      detailType: GerritNav.RepoDetailView.DASHBOARDS,
-      url: GerritNav.getUrlForRepoDashboards(repoName),
-    }],
+    children: [
+      {
+        name: 'Access',
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.ACCESS,
+        url: GerritNav.getUrlForRepoAccess(repoName),
+      },
+      {
+        name: 'Commands',
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.COMMANDS,
+        url: GerritNav.getUrlForRepoCommands(repoName),
+      },
+      {
+        name: 'Branches',
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.BRANCHES,
+        url: GerritNav.getUrlForRepoBranches(repoName),
+      },
+      {
+        name: 'Tags',
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.TAGS,
+        url: GerritNav.getUrlForRepoTags(repoName),
+      },
+      {
+        name: 'Dashboards',
+        view: GerritNav.View.REPO,
+        detailType: GerritNav.RepoDetailView.DASHBOARDS,
+        url: GerritNav.getUrlForRepoDashboards(repoName),
+      },
+    ],
   };
+}
+
+export interface SubsectionInterface {
+  name: string;
+  view: GerritView;
+  detailType?: RepoDetailView | GroupDetailView;
+  url: string;
+  children?: SubsectionInterface[];
+}
+
+export interface AdminNavLinksOption {
+  repoName?: RepositoryName;
+  groupId?: GroupId;
+  groupName?: string;
+  groupIsInternal?: boolean;
+  isAdmin?: boolean;
+  groupOwner?: boolean;
+}
+
+export interface NavLink {
+  name: string;
+  noBaseUrl: boolean;
+  url: string;
+  view: string | null;
+  viewableToAll?: boolean;
+  section?: string;
+  capability?: string;
+  target?: string | null;
+  subsection?: SubsectionInterface;
 }

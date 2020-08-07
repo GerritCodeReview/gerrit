@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a2b70eec_eeb29f02",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T11:09:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43b95300_b1534c30",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce455337_1fd0d131",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e040526_5430ed25",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T11:09:09Z",
+      "side": 1,
+      "message": "At L165, L166 compiler understands that _batch is not null - there is a check at the start of reduce callback.\nAfter the reduce, compiler can\u0027t understand it, need to use ! here.\nI can write ! in 2 places, but I prefer to write it only once with an explanation and then use non-nullable batch variable.",
+      "parentUuid": "ce455337_1fd0d131",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 31
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "37ea6ffb_d3789b52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T11:09:09Z",
+      "side": 1,
+      "message": "Without \u0027()\u0027, eslint reports error about missing \u0027;\u0027. Looks like a bug in ESLint. I think it is easier to keep this brackets than to fix eslint.\n\n\u003e\u003e just mark `reviewer_updates` as union type in `result` for now\nI tried it. Union solves problem in this line, but it adds problem in another lines (I have to add as ... in other place). any solution looks suspicious.\nI refactored the whole class in a type-safe way, but it required too many changes. I found it safer to apply (as ...) at some places inside the class and make input and output of the parse method clear. I added comment at the top of the class to rewrite the class.",
+      "parentUuid": "c3c45f7a_fbfa56e8",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 35
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8991ff2a_1f73ca2e",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
         "patchSetId": 1
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "676de58a_a0956392",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T11:09:09Z",
+      "side": 1,
+      "message": "Whole class must be refactored. We can improve types in one place inside, but I can\u0027t solve all the problems without rewriting the class.",
+      "parentUuid": "8991ff2a_1f73ca2e",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 26
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6127cf74_0f02eac1",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
         "patchSetId": 1
@@ -114,6 +210,30 @@
       "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c8eb41e_a0c1d56f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T11:09:09Z",
+      "side": 1,
+      "message": "The !change should be removed completely (I can\u0027t find a place where it can be undefined here). However, for safety I decided to keep it and we can remove it later. Added comment about it",
+      "parentUuid": "6127cf74_0f02eac1",
+      "range": {
+        "startLine": 293,
+        "startChar": 20,
+        "endLine": 293,
+        "endChar": 43
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

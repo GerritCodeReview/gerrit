@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "17f171e9_8c121db5",
+        "filename": "polygerrit-ui/app/elements/settings/gr-settings-view/gr-settings-menu-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-07T11:52:00Z",
+      "side": 1,
+      "message": "href?",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 8
+      },
+      "revId": "2d463cd3da20bfe50b02ba15452ff13aad2a49a2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

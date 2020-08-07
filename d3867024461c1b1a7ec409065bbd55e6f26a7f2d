@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "28cd18de_2b9aa9a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-editable-label/gr-editable-label.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-07T17:22:36Z",
+      "side": 1,
+      "message": "Any suggestions?",
+      "range": {
+        "startLine": 139,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 61
+      },
+      "revId": "d3867024461c1b1a7ec409065bbd55e6f26a7f2d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.rest.account;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.truth.Truth.assertThat;
 
 import com.google.common.collect.Iterables;
@@ -35,6 +36,12 @@ public class AccountAssert {
     assertThat(accountInfo.displayName).isEqualTo(testAccount.displayName());
     assertThat(accountInfo.email).isEqualTo(testAccount.email());
     assertThat(accountInfo.inactive).isNull();
+    if (testAccount.tags().isEmpty()) {
+      assertThat(accountInfo.tags).isNull();
+    } else {
+      assertThat(accountInfo.tags.stream().map(Enum::name).collect(toImmutableList()))
+          .containsExactlyElementsIn(testAccount.tags());
+    }
   }
 
   /**

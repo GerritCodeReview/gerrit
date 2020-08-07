@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43b95300_b1534c30",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T07:42:56Z",
+      "side": 1,
+      "message": "typo",
+      "range": {
+        "startLine": 7,
+        "startChar": 38,
+        "endLine": 7,
+        "endChar": 40
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce455337_1fd0d131",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T07:42:56Z",
+      "side": 1,
+      "message": "seems not necessary, maybe keep it consistent with L165",
+      "range": {
+        "startLine": 187,
+        "startChar": 4,
+        "endLine": 187,
+        "endChar": 31
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3c45f7a_fbfa56e8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 193,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T07:42:56Z",
+      "side": 1,
+      "message": "`()` is not needed, and this looks a bit suspicious, maybe just mark `reviewer_updates` as union type in `result` for now ?",
+      "range": {
+        "startLine": 192,
+        "startChar": 4,
+        "endLine": 193,
+        "endChar": 35
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8991ff2a_1f73ca2e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T07:42:56Z",
+      "side": 1,
+      "message": "ditto, might worth noting for every `unknown` type casting, ideally we want to get rid of those",
+      "range": {
+        "startLine": 252,
+        "startChar": 6,
+        "endLine": 252,
+        "endChar": 26
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6127cf74_0f02eac1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T07:42:56Z",
+      "side": 1,
+      "message": "maybe just allow this change to be optional so can check `!change` inside as well",
+      "range": {
+        "startLine": 293,
+        "startChar": 20,
+        "endLine": 293,
+        "endChar": 43
+      },
+      "revId": "6f83b3ae9048d80d3e92b7b823e7e3ca5271e007",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

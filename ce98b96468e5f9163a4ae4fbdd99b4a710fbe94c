@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "42faa5ba_68bf2605",
+        "filename": "polygerrit-ui/app/mixins/gr-change-table-mixin/gr-change-table-mixin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-07T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bd450bcb_a4d43f27",
+      "range": {
+        "startLine": 60,
+        "startChar": 23,
+        "endLine": 60,
+        "endChar": 42
+      },
+      "revId": "ce98b96468e5f9163a4ae4fbdd99b4a710fbe94c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ae7d48a7_cdea6b43",
         "filename": "polygerrit-ui/app/mixins/gr-change-table-mixin/gr-change-table-mixin.ts",
         "patchSetId": 5
@@ -39,6 +63,24 @@
       "revId": "ce98b96468e5f9163a4ae4fbdd99b4a710fbe94c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "de0a6fc5_093a20a0",
+        "filename": "polygerrit-ui/app/mixins/gr-change-table-mixin/gr-change-table-mixin.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-07T13:24:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ae7d48a7_cdea6b43",
+      "revId": "ce98b96468e5f9163a4ae4fbdd99b4a710fbe94c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

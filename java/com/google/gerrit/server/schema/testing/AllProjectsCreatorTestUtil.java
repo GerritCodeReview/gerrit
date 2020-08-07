@@ -48,8 +48,8 @@ public class AllProjectsCreatorTestUtil {
       ImmutableList.of(
           "[capability]",
           "  administrateServer = group Administrators",
-          "  priority = batch group Non-Interactive Users",
-          "  streamEvents = group Non-Interactive Users");
+          "  priority = batch group Service Users",
+          "  streamEvents = group Service Users");
   private static final ImmutableList<String> DEFAULT_ALL_PROJECTS_ACCESS_SECTION =
       ImmutableList.of(
           "[access \"refs/*\"]",

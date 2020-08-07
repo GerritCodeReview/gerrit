@@ -67,7 +67,7 @@ import com.google.gerrit.entities.SubmitRecord;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.account.RobotClassifier;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.util.AttentionSetUtil;
 import com.google.gerrit.server.util.LabelVote;
@@ -121,7 +121,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
-  private final RobotClassifier robotClassifier;
+  private final ServiceUserClassifier robotClassifier;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -167,7 +167,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
-      RobotClassifier robotClassifier,
+      ServiceUserClassifier robotClassifier,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -202,7 +202,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
-      RobotClassifier robotClassifier,
+      ServiceUserClassifier robotClassifier,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -833,7 +833,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
-          && robotClassifier.isRobot(attentionSetUpdate.account())) {
+          && robotClassifier.isServiceUser(attentionSetUpdate.account())) {
         // Skip adding robots to the attention set.
         continue;
       }

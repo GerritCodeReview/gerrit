@@ -88,11 +88,11 @@ public class AllProjectsCreatorTest {
     expectedConfig.fromText(getDefaultAllProjectsWithAllDefaultSections());
 
     GroupReference adminsGroup = createGroupReference("Administrators");
-    GroupReference batchUsersGroup = createGroupReference("Non-Interactive Users");
+    GroupReference batchUsersGroup = createGroupReference("Service Users");
     AllProjectsInput allProjectsInput =
         AllProjectsInput.builder()
             .administratorsGroup(adminsGroup)
-            .batchUsersGroup(batchUsersGroup)
+            .serviceUsersGroup(batchUsersGroup)
             .build();
     allProjectsCreator.create(allProjectsInput);
 

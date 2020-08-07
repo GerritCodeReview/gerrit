@@ -91,10 +91,13 @@ public class SchemaCreatorImpl implements SchemaCreator {
   @Override
   public void create() throws IOException, ConfigInvalidException {
     GroupReference admins = createGroupReference("Administrators");
-    GroupReference batchUsers = createGroupReference("Non-Interactive Users");
+    GroupReference serviceUsers = createGroupReference("Service Users");
 
     AllProjectsInput allProjectsInput =
-        AllProjectsInput.builder().administratorsGroup(admins).batchUsersGroup(batchUsers).build();
+        AllProjectsInput.builder()
+            .administratorsGroup(admins)
+            .serviceUsersGroup(serviceUsers)
+            .build();
     allProjectsCreator.create(allProjectsInput);
     // We have to create the All-Users repository before we can use it to store the groups in it.
     allUsersCreator.setAdministrators(admins).create();
@@ -111,7 +114,7 @@ public class SchemaCreatorImpl implements SchemaCreator {
             metricMaker);
     try (Repository allUsersRepo = repoManager.openRepository(allUsersName)) {
       createAdminsGroup(seqs, allUsersRepo, admins);
-      createBatchUsersGroup(seqs, allUsersRepo, batchUsers, admins.getUUID());
+      createBatchUsersGroup(seqs, allUsersRepo, serviceUsers, admins.getUUID());
     }
   }
 

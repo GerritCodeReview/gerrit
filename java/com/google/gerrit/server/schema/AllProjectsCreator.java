@@ -157,7 +157,7 @@ public class AllProjectsCreator {
         AccessSection.GLOBAL_CAPABILITIES,
         capabilities -> {
           input
-              .batchUsersGroup()
+              .serviceUsersGroup()
               .ifPresent(
                   batchUsersGroup ->
                       initDefaultAclsForBatchUsers(capabilities, config, batchUsersGroup));

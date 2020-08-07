@@ -118,7 +118,7 @@ public class RefAdvertisementIT extends AbstractDaemonTest {
   @Before
   public void setUp() throws Exception {
     admins = adminGroupUuid();
-    nonInteractiveUsers = groupUuid("Non-Interactive Users");
+    nonInteractiveUsers = groupUuid("Service Users");
     setUpPermissions();
     setUpChanges();
   }

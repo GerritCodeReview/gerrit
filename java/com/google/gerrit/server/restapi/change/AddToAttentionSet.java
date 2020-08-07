@@ -24,7 +24,7 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestCollectionModifyView;
 import com.google.gerrit.server.account.AccountLoader;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.RobotClassifier;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetEntryResource;
 import com.google.gerrit.server.change.ChangeResource;
@@ -48,7 +48,7 @@ public class AddToAttentionSet
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
   private final NotifyResolver notifyResolver;
-  private final RobotClassifier robotClassifier;
+  private final ServiceUserClassifier robotClassifier;
 
   @Inject
   AddToAttentionSet(
@@ -58,7 +58,7 @@ public class AddToAttentionSet
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend,
       NotifyResolver notifyResolver,
-      RobotClassifier robotClassifier) {
+      ServiceUserClassifier robotClassifier) {
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.opFactory = opFactory;
@@ -74,7 +74,7 @@ public class AddToAttentionSet
     AttentionSetUtil.validateInput(input);
 
     Account.Id attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
-    if (robotClassifier.isRobot(attentionUserId)) {
+    if (robotClassifier.isServiceUser(attentionUserId)) {
       throw new BadRequestException(
           String.format(
               "%s is a robot, and robots can't be added to the attention set.", input.user));

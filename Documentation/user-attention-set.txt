@@ -87,7 +87,7 @@ image::images/user-attention-set-reply-select.png["reply dialog section for sele
 
 The attention set is meant for human reviews only. Triggering bots and reacting
 to their results is a different workflow and not in scope of the attenion set.
-Thus members of the "Non-Interactive Users" group will never be added to the
+Thus members of the "Service Users" group will never be added to the
 attention set. And replies by such users will not add the change owner to the
 attention set.
 

@@ -25,18 +25,16 @@ import java.util.Optional;
 import javax.inject.Inject;
 
 /**
- * An implementation of {@link RobotClassifier} that will consider a user to be a robot if they are
- * a member in the {@code Non-Interactive Users} group.
+ * An implementation of {@link ServiceUserClassifier} that will consider a user to be a robot if
+ * they are a member in the {@code Service Users} group.
  */
 @Singleton
-public class NonInteractiveUserGroupRobotClassifier implements RobotClassifier {
+public class ServiceUserClassifierImpl implements ServiceUserClassifier {
   public static Module module() {
     return new AbstractModule() {
       @Override
       protected void configure() {
-        bind(RobotClassifier.class)
-            .to(NonInteractiveUserGroupRobotClassifier.class)
-            .in(Scopes.SINGLETON);
+        bind(ServiceUserClassifier.class).to(ServiceUserClassifierImpl.class).in(Scopes.SINGLETON);
       }
     };
   }
@@ -44,12 +42,12 @@ public class NonInteractiveUserGroupRobotClassifier implements RobotClassifier {
   private final GroupCache groupCache;
 
   @Inject
-  NonInteractiveUserGroupRobotClassifier(GroupCache groupCache) {
+  ServiceUserClassifierImpl(GroupCache groupCache) {
     this.groupCache = groupCache;
   }
 
   @Override
-  public boolean isRobot(Account.Id user) {
+  public boolean isServiceUser(Account.Id user) {
     // TODO(hiesel, brohlfs, paiking): This is just an interim solution until we have figured out a
     // long-term solution.
     // Discussion is at: https://gerrit-review.googlesource.com/c/gerrit/+/274854

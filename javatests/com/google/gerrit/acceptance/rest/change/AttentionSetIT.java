@@ -928,8 +928,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotsNotAddedToAttentionSet() throws Exception {
     TestAccount robot =
-        accountCreator.create(
-            "robot1", "robot1@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+        accountCreator.create("robot1", "robot1@example.com", "Ro Bot", "Ro", "Service Users");
     PushOneCommit.Result r = createChange();
 
     // Throw an error when adding a robot explicitly.
@@ -949,8 +948,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotAddingAReviewerChangeAttentionSet() throws Exception {
     TestAccount robot =
-        accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).addReviewer(user.id().toString());
@@ -966,8 +964,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotReviewDoesNotChangeAttentionSet() throws Exception {
     TestAccount robot =
-        accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(ReviewInput.recommend());
@@ -978,8 +975,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotReviewWithNegativeLabelAddsOwner() throws Exception {
     TestAccount robot =
-        accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(ReviewInput.dislike());
@@ -994,8 +990,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   @Test
   public void robotCanChangeAttentionSetExplicitly() throws Exception {
     TestAccount robot =
-        accountCreator.create(
-            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Non-Interactive Users");
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(new ReviewInput().addUserToAttentionSet(admin.email(), "reason"));

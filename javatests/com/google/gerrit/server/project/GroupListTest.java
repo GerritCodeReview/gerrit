@@ -39,7 +39,7 @@ public class GroupListTest {
   private static final String TEXT =
       "# UUID                                  \tGroup Name\n"
           + "#\n"
-          + "d96b998f8a66ff433af50befb975d0e2bb6e0999\tNon-Interactive Users\n"
+          + "d96b998f8a66ff433af50befb975d0e2bb6e0999\tService Users\n"
           + "ebe31c01aec2c9ac3b3c03e87a47450829ff4310\tAdministrators\n";
 
   private GroupList groupList;
@@ -57,7 +57,7 @@ public class GroupListTest {
     GroupReference groupReference = groupList.byUUID(uuid);
 
     assertEquals(uuid, groupReference.getUUID());
-    assertEquals("Non-Interactive Users", groupReference.getName());
+    assertEquals("Service Users", groupReference.getName());
   }
 
   @Test

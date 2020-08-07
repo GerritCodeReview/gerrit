@@ -19,11 +19,17 @@ import static com.google.gerrit.acceptance.rest.account.AccountAssert.assertAcco
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.RestResponse;
+import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.extensions.common.AccountDetailInfo;
+import com.google.gerrit.extensions.common.AccountInfo;
+import com.google.inject.Inject;
 import org.junit.Test;
 
 public class GetAccountDetailIT extends AbstractDaemonTest {
+  @Inject private GroupOperations groupOperations;
+
   @Test
   public void getDetail() throws Exception {
     RestResponse r = adminRestSession.get("/accounts/" + admin.username() + "/detail/");
@@ -31,5 +37,17 @@ public class GetAccountDetailIT extends AbstractDaemonTest {
     assertAccountInfo(admin, info);
     Account account = getAccount(admin.id());
     assertThat(info.registeredOn).isEqualTo(account.registeredOn());
+  }
+
+  @Test
+  public void getDetailForServiceUser() throws Exception {
+    groupOperations
+        .group(groupCache.get(AccountGroup.nameKey("Service Users")).get().getGroupUUID())
+        .forUpdate()
+        .addMember(admin.id())
+        .update();
+    RestResponse r = adminRestSession.get("/accounts/" + admin.username() + "/detail/");
+    AccountDetailInfo info = newGson().fromJson(r.getReader(), AccountDetailInfo.class);
+    assertThat(info.attributes).containsExactly(AccountInfo.Attribute.SERVICE_USER);
   }
 }

@@ -51,7 +51,10 @@ public abstract class AccountDirectory {
     STATE,
 
     /** Human friendly display name presented in the web interface chosen by the user. */
-    DISPLAY_NAME
+    DISPLAY_NAME,
+
+    /** Additional attributes such as weather the account is a service user. */
+    ATTRIBUTES
   }
 
   public abstract void fillAccountInfo(Iterable<? extends AccountInfo> in, Set<FillOptions> options)

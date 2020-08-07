@@ -48,8 +48,10 @@ public abstract class TestAccount {
       @Nullable String email,
       @Nullable String fullName,
       @Nullable String displayName,
-      @Nullable String httpPassword) {
-    return new AutoValue_TestAccount(id, username, email, fullName, displayName, httpPassword);
+      @Nullable String httpPassword,
+      ImmutableList<String> tags) {
+    return new AutoValue_TestAccount(
+        id, username, email, fullName, displayName, httpPassword, tags);
   }
 
   public abstract Account.Id id();
@@ -68,6 +70,8 @@ public abstract class TestAccount {
 
   @Nullable
   public abstract String httpPassword();
+
+  public abstract ImmutableList<String> tags();
 
   public PersonIdent newIdent() {
     return new PersonIdent(fullName(), email());

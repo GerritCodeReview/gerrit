@@ -101,6 +101,7 @@ public class AccountCreator {
                     .setPreferredEmail(email)
                     .addExternalIds(extIds));
 
+    ImmutableList.Builder<String> tags = ImmutableList.builder();
     if (groupNames != null) {
       for (String n : groupNames) {
         AccountGroup.NameKey k = AccountGroup.nameKey(n);
@@ -109,10 +110,14 @@ public class AccountCreator {
           throw new NoSuchGroupException(n);
         }
         addGroupMember(group.get().getGroupUUID(), id);
+        if ("Service Users".equals(n)) {
+          tags.add("SERVICE_USER");
+        }
       }
     }
 
-    account = TestAccount.create(id, username, email, fullName, displayName, httpPass);
+    account =
+        TestAccount.create(id, username, email, fullName, displayName, httpPass, tags.build());
     if (username != null) {
       accounts.put(username, account);
     }

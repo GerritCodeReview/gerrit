@@ -287,12 +287,12 @@ The entries in the map are sorted by project name.
          "15bfcd8a6de1a69c50b30cedcdcc951c15703152": {
            "url": "#/admin/groups/uuid-15bfcd8a6de1a69c50b30cedcdcc951c15703152",
            "options": {},
-           "description": "Users who perform batch actions on Gerrit",
+           "description": "Service accounts that interact with Gerrit",
            "group_id": 2,
            "owner": "Administrators",
            "owner_id": "53a4f647a89ea57992571187d8025f830625192a",
            "created_on": "2009-06-08 23:31:00.000000000",
-           "name": "Non-Interactive Users"
+           "name": "Service Users"
          },
          "global:Anonymous-Users": {
            "options": {},

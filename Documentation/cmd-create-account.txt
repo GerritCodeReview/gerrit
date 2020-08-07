@@ -23,7 +23,7 @@ used for batch/role access, such as from an automated build system
 or event monitoring over link:cmd-stream-events.html[gerrit stream-events].
 
 Note, however, that in this case the account is not implicitly added
-to the 'Non-Interactive Users' group.  The account must be explicitly
+to the 'Service Users' group.  The account must be explicitly
 added to the group with the `--group` option.
 
 If LDAP authentication is being used, the user account is created
@@ -66,10 +66,10 @@ This most likely requires double quoting the value, for example
 
 == EXAMPLES
 Create a new batch/role access user account called `watcher` in
-the 'Non-Interactive Users' group.
+the 'Service Users' group.
 
 ----
-$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-account --group "'Non-Interactive Users'" --ssh-key - watcher
+$ cat ~/.ssh/id_watcher.pub | ssh -p 29418 review.example.com gerrit create-account --group "'Service Users'" --ssh-key - watcher
 ----
 
 GERRIT

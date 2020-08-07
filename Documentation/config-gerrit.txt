@@ -4763,16 +4763,16 @@ concurrent Git requests for interactive users over SSH and HTTP together.
 [[sshd.batchThreads]]sshd.batchThreads::
 +
 Number of threads to allocate for SSH command requests from
-link:access-control.html#non-interactive_users[non-interactive users].
+link:access-control.html#service_users[service users].
 If equals to 0, then all non-interactive requests are executed in the same
 queue as interactive requests.
 +
 Any other value will remove the number of threads from the queue
 allocated to interactive users, and create a separate thread pool
 of the requested size, which will be used to run commands from
-non-interactive users.
+service users.
 +
-If the number of threads requested for non-interactive users is larger
+If the number of threads requested for service users is larger
 than the total number of threads allocated in sshd.threads, then the
 value of sshd.threads is increased to accommodate the requested value.
 +

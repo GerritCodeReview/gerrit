@@ -25,6 +25,7 @@ import {
   ProjectInfo,
   ActionInfo,
   GroupInfo,
+  ChangeInfo,
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -168,4 +169,9 @@ export interface RestApiService {
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K
   ): RestApiTagNameMap[K];
+  getChangeDetail(
+    changeNum: number | string,
+    opt_errFn?: Function,
+    opt_cancelCondition?: Function
+  ): Promise<ChangeInfo>;
 }

@@ -16,6 +16,24 @@
       "revId": "485dde3ae821b9e8ed382ce5e60cb0f808c7ae33",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57a9051e_8876eb63",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-07T12:23:59Z",
+      "side": 1,
+      "message": "ah gerrit is using a different threshold to determine whether its a rename or new file... its recognized as rename in local git :(",
+      "parentUuid": "5df8c59b_7369f0da",
+      "revId": "485dde3ae821b9e8ed382ce5e60cb0f808c7ae33",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

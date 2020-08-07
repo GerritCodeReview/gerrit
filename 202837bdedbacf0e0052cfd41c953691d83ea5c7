@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "aad19e2d_19ed085a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-07T15:12:23Z",
+      "side": 1,
+      "message": "I didn\u0027t review this change, but +1 to the name change.",
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49207df5_56598a5e",
         "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
         "patchSetId": 1

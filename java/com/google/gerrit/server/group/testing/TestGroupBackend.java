@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.GroupDescription;
 import com.google.gerrit.entities.GroupReference;
@@ -34,6 +35,7 @@ public class TestGroupBackend implements GroupBackend {
   private static final String PREFIX = "testbackend:";
 
   private final Map<AccountGroup.UUID, GroupDescription.Basic> groups = new HashMap<>();
+  private final Map<Account.Id, GroupMembership> memberships = new HashMap<>();
 
   /**
    * Create a group by name.
@@ -92,6 +94,14 @@ public class TestGroupBackend implements GroupBackend {
     groups.remove(uuid);
   }
 
+  /**
+   * Makes this backend return the specified {@link GroupMembership} when being asked for the
+   * specified {@link Account.Id}.
+   */
+  public void setMembershipsOf(Account.Id user, GroupMembership membership) {
+    memberships.put(user, membership);
+  }
+
   @Override
   public boolean handles(AccountGroup.UUID uuid) {
     if (uuid != null) {
@@ -113,7 +123,7 @@ public class TestGroupBackend implements GroupBackend {
 
   @Override
   public GroupMembership membershipsOf(IdentifiedUser user) {
-    return GroupMembership.EMPTY;
+    return memberships.getOrDefault(user.getAccountId(), GroupMembership.EMPTY);
   }
 
   @Override

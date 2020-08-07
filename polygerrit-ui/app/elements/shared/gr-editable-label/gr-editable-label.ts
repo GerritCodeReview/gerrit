@@ -14,73 +14,82 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {IronOverlayBehaviorImpl} from '@polymer/iron-overlay-behavior/iron-overlay-behavior.js';
-import '@polymer/iron-dropdown/iron-dropdown.js';
-import '@polymer/paper-input/paper-input.js';
-import '../../../styles/shared-styles.js';
-import '../gr-button/gr-button.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-editable-label_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '@polymer/iron-dropdown/iron-dropdown';
+import '@polymer/paper-input/paper-input';
+import '../../../styles/shared-styles';
+import '../gr-button/gr-button';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {
+  CustomKeyboardEvent,
+  KeyboardShortcutMixin,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {customElement, property} from '@polymer/decorators/lib/decorators';
+import {htmlTemplate} from './gr-editable-label_html';
+import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
 
-/**
- * @extends PolymerElement
- */
-class GrEditableLabel extends KeyboardShortcutMixin(GestureEventListeners(
-    LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-editable-label': GrEditableLabel;
+  }
+}
 
-  static get is() { return 'gr-editable-label'; }
+export interface GrEditableLabel {
+  $: {
+    input: PaperInputElement;
+    dropdown: IronDropdownElement;
+  };
+}
+
+@customElement('gr-editable-label')
+export class GrEditableLabel extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the value is changed.
    *
    * @event changed
    */
 
-  static get properties() {
-    return {
-      labelText: String,
-      editing: {
-        type: Boolean,
-        value: false,
-      },
-      value: {
-        type: String,
-        notify: true,
-        value: '',
-        observer: '_updateTitle',
-      },
-      placeholder: {
-        type: String,
-        value: '',
-      },
-      readOnly: {
-        type: Boolean,
-        value: false,
-      },
-      uppercase: {
-        type: Boolean,
-        reflectToAttribute: true,
-        value: false,
-      },
-      maxLength: Number,
-      _inputText: String,
-      // This is used to push the iron-input element up on the page, so
-      // the input is placed in approximately the same position as the
-      // trigger.
-      _verticalOffset: {
-        type: Number,
-        readOnly: true,
-        value: -30,
-      },
-    };
-  }
+  @property({type: String})
+  labelText?: string;
+
+  @property({type: Boolean})
+  editing = false;
+
+  @property({type: String, notify: true, observer: '_updateTitle'})
+  value = '';
+
+  @property({type: String})
+  placeholder = '';
+
+  @property({type: Boolean})
+  readOnly = false;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  uppercase = false;
+
+  @property({type: Number})
+  maxLength?: number;
+
+  @property({type: String})
+  _inputText?: string;
+
+  // This is used to push the iron-input element up on the page, so
+  // the input is placed in approximately the same position as the
+  // trigger.
+  @property({type: Number})
+  readonly _verticalOffset = -30;
 
   /** @override */
   ready() {
@@ -95,22 +104,22 @@ class GrEditableLabel extends KeyboardShortcutMixin(GestureEventListeners(
     };
   }
 
-  _usePlaceholder(value, placeholder) {
+  _usePlaceholder(value?: string, placeholder?: string) {
     return (!value || !value.length) && placeholder;
   }
 
-  _computeLabel(value, placeholder) {
+  _computeLabel(value?: string, placeholder?: string): string {
     if (this._usePlaceholder(value, placeholder)) {
-      return placeholder;
+      return placeholder!;
     }
-    return value;
+    return value || '';
   }
 
   _showDropdown() {
-    if (this.readOnly || this.editing) { return; }
+    if (this.readOnly || this.editing) return;
     return this._open().then(() => {
       this._nativeInput.focus();
-      if (!this.$.input.value) { return; }
+      if (!this.$.input.value) return;
       this._nativeInput.setSelectionRange(0, this.$.input.value.length);
     });
   }
@@ -121,13 +130,12 @@ class GrEditableLabel extends KeyboardShortcutMixin(GestureEventListeners(
     });
   }
 
-  _open(...args) {
+  _open() {
     this.$.dropdown.open();
     this._inputText = this.value;
     this.editing = true;
 
     return new Promise(resolve => {
-      IronOverlayBehaviorImpl.open.apply(this.$.dropdown, args);
       this._awaitOpen(resolve);
     });
   }
@@ -136,7 +144,7 @@ class GrEditableLabel extends KeyboardShortcutMixin(GestureEventListeners(
    * NOTE: (wyatta) Slightly hacky way to listen to the overlay actually
    * opening. Eventually replace with a direct way to listen to the overlay.
    */
-  _awaitOpen(fn) {
+  _awaitOpen(fn: () => void) {
     let iters = 0;
     const step = () => {
       this.async(() => {
@@ -155,59 +163,67 @@ class GrEditableLabel extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _save() {
-    if (!this.editing) { return; }
+    if (!this.editing) {
+      return;
+    }
     this.$.dropdown.close();
-    this.value = this._inputText;
+    this.value = this._inputText || '';
     this.editing = false;
-    this.dispatchEvent(new CustomEvent('changed', {
-      detail: this.value,
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('changed', {
+        detail: this.value,
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _cancel() {
-    if (!this.editing) { return; }
+    if (!this.editing) {
+      return;
+    }
     this.$.dropdown.close();
     this.editing = false;
     this._inputText = this.value;
   }
 
-  get _nativeInput() {
+  get _nativeInput(): HTMLInputElement {
     // In Polymer 2, the namespace of nativeInput
     // changed from input to nativeInput
-    return this.$.input.$.nativeInput || this.$.input.$.input;
+    return (this.$.input.$.nativeInput ||
+      this.$.input.$.input) as HTMLInputElement;
   }
 
-  _handleEnter(e) {
+  _handleEnter(e: CustomKeyboardEvent) {
     e = this.getKeyboardEvent(e);
-    const target = dom(e).rootTarget;
+    const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();
       this._save();
     }
   }
 
-  _handleEsc(e) {
+  _handleEsc(e: CustomKeyboardEvent) {
     e = this.getKeyboardEvent(e);
-    const target = dom(e).rootTarget;
+    const target = (dom(e) as EventApi).rootTarget;
     if (target === this._nativeInput) {
       e.preventDefault();
       this._cancel();
     }
   }
 
-  _computeLabelClass(readOnly, value, placeholder) {
+  _computeLabelClass(readOnly?: boolean, value?: string, placeholder?: string) {
     const classes = [];
-    if (!readOnly) { classes.push('editable'); }
+    if (!readOnly) {
+      classes.push('editable');
+    }
     if (this._usePlaceholder(value, placeholder)) {
       classes.push('placeholder');
     }
     return classes.join(' ');
   }
 
-  _updateTitle(value) {
+  _updateTitle(value?: string) {
     this.setAttribute('title', this._computeLabel(value, this.placeholder));
   }
 }
-
-customElements.define(GrEditableLabel.is, GrEditableLabel);

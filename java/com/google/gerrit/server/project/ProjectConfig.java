@@ -30,6 +30,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
+import com.google.common.flogger.FluentLogger;
 import com.google.common.primitives.Shorts;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
@@ -99,6 +100,8 @@ import org.eclipse.jgit.storage.file.FileBasedConfig;
 import org.eclipse.jgit.util.FS;
 
 public class ProjectConfig extends VersionedMetaData implements ValidationError.Sink {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
+
   public static final String COMMENTLINK = "commentlink";
   public static final String LABEL = "label";
   public static final String KEY_FUNCTION = "function";
@@ -250,6 +253,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   private ObjectId rulesId;
   private long maxObjectSizeLimit;
   private Map<String, Config> pluginConfigs;
+  private Map<String, Config> projectLevelConfigs;
   private boolean checkReceivedObjects;
   private Set<String> sectionsWithUnknownPermissions;
   private boolean hasLegacyPermissions;
@@ -278,6 +282,9 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     pluginConfigs
         .entrySet()
         .forEach(c -> builder.addPluginConfig(c.getKey(), c.getValue().toText()));
+    projectLevelConfigs
+        .entrySet()
+        .forEach(c -> builder.addProjectLevelConfig(c.getKey(), c.getValue().toText()));
     return builder.build();
   }
 
@@ -655,6 +662,7 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
     loadSubscribeSections(rc);
     mimeTypes = ConfiguredMimeTypes.create(projectName.get(), rc);
     loadPluginSections(rc);
+    loadProjectLevelConfigs();
     loadReceiveSection(rc);
     loadExtensionPanelSections(rc);
   }
@@ -1174,6 +1182,25 @@ public class ProjectConfig extends VersionedMetaData implements ValidationError.
   public PluginConfig getPluginConfig(String pluginName) {
     Config pluginConfig = pluginConfigs.getOrDefault(pluginName, new Config());
     return PluginConfig.create(pluginName, pluginConfig, getCacheable());
+  }
+
+  private void loadProjectLevelConfigs() throws IOException {
+    projectLevelConfigs = new HashMap<>();
+    if (revision == null) {
+      return;
+    }
+    for (PathInfo pathInfo : getPathInfos(true)) {
+      if (pathInfo.path.endsWith(".config") && !PROJECT_CONFIG.equals(pathInfo.path)) {
+        String cfg = readUTF8(pathInfo.path);
+        Config parsedConfig = new Config();
+        try {
+          parsedConfig.fromText(cfg);
+          projectLevelConfigs.put(pathInfo.path, parsedConfig);
+        } catch (ConfigInvalidException e) {
+          logger.atWarning().withCause(e).log("Unable to parse config");
+        }
+      }
+    }
   }
 
   private void readGroupList() throws IOException {

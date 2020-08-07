@@ -14,6 +14,8 @@
 
 package com.google.gerrit.entities;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -23,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.annotations.Nullable;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -122,6 +126,34 @@ public abstract class CachedProjectConfig {
 
   public abstract ImmutableMap<String, String> getPluginConfigs();
 
+  /**
+   * Returns the {@link Config} that got parsed from the specified {@code fileName} on {@code
+   * refs/meta/config}. The returned instance is a defensive copy of the cached value.
+   *
+   * @param fileName the name of the file. Must end in {@code .config}.
+   * @return an {@link Optional} of the {@link Config}. {@link Optional#empty()} if the file was not
+   *     found or could not be parsed. {@link com.google.gerrit.server.project.ProjectConfig} will
+   *     surface validation errors in case of a parsing issue.
+   */
+  public Optional<Config> getProjectLevelConfig(String fileName) {
+    checkState(fileName.endsWith(".config"), "file name must end in .config");
+    if (getProjectLevelConfigs().containsKey(fileName)) {
+      Config config = new Config();
+      try {
+        config.fromText(getProjectLevelConfigs().get(fileName));
+      } catch (ConfigInvalidException e) {
+        // This is OK to propagate as IllegalStateException because it's a programmer error.
+        // The config was converted to a String using Config#toText. So #fromText must not
+        // throw a ConfigInvalidException
+        throw new IllegalStateException("invalid config for " + fileName, e);
+      }
+      return Optional.of(config);
+    }
+    return Optional.empty();
+  }
+
+  abstract ImmutableMap<String, String> getProjectLevelConfigs();
+
   public static Builder builder() {
     return new AutoValue_CachedProjectConfig.Builder();
   }
@@ -198,6 +230,13 @@ public abstract class CachedProjectConfig {
 
     public Builder addPluginConfig(String pluginName, String pluginConfig) {
       pluginConfigsBuilder().put(pluginName, pluginConfig);
+      return this;
+    }
+
+    abstract ImmutableMap.Builder<String, String> projectLevelConfigsBuilder();
+
+    public Builder addProjectLevelConfig(String configFileName, String config) {
+      projectLevelConfigsBuilder().put(configFileName, config);
       return this;
     }
 

@@ -160,3 +160,40 @@ export enum Side {
   LEFT = 'left',
   RIGHT = 'right',
 }
+
+/**
+ * The type in ConfigParameterInfo entity.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
+ */
+export enum ConfigParameterInfoType {
+  STRING = 'STRING',
+  INT = 'INT',
+  LONG = 'LONG',
+  BOOLEAN = 'BOOLEAN',
+  LIST = 'LIST',
+  ARRAY = 'ARRAY',
+}
+
+/**
+ * All supported submit types.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
+ */
+export enum SubmitType {
+  MERGE_IF_NECESSARY = 'MERGE_IF_NECESSARY',
+  FAST_FORWARD_ONLY = 'FAST_FORWARD_ONLY',
+  REBASE_IF_NECESSARY = 'REBASE_IF_NECESSARY',
+  REBASE_ALWAYS = 'REBASE_ALWAYS',
+  MERGE_ALWAYS = 'MERGE_ALWAYS ',
+  CHERRY_PICK = 'CHERRY_PICK',
+  INHERIT = 'INHERIT',
+}
+
+/*
+ * Enum for possible configured value in InheritedBooleanInfo.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info
+ */
+export enum InheritedBooleanInfoConfiguredValue {
+  TRUE = 'TRUE',
+  FALSE = 'FALSE',
+  INHERITED = 'INHERITED',
+}

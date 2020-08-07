@@ -16,8 +16,10 @@ package com.google.gerrit.acceptance;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.server.account.ListGroupMembership;
 import com.google.gerrit.server.account.UniversalGroupBackend;
 import com.google.gerrit.server.group.testing.TestGroupBackend;
 import com.google.inject.Inject;
@@ -66,5 +68,17 @@ public class TestGroupBackendTest extends AbstractDaemonTest {
   public void returnsKnownGroup() throws Exception {
     testGroupBackend.create(testUUID);
     assertThat(testGroupBackend.get(testUUID)).isNotNull();
+  }
+
+  @Test
+  public void returnsMembershipsForUser() throws Exception {
+    testGroupBackend.create(testUUID);
+    testGroupBackend.setMembershipsOf(
+        admin.id(), new ListGroupMembership(ImmutableList.of(testUUID)));
+    assertThat(
+            testGroupBackend
+                .membershipsOf(identifiedUserFactory.create(admin.id()))
+                .getKnownGroups())
+        .containsExactly(testUUID);
   }
 }

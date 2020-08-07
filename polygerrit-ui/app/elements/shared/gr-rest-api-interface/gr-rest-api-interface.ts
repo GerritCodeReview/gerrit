@@ -16,28 +16,35 @@
  */
 /* NB: Order is important, because of namespaced classes. */
 
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {GrEtagDecorator} from './gr-etag-decorator.js';
-import {SiteBasedCache, FetchPromisesCache, GrRestApiHelper} from './gr-rest-apis/gr-rest-api-helper.js';
-import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser.js';
-import {parseDate} from '../../../utils/date-util.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {appContext} from '../../../services/app-context.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {GrEtagDecorator} from './gr-etag-decorator';
+import {
+  SiteBasedCache,
+  FetchPromisesCache,
+  GrRestApiHelper,
+} from './gr-rest-apis/gr-rest-api-helper';
+import {GrReviewerUpdatesParser} from './gr-reviewer-updates-parser';
+import {parseDate} from '../../../utils/date-util';
+import {getBaseUrl} from '../../../utils/url-util';
+import {appContext} from '../../../services/app-context';
 import {
   getParentIndex,
   isMergeParent,
   patchNumEquals,
   SPECIAL_PATCH_SET_NUM,
-} from '../../../utils/patch-set-util.js';
-import {ListChangesOption, listChangesOptionsToHex} from '../../../utils/change-util.js';
+} from '../../../utils/patch-set-util';
+import {
+  ListChangesOption,
+  listChangesOptionsToHex,
+} from '../../../utils/change-util';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
   UNIFIED: 'UNIFIED_DIFF',
 };
-const JSON_PREFIX = ')]}\'';
+const JSON_PREFIX = ")]}'";
 const MAX_PROJECT_RESULTS = 25;
 // This value is somewhat arbitrary and not based on research or calculations.
 const MAX_UNIFIED_DEFAULT_WINDOW_WIDTH_PX = 850;
@@ -47,17 +54,17 @@ const Requests = {
 };
 
 const CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE =
-    'Saving draft resulted in HTTP 200 (OK) but expected HTTP 201 (Created)';
+  'Saving draft resulted in HTTP 200 (OK) but expected HTTP 201 (Created)';
 const HEADER_REPORTING_BLOCK_REGEX = /^set-cookie$/i;
 
 const ANONYMIZED_CHANGE_BASE_URL = '/changes/*~*';
-const ANONYMIZED_REVISION_BASE_URL = ANONYMIZED_CHANGE_BASE_URL +
-    '/revisions/*';
+const ANONYMIZED_REVISION_BASE_URL =
+  ANONYMIZED_CHANGE_BASE_URL + '/revisions/*';
 
 let siteBasedCache = new SiteBasedCache(); // Shared across instances.
 let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest = {}; // Shared across instances.
-let grEtagDecorator = new GrEtagDecorator; // Shared across instances.
+let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 let projectLookup = {}; // Shared across instances.
 
 export function _testOnlyResetGrRestApiSharedObjects() {
@@ -81,7 +88,7 @@ export function _testOnlyResetGrRestApiSharedObjects() {
   siteBasedCache = new SiteBasedCache();
   fetchPromisesCache = new FetchPromisesCache();
   pendingRequest = {};
-  grEtagDecorator = new GrEtagDecorator;
+  grEtagDecorator = new GrEtagDecorator();
   projectLookup = {};
   appContext.authService.clearCache();
 }
@@ -90,8 +97,11 @@ export function _testOnlyResetGrRestApiSharedObjects() {
  * @extends PolymerElement
  */
 class GrRestApiInterface extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get is() { return 'gr-rest-api-interface'; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get is() {
+    return 'gr-rest-api-interface';
+  }
   /**
    * Fired when an server error occurs.
    *
@@ -155,8 +165,12 @@ class GrRestApiInterface extends GestureEventListeners(
       return;
     }
     if (this._cache && this.authService && this._sharedFetchPromises) {
-      this._restApiHelper = new GrRestApiHelper(this._cache, this.authService,
-          this._sharedFetchPromises, this);
+      this._restApiHelper = new GrRestApiHelper(
+        this._cache,
+        this.authService,
+        this._sharedFetchPromises,
+        this
+      );
     }
   }
 
@@ -166,8 +180,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {!Object} response
-   * @return {?}
+   * @param response
+   * @return
    */
   getResponseObject(response) {
     return this._restApiHelper.getResponseObject(response);
@@ -241,7 +255,9 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   runRepoGC(repo, opt_errFn) {
-    if (!repo) { return ''; }
+    if (!repo) {
+      return '';
+    }
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -255,11 +271,13 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {?Object} config
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param config
+   * @param opt_errFn
    */
   createRepo(config, opt_errFn) {
-    if (!config.name) { return ''; }
+    if (!config.name) {
+      return '';
+    }
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(config.name);
@@ -273,11 +291,13 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {?Object} config
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param config
+   * @param opt_errFn
    */
   createGroup(config, opt_errFn) {
-    if (!config.name) { return ''; }
+    if (!config.name) {
+      return '';
+    }
     const encodeName = encodeURIComponent(config.name);
     return this._restApiHelper.send({
       method: 'PUT',
@@ -297,12 +317,14 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} repo
-   * @param {string} ref
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param repo
+   * @param ref
+   * @param opt_errFn
    */
   deleteRepoBranches(repo, ref, opt_errFn) {
-    if (!repo || !ref) { return ''; }
+    if (!repo || !ref) {
+      return '';
+    }
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -317,12 +339,14 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} repo
-   * @param {string} ref
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param repo
+   * @param ref
+   * @param opt_errFn
    */
   deleteRepoTags(repo, ref, opt_errFn) {
-    if (!repo || !ref) { return ''; }
+    if (!repo || !ref) {
+      return '';
+    }
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(repo);
@@ -337,13 +361,15 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} name
-   * @param {string} branch
-   * @param {string} revision
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param name
+   * @param branch
+   * @param revision
+   * @param opt_errFn
    */
   createRepoBranch(name, branch, revision, opt_errFn) {
-    if (!name || !branch || !revision) { return ''; }
+    if (!name || !branch || !revision) {
+      return '';
+    }
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(name);
@@ -358,13 +384,15 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} name
-   * @param {string} tag
-   * @param {string} revision
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param name
+   * @param tag
+   * @param revision
+   * @param opt_errFn
    */
   createRepoTag(name, tag, revision, opt_errFn) {
-    if (!name || !tag || !revision) { return ''; }
+    if (!name || !tag || !revision) {
+      return '';
+    }
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     const encodeName = encodeURIComponent(name);
@@ -379,8 +407,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {!string} groupName
-   * @returns {!Promise<boolean>}
+   * @param groupName
+   * @returns
    */
   getIsGroupOwner(groupName) {
     const encodeName = encodeURIComponent(groupName);
@@ -388,8 +416,9 @@ class GrRestApiInterface extends GestureEventListeners(
       url: `/groups/?owned&g=${encodeName}`,
       anonymizedUrl: '/groups/owned&g=*',
     };
-    return this._fetchSharedCacheURL(req)
-        .then(configs => configs.hasOwnProperty(groupName));
+    return this._fetchSharedCacheURL(req).then(configs =>
+      configs.hasOwnProperty(groupName)
+    );
   }
 
   getGroupMembers(groupName, opt_errFn) {
@@ -573,8 +602,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {?Object} prefs
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param prefs
+   * @param opt_errFn
    */
   savePreferences(prefs, opt_errFn) {
     // Note (Issue 5142): normalize the download scheme with lower case before
@@ -593,8 +622,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {?Object} prefs
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param prefs
+   * @param opt_errFn
    */
   saveDiffPreferences(prefs, opt_errFn) {
     // Invalidate the cache.
@@ -609,8 +638,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {?Object} prefs
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param prefs
+   * @param opt_errFn
    */
   saveEditPreferences(prefs, opt_errFn) {
     // Invalidate the cache.
@@ -666,8 +695,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} userId the ID of the user usch as an email address.
-   * @return {!Promise<!Object>}
+   * @param userId the ID of the user usch as an email address.
+   * @return
    */
   getAccountDetails(userId) {
     return this._restApiHelper.fetchJSON({
@@ -684,8 +713,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} email
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param email
+   * @param opt_errFn
    */
   addAccountEmail(email, opt_errFn) {
     return this._restApiHelper.send({
@@ -697,8 +726,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} email
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param email
+   * @param opt_errFn
    */
   deleteAccountEmail(email, opt_errFn) {
     return this._restApiHelper.send({
@@ -710,8 +739,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} email
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param email
+   * @param opt_errFn
    */
   setPreferredAccountEmail(email, opt_errFn) {
     const encodedEmail = encodeURIComponent(email);
@@ -739,7 +768,7 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {?Object} obj
+   * @param obj
    */
   _updateCachedAccount(obj) {
     // If result of getAccount is in cache, update it in the cache
@@ -747,14 +776,13 @@ class GrRestApiInterface extends GestureEventListeners(
     const cachedAccount = this._cache.get('/accounts/self/detail');
     if (cachedAccount) {
       // Replace object in cache with new object to force UI updates.
-      this._cache.set('/accounts/self/detail',
-          {...cachedAccount, ...obj});
+      this._cache.set('/accounts/self/detail', {...cachedAccount, ...obj});
     }
   }
 
   /**
-   * @param {string} name
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param name
+   * @param opt_errFn
    */
   setAccountName(name, opt_errFn) {
     const req = {
@@ -765,13 +793,14 @@ class GrRestApiInterface extends GestureEventListeners(
       parseResponse: true,
       reportUrlAsIs: true,
     };
-    return this._restApiHelper.send(req)
-        .then(newName => this._updateCachedAccount({name: newName}));
+    return this._restApiHelper
+      .send(req)
+      .then(newName => this._updateCachedAccount({name: newName}));
   }
 
   /**
-   * @param {string} username
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param username
+   * @param opt_errFn
    */
   setAccountUsername(username, opt_errFn) {
     const req = {
@@ -782,13 +811,14 @@ class GrRestApiInterface extends GestureEventListeners(
       parseResponse: true,
       reportUrlAsIs: true,
     };
-    return this._restApiHelper.send(req)
-        .then(newName => this._updateCachedAccount({username: newName}));
+    return this._restApiHelper
+      .send(req)
+      .then(newName => this._updateCachedAccount({username: newName}));
   }
 
   /**
-   * @param {string} displayName
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param displayName
+   * @param opt_errFn
    */
   setAccountDisplayName(displayName, opt_errFn) {
     const req = {
@@ -799,13 +829,14 @@ class GrRestApiInterface extends GestureEventListeners(
       parseResponse: true,
       reportUrlAsIs: true,
     };
-    return this._restApiHelper.send(req)
-        .then(newName => this._updateCachedAccount({displayName: newName}));
+    return this._restApiHelper
+      .send(req)
+      .then(newName => this._updateCachedAccount({displayName: newName}));
   }
 
   /**
-   * @param {string} status
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param status
+   * @param opt_errFn
    */
   setAccountStatus(status, opt_errFn) {
     const req = {
@@ -816,8 +847,9 @@ class GrRestApiInterface extends GestureEventListeners(
       parseResponse: true,
       reportUrlAsIs: true,
     };
-    return this._restApiHelper.send(req)
-        .then(newStatus => this._updateCachedAccount({status: newStatus}));
+    return this._restApiHelper
+      .send(req)
+      .then(newStatus => this._updateCachedAccount({status: newStatus}));
   }
 
   getAccountStatus(userId) {
@@ -851,14 +883,13 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string=} opt_params
+   * @param opt_params
    */
   getAccountCapabilities(opt_params) {
     let queryString = '';
     if (opt_params) {
-      queryString = '?q=' + opt_params
-          .map(param => encodeURIComponent(param))
-          .join('&q=');
+      queryString =
+        '?q=' + opt_params.map(param => encodeURIComponent(param)).join('&q=');
     }
     return this._fetchSharedCacheURL({
       url: '/accounts/self/capabilities' + queryString,
@@ -872,16 +903,14 @@ class GrRestApiInterface extends GestureEventListeners(
 
   getIsAdmin() {
     return this.getLoggedIn()
-        .then(isLoggedIn => {
-          if (isLoggedIn) {
-            return this.getAccountCapabilities();
-          } else {
-            return Promise.resolve();
-          }
-        })
-        .then(
-            capabilities => capabilities && capabilities.administrateServer
-        );
+      .then(isLoggedIn => {
+        if (isLoggedIn) {
+          return this.getAccountCapabilities();
+        } else {
+          return Promise.resolve();
+        }
+      })
+      .then(capabilities => capabilities && capabilities.administrateServer);
   }
 
   getDefaultPreferences() {
@@ -909,8 +938,9 @@ class GrRestApiInterface extends GestureEventListeners(
 
       return Promise.resolve({
         changes_per_page: 25,
-        default_diff_view: this._isNarrowScreen() ?
-          DiffViewMode.UNIFIED : DiffViewMode.SIDE_BY_SIDE,
+        default_diff_view: this._isNarrowScreen()
+          ? DiffViewMode.UNIFIED
+          : DiffViewMode.SIDE_BY_SIDE,
         diff_view: 'SIDE_BY_SIDE',
         size_bar_in_change_table: true,
       });
@@ -925,8 +955,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} projects
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param projects
+   * @param opt_errFn
    */
   saveWatchedProjects(projects, opt_errFn) {
     return this._restApiHelper.send({
@@ -940,8 +970,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} projects
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param projects
+   * @param opt_errFn
    */
   deleteWatchedProjects(projects, opt_errFn) {
     return this._restApiHelper.send({
@@ -958,66 +988,68 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number=} opt_changesPerPage
-   * @param {string|!Array<string>=} opt_query A query or an array of queries.
-   * @param {number|string=} opt_offset
-   * @param {!Object=} opt_options
-   * @return {?Array<!Object>|?Array<!Array<!Object>>} If opt_query is an
-   *     array, _fetchJSON will return an array of arrays of changeInfos. If it
-   *     is unspecified or a string, _fetchJSON will return an array of
-   *     changeInfos.
+   * @param opt_changesPerPage
+   * @param opt_query A query or an array of queries.
+   * @param opt_offset
+   * @param opt_options
+   * @return If opt_query is an
+   * array, _fetchJSON will return an array of arrays of changeInfos. If it
+   * is unspecified or a string, _fetchJSON will return an array of
+   * changeInfos.
    */
   getChanges(opt_changesPerPage, opt_query, opt_offset, opt_options) {
     return this.getConfig(false)
-        .then(config => {
-          const options = opt_options || this._getChangesOptionsHex(config);
-          // Issue 4524: respect legacy token with max sortkey.
-          if (opt_offset === 'n,z') {
-            opt_offset = 0;
+      .then(config => {
+        const options = opt_options || this._getChangesOptionsHex(config);
+        // Issue 4524: respect legacy token with max sortkey.
+        if (opt_offset === 'n,z') {
+          opt_offset = 0;
+        }
+        const params = {
+          O: options,
+          S: opt_offset || 0,
+        };
+        if (opt_changesPerPage) {
+          params.n = opt_changesPerPage;
+        }
+        if (opt_query && opt_query.length > 0) {
+          params.q = opt_query;
+        }
+        return {
+          url: '/changes/',
+          params,
+          reportUrlAsIs: true,
+        };
+      })
+      .then(req => this._restApiHelper.fetchJSON(req))
+      .then(response => {
+        const iterateOverChanges = arr => {
+          for (const change of arr || []) {
+            this._maybeInsertInLookup(change);
           }
-          const params = {
-            O: options,
-            S: opt_offset || 0,
-          };
-          if (opt_changesPerPage) { params.n = opt_changesPerPage; }
-          if (opt_query && opt_query.length > 0) {
-            params.q = opt_query;
+        };
+        // Response may be an array of changes OR an array of arrays of
+        // changes.
+        if (opt_query instanceof Array) {
+          // Normalize the response to look like a multi-query response
+          // when there is only one query.
+          if (opt_query.length === 1) {
+            response = [response];
           }
-          return {
-            url: '/changes/',
-            params,
-            reportUrlAsIs: true,
-          };
-        })
-        .then(req => this._restApiHelper.fetchJSON(req))
-        .then(response => {
-          const iterateOverChanges = arr => {
-            for (const change of (arr || [])) {
-              this._maybeInsertInLookup(change);
-            }
-          };
-          // Response may be an array of changes OR an array of arrays of
-          // changes.
-          if (opt_query instanceof Array) {
-            // Normalize the response to look like a multi-query response
-            // when there is only one query.
-            if (opt_query.length === 1) {
-              response = [response];
-            }
-            for (const arr of response) {
-              iterateOverChanges(arr);
-            }
-          } else {
-            iterateOverChanges(response);
+          for (const arr of response) {
+            iterateOverChanges(arr);
           }
-          return response;
-        });
+        } else {
+          iterateOverChanges(response);
+        }
+        return response;
+      });
   }
 
   /**
    * Inserts a change into _projectLookup iff it has a valid structure.
    *
-   * @param {?{ _number: (number|string) }} change
+   * @param change
    */
   _maybeInsertInLookup(change) {
     if (change && change.project && change._number) {
@@ -1029,27 +1061,31 @@ class GrRestApiInterface extends GestureEventListeners(
    * TODO (beckysiegel) this needs to be rewritten with the optional param
    * at the end.
    *
-   * @param {number|string} changeNum
-   * @param {?number|string=} opt_patchNum passed as null sometimes.
-   * @param {?=} endpoint
-   * @return {!Promise<string>}
+   * @param changeNum
+   * @param opt_patchNum passed as null sometimes.
+   * @param endpoint
+   * @return
    */
   getChangeActionURL(changeNum, opt_patchNum, endpoint) {
-    return this._changeBaseURL(changeNum, opt_patchNum)
-        .then(url => url + endpoint);
+    return this._changeBaseURL(changeNum, opt_patchNum).then(
+      url => url + endpoint
+    );
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {function(?Response, string=)=} opt_errFn
-   * @param {function()=} opt_cancelCondition
+   * @param changeNum
+   * @param opt_errFn
+   * @param opt_cancelCondition
    */
   getChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
     return this.getConfig(false).then(config => {
       const optionsHex = this._getChangeOptionsHex(config);
       return this._getChangeDetail(
-          changeNum, optionsHex, opt_errFn, opt_cancelCondition)
-          .then(GrReviewerUpdatesParser.parse);
+        changeNum,
+        optionsHex,
+        opt_errFn,
+        opt_cancelCondition
+      ).then(GrReviewerUpdatesParser.parse);
     });
   }
 
@@ -1068,8 +1104,11 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   _getChangeOptionsHex(config) {
-    if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.changePage
-        && !(config.receive && config.receive.enable_signed_push)) {
+    if (
+      window.DEFAULT_DETAIL_HEXES &&
+      window.DEFAULT_DETAIL_HEXES.changePage &&
+      !(config.receive && config.receive.enable_signed_push)
+    ) {
       return window.DEFAULT_DETAIL_HEXES.changePage;
     }
 
@@ -1093,9 +1132,9 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {function(?Response, string=)=} opt_errFn
-   * @param {function()=} opt_cancelCondition
+   * @param changeNum
+   * @param opt_errFn
+   * @param opt_cancelCondition
    */
   getDiffChangeDetail(changeNum, opt_errFn, opt_cancelCondition) {
     let optionsHex = '';
@@ -1103,25 +1142,28 @@ class GrRestApiInterface extends GestureEventListeners(
       optionsHex = window.DEFAULT_DETAIL_HEXES.diffPage;
     } else {
       optionsHex = listChangesOptionsToHex(
-          ListChangesOption.ALL_COMMITS,
-          ListChangesOption.ALL_REVISIONS,
-          ListChangesOption.SKIP_DIFFSTAT
+        ListChangesOption.ALL_COMMITS,
+        ListChangesOption.ALL_REVISIONS,
+        ListChangesOption.SKIP_DIFFSTAT
       );
     }
-    return this._getChangeDetail(changeNum, optionsHex, opt_errFn,
-        opt_cancelCondition);
+    return this._getChangeDetail(
+      changeNum,
+      optionsHex,
+      opt_errFn,
+      opt_cancelCondition
+    );
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {string|undefined} optionsHex list changes options in hex
-   * @param {function(?Response, string=)=} opt_errFn
-   * @param {function()=} opt_cancelCondition
+   * @param changeNum
+   * @param optionsHex list changes options in hex
+   * @param opt_errFn
+   * @param opt_cancelCondition
    */
   _getChangeDetail(changeNum, optionsHex, opt_errFn, opt_cancelCondition) {
     return this.getChangeActionURL(changeNum, null, '/detail').then(url => {
-      const urlWithParams = this._restApiHelper
-          .urlWithParams(url, optionsHex);
+      const urlWithParams = this._restApiHelper.urlWithParams(url, optionsHex);
       const params = {O: optionsHex};
       const req = {
         url,
@@ -1133,28 +1175,36 @@ class GrRestApiInterface extends GestureEventListeners(
       };
       return this._restApiHelper.fetchRawJSON(req).then(response => {
         if (response && response.status === 304) {
-          return Promise.resolve(this._restApiHelper.parsePrefixedJSON(
-              this._etags.getCachedPayload(urlWithParams)));
+          return Promise.resolve(
+            this._restApiHelper.parsePrefixedJSON(
+              this._etags.getCachedPayload(urlWithParams)
+            )
+          );
         }
 
         if (response && !response.ok) {
           if (opt_errFn) {
             opt_errFn.call(null, response);
           } else {
-            this.dispatchEvent(new CustomEvent('server-error', {
-              detail: {request: req, response},
-              composed: true, bubbles: true,
-            }));
+            this.dispatchEvent(
+              new CustomEvent('server-error', {
+                detail: {request: req, response},
+                composed: true,
+                bubbles: true,
+              })
+            );
           }
           return;
         }
 
-        const payloadPromise = response ?
-          this._restApiHelper.readResponsePayload(response) :
-          Promise.resolve(null);
+        const payloadPromise = response
+          ? this._restApiHelper.readResponsePayload(response)
+          : Promise.resolve(null);
 
         return payloadPromise.then(payload => {
-          if (!payload) { return null; }
+          if (!payload) {
+            return null;
+          }
           this._etags.collect(urlWithParams, response, payload.raw);
           this._maybeInsertInLookup(payload.parsed);
 
@@ -1165,8 +1215,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string} patchNum
+   * @param changeNum
+   * @param patchNum
    */
   getChangeCommitInfo(changeNum, patchNum) {
     return this._getChangeURLAndFetch({
@@ -1178,16 +1228,17 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {Gerrit.PatchRange} patchRange
-   * @param {number=} opt_parentIndex
+   * @param changeNum
+   * @param patchRange
+   * @param opt_parentIndex
    */
   getChangeFiles(changeNum, patchRange, opt_parentIndex) {
     let params = undefined;
     if (isMergeParent(patchRange.basePatchNum)) {
       params = {parent: getParentIndex(patchRange.basePatchNum)};
-    } else if (!patchNumEquals(patchRange.basePatchNum,
-        SPECIAL_PATCH_SET_NUM.PARENT)) {
+    } else if (
+      !patchNumEquals(patchRange.basePatchNum, SPECIAL_PATCH_SET_NUM.PARENT)
+    ) {
       params = {base: patchRange.basePatchNum};
     }
     return this._getChangeURLAndFetch({
@@ -1200,8 +1251,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {Gerrit.PatchRange} patchRange
+   * @param changeNum
+   * @param patchRange
    */
   getChangeEditFiles(changeNum, patchRange) {
     let endpoint = '/edit?list';
@@ -1218,10 +1269,10 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string} patchNum
-   * @param {string} query
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @param patchNum
+   * @param query
+   * @return
    */
   queryChangeFiles(changeNum, patchNum, query) {
     return this._getChangeURLAndFetch({
@@ -1233,14 +1284,15 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {Gerrit.PatchRange} patchRange
-   * @return {!Promise<!Array<!Object>>}
+   * @param changeNum
+   * @param patchRange
+   * @return
    */
   getChangeOrEditFiles(changeNum, patchRange) {
     if (patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT)) {
-      return this.getChangeEditFiles(changeNum, patchRange).then(res =>
-        res.files);
+      return this.getChangeEditFiles(changeNum, patchRange).then(
+        res => res.files
+      );
     }
     return this.getChangeFiles(changeNum, patchRange);
   }
@@ -1256,30 +1308,35 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {string} inputVal
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param changeNum
+   * @param inputVal
+   * @param opt_errFn
    */
   getChangeSuggestedReviewers(changeNum, inputVal, opt_errFn) {
-    return this._getChangeSuggestedGroup('REVIEWER', changeNum, inputVal,
-        opt_errFn);
+    return this._getChangeSuggestedGroup(
+      'REVIEWER',
+      changeNum,
+      inputVal,
+      opt_errFn
+    );
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {string} inputVal
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param changeNum
+   * @param inputVal
+   * @param opt_errFn
    */
   getChangeSuggestedCCs(changeNum, inputVal, opt_errFn) {
-    return this._getChangeSuggestedGroup('CC', changeNum, inputVal,
-        opt_errFn);
+    return this._getChangeSuggestedGroup('CC', changeNum, inputVal, opt_errFn);
   }
 
   _getChangeSuggestedGroup(reviewerState, changeNum, inputVal, opt_errFn) {
     // More suggestions may obscure content underneath in the reply dialog,
     // see issue 10793.
-    const params = {'n': 6, 'reviewer-state': reviewerState};
-    if (inputVal) { params.q = inputVal; }
+    const params = {n: 6, 'reviewer-state': reviewerState};
+    if (inputVal) {
+      params.q = inputVal;
+    }
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/suggest_reviewers',
@@ -1290,7 +1347,7 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
+   * @param changeNum
    */
   getChangeIncludedIn(changeNum) {
     return this._getChangeURLAndFetch({
@@ -1312,21 +1369,23 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @param {number} groupsPerPage
-   * @param {number=} opt_offset
+   * @param filter
+   * @param groupsPerPage
+   * @param opt_offset
    */
   _getGroupsUrl(filter, groupsPerPage, opt_offset) {
     const offset = opt_offset || 0;
 
-    return `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
-      this._computeFilter(filter);
+    return (
+      `/groups/?n=${groupsPerPage + 1}&S=${offset}` +
+      this._computeFilter(filter)
+    );
   }
 
   /**
-   * @param {string} filter
-   * @param {number} reposPerPage
-   * @param {number=} opt_offset
+   * @param filter
+   * @param reposPerPage
+   * @param opt_offset
    */
   _getReposUrl(filter, reposPerPage, opt_offset) {
     const defaultFilter = 'state:active OR state:read-only';
@@ -1355,8 +1414,9 @@ class GrRestApiInterface extends GestureEventListeners(
     filter = filter.trim();
     const encodedFilter = encodeURIComponent(filter);
 
-    return `/projects/?n=${reposPerPage + 1}&S=${offset}` +
-      `&query=${encodedFilter}`;
+    return (
+      `/projects/?n=${reposPerPage + 1}&S=${offset}` + `&query=${encodedFilter}`
+    );
   }
 
   invalidateGroupsCache() {
@@ -1372,10 +1432,10 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @param {number} groupsPerPage
-   * @param {number=} opt_offset
-   * @return {!Promise<?Object>}
+   * @param filter
+   * @param groupsPerPage
+   * @param opt_offset
+   * @return
    */
   getGroups(filter, groupsPerPage, opt_offset) {
     const url = this._getGroupsUrl(filter, groupsPerPage, opt_offset);
@@ -1387,10 +1447,10 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @param {number} reposPerPage
-   * @param {number=} opt_offset
-   * @return {!Promise<?Object>}
+   * @param filter
+   * @param reposPerPage
+   * @param opt_offset
+   * @return
    */
   getRepos(filter, reposPerPage, opt_offset) {
     const url = this._getReposUrl(filter, reposPerPage, opt_offset);
@@ -1415,11 +1475,11 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @param {string} repo
-   * @param {number} reposBranchesPerPage
-   * @param {number=} opt_offset
-   * @param {?function(?Response, string=)=} opt_errFn
+   * @param filter
+   * @param repo
+   * @param reposBranchesPerPage
+   * @param opt_offset
+   * @param opt_errFn
    * @return {!Promise<?Object>}
    */
   getRepoBranches(filter, repo, reposBranchesPerPage, opt_offset, opt_errFn) {
@@ -1438,11 +1498,11 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @param {string} repo
-   * @param {number} reposTagsPerPage
-   * @param {number=} opt_offset
-   * @param {?function(?Response, string=)=} opt_errFn
+   * @param filter
+   * @param repo
+   * @param reposTagsPerPage
+   * @param opt_offset
+   * @param opt_errFn
    * @return {!Promise<?Object>}
    */
   getRepoTags(filter, repo, reposTagsPerPage, opt_offset, opt_errFn) {
@@ -1450,8 +1510,8 @@ class GrRestApiInterface extends GestureEventListeners(
     const encodedRepo = encodeURIComponent(repo);
     const n = reposTagsPerPage + 1;
     const encodedFilter = this._computeFilter(filter);
-    const url = `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` +
-        encodedFilter;
+    const url =
+      `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` + encodedFilter;
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.fetchJSON({
@@ -1462,11 +1522,11 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @param {number} pluginsPerPage
-   * @param {number=} opt_offset
-   * @param {?function(?Response, string=)=} opt_errFn
-   * @return {!Promise<?Object>}
+   * @param filter
+   * @param pluginsPerPage
+   * @param opt_offset
+   * @param opt_errFn
+   * @return
    */
   getPlugins(filter, pluginsPerPage, opt_offset, opt_errFn) {
     const offset = opt_offset || 0;
@@ -1512,13 +1572,15 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} inputVal
-   * @param {number} opt_n
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param inputVal
+   * @param opt_n
+   * @param opt_errFn
    */
   getSuggestedGroups(inputVal, opt_n, opt_errFn) {
     const params = {s: inputVal};
-    if (opt_n) { params.n = opt_n; }
+    if (opt_n) {
+      params.n = opt_n;
+    }
     return this._restApiHelper.fetchJSON({
       url: '/groups/',
       errFn: opt_errFn,
@@ -1528,9 +1590,9 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} inputVal
-   * @param {number} opt_n
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param inputVal
+   * @param opt_n
+   * @param opt_errFn
    */
   getSuggestedProjects(inputVal, opt_n, opt_errFn) {
     const params = {
@@ -1538,7 +1600,9 @@ class GrRestApiInterface extends GestureEventListeners(
       n: MAX_PROJECT_RESULTS,
       type: 'ALL',
     };
-    if (opt_n) { params.n = opt_n; }
+    if (opt_n) {
+      params.n = opt_n;
+    }
     return this._restApiHelper.fetchJSON({
       url: '/projects/',
       errFn: opt_errFn,
@@ -1548,16 +1612,18 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} inputVal
-   * @param {number} opt_n
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param inputVal
+   * @param opt_n
+   * @param opt_errFn
    */
   getSuggestedAccounts(inputVal, opt_n, opt_errFn) {
     if (!inputVal) {
       return Promise.resolve([]);
     }
     const params = {suggest: null, q: inputVal};
-    if (opt_n) { params.n = opt_n; }
+    if (opt_n) {
+      params.n = opt_n;
+    }
     return this._restApiHelper.fetchJSON({
       url: '/accounts/',
       errFn: opt_errFn,
@@ -1575,22 +1641,21 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   _sendChangeReviewerRequest(method, changeNum, reviewerID) {
-    return this.getChangeActionURL(changeNum, null, '/reviewers')
-        .then(url => {
-          let body;
-          switch (method) {
-            case 'POST':
-              body = {reviewer: reviewerID};
-              break;
-            case 'DELETE':
-              url += '/' + encodeURIComponent(reviewerID);
-              break;
-            default:
-              throw Error('Unsupported HTTP method: ' + method);
-          }
+    return this.getChangeActionURL(changeNum, null, '/reviewers').then(url => {
+      let body;
+      switch (method) {
+        case 'POST':
+          body = {reviewer: reviewerID};
+          break;
+        case 'DELETE':
+          url += '/' + encodeURIComponent(reviewerID);
+          break;
+        default:
+          throw Error('Unsupported HTTP method: ' + method);
+      }
 
-          return this._restApiHelper.send({method, url, body});
-        });
+      return this._restApiHelper.send({method, url, body});
+    });
   }
 
   getRelatedChanges(changeNum, patchNum) {
@@ -1612,8 +1677,8 @@ class GrRestApiInterface extends GestureEventListeners(
 
   getChangeConflicts(changeNum) {
     const options = listChangesOptionsToHex(
-        ListChangesOption.CURRENT_REVISION,
-        ListChangesOption.CURRENT_COMMIT
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT
     );
     const params = {
       O: options,
@@ -1628,8 +1693,8 @@ class GrRestApiInterface extends GestureEventListeners(
 
   getChangeCherryPicks(project, changeID, changeNum) {
     const options = listChangesOptionsToHex(
-        ListChangesOption.CURRENT_REVISION,
-        ListChangesOption.CURRENT_COMMIT
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT
     );
     const query = [
       'project:' + project,
@@ -1650,10 +1715,10 @@ class GrRestApiInterface extends GestureEventListeners(
 
   getChangesWithSameTopic(topic, changeNum) {
     const options = listChangesOptionsToHex(
-        ListChangesOption.LABELS,
-        ListChangesOption.CURRENT_REVISION,
-        ListChangesOption.CURRENT_COMMIT,
-        ListChangesOption.DETAILED_LABELS
+      ListChangesOption.LABELS,
+      ListChangesOption.CURRENT_REVISION,
+      ListChangesOption.CURRENT_COMMIT,
+      ListChangesOption.DETAILED_LABELS
     );
     const query = [
       'status:open',
@@ -1681,11 +1746,11 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string} patchNum
-   * @param {string} path
-   * @param {boolean} reviewed
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param changeNum
+   * @param patchNum
+   * @param path
+   * @param reviewed
+   * @param opt_errFn
    */
   saveFileReviewed(changeNum, patchNum, path, reviewed, opt_errFn) {
     return this._getChangeURLAndSend({
@@ -1699,49 +1764,64 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string} patchNum
-   * @param {!Object} review
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param changeNum
+   * @param patchNum
+   * @param review
+   * @param opt_errFn
    */
   saveChangeReview(changeNum, patchNum, review, opt_errFn) {
     const promises = [
       this.awaitPendingDiffDrafts(),
       this.getChangeActionURL(changeNum, patchNum, '/review'),
     ];
-    return Promise.all(promises).then(([, url]) => this._restApiHelper.send({
-      method: 'POST',
-      url,
-      body: review,
-      errFn: opt_errFn,
-    }));
+    return Promise.all(promises).then(([, url]) =>
+      this._restApiHelper.send({
+        method: 'POST',
+        url,
+        body: review,
+        errFn: opt_errFn,
+      })
+    );
   }
 
   getChangeEdit(changeNum, opt_download_commands) {
     const params = opt_download_commands ? {'download-commands': true} : null;
     return this.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) { return false; }
-      return this._getChangeURLAndFetch({
-        changeNum,
-        endpoint: '/edit/',
-        params,
-        reportEndpointAsIs: true,
-      }, true);
+      if (!loggedIn) {
+        return false;
+      }
+      return this._getChangeURLAndFetch(
+        {
+          changeNum,
+          endpoint: '/edit/',
+          params,
+          reportEndpointAsIs: true,
+        },
+        true
+      );
     });
   }
 
   /**
-   * @param {string} project
-   * @param {string} branch
-   * @param {string} subject
-   * @param {string=} opt_topic
-   * @param {boolean=} opt_isPrivate
+   * @param project
+   * @param branch
+   * @param subject
+   * @param opt_topic
+   * @param opt_isPrivate
    * @param {boolean=} opt_workInProgress
    * @param {string=} opt_baseChange
    * @param {string=} opt_baseCommit
    */
-  createChange(project, branch, subject, opt_topic, opt_isPrivate,
-      opt_workInProgress, opt_baseChange, opt_baseCommit) {
+  createChange(
+    project,
+    branch,
+    subject,
+    opt_topic,
+    opt_isPrivate,
+    opt_workInProgress,
+    opt_baseChange,
+    opt_baseCommit
+  ) {
     return this._restApiHelper.send({
       method: 'POST',
       url: '/changes/',
@@ -1761,28 +1841,33 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {string} path
-   * @param {number|string} patchNum
+   * @param changeNum
+   * @param path
+   * @param patchNum
    */
   getFileContent(changeNum, path, patchNum) {
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const suppress404s = res => {
       if (res && res.status !== 404) {
-        this.dispatchEvent(new CustomEvent('server-error', {
-          detail: {res},
-          composed: true, bubbles: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('server-error', {
+            detail: {res},
+            composed: true,
+            bubbles: true,
+          })
+        );
       }
       return res;
     };
-    const promise = patchNumEquals(patchNum, SPECIAL_PATCH_SET_NUM.EDIT) ?
-      this._getFileInChangeEdit(changeNum, path) :
-      this._getFileInRevision(changeNum, path, patchNum, suppress404s);
+    const promise = patchNumEquals(patchNum, SPECIAL_PATCH_SET_NUM.EDIT)
+      ? this._getFileInChangeEdit(changeNum, path)
+      : this._getFileInRevision(changeNum, path, patchNum, suppress404s);
 
     return promise.then(res => {
-      if (!res.ok) { return res; }
+      if (!res.ok) {
+        return res;
+      }
 
       // The file type (used for syntax highlighting) is identified in the
       // X-FYI-Content-Type header of the response.
@@ -1796,10 +1881,10 @@ class GrRestApiInterface extends GestureEventListeners(
   /**
    * Gets a file in a specific change and revision.
    *
-   * @param {number|string} changeNum
-   * @param {string} path
-   * @param {number|string} patchNum
-   * @param {?function(?Response, string=)=} opt_errFn
+   * @param changeNum
+   * @param path
+   * @param patchNum
+   * @param opt_errFn
    */
   _getFileInRevision(changeNum, path, patchNum, opt_errFn) {
     return this._getChangeURLAndSend({
@@ -1816,8 +1901,8 @@ class GrRestApiInterface extends GestureEventListeners(
   /**
    * Gets a file in a change edit.
    *
-   * @param {number|string} changeNum
-   * @param {string} path
+   * @param changeNum
+   * @param path
    */
   _getFileInChangeEdit(changeNum, path) {
     return this._getChangeURLAndSend({
@@ -1960,8 +2045,10 @@ class GrRestApiInterface extends GestureEventListeners(
     // alongside the change number, so resolve the project name
     // first.
     return this.getFromProjectLookup(changeNum).then(project => {
-      const url = '/accounts/self/starred.changes/' +
-          (project ? encodeURIComponent(project) + '~' : '') + changeNum;
+      const url =
+        '/accounts/self/starred.changes/' +
+        (project ? encodeURIComponent(project) + '~' : '') +
+        changeNum;
       return this._restApiHelper.send({
         method: starred ? 'PUT' : 'DELETE',
         url,
@@ -1972,8 +2059,8 @@ class GrRestApiInterface extends GestureEventListeners(
 
   saveChangeReviewed(changeNum, reviewed) {
     return this.getConfig().then(config => {
-      const isAttentionSetEnabled = !!config && !!config.change
-          && config.change.enable_attention_set;
+      const isAttentionSetEnabled =
+        !!config && !!config.change && config.change.enable_attention_set;
       if (isAttentionSetEnabled) return Promise.resolve();
       return this._getChangeURLAndSend({
         changeNum,
@@ -1986,18 +2073,17 @@ class GrRestApiInterface extends GestureEventListeners(
   /**
    * Public version of the _restApiHelper.send method preserved for plugins.
    *
-   * @param {string} method
-   * @param {string} url
-   * @param {?string|number|Object=} opt_body passed as null sometimes
-   *    and also apparently a number. TODO (beckysiegel) remove need for
-   *    number at least.
-   * @param {?function(?Response, string=)=} opt_errFn
-   *    passed as null sometimes.
-   * @param {?string=} opt_contentType
+   * @param method
+   * @param url
+   * @param opt_body passed as null sometimes
+   * and also apparently a number. TODO (beckysiegel) remove need for
+   * number at least.
+   * @param opt_errFn 
+   * passed as null sometimes.
+   * @param opt_contentType
    * @param {Object=} opt_headers
    */
-  send(method, url, opt_body, opt_errFn, opt_contentType,
-      opt_headers) {
+  send(method, url, opt_body, opt_errFn, opt_contentType, opt_headers) {
     return this._restApiHelper.send({
       method,
       url,
@@ -2009,17 +2095,16 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string} basePatchNum Negative values specify merge parent
-   *     index.
-   * @param {number|string} patchNum
-   * @param {string} path
-   * @param {string=} opt_whitespace the ignore-whitespace level for the diff
-   *     algorithm.
+   * @param changeNum
+   * @param basePatchNum Negative values specify merge parent
+   * index.
+   * @param patchNum
+   * @param path
+   * @param opt_whitespace the ignore-whitespace level for the diff
+   * algorithm.
    * @param {function(?Response, string=)=} opt_errFn
    */
-  getDiff(changeNum, basePatchNum, patchNum, path, opt_whitespace,
-      opt_errFn) {
+  getDiff(changeNum, basePatchNum, patchNum, path, opt_whitespace, opt_errFn) {
     const params = {
       context: 'ALL',
       intraline: null,
@@ -2051,27 +2136,37 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string=} opt_basePatchNum
-   * @param {number|string=} opt_patchNum
-   * @param {string=} opt_path
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @param opt_basePatchNum
+   * @param opt_patchNum
+   * @param opt_path
+   * @return
    */
   getDiffComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
-    return this._getDiffComments(changeNum, '/comments', opt_basePatchNum,
-        opt_patchNum, opt_path);
+    return this._getDiffComments(
+      changeNum,
+      '/comments',
+      opt_basePatchNum,
+      opt_patchNum,
+      opt_path
+    );
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string=} opt_basePatchNum
-   * @param {number|string=} opt_patchNum
-   * @param {string=} opt_path
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @param opt_basePatchNum
+   * @param opt_patchNum
+   * @param opt_path
+   * @return
    */
   getDiffRobotComments(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
-    return this._getDiffComments(changeNum, '/robotcomments',
-        opt_basePatchNum, opt_patchNum, opt_path);
+    return this._getDiffComments(
+      changeNum,
+      '/robotcomments',
+      opt_basePatchNum,
+      opt_patchNum,
+      opt_path
+    );
   }
 
   /**
@@ -2079,17 +2174,24 @@ class GrRestApiInterface extends GestureEventListeners(
    * is no logged in user, the request is not made and the promise yields an
    * empty object.
    *
-   * @param {number|string} changeNum
-   * @param {number|string=} opt_basePatchNum
-   * @param {number|string=} opt_patchNum
-   * @param {string=} opt_path
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @param opt_basePatchNum
+   * @param opt_patchNum
+   * @param opt_path
+   * @return
    */
   getDiffDrafts(changeNum, opt_basePatchNum, opt_patchNum, opt_path) {
     return this.getLoggedIn().then(loggedIn => {
-      if (!loggedIn) { return Promise.resolve({}); }
-      return this._getDiffComments(changeNum, '/drafts', opt_basePatchNum,
-          opt_patchNum, opt_path);
+      if (!loggedIn) {
+        return Promise.resolve({});
+      }
+      return this._getDiffComments(
+        changeNum,
+        '/drafts',
+        opt_basePatchNum,
+        opt_patchNum,
+        opt_path
+      );
     });
   }
 
@@ -2107,9 +2209,7 @@ class GrRestApiInterface extends GestureEventListeners(
 
   _setRanges(comments) {
     comments = comments || [];
-    comments.sort(
-        (a, b) => parseDate(a.updated) - parseDate(b.updated)
-    );
+    comments.sort((a, b) => parseDate(a.updated) - parseDate(b.updated));
     for (const comment of comments) {
       this._setRange(comments, comment);
     }
@@ -2117,15 +2217,20 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {string} endpoint
-   * @param {number|string=} opt_basePatchNum
-   * @param {number|string=} opt_patchNum
-   * @param {string=} opt_path
+   * @param changeNum
+   * @param endpoint
+   * @param opt_basePatchNum
+   * @param opt_patchNum
+   * @param opt_path
    * @return {!Promise<!Object>}
    */
-  _getDiffComments(changeNum, endpoint, opt_basePatchNum,
-      opt_patchNum, opt_path) {
+  _getDiffComments(
+    changeNum,
+    endpoint,
+    opt_basePatchNum,
+    opt_patchNum,
+    opt_path
+  ) {
     /**
      * Fetches the comments for a given patchNum.
      * Helper function to make promises more legible.
@@ -2136,19 +2241,29 @@ class GrRestApiInterface extends GestureEventListeners(
     // We don't want to add accept header, since preloading of comments is
     // working only without accept header.
     const noAcceptHeader = true;
-    const fetchComments = opt_patchNum => this._getChangeURLAndFetch({
-      changeNum,
-      endpoint,
-      patchNum: opt_patchNum,
-      reportEndpointAsIs: true,
-    }, noAcceptHeader);
+    const fetchComments = opt_patchNum =>
+      this._getChangeURLAndFetch(
+        {
+          changeNum,
+          endpoint,
+          patchNum: opt_patchNum,
+          reportEndpointAsIs: true,
+        },
+        noAcceptHeader
+      );
 
     if (!opt_basePatchNum && !opt_patchNum && !opt_path) {
       return fetchComments();
     }
-    function onlyParent(c) { return c.side == SPECIAL_PATCH_SET_NUM.PARENT; }
-    function withoutParent(c) { return c.side != SPECIAL_PATCH_SET_NUM.PARENT; }
-    function setPath(c) { c.path = opt_path; }
+    function onlyParent(c) {
+      return c.side == SPECIAL_PATCH_SET_NUM.PARENT;
+    }
+    function withoutParent(c) {
+      return c.side != SPECIAL_PATCH_SET_NUM.PARENT;
+    }
+    function setPath(c) {
+      c.path = opt_path;
+    }
 
     const promises = [];
     let comments;
@@ -2174,28 +2289,30 @@ class GrRestApiInterface extends GestureEventListeners(
 
     if (opt_basePatchNum != SPECIAL_PATCH_SET_NUM.PARENT) {
       fetchPromise = fetchComments(opt_basePatchNum).then(response => {
-        baseComments = (response[opt_path] || [])
-            .filter(withoutParent);
+        baseComments = (response[opt_path] || []).filter(withoutParent);
         baseComments = this._setRanges(baseComments);
         baseComments.forEach(setPath);
       });
       promises.push(fetchPromise);
     }
 
-    return Promise.all(promises).then(() => Promise.resolve({
-      baseComments,
-      comments,
-    }));
+    return Promise.all(promises).then(() =>
+      Promise.resolve({
+        baseComments,
+        comments,
+      })
+    );
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {string} endpoint
-   * @param {number|string=} opt_patchNum
+   * @param changeNum
+   * @param endpoint
+   * @param opt_patchNum
    */
   _getDiffCommentsFetchURL(changeNum, endpoint, opt_patchNum) {
-    return this._changeBaseURL(changeNum, opt_patchNum)
-        .then(url => url + endpoint);
+    return this._changeBaseURL(changeNum, opt_patchNum).then(
+      url => url + endpoint
+    );
   }
 
   saveDiffDraft(changeNum, patchNum, draft) {
@@ -2207,7 +2324,7 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @returns {boolean} Whether there are pending diff draft sends.
+   * @returns Whether there are pending diff draft sends.
    */
   hasPendingDiffDrafts() {
     const promises = this._pendingRequests[Requests.SEND_DIFF_DRAFT];
@@ -2215,14 +2332,15 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @returns {!Promise<undefined>} A promise that resolves when all pending
-   *    diff draft sends have resolved.
+   * @returns A promise that resolves when all pending
+   * diff draft sends have resolved.
    */
   awaitPendingDiffDrafts() {
-    return Promise.all(this._pendingRequests[Requests.SEND_DIFF_DRAFT] || [])
-        .then(() => {
-          this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
-        });
+    return Promise.all(
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT] || []
+    ).then(() => {
+      this._pendingRequests[Requests.SEND_DIFF_DRAFT] = [];
+    });
   }
 
   _sendDiffDraftRequest(method, changeNum, patchNum, draft) {
@@ -2263,35 +2381,38 @@ class GrRestApiInterface extends GestureEventListeners(
 
   getCommitInfo(project, commit) {
     return this._restApiHelper.fetchJSON({
-      url: '/projects/' + encodeURIComponent(project) +
-          '/commits/' + encodeURIComponent(commit),
+      url:
+        '/projects/' +
+        encodeURIComponent(project) +
+        '/commits/' +
+        encodeURIComponent(commit),
       anonymizedUrl: '/projects/*/comments/*',
     });
   }
 
   _fetchB64File(url) {
-    return this._restApiHelper.fetch({url: getBaseUrl() + url})
-        .then(response => {
-          if (!response.ok) {
-            return Promise.reject(new Error(response.statusText));
-          }
-          const type = response.headers.get('X-FYI-Content-Type');
-          return response.text()
-              .then(text => {
-                return {body: text, type};
-              });
+    return this._restApiHelper
+      .fetch({url: getBaseUrl() + url})
+      .then(response => {
+        if (!response.ok) {
+          return Promise.reject(new Error(response.statusText));
+        }
+        const type = response.headers.get('X-FYI-Content-Type');
+        return response.text().then(text => {
+          return {body: text, type};
         });
+      });
   }
 
   /**
-   * @param {string} changeId
-   * @param {string|number} patchNum
-   * @param {string} path
-   * @param {number=} opt_parentIndex
+   * @param changeId
+   * @param patchNum
+   * @param path
+   * @param opt_parentIndex
    */
   getB64FileContents(changeId, patchNum, path, opt_parentIndex) {
-    const parent = typeof opt_parentIndex === 'number' ?
-      '?parent=' + opt_parentIndex : '';
+    const parent =
+      typeof opt_parentIndex === 'number' ? '?parent=' + opt_parentIndex : '';
     return this._changeBaseURL(changeId, patchNum).then(url => {
       url = `${url}/files/${encodeURIComponent(path)}/content${parent}`;
       return this._fetchB64File(url);
@@ -2305,19 +2426,29 @@ class GrRestApiInterface extends GestureEventListeners(
     if (diff.meta_a && diff.meta_a.content_type.startsWith('image/')) {
       if (patchRange.basePatchNum === 'PARENT') {
         // Note: we only attempt to get the image from the first parent.
-        promiseA = this.getB64FileContents(changeNum, patchRange.patchNum,
-            diff.meta_a.name, 1);
+        promiseA = this.getB64FileContents(
+          changeNum,
+          patchRange.patchNum,
+          diff.meta_a.name,
+          1
+        );
       } else {
-        promiseA = this.getB64FileContents(changeNum,
-            patchRange.basePatchNum, diff.meta_a.name);
+        promiseA = this.getB64FileContents(
+          changeNum,
+          patchRange.basePatchNum,
+          diff.meta_a.name
+        );
       }
     } else {
       promiseA = Promise.resolve(null);
     }
 
     if (diff.meta_b && diff.meta_b.content_type.startsWith('image/')) {
-      promiseB = this.getB64FileContents(changeNum, patchRange.patchNum,
-          diff.meta_b.name);
+      promiseB = this.getB64FileContents(
+        changeNum,
+        patchRange.patchNum,
+        diff.meta_b.name
+      );
     } else {
       promiseB = Promise.resolve(null);
     }
@@ -2341,17 +2472,17 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {?number|string=} opt_patchNum passed as null sometimes.
-   * @param {string=} opt_project
-   * @return {!Promise<string>}
+   * @param changeNum
+   * @param opt_patchNum passed as null sometimes.
+   * @param opt_project
+   * @return
    */
   _changeBaseURL(changeNum, opt_patchNum, opt_project) {
     // TODO(kaspern): For full slicer migration, app should warn with a call
     // stack every time _changeBaseURL is called without a project.
-    const projectPromise = opt_project ?
-      Promise.resolve(opt_project) :
-      this.getFromProjectLookup(changeNum);
+    const projectPromise = opt_project
+      ? Promise.resolve(opt_project)
+      : this.getFromProjectLookup(changeNum);
     return projectPromise.then(project => {
       let url = `/changes/${encodeURIComponent(project)}~${changeNum}`;
       if (opt_patchNum) {
@@ -2451,17 +2582,20 @@ class GrRestApiInterface extends GestureEventListeners(
       contentType: 'text/plain',
       reportUrlAsIs: true,
     };
-    return this._restApiHelper.send(req)
-        .then(response => {
-          if (response.status < 200 && response.status >= 300) {
-            return Promise.reject(new Error('error'));
-          }
-          return this.getResponseObject(response);
-        })
-        .then(obj => {
-          if (!obj.valid) { return Promise.reject(new Error('error')); }
-          return obj;
-        });
+    return this._restApiHelper
+      .send(req)
+      .then(response => {
+        if (response.status < 200 && response.status >= 300) {
+          return Promise.reject(new Error('error'));
+        }
+        return this.getResponseObject(response);
+      })
+      .then(obj => {
+        if (!obj.valid) {
+          return Promise.reject(new Error('error'));
+        }
+        return obj;
+      });
   }
 
   deleteAccountSSHKey(id) {
@@ -2486,17 +2620,20 @@ class GrRestApiInterface extends GestureEventListeners(
       body: key,
       reportUrlAsIs: true,
     };
-    return this._restApiHelper.send(req)
-        .then(response => {
-          if (response.status < 200 && response.status >= 300) {
-            return Promise.reject(new Error('error'));
-          }
-          return this.getResponseObject(response);
-        })
-        .then(obj => {
-          if (!obj) { return Promise.reject(new Error('error')); }
-          return obj;
-        });
+    return this._restApiHelper
+      .send(req)
+      .then(response => {
+        if (response.status < 200 && response.status >= 300) {
+          return Promise.reject(new Error('error'));
+        }
+        return this.getResponseObject(response);
+      })
+      .then(obj => {
+        if (!obj) {
+          return Promise.reject(new Error('error'));
+        }
+        return obj;
+      });
   }
 
   deleteAccountGPGKey(id) {
@@ -2519,7 +2656,8 @@ class GrRestApiInterface extends GestureEventListeners(
   setDescription(changeNum, patchNum, desc) {
     return this._getChangeURLAndSend({
       changeNum,
-      method: 'PUT', patchNum,
+      method: 'PUT',
+      patchNum,
       endpoint: '/description',
       body: {description: desc},
       reportUrlAsIs: true,
@@ -2577,13 +2715,14 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   probePath(path) {
-    return fetch(new Request(path, {method: 'HEAD'}))
-        .then(response => response.ok);
+    return fetch(new Request(path, {method: 'HEAD'})).then(
+      response => response.ok
+    );
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string=} opt_message
+   * @param changeNum
+   * @param opt_message
    */
   startWorkInProgress(changeNum, opt_message) {
     const body = {};
@@ -2605,9 +2744,9 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {number|string} changeNum
-   * @param {number|string=} opt_body
-   * @param {function(?Response, string=)=} opt_errFn
+   * @param changeNum
+   * @param opt_body
+   * @param opt_errFn
    */
   startReview(changeNum, opt_body, opt_errFn) {
     return this._getChangeURLAndSend({
@@ -2640,31 +2779,39 @@ class GrRestApiInterface extends GestureEventListeners(
   /**
    * Given a changeNum, gets the change.
    *
-   * @param {number|string} changeNum
-   * @param {function(?Response, string=)=} opt_errFn
-   * @return {!Promise<?Object>} The change
+   * @param changeNum
+   * @param opt_errFn
+   * @return The change
    */
   getChange(changeNum, opt_errFn) {
     // Cannot use _changeBaseURL, as this function is used by _projectLookup.
-    return this._restApiHelper.fetchJSON({
-      url: `/changes/?q=change:${changeNum}`,
-      errFn: opt_errFn,
-      anonymizedUrl: '/changes/?q=change:*',
-    }).then(res => {
-      if (!res || !res.length) { return null; }
-      return res[0];
-    });
+    return this._restApiHelper
+      .fetchJSON({
+        url: `/changes/?q=change:${changeNum}`,
+        errFn: opt_errFn,
+        anonymizedUrl: '/changes/?q=change:*',
+      })
+      .then(res => {
+        if (!res || !res.length) {
+          return null;
+        }
+        return res[0];
+      });
   }
 
   /**
-   * @param {string|number} changeNum
-   * @param {string=} project
+   * @param changeNum
+   * @param project
    */
   setInProjectLookup(changeNum, project) {
-    if (this._projectLookup[changeNum] &&
-        this._projectLookup[changeNum] !== project) {
-      console.warn('Change set with multiple project nums.' +
-          'One of them must be invalid.');
+    if (
+      this._projectLookup[changeNum] &&
+      this._projectLookup[changeNum] !== project
+    ) {
+      console.warn(
+        'Change set with multiple project nums.' +
+          'One of them must be invalid.'
+      );
     }
     this._projectLookup[changeNum] = project;
   }
@@ -2674,23 +2821,30 @@ class GrRestApiInterface extends GestureEventListeners(
    * project. If not, calls the restAPI to get the change, populates
    * _projectLookup with the project for that change, and returns the project.
    *
-   * @param {string|number} changeNum
-   * @return {!Promise<string|undefined>}
+   * @param changeNum
+   * @return
    */
   getFromProjectLookup(changeNum) {
     const project = this._projectLookup[changeNum];
-    if (project) { return Promise.resolve(project); }
+    if (project) {
+      return Promise.resolve(project);
+    }
 
     const onError = response => {
       // Fire a page error so that the visual 404 is displayed.
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
     return this.getChange(changeNum, onError).then(change => {
-      if (!change || !change.project) { return; }
+      if (!change || !change.project) {
+        return;
+      }
       this.setInProjectLookup(changeNum, change.project);
       return change.project;
     });
@@ -2700,64 +2854,81 @@ class GrRestApiInterface extends GestureEventListeners(
    * Alias for _changeBaseURL.then(send).
    *
    * @todo(beckysiegel) clean up comments
-   * @param {Gerrit.ChangeSendRequest} req
-   * @return {!Promise<!Object>}
+   * @param req
+   * @return
    */
   _getChangeURLAndSend(req) {
-    const anonymizedBaseUrl = req.patchNum ?
-      ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
-    const anonymizedEndpoint = req.reportEndpointAsIs ?
-      req.endpoint : req.anonymizedEndpoint;
+    const anonymizedBaseUrl = req.patchNum
+      ? ANONYMIZED_REVISION_BASE_URL
+      : ANONYMIZED_CHANGE_BASE_URL;
+    const anonymizedEndpoint = req.reportEndpointAsIs
+      ? req.endpoint
+      : req.anonymizedEndpoint;
 
-    return this._changeBaseURL(req.changeNum, req.patchNum)
-        .then(url => this._restApiHelper.send({
-          method: req.method,
-          url: url + req.endpoint,
-          body: req.body,
-          errFn: req.errFn,
-          contentType: req.contentType,
-          headers: req.headers,
-          parseResponse: req.parseResponse,
-          anonymizedUrl: anonymizedEndpoint ?
-            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        }));
+    return this._changeBaseURL(req.changeNum, req.patchNum).then(url =>
+      this._restApiHelper.send({
+        method: req.method,
+        url: url + req.endpoint,
+        body: req.body,
+        errFn: req.errFn,
+        contentType: req.contentType,
+        headers: req.headers,
+        parseResponse: req.parseResponse,
+        anonymizedUrl: anonymizedEndpoint
+          ? anonymizedBaseUrl + anonymizedEndpoint
+          : undefined,
+      })
+    );
   }
 
   /**
    * Alias for _changeBaseURL.then(_fetchJSON).
    *
-   * @param {Gerrit.ChangeFetchRequest} req
-   * @return {!Promise<!Object>}
+   * @param req
+   * @return
    */
   _getChangeURLAndFetch(req, noAcceptHeader) {
-    const anonymizedEndpoint = req.reportEndpointAsIs ?
-      req.endpoint : req.anonymizedEndpoint;
-    const anonymizedBaseUrl = req.patchNum ?
-      ANONYMIZED_REVISION_BASE_URL : ANONYMIZED_CHANGE_BASE_URL;
-    return this._changeBaseURL(req.changeNum, req.patchNum)
-        .then(url => this._restApiHelper.fetchJSON({
+    const anonymizedEndpoint = req.reportEndpointAsIs
+      ? req.endpoint
+      : req.anonymizedEndpoint;
+    const anonymizedBaseUrl = req.patchNum
+      ? ANONYMIZED_REVISION_BASE_URL
+      : ANONYMIZED_CHANGE_BASE_URL;
+    return this._changeBaseURL(req.changeNum, req.patchNum).then(url =>
+      this._restApiHelper.fetchJSON(
+        {
           url: url + req.endpoint,
           errFn: req.errFn,
           params: req.params,
           fetchOptions: req.fetchOptions,
-          anonymizedUrl: anonymizedEndpoint ?
-            (anonymizedBaseUrl + anonymizedEndpoint) : undefined,
-        }, noAcceptHeader));
+          anonymizedUrl: anonymizedEndpoint
+            ? anonymizedBaseUrl + anonymizedEndpoint
+            : undefined,
+        },
+        noAcceptHeader
+      )
+    );
   }
 
   /**
    * Execute a change action or revision action on a change.
    *
-   * @param {number} changeNum
-   * @param {string} method
-   * @param {string} endpoint
-   * @param {string|number|undefined} opt_patchNum
-   * @param {Object=} opt_payload
+   * @param changeNum
+   * @param method
+   * @param endpoint
+   * @param opt_patchNum
+   * @param opt_payload
    * @param {?function(?Response, string=)=} opt_errFn
    * @return {Promise}
    */
-  executeChangeAction(changeNum, method, endpoint, opt_patchNum, opt_payload,
-      opt_errFn) {
+  executeChangeAction(
+    changeNum,
+    method,
+    endpoint,
+    opt_patchNum,
+    opt_payload,
+    opt_errFn
+  ) {
     return this._getChangeURLAndSend({
       changeNum,
       method,
@@ -2771,12 +2942,12 @@ class GrRestApiInterface extends GestureEventListeners(
   /**
    * Get blame information for the given diff.
    *
-   * @param {string|number} changeNum
-   * @param {string|number} patchNum
-   * @param {string} path
-   * @param {boolean=} opt_base If true, requests blame for the base of the
-   *     diff, rather than the revision.
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @param patchNum
+   * @param path
+   * @param opt_base If true, requests blame for the base of the
+   * diff, rather than the revision.
+   * @return
    */
   getBlame(changeNum, patchNum, path, opt_base) {
     const encodedPath = encodeURIComponent(path);
@@ -2794,24 +2965,28 @@ class GrRestApiInterface extends GestureEventListeners(
    * an error if the response bears HTTP status 200 instead of HTTP 201.
    *
    * @see Issue 7763
-   * @param {Promise} promise The original promise.
-   * @return {Promise} The modified promise.
+   * @param promise The original promise.
+   * @return The modified promise.
    */
   _failForCreate200(promise) {
     return promise.then(result => {
       if (result.status === 200) {
         // Read the response headers into an object representation.
-        const headers = Array.from(result.headers.entries())
-            .reduce((obj, [key, val]) => {
-              if (!HEADER_REPORTING_BLOCK_REGEX.test(key)) {
-                obj[key] = val;
-              }
-              return obj;
-            }, {});
-        const err = new Error([
-          CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
-          JSON.stringify(headers),
-        ].join('\n'));
+        const headers = Array.from(result.headers.entries()).reduce(
+          (obj, [key, val]) => {
+            if (!HEADER_REPORTING_BLOCK_REGEX.test(key)) {
+              obj[key] = val;
+            }
+            return obj;
+          },
+          {}
+        );
+        const err = new Error(
+          [
+            CREATE_DRAFT_UNEXPECTED_STATUS_MESSAGE,
+            JSON.stringify(headers),
+          ].join('\n')
+        );
         // Throw the error so that it is caught by gr-reporting.
         throw err;
       }
@@ -2823,15 +2998,18 @@ class GrRestApiInterface extends GestureEventListeners(
    * Fetch a project dashboard definition.
    * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
    *
-   * @param {string} project
-   * @param {string} dashboard
-   * @param {function(?Response, string=)=} opt_errFn
-   *    passed as null sometimes.
-   * @return {!Promise<!Object>}
+   * @param project
+   * @param dashboard
+   * @param opt_errFn
+   * passed as null sometimes.
+   * @return
    */
   getDashboard(project, dashboard, opt_errFn) {
-    const url = '/projects/' + encodeURIComponent(project) + '/dashboards/' +
-        encodeURIComponent(dashboard);
+    const url =
+      '/projects/' +
+      encodeURIComponent(project) +
+      '/dashboards/' +
+      encodeURIComponent(dashboard);
     return this._fetchSharedCacheURL({
       url,
       errFn: opt_errFn,
@@ -2840,8 +3018,8 @@ class GrRestApiInterface extends GestureEventListeners(
   }
 
   /**
-   * @param {string} filter
-   * @return {!Promise<?Object>}
+   * @param filter
+   * @return
    */
   getDocumentationSearches(filter) {
     filter = filter.trim();

@@ -15,26 +15,26 @@
  * limitations under the License.
  */
 
-import {appContext} from '../services/app-context.js';
-import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
+import {appContext} from '../services/app-context';
+import {FlagsService} from '../services/flags/flags';
+import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock';
+import {AuthService} from '../services/gr-auth/gr-auth';
 
-class MockFlagsService {
-  isEnabled(experimentId) {
+class MockFlagsService implements FlagsService {
+  isEnabled() {
     return false;
   }
 
   /**
-   * @returns {!Array<string>} array of all enabled experiments.
+   * @returns array of all enabled experiments.
    */
   get enabledExperiments() {
     return [];
   }
 }
 
-class MockAuthService {
-  clearCache() {
-
-  }
+class MockAuthService implements AuthService {
+  clearCache() {}
 
   get isAuthed() {
     return false;
@@ -43,20 +43,31 @@ class MockAuthService {
   authCheck() {
     return Promise.resolve(false);
   }
+
+  baseUrl = '';
+
+  setup() {}
+
+  fetch() {
+    const blob = new Blob();
+    const init = {status: 200, statusText: 'Ack'};
+    const response = new Response(blob, init);
+    return Promise.resolve(response);
+  }
 }
 
 // Setup mocks for appContext.
 // This is a temporary solution
 // TODO(dmfilippov): find a better solution for gr-diff
 export function initDiffAppContext() {
-  function setMock(serviceName, setupMock) {
+  function setMock(serviceName: string, setupMock: unknown) {
     Object.defineProperty(appContext, serviceName, {
       get() {
         return setupMock;
       },
     });
   }
-  setMock('flagsService', new MockFlagsService);
+  setMock('flagsService', new MockFlagsService());
   setMock('reportingService', grReportingMock);
-  setMock('authService', new MockAuthService);
+  setMock('authService', new MockAuthService());
 }

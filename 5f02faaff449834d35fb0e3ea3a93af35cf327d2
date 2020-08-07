@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62517937_d6748718",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-07T10:14:33Z",
+      "side": 1,
+      "message": "PTAL. I had to fix the new eslint rule, but the diff between ps 4 and 5 is minimal, so I think you can +2 without thinking much. :-)",
+      "revId": "5f02faaff449834d35fb0e3ea3a93af35cf327d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

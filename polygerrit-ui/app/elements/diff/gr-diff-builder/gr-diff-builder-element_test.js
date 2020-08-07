@@ -24,9 +24,10 @@ import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
-import {GrDiffLine} from '../gr-diff/gr-diff-line.js';
-import {GrDiffGroup} from '../gr-diff/gr-diff-group.js';
+import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
+import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './gr-diff-builder.js';
+import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromTemplate(html`
@@ -85,14 +86,14 @@ suite('gr-diff-builder tests', () => {
       const numLines = options.count || 10;
       const lines = [];
       for (let i = 0; i < numLines; i++) {
-        const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+        const line = new GrDiffLine(GrDiffLineType.BOTH);
         line.beforeNumber = offset + i + 1;
         line.afterNumber = offset + i + 1;
         line.text = 'lorem upsum';
         lines.push(line);
       }
 
-      return [new GrDiffGroup(GrDiffGroup.Type.BOTH, lines)];
+      return [new GrDiffGroup(GrDiffGroupType.BOTH, lines)];
     }
 
     test('no +10 buttons for 10 or less lines', () => {
@@ -286,12 +287,12 @@ suite('gr-diff-builder tests', () => {
 
   test('tab wrapper style', () => {
     const pattern = new RegExp('^<span class="style-scope gr-diff tab" ' +
-      'style="(?:-moz-)?tab-size: (\\d+);">\\t<\\/span>$');
+      'style="((?:-moz-)?tab-size: (\\d+);.?)+">\\t<\\/span>$');
 
     for (const size of [1, 3, 8, 55]) {
       const html = builder._getTabWrapper(size).outerHTML;
       expect(html).to.match(pattern);
-      assert.equal(html.match(pattern)[1], size);
+      assert.equal(html.match(pattern)[2], size);
     }
   });
 
@@ -314,30 +315,30 @@ suite('gr-diff-builder tests', () => {
 
   suite('_isTotal', () => {
     test('is total for add', () => {
-      const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      const group = new GrDiffGroup(GrDiffGroupType.DELTA);
       for (let idx = 0; idx < 10; idx++) {
-        group.addLine(new GrDiffLine(GrDiffLine.Type.ADD));
+        group.addLine(new GrDiffLine(GrDiffLineType.ADD));
       }
       assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
     });
 
     test('is total for remove', () => {
-      const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      const group = new GrDiffGroup(GrDiffGroupType.DELTA);
       for (let idx = 0; idx < 10; idx++) {
-        group.addLine(new GrDiffLine(GrDiffLine.Type.REMOVE));
+        group.addLine(new GrDiffLine(GrDiffLineType.REMOVE));
       }
       assert.isTrue(GrDiffBuilder.prototype._isTotal(group));
     });
 
     test('not total for empty', () => {
-      const group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+      const group = new GrDiffGroup(GrDiffGroupType.BOTH);
       assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
     });
 
     test('not total for non-delta', () => {
-      const group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
+      const group = new GrDiffGroup(GrDiffGroupType.DELTA);
       for (let idx = 0; idx < 10; idx++) {
-        group.addLine(new GrDiffLine(GrDiffLine.Type.BOTH));
+        group.addLine(new GrDiffLine(GrDiffLineType.BOTH));
       }
       assert.isFalse(GrDiffBuilder.prototype._isTotal(group));
     });
@@ -837,7 +838,7 @@ suite('gr-diff-builder tests', () => {
       outputEl = element.queryEffectiveChildren('#diffTable');
       keyLocations = {left: {}, right: {}};
       sinon.stub(element, '_getDiffBuilder').callsFake(() => {
-        const builder = new GrDiffBuilder({content}, prefs, outputEl);
+        const builder = new GrDiffBuilderSideBySide({content}, prefs, outputEl);
         sinon.stub(builder, 'addColumns');
         builder.buildSectionElement = function(group) {
           const section = document.createElement('stub');
@@ -1007,10 +1008,13 @@ suite('gr-diff-builder tests', () => {
     test('_renderContentByRange notexistent elements', () => {
       const spy = sinon.spy(builder, '_createTextEl');
 
+      sinon.stub(builder, '_getLineNumberEl').returns(
+          document.createElement('div')
+      );
       sinon.stub(builder, 'findLinesByRange').callsFake(
           (s, e, d, lines, elements) => {
             // Add a line and a corresponding element.
-            lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+            lines.push(new GrDiffLine(GrDiffLineType.BOTH));
             const tr = document.createElement('tr');
             const td = document.createElement('td');
             const el = document.createElement('div');
@@ -1019,8 +1023,8 @@ suite('gr-diff-builder tests', () => {
             elements.push(el);
 
             // Add 2 lines without corresponding elements.
-            lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
-            lines.push(new GrDiffLine(GrDiffLine.Type.BOTH));
+            lines.push(new GrDiffLine(GrDiffLineType.BOTH));
+            lines.push(new GrDiffLine(GrDiffLineType.BOTH));
           });
 
       builder._renderContentByRange(1, 10, 'left');
@@ -1170,6 +1174,7 @@ suite('gr-diff-builder tests', () => {
     });
 
     test('_getBlameCommitForBaseLine', () => {
+      sinon.stub(builder, '_getBlameByLineNum').returns(null);
       builder.setBlame(mockBlame);
       assert.isOk(builder._getBlameCommitForBaseLine(1));
       assert.equal(builder._getBlameCommitForBaseLine(1).id, 'commit 1');
@@ -1193,7 +1198,7 @@ suite('gr-diff-builder tests', () => {
       const mocbBlameCell = document.createElement('span');
       const getBlameStub = sinon.stub(builder, '_getBlameForBaseLine')
           .returns(mocbBlameCell);
-      const line = new GrDiffLine(GrDiffLine.Type.BOTH);
+      const line = new GrDiffLine(GrDiffLineType.BOTH);
       line.beforeNumber = 3;
       line.afterNumber = 5;
 

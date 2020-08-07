@@ -25,8 +25,8 @@
 import {getAccountDisplayName, getDisplayName, getGroupDisplayName, getUserName} from '../utils/display-name-util.js';
 import {GrAnnotation} from './diff/gr-diff-highlight/gr-annotation.js';
 import {GrAttributeHelper} from './plugins/gr-attribute-helper/gr-attribute-helper.js';
-import {GrDiffLine} from './diff/gr-diff/gr-diff-line.js';
-import {GrDiffGroup} from './diff/gr-diff/gr-diff-group.js';
+import {GrDiffLine, GrDiffLineType} from './diff/gr-diff/gr-diff-line.js';
+import {GrDiffGroup, GrDiffGroupType} from './diff/gr-diff/gr-diff-group.js';
 import {GrDiffBuilder} from './diff/gr-diff-builder/gr-diff-builder.js';
 import {GrDiffBuilderSideBySide} from './diff/gr-diff-builder/gr-diff-builder-side-by-side.js';
 import {GrDiffBuilderImage} from './diff/gr-diff-builder/gr-diff-builder-image.js';
@@ -44,7 +44,6 @@ import {GrLinkTextParser} from './shared/gr-linked-text/link-text-parser.js';
 import {getPluginEndpoints, GrPluginEndpoints} from './shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {GrReviewerUpdatesParser} from './shared/gr-rest-api-interface/gr-reviewer-updates-parser.js';
 import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.js';
-import {GrRangeNormalizer} from './diff/gr-diff-highlight/gr-range-normalizer.js';
 import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {util} from '../scripts/util.js';
@@ -82,7 +81,9 @@ export function initGlobalVariables() {
   window.GrAnnotation = GrAnnotation;
   window.GrAttributeHelper = GrAttributeHelper;
   window.GrDiffLine = GrDiffLine;
+  window.GrDiffLineType = GrDiffLineType;
   window.GrDiffGroup = GrDiffGroup;
+  window.GrDiffGroupType = GrDiffGroupType;
   window.GrDiffBuilder = GrDiffBuilder;
   window.GrDiffBuilderSideBySide = GrDiffBuilderSideBySide;
   window.GrDiffBuilderImage = GrDiffBuilderImage;
@@ -103,7 +104,6 @@ export function initGlobalVariables() {
   window.GrPluginEndpoints = GrPluginEndpoints;
   window.GrReviewerUpdatesParser = GrReviewerUpdatesParser;
   window.GrPopupInterface = GrPopupInterface;
-  window.GrRangeNormalizer = GrRangeNormalizer;
   window.GrCountStringFormatter = GrCountStringFormatter;
   window.GrReviewerSuggestionsProvider = GrReviewerSuggestionsProvider;
   window.util = util;

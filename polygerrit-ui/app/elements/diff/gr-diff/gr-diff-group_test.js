@@ -16,15 +16,15 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
-import {GrDiffLine} from './gr-diff-line.js';
-import {GrDiffGroup} from './gr-diff-group.js';
+import {GrDiffLine, GrDiffLineType, BLANK_LINE} from './gr-diff-line.js';
+import {GrDiffGroup, GrDiffGroupType, hideInContextControl} from './gr-diff-group.js';
 
 suite('gr-diff-group tests', () => {
   test('delta line pairs', () => {
-    let group = new GrDiffGroup(GrDiffGroup.Type.DELTA);
-    const l1 = new GrDiffLine(GrDiffLine.Type.ADD, 0, 128);
-    const l2 = new GrDiffLine(GrDiffLine.Type.ADD, 0, 129);
-    const l3 = new GrDiffLine(GrDiffLine.Type.REMOVE, 64, 0);
+    let group = new GrDiffGroup(GrDiffGroupType.DELTA);
+    const l1 = new GrDiffLine(GrDiffLineType.ADD, 0, 128);
+    const l2 = new GrDiffLine(GrDiffLineType.ADD, 0, 129);
+    const l3 = new GrDiffLine(GrDiffLineType.REMOVE, 64, 0);
     group.addLine(l1);
     group.addLine(l2);
     group.addLine(l3);
@@ -39,10 +39,10 @@ suite('gr-diff-group tests', () => {
     let pairs = group.getSideBySidePairs();
     assert.deepEqual(pairs, [
       {left: l3, right: l1},
-      {left: GrDiffLine.BLANK_LINE, right: l2},
+      {left: BLANK_LINE, right: l2},
     ]);
 
-    group = new GrDiffGroup(GrDiffGroup.Type.DELTA, [l1, l2, l3]);
+    group = new GrDiffGroup(GrDiffGroupType.DELTA, [l1, l2, l3]);
     assert.deepEqual(group.lines, [l1, l2, l3]);
     assert.deepEqual(group.adds, [l1, l2]);
     assert.deepEqual(group.removes, [l3]);
@@ -50,16 +50,16 @@ suite('gr-diff-group tests', () => {
     pairs = group.getSideBySidePairs();
     assert.deepEqual(pairs, [
       {left: l3, right: l1},
-      {left: GrDiffLine.BLANK_LINE, right: l2},
+      {left: BLANK_LINE, right: l2},
     ]);
   });
 
   test('group/header line pairs', () => {
-    const l1 = new GrDiffLine(GrDiffLine.Type.BOTH, 64, 128);
-    const l2 = new GrDiffLine(GrDiffLine.Type.BOTH, 65, 129);
-    const l3 = new GrDiffLine(GrDiffLine.Type.BOTH, 66, 130);
+    const l1 = new GrDiffLine(GrDiffLineType.BOTH, 64, 128);
+    const l2 = new GrDiffLine(GrDiffLineType.BOTH, 65, 129);
+    const l3 = new GrDiffLine(GrDiffLineType.BOTH, 66, 130);
 
-    let group = new GrDiffGroup(GrDiffGroup.Type.BOTH, [l1, l2, l3]);
+    let group = new GrDiffGroup(GrDiffGroupType.BOTH, [l1, l2, l3]);
 
     assert.deepEqual(group.lines, [l1, l2, l3]);
     assert.deepEqual(group.adds, []);
@@ -77,7 +77,7 @@ suite('gr-diff-group tests', () => {
       {left: l3, right: l3},
     ]);
 
-    group = new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL, [l1, l2, l3]);
+    group = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL, [l1, l2, l3]);
     assert.deepEqual(group.lines, [l1, l2, l3]);
     assert.deepEqual(group.adds, []);
     assert.deepEqual(group.removes, []);
@@ -91,16 +91,16 @@ suite('gr-diff-group tests', () => {
   });
 
   test('adding delta lines to non-delta group', () => {
-    const l1 = new GrDiffLine(GrDiffLine.Type.ADD);
-    const l2 = new GrDiffLine(GrDiffLine.Type.REMOVE);
-    const l3 = new GrDiffLine(GrDiffLine.Type.BOTH);
+    const l1 = new GrDiffLine(GrDiffLineType.ADD);
+    const l2 = new GrDiffLine(GrDiffLineType.REMOVE);
+    const l3 = new GrDiffLine(GrDiffLineType.BOTH);
 
-    let group = new GrDiffGroup(GrDiffGroup.Type.BOTH);
+    let group = new GrDiffGroup(GrDiffGroupType.BOTH);
     assert.throws(group.addLine.bind(group, l1));
     assert.throws(group.addLine.bind(group, l2));
     assert.doesNotThrow(group.addLine.bind(group, l3));
 
-    group = new GrDiffGroup(GrDiffGroup.Type.CONTEXT_CONTROL);
+    group = new GrDiffGroup(GrDiffGroupType.CONTEXT_CONTROL);
     assert.throws(group.addLine.bind(group, l1));
     assert.throws(group.addLine.bind(group, l2));
     assert.doesNotThrow(group.addLine.bind(group, l3));
@@ -110,34 +110,34 @@ suite('gr-diff-group tests', () => {
     let groups;
     setup(() => {
       groups = [
-        new GrDiffGroup(GrDiffGroup.Type.BOTH, [
-          new GrDiffLine(GrDiffLine.Type.BOTH, 5, 7),
-          new GrDiffLine(GrDiffLine.Type.BOTH, 6, 8),
-          new GrDiffLine(GrDiffLine.Type.BOTH, 7, 9),
+        new GrDiffGroup(GrDiffGroupType.BOTH, [
+          new GrDiffLine(GrDiffLineType.BOTH, 5, 7),
+          new GrDiffLine(GrDiffLineType.BOTH, 6, 8),
+          new GrDiffLine(GrDiffLineType.BOTH, 7, 9),
         ]),
-        new GrDiffGroup(GrDiffGroup.Type.DELTA, [
-          new GrDiffLine(GrDiffLine.Type.REMOVE, 8),
-          new GrDiffLine(GrDiffLine.Type.ADD, 0, 10),
-          new GrDiffLine(GrDiffLine.Type.REMOVE, 9),
-          new GrDiffLine(GrDiffLine.Type.ADD, 0, 11),
-          new GrDiffLine(GrDiffLine.Type.REMOVE, 10),
-          new GrDiffLine(GrDiffLine.Type.ADD, 0, 12),
+        new GrDiffGroup(GrDiffGroupType.DELTA, [
+          new GrDiffLine(GrDiffLineType.REMOVE, 8),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 10),
+          new GrDiffLine(GrDiffLineType.REMOVE, 9),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 11),
+          new GrDiffLine(GrDiffLineType.REMOVE, 10),
+          new GrDiffLine(GrDiffLineType.ADD, 0, 12),
         ]),
-        new GrDiffGroup(GrDiffGroup.Type.BOTH, [
-          new GrDiffLine(GrDiffLine.Type.BOTH, 11, 13),
-          new GrDiffLine(GrDiffLine.Type.BOTH, 12, 14),
-          new GrDiffLine(GrDiffLine.Type.BOTH, 13, 15),
+        new GrDiffGroup(GrDiffGroupType.BOTH, [
+          new GrDiffLine(GrDiffLineType.BOTH, 11, 13),
+          new GrDiffLine(GrDiffLineType.BOTH, 12, 14),
+          new GrDiffLine(GrDiffLineType.BOTH, 13, 15),
         ]),
       ];
     });
 
     test('hides hidden groups in context control', () => {
-      const collapsedGroups = GrDiffGroup.hideInContextControl(groups, 3, 6);
+      const collapsedGroups = hideInContextControl(groups, 3, 6);
       assert.equal(collapsedGroups.length, 3);
 
       assert.equal(collapsedGroups[0], groups[0]);
 
-      assert.equal(collapsedGroups[1].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(collapsedGroups[1].type, GrDiffGroupType.CONTEXT_CONTROL);
       assert.equal(collapsedGroups[1].contextGroups.length, 1);
       assert.equal(collapsedGroups[1].contextGroups[0], groups[1]);
 
@@ -145,20 +145,20 @@ suite('gr-diff-group tests', () => {
     });
 
     test('splits partially hidden groups', () => {
-      const collapsedGroups = GrDiffGroup.hideInContextControl(groups, 4, 7);
+      const collapsedGroups = hideInContextControl(groups, 4, 7);
       assert.equal(collapsedGroups.length, 4);
       assert.equal(collapsedGroups[0], groups[0]);
 
-      assert.equal(collapsedGroups[1].type, GrDiffGroup.Type.DELTA);
+      assert.equal(collapsedGroups[1].type, GrDiffGroupType.DELTA);
       assert.deepEqual(collapsedGroups[1].adds, [groups[1].adds[0]]);
       assert.deepEqual(collapsedGroups[1].removes, [groups[1].removes[0]]);
 
-      assert.equal(collapsedGroups[2].type, GrDiffGroup.Type.CONTEXT_CONTROL);
+      assert.equal(collapsedGroups[2].type, GrDiffGroupType.CONTEXT_CONTROL);
       assert.equal(collapsedGroups[2].contextGroups.length, 2);
 
       assert.equal(
           collapsedGroups[2].contextGroups[0].type,
-          GrDiffGroup.Type.DELTA);
+          GrDiffGroupType.DELTA);
       assert.deepEqual(
           collapsedGroups[2].contextGroups[0].adds,
           groups[1].adds.slice(1));
@@ -168,23 +168,23 @@ suite('gr-diff-group tests', () => {
 
       assert.equal(
           collapsedGroups[2].contextGroups[1].type,
-          GrDiffGroup.Type.BOTH);
+          GrDiffGroupType.BOTH);
       assert.deepEqual(
           collapsedGroups[2].contextGroups[1].lines,
           [groups[2].lines[0]]);
 
-      assert.equal(collapsedGroups[3].type, GrDiffGroup.Type.BOTH);
+      assert.equal(collapsedGroups[3].type, GrDiffGroupType.BOTH);
       assert.deepEqual(collapsedGroups[3].lines, groups[2].lines.slice(1));
     });
 
     test('groups unchanged if the hidden range is empty', () => {
       assert.deepEqual(
-          GrDiffGroup.hideInContextControl(groups, 0, 0), groups);
+          hideInContextControl(groups, 0, 0), groups);
     });
 
     test('groups unchanged if there is only 1 line to hide', () => {
       assert.deepEqual(
-          GrDiffGroup.hideInContextControl(groups, 3, 4), groups);
+          hideInContextControl(groups, 3, 4), groups);
     });
   });
 });

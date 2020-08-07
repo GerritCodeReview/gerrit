@@ -27,6 +27,12 @@ import java.util.Objects;
  * are defined in {@link AccountDetailInfo}.
  */
 public class AccountInfo {
+  /** Tags are additional properties of an account. */
+  public enum Tag {
+    /** Tag indicating that this account is a service user. */
+    SERVICE_USER
+  }
+
   /** The numeric ID of the account. */
   public Integer _accountId;
 
@@ -67,6 +73,9 @@ public class AccountInfo {
   /** Whether the account is inactive. */
   public Boolean inactive;
 
+  /** Tags, such as whether this account is a service user. */
+  public List<Tag> tags;
+
   public AccountInfo(Integer id) {
     this._accountId = id;
   }
@@ -89,7 +98,8 @@ public class AccountInfo {
           && Objects.equals(username, accountInfo.username)
           && Objects.equals(avatars, accountInfo.avatars)
           && Objects.equals(_moreAccounts, accountInfo._moreAccounts)
-          && Objects.equals(status, accountInfo.status);
+          && Objects.equals(status, accountInfo.status)
+          && Objects.equals(tags, accountInfo.tags);
     }
     return false;
   }
@@ -102,6 +112,7 @@ public class AccountInfo {
         .add("displayname", displayName)
         .add("email", email)
         .add("username", username)
+        .add("tags", tags)
         .toString();
   }
 
@@ -116,7 +127,8 @@ public class AccountInfo {
         username,
         avatars,
         _moreAccounts,
-        status);
+        status,
+        tags);
   }
 
   protected AccountInfo() {}

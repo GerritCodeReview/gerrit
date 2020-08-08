@@ -16,7 +16,7 @@
  */
 
 import {getBaseUrl} from '../../../utils/url-util';
-import {Pattern} from '../../core/gr-navigation/gr-navigation';
+import {CommentLinkInfo} from '../../../types/common';
 
 /**
  * Pattern describing URLs with supported protocols.
@@ -32,7 +32,7 @@ export interface CommentLinkItem {
   html: HTMLAnchorElement | DocumentFragment;
 }
 
-export type LinkTextParserConfig = Pattern[];
+export type LinkTextParserConfig = {[name: string]: CommentLinkInfo};
 
 export class GrLinkTextParser {
   private readonly baseUrl = getBaseUrl();
@@ -325,7 +325,7 @@ export class GrLinkTextParser {
           // We suppose, that prefixText just a single word
           // before link and add this word as is, without processing
           // any patterns in it.
-          this.parseLinks(prefixText, []);
+          this.parseLinks(prefixText, {});
           text = text.substring(prefixText.length);
           href = href.substring(prefixText.length);
         }

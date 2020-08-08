@@ -25,6 +25,9 @@ import {
   RequirementStatus,
   ReviewerState,
   RevisionKind,
+  SubmitType,
+  InheritedBooleanInfoConfiguredValue,
+  ConfigParameterInfoType,
 } from '../constants/constants';
 
 export type BrandType<T, BrandName extends string> = T &
@@ -79,7 +82,6 @@ export type BranchName = BrandType<string, '_branchName'>;
 export type ChangeInfoId = BrandType<string, '_changeInfoId'>;
 export type Hashtag = BrandType<string, '_hashtag'>;
 export type StarLabel = BrandType<string, '_startLabel'>;
-export type SubmitType = BrandType<string, '_submitType'>;
 export type CommitId = BrandType<string, '_commitId'>;
 
 // The UUID of the group
@@ -1109,4 +1111,97 @@ export interface ImageInfo {
   _expectedType: string;
   _width: number;
   _height: number;
+}
+
+/**
+ * A boolean value that can also be inherited.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info
+ */
+export interface InheritedBooleanInfo {
+  value: string;
+  configured_value: InheritedBooleanInfoConfiguredValue;
+  inherited_value?: string;
+}
+
+/**
+ * The MaxObjectSizeLimitInfo entity contains information about themax object
+ * size limit of a project.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#max-object-size-limit-info
+ */
+export interface MaxObjectSizeLimitInfo {
+  value?: number;
+  configured_value?: string;
+  summary?: string;
+}
+
+/**
+ * Information about the default submittype of a project, taking into account
+ * project inheritance.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#submit-type-info
+ */
+export interface SubmitTypeInfo {
+  value: Exclude<SubmitType, SubmitType.INHERIT>;
+  configured_value: SubmitType;
+  inherited_value: Exclude<SubmitType, SubmitType.INHERIT>;
+}
+
+/**
+ * The CommentLinkInfo entity describes acommentlink.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#commentlink-info
+ */
+export interface CommentLinkInfo {
+  match: string;
+  link?: string;
+  enabled?: boolean;
+  html?: string;
+}
+
+/**
+ * The ConfigParameterInfo entity describes a project configurationparameter.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
+ */
+export interface ConfigParameterInfo {
+  display_name?: string;
+  description?: string;
+  warning?: string;
+  type: ConfigParameterInfoType;
+  value?: string;
+  values?: string[];
+  editable?: boolean;
+  permitted_values?: string[];
+  inheritable?: boolean;
+  configured_value?: string;
+  inherited_value?: string;
+}
+
+export interface CommentLinks {
+  [name: string]: CommentLinkInfo;
+}
+
+/**
+ * The ConfigInfo entity contains information about the effective
+ * projectconfiguration.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
+ */
+export interface ConfigInfo {
+  description?: string;
+  use_contributor_agreements?: InheritedBooleanInfo;
+  use_content_merge?: InheritedBooleanInfo;
+  use_signed_off_by?: InheritedBooleanInfo;
+  create_new_change_for_all_not_in_target?: InheritedBooleanInfo;
+  require_change_id?: InheritedBooleanInfo;
+  enable_signed_push?: InheritedBooleanInfo;
+  require_signed_push?: InheritedBooleanInfo;
+  reject_implicit_merges?: InheritedBooleanInfo;
+  private_by_default: InheritedBooleanInfo;
+  work_in_progress_by_default: InheritedBooleanInfo;
+  max_object_size_limit: MaxObjectSizeLimitInfo;
+  default_submit_type: SubmitTypeInfo;
+  submit_type: SubmitType;
+  match_author_to_committer_date?: InheritedBooleanInfo;
+  state?: ProjectState;
+  commentlinks: CommentLinks;
+  plugin_config?: ConfigParameterInfo;
+  actions?: {[viewName: string]: ActionInfo};
+  reject_empty_commit?: InheritedBooleanInfo;
 }

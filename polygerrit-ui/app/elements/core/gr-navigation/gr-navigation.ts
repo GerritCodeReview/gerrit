@@ -30,6 +30,7 @@ import {
   CommitId,
   Hashtag,
   UrlEncodedCommentId,
+  CommentLinks,
 } from '../../../types/common';
 
 // Navigation parameters object format:
@@ -117,7 +118,7 @@ const uninitializedGenerateWebLinks: GenerateWebLinksCallback = () => {
 
 const uninitializedMapCommentLinks: MapCommentLinksCallback = () => {
   uninitialized();
-  return [];
+  return {};
 };
 
 // TODO(TS): PatchSetNum type express an API type, it is not good to add
@@ -345,15 +346,7 @@ export type GenerateWebLinksCallback = (
   params: GenerateWebLinksParameters
 ) => WebLink[] | WebLink;
 
-export interface Pattern {
-  enabled: boolean | null;
-  match: string;
-  html?: string;
-  link?: string;
-}
-
-// TODO(TS): type is not clear until more code converted to a typescript.
-export type MapCommentLinksCallback = (patterns: Pattern[]) => Pattern[];
+export type MapCommentLinksCallback = (patterns: CommentLinks) => CommentLinks;
 
 export interface WebLink {
   label: string;

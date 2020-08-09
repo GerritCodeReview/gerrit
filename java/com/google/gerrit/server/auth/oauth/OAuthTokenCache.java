@@ -17,7 +17,6 @@ package com.google.gerrit.server.auth.oauth;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
-import com.google.common.base.Converter;
 import com.google.common.base.Strings;
 import com.google.common.cache.Cache;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
@@ -28,7 +27,7 @@ import com.google.gerrit.reviewdb.client.Account;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
-import com.google.gerrit.server.cache.serialize.IntegerCacheSerializer;
+import com.google.gerrit.server.cache.serialize.IntKeyCacheSerializer;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -46,10 +45,7 @@ public class OAuthTokenCache {
       protected void configure() {
         persist(OAUTH_TOKENS, Account.Id.class, OAuthToken.class)
             .version(1)
-            .keySerializer(
-                CacheSerializer.convert(
-                    IntegerCacheSerializer.INSTANCE,
-                    Converter.from(Account.Id::get, Account.Id::new)))
+            .keySerializer(new IntKeyCacheSerializer<>(Account.Id::new))
             .valueSerializer(new Serializer());
       }
     };

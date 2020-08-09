@@ -30,13 +30,7 @@ public final class Project {
   /** Default submit type for root project (All-Projects). */
   public static final SubmitType DEFAULT_ALL_PROJECTS_SUBMIT_TYPE = SubmitType.MERGE_IF_NECESSARY;
 
-  /**
-   * Project name key.
-   *
-   * <p>This class has subclasses such as {@code AllProjectsName}, which make Guice injection more
-   * convenient. Subclasses must compare equal if they have the same name, regardless of the
-   * specific class. This implies that subclasses may not add additional fields.
-   */
+  /** Project name key */
   public static class NameKey extends StringKey<com.google.gwtorm.client.Key<?>> {
     private static final long serialVersionUID = 1L;
 
@@ -59,12 +53,12 @@ public final class Project {
     }
 
     @Override
-    public final int hashCode() {
+    public int hashCode() {
       return get().hashCode();
     }
 
     @Override
-    public final boolean equals(Object b) {
+    public boolean equals(Object b) {
       if (b instanceof NameKey) {
         return get().equals(((NameKey) b).get());
       }

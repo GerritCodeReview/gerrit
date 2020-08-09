@@ -188,7 +188,7 @@ class ReplyBox extends Composite {
   }
 
   @UiHandler("post")
-  void onPost(@SuppressWarnings("unused") ClickEvent e) {
+  void onPost(ClickEvent e) {
     postReview();
   }
 
@@ -214,7 +214,7 @@ class ReplyBox extends Composite {
   }
 
   @UiHandler("cancel")
-  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
+  void onCancel(ClickEvent e) {
     message.setText("");
     hide();
   }

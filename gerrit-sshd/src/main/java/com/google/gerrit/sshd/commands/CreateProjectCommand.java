@@ -90,27 +90,27 @@ final class CreateProjectCommand extends SshCommand {
   private InheritableBoolean createNewChangeForAllNotInTarget = InheritableBoolean.INHERIT;
 
   @Option(name = "--use-contributor-agreements", aliases = {"--ca"}, usage = "if contributor agreement is required")
-  void setUseContributorArgreements(@SuppressWarnings("unused") boolean on) {
+  void setUseContributorArgreements(boolean on) {
     contributorAgreements = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--use-signed-off-by", aliases = {"--so"}, usage = "if signed-off-by is required")
-  void setUseSignedOffBy(@SuppressWarnings("unused") boolean on) {
+  void setUseSignedOffBy(boolean on) {
     signedOffBy = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--use-content-merge", usage = "allow automatic conflict resolving within files")
-  void setUseContentMerge(@SuppressWarnings("unused") boolean on) {
+  void setUseContentMerge(boolean on) {
     contentMerge = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--require-change-id", aliases = {"--id"}, usage = "if change-id is required")
-  void setRequireChangeId(@SuppressWarnings("unused") boolean on) {
+  void setRequireChangeId(boolean on) {
     requireChangeID = InheritableBoolean.TRUE;
   }
 
   @Option(name = "--create-new-change-for-all-not-in-target", aliases = {"--ncfa"}, usage = "if a new change will be created for every commit not in target branch")
-  void setNewChangeForAllNotInTarget(@SuppressWarnings("unused") boolean on) {
+  void setNewChangeForAllNotInTarget(boolean on) {
     createNewChangeForAllNotInTarget = InheritableBoolean.TRUE;
   }
 

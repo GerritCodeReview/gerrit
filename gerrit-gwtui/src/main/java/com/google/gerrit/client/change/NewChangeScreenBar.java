@@ -65,13 +65,13 @@ class NewChangeScreenBar extends Composite {
   }
 
   @UiHandler("keepOld")
-  void onKeepOld(@SuppressWarnings("unused") ClickEvent e) {
+  void onKeepOld(ClickEvent e) {
     save(ChangeScreen.OLD_UI);
     Gerrit.display(PageLinks.toChange(id));
   }
 
   @UiHandler("keepNew")
-  void onKeepNew(@SuppressWarnings("unused") ClickEvent e) {
+  void onKeepNew(ClickEvent e) {
     save(ChangeScreen.CHANGE_SCREEN2);
   }
 

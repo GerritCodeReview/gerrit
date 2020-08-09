@@ -82,11 +82,6 @@ public abstract class PrologTestCase {
     machine = PrologMachineCopy.save(env);
   }
 
-  /**
-   * Set up the Prolog environment.
-   *
-   * @param env Prolog environment.
-   */
   protected void setUpEnvironment(PrologEnvironment env) {
   }
 

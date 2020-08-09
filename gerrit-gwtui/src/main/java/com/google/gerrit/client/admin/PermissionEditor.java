@@ -145,31 +145,31 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("deletePermission")
-  void onDeleteHover(@SuppressWarnings("unused") MouseOverEvent event) {
+  void onDeleteHover(MouseOverEvent event) {
     addStyleName(AdminResources.I.css().deleteSectionHover());
   }
 
   @UiHandler("deletePermission")
-  void onDeleteNonHover(@SuppressWarnings("unused") MouseOutEvent event) {
+  void onDeleteNonHover(MouseOutEvent event) {
     removeStyleName(AdminResources.I.css().deleteSectionHover());
   }
 
   @UiHandler("deletePermission")
-  void onDeletePermission(@SuppressWarnings("unused") ClickEvent event) {
+  void onDeletePermission(ClickEvent event) {
     isDeleted = true;
     normal.getStyle().setDisplay(Display.NONE);
     deleted.getStyle().setDisplay(Display.BLOCK);
   }
 
   @UiHandler("undoDelete")
-  void onUndoDelete(@SuppressWarnings("unused") ClickEvent event) {
+  void onUndoDelete(ClickEvent event) {
     isDeleted = false;
     deleted.getStyle().setDisplay(Display.NONE);
     normal.getStyle().setDisplay(Display.BLOCK);
   }
 
   @UiHandler("beginAddRule")
-  void onBeginAddRule(@SuppressWarnings("unused") ClickEvent event) {
+  void onBeginAddRule(ClickEvent event) {
     beginAddRule();
   }
 
@@ -186,7 +186,7 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("addRule")
-  void onAddGroupByClick(@SuppressWarnings("unused") ClickEvent event) {
+  void onAddGroupByClick(ClickEvent event) {
     GroupReference ref = groupToAdd.getValue();
     if (ref != null) {
       addGroup(ref);
@@ -204,13 +204,12 @@ public class PermissionEditor extends Composite implements Editor<Permission>,
   }
 
   @UiHandler("groupToAdd")
-  void onAbortAddGroup(
-      @SuppressWarnings("unused") CloseEvent<GroupReferenceBox> event) {
+  void onAbortAddGroup(CloseEvent<GroupReferenceBox> event) {
     hideAddGroup();
   }
 
   @UiHandler("hideAddGroup")
-  void hideAddGroup(@SuppressWarnings("unused") ClickEvent event) {
+  void hideAddGroup(ClickEvent event) {
     hideAddGroup();
   }
 

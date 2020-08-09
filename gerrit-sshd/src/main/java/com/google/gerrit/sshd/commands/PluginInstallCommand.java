@@ -44,7 +44,7 @@ final class PluginInstallCommand extends SshCommand {
   private String name;
 
   @Option(name = "-")
-  void useInput(@SuppressWarnings("unused") boolean on) {
+  void useInput(boolean on) {
     source = "-";
   }
 

@@ -253,7 +253,7 @@ class DraftBox extends CommentBox {
   }
 
   @UiHandler("message")
-  void onMessageDoubleClick(@SuppressWarnings("unused") DoubleClickEvent e) {
+  void onMessageDoubleClick(DoubleClickEvent e) {
     setEdit(true);
   }
 
@@ -389,7 +389,7 @@ class DraftBox extends CommentBox {
   }
 
   @UiHandler("editArea")
-  void onBlur(@SuppressWarnings("unused") BlurEvent e) {
+  void onBlur(BlurEvent e) {
     resizeTimer.cancel();
   }
 

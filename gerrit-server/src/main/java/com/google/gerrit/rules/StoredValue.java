@@ -84,12 +84,7 @@ public class StoredValue<T> {
     env.set(this, obj);
   }
 
-  /**
-   * Creates a value to store, returns null by default.
-   *
-   * @param engine Prolog engine.
-   * @return new value.
-   */
+  /** Creates a value to store, returns null by default. */
   protected T createValue(Prolog engine) {
     return null;
   }

@@ -176,14 +176,14 @@ public class PermissionRuleEditor extends Composite implements
   }
 
   @UiHandler("deleteRule")
-  void onDeleteRule(@SuppressWarnings("unused") ClickEvent event) {
+  void onDeleteRule(ClickEvent event) {
     isDeleted = true;
     normal.getStyle().setDisplay(Display.NONE);
     deleted.getStyle().setDisplay(Display.BLOCK);
   }
 
   @UiHandler("undoDelete")
-  void onUndoDelete(@SuppressWarnings("unused") ClickEvent event) {
+  void onUndoDelete(ClickEvent event) {
     isDeleted = false;
     deleted.getStyle().setDisplay(Display.NONE);
     normal.getStyle().setDisplay(Display.BLOCK);

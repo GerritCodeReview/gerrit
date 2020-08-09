@@ -159,7 +159,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   @UiHandler("edit")
-  void onEdit(@SuppressWarnings("unused") ClickEvent event) {
+  void onEdit(ClickEvent event) {
     resetEditors();
 
     edit.setEnabled(false);
@@ -184,12 +184,12 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   @UiHandler(value={"cancel1", "cancel2"})
-  void onCancel(@SuppressWarnings("unused") ClickEvent event) {
+  void onCancel(ClickEvent event) {
     Gerrit.display(PageLinks.toProjectAcceess(getProjectKey()));
   }
 
   @UiHandler("commit")
-  void onCommit(@SuppressWarnings("unused") ClickEvent event) {
+  void onCommit(ClickEvent event) {
     final ProjectAccess access = driver.flush();
 
     if (driver.hasErrors()) {
@@ -267,7 +267,7 @@ public class ProjectAccessScreen extends ProjectScreen {
   }
 
   @UiHandler("review")
-  void onReview(@SuppressWarnings("unused") ClickEvent event) {
+  void onReview(ClickEvent event) {
     final ProjectAccess access = driver.flush();
 
     if (driver.hasErrors()) {

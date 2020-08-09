@@ -193,7 +193,7 @@ class PatchSetSelectBox2 extends Composite {
   }
 
   @UiHandler("icon")
-  void onIconClick(@SuppressWarnings("unused") ClickEvent e) {
+  void onIconClick(ClickEvent e) {
     parent.getCmFromSide(side).scrollToY(0);
     parent.getCommentManager().insertNewDraft(side, 0);
   }

@@ -87,7 +87,7 @@ class CommitBox extends Composite {
   }
 
   @UiHandler("more")
-  void onMore(@SuppressWarnings("unused") ClickEvent e) {
+  void onMore(ClickEvent e) {
     if (expanded) {
       removeStyleName(style.expanded());
       addStyleName(style.collapsed());

@@ -128,7 +128,7 @@ public class Hashtags extends Composite {
   }
 
   @UiHandler("openForm")
-  void onOpenForm(@SuppressWarnings("unused") ClickEvent e) {
+  void onOpenForm(ClickEvent e) {
     onOpenForm();
   }
 
@@ -182,14 +182,14 @@ public class Hashtags extends Composite {
   }
 
   @UiHandler("cancel")
-  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
+  void onCancel(ClickEvent e) {
     openForm.setVisible(true);
     UIObject.setVisible(form, false);
     hashtagTextBox.setFocus(false);
   }
 
   @UiHandler("add")
-  void onAdd(@SuppressWarnings("unused") ClickEvent e) {
+  void onAdd(ClickEvent e) {
     String hashtag = hashtagTextBox.getText();
     if (!hashtag.isEmpty()) {
       addHashtag(hashtag);

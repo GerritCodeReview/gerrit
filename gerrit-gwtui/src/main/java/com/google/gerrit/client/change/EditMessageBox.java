@@ -80,7 +80,7 @@ class EditMessageBox extends Composite {
   }
 
   @UiHandler("save")
-  void onSave(@SuppressWarnings("unused") ClickEvent e) {
+  void onSave(ClickEvent e) {
     save.setEnabled(false);
     ChangeApi.message(changeId.get(), revision, message.getText().trim(),
         new GerritCallback<JavaScriptObject>() {
@@ -93,7 +93,7 @@ class EditMessageBox extends Composite {
   }
 
   @UiHandler("cancel")
-  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
+  void onCancel(ClickEvent e) {
     message.setText("");
     hide();
   }

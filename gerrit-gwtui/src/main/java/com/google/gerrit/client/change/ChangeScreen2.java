@@ -538,22 +538,22 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("includedIn")
-  void onIncludedIn(@SuppressWarnings("unused") ClickEvent e) {
+  void onIncludedIn(ClickEvent e) {
     includedInAction.show();
   }
 
   @UiHandler("download")
-  void onDownload(@SuppressWarnings("unused") ClickEvent e) {
+  void onDownload(ClickEvent e) {
     downloadAction.show();
   }
 
   @UiHandler("patchSets")
-  void onPatchSets(@SuppressWarnings("unused") ClickEvent e) {
+  void onPatchSets(ClickEvent e) {
     patchSetsAction.show();
   }
 
   @UiHandler("reply")
-  void onReply(@SuppressWarnings("unused") ClickEvent e) {
+  void onReply(ClickEvent e) {
     onReply();
   }
 
@@ -572,17 +572,17 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("editMessage")
-  void onEditMessage(@SuppressWarnings("unused") ClickEvent e) {
+  void onEditMessage(ClickEvent e) {
     editMessageAction.onEdit();
   }
 
   @UiHandler("openAll")
-  void onOpenAll(@SuppressWarnings("unused") ClickEvent e) {
+  void onOpenAll(ClickEvent e) {
     files.openAll();
   }
 
   @UiHandler("editMode")
-  void onEditMode(@SuppressWarnings("unused") ClickEvent e) {
+  void onEditMode(ClickEvent e) {
     fileTableMode = FileTable.Mode.EDIT;
     refreshFileTable();
     editMode.setVisible(false);
@@ -591,7 +591,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("reviewMode")
-  void onReviewMode(@SuppressWarnings("unused") ClickEvent e) {
+  void onReviewMode(ClickEvent e) {
     fileTableMode = FileTable.Mode.REVIEW;
     refreshFileTable();
     editMode.setVisible(true);
@@ -600,7 +600,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("addFile")
-  void onAddFile(@SuppressWarnings("unused") ClickEvent e) {
+  void onAddFile(ClickEvent e) {
     editFileAction.onEdit();
   }
 
@@ -613,7 +613,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("expandAll")
-  void onExpandAll(@SuppressWarnings("unused") ClickEvent e) {
+  void onExpandAll(ClickEvent e) {
     int n = history.getWidgetCount();
     for (int i = 0; i < n; i++) {
       ((Message) history.getWidget(i)).setOpen(true);
@@ -623,7 +623,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("collapseAll")
-  void onCollapseAll(@SuppressWarnings("unused") ClickEvent e) {
+  void onCollapseAll(ClickEvent e) {
     int n = history.getWidgetCount();
     for (int i = 0; i < n; i++) {
       ((Message) history.getWidget(i)).setOpen(false);
@@ -633,7 +633,7 @@ public class ChangeScreen2 extends Screen {
   }
 
   @UiHandler("diffBase")
-  void onChangeRevision(@SuppressWarnings("unused") ChangeEvent e) {
+  void onChangeRevision(ChangeEvent e) {
     int idx = diffBase.getSelectedIndex();
     if (0 <= idx) {
       String n = diffBase.getValue(idx);

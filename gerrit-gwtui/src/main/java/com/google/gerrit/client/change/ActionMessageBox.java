@@ -98,7 +98,7 @@ abstract class ActionMessageBox extends Composite {
   }
 
   @UiHandler("send")
-  void onSend(@SuppressWarnings("unused") ClickEvent e) {
+  void onSend(ClickEvent e) {
     send(message.getValue().trim());
   }
 }

@@ -194,7 +194,7 @@ class PreferencesBox extends Composite {
   }
 
   @UiHandler("ignoreWhitespace")
-  void onIgnoreWhitespace(@SuppressWarnings("unused") ChangeEvent e) {
+  void onIgnoreWhitespace(ChangeEvent e) {
     prefs.ignoreWhitespace(Whitespace.valueOf(
         ignoreWhitespace.getValue(ignoreWhitespace.getSelectedIndex())));
     view.reloadDiffInfo();
@@ -347,7 +347,7 @@ class PreferencesBox extends Composite {
   }
 
   @UiHandler("mode")
-  void onMode(@SuppressWarnings("unused") ChangeEvent e) {
+  void onMode(ChangeEvent e) {
     final String m = mode.getValue(mode.getSelectedIndex());
     prefs.syntaxHighlighting(true);
     syntaxHighlighting.setValue(true, false);
@@ -389,7 +389,7 @@ class PreferencesBox extends Composite {
   }
 
   @UiHandler("theme")
-  void onTheme(@SuppressWarnings("unused") ChangeEvent e) {
+  void onTheme(ChangeEvent e) {
     prefs.theme(Theme.valueOf(theme.getValue(theme.getSelectedIndex())));
     view.setThemeStyles(prefs.theme().isDark());
     view.operation(new Runnable() {
@@ -403,12 +403,12 @@ class PreferencesBox extends Composite {
   }
 
   @UiHandler("apply")
-  void onApply(@SuppressWarnings("unused") ClickEvent e) {
+  void onApply(ClickEvent e) {
     close();
   }
 
   @UiHandler("save")
-  void onSave(@SuppressWarnings("unused") ClickEvent e) {
+  void onSave(ClickEvent e) {
     AccountApi.putDiffPreferences(prefs, new GerritCallback<DiffPreferences>() {
       @Override
       public void onSuccess(DiffPreferences result) {

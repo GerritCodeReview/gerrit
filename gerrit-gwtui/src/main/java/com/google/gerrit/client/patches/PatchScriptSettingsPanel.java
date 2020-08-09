@@ -230,12 +230,12 @@ public class PatchScriptSettingsPanel extends Composite {
   }
 
   @UiHandler("update")
-  void onUpdate(@SuppressWarnings("unused") ClickEvent event) {
+  void onUpdate(ClickEvent event) {
     update();
   }
 
   @UiHandler("save")
-  void onSave(@SuppressWarnings("unused") ClickEvent event) {
+  void onSave(ClickEvent event) {
     save();
   }
 

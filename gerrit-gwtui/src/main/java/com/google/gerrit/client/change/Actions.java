@@ -185,7 +185,7 @@ class Actions extends Composite {
   }
 
   @UiHandler("followUp")
-  void onFollowUp(@SuppressWarnings("unused") ClickEvent e) {
+  void onFollowUp(ClickEvent e) {
     if (followUpAction == null) {
       followUpAction = new FollowUpAction(followUp, project,
           branch, key);
@@ -194,7 +194,7 @@ class Actions extends Composite {
   }
 
   @UiHandler("abandon")
-  void onAbandon(@SuppressWarnings("unused") ClickEvent e) {
+  void onAbandon(ClickEvent e) {
     if (abandonAction == null) {
       abandonAction = new AbandonAction(abandon, changeId);
     }
@@ -202,37 +202,37 @@ class Actions extends Composite {
   }
 
   @UiHandler("publish")
-  void onPublish(@SuppressWarnings("unused") ClickEvent e) {
+  void onPublish(ClickEvent e) {
     DraftActions.publish(changeId, revision);
   }
 
   @UiHandler("deleteEdit")
-  void onDeleteEdit(@SuppressWarnings("unused") ClickEvent e) {
+  void onDeleteEdit(ClickEvent e) {
     EditActions.deleteEdit(changeId);
   }
 
   @UiHandler("publishEdit")
-  void onPublishEdit(@SuppressWarnings("unused") ClickEvent e) {
+  void onPublishEdit(ClickEvent e) {
     EditActions.publishEdit(changeId);
   }
 
   @UiHandler("rebaseEdit")
-  void onRebaseEdit(@SuppressWarnings("unused") ClickEvent e) {
+  void onRebaseEdit(ClickEvent e) {
     EditActions.rebaseEdit(changeId);
   }
 
   @UiHandler("deleteRevision")
-  void onDeleteRevision(@SuppressWarnings("unused") ClickEvent e) {
+  void onDeleteRevision(ClickEvent e) {
     DraftActions.delete(changeId, revision);
   }
 
   @UiHandler("deleteChange")
-  void onDeleteChange(@SuppressWarnings("unused") ClickEvent e) {
+  void onDeleteChange(ClickEvent e) {
     DraftActions.delete(changeId);
   }
 
   @UiHandler("restore")
-  void onRestore(@SuppressWarnings("unused") ClickEvent e) {
+  void onRestore(ClickEvent e) {
     if (restoreAction == null) {
       restoreAction = new RestoreAction(restore, changeId);
     }
@@ -240,22 +240,22 @@ class Actions extends Composite {
   }
 
   @UiHandler("rebase")
-  void onRebase(@SuppressWarnings("unused") ClickEvent e) {
+  void onRebase(ClickEvent e) {
     RebaseAction.call(changeId, revision);
   }
 
   @UiHandler("submit")
-  void onSubmit(@SuppressWarnings("unused") ClickEvent e) {
+  void onSubmit(ClickEvent e) {
     SubmitAction.call(changeInfo, changeInfo.revision(revision));
   }
 
   @UiHandler("cherrypick")
-  void onCherryPick(@SuppressWarnings("unused") ClickEvent e) {
+  void onCherryPick(ClickEvent e) {
     CherryPickAction.call(cherrypick, changeInfo, revision, project, message);
   }
 
   @UiHandler("revert")
-  void onRevert(@SuppressWarnings("unused") ClickEvent e) {
+  void onRevert(ClickEvent e) {
     RevertAction.call(revert, changeId, revision, subject);
   }
 

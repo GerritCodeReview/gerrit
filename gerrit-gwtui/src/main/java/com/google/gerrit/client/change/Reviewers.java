@@ -127,7 +127,7 @@ public class Reviewers extends Composite {
   }
 
   @UiHandler("openForm")
-  void onOpenForm(@SuppressWarnings("unused") ClickEvent e) {
+  void onOpenForm(ClickEvent e) {
     onOpenForm();
   }
 
@@ -139,7 +139,7 @@ public class Reviewers extends Composite {
   }
 
   @UiHandler("add")
-  void onAdd(@SuppressWarnings("unused") ClickEvent e) {
+  void onAdd(ClickEvent e) {
     String reviewer = suggestBox.getText();
     if (!reviewer.isEmpty()) {
       addReviewer(reviewer, false);
@@ -147,13 +147,13 @@ public class Reviewers extends Composite {
   }
 
   @UiHandler("addme")
-  void onAddMe(@SuppressWarnings("unused") ClickEvent e) {
+  void onAddMe(ClickEvent e) {
     String accountId = String.valueOf(Gerrit.getUserAccountInfo()._account_id());
     addReviewer(accountId, false);
   }
 
   @UiHandler("cancel")
-  void onCancel(@SuppressWarnings("unused") ClickEvent e) {
+  void onCancel(ClickEvent e) {
     openForm.setVisible(true);
     UIObject.setVisible(form, false);
     suggestBox.setFocus(false);

@@ -187,6 +187,30 @@
       "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cd22b0c_32c13b9a",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-10T12:51:51Z",
+      "side": 1,
+      "message": "Yes - the tests added to GetAccountIT perform the required tests.\n\nSorry, I meant AccountIT#create not AccountInfo, so nit: assertThat(accountInfo.tags()).isNull() (in that test).",
+      "parentUuid": "5d453dad_03e8fd55",
+      "range": {
+        "startLine": 43,
+        "startChar": 14,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

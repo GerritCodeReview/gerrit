@@ -84,6 +84,11 @@ public class MigrateToNoteDb extends SiteProgram {
               + " were previously migrated")
   private boolean force;
 
+  @Option(
+      name = "--force-state-change-with-skip",
+      usage = "Force state change of the migration if projects are skipped")
+  private boolean forceStateChangeWithSkip;
+
   @Option(name = "--trial", usage = TRIAL_USAGE)
   private boolean trial;
 
@@ -145,10 +150,13 @@ public class MigrateToNoteDb extends SiteProgram {
               .setChanges(changes.stream().map(Change.Id::new).collect(toList()))
               .setTrialMode(trial)
               .setForceRebuild(force)
+              .setForceStateChangeWithSkip(forceStateChangeWithSkip)
               .setSequenceGap(sequenceGap)
               .setVerbose(verbose)
               .build()) {
-        if (!projects.isEmpty() || !changes.isEmpty() || !skipProjects.isEmpty()) {
+        if (!projects.isEmpty()
+            || !changes.isEmpty()
+            || (!forceStateChangeWithSkip && !skipProjects.isEmpty())) {
           migrator.rebuild();
         } else {
           migrator.migrate();

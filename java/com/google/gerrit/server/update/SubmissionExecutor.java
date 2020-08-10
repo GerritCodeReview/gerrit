@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
@@ -37,12 +38,21 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SubmissionExecutor {
+/**
+ * Runs a collection of BatchUpdates as a Submission.
+ *
+ * <p>The submission progress is reported through the {@link Submission} interfaces (provided by
+ * {@link GitRepositoryManager}).
+ */
+class SubmissionExecutor {
 
-  private SubmissionExecutor() {}
+  private GitRepositoryManager repoManager;
 
-  public static void execute(
-      Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
+  SubmissionExecutor(GitRepositoryManager repoManager) {
+    this.repoManager = repoManager;
+  }
+
+  public void execute(Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
     requireNonNull(listener);
     if (updates.isEmpty()) {
@@ -54,13 +64,16 @@ public class SubmissionExecutor {
     try {
       List<ListenableFuture<?>> indexFutures = new ArrayList<>();
       List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
+      Submission.Preparation submissionPreparation = repoManager.newSubmission();
       try {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
+          submissionPreparation.prepareFor(u.getRepoView().getRepository(), u.getRefUpdates());
         }
+        Submission submission = submissionPreparation.finish();
         listener.afterUpdateRepos();
         for (BatchUpdate u : updates) {
-          changesHandles.add(u.executeChangeOps(dryrun));
+          changesHandles.add(u.executeChangeOps(submission, dryrun));
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
@@ -68,6 +81,7 @@ public class SubmissionExecutor {
         }
         listener.afterUpdateRefs();
         listener.afterUpdateChanges();
+        submission.finish();
       } finally {
         for (ChangesHandle h : changesHandles) {
           h.close();

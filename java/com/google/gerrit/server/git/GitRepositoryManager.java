@@ -15,6 +15,8 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.update.Submission;
+import com.google.gerrit.server.update.UntrackedSubmission;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
@@ -54,6 +56,16 @@ public interface GitRepositoryManager {
    */
   Repository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException, IOException;
+
+  /**
+   * Get the object to track a submission.
+   *
+   * @return an instance of a Submission.Preparation interface, used to define the {@link
+   *     Submission}.
+   */
+  default Submission.Preparation newSubmission() {
+    return new UntrackedSubmission.Preparation();
+  }
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();

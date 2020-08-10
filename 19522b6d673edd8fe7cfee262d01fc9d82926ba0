@@ -51,6 +51,24 @@
       "revId": "19522b6d673edd8fe7cfee262d01fc9d82926ba0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "97d21485_fedd3588",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label_html.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-10T07:39:47Z",
+      "side": 1,
+      "message": "Done. https://gerrit-review.googlesource.com/c/gerrit/+/278254",
+      "parentUuid": "c4406c1f_688693aa",
+      "revId": "19522b6d673edd8fe7cfee262d01fc9d82926ba0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

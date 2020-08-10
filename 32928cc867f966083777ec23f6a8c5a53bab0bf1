@@ -54,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "43143d5e_01581336",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-10T11:16:38Z",
+      "side": 1,
+      "message": "\u003e I did something like this in the next changes. This works for every command except for suexec, where I couldn\u0027t find a way yet to propagate the requirement of a graceful shutdown from the child command to the suexec command itself.\n\u003e \n\u003e If the approach in those changes is accepted by the reviewers, I will also adapt the remaining commands, not just git commands and \u0027apropos\u0027.\n\nI believe the approach is fine, let\u0027s just wait for the Mina/SSHD team coming back on the option to add this mechanism in their stack rather than ours.\n\nHowever, *IF* they do that change they should make it \"selective\" so that we can define on a per-command policy, so that we won\u0027t wait for long-running commands like stream-events.",
+      "parentUuid": "f202b26b_c7139db0",
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10366f41_3b62149d",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8

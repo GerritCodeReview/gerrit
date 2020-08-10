@@ -183,6 +183,7 @@ public class NoteDbMigrator implements AutoCloseable {
     private NotesMigrationState stopAtState;
     private boolean trial;
     private boolean forceRebuild;
+    private boolean forceStateChangeWithSkip;
     private int sequenceGap = -1;
     private boolean autoMigrate;
     private boolean verbose;
@@ -350,6 +351,21 @@ public class NoteDbMigrator implements AutoCloseable {
     }
 
     /**
+     * Force state change to next migration state if some projects were skipped.
+     *
+     * <p>This makes sense when the skipped projects are migrated in a copy of the site and migrated
+     * data will be transported using git fetch.
+     *
+     * @param forceStateChangeWithSkip whether state change to next migration state should be
+     *     enforced if some projects were skipped.
+     * @return this.
+     */
+    public Builder setForceStateChangeWithSkip(boolean forceStateChangeWithSkip) {
+      this.forceStateChangeWithSkip = forceStateChangeWithSkip;
+      return this;
+    }
+
+    /**
      * Gap between ReviewDb change sequence numbers and NoteDb.
      *
      * <p>If NoteDb sequences are enabled in a running server, there is a race between the migration
@@ -427,6 +443,7 @@ public class NoteDbMigrator implements AutoCloseable {
           projectCache,
           trial,
           forceRebuild,
+          forceStateChangeWithSkip,
           sequenceGap >= 0 ? sequenceGap : Sequences.getChangeSequenceGap(cfg),
           autoMigrate,
           verbose);
@@ -489,6 +506,7 @@ public class NoteDbMigrator implements AutoCloseable {
   private final NotesMigrationState stopAtState;
   private final boolean trial;
   private final boolean forceRebuild;
+  private final boolean forceStateChangeWithSkip;
   private final int sequenceGap;
   private final boolean autoMigrate;
   private final boolean verbose;
@@ -520,6 +538,7 @@ public class NoteDbMigrator implements AutoCloseable {
       ProjectCache projectCache,
       boolean trial,
       boolean forceRebuild,
+      boolean forceStateChangeWithSkip,
       int sequenceGap,
       boolean autoMigrate,
       boolean verbose)
@@ -555,6 +574,7 @@ public class NoteDbMigrator implements AutoCloseable {
     this.stopAtState = stopAtState;
     this.trial = trial;
     this.forceRebuild = forceRebuild;
+    this.forceStateChangeWithSkip = forceStateChangeWithSkip;
     this.sequenceGap = sequenceGap;
     this.autoMigrate = autoMigrate;
     this.verbose = verbose;
@@ -571,7 +591,9 @@ public class NoteDbMigrator implements AutoCloseable {
   }
 
   public void migrate() throws OrmException, IOException {
-    if (!changes.isEmpty() || !projects.isEmpty() || !skipProjects.isEmpty()) {
+    if (!changes.isEmpty()
+        || !projects.isEmpty()
+        || (!forceStateChangeWithSkip && !skipProjects.isEmpty())) {
       throw new MigrationException(
           "Cannot set changes or projects or skipProjects during full migration; call rebuild()"
               + " instead");
@@ -685,7 +707,9 @@ public class NoteDbMigrator implements AutoCloseable {
   private NotesMigrationState setNoteDbPrimary(NotesMigrationState prev)
       throws MigrationException, OrmException, IOException {
     checkState(
-        projects.isEmpty() && changes.isEmpty() && skipProjects.isEmpty(),
+        projects.isEmpty()
+            && changes.isEmpty()
+            && (forceStateChangeWithSkip || skipProjects.isEmpty()),
         "Should not have attempted setNoteDbPrimary with a subset of changes");
     checkState(
         prev == READ_WRITE_WITH_SEQUENCE_REVIEW_DB_PRIMARY
@@ -701,7 +725,15 @@ public class NoteDbMigrator implements AutoCloseable {
     logger.atInfo().log("Setting primary storage to NoteDb");
     List<Change.Id> allChanges;
     try (ReviewDb db = unwrapDb(schemaFactory.open())) {
-      allChanges = Streams.stream(db.changes().all()).map(Change::getId).collect(toList());
+      if (forceStateChangeWithSkip) {
+        allChanges =
+            Streams.stream(db.changes().all())
+                .filter(c -> !skipProjects.contains(c.getProject()))
+                .map(Change::getId)
+                .collect(toList());
+      } else {
+        allChanges = Streams.stream(db.changes().all()).map(Change::getId).collect(toList());
+      }
     }
 
     try (ContextHelper contextHelper = new ContextHelper()) {

@@ -120,7 +120,7 @@ public class ListProjectsIT extends AbstractDaemonTest {
       assertThatNameList(gApi.projects().list().withPrefix(pre).withLimit(i).get())
           .hasSize(Math.min(i, n));
       assertThat(projectCacheImpl.sizeAllByName())
-          .isAtMost((long) (i + 2)); // 2 = AllProjects + AllUsers
+          .isAtMost(n + 2); // 2 = AllProjects + AllUsers
     }
   }
 

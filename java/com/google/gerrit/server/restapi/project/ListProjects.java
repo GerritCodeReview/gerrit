@@ -16,6 +16,7 @@ package com.google.gerrit.server.restapi.project;
 
 import static com.google.common.base.Strings.emptyToNull;
 import static com.google.common.base.Strings.isNullOrEmpty;
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.Ordering.natural;
 import static com.google.gerrit.extensions.client.ProjectState.HIDDEN;
 import static java.nio.charset.StandardCharsets.UTF_8;
@@ -434,8 +435,8 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      Iterable<ProjectState> projectStatesIt = filter(perm)::iterator;
-      for (ProjectState e : projectStatesIt) {
+      ImmutableList<ProjectState> projectStates = filter(perm).collect(toImmutableList());
+      for (ProjectState e : projectStates) {
         Project.NameKey projectName = e.getNameKey();
         if (e.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
           // If we can't get it from the cache, pretend it's not present.

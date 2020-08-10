@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+import 'ba-linkify/ba-linkify';
 import {getBaseUrl} from '../../../utils/url-util';
 import {CommentLinkInfo} from '../../../types/common';
 

@@ -19,6 +19,41 @@
     },
     {
       "key": {
+        "uuid": "978eb26f_5a7b2824",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-10T11:07:50Z",
+      "side": 1,
+      "message": "I am also currently working on some tests for this.",
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f202b26b_c7139db0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-10T11:07:50Z",
+      "side": 1,
+      "message": "I did something like this in the next changes. This works for every command except for suexec, where I couldn\u0027t find a way yet to propagate the requirement of a graceful shutdown from the child command to the suexec command itself.\n\nIf the approach in those changes is accepted by the reviewers, I will also adapt the remaining commands, not just git commands and \u0027apropos\u0027.",
+      "parentUuid": "a2c166fb_3839ce9d",
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10366f41_3b62149d",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8

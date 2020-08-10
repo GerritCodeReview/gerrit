@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7826b8f_5b43b087",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d541ce2_84ee0519",
+      "range": {
+        "startLine": 20,
+        "startChar": 52,
+        "endLine": 20,
+        "endChar": 59
+      },
+      "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d63b0d4_92d949ab",
         "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55ba5b73_081707cd",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d63b0d4_92d949ab",
+      "range": {
+        "startLine": 32,
+        "startChar": 52,
+        "endLine": 32,
+        "endChar": 61
+      },
+      "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ba7baca2_e68c27f1",
+        "filename": "java/com/google/gerrit/extensions/common/AccountInfo.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T12:40:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b019efe6_ba2fb1c7",
+      "range": {
+        "startLine": 76,
+        "startChar": 45,
+        "endLine": 76,
+        "endChar": 52
+      },
+      "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2a7d9ce8_c9740ab2",
         "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
         "patchSetId": 1
@@ -82,6 +154,30 @@
       "writtenOn": "2020-08-07T14:50:00Z",
       "side": 1,
       "message": "We could use a few more tests in AccountInfo#create and/or GetAccountIT#getUbactuveAccount to assert that accountInfo.attributes is null.\n\nAlso, optionally, I would use another test similar to this that uses accountOperations rather than adminRestSession.",
+      "range": {
+        "startLine": 43,
+        "startChar": 14,
+        "endLine": 43,
+        "endChar": 37
+      },
+      "revId": "c514ec00c4abaf935b3173d1e3afa776197caa2b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d453dad_03e8fd55",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/account/GetAccountDetailIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T12:40:33Z",
+      "side": 1,
+      "message": "\u003e We could use a few more tests in AccountInfo#create\n\nI am not following here: AccountInfo#create isn\u0027t a test class. Where would you want to see more tests?\n\n\u003e GetAccountIT#getUbactuveAccount to assert that accountInfo.attributes is null.\n\nGood idea. Done.\n\n\u003e accountOperations rather than adminRestSession\n\nI am not following here: accountOperations is a test helper that allows to create and update test accounts (similar to groupOperations). adminRestSession is very different from that, it allows to send queries to the API using JSON serialization. I added a test in GetAccountIT that checks for attributes on service users against the Java API and amended TestAccount to carry those. Is that what you meant?",
+      "parentUuid": "2a7d9ce8_c9740ab2",
       "range": {
         "startLine": 43,
         "startChar": 14,

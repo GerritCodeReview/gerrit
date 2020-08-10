@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "fcc63992_25533390",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-10T12:39:05Z",
+      "side": 1,
+      "message": "LGTM. Left minor comments.",
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c782db3_929a9345",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 1
@@ -64,6 +81,98 @@
         "startChar": 48,
         "endLine": 116,
         "endChar": 52
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "81f73d25_b4cb7c18",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-10T12:39:05Z",
+      "side": 1,
+      "message": "Why did you rename this to \"ignored\"? also the other one in the persisted cache?",
+      "range": {
+        "startLine": 356,
+        "startChar": 22,
+        "endLine": 356,
+        "endChar": 29
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b42445d_9c50c7f6",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-10T12:39:05Z",
+      "side": 1,
+      "message": "This field (globalConfigfRevision) is not used by the loader. What is the reason to include it in the key?",
+      "range": {
+        "startLine": 365,
+        "startChar": 10,
+        "endLine": 365,
+        "endChar": 89
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "648fe114_0bf2bb61",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-10T12:39:05Z",
+      "side": 1,
+      "message": "There is nothing in the test asserting that the cache is invalidated. I see the only thing done in this test is to check for the hashed content of the AllProjects project.\n\nShould the test be renamed to something else?",
+      "range": {
+        "startLine": 826,
+        "startChar": 14,
+        "endLine": 826,
+        "endChar": 75
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0fa7354_63c5cbd2",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-10T12:39:05Z",
+      "side": 1,
+      "message": "I\u0027d add a comment that hashedContents is equivalent to an empty config.",
+      "range": {
+        "startLine": 832,
+        "startChar": 41,
+        "endLine": 832,
+        "endChar": 53
       },
       "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

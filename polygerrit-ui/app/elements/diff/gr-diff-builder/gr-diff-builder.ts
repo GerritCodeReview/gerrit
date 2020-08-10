@@ -443,7 +443,7 @@ export abstract class GrDiffBuilder {
 
   _decorateLineEl(el: HTMLElement, number: LineNumber, side: Side) {
     el.classList.add(side);
-    el.dataset.value = number.toString();
+    el.dataset['value'] = number.toString();
   }
 
   _createTextEl(

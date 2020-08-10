@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "ed4aa891_1aa833dc",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T11:38:10Z",
+      "side": 1,
+      "message": "As far as this change goes, it doesn\u0027t change the interim solution. It just renames a group. The next change in the series changes the interim solution and remove this comment :-)",
+      "parentUuid": "49207df5_56598a5e",
+      "range": {
+        "startLine": 51,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 0
+      },
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2dc066af_67474a05",
         "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
         "patchSetId": 1
@@ -86,6 +110,30 @@
       "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46b615e9_8fff3e13",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T11:38:10Z",
+      "side": 1,
+      "message": "Correct, so I\u0027d leave this as-is for now. For the sub-group approach to work, we\u0027ll need I0f52c011 but we\u0027ll just merge all changes at at the same time.",
+      "parentUuid": "b48e4aa9_5e711b5d",
+      "range": {
+        "startLine": 55,
+        "startChar": 45,
+        "endLine": 55,
+        "endChar": 66
+      },
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

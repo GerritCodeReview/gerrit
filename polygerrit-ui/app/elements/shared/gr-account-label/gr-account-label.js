@@ -74,6 +74,12 @@ class GrAccountLabel extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
+      cancelLeftPadding: {
+        type: Boolean,
+        value: false,
+        reflectToAttribute: true,
+        computed: '_computeCancelLeftPadding(hideAvatar, _config, highlightAttention, account, change, forceAttention)',
+      },
       hideStatus: {
         type: Boolean,
         value: false,
@@ -98,6 +104,12 @@ class GrAccountLabel extends GestureEventListeners(
     return !!config && !!config.change
         && !!config.change.enable_attention_set
         && !!highlight && !!change && !!account;
+  }
+
+  _computeCancelLeftPadding(
+      hideAvatar, config, highlight, account, change, force) {
+    return !hideAvatar &&
+        !this._hasAttention(config, highlight, account, change, force);
   }
 
   _hasAttention(config, highlight, account, change, force) {

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6662a870_0ec93ec1",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-10T14:26:56Z",
+      "side": 1,
+      "message": "seeing BFS implemented in production code makes me happy",
+      "range": {
+        "startLine": 67,
+        "startChar": 12,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c037d67d_3ba272a1",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-10T14:26:56Z",
+      "side": 1,
+      "message": "Isn\u0027t it \"Service Users or a subgroup of Service Users\"?",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 25
+      },
+      "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ac30ffd_cfcd39f3",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-10T14:26:56Z",
+      "side": 1,
+      "message": "Is it possible that A is a subgroup of B, B is a subgroup of C, and C is a subgroup of A? Can a group a subgroup of itself? Cyclic dependency will make your BFS infinite.\n\nI hope it\u0027s not possible, but was worth mentioning. Consider testing this in case we at some point allow this (or use \"visited groups\" set in the implementation).",
+      "range": {
+        "startLine": 87,
+        "startChar": 17,
+        "endLine": 87,
+        "endChar": 23
+      },
+      "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

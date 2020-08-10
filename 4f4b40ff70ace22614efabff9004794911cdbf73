@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c2fa209_9df6f562",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0263d64_8aa46060",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 11
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fcc63992_25533390",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "4922b060_1304d31d",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 1072,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8c782db3_929a9345",
+      "range": {
+        "startLine": 1072,
+        "startChar": 22,
+        "endLine": 1072,
+        "endChar": 31
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9fe61de1_b4a83d44",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -85,6 +133,30 @@
       "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbfa3918_fdf878d1",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9fe61de1_b4a83d44",
+      "range": {
+        "startLine": 116,
+        "startChar": 48,
+        "endLine": 116,
+        "endChar": 52
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "70a21026_e1167655",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 356,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "The variable isn\u0027t used, so IntelliJ marks it as unused. If you call it ignored, it won\u0027t mark it as unused (we do that in other places as well).",
+      "parentUuid": "81f73d25_b4cb7c18",
+      "range": {
+        "startLine": 356,
+        "startChar": 22,
+        "endLine": 356,
+        "endChar": 29
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2b42445d_9c50c7f6",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 1
@@ -131,6 +227,30 @@
       "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24765788_f34de6da",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "ProjectConfig uses it as baseConfig for All-Projects. So if it changes, we need to disregard the serialized variant.",
+      "parentUuid": "2b42445d_9c50c7f6",
+      "range": {
+        "startLine": 365,
+        "startChar": 10,
+        "endLine": 365,
+        "endChar": 89
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "9bfdf3c3_4202ed1e",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "648fe114_0bf2bb61",
+      "range": {
+        "startLine": 826,
+        "startChar": 14,
+        "endLine": 826,
+        "endChar": 75
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c0fa7354_63c5cbd2",
         "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
         "patchSetId": 1
@@ -180,6 +324,30 @@
     },
     {
       "key": {
+        "uuid": "b4f2561d_0adf5591",
+        "filename": "javatests/com/google/gerrit/server/project/ProjectConfigTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 832,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0fa7354_63c5cbd2",
+      "range": {
+        "startLine": 832,
+        "startChar": 41,
+        "endLine": 832,
+        "endChar": 53
+      },
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e6b994aa_6c51a229",
         "filename": "proto/cache.proto",
         "patchSetId": 1
@@ -194,6 +362,24 @@
       "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "609f12e2_a7675c67",
+        "filename": "proto/cache.proto",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T13:43:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6b994aa_6c51a229",
+      "revId": "4f4b40ff70ace22614efabff9004794911cdbf73",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

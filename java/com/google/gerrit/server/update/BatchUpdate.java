@@ -25,6 +25,7 @@ import com.google.common.base.Throwables;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.flogger.FluentLogger;
@@ -287,7 +288,16 @@ public class BatchUpdate implements AutoCloseable {
   public static void execute(
       Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
-    SubmissionExecutor.execute(updates, listener, dryrun);
+    if (updates.isEmpty()) {
+      return;
+    }
+
+    // TODO: mark this method deprecated. Inject SubmissionExecutor directly in the caller.
+    // Until then, read the repoManager from the first BatchUpdate. It is a global singleton.
+    @SuppressWarnings("resource")
+    GitRepositoryManager repoManager = Iterables.get(updates, 0).repoManager;
+    SubmissionExecutor executor = new SubmissionExecutor(repoManager);
+    executor.execute(updates, listener, dryrun);
   }
 
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
@@ -484,7 +494,7 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  ChangesHandle executeChangeOps(boolean dryrun) throws Exception {
+  ChangesHandle executeChangeOps(SubmissionContext submissionCtx, boolean dryrun) throws Exception {
     logDebug("Executing change ops");
     initRepository();
     Repository repo = repoView.getRepository();
@@ -497,6 +507,7 @@ public class BatchUpdate implements AutoCloseable {
         new ChangesHandle(
             updateManagerFactory
                 .create(project)
+                .setSubmissionContext(submissionCtx)
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);

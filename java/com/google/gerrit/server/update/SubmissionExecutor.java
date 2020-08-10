@@ -13,19 +13,33 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.LimitExceededException;
 import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
 import com.google.gerrit.server.update.BatchUpdate.ChangesHandle;
+import com.google.gerrit.server.update.Submission.Builder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SubmissionExecutor {
-  public static void execute(
-      Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
+/**
+ * Runs a collection of BatchUpdates as a Submission.
+ *
+ * <p>The submission progress is reported through the {@link Submission} interfaces (provided by
+ * {@link GitRepositoryManager}).
+ */
+class SubmissionExecutor {
+
+  private GitRepositoryManager repoManager;
+
+  SubmissionExecutor(GitRepositoryManager repoManager) {
+    this.repoManager = repoManager;
+  }
+
+  public void execute(Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
       throws UpdateException, RestApiException {
     requireNonNull(listener);
     if (updates.isEmpty()) {
@@ -37,13 +51,16 @@ public class SubmissionExecutor {
     try {
       List<ListenableFuture<?>> indexFutures = new ArrayList<>();
       List<ChangesHandle> changesHandles = new ArrayList<>(updates.size());
+      Builder submissionBuilder = repoManager.createSubmissionBuilder();
       try {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
+          submissionBuilder.addEntry(repoManager.openRepository(u.getProject()), u.getRefUpdates());
         }
+        Submission submission = submissionBuilder.done();
         listener.afterUpdateRepos();
         for (BatchUpdate u : updates) {
-          changesHandles.add(u.executeChangeOps(dryrun));
+          changesHandles.add(u.executeChangeOps(submission.getSubmissionContext(), dryrun));
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
@@ -51,6 +68,7 @@ public class SubmissionExecutor {
         }
         listener.afterUpdateRefs();
         listener.afterUpdateChanges();
+        submission.completed();
       } finally {
         for (ChangesHandle h : changesHandles) {
           h.close();

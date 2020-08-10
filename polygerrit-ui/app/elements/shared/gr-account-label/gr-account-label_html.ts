@@ -30,6 +30,14 @@ export const htmlTemplate = html`
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      padding: 0 var(--account-label-padding-horizontal, 0);
+    }
+    /* If the first element is the avatar, then we cancel the left padding, so
+       we can fit nicely into the gr-account-chip rounding.
+       The obvious alternative of 'chip has padding' and 'avatar gets negative
+       margin' does not work, because we need 'overflow:hidden' on the label. */
+    :host([cancel-left-padding]) {
+      padding-left: 0;
     }
     :host::after {
       content: var(--account-label-suffix);
@@ -52,7 +60,9 @@ export const htmlTemplate = html`
     gr-avatar {
       height: calc(var(--line-height-normal) - 2px);
       width: calc(var(--line-height-normal) - 2px);
-      vertical-align: sub;
+      vertical-align: top;
+      position: relative;
+      top: 1px;
     }
     .text {
       @apply --gr-account-label-text-style;
@@ -66,7 +76,6 @@ export const htmlTemplate = html`
       vertical-align: top;
       position: relative;
       top: 4px;
-      padding-left: calc(1.5 * var(--spacing-s));
     }
     iron-icon.status {
       width: 14px;

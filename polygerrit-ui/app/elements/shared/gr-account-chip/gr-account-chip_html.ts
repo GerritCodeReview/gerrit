@@ -29,17 +29,16 @@ export const htmlTemplate = html`
       border-radius: var(--account-chip-border-radius, 20px);
       border: 1px solid var(--border-color);
       display: inline-flex;
-      padding: 0 var(--spacing-l);
+      padding: 0 1px;
 
+      --account-label-padding-horizontal: 6px;
       --gr-account-label-text-style: {
         color: var(--deemphasized-text-color);
       }
     }
     :host([show-avatar]) .container {
-      padding-left: var(--spacing-xs);
     }
     :host([removable]) .container {
-      padding-right: calc(1.5 * var(--spacing-s));
     }
     gr-button.remove {
       --gr-remove-button-style: {
@@ -48,8 +47,9 @@ export const htmlTemplate = html`
         font-weight: var(--font-weight-normal);
         height: 0.6em;
         line-height: 10px;
-        margin-left: var(--spacing-xs);
-        padding: 0;
+        /* This cancels most of the --account-label-padding-horizontal. */
+        margin-left: -4px;
+        padding: 0 2px 0 0;
         text-decoration: none;
       }
     }

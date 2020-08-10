@@ -171,9 +171,6 @@ export const htmlTemplate = html`
       user-select: none;
       --label-border-radius: 8px;
     }
-    .attention-detail gr-account-label[selected] {
-      padding-left: 2px;
-    }
     .attention-detail gr-account-label:focus {
       outline: none;
     }

@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "566e7787_b3aca323",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T16:11:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c037d67d_3ba272a1",
+      "range": {
+        "startLine": 79,
+        "startChar": 12,
+        "endLine": 79,
+        "endChar": 25
+      },
+      "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ac30ffd_cfcd39f3",
         "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
         "patchSetId": 3
@@ -68,6 +92,30 @@
       "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a4f3e2d_85d266b1",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-10T16:11:05Z",
+      "side": 1,
+      "message": "Good point. I am pretty sure we defend against that, but am a fan of defense-in-depth, so I added a logic to detect and throw when there\u0027s a cycle.",
+      "parentUuid": "9ac30ffd_cfcd39f3",
+      "range": {
+        "startLine": 87,
+        "startChar": 17,
+        "endLine": 87,
+        "endChar": 23
+      },
+      "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

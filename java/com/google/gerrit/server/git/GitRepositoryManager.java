@@ -15,11 +15,15 @@
 package com.google.gerrit.server.git;
 
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.server.update.NoOpSubmission;
+import com.google.gerrit.server.update.Submission;
+import com.google.gerrit.server.update.SubmissionContext;
 import com.google.inject.ImplementedBy;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.SortedSet;
 import org.eclipse.jgit.errors.RepositoryNotFoundException;
+import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.Repository;
 
 /**
@@ -54,6 +58,28 @@ public interface GitRepositoryManager {
    */
   Repository createRepository(Project.NameKey name)
       throws RepositoryCaseMismatchException, RepositoryNotFoundException, IOException;
+
+  /**
+   * Create a submission builder.
+   *
+   * @return an instance of a Submission builder.
+   */
+  default Submission.Builder createSubmissionBuilder() {
+    return new NoOpSubmission.Builder();
+  }
+
+  /**
+   * Links an ref update with a SubmissionContext. This is invoked after the BatchRefUpdate is
+   * configured but before is executed. How the BatchRefUpdate is altered is left to implementors.
+   * It can be a no-op.
+   *
+   * @param bru a BatchRefUpdate. Set up, but not executed yet.
+   * @param submissionCtx Information about the submission the {@param bru} belongs to.
+   * @return a BatchRefUpdate aware that it belong to a submission
+   */
+  default BatchRefUpdate attachToSubmission(BatchRefUpdate bru, SubmissionContext submissionCtx) {
+    return bru;
+  }
 
   /** @return set of all known projects, sorted by natural NameKey order. */
   SortedSet<Project.NameKey> list();

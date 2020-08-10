@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "603cd30e_bbd51f37",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-10T09:26:52Z",
+      "side": 1,
+      "message": "Parent has been ready.\nThis is ready for a +2.",
+      "revId": "9839cca0ade13c7e95190b7a132377753969b1f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -71,6 +71,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
@@ -434,8 +435,9 @@ public class ListProjects implements RestReadView<TopLevelResource> {
     PermissionBackend.WithUser perm = permissionBackend.user(currentUser);
     final TreeMap<Project.NameKey, ProjectNode> treeMap = new TreeMap<>();
     try {
-      Iterable<ProjectState> projectStatesIt = filter(perm)::iterator;
-      for (ProjectState e : projectStatesIt) {
+      Iterator<ProjectState> projectStatesIt = filter(perm).iterator();
+      while (projectStatesIt.hasNext()) {
+        ProjectState e = projectStatesIt.next();
         Project.NameKey projectName = e.getNameKey();
         if (e.getProject().getState() == HIDDEN && !all && state != HIDDEN) {
           // If we can't get it from the cache, pretend it's not present.

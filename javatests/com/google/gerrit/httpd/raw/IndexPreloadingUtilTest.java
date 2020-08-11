@@ -19,29 +19,31 @@ import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.computeChangeReque
 
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 
+@RunWith(JUnit4.class)
 public class IndexPreloadingUtilTest {
 
   @Test
   public void computeChangePath() throws Exception {
     assertThat(computeChangeRequestsPath("/c/project/+/123", RequestedPage.CHANGE).get())
-        .isEqualTo("changes/project~123");
+        .hasValue("changes/project~123");
 
     assertThat(computeChangeRequestsPath("/c/project/+/124/2", RequestedPage.CHANGE).get())
-        .isEqualTo("changes/project~124");
+        .hasValue("changes/project~124");
 
     assertThat(computeChangeRequestsPath("/c/project/src/+/23", RequestedPage.CHANGE).get())
-        .isEqualTo("changes/project%2Fsrc~23");
+        .hasValue("changes/project%2Fsrc~23");
 
     assertThat(computeChangeRequestsPath("/q/project/src/+/23", RequestedPage.CHANGE).isPresent())
-        .isEqualTo(false);
+        .isFalse();
 
     assertThat(
             computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", RequestedPage.CHANGE)
                 .isPresent())
-        .isEqualTo(false);
+        .isFalse();
     assertThat(
             computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", RequestedPage.DIFF).get())
-        .isEqualTo("changes/Scripts~232");
+        .hasValue("changes/Scripts~232");
   }
 }

@@ -118,6 +118,30 @@
     },
     {
       "key": {
+        "uuid": "55961962_6efa32c9",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T13:12:15Z",
+      "side": 1,
+      "message": "Thanks for the explanation. I didn\u0027t know about the other parts of Gerrit also using MurMur 128. Sticking with it here sounds fine.",
+      "parentUuid": "6ce85769_8d85d26e",
+      "range": {
+        "startLine": 320,
+        "startChar": 11,
+        "endLine": 320,
+        "endChar": 30
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2948ef88_c440ecb0",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 2
@@ -165,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "935e752d_84e4fa9f",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T13:12:15Z",
+      "side": 1,
+      "message": "Sounds good.",
+      "parentUuid": "64c4efb9_fd46b6b1",
+      "range": {
+        "startLine": 351,
+        "startChar": 38,
+        "endLine": 351,
+        "endChar": 99
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74bd3ef3_1d216fc1",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 2
@@ -200,6 +248,30 @@
       "side": 1,
       "message": "This wasn\u0027t possible before, but it\u0027s possible now. Done.\n\nWe could instead test the key creation and make sure that\u0027s different, but the new integration test is OK IMO.",
       "parentUuid": "74bd3ef3_1d216fc1",
+      "range": {
+        "startLine": 365,
+        "startChar": 10,
+        "endLine": 365,
+        "endChar": 42
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8e185422_15d44439",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T13:12:15Z",
+      "side": 1,
+      "message": "The new test looks good. :-)",
+      "parentUuid": "725249bf_21d26d0c",
       "range": {
         "startLine": 365,
         "startChar": 10,

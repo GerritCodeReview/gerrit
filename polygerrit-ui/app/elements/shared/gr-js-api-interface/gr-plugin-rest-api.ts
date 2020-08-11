@@ -18,17 +18,7 @@ import {
   ErrorCallback,
   RestApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
-
-/**
- * Enum for all http methods used in Gerrit.
- * TODO(TS): might move to common later.
- */
-export enum HttpMethod {
-  POST = 'POST',
-  GET = 'GET',
-  DELETE = 'DELETE',
-  PUT = 'PUT',
-}
+import {HttpMethod} from '../../../constants/constants';
 
 let restApi: RestApiService | null = null;
 

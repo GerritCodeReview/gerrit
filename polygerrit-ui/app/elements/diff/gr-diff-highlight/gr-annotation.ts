@@ -91,11 +91,12 @@ export const GrAnnotation = {
 
     const wrapper = document.createElement(tagName);
     const sanitizer = getSanitizeDOMValue();
-    for (const [name, value] of Object.entries(attributes)) {
-      wrapper.setAttribute(
-        name,
-        sanitizer ? sanitizer(value, name, 'attribute', wrapper) : value
-      );
+    for (let [name, value] of Object.entries(attributes)) {
+      if (!value) continue;
+      if (sanitizer) {
+        value = sanitizer(value, name, 'attribute', wrapper) as string;
+      }
+      wrapper.setAttribute(name, value);
     }
     for (const inner of nestedNodes) {
       parent.replaceChild(wrapper, inner);

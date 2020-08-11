@@ -899,11 +899,16 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     if (this._uploader) allAccounts.push(this._uploader);
     if (this._reviewers) allAccounts = [...allAccounts, ...this._reviewers];
     if (this._ccs) allAccounts = [...allAccounts, ...this._ccs];
-    return allAccounts;
+    return this._filterServiceUsers(allAccounts);
+  }
+
+  _filterServiceUsers(accounts) {
+    if (!accounts) return [];
+    return accounts.filter(a => !a.tags || !a.tags.includes('SERVICE_USER'));
   }
 
   _computeShowAttentionCcs(ccs) {
-    return !!ccs && ccs.length > 0;
+    return this._filterServiceUsers(ccs).length > 0;
   }
 
   _computeUploader(change) {

@@ -116,8 +116,13 @@ class GrAccountLabel extends GestureEventListeners(
   _hasAttention(config, highlight, account, change, force) {
     if (force) return true;
     return this._isAttentionSetEnabled(config, highlight, account, change)
+        && !this._isServiceUser(account)
         && change.attention_set
         && change.attention_set.hasOwnProperty(account._account_id);
+  }
+
+  _isServiceUser(account) {
+    return !!account.tags && account.tags.includes('SERVICE_USER');
   }
 
   _computeName(account, config) {

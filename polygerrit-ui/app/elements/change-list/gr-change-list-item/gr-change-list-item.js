@@ -230,7 +230,10 @@ class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
   _computeReviewers(change) {
     if (!change || !change.reviewers || !change.reviewers.REVIEWER) return [];
     const reviewers = [...change.reviewers.REVIEWER].filter(r =>
-      !change.owner || change.owner._account_id !== r._account_id
+      // remove the owner
+      (!change.owner || change.owner._account_id !== r._account_id) &&
+      // remove service accounts
+      (!r.tags || !r.tags.includes('SERVICE_USER'))
     );
     reviewers.sort((r1, r2) => {
       if (this.account) {

@@ -18,7 +18,6 @@ import '../../../styles/shared-styles';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import 'ba-linkify/ba-linkify';
 import {htmlTemplate} from './gr-linked-text_html';
 import {GrLinkTextParser, LinkTextParserConfig} from './link-text-parser';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';

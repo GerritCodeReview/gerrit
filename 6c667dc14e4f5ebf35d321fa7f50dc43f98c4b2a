@@ -123,6 +123,24 @@
       "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4412ef3_26c4258f",
+        "filename": "java/com/google/gerrit/server/schema/Schema_184.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T09:36:31Z",
+      "side": 1,
+      "message": "Will do.",
+      "parentUuid": "0d81f3a9_f6e459a2",
+      "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "6af480d5_8c699d47",
+        "filename": "Documentation/rest-api-groups.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T09:36:31Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e9fc839b_0fd7ad47",
+      "range": {
+        "startLine": 75,
+        "startChar": 22,
+        "endLine": 75,
+        "endChar": 63
+      },
+      "revId": "202837bdedbacf0e0052cfd41c953691d83ea5c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49207df5_56598a5e",
         "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
         "patchSetId": 1

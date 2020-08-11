@@ -28,10 +28,17 @@ import {
   SubmitType,
   InheritedBooleanInfoConfiguredValue,
   ConfigParameterInfoType,
+  PermissionAction,
+  HttpMethod,
 } from '../constants/constants';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
+
+/**
+ * Type alias for parsed json object to make code cleaner
+ */
+export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
 
 export type PatchSetNum = BrandType<'edit' | number, '_patchSet'>;
 export const EditPatchSetNum = 'edit' as PatchSetNum;
@@ -44,7 +51,6 @@ export type ProjectName = BrandType<string, '_projectName'>;
 export type UrlEncodedProjectName = BrandType<string, '_urlEncodedProjectName'>;
 export type TopicName = BrandType<string, '_topicName'>;
 export type AccountId = BrandType<number, '_accountId'>;
-export type HttpMethod = BrandType<string, '_httpMethod'>;
 export type GitRef = BrandType<string, '_gitRef'>;
 export type RequirementType = BrandType<string, '_requirementType'>;
 export type TrackingId = BrandType<string, '_trackingId'>;
@@ -86,6 +92,9 @@ export type CommitId = BrandType<string, '_commitId'>;
 
 // The UUID of the group
 export type GroupId = BrandType<string, '_groupId'>;
+
+// The Encoded UUID of the group
+export type EncodedGroupId = BrandType<string, '_encodedGroupId'>;
 
 // The timezone offset from UTC in minutes
 export type TimezoneOffset = BrandType<number, '_timezoneOffset'>;
@@ -992,6 +1001,8 @@ export interface ProjectInfo {
   web_links?: WebLinkInfo[];
 }
 
+export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};
+
 /**
  * The LabelTypeInfo entity contains metadata about the labels that a project
  * has.
@@ -1054,31 +1065,37 @@ export interface DiffWebLinkInfo {
 
 /**
  * The DiffPreferencesInfo entity contains information about the diff preferences of a user.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-info
  */
 export interface DiffPreferencesInfo {
-  context: string;
-  expand_all_comments: boolean;
+  context: number;
+  expand_all_comments?: boolean;
   ignore_whitespace: string;
-  intraline_difference: boolean;
+  intraline_difference?: boolean;
   line_length: number;
-  cursor_blink_rate: string;
-  manual_review: boolean;
-  retain_header: boolean;
-  show_line_endings: boolean;
-  show_tabs: boolean;
-  show_whitespace_errors: boolean;
-  skip_deleted: boolean;
-  skip_uncommented: boolean;
-  syntax_highlighting: boolean;
-  hide_top_menu: boolean;
-  auto_hide_diff_table_header: boolean;
-  hide_line_numbers: boolean;
+  cursor_blink_rate: number;
+  manual_review?: boolean;
+  retain_header?: boolean;
+  show_line_endings?: boolean;
+  show_tabs?: boolean;
+  show_whitespace_errors?: boolean;
+  skip_deleted?: boolean;
+  skip_uncommented?: boolean;
+  syntax_highlighting?: boolean;
+  hide_top_menu?: boolean;
+  auto_hide_diff_table_header?: boolean;
+  hide_line_numbers?: boolean;
   tab_size: number;
-  font_size: string;
-  hide_empty_pane: boolean;
-  match_brackets: boolean;
-  line_wrapping: boolean;
-  show_file_comment_button: boolean;
+  font_size: number;
+  hide_empty_pane?: boolean;
+  match_brackets?: boolean;
+  line_wrapping?: boolean;
+  // TODO(TS): show_file_comment_button exists in JS code, but doesn't exist in the doc.
+  // Either remove or update doc
+  show_file_comment_button?: boolean;
+  // TODO(TS): theme exists in JS code, but doesn't exist in the doc.
+  // Either remove or update doc
+  theme?: string;
 }
 
 /**
@@ -1204,4 +1221,186 @@ export interface ConfigInfo {
   plugin_config?: ConfigParameterInfo;
   actions?: {[viewName: string]: ActionInfo};
   reject_empty_commit?: InheritedBooleanInfo;
+}
+
+/**
+ * The ProjectAccessInfo entity contains information about the access rights for a project
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#project-access-info
+ */
+export interface ProjectAccessInfo {
+  revision: string; // The revision of the refs/meta/config branch from which the access rights were loaded
+  inherits_from?: ProjectInfo; // not set for the All-Project project
+  local: LocalAccessSectionInfo;
+  is_owner?: boolean;
+  owner_of: GitRef[];
+  can_upload?: boolean;
+  can_add?: boolean;
+  can_add_tags?: boolean;
+  config_visible?: boolean;
+  groups: ProjectAccessGroups;
+  configWebLinks: string[];
+}
+
+export type ProjectAccessInfoMap = {[projectName: string]: ProjectAccessInfo};
+export type LocalAccessSectionInfo = {[ref: string]: AccessSectionInfo};
+export type ProjectAccessGroups = {[uuid: string]: GroupInfo};
+
+/**
+ * The AccessSectionInfo describes the access rights that are assigned on a ref.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#access-section-info
+ */
+export interface AccessSectionInfo {
+  permissions: AccessPermissionsMap;
+}
+
+export type AccessPermissionsMap = {[permissionName: string]: PermissionInfo};
+
+/**
+ * The PermissionInfo entity contains information about an assigned permission
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info
+ */
+export interface PermissionInfo {
+  label?: string; // The name of the label. Not set if it’s not a label permission.
+  exclusive?: boolean;
+  rules: PermissionInfoRules;
+}
+
+export type PermissionInfoRules = {[groupUUID: string]: PermissionRuleInfo};
+
+/**
+ * The PermissionRuleInfo entity contains information about a permission rule that is assigned to group
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info
+ */
+export interface PermissionRuleInfo {
+  action: PermissionAction;
+  force?: boolean;
+  min?: number; // not set if range is empty (from 0 to 0) or not set
+  max?: number; // not set if range is empty (from 0 to 0) or not set
+}
+
+/**
+ * The DashboardInfo entity contains information about a project dashboard
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#dashboard-info
+ */
+export interface DashboardInfo {
+  id: DashboardId;
+  project: ProjectName;
+  defining_project: ProjectName;
+  ref: string; // The name of the ref in which the dashboard is defined, without the refs/meta/dashboards/ prefix
+  description?: string;
+  foreach?: string;
+  url: string;
+  is_default?: boolean;
+  title?: boolean;
+  sections: DashboardSectionInfo[];
+}
+
+/**
+ * The DashboardSectionInfo entity contains information about a section in a dashboard.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#dashboard-section-info
+ */
+export interface DashboardSectionInfo {
+  name: string;
+  query: string;
+}
+
+/**
+ * The ConfigInput entity describes a new project configuration
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-input
+ */
+export interface ConfigInput {
+  description?: string;
+  use_contributor_agreements?: InheritedBooleanInfoConfiguredValue;
+  use_content_merge?: InheritedBooleanInfoConfiguredValue;
+  use_signed_off_by?: InheritedBooleanInfoConfiguredValue;
+  create_new_change_for_all_not_in_target?: InheritedBooleanInfoConfiguredValue;
+  require_change_id?: InheritedBooleanInfoConfiguredValue;
+  reject_implicit_merges?: InheritedBooleanInfoConfiguredValue;
+  max_object_size_limit?: MaxObjectSizeLimitInfo;
+  submit_type?: SubmitType;
+  state?: ProjectState;
+  plugin_config_values?: PluginConfigValues;
+  reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
+  commentlinks?: ConfigInfoCommentLinks;
+}
+
+/**
+ * Plugin configuration values as map which maps the plugin name to a map of parameter names to values.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-input
+ */
+export type PluginConfigValues = {
+  [pluginName: string]: ParameterNameToValueMap;
+};
+export type ParameterNameToValueMap = {[parameterName: string]: string};
+
+export type ConfigInfoCommentLinks = {
+  [commentLinkName: string]: CommentLinkInfo;
+};
+
+/**
+ * The ProjectInput entity contains information for the creation of a new project.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-input
+ */
+export interface ProjectInput {
+  name?: ProjectName;
+  parent?: ProjectName;
+  description?: string;
+  permissions_only?: boolean;
+  create_empty_commit?: boolean;
+  submit_type?: SubmitType;
+  branches?: BranchName[];
+  owners?: GroupId[];
+  use_contributor_agreements?: InheritedBooleanInfoConfiguredValue;
+  use_signed_off_by?: InheritedBooleanInfoConfiguredValue;
+  create_new_change_for_all_not_in_target?: InheritedBooleanInfoConfiguredValue;
+  use_content_merge?: InheritedBooleanInfoConfiguredValue;
+  require_change_id?: InheritedBooleanInfoConfiguredValue;
+  enable_signed_push?: InheritedBooleanInfoConfiguredValue;
+  require_signed_push?: InheritedBooleanInfoConfiguredValue;
+  max_object_size_limit?: string;
+  plugin_config_values?: PluginConfigValues;
+  reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
+}
+
+/**
+ * The BranchInfo entity contains information about a branch.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#branch-info
+ */
+export interface BranchInfo {
+  ref: GitRef;
+  revision: string;
+  can_delete?: boolean;
+  web_links?: WebLinkInfo[];
+}
+
+/**
+ * The ProjectAccessInput describes changes that should be applied to a project access config.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-access-input
+ */
+export interface ProjectAccessInput {
+  remove?: ProjectAccessInfo[];
+  add?: ProjectAccessInfo[];
+  message?: string;
+  parent?: string;
+}
+
+/**
+ * Represent a file in a base64 encoding
+ */
+export interface Base64File {
+  body: string;
+  type: string | null;
+}
+
+/**
+ * The WatchedProjectsInfo entity contains information about a project watch for a user.
+ */
+export interface ProjectWatchInfo {
+  project: ProjectName;
+  filter?: string;
+  notify_new_changes?: boolean;
+  notify_new_patch_sets?: boolean;
+  notify_all_comments?: boolean;
+  notify_submitted_changes?: boolean;
+  notify_abandoned_changes?: boolean;
 }

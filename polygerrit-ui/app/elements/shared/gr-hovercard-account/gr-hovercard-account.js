@@ -26,6 +26,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-hovercard-account_html.js';
 import {appContext} from '../../../services/app-context.js';
+import {isServiceUser} from '../../../utils/account-util';
 
 /** @extends PolymerElement */
 class GrHovercardAccount extends GestureEventListeners(
@@ -95,7 +96,8 @@ class GrHovercardAccount extends GestureEventListeners(
   get isAttentionSetEnabled() {
     return !!this._config && !!this._config.change
         && !!this._config.change.enable_attention_set
-        && !!this.highlightAttention && !!this.change && !!this.account;
+        && !!this.highlightAttention && !!this.change && !!this.account
+        && !isServiceUser(this.account);
   }
 
   get hasAttention() {

@@ -24,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-label_html.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
+import {isServiceUser} from '../../../utils/account-util';
 
 /**
  * @extends PolymerElement
@@ -116,6 +117,7 @@ class GrAccountLabel extends GestureEventListeners(
   _hasAttention(config, highlight, account, change, force) {
     if (force) return true;
     return this._isAttentionSetEnabled(config, highlight, account, change)
+        && !isServiceUser(account)
         && change.attention_set
         && change.attention_set.hasOwnProperty(account._account_id);
   }

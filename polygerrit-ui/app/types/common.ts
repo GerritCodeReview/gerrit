@@ -197,6 +197,7 @@ export interface AccountInfo {
   _more_accounts?: boolean; // not set if false
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
+  tags?: string[];
 }
 
 /**

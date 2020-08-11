@@ -67,6 +67,14 @@ public class GetAccountIT extends AbstractDaemonTest {
     assertThat(accountInfo.inactive).isTrue();
   }
 
+  @Test
+  public void getServiceUserAccount() throws Exception {
+    TestAccount serviceUser =
+        accountCreator.create("robot1", "robot1@example.com", "Ro Bot", "Ro", "Service Users");
+    assertThat(serviceUser.tags()).containsExactly("SERVICE_USER");
+    testGetAccount(serviceUser.id().toString(), serviceUser);
+  }
+
   private void testGetAccount(String id, TestAccount expectedAccount) throws Exception {
     assertAccountInfo(expectedAccount, gApi.accounts().id(id).get());
   }

@@ -63,7 +63,7 @@ public abstract class AllProjectsInput {
   public abstract Optional<GroupReference> administratorsGroup();
 
   /** The group which gets stream-events permission granted and appropriate properties set. */
-  public abstract Optional<GroupReference> batchUsersGroup();
+  public abstract Optional<GroupReference> serviceUsersGroup();
 
   /** The commit message used when commit the project config change. */
   public abstract Optional<String> commitMessage();
@@ -106,7 +106,7 @@ public abstract class AllProjectsInput {
   public abstract static class Builder {
     public abstract Builder administratorsGroup(GroupReference adminGroup);
 
-    public abstract Builder batchUsersGroup(GroupReference batchGroup);
+    public abstract Builder serviceUsersGroup(GroupReference serviceGroup);
 
     public abstract Builder commitMessage(String commitMessage);
 

@@ -18,6 +18,7 @@ import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Strings;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Account;
@@ -61,6 +62,7 @@ public class InternalAccountDirectory extends AccountDirectory {
   private final IdentifiedUser.GenericFactory userFactory;
   private final Provider<CurrentUser> self;
   private final PermissionBackend permissionBackend;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   @Inject
   InternalAccountDirectory(
@@ -68,12 +70,14 @@ public class InternalAccountDirectory extends AccountDirectory {
       DynamicItem<AvatarProvider> avatar,
       IdentifiedUser.GenericFactory userFactory,
       Provider<CurrentUser> self,
-      PermissionBackend permissionBackend) {
+      PermissionBackend permissionBackend,
+      ServiceUserClassifier serviceUserClassifier) {
     this.accountCache = accountCache;
     this.avatar = avatar;
     this.userFactory = userFactory;
     this.self = self;
     this.permissionBackend = permissionBackend;
+    this.serviceUserClassifier = serviceUserClassifier;
   }
 
   @Override
@@ -153,6 +157,13 @@ public class InternalAccountDirectory extends AccountDirectory {
 
     if (options.contains(FillOptions.STATE)) {
       info.inactive = account.inactive() ? true : null;
+    }
+
+    if (options.contains(FillOptions.TAGS)) {
+      info.tags =
+          serviceUserClassifier.isServiceUser(account.id())
+              ? ImmutableList.of(AccountInfo.Tag.SERVICE_USER)
+              : null;
     }
 
     if (options.contains(FillOptions.AVATARS)) {

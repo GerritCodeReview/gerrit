@@ -26,7 +26,7 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.account.AccountResolver;
-import com.google.gerrit.server.account.RobotClassifier;
+import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
@@ -56,7 +56,7 @@ public class ReplyAttentionSetUpdates {
   private final RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
-  private final RobotClassifier robotClassifier;
+  private final ServiceUserClassifier robotClassifier;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -65,7 +65,7 @@ public class ReplyAttentionSetUpdates {
       RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory,
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
-      RobotClassifier robotClassifier) {
+      ServiceUserClassifier robotClassifier) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
@@ -83,7 +83,7 @@ public class ReplyAttentionSetUpdates {
       Account.Id currentUser)
       throws IOException, ConfigInvalidException, PermissionBackendException,
           UnprocessableEntityException {
-    if (robotClassifier.isRobot(currentUser)) {
+    if (robotClassifier.isServiceUser(currentUser)) {
       return;
     }
     Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet<>();
@@ -120,7 +120,7 @@ public class ReplyAttentionSetUpdates {
       bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
-    if (robotClassifier.isRobot(currentUser)) {
+    if (robotClassifier.isServiceUser(currentUser)) {
       botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
       return;
     }

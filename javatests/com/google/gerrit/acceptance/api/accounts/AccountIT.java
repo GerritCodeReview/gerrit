@@ -366,6 +366,7 @@ public class AccountIT extends AbstractDaemonTest {
       assertThat(accountInfo.name).isEqualTo(input.name);
       assertThat(accountInfo.email).isEqualTo(input.email);
       assertThat(accountInfo.status).isNull();
+      assertThat(accountInfo.tags).isNull();
 
       Account.Id accountId = Account.id(accountInfo._accountId);
       accountIndexedCounter.assertReindexOf(accountId, 1);

@@ -18,12 +18,15 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.common.collect.ImmutableList;
+import com.google.gerrit.entities.GroupReference;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
 import com.google.gerrit.entities.LabelTypes;
 import com.google.gerrit.entities.LabelValue;
 import com.google.gerrit.server.config.AllProjectsName;
+import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.group.db.GroupNameNotes;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Inject;
@@ -37,12 +40,11 @@ import org.junit.Test;
 
 public class SchemaCreatorImplTest {
   @Inject private AllProjectsName allProjects;
-
   @Inject private GitRepositoryManager repoManager;
-
   @Inject private SchemaCreator schemaCreator;
-
   @Inject private ProjectConfig.Factory projectConfigFactory;
+  @Inject private GitRepositoryManager repositoryManager;
+  @Inject private AllUsersName allUsersName;
 
   @Before
   public void setUp() throws Exception {
@@ -78,6 +80,12 @@ public class SchemaCreatorImplTest {
     assertValueRange(codeReview, -2, -1, 0, 1, 2);
   }
 
+  @Test
+  public void groupIsCreatedWhenSchemaIsCreated() throws Exception {
+    assertThat(hasGroup("Service Users")).isTrue();
+    assertThat(hasGroup("Non-Interactive Users")).isFalse();
+  }
+
   private void assertValueRange(LabelType label, Integer... range) {
     List<Integer> rangeList = Arrays.asList(range);
     assertThat(rangeList).isNotEmpty();
@@ -91,6 +99,13 @@ public class SchemaCreatorImplTest {
     for (LabelValue v : label.getValues()) {
       assertThat(v.getText()).isNotNull();
       assertThat(v.getText()).isNotEmpty();
+    }
+  }
+
+  private boolean hasGroup(String name) throws Exception {
+    try (Repository repo = repositoryManager.openRepository(allUsersName)) {
+      List<GroupReference> nameNotes = GroupNameNotes.loadAllGroups(repo);
+      return nameNotes.stream().anyMatch(g -> g.getName().equals(name));
     }
   }
 }

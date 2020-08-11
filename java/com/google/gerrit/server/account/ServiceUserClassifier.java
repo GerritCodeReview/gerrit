@@ -16,14 +16,14 @@ package com.google.gerrit.server.account;
 
 import com.google.gerrit.entities.Account;
 
-public interface RobotClassifier {
-  /** Returns {@code true} if the given user is considered a {@code robot} user. */
-  boolean isRobot(Account.Id user);
+public interface ServiceUserClassifier {
+  /** Returns {@code true} if the given user is considered a {@code Service User} user. */
+  boolean isServiceUser(Account.Id user);
 
-  /** An instance that can be used for testing and will consider no user to be a robot. */
-  class NoOp implements RobotClassifier {
+  /** An instance that can be used for testing and will consider no user to be a Service User. */
+  class NoOp implements ServiceUserClassifier {
     @Override
-    public boolean isRobot(Account.Id user) {
+    public boolean isServiceUser(Account.Id user) {
       return false;
     }
   }

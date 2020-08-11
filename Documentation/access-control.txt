@@ -100,7 +100,7 @@ to those groups. These UUIDs are different on different Gerrit sites.
 Gerrit comes with two predefined groups:
 
 * Administrators
-* Non-Interactive Users
+* Service Users
 
 
 [[administrators]]
@@ -117,7 +117,7 @@ renamed.
 
 
 [[non-interactive_users]]
-=== Non-Interactive Users
+=== Service Users
 
 This is the Gerrit "batch" identity. The capabilities
 link:access-control.html#capability_priority['Priority BATCH'] and
@@ -131,7 +131,7 @@ However, sometimes such a user may need a separate thread pool in
 order to prevent it from grabbing threads from the interactive users.
 
 These users live in a second thread pool, which separates operations
-made by the non-interactive users from the ones made by the interactive
+made by the service users from the ones made by the interactive
 users. This ensures that the interactive users can keep working when
 resources are tight.
 
@@ -1323,7 +1323,7 @@ Allow link:cmd-create-account.html[account creation over the ssh prompt].
 This capability allows the granted group members to create non-interactive
 service accounts.  These service accounts are generally used for automation
 and made to be members of the
-link:access-control.html#non-interactive_users['Non-Interactive users'] group.
+link:access-control.html#service_users['Service users'] group.
 
 
 [[capability_createGroup]]
@@ -1402,7 +1402,7 @@ of other accounts.
 
 This capability allows users to use
 link:config-gerrit.html#sshd.batchThreads[the thread pool reserved] for
-link:access-control.html#non-interactive_users['Non-Interactive Users'].
+link:access-control.html#service_users['Service Users'].
 It's a binary value in that granted users either have access to the thread
 pool, or they don't.
 
@@ -1414,7 +1414,7 @@ The user isn't a member of a group with any priority capability granted. By
 default the user is then in the 'INTERACTIVE' thread pool.
 
 'BATCH'::
-If there's a thread pool configured for 'Non-Interactive Users' and a user is
+If there's a thread pool configured for 'Service Users' and a user is
 granted the priority capability with the 'BATCH' mode selected, the user ends
 up in the separate batch user thread pool. This is true unless the user is
 also granted the below 'INTERACTIVE' option.

@@ -916,7 +916,7 @@ public class GroupsIT extends AbstractDaemonTest {
   @Test
   public void defaultGroupsCreated() throws Exception {
     Iterable<String> names = gApi.groups().list().getAsMap().keySet();
-    assertThat(names).containsAtLeast("Administrators", "Non-Interactive Users").inOrder();
+    assertThat(names).containsAtLeast("Administrators", "Service Users").inOrder();
   }
 
   @Test

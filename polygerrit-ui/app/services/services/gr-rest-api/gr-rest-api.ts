@@ -18,17 +18,18 @@
 import {
   AccountDetailInfo,
   AccountInfo,
-  CapabilityInfo,
   GroupBaseInfo,
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
   ActionInfo,
   GroupInfo,
-  ChangeInfo,
+  AccountCapabilityInfo,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
+export type CancelConditionCallback = () => boolean;
 
 /**
  * Contains information about an account that can be added to a change
@@ -123,12 +124,14 @@ export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed
   dispatchEvent(event: Event, detail?: unknown): boolean;
-  getConfig(): Promise<ServerInfo>;
+  getConfig(noCache?: boolean): Promise<ServerInfo | null | undefined>;
   getLoggedIn(): Promise<boolean>;
-  getVersion(): Promise<string>;
+  getVersion(): Promise<string | null | undefined>;
   invalidateReposCache(): void;
-  getAccount(): Promise<AccountDetailInfo>;
-  getAccountCapabilities(params?: string[]): Promise<CapabilityInfo>;
+  getAccount(): Promise<AccountDetailInfo | null | undefined>;
+  getAccountCapabilities(
+    params?: string[]
+  ): Promise<AccountCapabilityInfo | null | undefined>;
   getRepos(
     filter: string,
     reposPerPage: number,
@@ -173,5 +176,5 @@ export interface RestApiService {
     changeNum: number | string,
     opt_errFn?: Function,
     opt_cancelCondition?: Function
-  ): Promise<ChangeInfo>;
+  ): Promise<ParsedChangeInfo | null | undefined>;
 }

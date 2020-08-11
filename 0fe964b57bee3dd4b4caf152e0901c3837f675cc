@@ -16,6 +16,24 @@
       "revId": "0fe964b57bee3dd4b4caf152e0901c3837f675cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a03e8cc_7c30ed2a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-11T15:00:47Z",
+      "side": 1,
+      "message": "I think we cannot do that, because that has some meaning. I would like to somehow de-emphasize them in a later change, but it is not yet obvious how to do that.",
+      "parentUuid": "f09f262c_44e72fa7",
+      "revId": "0fe964b57bee3dd4b4caf152e0901c3837f675cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

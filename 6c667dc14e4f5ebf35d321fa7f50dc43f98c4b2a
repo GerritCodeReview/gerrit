@@ -87,6 +87,24 @@
       "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17c8c562_331e4c61",
+        "filename": "java/com/google/gerrit/server/schema/Schema_184.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T06:57:12Z",
+      "side": 1,
+      "message": "These are local names (local to projects). The UUID of the group doesn\u0027t change, so all ACLs will continue to work. I would rather not migrate local names for all projects. We also don\u0027t rename these if an external group system changes the name of a group.\n\nIf at all, how about investing into getting rid of the groups file altogether :-)\n\nSome group backends consider their names private, so you need some mapping, but that can as well be global and I don\u0027t think it needs to be per-project. Do you see a use case that I might be missing with groups files?",
+      "parentUuid": "04a10b37_8ce582d7",
+      "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

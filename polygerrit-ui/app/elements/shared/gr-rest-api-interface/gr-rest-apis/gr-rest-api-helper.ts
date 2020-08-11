@@ -16,6 +16,7 @@
  */
 import {getBaseUrl} from '../../../../utils/url-util';
 import {
+  CancelConditionCallback,
   ErrorCallback,
   RestApiService,
 } from '../../../../services/services/gr-rest-api/gr-rest-api';
@@ -24,7 +25,8 @@ import {
   AuthService,
 } from '../../../../services/gr-auth/gr-auth';
 import {hasOwnProperty} from '../../../../utils/common-util';
-import {HttpMethod} from '../../../../types/common';
+import {ParsedJSON} from '../../../../types/common';
+import {HttpMethod} from '../../../../constants/constants';
 
 const JSON_PREFIX = ")]}'";
 
@@ -38,7 +40,7 @@ export class SiteBasedCache {
   // Container of per-canonical-path caches.
   private readonly _data = new Map<
     string | undefined,
-    unknown | Map<string, ParsedJSON>
+    unknown | Map<string, ParsedJSON | null>
   >();
 
   constructor() {
@@ -47,17 +49,20 @@ export class SiteBasedCache {
       // so that we spare more round trips to the server when the app loads
       // initially.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1])
+        this._cache().set(e[0], (e[1] as unknown) as ParsedJSON)
       );
     }
   }
 
   // Returns the cache for the current canonical path.
-  _cache(): Map<string, ParsedJSON> {
+  _cache(): Map<string, ParsedJSON | null> {
     if (!this._data.has(window.CANONICAL_PATH)) {
       this._data.set(window.CANONICAL_PATH, new Map());
     }
-    return this._data.get(window.CANONICAL_PATH) as Map<string, ParsedJSON>;
+    return this._data.get(window.CANONICAL_PATH) as Map<
+      string,
+      ParsedJSON | null
+    >;
   }
 
   has(key: string) {
@@ -68,7 +73,7 @@ export class SiteBasedCache {
     return this._cache().get(key);
   }
 
-  set(key: string, value: ParsedJSON) {
+  set(key: string, value: ParsedJSON | null) {
     this._cache().set(key, value);
   }
 
@@ -87,12 +92,9 @@ export class SiteBasedCache {
   }
 }
 
-/**
- * Type alias for parsed json object to make code cleaner
- */
-export type ParsedJSON = unknown;
-
-type FetchPromisesCacheData = {[url: string]: Promise<ParsedJSON> | undefined};
+type FetchPromisesCacheData = {
+  [url: string]: Promise<ParsedJSON | null | undefined> | undefined;
+};
 
 export class FetchPromisesCache {
   private _data: FetchPromisesCacheData;
@@ -116,7 +118,7 @@ export class FetchPromisesCache {
    * @param value a Promise to store in the cache. Pass undefined value to
    *     mark key as deleted.
    */
-  set(key: string, value: Promise<ParsedJSON> | undefined) {
+  set(key: string, value: Promise<ParsedJSON | null | undefined> | undefined) {
     this._data[key] = value;
   }
 
@@ -136,9 +138,9 @@ export type FetchParams = {
 
 interface SendRequestBase {
   method: HttpMethod;
-  body: string | object;
+  body?: string | object;
   contentType?: string;
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
   url: string;
   reportUrlAsIs?: boolean;
   anonymizedUrl?: string;
@@ -157,15 +159,15 @@ export type SendRequest = SendRawRequest | SendJSONRequest;
 
 export interface FetchRequest {
   url: string;
-  fetchOptions: AuthRequestInit;
+  fetchOptions?: AuthRequestInit;
   anonymizedUrl?: string;
 }
 
 export interface FetchJSONRequest extends FetchRequest {
   reportUrlAsIs?: boolean;
-  cancelCondition?: () => boolean;
-  errFn: ErrorCallback;
-  params: FetchParams;
+  cancelCondition?: CancelConditionCallback;
+  errFn?: ErrorCallback;
+  params?: FetchParams;
 }
 
 export class GrRestApiHelper {
@@ -287,7 +289,7 @@ s   */
   fetchJSON(
     req: FetchJSONRequest,
     noAcceptHeader?: boolean
-  ): Promise<ParsedJSON> {
+  ): Promise<ParsedJSON | null | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
@@ -347,18 +349,18 @@ s   */
   // queries for preloading queries
   encodeRFC5987(uri: string | number | boolean) {
     return encodeURIComponent(uri).replace(
-      /['()*]/g,
-      c => '%' + c.charCodeAt(0).toString(16)
+        /['()*]/g,
+        c => '%' + c.charCodeAt(0).toString(16)
     );
   }
 
-  getResponseObject(response: Response): ParsedJSON {
+  getResponseObject(response: Response): Promise<ParsedJSON | null> {
     return this.readResponsePayload(response).then(payload => payload.parsed);
   }
 
   readResponsePayload(
     response: Response
-  ): Promise<{parsed: ParsedJSON | string; raw: string}> {
+  ): Promise<{parsed: ParsedJSON | null; raw: string}> {
     return response.text().then(text => {
       let result;
       try {
@@ -389,7 +391,7 @@ s   */
     return this._restApiInterface.dispatchEvent(type, detail);
   }
 
-  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON> {
+  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | null | undefined> {
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
     }
@@ -400,7 +402,7 @@ s   */
     this._fetchPromisesCache.set(
       req.url,
       this.fetchJSON(req)
-        .then((response: ParsedJSON) => {
+        .then(response => {
           if (response !== undefined) {
             this._cache.set(req.url, response);
           }

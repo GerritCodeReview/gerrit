@@ -197,3 +197,28 @@ export enum InheritedBooleanInfoConfiguredValue {
   FALSE = 'FALSE',
   INHERITED = 'INHERITED',
 }
+
+/**
+ * Enum for possible PermissionRuleInfo actions
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info
+ */
+export enum PermissionAction {
+  ALLOW = 'ALLOW',
+  DENY = 'DENY',
+  BLOCK = 'BLOCK',
+  // Special values for global capabilities
+  INTERACTIVE = 'INTERACTIVE',
+  BATCH = 'BATCH',
+}
+
+
+/**
+ * Enum for all http methods used in Gerrit.
+ */
+export enum HttpMethod {
+  POST = 'POST',
+  GET = 'GET',
+  DELETE = 'DELETE',
+  PUT = 'PUT',
+}
+

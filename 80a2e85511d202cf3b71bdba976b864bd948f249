@@ -140,6 +140,30 @@
       "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d9e5bcf_c2da6496",
+        "filename": "java/com/google/gerrit/server/account/ServiceUserClassifierImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T07:40:33Z",
+      "side": 1,
+      "message": "It\u0027s not: We need to disallow cyclic dependencies in the first place. If we did not, that\u0027s a programmer error. Programmer errors should translate into HTTP 500s.",
+      "parentUuid": "17cf77ff_3e22829c",
+      "range": {
+        "startLine": 87,
+        "startChar": 17,
+        "endLine": 87,
+        "endChar": 23
+      },
+      "revId": "80a2e85511d202cf3b71bdba976b864bd948f249",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

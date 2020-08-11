@@ -1,5 +1,6 @@
 import {RevisionInfo, ChangeInfo, PatchSetNum} from '../types/common';
 import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
+import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 /**
  * @license
@@ -160,7 +161,7 @@ export function sortRevisions<T extends RevisionInfo>(revisions: T[]): T[] {
  * @return Sorted list of patch set objects, as described
  *     above
  */
-export function computeAllPatchSets(change: ChangeInfo): PatchSet[] {
+export function computeAllPatchSets(change: ParsedChangeInfo): PatchSet[] {
   if (!change) {
     return [];
   }
@@ -195,7 +196,10 @@ export function computeAllPatchSets(change: ChangeInfo): PatchSet[] {
  * @return The given list of patch set objects, with the
  *     wip property set on each of them
  */
-function _computeWipForPatchSets(change: ChangeInfo, patchNums: PatchSet[]) {
+function _computeWipForPatchSets(
+  change: ParsedChangeInfo,
+  patchNums: PatchSet[]
+) {
   if (!change.messages || !change.messages.length) {
     return patchNums;
   }

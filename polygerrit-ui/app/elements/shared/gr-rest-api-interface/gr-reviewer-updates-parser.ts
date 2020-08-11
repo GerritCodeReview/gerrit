@@ -289,7 +289,9 @@ export class GrReviewerUpdatesParser {
     });
   }
 
-  static parse(change: ChangeInfo): ParsedChangeInfo {
+  static parse(
+    change: ChangeInfo | undefined | null
+  ): ParsedChangeInfo | undefined | null {
     // TODO(TS): The !change condition should be removed when all files are converted to TS
     if (!change || !isChangeInfoParserInput(change)) {
       return change;

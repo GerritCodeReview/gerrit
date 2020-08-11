@@ -28,6 +28,7 @@ import {
   SubmitType,
   InheritedBooleanInfoConfiguredValue,
   ConfigParameterInfoType,
+  AccountTag,
 } from '../constants/constants';
 
 export type BrandType<T, BrandName extends string> = T &
@@ -197,6 +198,7 @@ export interface AccountInfo {
   _more_accounts?: boolean; // not set if false
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
+  tags?: AccountTag[];
 }
 
 /**

@@ -197,3 +197,7 @@ export enum InheritedBooleanInfoConfiguredValue {
   FALSE = 'FALSE',
   INHERITED = 'INHERITED',
 }
+
+export enum AccountTag {
+  SERVICE_USER = 'SERVICE_USER',
+}

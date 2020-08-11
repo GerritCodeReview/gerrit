@@ -995,6 +995,7 @@ export interface ProjectInfo {
 /**
  * The LabelTypeInfo entity contains metadata about the labels that a project
  * has.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-type-info
  */
 export interface LabelTypeInfo {
   values: {[value: string]: string};
@@ -1003,6 +1004,7 @@ export interface LabelTypeInfo {
 
 /**
  * The DiffContent entity contains information about the content differences in a file.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-content
  */
 export interface DiffContent {
   a?: string;
@@ -1019,6 +1021,7 @@ export interface DiffContent {
 
 /**
  * The DiffFileMetaInfo entity contains meta information about a file diff.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-file-meta-info
  */
 export interface DiffFileMetaInfo {
   name: string;
@@ -1029,6 +1032,7 @@ export interface DiffFileMetaInfo {
 
 /**
  * The DiffInfo entity contains information about the diff of a file in a revision.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info
  */
 export interface DiffInfo {
   meta_a: DiffFileMetaInfo;
@@ -1043,6 +1047,7 @@ export interface DiffInfo {
 
 /**
  * The DiffWebLinkInfo entity describes a link on a diff screen to an external site.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-web-link-info
  */
 export interface DiffWebLinkInfo {
   name: string;
@@ -1054,6 +1059,7 @@ export interface DiffWebLinkInfo {
 
 /**
  * The DiffPreferencesInfo entity contains information about the diff preferences of a user.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-info
  */
 export interface DiffPreferencesInfo {
   context: string;
@@ -1083,6 +1089,7 @@ export interface DiffPreferencesInfo {
 
 /**
  * The RangeInfo entity stores the coordinates of a range.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#range-info
  */
 export interface RangeInfo {
   start: number;
@@ -1091,6 +1098,7 @@ export interface RangeInfo {
 
 /**
  * The BlameInfo entity stores the commit metadata with the row coordinates where it applies.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#blame-info
  */
 export interface BlameInfo {
   author: string;
@@ -1103,6 +1111,7 @@ export interface BlameInfo {
 /**
  * Images are retrieved by using the file content API and the body is just the
  * HTML response.
+ * TODO(TS): where is the source of this type ? I don't find it in doc
  */
 export interface ImageInfo {
   body: string;

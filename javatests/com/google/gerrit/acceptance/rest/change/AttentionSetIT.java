@@ -1007,6 +1007,32 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.reason()).isEqualTo("reason");
   }
 
+  @Test
+  public void addUsersToAttentionSetInPrivateChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setPrivate(true);
+    change(r).current().review(new ReviewInput().addUserToAttentionSet(user.email(), "reason"));
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("reason");
+  }
+
+  @Test
+  public void addUsersAsReviewerAndAttentionSetInPrivateChanges() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setPrivate(true);
+    change(r).current().review(new ReviewInput().reviewer(user.email()));
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+  }
+
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(
       PushOneCommit.Result r, TestAccount account) {
     return r.getChange().attentionSet().stream()

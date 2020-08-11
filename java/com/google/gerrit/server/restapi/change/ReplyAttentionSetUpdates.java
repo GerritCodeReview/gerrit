@@ -301,8 +301,12 @@ public class ReplyAttentionSetUpdates {
           .change(changeNotes)
           .check(ChangePermission.READ);
     } catch (AuthException e) {
-      throw new UnprocessableEntityException(
-          "Can't add to attention set: Read not permitted for " + attentionUserId, e);
+      if (!changeNotes.getChange().isPrivate()) {
+        // If the change is private, it is okay to add the user to the attention set since that
+        // person will be granted visibility when a reviewer.
+        throw new UnprocessableEntityException(
+            "Can't add to attention set: Read not permitted for " + attentionUserId, e);
+      }
     }
     return attentionUserId;
   }

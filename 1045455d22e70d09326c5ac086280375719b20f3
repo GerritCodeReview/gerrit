@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "9eb6b0d4_9819e26b",
+        "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-08-11T15:38:54Z",
+      "side": 1,
+      "message": "\u003e Can you inject this in the constructor instead? That would also allow for the member to be final.\n\nI would love to be able to do that, but it might not be possible. I tried that in PS1, along with a binding in GerritGlobalModule, but then it was not available during the init phase (see Mathias\u0027 comment on PS1). In PS3 I also added it to the IndexModule, but If I remember correctly, it resulted in a double binding error. I am open to suggestions to try other things to make it work. I think that unfortunately the different contexts that this needs to run in makes it not always  available at the time of construction.",
+      "parentUuid": "b7673325_ab9492f2",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 126,
+        "endChar": 3
+      },
+      "revId": "1045455d22e70d09326c5ac086280375719b20f3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2db496ae_b39ca2af",
         "filename": "java/com/google/gerrit/server/git/WorkQueue.java",
         "patchSetId": 6

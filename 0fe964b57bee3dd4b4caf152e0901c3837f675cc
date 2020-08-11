@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f09f262c_44e72fa7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-11T14:58:06Z",
+      "side": 1,
+      "message": "4. Do not show service users in the \"Reviewers\" section of the change?",
+      "revId": "0fe964b57bee3dd4b4caf152e0901c3837f675cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

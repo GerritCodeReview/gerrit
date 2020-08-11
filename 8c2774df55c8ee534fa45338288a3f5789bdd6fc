@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd849337_9dedb24a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-08-11T06:15:28Z",
+      "side": 1,
+      "message": "nit: multirepository",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "8c2774df55c8ee534fa45338288a3f5789bdd6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88b7e90b_0f7f942e",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-08-11T06:15:28Z",
+      "side": 1,
+      "message": "Does this modify `bru` or does it create a new BatchRefUpdate with submissionCtx attached?\n\nEither would be fine, but it would be nice for the Javadoc to clarify which one applies here. In other words, should I do\n\n  repoManager.attachSubmission(bru, ctx);\n  ...(bru, ...)\n\nor\n\n  bru \u003d repoManager.attachSubmission(bru, ctx);\n  ...(bru, ...)\n\n?",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "8c2774df55c8ee534fa45338288a3f5789bdd6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

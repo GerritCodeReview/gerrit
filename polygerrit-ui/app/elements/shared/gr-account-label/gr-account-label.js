@@ -24,6 +24,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-account-label_html.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
+import {isServiceUser} from '../../../utils/account-util';
 
 /**
  * @extends PolymerElement
@@ -104,7 +105,8 @@ class GrAccountLabel extends GestureEventListeners(
   _isAttentionSetEnabled(config, highlight, account, change) {
     return !!config && !!config.change
         && !!config.change.enable_attention_set
-        && !!highlight && !!change && !!account;
+        && !!highlight && !!change && !!account
+        && !isServiceUser(account);
   }
 
   _computeCancelLeftPadding(

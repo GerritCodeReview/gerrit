@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a56022e4_a8e0706a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T06:46:49Z",
+      "side": 1,
+      "message": "The code looks good, but what is your plan for tests?\n\nI think you could have a Task in a test and a custom onStop/onStart listener that all either have a lock or a countdown latch and then assert states and hence test your logic.",
+      "revId": "2c6cf028317c9c7345e431f606572a2015100668",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

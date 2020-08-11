@@ -29,6 +29,7 @@ import {
 } from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
+export type CancelConditionCallback = () => boolean;
 
 /**
  * Contains information about an account that can be added to a change

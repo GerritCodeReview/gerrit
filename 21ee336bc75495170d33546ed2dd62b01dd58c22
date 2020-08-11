@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8510e331_d59abc35",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T11:02:11Z",
+      "side": 1,
+      "message": "It would be better for readability to just materialize an ImmutableList here. I checked the filter() method and it shouldn\u0027t produce null values.",
+      "range": {
+        "startLine": 438,
+        "startChar": 47,
+        "endLine": 438,
+        "endChar": 70
+      },
+      "revId": "21ee336bc75495170d33546ed2dd62b01dd58c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

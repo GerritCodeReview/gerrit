@@ -25,7 +25,6 @@ import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.Url;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Optional;
@@ -33,6 +32,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /** Helper for generating preloading parts of {@code index.html}. */
 @UsedAt(Project.GOOGLE)
@@ -77,14 +77,13 @@ public class IndexPreloadingUtil {
   public static final String SELF_DASHBOARD_ASSIGNED_QUERY =
       DASHBOARD_ASSIGNED_QUERY.replaceAll("\\$\\{user}", "self");
   public static final List<String> SELF_DASHBOARD_QUERIES =
-      Arrays.asList(
+      Stream.of(
               DASHBOARD_WORK_IN_PROGRESS_QUERY,
               DASHBOARD_OUTGOING_QUERY,
               DASHBOARD_INCOMING_QUERY,
               CC_QUERY,
               DASHBOARD_RECENTLY_CLOSED_QUERY,
               NEW_USER)
-          .stream()
           .map(query -> query.replaceAll("\\$\\{user}", "self"))
           .collect(Collectors.toList());
 

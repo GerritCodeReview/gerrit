@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "5fbfc7da_4d498982",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T12:56:02Z",
+      "side": 1,
+      "message": "Good point. I went he the other way and made the default 1GiB and documented that. I think there is a performance benefit for instances when the cache is turned on.",
+      "parentUuid": "a2bc315f_40d769a4",
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1cf32939_0736d90d",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 2
@@ -64,6 +82,30 @@
       "writtenOn": "2020-08-11T10:47:36Z",
       "side": 1,
       "message": "Is there a specific reason to use the MurMur128 hashing function? Seeing that FileBasedConfig also has a hash/ObjectId internally, which we unfortunately can\u0027t access, I would have expected that we\u0027d use the same hashing function as FileBasedConfig.",
+      "range": {
+        "startLine": 320,
+        "startChar": 11,
+        "endLine": 320,
+        "endChar": 30
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ce85769_8d85d26e",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T12:56:02Z",
+      "side": 1,
+      "message": "When we hash contents outside of the git repo context, we almost always use murmur128, for example when building an E-Tag. So I just reused that here. The main difference is that MurMur128 is a non-cryptographic hash, while SHA1 is a crytographic hash.\n\nDo you have a strong preference here? Otherwise I\u0027d stick to MurMur 128 as in the other non-repo parts of Gerrit.",
+      "parentUuid": "1cf32939_0736d90d",
       "range": {
         "startLine": 320,
         "startChar": 11,
@@ -99,6 +141,30 @@
     },
     {
       "key": {
+        "uuid": "64c4efb9_fd46b6b1",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T12:56:02Z",
+      "side": 1,
+      "message": "\u003e What if the project.config changed during the lifetime of this loader?\n\nI don\u0027t think we support hot-reloading for contents inside etc/. For example, also not for gerrit.config. But together with your argument for constructors, I think we can just move this logic into the actual loader and invoke it only for All-Projects.\n\nI originally didn\u0027t want to do this because it requires disk IO (read the file), but since the scope is limited to All-Projects, so a single project per host, that seems acceptable.\n\nDone.",
+      "parentUuid": "2948ef88_c440ecb0",
+      "range": {
+        "startLine": 351,
+        "startChar": 38,
+        "endLine": 351,
+        "endChar": 99
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74bd3ef3_1d216fc1",
         "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
         "patchSetId": 2
@@ -119,6 +185,30 @@
       "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "725249bf_21d26d0c",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-11T12:56:02Z",
+      "side": 1,
+      "message": "This wasn\u0027t possible before, but it\u0027s possible now. Done.\n\nWe could instead test the key creation and make sure that\u0027s different, but the new integration test is OK IMO.",
+      "parentUuid": "74bd3ef3_1d216fc1",
+      "range": {
+        "startLine": 365,
+        "startChar": 10,
+        "endLine": 365,
+        "endChar": 42
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

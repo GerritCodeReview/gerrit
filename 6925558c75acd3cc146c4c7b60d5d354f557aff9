@@ -16,6 +16,24 @@
       "revId": "6925558c75acd3cc146c4c7b60d5d354f557aff9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c833a2af_9c01c70c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-11T20:35:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92893858_b5632627",
+      "revId": "6925558c75acd3cc146c4c7b60d5d354f557aff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

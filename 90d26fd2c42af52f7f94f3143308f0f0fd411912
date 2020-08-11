@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d9ba642_5e4bee2c",
+        "filename": "java/com/google/gerrit/acceptance/AccountCreator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 113,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-08-11T10:03:28Z",
+      "side": 1,
+      "message": "I have noticed that in the previous change but it seems to be reasonable to add `Service Users` constant somewhere in Gerrit so that it could be references consistently across the code base... If accepted it could be done in the follow up  though ;)",
+      "range": {
+        "startLine": 113,
+        "startChar": 12,
+        "endLine": 113,
+        "endChar": 27
+      },
+      "revId": "90d26fd2c42af52f7f94f3143308f0f0fd411912",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

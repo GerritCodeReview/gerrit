@@ -18,52 +18,18 @@
 import {
   AccountDetailInfo,
   AccountInfo,
-  CapabilityInfo,
-  GroupBaseInfo,
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
   ActionInfo,
-  GroupInfo,
-  ChangeInfo,
+  AccountCapabilityInfo,
+  SuggestedReviewerInfo,
+  GroupNameToGroupInfoMap,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
-
-/**
- * Contains information about an account that can be added to a change
- */
-export interface SuggestedReviewerAccountInfo {
-  account: AccountInfo;
-  /**
-   * The total number of accounts in the suggestion - always 1
-   */
-  count: 1;
-}
-
-/**
- * Contains information about a group that can be added to a change
- */
-export interface SuggestedReviewerGroupInfo {
-  group: GroupBaseInfo;
-  /**
-   * The total number of accounts that are members of the group is returned
-   * (this count includes members of nested groups)
-   */
-  count: number;
-  /**
-   * True if group is present and count is above the threshold where the
-   * confirmed flag must be passed to add the group as a reviewer
-   */
-  confirm?: boolean;
-}
-
-/**
- * Contains information about a reviewer that can be added to a change
- */
-export type SuggestedReviewerInfo =
-  | SuggestedReviewerAccountInfo
-  | SuggestedReviewerGroupInfo;
+export type CancelConditionCallback = () => boolean;
 
 export enum ApiElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -119,21 +85,29 @@ export interface RestApiTagNameMap {
   [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
 }
 
+export interface JsApiService {
+  getElement<K extends keyof RestApiTagNameMap>(
+    elementKey: K
+  ): RestApiTagNameMap[K];
+}
+
 export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed
   dispatchEvent(event: Event, detail?: unknown): boolean;
-  getConfig(): Promise<ServerInfo>;
+  getConfig(noCache?: boolean): Promise<ServerInfo | null | undefined>;
   getLoggedIn(): Promise<boolean>;
-  getVersion(): Promise<string>;
+  getVersion(): Promise<string | null | undefined>;
   invalidateReposCache(): void;
-  getAccount(): Promise<AccountDetailInfo>;
-  getAccountCapabilities(params?: string[]): Promise<CapabilityInfo>;
+  getAccount(): Promise<AccountDetailInfo | null | undefined>;
+  getAccountCapabilities(
+    params?: string[]
+  ): Promise<AccountCapabilityInfo | null | undefined>;
   getRepos(
     filter: string,
     reposPerPage: number,
     offset?: number
-  ): Promise<ProjectInfo>;
+  ): Promise<ProjectInfo | undefined | null>;
   send(
     method: string,
     url: string,
@@ -141,7 +115,7 @@ export interface RestApiService {
     errFn?: ErrorCallback,
     contentType?: string,
     headers?: unknown
-  ): Promise<Response>;
+  ): Promise<Response | void>;
 
   getResponseObject(response: Response): null | unknown;
 
@@ -149,29 +123,25 @@ export interface RestApiService {
     changeNum: NumericChangeId,
     input: string,
     errFn?: ErrorCallback
-  ): Promise<SuggestedReviewerInfo[]>;
+  ): Promise<SuggestedReviewerInfo | null | undefined>;
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
     input: string,
     errFn?: ErrorCallback
-  ): Promise<SuggestedReviewerInfo[]>;
+  ): Promise<SuggestedReviewerInfo | null | undefined>;
   getSuggestedAccounts(
     input: string,
     n?: number,
     errFn?: ErrorCallback
-  ): Promise<AccountInfo[]>;
+  ): Promise<AccountInfo[] | null | undefined>;
   getSuggestedGroups(
     input: string,
     n?: number,
     errFn?: ErrorCallback
-  ): Promise<Record<string, GroupInfo>>;
-
-  getElement<K extends keyof RestApiTagNameMap>(
-    elementKey: K
-  ): RestApiTagNameMap[K];
+  ): Promise<GroupNameToGroupInfoMap | null | undefined>;
   getChangeDetail(
     changeNum: number | string,
     opt_errFn?: Function,
     opt_cancelCondition?: Function
-  ): Promise<ChangeInfo>;
+  ): Promise<ParsedChangeInfo | null | undefined>;
 }

@@ -16,6 +16,7 @@
  */
 import {getBaseUrl} from '../../../../utils/url-util';
 import {
+  CancelConditionCallback,
   ErrorCallback,
   RestApiService,
 } from '../../../../services/services/gr-rest-api/gr-rest-api';
@@ -24,9 +25,19 @@ import {
   AuthService,
 } from '../../../../services/gr-auth/gr-auth';
 import {hasOwnProperty} from '../../../../utils/common-util';
-import {HttpMethod} from '../../../../types/common';
+import {
+  AccountDetailInfo,
+  EmailInfo,
+  ParsedJSON,
+} from '../../../../types/common';
+import {HttpMethod} from '../../../../constants/constants';
 
 const JSON_PREFIX = ")]}'";
+
+export interface ResponsePayload {
+  parsed: ParsedJSON | null;
+  raw: string;
+}
 
 /**
  * Wrapper around Map for caching server responses. Site-based so that
@@ -38,7 +49,7 @@ export class SiteBasedCache {
   // Container of per-canonical-path caches.
   private readonly _data = new Map<
     string | undefined,
-    unknown | Map<string, ParsedJSON>
+    unknown | Map<string, ParsedJSON | null>
   >();
 
   constructor() {
@@ -47,28 +58,43 @@ export class SiteBasedCache {
       // so that we spare more round trips to the server when the app loads
       // initially.
       Object.entries(window.INITIAL_DATA).forEach(e =>
-        this._cache().set(e[0], e[1])
+        this._cache().set(e[0], (e[1] as unknown) as ParsedJSON)
       );
     }
   }
 
   // Returns the cache for the current canonical path.
-  _cache(): Map<string, ParsedJSON> {
+  _cache(): Map<string, unknown> {
     if (!this._data.has(window.CANONICAL_PATH)) {
       this._data.set(window.CANONICAL_PATH, new Map());
     }
-    return this._data.get(window.CANONICAL_PATH) as Map<string, ParsedJSON>;
+    return this._data.get(window.CANONICAL_PATH) as Map<
+      string,
+      ParsedJSON | null
+    >;
   }
 
   has(key: string) {
     return this._cache().has(key);
   }
 
-  get(key: string) {
+  get(key: '/accounts/self/emails'): EmailInfo[] | null;
+
+  get(key: '/accounts/self/detail'): AccountDetailInfo[] | null;
+
+  get(key: string): ParsedJSON | null;
+
+  get(key: string): unknown {
     return this._cache().get(key);
   }
 
-  set(key: string, value: ParsedJSON) {
+  set(key: '/accounts/self/emails', value: EmailInfo[]): void;
+
+  set(key: '/accounts/self/detail', value: AccountDetailInfo[]): void;
+
+  set(key: string, value: ParsedJSON | null): void;
+
+  set(key: string, value: unknown) {
     this._cache().set(key, value);
   }
 
@@ -87,18 +113,19 @@ export class SiteBasedCache {
   }
 }
 
-/**
- * Type alias for parsed json object to make code cleaner
- */
-export type ParsedJSON = unknown;
-
-type FetchPromisesCacheData = {[url: string]: Promise<ParsedJSON> | undefined};
+type FetchPromisesCacheData = {
+  [url: string]: Promise<ParsedJSON | null | undefined> | undefined;
+};
 
 export class FetchPromisesCache {
   private _data: FetchPromisesCacheData;
 
   constructor() {
     this._data = {};
+  }
+
+  public testOnlyGetData() {
+    return this._data;
   }
 
   /**
@@ -116,7 +143,7 @@ export class FetchPromisesCache {
    * @param value a Promise to store in the cache. Pass undefined value to
    *     mark key as deleted.
    */
-  set(key: string, value: Promise<ParsedJSON> | undefined) {
+  set(key: string, value: Promise<ParsedJSON | null | undefined> | undefined) {
     this._data[key] = value;
   }
 
@@ -131,14 +158,14 @@ export class FetchPromisesCache {
   }
 }
 export type FetchParams = {
-  [name: string]: string | number | boolean | undefined | null;
+  [name: string]: string[] | string | number | boolean | undefined | null;
 };
 
 interface SendRequestBase {
   method: HttpMethod;
-  body: string | object;
+  body?: string | object;
   contentType?: string;
-  headers: Record<string, string>;
+  headers?: Record<string, string>;
   url: string;
   reportUrlAsIs?: boolean;
   anonymizedUrl?: string;
@@ -157,15 +184,15 @@ export type SendRequest = SendRawRequest | SendJSONRequest;
 
 export interface FetchRequest {
   url: string;
-  fetchOptions: AuthRequestInit;
+  fetchOptions?: AuthRequestInit;
   anonymizedUrl?: string;
 }
 
 export interface FetchJSONRequest extends FetchRequest {
   reportUrlAsIs?: boolean;
-  cancelCondition?: () => boolean;
-  errFn: ErrorCallback;
-  params: FetchParams;
+  cancelCondition?: CancelConditionCallback;
+  errFn?: ErrorCallback;
+  params?: FetchParams;
 }
 
 export class GrRestApiHelper {
@@ -287,7 +314,7 @@ s   */
   fetchJSON(
     req: FetchJSONRequest,
     noAcceptHeader?: boolean
-  ): Promise<ParsedJSON> {
+  ): Promise<ParsedJSON | null | undefined> {
     if (!noAcceptHeader) {
       req = this.addAcceptJsonHeader(req);
     }
@@ -352,13 +379,11 @@ s   */
     );
   }
 
-  getResponseObject(response: Response): ParsedJSON {
+  getResponseObject(response: Response): Promise<ParsedJSON | null> {
     return this.readResponsePayload(response).then(payload => payload.parsed);
   }
 
-  readResponsePayload(
-    response: Response
-  ): Promise<{parsed: ParsedJSON | string; raw: string}> {
+  readResponsePayload(response: Response): Promise<ResponsePayload> {
     return response.text().then(text => {
       let result;
       try {
@@ -389,7 +414,7 @@ s   */
     return this._restApiInterface.dispatchEvent(type, detail);
   }
 
-  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON> {
+  fetchCacheURL(req: FetchJSONRequest): Promise<ParsedJSON | null | undefined> {
     if (this._fetchPromisesCache.has(req.url)) {
       return this._fetchPromisesCache.get(req.url)!;
     }
@@ -400,7 +425,7 @@ s   */
     this._fetchPromisesCache.set(
       req.url,
       this.fetchJSON(req)
-        .then((response: ParsedJSON) => {
+        .then(response => {
           if (response !== undefined) {
             this._cache.set(req.url, response);
           }
@@ -423,12 +448,14 @@ s   */
    */
   send(req: SendRawRequest): Promise<Response | void>;
 
-  send(req: SendJSONRequest): Promise<ParsedJSON>;
+  send(req: SendJSONRequest): Promise<ParsedJSON | null>;
+
+  send(req: SendRequest): Promise<Response | ParsedJSON | void | null>;
 
   /**
    * Send an XHR.
    */
-  send(req: SendRequest) {
+  send(req: SendRequest): Promise<Response | ParsedJSON | void | null> {
     const options: AuthRequestInit = {method: req.method};
     if (req.body) {
       options.headers = new Headers();

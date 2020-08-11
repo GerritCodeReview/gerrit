@@ -105,6 +105,24 @@
       "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d81f3a9_f6e459a2",
+        "filename": "java/com/google/gerrit/server/schema/Schema_184.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-08-11T09:06:42Z",
+      "side": 1,
+      "message": "\u003e These are local names (local to projects). The UUID of the group doesn\u0027t change,...\n\nIt is fair enough yet it will look a bit ugly ;). Should we mention that in release notes/documentation for that change?",
+      "parentUuid": "17c8c562_331e4c61",
+      "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

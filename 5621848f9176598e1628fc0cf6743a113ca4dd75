@@ -16,6 +16,109 @@
       "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "fc4718c1_8eb669aa",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T10:47:36Z",
+      "side": 1,
+      "message": "Overall LGTM. Just some minor aspects.",
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a2bc315f_40d769a4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1068,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T10:47:36Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you mention that this cache is disabled by default (as the disk limit is negative)?",
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1cf32939_0736d90d",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 320,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T10:47:36Z",
+      "side": 1,
+      "message": "Is there a specific reason to use the MurMur128 hashing function? Seeing that FileBasedConfig also has a hash/ObjectId internally, which we unfortunately can\u0027t access, I would have expected that we\u0027d use the same hashing function as FileBasedConfig.",
+      "range": {
+        "startLine": 320,
+        "startChar": 11,
+        "endLine": 320,
+        "endChar": 30
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2948ef88_c440ecb0",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T10:47:36Z",
+      "side": 1,
+      "message": "Constructors should not contain actual work. Looking at this method, it\u0027s more than just an instantiation of some objects. Can you find a way that this method does not need to be called in a constructor?\n\nAfter seeing more of the code, I\u0027m also wondering why this value isn\u0027t computed every time load() is called for All-Projects. What if the project.config changed during the lifetime of this loader?",
+      "range": {
+        "startLine": 351,
+        "startChar": 38,
+        "endLine": 351,
+        "endChar": 99
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "74bd3ef3_1d216fc1",
+        "filename": "java/com/google/gerrit/server/project/ProjectCacheImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-11T10:47:36Z",
+      "side": 1,
+      "message": "Do we have an integration test which ensures that the special handling of All-Projects works as intended?",
+      "range": {
+        "startLine": 365,
+        "startChar": 10,
+        "endLine": 365,
+        "endChar": 42
+      },
+      "revId": "5621848f9176598e1628fc0cf6743a113ca4dd75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

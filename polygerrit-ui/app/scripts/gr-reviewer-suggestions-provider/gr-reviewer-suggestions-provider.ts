@@ -18,13 +18,15 @@ import {
   getAccountDisplayName,
   getGroupDisplayName,
 } from '../../utils/display-name-util';
+import {RestApiService} from '../../services/services/gr-rest-api/gr-rest-api';
 import {
-  RestApiService,
-  SuggestedReviewerAccountInfo,
-  SuggestedReviewerGroupInfo,
+  AccountInfo,
+  isReviewerAccountSuggestion,
+  isReviewerGroupSuggestion,
+  NumericChangeId,
+  ServerInfo,
   SuggestedReviewerInfo,
-} from '../../services/services/gr-rest-api/gr-rest-api';
-import {AccountInfo, NumericChangeId, ServerInfo} from '../../types/common';
+} from '../../types/common';
 import {assertNever} from '../../utils/common-util';
 
 // TODO(TS): enum name doesn't follow typescript style guid rules
@@ -41,19 +43,7 @@ export function isAccountSuggestions(s: Suggestion): s is AccountInfo {
   return (s as AccountInfo)._account_id !== undefined;
 }
 
-export function isReviewerAccountSuggestion(
-  s: Suggestion
-): s is SuggestedReviewerAccountInfo {
-  return (s as SuggestedReviewerAccountInfo).account !== undefined;
-}
-
-export function isReviewerGroupSuggestion(
-  s: Suggestion
-): s is SuggestedReviewerGroupInfo {
-  return (s as SuggestedReviewerGroupInfo).group !== undefined;
-}
-
-type ApiCallCallback = (input: string) => Promise<Suggestion[]>;
+type ApiCallCallback = (input: string) => Promise<Suggestion[] | void>;
 
 export interface SuggestionItem {
   name: string;

@@ -201,3 +201,130 @@ export enum InheritedBooleanInfoConfiguredValue {
 export enum AccountTag {
   SERVICE_USER = 'SERVICE_USER',
 }
+
+/**
+ * Enum for possible PermissionRuleInfo actions
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info
+ */
+export enum PermissionAction {
+  ALLOW = 'ALLOW',
+  DENY = 'DENY',
+  BLOCK = 'BLOCK',
+  // Special values for global capabilities
+  INTERACTIVE = 'INTERACTIVE',
+  BATCH = 'BATCH',
+}
+
+/**
+ * This capability allows users to use the thread pool reserved for 'Non-Interactive Users'.
+ * https://gerrit-review.googlesource.com/Documentation/access-control.html#capability_priority
+ */
+export enum UserPriority {
+  BATCH = 'BATCH',
+  INTERACTIVE = 'INTERACTIVE',
+}
+
+/**
+ * Enum for all http methods used in Gerrit.
+ */
+export enum HttpMethod {
+  HEAD = 'HEAD',
+  POST = 'POST',
+  GET = 'GET',
+  DELETE = 'DELETE',
+  PUT = 'PUT',
+}
+
+/**
+ * The side on which the comment was added
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
+ */
+export enum CommentSide {
+  REVISION = 'REVISION',
+  PARENT = 'PARENT',
+}
+
+/**
+ * Allowed app themes
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum AppTheme {
+  DARK = 'DARK',
+  LIGHT = 'LIGHT',
+}
+
+/**
+ * Date formats in preferences
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum DateFormat {
+  STD = 'STD',
+  US = 'US',
+  ISO = 'ISO',
+  EURO = 'EURO',
+  UK = 'UK',
+}
+
+/**
+ * Time formats in preferences
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum TimeFormat {
+  HHMM_12 = 'HHMM_12',
+  HHMM_24 = 'HHMM_24',
+}
+
+/**
+ * Diff type in preferences
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum DiffViewMode {
+  SIDE_BY_SIDE = 'SIDE_BY_SIDE',
+  UNIFIED = 'UNIFIED_DIFF',
+}
+
+/**
+ * The type of email strategy to use.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum EmailStrategy {
+  ENABLED = 'ENABLED',
+  CC_ON_OWN_COMMENTS = 'CC_ON_OWN_COMMENTS',
+  DISABLED = 'DISABLED',
+}
+
+/**
+ * The base which should be pre-selected in the 'Diff Against' drop-down list when the change screen is opened for a merge commit
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export enum DefaultBase {
+  AUTO_MERGE = 'AUTO_MERGE',
+  FIRST_PARENT = 'FIRST_PARENT',
+}
+
+/**
+ * Whether whitespace changes should be ignored and if yes, which whitespace changes should be ignored
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-input
+ */
+export enum IgnoreWhitespaceType {
+  IGNORE_NONE = 'IGNORE_NONE',
+  IGNORE_TRAILING = 'IGNORE_TRAILING',
+  IGNORE_LEADING_AND_TRAILING = 'IGNORE_LEADING_AND_TRAILING',
+  IGNORE_ALL = 'IGNORE_ALL',
+}
+
+/**
+ * how draft comments are handled
+ */
+export enum DraftsAction {
+  PUBLISH = 'PUBLISH',
+  PUBLISH_ALL_REVISIONS = 'PUBLISH_ALL_REVISIONS',
+  KEEP = 'KEEP',
+}
+
+export enum NotifyType {
+  NONE = 'NONE',
+  OWNER = 'OWNER',
+  OWNER_REVIEWERS = 'OWNER_REVIEWERS',
+  ALL = 'ALL',
+}

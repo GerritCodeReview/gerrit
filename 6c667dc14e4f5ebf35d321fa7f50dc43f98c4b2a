@@ -46,6 +46,47 @@
       "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f28c77a9_6c4a2b87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-08-11T06:50:30Z",
+      "side": 1,
+      "message": "I guess you meant this one: https://groups.google.com/forum/?utm_medium\u003demail\u0026utm_source\u003dfooter#!msg/repo-discuss/vkyvFR77RTY/_ldZJvEWBQAJ right?",
+      "parentUuid": "e5602896_e2210eab",
+      "range": {
+        "startLine": 14,
+        "startChar": 0,
+        "endLine": 14,
+        "endChar": 48
+      },
+      "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04a10b37_8ce582d7",
+        "filename": "java/com/google/gerrit/server/schema/Schema_184.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-08-11T06:50:30Z",
+      "side": 1,
+      "message": "How about the case when Non-Interactive Users group is used in repo ACLs? It will be added to:\ngroups:\n# UUID                                  \tGroup Name\n2\t#\n3\t5ffa9a7c5996030971e693f65337454527891291\tNon-Interactive Users\n\nand project.config:\nread \u003d group Non-Interactive Users\n\nHow about migrating them too?",
+      "revId": "6c667dc14e4f5ebf35d321fa7f50dc43f98c4b2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

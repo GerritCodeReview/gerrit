@@ -18,7 +18,7 @@
 import '../test/common-test-setup-karma.js';
 import {toSortedPermissionsArray} from './access-util.js';
 
-suite('gr-access-behavior tests', () => {
+suite('access-util tests', () => {
   test('toSortedPermissionsArray', () => {
     const rules = {
       'global:Project-Owners': {

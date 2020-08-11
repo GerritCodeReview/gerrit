@@ -39,6 +39,7 @@ import {KnownExperimentId} from '../../../services/flags/flags.js';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
+import {isServiceUser, removeServiceUsers} from '../../../utils/account-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -899,11 +900,15 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     if (this._uploader) allAccounts.push(this._uploader);
     if (this._reviewers) allAccounts = [...allAccounts, ...this._reviewers];
     if (this._ccs) allAccounts = [...allAccounts, ...this._ccs];
-    return allAccounts;
+    return removeServiceUsers(allAccounts);
+  }
+
+  _removeServiceUsers(accounts) {
+    return removeServiceUsers(accounts);
   }
 
   _computeShowAttentionCcs(ccs) {
-    return !!ccs && ccs.length > 0;
+    return removeServiceUsers(ccs).length > 0;
   }
 
   _computeUploader(change) {

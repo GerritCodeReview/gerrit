@@ -17,16 +17,31 @@ package com.google.gerrit.acceptance.server.project;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 
+import com.google.common.cache.LoadingCache;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.entities.AccountGroup;
+import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.GroupReference;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.PluginConfigFactory;
+import com.google.gerrit.server.config.SitePaths;
+import com.google.gerrit.server.project.ProjectCacheImpl;
+import com.google.gerrit.server.project.ProjectConfig;
+import com.google.inject.name.Named;
 import javax.inject.Inject;
+import org.eclipse.jgit.storage.file.FileBasedConfig;
+import org.eclipse.jgit.util.FS;
 import org.junit.Test;
 
 public class ProjectCacheIT extends AbstractDaemonTest {
   @Inject private PluginConfigFactory pluginConfigFactory;
+
+  @Inject
+  @Named(ProjectCacheImpl.CACHE_NAME)
+  private LoadingCache<Project.NameKey, CachedProjectConfig> inMemoryProjectCache;
+
+  @Inject private SitePaths sitePaths;
 
   @Test
   public void pluginConfig_cachedValueEqualsConfigValue() throws Exception {
@@ -69,5 +84,24 @@ public class ProjectCacheIT extends AbstractDaemonTest {
 
     assertThat(pluginConfig.getGroupReference("group-config-name")).isPresent();
     assertThat(pluginConfig.getGroupReference("group-config-name")).hasValue(group);
+  }
+
+  @Test
+  public void allProjectsProjectsConfig_ChangeInFileInvalidatesPersistedCache() throws Exception {
+    assertThat(projectCache.getAllProjects().getConfig().getCheckReceivedObjects()).isTrue();
+    // Change etc/All-Projects-project.config
+    FileBasedConfig fileBasedConfig =
+        new FileBasedConfig(
+            sitePaths
+                .etc_dir
+                .resolve(allProjects.get())
+                .resolve(ProjectConfig.PROJECT_CONFIG)
+                .toFile(),
+            FS.DETECTED);
+    fileBasedConfig.setString("receive", null, "checkReceivedObjects", "false");
+    fileBasedConfig.save();
+    // Invalidate only the in-memory cache
+    inMemoryProjectCache.invalidate(allProjects);
+    assertThat(projectCache.getAllProjects().getConfig().getCheckReceivedObjects()).isFalse();
   }
 }

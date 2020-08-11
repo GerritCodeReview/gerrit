@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "92893858_b5632627",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-highlight/gr-annotation.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-11T20:08:19Z",
+      "side": 1,
+      "message": "What about so?\n\n    for (let [name, value] of Object.entries(attributes)) {\n      if (!value) continue;\n      if (sanitizer) {\n        value \u003d sanitizer(value, name, \u0027attribute\u0027, wrapper) as string;\n      }\n      wrapper.setAttribute(name, value);\n    }",
+      "revId": "6925558c75acd3cc146c4c7b60d5d354f557aff9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

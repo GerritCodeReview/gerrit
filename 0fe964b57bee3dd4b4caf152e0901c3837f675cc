@@ -34,6 +34,24 @@
       "revId": "0fe964b57bee3dd4b4caf152e0901c3837f675cc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bbc916d8_26434e0f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-11T15:06:18Z",
+      "side": 1,
+      "message": "I agree that it\u0027s not as straightforward as the other changes, got it.",
+      "parentUuid": "0a03e8cc_7c30ed2a",
+      "revId": "0fe964b57bee3dd4b4caf152e0901c3837f675cc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

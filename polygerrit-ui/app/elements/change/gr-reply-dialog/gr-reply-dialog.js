@@ -34,7 +34,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-reply-dialog_html.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {appContext} from '../../../services/app-context.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import {ChangeStatus, SpecialFilePath} from '../../../constants/constants.js';
 import {KnownExperimentId} from '../../../services/flags/flags.js';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
@@ -822,8 +822,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     return newAttention && account && newAttention.has(account._account_id);
   }
 
-  _computeNewAttention(user, reviewers, change, draftCommentThreads) {
-    if ([user, reviewers, change, draftCommentThreads].includes(undefined)) {
+  _computeNewAttention(currentUser, reviewers, change, draftCommentThreads) {
+    if ([currentUser, reviewers, change, draftCommentThreads].includes(undefined)) {
       return;
     }
     this._attentionModified = false;
@@ -831,26 +831,36 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
         new Set(Object.keys(change.attention_set || {})
             .map(id => parseInt(id)));
     const newAttention = new Set(this._currentAttentionSet);
-    // Add everyone that the user is replying to in a comment thread.
-    this._computeCommentAccounts(draftCommentThreads).forEach(
-        id => newAttention.add(id)
-    );
-    // Add all new reviewers.
-    reviewers.base.filter(r => r._pendingAdd)
-        .forEach(r => newAttention.add(r._account_id));
-    // Remove the current user.
-    if (user) newAttention.delete(user._account_id);
-    // Add the uploader, if someone else replies.
-    if (this._uploader && user &&
-        this._uploader._account_id !== user._account_id) {
-      newAttention.add(this._uploader._account_id);
-    }
-    // Add the owner, if someone else replies. Also add the owner, if the
-    // attention set would otherwise be empty.
-    if (change.owner) {
-      if (!this._isOwner(user, change) || newAttention.size === 0) {
+    if (change.status === ChangeStatus.NEW) {
+      // Add everyone that the user is replying to in a comment thread.
+      this._computeCommentAccounts(draftCommentThreads).forEach(
+          id => newAttention.add(id)
+      );
+      // Remove the current user.
+      if (currentUser) newAttention.delete(currentUser._account_id);
+      // Add all new reviewers.
+      reviewers.base.filter(r => r._pendingAdd)
+          .forEach(r => newAttention.add(r._account_id));
+      // Add the uploader, if someone else replies.
+      if (this._uploader && currentUser &&
+          this._uploader._account_id !== currentUser._account_id) {
+        newAttention.add(this._uploader._account_id);
+      }
+      // Add the owner, if someone else replies. Also add the owner, if the
+      // attention set would otherwise be empty.
+      if (change.owner) {
+        if (!this._isOwner(currentUser, change) || newAttention.size === 0) {
+          newAttention.add(change.owner._account_id);
+        }
+      }
+    } else {
+      // The only reason for adding someone to the attention set for merged or
+      // abandoned changes is that someone adds a new comment thread.
+      if (change.owner && this._containsNewCommentThread(draftCommentThreads)) {
         newAttention.add(change.owner._account_id);
       }
+      // Remove the current user.
+      if (currentUser) newAttention.delete(currentUser._account_id);
     }
     // Finally make sure that everyone in the attention set is still active as
     // owner, reviewer or cc.
@@ -871,6 +881,12 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       });
     });
     return accountIds;
+  }
+
+  _containsNewCommentThread(threads) {
+    return threads.some(
+        thread => !!thread.comments && !!thread.comments[0]
+            && !!thread.comments[0].__draft);
   }
 
   _isNewAttentionEmpty(config, currentAttentionSet, newAttentionSet) {

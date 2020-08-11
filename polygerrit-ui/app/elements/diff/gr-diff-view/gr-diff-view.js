@@ -847,14 +847,17 @@ class GrDiffView extends KeyboardShortcutMixin(
           patchNum: latestPatchNum,
           basePatchNum: PARENT,
         };
+        leftSide = comment.__commentSide === 'left';
       } else {
         this._patchRange = {
           patchNum: latestPatchNum,
           basePatchNum: comment.patch_set,
         };
+        // comment is now on the left side since we are showing
+        // comment.patch_set vs latest
+        leftSide = true;
       }
       lineNum = comment.line;
-      leftSide = comment.__commentSide === 'left';
     } else {
       if (this.params.path) {
         this._path = this.params.path;

@@ -423,7 +423,11 @@ export const htmlTemplate = html`
       <div class="peopleList">
         <div class="peopleListLabel">Reviewers</div>
         <div>
-          <template is="dom-repeat" items="[[_reviewers]]" as="account">
+          <template
+            is="dom-repeat"
+            items="[[_removeServiceUsers(_reviewers)]]"
+            as="account"
+          >
             <gr-account-label
               account="[[account]]"
               force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
@@ -440,7 +444,11 @@ export const htmlTemplate = html`
         <div class="peopleList">
           <div class="peopleListLabel">CC</div>
           <div>
-            <template is="dom-repeat" items="[[_ccs]]" as="account">
+            <template
+              is="dom-repeat"
+              items="[[_removeServiceUsers(_ccs)]]"
+              as="account"
+            >
               <gr-account-label
                 account="[[account]]"
                 force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"

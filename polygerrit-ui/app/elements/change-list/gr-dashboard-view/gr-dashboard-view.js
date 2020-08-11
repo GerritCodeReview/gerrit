@@ -229,13 +229,22 @@ class GrDashboardView extends GestureEventListeners(
   _fetchDashboardChanges(res, checkForNewUser) {
     if (!res) { return Promise.resolve(); }
 
-    const queries = res.sections
-        .map(section => (section.suffixForDashboard ?
-          section.query + ' ' + section.suffixForDashboard :
-          section.query));
+    let queries;
 
-    if (checkForNewUser) {
-      queries.push('owner:self limit:1');
+    if (window.PRELOADED_QUERIES
+      && window.PRELOADED_QUERIES.dashboardQuery) {
+      queries = window.PRELOADED_QUERIES.dashboardQuery;
+      // we use preloaded query from index only on first page load
+      window.PRELOADED_QUERIES.dashboardQuery = undefined;
+    } else {
+      queries = res.sections
+          .map(section => (section.suffixForDashboard ?
+            section.query + ' ' + section.suffixForDashboard :
+            section.query));
+
+      if (checkForNewUser) {
+        queries.push('owner:self limit:1');
+      }
     }
 
     return this.$.restAPI.getChanges(null, queries)

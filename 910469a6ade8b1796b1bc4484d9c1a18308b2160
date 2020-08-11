@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "70509f67_c5e13f63",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-08-11T15:20:21Z",
+      "side": 1,
+      "message": "\u003e This seems overly complicated to me: Why can you not just do something like:\n\u003e \n\u003e new Task() {\n\u003e   run {\n\u003e     int maxWait \u003d 10000;\n\u003e     while(!checkQuotaAvailable() \u0026\u0026 maxWait \u003e 0) {\n\u003e       Thread.sleep(1000);\n\u003e       maxWait -\u003d 1000;\n\u003e   }\n\u003e }\n\nThe \"parking\" idea is to not only prevent the task from starting, but also to ensure that the number of threads available to other tasks is not reduced. The approach that you are suggesting would block the task, but it would reduce the amount of threads available to other tasks. So imagine that there are 10 threads available and that I want to only allow 5 commands per user to execute simultaneously. If I block the 6th command for a user the way you suggest, there will only be 4 threads left for other users. By parking the task instead, not only will this change block the 6th command for a user, it will add another thread to the threadpool so that there are still 5 threads left for other users.\n \n\u003e So just delegate that responsibility into the task instead of having the task management system deal with the additional complexity.\n\nOn top of not wanting to reduce the thread count available to other tasks not affected by the quota, the desire is to make quota enforcing be something that can be done on arbitrary tasks by separate entities such as a plugin. Today there is a quote plugin available, and we would like the quota plugin to be able to be configured with quotas for any command, This would not allow plugins to enforce quotas on core tasks, or on tasks from other plugins. It also would not allow core to enforce quotas on plugins.",
+      "parentUuid": "0bc135a0_e03943d5",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 0
+      },
+      "revId": "910469a6ade8b1796b1bc4484d9c1a18308b2160",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "115869c8_42c1e93c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3

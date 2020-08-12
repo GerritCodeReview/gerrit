@@ -32,6 +32,8 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
+    Gerrit?: any;
+    Polymer?: any;
   }
 
   interface Performance {

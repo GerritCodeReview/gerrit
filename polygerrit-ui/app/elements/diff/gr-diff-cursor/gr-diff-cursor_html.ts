@@ -23,6 +23,5 @@ export const htmlTemplate = html`
     cursor-target-class="target-row"
     focus-on-move="[[_focusOnMove]]"
     target="{{diffRow}}"
-    scroll-top-margin="[[scrollTopMargin]]"
   ></gr-cursor-manager>
 `;

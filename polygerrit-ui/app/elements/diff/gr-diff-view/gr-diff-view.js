@@ -231,22 +231,6 @@ class GrDiffView extends KeyboardShortcutMixin(
         type: Object,
         value: () => new Set(),
       },
-
-      /**
-       * TODO(dhruvsri): <gr-fixed-panel> is gone.
-       * Maybe _scrollTopMargin can be removed??
-       *
-       * gr-diff-view has gr-fixed-panel on top. The panel can
-       * intersect a main element and partially hides a content of
-       * the main element. To correctly calculates visibility of an
-       * element, the cursor must know how much height occupied by a fixed
-       * panel.
-       * The scrollTopMargin defines margin occupied by fixed panel.
-       */
-      _scrollTopMargin: {
-        type: Number,
-        value: 0,
-      },
     };
   }
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f6679c5a_ad3e0fd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 862,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T07:17:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9e427a9_4e7a79dc",
+      "range": {
+        "startLine": 862,
+        "startChar": 8,
+        "endLine": 862,
+        "endChar": 33
+      },
+      "revId": "d80e75836413137a3e80c5c4a3713ca1deb4ae72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec506f80_27ad81c6",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
         "patchSetId": 1
@@ -39,6 +63,24 @@
       "revId": "d80e75836413137a3e80c5c4a3713ca1deb4ae72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16b477a3_dfc3f26d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 863,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T07:17:15Z",
+      "side": 1,
+      "message": "No. Order matters. :-)",
+      "parentUuid": "ec506f80_27ad81c6",
+      "revId": "d80e75836413137a3e80c5c4a3713ca1deb4ae72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -62,6 +104,30 @@
       "revId": "d80e75836413137a3e80c5c4a3713ca1deb4ae72",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76a792c1_f94821e6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T07:17:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a57eeff_d6248cb6",
+      "range": {
+        "startLine": 887,
+        "startChar": 21,
+        "endLine": 887,
+        "endChar": 25
+      },
+      "revId": "d80e75836413137a3e80c5c4a3713ca1deb4ae72",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

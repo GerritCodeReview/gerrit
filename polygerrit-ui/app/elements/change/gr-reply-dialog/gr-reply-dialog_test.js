@@ -202,8 +202,8 @@ suite('gr-reply-dialog tests', () => {
     MockInteractions.tap(element.shadowRoot.querySelector('.send'));
   });
 
-  function checkComputeAttention(userId, reviewerIds, ownerId, attSetIds,
-      replyToIds, expectedIds, uploaderId) {
+  function checkComputeAttention(status, userId, reviewerIds, ownerId,
+      attSetIds, replyToIds, expectedIds, uploaderId, hasDraft) {
     const user = {_account_id: userId};
     const reviewers = {base: reviewerIds.map(id => {
       return {_account_id: id};
@@ -211,11 +211,15 @@ suite('gr-reply-dialog tests', () => {
     const draftThreads = [
       {comments: []},
     ];
+    if (hasDraft) {
+      draftThreads[0].comments.push({__draft: true});
+    }
     replyToIds.forEach(id => draftThreads[0].comments.push({
       author: {_account_id: id},
     }));
     const change = {
       owner: {_account_id: ownerId},
+      status,
       attention_set: {},
     };
     attSetIds.forEach(id => change.attention_set[id] = {});
@@ -230,26 +234,47 @@ suite('gr-reply-dialog tests', () => {
     assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 
-  test('computeNewAttention', () => {
-    checkComputeAttention(null, [], 999, [], [], [999]);
-    checkComputeAttention(1, [], 999, [], [], [999]);
-    checkComputeAttention(1, [], 999, [1], [], [999]);
-    checkComputeAttention(1, [22], 999, [], [], [999]);
-    checkComputeAttention(1, [22], 999, [22], [], [22, 999]);
-    checkComputeAttention(1, [22], 999, [], [22], [22, 999]);
-    checkComputeAttention(1, [22, 33], 999, [33], [22], [22, 33, 999]);
-    checkComputeAttention(1, [], 1, [], [], [1]);
-    checkComputeAttention(1, [], 1, [1], [], [1]);
-    checkComputeAttention(1, [22], 1, [], [], [1]);
-    checkComputeAttention(1, [22], 1, [], [22], [22]);
-    checkComputeAttention(1, [22, 33], 1, [33], [22], [22, 33]);
-    checkComputeAttention(1, [22, 33], 1, [], [22], [22]);
-    checkComputeAttention(1, [22, 33], 1, [], [22, 33], [22, 33]);
-    checkComputeAttention(1, [22, 33], 1, [22, 33], [], [22, 33]);
+  test('computeNewAttention NEW', () => {
+    checkComputeAttention('NEW', null, [], 999, [], [], [999]);
+    checkComputeAttention('NEW', 1, [], 999, [], [], [999]);
+    checkComputeAttention('NEW', 1, [], 999, [1], [], [999]);
+    checkComputeAttention('NEW', 1, [22], 999, [], [], [999]);
+    checkComputeAttention('NEW', 1, [22], 999, [22], [], [22, 999]);
+    checkComputeAttention('NEW', 1, [22], 999, [], [22], [22, 999]);
+    checkComputeAttention('NEW', 1, [22, 33], 999, [33], [22], [22, 33, 999]);
+    checkComputeAttention('NEW', 1, [], 1, [], [], [1]);
+    checkComputeAttention('NEW', 1, [], 1, [1], [], [1]);
+    checkComputeAttention('NEW', 1, [22], 1, [], [], [1]);
+    checkComputeAttention('NEW', 1, [22], 1, [], [22], [22]);
+    checkComputeAttention('NEW', 1, [22, 33], 1, [33], [22], [22, 33]);
+    checkComputeAttention('NEW', 1, [22, 33], 1, [], [22], [22]);
+    checkComputeAttention('NEW', 1, [22, 33], 1, [], [22, 33], [22, 33]);
+    checkComputeAttention('NEW', 1, [22, 33], 1, [22, 33], [], [22, 33]);
     // with uploader
-    checkComputeAttention(1, [], 1, [], [2], [2], 2);
-    checkComputeAttention(1, [], 1, [2], [], [2], 2);
-    checkComputeAttention(1, [], 3, [], [], [2, 3], 2);
+    checkComputeAttention('NEW', 1, [], 1, [], [2], [2], 2);
+    checkComputeAttention('NEW', 1, [], 1, [2], [], [2], 2);
+    checkComputeAttention('NEW', 1, [], 3, [], [], [2, 3], 2);
+  });
+
+  test('computeNewAttention MERGED', () => {
+    checkComputeAttention('MERGED', null, [], 999, [], [], []);
+    checkComputeAttention('MERGED', 1, [], 999, [], [], []);
+    checkComputeAttention('MERGED', 1, [], 999, [], [], [999], undefined, true);
+    checkComputeAttention('MERGED', 1, [], 999, [1], [], []);
+    checkComputeAttention('MERGED', 1, [22], 999, [], [], []);
+    checkComputeAttention('MERGED', 1, [22], 999, [22], [], [22]);
+    checkComputeAttention('MERGED', 1, [22], 999, [], [22], []);
+    checkComputeAttention('MERGED', 1, [22, 33], 999, [33], [22], [33]);
+    checkComputeAttention('MERGED', 1, [], 1, [], [], []);
+    checkComputeAttention('MERGED', 1, [], 1, [], [], [], undefined, true);
+    checkComputeAttention('MERGED', 1, [], 1, [1], [], []);
+    checkComputeAttention('MERGED', 1, [], 1, [1], [], [], undefined, true);
+    checkComputeAttention('MERGED', 1, [22], 1, [], [], []);
+    checkComputeAttention('MERGED', 1, [22], 1, [], [22], []);
+    checkComputeAttention('MERGED', 1, [22, 33], 1, [33], [22], [33]);
+    checkComputeAttention('MERGED', 1, [22, 33], 1, [], [22], []);
+    checkComputeAttention('MERGED', 1, [22, 33], 1, [], [22, 33], []);
+    checkComputeAttention('MERGED', 1, [22, 33], 1, [22, 33], [], [22, 33]);
   });
 
   test('computeNewAttentionNames', () => {

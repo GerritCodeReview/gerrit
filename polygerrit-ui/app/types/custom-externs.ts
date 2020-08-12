@@ -25,7 +25,6 @@
 
 /* eslint-disable no-var */
 /* eslint-disable no-unused-vars */
-/** @externs */
 // @unused
 
 var Gerrit: any;

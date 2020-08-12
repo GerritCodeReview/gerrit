@@ -34,12 +34,16 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
+    Gerrit?: any;
+    Polymer?: any;
+    page?: any;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;
       changePage?: string;
       dashboardPage?: string;
     };
+ 
   }
 
   interface Performance {

@@ -166,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "d4530433_d628257e",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 365,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-12T12:24:51Z",
+      "side": 1,
+      "message": "I added tests to the next change in the series, where I also make the graceful shutdown selective.",
+      "parentUuid": "34dc863c_43c50aa9",
+      "revId": "6a282ff1abf7e6f4a4c3a69b9d276e56f0232538",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e0854f73_12e4ab50",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 5

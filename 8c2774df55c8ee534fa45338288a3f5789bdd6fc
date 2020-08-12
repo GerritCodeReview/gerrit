@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "21b9b69e_f421cc70",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-12T18:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cd849337_9dedb24a",
+      "range": {
+        "startLine": 22,
+        "startChar": 33,
+        "endLine": 22,
+        "endChar": 45
+      },
+      "revId": "8c2774df55c8ee534fa45338288a3f5789bdd6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88b7e90b_0f7f942e",
         "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "8c2774df55c8ee534fa45338288a3f5789bdd6fc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "194b6ebd_7f21489f",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-12T18:46:30Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88b7e90b_0f7f942e",
+      "range": {
+        "startLine": 72,
+        "startChar": 5,
+        "endLine": 72,
+        "endChar": 49
+      },
+      "revId": "8c2774df55c8ee534fa45338288a3f5789bdd6fc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -122,6 +122,7 @@ public class ReplyAttentionSetUpdates {
     }
     if (robotClassifier.isServiceUser(currentUser)) {
       botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
+      robotCommentAddsOwnerAndUploader(bu, changeNotes, input);
       return;
     }
     // Gets a set of all the CCs in this change. Updated reviewers will be defined as reviewers who
@@ -212,8 +213,8 @@ public class ReplyAttentionSetUpdates {
   }
 
   /**
-   * Bots don't process automatic rules, but they do have one special rule: if voted negatively on a
-   * label, add the owner and uploader.
+   * Bots don't process automatic rules, but they do have special rules; One of them: If voted
+   * negatively on a label, add the owner and uploader.
    */
   private void botsWithNegativeLabelsAddOwnerAndUploader(
       BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input) {
@@ -223,6 +224,22 @@ public class ReplyAttentionSetUpdates {
       addToAttentionSet(bu, changeNotes, owner, "A robot voted negatively on a label", false);
       if (!owner.equals(uploader)) {
         addToAttentionSet(bu, changeNotes, uploader, "A robot voted negatively on a label", false);
+      }
+    }
+  }
+
+  /**
+   * Bots don't process automatic rules, but they do have special rules; One of them: When adding a
+   * robot comment, add the owner and uploader.
+   */
+  private void robotCommentAddsOwnerAndUploader(
+      BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input) {
+    if (input.robotComments != null) {
+      Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
+      Account.Id owner = changeNotes.getChange().getOwner();
+      addToAttentionSet(bu, changeNotes, owner, "A robot comment was added", false);
+      if (!owner.equals(uploader)) {
+        addToAttentionSet(bu, changeNotes, uploader, "A robot comment was added", false);
       }
     }
   }

@@ -25,6 +25,7 @@ final class VersionCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     String v = Version.getVersion();
     if (v == null) {
       throw new Failure(1, "fatal: version unavailable");

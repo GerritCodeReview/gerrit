@@ -107,7 +107,7 @@ export const htmlTemplate = html`
       display: block;
       overflow: auto;
     }
-    .editMode .hideOnEdit {
+    .editMode {
       display: none;
     }
     .blameLoader,
@@ -217,7 +217,7 @@ export const htmlTemplate = html`
         <span class="headerSubject">[[_change.subject]]</span>
         <input
           id="reviewed"
-          class="reviewed hideOnEdit"
+          class="reviewed"
           type="checkbox"
           on-change="_handleReviewedChange"
           hidden$="[[!_loggedIn]]"

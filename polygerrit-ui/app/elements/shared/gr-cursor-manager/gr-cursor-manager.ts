@@ -80,14 +80,6 @@ export class GrCursorManager extends GestureEventListeners(
   @property({type: Boolean})
   focusOnMove = false;
 
-  /**
-   * The scrollTopMargin defines height of invisible area at the top
-   * of the page. If cursor locates inside this margin - it is
-   * not visible, because it is covered by some other element.
-   */
-  @property({type: Number})
-  scrollTopMargin = 0;
-
   private _lastDisplayedNavigateToNextFileToast: number | null = null;
 
   @property({type: Array})
@@ -149,9 +141,7 @@ export class GrCursorManager extends GestureEventListeners(
     }
     const filteredStops = condition ? this.stops.filter(condition) : this.stops;
     const dims = this._getWindowDims();
-    const windowCenter = Math.round(
-      (dims.innerHeight + this.scrollTopMargin) / 2
-    );
+    const windowCenter = Math.round(dims.innerHeight / 2);
 
     let closestToTheCenter: HTMLElement | null = null;
     let minDistanceToCenter: number | null = null;
@@ -452,19 +442,14 @@ export class GrCursorManager extends GestureEventListeners(
     const dims = this._getWindowDims();
     return (
       this.scrollMode === ScrollMode.KEEP_VISIBLE &&
-      top > dims.pageYOffset + this.scrollTopMargin &&
+      top > dims.pageYOffset &&
       top < dims.pageYOffset + dims.innerHeight
     );
   }
 
   _calculateScrollToValue(top: number, target: HTMLElement) {
     const dims = this._getWindowDims();
-    return (
-      top +
-      this.scrollTopMargin -
-      dims.innerHeight / 3 +
-      target.offsetHeight / 2
-    );
+    return top + -dims.innerHeight / 3 + target.offsetHeight / 2;
   }
 
   @observe('target')

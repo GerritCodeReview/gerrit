@@ -34,6 +34,14 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
+    // TODO(TS): define gerrit type
+    Gerrit?: unknown;
+    // TODO(TS): define polymer type
+    Polymer?: unknown;
+    // TODO(TS): remove page when better workaround is found
+    // page shouldn't be exposed in window and it shouldn't be used
+    // it's defined because of limitations from typescript, which don't import .mjs
+    page?: unknown;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;

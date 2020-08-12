@@ -80,7 +80,7 @@ export const htmlTemplate = html`
     .reviewed {
       display: inline-block;
       margin: 0 var(--spacing-xs);
-      vertical-align: 0.15em;
+      vertical-align: -2px;
     }
     .jumpToFileContainer {
       display: inline-block;

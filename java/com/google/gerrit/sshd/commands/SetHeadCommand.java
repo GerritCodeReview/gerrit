@@ -43,6 +43,7 @@ public class SetHeadCommand extends SshCommand {
 
   @Override
   protected void run() throws Exception {
+    enableGracefulStop();
     HeadInput input = new HeadInput();
     input.ref = newHead;
     try {

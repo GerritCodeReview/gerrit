@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2ac38e2_e3e902a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T10:31:34Z",
+      "side": 1,
+      "message": "I think I would prefer to not do this change at all. If a bot impersonates a user, then everything should be the same as if the user did the action themselves.",
+      "revId": "e54b2571d37bd403b7f4c04d3806c636035dbde5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -45,7 +45,7 @@ public class LabelTypeSerializerTest {
           .setCopyValues(ImmutableList.of((short) 0, (short) 1))
           .setMaxNegative((short) -1)
           .setMaxPositive((short) 1)
-          .setCanOverride(true)
+          .setCanOverride(false)
           .build();
 
   @Test

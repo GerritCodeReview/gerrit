@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "c8944f75_8a7ea939",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T13:54:11Z",
+      "side": 1,
+      "message": "Can you add screenshots and add Delphine?",
+      "revId": "9f5588130c3f24de02c466b3c9fdad1af83cae7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38366406_dd38ecc0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
         "patchSetId": 7

@@ -38,6 +38,7 @@ public class ReloadConfig extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     Multimap<UpdateResult, ConfigUpdateEntry> updates = gerritServerConfigReloader.reloadConfig();
     if (updates.isEmpty()) {
       stdout.println("No config entries updated!");

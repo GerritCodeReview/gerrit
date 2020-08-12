@@ -83,7 +83,8 @@ public class ProjectCacheImpl implements ProjectCache {
         cache(CACHE_NAME, Project.NameKey.class, CachedProjectConfig.class)
             .loader(Loader.class)
             .refreshAfterWrite(Duration.ofMinutes(15))
-            .expireAfterWrite(Duration.ofHours(1));
+            .expireAfterWrite(Duration.ofHours(1))
+            .maximumWeight(0);
 
         cache(CACHE_LIST, ListKey.class, new TypeLiteral<ImmutableSortedSet<Project.NameKey>>() {})
             .maximumWeight(1)

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f2ba37e9_741789ba",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-12T18:09:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "595ca890_86dffab8",
+      "range": {
+        "startLine": 7,
+        "startChar": 50,
+        "endLine": 7,
+        "endChar": 54
+      },
+      "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d74718de_df7a59bb",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -36,6 +60,24 @@
       "writtenOn": "2020-08-12T16:44:53Z",
       "side": 1,
       "message": "The commit message is a bit unclear on the purpose of this change.\n\nI found that the serialization of the ProjectCache\u0027s value depends on LabelTypeSerializer, but I couldn\u0027t figure out why setCanOverride() is needed, or what problem it fixes.\n\nSame goes to treating null/empty description as same.",
+      "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bce0c66f_4577f732",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-12T18:09:32Z",
+      "side": 1,
+      "message": "Done. I also moved the part of ProjectAssert out of this change.",
+      "parentUuid": "d74718de_df7a59bb",
       "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
@@ -62,6 +104,30 @@
       "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba65d960_587445b9",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/LabelTypeSerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-12T18:09:32Z",
+      "side": 1,
+      "message": "\u003e One step further would be to reference and invert the default value LabelType.DEF_CAN_OVERRIDE. If we do so, we should also update the other boolean fields.\n\nNice idea. Done. I also did the same for other tests where we sent an explicit default in the #builder() method.",
+      "parentUuid": "42fc7e46_e4b98864",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91eb5329_130e7af0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-12T08:20:25Z",
+      "side": 1,
+      "message": "I was a bit puzzled by this test and looked a bit deeper as simply changing (i + 2) to (n + 2) seemed to me as if it was not in the spirit of this test. I found out that only loading the projects which are within the specified limit is important as otherwise Gerrit might use excessive heap (see change 211136, I7f0b7efcd). Prior to that change, we even materialized the projects in ListProjects. So, it seems we need to go back to the iterator approach of patchset 1 (if we don\u0027t want to do more refactoring). Sorry that I asked you to switch to the materialization. I wasn\u0027t aware of that other issue.\n\nCan you please take the commit of patchset 1 and simply upload it again?",
+      "range": {
+        "startLine": 110,
+        "startChar": 14,
+        "endLine": 110,
+        "endChar": 35
+      },
+      "revId": "b937760dc2bd5d49bae9d5e3af87b8eec12f1346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

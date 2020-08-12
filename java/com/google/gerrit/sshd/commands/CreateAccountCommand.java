@@ -72,6 +72,7 @@ final class CreateAccountCommand extends SshCommand {
   @Override
   protected void run()
       throws IOException, ConfigInvalidException, UnloggedFailure, PermissionBackendException {
+    enableGracefulStop();
     AccountInput input = new AccountInput();
     input.username = username;
     input.email = email;

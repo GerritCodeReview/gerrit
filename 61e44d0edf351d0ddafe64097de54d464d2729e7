@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "eb4f5c04_9f157694",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-label/gr-account-label.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdf54385_3817aba0",
+      "range": {
+        "startLine": 27,
+        "startChar": 56,
+        "endLine": 27,
+        "endChar": 57
+      },
+      "revId": "61e44d0edf351d0ddafe64097de54d464d2729e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b2d4dddf_c92137fe",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "8b963896_9fc1afa1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T18:52:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2d4dddf_c92137fe",
+      "range": {
+        "startLine": 29,
+        "startChar": 56,
+        "endLine": 29,
+        "endChar": 58
+      },
+      "revId": "61e44d0edf351d0ddafe64097de54d464d2729e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "04ab0b26_456be55c",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "61e44d0edf351d0ddafe64097de54d464d2729e7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ede6dffa_3448f20e",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T18:52:54Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "04ab0b26_456be55c",
+      "range": {
+        "startLine": 200,
+        "startChar": 9,
+        "endLine": 200,
+        "endChar": 15
+      },
+      "revId": "61e44d0edf351d0ddafe64097de54d464d2729e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

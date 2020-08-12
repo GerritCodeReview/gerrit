@@ -959,7 +959,7 @@ class GrDiffView extends KeyboardShortcutMixin(
                 message: `File is unchanged between Patchset
                   ${this._patchRange.basePatchNum} and
                   ${this._patchRange.patchNum}. Showing diff of Base vs
-                  ${this._patchRange.patchNum}`,
+                  ${this._patchRange.basePatchNum}`,
               },
               composed: true, bubbles: true,
             }));

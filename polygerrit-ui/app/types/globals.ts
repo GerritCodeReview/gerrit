@@ -34,6 +34,10 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
+    // TODO(TS): define gerrit type
+    Gerrit?: unknown;
+    // TODO(TS): define polymer type
+    Polymer?: unknown;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;

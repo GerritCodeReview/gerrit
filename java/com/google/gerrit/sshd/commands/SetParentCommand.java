@@ -90,6 +90,7 @@ final class SetParentCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     if (oldParent == null && children.isEmpty()) {
       throw die(
           "child projects have to be specified as "

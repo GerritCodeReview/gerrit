@@ -166,6 +166,7 @@ public class ReviewCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    enableGracefulStop();
     if (abandonChange) {
       if (restoreChange) {
         throw die("abandon and restore actions are mutually exclusive");

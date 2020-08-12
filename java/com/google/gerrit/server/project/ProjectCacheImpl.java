@@ -118,7 +118,8 @@ public class ProjectCacheImpl implements ProjectCache {
         cache(CACHE_NAME, Project.NameKey.class, CachedProjectConfig.class)
             .loader(InMemoryLoader.class)
             .refreshAfterWrite(Duration.ofMinutes(15))
-            .expireAfterWrite(Duration.ofHours(1));
+            .expireAfterWrite(Duration.ofHours(1))
+            .maximumWeight(0);
 
         persist(PERSISTED_CACHE_NAME, Cache.ProjectCacheKeyProto.class, CachedProjectConfig.class)
             .loader(PersistedLoader.class)

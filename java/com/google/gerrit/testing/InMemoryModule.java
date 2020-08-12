@@ -125,7 +125,7 @@ public class InMemoryModule extends FactoryModule {
     cfg.setString("gerrit", null, "canonicalWebUrl", "http://test/");
     cfg.setString("user", null, "name", "Gerrit Code Review");
     cfg.setString("user", null, "email", "gerrit@localhost");
-    cfg.unset("cache", null, "directory");
+    cfg.setString("cache", null, "directory", "cache123");
     cfg.setString("index", null, "type", "lucene");
     cfg.setBoolean("index", "lucene", "testInmemory", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);

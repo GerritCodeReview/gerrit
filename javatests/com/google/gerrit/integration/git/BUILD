@@ -5,9 +5,3 @@ acceptance_tests(
     group = "protocol-v2",
     labels = ["git-protocol-v2"],
 )
-
-acceptance_tests(
-    srcs = ["UploadArchiveIT.java"],
-    group = "upload-archive",
-    labels = ["git-upload-archive"],
-)

@@ -482,7 +482,7 @@ public class GerritServer implements AutoCloseable {
       cfg.setString("sshd", null, "listenAddress", forceEphemeralPort);
     }
     cfg.setBoolean("sshd", null, "testUseInsecureRandom", true);
-    cfg.unset("cache", null, "directory");
+    cfg.setString("cache", null, "directory", "foo");
     cfg.setString("gerrit", null, "basePath", "git");
     cfg.setBoolean("sendemail", null, "enable", true);
     cfg.setInt("sendemail", null, "threadPoolSize", 0);

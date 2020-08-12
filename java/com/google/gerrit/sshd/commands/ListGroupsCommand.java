@@ -52,6 +52,7 @@ public class ListGroupsCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
+    enableGracefulStop();
     if (listGroups.getUser() != null && !listGroups.getProjects().isEmpty()) {
       throw die("--user and --project options are not compatible.");
     }

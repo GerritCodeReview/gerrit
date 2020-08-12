@@ -56,7 +56,7 @@ public class ReplyAttentionSetUpdates {
   private final RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
-  private final ServiceUserClassifier robotClassifier;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -65,13 +65,13 @@ public class ReplyAttentionSetUpdates {
       RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory,
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
-      ServiceUserClassifier robotClassifier) {
+      ServiceUserClassifier serviceUserClassifier) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
-    this.robotClassifier = robotClassifier;
+    this.serviceUserClassifier = serviceUserClassifier;
   }
 
   /** Adjusts the attention set but only based on the automatic rules. */
@@ -83,7 +83,7 @@ public class ReplyAttentionSetUpdates {
       Account.Id currentUser)
       throws IOException, ConfigInvalidException, PermissionBackendException,
           UnprocessableEntityException {
-    if (robotClassifier.isServiceUser(currentUser)) {
+    if (serviceUserClassifier.isServiceUser(currentUser)) {
       return;
     }
     Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet<>();
@@ -108,7 +108,8 @@ public class ReplyAttentionSetUpdates {
       ChangeNotes changeNotes,
       ReviewInput input,
       List<ReviewerAdder.ReviewerAddition> reviewerResults,
-      Account.Id currentUser)
+      Account.Id currentUser,
+      Account.Id caller)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     processManualUpdates(bu, changeNotes, input);
@@ -120,8 +121,9 @@ public class ReplyAttentionSetUpdates {
       bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
-    if (robotClassifier.isServiceUser(currentUser)) {
+    if (isAnyAServiceUser(currentUser, caller)) {
       botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
+      bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
     // Gets a set of all the CCs in this change. Updated reviewers will be defined as reviewers who
@@ -325,5 +327,12 @@ public class ReplyAttentionSetUpdates {
     }
     accountsChangedInCommit.add(attentionUserId);
     return attentionUserId;
+  }
+
+  private boolean isAnyAServiceUser(Account.Id user1, Account.Id user2) {
+    if (serviceUserClassifier.isServiceUser(user1)) {
+      return true;
+    }
+    return user1 != user2 && serviceUserClassifier.isServiceUser(user2);
   }
 }

@@ -15,6 +15,8 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allowLabel;
+import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -25,6 +27,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.AttentionSetUpdate;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
@@ -33,6 +36,7 @@ import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
@@ -51,6 +55,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private FakeEmailSender email;
+  @Inject private ProjectOperations projectOperations;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -968,6 +973,56 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(robot.id());
     change(r).current().review(ReviewInput.recommend());
+
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void robotOnBehalfOfUserReviewDoesNotChangeAttentionSet() throws Exception {
+    TestAccount robot =
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .impersonation(true)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(robot.id());
+    ReviewInput input = ReviewInput.recommend();
+    input.onBehalfOf = user.email();
+    change(r).current().review(input);
+
+    assertThat(r.getChange().attentionSet()).isEmpty();
+  }
+
+  @Test
+  public void userOnBehalfOfRobotReviewDoesNotChangeAttentionSet() throws Exception {
+    TestAccount robot =
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(
+            allowLabel(TestLabels.codeReview().getName())
+                .impersonation(true)
+                .ref("refs/heads/*")
+                .group(REGISTERED_USERS)
+                .range(-1, 1))
+        .update();
+
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput input = ReviewInput.recommend();
+    input.onBehalfOf = robot.email();
+    change(r).current().review(input);
 
     assertThat(r.getChange().attentionSet()).isEmpty();
   }

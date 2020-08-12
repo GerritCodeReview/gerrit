@@ -250,6 +250,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     input.drafts = firstNonNull(input.drafts, DraftHandling.KEEP);
     logger.atFine().log("draft handling = %s", input.drafts);
+    Account.Id caller = revision.getUser().getAccountId();
 
     if (input.onBehalfOf != null) {
       revision = onBehalfOf(revision, labelTypes, input);
@@ -384,7 +385,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(
-          bu, revision.getNotes(), input, reviewerResults, revision.getAccountId());
+          bu, revision.getNotes(), input, reviewerResults, revision.getAccountId(), caller);
       bu.execute();
 
       // Re-read change to take into account results of the update.

@@ -63,6 +63,7 @@ public class BanCommitCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     try {
       BanCommitInput input =
           BanCommitInput.fromCommits(Lists.transform(commitsToBan, ObjectId::getName));

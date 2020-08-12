@@ -106,6 +106,7 @@ public class Query extends SshCommand implements DynamicOptions.BeanReceiver {
 
   @Override
   protected void run() throws Exception {
+    enableGracefulStop();
     processor.query(join(query, " "));
   }
 

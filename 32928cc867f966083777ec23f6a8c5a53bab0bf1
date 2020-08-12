@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "3a2f0859_1c33d0cd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-12T21:39:43Z",
+      "side": 1,
+      "message": "I would suggest to go with your solution then. Should Mina/SSHD introduce the graceful shutdown, we will then change Gerrit code to leverage that mechanism.",
+      "parentUuid": "d0e10a59_36df0949",
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10366f41_3b62149d",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8

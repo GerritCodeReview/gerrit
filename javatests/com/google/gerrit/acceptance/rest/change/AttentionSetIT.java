@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
@@ -35,6 +36,7 @@ import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender;
+import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import java.time.Duration;
 import java.time.Instant;
@@ -985,6 +987,25 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet.reason()).isEqualTo("A robot voted negatively on a label");
+  }
+
+  @Test
+  public void robotCommentAddsOwner() throws Exception {
+    TestAccount robot =
+        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(robot.id());
+    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput.RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields("a.txt");
+    reviewInput.robotComments = ImmutableMap.of("a.txt", ImmutableList.of(robotCommentInput));
+    change(r).current().review(reviewInput);
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    assertThat(attentionSet.account()).isEqualTo(admin.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("A robot comment was added");
   }
 
   @Test

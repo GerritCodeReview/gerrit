@@ -39,6 +39,29 @@
       "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42fc7e46_e4b98864",
+        "filename": "javatests/com/google/gerrit/server/cache/serialize/entities/LabelTypeSerializerTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-12T16:46:09Z",
+      "side": 1,
+      "message": "As you\u0027re now changing this definition, I assume that its related tests should have caught the missing mapping for \u0027canOverride\u0027. However, simply changing the value passed to setCanOverride() from true to false won\u0027t help anybody else looking at this test class in the future. They might wonder why the parameter is false and simply change it back. Hence, I would at least add a comment that this is the opposite of the default value.\n\nOne step further would be to reference and invert the default value LabelType.DEF_CAN_OVERRIDE. If we do so, we should also update the other boolean fields.\n\nIf you prefer the approach with \u0027false\u0027 and a comment, please also update setCopyAllScoresIfNoChange() and setAllowPostSubmit() to false as those two boolean values also use true as default and hence are similarly not covered by this test as setCanOverride().",
+      "range": {
+        "startLine": 27,
+        "startChar": 25,
+        "endLine": 27,
+        "endChar": 39
+      },
+      "revId": "0a53f0ba8a3446d951e6829603b3202a6aedeb5e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -18,6 +18,8 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class PermissionRule implements Comparable<PermissionRule> {
+  public static final boolean DEF_FORCE = false;
+
   public enum Action {
     ALLOW,
     DENY,
@@ -50,7 +52,7 @@ public abstract class PermissionRule implements Comparable<PermissionRule> {
         .setMin(0)
         .setMax(0)
         .setAction(Action.ALLOW)
-        .setForce(false);
+        .setForce(DEF_FORCE);
   }
 
   static PermissionRule merge(PermissionRule src, PermissionRule dest) {

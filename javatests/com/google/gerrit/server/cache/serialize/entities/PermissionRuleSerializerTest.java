@@ -28,7 +28,7 @@ public class PermissionRuleSerializerTest {
     PermissionRule permissionRuleAutoValue =
         PermissionRule.builder(GroupReference.create("name"))
             .setAction(PermissionRule.Action.BATCH)
-            .setForce(true)
+            .setForce(!PermissionRule.DEF_FORCE)
             .setMax(321)
             .setMin(123)
             .build();

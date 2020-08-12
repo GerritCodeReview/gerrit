@@ -26,7 +26,7 @@ import org.junit.Test;
 public class PermissionSerializerTest {
   static final Permission ALL_VALUES_SET =
       Permission.builder(Permission.ABANDON)
-          .setExclusiveGroup(true)
+          .setExclusiveGroup(!Permission.DEF_EXCLUSIVE_GROUP)
           .add(PermissionRule.builder(GroupReference.create("group")))
           .build();
 

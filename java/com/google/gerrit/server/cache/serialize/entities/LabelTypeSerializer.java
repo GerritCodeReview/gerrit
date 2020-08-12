@@ -53,6 +53,7 @@ public class LabelTypeSerializer {
         .setMaxNegative(Shorts.saturatedCast(proto.getMaxNegative()))
         .setMaxPositive(Shorts.saturatedCast(proto.getMaxPositive()))
         .setRefPatterns(proto.getRefPatternsList())
+        .setCanOverride(proto.getCanOverride())
         .build();
   }
 
@@ -81,6 +82,7 @@ public class LabelTypeSerializer {
         .setMaxPositive(Shorts.saturatedCast(autoValue.getMaxPositive()))
         .addAllRefPatterns(
             autoValue.getRefPatterns() == null ? ImmutableList.of() : autoValue.getRefPatterns())
+        .setCanOverride(autoValue.isCanOverride())
         .build();
   }
 

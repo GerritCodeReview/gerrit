@@ -55,6 +55,8 @@ public abstract class Permission implements Comparable<Permission> {
   public static final String TOGGLE_WORK_IN_PROGRESS_STATE = "toggleWipState";
   public static final String VIEW_PRIVATE_CHANGES = "viewPrivateChanges";
 
+  public static final boolean DEF_EXCLUSIVE_GROUP = false;
+
   private static final List<String> NAMES_LC;
   private static final int LABEL_INDEX;
   private static final int LABEL_AS_INDEX;
@@ -147,7 +149,7 @@ public abstract class Permission implements Comparable<Permission> {
   public static Builder builder(String name) {
     return new AutoValue_Permission.Builder()
         .setName(name)
-        .setExclusiveGroup(false)
+        .setExclusiveGroup(DEF_EXCLUSIVE_GROUP)
         .setRules(ImmutableList.of());
   }
 

@@ -41,6 +41,7 @@ public class PluginLsCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
+    enableGracefulStop();
     Map<String, PluginInfo> output = list.apply(TopLevelResource.INSTANCE);
 
     if (format.isJson()) {

@@ -22,6 +22,30 @@
       "revId": "21ee336bc75495170d33546ed2dd62b01dd58c22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c4051f2_14c54221",
+        "filename": "java/com/google/gerrit/server/restapi/project/ListProjects.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-12T15:52:54Z",
+      "side": 1,
+      "message": "One of the stream operations adds the projects to a cache. Materializing the list adds all projects to the cache and breaks the expectations of a test.\n\nI am not sure how important is to keep this caching lazy. We can either use the iterator (keeping the caching lazy), or materialize and update the test expectations (caching all projects). Do you have any preference?",
+      "parentUuid": "8510e331_d59abc35",
+      "range": {
+        "startLine": 438,
+        "startChar": 47,
+        "endLine": 438,
+        "endChar": 70
+      },
+      "revId": "21ee336bc75495170d33546ed2dd62b01dd58c22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

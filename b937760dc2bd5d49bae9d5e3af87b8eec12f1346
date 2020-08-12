@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "853fe44f_feac251e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-12T15:52:54Z",
+      "side": 1,
+      "message": "arg, I did my homework, but forgot to send. I will revert to patchset 1.",
+      "revId": "b937760dc2bd5d49bae9d5e3af87b8eec12f1346",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "91eb5329_130e7af0",
         "filename": "javatests/com/google/gerrit/acceptance/rest/project/ListProjectsIT.java",
         "patchSetId": 5

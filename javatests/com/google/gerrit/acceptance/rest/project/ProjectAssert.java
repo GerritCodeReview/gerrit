@@ -53,7 +53,8 @@ public class ProjectAssert {
     } else {
       assertThat(info.parent).isNull();
     }
-    assertThat(Strings.nullToEmpty(info.description)).isEqualTo(project.getDescription());
+    assertThat(Strings.nullToEmpty(info.description))
+        .isEqualTo(Strings.nullToEmpty(project.getDescription()));
   }
 
   public static void assertProjectOwners(

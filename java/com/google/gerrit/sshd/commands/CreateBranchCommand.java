@@ -44,6 +44,7 @@ public final class CreateBranchCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    enableGracefulStop();
     try {
       BranchInput in = new BranchInput();
       in.revision = revision;

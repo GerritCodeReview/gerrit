@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "04ab0b26_456be55c",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-12T14:49:51Z",
+      "side": 1,
+      "message": "possible tags are limited to Tag enum. Maybe move enum Tag from account-util.ts to constants.ts and define tags?: Tag[] (and maybe rename Tag to AccountTag)",
+      "range": {
+        "startLine": 200,
+        "startChar": 9,
+        "endLine": 200,
+        "endChar": 15
+      },
+      "revId": "61e44d0edf351d0ddafe64097de54d464d2729e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

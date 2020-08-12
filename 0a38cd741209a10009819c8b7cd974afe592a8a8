@@ -22,6 +22,30 @@
       "revId": "0a38cd741209a10009819c8b7cd974afe592a8a8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b9280c_d76e994d",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-repo-api/gr-plugin-repo-command.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-12T07:46:45Z",
+      "side": 0,
+      "message": "not used in any place when create `gr-plugin-repo-command`, its actually two parameters passed to `repo-command`, the use case for `gr-plugin-repo-command` seems always generate and INSERT into the attached endpoint element, so the two variables available on the endpoint, not on the gr-plugin-repo-command",
+      "parentUuid": "0393d954_965bc507",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 29,
+        "endChar": 21
+      },
+      "revId": "0a38cd741209a10009819c8b7cd974afe592a8a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

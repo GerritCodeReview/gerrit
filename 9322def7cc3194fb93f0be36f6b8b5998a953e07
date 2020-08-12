@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fe2c1aae_8d9ac75e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-12T13:55:44Z",
+      "side": 1,
+      "message": "Given your other change this probably does not need to be converted, but will be deleted.",
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

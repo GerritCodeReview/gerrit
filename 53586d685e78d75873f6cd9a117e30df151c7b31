@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4256bee2_7edf23ea",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-12T11:10:23Z",
+      "side": 1,
+      "message": "I am not really sure why the 0.15em was used.\nThis change also hardcodes another value but aligns it much better.",
+      "revId": "53586d685e78d75873f6cd9a117e30df151c7b31",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

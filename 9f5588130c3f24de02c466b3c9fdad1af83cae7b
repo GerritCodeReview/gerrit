@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "8e66da3d_e8b6891a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-12T15:54:02Z",
+      "side": 1,
+      "message": "Yeah I\u0027ll create a follow up change.",
+      "parentUuid": "38366406_dd38ecc0",
+      "revId": "9f5588130c3f24de02c466b3c9fdad1af83cae7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d3143d9_f74e788d",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 7
@@ -70,6 +88,24 @@
     },
     {
       "key": {
+        "uuid": "f8e84cfd_9e5eb13b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-12T15:54:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6d3143d9_f74e788d",
+      "revId": "9f5588130c3f24de02c466b3c9fdad1af83cae7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d98f92ad_3f934da8",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.ts",
         "patchSetId": 7
@@ -84,6 +120,24 @@
       "revId": "9f5588130c3f24de02c466b3c9fdad1af83cae7b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d28732a_94a00b3a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-12T15:54:02Z",
+      "side": 1,
+      "message": "Added todo for myself.",
+      "parentUuid": "d98f92ad_3f934da8",
+      "revId": "9f5588130c3f24de02c466b3c9fdad1af83cae7b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

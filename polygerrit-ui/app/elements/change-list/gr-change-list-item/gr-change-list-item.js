@@ -38,6 +38,7 @@ import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js
 import {appContext} from '../../../services/app-context.js';
 import {truncatePath} from '../../../utils/path-list-util.js';
 import {changeStatuses} from '../../../utils/change-util.js';
+import {isServiceUser} from '../../../utils/account-util.js';
 
 const CHANGE_SIZE = {
   XS: 10,
@@ -230,7 +231,8 @@ class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
   _computeReviewers(change) {
     if (!change || !change.reviewers || !change.reviewers.REVIEWER) return [];
     const reviewers = [...change.reviewers.REVIEWER].filter(r =>
-      !change.owner || change.owner._account_id !== r._account_id
+      (!change.owner || change.owner._account_id !== r._account_id) &&
+      !isServiceUser(r)
     );
     reviewers.sort((r1, r2) => {
       if (this.account) {

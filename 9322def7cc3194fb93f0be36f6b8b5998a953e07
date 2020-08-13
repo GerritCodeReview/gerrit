@@ -2,6 +2,305 @@
   "comments": [
     {
       "key": {
+        "uuid": "a4b15114_85289488",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-metadata-api/gr-change-metadata-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Avoid use any where possible.\nIn this file you can use the same solution as was used in other files, for example in the gr-change-reply-js-api.ts - introduce non-exported interfaces PluginApi and HookApi and add only required methods to this interface",
+      "range": {
+        "startLine": 30,
+        "startChar": 22,
+        "endLine": 30,
+        "endChar": 25
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01143651_09bc1b80",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-metadata-api/gr-change-metadata-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Please define exact callback type instead of Function",
+      "range": {
+        "startLine": 39,
+        "startChar": 28,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dda89c83_67ba9b1d",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Please avoid any where possible - see my comment in gr-change-metadata-api.ts",
+      "range": {
+        "startLine": 25,
+        "startChar": 19,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8a500b7_aeffab09",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "remove opt_ prefix",
+      "range": {
+        "startLine": 34,
+        "startChar": 37,
+        "endLine": 34,
+        "endChar": 41
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d443bd12_42c2ecd9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "remove opt_",
+      "range": {
+        "startLine": 48,
+        "startChar": 35,
+        "endLine": 48,
+        "endChar": 39
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b05a6485_465c3d58",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Please define an interface for elements if possible. If not possible (i.e. GrDomHook doesn\u0027t use any method/properties of an _instances item) - use unknown instead of any and define it as\n_instances: unknown[] \u003d [];\n\nTypescript guide provides more background why unknown is better than any.",
+      "range": {
+        "startLine": 68,
+        "startChar": 22,
+        "endLine": 68,
+        "endChar": 25
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4675c010_95344b04",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Please define callback with parameters",
+      "range": {
+        "startLine": 70,
+        "startChar": 28,
+        "endLine": 70,
+        "endChar": 36
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1330af7a_fccf995f",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Same",
+      "range": {
+        "startLine": 72,
+        "startChar": 28,
+        "endLine": 72,
+        "endChar": 36
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a851193_d6ace4a9",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Define an interface or use unknown.",
+      "range": {
+        "startLine": 76,
+        "startChar": 40,
+        "endLine": 76,
+        "endChar": 43
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2aefa24_7cd6899e",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "remove opt_",
+      "range": {
+        "startLine": 78,
+        "startChar": 32,
+        "endLine": 78,
+        "endChar": 36
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60a482cf_5e1cf310",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Please define exact type",
+      "range": {
+        "startLine": 128,
+        "startChar": 19,
+        "endLine": 128,
+        "endChar": 27
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "938ccde1_443cfdb5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Item[]\nTypescript style guide:\nFor simple types (containing just alphanumeric characters and dot), use the syntax sugar for arrays, T[], rather than the longer form Array\u003cT\u003e.\n\nFor anything more complex, use the longer form Array\u003cT\u003e.\n\nThe same as before: https://gerrit-review.googlesource.com/c/gerrit/+/277591/comment/5ec20517_5ad513be/",
+      "range": {
+        "startLine": 89,
+        "startChar": 15,
+        "endLine": 89,
+        "endChar": 26
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9de408d8_e3628fad",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete-dropdown/gr-autocomplete-dropdown.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T07:40:47Z",
+      "side": 1,
+      "message": "Element[]",
+      "range": {
+        "startLine": 92,
+        "startChar": 18,
+        "endLine": 92,
+        "endChar": 32
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fe2c1aae_8d9ac75e",
         "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.ts",
         "patchSetId": 10

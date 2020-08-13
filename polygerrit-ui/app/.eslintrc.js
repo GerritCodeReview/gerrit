@@ -266,6 +266,10 @@ module.exports = {
       "files": ["**/*.ts"],
       "extends": [require.resolve("gts/.eslintrc.json")],
       "rules": {
+        "no-restricted-imports": ["error", {
+          name: "@polymer/decorators/lib/decorators",
+          message: "Use @polymer/decorators instead",
+        }],
         // The following rules is required to match internal google rules
         "@typescript-eslint/restrict-plus-operands": "error",
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md

@@ -47,8 +47,7 @@ import {
   listChangesOptionsToHex,
 } from '../../../utils/change-util';
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
-import {customElement} from '@polymer/decorators';
-import {property} from '@polymer/decorators/lib/decorators';
+import {customElement, property} from '@polymer/decorators';
 import {AuthRequestInit, AuthService} from '../../../services/gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,

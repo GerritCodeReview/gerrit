@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-detail-list.js';
-import page from 'page/page.mjs';
+import {page} from '../../../utils/page-wrapper-utils.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-repo-detail-list');

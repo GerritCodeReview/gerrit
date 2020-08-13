@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-create-group-dialog.js';
-import page from 'page/page.mjs';
+import {page} from '../../../utils/page-wrapper-utils.js';
 
 const basicFixture = fixtureFromElement('gr-create-group-dialog');
 

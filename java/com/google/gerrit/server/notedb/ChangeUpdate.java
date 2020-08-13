@@ -121,7 +121,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
   private final ChangeDraftUpdate.Factory draftUpdateFactory;
   private final RobotCommentUpdate.Factory robotCommentUpdateFactory;
   private final DeleteCommentRewriter.Factory deleteCommentRewriterFactory;
-  private final ServiceUserClassifier robotClassifier;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   private final Table<String, Account.Id, Optional<Short>> approvals;
   private final Map<Account.Id, ReviewerStateInternal> reviewers = new LinkedHashMap<>();
@@ -167,7 +167,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
       ProjectCache projectCache,
-      ServiceUserClassifier robotClassifier,
+      ServiceUserClassifier serviceUserClassifier,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -178,7 +178,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
         draftUpdateFactory,
         robotCommentUpdateFactory,
         deleteCommentRewriterFactory,
-        robotClassifier,
+        serviceUserClassifier,
         notes,
         user,
         when,
@@ -202,7 +202,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       ChangeDraftUpdate.Factory draftUpdateFactory,
       RobotCommentUpdate.Factory robotCommentUpdateFactory,
       DeleteCommentRewriter.Factory deleteCommentRewriterFactory,
-      ServiceUserClassifier robotClassifier,
+      ServiceUserClassifier serviceUserClassifier,
       @Assisted ChangeNotes notes,
       @Assisted CurrentUser user,
       @Assisted Date when,
@@ -213,7 +213,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
     this.draftUpdateFactory = draftUpdateFactory;
     this.robotCommentUpdateFactory = robotCommentUpdateFactory;
     this.deleteCommentRewriterFactory = deleteCommentRewriterFactory;
-    this.robotClassifier = robotClassifier;
+    this.serviceUserClassifier = serviceUserClassifier;
     this.approvals = approvals(labelNameComparator);
   }
 
@@ -833,7 +833,7 @@ public class ChangeUpdate extends AbstractChangeUpdate {
       }
 
       if (attentionSetUpdate.operation() == AttentionSetUpdate.Operation.ADD
-          && robotClassifier.isServiceUser(attentionSetUpdate.account())) {
+          && serviceUserClassifier.isServiceUser(attentionSetUpdate.account())) {
         // Skip adding robots to the attention set.
         continue;
       }

@@ -22,6 +22,30 @@
       "revId": "86bb647fb6a5525995388f541cea8fa06f26940b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d00260bc_c63ceb49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-13T12:32:40Z",
+      "side": 1,
+      "message": "You can take a look at the screenshots attached.\nhttps://imgur.com/a/PaE4epn\n\nIt\u0027s making the header in the diff/edit view sticky.",
+      "parentUuid": "e8378372_d751a456",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 60
+      },
+      "revId": "86bb647fb6a5525995388f541cea8fa06f26940b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

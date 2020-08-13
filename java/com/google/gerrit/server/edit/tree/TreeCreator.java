@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.edit.tree;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static java.util.Objects.requireNonNull;
 
 import com.google.common.collect.ImmutableList;
@@ -56,7 +57,11 @@ public class TreeCreator {
 
   /**
    * Apply modifications to the tree which is taken as a basis. If this method is called multiple
-   * times, the modifications are applied subsequently in exactly the order they were provided.
+   * times, the modifications are applied subsequently in exactly the order they were provided
+   * (though JGit applies some internal optimizations which involve sorting, too).
+   *
+   * <p><strong>Beware:</strong> All provided {@link TreeModification}s (even from previous calls of
+   * this method) must touch different file paths!
    *
    * @param treeModifications modifications which should be applied to the base tree
    */
@@ -75,8 +80,30 @@ public class TreeCreator {
    * @throws IOException if problems arise when accessing the repository
    */
   public ObjectId createNewTreeAndGetId(Repository repository) throws IOException {
+    ensureTreeModificationsDoNotTouchSameFiles();
     DirCache newTree = createNewTree(repository);
     return writeAndGetId(repository, newTree);
+  }
+
+  private void ensureTreeModificationsDoNotTouchSameFiles() {
+    // The current implementation of TreeCreator doesn't properly support modifications which touch
+    // the same files even if they are provided in a logical order. According to JGit's
+    // documentation, DirCache applies some internal sorting to optimize the index modifications.
+    // The internal sorting doesn't seem to be the only issue, though. Even applying the
+    // modifications in batches within different, subsequent DirCaches just held in memory didn't
+    // seem to work. We might need to fully write each batch to disk before creating the next.
+    ImmutableList<String> filePaths =
+        treeModifications.stream()
+            .flatMap(treeModification -> treeModification.getFilePaths().stream())
+            .collect(toImmutableList());
+    long distinctFilePathNum = filePaths.stream().distinct().count();
+    if (filePaths.size() != distinctFilePathNum) {
+      throw new IllegalStateException(
+          String.format(
+              "TreeModifications must not refer to the same file paths. This would have"
+                  + " unexpected/wrong behavior! Found file paths: %s.",
+              filePaths));
+    }
   }
 
   private DirCache createNewTree(Repository repository) throws IOException {

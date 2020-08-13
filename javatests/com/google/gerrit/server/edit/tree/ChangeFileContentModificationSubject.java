@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertAbout;
 
 import com.google.common.io.CharStreams;
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.IterableSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -45,9 +46,9 @@ public class ChangeFileContentModificationSubject extends Subject {
     this.modification = modification;
   }
 
-  public StringSubject filePath() {
+  public IterableSubject filePaths() {
     isNotNull();
-    return check("getFilePath()").that(modification.getFilePath());
+    return check("getFilePaths()").that(modification.getFilePaths());
   }
 
   public StringSubject newContent() throws IOException {

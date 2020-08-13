@@ -14,8 +14,8 @@
 
 package com.google.gerrit.server.edit.tree;
 
-import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -42,12 +42,10 @@ public interface TreeModification {
       throws IOException;
 
   /**
-   * Indicates a file path which is affected by this {@code TreeModification}. If the modification
-   * refers to several file paths (e.g. renaming a file), returning either of them is appropriate as
-   * long as the returned value is deterministic.
+   * Indicates all file paths affected by this {@code TreeModification}. If the modification refers
+   * to several file paths (e.g. renaming a file), all of them must be returned.
    *
-   * @return an affected file path
+   * @return all affected file paths
    */
-  @VisibleForTesting
-  String getFilePath();
+  ImmutableSet<String> getFilePaths();
 }

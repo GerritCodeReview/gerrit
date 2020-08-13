@@ -27,12 +27,16 @@ import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
+import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender;
@@ -53,6 +57,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private FakeEmailSender email;
+  @Inject private TestCommentHelper testCommentHelper;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -321,7 +326,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void addingReviewerWhileMarkingWorkInprogressDoesntAddToAttentionSet() throws Exception {
+  public void addingReviewerWhileMarkingWorkInProgressDoesntAddToAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     ReviewInput reviewInput = ReviewInput.create().setWorkInProgress(true);
     AddReviewerInput addReviewerInput = new AddReviewerInput();
@@ -683,7 +688,19 @@ public class AttentionSetIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
     assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reviewer or cc replied");
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
+  }
+
+  @Test
+  public void repliesDoNotAddOwnerWhenChangeIsClosed() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).abandon();
+    requestScopeOperations.setApiUser(user.id());
+
+    ReviewInput reviewInput = new ReviewInput();
+    change(r).current().review(reviewInput);
+
+    assertThat(getAttentionSetUpdatesForUser(r, admin)).isEmpty();
   }
 
   @Test
@@ -722,7 +739,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
     assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reviewer or cc replied");
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
   }
 
   @Test
@@ -746,46 +763,100 @@ public class AttentionSetIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reviewer or cc replied");
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
 
     // Owner added
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
     assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reviewer or cc replied");
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
   }
 
   @Test
-  public void ownerRepliesAddsReviewersOnly() throws Exception {
+  public void reviewAddsAllUsersInCommentThread() throws Exception {
     PushOneCommit.Result r = createChange();
-    // add reviewer and cc
-    change(r).addReviewer(user.email());
+    requestScopeOperations.setApiUser(user.id());
+    change(r).current().review(reviewWithComment());
+
+    TestAccount user2 = accountCreator.user2();
+
+    requestScopeOperations.setApiUser(user2.id());
     change(r)
-        .attention(user.email())
-        .remove(new AttentionSetInput("Reviewer is not in attention-set"));
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().commentsAsList())
+                    .id));
 
-    TestAccount cc = accountCreator.admin2();
-    AddReviewerInput input = new AddReviewerInput();
-    input.state = ReviewerState.CC;
-    input.reviewer = cc.email();
-    change(r).addReviewer(input);
+    change(r).attention(user.email()).remove(new AttentionSetInput("removal"));
+    requestScopeOperations.setApiUser(admin.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                gApi.changes().id(r.getChangeId()).current().commentsAsList().get(1).id));
 
-    ReviewInput reviewInput = new ReviewInput();
-    change(r).current().review(reviewInput);
-
-    // cc not added
-    assertThat(getAttentionSetUpdatesForUser(r, cc)).isEmpty();
-
-    // reviewer added
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("owner or uploader replied");
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+
+    attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
+    assertThat(attentionSet.account()).isEqualTo(user2.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
   }
 
   @Test
-  public void ownerRepliesWhileRemovingReviewerStillRemovesFromAttentionSet() throws Exception {
+  public void reviewAddsAllUsersInCommentThreadWhenPostedAsDraft() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    change(r).current().review(reviewWithComment());
+
+    requestScopeOperations.setApiUser(admin.id());
+    testCommentHelper.addDraft(
+        r.getChangeId(),
+        testCommentHelper.newDraft(
+            "message",
+            Iterables.getOnlyElement(gApi.changes().id(r.getChangeId()).current().commentsAsList())
+                .id));
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.drafts = ReviewInput.DraftHandling.PUBLISH;
+    change(r).current().review(reviewInput);
+
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+  }
+
+  @Test
+  public void reviewDoesNotAddUsersInACommentThreadThatAreNotActiveInTheChange() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    change(r).current().review(reviewWithComment());
+    change(r).reviewer(user.id().toString()).remove(new DeleteReviewerInput());
+
+    requestScopeOperations.setApiUser(admin.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().commentsAsList())
+                    .id));
+
+    // The user was to be added, but was not added since that user is no longer a
+    // reviewer/cc/owner/uploader.
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
+  public void ownerRepliesWhileRemovingReviewerRemovesFromAttentionSet() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).addReviewer(user.email());
 
@@ -801,40 +872,32 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void uploaderRepliesAddsOwnerAndReviewersOnly() throws Exception {
+  public void uploaderRepliesAddsOwner() throws Exception {
     PushOneCommit.Result r = createChange();
     r = amendChangeWithUploader(r, project, user);
 
     // Add reviewer and cc
     TestAccount reviewer = accountCreator.user2();
-    change(r).addReviewer(reviewer.email());
     TestAccount cc = accountCreator.admin2();
-    AddReviewerInput input = new AddReviewerInput();
-    input.state = ReviewerState.CC;
-    input.reviewer = cc.email();
-    change(r).addReviewer(input);
-
-    requestScopeOperations.setApiUser(user.id());
-    change(r).attention(reviewer.email()).remove(new AttentionSetInput("reason"));
-
-    ReviewInput reviewInput = new ReviewInput();
+    ReviewInput reviewInput = new ReviewInput().blockAutomaticAttentionSetRules();
+    reviewInput = reviewInput.reviewer(reviewer.email());
+    reviewInput.reviewer(cc.email(), ReviewerState.CC, false);
     change(r).current().review(reviewInput);
 
-    // cc not added
-    assertThat(getAttentionSetUpdatesForUser(r, cc)).isEmpty();
+    requestScopeOperations.setApiUser(user.id());
 
-    // reviewer added
-    AttentionSetUpdate attentionSet =
-        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, reviewer));
-    assertThat(attentionSet.account()).isEqualTo(reviewer.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("owner or uploader replied");
+    change(r).current().review(new ReviewInput());
+
+    // Reviewer and CC not added since the uploader didn't reply to their comments
+    assertThat(getAttentionSetUpdatesForUser(r, cc)).isEmpty();
+    assertThat(getAttentionSetUpdatesForUser(r, reviewer)).isEmpty();
 
     // Owner added
-    attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
     assertThat(attentionSet.account()).isEqualTo(admin.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("uploader replied");
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
   }
 
   @Test
@@ -1054,5 +1117,21 @@ public class AttentionSetIT extends AbstractDaemonTest {
     return r.getChange().attentionSet().stream()
         .filter(a -> a.account().get() == account.id().get())
         .collect(Collectors.toList());
+  }
+
+  private ReviewInput reviewWithComment() {
+    return reviewInReplyToComment(null);
+  }
+
+  private ReviewInput reviewInReplyToComment(@Nullable String id) {
+    ReviewInput.CommentInput comment = new ReviewInput.CommentInput();
+    comment.side = Side.REVISION;
+    comment.path = Patch.COMMIT_MSG;
+    comment.message = "comment";
+    comment.updated = TimeUtil.nowTs();
+    comment.inReplyTo = id;
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
+    return reviewInput;
   }
 }

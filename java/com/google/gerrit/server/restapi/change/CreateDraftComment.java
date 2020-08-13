@@ -116,7 +116,15 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
       comment =
           commentsUtil.newHumanComment(
-              ctx, in.path, ps.id(), in.side(), in.message.trim(), in.unresolved, parentUuid);
+              ctx.getNotes(),
+              ctx.getUser(),
+              ctx.getWhen(),
+              in.path,
+              ps.id(),
+              in.side(),
+              in.message.trim(),
+              in.unresolved,
+              parentUuid);
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
 

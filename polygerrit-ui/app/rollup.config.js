@@ -75,7 +75,10 @@ export default {
   context: 'window',
   plugins: [resolve({
     customResolveOptions: {
-      moduleDirectory: 'external/ui_npm/node_modules'
+      // By default, it tries to use page.mjs file instead of page.js
+      // when importing 'page/page'.
+      extensions: ['.js'],
+      moduleDirectory: 'external/ui_npm/node_modules',
     }
   }), importLocalFontMetaUrlResolver()],
 };

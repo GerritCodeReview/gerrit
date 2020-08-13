@@ -47,7 +47,7 @@ import {GrPopupInterface} from './plugins/gr-popup-interface/gr-popup-interface.
 import {GrCountStringFormatter} from './shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider.js';
 import {util} from '../scripts/util.js';
-import page from 'page/page.mjs';
+import {page} from '../utils/page-wrapper-utils.js';
 import {appContext} from '../services/app-context.js';
 import {GrAdminApi} from './plugins/gr-admin-api/gr-admin-api.js';
 import {GrAnnotationActionsContext} from './shared/gr-js-api-interface/gr-annotation-actions-context.js';

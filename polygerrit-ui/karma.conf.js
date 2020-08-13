@@ -81,7 +81,11 @@ module.exports = function(config) {
       { pattern: testFilesPattern, type: 'module' },
     ],
     esm: {
-      nodeResolve: true,
+      nodeResolve: {
+        // By default, it tries to use page.mjs file instead of page.js
+        // when importing 'page/page'.
+        extensions: ['.js'],
+      },
       moduleDirs: getModulesDir(),
       // Bazel and yarn uses symlinks for files.
       // preserveSymlinks is necessary for correct modules paths resolving
@@ -91,6 +95,28 @@ module.exports = function(config) {
       // breaks tests in some browser versions
       // (for example, Chrome 69 on gerrit-ci).
       compatibility: 'none',
+      plugins: [
+        {
+          transform(context) {
+            if (context.path.endsWith('/node_modules/page/page.js')) {
+              const orignalBody = context.body;
+              // Can't import page.js directly, because this is undefined.
+              // Replace it with window
+              // The same replace exists in server.go
+              // Rollup makes this replacement automatically
+              const transformedBody = orignalBody.replace(
+                  '}(this, (function () { \'use strict\';',
+                  '}(window, (function () { \'use strict\';'
+              );
+              if(orignalBody.length === transformedBody.length) {
+                console.error('The page.js was updated. Please update transform accordingly');
+                process.exit(1);
+              }
+              return {body: transformedBody};
+            }
+          },
+        }
+      ]
     },
     // test results reporter to use
     // possible values: 'dots', 'progress'

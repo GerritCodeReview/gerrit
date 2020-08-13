@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85d31e92_79011616",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-13T14:46:32Z",
+      "side": 1,
+      "message": "Great that you also thought of tests!",
+      "range": {
+        "startLine": 13,
+        "startChar": 40,
+        "endLine": 13,
+        "endChar": 51
+      },
+      "revId": "d99095d521c62d1a436e284c2c0e03e3c918be98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ae116225_0c4e9ec6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1175,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-13T14:46:32Z",
+      "side": 1,
+      "message": "If you also want to cover an update of an existing tag with this test, you should set another tag on DraftInput.",
+      "range": {
+        "startLine": 1175,
+        "startChar": 4,
+        "endLine": 1175,
+        "endChar": 14
+      },
+      "revId": "d99095d521c62d1a436e284c2c0e03e3c918be98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3bc8760e_06695bda",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1206,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-13T14:46:32Z",
+      "side": 1,
+      "message": "Hardcoding the implicit patchset ID here could make this test brittle as it relies on implicit behavior. That\u0027s not necessary as we do have the actual patchset ID in this test (see line 1195 which adds the draft comment to a specific revision).",
+      "range": {
+        "startLine": 1206,
+        "startChar": 60,
+        "endLine": 1206,
+        "endChar": 71
+      },
+      "revId": "d99095d521c62d1a436e284c2c0e03e3c918be98",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

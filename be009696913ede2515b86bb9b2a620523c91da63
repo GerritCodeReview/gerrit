@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53b7e027_be155a3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-13T19:47:02Z",
+      "side": 1,
+      "message": "that\u0027s kinda missing a mention of attention set ...",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87d2792e_70d33f2f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-13T19:47:02Z",
+      "side": 1,
+      "message": "maybe that\u0027s already implied by the terminology, but what about change messages (which still aren\u0027t threaded)?",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84b2e14d_d46f13ea",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-13T19:47:02Z",
+      "side": 1,
+      "message": "well, i guess that\u0027s consistent with clearing the AS upon closing. but both seem somehow wrong to me ... there is too much risk of comments going unnoticed.",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd7e0827_b3cf0ecf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-13T19:47:02Z",
+      "side": 1,
+      "message": "something is wrong here ...",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

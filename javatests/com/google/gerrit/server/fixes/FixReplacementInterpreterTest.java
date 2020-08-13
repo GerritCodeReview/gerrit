@@ -16,6 +16,7 @@ package com.google.gerrit.server.fixes;
 
 import static com.google.gerrit.server.edit.tree.TreeModificationSubject.assertThatList;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
+import static java.util.Comparator.comparing;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +29,6 @@ import com.google.gerrit.server.change.FileContentUtil;
 import com.google.gerrit.server.edit.tree.TreeModification;
 import com.google.gerrit.server.project.ProjectState;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
@@ -73,8 +73,8 @@ public class FixReplacementInterpreterTest {
     assertThatList(sortedTreeModifications)
         .element(0)
         .asChangeFileContentModification()
-        .filePath()
-        .isEqualTo(filePath1);
+        .filePaths()
+        .containsExactly(filePath1);
     assertThatList(sortedTreeModifications)
         .element(0)
         .asChangeFileContentModification()
@@ -83,8 +83,8 @@ public class FixReplacementInterpreterTest {
     assertThatList(sortedTreeModifications)
         .element(1)
         .asChangeFileContentModification()
-        .filePath()
-        .isEqualTo(filePath2);
+        .filePaths()
+        .containsExactly(filePath2);
     assertThatList(sortedTreeModifications)
         .element(1)
         .asChangeFileContentModification()
@@ -340,7 +340,10 @@ public class FixReplacementInterpreterTest {
 
   private static List<TreeModification> getSortedCopy(List<TreeModification> treeModifications) {
     List<TreeModification> sortedTreeModifications = new ArrayList<>(treeModifications);
-    sortedTreeModifications.sort(Comparator.comparing(TreeModification::getFilePath));
+    // The sorting is only necessary to get a deterministic order. The exact order doesn't matter.
+    sortedTreeModifications.sort(
+        comparing(
+            treeModification -> treeModification.getFilePaths().stream().findFirst().orElse("")));
     return sortedTreeModifications;
   }
 }

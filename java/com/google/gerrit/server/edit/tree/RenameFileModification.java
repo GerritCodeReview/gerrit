@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit.tree;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import java.io.IOException;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -57,7 +58,7 @@ public class RenameFileModification implements TreeModification {
   }
 
   @Override
-  public String getFilePath() {
-    return newFilePath;
+  public ImmutableSet<String> getFilePaths() {
+    return ImmutableSet.of(currentFilePath, newFilePath);
   }
 }

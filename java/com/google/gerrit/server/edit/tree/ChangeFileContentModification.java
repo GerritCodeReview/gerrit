@@ -19,6 +19,7 @@ import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.common.io.ByteStreams;
 import com.google.gerrit.extensions.restapi.RawInput;
@@ -55,8 +56,8 @@ public class ChangeFileContentModification implements TreeModification {
   }
 
   @Override
-  public String getFilePath() {
-    return filePath;
+  public ImmutableSet<String> getFilePaths() {
+    return ImmutableSet.of(filePath);
   }
 
   @VisibleForTesting

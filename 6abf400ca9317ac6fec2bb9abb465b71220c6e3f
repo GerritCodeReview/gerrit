@@ -16,6 +16,24 @@
       "revId": "6abf400ca9317ac6fec2bb9abb465b71220c6e3f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5042550d_b841806c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-13T11:07:05Z",
+      "side": 1,
+      "message": "That\u0027s good idea.",
+      "parentUuid": "958dd293_d367cf5b",
+      "revId": "6abf400ca9317ac6fec2bb9abb465b71220c6e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

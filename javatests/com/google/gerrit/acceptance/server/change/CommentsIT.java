@@ -31,11 +31,16 @@ import com.google.common.collect.Lists;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestHumanComment;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.api.changes.DraftInput;
@@ -88,6 +93,8 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private ProjectOperations projectOperations;
   @Inject private Provider<ChangesCollection> changes;
   @Inject private Provider<PostReview> postReview;
+  @Inject private ChangeOperations changeOperations;
+  @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CommentsUtil commentsUtil;
 
@@ -721,6 +728,37 @@ public class CommentsIT extends AbstractDaemonTest {
         Iterables.getOnlyElement(commentsUtil.draftByChange(r.getChange().notes()));
     assertThat(comment.parentUuid).isEqualTo(inReplyTo);
     assertThat(comment.tag).isEqualTo(tag);
+  }
+
+  @Test
+  public void updatedDraftStillPointsToParentComment() throws Exception {
+    Account.Id accountId = accountOperations.newAccount().create();
+    Change.Id changeId = changeOperations.newChange().create();
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    String parentCommentUuid =
+        changeOperations.change(changeId).patchset(patchsetId).newComment().create();
+    String draftCommentUuid =
+        changeOperations
+            .change(changeId)
+            .patchset(patchsetId)
+            .newDraftComment()
+            .parentUuid(parentCommentUuid)
+            .author(accountId)
+            .create();
+
+    // Each user can only see their own drafts.
+    requestScopeOperations.setApiUser(accountId);
+    DraftInput draftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    draftInput.message = "Another comment text.";
+    gApi.changes()
+        .id(changeId.get())
+        .revision(patchsetId.get())
+        .draft(draftCommentUuid)
+        .update(draftInput);
+
+    TestHumanComment comment =
+        changeOperations.change(changeId).draftComment(draftCommentUuid).get();
+    assertThat(comment.parentUuid()).isEqualTo(parentCommentUuid);
   }
 
   @Test

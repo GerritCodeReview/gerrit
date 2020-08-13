@@ -50,6 +50,10 @@ public class CommentInfoSubject extends Subject {
     this.commentInfo = commentInfo;
   }
 
+  public StringSubject uuid() {
+    return check("id").that(commentInfo().id);
+  }
+
   public IntegerSubject patchSet() {
     return check("patchSet").that(commentInfo().patchSet);
   }
@@ -84,6 +88,10 @@ public class CommentInfoSubject extends Subject {
 
   public StringSubject inReplyTo() {
     return check("inReplyTo").that(commentInfo().inReplyTo);
+  }
+
+  public StringSubject tag() {
+    return check("tag").that(commentInfo().tag);
   }
 
   private CommentInfo commentInfo() {

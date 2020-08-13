@@ -22,6 +22,30 @@
       "revId": "0fbca634b18dec28117ed039f8fe8b1225d4268a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a2027e9_7ce8cf3b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-config-array-editor/gr-plugin-config-array-editor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-13T11:21:51Z",
+      "side": 1,
+      "message": "I added comment. This component makes no sense if plugin option is null.",
+      "parentUuid": "ba98bf4e_767968d4",
+      "range": {
+        "startLine": 53,
+        "startChar": 2,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "0fbca634b18dec28117ed039f8fe8b1225d4268a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

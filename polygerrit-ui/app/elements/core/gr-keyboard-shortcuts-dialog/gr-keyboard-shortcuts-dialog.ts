@@ -14,35 +14,57 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-button/gr-button.js';
-import '../gr-key-binding-display/gr-key-binding-display.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html.js';
-import {KeyboardShortcutMixin, ShortcutSection} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '../../shared/gr-button/gr-button';
+import '../gr-key-binding-display/gr-key-binding-display';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-keyboard-shortcuts-dialog_html';
+import {
+  KeyboardShortcutMixin,
+  ShortcutSection,
+  ShortcutListener,
+  SectionView,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {property, customElement} from '@polymer/decorators';
 
-/**
- * @extends PolymerElement
- */
-class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-keyboard-shortcuts-dialog': GrKeyboardShortcutsDialog;
+  }
+}
 
-  static get is() { return 'gr-keyboard-shortcuts-dialog'; }
+@customElement('gr-keyboard-shortcuts-dialog')
+export class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the user presses the close button.
    *
    * @event close
    */
 
-  static get properties() {
-    return {
-      _left: Array,
-      _right: Array,
-    };
+  @property({type: Array})
+  _left?: unknown[];
+
+  @property({type: Array})
+  _right?: unknown[];
+
+  private keyboardShortcutDirectoryListener: ShortcutListener;
+
+  constructor() {
+    super();
+    this.keyboardShortcutDirectoryListener = this._onDirectoryUpdated.bind(
+      this
+    );
+    super.addKeyboardShortcutDirectoryListener(
+      this.keyboardShortcutDirectoryListener
+    );
   }
 
   /** @override */
@@ -54,28 +76,31 @@ class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
   /** @override */
   attached() {
     super.attached();
-    this.keyboardShortcutDirectoryListener =
-        this._onDirectoryUpdated.bind(this);
-    this.addKeyboardShortcutDirectoryListener(
-        this.keyboardShortcutDirectoryListener);
   }
 
   /** @override */
   detached() {
     super.detached();
-    this.removeKeyboardShortcutDirectoryListener(
-        this.keyboardShortcutDirectoryListener);
+    super.removeKeyboardShortcutDirectoryListener(
+      this.keyboardShortcutDirectoryListener
+    );
   }
 
-  _handleCloseTap(e) {
+  _handleCloseTap(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('close', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('close', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _onDirectoryUpdated(directory) {
+  _onDirectoryUpdated(directory?: Map<ShortcutSection, SectionView>) {
+    if (!directory) {
+      return;
+    }
     const left = [];
     const right = [];
 
@@ -125,6 +150,3 @@ class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
     this.set('_right', right);
   }
 }
-
-customElements.define(GrKeyboardShortcutsDialog.is,
-    GrKeyboardShortcutsDialog);

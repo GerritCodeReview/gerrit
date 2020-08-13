@@ -26,6 +26,7 @@ import {
   NumericChangeId,
   ServerInfo,
   SuggestedReviewerInfo,
+  Suggestion,
 } from '../../types/common';
 import {assertNever} from '../../utils/common-util';
 
@@ -36,8 +37,6 @@ export enum SUGGESTIONS_PROVIDERS_USERS_TYPES {
   CC = 'ccs',
   ANY = 'any',
 }
-
-export type Suggestion = SuggestedReviewerInfo | AccountInfo;
 
 export function isAccountSuggestions(s: Suggestion): s is AccountInfo {
   return (s as AccountInfo)._account_id !== undefined;

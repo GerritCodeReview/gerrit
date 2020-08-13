@@ -27,8 +27,8 @@ public interface PerPatchsetOperations {
   TestPatchset get();
 
   /**
-   * Starts the fluent chain to create a new comment. The returned builder can be used to specify
-   * the attributes of the new comment. To create the comment for real, {@link
+   * Starts the fluent chain to create a new, published comment. The returned builder can be used to
+   * specify the attributes of the comment. To create the comment for real, {@link
    * TestCommentCreation.Builder#create()} must be called.
    *
    * <p>Example:
@@ -37,6 +37,7 @@ public interface PerPatchsetOperations {
    * String createdCommentUuid = changeOperations
    *     .change(changeId)
    *     .currentPatchset()
+   *     .newComment()
    *     .onLine(2)
    *     .ofFile("file1")
    *     .create();
@@ -45,4 +46,25 @@ public interface PerPatchsetOperations {
    * @return builder to create a new comment
    */
   TestCommentCreation.Builder newComment();
+
+  /**
+   * Starts the fluent chain to create a new draft comment. The returned builder can be used to
+   * specify the attributes of the draft comment. To create the draft comment for real, {@link
+   * TestCommentCreation.Builder#create()} must be called.
+   *
+   * <p>Example:
+   *
+   * <pre>
+   * String createdDraftCommentUuid = changeOperations
+   *     .change(changeId)
+   *     .currentPatchset()
+   *     .newDraftComment()
+   *     .onLine(2)
+   *     .ofFile("file1")
+   *     .create();
+   * </pre>
+   *
+   * @return builder to create a new comment
+   */
+  TestCommentCreation.Builder newDraftComment();
 }

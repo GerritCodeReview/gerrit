@@ -14,24 +14,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-registration-dialog_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-registration-dialog_html';
+import {customElement, property, observe} from '@polymer/decorators';
+import {ServerInfo, AccountDetailInfo} from '../../../types/common';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 
-/**
- * @extends PolymerElement
- */
-class GrRegistrationDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrRegistrationDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+    name: HTMLInputElement;
+    username: HTMLInputElement;
+    email: HTMLSelectElement;
+  };
+}
 
-  static get is() { return 'gr-registration-dialog'; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-registration-dialog': GrRegistrationDialog;
+  }
+}
+
+@customElement('gr-registration-dialog')
+export class GrRegistrationDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when account details are changed.
    *
@@ -43,35 +61,26 @@ class GrRegistrationDialog extends GestureEventListeners(
    *
    * @event close
    */
+  @property({type: String})
+  settingsUrl?: string;
 
-  static get properties() {
-    return {
-      settingsUrl: String,
-      /** @type {?} */
-      _account: {
-        type: Object,
-        value: () => {
-        // Prepopulate possibly undefined fields with values to trigger
-        // computed bindings.
-          return {email: null, name: null, username: null};
-        },
-      },
-      _usernameMutable: {
-        type: Boolean,
-        computed: '_computeUsernameMutable(_serverConfig, _account.username)',
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-        observer: '_loadingChanged',
-      },
-      _saving: {
-        type: Boolean,
-        value: false,
-      },
-      _serverConfig: Object,
-    };
-  }
+  @property({type: Object})
+  _account: Partial<AccountDetailInfo> = {};
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: Boolean})
+  _saving = false;
+
+  @property({type: Object})
+  _serverConfig?: ServerInfo;
+
+  @property({
+    computed: '_computeUsernameMutable(_serverConfig,_account.username)',
+    type: Boolean,
+  })
+  _usernameMutable = false;
 
   /** @override */
   ready() {
@@ -79,13 +88,23 @@ class GrRegistrationDialog extends GestureEventListeners(
     this._ensureAttribute('role', 'dialog');
   }
 
+  _computeUsernameMutable(config?: ServerInfo, username?: string) {
+    // Polymer 2: check for undefined
+    // username is not being checked for undefined as we want to avoid
+    // setting it null explicitly to trigger the computation
+    if (config === undefined) {
+      return false;
+    }
+
+    return (
+      config.auth.editable_account_fields.includes('USER_NAME') && !username
+    );
+  }
+
   loadData() {
     this._loading = true;
 
     const loadAccount = this.$.restAPI.getAccount().then(account => {
-      // Using Object.assign here allows preservation of the default values
-      // supplied in the value generating function of this._account, unless
-      // they are overridden by properties in the account from the response.
       this._account = {...this._account, ...account};
     });
 
@@ -111,53 +130,45 @@ class GrRegistrationDialog extends GestureEventListeners(
 
     return Promise.all(promises).then(() => {
       this._saving = false;
-      this.dispatchEvent(new CustomEvent('account-detail-update', {
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('account-detail-update', {
+          composed: true,
+          bubbles: true,
+        })
+      );
     });
   }
 
-  _handleSave(e) {
+  _handleSave(e: Event) {
     e.preventDefault();
-    this._save().then(this.close.bind(this));
+    this._save().then(() => this.close());
   }
 
-  _handleClose(e) {
+  _handleClose(e: Event) {
     e.preventDefault();
     this.close();
   }
 
   close() {
     this._saving = true; // disable buttons indefinitely
-    this.dispatchEvent(new CustomEvent('close', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('close', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
-  _computeSaveDisabled(name, email, saving) {
+  _computeSaveDisabled(name?: string, email?: string, saving?: boolean) {
     return !name || !email || saving;
   }
 
-  _computeUsernameMutable(config, username) {
-    // Polymer 2: check for undefined
-    if ([
-      config,
-      username,
-    ].includes(undefined)) {
-      return undefined;
-    }
-
-    return config.auth.editable_account_fields.includes('USER_NAME') &&
-        !username;
-  }
-
-  _computeUsernameClass(usernameMutable) {
+  _computeUsernameClass(usernameMutable: boolean) {
     return usernameMutable ? '' : 'hide';
   }
 
+  @observe('_loading')
   _loadingChanged() {
     this.classList.toggle('loading', this._loading);
   }
 }
-
-customElements.define(GrRegistrationDialog.is, GrRegistrationDialog);

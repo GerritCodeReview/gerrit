@@ -18,6 +18,7 @@ import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.acceptance.testsuite.change.TestCommentCreation.CommentSide;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Comment.Status;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -25,7 +26,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
@@ -93,7 +93,12 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
 
   @Override
   public TestCommentCreation.Builder newComment() {
-    return TestCommentCreation.builder(this::createComment);
+    return TestCommentCreation.builder(this::createComment, Status.PUBLISHED);
+  }
+
+  @Override
+  public TestCommentCreation.Builder newDraftComment() {
+    return TestCommentCreation.builder(this::createComment, Status.DRAFT);
   }
 
   private String createComment(TestCommentCreation commentCreation)
@@ -133,15 +138,16 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     public boolean updateChange(ChangeContext context) throws Exception {
       HumanComment comment = toNewComment(context, commentCreation);
       ChangeUpdate changeUpdate = context.getUpdate(patchsetId);
-      changeUpdate.putComment(HumanComment.Status.PUBLISHED, comment);
-      // Only the tag set on the ChangeUpdate matters. The tag field of HumanComment is ignored.
+      changeUpdate.putComment(commentCreation.status(), comment);
+      // For published comments, only the tag set on the ChangeUpdate (and not on the HumanComment)
+      // matters.
       commentCreation.tag().ifPresent(changeUpdate::setTag);
       createdCommentUuid = comment.key.uuid;
       return true;
     }
 
     private HumanComment toNewComment(ChangeContext context, TestCommentCreation commentCreation)
-        throws UnprocessableEntityException, PatchListNotAvailableException {
+        throws PatchListNotAvailableException {
       String message = commentCreation.message().orElse("The text of a test comment.");
 
       String filePath = commentCreation.file().orElse(Patch.PATCHSET_LEVEL);
@@ -159,6 +165,9 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
               message,
               unresolved,
               parentUuid);
+      // For draft comments, only the tag set on the HumanComment (and not on the ChangeUpdate)
+      // matters.
+      commentCreation.tag().ifPresent(tag -> newComment.tag = tag);
 
       commentCreation.line().ifPresent(line -> newComment.setLineNbrAndRange(line, null));
       // Specification of range trumps explicit line specification.

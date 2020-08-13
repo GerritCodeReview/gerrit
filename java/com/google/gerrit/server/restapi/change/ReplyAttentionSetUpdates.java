@@ -14,23 +14,25 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static java.util.stream.Collectors.toSet;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
+import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
-import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.ChangePermission;
@@ -38,12 +40,15 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.AttentionSetUtil;
+import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 
 /**
@@ -57,6 +62,7 @@ public class ReplyAttentionSetUpdates {
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
   private final ServiceUserClassifier serviceUserClassifier;
+  private final CommentsUtil commentsUtil;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -65,13 +71,15 @@ public class ReplyAttentionSetUpdates {
       RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory,
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
-      ServiceUserClassifier serviceUserClassifier) {
+      ServiceUserClassifier serviceUserClassifier,
+      CommentsUtil commentsUtil) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
     this.serviceUserClassifier = serviceUserClassifier;
+    this.commentsUtil = commentsUtil;
   }
 
   /** Adjusts the attention set but only based on the automatic rules. */
@@ -79,23 +87,17 @@ public class ReplyAttentionSetUpdates {
       BatchUpdate bu,
       ChangeNotes changeNotes,
       boolean readyForReview,
-      Set<String> potentiallyRemovedReviewers,
-      Account.Id currentUser)
-      throws IOException, ConfigInvalidException, PermissionBackendException,
-          UnprocessableEntityException {
-    if (serviceUserClassifier.isServiceUser(currentUser)) {
+      CurrentUser currentUser,
+      List<HumanComment> commentsToBePublished) {
+    if (serviceUserClassifier.isServiceUser(currentUser.getAccountId())) {
       return;
-    }
-    Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet<>();
-    for (String reviewer : potentiallyRemovedReviewers) {
-      potentiallyRemovedReviewerIds.add(getAccountId(changeNotes, reviewer));
     }
     processRules(
         bu,
         changeNotes,
         readyForReview,
-        getUpdatedReviewers(changeNotes, potentiallyRemovedReviewerIds),
-        currentUser);
+        currentUser,
+        commentsToBePublished.stream().collect(toImmutableSet()));
   }
 
   /**
@@ -104,11 +106,7 @@ public class ReplyAttentionSetUpdates {
    * addition/removal.
    */
   public void updateAttentionSet(
-      BatchUpdate bu,
-      ChangeNotes changeNotes,
-      ReviewInput input,
-      List<ReviewerAdder.ReviewerAddition> reviewerResults,
-      Account.Id currentUser)
+      BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input, CurrentUser currentUser)
       throws BadRequestException, IOException, PermissionBackendException,
           UnprocessableEntityException, ConfigInvalidException {
     processManualUpdates(bu, changeNotes, input);
@@ -120,34 +118,52 @@ public class ReplyAttentionSetUpdates {
       bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
-    if (serviceUserClassifier.isServiceUser(currentUser)) {
+    if (serviceUserClassifier.isServiceUser(currentUser.getAccountId())) {
       botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
       robotCommentAddsOwnerAndUploader(bu, changeNotes, input);
       return;
     }
-    // Gets a set of all the CCs in this change. Updated reviewers will be defined as reviewers who
-    // didn't become CC (therefore this is a set of potentially removed reviewers - those that were
-    // reviewers but became cc).
-    Set<Account.Id> potentiallyRemovedReviewers =
-        reviewerResults.stream()
-            .filter(r -> r.state() == ReviewerState.CC)
-            .map(r -> r.reviewers)
-            .flatMap(x -> x.stream())
-            .collect(toSet());
+
     processRules(
         bu,
         changeNotes,
         isReadyForReview(changeNotes, input),
-        getUpdatedReviewers(changeNotes, potentiallyRemovedReviewers),
-        currentUser);
+        currentUser,
+        getAllNewComments(changeNotes, input, currentUser));
   }
 
-  private Set<Account.Id> getUpdatedReviewers(
-      ChangeNotes changeNotes, Set<Account.Id> potentiallyRemovedReviewers) {
-    // Filter by users that are currently reviewers and remove CCs.
-    return approvalsUtil.getReviewers(changeNotes).byState(REVIEWER).stream()
-        .filter(r -> !potentiallyRemovedReviewers.contains(r))
-        .collect(Collectors.toSet());
+  private ImmutableSet<HumanComment> getAllNewComments(
+      ChangeNotes changeNotes, ReviewInput input, CurrentUser currentUser)
+      throws UnprocessableEntityException {
+    Set<HumanComment> newComments = new HashSet<>();
+    if (input.comments != null) {
+      for (ReviewInput.CommentInput commentInput :
+          input.comments.values().stream().flatMap(x -> x.stream()).collect(Collectors.toList())) {
+        newComments.add(
+            commentsUtil.newHumanComment(
+                changeNotes,
+                currentUser,
+                TimeUtil.nowTs(),
+                commentInput.path,
+                commentInput.patchSet == null
+                    ? changeNotes.getChange().currentPatchSetId()
+                    : PatchSet.id(changeNotes.getChange().getId(), commentInput.patchSet),
+                commentInput.side(),
+                commentInput.message,
+                commentInput.unresolved,
+                commentInput.inReplyTo));
+      }
+    }
+    List<HumanComment> drafts = new ArrayList<>();
+    if (input.drafts == ReviewInput.DraftHandling.PUBLISH) {
+      drafts =
+          commentsUtil.draftByPatchSetAuthor(
+              changeNotes.getChange().currentPatchSetId(), currentUser.getAccountId(), changeNotes);
+    }
+    if (input.drafts == ReviewInput.DraftHandling.PUBLISH_ALL_REVISIONS) {
+      drafts = commentsUtil.draftByChangeAuthor(changeNotes, currentUser.getAccountId());
+    }
+    return Stream.concat(newComments.stream(), drafts.stream()).collect(toImmutableSet());
   }
 
   /**
@@ -159,34 +175,52 @@ public class ReplyAttentionSetUpdates {
       BatchUpdate bu,
       ChangeNotes changeNotes,
       boolean readyForReview,
-      Set<Account.Id> reviewers,
-      Account.Id currentUser) {
+      CurrentUser currentUser,
+      ImmutableSet<HumanComment> allNewComments) {
     // Replying removes the publishing user from the attention set.
-    removeFromAttentionSet(bu, changeNotes, currentUser, "removed on reply", false);
+    removeFromAttentionSet(bu, changeNotes, currentUser.getAccountId(), "removed on reply", false);
 
-    // The rest of the conditions only apply if the change is ready for review
+    Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
+    Account.Id owner = changeNotes.getChange().getOwner();
+
+    // The rest of the conditions only apply if the change is open.
+    if (changeNotes.getChange().getStatus().isClosed()) {
+      // We still add the owner if a new comment thread was created, on closed changes.
+      if (allNewComments.stream().anyMatch(c -> c.parentUuid == null)) {
+        addToAttentionSet(bu, changeNotes, owner, "A new comment thread was created", false);
+      }
+      return;
+    }
+    // The rest of the conditions only apply if the change is ready for review.
     if (!readyForReview) {
       return;
     }
-    Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
-    Account.Id owner = changeNotes.getChange().getOwner();
-    if (currentUser.equals(uploader) && !uploader.equals(owner)) {
-      // When the uploader replies, add the owner to the attention set.
-      addToAttentionSet(bu, changeNotes, owner, "uploader replied", false);
-    }
-    if (currentUser.equals(uploader) || currentUser.equals(owner)) {
-      // When the owner or uploader replies, add the reviewers to the attention set.
-      for (Account.Id reviewer : reviewers) {
-        addToAttentionSet(bu, changeNotes, reviewer, "owner or uploader replied", false);
-      }
-    }
-    if (!currentUser.equals(uploader) && !currentUser.equals(owner)) {
-      // When neither the uploader nor the owner (reviewer or cc) replies, add the owner and the
-      // uploader to the attention set.
-      addToAttentionSet(bu, changeNotes, owner, "reviewer or cc replied", false);
 
-      if (owner.get() != uploader.get()) {
-        addToAttentionSet(bu, changeNotes, uploader, "reviewer or cc replied", false);
+    if (!currentUser.getAccountId().equals(owner)) {
+      addToAttentionSet(bu, changeNotes, owner, "Someone else replied on the change", false);
+    }
+    if (!owner.equals(uploader) && !currentUser.getAccountId().equals(uploader)) {
+      addToAttentionSet(bu, changeNotes, uploader, "Someone else replied on the change", false);
+    }
+
+    addAllAuthorsOfCommentThreads(bu, changeNotes, allNewComments);
+  }
+
+  /** Adds all authors of all comment threads that received a reply during this update */
+  private void addAllAuthorsOfCommentThreads(
+      BatchUpdate bu, ChangeNotes changeNotes, ImmutableSet<HumanComment> allNewComments) {
+    Set<HumanComment> allCommentsInCommentThreads =
+        commentsUtil.getAllCommentsInCommentThreads(changeNotes, allNewComments);
+    // Copy the set to make it mutable, so that we can delete users that were already added.
+    Set<Account.Id> possibleUsersToAdd =
+        new HashSet<>(approvalsUtil.getReviewers(changeNotes).all());
+
+    for (HumanComment comment : allCommentsInCommentThreads) {
+      Account.Id author = comment.author.getId();
+      if (possibleUsersToAdd.contains(author)) {
+        addToAttentionSet(
+            bu, changeNotes, author, "Someone else replied on a comment you posted", false);
+        possibleUsersToAdd.remove(author);
       }
     }
   }

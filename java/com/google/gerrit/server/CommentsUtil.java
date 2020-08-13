@@ -21,6 +21,7 @@ import static java.util.stream.Collectors.toCollection;
 import static java.util.stream.Collectors.toList;
 
 import com.google.common.collect.ComparisonChain;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Ordering;
 import com.google.gerrit.common.Nullable;
@@ -48,10 +49,15 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -118,7 +124,9 @@ public class CommentsUtil {
   }
 
   public HumanComment newHumanComment(
-      ChangeContext ctx,
+      ChangeNotes changeNotes,
+      CurrentUser currentUser,
+      Timestamp when,
       String path,
       PatchSet.Id psId,
       short side,
@@ -133,7 +141,7 @@ public class CommentsUtil {
       } else {
         // Inherit unresolved value from inReplyTo comment if not specified.
         Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
-        Optional<HumanComment> parent = getPublishedHumanComment(ctx.getNotes(), key);
+        Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, key);
         if (!parent.isPresent()) {
           throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
         }
@@ -143,14 +151,14 @@ public class CommentsUtil {
     HumanComment c =
         new HumanComment(
             new Comment.Key(ChangeUtil.messageUuid(), path, psId.get()),
-            ctx.getUser().getAccountId(),
-            ctx.getWhen(),
+            currentUser.getAccountId(),
+            when,
             side,
             message,
             serverId,
             unresolved);
     c.parentUuid = parentUuid;
-    ctx.getUser().updateRealAccountId(c::setRealAuthor);
+    currentUser.updateRealAccountId(c::setRealAuthor);
     return c;
   }
 
@@ -335,6 +343,42 @@ public class CommentsUtil {
   public void deleteCommentByRewritingHistory(
       ChangeUpdate update, Comment.Key commentKey, String newMessage) {
     update.deleteCommentByRewritingHistory(commentKey.uuid, newMessage);
+  }
+
+  /**
+   * Gets all of the {@link HumanComment} in the comment threads that received a reply.
+   *
+   * @param changeNotes notes of this change.
+   * @param newComments set of all the new comments added on the change by the current user.
+   * @return set of all comments in the comments thread that received a reply.
+   */
+  public Set<HumanComment> getAllCommentsInCommentThreads(
+      ChangeNotes changeNotes, ImmutableSet<HumanComment> newComments) {
+    Map<String, HumanComment> uuidToComment =
+        publishedHumanCommentsByChange(changeNotes).stream()
+            .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
+
+    // Copy the set so that it won't be mutated.
+    List<HumanComment> toTraverse = new ArrayList<>(newComments);
+    Set<String> seen = new HashSet<>();
+    Set<HumanComment> allCommentsInCommentThreads = new HashSet<>();
+    while (!toTraverse.isEmpty()) {
+      HumanComment current = toTraverse.remove(0);
+      allCommentsInCommentThreads.add(current);
+
+      if (current.parentUuid != null) {
+        HumanComment parent = uuidToComment.get(current.parentUuid);
+        if (parent == null) {
+          throw new IllegalStateException(
+              String.format("Comment %s not found", current.parentUuid));
+        }
+        if (!seen.contains(current.parentUuid)) {
+          toTraverse.add(parent);
+          seen.add(current.parentUuid);
+        }
+      }
+    }
+    return allCommentsInCommentThreads;
   }
 
   private static List<HumanComment> commentsOnFile(

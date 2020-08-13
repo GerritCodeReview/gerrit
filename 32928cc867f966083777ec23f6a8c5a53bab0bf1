@@ -108,6 +108,23 @@
     },
     {
       "key": {
+        "uuid": "ef84261f_c3a3a5ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-13T16:23:38Z",
+      "side": 1,
+      "message": "I believe the current solution is good enough as a start.\n\n@Thomas because this is by default a noop, I would recommend to merge this as-is for now, outside the topic. You can then follow-up with the topic of the selective graceful SSHD shutdown on a per-command basis.",
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10366f41_3b62149d",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8

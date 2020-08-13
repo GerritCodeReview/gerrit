@@ -16,10 +16,12 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThatList;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
@@ -36,6 +38,7 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Inject private ChangeOperations changeOperations;
   @Inject private AccountOperations accountOperations;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Test
   public void commentCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
@@ -310,8 +313,343 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     assertThat(comment).author().id().isEqualTo(accountId.get());
   }
 
+  @Test
+  public void draftCommentCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations.change(changeId).currentPatchset().newDraftComment().create();
+
+    List<CommentInfo> comments = getDraftCommentsFromServer(changeId);
+    assertThatList(comments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedOnOlderPatchset() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    PatchSet.Id previousPatchsetId =
+        changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    changeOperations.change(changeId).newPatchset().create();
+
+    String commentUuid =
+        changeOperations.change(changeId).patchset(previousPatchsetId).newDraftComment().create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).patchSet().isEqualTo(previousPatchsetId.get());
+  }
+
+  @Test
+  public void draftCommentIsCreatedWithSpecifiedMessage() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .message("Test comment message")
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).message().isEqualTo("Test comment message");
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedWithEmptyMessage() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations.change(changeId).currentPatchset().newDraftComment().noMessage().create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).message().isNull();
+  }
+
+  @Test
+  public void draftPatchsetLevelCommentCanBeCreated() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onPatchsetLevel()
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).path().isEqualTo(Patch.PATCHSET_LEVEL);
+  }
+
+  @Test
+  public void draftFileCommentCanBeCreated() throws Exception {
+    Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onFileLevelOf("file1")
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).path().isEqualTo("file1");
+    assertThat(comment).line().isNull();
+    assertThat(comment).range().isNull();
+  }
+
+  @Test
+  public void draftLineCommentCanBeCreated() throws Exception {
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Line 1\nLine 2\nLine 3\nLine 4\n")
+            .create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onLine(3)
+            .ofFile("file1")
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).line().isEqualTo(3);
+    assertThat(comment).range().isNull();
+  }
+
+  @Test
+  public void draftRangeCommentCanBeCreated() throws Exception {
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Line 1\nLine 2\nLine 3\nLine 4\n")
+            .create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .fromLine(2)
+            .charOffset(4)
+            .toLine(3)
+            .charOffset(5)
+            .ofFile("file1")
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).range().startLine().isEqualTo(2);
+    assertThat(comment).range().startCharacter().isEqualTo(4);
+    assertThat(comment).range().endLine().isEqualTo(3);
+    assertThat(comment).range().endCharacter().isEqualTo(5);
+    // Line is automatically filled from specified range. It's the end line.
+    assertThat(comment).line().isEqualTo(3);
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedOnPatchsetCommit() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onPatchsetCommit()
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    // Null is often used instead of Side.REVISION as Side.REVISION is the default.
+    assertThat(comment).side().isAnyOf(Side.REVISION, null);
+    assertThat(comment).parent().isNull();
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedOnParentCommit() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onParentCommit()
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).side().isEqualTo(Side.PARENT);
+    assertThat(comment).parent().isEqualTo(1);
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedOnSecondParentCommit() throws Exception {
+    // Second parents only exist for merge commits. The test API currently doesn't support the
+    // creation of changes with merge commits yet, though. As there's no explicit validation keeping
+    // us from adding comments on the non-existing second parent of a regular commit, just use the
+    // latter. That's still better than not having this test at all.
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onSecondParentCommit()
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).side().isEqualTo(Side.PARENT);
+    assertThat(comment).parent().isEqualTo(2);
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedOnAutoMergeCommit() throws Exception {
+    // Second parents only exist for merge commits. The test API currently doesn't support the
+    // creation of changes with merge commits yet, though. As there's no explicit validation keeping
+    // us from adding comments on the non-existing second parent of a regular commit, just use the
+    // latter. That's still better than not having this test at all.
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onAutoMergeCommit()
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).side().isEqualTo(Side.PARENT);
+    assertThat(comment).parent().isNull();
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedAsResolved() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations.change(changeId).currentPatchset().newDraftComment().resolved().create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).unresolved().isFalse();
+  }
+
+  @Test
+  public void draftCommentCanBeCreatedAsUnresolved() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations.change(changeId).currentPatchset().newDraftComment().unresolved().create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).unresolved().isTrue();
+  }
+
+  @Test
+  public void draftReplyToDraftCommentCannotBeCreated() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newDraftComment().create();
+
+    assertThrows(
+        Exception.class,
+        () ->
+            changeOperations
+                .change(changeId)
+                .currentPatchset()
+                .newDraftComment()
+                .parentUuid(parentCommentUuid)
+                .create());
+  }
+
+  @Test
+  public void draftReplyToPublishedCommentCanBeCreated() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .parentUuid(parentCommentUuid)
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).inReplyTo().isEqualTo(parentCommentUuid);
+  }
+
+  @Test
+  public void tagCanBeAttachedToADraftComment() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .tag("my special tag")
+            .create();
+
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).tag().isEqualTo("my special tag");
+  }
+
+  @Test
+  public void draftCommentIsCreatedWithSpecifiedAuthor() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    Account.Id accountId = accountOperations.newAccount().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .author(accountId)
+            .create();
+
+    // A user can only retrieve their own draft comments.
+    requestScopeOperations.setApiUser(accountId);
+    List<CommentInfo> comments = getDraftCommentsFromServer(changeId);
+    // Draft comments never have the author field set. As a user can only retrieve their own draft
+    // comments, we implicitly know that the author was correctly set when we find the created
+    // comment in the draft comments of that user.
+    assertThatList(comments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
+  }
+
+  @Test
+  public void noDraftCommentsAreCreatedOnCreationOfPublishedComment() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    List<CommentInfo> comments = getDraftCommentsFromServer(changeId);
+    assertThatList(comments).isEmpty();
+  }
+
+  @Test
+  public void noPublishedCommentsAreCreatedOnCreationOfDraftComment() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    changeOperations.change(changeId).currentPatchset().newDraftComment().create();
+
+    List<CommentInfo> comments = getCommentsFromServer(changeId);
+    assertThatList(comments).isEmpty();
+  }
+
   private List<CommentInfo> getCommentsFromServer(Change.Id changeId) throws RestApiException {
     return gApi.changes().id(changeId.get()).commentsAsList();
+  }
+
+  private List<CommentInfo> getDraftCommentsFromServer(Change.Id changeId) throws RestApiException {
+    return gApi.changes().id(changeId.get()).draftsAsList();
   }
 
   private CommentInfo getCommentFromServer(Change.Id changeId, String uuid)
@@ -323,6 +661,18 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
             () ->
                 new IllegalStateException(
                     String.format("Comment %s not found on change %d", uuid, changeId.get())));
+  }
+
+  private CommentInfo getDraftCommentFromServer(Change.Id changeId, String uuid)
+      throws RestApiException {
+    return gApi.changes().id(changeId.get()).draftsAsList().stream()
+        .filter(comment -> comment.id.equals(uuid))
+        .findAny()
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Draft comment %s not found on change %d", uuid, changeId.get())));
   }
 
   private Correspondence<CommentInfo, String> hasUuid() {

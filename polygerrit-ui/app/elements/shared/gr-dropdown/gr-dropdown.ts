@@ -27,18 +27,33 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-dropdown_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import { IronDropdownElement } from '@polymer/iron-dropdown/iron-dropdown.js';
+import { GrCursorManager } from '../gr-cursor-manager/gr-cursor-manager.js';
+import {property, customElement, observe} from '@polymer/decorators';
+import { NavLink } from '../../../utils/admin-nav-util.js';
+import { MenuLink } from '../../plugins/gr-admin-api/gr-admin-api.js';
 
 const REL_NOOPENER = 'noopener';
 const REL_EXTERNAL = 'external';
 
-/**
- * @extends PolymerElement
- */
-class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-dropdown': GrDropdown;
+  }
+}
+
+export interface GrDropdown {
+  $: {
+    dropdown: IronDropdownElement;
+    cursor: GrCursorManager;
+  };
+}
+
+@customElement('gr-dropdown')
+export class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
     LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
-  static get is() { return 'gr-dropdown'; }
   /**
    * Fired when a non-link dropdown item with the given ID is tapped.
    *
@@ -51,50 +66,35 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
    * @event tap-item
    */
 
-  static get properties() {
-    return {
-      items: {
-        type: Array,
-        observer: '_resetCursorStops',
-      },
-      downArrow: Boolean,
-      topContent: Object,
-      horizontalAlign: {
-        type: String,
-        value: 'left',
-      },
+  @property({type: Array})
+  items?: unknown[];
 
-      /**
-       * Style the dropdown trigger as a link (rather than a button).
-       */
-      link: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: Boolean})
+  downArrow?: boolean;
+  @property({type: Object})
+  topContent?: object;
 
-      verticalOffset: {
-        type: Number,
-        value: 40,
-      },
+  @property({type: String})
+  horizontalAlign = 'left';
 
-      /**
-       * List the IDs of dropdown buttons to be disabled. (Note this only
-       * diisables bittons and not link entries.)
-       */
-      disabledIds: {
-        type: Array,
-        value() { return []; },
-      },
-
-      /**
-       * The elements of the list.
-       */
-      _listElements: {
-        type: Array,
-        value() { return []; },
-      },
-    };
-  }
+  /**
+   * Style the dropdown trigger as a link (rather than a button).
+   */
+  
+  link = false;
+  @property({type: Number})
+  verticalOffset = 40;
+  /**
+   * List the IDs of dropdown buttons to be disabled. (Note this only
+   * disables buttons and not link entries.)
+   */
+  @property({type: Array})
+  disabledIds: string[] = [];
+  /**
+   * The elements of the list.
+   */
+  @property({type: Array})
+  _listElements: Element[] = [];
 
   get keyBindings() {
     return {
@@ -107,10 +107,8 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
 
   /**
    * Handle the up key.
-   *
-   * @param {!Event} e
    */
-  _handleUp(e) {
+  _handleUp(e: MouseEvent) {
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
@@ -122,10 +120,8 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
 
   /**
    * Handle the down key.
-   *
-   * @param {!Event} e
    */
-  _handleDown(e) {
+  _handleDown(e: MouseEvent) {
     if (this.$.dropdown.opened) {
       e.preventDefault();
       e.stopPropagation();
@@ -137,10 +133,8 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
 
   /**
    * Handle the tab key.
-   *
-   * @param {!Event} e
    */
-  _handleTab(e) {
+  _handleTab(e: MouseEvent) {
     if (this.$.dropdown.opened) {
       // Tab in a native select is a no-op. Emulate this.
       e.preventDefault();
@@ -150,10 +144,8 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
 
   /**
    * Handle the enter key.
-   *
-   * @param {!Event} e
    */
-  _handleEnter(e) {
+  _handleEnter(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (this.$.dropdown.opened) {
@@ -169,19 +161,15 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
 
   /**
    * Handle a click on the iron-dropdown element.
-   *
-   * @param {!Event} e
    */
-  _handleDropdownClick(e) {
+  _handleDropdownClick() {
     this._close();
   }
 
   /**
    * Handle a click on the button to open the dropdown.
-   *
-   * @param {!Event} e
    */
-  _dropdownTriggerTapHandler(e) {
+  _dropdownTriggerTapHandler(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     if (this.$.dropdown.opened) {
@@ -212,10 +200,10 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
   /**
    * Get the class for a top-content item based on the given boolean.
    *
-   * @param {boolean} bold Whether the item is bold.
-   * @return {string} The class for the top-content item.
+   * @param bold Whether the item is bold.
+   * @return The class for the top-content item.
    */
-  _getClassIfBold(bold) {
+  _getClassIfBold(bold: boolean) {
     return bold ? 'bold-text' : '';
   }
 
@@ -223,11 +211,9 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
    * Build a URL for the given host and path. The base URL will be only added,
    * if it is not already included in the path.
    *
-   * @param {!string} host
-   * @param {!string} path
-   * @return {!string} The scheme-relative URL.
+   * @return The scheme-relative URL.
    */
-  _computeURLHelper(host, path) {
+  _computeURLHelper(host: string, path: string) {
     const base = path.startsWith(getBaseUrl()) ?
       '' : getBaseUrl();
     return '//' + host + base + path;
@@ -238,10 +224,10 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
    * URL if one is present. Note: the URL will be scheme-relative but absolute
    * with regard to the host.
    *
-   * @param {!string} path The path for the URL.
-   * @return {!string} The scheme-relative URL.
+   * @param path The path for the URL.
+   * @return The scheme-relative URL.
    */
-  _computeRelativeURL(path) {
+  _computeRelativeURL(path: string) {
     const host = window.location.host;
     return this._computeURLHelper(host, path);
   }
@@ -279,11 +265,12 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
 
   /**
    * Handle a click on an item of the dropdown.
-   *
-   * @param {!Event} e
    */
-  _handleItemTap(e) {
-    const id = e.target.getAttribute('data-id');
+  _handleItemTap(e: MouseEvent) {
+    if (e.target === null) {
+      return;
+    }
+    const id = (e.target as Element).getAttribute('data-id');
     const item = this.items.find(item => item.id === id);
     if (id && !this.disabledIds.includes(id)) {
       if (item) {
@@ -297,18 +284,18 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
   /**
    * If a dropdown item is shown as a button, get the class for the button.
    *
-   * @param {string} id
    * @param {!Object} disabledIdsRecord The change record for the disabled IDs
    *     list.
    * @return {!string} The class for the item button.
    */
-  _computeDisabledClass(id, disabledIdsRecord) {
+  _computeDisabledClass(id: string, disabledIdsRecord) {
     return disabledIdsRecord.base.includes(id) ? 'disabled' : '';
   }
 
   /**
    * Recompute the stops for the dropdown item cursor.
    */
+  @observe('items')
   _resetCursorStops() {
     if (this.items && this.items.length > 0 && this.$.dropdown.opened) {
       flush();
@@ -325,5 +312,3 @@ class GrDropdown extends KeyboardShortcutMixin(GestureEventListeners(
     return !!link.download;
   }
 }
-
-customElements.define(GrDropdown.is, GrDropdown);

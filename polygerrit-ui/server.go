@@ -191,6 +191,19 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
 		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
 
+		if strings.HasSuffix(normalizedContentPath, "/node_modules/page/page.js") {
+		  // Can't import page.js directly, because this is undefined.
+		  // Replace it with window
+      // The same replace exists in karma.conf.js
+      // Rollup makes this replacement automatically
+		  pageJsRegexp := regexp.MustCompile(`(?m)^}\(this, \(function \(\) { 'use strict';$`);
+		  newData := pageJsRegexp.ReplaceAll(data, []byte("}(window, (function () { 'use strict';"))
+		  if len(newData) == len(data) {
+		    log.Fatal("The page.js was updated. Please update regexp/replace accordingly")
+      }
+      data = newData
+    }
+
 		writer.Header().Set("Content-Type", "application/javascript")
 	} else if strings.HasSuffix(normalizedContentPath, ".css") {
 		writer.Header().Set("Content-Type", "text/css")

@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-list-view.js';
-import page from 'page/page.mjs';
+import {page} from '../../../utils/page-wrapper-utils.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-list-view');

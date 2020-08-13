@@ -1154,13 +1154,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
     private Map<String, HumanComment> changeDrafts(ChangeContext ctx) {
       return commentsUtil.draftByChangeAuthor(ctx.getNotes(), user.getAccountId()).stream()
-          .collect(
-              Collectors.toMap(
-                  c -> c.key.uuid,
-                  c -> {
-                    c.tag = in.tag;
-                    return c;
-                  }));
+          .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     }
 
     private Map<String, HumanComment> patchSetDrafts(ChangeContext ctx) {

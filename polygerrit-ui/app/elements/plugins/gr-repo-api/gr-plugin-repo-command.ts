@@ -14,21 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-plugin-repo-command_html.js';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-plugin-repo-command_html';
+import {customElement, property} from '@polymer/decorators';
 
-class GrPluginRepoCommand extends PolymerElement {
-  static get is() {
-    return 'gr-plugin-repo-command';
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-plugin-repo-command': GrPluginRepoCommand;
   }
-
-  static get properties() {
-    return {
-      title: String,
-      repoName: String,
-      config: Object,
-    };
-  }
+}
+@customElement('gr-plugin-repo-command')
+export class GrPluginRepoCommand extends PolymerElement {
+  @property({type: String})
+  title = '';
 
   static get template() {
     return htmlTemplate;
@@ -36,9 +34,7 @@ class GrPluginRepoCommand extends PolymerElement {
 
   _handleClick() {
     this.dispatchEvent(
-        new CustomEvent('command-tap', {composed: true, bubbles: true})
+      new CustomEvent('command-tap', {composed: true, bubbles: true})
     );
   }
 }
-
-customElements.define(GrPluginRepoCommand.is, GrPluginRepoCommand);

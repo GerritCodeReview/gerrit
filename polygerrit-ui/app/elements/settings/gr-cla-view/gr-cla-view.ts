@@ -15,72 +15,108 @@
  * limitations under the License.
  */
 
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-cla-view_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-cla-view_html';
+import {getBaseUrl} from '../../../utils/url-util';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {customElement, property} from '@polymer/decorators';
+import {
+  ServerInfo,
+  GroupInfo,
+  ContributorAgreementInfo,
+} from '../../../types/common';
 
-/**
- * @extends PolymerElement
- */
-class GrClaView extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrClaView {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get is() { return 'gr-cla-view'; }
-
-  static get properties() {
-    return {
-      _groups: Object,
-      /** @type {?} */
-      _serverConfig: Object,
-      _agreementsText: String,
-      _agreementName: String,
-      _signedAgreements: Array,
-      _showAgreements: {
-        type: Boolean,
-        value: false,
-      },
-      _agreementsUrl: String,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-cla-view': GrClaView;
   }
+}
+
+@customElement('gr-cla-view')
+export class GrClaView extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Object})
+  _groups?: GroupInfo[];
+
+  @property({type: Object})
+  _serverConfig?: ServerInfo;
+
+  @property({type: String})
+  _agreementsText?: string;
+
+  @property({type: String})
+  _agreementName?: string;
+
+  @property({type: Array})
+  _signedAgreements?: ContributorAgreementInfo[];
+
+  @property({type: Boolean})
+  _showAgreements = false;
+
+  @property({type: String})
+  _agreementsUrl?: string;
 
   /** @override */
   attached() {
     super.attached();
     this.loadData();
 
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: 'New Contributor Agreement'},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title: 'New Contributor Agreement'},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   loadData() {
     const promises = [];
-    promises.push(this.$.restAPI.getConfig(true).then(config => {
-      this._serverConfig = config;
-    }));
+    promises.push(
+      this.$.restAPI.getConfig(true).then(config => {
+        this._serverConfig = config;
+      })
+    );
 
-    promises.push(this.$.restAPI.getAccountGroups().then(groups => {
-      this._groups = groups.sort((a, b) => a.name.localeCompare(b.name));
-    }));
+    promises.push(
+      this.$.restAPI.getAccountGroups().then(groups => {
+        if (!groups) return;
+        this._groups = groups.sort((a, b) =>
+          (a.name || '').localeCompare(b.name || '')
+        );
+      })
+    );
 
-    promises.push(this.$.restAPI.getAccountAgreements().then(agreements => {
-      this._signedAgreements = agreements || [];
-    }));
+    promises.push(
+      this.$.restAPI
+        .getAccountAgreements()
+        .then((agreements: ContributorAgreementInfo[] | undefined) => {
+          this._signedAgreements = agreements || [];
+        })
+    );
 
     return Promise.all(promises);
   }
 
-  _getAgreementsUrl(configUrl) {
+  _getAgreementsUrl(configUrl: string) {
     let url;
     if (!configUrl) {
       return '';
@@ -94,14 +130,16 @@ class GrClaView extends GestureEventListeners(
     return url;
   }
 
-  _handleShowAgreement(e) {
-    this._agreementName = e.target.getAttribute('data-name');
-    this._agreementsUrl =
-        this._getAgreementsUrl(e.target.getAttribute('data-url'));
+  _handleShowAgreement(e: Event) {
+    this._agreementName = (e.target as HTMLInputElement).getAttribute(
+      'data-name'
+    )!;
+    const url = (e.target as HTMLInputElement).getAttribute('data-url')!;
+    this._agreementsUrl = this._getAgreementsUrl(url);
     this._showAgreements = true;
   }
 
-  _handleSaveAgreements(e) {
+  _handleSaveAgreements() {
     this._createToast('Agreement saving...');
 
     const name = this._agreementName;
@@ -117,56 +155,67 @@ class GrClaView extends GestureEventListeners(
     });
   }
 
-  _createToast(message) {
-    this.dispatchEvent(new CustomEvent(
-        'show-alert', {detail: {message}, bubbles: true, composed: true}));
+  _createToast(message: string) {
+    this.dispatchEvent(
+      new CustomEvent('show-alert', {
+        detail: {message},
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
-  _computeShowAgreementsClass(agreements) {
-    return agreements ? 'show' : '';
+  _computeShowAgreementsClass(showAgreements: boolean) {
+    return showAgreements ? 'show' : '';
   }
 
-  _disableAgreements(item, groups, signedAgreements) {
+  _disableAgreements(
+    item: ContributorAgreementInfo,
+    groups: GroupInfo[],
+    signedAgreements: ContributorAgreementInfo[]
+  ) {
     if (!groups) return false;
     for (const group of groups) {
-      if ((item && item.auto_verify_group &&
+      if (
+        (item &&
+          item.auto_verify_group &&
           item.auto_verify_group.id === group.id) ||
-          signedAgreements.find(i => i.name === item.name)) {
+        signedAgreements.find(i => i.name === item.name)
+      ) {
         return true;
       }
     }
     return false;
   }
 
-  _hideAgreements(item, groups, signedAgreements) {
-    return this._disableAgreements(item, groups, signedAgreements) ?
-      '' : 'hide';
+  _hideAgreements(
+    item: ContributorAgreementInfo,
+    groups: GroupInfo[],
+    signedAgreements: ContributorAgreementInfo[]
+  ) {
+    return this._disableAgreements(item, groups, signedAgreements)
+      ? ''
+      : 'hide';
   }
 
-  _disableAgreementsText(text) {
+  _disableAgreementsText(text: string) {
     return text.toLowerCase() === 'i agree' ? false : true;
   }
 
   // This checks for auto_verify_group,
   // if specified it returns 'hideAgreementsTextBox' which
   // then hides the text box and submit button.
-  _computeHideAgreementClass(name, config) {
-    if (!config) return '';
-    for (const key in config) {
-      if (!config.hasOwnProperty(key)) {
-        continue;
-      }
-      for (const prop in config[key]) {
-        if (!config[key].hasOwnProperty(prop)) {
-          continue;
-        }
-        if (name === config[key].name &&
-            !config[key].auto_verify_group) {
-          return 'hideAgreementsTextBox';
-        }
-      }
-    }
+  _computeHideAgreementClass(
+    name: string,
+    contributorAgreements: ContributorAgreementInfo[]
+  ) {
+    if (!contributorAgreements) return '';
+    return contributorAgreements.some(
+      (contributorAgreement: ContributorAgreementInfo) =>
+        name === contributorAgreement.name &&
+        !contributorAgreement.auto_verify_group
+    )
+      ? 'hideAgreementsTextBox'
+      : '';
   }
 }
-
-customElements.define(GrClaView.is, GrClaView);

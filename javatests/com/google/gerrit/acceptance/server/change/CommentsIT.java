@@ -1169,6 +1169,46 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void draftCommentsWithTagPublishPatchset() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    DraftInput draft = newDraft(FILE_NAME, Side.REVISION, 2, "draft");
+    addDraft(result.getChangeId(), result.getCommit().name(), draft);
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.tag = "tag";
+    reviewInput.drafts = DraftHandling.PUBLISH;
+    gApi.changes().id(result.getChangeId()).current().review(reviewInput);
+
+    assertThat(
+            Iterables.getOnlyElement(
+                    gApi.changes().id(result.getChangeId()).current().commentsAsList())
+                .tag)
+        .isEqualTo("tag");
+  }
+
+  @Test
+  public void draftCommentsTagsOnReviewPublishAllRevisions() throws Exception {
+    PushOneCommit.Result result = createChange();
+
+    DraftInput draft = newDraft(FILE_NAME, Side.REVISION, 2, "draft");
+    addDraft(result.getChangeId(), result.getCommit().name(), draft);
+
+    amendChange(result.getChangeId());
+
+    ReviewInput reviewInput = new ReviewInput();
+    reviewInput.tag = "tag";
+    reviewInput.drafts = DraftHandling.PUBLISH_ALL_REVISIONS;
+    gApi.changes().id(result.getChangeId()).current().review(reviewInput);
+
+    assertThat(
+            Iterables.getOnlyElement(
+                    gApi.changes().id(result.getChangeId()).revision(1).commentsAsList())
+                .tag)
+        .isEqualTo("tag");
+  }
+
+  @Test
   public void queryChangesWithCommentCount() throws Exception {
     // PS1 has three comments in three different threads, PS2 has one comment in one thread.
     PushOneCommit.Result result = createChange("change 1", FILE_NAME, "content 1");

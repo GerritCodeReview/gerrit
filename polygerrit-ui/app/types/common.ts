@@ -1844,3 +1844,5 @@ export function isReviewerGroupSuggestion(
 }
 
 export type RequestPayload = string | object;
+
+export type Password = string;

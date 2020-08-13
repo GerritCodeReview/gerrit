@@ -14,32 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-form-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-http-password_html.js';
+import '../../../styles/gr-form-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-http-password_html';
+import {property, customElement} from '@polymer/decorators';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 
-/** @extends PolymerElement */
-class GrHttpPassword extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-http-password'; }
-
-  static get properties() {
-    return {
-      _username: String,
-      _generatedPassword: String,
-      _passwordUrl: String,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-http-password': GestureEventListeners;
   }
+}
+
+export interface GrHttpPassword {
+  $: {
+    restAPI: GrRestApiInterface;
+    generatedPasswordOverlay: GrOverlay;
+  };
+}
+
+@customElement('gr-http-password')
+export class GrHttpPassword extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: String})
+  _username?: string;
+
+  @property({type: String})
+  _generatedPassword?: string;
+
+  @property({type: String})
+  _passwordUrl: string | null = null;
 
   /** @override */
   attached() {
@@ -50,13 +67,23 @@ class GrHttpPassword extends GestureEventListeners(
   loadData() {
     const promises = [];
 
-    promises.push(this.$.restAPI.getAccount().then(account => {
-      this._username = account.username;
-    }));
+    promises.push(
+      this.$.restAPI.getAccount().then(account => {
+        if (account) {
+          this._username = account.username;
+        }
+      })
+    );
 
-    promises.push(this.$.restAPI.getConfig().then(info => {
-      this._passwordUrl = info.auth.http_password_url || null;
-    }));
+    promises.push(
+      this.$.restAPI.getConfig().then(info => {
+        if (info) {
+          this._passwordUrl = info.auth.http_password_url || null;
+        } else {
+          this._passwordUrl = null;
+        }
+      })
+    );
 
     return Promise.all(promises);
   }
@@ -77,5 +104,3 @@ class GrHttpPassword extends GestureEventListeners(
     this._generatedPassword = '';
   }
 }
-
-customElements.define(GrHttpPassword.is, GrHttpPassword);

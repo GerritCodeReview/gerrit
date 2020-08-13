@@ -244,6 +244,7 @@ public abstract class Comment {
         c.unresolved);
     this.lineNbr = c.lineNbr;
     this.realAuthor = c.realAuthor;
+    this.parentUuid = c.parentUuid;
     this.range = c.range != null ? new Range(c.range) : null;
     this.tag = c.tag;
     this.revId = c.revId;

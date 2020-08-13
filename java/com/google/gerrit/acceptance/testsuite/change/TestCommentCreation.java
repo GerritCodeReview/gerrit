@@ -41,6 +41,8 @@ public abstract class TestCommentCreation {
 
   public abstract Optional<String> parentUuid();
 
+  public abstract Optional<String> tag();
+
   abstract ThrowingFunction<TestCommentCreation, String> commentCreator();
 
   public static TestCommentCreation.Builder builder(
@@ -154,6 +156,9 @@ public abstract class TestCommentCreation {
      * attributes (e.g. file, line, side) as the parent comment.
      */
     public abstract Builder parentUuid(String parentUuid);
+
+    /** Tag to attach to the comment. */
+    public abstract Builder tag(String value);
 
     abstract TestCommentCreation.Builder commentCreator(
         ThrowingFunction<TestCommentCreation, String> commentCreator);

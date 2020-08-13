@@ -279,6 +279,22 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     assertThat(comment).inReplyTo().isEqualTo(parentCommentUuid);
   }
 
+  @Test
+  public void tagCanBeAttachedToAComment() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .tag("my special tag")
+            .create();
+
+    CommentInfo comment = getCommentFromServer(changeId, commentUuid);
+    assertThat(comment).tag().isEqualTo("my special tag");
+  }
+
   private List<CommentInfo> getCommentsFromServer(Change.Id changeId) throws RestApiException {
     return gApi.changes().id(changeId.get()).commentsAsList();
   }

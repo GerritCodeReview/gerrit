@@ -19,6 +19,8 @@ import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.ass
 
 import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -33,6 +35,7 @@ import org.junit.Test;
 public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Inject private ChangeOperations changeOperations;
+  @Inject private AccountOperations accountOperations;
 
   @Test
   public void commentCanBeCreatedWithoutSpecifyingAnyParameters() throws Exception {
@@ -293,6 +296,18 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
     CommentInfo comment = getCommentFromServer(changeId, commentUuid);
     assertThat(comment).tag().isEqualTo("my special tag");
+  }
+
+  @Test
+  public void commentIsCreatedWithSpecifiedAuthor() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    Account.Id accountId = accountOperations.newAccount().create();
+
+    String commentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().author(accountId).create();
+
+    CommentInfo comment = getCommentFromServer(changeId, commentUuid);
+    assertThat(comment).author().id().isEqualTo(accountId.get());
   }
 
   private List<CommentInfo> getCommentsFromServer(Change.Id changeId) throws RestApiException {

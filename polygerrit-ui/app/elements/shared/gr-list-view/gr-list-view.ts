@@ -14,43 +14,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '../../../styles/shared-styles.js';
-import '../gr-button/gr-button.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-list-view_html.js';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
+import '@polymer/iron-input/iron-input';
+import '@polymer/iron-icon/iron-icon';
+import '../../../styles/shared-styles';
+import '../gr-button/gr-button';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-list-view_html';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
+import {page} from '../../../utils/page-wrapper-utils';
+import {property, observe, customElement} from '@polymer/decorators';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 
-/**
- * @extends PolymerElement
- */
-class GrListView extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-list-view'; }
-
-  static get properties() {
-    return {
-      createNew: Boolean,
-      items: Array,
-      itemsPerPage: Number,
-      filter: {
-        type: String,
-        observer: '_filterChanged',
-      },
-      offset: Number,
-      loading: Boolean,
-      path: String,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-list-view': GrListView;
   }
+}
+
+@customElement('gr-list-view')
+class GrListView extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Boolean})
+  createNew?: boolean;
+
+  @property({type: Array})
+  items?: unknown[];
+
+  @property({type: Number})
+  itemsPerPage!: number;
+
+  @property({type: String})
+  filter?: string;
+
+  @property({type: Number})
+  offset?: number;
+
+  @property({type: Boolean})
+  loading?: boolean;
+
+  @property({type: String})
+  path?: string;
 
   /** @override */
   detached() {
@@ -58,7 +69,8 @@ class GrListView extends GestureEventListeners(
     this.cancelDebouncer('reload');
   }
 
-  _filterChanged(newFilter, oldFilter) {
+  @observe('filter')
+  _filterChanged(newFilter: string, oldFilter: string) {
     if (!newFilter && !oldFilter) {
       return;
     }
@@ -66,45 +78,59 @@ class GrListView extends GestureEventListeners(
     this._debounceReload(newFilter);
   }
 
-  _debounceReload(filter) {
-    this.debounce('reload', () => {
-      if (filter) {
-        return page.show(`${this.path}/q/filter:` +
-            encodeURL(filter, false));
-      }
-      page.show(this.path);
-    }, REQUEST_DEBOUNCE_INTERVAL_MS);
+  _debounceReload(filter: string) {
+    this.debounce(
+      'reload',
+      () => {
+        if (filter) {
+          return page.show(`${this.path}/q/filter:` + encodeURL(filter, false));
+        }
+        if (this.path) {
+          return page.show(this.path);
+        }
+      },
+      REQUEST_DEBOUNCE_INTERVAL_MS
+    );
   }
 
   _createNewItem() {
-    this.dispatchEvent(new CustomEvent('create-clicked', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('create-clicked', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
-  _computeNavLink(offset, direction, itemsPerPage, filter, path) {
+  _computeNavLink(
+    offset: number,
+    direction: number,
+    itemsPerPage: number,
+    filter: string,
+    path: string
+  ) {
     // Offset could be a string when passed from the router.
     offset = +(offset || 0);
-    const newOffset = Math.max(0, offset + (itemsPerPage * direction));
+    const newOffset = Math.max(0, offset + itemsPerPage * direction);
     let href = getBaseUrl() + path;
     if (filter) {
       href += '/q/filter:' + encodeURL(filter, false);
     }
     if (newOffset > 0) {
-      href += ',' + newOffset;
+      href += `,${newOffset}`;
     }
     return href;
   }
 
-  _computeCreateClass(createNew) {
+  _computeCreateClass(createNew: boolean) {
     return createNew ? 'show' : '';
   }
 
-  _hidePrevArrow(loading, offset) {
+  _hidePrevArrow(loading: boolean, offset: number) {
     return loading || offset === 0;
   }
 
-  _hideNextArrow(loading, items) {
+  _hideNextArrow(loading: boolean, items: unknown[]) {
     if (loading || !items || !items.length) {
       return true;
     }
@@ -115,9 +141,7 @@ class GrListView extends GestureEventListeners(
   // TODO: fix offset (including itemsPerPage)
   // to either support a decimal or make it go to the nearest
   // whole number (e.g 3).
-  _computePage(offset, itemsPerPage) {
+  _computePage(offset: number, itemsPerPage: number) {
     return offset / itemsPerPage + 1;
   }
 }
-
-customElements.define(GrListView.is, GrListView);

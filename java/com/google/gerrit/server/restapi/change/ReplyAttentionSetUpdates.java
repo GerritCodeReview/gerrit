@@ -56,7 +56,7 @@ public class ReplyAttentionSetUpdates {
   private final RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory;
   private final ApprovalsUtil approvalsUtil;
   private final AccountResolver accountResolver;
-  private final ServiceUserClassifier robotClassifier;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   @Inject
   ReplyAttentionSetUpdates(
@@ -65,13 +65,13 @@ public class ReplyAttentionSetUpdates {
       RemoveFromAttentionSetOp.Factory removeFromAttentionSetOpFactory,
       ApprovalsUtil approvalsUtil,
       AccountResolver accountResolver,
-      ServiceUserClassifier robotClassifier) {
+      ServiceUserClassifier serviceUserClassifier) {
     this.permissionBackend = permissionBackend;
     this.addToAttentionSetOpFactory = addToAttentionSetOpFactory;
     this.removeFromAttentionSetOpFactory = removeFromAttentionSetOpFactory;
     this.approvalsUtil = approvalsUtil;
     this.accountResolver = accountResolver;
-    this.robotClassifier = robotClassifier;
+    this.serviceUserClassifier = serviceUserClassifier;
   }
 
   /** Adjusts the attention set but only based on the automatic rules. */
@@ -83,7 +83,7 @@ public class ReplyAttentionSetUpdates {
       Account.Id currentUser)
       throws IOException, ConfigInvalidException, PermissionBackendException,
           UnprocessableEntityException {
-    if (robotClassifier.isServiceUser(currentUser)) {
+    if (serviceUserClassifier.isServiceUser(currentUser)) {
       return;
     }
     Set<Account.Id> potentiallyRemovedReviewerIds = new HashSet<>();
@@ -120,7 +120,7 @@ public class ReplyAttentionSetUpdates {
       bu.addOp(changeNotes.getChangeId(), new AttentionSetUnchangedOp());
       return;
     }
-    if (robotClassifier.isServiceUser(currentUser)) {
+    if (serviceUserClassifier.isServiceUser(currentUser)) {
       botsWithNegativeLabelsAddOwnerAndUploader(bu, changeNotes, input);
       robotCommentAddsOwnerAndUploader(bu, changeNotes, input);
       return;

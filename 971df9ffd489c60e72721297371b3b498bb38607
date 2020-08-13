@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "837ca0b2_6ba0056a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-08-13T12:14:24Z",
+      "side": 1,
+      "message": "What is this change making sticky?\n- The main header?\n- The Navigation patchset header?\n- The Edit mode? \n\nI have filed a bug in Monorail Issue 13227: Add a sticky change header and tab header upon scrolling in Monorail with the proposed solution:\n\nMake as sticky header upon scrolling:\n- Change page header. Rationale: Keep important action buttons available to users upon scrolling (instead of scrolling up)\n- Tab header. Rationale: Provide quick navigation between tabs (instead of scrolling up and switch tab)\n\n",
+      "revId": "971df9ffd489c60e72721297371b3b498bb38607",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

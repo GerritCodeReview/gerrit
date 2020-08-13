@@ -16,6 +16,24 @@
       "revId": "b32b5d467b49b2f77fad3817380e50b2c6675737",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "df151dcf_d487d1e2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-13T14:44:18Z",
+      "side": 1,
+      "message": "Yes, but I couldn\u0027t find a fast one. Maybe we should add it as a separate tool.\nRollup checks circular dependencies in .js files (including compiled files). However, in this case there are no circular dependencies between .js files - the problematic import statement is removed by typescript compiler (because it imports only interfaces and interfaces don\u0027t exist in js).",
+      "parentUuid": "293e83e1_705ae7b1",
+      "revId": "b32b5d467b49b2f77fad3817380e50b2c6675737",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

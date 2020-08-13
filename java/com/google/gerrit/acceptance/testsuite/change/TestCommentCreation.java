@@ -19,6 +19,7 @@ import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.acceptance.testsuite.change.TestRange.Position;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
+import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
 import java.util.Optional;
 import java.util.function.Function;
@@ -46,11 +47,15 @@ public abstract class TestCommentCreation {
 
   public abstract Optional<Account.Id> author();
 
+  abstract Comment.Status status();
+
   abstract ThrowingFunction<TestCommentCreation, String> commentCreator();
 
   public static TestCommentCreation.Builder builder(
-      ThrowingFunction<TestCommentCreation, String> commentCreator) {
-    return new AutoValue_TestCommentCreation.Builder().commentCreator(commentCreator);
+      ThrowingFunction<TestCommentCreation, String> commentCreator, Comment.Status commentStatus) {
+    return new AutoValue_TestCommentCreation.Builder()
+        .commentCreator(commentCreator)
+        .status(commentStatus);
   }
 
   @AutoValue.Builder
@@ -156,7 +161,8 @@ public abstract class TestCommentCreation {
 
     /**
      * UUID of another comment to which this comment is a reply. This comment must have similar
-     * attributes (e.g. file, line, side) as the parent comment.
+     * attributes (e.g. file, line, side) as the parent comment. The parent comment must be a
+     * published comment.
      */
     public abstract Builder parentUuid(String parentUuid);
 
@@ -165,6 +171,13 @@ public abstract class TestCommentCreation {
 
     /** Author of the comment. Must be an existing user account. */
     public abstract Builder author(Account.Id accountId);
+
+    /**
+     * Status of the comment. Hidden in the API surface. Use {@link
+     * PerPatchsetOperations#newComment()} or {@link PerPatchsetOperations#newDraftComment()}
+     * depending on which type of comment you want to create.
+     */
+    abstract Builder status(Comment.Status value);
 
     abstract TestCommentCreation.Builder commentCreator(
         ThrowingFunction<TestCommentCreation, String> commentCreator);

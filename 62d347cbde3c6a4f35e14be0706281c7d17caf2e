@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "80765c9d_08ed5097",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-13T15:17:17Z",
+      "side": 1,
+      "message": "Thanks for the clarification, Youssef!",
+      "revId": "62d347cbde3c6a4f35e14be0706281c7d17caf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "65e788bc_5ce97037",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6543,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-13T15:17:17Z",
+      "side": 1,
+      "message": "Nit: This is still the same page, isn\u0027t it? Hence, we could just use a local reference and omit this part (see line 6533).",
+      "range": {
+        "startLine": 6543,
+        "startChar": 5,
+        "endLine": 6543,
+        "endChar": 26
+      },
+      "revId": "62d347cbde3c6a4f35e14be0706281c7d17caf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

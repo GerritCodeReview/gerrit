@@ -384,7 +384,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       // Adjust the attention set based on the input
       replyAttentionSetUpdates.updateAttentionSet(
-          bu, revision.getNotes(), input, reviewerResults, revision.getAccountId());
+          bu, revision.getNotes(), input, revision.getUser());
       bu.execute();
 
       // Re-read change to take into account results of the update.
@@ -977,7 +977,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             String parent = Url.decode(inputComment.inReplyTo);
             comment =
                 commentsUtil.newHumanComment(
-                    ctx,
+                    ctx.getNotes(),
+                    ctx.getUser(),
+                    ctx.getWhen(),
                     path,
                     psId,
                     inputComment.side(),

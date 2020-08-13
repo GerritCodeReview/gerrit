@@ -435,7 +435,9 @@ public class MailProcessor {
 
       HumanComment comment =
           commentsUtil.newHumanComment(
-              ctx,
+              ctx.getNotes(),
+              ctx.getUser(),
+              ctx.getWhen(),
               fileName,
               patchSetForComment.id(),
               (short) side.ordinal(),

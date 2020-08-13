@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2d01302_9a25d126",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-13T14:27:06Z",
+      "side": 1,
+      "message": "nit (though not relevant for this change): the naming here is inconsistent. this could be \"serviceUserWithNegative...\"",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 124,
+        "endChar": 10
+      },
+      "revId": "01edac02f15b579dc4092f9a8e8f23bf7da3e500",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

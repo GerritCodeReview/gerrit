@@ -80,6 +80,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
   private final ProjectCache projectCache;
   private final ChangeFinder changeFinder;
   private final PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory;
+  private final PerCommentOperationsImpl.Factory perCommentOperationsFactory;
+  private final PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory;
 
   @Inject
   public ChangeOperationsImpl(
@@ -93,7 +95,9 @@ public class ChangeOperationsImpl implements ChangeOperations {
       BatchUpdate.Factory batchUpdateFactory,
       ProjectCache projectCache,
       ChangeFinder changeFinder,
-      PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory) {
+      PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory,
+      PerCommentOperationsImpl.Factory perCommentOperationsFactory,
+      PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory) {
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
     this.patchsetInserterFactory = patchsetInserterFactory;
@@ -105,6 +109,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
     this.projectCache = projectCache;
     this.changeFinder = changeFinder;
     this.perPatchsetOperationsFactory = perPatchsetOperationsFactory;
+    this.perCommentOperationsFactory = perCommentOperationsFactory;
+    this.perDraftCommentOperationsFactory = perDraftCommentOperationsFactory;
   }
 
   @Override
@@ -407,6 +413,18 @@ public class ChangeOperationsImpl implements ChangeOperations {
       ChangeNotes changeNotes = getChangeNotes();
       return perPatchsetOperationsFactory.create(
           changeNotes, changeNotes.getChange().currentPatchSetId());
+    }
+
+    @Override
+    public PerCommentOperations comment(String commentUuid) {
+      ChangeNotes changeNotes = getChangeNotes();
+      return perCommentOperationsFactory.create(changeNotes, commentUuid);
+    }
+
+    @Override
+    public PerDraftCommentOperations draftComment(String commentUuid) {
+      ChangeNotes changeNotes = getChangeNotes();
+      return perDraftCommentOperationsFactory.create(changeNotes, commentUuid);
     }
   }
 }

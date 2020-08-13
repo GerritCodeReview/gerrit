@@ -32,6 +32,8 @@ import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperationsImpl;
+import com.google.gerrit.acceptance.testsuite.change.PerCommentOperationsImpl;
+import com.google.gerrit.acceptance.testsuite.change.PerDraftCommentOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.change.PerPatchsetOperationsImpl;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperationsImpl;
@@ -511,6 +513,8 @@ public class GerritServer implements AutoCloseable {
             bind(RequestScopeOperations.class).to(RequestScopeOperationsImpl.class);
             bind(ChangeOperations.class).to(ChangeOperationsImpl.class);
             factory(PerPatchsetOperationsImpl.Factory.class);
+            factory(PerCommentOperationsImpl.Factory.class);
+            factory(PerDraftCommentOperationsImpl.Factory.class);
             factory(PushOneCommit.Factory.class);
             install(InProcessProtocol.module());
             install(new NoSshModule());

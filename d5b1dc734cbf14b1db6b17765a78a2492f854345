@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "475dca19_c7e1d954",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-13T09:37:58Z",
+      "side": 1,
+      "message": "Don\u0027t have time for a deeper review until 15:00, but I think overall this looks good. And I don\u0027t want to block this. It is vital to go in quickly.",
+      "revId": "d5b1dc734cbf14b1db6b17765a78a2492f854345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "841c12d0_1d36e3f7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-rest-api.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-13T09:37:58Z",
+      "side": 1,
+      "message": "Are 2 and 3 identical?\nCan you maybe remove both, 2 and 3 here?",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 93,
+        "endChar": 0
+      },
+      "revId": "d5b1dc734cbf14b1db6b17765a78a2492f854345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c64b0c31_da6e0203",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-13T09:37:58Z",
+      "side": 1,
+      "message": "remove?",
+      "revId": "d5b1dc734cbf14b1db6b17765a78a2492f854345",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

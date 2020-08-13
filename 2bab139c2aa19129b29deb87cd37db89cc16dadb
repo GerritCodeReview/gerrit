@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7dea8a3_55caa8e6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-13T10:38:14Z",
+      "side": 1,
+      "message": "Test failure seems relevant:\n\nrobotCanChangeAttentionSetExplicitly(com.google.gerrit.acceptance.rest.change.AttentionSetIT)\njava.lang.NullPointerException",
+      "revId": "2bab139c2aa19129b29deb87cd37db89cc16dadb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

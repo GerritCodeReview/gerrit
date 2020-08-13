@@ -30,22 +30,22 @@ public class LabelTypeSerializerTest {
               ImmutableList.of(
                   LabelValue.create((short) 0, "no vote"),
                   LabelValue.create((short) 1, "approved")))
-          .setCanOverride(true)
-          .setAllowPostSubmit(true)
-          .setIgnoreSelfApproval(true)
+          .setCanOverride(!LabelType.DEF_CAN_OVERRIDE)
+          .setAllowPostSubmit(!LabelType.DEF_ALLOW_POST_SUBMIT)
+          .setIgnoreSelfApproval(!LabelType.DEF_IGNORE_SELF_APPROVAL)
           .setRefPatterns(ImmutableList.of("refs/heads/*", "refs/tags/*"))
           .setDefaultValue((short) 1)
-          .setCopyAnyScore(true)
-          .setCopyMaxScore(true)
-          .setCopyMinScore(true)
-          .setCopyAllScoresOnMergeFirstParentUpdate(true)
-          .setCopyAllScoresOnTrivialRebase(true)
-          .setCopyAllScoresIfNoCodeChange(true)
-          .setCopyAllScoresIfNoChange(true)
+          .setCopyAnyScore(!LabelType.DEF_COPY_ANY_SCORE)
+          .setCopyMaxScore(!LabelType.DEF_COPY_MAX_SCORE)
+          .setCopyMinScore(!LabelType.DEF_COPY_MIN_SCORE)
+          .setCopyAllScoresOnMergeFirstParentUpdate(
+              !LabelType.DEF_COPY_ALL_SCORES_ON_MERGE_FIRST_PARENT_UPDATE)
+          .setCopyAllScoresOnTrivialRebase(!LabelType.DEF_COPY_ALL_SCORES_ON_TRIVIAL_REBASE)
+          .setCopyAllScoresIfNoCodeChange(!LabelType.DEF_COPY_ALL_SCORES_IF_NO_CODE_CHANGE)
+          .setCopyAllScoresIfNoChange(!LabelType.DEF_COPY_ALL_SCORES_IF_NO_CHANGE)
           .setCopyValues(ImmutableList.of((short) 0, (short) 1))
           .setMaxNegative((short) -1)
           .setMaxPositive((short) 1)
-          .setCanOverride(true)
           .build();
 
   @Test

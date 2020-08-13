@@ -27,17 +27,24 @@ function checkImportValid(context, node) {
       message: 'Do not use absolute path for import.',
     };
   }
+
+  const targetFile = path.resolve(path.dirname(file), importSource);
+  const extName = path.extname(targetFile);
+  // There is a polymer.dom.js file, so .dom is not an extension
+  if(extName !== '' && !targetFile.endsWith('polymer.dom')) {
+    return {
+      message: 'Do not specify extensions for import path.',
+      fix: function(fixer) {
+        return fixer.replaceText(node.source, `'${importSource.slice(0, -extName.length)}'`);
+      },
+    };
+  }
+
   if(!importSource.startsWith('./') && !importSource.startsWith('../')) {
-    // Import from node_modules - nothing to check
+    // Import from node_modules - nothing else to check
     return null;
   }
 
-  const targetFile = path.resolve(path.dirname(file), importSource);
-  if(path.extname(targetFile) !== '') {
-    return {
-      message: 'Do not specify extensions for import path.'
-    };
-  }
 
   if(fs.existsSync(targetFile + ".ts")) {
     // .ts file exists - nothing to check
@@ -72,6 +79,7 @@ module.exports = {
       recommended: false
     },
     schema: [],
+    fixable: "code",
   },
   create: function (context) {
     return {
@@ -92,6 +100,7 @@ module.exports = {
           context.report({
             message: importProblem.message,
             node: node.source,
+            fix: importProblem.fix,
           });
         }
       }

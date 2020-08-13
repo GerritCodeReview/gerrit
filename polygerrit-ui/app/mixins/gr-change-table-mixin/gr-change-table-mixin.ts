@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin.js';
+import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
 import {property} from '@polymer/decorators';

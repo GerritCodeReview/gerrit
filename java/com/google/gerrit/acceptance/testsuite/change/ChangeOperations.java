@@ -111,5 +111,21 @@ public interface ChangeOperations {
      * @return an aggregation of operations on a specific patchset
      */
     PerPatchsetOperations currentPatchset();
+
+    /**
+     * Starts the fluent chain for querying or modifying a published comment. Please see the methods
+     * of {@link PerCommentOperations} for details on possible operations.
+     *
+     * @return an aggregation of operations on a specific comment
+     */
+    PerCommentOperations comment(String commentUuid);
+
+    /**
+     * Starts the fluent chain for querying or modifying a draft comment. Please see the methods of
+     * {@link PerDraftCommentOperations} for details on possible operations.
+     *
+     * @return an aggregation of operations on a specific draft comment
+     */
+    PerDraftCommentOperations draftComment(String commentUuid);
   }
 }

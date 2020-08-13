@@ -937,17 +937,12 @@ class ReceiveCommits {
                 // If no comments, attention set shouldn't update since the user didn't reply.
                 continue;
               }
-              // Reviewers can only be removed by becoming CCs.
-              Set<String> potentiallyRemovedReviewers =
-                  magicBranch.getCombinedCcs(
-                      getRecipientsFromFooters(
-                          accountResolver, replace.revCommit.getFooterLines()));
               replyAttentionSetUpdates.processAutomaticAttentionSetRulesOnReply(
                   bu,
                   changeNotes.get(),
                   isReadyForReview(changeNotes.get()),
-                  potentiallyRemovedReviewers,
-                  user.getAccountId());
+                  user.getAccountId(),
+                  drafts);
             }
           }
         }
@@ -1002,11 +997,7 @@ class ReceiveCommits {
       } catch (ResourceConflictException e) {
         addError(e.getMessage());
         reject(magicBranchCmd, "conflict");
-      } catch (BadRequestException
-          | UnprocessableEntityException
-          | AuthException
-          | ConfigInvalidException
-          | PermissionBackendException e) {
+      } catch (BadRequestException | UnprocessableEntityException | AuthException e) {
         logger.atFine().withCause(e).log("Rejecting due to client error");
         reject(magicBranchCmd, e.getMessage());
       } catch (RestApiException | IOException e) {

@@ -90,8 +90,9 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
   }
 
   _handleDelete(e: MouseEvent) {
-    const value = ((dom(e) as EventApi).localTarget as HTMLElement).dataset
-      .item;
+    const value = ((dom(e) as EventApi).localTarget as HTMLElement).dataset[
+      'item'
+    ];
     this._dispatchChanged(
       this.pluginOption.info.values.filter(str => str !== value)
     );

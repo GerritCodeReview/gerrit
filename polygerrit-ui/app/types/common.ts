@@ -140,6 +140,17 @@ interface LabelCommonInfo {
   optional?: boolean; // not set if false
 }
 
+export interface ContributorAgreementInput {
+  name?: string;
+}
+
+export interface ContributorAgreementInfo {
+  name: string;
+  description: string;
+  url: string;
+  auto_verify_group?: GroupInfo;
+}
+
 export interface QuickLabelInfo extends LabelCommonInfo {
   approved?: AccountInfo;
   rejected?: AccountInfo;
@@ -584,7 +595,7 @@ export interface AccountsConfigInfo {
 export interface AuthInfo {
   type: string;
   use_contributor_agreements: boolean;
-  contributor_agreements: boolean;
+  contributor_agreements?: ContributorAgreementInfo;
   editable_account_fields: string;
   login_url?: string;
   login_text?: string;

@@ -114,6 +114,8 @@ import {
   GroupAuditEventInfo,
   RequestPayload,
   Password,
+  ContributorAgreementInput,
+  ContributorAgreementInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1131,17 +1133,17 @@ export class GrRestApiInterface
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/groups',
       reportUrlAsIs: true,
-    });
+    }) as Promise<GroupInfo[] | undefined>;
   }
 
   getAccountAgreements() {
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/agreements',
       reportUrlAsIs: true,
-    });
+    }) as Promise<ContributorAgreementInfo[] | undefined>;
   }
 
-  saveAccountAgreement(name: string): Promise<Response> {
+  saveAccountAgreement(name: ContributorAgreementInput): Promise<Response> {
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/agreements',

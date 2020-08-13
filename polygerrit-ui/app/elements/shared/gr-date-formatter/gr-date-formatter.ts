@@ -14,14 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-date-formatter_html.js';
-import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin.js';
-import {parseDate, fromNow, isValidDate, isWithinDay, isWithinHalfYear, formatDate, utcOffsetString} from '../../../utils/date-util.js';
+import '../gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-date-formatter_html';
+import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
+import {property, customElement} from '@polymer/decorators';
+import {
+  parseDate,
+  fromNow,
+  isValidDate,
+  isWithinDay,
+  isWithinHalfYear,
+  formatDate,
+  utcOffsetString,
+} from '../../../utils/date-util';
+import {GrRestApiInterface} from '../gr-rest-api-interface/gr-rest-api-interface';
+import {TimeFormat, DateFormat} from '../../../constants/constants';
+import {assertNever} from '../../../utils/common-util';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -53,49 +65,63 @@ const DateFormats = {
   },
 };
 
-/**
- * @extends PolymerElement
- */
-class GrDateFormatter extends TooltipMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+interface DateFormatPair {
+  short: string;
+  full: string;
+}
 
-  static get is() { return 'gr-date-formatter'; }
-
-  static get properties() {
-    return {
-      dateStr: {
-        type: String,
-        value: null,
-        notify: true,
-      },
-      showDateAndTime: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * When true, the detailed date appears in a GR-TOOLTIP rather than in the
-       * native browser tooltip.
-       */
-      hasTooltip: Boolean,
-
-      /**
-       * The title to be used as the native tooltip or by the tooltip behavior.
-       */
-      title: {
-        type: String,
-        reflectToAttribute: true,
-        computed: '_computeFullDateStr(dateStr, _timeFormat, _dateFormat)',
-      },
-
-      /** @type {?{short: string, full: string}} */
-      _dateFormat: Object,
-      _timeFormat: String, // No default value to prevent flickering.
-      _relative: Boolean, // No default value to prevent flickering.
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-date-formatter': GrDateFormatter;
   }
+}
+
+export interface GrDateFormatter {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
+
+@customElement('gr-date-formatter')
+export class GrDateFormatter extends TooltipMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: String, notify: true})
+  dateStr: string | null = null;
+
+  @property({type: Boolean})
+  showDateAndTime = false;
+
+  /**
+   * When true, the detailed date appears in a GR-TOOLTIP rather than in the
+   * native browser tooltip.
+   */
+  @property({type: Boolean})
+  hasTooltip = false;
+
+  /**
+   * The title to be used as the native tooltip or by the tooltip behavior.
+   */
+  @property({
+    type: String,
+    reflectToAttribute: true,
+    computed: '_computeFullDateStr(dateStr, _timeFormat, _dateFormat)',
+  })
+  title = '';
+
+  /** @type {?{short: string, full: string}} */
+  @property({type: Object})
+  _dateFormat?: DateFormatPair;
+
+  @property({type: String})
+  _timeFormat?: string;
+
+  @property({type: Boolean})
+  _relative?: boolean;
 
   constructor() {
     super();
@@ -119,54 +145,52 @@ class GrDateFormatter extends TooltipMixin(
         this._relative = false;
         return;
       }
-      return Promise.all([
-        this._loadTimeFormat(),
-        this._loadRelative(),
-      ]);
+      return Promise.all([this._loadTimeFormat(), this._loadRelative()]);
     });
   }
 
   _loadTimeFormat() {
     return this._getPreferences().then(preferences => {
-      const timeFormat = preferences && preferences.time_format;
-      const dateFormat = preferences && preferences.date_format;
-      this._decideTimeFormat(timeFormat);
-      this._decideDateFormat(dateFormat);
+      if (!preferences) {
+        throw Error('Preferences is not set');
+      }
+      this._decideTimeFormat(preferences.time_format);
+      this._decideDateFormat(preferences.date_format);
     });
   }
 
-  _decideTimeFormat(timeFormat) {
+  _decideTimeFormat(timeFormat: TimeFormat) {
     switch (timeFormat) {
-      case 'HHMM_12':
+      case TimeFormat.HHMM_12:
         this._timeFormat = TimeFormats.TIME_12;
         break;
-      case 'HHMM_24':
+      case TimeFormat.HHMM_24:
         this._timeFormat = TimeFormats.TIME_24;
         break;
       default:
-        throw Error('Invalid time format: ' + timeFormat);
+        assertNever(timeFormat, `Invalid time format: ${timeFormat}`);
     }
   }
 
-  _decideDateFormat(dateFormat) {
+  _decideDateFormat(dateFormat: DateFormat) {
     switch (dateFormat) {
-      case 'STD':
+      case DateFormat.STD:
         this._dateFormat = DateFormats.STD;
         break;
-      case 'US':
+      case DateFormat.US:
         this._dateFormat = DateFormats.US;
         break;
-      case 'ISO':
+      case DateFormat.ISO:
         this._dateFormat = DateFormats.ISO;
         break;
-      case 'EURO':
+      case DateFormat.EURO:
         this._dateFormat = DateFormats.EURO;
         break;
-      case 'UK':
+      case DateFormat.UK:
         this._dateFormat = DateFormats.UK;
         break;
       default:
-        throw Error('Invalid date format: ' + dateFormat);
+        assertNever(dateFormat, `Invalid date format: ${dateFormat}`);
     }
   }
 
@@ -186,11 +210,19 @@ class GrDateFormatter extends TooltipMixin(
   }
 
   _computeDateStr(
-      dateStr, timeFormat, dateFormat, relative, showDateAndTime
+    dateStr?: string,
+    timeFormat?: string,
+    dateFormat?: DateFormatPair,
+    relative?: boolean,
+    showDateAndTime?: boolean
   ) {
-    if (!dateStr || !timeFormat || !dateFormat) { return ''; }
+    if (!dateStr || !timeFormat || !dateFormat) {
+      return '';
+    }
     const date = parseDate(dateStr);
-    if (!isValidDate(date)) { return ''; }
+    if (!isValidDate(date)) {
+      return '';
+    }
     if (relative) {
       return fromNow(date);
     }
@@ -202,36 +234,38 @@ class GrDateFormatter extends TooltipMixin(
       if (isWithinHalfYear(now, date)) {
         format = dateFormat.short;
       }
-      if (this.showDateAndTime) {
+      if (this.showDateAndTime || showDateAndTime) {
         format = `${format} ${timeFormat}`;
       }
     }
     return formatDate(date, format);
   }
 
-  _timeToSecondsFormat(timeFormat) {
-    return timeFormat === TimeFormats.TIME_12 ?
-      TimeFormats.TIME_12_WITH_SEC :
-      TimeFormats.TIME_24_WITH_SEC;
+  _timeToSecondsFormat(timeFormat: string | undefined) {
+    return timeFormat === TimeFormats.TIME_12
+      ? TimeFormats.TIME_12_WITH_SEC
+      : TimeFormats.TIME_24_WITH_SEC;
   }
 
-  _computeFullDateStr(dateStr, timeFormat, dateFormat) {
+  _computeFullDateStr(
+    dateStr?: string,
+    timeFormat?: string,
+    dateFormat?: DateFormatPair
+  ) {
     // Polymer 2: check for undefined
-    if ([
-      dateStr,
-      timeFormat,
-      dateFormat,
-    ].includes(undefined)) {
+    if ([dateStr, timeFormat].includes(undefined) || !dateFormat) {
       return undefined;
     }
 
-    if (!dateStr) { return ''; }
+    if (!dateStr) {
+      return '';
+    }
     const date = parseDate(dateStr);
-    if (!isValidDate(date)) { return ''; }
+    if (!isValidDate(date)) {
+      return '';
+    }
     let format = dateFormat.full + ', ';
     format += this._timeToSecondsFormat(timeFormat);
     return formatDate(date, format) + this._getUtcOffsetString();
   }
 }
-
-customElements.define(GrDateFormatter.is, GrDateFormatter);

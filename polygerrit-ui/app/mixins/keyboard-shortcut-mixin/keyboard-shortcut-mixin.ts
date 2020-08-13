@@ -204,7 +204,7 @@ export enum Shortcut {
   TOGGLE_BLAME = 'TOGGLE_BLAME',
 }
 
-type SectionView = Array<{binding: string[][]; text: string}>;
+export type SectionView = Array<{binding: string[][]; text: string}>;
 
 /**
  * The interface for listener for shortcut events.
@@ -1060,6 +1060,8 @@ export interface KeyboardShortcutMixinInterface {
   modifierPressed(event: CustomKeyboardEvent): boolean;
   isModifierPressed(event: CustomKeyboardEvent, modifier: Modifier): boolean;
   getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent;
+  addKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
+  removeKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
 }
 
 export function _testOnly_getShortcutManagerInstance() {

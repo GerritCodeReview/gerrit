@@ -6539,9 +6539,10 @@ Whether or not the comment must be addressed by the user. The state of
 resolution of a comment thread is stored in the last comment in that thread
 chronologically.
 |`change_message_id` |optional|
-Available with published comments. Contains the
-link:rest-api-changes.html#change-message-info[id] of the change message
-that this comment is linked to.
+Available with the
+link:rest-api-changes.html#list-change-comments[list change comments] endpoint.
+Contains the link:rest-api-changes.html#change-message-info[id] of the change
+message that this comment is linked to.
 |`commit_id` |optional|
 Hex commit SHA1 (40 characters string) of the commit of the patchset to which
 this comment applies.

@@ -48,11 +48,28 @@ public class FileContentBuilder<T> {
     return builder;
   }
 
+  /** Deletes the file. */
   public T delete() {
     modificationToBuilderAdder.accept(new DeleteFileModification(filePath));
     return builder;
   }
 
+  /**
+   * Renames the file while keeping its content.
+   *
+   * <p>If you want to both rename the file and adjust its content, delete the old path via {@link
+   * #delete()} and provide the desired content for the new path via {@link #content(String)}. If
+   * you use that approach, make sure to use a new content which is similar enough to the old (at
+   * least 60% line similarity) as otherwise Gerrit/Git won't identify it as a rename.
+   *
+   * <p>To create copied files, you need to go even one step further. Also rename the file you copy
+   * at the same time (-> delete old path + add two paths with the old content)! If you also want to
+   * adjust the content of the copy, you need to also slightly modify the content of the renamed
+   * file. Adjust the content of the copy slightly more if you want to control which file ends up as
+   * copy and which as rename (but keep the 60% line similarity threshold in mind).
+   *
+   * @param newFilePath new path of the file
+   */
   public T renameTo(String newFilePath) {
     modificationToBuilderAdder.accept(new RenameFileModification(filePath, newFilePath));
     return builder;

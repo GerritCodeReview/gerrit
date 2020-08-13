@@ -18,17 +18,8 @@ import {
   ErrorCallback,
   RestApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
-
-/**
- * Enum for all http methods used in Gerrit.
- * TODO(TS): might move to common later.
- */
-export enum HttpMethod {
-  POST = 'POST',
-  GET = 'GET',
-  DELETE = 'DELETE',
-  PUT = 'PUT',
-}
+import {HttpMethod} from '../../../constants/constants';
+import {RequestPayload} from '../../../types/common';
 
 let restApi: RestApiService | null = null;
 
@@ -76,16 +67,40 @@ export class GrPluginRestApi {
     return getRestApi().getRepos(filter, reposPerPage, offset);
   }
 
+  fetch(
+    method: HttpMethod,
+    url: string,
+    payload?: RequestPayload,
+    errFn?: undefined,
+    contentType?: string
+  ): Promise<Response>;
+
+  fetch(
+    method: HttpMethod,
+    url: string,
+    payload: RequestPayload | undefined,
+    errFn: ErrorCallback,
+    contentType?: string
+  ): Promise<Response | void>;
+
+  fetch(
+    method: HttpMethod,
+    url: string,
+    payload: RequestPayload | undefined,
+    errFn?: ErrorCallback,
+    contentType?: string
+  ): Promise<Response | void>;
+
   /**
    * Fetch and return native browser REST API Response.
    */
   fetch(
     method: HttpMethod,
     url: string,
-    payload?: unknown,
+    payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
-  ): Promise<Response> {
+  ): Promise<Response | void> {
     return getRestApi().send(
       method,
       this.prefix + url,
@@ -101,12 +116,18 @@ export class GrPluginRestApi {
   send(
     method: HttpMethod,
     url: string,
-    payload?: unknown,
+    payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
   ) {
     return this.fetch(method, url, payload, errFn, contentType).then(
       response => {
+        if (!response) {
+          // TODO(TS): Fix method definition
+          // If errFn exists and doesn't throw an exception, the fetch method
+          // returns empty response
+          throw new Error('errFn must throw an exception');
+        }
         if (response.status < 200 || response.status >= 300) {
           return response.text().then(text => {
             if (text) {
@@ -128,7 +149,7 @@ export class GrPluginRestApi {
 
   post(
     url: string,
-    payload?: unknown,
+    payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
   ) {
@@ -137,7 +158,7 @@ export class GrPluginRestApi {
 
   put(
     url: string,
-    payload?: unknown,
+    payload?: RequestPayload,
     errFn?: ErrorCallback,
     contentType?: string
   ) {

@@ -29,13 +29,36 @@ import {
   InheritedBooleanInfoConfiguredValue,
   ConfigParameterInfoType,
   AccountTag,
+  PermissionAction,
+  HttpMethod,
+  CommentSide,
+  AppTheme,
+  DateFormat,
+  TimeFormat,
+  EmailStrategy,
+  DefaultBase,
+  IgnoreWhitespaceType,
+  UserPriority,
+  DiffViewMode,
+  DraftsAction,
+  NotifyType,
 } from '../constants/constants';
+import {Suggestion} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
 
+/**
+ * Type alias for parsed json object to make code cleaner
+ */
+export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
+
 export type PatchSetNum = BrandType<'edit' | number, '_patchSet'>;
+
 export const EditPatchSetNum = 'edit' as PatchSetNum;
+// TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
+// without 'parent'.
+export const ParentPatchSetNum = 'PARENT' as PatchSetNum;
 
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
@@ -44,13 +67,16 @@ export type NumericChangeId = BrandType<number, '_numericChangeId'>;
 export type ProjectName = BrandType<string, '_projectName'>;
 export type UrlEncodedProjectName = BrandType<string, '_urlEncodedProjectName'>;
 export type TopicName = BrandType<string, '_topicName'>;
+// TODO(TS): Probably, we should separate AccountId and EncodedAccountId
 export type AccountId = BrandType<number, '_accountId'>;
-export type HttpMethod = BrandType<string, '_httpMethod'>;
 export type GitRef = BrandType<string, '_gitRef'>;
 export type RequirementType = BrandType<string, '_requirementType'>;
 export type TrackingId = BrandType<string, '_trackingId'>;
 export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
 export type RepositoryName = BrandType<string, '_repositoryName'>;
+export type RobotId = BrandType<string, '_robotId'>;
+export type RobotRunId = BrandType<string, '_robotRunId'>;
+export type FixId = BrandType<string, '_fixId'>;
 
 // The URL encoded UUID of the comment
 export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
@@ -87,6 +113,9 @@ export type CommitId = BrandType<string, '_commitId'>;
 
 // The UUID of the group
 export type GroupId = BrandType<string, '_groupId'>;
+
+// The Encoded UUID of the group
+export type EncodedGroupId = BrandType<string, '_encodedGroupId'>;
 
 // The timezone offset from UTC in minutes
 export type TimezoneOffset = BrandType<number, '_timezoneOffset'>;
@@ -248,6 +277,8 @@ export interface GroupInfo {
   members?: AccountInfo[];
   includes?: GroupInfo[];
 }
+
+export type GroupNameToGroupInfoMap = {[groupName: string]: GroupInfo};
 
 /**
  * The 'GroupInput' entity contains information for the creation of a new
@@ -590,7 +621,7 @@ export interface CacheOperationInput {
 
 /**
  * The CapabilityInfo entity contains information about a capability.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#capability-info
  */
 export interface CapabilityInfo {
   id: string;
@@ -827,16 +858,16 @@ export interface PluginConfigInfo {
 /**
  * The ReceiveInfo entity contains information about the configuration of
  * git-receive-pack behavior on the server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#receive-info
  */
 export interface ReceiveInfo {
-  enableSignedPush?: string;
+  enable_signed_push?: string;
 }
 
 /**
  * The ServerInfo entity contains information about the configuration of the
  * Gerrit server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#server-info
  */
 export interface ServerInfo {
   accounts: AccountsConfigInfo;
@@ -856,7 +887,7 @@ export interface ServerInfo {
 /**
  * The SuggestInfo entity contains information about Gerritconfiguration from
  * the suggest section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#suggest-info
  */
 export interface SuggestInfo {
   from: string;
@@ -948,7 +979,7 @@ export interface CommentInfo {
   patch_set?: PatchSetNum;
   id: UrlEncodedCommentId;
   path?: string;
-  side?: string;
+  side?: CommentSide;
   parent?: string;
   line?: string;
   range?: CommentRange;
@@ -961,6 +992,8 @@ export interface CommentInfo {
   change_message_id?: string;
   commit_id?: string;
 }
+
+export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
 
 /**
  * The CommentRange entity describes the range of an inline comment.
@@ -993,6 +1026,8 @@ export interface ProjectInfo {
   // Links to the project in external sites
   web_links?: WebLinkInfo[];
 }
+
+export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};
 
 /**
  * The LabelTypeInfo entity contains metadata about the labels that a project
@@ -1064,29 +1099,34 @@ export interface DiffWebLinkInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-info
  */
 export interface DiffPreferencesInfo {
-  context: string;
-  expand_all_comments: boolean;
-  ignore_whitespace: string;
-  intraline_difference: boolean;
+  context: number;
+  expand_all_comments?: boolean;
+  ignore_whitespace: IgnoreWhitespaceType;
+  intraline_difference?: boolean;
   line_length: number;
-  cursor_blink_rate: string;
-  manual_review: boolean;
-  retain_header: boolean;
-  show_line_endings: boolean;
-  show_tabs: boolean;
-  show_whitespace_errors: boolean;
-  skip_deleted: boolean;
-  skip_uncommented: boolean;
-  syntax_highlighting: boolean;
-  hide_top_menu: boolean;
-  auto_hide_diff_table_header: boolean;
-  hide_line_numbers: boolean;
+  cursor_blink_rate: number;
+  manual_review?: boolean;
+  retain_header?: boolean;
+  show_line_endings?: boolean;
+  show_tabs?: boolean;
+  show_whitespace_errors?: boolean;
+  skip_deleted?: boolean;
+  skip_uncommented?: boolean;
+  syntax_highlighting?: boolean;
+  hide_top_menu?: boolean;
+  auto_hide_diff_table_header?: boolean;
+  hide_line_numbers?: boolean;
   tab_size: number;
-  font_size: string;
-  hide_empty_pane: boolean;
-  match_brackets: boolean;
-  line_wrapping: boolean;
-  show_file_comment_button: boolean;
+  font_size: number;
+  hide_empty_pane?: boolean;
+  match_brackets?: boolean;
+  line_wrapping?: boolean;
+  // TODO(TS): show_file_comment_button exists in JS code, but doesn't exist in the doc.
+  // Either remove or update doc
+  show_file_comment_button?: boolean;
+  // TODO(TS): theme exists in JS code, but doesn't exist in the doc.
+  // Either remove or update doc
+  theme?: string;
 }
 
 /**
@@ -1216,3 +1256,591 @@ export interface ConfigInfo {
   actions?: {[viewName: string]: ActionInfo};
   reject_empty_commit?: InheritedBooleanInfo;
 }
+
+/**
+ * The ProjectAccessInfo entity contains information about the access rights for a project
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#project-access-info
+ */
+export interface ProjectAccessInfo {
+  revision: string; // The revision of the refs/meta/config branch from which the access rights were loaded
+  inherits_from?: ProjectInfo; // not set for the All-Project project
+  local: LocalAccessSectionInfo;
+  is_owner?: boolean;
+  owner_of: GitRef[];
+  can_upload?: boolean;
+  can_add?: boolean;
+  can_add_tags?: boolean;
+  config_visible?: boolean;
+  groups: ProjectAccessGroups;
+  configWebLinks: string[];
+}
+
+export type ProjectAccessInfoMap = {[projectName: string]: ProjectAccessInfo};
+export type LocalAccessSectionInfo = {[ref: string]: AccessSectionInfo};
+export type ProjectAccessGroups = {[uuid: string]: GroupInfo};
+
+/**
+ * The AccessSectionInfo describes the access rights that are assigned on a ref.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#access-section-info
+ */
+export interface AccessSectionInfo {
+  permissions: AccessPermissionsMap;
+}
+
+export type AccessPermissionsMap = {[permissionName: string]: PermissionInfo};
+
+/**
+ * The PermissionInfo entity contains information about an assigned permission
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info
+ */
+export interface PermissionInfo {
+  label?: string; // The name of the label. Not set if it’s not a label permission.
+  exclusive?: boolean;
+  rules: PermissionInfoRules;
+}
+
+export type PermissionInfoRules = {[groupUUID: string]: PermissionRuleInfo};
+
+/**
+ * The PermissionRuleInfo entity contains information about a permission rule that is assigned to group
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#permission-info
+ */
+export interface PermissionRuleInfo {
+  action: PermissionAction;
+  force?: boolean;
+  min?: number; // not set if range is empty (from 0 to 0) or not set
+  max?: number; // not set if range is empty (from 0 to 0) or not set
+}
+
+/**
+ * The DashboardInfo entity contains information about a project dashboard
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#dashboard-info
+ */
+export interface DashboardInfo {
+  id: DashboardId;
+  project: ProjectName;
+  defining_project: ProjectName;
+  ref: string; // The name of the ref in which the dashboard is defined, without the refs/meta/dashboards/ prefix
+  description?: string;
+  foreach?: string;
+  url: string;
+  is_default?: boolean;
+  title?: boolean;
+  sections: DashboardSectionInfo[];
+}
+
+/**
+ * The DashboardSectionInfo entity contains information about a section in a dashboard.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#dashboard-section-info
+ */
+export interface DashboardSectionInfo {
+  name: string;
+  query: string;
+}
+
+/**
+ * The ConfigInput entity describes a new project configuration
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-input
+ */
+export interface ConfigInput {
+  description?: string;
+  use_contributor_agreements?: InheritedBooleanInfoConfiguredValue;
+  use_content_merge?: InheritedBooleanInfoConfiguredValue;
+  use_signed_off_by?: InheritedBooleanInfoConfiguredValue;
+  create_new_change_for_all_not_in_target?: InheritedBooleanInfoConfiguredValue;
+  require_change_id?: InheritedBooleanInfoConfiguredValue;
+  reject_implicit_merges?: InheritedBooleanInfoConfiguredValue;
+  max_object_size_limit?: MaxObjectSizeLimitInfo;
+  submit_type?: SubmitType;
+  state?: ProjectState;
+  plugin_config_values?: PluginConfigValues;
+  reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
+  commentlinks?: ConfigInfoCommentLinks;
+}
+
+/**
+ * Plugin configuration values as map which maps the plugin name to a map of parameter names to values
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-input
+ */
+export type PluginConfigValues = {
+  [pluginName: string]: ParameterNameToValueMap;
+};
+export type ParameterNameToValueMap = {[parameterName: string]: string};
+
+export type ConfigInfoCommentLinks = {
+  [commentLinkName: string]: CommentLinkInfo;
+};
+
+/**
+ * The ProjectInput entity contains information for the creation of a new project
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-input
+ */
+export interface ProjectInput {
+  name?: ProjectName;
+  parent?: ProjectName;
+  description?: string;
+  permissions_only?: boolean;
+  create_empty_commit?: boolean;
+  submit_type?: SubmitType;
+  branches?: BranchName[];
+  owners?: GroupId[];
+  use_contributor_agreements?: InheritedBooleanInfoConfiguredValue;
+  use_signed_off_by?: InheritedBooleanInfoConfiguredValue;
+  create_new_change_for_all_not_in_target?: InheritedBooleanInfoConfiguredValue;
+  use_content_merge?: InheritedBooleanInfoConfiguredValue;
+  require_change_id?: InheritedBooleanInfoConfiguredValue;
+  enable_signed_push?: InheritedBooleanInfoConfiguredValue;
+  require_signed_push?: InheritedBooleanInfoConfiguredValue;
+  max_object_size_limit?: string;
+  plugin_config_values?: PluginConfigValues;
+  reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
+}
+
+/**
+ * The BranchInfo entity contains information about a branch
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#branch-info
+ */
+export interface BranchInfo {
+  ref: GitRef;
+  revision: string;
+  can_delete?: boolean;
+  web_links?: WebLinkInfo[];
+}
+
+/**
+ * The ProjectAccessInput describes changes that should be applied to a project access config
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-access-input
+ */
+export interface ProjectAccessInput {
+  remove?: ProjectAccessInfo[];
+  add?: ProjectAccessInfo[];
+  message?: string;
+  parent?: string;
+}
+
+/**
+ * Represent a file in a base64 encoding
+ */
+export interface Base64File {
+  body: string;
+  type: string | null;
+}
+
+/**
+ * Represent a file in a base64 encoding; GrRestApiInterface returns it from some
+ * methods
+ */
+export interface Base64FileContent {
+  content: string | null;
+  type: string | null;
+  ok: true;
+}
+
+/**
+ * The WatchedProjectsInfo entity contains information about a project watch for a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#project-watch-info
+ */
+export interface ProjectWatchInfo {
+  project: ProjectName;
+  filter?: string;
+  notify_new_changes?: boolean;
+  notify_new_patch_sets?: boolean;
+  notify_all_comments?: boolean;
+  notify_submitted_changes?: boolean;
+  notify_abandoned_changes?: boolean;
+}
+/**
+ * The DeleteDraftCommentsInput entity contains information specifying a set of draft comments that should be deleted
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#delete-draft-comments-input
+ */
+export interface DeleteDraftCommentsInput {
+  query: string;
+}
+
+/**
+ * The AssigneeInput entity contains the identity of the user to be set as assignee
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#assignee-input
+ */
+export interface AssigneeInput {
+  assignee: AccountId;
+}
+
+/**
+ * The SshKeyInfo entity contains information about an SSH key of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#ssh-key-info
+ */
+export interface SshKeyInfo {
+  seq: number;
+  ssh_public_key: string;
+  encoded_key: string;
+  algorithm: string;
+  comment?: string;
+  valid: boolean;
+}
+
+/**
+ * The HashtagsInput entity contains information about hashtags to add to, and/or remove from, a change
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#hashtags-input
+ */
+export interface HashtagsInput {
+  add?: Hashtag[];
+  remove?: Hashtag[];
+}
+
+/**
+ * Defines a patch ranges. Used as input for gr-rest-api-interface methods,
+ * doesn't exist in Rest API
+ */
+export interface PatchRange {
+  patchNum: PatchSetNum;
+  basePatchNum: PatchSetNum;
+}
+
+/**
+ * The CommentInput entity contains information for creating an inline comment
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-input
+ */
+export interface CommentInput {
+  id?: UrlEncodedCommentId;
+  path?: string;
+  side?: CommentSide;
+  line?: number;
+  range?: CommentRange;
+  in_reply_to?: UrlEncodedCommentId;
+  updated: Timestamp;
+  message?: string;
+  tag?: string;
+  unresolved?: boolean;
+}
+
+/**
+ * The EditPreferencesInfo entity contains information about the edit preferences of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#edit-preferences-info
+ */
+export interface EditPreferencesInfo {
+  tab_size: number;
+  line_length: number;
+  indent_unit: number;
+  cursor_blink_rate: number;
+  hide_top_menu?: boolean;
+  show_tabs?: boolean;
+  show_whitespace_errors?: boolean;
+  syntax_highlighting?: boolean;
+  hide_line_numbers?: boolean;
+  match_brackets?: boolean;
+  line_wrapping?: boolean;
+  indent_with_tabs?: boolean;
+  auto_close_brackets?: boolean;
+  show_base?: boolean;
+  // TODO(TS): the following proeprties doesn't exist in RestAPI doc
+  key_map_type?: string;
+  theme?: string;
+}
+
+/**
+ * The PreferencesInput entity contains information for setting the user preferences. Fields which are not set will not be updated
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ */
+export interface PreferencesInput {
+  changes_per_page: 10 | 25 | 50 | 100;
+  theme: AppTheme;
+  expand_inline_diffs?: boolean;
+  download_scheme?: string;
+  date_format: DateFormat;
+  time_format: TimeFormat;
+  relative_date_in_change_table?: boolean;
+  diff_view: DiffViewMode;
+  size_bar_in_change_table?: boolean;
+  legacycid_in_change_table?: boolean;
+  mute_common_path_prefixes?: boolean;
+  signed_off_by?: boolean;
+  my?: TopMenuItemInfo[];
+  change_table: string[];
+  email_strategy: EmailStrategy;
+  default_base_for_merges: DefaultBase;
+}
+
+/**
+ * The DiffPreferencesInput entity contains information for setting the diff preferences of a user. Fields which are not set will not be updated
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#diff-preferences-input
+ */
+export interface DiffPreferenceInput {
+  context?: number;
+  expand_all_comments?: number;
+  ignore_whitespace: IgnoreWhitespaceType;
+  intraline_difference?: boolean;
+  line_length?: number;
+  manual_review?: boolean;
+  retain_header?: boolean;
+  show_line_endings?: boolean;
+  show_tabs?: boolean;
+  show_whitespace_errors?: boolean;
+  skip_deleted?: boolean;
+  skip_uncommented?: boolean;
+  syntax_highlighting?: boolean;
+  hide_top_menu?: boolean;
+  auto_hide_diff_table_header?: boolean;
+  hide_line_numbers?: boolean;
+  tab_size?: number;
+  font_size?: number;
+  line_wrapping?: boolean;
+  indent_with_tabs?: boolean;
+}
+
+/**
+ * The EmailInfo entity contains information about an email address of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#email-info
+ */
+export interface EmailInfo {
+  email: string;
+  preferred?: boolean;
+  pending_confirmation?: boolean;
+}
+
+/**
+ * The CapabilityInfo entity contains information about the global capabilities of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#capability-info
+ */
+export interface AccountCapabilityInfo {
+  accessDatabase?: boolean;
+  administrateServer?: boolean;
+  createAccount?: boolean;
+  createGroup?: boolean;
+  createProject?: boolean;
+  emailReviewers?: boolean;
+  flushCaches?: boolean;
+  killTask?: boolean;
+  maintainServer?: boolean;
+  priority: UserPriority;
+  queryLimit: QueryLimitInfo;
+  runAs?: boolean;
+  runGC?: boolean;
+  streamEvents?: boolean;
+  viewAllAccounts?: boolean;
+  viewCaches?: boolean;
+  viewConnections?: boolean;
+  viewPlugins?: boolean;
+  viewQueue?: boolean;
+}
+
+/**
+ * The QueryLimitInfo entity contains information about the Query Limit of a user
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#query-limit-info
+ */
+export interface QueryLimitInfo {
+  min: number;
+  max: number;
+}
+
+/**
+ * The PreferencesInfo entity contains information about a user’s preferences
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-info
+ */
+export interface PreferencesInfo {
+  changes_per_page: 10 | 25 | 50 | 100;
+  theme: AppTheme;
+  expand_inline_diffs?: boolean;
+  download_scheme?: string;
+  date_format: DateFormat;
+  time_format: TimeFormat;
+  relative_date_in_change_table?: boolean;
+  diff_view: DiffViewMode;
+  size_bar_in_change_table?: boolean;
+  legacycid_in_change_table?: boolean;
+  mute_common_path_prefixes?: boolean;
+  signed_off_by?: boolean;
+  my: TopMenuItemInfo[];
+  change_table: string[];
+  email_strategy: EmailStrategy;
+  default_base_for_merges: DefaultBase;
+  publish_comments_on_push?: boolean;
+  work_in_progress_by_default?: boolean;
+  // The following property doesn't exist in RestAPI, it is added by GrRestApiInterface
+  default_diff_view?: DiffViewMode;
+}
+
+/**
+ * Contains information about diff images
+ * There is no RestAPI interface for it
+ */
+export interface ImagesForDiff {
+  baseImage: Base64ImageFile | null;
+  revisionImage: Base64ImageFile | null;
+}
+
+/**
+ * Contains information about diff image
+ * There is no RestAPI interface for it
+ */
+export interface Base64ImageFile extends Base64File {
+  _expectedType: string;
+  _name: string;
+}
+
+/**
+ * The ReviewInput entity contains information for adding a review to a revision
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-input
+ */
+export interface ReviewInput {
+  message?: string;
+  tag?: ReviewInputTag;
+  labels?: LabelNameToValuesMap;
+  comments?: PathToCommentsInputMap;
+  robot_comments?: PathToRobotCommentsMap;
+  drafts: DraftsAction;
+  notify?: NotifyType;
+  notify_details: RecipientTypeToNotifyInfoMap;
+  omit_duplicate_comments?: boolean;
+  on_behalf_of?: AccountId;
+  reviewers: ReviewerInput[];
+  ready?: boolean;
+  work_in_progress?: boolean;
+  add_to_attention_set?: AttentionSetInput[];
+  remove_from_attention_set?: AttentionSetInput[];
+  ignore_automatic_attention_set_rules?: boolean;
+}
+
+export type LabelNameToValuesMap = {[labelName: string]: string};
+export type PathToCommentsInputMap = {[path: string]: CommentInput};
+export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput};
+export type RecipientTypeToNotifyInfoMap = {
+  [recepientType: string]: NotifyInfo;
+};
+
+/**
+ * The RobotCommentInput entity contains information for creating an inline robot comment
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input
+ */
+export type RobotCommentInput = RobotCommentInfo;
+
+/**
+ * The RobotCommentInfo entity contains information about a robot inline comment
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-info
+ */
+export interface RobotCommentInfo extends CommentInfo {
+  robot_id: RobotId;
+  robot_run_id: RobotRunId;
+  url?: string;
+  properties: {[propertyName: string]: string};
+  fix_suggestions: FixSuggestionInfo[];
+}
+export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
+
+/**
+ * The FixSuggestionInfo entity represents a suggested fix
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
+ */
+export interface FixSuggestionInfo {
+  fix_id?: FixId;
+  description: string;
+  replacements: FixReplacementInfo[];
+}
+
+/**
+ * The FixReplacementInfo entity describes how the content of a file should be replaced by another content
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-replacement-info
+ */
+export interface FixReplacementInfo {
+  path: string;
+  range: CommentRange;
+  replacement: string;
+}
+
+/**
+ * The NotifyInfo entity contains detailed information about who should be notified about an update
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#notify-info
+ */
+export interface NotifyInfo {
+  accounts?: AccountId[];
+}
+
+/**
+ * The ReviewerInput entity contains information for adding a reviewer to a change
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#reviewer-input
+ */
+export interface ReviewerInput {
+  reviewer: AccountId | GroupId;
+  state?: ReviewerState;
+  confirmed?: boolean;
+  notify?: NotifyType;
+  notify_details?: RecipientTypeToNotifyInfoMap;
+}
+
+/**
+ * The AttentionSetInput entity contains details for adding users to the attention set and removing them from it
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#attention-set-input
+ */
+export interface AttentionSetInput {
+  user?: AccountId;
+  reason: string;
+  notify: NotifyType;
+  notify_details?: RecipientTypeToNotifyInfoMap;
+}
+
+/**
+ * The EditInfo entity contains information about a change edit
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#edit-info
+ */
+export interface EditInfo {
+  commit: CommitInfo;
+  base_patch_set_number: PatchSetNum;
+  base_revision: string;
+  ref: GitRef;
+  fetch: ProtocolToFetchInfoMap;
+  files: FileNameToFileInfoMap;
+}
+
+export type ProtocolToFetchInfoMap = {[protocol: string]: FetchInfo};
+export type FileNameToFileInfoMap = {[name: string]: FileInfo};
+
+/**
+ * Contains information about an account that can be added to a change
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#suggested-reviewer-info
+ */
+export interface SuggestedReviewerAccountInfo {
+  account: AccountInfo;
+  /**
+   * The total number of accounts in the suggestion - always 1
+   */
+  count: 1;
+}
+
+/**
+ * Contains information about a group that can be added to a change
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#suggested-reviewer-info
+ */
+export interface SuggestedReviewerGroupInfo {
+  group: GroupBaseInfo;
+  /**
+   * The total number of accounts that are members of the group is returned
+   * (this count includes members of nested groups)
+   */
+  count: number;
+  /**
+   * True if group is present and count is above the threshold where the
+   * confirmed flag must be passed to add the group as a reviewer
+   */
+  confirm?: boolean;
+}
+
+/**
+ * The SuggestedReviewerInfo entity contains information about a reviewer that can be added to a change (an account or a group)
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#suggested-reviewer-info
+ */
+export type SuggestedReviewerInfo =
+  | SuggestedReviewerAccountInfo
+  | SuggestedReviewerGroupInfo;
+
+export function isReviewerAccountSuggestion(
+  s: Suggestion
+): s is SuggestedReviewerAccountInfo {
+  return (s as SuggestedReviewerAccountInfo).account !== undefined;
+}
+
+export function isReviewerGroupSuggestion(
+  s: Suggestion
+): s is SuggestedReviewerGroupInfo {
+  return (s as SuggestedReviewerGroupInfo).group !== undefined;
+}
+
+export type RequestPayload = string | object;

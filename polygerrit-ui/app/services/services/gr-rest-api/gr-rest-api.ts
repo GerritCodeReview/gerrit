@@ -18,52 +18,21 @@
 import {
   AccountDetailInfo,
   AccountInfo,
-  CapabilityInfo,
-  GroupBaseInfo,
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
   ActionInfo,
-  GroupInfo,
-  ChangeInfo,
+  AccountCapabilityInfo,
+  SuggestedReviewerInfo,
+  GroupNameToGroupInfoMap,
+  ParsedJSON,
+  RequestPayload,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {HttpMethod} from '../../../constants/constants';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
-
-/**
- * Contains information about an account that can be added to a change
- */
-export interface SuggestedReviewerAccountInfo {
-  account: AccountInfo;
-  /**
-   * The total number of accounts in the suggestion - always 1
-   */
-  count: 1;
-}
-
-/**
- * Contains information about a group that can be added to a change
- */
-export interface SuggestedReviewerGroupInfo {
-  group: GroupBaseInfo;
-  /**
-   * The total number of accounts that are members of the group is returned
-   * (this count includes members of nested groups)
-   */
-  count: number;
-  /**
-   * True if group is present and count is above the threshold where the
-   * confirmed flag must be passed to add the group as a reviewer
-   */
-  confirm?: boolean;
-}
-
-/**
- * Contains information about a reviewer that can be added to a change
- */
-export type SuggestedReviewerInfo =
-  | SuggestedReviewerAccountInfo
-  | SuggestedReviewerGroupInfo;
+export type CancelConditionCallback = () => boolean;
 
 export enum ApiElement {
   CHANGE_ACTIONS = 'changeactions',
@@ -119,59 +88,74 @@ export interface RestApiTagNameMap {
   [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
 }
 
+export interface JsApiService {
+  getElement<K extends keyof RestApiTagNameMap>(
+    elementKey: K
+  ): RestApiTagNameMap[K];
+}
+
 export interface RestApiService {
   // TODO(TS): unclear what is a second parameter. Looks like it is a mistake
   // and it must be removed
   dispatchEvent(event: Event, detail?: unknown): boolean;
-  getConfig(): Promise<ServerInfo>;
+  getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
-  getVersion(): Promise<string>;
+  getVersion(): Promise<string | undefined>;
   invalidateReposCache(): void;
-  getAccount(): Promise<AccountDetailInfo>;
-  getAccountCapabilities(params?: string[]): Promise<CapabilityInfo>;
+  getAccount(): Promise<AccountDetailInfo | undefined>;
+  getAccountCapabilities(
+    params?: string[]
+  ): Promise<AccountCapabilityInfo | undefined>;
   getRepos(
     filter: string,
     reposPerPage: number,
     offset?: number
-  ): Promise<ProjectInfo>;
+  ): Promise<ProjectInfo | undefined>;
+
   send(
-    method: string,
+    method: HttpMethod,
     url: string,
-    body?: unknown,
-    errFn?: ErrorCallback,
+    body?: RequestPayload,
+    errFn?: null | undefined,
     contentType?: string,
-    headers?: unknown
+    headers?: Record<string, string>
   ): Promise<Response>;
 
-  getResponseObject(response: Response): null | unknown;
+  send(
+    method: HttpMethod,
+    url: string,
+    body?: RequestPayload,
+    errFn?: ErrorCallback,
+    contentType?: string,
+    headers?: Record<string, string>
+  ): Promise<Response | void>;
+
+  getResponseObject(response: Response): Promise<ParsedJSON>;
 
   getChangeSuggestedReviewers(
     changeNum: NumericChangeId,
     input: string,
     errFn?: ErrorCallback
-  ): Promise<SuggestedReviewerInfo[]>;
+  ): Promise<SuggestedReviewerInfo[] | undefined>;
   getChangeSuggestedCCs(
     changeNum: NumericChangeId,
     input: string,
     errFn?: ErrorCallback
-  ): Promise<SuggestedReviewerInfo[]>;
+  ): Promise<SuggestedReviewerInfo[] | undefined>;
   getSuggestedAccounts(
     input: string,
     n?: number,
     errFn?: ErrorCallback
-  ): Promise<AccountInfo[]>;
+  ): Promise<AccountInfo[] | undefined>;
   getSuggestedGroups(
     input: string,
     n?: number,
     errFn?: ErrorCallback
-  ): Promise<Record<string, GroupInfo>>;
+  ): Promise<GroupNameToGroupInfoMap | undefined>;
 
-  getElement<K extends keyof RestApiTagNameMap>(
-    elementKey: K
-  ): RestApiTagNameMap[K];
   getChangeDetail(
     changeNum: number | string,
     opt_errFn?: Function,
     opt_cancelCondition?: Function
-  ): Promise<ChangeInfo>;
+  ): Promise<ParsedChangeInfo | null | undefined>;
 }

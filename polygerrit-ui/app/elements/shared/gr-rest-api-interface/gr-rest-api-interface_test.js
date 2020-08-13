@@ -935,8 +935,7 @@ suite('gr-rest-api-interface tests', () => {
       const changeNum = 4321;
       element._projectLookup[changeNum] = 'test';
       const expectedUrl =
-          window.CANONICAL_PATH + '/changes/test~4321/detail?'+
-          '0=5&1=1&2=6&3=7&4=1&5=4';
+          window.CANONICAL_PATH + '/changes/test~4321/detail?O=516714';
       sinon.stub(element._etags, 'getOptions');
       sinon.stub(element._etags, 'collect');
       return element._getChangeDetail(changeNum, '516714').then(() => {
@@ -979,7 +978,6 @@ suite('gr-rest-api-interface tests', () => {
       let requestUrl;
       let mockResponseSerial;
       let collectSpy;
-      let getPayloadSpy;
 
       setup(() => {
         requestUrl = '/foo/bar';
@@ -991,10 +989,10 @@ suite('gr-rest-api-interface tests', () => {
         sinon.stub(element, 'getChangeActionURL')
             .returns(Promise.resolve(requestUrl));
         collectSpy = sinon.spy(element._etags, 'collect');
-        getPayloadSpy = sinon.spy(element._etags, 'getCachedPayload');
       });
 
       test('contributes to cache', () => {
+        const getPayloadSpy = sinon.spy(element._etags, 'getCachedPayload');
         sinon.stub(element._restApiHelper, 'fetchRawJSON')
             .returns(Promise.resolve({
               text: () => Promise.resolve(mockResponseSerial),
@@ -1011,16 +1009,18 @@ suite('gr-rest-api-interface tests', () => {
       });
 
       test('uses cache on HTTP 304', () => {
+        const getPayloadStub = sinon.stub(element._etags, 'getCachedPayload');
+        getPayloadStub.returns(mockResponseSerial);
         sinon.stub(element._restApiHelper, 'fetchRawJSON')
             .returns(Promise.resolve({
-              text: () => Promise.resolve(mockResponseSerial),
+              text: () => Promise.resolve(''),
               status: 304,
               ok: true,
             }));
 
-        return element._getChangeDetail(123, {}).then(detail => {
+        return element._getChangeDetail(123, '').then(detail => {
           assert.isFalse(collectSpy.called);
-          assert.isTrue(getPayloadSpy.calledOnce);
+          assert.isTrue(getPayloadStub.calledOnce);
         });
       });
     });

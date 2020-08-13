@@ -17,6 +17,8 @@
 
 import {getBaseUrl} from '../../../utils/url-util';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {HttpMethod} from '../../../constants/constants';
+import {RequestPayload} from '../../../types/common';
 
 export const PRELOADED_PROTOCOL = 'preloaded:';
 export const PLUGIN_LOADING_TIMEOUT_MS = 10000;
@@ -76,10 +78,10 @@ export function getPluginNameFromUrl(url: URL | string) {
 
 // TODO(taoalpha): to be deprecated.
 export function send(
-  method: string,
+  method: HttpMethod,
   url: string,
   opt_callback?: (response: unknown) => void,
-  opt_payload?: unknown
+  opt_payload?: RequestPayload
 ) {
   return getRestAPI()
     .send(method, url, opt_payload)

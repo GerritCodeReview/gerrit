@@ -16,10 +16,10 @@
  */
 import {
   ApiElement,
-  RestApiService,
   GrChangeActions,
   ActionType,
   ActionPriority,
+  JsApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 
 interface Plugin {
@@ -62,7 +62,7 @@ export class GrChangeActionsInterface {
     if (!this._el) {
       const sharedApiElement = (document.createElement(
         'gr-js-api-interface'
-      ) as unknown) as RestApiService;
+      ) as unknown) as JsApiService;
       this.setEl(sharedApiElement.getElement(ApiElement.CHANGE_ACTIONS));
     }
     return this._el!;

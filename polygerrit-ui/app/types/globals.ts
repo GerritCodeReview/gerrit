@@ -14,12 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {ParsedJSON} from './common';
+
 export {};
 
 declare global {
   interface Window {
     CANONICAL_PATH?: string;
-    INITIAL_DATA?: {[key: string]: string};
+    INITIAL_DATA?: {[key: string]: ParsedJSON};
     ShadyCSS?: {
       getComputedStyleValue(el: Element, name: string): string;
     };
@@ -32,6 +34,12 @@ declare global {
       options: {callback: (text: string, href?: string) => void}
     ): void;
     ASSETS_PATH?: string;
+
+    DEFAULT_DETAIL_HEXES?: {
+      diffPage?: string;
+      changePage?: string;
+      dashboardPage?: string;
+    };
   }
 
   interface Performance {

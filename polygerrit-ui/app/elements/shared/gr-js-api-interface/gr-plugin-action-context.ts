@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-import {GrPluginRestApi, HttpMethod} from './gr-plugin-rest-api';
+import {GrPluginRestApi} from './gr-plugin-rest-api';
 import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
-import {RevisionInfo, ChangeInfo} from '../../../types/common';
+import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
+import {HttpMethod} from '../../../constants/constants';
 
 interface PluginApi {
   restApi(): GrPluginRestApi;
@@ -113,7 +114,7 @@ export class GrPluginActionContext {
     return this.label(checkbox, title);
   }
 
-  call(payload: unknown, onSuccess: (result: unknown) => void) {
+  call(payload: RequestPayload, onSuccess: (result: unknown) => void) {
     if (!this.action.__url) {
       console.warn(`Unable to ${this.action.method} to ${this.action.__key}!`);
       return;
@@ -122,7 +123,7 @@ export class GrPluginActionContext {
       .restApi()
       .send(this.action.method, this.action.__url, payload)
       .then(onSuccess)
-      .catch(error => {
+      .catch((error: unknown) => {
         document.dispatchEvent(
           new CustomEvent('show-alert', {
             detail: {

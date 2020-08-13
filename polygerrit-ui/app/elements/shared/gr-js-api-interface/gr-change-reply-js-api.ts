@@ -18,7 +18,7 @@
 import {
   ApiElement,
   GrReplyDialog,
-  RestApiService,
+  JsApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 
 // TODO(TS): maybe move interfaces\types to other files when convertion complete
@@ -86,7 +86,7 @@ interface PluginApi {
 export class GrChangeReplyInterface {
   constructor(
     readonly plugin: PluginApi,
-    readonly sharedApiElement: RestApiService
+    readonly sharedApiElement: JsApiService
   ) {}
 
   get _el(): GrReplyDialog {

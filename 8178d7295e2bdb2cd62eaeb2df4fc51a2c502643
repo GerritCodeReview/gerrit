@@ -22,6 +22,30 @@
       "revId": "8178d7295e2bdb2cd62eaeb2df4fc51a2c502643",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60b87803_f2cdca53",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-13T13:43:48Z",
+      "side": 1,
+      "message": "I was lazy to setup IDE for java 😊 So I am doing this manually. I found out when it couldn\u0027t build 😊",
+      "parentUuid": "e92161ec_1bc25776",
+      "range": {
+        "startLine": 88,
+        "startChar": 19,
+        "endLine": 88,
+        "endChar": 47
+      },
+      "revId": "8178d7295e2bdb2cd62eaeb2df4fc51a2c502643",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

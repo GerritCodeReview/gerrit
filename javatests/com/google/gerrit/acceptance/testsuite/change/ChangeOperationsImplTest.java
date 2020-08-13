@@ -22,6 +22,7 @@ import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assert
 import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
+import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
@@ -570,6 +571,82 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     assertThat(fileContent)
         .asString()
         .isEqualTo("Line one\nLine one.1\nLine one.2\nLine two\nLine three\nLine four\n");
+  }
+
+  @Test
+  public void publishedCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    TestHumanComment comment = changeOperations.change(changeId).comment(commentUuid).get();
+
+    assertThat(comment.uuid()).isEqualTo(commentUuid);
+  }
+
+  @Test
+  public void retrievingDraftCommentAsPublishedCommentFails() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String commentUuid =
+        changeOperations.change(changeId).currentPatchset().newDraftComment().create();
+
+    assertThrows(
+        Exception.class, () -> changeOperations.change(changeId).comment(commentUuid).get());
+  }
+
+  @Test
+  public void parentUuidOfPublishedCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+    String childCommentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .parentUuid(parentCommentUuid)
+            .create();
+
+    TestHumanComment comment = changeOperations.change(changeId).comment(childCommentUuid).get();
+
+    assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
+  }
+
+  @Test
+  public void draftCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    TestHumanComment comment = changeOperations.change(changeId).comment(commentUuid).get();
+
+    assertThat(comment.uuid()).isEqualTo(commentUuid);
+  }
+
+  @Test
+  public void retrievingPublishedCommentAsDraftCommentFails() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    assertThrows(
+        Exception.class, () -> changeOperations.change(changeId).draftComment(commentUuid).get());
+  }
+
+  @Test
+  public void parentUuidOfDraftCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+    String childCommentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .parentUuid(parentCommentUuid)
+            .create();
+
+    TestHumanComment comment =
+        changeOperations.change(changeId).draftComment(childCommentUuid).get();
+
+    assertThat(comment.parentUuid()).value().isEqualTo(parentCommentUuid);
   }
 
   private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {

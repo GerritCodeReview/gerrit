@@ -63,6 +63,30 @@
       "revId": "62d347cbde3c6a4f35e14be0706281c7d17caf2e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "be0e3a3a_a0765f75",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 6543,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-13T16:30:16Z",
+      "side": 1,
+      "message": "Yeah, I guess that\u0027s happening all over our docs. Thanks for also doing the verification.",
+      "parentUuid": "94a70b24_a23fe7b8",
+      "range": {
+        "startLine": 6543,
+        "startChar": 5,
+        "endLine": 6543,
+        "endChar": 26
+      },
+      "revId": "62d347cbde3c6a4f35e14be0706281c7d17caf2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

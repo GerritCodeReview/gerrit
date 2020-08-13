@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-router.js';
-import page from 'page/page.mjs';
+import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../gr-navigation/gr-navigation.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 import {_testOnly_RoutePattern} from './gr-router.js';

@@ -23,7 +23,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-list-view_html.js';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import page from 'page/page.mjs';
+import {page} from '../../../utils/page-wrapper-utils.js';
 
 const REQUEST_DEBOUNCE_INTERVAL_MS = 200;
 

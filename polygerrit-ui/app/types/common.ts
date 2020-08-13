@@ -43,7 +43,6 @@ import {
   DraftsAction,
   NotifyType,
 } from '../constants/constants';
-import {Suggestion} from '../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
@@ -1830,6 +1829,8 @@ export interface SuggestedReviewerGroupInfo {
 export type SuggestedReviewerInfo =
   | SuggestedReviewerAccountInfo
   | SuggestedReviewerGroupInfo;
+
+export type Suggestion = SuggestedReviewerInfo | AccountInfo;
 
 export function isReviewerAccountSuggestion(
   s: Suggestion

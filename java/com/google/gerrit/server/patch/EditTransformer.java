@@ -15,19 +15,20 @@
 package com.google.gerrit.server.patch;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.Multimaps.toMultimap;
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.groupingBy;
-import static java.util.stream.Collectors.toList;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
-import java.util.ArrayList;
+import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
+import com.google.gerrit.server.patch.GitPositionTransformer.Position;
+import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
+import com.google.gerrit.server.patch.GitPositionTransformer.Range;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
@@ -105,76 +106,23 @@ class EditTransformer {
   }
 
   private void transformEdits(List<PatchListEntry> transformingEntries, SideStrategy sideStrategy) {
-    Map<String, List<ContextAwareEdit>> editsPerFilePath =
-        edits.stream().collect(groupingBy(sideStrategy::getFilePath));
-    Map<String, List<PatchListEntry>> transEntriesPerPath =
-        transformingEntries.stream().collect(groupingBy(EditTransformer::getOldFilePath));
+    ImmutableList<PositionedEntity<ContextAwareEdit>> positionedEdits =
+        edits.stream()
+            .map(edit -> toPositionedEntity(edit, sideStrategy))
+            .collect(toImmutableList());
+    ImmutableSet<Mapping> mappings =
+        transformingEntries.stream().map(DiffMappings::toMapping).collect(toImmutableSet());
 
     edits =
-        editsPerFilePath.entrySet().stream()
-            .flatMap(
-                pathAndEdits -> {
-                  List<PatchListEntry> transEntries =
-                      transEntriesPerPath.getOrDefault(pathAndEdits.getKey(), ImmutableList.of());
-                  return transformEdits(sideStrategy, pathAndEdits.getValue(), transEntries);
-                })
-            .collect(toList());
+        GitPositionTransformer.transform(positionedEdits, mappings).stream()
+            .map(PositionedEntity::getEntityAtUpdatedPosition)
+            .collect(toImmutableList());
   }
 
-  private static String getOldFilePath(PatchListEntry patchListEntry) {
-    return MoreObjects.firstNonNull(patchListEntry.getOldName(), patchListEntry.getNewName());
-  }
-
-  private static Stream<ContextAwareEdit> transformEdits(
-      SideStrategy sideStrategy,
-      List<ContextAwareEdit> originalEdits,
-      List<PatchListEntry> transformingEntries) {
-    if (transformingEntries.isEmpty()) {
-      return originalEdits.stream();
-    }
-
-    // TODO(aliceks): Find a way to prevent an explosion of the number of entries.
-    return transformingEntries.stream()
-        .flatMap(
-            transEntry ->
-                transformEdits(
-                    sideStrategy, originalEdits, transEntry.getEdits(), transEntry.getNewName())
-                    .stream());
-  }
-
-  private static List<ContextAwareEdit> transformEdits(
-      SideStrategy sideStrategy,
-      List<ContextAwareEdit> unorderedOriginalEdits,
-      List<Edit> unorderedTransformingEdits,
-      String adjustedFilePath) {
-    List<ContextAwareEdit> originalEdits = new ArrayList<>(unorderedOriginalEdits);
-    originalEdits.sort(comparing(sideStrategy::getBegin).thenComparing(sideStrategy::getEnd));
-    List<Edit> transformingEdits = new ArrayList<>(unorderedTransformingEdits);
-    transformingEdits.sort(comparing(Edit::getBeginA).thenComparing(Edit::getEndA));
-
-    int shiftedAmount = 0;
-    int transIndex = 0;
-    int origIndex = 0;
-    List<ContextAwareEdit> resultingEdits = new ArrayList<>(originalEdits.size());
-    while (origIndex < originalEdits.size() && transIndex < transformingEdits.size()) {
-      ContextAwareEdit originalEdit = originalEdits.get(origIndex);
-      Edit transformingEdit = transformingEdits.get(transIndex);
-      if (transformingEdit.getEndA() <= sideStrategy.getBegin(originalEdit)) {
-        shiftedAmount = transformingEdit.getEndB() - transformingEdit.getEndA();
-        transIndex++;
-      } else if (sideStrategy.getEnd(originalEdit) <= transformingEdit.getBeginA()) {
-        resultingEdits.add(sideStrategy.create(originalEdit, shiftedAmount, adjustedFilePath));
-        origIndex++;
-      } else {
-        // Overlapping -> ignore.
-        origIndex++;
-      }
-    }
-    for (int i = origIndex; i < originalEdits.size(); i++) {
-      resultingEdits.add(
-          sideStrategy.create(originalEdits.get(i), shiftedAmount, adjustedFilePath));
-    }
-    return resultingEdits;
+  private static PositionedEntity<ContextAwareEdit> toPositionedEntity(
+      ContextAwareEdit edit, SideStrategy sideStrategy) {
+    return PositionedEntity.create(
+        edit, sideStrategy::extractPosition, sideStrategy::createEditAtNewPosition);
   }
 
   @AutoValue
@@ -234,44 +182,32 @@ class EditTransformer {
   }
 
   private interface SideStrategy {
-    String getFilePath(ContextAwareEdit edit);
+    Position extractPosition(ContextAwareEdit edit);
 
-    int getBegin(ContextAwareEdit edit);
-
-    int getEnd(ContextAwareEdit edit);
-
-    ContextAwareEdit create(ContextAwareEdit edit, int shiftedAmount, String adjustedFilePath);
+    ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition);
   }
 
   private enum SideAStrategy implements SideStrategy {
     INSTANCE;
 
     @Override
-    public String getFilePath(ContextAwareEdit edit) {
-      return edit.getOldFilePath();
+    public Position extractPosition(ContextAwareEdit edit) {
+      return Position.builder()
+          .filePath(edit.getOldFilePath())
+          .lineRange(Range.create(edit.getBeginA(), edit.getEndA()))
+          .build();
     }
 
     @Override
-    public int getBegin(ContextAwareEdit edit) {
-      return edit.getBeginA();
-    }
-
-    @Override
-    public int getEnd(ContextAwareEdit edit) {
-      return edit.getEndA();
-    }
-
-    @Override
-    public ContextAwareEdit create(
-        ContextAwareEdit edit, int shiftedAmount, String adjustedFilePath) {
+    public ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition) {
       return ContextAwareEdit.create(
-          adjustedFilePath,
+          newPosition.filePath(),
           edit.getNewFilePath(),
-          edit.getBeginA() + shiftedAmount,
-          edit.getEndA() + shiftedAmount,
+          newPosition.lineRange().start(),
+          newPosition.lineRange().end(),
           edit.getBeginB(),
           edit.getEndB(),
-          !Objects.equals(edit.getOldFilePath(), adjustedFilePath));
+          !Objects.equals(edit.getOldFilePath(), newPosition.filePath()));
     }
   }
 
@@ -279,31 +215,23 @@ class EditTransformer {
     INSTANCE;
 
     @Override
-    public String getFilePath(ContextAwareEdit edit) {
-      return edit.getNewFilePath();
+    public Position extractPosition(ContextAwareEdit edit) {
+      return Position.builder()
+          .filePath(edit.getNewFilePath())
+          .lineRange(Range.create(edit.getBeginB(), edit.getEndB()))
+          .build();
     }
 
     @Override
-    public int getBegin(ContextAwareEdit edit) {
-      return edit.getBeginB();
-    }
-
-    @Override
-    public int getEnd(ContextAwareEdit edit) {
-      return edit.getEndB();
-    }
-
-    @Override
-    public ContextAwareEdit create(
-        ContextAwareEdit edit, int shiftedAmount, String adjustedFilePath) {
+    public ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition) {
       return ContextAwareEdit.create(
           edit.getOldFilePath(),
-          adjustedFilePath,
+          newPosition.filePath(),
           edit.getBeginA(),
           edit.getEndA(),
-          edit.getBeginB() + shiftedAmount,
-          edit.getEndB() + shiftedAmount,
-          !Objects.equals(edit.getNewFilePath(), adjustedFilePath));
+          newPosition.lineRange().start(),
+          newPosition.lineRange().end(),
+          !Objects.equals(edit.getNewFilePath(), newPosition.filePath()));
     }
   }
 }

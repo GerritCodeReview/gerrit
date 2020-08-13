@@ -48,7 +48,7 @@ public class AddToAttentionSet
   private final AccountLoader.Factory accountLoaderFactory;
   private final PermissionBackend permissionBackend;
   private final NotifyResolver notifyResolver;
-  private final ServiceUserClassifier robotClassifier;
+  private final ServiceUserClassifier serviceUserClassifier;
 
   @Inject
   AddToAttentionSet(
@@ -58,14 +58,14 @@ public class AddToAttentionSet
       AccountLoader.Factory accountLoaderFactory,
       PermissionBackend permissionBackend,
       NotifyResolver notifyResolver,
-      ServiceUserClassifier robotClassifier) {
+      ServiceUserClassifier serviceUserClassifier) {
     this.updateFactory = updateFactory;
     this.accountResolver = accountResolver;
     this.opFactory = opFactory;
     this.accountLoaderFactory = accountLoaderFactory;
     this.permissionBackend = permissionBackend;
     this.notifyResolver = notifyResolver;
-    this.robotClassifier = robotClassifier;
+    this.serviceUserClassifier = serviceUserClassifier;
   }
 
   @Override
@@ -74,7 +74,7 @@ public class AddToAttentionSet
     AttentionSetUtil.validateInput(input);
 
     Account.Id attentionUserId = accountResolver.resolve(input.user).asUnique().account().id();
-    if (robotClassifier.isServiceUser(attentionUserId)) {
+    if (serviceUserClassifier.isServiceUser(attentionUserId)) {
       throw new BadRequestException(
           String.format(
               "%s is a robot, and robots can't be added to the attention set.", input.user));

@@ -2976,10 +2976,10 @@ export class GrRestApiInterface
   }
 
   getAccountSSHKeys() {
-    return this._fetchSharedCacheURL({
+    return (this._fetchSharedCacheURL({
       url: '/accounts/self/sshkeys',
       reportUrlAsIs: true,
-    });
+    }) as Promise<unknown>) as Promise<SshKeyInfo[]>;
   }
 
   addAccountSSHKey(key: string): Promise<SshKeyInfo> {

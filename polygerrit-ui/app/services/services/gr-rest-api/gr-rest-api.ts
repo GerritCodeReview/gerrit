@@ -30,6 +30,7 @@ import {
   PreferencesInput,
   DiffPreferencesInfo,
   DiffPreferenceInput,
+  SshKeyInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -167,4 +168,7 @@ export interface RestApiService {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
+  getAccountSSHKeys(): Promise<SshKeyInfo[]>;
+  deleteAccountSSHKey(key: string): void;
+  addAccountSSHKey(key: string): Promise<SshKeyInfo>;
 }

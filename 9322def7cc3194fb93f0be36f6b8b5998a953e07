@@ -651,6 +651,24 @@
       "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ecce652_5d5768d1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-fixed-panel/gr-fixed-panel.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:44:10Z",
+      "side": 1,
+      "message": "Yeah, rebased with latest master and the file is gone.",
+      "parentUuid": "fe2c1aae_8d9ac75e",
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -27,6 +27,7 @@ import {
   GroupNameToGroupInfoMap,
   ParsedJSON,
   RequestPayload,
+  SshKeyInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -158,4 +159,7 @@ export interface RestApiService {
     opt_errFn?: Function,
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | null | undefined>;
+  getAccountSSHKeys(): Promise<SshKeyInfo[]>;
+  deleteAccountSSHKey(key: string): void;
+  addAccountSSHKey(key: string): Promise<SshKeyInfo>;
 }

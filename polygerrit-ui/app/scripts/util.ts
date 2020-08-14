@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface CancelablePromise<T> extends Promise<T> {
+export interface CancelablePromise<T> extends Promise<T> {
   cancel(): void;
 }
 

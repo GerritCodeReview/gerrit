@@ -35,7 +35,7 @@ export class GrDiffLine {
 
   hasIntralineInfo = false;
 
-  readonly highlights: Highlights[] = [];
+  highlights: Highlights[] = [];
 
   text = '';
 

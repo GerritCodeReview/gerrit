@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43d17f28_7f838406",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T09:43:55Z",
+      "side": 1,
+      "message": "nit: {@link HumanComment}\n\nyou don\u0027t return UUIDs",
+      "range": {
+        "startLine": 354,
+        "startChar": 29,
+        "endLine": 354,
+        "endChar": 34
+      },
+      "revId": "b272bc319955817a70d3b8d9939f9b075dc4aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "233196d7_6134efa9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T09:43:55Z",
+      "side": 1,
+      "message": "super nit: in these cases you can spare the collection by calling forEach on the stream",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 67
+      },
+      "revId": "b272bc319955817a70d3b8d9939f9b075dc4aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -478,6 +478,30 @@
     },
     {
       "key": {
+        "uuid": "9581c91f_6791823a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T09:43:55Z",
+      "side": 1,
+      "message": "Don\u0027t we do that already somewhere else and can re-use it from there?",
+      "parentUuid": "7dbecdf7_ebea276a",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b555dfca_98f0c991",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4
@@ -668,6 +692,30 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c228e56_7bb6229e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T09:43:55Z",
+      "side": 1,
+      "message": "Thanks. Seems good enough for me. If you want to have some defense-in-depth, you could make your loop resilient against cycles and log instead of throw here.",
+      "parentUuid": "99064898_71c28408",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

@@ -46,6 +46,10 @@ public class TestCommentHelper {
     return populate(new DraftInput(), "file", message);
   }
 
+  public DraftInput newDraft(String message, String inReplyTo) {
+    return populate(new DraftInput(), "file", createLineRange(), message, inReplyTo);
+  }
+
   public DraftInput newDraft(String path, Side side, int line, String message) {
     DraftInput d = new DraftInput();
     return populate(d, path, side, line, message);
@@ -55,6 +59,10 @@ public class TestCommentHelper {
     gApi.changes().id(changeId).revision(revId).createDraft(in);
   }
 
+  public void addDraft(String changeId, DraftInput in) throws Exception {
+    gApi.changes().id(changeId).current().createDraft(in);
+  }
+
   public Collection<CommentInfo> getPublishedComments(String changeId) throws Exception {
     return gApi.changes().id(changeId).comments().values().stream()
         .flatMap(Collection::stream)
@@ -62,10 +70,11 @@ public class TestCommentHelper {
   }
 
   public static <C extends Comment> C populate(C c, String path, String message) {
-    return populate(c, path, createLineRange(), message);
+    return populate(c, path, createLineRange(), message, null);
   }
 
-  private static <C extends Comment> C populate(C c, String path, Range range, String message) {
+  private static <C extends Comment> C populate(
+      C c, String path, Range range, String message, String inReplyTo) {
     int line = range.startLine;
     c.path = path;
     c.side = Side.REVISION;
@@ -73,6 +82,7 @@ public class TestCommentHelper {
     c.line = line != 0 ? line : null;
     c.message = message;
     c.unresolved = false;
+    c.inReplyTo = inReplyTo;
     if (line != 0) c.range = range;
     return c;
   }

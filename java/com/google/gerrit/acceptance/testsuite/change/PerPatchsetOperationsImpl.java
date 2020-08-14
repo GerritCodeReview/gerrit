@@ -141,7 +141,15 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       String parentUuid = commentCreation.parentUuid().orElse(null);
       HumanComment newComment =
           commentsUtil.newHumanComment(
-              context, filePath, patchsetId, side, message, unresolved, parentUuid);
+              context.getNotes(),
+              context.getUser(),
+              context.getWhen(),
+              filePath,
+              patchsetId,
+              side,
+              message,
+              unresolved,
+              parentUuid);
 
       commentCreation.line().ifPresent(line -> newComment.setLineNbrAndRange(line, null));
       // Specification of range trumps explicit line specification.

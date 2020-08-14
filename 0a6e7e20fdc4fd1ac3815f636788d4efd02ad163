@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fb2e9136_4683a637",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 35
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T13:08:40Z",
+      "side": 1,
+      "message": "I like it!",
+      "revId": "0a6e7e20fdc4fd1ac3815f636788d4efd02ad163",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "753531ce_ff9f38f8",
         "filename": "polygerrit-ui/app/behaviors/gr-change-table-behavior/gr-change-table-behavior.js",
         "patchSetId": 35

@@ -1541,22 +1541,22 @@ export interface EditPreferencesInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
  */
 export interface PreferencesInput {
-  changes_per_page: 10 | 25 | 50 | 100;
-  theme: AppTheme;
+  changes_per_page?: 10 | 25 | 50 | 100;
+  theme?: AppTheme;
   expand_inline_diffs?: boolean;
   download_scheme?: string;
-  date_format: DateFormat;
-  time_format: TimeFormat;
+  date_format?: DateFormat;
+  time_format?: TimeFormat;
   relative_date_in_change_table?: boolean;
-  diff_view: DiffViewMode;
+  diff_view?: DiffViewMode;
   size_bar_in_change_table?: boolean;
   legacycid_in_change_table?: boolean;
   mute_common_path_prefixes?: boolean;
   signed_off_by?: boolean;
   my?: TopMenuItemInfo[];
-  change_table: string[];
-  email_strategy: EmailStrategy;
-  default_base_for_merges: DefaultBase;
+  change_table?: string[];
+  email_strategy?: EmailStrategy;
+  default_base_for_merges?: DefaultBase;
 }
 
 /**

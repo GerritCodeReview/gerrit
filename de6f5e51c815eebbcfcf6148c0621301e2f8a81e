@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c4417b60_93ef335d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "Instead of using ! I can suggest to assign a default value (false).",
+      "range": {
+        "startLine": 104,
+        "startChar": 12,
+        "endLine": 104,
+        "endChar": 13
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6653f5fc_dec91c29",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "Should it be DateFormat interface?",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 35
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9d82f01_0463bfe5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "As I can see from the code below, the _decideTimeFormat and _decideDateFormat throws an exception if timeFormat or dateFormat is not set.\nI suggest to update this method a little bit:\n\nif(!preferences) {\n   throw Error(`Preferences is not set`);\n}\nconst timeFormat \u003d preferences.time_format;\n...",
+      "range": {
+        "startLine": 156,
+        "startChar": 25,
+        "endLine": 156,
+        "endChar": 36
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "004f8e7e_9d981298",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "Probably, |undefined can be removed if _loadTimeFormat is updated according to the comment in it.",
+      "range": {
+        "startLine": 163,
+        "startChar": 41,
+        "endLine": 163,
+        "endChar": 50
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92ada429_ca25f80b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "It should be TimeFormat enum from constants.ts",
+      "range": {
+        "startLine": 163,
+        "startChar": 32,
+        "endLine": 163,
+        "endChar": 38
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44dba3c1_345cc15f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "with timeFormat: TimeFormat, you can use assertNever(timeFormat, `Invalid time format: ${timeFormat}`)\nThen typescript automatically checks that all possible values exists in switch block",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 174,
+        "endChar": 0
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c743d8c5_b80da6cd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:45:08Z",
+      "side": 1,
+      "message": "The same as _decideTimeFormat, but use DateFormat enum from constants.ts",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 176,
+        "endChar": 19
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

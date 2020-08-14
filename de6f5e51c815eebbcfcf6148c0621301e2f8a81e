@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "55ced8b9_03136cde",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4417b60_93ef335d",
+      "range": {
+        "startLine": 104,
+        "startChar": 12,
+        "endLine": 104,
+        "endChar": 13
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6653f5fc_dec91c29",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6d16c32c_2f7df96b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6653f5fc_dec91c29",
+      "range": {
+        "startLine": 120,
+        "startChar": 16,
+        "endLine": 120,
+        "endChar": 35
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9d82f01_0463bfe5",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b076a2b8_feca3d70",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f9d82f01_0463bfe5",
+      "range": {
+        "startLine": 156,
+        "startChar": 25,
+        "endLine": 156,
+        "endChar": 36
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "ef365d7a_763d089b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "92ada429_ca25f80b",
+      "range": {
+        "startLine": 163,
+        "startChar": 32,
+        "endLine": 163,
+        "endChar": 38
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "dde58e17_2ad8e9ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "004f8e7e_9d981298",
+      "range": {
+        "startLine": 163,
+        "startChar": 41,
+        "endLine": 163,
+        "endChar": 50
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44dba3c1_345cc15f",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
         "patchSetId": 1
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "8aca44a2_96567a18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "44dba3c1_345cc15f",
+      "range": {
+        "startLine": 172,
+        "startChar": 8,
+        "endLine": 174,
+        "endChar": 0
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c743d8c5_b80da6cd",
         "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
         "patchSetId": 1
@@ -160,6 +304,30 @@
       "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ed05276_9e76f8d8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:44:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c743d8c5_b80da6cd",
+      "range": {
+        "startLine": 176,
+        "startChar": 2,
+        "endLine": 176,
+        "endChar": 19
+      },
+      "revId": "de6f5e51c815eebbcfcf6148c0621301e2f8a81e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

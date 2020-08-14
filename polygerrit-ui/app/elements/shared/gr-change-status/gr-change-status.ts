@@ -14,71 +14,67 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-tooltip-content/gr-tooltip-content.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-status_html.js';
+import '../gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-tooltip-content/gr-tooltip-content';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-status_html';
+import {customElement, property} from '@polymer/decorators';
 
-const ChangeStates = {
-  MERGED: 'Merged',
-  ABANDONED: 'Abandoned',
-  MERGE_CONFLICT: 'Merge Conflict',
-  WIP: 'WIP',
-  PRIVATE: 'Private',
-};
+enum ChangeStates {
+  MERGED = 'Merged',
+  ABANDONED = 'Abandoned',
+  MERGE_CONFLICT = 'Merge Conflict',
+  WIP = 'WIP',
+  PRIVATE = 'Private',
+}
 
-const WIP_TOOLTIP = 'This change isn\'t ready to be reviewed or submitted. ' +
-    'It will not appear on dashboards unless you are CC\'ed or assigned, ' +
-    'and email notifications will be silenced until the review is started.';
+const WIP_TOOLTIP =
+  "This change isn't ready to be reviewed or submitted. " +
+  "It will not appear on dashboards unless you are CC'ed or assigned, " +
+  'and email notifications will be silenced until the review is started.';
 
-const MERGE_CONFLICT_TOOLTIP = 'This change has merge conflicts. ' +
-    'Download the patch and run "git rebase master". ' +
-    'Upload a new patchset after resolving all merge conflicts.';
+const MERGE_CONFLICT_TOOLTIP =
+  'This change has merge conflicts. ' +
+  'Download the patch and run "git rebase master". ' +
+  'Upload a new patchset after resolving all merge conflicts.';
 
-const PRIVATE_TOOLTIP = 'This change is only visible to its owner and ' +
-    'current reviewers (or anyone with "View Private Changes" permission).';
+const PRIVATE_TOOLTIP =
+  'This change is only visible to its owner and ' +
+  'current reviewers (or anyone with "View Private Changes" permission).';
 
 /** @extends PolymerElement */
+@customElement('gr-change-status')
 class GrChangeStatus extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-change-status'; }
-
-  static get properties() {
-    return {
-      flat: {
-        type: Boolean,
-        value: false,
-        reflectToAttribute: true,
-      },
-      status: {
-        type: String,
-        observer: '_updateChipDetails',
-      },
-      tooltipText: {
-        type: String,
-        value: '',
-      },
-    };
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  _computeStatusString(status) {
+  @property({type: Boolean, reflectToAttribute: true})
+  flat = false;
+
+  @property({type: String, observer: '_updateChipDetails'})
+  status?: ChangeStates;
+
+  @property({type: String})
+  tooltipText = '';
+
+  _computeStatusString(status: ChangeStates) {
     if (status === ChangeStates.WIP && !this.flat) {
       return 'Work in Progress';
     }
     return status;
   }
 
-  _toClassName(str) {
-    return str.toLowerCase().replace(/\s/g, '-');
+  _toClassName(str?: ChangeStates) {
+    return str ? str.toLowerCase().replace(/\s/g, '-') : '';
   }
 
-  _updateChipDetails(status, previousStatus) {
+  _updateChipDetails(status?: ChangeStates, previousStatus?: ChangeStates) {
     if (previousStatus) {
       this.classList.remove(this._toClassName(previousStatus));
     }
@@ -101,4 +97,8 @@ class GrChangeStatus extends GestureEventListeners(
   }
 }
 
-customElements.define(GrChangeStatus.is, GrChangeStatus);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-status': GrChangeStatus;
+  }
+}

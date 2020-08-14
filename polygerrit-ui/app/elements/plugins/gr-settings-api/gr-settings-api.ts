@@ -14,51 +14,66 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../settings/gr-settings-view/gr-settings-item.js';
-import '../../settings/gr-settings-view/gr-settings-menu-item.js';
+import '../../settings/gr-settings-view/gr-settings-item';
+import '../../settings/gr-settings-view/gr-settings-menu-item';
 
-/** @constructor */
-export function GrSettingsApi(plugin) {
-  this._title = '(no title)';
-  // Generate default screen URL token, specific to plugin, and unique(ish).
-  this._token =
-    plugin.getPluginName() + Math.random().toString(36)
-        .substr(5);
-  this.plugin = plugin;
+// TODO(TS): replace with Plugin once gr-public-js-api migrated
+interface PluginApi {
+  getPluginName(): string;
+  hook(endpointName: string, option?: {replace?: boolean}): HookApi;
 }
 
-GrSettingsApi.prototype.title = function(title) {
-  this._title = title;
-  return this;
-};
+interface HookApi {
+  onAttached(callback: HookCallback): this;
+}
 
-GrSettingsApi.prototype.token = function(token) {
-  this._token = token;
-  return this;
-};
+type HookCallback = (el: Node) => void;
 
-GrSettingsApi.prototype.module = function(moduleName) {
-  this._moduleName = moduleName;
-  return this;
-};
+export class GrSettingsApi {
+  private _token: string;
 
-GrSettingsApi.prototype.build = function() {
-  if (!this._moduleName) {
-    throw new Error('Settings screen custom element not defined!');
+  private _title = '(no title)';
+
+  private _moduleName?: string;
+
+  constructor(readonly plugin: PluginApi) {
+    // Generate default screen URL token, specific to plugin, and unique(ish).
+    this._token = plugin.getPluginName() + Math.random().toString(36).substr(5);
   }
-  const token = `x/${this.plugin.getPluginName()}/${this._token}`;
-  this.plugin.hook('settings-menu-item').onAttached(el => {
-    const menuItem = document.createElement('gr-settings-menu-item');
-    menuItem.title = this._title;
-    menuItem.href = `#${token}`;
-    el.appendChild(menuItem);
-  });
 
-  return this.plugin.hook('settings-screen').onAttached(el => {
-    const item = document.createElement('gr-settings-item');
-    item.title = this._title;
-    item.anchor = token;
-    item.appendChild(document.createElement(this._moduleName));
-    el.appendChild(item);
-  });
-};
+  title(newTitle: string) {
+    this._title = newTitle;
+    return this;
+  }
+
+  token(newToken: string) {
+    this._token = newToken;
+    return this;
+  }
+
+  module(newModuleName: string) {
+    this._moduleName = newModuleName;
+    return this;
+  }
+
+  build() {
+    if (!this._moduleName) {
+      throw new Error('Settings screen custom element not defined!');
+    }
+    const token = `x/${this.plugin.getPluginName()}/${this._token}`;
+    this.plugin.hook('settings-menu-item').onAttached(el => {
+      const menuItem = document.createElement('gr-settings-menu-item');
+      menuItem.title = this._title;
+      menuItem.href = `#${token}`;
+      el.appendChild(menuItem);
+    });
+    const moduleName = this._moduleName;
+    return this.plugin.hook('settings-screen').onAttached(el => {
+      const item = document.createElement('gr-settings-item');
+      item.title = this._title;
+      item.anchor = token;
+      item.appendChild(document.createElement(moduleName));
+      el.appendChild(item);
+    });
+  }
+}

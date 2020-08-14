@@ -70,6 +70,10 @@ const SUBMIT_TYPES = {
  */
 class GrRepo extends GestureEventListeners(
     LegacyElementMixin(PolymerElement)) {
+  // Notes for future TS conversion:
+  // _repoConfig: ConfigInfo
+  // _pluginData: PluginData[], can't be null, PluginData from gr-repo-plugin-config.ts
+
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-repo'; }

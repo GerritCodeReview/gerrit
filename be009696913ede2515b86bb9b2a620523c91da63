@@ -502,6 +502,30 @@
     },
     {
       "key": {
+        "uuid": "345bb1db_95af5c6f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T10:02:17Z",
+      "side": 1,
+      "message": "We use it somewhere deep in a PostReview#Op. I found it too complicated to reformat it out of there.\nI guess it\u0027s possible, but I remember reaching the conclusion that it requires changing too many methods.",
+      "parentUuid": "9581c91f_6791823a",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b555dfca_98f0c991",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4

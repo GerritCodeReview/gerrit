@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "0da893e2_3f9ac59c",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T10:02:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43d17f28_7f838406",
+      "range": {
+        "startLine": 354,
+        "startChar": 29,
+        "endLine": 354,
+        "endChar": 34
+      },
+      "revId": "b272bc319955817a70d3b8d9939f9b075dc4aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "233196d7_6134efa9",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "b272bc319955817a70d3b8d9939f9b075dc4aaf2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "26697d2b_c1af903d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T10:02:17Z",
+      "side": 1,
+      "message": "newHumanComment can throw exceptions, which doesn\u0027t work with Lambda expressions.",
+      "parentUuid": "233196d7_6134efa9",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 141,
+        "endChar": 67
+      },
+      "revId": "b272bc319955817a70d3b8d9939f9b075dc4aaf2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

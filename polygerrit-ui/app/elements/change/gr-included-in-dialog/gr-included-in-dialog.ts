@@ -14,74 +14,87 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-included-in-dialog_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-included-in-dialog_html';
+import {customElement, property} from '@polymer/decorators';
+import {
+  GrRestApiInterface,
+  ChangeNum,
+} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {IncludedInInfo} from '../../../types/common';
 
-/**
- * @extends PolymerElement
- */
-class GrIncludedInDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrIncludedInDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get is() { return 'gr-included-in-dialog'; }
+interface DisplayGroup {
+  title: string;
+  items: string[];
+}
+
+@customElement('gr-included-in-dialog')
+export class GrIncludedInDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the user presses the close button.
    *
    * @event close
    */
 
-  static get properties() {
-    return {
-    /** @type {?} */
-      changeNum: {
-        type: Object,
-        observer: '_resetData',
-      },
-      /** @type {?} */
-      _includedIn: Object,
-      _loaded: {
-        type: Boolean,
-        value: false,
-      },
-      _filterText: {
-        type: String,
-        value: '',
-      },
-    };
-  }
+  @property({type: Object, observer: '_resetData'})
+  changeNum?: ChangeNum;
+
+  @property({type: Object})
+  _includedIn?: IncludedInInfo;
+
+  @property({type: Boolean})
+  _loaded = false;
+
+  @property({type: String})
+  _filterText = '';
 
   loadData() {
-    if (!this.changeNum) { return; }
+    if (!this.changeNum) {
+      return;
+    }
     this._filterText = '';
-    return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(
-        configs => {
-          if (!configs) { return; }
-          this._includedIn = configs;
-          this._loaded = true;
-        });
+    return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(configs => {
+      if (!configs) {
+        return;
+      }
+      this._includedIn = configs;
+      this._loaded = true;
+    });
   }
 
   _resetData() {
-    this._includedIn = null;
+    this._includedIn = undefined;
     this._loaded = false;
   }
 
-  _computeGroups(includedIn, filterText) {
+  _computeGroups(includedIn: IncludedInInfo | undefined, filterText: string) {
     if (!includedIn || filterText === undefined) {
       return [];
     }
 
-    const filter = item => !filterText.length ||
-        item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
+    const filter = (item: string) =>
+      !filterText.length ||
+      item.toLowerCase().indexOf(filterText.toLowerCase()) !== -1;
 
-    const groups = [
+    const groups: DisplayGroup[] = [
       {title: 'Branches', items: includedIn.branches.filter(filter)},
       {title: 'Tags', items: includedIn.tags.filter(filter)},
     ];
@@ -96,17 +109,24 @@ class GrIncludedInDialog extends GestureEventListeners(
     return groups.filter(g => g.items.length);
   }
 
-  _handleCloseTap(e) {
+  _handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('close', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('close', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _computeLoadingClass(loaded) {
+  _computeLoadingClass(loaded: boolean) {
     return loaded ? 'loading loaded' : 'loading';
   }
 }
 
-customElements.define(GrIncludedInDialog.is, GrIncludedInDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-included-in-dialog': GrIncludedInDialog;
+  }
+}

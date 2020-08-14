@@ -69,6 +69,7 @@ export const htmlTemplate = html`
       color: var(--border-color);
     }
     gr-account-link {
+      --account-max-length: 120px;
       margin-right: var(--spacing-xs);
     }
     iron-icon {

@@ -205,9 +205,9 @@ suite('gr-reviewer-list tests', () => {
         .querySelector('.hiddenReviewers').hidden);
   });
 
-  test('show all reviewers button with 6 reviewers', () => {
+  test('show all reviewers button with 9 reviewers', () => {
     const reviewers = [];
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 9; i++) {
       reviewers.push(
           {email: i+'reviewer@google.com', name: 'reviewer-' + i});
     }
@@ -222,8 +222,8 @@ suite('gr-reviewer-list tests', () => {
       },
     };
     assert.equal(element._hiddenReviewerCount, 3);
-    assert.equal(element._displayedReviewers.length, 3);
-    assert.equal(element._reviewers.length, 6);
+    assert.equal(element._displayedReviewers.length, 6);
+    assert.equal(element._reviewers.length, 9);
     assert.isFalse(element.shadowRoot
         .querySelector('.hiddenReviewers').hidden);
   });
@@ -244,8 +244,8 @@ suite('gr-reviewer-list tests', () => {
         CC: reviewers,
       },
     };
-    assert.equal(element._hiddenReviewerCount, 97);
-    assert.equal(element._displayedReviewers.length, 3);
+    assert.equal(element._hiddenReviewerCount, 94);
+    assert.equal(element._displayedReviewers.length, 6);
     assert.equal(element._reviewers.length, 100);
     assert.isFalse(element.shadowRoot
         .querySelector('.hiddenReviewers').hidden);

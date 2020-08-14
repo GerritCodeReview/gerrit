@@ -57,6 +57,13 @@ suite('display-name-utils tests', () => {
         'user-name');
   });
 
+  test('getDisplayName firstNameOnly', () => {
+    const account = {
+      name: 'firstname lastname',
+    };
+    assert.equal(getDisplayName(config, account, true), 'firstname');
+  });
+
   test('getDisplayName prefer first name default', () => {
     const account = {
       name: 'firstname lastname',

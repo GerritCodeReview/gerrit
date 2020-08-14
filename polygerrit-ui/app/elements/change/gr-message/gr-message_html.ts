@@ -96,8 +96,7 @@ export const htmlTemplate = html`
       margin-right: var(--spacing-s);
     }
     .authorLabel {
-      min-width: 160px;
-      display: inline-block;
+      width: 140px;
     }
     .expanded .author {
       cursor: pointer;
@@ -172,9 +171,11 @@ export const htmlTemplate = html`
         padding-left: 0;
       }
       .score,
-      .commentsSummary,
-      .authorLabel {
+      .commentsSummary {
         min-width: 0px;
+      }
+      .authorLabel {
+        width: 100px;
       }
       .dateContainer .patchset:before {
         content: 'PS ';

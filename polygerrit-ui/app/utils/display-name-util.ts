@@ -42,25 +42,21 @@ export function getUserName(
 
 export function getDisplayName(
   config?: ServerInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
+  firstNameOnly = false
 ): string {
   if (account && account.display_name) {
     return account.display_name;
   }
-  if (!account || !account.name || !config || !config.accounts) {
+  if (!account || !account.name) {
     return getUserName(config, account);
   }
-  if (
-    config.accounts.default_display_name ===
-      DefaultDisplayNameConfig.USERNAME &&
-    account.username
-  ) {
-    return account.username;
-  }
-  if (
-    config.accounts.default_display_name === DefaultDisplayNameConfig.FIRST_NAME
-  ) {
+  const configDefault = config?.accounts?.default_display_name;
+  if (firstNameOnly || configDefault === DefaultDisplayNameConfig.FIRST_NAME) {
     return account.name.trim().split(' ')[0];
+  }
+  if (configDefault === DefaultDisplayNameConfig.USERNAME && account.username) {
+    return account.username;
   }
   // Treat every other value as FULL_NAME.
   return account.name;

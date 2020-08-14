@@ -74,6 +74,9 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       gr-change-star {
         vertical-align: middle;
       }
+      .owner {
+        --account-max-length: 120px;
+      }
       .branch,
       .star,
       .label,
@@ -111,8 +114,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       }
       @media only screen and (max-width: 150em) {
         .assignee,
-        .branch,
-        .owner {
+        .branch {
           overflow: hidden;
           max-width: 18rem;
           text-overflow: ellipsis;
@@ -126,8 +128,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       }
       @media only screen and (max-width: 100em) {
         .assignee,
-        .branch,
-        .owner {
+        .branch {
           max-width: 10rem;
         }
       }

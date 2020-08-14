@@ -28,6 +28,7 @@ import {
   ParsedJSON,
   RequestPayload,
   PreferencesInput,
+  SshKeyInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -161,4 +162,7 @@ export interface RestApiService {
   ): Promise<ParsedChangeInfo | null | undefined>;
 
   savePreferences(prefs: PreferencesInput): Promise<Response>;
+  getAccountSSHKeys(): Promise<SshKeyInfo[]>;
+  deleteAccountSSHKey(key: string): void;
+  addAccountSSHKey(key: string): Promise<SshKeyInfo>;
 }

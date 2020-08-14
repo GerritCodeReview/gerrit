@@ -28,6 +28,8 @@ import {
   ParsedJSON,
   RequestPayload,
   PreferencesInput,
+  DiffPreferencesInfo,
+  DiffPreferenceInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -161,4 +163,8 @@ export interface RestApiService {
   ): Promise<ParsedChangeInfo | null | undefined>;
 
   savePreferences(prefs: PreferencesInput): Promise<Response>;
+
+  getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
+
+  saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
 }

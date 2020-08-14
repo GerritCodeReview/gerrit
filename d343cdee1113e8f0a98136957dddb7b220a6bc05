@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d75fc576_d80ac005",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T08:56:30Z",
+      "side": 1,
+      "message": "I think we have AccountInfo from common types ? you can use `Optional\u003cAccountInfo\u003e` to mark all fields as optional if you want to init it with empty object first.",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bd5eeec_a0329157",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T08:56:30Z",
+      "side": 1,
+      "message": "why not just use @computed here ?\n\nhttps://github.com/Polymer/polymer-decorators#computedtargets-string",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f430effb_4bbd25f3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T08:56:30Z",
+      "side": 1,
+      "message": "probably should return false (since its a boolean property)",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 22
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14e56fc8_2da515da",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T08:56:30Z",
+      "side": 1,
+      "message": "nit: seems unnecessary",
+      "range": {
+        "startLine": 103,
+        "startChar": 11,
+        "endLine": 103,
+        "endChar": 12
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f96f4179_a9ebb89a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T08:56:30Z",
+      "side": 1,
+      "message": "seems outdated comment",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 24
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f235c32_f0f72c3d",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T08:56:30Z",
+      "side": 1,
+      "message": "existing code, but let\u0027s avoid `bind` :)",
+      "range": {
+        "startLine": 151,
+        "startChar": 25,
+        "endLine": 151,
+        "endChar": 45
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

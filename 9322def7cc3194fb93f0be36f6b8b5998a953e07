@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "05087b6b_5f7e67e2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-change-metadata-api/gr-change-metadata-api.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T08:53:44Z",
+      "side": 1,
+      "message": "You updated the code correctly.\n\n\u003e\u003e callback is provided by the plugin so I am not sure how I can be aware of it\u0027s function definition\nIt works opposite - callback\u0027s type defines how a function in a plugin should look like.\n\nI.e. with this definition\nonLabelsChanged(callback: Function) \n\nplugin can pass any function:\nonLabelsChanged((a: number, b: number) \u003d\u003e {...});\n\nThis doesn\u0027t make sense for the plugin - the second parameter is always undefined (attributeHelper passes exactly one parameter when calling a callback).\n\nWith the updated definition:\nonLabelsChanged(callback: (value: any) \u003d\u003e void)\nplugin must provide a callback with a single parameter, that makes code safer.\n\nP.S. if a plugin is written in javascript, it can provides a callback with several parameters.",
+      "parentUuid": "29faea6e_df2412f2",
+      "range": {
+        "startLine": 39,
+        "startChar": 28,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "9322def7cc3194fb93f0be36f6b8b5998a953e07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dda89c83_67ba9b1d",
         "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
         "patchSetId": 10

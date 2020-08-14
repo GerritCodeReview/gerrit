@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a04a295_dfdaa212",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T08:53:44Z",
+      "side": 1,
+      "message": "Please answer/resolve to the Ben\u0027s comment",
+      "revId": "92ebd308f178773a2d2590b1c028970ee8f05a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cda3156f_1c588f4a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-dom-hooks/gr-dom-hooks.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T08:53:44Z",
+      "side": 1,
+      "message": "Should be HookCallback (the same in onDetached)",
+      "range": {
+        "startLine": 65,
+        "startChar": 23,
+        "endLine": 65,
+        "endChar": 31
+      },
+      "revId": "92ebd308f178773a2d2590b1c028970ee8f05a0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

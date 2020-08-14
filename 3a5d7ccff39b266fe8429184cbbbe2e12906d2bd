@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b12017b_ee44042c",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:54:55Z",
+      "side": 1,
+      "message": "This shouldn\u0027t be exposed in Window.\nWe have page because of some limitations from typescript (it can\u0027t import .mjs files), it can be changed in the future",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "3a5d7ccff39b266fe8429184cbbbe2e12906d2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -14,95 +14,106 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-create-pointer-dialog_html.js';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-create-pointer-dialog_html';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
+import {page} from '../../../utils/page-wrapper-utils';
+import {customElement, property, observe} from '@polymer/decorators';
+import {BranchName, RepositoryName} from '../../../types/common';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 
-const DETAIL_TYPES = {
-  branches: 'branches',
-  tags: 'tags',
-};
+enum DetailType {
+  branches = 'branches',
+  tags = 'tags',
+}
 
-/**
- * @extends PolymerElement
- */
-class GrCreatePointerDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrCreatePointerDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get is() { return 'gr-create-pointer-dialog'; }
-
-  static get properties() {
-    return {
-      detailType: String,
-      repoName: String,
-      hasNewItemName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      itemDetail: String,
-      _itemName: String,
-      _itemRevision: String,
-      _itemAnnotation: String,
-    };
+@customElement('gr-create-pointer-dialog')
+export class GrCreatePointerDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_updateItemName(_itemName)',
-    ];
-  }
+  @property({type: String})
+  detailType?: string;
 
-  _updateItemName(name) {
+  @property({type: String})
+  repoName?: RepositoryName;
+
+  @property({type: Boolean, notify: true})
+  hasNewItemName = false;
+
+  @property({type: String})
+  itemDetail?: DetailType;
+
+  @property({type: String})
+  _itemName?: BranchName;
+
+  @property({type: String})
+  _itemRevision?: string;
+
+  @property({type: String})
+  _itemAnnotation?: string;
+
+  @observe('_itemName')
+  _updateItemName(name?: string) {
     this.hasNewItemName = !!name;
   }
 
-  _computeItemUrl(project) {
-    if (this.itemDetail === DETAIL_TYPES.branches) {
-      return getBaseUrl() + '/admin/repos/' +
-          encodeURL(this.repoName, true) + ',branches';
-    } else if (this.itemDetail === DETAIL_TYPES.tags) {
-      return getBaseUrl() + '/admin/repos/' +
-          encodeURL(this.repoName, true) + ',tags';
-    }
-  }
-
   handleCreateItem() {
-    const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
-    if (this.itemDetail === DETAIL_TYPES.branches) {
-      return this.$.restAPI.createRepoBranch(this.repoName,
-          this._itemName, {revision: USE_HEAD})
-          .then(itemRegistered => {
-            if (itemRegistered.status === 201) {
-              page.show(this._computeItemUrl(this.itemDetail));
-            }
-          });
-    } else if (this.itemDetail === DETAIL_TYPES.tags) {
-      return this.$.restAPI.createRepoTag(this.repoName,
-          this._itemName,
-          {revision: USE_HEAD, message: this._itemAnnotation || null})
-          .then(itemRegistered => {
-            if (itemRegistered.status === 201) {
-              page.show(this._computeItemUrl(this.itemDetail));
-            }
-          });
+    if (!this.repoName) {
+      throw new Error('repoName name is not set');
     }
+    if (!this._itemName) {
+      throw new Error('itemName name is not set');
+    }
+    const USE_HEAD = this._itemRevision ? this._itemRevision : 'HEAD';
+    const url = `${getBaseUrl()}/admin/repos/${encodeURL(this.repoName, true)}`;
+    if (this.itemDetail === DetailType.branches) {
+      return this.$.restAPI
+        .createRepoBranch(this.repoName, this._itemName, {revision: USE_HEAD})
+        .then(itemRegistered => {
+          if (itemRegistered.status === 201) {
+            page.show(`${url},branches`);
+          }
+        });
+    } else if (this.itemDetail === DetailType.tags) {
+      return this.$.restAPI
+        .createRepoTag(this.repoName, this._itemName, {
+          revision: USE_HEAD,
+          message: this._itemAnnotation || undefined,
+        })
+        .then(itemRegistered => {
+          if (itemRegistered.status === 201) {
+            page.show(`${url},tags`);
+          }
+        });
+    }
+    throw new Error(`Invalid itemDetail: ${this.itemDetail}`);
   }
 
-  _computeHideItemClass(type) {
-    return type === DETAIL_TYPES.branches ? 'hideItem' : '';
+  _computeHideItemClass(type: DetailType) {
+    return type === DetailType.branches ? 'hideItem' : '';
   }
 }
 
-customElements.define(GrCreatePointerDialog.is, GrCreatePointerDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-pointer-dialog': GrCreatePointerDialog;
+  }
+}

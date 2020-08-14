@@ -113,6 +113,7 @@ import {
   GroupNameToGroupInfoMap,
   GroupAuditEventInfo,
   RequestPayload,
+  Password,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -2962,14 +2963,14 @@ export class GrRestApiInterface
     });
   }
 
-  generateAccountHttpPassword() {
-    return this._restApiHelper.send({
+  generateAccountHttpPassword(): Promise<Password> {
+    return (this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: '/accounts/self/password.http',
       body: {generate: true},
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as Promise<unknown>) as Promise<Password>;
   }
 
   getAccountSSHKeys() {

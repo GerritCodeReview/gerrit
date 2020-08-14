@@ -161,6 +161,24 @@
     },
     {
       "key": {
+        "uuid": "c4b5236f_adfa7036",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-14T17:07:40Z",
+      "side": 1,
+      "message": "i don\u0027t know - \"overloading\" the meaning of the flag seems fundamentally wrong, as possibly un-resolving threads just to make sure the follow-ups are not missed feels semantically wrong and even disrespectful. of course, this extends beyond AS itself - visualizing \"unread\" comments on the change screen is desirable regardless of why one opened it; this topic was briefly touched in the AS design change as well.",
+      "parentUuid": "b084c22c_2168f257",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd7e0827_b3cf0ecf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5c12b687_3e33f726",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "+1 please mention attention set",
+      "parentUuid": "53b7e027_be155a3f",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "87d2792e_70d33f2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -33,6 +51,24 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c1ab92d_25b15323",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "change messages are \"patch set level comments\" as of recently",
+      "parentUuid": "87d2792e_70d33f2f",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -69,6 +105,294 @@
         "startChar": 15,
         "endLine": 24,
         "endChar": 24
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7af9103_319fa17c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "fd7e0827_b3cf0ecf",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a74a4126_a838b54f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "nit: commentsToBePublished?\n\n(I assume these are the comments that get published with the current call)",
+      "range": {
+        "startLine": 85,
+        "startChar": 25,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5553a4a7_7655ac40",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "nit: Set (I would not expect duplicates here)",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 14
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ee3d3e7_17ba6fd5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "UUIDs",
+      "range": {
+        "startLine": 129,
+        "startChar": 42,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20b00662_d267accc",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "UUIDs",
+      "range": {
+        "startLine": 160,
+        "startChar": 35,
+        "endLine": 160,
+        "endChar": 38
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba5bbd83_72b7e184",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "nit: still",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 16
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fce02f7_ca1dff12",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "This is a hacky way to signal that a new comment thread was created. Since you implemented a search further down, I wonder if we could just skip checking parents here and deal with new comments instead.\n\nThat would allow you to check for newComments().stream().anyMatch(c -\u003e c.parentUUID \u003d\u003d null) here. The search should be able to make the first hop here as well.",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b555dfca_98f0c991",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "nit: commentThreads (pluralize just once)",
+      "range": {
+        "startLine": 188,
+        "startChar": 24,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6e83eaa_2e18615d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "The part of this method that traverses all parents would better fit into CommentsUtil. That would also make the code cleaner and easier to understand. You then just return *all* the comment (UUIDs) that are parents of the given UUIDs and iterate over those here to add authors to attention set.",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53542532_4efef907",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "UUIDs",
+      "range": {
+        "startLine": 196,
+        "startChar": 76,
+        "endLine": 196,
+        "endChar": 79
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cbcb5c0_aaee4133",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "Gerrit is the place where we implement searches almost every day :-)",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "71c10ac7_7c861b87",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "IIRC we don\u0027t vet parentUUID of comments in the API, so this can very well be null when someone supplied a random parentUUID. Shall we just log and ignore?",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fda5ca69_c4c77483",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-14T06:49:32Z",
+      "side": 1,
+      "message": "This is mutating a set that the method got as argument. While for now that\u0027s not problematic, it\u0027s something that callers in the future can easily fall over. The set is small, so I\u0027d copy it before the loop.\n\nIf the argument can be an ImmutableSet, that\u0027d be even better.",
+      "range": {
+        "startLine": 222,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 52
       },
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

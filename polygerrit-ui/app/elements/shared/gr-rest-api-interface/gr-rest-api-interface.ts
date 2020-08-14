@@ -116,6 +116,9 @@ import {
   Password,
   ContributorAgreementInput,
   ContributorAgreementInfo,
+  BranchInput,
+  IncludedInInfo,
+  TagInput,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -153,7 +156,7 @@ let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Sh
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 let projectLookup: {[changeNum: string]: ProjectName} = {}; // Shared across instances.
 
-type ChangeNum = number; // !!!TODO: define correct types
+export type ChangeNum = number; // !!!TODO: define correct types
 
 interface FetchChangeJSON {
   reportEndpointAsIs?: boolean;
@@ -574,20 +577,20 @@ export class GrRestApiInterface
   createRepoBranch(
     name: RepositoryName,
     branch: BranchName,
-    revision: string
+    revision: BranchInput
   ): Promise<Response>;
 
   createRepoBranch(
     name: RepositoryName,
     branch: BranchName,
-    revision: string,
+    revision: BranchInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoBranch(
     name: RepositoryName,
     branch: BranchName,
-    revision: string,
+    revision: BranchInput,
     errFn?: ErrorCallback
   ) {
     if (!name || !branch || !revision) {
@@ -610,20 +613,20 @@ export class GrRestApiInterface
   createRepoTag(
     name: RepositoryName,
     tag: string,
-    revision: string
+    revision: TagInput
   ): Promise<Response>;
 
   createRepoTag(
     name: RepositoryName,
     tag: string,
-    revision: string,
+    revision: TagInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoTag(
     name: RepositoryName,
     tag: string,
-    revision: string,
+    revision: TagInput,
     errFn?: ErrorCallback
   ) {
     if (!name || !tag || !revision) {
@@ -1644,12 +1647,14 @@ export class GrRestApiInterface
     }) as Promise<SuggestedReviewerInfo[] | undefined>;
   }
 
-  getChangeIncludedIn(changeNum: ChangeNum) {
+  getChangeIncludedIn(
+    changeNum: ChangeNum
+  ): Promise<IncludedInInfo | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/in',
       reportEndpointAsIs: true,
-    });
+    }) as Promise<IncludedInInfo | undefined>;
   }
 
   _computeFilter(filter: string) {

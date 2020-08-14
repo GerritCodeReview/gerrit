@@ -58,7 +58,10 @@ interface PatchRangeRecord {
  * this function checks for patchNum equality.
  *
  */
-export function patchNumEquals(a: PatchSetNum, b: PatchSetNum) {
+export function patchNumEquals(a?: PatchSetNum, b?: PatchSetNum) {
+  if (a === undefined) {
+    return a === b;
+  }
   // TODO(TS): replace with a===b when the whole code is converted to ts
   return `${a}` === `${b}`;
 }

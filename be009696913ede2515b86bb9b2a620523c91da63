@@ -143,6 +143,24 @@
     },
     {
       "key": {
+        "uuid": "b084c22c_2168f257",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T12:43:38Z",
+      "side": 1,
+      "message": "I\u0027m considering to add the owner if there are any unresolved comments (and not just for new comment threads). Even stronger would be adding everyone on a non-resolved comment thread, but I feel this is an overkill.\n\nI\u0027ll do one of those in a follow-up.",
+      "parentUuid": "3d06f50c_6e7187d6",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd7e0827_b3cf0ecf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

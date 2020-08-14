@@ -83,6 +83,7 @@ import com.google.gerrit.server.events.StreamEventsApiListener;
 import com.google.gerrit.server.git.GarbageCollectionModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.receive.SuperprojectsUpdaterImpl;
 import com.google.gerrit.server.group.PeriodicGroupIndexer;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
@@ -413,6 +414,7 @@ public class Daemon extends SiteProgram {
     modules.add(createIndexModule());
 
     modules.add(new SubscriptionGraph.Module());
+    modules.add(new SuperprojectsUpdaterImpl.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new StreamEventsApiListener.Module());
     modules.add(new EventBroker.Module());

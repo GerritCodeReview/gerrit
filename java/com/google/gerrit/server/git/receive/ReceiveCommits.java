@@ -163,8 +163,6 @@ import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.restapi.change.ReplyAttentionSetUpdates;
 import com.google.gerrit.server.submit.MergeOp;
-import com.google.gerrit.server.submit.MergeOpRepoManager;
-import com.google.gerrit.server.submit.SubmoduleOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -332,7 +330,6 @@ class ReceiveCommits {
   private final ProjectCache projectCache;
   private final Provider<InternalChangeQuery> queryProvider;
   private final Provider<MergeOp> mergeOpProvider;
-  private final Provider<MergeOpRepoManager> ormProvider;
   private final ReceiveConfig receiveConfig;
   private final RefOperationValidators.Factory refValidatorsFactory;
   private final ReplaceOp.Factory replaceOpFactory;
@@ -342,7 +339,7 @@ class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
-  private final SubmoduleOp.Factory subOpFactory;
+  private final SuperprojectsUpdater superprojectsUpdater;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
@@ -413,7 +410,6 @@ class ReceiveCommits {
       ProjectCache projectCache,
       Provider<InternalChangeQuery> queryProvider,
       Provider<MergeOp> mergeOpProvider,
-      Provider<MergeOpRepoManager> ormProvider,
       PublishCommentsOp.Factory publishCommentsOp,
       ReceiveConfig receiveConfig,
       RefOperationValidators.Factory refValidatorsFactory,
@@ -423,7 +419,7 @@ class ReceiveCommits {
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
-      SubmoduleOp.Factory subOpFactory,
+      SuperprojectsUpdater superprojectsUpdater,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
@@ -454,7 +450,6 @@ class ReceiveCommits {
     this.mergedByPushOpFactory = mergedByPushOpFactory;
     this.notesFactory = notesFactory;
     this.optionParserFactory = optionParserFactory;
-    this.ormProvider = ormProvider;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.permissionBackend = permissionBackend;
     this.pluginConfigEntries = pluginConfigEntries;
@@ -470,7 +465,7 @@ class ReceiveCommits {
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
-    this.subOpFactory = subOpFactory;
+    this.superprojectsUpdater = superprojectsUpdater;
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
@@ -764,15 +759,7 @@ class ReceiveCommits {
       }
 
       // Update superproject gitlinks if required.
-      if (!branches.isEmpty()) {
-        try (MergeOpRepoManager orm = ormProvider.get()) {
-          orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
-          SubmoduleOp op = subOpFactory.create(branches, orm);
-          op.updateSuperProjects();
-        } catch (RestApiException e) {
-          logger.atWarning().withCause(e).log("Can't update the superprojects");
-        }
-      }
+      superprojectsUpdater.update(user, branches);
     }
   }
 

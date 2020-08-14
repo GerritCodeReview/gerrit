@@ -76,6 +76,7 @@ import com.google.gerrit.server.git.GitRepositoryManagerModule;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.SystemReaderInstaller;
 import com.google.gerrit.server.git.WorkQueue;
+import com.google.gerrit.server.git.receive.SuperprojectsUpdaterImpl;
 import com.google.gerrit.server.index.IndexModule;
 import com.google.gerrit.server.index.OnlineUpgrader;
 import com.google.gerrit.server.index.VersionManager;
@@ -324,6 +325,7 @@ public class WebAppInitializer extends GuiceServletContextListener implements Fi
 
     modules.add(new RestApiModule());
     modules.add(new SubscriptionGraph.Module());
+    modules.add(new SuperprojectsUpdaterImpl.Module());
     modules.add(new WorkQueue.Module());
     modules.add(new GerritInstanceNameModule());
     modules.add(

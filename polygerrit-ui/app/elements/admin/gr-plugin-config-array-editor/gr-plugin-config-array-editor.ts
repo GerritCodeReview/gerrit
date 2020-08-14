@@ -25,11 +25,22 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-config-array-editor_html';
 import {property, customElement} from '@polymer/decorators';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {PluginOption} from '../gr-repo-plugin-config/gr-repo-plugin-config';
+import {ConfigArrayParameterInfo} from '../../../types/common';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-plugin-config-array-editor': GrPluginConfigArrayEditor;
   }
+}
+
+type ArrayPluginOption = PluginOption<ConfigArrayParameterInfo>;
+
+export interface PluginConfigOptionsChangedEventDetail {
+  _key: string;
+  info: ConfigArrayParameterInfo;
+  notifyPath: string;
 }
 
 @customElement('gr-plugin-config-array-editor')
@@ -52,12 +63,14 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
   // This property is never null, since this component in only about operations
   // on pluginOption.
   @property({type: Object})
-  pluginOption!: PluginOption;
+  pluginOption!: ArrayPluginOption;
 
   @property({type: Boolean, computed: '_computeDisabled(pluginOption.*)'})
   disabled?: boolean;
 
-  _computeDisabled(record: PluginOptionRecord) {
+  _computeDisabled(
+    record: PolymerDeepPropertyChange<ArrayPluginOption, ArrayPluginOption>
+  ) {
     return !(
       record &&
       record.base &&
@@ -100,9 +113,9 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
 
   _dispatchChanged(values: string[]) {
     const {_key, info} = this.pluginOption;
-    const detail = {
+    const detail: PluginConfigOptionsChangedEventDetail = {
       _key,
-      info: Object.assign(info, {values}, {}),
+      info: {...info, values},
       notifyPath: `${_key}.values`,
     };
     this.dispatchEvent(
@@ -113,16 +126,4 @@ class GrPluginConfigArrayEditor extends GestureEventListeners(
   _computeShowInputRow(disabled: boolean) {
     return disabled ? 'hide' : '';
   }
-}
-
-interface PluginOption {
-  info: {
-    values: string[];
-    editable?: boolean;
-  };
-  _key: string;
-}
-
-interface PluginOptionRecord {
-  base: PluginOption;
 }

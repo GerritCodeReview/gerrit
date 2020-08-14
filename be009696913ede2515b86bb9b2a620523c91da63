@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "3d06f50c_6e7187d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-14T12:23:41Z",
+      "side": 1,
+      "message": "that\u0027s not what i mean. people often write comments that are not in a change\u0027s critical path, like discussing tangential matters, suggesting possible followups, etc.  this works fine in a comment notification based workflow, but will fail spectacularly in an AS-based one if the AS does not specifically address it somehow (and i mean automatically, as suddenly having to manually add people to the AS just because the change\u0027s state changed is _extremely_ error-prone). i haven\u0027t thought it through in detail, but this change appears to be going in the exactly wrong direction in that regard.",
+      "parentUuid": "bf746c32_35edb652",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fd7e0827_b3cf0ecf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4

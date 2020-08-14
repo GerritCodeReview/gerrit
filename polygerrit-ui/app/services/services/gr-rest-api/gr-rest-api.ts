@@ -27,6 +27,8 @@ import {
   GroupNameToGroupInfoMap,
   ParsedJSON,
   RequestPayload,
+  DiffPreferencesInfo,
+  DiffPreferenceInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -158,4 +160,8 @@ export interface RestApiService {
     opt_errFn?: Function,
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | null | undefined>;
+
+  getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
+
+  saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
 }

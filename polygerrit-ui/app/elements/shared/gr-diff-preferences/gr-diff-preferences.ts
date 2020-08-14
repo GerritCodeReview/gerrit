@@ -14,36 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/shared-styles.js';
-import '../gr-button/gr-button.js';
-import '../gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-diff-preferences_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/shared-styles';
+import '../gr-button/gr-button';
+import '../gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-diff-preferences_html';
+import {customElement, property} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {DiffPreferencesInfo} from '../../../types/common';
 
-/** @extends PolymerElement */
-class GrDiffPreferences extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrDiffPreferences {
+  $: {
+    restAPI: RestApiService & Element;
+    lineWrappingInput: HTMLInputElement;
+    showTabsInput: HTMLInputElement;
+    showTrailingWhitespaceInput: HTMLInputElement;
+    automaticReviewInput: HTMLInputElement;
+    syntaxHighlightInput: HTMLInputElement;
+  };
+}
 
-  static get is() { return 'gr-diff-preferences'; }
-
-  static get properties() {
-    return {
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-
-      /** @type {?} */
-      diffPrefs: Object,
-    };
+@customElement('gr-diff-preferences')
+export class GrDiffPreferences extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Boolean, notify: true})
+  hasUnsavedChanges = false;
+
+  @property({type: Object})
+  diffPrefs?: DiffPreferencesInfo;
 
   loadData() {
     return this.$.restAPI.getDiffPreferences().then(prefs => {
@@ -66,28 +73,36 @@ class GrDiffPreferences extends GestureEventListeners(
   }
 
   _handleShowTrailingWhitespaceTap() {
-    this.set('diffPrefs.show_whitespace_errors',
-        this.$.showTrailingWhitespaceInput.checked);
+    this.set(
+      'diffPrefs.show_whitespace_errors',
+      this.$.showTrailingWhitespaceInput.checked
+    );
     this._handleDiffPrefsChanged();
   }
 
   _handleSyntaxHighlightTap() {
-    this.set('diffPrefs.syntax_highlighting',
-        this.$.syntaxHighlightInput.checked);
+    this.set(
+      'diffPrefs.syntax_highlighting',
+      this.$.syntaxHighlightInput.checked
+    );
     this._handleDiffPrefsChanged();
   }
 
   _handleAutomaticReviewTap() {
-    this.set('diffPrefs.manual_review',
-        !this.$.automaticReviewInput.checked);
+    this.set('diffPrefs.manual_review', !this.$.automaticReviewInput.checked);
     this._handleDiffPrefsChanged();
   }
 
   save() {
-    return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(res => {
+    if (!this.diffPrefs) return;
+    return this.$.restAPI.saveDiffPreferences(this.diffPrefs!).then(_ => {
       this.hasUnsavedChanges = false;
     });
   }
 }
 
-customElements.define(GrDiffPreferences.is, GrDiffPreferences);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-preferences': GrDiffPreferences;
+  }
+}

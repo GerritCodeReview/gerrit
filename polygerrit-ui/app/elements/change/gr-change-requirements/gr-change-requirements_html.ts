@@ -26,6 +26,7 @@ export const htmlTemplate = html`
       color: #ffa62f;
       display: inline-block;
       text-align: center;
+      vertical-align: top;
       font-family: var(--monospace-font-family);
       font-size: var(--font-size-mono);
       line-height: var(--line-height-mono);

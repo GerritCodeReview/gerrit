@@ -104,6 +104,9 @@ export type ChangeSubmissionId = BrandType<
 // The refs/heads/ prefix is omitted in Branch name
 export type BranchName = BrandType<string, '_branchName'>;
 
+// The refs/tags/ prefix is omitted in Tag name
+export type TagName = BrandType<string, '_tagName'>;
+
 // The ID of the change in the format "'<project>~<branch>~<Change-Id>'"
 export type ChangeInfoId = BrandType<string, '_changeInfoId'>;
 export type Hashtag = BrandType<string, '_hashtag'>;
@@ -1847,3 +1850,36 @@ export function isReviewerGroupSuggestion(
 export type RequestPayload = string | object;
 
 export type Password = string;
+
+/**
+ * The BranchInput entity contains information for the creation of a new branch
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#branch-input
+ */
+export interface BranchInput {
+  ref?: BranchName; // refs/heads prefix is allowed, but can be omitted
+  revision?: string;
+}
+
+/**
+ * The TagInput entity contains information for creating a tag
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#tag-input
+ */
+export interface TagInput {
+  // ref: string; mentoined as required in doc, but it doesn't used anywher
+  revision?: string;
+  message: string;
+}
+
+/**
+ * The IncludedInInfo entity contains information about the branches a change was merged into and tags it was tagged with
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#included-in-info
+ */
+export interface IncludedInInfo {
+  branches: BranchName[];
+  tags: TagName[];
+  external?: NameToExternalSystemsMap;
+}
+
+// It is unclear what is name here
+export type NameToExternalSystemsMap = {[name: string]: string[]};
+

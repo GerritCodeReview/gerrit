@@ -14,32 +14,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-comment-api_html.js';
-import {parseDate} from '../../../utils/date-util.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-comment-api_html';
+import {parseDate} from '../../../utils/date-util';
 import {
   getParentIndex,
   isMergeParent,
   patchNumEquals,
-} from '../../../utils/patch-set-util.js';
+} from '../../../utils/patch-set-util';
+import {customElement, property} from '@polymer/decorators';
+import {
+  CommentInfo,
+  PathToCommentsInfoMap,
+  PathToRobotCommentsInfoMap,
+  RobotCommentInfo,
+  UrlEncodedCommentId,
+} from '../../../types/common';
+import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 
 const PARENT = 'PARENT';
 
-/**
- * Construct a change comments object, which can be data-bound to child
- * elements of that which uses the gr-comment-api.
- *
- * @constructor
- * @param {!Object} comments
- * @param {!Object} robotComments
- * @param {!Object} drafts
- * @param {number} changeNum
- */
+interface CommentsInfoWithPath extends CommentInfo {
+  path: string;
+}
+
+type PathToCommentsInfoWithPathMap = {[path: string]: CommentsInfoWithPath[]};
+
+interface RobotCommentsInfoWithPath extends RobotCommentInfo {
+  path: string;
+}
+
+type PathToRobotCommentsInfoWithPathMap = {
+  [path: string]: RobotCommentsInfoWithPath[];
+};
+
 class ChangeComments {
-  constructor(comments, robotComments, drafts, changeNum) {
+  private readonly _comments: PathToCommentsInfoWithPathMap;
+
+  private readonly _robotComments: PathToRobotCommentsInfoWithPathMap;
+
+  private readonly _drafts: PathToCommentsInfoWithPathMap;
+
+  private readonly _changeNum: ChangeNum;
+
+  /**
+   * Construct a change comments object, which can be data-bound to child
+   * elements of that which uses the gr-comment-api.
+   */
+  constructor(
+    comments: PathToCommentsInfoMap,
+    robotComments: PathToRobotCommentsInfoMap,
+    drafts: PathToCommentsInfoMap,
+    changeNum: ChangeNum
+  ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
     this._drafts = this._addPath(drafts);
@@ -53,15 +83,18 @@ class ChangeComments {
    * TODO(taoalpha): should consider changing BE to send path
    * back within CommentInfo
    *
-   * @param {Object} - map between file path and comments
+   * @param - map between file path and comments
    */
-  _addPath(comments = {}) {
-    const updatedComments = {};
+  _addPath(
+    comments: PathToCommentsInfoMap = {}
+  ): PathToCommentsInfoWithPathMap {
+    const updatedComments: PathToCommentsInfoWithPathMap = {};
     for (const filePath of Object.keys(comments)) {
       const allCommentsForPath = comments[filePath] || [];
       if (allCommentsForPath.length) {
-        updatedComments[filePath] = allCommentsForPath
-            .map(comment => { return {...comment, path: filePath}; });
+        updatedComments[filePath] = allCommentsForPath.map(comment => {
+          return {...comment, path: filePath};
+        });
       }
     }
     return updatedComments;
@@ -79,8 +112,14 @@ class ChangeComments {
     return this._robotComments;
   }
 
-  findCommentById(commentId) {
-    const findComment = comments => {
+  findCommentById(
+    commentId: UrlEncodedCommentId
+  ): RobotCommentsInfoWithPath | CommentsInfoWithPath | undefined {
+    const findComment = (
+      comments:
+        | PathToCommentsInfoWithPathMap
+        | PathToRobotCommentsInfoWithPathMap
+    ) => {
       let comment;
       for (const path of Object.keys(comments)) {
         comment = comment || comments[path].find(c => c.id === commentId);
@@ -98,21 +137,25 @@ class ChangeComments {
    * Paths with comments are mapped to true, whereas paths without comments
    * are not mapped.
    *
-   * @param {Gerrit.PatchRange=} opt_patchRange The patch-range object containing
-   *     patchNum and basePatchNum properties to represent the range.
-   * @return {!Object}
+   * @param opt_patchRange The patch-range object containing
+   * patchNum and basePatchNum properties to represent the range.
+   * @return
    */
   getPaths(opt_patchRange) {
     const responses = [this.comments, this.drafts, this.robotComments];
     const commentMap = {};
     for (const response of responses) {
       for (const path in response) {
-        if (response.hasOwnProperty(path) &&
+        if (
+          response.hasOwnProperty(path) &&
           response[path].some(c => {
             // If don't care about patch range, we know that the path exists.
-            if (!opt_patchRange) { return true; }
+            if (!opt_patchRange) {
+              return true;
+            }
             return this._isInPatchRange(c, opt_patchRange);
-          })) {
+          })
+        ) {
           commentMap[path] = true;
         }
       }
@@ -123,8 +166,8 @@ class ChangeComments {
   /**
    * Gets all the comments and robot comments for the given change.
    *
-   * @param {number=} opt_patchNum
-   * @return {!Object}
+   * @param opt_patchNum
+   * @return
    */
   getAllPublishedComments(opt_patchNum) {
     return this.getAllComments(false, opt_patchNum);
@@ -134,8 +177,8 @@ class ChangeComments {
    * Gets all the comments for a particular thread group. Used for refreshing
    * comments after the thread group has already been built.
    *
-   * @param {string} rootId
-   * @return {!Array} an array of comments
+   * @param rootId
+   * @return an array of comments
    */
   getCommentsForThread(rootId) {
     const allThreads = this.getAllThreadsForChange();
@@ -150,45 +193,45 @@ class ChangeComments {
   /**
    * Filters an array of comments by line and side
    *
-   * @param {!Array} comments
-   * @param {boolean} parentOnly whether the only comments returned should have
-   *   the side attribute set to PARENT
-   * @param {string} commentSide whether the comment was left on the left or the
-   *   right side regardless or unified or side-by-side
-   * @param {number=} opt_line line number, can be undefined if file comment
-   * @return {!Array} an array of comments
+   * @param comments
+   * @param parentOnly whether the only comments returned should have
+   * the side attribute set to PARENT
+   * @param commentSide whether the comment was left on the left or the
+   * right side regardless or unified or side-by-side
+   * @param opt_line line number, can be undefined if file comment
+   * @return an array of comments
    */
-  _filterCommentsBySideAndLine(comments,
-      parentOnly, commentSide, opt_line) {
-    return comments.filter(c => {
-    // if parentOnly, only match comments with PARENT for the side.
-      let sideMatch = parentOnly ? c.side === PARENT : c.side !== PARENT;
-      if (parentOnly) {
-        sideMatch = sideMatch && c.side === PARENT;
-      }
-      return sideMatch && c.line === opt_line;
-    }).map(c => {
-      c.__commentSide = commentSide;
-      return c;
-    });
+  _filterCommentsBySideAndLine(comments, parentOnly, commentSide, opt_line) {
+    return comments
+      .filter(c => {
+        // if parentOnly, only match comments with PARENT for the side.
+        let sideMatch = parentOnly ? c.side === PARENT : c.side !== PARENT;
+        if (parentOnly) {
+          sideMatch = sideMatch && c.side === PARENT;
+        }
+        return sideMatch && c.line === opt_line;
+      })
+      .map(c => {
+        c.__commentSide = commentSide;
+        return c;
+      });
   }
 
   /**
    * Gets all the comments and robot comments for the given change.
    *
-   * @param {boolean=} opt_includeDrafts
-   * @param {number=} opt_patchNum
-   * @return {!Object}
+   * @param opt_includeDrafts
+   * @param opt_patchNum
+   * @return
    */
-  getAllComments(opt_includeDrafts,
-      opt_patchNum) {
+  getAllComments(opt_includeDrafts, opt_patchNum) {
     const paths = this.getPaths();
     const publishedComments = {};
     for (const path of Object.keys(paths)) {
       publishedComments[path] = this.getAllCommentsForPath(
-          path,
-          opt_patchNum,
-          opt_includeDrafts
+        path,
+        opt_patchNum,
+        opt_includeDrafts
       );
     }
     return publishedComments;
@@ -197,8 +240,8 @@ class ChangeComments {
   /**
    * Gets all the drafts for the given change.
    *
-   * @param {number=} opt_patchNum
-   * @return {!Object}
+   * @param opt_patchNum
+   * @return
    */
   getAllDrafts(opt_patchNum) {
     const paths = this.getPaths();
@@ -215,13 +258,12 @@ class ChangeComments {
    * This method will always return a new shallow copy of all comments,
    * so manipulation on one copy won't affect other copies.
    *
-   * @param {!string} path
-   * @param {number=} opt_patchNum
-   * @param {boolean=} opt_includeDrafts
-   * @return {!Array}
+   * @param path
+   * @param opt_patchNum
+   * @param opt_includeDrafts
+   * @return
    */
-  getAllCommentsForPath(path,
-      opt_patchNum, opt_includeDrafts) {
+  getAllCommentsForPath(path, opt_patchNum, opt_includeDrafts) {
     const comments = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
     let allComments = comments.concat(robotComments);
@@ -234,7 +276,9 @@ class ChangeComments {
         patchNumEquals(c.patch_set, opt_patchNum)
       );
     }
-    return allComments.map(c => { return {...c}; });
+    return allComments.map(c => {
+      return {...c};
+    });
   }
 
   /**
@@ -242,20 +286,24 @@ class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    *
-   * @param {!{path: string, basePath?: string, patchNum?: number}} file
-   * @param {boolean=} opt_includeDrafts
-   * @return {!Array}
+   * @param file
+   * @param opt_includeDrafts
+   * @return
    */
   getAllCommentsForFile(file, opt_includeDrafts) {
     let allComments = this.getAllCommentsForPath(
-        file.path, file.patchNum, opt_includeDrafts
+      file.path,
+      file.patchNum,
+      opt_includeDrafts
     );
 
     if (file.basePath) {
       allComments = allComments.concat(
-          this.getAllCommentsForPath(
-              file.basePath, file.patchNum, opt_includeDrafts
-          )
+        this.getAllCommentsForPath(
+          file.basePath,
+          file.patchNum,
+          opt_includeDrafts
+        )
       );
     }
 
@@ -268,19 +316,20 @@ class ChangeComments {
    * This will return a shallow copy of all drafts every time,
    * so changes on any copy will not affect other copies.
    *
-   * @param {!string} path
-   * @param {number=} opt_patchNum
-   * @return {!Array}
+   * @param path
+   * @param opt_patchNum
+   * @return
    */
-  getAllDraftsForPath(path,
-      opt_patchNum) {
+  getAllDraftsForPath(path, opt_patchNum) {
     let comments = this._drafts[path] || [];
     if (opt_patchNum) {
       comments = comments.filter(c =>
         patchNumEquals(c.patch_set, opt_patchNum)
       );
     }
-    return comments.map(c => { return {...c, __draft: true}; });
+    return comments.map(c => {
+      return {...c, __draft: true};
+    });
   }
 
   /**
@@ -288,14 +337,14 @@ class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    *
-   * @param {!{path: string, basePath?: string, patchNum?: number}} file
-   * @return {!Array}
+   * @param file
+   * @return
    */
   getAllDraftsForFile(file) {
     let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
     if (file.basePath) {
       allDrafts = allDrafts.concat(
-          this.getAllDraftsForPath(file.basePath, file.patchNum)
+        this.getAllDraftsForPath(file.basePath, file.patchNum)
       );
     }
     return allDrafts;
@@ -306,15 +355,14 @@ class ChangeComments {
    * patch-range. Returns an object with left and right properties mapping to
    * arrays of comments in on either side of the patch range for that path.
    *
-   * @param {!string} path
-   * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
-   *     and basePatchNum properties to represent the range.
-   * @param {Object=} opt_projectConfig Optional project config object to
-   *     include in the meta sub-object.
-   * @return {!Gerrit.CommentsBySide}
+   * @param path
+   * @param patchRange The patch-range object containing patchNum
+   * and basePatchNum properties to represent the range.
+   * @param opt_projectConfig Optional project config object to
+   * include in the meta sub-object.
+   * @return
    */
-  getCommentsBySideForPath(path,
-      patchRange, opt_projectConfig) {
+  getCommentsBySideForPath(path, patchRange, opt_projectConfig) {
     let comments = [];
     let drafts = [];
     let robotComments = [];
@@ -328,15 +376,23 @@ class ChangeComments {
       robotComments = this.robotComments[path];
     }
 
-    drafts.forEach(d => { d.__draft = true; });
+    drafts.forEach(d => {
+      d.__draft = true;
+    });
 
-    const all = comments.concat(drafts).concat(robotComments)
-        .map(c => { return {...c}; });
+    const all = comments
+      .concat(drafts)
+      .concat(robotComments)
+      .map(c => {
+        return {...c};
+      });
 
     const baseComments = all.filter(c =>
-      this._isInBaseOfPatchRange(c, patchRange));
+      this._isInBaseOfPatchRange(c, patchRange)
+    );
     const revisionComments = all.filter(c =>
-      this._isInRevisionOfPatchRange(c, patchRange));
+      this._isInRevisionOfPatchRange(c, patchRange)
+    );
 
     return {
       meta: {
@@ -357,20 +413,24 @@ class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge *ForPath so find all comments in one pass
    *
-   * @param {!{path: string, basePath?: string, patchNum?: number}} file
-   * @param {!Gerrit.PatchRange} patchRange The patch-range object containing patchNum
-   *     and basePatchNum properties to represent the range.
-   * @param {Object=} opt_projectConfig Optional project config object to
-   *     include in the meta sub-object.
-   * @return {!Gerrit.CommentsBySide}
+   * @param file
+   * @param patchRange The patch-range object containing patchNum
+   * and basePatchNum properties to represent the range.
+   * @param opt_projectConfig Optional project config object to
+   * include in the meta sub-object.
+   * @return
    */
   getCommentsBySideForFile(file, patchRange, opt_projectConfig) {
     const comments = this.getCommentsBySideForPath(
-        file.path, patchRange, opt_projectConfig
+      file.path,
+      patchRange,
+      opt_projectConfig
     );
     if (file.basePath) {
       const commentsForBasePath = this.getCommentsBySideForPath(
-          file.basePath, patchRange, opt_projectConfig
+        file.basePath,
+        patchRange,
+        opt_projectConfig
       );
       // merge in the left and right
       comments.left = comments.left.concat(commentsForBasePath.left);
@@ -380,11 +440,11 @@ class ChangeComments {
   }
 
   /**
-   * @param {!Object} comments Object keyed by file, with a value of an array
-   *   of comments left on that file.
-   * @return {!Array} A flattened list of all comments, where each comment
-   *   also includes the file that it was left on, which was the key of the
-   *   originall object.
+   * @param comments Object keyed by file, with a value of an array
+   * of comments left on that file.
+   * @return A flattened list of all comments, where each comment
+   * also includes the file that it was left on, which was the key of the
+   * originall object.
    */
   _commentObjToArrayWithFile(comments) {
     let commentArr = [];
@@ -409,8 +469,8 @@ class ChangeComments {
   /**
    * Computes a string counting the number of commens in a given file.
    *
-   * @param {{path: string, basePath?: string, patchNum?: number}} file
-   * @return {number}
+   * @param file
+   * @return
    */
   computeCommentCount(file) {
     if (file.path) {
@@ -424,8 +484,8 @@ class ChangeComments {
    * Computes a string counting the number of draft comments in the entire
    * change, optionally filtered by path and/or patchNum.
    *
-   * @param {?{path: string, basePath?: string, patchNum?: number}} file
-   * @return {number}
+   * @param file
+   * @return
    */
   computeDraftCount(file) {
     if (file && file.path) {
@@ -438,8 +498,8 @@ class ChangeComments {
   /**
    * Computes a number of unresolved comment threads in a given file and path.
    *
-   * @param {{path: string, basePath?: string, patchNum?: number}} file
-   * @return {number}
+   * @param file
+   * @return
    */
   computeUnresolvedNum(file) {
     let comments = [];
@@ -450,17 +510,19 @@ class ChangeComments {
       drafts = this.getAllDraftsForFile(file);
     } else {
       comments = this._commentObjToArray(
-          this.getAllPublishedComments(file.patchNum));
+        this.getAllPublishedComments(file.patchNum)
+      );
     }
 
     comments = comments.concat(drafts);
 
     const threads = this.getCommentThreads(this._sortComments(comments));
 
-    const unresolvedThreads = threads
-        .filter(thread =>
-          thread.comments.length &&
-        thread.comments[thread.comments.length - 1].unresolved);
+    const unresolvedThreads = threads.filter(
+      thread =>
+        thread.comments.length &&
+        thread.comments[thread.comments.length - 1].unresolved
+    );
 
     return unresolvedThreads.length;
   }
@@ -472,31 +534,27 @@ class ChangeComments {
   }
 
   _sortComments(comments) {
-    return comments.slice(0)
-        .sort(
-            (c1, c2) => {
-              const dateDiff =
-                  parseDate(c1.updated) - parseDate(c2.updated);
-              if (dateDiff) {
-                return dateDiff;
-              }
-              return c1.id - c2.id;
-            }
-        );
+    return comments.slice(0).sort((c1, c2) => {
+      const dateDiff = parseDate(c1.updated) - parseDate(c2.updated);
+      if (dateDiff) {
+        return dateDiff;
+      }
+      return c1.id - c2.id;
+    });
   }
 
   /**
    * Computes all of the comments in thread format.
    *
-   * @param {!Array} comments sorted by updated timestamp.
-   * @return {!Array}
+   * @param comments sorted by updated timestamp.
+   * @return
    */
   getCommentThreads(comments) {
     const threads = [];
     const idThreadMap = {};
     for (const comment of comments) {
-    // If the comment is in reply to another comment, find that comment's
-    // thread and append to it.
+      // If the comment is in reply to another comment, find that comment's
+      // thread and append to it.
       if (comment.in_reply_to) {
         const thread = idThreadMap[comment.in_reply_to];
         if (thread) {
@@ -527,55 +585,64 @@ class ChangeComments {
    * Whether the given comment should be included in the base side of the
    * given patch range.
    *
-   * @param {!Object} comment
-   * @param {!Gerrit.PatchRange} range
-   * @return {boolean}
+   * @param comment
+   * @param range
+   * @return
    */
   _isInBaseOfPatchRange(comment, range) {
-  // If the base of the patch range is a parent of a merge, and the comment
-  // appears on a specific parent then only show the comment if the parent
-  // index of the comment matches that of the range.
+    // If the base of the patch range is a parent of a merge, and the comment
+    // appears on a specific parent then only show the comment if the parent
+    // index of the comment matches that of the range.
     if (comment.parent && comment.side === PARENT) {
-      return isMergeParent(range.basePatchNum) &&
-        comment.parent === getParentIndex(range.basePatchNum);
+      return (
+        isMergeParent(range.basePatchNum) &&
+        comment.parent === getParentIndex(range.basePatchNum)
+      );
     }
 
     // If the base of the range is the parent of the patch:
-    if (range.basePatchNum === PARENT &&
+    if (
+      range.basePatchNum === PARENT &&
       comment.side === PARENT &&
-      patchNumEquals(comment.patch_set, range.patchNum)) {
+      patchNumEquals(comment.patch_set, range.patchNum)
+    ) {
       return true;
     }
     // If the base of the range is not the parent of the patch:
-    return range.basePatchNum !== PARENT &&
-        comment.side !== PARENT &&
-        patchNumEquals(comment.patch_set, range.basePatchNum);
+    return (
+      range.basePatchNum !== PARENT &&
+      comment.side !== PARENT &&
+      patchNumEquals(comment.patch_set, range.basePatchNum)
+    );
   }
 
   /**
    * Whether the given comment should be included in the revision side of the
    * given patch range.
    *
-   * @param {!Object} comment
-   * @param {!Gerrit.PatchRange} range
-   * @return {boolean}
+   * @param comment
+   * @param range
+   * @return
    */
-  _isInRevisionOfPatchRange(comment,
-      range) {
-    return comment.side !== PARENT &&
-      patchNumEquals(comment.patch_set, range.patchNum);
+  _isInRevisionOfPatchRange(comment, range) {
+    return (
+      comment.side !== PARENT &&
+      patchNumEquals(comment.patch_set, range.patchNum)
+    );
   }
 
   /**
    * Whether the given comment should be included in the given patch range.
    *
-   * @param {!Object} comment
-   * @param {!Gerrit.PatchRange} range
-   * @return {boolean|undefined}
+   * @param comment
+   * @param range
+   * @return
    */
   _isInPatchRange(comment, range) {
-    return this._isInBaseOfPatchRange(comment, range) ||
-      this._isInRevisionOfPatchRange(comment, range);
+    return (
+      this._isInBaseOfPatchRange(comment, range) ||
+      this._isInRevisionOfPatchRange(comment, range)
+    );
   }
 }
 
@@ -584,24 +651,23 @@ export const _testOnly_findCommentById = new ChangeComments().findCommentById;
 /**
  * @extends PolymerElement
  */
+@customElement('gr-comment-api')
 class GrCommentApi extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-comment-api'; }
-
-  static get properties() {
-    return {
-      _changeComments: Object,
-    };
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Object})
+  _changeComments?: unknown;
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('reload-drafts',
-        changeNum => this.reloadDrafts(changeNum));
+    this.addEventListener('reload-drafts', changeNum =>
+      this.reloadDrafts(changeNum)
+    );
   }
 
   /**
@@ -609,8 +675,8 @@ class GrCommentApi extends GestureEventListeners(
    * number. The returned promise resolves when the comments have loaded, but
    * does not yield the comment data.
    *
-   * @param {number} changeNum
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @return
    */
   loadAll(changeNum) {
     const promises = [];
@@ -619,8 +685,12 @@ class GrCommentApi extends GestureEventListeners(
     promises.push(this.$.restAPI.getDiffDrafts(changeNum));
 
     return Promise.all(promises).then(([comments, robotComments, drafts]) => {
-      this._changeComments = new ChangeComments(comments,
-          robotComments, drafts, changeNum);
+      this._changeComments = new ChangeComments(
+        comments,
+        robotComments,
+        drafts,
+        changeNum
+      );
       return this._changeComments;
     });
   }
@@ -630,19 +700,27 @@ class GrCommentApi extends GestureEventListeners(
    * uses the previous values for comments and robot comments, but fetches
    * updated draft comments.
    *
-   * @param {number} changeNum
-   * @return {!Promise<!Object>}
+   * @param changeNum
+   * @return
    */
   reloadDrafts(changeNum) {
     if (!this._changeComments) {
       return this.loadAll(changeNum);
     }
     return this.$.restAPI.getDiffDrafts(changeNum).then(drafts => {
-      this._changeComments = new ChangeComments(this._changeComments.comments,
-          this._changeComments.robotComments, drafts, changeNum);
+      this._changeComments = new ChangeComments(
+        this._changeComments.comments,
+        this._changeComments.robotComments,
+        drafts,
+        changeNum
+      );
       return this._changeComments;
     });
   }
 }
 
-customElements.define(GrCommentApi.is, GrCommentApi);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-comment-api': GrCommentApi;
+  }
+}

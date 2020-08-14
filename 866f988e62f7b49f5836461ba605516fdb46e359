@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20db17b8_a3dd6ab9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:20:54Z",
+      "side": 1,
+      "message": "Typescript style guide recommends to not use ! and add comments in each place where it is used (except some obvious case).\nFor example, in this case we can avoid ! by assigning some default value (like 10 or 20)",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71bfd98d_bb5d87ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:20:54Z",
+      "side": 1,
+      "message": "If filter is set and path is null or undefined, the url will be:\n\u0027undefined/q/filter:...\u0027 or \u0027null/q/filter\u0027\n\nIt is better to update condition and move it before filter:\nf(this.path \u003d\u003d\u003d undefined || this.path \u003d\u003d\u003d null) { // if(this.path) returns false if path is empty string\n    return;\n}\nif(filter) {\n ...\n}\n\n\nI am unsure what to do when this.path is empty string and filter is not set - either doesn\u0027t show new page or show root path.",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 24
+      },
+      "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7847629c_910e3030",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:20:54Z",
+      "side": 1,
+      "message": "nit: createNew? - the template passes createNew property, which is optional\nThe same for _hidePrevArrow/_hideNextArrow and loading",
+      "range": {
+        "startLine": 125,
+        "startChar": 22,
+        "endLine": 125,
+        "endChar": 31
+      },
+      "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

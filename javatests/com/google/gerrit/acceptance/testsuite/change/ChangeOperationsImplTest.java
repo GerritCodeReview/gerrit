@@ -362,6 +362,53 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void newPatchsetCanHaveUpdatedCommitMessage() throws Exception {
+    Change.Id changeId = changeOperations.newChange().commitMessage("Old message").create();
+
+    changeOperations.change(changeId).newPatchset().commitMessage("New message").create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    assertThat(currentPatchsetCommit).message().startsWith("New message");
+  }
+
+  @Test
+  public void updatedCommitMessageOfNewPatchsetAutomaticallyKeepsChangeId() throws Exception {
+    Change.Id numericChangeId = changeOperations.newChange().commitMessage("Old message").create();
+    String changeId = changeOperations.change(numericChangeId).get().changeId();
+
+    changeOperations.change(numericChangeId).newPatchset().commitMessage("New message").create();
+
+    ChangeInfo change = getChangeFromServer(numericChangeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    assertThat(currentPatchsetCommit).message().contains("Change-Id: " + changeId);
+  }
+
+  @Test
+  public void newPatchsetCanHaveDifferentChangeIdFooter() throws Exception {
+    Change.Id numericChangeId =
+        changeOperations
+            .newChange()
+            .commitMessage("Old message\n\nChange-Id: I1111111111111111111111111111111111111111")
+            .create();
+
+    changeOperations
+        .change(numericChangeId)
+        .newPatchset()
+        .commitMessage("New message\n\nChange-Id: I0123456789012345678901234567890123456789")
+        .create();
+
+    ChangeInfo change = getChangeFromServer(numericChangeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    assertThat(currentPatchsetCommit)
+        .message()
+        .contains("Change-Id: I0123456789012345678901234567890123456789");
+    // Actual change-id should not have been updated.
+    String changeId = changeOperations.change(numericChangeId).get().changeId();
+    assertThat(changeId).isEqualTo("I1111111111111111111111111111111111111111");
+  }
+
+  @Test
   public void newPatchsetCanHaveReplacedFileContent() throws Exception {
     Change.Id changeId = changeOperations.newChange().file("file1").content("Line 1").create();
 

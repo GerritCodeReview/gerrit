@@ -19,10 +19,13 @@ import com.google.common.collect.ImmutableList;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.edit.tree.TreeModification;
+import java.util.Optional;
 
 /** Initial attributes of the patchset. If not provided, arbitrary values will be used. */
 @AutoValue
 public abstract class TestPatchsetCreation {
+
+  public abstract Optional<String> commitMessage();
 
   public abstract ImmutableList<TreeModification> treeModifications();
 
@@ -35,6 +38,8 @@ public abstract class TestPatchsetCreation {
 
   @AutoValue.Builder
   public abstract static class Builder {
+
+    public abstract Builder commitMessage(String commitMessage);
 
     /** Modified file of the patchset. The file content is specified via the returned builder. */
     public FileContentBuilder<Builder> file(String filePath) {

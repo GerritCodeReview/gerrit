@@ -22,6 +22,30 @@
       "revId": "3a5d7ccff39b266fe8429184cbbbe2e12906d2bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b11ef03a_63674aec",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:31:53Z",
+      "side": 1,
+      "message": "If I remove it, I am getting following error:\n\npolygerrit-ui/app/utils/page-wrapper-utils.ts(28,28): error TS7015: Element implicitly has an \u0027any\u0027 type because index expression is not of type \u0027number\u0027.\n\nDo you have idea how to solve this?",
+      "parentUuid": "4b12017b_ee44042c",
+      "range": {
+        "startLine": 42,
+        "startChar": 4,
+        "endLine": 42,
+        "endChar": 16
+      },
+      "revId": "3a5d7ccff39b266fe8429184cbbbe2e12906d2bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

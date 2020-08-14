@@ -16,6 +16,41 @@
       "revId": "dfb3091bc4a6203acfd0fbfbfb0e9636faefb1ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52d82a69_c0a8d65a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-14T13:39:00Z",
+      "side": 1,
+      "message": "Thanks! Feedback would be much appreciated.\nI am also currently on a fix in Jetty, so that graceful shutdown will also work again for HTTP requests.",
+      "parentUuid": "5c3d0418_33b51880",
+      "revId": "dfb3091bc4a6203acfd0fbfbfb0e9636faefb1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a5eb27ee_e7e0c62a",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/SshDaemonIT.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-14T13:39:00Z",
+      "side": 1,
+      "message": "This and the print statement in line 67 should be removed or use Flogger.",
+      "revId": "dfb3091bc4a6203acfd0fbfbfb0e9636faefb1ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

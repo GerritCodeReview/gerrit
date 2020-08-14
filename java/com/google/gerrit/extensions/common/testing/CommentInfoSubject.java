@@ -27,6 +27,7 @@ import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.truth.ListSubject;
+import java.sql.Timestamp;
 import java.util.List;
 
 public class CommentInfoSubject extends Subject {
@@ -91,12 +92,24 @@ public class CommentInfoSubject extends Subject {
     return check("inReplyTo").that(commentInfo().inReplyTo);
   }
 
+  public StringSubject commitId() {
+    return check("commitId").that(commentInfo().commitId);
+  }
+
   public AccountInfoSubject author() {
     return check("author").about(accounts()).that(commentInfo().author);
   }
 
   public StringSubject tag() {
     return check("tag").that(commentInfo().tag);
+  }
+
+  public ComparableSubject<Timestamp> updated() {
+    return check("updated").that(commentInfo().updated);
+  }
+
+  public StringSubject changeMessageId() {
+    return check("changeMessageId").that(commentInfo().changeMessageId);
   }
 
   private CommentInfo commentInfo() {

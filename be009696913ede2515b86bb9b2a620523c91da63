@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "6d3abdd6_446ca9ed",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c12b687_3e33f726",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "87d2792e_70d33f2f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -89,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "bf746c32_35edb652",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Considering we get a popup of unresolved comments upon submitting, I think it\u0027s okay.",
+      "parentUuid": "84b2e14d_d46f13ea",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd7e0827_b3cf0ecf",
         "filename": "/COMMIT_MSG",
         "patchSetId": 4
@@ -136,6 +172,30 @@
     },
     {
       "key": {
+        "uuid": "8bac6260_50edd81f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "My brain skipped 3 words",
+      "parentUuid": "e7af9103_319fa17c",
+      "range": {
+        "startLine": 24,
+        "startChar": 15,
+        "endLine": 24,
+        "endChar": 24
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a74a4126_a838b54f",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4
@@ -156,6 +216,30 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f6051a7_02a48175",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a74a4126_a838b54f",
+      "range": {
+        "startLine": 85,
+        "startChar": 25,
+        "endLine": 85,
+        "endChar": 31
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -205,6 +289,54 @@
     },
     {
       "key": {
+        "uuid": "4efce546_445ed4b3",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4ee3d3e7_17ba6fd5",
+      "range": {
+        "startLine": 129,
+        "startChar": 42,
+        "endLine": 129,
+        "endChar": 43
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "058ac4f0_e2cc022e",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5553a4a7_7655ac40",
+      "range": {
+        "startLine": 129,
+        "startChar": 10,
+        "endLine": 129,
+        "endChar": 14
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "20b00662_d267accc",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4
@@ -225,6 +357,30 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b9404bd_80add044",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20b00662_d267accc",
+      "range": {
+        "startLine": 160,
+        "startChar": 35,
+        "endLine": 160,
+        "endChar": 38
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -251,6 +407,30 @@
     },
     {
       "key": {
+        "uuid": "94550cd5_12b122b1",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ba5bbd83_72b7e184",
+      "range": {
+        "startLine": 169,
+        "startChar": 12,
+        "endLine": 169,
+        "endChar": 16
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fce02f7_ca1dff12",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4
@@ -271,6 +451,30 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7dbecdf7_ebea276a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "This requires a transformation of CommentInput to HumanComment which I was trying to avoid - but done.",
+      "parentUuid": "0fce02f7_ca1dff12",
+      "range": {
+        "startLine": 170,
+        "startChar": 0,
+        "endLine": 172,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -297,6 +501,30 @@
     },
     {
       "key": {
+        "uuid": "dc86ffff_fa1017d6",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b555dfca_98f0c991",
+      "range": {
+        "startLine": 188,
+        "startChar": 24,
+        "endLine": 188,
+        "endChar": 25
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6e83eaa_2e18615d",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4
@@ -311,6 +539,24 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64c9e65f_2feeb2e4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "The idea was looping over all the comments only once instead of twice or more. As discussed, it\u0027s not as important.",
+      "parentUuid": "b6e83eaa_2e18615d",
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -334,6 +580,30 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "914a8e37_b2513c44",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "53542532_4efef907",
+      "range": {
+        "startLine": 196,
+        "startChar": 76,
+        "endLine": 196,
+        "endChar": 79
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -377,6 +647,30 @@
     },
     {
       "key": {
+        "uuid": "99064898_71c28408",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "CommentsUtil#newHumanComment is rejecting invalid parentUuids. This method is called when creating drafts and when creating actual comments, as far as I can see.\nGood enough?",
+      "parentUuid": "71c10ac7_7c861b87",
+      "range": {
+        "startLine": 212,
+        "startChar": 0,
+        "endLine": 214,
+        "endChar": 7
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fda5ca69_c4c77483",
         "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
         "patchSetId": 4
@@ -397,6 +691,30 @@
       "revId": "be009696913ede2515b86bb9b2a620523c91da63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9bacd0b3_d90ab0e6",
+        "filename": "java/com/google/gerrit/server/restapi/change/ReplyAttentionSetUpdates.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 222,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-14T09:33:21Z",
+      "side": 1,
+      "message": "Good point, done.",
+      "parentUuid": "fda5ca69_c4c77483",
+      "range": {
+        "startLine": 222,
+        "startChar": 8,
+        "endLine": 222,
+        "endChar": 52
+      },
+      "revId": "be009696913ede2515b86bb9b2a620523c91da63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

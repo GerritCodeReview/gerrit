@@ -22,6 +22,30 @@
       "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c5f325b_eebeb724",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T15:18:51Z",
+      "side": 0,
+      "message": "The only thing I can see is that _computeUsernameMutable is using _account.username.\nIf it is undefined/null the outcome should be the same.\nI can remove then the undefined check in _computeUsernameMutable for username.\nIt will result in the same behaviour as null/undefined check returns the same thing.\nShould I do it?",
+      "parentUuid": "2f8446b4_5252100b",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

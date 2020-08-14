@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f39513de_a67a0c49",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ebc0575a_468fc990",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 17
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "68cb55b8_a747b257",
         "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4203da7_cfb2edf8",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "68cb55b8_a747b257",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "3347c63e_3a887686",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:30:50Z",
+      "side": 1,
+      "message": "Oh, that\u0027s bug. Thanks!",
+      "parentUuid": "2e0b6503_f6d5ef25",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 0
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f05021ce_165fdf69",
         "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c19e19fe_0c85ca79",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:30:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f05021ce_165fdf69",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

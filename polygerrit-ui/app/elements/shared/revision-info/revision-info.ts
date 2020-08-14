@@ -15,67 +15,63 @@
  * limitations under the License.
  */
 
-import {patchNumEquals} from '../../../utils/patch-set-util.js';
+import {patchNumEquals} from '../../../utils/patch-set-util';
+import {ChangeInfo, PatchSetNum} from '../../../types/common';
 
-/**
- * @constructor
- * @param {Object} change A change object resulting from a change detail
- *     call that includes revision information.
- */
-export function RevisionInfo(change) {
-  this._change = change;
+export class RevisionInfo {
+  /**
+   * @constructor
+   * @param change A change object resulting from a change detail
+   *     call that includes revision information.
+   */
+  constructor(private change: ChangeInfo) {}
+
+  /**
+   * Get the largest number of parents of the commit in any revision. For
+   * example, with normal changes this will always return 1. For merge changes
+   * wherein the revisions are merge commits this will return 2 or potentially
+   * more.
+   */
+  getMaxParents() {
+    if (!this.change || !this.change.revisions) {
+      return 0;
+    }
+    return Object.values(this.change.revisions).reduce(
+      (acc, rev) => Math.max(!rev.commit ? 0 : rev.commit.parents.length, acc),
+      0
+    );
+  }
+
+  /**
+   * Get an object that maps revision numbers to the number of parents of the
+   * commit of that revision.
+   */
+  getParentCountMap() {
+    const result = {} as Record<number, any>;
+    if (!this.change || !this.change.revisions) {
+      return {};
+    }
+    Object.values(this.change.revisions).forEach(rev => {
+      if (rev.commit) result[rev._number as number] = rev.commit.parents.length;
+    });
+    return result;
+  }
+
+  getParentCount(patchNum: PatchSetNum) {
+    return this.getParentCountMap()[patchNum as number];
+  }
+
+  /**
+   * Get the commit ID of the (0-offset) indexed parent in the given revision
+   * number.
+   */
+
+  getParentId(patchNum: PatchSetNum, parentIndex: number) {
+    if (!this.change.revisions) return;
+    const rev = Object.values(this.change.revisions).find(rev =>
+      patchNumEquals(rev._number, patchNum)
+    );
+    if (!rev || !rev.commit) return;
+    return rev.commit.parents[parentIndex].commit;
+  }
 }
-
-/**
- * Get the largest number of parents of the commit in any revision. For
- * example, with normal changes this will always return 1. For merge changes
- * wherein the revisions are merge commits this will return 2 or potentially
- * more.
- *
- * @return {number}
- */
-RevisionInfo.prototype.getMaxParents = function() {
-  if (!this._change || !this._change.revisions) {
-    return 0;
-  }
-  return Object.values(this._change.revisions)
-      .reduce((acc, rev) => Math.max(rev.commit.parents.length, acc), 0);
-};
-
-/**
- * Get an object that maps revision numbers to the number of parents of the
- * commit of that revision.
- *
- * @return {!Object}
- */
-RevisionInfo.prototype.getParentCountMap = function() {
-  const result = {};
-  if (!this._change || !this._change.revisions) {
-    return {};
-  }
-  Object.values(this._change.revisions)
-      .forEach(rev => { result[rev._number] = rev.commit.parents.length; });
-  return result;
-};
-
-/**
- * @param {number|string} patchNum
- * @return {number}
- */
-RevisionInfo.prototype.getParentCount = function(patchNum) {
-  return this.getParentCountMap()[patchNum];
-};
-
-/**
- * Get the commit ID of the (0-offset) indexed parent in the given revision
- * number.
- *
- * @param {number|string} patchNum
- * @param {number} parentIndex (0-offset)
- * @return {string}
- */
-RevisionInfo.prototype.getParentId = function(patchNum, parentIndex) {
-  const rev = Object.values(this._change.revisions).find(rev =>
-    patchNumEquals(rev._number, patchNum));
-  return rev.commit.parents[parentIndex].commit;
-};

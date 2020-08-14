@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-import {AccountInfo} from '../types/common';
+import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
 import {AccountTag} from '../constants/constants';
 
 export function isServiceUser(account?: AccountInfo): boolean {
@@ -24,4 +24,24 @@ export function isServiceUser(account?: AccountInfo): boolean {
 
 export function removeServiceUsers(accounts?: AccountInfo[]): AccountInfo[] {
   return accounts?.filter(a => !isServiceUser(a)) || [];
+}
+
+export function isAttentionSetEnabled(config: ServerInfo): boolean {
+  return !!config?.change?.enable_attention_set;
+}
+
+export function canHaveAttention(account: AccountInfo): boolean {
+  return !!account && !isServiceUser(account);
+}
+
+export function hasAttention(
+  config: ServerInfo,
+  account: AccountInfo,
+  change: ChangeInfo
+): boolean {
+  return (
+    isAttentionSetEnabled(config) &&
+    canHaveAttention(account) &&
+    !!change?.attention_set?.hasOwnProperty(account._account_id)
+  );
 }

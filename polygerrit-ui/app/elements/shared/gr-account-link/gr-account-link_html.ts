@@ -40,6 +40,7 @@ export const htmlTemplate = html`
         highlight-attention="[[highlightAttention]]"
         hide-avatar="[[hideAvatar]]"
         hide-status="[[hideStatus]]"
+        first-name="[[firstName]]"
         voteable-text="[[voteableText]]"
       >
       </gr-account-label>

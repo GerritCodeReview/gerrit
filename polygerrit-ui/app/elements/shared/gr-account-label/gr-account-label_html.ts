@@ -23,10 +23,8 @@ export const htmlTemplate = html`
       vertical-align: top;
       position: relative;
       border-radius: var(--label-border-radius);
-      /* Setting this really high, so all the following rules don't change
-           anything, only if --account-max-length is actually set to something
-           smaller like 20ch. */
-      max-width: var(--account-max-length, 500px);
+      max-width: var(--account-max-length, 200px);
+      box-sizing: border-box;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
@@ -105,7 +103,7 @@ export const htmlTemplate = html`
       <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
     </template>
     <span class="text">
-      <span class="name">[[_computeName(account, _config)]]</span>
+      <span class="name">[[_computeName(account, _config, firstName)]]</span>
       <template is="dom-if" if="[[!hideStatus]]">
         <template is="dom-if" if="[[account.status]]">
           <iron-icon class="status" icon="gr-icons:calendar"></iron-icon>

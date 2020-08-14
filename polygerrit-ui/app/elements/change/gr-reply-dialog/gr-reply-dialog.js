@@ -902,7 +902,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
         .filter(id => !currentAttentionSet.has(id))
         .map(id => this._findAccountById(id))
         .filter(account => !!account)
-        .map(account => getDisplayName(config, account))
+        .map(account => getDisplayName(config, account, true))
         .sort();
     return addedNames.join(', ');
   }

@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import {AccountInfo, GroupInfo, ServerInfo} from '../types/common';
-import {DefaultDisplayNameConfig} from '../constants/constants';
 
 const ANONYMOUS_NAME = 'Anonymous';
 
@@ -42,27 +41,18 @@ export function getUserName(
 
 export function getDisplayName(
   config?: ServerInfo,
-  account?: AccountInfo
+  account?: AccountInfo,
+  firstNameOnly = false
 ): string {
   if (account && account.display_name) {
     return account.display_name;
   }
-  if (!account || !account.name || !config || !config.accounts) {
+  if (!account || !account.name) {
     return getUserName(config, account);
   }
-  if (
-    config.accounts.default_display_name ===
-      DefaultDisplayNameConfig.USERNAME &&
-    account.username
-  ) {
-    return account.username;
-  }
-  if (
-    config.accounts.default_display_name === DefaultDisplayNameConfig.FIRST_NAME
-  ) {
+  if (firstNameOnly) {
     return account.name.trim().split(' ')[0];
   }
-  // Treat every other value as FULL_NAME.
   return account.name;
 }
 

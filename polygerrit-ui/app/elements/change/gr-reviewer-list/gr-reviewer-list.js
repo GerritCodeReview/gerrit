@@ -23,6 +23,11 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-reviewer-list_html.js';
+import {
+  hasAttention,
+  isAttentionSetEnabled,
+  isServiceUser
+} from '../../../utils/account-util';
 
 /**
  * @extends PolymerElement
@@ -196,15 +201,17 @@ class GrReviewerList extends GestureEventListeners(
       }
     }
     this._reviewers = result
-        .filter(reviewer => reviewer._account_id != owner._account_id);
+        .filter(reviewer => reviewer._account_id != owner._account_id)
+        .sort((r1, r2) => {
+          const a1 = hasAttention(serverConfig, r1, this.change) ? 1 : 0;
+          const a2 = hasAttention(serverConfig, r2, this.change) ? 1 : 0;
+          const s1 = isServiceUser(r1) ? -2 : 0;
+          const s2 = isServiceUser(r2) ? -2 : 0;
+          return a2 - a1 + s2 - s1;
+        });
 
-    const isFirstNameConfigured = serverConfig.accounts
-        && serverConfig.accounts.default_display_name === 'FIRST_NAME';
-    const maxReviewers = isFirstNameConfigured ? 6 : 3;
-    // If there is one or two more than the max reviewers, don't show the
-    // 'show more' button, because it takes up just as much space.
-    if (this._reviewers.length > maxReviewers + 2) {
-      this._displayedReviewers = this._reviewers.slice(0, maxReviewers);
+    if (this._reviewers.length > 8) {
+      this._displayedReviewers = this._reviewers.slice(0, 6);
     } else {
       this._displayedReviewers = this._reviewers;
     }

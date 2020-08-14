@@ -261,7 +261,7 @@ class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
   _computeAdditionalReviewersTitle(change, config) {
     if (!change || !config) return '';
     return this._computeAdditionalReviewers(change)
-        .map(user => getDisplayName(config, user))
+        .map(user => getDisplayName(config, user, true))
         .join(', ');
   }
 

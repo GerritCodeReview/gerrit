@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-mode-selector.js';
+import {DiffViewMode} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-diff-mode-selector');
 
@@ -28,11 +29,14 @@ suite('gr-diff-mode-selector tests', () => {
   });
 
   test('_computeSelectedClass', () => {
-    assert.equal(
-        element._computeSelectedClass('SIDE_BY_SIDE', 'SIDE_BY_SIDE'),
+    assert.equal(element._computeSideBySideSelected(DiffViewMode.SIDE_BY_SIDE),
         'selected');
-    assert.equal(
-        element._computeSelectedClass('SIDE_BY_SIDE', 'UNIFIED_DIFF'), '');
+    assert.equal(element._computeSideBySideSelected(DiffViewMode.UNIFIED),
+        '');
+    assert.equal(element._computeUnifiedSelected(DiffViewMode.UNIFIED),
+        'selected');
+    assert.equal(element._computeUnifiedSelected(DiffViewMode.SIDE_BY_SIDE),
+        '');
   });
 
   test('setMode', () => {

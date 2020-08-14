@@ -14,72 +14,71 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-icon/iron-icon.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-diff-mode-selector_html.js';
+import '@polymer/iron-icon/iron-icon';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {DiffViewMode} from '../../../constants/constants';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-diff-mode-selector_html';
+import {customElement, property} from '@polymer/decorators';
 
-/** @extends PolymerElement */
-class GrDiffModeSelector extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrDiffModeSelector {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
 
-  static get is() { return 'gr-diff-mode-selector'; }
-
-  static get properties() {
-    return {
-      mode: {
-        type: String,
-        notify: true,
-      },
-
-      /**
-       * If set to true, the user's preference will be updated every time a
-       * button is tapped. Don't set to true if there is no user.
-       */
-      saveOnChange: {
-        type: Boolean,
-        value: false,
-      },
-
-      /** @type {?} */
-      _VIEW_MODES: {
-        type: Object,
-        readOnly: true,
-        value: {
-          SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-          UNIFIED: 'UNIFIED_DIFF',
-        },
-      },
-    };
+@customElement('gr-diff-mode-selector')
+export class GrDiffModeSelector extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: String, notify: true})
+  mode?: DiffViewMode;
+
+  /**
+   * If set to true, the user's preference will be updated every time a
+   * button is tapped. Don't set to true if there is no user.
+   */
+  @property({type: Boolean})
+  saveOnChange = false;
 
   /**
    * Set the mode. If save on change is enabled also update the preference.
    */
-  setMode(newMode) {
+  setMode(newMode: DiffViewMode) {
     if (this.saveOnChange && this.mode && this.mode !== newMode) {
       this.$.restAPI.savePreferences({diff_view: newMode});
     }
     this.mode = newMode;
   }
 
-  _computeSelectedClass(diffViewMode, buttonViewMode) {
-    return buttonViewMode === diffViewMode ? 'selected' : '';
+  _computeSideBySideSelected(mode: DiffViewMode) {
+    return mode === DiffViewMode.SIDE_BY_SIDE ? 'selected' : '';
+  }
+
+  _computeUnifiedSelected(mode: DiffViewMode) {
+    return mode === DiffViewMode.UNIFIED ? 'selected' : '';
   }
 
   _handleSideBySideTap() {
-    this.setMode(this._VIEW_MODES.SIDE_BY_SIDE);
+    this.setMode(DiffViewMode.SIDE_BY_SIDE);
   }
 
   _handleUnifiedTap() {
-    this.setMode(this._VIEW_MODES.UNIFIED);
+    this.setMode(DiffViewMode.UNIFIED);
   }
 }
 
-customElements.define(GrDiffModeSelector.is, GrDiffModeSelector);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-mode-selector': GrDiffModeSelector;
+  }
+}

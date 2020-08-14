@@ -27,6 +27,7 @@ import {
   GroupNameToGroupInfoMap,
   ParsedJSON,
   RequestPayload,
+  PreferencesInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -158,4 +159,6 @@ export interface RestApiService {
     opt_errFn?: Function,
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | null | undefined>;
+
+  savePreferences(prefs: PreferencesInput): Promise<Response>;
 }

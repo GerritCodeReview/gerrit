@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebc0575a_468fc990",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:29:37Z",
+      "side": 1,
+      "message": "Please define interface - _onDirectoryUpdated method pushes objects with two properties: section and shortcuts",
+      "range": {
+        "startLine": 53,
+        "startChar": 10,
+        "endLine": 53,
+        "endChar": 17
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68cb55b8_a747b257",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:29:37Z",
+      "side": 1,
+      "message": "Can you use this here?",
+      "range": {
+        "startLine": 65,
+        "startChar": 4,
+        "endLine": 65,
+        "endChar": 9
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e0b6503_f6d5ef25",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:29:37Z",
+      "side": 1,
+      "message": "Could you please explain a little bit, why this part is moved to constructor?\n\nThe detached method calls removeKeyboardShortcutDirectoryListener.\nI afraid that if dialog opens second time, the listener will not work as expected.",
+      "range": {
+        "startLine": 62,
+        "startChar": 4,
+        "endLine": 68,
+        "endChar": 0
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f05021ce_165fdf69",
+        "filename": "polygerrit-ui/app/elements/core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-14T10:29:37Z",
+      "side": 1,
+      "message": "Can you use this here?",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 9
+      },
+      "revId": "fae751050420f0358f0c8312c4f405a65be59e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

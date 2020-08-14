@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1041450_12df8682",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-14T06:41:50Z",
+      "side": 1,
+      "message": "I think we plan to add types for these in the future right ? maybe add a TODO(TS)",
+      "revId": "846c8a7a96c3be7b6a4c7a01052cd01c48780fc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

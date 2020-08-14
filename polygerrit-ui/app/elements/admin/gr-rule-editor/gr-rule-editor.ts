@@ -14,18 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-select/gr-select.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-rule-editor_html.js';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {AccessPermissions} from '../../../utils/access-util.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-select/gr-select';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-rule-editor_html';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
+import {AccessPermissions} from '../../../utils/access-util';
+import {property, customElement, observe} from '@polymer/decorators';
 
 /**
  * Fired when the rule has been modified or removed.
@@ -39,10 +40,7 @@ import {AccessPermissions} from '../../../utils/access-util.js';
  * @event added-rule-removed
  */
 
-const PRIORITY_OPTIONS = [
-  'BATCH',
-  'INTERACTIVE',
-];
+const PRIORITY_OPTIONS = ['BATCH', 'INTERACTIVE'];
 
 const Action = {
   ALLOW: 'ALLOW',
@@ -74,55 +72,78 @@ const FORCE_EDIT_OPTIONS = [
   },
 ];
 
-/**
- * @extends PolymerElement
- */
-class GrRuleEditor extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+interface Rule {
+  value: RuleValue;
+}
 
-  static get is() { return 'gr-rule-editor'; }
+interface RuleValue {
+  min?: number;
+  max?: number;
+  force?: boolean;
+  action?: string;
+  added?: boolean;
+  modified?: boolean;
+  deleted?: boolean;
+}
 
-  static get properties() {
-    return {
-      hasRange: Boolean,
-      /** @type {?} */
-      label: Object,
-      editing: {
-        type: Boolean,
-        value: false,
-        observer: '_handleEditingChanged',
-      },
-      groupId: String,
-      groupName: String,
-      permission: String,
-      /** @type {?} */
-      rule: {
-        type: Object,
-        notify: true,
-      },
-      section: String,
+interface RuleLabel {
+  values: RuleLabelValue[];
+}
 
-      _deleted: {
-        type: Boolean,
-        value: false,
-      },
-      _originalRuleValues: Object,
-    };
+interface RuleLabelValue {
+  value: number;
+  text: string;
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-rule-editor': GrRuleEditor;
+  }
+}
+
+@customElement('gr-rule-editor')
+export class GrRuleEditor extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_handleValueChange(rule.value.*)',
-    ];
-  }
+  @property({type: Boolean})
+  hasRange?: boolean;
+
+  @property({type: Object})
+  label?: RuleLabel;
+
+  @property({type: Boolean, observer: '_handleEditingChanged'})
+  editing = false;
+
+  @property({type: String})
+  groupId?: string;
+
+  @property({type: String})
+  groupName?: string;
+
+  // This is required value for this component
+  @property({type: String})
+  permission!: string;
+
+  @property({type: Object, notify: true})
+  rule?: Rule;
+
+  @property({type: String})
+  section?: string;
+
+  @property({type: Boolean})
+  _deleted = false;
+
+  @property({type: Object})
+  _originalRuleValues?: RuleValue;
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('access-saved',
-        () => this._handleAccessSaved());
+    this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 
   /** @override */
@@ -130,15 +151,17 @@ class GrRuleEditor extends GestureEventListeners(
     super.ready();
     // Called on ready rather than the observer because when new rules are
     // added, the observer is triggered prior to being ready.
-    if (!this.rule) { return; } // Check needed for test purposes.
+    if (!this.rule) {
+      return;
+    } // Check needed for test purposes.
     this._setupValues(this.rule);
   }
 
   /** @override */
   attached() {
     super.attached();
-    if (!this.rule) { return; } // Check needed for test purposes.
-    if (!this._originalRuleValues) {
+    // Check needed for test purposes.
+    if (!this._originalRuleValues && this.rule) {
       // Observer _handleValueChange is called after the ready()
       // method finishes. Original values must be set later to
       // avoid set .modified flag to true
@@ -146,45 +169,47 @@ class GrRuleEditor extends GestureEventListeners(
     }
   }
 
-  _setupValues(rule) {
+  _setupValues(rule: Rule) {
     if (!rule.value) {
       this._setDefaultRuleValues();
     }
   }
 
-  _computeForce(permission, action) {
-    if (AccessPermissions.push.id === permission &&
-        action !== Action.DENY) {
+  _computeForce(permission: string, action: string) {
+    if (AccessPermissions.push.id === permission && action !== Action.DENY) {
       return true;
     }
 
     return AccessPermissions.editTopicName.id === permission;
   }
 
-  _computeForceClass(permission, action) {
+  _computeForceClass(permission: string, action: string) {
     return this._computeForce(permission, action) ? 'force' : '';
   }
 
-  _computeGroupPath(group) {
+  _computeGroupPath(group: string) {
     return `${getBaseUrl()}/admin/groups/${encodeURL(group, true)}`;
   }
 
   _handleAccessSaved() {
+    if (!this.rule) return;
     // Set a new 'original' value to keep track of after the value has been
     // saved.
     this._setOriginalRuleValues(this.rule.value);
   }
 
-  _handleEditingChanged(editing, editingOld) {
+  _handleEditingChanged(editing: boolean, editingOld: boolean) {
     // Ignore when editing gets set initially.
-    if (!editingOld) { return; }
+    if (!editingOld) {
+      return;
+    }
     // Restore original values if no longer editing.
     if (!editing) {
       this._handleUndoChange();
     }
   }
 
-  _computeSectionClass(editing, deleted) {
+  _computeSectionClass(editing: boolean, deleted: boolean) {
     const classList = [];
     if (editing) {
       classList.push('editing');
@@ -195,7 +220,7 @@ class GrRuleEditor extends GestureEventListeners(
     return classList.join(' ');
   }
 
-  _computeForceOptions(permission, action) {
+  _computeForceOptions(permission: string, action: string) {
     if (permission === AccessPermissions.push.id) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;
@@ -210,9 +235,9 @@ class GrRuleEditor extends GestureEventListeners(
     return [];
   }
 
-  _getDefaultRuleValues(permission, label) {
+  _getDefaultRuleValues(permission: string, label?: RuleLabel) {
     const ruleAction = Action.ALLOW;
-    const value = {};
+    const value: RuleValue = {};
     if (permission === 'priority') {
       value.action = PRIORITY_OPTIONS[0];
       return value;
@@ -220,19 +245,20 @@ class GrRuleEditor extends GestureEventListeners(
       value.min = label.values[0].value;
       value.max = label.values[label.values.length - 1].value;
     } else if (this._computeForce(permission, ruleAction)) {
-      value.force =
-          this._computeForceOptions(permission, ruleAction)[0].value;
+      value.force = this._computeForceOptions(permission, ruleAction)[0].value;
     }
     value.action = DROPDOWN_OPTIONS[0];
     return value;
   }
 
   _setDefaultRuleValues() {
-    this.set('rule.value', this._getDefaultRuleValues(this.permission,
-        this.label));
+    this.set(
+      'rule.value',
+      this._getDefaultRuleValues(this.permission, this.label)
+    );
   }
 
-  _computeOptions(permission) {
+  _computeOptions(permission: string) {
     if (permission === 'priority') {
       return PRIORITY_OPTIONS;
     }
@@ -240,42 +266,51 @@ class GrRuleEditor extends GestureEventListeners(
   }
 
   _handleRemoveRule() {
+    if (!this.rule) return;
     if (this.rule.value.added) {
-      this.dispatchEvent(new CustomEvent(
-          'added-rule-removed', {bubbles: true, composed: true}));
+      this.dispatchEvent(
+        new CustomEvent('added-rule-removed', {bubbles: true, composed: true})
+      );
     }
     this._deleted = true;
     this.rule.value.deleted = true;
     this.dispatchEvent(
-        new CustomEvent('access-modified', {bubbles: true, composed: true}));
+      new CustomEvent('access-modified', {bubbles: true, composed: true})
+    );
   }
 
   _handleUndoRemove() {
+    if (!this.rule) return;
     this._deleted = false;
     delete this.rule.value.deleted;
   }
 
   _handleUndoChange() {
+    if (!this.rule) return;
     // gr-permission will take care of removing rules that were added but
     // unsaved. We need to keep the added bit for the filter.
-    if (this.rule.value.added) { return; }
+    if (this.rule.value.added) {
+      return;
+    }
     this.set('rule.value', {...this._originalRuleValues});
     this._deleted = false;
     delete this.rule.value.deleted;
     delete this.rule.value.modified;
   }
 
+  @observe('rule.value.*')
   _handleValueChange() {
-    if (!this._originalRuleValues) { return; }
+    if (!this._originalRuleValues || !this.rule) {
+      return;
+    }
     this.rule.value.modified = true;
     // Allows overall access page to know a change has been made.
     this.dispatchEvent(
-        new CustomEvent('access-modified', {bubbles: true, composed: true}));
+      new CustomEvent('access-modified', {bubbles: true, composed: true})
+    );
   }
 
-  _setOriginalRuleValues(value) {
+  _setOriginalRuleValues(value: RuleValue) {
     this._originalRuleValues = {...value};
   }
 }
-
-customElements.define(GrRuleEditor.is, GrRuleEditor);

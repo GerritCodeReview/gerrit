@@ -34,3 +34,15 @@ export enum CoverageType {
    */
   NOT_INSTRUMENTED = 'NOT_INSTRUMENTED',
 }
+
+/**
+ * If Polymer would have exported DomApiNative from its dom.js utility, then we
+ * would probably not need this type. We just use it for casting the return
+ * value of dom(element).
+ */
+export interface PolymerDomWrapper {
+  getOwnerRoot(): Node & OwnerRoot;
+}
+export interface OwnerRoot {
+  host?: HTMLElement;
+}

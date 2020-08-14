@@ -37,7 +37,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment_html.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {getRootElement} from '../../../scripts/rootElement.js';
-import {getDisplayName} from '../../../utils/display-name-util.js';
 import {appContext} from '../../../services/app-context.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
@@ -222,7 +221,6 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
         type: Boolean,
         value: false,
       },
-      _serverConfig: Object,
       _unableToSave: {
         type: Boolean,
         value: false,
@@ -267,9 +265,6 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     }
     this._getIsAdmin().then(isAdmin => {
       this._isAdmin = isAdmin;
-    });
-    this.$.restAPI.getConfig().then(cfg => {
-      this._serverConfig = cfg;
     });
   }
 
@@ -874,17 +869,6 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
   _openOverlay(overlay) {
     dom(getRootElement()).appendChild(overlay);
     return overlay.open();
-  }
-
-  _computeAuthorName(comment, serverConfig) {
-    if ([comment, serverConfig].includes(undefined)) return '';
-    if (comment.robot_id) {
-      return comment.robot_id;
-    }
-    if (comment.author) {
-      return getDisplayName(serverConfig, comment.author);
-    }
-    return '';
   }
 
   _computeHideRunDetails(comment, collapsed) {

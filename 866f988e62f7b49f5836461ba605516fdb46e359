@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "7e1a7428_d4ae0378",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "20db17b8_a3dd6ab9",
+      "range": {
+        "startLine": 52,
+        "startChar": 14,
+        "endLine": 52,
+        "endChar": 15
+      },
+      "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "71bfd98d_bb5d87ab",
         "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "38016969_d817ae74",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71bfd98d_bb5d87ab",
+      "range": {
+        "startLine": 88,
+        "startChar": 8,
+        "endLine": 88,
+        "endChar": 24
+      },
+      "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7847629c_910e3030",
         "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1f4081e_3ceb915e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-list-view/gr-list-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-14T11:01:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7847629c_910e3030",
+      "range": {
+        "startLine": 125,
+        "startChar": 22,
+        "endLine": 125,
+        "endChar": 31
+      },
+      "revId": "866f988e62f7b49f5836461ba605516fdb46e359",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

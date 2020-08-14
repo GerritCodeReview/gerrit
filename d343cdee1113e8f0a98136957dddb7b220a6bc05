@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "be1224eb_498780e8",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 45,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:21:38Z",
+      "side": 1,
+      "message": "The return type was AccountDetailInfo.\nUpdated.",
+      "parentUuid": "d75fc576_d80ac005",
+      "range": {
+        "startLine": 45,
+        "startChar": 10,
+        "endLine": 45,
+        "endChar": 17
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1bd5eeec_a0329157",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c347403d_f4514dfb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:21:38Z",
+      "side": 1,
+      "message": "To define a computed property with more complex dependency expressions for which you may want to receive change values as arguments (e.g. sub-properties, splices, wildcards, etc.), or to set additional property options, define a standard property and set its computed option.\n\nFrom the same docs. This is a sub-property change (_account.username) hence I used this.",
+      "parentUuid": "1bd5eeec_a0329157",
+      "range": {
+        "startLine": 85,
+        "startChar": 2,
+        "endLine": 85,
+        "endChar": 13
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ad7041fd_a8232f99",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f430effb_4bbd25f3",
+      "range": {
+        "startLine": 100,
+        "startChar": 13,
+        "endLine": 100,
+        "endChar": 22
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "14e56fc8_2da515da",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
         "patchSetId": 4
@@ -91,6 +163,30 @@
       "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "335f92dc_15240249",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "14e56fc8_2da515da",
+      "range": {
+        "startLine": 103,
+        "startChar": 11,
+        "endLine": 103,
+        "endChar": 12
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "e4ade479_0bfe7106",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:21:38Z",
+      "side": 1,
+      "message": "removed",
+      "parentUuid": "f96f4179_a9ebb89a",
+      "range": {
+        "startLine": 112,
+        "startChar": 6,
+        "endLine": 112,
+        "endChar": 24
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f235c32_f0f72c3d",
         "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
         "patchSetId": 4
@@ -137,6 +257,30 @@
       "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8bcfa049_e20b23e3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-14T09:21:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f235c32_f0f72c3d",
+      "range": {
+        "startLine": 151,
+        "startChar": 25,
+        "endLine": 151,
+        "endChar": 45
+      },
+      "revId": "d343cdee1113e8f0a98136957dddb7b220a6bc05",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

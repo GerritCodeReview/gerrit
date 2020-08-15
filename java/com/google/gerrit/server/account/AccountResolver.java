@@ -445,6 +445,9 @@ public class AccountResolver {
     }
   }
 
+  private final ImmutableList<Searcher<?>> nameOrEmailExactSearchers =
+      ImmutableList.of(new ByUsername(), new ByEmail(), new ByFullName());
+
   private final ImmutableList<Searcher<?>> nameOrEmailSearchers =
       ImmutableList.of(
           new ByNameAndEmail(),
@@ -565,6 +568,22 @@ public class AccountResolver {
   public Result resolveByNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
         input, nameOrEmailSearchers, visibilitySupplierCanSee(), accountActivityPredicate());
+  }
+
+  /**
+   * Same as {@link #resolveByNameOrEmail(String)}, but with exact matching for the full name, email
+   * and full name.
+   *
+   * @param input input string.
+   * @return a result describing matching accounts. Never null even if the result set is empty.
+   * @throws ConfigInvalidException if an error occurs.
+   * @throws IOException if an error occurs.
+   * @deprecated for use only by MailUtil for parsing commit footers; that class needs to be
+   *     reevaluated.
+   */
+  public Result resolveByNameOrEmailExact(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input, nameOrEmailExactSearchers, visibilitySupplierCanSee(), accountActivityPredicate());
   }
 
   private Supplier<Predicate<AccountState>> visibilitySupplierCanSee() {

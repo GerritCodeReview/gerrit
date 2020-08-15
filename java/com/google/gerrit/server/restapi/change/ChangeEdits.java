@@ -307,7 +307,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
         EditMessage.Input editCommitMessageInput = new EditMessage.Input();
         editCommitMessageInput.message =
             new String(ByteStreams.toByteArray(newContent.getInputStream()), UTF_8);
-        return Response.ok(editMessage.apply(rsrc, editCommitMessageInput));
+        return editMessage.apply(rsrc, editCommitMessageInput);
       }
       if (Strings.isNullOrEmpty(path) || path.charAt(0) == '/') {
         throw new ResourceConflictException("Invalid path: " + path);
@@ -449,7 +449,7 @@ public class ChangeEdits implements ChildCollection<ChangeResource, ChangeEditRe
     }
 
     @Override
-    public Object apply(ChangeResource rsrc, Input input)
+    public Response<?> apply(ChangeResource rsrc, Input input)
         throws AuthException, IOException, BadRequestException, ResourceConflictException,
             OrmException, PermissionBackendException {
       if (input == null || Strings.isNullOrEmpty(input.message)) {

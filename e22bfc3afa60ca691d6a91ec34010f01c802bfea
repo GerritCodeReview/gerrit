@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ce711d75_b5b1ce93",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-08-15T06:43:25Z",
+      "side": 1,
+      "message": "This is wrong conflict resolution during the cherry-pick. In original change this line was:\n\n  return editMessage.apply(rsrc, editCommitMessageInput);\n\nWhen Response.None() is embedded in Response.ok(), then the reference comparison with: Response.none() doesn\u0027t work as any more and thus wrong code path is activated in RestApiServlet\n\n  if (result !\u003d Response.none()) {\n          result \u003d Response.unwrap(result);\n          if (result instanceof BinaryResult) {\n            responseBytes \u003d replyBinaryResult(req, res, (BinaryResult) result);\n          } else {\n            responseBytes \u003d replyJson(req, res, false, qp.config(), result);\n          }\n        }\n\nAs the consequence, UnsupportedOperationException is thrown from Response.unwrap() method, see error report in [1].\n\n[1] https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d11706#c12",
+      "range": {
+        "startLine": 310,
+        "startChar": 15,
+        "endLine": 310,
+        "endChar": 76
+      },
+      "revId": "e22bfc3afa60ca691d6a91ec34010f01c802bfea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

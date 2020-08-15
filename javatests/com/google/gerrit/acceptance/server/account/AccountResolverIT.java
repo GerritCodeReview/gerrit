@@ -171,6 +171,33 @@ public class AccountResolverIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void byUserNameOrFullNameOrEmailExact() throws Exception {
+    String userName = "UserFoo";
+    String fullName = "Name Foo";
+    String email = "emailfoo@something.com";
+    Account.Id id =
+        accountOperations
+            .newAccount()
+            .username(userName)
+            .fullname(fullName)
+            .preferredEmail(email)
+            .create();
+
+    // resolver returns results for exact matches
+    assertThat(resolveByExactNameOrEmail(userName)).containsExactly(id);
+    assertThat(resolveByExactNameOrEmail(fullName)).containsExactly(id);
+    assertThat(resolveByExactNameOrEmail(email)).containsExactly(id);
+
+    // resolver does not match with prefixes
+    assertThat(resolveByExactNameOrEmail("UserF")).isEmpty();
+    assertThat(resolveByExactNameOrEmail("Name F")).isEmpty();
+    assertThat(resolveByExactNameOrEmail("emailf")).isEmpty();
+
+    /* The default name/email resolver accepts prefix matches */
+    assertThat(resolveByNameOrEmail("emai")).containsExactly(id);
+  }
+
+  @Test
   public void byNameAndEmailPrefersAccountsWithMatchingFullName() throws Exception {
     String email = name("user@example.com");
     Account.Id id1 = accountOperations.newAccount().fullname("Aaa Bbb").create();
@@ -332,6 +359,11 @@ public class AccountResolverIT extends AbstractDaemonTest {
   @SuppressWarnings("deprecation")
   private ImmutableSet<Account.Id> resolveByNameOrEmail(Object input) throws Exception {
     return accountResolver.resolveByNameOrEmail(input.toString()).asIdSet();
+  }
+
+  @SuppressWarnings("deprecation")
+  private ImmutableSet<Account.Id> resolveByExactNameOrEmail(Object input) throws Exception {
+    return accountResolver.resolveByExactNameOrEmail(input.toString()).asIdSet();
   }
 
   private void setPreferredEmailBypassingUniquenessCheck(Account.Id id, String email)

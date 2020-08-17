@@ -801,15 +801,17 @@ export interface EntriesInfo {
 /**
  * The GerritInfo entity contains information about Gerrit configuration from
  * the gerrit section.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#gerrit-info
  */
 export interface GerritInfo {
-  all_projects_name: string;
-  all_users_name: string;
+  all_projects: string; // Doc contains incorrect name
+  all_users: string; // Doc contains incorrect name
   doc_search: string;
   doc_url?: string;
   edit_gpg_keys: boolean;
   report_bug_url?: string;
+  // The following property is missed in doc
+  primary_weblink_name?: string;
 }
 
 /**

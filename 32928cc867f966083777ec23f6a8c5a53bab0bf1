@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "701a3ec7_02bd39b5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-17T09:05:19Z",
+      "side": 1,
+      "message": "In principle I am fine with that, but I would suggest to at least also submit the direct follow-up change as well. Otherwise, people trying this option and using stream-events would end up in long shutdown times.",
+      "parentUuid": "3a2f0859_1c33d0cd",
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "10366f41_3b62149d",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8
@@ -148,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "f5fcb9c6_c35ba1e1",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-17T09:05:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10366f41_3b62149d",
+      "range": {
+        "startLine": 350,
+        "startChar": 54,
+        "endLine": 350,
+        "endChar": 72
+      },
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8a5bcad6_17d713c4",
         "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
         "patchSetId": 8
@@ -159,6 +201,30 @@
       "writtenOn": "2020-08-10T10:53:23Z",
       "side": 1,
       "message": "nit: what about showing the sessions failed to be closed after the timeout?",
+      "range": {
+        "startLine": 380,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 0
+      },
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "365382bf_c4d16c85",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-08-17T09:05:19Z",
+      "side": 1,
+      "message": "The added code does not close the sessions itself. This is done as before by closing the daemonAcceptor. I am not sure, whether there could be a state, where the session then fails to close. However, I would anyway do that in a separate change then.",
+      "parentUuid": "8a5bcad6_17d713c4",
       "range": {
         "startLine": 380,
         "startChar": 0,

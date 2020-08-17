@@ -56,6 +56,7 @@ security.polymer_resin.install({
 class GrApp extends GestureEventListeners(
     LegacyElementMixin(
         PolymerElement)) {
+  // Remove the gr-app-interface.ts file when converting gr-app.js to ts
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-app'; }

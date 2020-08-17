@@ -70,6 +70,30 @@
       "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8d1d170_40eb17bb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T11:02:05Z",
+      "side": 0,
+      "message": "\"I can remove then the undefined check in _computeUsernameMutable for username.\"\n\nIf I remove the undefined check for _account.username then it should be the same outcome.\nRight now with the check the answer will be different.",
+      "parentUuid": "d859bf9b_10326f1f",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "c18ceda2_9deb782a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T12:40:36Z",
+      "side": 1,
+      "message": "CI should be fixed after rebase.",
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e66089a_bf53129d",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
         "patchSetId": 2

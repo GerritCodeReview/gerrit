@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "433248f1_5cb5e5e3",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T13:15:09Z",
+      "side": 1,
+      "message": "It is better to use contributorAgreements.some(..) or explicit for(...) instead of forEach.\nforEach doesn\u0027t stop when the item is found and makes code harder to read.",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 0
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66ddb641_83d165eb",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T13:15:09Z",
+      "side": 1,
+      "message": "Please add a description and a link to the doc",
+      "range": {
+        "startLine": 143,
+        "startChar": 17,
+        "endLine": 143,
+        "endChar": 42
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c9a0749_ed0da962",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T13:15:09Z",
+      "side": 1,
+      "message": "Move both interfaces (ContributorAgreementInput and ContributorAgreementInfo) below the DetailedLabelInfo interface or at the end of file.\n\nLabelInfo, LabelCommonInfo, QuickLabelInfo and DetailedLabelInfo together define LabelInfo type.",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 44
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70002313_e8837aaf",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T13:15:09Z",
+      "side": 1,
+      "message": "Please add a description and a link to the doc",
+      "range": {
+        "startLine": 147,
+        "startChar": 17,
+        "endLine": 147,
+        "endChar": 41
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

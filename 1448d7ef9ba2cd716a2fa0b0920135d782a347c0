@@ -62,6 +62,29 @@
       "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01fb248f_7663546e",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T19:33:39Z",
+      "side": 1,
+      "message": "Ah, I commented in the previous change that it is unused, but you\u0027re using it here :-)\n\nNit: You can just use \"user\" and \"admin\". They are TestAccount entities in AbstractDaemonTest (the default is \"admin\"). Also, if you need a new account (other than those 2), you can use accountCreator (which is already injected in AbstractDaemonTest).",
+      "range": {
+        "startLine": 304,
+        "startChar": 27,
+        "endLine": 304,
+        "endChar": 44
+      },
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

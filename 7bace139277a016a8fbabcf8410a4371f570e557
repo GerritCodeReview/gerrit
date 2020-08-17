@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "2cdfdd07_b8c8dd6f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-17T15:16:07Z",
+      "side": 1,
+      "message": "Thanks, Davido, for the fix.",
+      "revId": "7bace139277a016a8fbabcf8410a4371f570e557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8c4db2ac_e77086b9",
         "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
         "patchSetId": 1

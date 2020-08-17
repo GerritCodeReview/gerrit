@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "758f8b88_5371fdb7",
+        "filename": "polygerrit-ui/app/elements/settings/gr-cla-view/gr-cla-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "433248f1_5cb5e5e3",
+      "range": {
+        "startLine": 214,
+        "startChar": 0,
+        "endLine": 224,
+        "endChar": 0
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "66ddb641_83d165eb",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 3
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "19ba6f71_4a29baa7",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c9a0749_ed0da962",
+      "range": {
+        "startLine": 143,
+        "startChar": 0,
+        "endLine": 143,
+        "endChar": 44
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bff2d11b_d5f78761",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66ddb641_83d165eb",
+      "range": {
+        "startLine": 143,
+        "startChar": 17,
+        "endLine": 143,
+        "endChar": 42
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70002313_e8837aaf",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 3
@@ -91,6 +163,30 @@
       "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "52f1cab1_3ffe96b8",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T15:47:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70002313_e8837aaf",
+      "range": {
+        "startLine": 147,
+        "startChar": 17,
+        "endLine": 147,
+        "endChar": 41
+      },
+      "revId": "422ad4adcfa5ec6cea69cace2a3f20e020093a62",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

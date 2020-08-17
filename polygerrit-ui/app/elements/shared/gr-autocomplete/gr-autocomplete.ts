@@ -14,30 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/paper-input/paper-input.js';
-import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown.js';
-import '../gr-cursor-manager/gr-cursor-manager.js';
-import '../gr-icons/gr-icons.js';
-import '../../../styles/shared-styles.js';
-import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-autocomplete_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '@polymer/paper-input/paper-input';
+import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import '../gr-cursor-manager/gr-cursor-manager';
+import '../gr-icons/gr-icons';
+import '../../../styles/shared-styles';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-autocomplete_html';
+import {
+  KeyboardShortcutMixin,
+  CustomKeyboardEvent,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {property, customElement, observe} from '@polymer/decorators';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
+import {EventWithPath} from '../../plugins/gr-event-helper/gr-event-helper';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
 
-/**
- * @extends PolymerElement
- */
-class GrAutocomplete extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+export interface GrAutocomplete {
+  $: {
+    input: PaperInputElement;
+    suggestions: GrAutocompleteDropdown;
+    cursor: GrCursorManager;
+  };
+}
 
-  static get is() { return 'gr-autocomplete'; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-autocomplete': GrAutocomplete;
+  }
+}
+
+interface Suggestion {
+  name: string;
+  label?: string;
+  value?: string;
+  text?: string;
+}
+@customElement('gr-autocomplete')
+export class GrAutocomplete extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
   /**
    * Fired when a value is chosen.
    *
@@ -57,154 +83,117 @@ class GrAutocomplete extends KeyboardShortcutMixin(
    * @event input-keydown
    */
 
-  static get properties() {
-    return {
+  /**
+   * Query for requesting autocomplete suggestions. The function should
+   * accept the input as a string parameter and return a promise. The
+   * promise yields an array of suggestion objects with "name", "label",
+   * "value" properties. The "name" property will be displayed in the
+   * suggestion entry. The "label" property will, when specified, appear
+   * next to the "name" as label text. The "value" property will be emitted
+   * if that suggestion is selected.
+   *
+   */
+  @property({type: Object})
+  query: (_text?: string) => Promise<Suggestion[]> = () => Promise.resolve([]);
 
-      /**
-       * Query for requesting autocomplete suggestions. The function should
-       * accept the input as a string parameter and return a promise. The
-       * promise yields an array of suggestion objects with "name", "label",
-       * "value" properties. The "name" property will be displayed in the
-       * suggestion entry. The "label" property will, when specified, appear
-       * next to the "name" as label text. The "value" property will be emitted
-       * if that suggestion is selected.
-       *
-       * @type {function(string): Promise<?>}
-       */
-      query: {
-        type: Function,
-        value() {
-          return function() {
-            return Promise.resolve([]);
-          };
-        },
-      },
+  /**
+   * The number of characters that must be typed before suggestions are
+   * made. If threshold is zero, default suggestions are enabled.
+   */
+  @property({type: Number})
+  threshold = 1;
 
-      /**
-       * The number of characters that must be typed before suggestions are
-       * made. If threshold is zero, default suggestions are enabled.
-       */
-      threshold: {
-        type: Number,
-        value: 1,
-      },
+  @property({type: Boolean})
+  allowNonSuggestedValues = false;
 
-      allowNonSuggestedValues: Boolean,
-      borderless: Boolean,
-      disabled: Boolean,
-      showSearchIcon: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * Vertical offset needed for an element with 20px line-height, 4px
-       * padding and 1px border (30px height total). Plus 1px spacing between
-       * input and dropdown. Inputs with different line-height or padding will
-       * need to tweak vertical offset.
-       */
-      verticalOffset: {
-        type: Number,
-        value: 31,
-      },
+  @property({type: Boolean})
+  borderless = false;
 
-      text: {
-        type: String,
-        value: '',
-        notify: true,
-      },
+  @property({type: Boolean})
+  disabled = false;
 
-      placeholder: String,
+  @property({type: Boolean})
+  showSearchIcon = false;
 
-      clearOnCommit: {
-        type: Boolean,
-        value: false,
-      },
+  /**
+   * Vertical offset needed for an element with 20px line-height, 4px
+   * padding and 1px border (30px height total). Plus 1px spacing between
+   * input and dropdown. Inputs with different line-height or padding will
+   * need to tweak vertical offset.
+   */
+  @property({type: Number})
+  verticalOffset = 31;
 
-      /**
-       * When true, tab key autocompletes but does not fire the commit event.
-       * When false, tab key not caught, and focus is removed from the element.
-       * See Issue 4556, Issue 6645.
-       */
-      tabComplete: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: String, notify: true})
+  text = '';
 
-      value: {
-        type: String,
-        notify: true,
-      },
+  @property({type: String})
+  placeholder = '';
 
-      /**
-       * Multi mode appends autocompleted entries to the value.
-       * If false, autocompleted entries replace value.
-       */
-      multi: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: Boolean})
+  clearOnCommit = false;
 
-      /**
-       * When true and uncommitted text is left in the autocomplete input after
-       * blurring, the text will appear red.
-       */
-      warnUncommitted: {
-        type: Boolean,
-        value: false,
-      },
+  /**
+   * When true, tab key autocompletes but does not fire the commit event.
+   * When false, tab key not caught, and focus is removed from the element.
+   * See Issue 4556, Issue 6645.
+   */
+  @property({type: Boolean})
+  tabComplete = false;
 
-      /**
-       * When true, querying for suggestions is not debounced w/r/t keypresses
-       */
-      noDebounce: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: String, notify: true})
+  value = '';
 
-      /** @type {?} */
-      _suggestions: {
-        type: Array,
-        value() { return []; },
-      },
+  /**
+   * Multi mode appends autocompleted entries to the value.
+   * If false, autocompleted entries replace value.
+   */
+  @property({type: Boolean})
+  multi = false;
 
-      _suggestionEls: {
-        type: Array,
-        value() { return []; },
-      },
+  /**
+   * When true and uncommitted text is left in the autocomplete input after
+   * blurring, the text will appear red.
+   */
+  @property({type: Boolean})
+  warnUncommitted = false;
 
-      _index: Number,
-      _disableSuggestions: {
-        type: Boolean,
-        value: false,
-      },
-      _focused: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * Invisible label for input element. This label is exposed to
-       * screen readers by paper-input
-       */
-      label: {
-        type: String,
-        value: '',
-      },
+  /**
+   * When true, querying for suggestions is not debounced w/r/t keypresses
+   */
+  @property({type: Boolean})
+  noDebounce = false;
 
-      /** The DOM element of the selected suggestion. */
-      _selected: Object,
-    };
-  }
+  @property({type: Array})
+  _suggestions: Suggestion[] = [];
 
-  static get observers() {
-    return [
-      '_maybeOpenDropdown(_suggestions, _focused)',
-      '_updateSuggestions(text, threshold, noDebounce)',
-    ];
-  }
+  @property({type: Array})
+  _suggestionEls = [];
+
+  @property({type: Number})
+  _index?: number;
+
+  @property({type: Boolean})
+  _disableSuggestions = false;
+
+  @property({type: Boolean})
+  _focused = false;
+
+  /**
+   * Invisible label for input element. This label is exposed to
+   * screen readers by paper-input
+   */
+  @property({type: String})
+  label = '';
+
+  /** The DOM element of the selected suggestion. */
+  @property({type: Object})
+  _selected: HTMLElement | null = null;
 
   get _nativeInput() {
     // In Polymer 2 inputElement isn't nativeInput anymore
-    return this.$.input.$.nativeInput || this.$.input.inputElement;
+    return (this.$.input.$.nativeInput ||
+      this.$.input.inputElement) as HTMLInputElement;
   }
 
   /** @override */
@@ -230,7 +219,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
   selectAll() {
     const nativeInputElement = this._nativeInput;
-    if (!this.$.input.value) { return; }
+    if (!this.$.input.value) {
+      return;
+    }
     nativeInputElement.setSelectionRange(0, this.$.input.value.length);
   }
 
@@ -238,9 +229,11 @@ class GrAutocomplete extends KeyboardShortcutMixin(
     this.text = '';
   }
 
-  _handleItemSelect(e) {
+  _handleItemSelect(e: CustomEvent) {
     // Let _handleKeydown deal with keyboard interaction.
-    if (e.detail.trigger !== 'click') { return; }
+    if (e.detail.trigger !== 'click') {
+      return;
+    }
     this._selected = e.detail.selected;
     this._commit();
   }
@@ -253,9 +246,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
   /**
    * Set the text of the input without triggering the suggestion dropdown.
    *
-   * @param {string} text The new text for the input.
+   * @param text The new text for the input.
    */
-  setText(text) {
+  setText(text: string) {
     this._disableSuggestions = true;
     this.text = text;
     this._disableSuggestions = false;
@@ -270,17 +263,22 @@ class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   _onInputBlur() {
-    this.$.input.classList.toggle('warnUncommitted',
-        this.warnUncommitted && this.text.length && !this._focused);
+    this.$.input.classList.toggle(
+      'warnUncommitted',
+      this.warnUncommitted && !!this.text.length && !this._focused
+    );
     // Needed so that --paper-input-container-input updated style is applied.
     this.updateStyles();
   }
 
-  _updateSuggestions(text, threshold, noDebounce) {
-    // Polymer 2: check for undefined
-    if ([text, threshold, noDebounce].includes(undefined)) {
+  @observe('text', 'threshold', 'noDebounce')
+  _updateSuggestions(text?: string, threshold?: number, noDebounce?: boolean) {
+    if (
+      text === undefined ||
+      threshold === undefined ||
+      noDebounce === undefined
+    )
       return;
-    }
 
     // Reset _suggestions for every update
     // This will also prevent from carrying over suggestions:
@@ -289,7 +287,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
     // TODO(taoalpha): Also skip if text has not changed
 
-    if (this._disableSuggestions) { return; }
+    if (this._disableSuggestions) {
+      return;
+    }
     if (text.length < threshold) {
       this.value = '';
       return;
@@ -323,14 +323,15 @@ class GrAutocomplete extends KeyboardShortcutMixin(
     }
   }
 
-  _maybeOpenDropdown(suggestions, focused) {
+  @observe('_suggestions', '_focused')
+  _maybeOpenDropdown(suggestions: Suggestion[], focused: boolean) {
     if (suggestions.length > 0 && focused) {
       return this.$.suggestions.open();
     }
     return this.$.suggestions.close();
   }
 
-  _computeClass(borderless) {
+  _computeClass(borderless: boolean) {
     return borderless ? 'borderless' : '';
   }
 
@@ -338,7 +339,7 @@ class GrAutocomplete extends KeyboardShortcutMixin(
    * _handleKeydown used for key handling in the this.$.input AND all child
    * autocomplete options.
    */
-  _handleKeydown(e) {
+  _handleKeydown(e: CustomKeyboardEvent) {
     this._focused = true;
     switch (e.keyCode) {
       case 38: // Up
@@ -363,7 +364,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
         }
         break;
       case 13: // Enter
-        if (this.modifierPressed(e)) { break; }
+        if (this.modifierPressed(e)) {
+          break;
+        }
         e.preventDefault();
         this._handleInputCommit();
         break;
@@ -378,50 +381,62 @@ class GrAutocomplete extends KeyboardShortcutMixin(
         // immediately followed by a commit keystroke. @see Issue 8655
         this._suggestions = [];
     }
-    this.dispatchEvent(new CustomEvent('input-keydown', {
-      detail: {keyCode: e.keyCode, input: this.$.input},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('input-keydown', {
+        detail: {keyCode: e.keyCode, input: this.$.input},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _cancel() {
     if (this._suggestions.length) {
       this.set('_suggestions', []);
     } else {
-      this.dispatchEvent(new CustomEvent('cancel', {
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('cancel', {
+          composed: true,
+          bubbles: true,
+        })
+      );
     }
   }
 
-  /**
-   * @param {boolean=} opt_tabComplete
-   */
-  _handleInputCommit(opt_tabComplete) {
+  _handleInputCommit(_tabComplete?: boolean) {
     // Nothing to do if the dropdown is not open.
-    if (!this.allowNonSuggestedValues &&
-        this.$.suggestions.isHidden) { return; }
+    if (!this.allowNonSuggestedValues && this.$.suggestions.isHidden) {
+      return;
+    }
 
     this._selected = this.$.suggestions.getCursorTarget();
-    this._commit(opt_tabComplete);
+    this._commit(_tabComplete);
   }
 
-  _updateValue(suggestion, suggestions) {
-    if (!suggestion) { return; }
-    const completed = suggestions[suggestion.dataset.index].value;
+  _updateValue(suggestion: HTMLElement | null, suggestions: Suggestion[]) {
+    if (!suggestion) {
+      return;
+    }
+    const index = Number(suggestion.dataset.index!);
+    if (isNaN(index)) return;
+    const completed = suggestions[index].value;
+    if (!completed) return;
     if (this.multi) {
       // Append the completed text to the end of the string.
       // Allow spaces within quoted terms.
       const tokens = this.text.match(TOKENIZE_REGEX);
-      tokens[tokens.length - 1] = completed;
-      this.value = tokens.join(' ');
+      if (tokens && tokens.length) {
+        tokens[tokens.length - 1] = completed;
+        this.value = tokens.join(' ');
+      }
     } else {
       this.value = completed;
     }
   }
 
-  _handleBodyClick(e) {
-    const eventPath = dom(e).path;
+  _handleBodyClick(e: EventWithPath) {
+    const eventPath = e.path;
+    if (!eventPath) return;
     for (let i = 0; i < eventPath.length; i++) {
       if (eventPath[i] === this) {
         return;
@@ -430,20 +445,14 @@ class GrAutocomplete extends KeyboardShortcutMixin(
     this._focused = false;
   }
 
-  _handleSuggestionTap(e) {
-    e.stopPropagation();
-    this.$.cursor.setCursor(e.target);
-    this._commit();
-  }
-
   /**
    * Commits the suggestion, optionally firing the commit event.
    *
-   * @param {boolean=} opt_silent Allows for silent committing of an
-   *     autocomplete suggestion in order to handle cases like tab-to-complete
-   *     without firing the commit event.
+   * @param silent Allows for silent committing of an
+   * autocomplete suggestion in order to handle cases like tab-to-complete
+   * without firing the commit event.
    */
-  _commit(opt_silent) {
+  _commit(silent?: boolean) {
     // Allow values that are not in suggestion list iff suggestions are empty.
     if (this._suggestions.length > 0) {
       this._updateValue(this._selected, this._suggestions);
@@ -458,26 +467,31 @@ class GrAutocomplete extends KeyboardShortcutMixin(
       this.setText(this.value);
     } else {
       if (!this.clearOnCommit && this._selected) {
-        this.setText(this._suggestions[this._selected.dataset.index].name);
+        const dataSet = this._selected.dataset;
+        // index property cannot be null for the data-set
+        if (dataSet) {
+          const index = Number(dataSet.index!);
+          if (isNaN(index)) return;
+          this.setText(this._suggestions[index].name);
+        }
       } else {
         this.clear();
       }
     }
 
     this._suggestions = [];
-    if (!opt_silent) {
-      this.dispatchEvent(new CustomEvent('commit', {
-        detail: {value},
-        composed: true, bubbles: true,
-      }));
+    if (!silent) {
+      this.dispatchEvent(
+        new CustomEvent('commit', {
+          detail: {value},
+          composed: true,
+          bubbles: true,
+        })
+      );
     }
-
-    this._textChangedSinceCommit = false;
   }
 
-  _computeShowSearchIconClass(showSearchIcon) {
+  _computeShowSearchIconClass(showSearchIcon: boolean) {
     return showSearchIcon ? 'showSearchIcon' : '';
   }
 }
-
-customElements.define(GrAutocomplete.is, GrAutocomplete);

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "8a861c8c_d90ff5e3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-17T13:26:36Z",
+      "side": 1,
+      "message": "hmm better than before lol, so they do actually mean the same thing",
+      "parentUuid": "048475c3_2261adef",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "3ea279f81acdc1d6496472bdbc6f7293cf31b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0aecbb_2d6cbdf0",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
         "patchSetId": 4

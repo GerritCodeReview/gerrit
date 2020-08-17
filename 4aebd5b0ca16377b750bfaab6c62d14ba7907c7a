@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83e3f0d7_045dd618",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T19:56:43Z",
+      "side": 1,
+      "message": "how about also adding:\nmessage().doesNotContain(Change-Id: I11..)",
+      "range": {
+        "startLine": 403,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 0
+      },
+      "revId": "4aebd5b0ca16377b750bfaab6c62d14ba7907c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b43f5fc0_9fd61545",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-17T10:23:58Z",
+      "side": 1,
+      "message": "Can you move the js-\u003ets file rename into a separate change? Otherwise it is impossible to review the diff.",
+      "revId": "ef59dcc9f09140715eae3ed46f7a4b950dbd64de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

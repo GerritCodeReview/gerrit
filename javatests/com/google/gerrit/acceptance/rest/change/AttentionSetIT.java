@@ -273,12 +273,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     TestAccount robot =
         accountCreator.create(
-            "robot2",
-            "robot2@example.com",
-            "Ro Bot",
-            "Ro",
-            "Non-Interactive Users",
-            "Administrators");
+            "robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users", "Administrators");
     requestScopeOperations.setApiUser(robot.id());
     change(r1).current().submit();
 
@@ -420,12 +415,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     TestAccount robot =
         accountCreator.create(
-            "robot1",
-            "robot1@example.com",
-            "Ro Bot",
-            "Ro",
-            "Non-Interactive Users",
-            "Administrators");
+            "robot1", "robot1@example.com", "Ro Bot", "Ro", "Service Users", "Administrators");
     requestScopeOperations.setApiUser(robot.id());
     change(r).setReadyForReview();
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());

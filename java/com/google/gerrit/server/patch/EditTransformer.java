@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
+import com.google.gerrit.server.patch.GitPositionTransformer.OmitPositionOnConflict;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
 import com.google.gerrit.server.patch.GitPositionTransformer.Range;
@@ -47,6 +48,8 @@ import org.eclipse.jgit.diff.Edit;
 class EditTransformer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
+  private final GitPositionTransformer positionTransformer =
+      new GitPositionTransformer(OmitPositionOnConflict.INSTANCE);
   private List<ContextAwareEdit> edits;
 
   /**
@@ -117,7 +120,7 @@ class EditTransformer {
         transformingEntries.stream().map(DiffMappings::toMapping).collect(toImmutableSet());
 
     edits =
-        GitPositionTransformer.transform(positionedEdits, mappings).stream()
+        positionTransformer.transform(positionedEdits, mappings).stream()
             .map(PositionedEntity::getEntityAtUpdatedPosition)
             .collect(toImmutableList());
   }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "048475c3_2261adef",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T13:00:39Z",
+      "side": 1,
+      "message": "Comment is updated. Is it better now?",
+      "parentUuid": "b7de753e_1f64b59a",
+      "range": {
+        "startLine": 53,
+        "startChar": 19,
+        "endLine": 53,
+        "endChar": 33
+      },
+      "revId": "3ea279f81acdc1d6496472bdbc6f7293cf31b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2f0aecbb_2d6cbdf0",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "3ea279f81acdc1d6496472bdbc6f7293cf31b812",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b87fcd88_d7f09959",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T13:00:39Z",
+      "side": 1,
+      "message": "Changed to e: CustomEvent\u003cPluginConfigOptionsChangedEventDetail\u003e",
+      "parentUuid": "2f0aecbb_2d6cbdf0",
+      "range": {
+        "startLine": 175,
+        "startChar": 21,
+        "endLine": 175,
+        "endChar": 71
+      },
+      "revId": "3ea279f81acdc1d6496472bdbc6f7293cf31b812",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

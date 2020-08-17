@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd36a491_9c4fa861",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T10:33:56Z",
+      "side": 1,
+      "message": "these are really all unknown?",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 15
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc194fe8_83a5052c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T10:33:56Z",
+      "side": 1,
+      "message": "parameter",
+      "range": {
+        "startLine": 67,
+        "startChar": 19,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73933538_164c6fb3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T10:33:56Z",
+      "side": 1,
+      "message": "Shouldn\u0027t you comment why it has always value? You mentioned it\u0027s in guidelines",
+      "range": {
+        "startLine": 98,
+        "startChar": 22,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d723053_7d7fc072",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T10:33:56Z",
+      "side": 1,
+      "message": "Didn\u0027t know about this! Thanks will use it next time. Maybe we can change all weird types with this in already converted files. It would be enough to search for .base. to find instances.",
+      "range": {
+        "startLine": 101,
+        "startChar": 16,
+        "endLine": 101,
+        "endChar": 41
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "323de748_21b122b8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T10:33:56Z",
+      "side": 1,
+      "message": "nit: wouldn\u0027t be easier to have `value?: string | null`",
+      "range": {
+        "startLine": 169,
+        "startChar": 27,
+        "endLine": 169,
+        "endChar": 36
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

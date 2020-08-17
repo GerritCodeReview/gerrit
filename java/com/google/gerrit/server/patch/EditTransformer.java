@@ -24,6 +24,7 @@ import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
+import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
@@ -32,6 +33,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
+import java.util.logging.Level;
 import java.util.stream.Stream;
 import org.eclipse.jgit.diff.Edit;
 
@@ -43,6 +45,7 @@ import org.eclipse.jgit.diff.Edit;
  * transformation are omitted.
  */
 class EditTransformer {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private List<ContextAwareEdit> edits;
 
@@ -139,6 +142,8 @@ class EditTransformer {
     }
 
     static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
+      // Remove the warning in createEditAtNewPosition() if we switch to an empty range instead of
+      // (-1:-1, -1:-1) in the future.
       return create(
           patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
     }
@@ -200,11 +205,21 @@ class EditTransformer {
 
     @Override
     public ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition) {
+      // Use an empty range at Gerrit "file level" if no target range is available. Such an empty
+      // range should not occur right now but this should be a safe fallback if something changes
+      // in the future.
+      Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
+      if (!newPosition.lineRange().isPresent()) {
+        logger.at(Level.WARNING).log(
+            "Position %s has an empty range which is unexpected for the edits-due-to-rebase"
+                + " computation. This is likely a regression!",
+            newPosition);
+      }
       return ContextAwareEdit.create(
           newPosition.filePath(),
           edit.getNewFilePath(),
-          newPosition.lineRange().start(),
-          newPosition.lineRange().end(),
+          updatedRange.start(),
+          updatedRange.end(),
           edit.getBeginB(),
           edit.getEndB(),
           !Objects.equals(edit.getOldFilePath(), newPosition.filePath()));
@@ -224,13 +239,17 @@ class EditTransformer {
 
     @Override
     public ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition) {
+      // Use an empty range at Gerrit "file level" if no target range is available. Such an empty
+      // range should not occur right now but this should be a safe fallback if something changes
+      // in the future.
+      Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
       return ContextAwareEdit.create(
           edit.getOldFilePath(),
           newPosition.filePath(),
           edit.getBeginA(),
           edit.getEndA(),
-          newPosition.lineRange().start(),
-          newPosition.lineRange().end(),
+          updatedRange.start(),
+          updatedRange.end(),
           !Objects.equals(edit.getNewFilePath(), newPosition.filePath()));
     }
   }

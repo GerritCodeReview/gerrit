@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "071ea00a_72032400",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T10:07:52Z",
+      "side": 1,
+      "message": "Typescript style guide:\nUse type annotations (: Foo) instead of type assertions (as Foo) to specify the type of an object literal. This allows detecting refactoring bugs when the fields of an interface change over time.\n\nI.e. in this case it should be result: ... \u003d {}",
+      "range": {
+        "startLine": 50,
+        "startChar": 10,
+        "endLine": 50,
+        "endChar": 16
+      },
+      "revId": "d3f52881ae88be0c9e2c1302289718ca92299d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45ce292b_ae08d709",
+        "filename": "polygerrit-ui/app/elements/shared/revision-info/revision-info.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T10:07:52Z",
+      "side": 1,
+      "message": "Will it work with {[revNumber: number]: number} instead of Record\u003cnumber, number\u003e?\nIf it works, could you please create a type for it (for ex. RevNumberToParentCountMap), so it can be reused in other places",
+      "range": {
+        "startLine": 50,
+        "startChar": 25,
+        "endLine": 50,
+        "endChar": 47
+      },
+      "revId": "d3f52881ae88be0c9e2c1302289718ca92299d4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

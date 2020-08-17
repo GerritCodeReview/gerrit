@@ -518,11 +518,12 @@ suite('gr-router tests', () => {
 
   suite('param normalization', () => {
     let projectLookupStub;
+    let generateUrlStub;
 
     setup(() => {
       projectLookupStub = sinon
           .stub(element.$.restAPI, 'getFromProjectLookup');
-      sinon.stub(element, '_generateUrl');
+      generateUrlStub = sinon.stub(element, '_generateUrl');
     });
 
     suite('_normalizeLegacyRouteParams', () => {
@@ -541,9 +542,9 @@ suite('gr-router tests', () => {
         projectLookupStub.returns(Promise.resolve('foo/bar'));
         const params = {};
         return element._normalizeLegacyRouteParams(params).then(() => {
+          assert.isFalse(generateUrlStub.calledOnce);
           assert.isFalse(projectLookupStub.called);
           assert.isFalse(rangeStub.called);
-          assert.isNotOk(params.project);
           assert.isFalse(redirectStub.called);
           assert.isFalse(show404Stub.called);
         });
@@ -552,10 +553,13 @@ suite('gr-router tests', () => {
       test('w/ changeNum', () => {
         projectLookupStub.returns(Promise.resolve('foo/bar'));
         const params = {changeNum: 1234};
+
         return element._normalizeLegacyRouteParams(params).then(() => {
+          assert.isTrue(generateUrlStub.calledOnce);
+          const updatedParams = generateUrlStub.lastCall.args[0];
           assert.isTrue(projectLookupStub.called);
           assert.isTrue(rangeStub.called);
-          assert.equal(params.project, 'foo/bar');
+          assert.equal(updatedParams.project, 'foo/bar');
           assert.isTrue(redirectStub.calledOnce);
           assert.isFalse(show404Stub.called);
         });
@@ -565,9 +569,9 @@ suite('gr-router tests', () => {
         projectLookupStub.returns(Promise.resolve(undefined));
         const params = {changeNum: 1234};
         return element._normalizeLegacyRouteParams(params).then(() => {
+          assert.isFalse(generateUrlStub.calledOnce);
           assert.isTrue(projectLookupStub.called);
           assert.isFalse(rangeStub.called);
-          assert.isUndefined(params.project);
           assert.isFalse(redirectStub.called);
           assert.isTrue(show404Stub.calledOnce);
         });

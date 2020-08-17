@@ -30,6 +30,7 @@ import {
   Hashtag,
   UrlEncodedCommentId,
   CommentLinks,
+  ParentPatchSetNum, ServerInfo,
 } from '../../../types/common';
 
 // Navigation parameters object format:
@@ -119,11 +120,6 @@ const uninitializedMapCommentLinks: MapCommentLinksCallback = () => {
   uninitialized();
   return {};
 };
-
-// TODO(TS): PatchSetNum type express an API type, it is not good to add
-// PARENT into it. Find a better way to add PARENT patchset into our code
-type ParentPatchSetNum = 'PARENT';
-const PARENT_PATCHNUM: ParentPatchSetNum = 'PARENT';
 
 const USER_PLACEHOLDER_PATTERN = /\${user}/g;
 
@@ -250,6 +246,10 @@ export interface GenerateUrlChangeViewParameters {
   edit?: boolean;
   host?: string;
   messageHash?: string;
+  queryMap?: Map<string, string> | URLSearchParams;
+
+  // TODO(TS): querystring isn't set anywhere, try to remove
+  querystring?: string;
 }
 
 export interface GenerateUrlRepoViewParameters {
@@ -263,6 +263,11 @@ export interface GenerateUrlDashboardViewParameters {
   user?: string;
   repo?: RepoName;
   dashboard?: DashboardId;
+
+  // TODO(TS): properties bellow aren't set anywhere, try to remove
+  project?: RepoName;
+  sections?: DashboardSection[];
+  title?: string;
 }
 
 export interface GenerateUrlGroupViewParameters {
@@ -277,7 +282,7 @@ export interface GenerateUrlEditViewParameters {
   project: RepoName;
   path: string;
   patchNum: PatchSetNum;
-  lineNum?: number;
+  lineNum?: number | string;
 }
 
 export interface GenerateUrlRootViewParameters {
@@ -293,11 +298,13 @@ export interface GenerateUrlDiffViewParameters {
   changeNum: NumericChangeId | LegacyChangeId;
   project: RepoName;
   path?: string;
-  patchNum?: PatchSetNum;
-  basePatchNum?: PatchSetNum | ParentPatchSetNum;
-  lineNum?: number;
+  patchNum?: PatchSetNum | null;
+  basePatchNum?: PatchSetNum | null;
+  lineNum?: number | string;
   leftSide?: boolean;
   commentId?: UrlEncodedCommentId;
+  // TODO(TS): remove - property is set but never used
+  commentLink?: boolean;
 }
 
 export type GenerateUrlParameters =
@@ -311,27 +318,47 @@ export type GenerateUrlParameters =
   | GenerateUrlSettingsViewParameters
   | GenerateUrlDiffViewParameters;
 
+export function isGenerateUrlChangeViewParameters(
+  x: GenerateUrlParameters
+): x is GenerateUrlChangeViewParameters {
+  return x.view === GerritView.CHANGE;
+}
+
+export function isGenerateUrlEditViewParameters(
+  x: GenerateUrlParameters
+): x is GenerateUrlEditViewParameters {
+  return x.view === GerritView.EDIT;
+}
+
+export function isGenerateUrlDiffViewParameters(
+  x: GenerateUrlParameters
+): x is GenerateUrlDiffViewParameters {
+  return x.view === GerritView.DIFF;
+}
+
+export interface GenerateWebLinksOptions {
+  weblinks?: GeneratedWebLink[];
+  config?: ServerInfo;
+}
+
 export interface GenerateWebLinksPatchsetParameters {
   type: WeblinkType.PATCHSET;
   repo: RepoName;
   commit?: CommitId;
-  // TODO(TS): provide better typing
-  options?: unknown;
+  options?: GenerateWebLinksOptions;
 }
 export interface GenerateWebLinksFileParameters {
   type: WeblinkType.FILE;
   repo: RepoName;
   commit: CommitId;
   file: string;
-  // TODO(TS): provide better typing
-  options?: unknown;
+  options?: GenerateWebLinksOptions;
 }
 export interface GenerateWebLinksChangeParameters {
   type: WeblinkType.CHANGE;
   repo: RepoName;
   commit: CommitId;
-  // TODO(TS): provide better typing
-  options?: unknown;
+  options?: GenerateWebLinksOptions;
 }
 
 export type GenerateWebLinksParameters =
@@ -343,7 +370,7 @@ export type NavigateCallback = (target: string, redirect?: boolean) => void;
 export type GenerateUrlCallback = (params: GenerateUrlParameters) => string;
 export type GenerateWebLinksCallback = (
   params: GenerateWebLinksParameters
-) => WebLink[] | WebLink;
+) => GeneratedWebLink[] | GeneratedWebLink;
 
 export type MapCommentLinksCallback = (patterns: CommentLinks) => CommentLinks;
 
@@ -351,6 +378,13 @@ export interface WebLink {
   name?: string;
   label: string;
   url: string;
+}
+
+export interface GeneratedWebLink {
+  name?: string;
+  label?: string;
+  url?: string;
+
 }
 
 export enum GerritView {
@@ -407,10 +441,7 @@ export const GerritNav = {
 
   mapCommentlinks: uninitializedMapCommentLinks,
 
-  _checkPatchRange(
-    patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum | ParentPatchSetNum
-  ) {
+  _checkPatchRange(patchNum?: PatchSetNum, basePatchNum?: PatchSetNum) {
     if (basePatchNum && !patchNum) {
       throw new Error('Cannot use base patch number without patch number.');
     }
@@ -567,11 +598,11 @@ export const GerritNav = {
   getUrlForChange(
     change: ChangeInfo,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum | ParentPatchSetNum,
+    basePatchNum?: PatchSetNum,
     isEdit?: boolean,
     messageHash?: string
   ) {
-    if (basePatchNum === PARENT_PATCHNUM) {
+    if (basePatchNum === ParentPatchSetNum) {
       basePatchNum = undefined;
     }
 
@@ -628,7 +659,7 @@ export const GerritNav = {
     change: ChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum | ParentPatchSetNum,
+    basePatchNum?: PatchSetNum,
     lineNum?: number
   ) {
     return this.getUrlForDiffById(
@@ -662,11 +693,11 @@ export const GerritNav = {
     project: RepoName,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum | ParentPatchSetNum,
+    basePatchNum?: PatchSetNum,
     lineNum?: number,
     leftSide?: boolean
   ) {
-    if (basePatchNum === PARENT_PATCHNUM) {
+    if (basePatchNum === ParentPatchSetNum) {
       basePatchNum = undefined;
     }
 
@@ -727,7 +758,7 @@ export const GerritNav = {
     change: ChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum | ParentPatchSetNum
+    basePatchNum?: PatchSetNum
   ) {
     this._navigate(
       this.getUrlForDiff(change, filePath, patchNum, basePatchNum)
@@ -867,8 +898,8 @@ export const GerritNav = {
     repo: RepoName,
     commit: CommitId,
     file: string,
-    options?: unknown
-  ): WebLink[] {
+    options?: GenerateWebLinksOptions
+  ): GeneratedWebLink[] {
     const params: GenerateWebLinksFileParameters = {
       type: WeblinkType.FILE,
       repo,
@@ -878,14 +909,14 @@ export const GerritNav = {
     if (options) {
       params.options = options;
     }
-    return ([] as WebLink[]).concat(this._generateWeblinks(params));
+    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
   },
 
   getPatchSetWeblink(
     repo: RepoName,
     commit?: CommitId,
-    options?: unknown
-  ): WebLink {
+    options?: GenerateWebLinksOptions
+  ): GeneratedWebLink {
     const params: GenerateWebLinksPatchsetParameters = {
       type: WeblinkType.PATCHSET,
       repo,
@@ -899,7 +930,7 @@ export const GerritNav = {
       // TODO(TS): Unclear what to do with empty array.
       // Either write a comment why result can't be empty or change the return
       // type or add a check.
-      return result.pop() as WebLink;
+      return result.pop()!;
     } else {
       return result;
     }
@@ -908,8 +939,8 @@ export const GerritNav = {
   getChangeWeblinks(
     repo: RepoName,
     commit: CommitId,
-    options?: unknown
-  ): WebLink[] {
+    options?: GenerateWebLinksOptions
+  ): GeneratedWebLink[] {
     const params: GenerateWebLinksChangeParameters = {
       type: WeblinkType.CHANGE,
       repo,
@@ -918,7 +949,7 @@ export const GerritNav = {
     if (options) {
       params.options = options;
     }
-    return ([] as WebLink[]).concat(this._generateWeblinks(params));
+    return ([] as GeneratedWebLink[]).concat(this._generateWeblinks(params));
   },
 
   getUserDashboard(

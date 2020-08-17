@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2001b847_94b4e751",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T12:35:24Z",
+      "side": 1,
+      "message": "self verified, best to merge this sooner to fix CI.",
+      "revId": "98f9c36898957ddcc62efad16e4d86bfbdb64058",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

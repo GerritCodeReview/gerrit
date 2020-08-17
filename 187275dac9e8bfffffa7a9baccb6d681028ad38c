@@ -25,6 +25,23 @@
     },
     {
       "key": {
+        "uuid": "e5d44608_dd04043f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-17T08:14:28Z",
+      "side": 1,
+      "message": "I assume this is a bug fix? Could you explain what the bug was in the commit message?",
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e02af1d2_11106e95",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -36,6 +53,23 @@
       "writtenOn": "2020-08-17T07:57:51Z",
       "side": 1,
       "message": "I think I\u0027m missing some context: can you add a few lines to the commit message explaining the use case of this change?",
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d84ab8b9_735997ec",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-17T08:14:28Z",
+      "side": 1,
+      "message": "To make this field safe in being contained in a Singleton, ByUsername, ByEmail and ByFullName would have to be marked as @Immutable (including all their parents).\n\nI would go the other way and just inline the ImmutableList construction where you need it. It seems cheap enough.",
       "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -59,6 +93,23 @@
         "endLine": 584,
         "endChar": 41
       },
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e5de65f3_70d2dad6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/account/AccountResolverIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-17T08:14:28Z",
+      "side": 1,
+      "message": "nit: this is a JavaDoc, but should be a normal comment (here and below)",
       "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

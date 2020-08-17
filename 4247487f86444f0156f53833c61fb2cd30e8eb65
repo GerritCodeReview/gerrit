@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56dda129_ea4e06ec",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T10:35:41Z",
+      "side": 1,
+      "message": "nit: put in a constant. It would be much easier to see what has modified contents in the tests below if it has content such as CONSTANT + \"Line x\".",
+      "range": {
+        "startLine": 467,
+        "startChar": 21,
+        "endLine": 467,
+        "endChar": 66
+      },
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8b18055_d172a7a3",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T10:35:41Z",
+      "side": 1,
+      "message": "RenamedAndCopiedFiles?",
+      "range": {
+        "startLine": 487,
+        "startChar": 32,
+        "endLine": 487,
+        "endChar": 42
+      },
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d66d653_7087d1e3",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T10:35:41Z",
+      "side": 1,
+      "message": "maybe assert that diff1.changeType !\u003d diff2.changeType?\nSince we\u0027re trying to make sure one is supposed to be rename and the other one copy?",
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

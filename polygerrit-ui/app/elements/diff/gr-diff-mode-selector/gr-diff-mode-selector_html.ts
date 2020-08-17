@@ -34,7 +34,7 @@ export const htmlTemplate = html`
     id="sideBySideBtn"
     link=""
     has-tooltip=""
-    class$="[[_computeSelectedClass(mode, _VIEW_MODES.SIDE_BY_SIDE)]]"
+    class$="[[_computeSideBySideSelected(mode)]]"
     title="Side-by-side diff"
     on-click="_handleSideBySideTap"
   >
@@ -45,7 +45,7 @@ export const htmlTemplate = html`
     link=""
     has-tooltip=""
     title="Unified diff"
-    class$="[[_computeSelectedClass(mode, _VIEW_MODES.UNIFIED)]]"
+    class$="[[_computeUnifiedSelected(mode)]]"
     on-click="_handleUnifiedTap"
   >
     <iron-icon icon="gr-icons:unified"></iron-icon>

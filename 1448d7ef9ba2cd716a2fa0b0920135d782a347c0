@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e66089a_bf53129d",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T10:40:36Z",
+      "side": 1,
+      "message": "I think we should document this default somewhere: return the removed comment and/or add details to TestCommentCreation?",
+      "range": {
+        "startLine": 120,
+        "startChar": 58,
+        "endLine": 120,
+        "endChar": 92
+      },
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70ea5d2d_a46a93b7",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T10:40:36Z",
+      "side": 1,
+      "message": "another test: commentIsCreatedWithOwnerAsAuthor",
+      "range": {
+        "startLine": 302,
+        "startChar": 14,
+        "endLine": 302,
+        "endChar": 49
+      },
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

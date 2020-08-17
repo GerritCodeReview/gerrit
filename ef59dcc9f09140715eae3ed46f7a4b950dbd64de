@@ -16,6 +16,24 @@
       "revId": "ef59dcc9f09140715eae3ed46f7a4b950dbd64de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ca368e7a_51fe1ea6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T11:09:29Z",
+      "side": 1,
+      "message": "I used the script to create this change.\nNot sure why it created it in this way.",
+      "parentUuid": "b43f5fc0_9fd61545",
+      "revId": "ef59dcc9f09140715eae3ed46f7a4b950dbd64de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -48,6 +48,7 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Singleton
 public class ListPortedComments implements RestReadView<RevisionResource> {
@@ -147,27 +148,36 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
     return positionBuilder.lineRange(extractLineRange(comment)).build();
   }
 
-  private static GitPositionTransformer.Range extractLineRange(HumanComment comment) {
+  private static Optional<GitPositionTransformer.Range> extractLineRange(HumanComment comment) {
     // Line specifications in comment are 1-based. Line specifications in Position are 0-based.
     if (comment.range != null) {
       // The combination of (line, charOffset) is exclusive and must be mapped to an exclusive line.
       int exclusiveEndLine =
           comment.range.endChar > 0 ? comment.range.endLine : comment.range.endLine - 1;
-      return create(comment.range.startLine - 1, exclusiveEndLine);
+      return Optional.of(create(comment.range.startLine - 1, exclusiveEndLine));
     }
-    return create(comment.lineNbr - 1, comment.lineNbr);
+    if (comment.lineNbr > 0) {
+      return Optional.of(create(comment.lineNbr - 1, comment.lineNbr));
+    }
+    // File comment -> no range.
+    return Optional.empty();
   }
 
   private static HumanComment createCommentAtNewPosition(
       HumanComment originalComment, Position newPosition) {
     HumanComment portedComment = new HumanComment(originalComment);
     portedComment.key.filename = newPosition.filePath();
-    portedComment.lineNbr = newPosition.lineRange().start() + 1;
-    if (portedComment.range != null) {
+    if (portedComment.range != null && newPosition.lineRange().isPresent()) {
+      // Comment was a range comment and also stayed one.
       portedComment.range =
           toRange(
-              newPosition.lineRange(), portedComment.range.startChar, portedComment.range.endChar);
+              newPosition.lineRange().get(),
+              portedComment.range.startChar,
+              portedComment.range.endChar);
       portedComment.lineNbr = portedComment.range.endLine;
+    } else {
+      portedComment.range = null;
+      portedComment.lineNbr = newPosition.lineRange().map(range -> range.start() + 1).orElse(0);
     }
     return portedComment;
   }

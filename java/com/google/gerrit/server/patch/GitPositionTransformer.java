@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.Comparators.emptiesFirst;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
@@ -28,6 +29,7 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -176,15 +178,22 @@ public class GitPositionTransformer {
         ImmutableList.builderWithExpectedSize(sortedEntities.size());
     while (entityIndex < sortedEntities.size() && mappingIndex < sortedMappings.size()) {
       PositionedEntity<T> entity = sortedEntities.get(entityIndex);
-      RangeMapping mapping = sortedMappings.get(mappingIndex);
-      if (mapping.oldLineRange().end() <= entity.position().lineRange().start()) {
-        shiftedAmount = mapping.newLineRange().end() - mapping.oldLineRange().end();
-        mappingIndex++;
-      } else if (entity.position().lineRange().end() <= mapping.oldLineRange().start()) {
-        resultingEntities.add(entity.shiftPositionBy(shiftedAmount));
-        entityIndex++;
+      if (entity.position().lineRange().isPresent()) {
+        Range range = entity.position().lineRange().get();
+        RangeMapping mapping = sortedMappings.get(mappingIndex);
+        if (mapping.oldLineRange().end() <= range.start()) {
+          shiftedAmount = mapping.newLineRange().end() - mapping.oldLineRange().end();
+          mappingIndex++;
+        } else if (range.end() <= mapping.oldLineRange().start()) {
+          resultingEntities.add(entity.shiftPositionBy(shiftedAmount));
+          entityIndex++;
+        } else {
+          // Overlapping -> ignore.
+          entityIndex++;
+        }
       } else {
-        // Overlapping -> ignore.
+        // No range -> no need to shift.
+        resultingEntities.add(entity);
         entityIndex++;
       }
     }
@@ -200,7 +209,7 @@ public class GitPositionTransformer {
         .sorted(
             comparing(
                 entity -> entity.position().lineRange(),
-                comparing(Range::start).thenComparing(Range::end)))
+                emptiesFirst(comparing(Range::start).thenComparing(Range::end))))
         .collect(toImmutableList());
   }
 
@@ -306,8 +315,11 @@ public class GitPositionTransformer {
     /** Absolute file path. */
     public abstract String filePath();
 
-    /** Affected lines. */
-    public abstract Range lineRange();
+    /**
+     * Affected lines. An empty {@link Optional} indicates that this position does not refer to any
+     * specific lines (e.g. used for a file comment).
+     */
+    public abstract Optional<Range> lineRange();
 
     /**
      * Creates a copy of this {@code Position} whose range is shifted by the indicated amount.
@@ -317,7 +329,9 @@ public class GitPositionTransformer {
      * @return a new {@code Position} instance with an updated range
      */
     public Position shiftBy(int amount) {
-      return toBuilder().lineRange(lineRange().shiftBy(amount)).build();
+      return lineRange()
+          .map(range -> toBuilder().lineRange(range.shiftBy(amount)).build())
+          .orElse(this);
     }
 
     /**
@@ -345,6 +359,9 @@ public class GitPositionTransformer {
 
       /** See {@link #lineRange()}. */
       public abstract Builder lineRange(Range lineRange);
+
+      /** See {@link #lineRange()}. */
+      public abstract Builder lineRange(Optional<Range> lineRange);
 
       public abstract Position build();
     }

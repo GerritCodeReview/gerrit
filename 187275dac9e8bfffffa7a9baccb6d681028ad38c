@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "d8911d3b_fe5429f4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T10:59:30Z",
+      "side": 1,
+      "message": "I meant that this test should be changed to use the new method, #resolveByExactNameOrEmail instead of the old #resolveByNameOrEmail.\nApparently that test didn\u0027t break, but I think it is a good idea to migrate the tests to the new method to make sure this applies to all tests. If one of the tests breaks, I\u0027d think something may be wrong.\n\nOnce you done that, it\u0027s also possible to remove #resolveByNameOrEmail since it will not be used.\n\nI think it\u0027s probably fine to do is as a follow-up though, preferably to submit both changes together.",
+      "parentUuid": "3c9365f0_373b2783",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e5d44608_dd04043f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

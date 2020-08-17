@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7f596f6_e0aaec28",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T07:57:51Z",
+      "side": 1,
+      "message": "What about exact matching for Account.Id? Based on AccountResolverIT#byExactAccountId, the previous implementation supported it.",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02af1d2_11106e95",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T07:57:51Z",
+      "side": 1,
+      "message": "I think I\u0027m missing some context: can you add a few lines to the commit message explaining the use case of this change?",
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94a8f873_11db4f62",
+        "filename": "java/com/google/gerrit/server/account/AccountResolver.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 584,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T07:57:51Z",
+      "side": 1,
+      "message": "resolvebyExactNameOrEmail",
+      "range": {
+        "startLine": 584,
+        "startChar": 16,
+        "endLine": 584,
+        "endChar": 41
+      },
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

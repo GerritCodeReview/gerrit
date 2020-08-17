@@ -14,29 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown.js';
-import '../gr-cursor-manager/gr-cursor-manager.js';
-import '../gr-overlay/gr-overlay.js';
-import '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior.js';
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/shared-styles.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-textarea_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {appContext} from '../../../services/app-context.js';
+import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import '../gr-cursor-manager/gr-cursor-manager';
+import '../gr-overlay/gr-overlay';
+import '@polymer/iron-a11y-keys-behavior/iron-a11y-keys-behavior';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/shared-styles';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-textarea_html';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {appContext} from '../../../services/app-context';
+import {customElement, property} from '@polymer/decorators';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 
 const MAX_ITEMS_DROPDOWN = 10;
 
-const ALL_SUGGESTIONS = [
+const ALL_SUGGESTIONS: EmojiSuggestion[] = [
   {value: '😊', match: 'smile :)'},
   {value: '👍', match: 'thumbs up'},
   {value: '😄', match: 'laugh :D'},
   {value: '🎉', match: 'party'},
   {value: '😞', match: 'sad :('},
-  {value: '😂', match: 'tears :\')'},
+  {value: '😂', match: "tears :')"},
   {value: '🙏', match: 'pray'},
   {value: '😐', match: 'neutral :|'},
   {value: '😮', match: 'shock :O'},
@@ -51,7 +55,7 @@ const ALL_SUGGESTIONS = [
   {value: '🍺', match: 'beer'},
   {value: '✔', match: 'check'},
   {value: '😋', match: 'tongue'},
-  {value: '😭', match: 'crying :\'('},
+  {value: '😭', match: "crying :'("},
   {value: '🐨', match: 'koala'},
   {value: '🤓', match: 'glasses'},
   {value: '😆', match: 'grin'},
@@ -63,65 +67,91 @@ const ALL_SUGGESTIONS = [
   {value: '😜', match: 'winking tongue ;)'},
 ];
 
+interface EmojiSuggestion {
+  value: string;
+  match: string;
+  dataValue?: string;
+  text?: string;
+}
+
+interface ValueChangeEvent {
+  value: string;
+}
+
+export interface GrTextarea {
+  $: {
+    textarea: IronAutogrowTextareaElement;
+    emojiSuggestions: GrAutocompleteDropdown;
+    caratSpan: HTMLSpanElement;
+    hiddenText: HTMLDivElement;
+  };
+}
 /**
  * @extends PolymerElement
  */
-class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
-    LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+@customElement('gr-textarea')
+export class GrTextarea extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-textarea'; }
   /**
    * @event bind-value-changed
    */
+  @property({type: Boolean})
+  autocomplete?: boolean;
 
-  static get properties() {
-    return {
-      autocomplete: Boolean,
-      disabled: Boolean,
-      rows: Number,
-      maxRows: Number,
-      placeholder: String,
-      text: {
-        type: String,
-        notify: true,
-        observer: '_handleTextChanged',
-      },
-      hideBorder: {
-        type: Boolean,
-        value: false,
-      },
-      /** Text input should be rendered in monspace font.  */
-      monospace: {
-        type: Boolean,
-        value: false,
-      },
-      /** Text input should be rendered in code font, which is smaller than the
-        standard monospace font. */
-      code: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type {?number} */
-      _colonIndex: Number,
-      _currentSearchString: {
-        type: String,
-        observer: '_determineSuggestions',
-      },
-      _hideAutocomplete: {
-        type: Boolean,
-        value: true,
-      },
-      _index: Number,
-      _suggestions: Array,
-      // Offset makes dropdown appear below text.
-      _verticalOffset: {
-        type: Number,
-        value: 20,
-        readOnly: true,
-      },
-    };
-  }
+  @property({type: Boolean})
+  disabled?: boolean;
+
+  @property({type: Number})
+  rows?: number;
+
+  @property({type: Number})
+  maxRows?: number;
+
+  @property({type: String})
+  placeholder?: string;
+
+  @property({type: String, notify: true})
+  text?: string;
+
+  @property({type: Boolean, observer: '_handleTextChanged'})
+  hideBorder = false;
+
+  /** Text input should be rendered in monspace font.  */
+  @property({type: Boolean})
+  monospace = false;
+
+  /** Text input should be rendered in code font, which is smaller than the
+    standard monospace font. */
+  @property({type: Boolean})
+  code = false;
+
+  @property({type: Number})
+  _colonIndex: number | null = null;
+
+  @property({type: String})
+  _currentSearchString?: string;
+
+  @property({type: Boolean, observer: '_determineSuggestions'})
+  _hideAutocomplete = true;
+
+  @property({type: Number})
+  _index?: number;
+
+  @property({type: Array})
+  _suggestions?: EmojiSuggestion[];
+
+  @property({type: Number})
+  readonly _verticalOffset = 20;
+  // Offset makes dropdown appear below text.
+
+  reporting: ReportingService;
+
+  disableEnterKeyForSelectingEmoji = false;
 
   get keyBindings() {
     return {
@@ -170,15 +200,19 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     });
   }
 
-  _handleEscKey(e) {
-    if (this._hideAutocomplete) { return; }
+  _handleEscKey(e: KeyboardEvent) {
+    if (this._hideAutocomplete) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     this._resetEmojiDropdown();
   }
 
-  _handleUpKey(e) {
-    if (this._hideAutocomplete) { return; }
+  _handleUpKey(e: KeyboardEvent) {
+    if (this._hideAutocomplete) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     this.$.emojiSuggestions.cursorUp();
@@ -186,8 +220,10 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this.disableEnterKeyForSelectingEmoji = false;
   }
 
-  _handleDownKey(e) {
-    if (this._hideAutocomplete) { return; }
+  _handleDownKey(e: KeyboardEvent) {
+    if (this._hideAutocomplete) {
+      return;
+    }
     e.preventDefault();
     e.stopPropagation();
     this.$.emojiSuggestions.cursorDown();
@@ -195,7 +231,7 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this.disableEnterKeyForSelectingEmoji = false;
   }
 
-  _handleEnterByKey(e) {
+  _handleEnterByKey(e: KeyboardEvent) {
     if (this._hideAutocomplete || this.disableEnterKeyForSelectingEmoji) {
       return;
     }
@@ -204,11 +240,14 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this._setEmoji(this.$.emojiSuggestions.getCurrentText());
   }
 
-  _handleEmojiSelect(e) {
+  _handleEmojiSelect(e: CustomEvent) {
     this._setEmoji(e.detail.selected.dataset.value);
   }
 
-  _setEmoji(text) {
+  _setEmoji(text: string) {
+    if (this._colonIndex === null) {
+      return;
+    }
     const colonIndex = this._colonIndex;
     this.text = this._getText(text);
     this.$.textarea.selectionStart = colonIndex + 1;
@@ -217,9 +256,13 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this._resetEmojiDropdown();
   }
 
-  _getText(value) {
-    return this.text.substr(0, this._colonIndex || 0) +
-        value + this.text.substr(this.$.textarea.selectionStart);
+  _getText(value: string) {
+    if (!this.text) return '';
+    return (
+      this.text.substr(0, this._colonIndex || 0) +
+      value +
+      this.text.substr(this.$.textarea.selectionStart)
+    );
   }
 
   /**
@@ -230,8 +273,12 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
    */
   _updateCaratPosition() {
     this._hideAutocomplete = false;
-    this.$.hiddenText.textContent = this.$.textarea.value.substr(0,
-        this.$.textarea.selectionStart);
+    if (typeof this.$.textarea.value === 'string') {
+      this.$.hiddenText.textContent = this.$.textarea.value.substr(
+        0,
+        this.$.textarea.selectionStart
+      );
+    }
 
     const caratSpan = this.$.caratSpan;
     this.$.hiddenText.appendChild(caratSpan);
@@ -241,8 +288,7 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
 
   _getFontSize() {
     const fontSizePx = getComputedStyle(this).fontSize || '12px';
-    return parseInt(fontSizePx.substr(0, fontSizePx.length - 2),
-        10);
+    return parseInt(fontSizePx.substr(0, fontSizePx.length - 2), 10);
   }
 
   _getScrollTop() {
@@ -253,46 +299,68 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
    * _handleKeydown used for key handling in the this.$.textarea AND all child
    * autocomplete options.
    */
-  _onValueChanged(e) {
+  _onValueChanged(e: CustomEvent<ValueChangeEvent>) {
     // Relay the event.
-    this.dispatchEvent(new CustomEvent('bind-value-changed', {
-      detail: e,
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('bind-value-changed', {
+        detail: e,
+        composed: true,
+        bubbles: true,
+      })
+    );
 
     // If cursor is not in textarea (just opened with colon as last char),
     // Don't do anything.
-    if (!e.currentTarget.focused) { return; }
+    if (
+      e.currentTarget === null ||
+      !(e.currentTarget as IronAutogrowTextareaElement).focused
+    ) {
+      return;
+    }
 
-    const charAtCursor = e.detail && e.detail.value ?
-      e.detail.value[this.$.textarea.selectionStart - 1] : '';
-    if (charAtCursor !== ':' && this._colonIndex == null) { return; }
+    const charAtCursor =
+      e.detail && e.detail.value
+        ? e.detail.value[this.$.textarea.selectionStart - 1]
+        : '';
+    if (charAtCursor !== ':' && this._colonIndex === null) {
+      return;
+    }
 
     // When a colon is detected, set a colon index. We are interested only on
     // colons after space or in beginning of textarea
     if (charAtCursor === ':') {
-      if (this.$.textarea.selectionStart < 2 ||
-          e.detail.value[this.$.textarea.selectionStart - 2] === ' ') {
+      if (
+        this.$.textarea.selectionStart < 2 ||
+        e.detail.value[this.$.textarea.selectionStart - 2] === ' '
+      ) {
         this._colonIndex = this.$.textarea.selectionStart - 1;
       }
     }
+    if (this._colonIndex === null) {
+      return;
+    }
 
-    this._currentSearchString = e.detail.value.substr(this._colonIndex + 1,
-        this.$.textarea.selectionStart - this._colonIndex - 1);
+    this._currentSearchString = e.detail.value.substr(
+      this._colonIndex + 1,
+      this.$.textarea.selectionStart - this._colonIndex - 1
+    );
     // Under the following conditions, close and reset the dropdown:
     // - The cursor is no longer at the end of the current search string
     // - The search string is an space or new line
     // - The colon has been removed
     // - There are no suggestions that match the search string
-    if (this.$.textarea.selectionStart !==
+    if (
+      this.$.textarea.selectionStart !==
         this._currentSearchString.length + this._colonIndex + 1 ||
-        this._currentSearchString === ' ' ||
-        this._currentSearchString === '\n' ||
-        !(e.detail.value[this._colonIndex] === ':') ||
-        !this._suggestions.length) {
+      this._currentSearchString === ' ' ||
+      this._currentSearchString === '\n' ||
+      !(e.detail.value[this._colonIndex] === ':') ||
+      !this._suggestions ||
+      !this._suggestions.length
+    ) {
       this._resetEmojiDropdown();
-    // Otherwise open the dropdown and set the position to be just below the
-    // cursor.
+      // Otherwise open the dropdown and set the position to be just below the
+      // cursor.
     } else if (this.$.emojiSuggestions.isHidden) {
       this._updateCaratPosition();
     }
@@ -304,7 +372,7 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this.reporting.reportInteraction('open-emoji-dropdown');
   }
 
-  _formatSuggestions(matchedSuggestions) {
+  _formatSuggestions(matchedSuggestions: EmojiSuggestion[]) {
     const suggestions = [];
     for (const suggestion of matchedSuggestions) {
       suggestion.dataValue = suggestion.value;
@@ -314,14 +382,14 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this.set('_suggestions', suggestions);
   }
 
-  _determineSuggestions(emojiText) {
+  _determineSuggestions(emojiText: string) {
     if (!emojiText.length) {
       this._formatSuggestions(ALL_SUGGESTIONS);
       this.disableEnterKeyForSelectingEmoji = true;
     } else {
-      const matches = ALL_SUGGESTIONS
-          .filter(suggestion => suggestion.match.includes(emojiText))
-          .slice(0, MAX_ITEMS_DROPDOWN);
+      const matches = ALL_SUGGESTIONS.filter(suggestion =>
+        suggestion.match.includes(emojiText)
+      ).slice(0, MAX_ITEMS_DROPDOWN);
       this._formatSuggestions(matches);
       this.disableEnterKeyForSelectingEmoji = false;
     }
@@ -337,10 +405,15 @@ class GrTextarea extends KeyboardShortcutMixin(GestureEventListeners(
     this.$.textarea.textarea.focus();
   }
 
-  _handleTextChanged(text) {
+  _handleTextChanged(text: string) {
     this.dispatchEvent(
-        new CustomEvent('value-changed', {detail: {value: text}}));
+      new CustomEvent('value-changed', {detail: {value: text}})
+    );
   }
 }
 
-customElements.define(GrTextarea.is, GrTextarea);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-textarea': GrTextarea;
+  }
+}

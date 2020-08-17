@@ -302,7 +302,7 @@ suite('gr-autocomplete tests', () => {
     });
   });
 
-  test('multi completes only the last part of the query', done => {
+  test.only('multi completes only the last part of the query', done => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([

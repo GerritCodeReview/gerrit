@@ -102,6 +102,7 @@ export class GrDropdown extends KeyboardShortcutMixin(
    * Style the dropdown trigger as a link (rather than a button).
    */
 
+  @property({type: Boolean})
   link = false;
 
   @property({type: Number})

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a0f3932d_df8348ae",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T11:51:34Z",
+      "side": 1,
+      "message": "Good catch. This interface is not used anywhere, should be removed.",
+      "parentUuid": "cd36a491_9c4fa861",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 15
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc194fe8_83a5052c",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
         "patchSetId": 3
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9c57ee9e_59641b2a",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T11:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc194fe8_83a5052c",
+      "range": {
+        "startLine": 67,
+        "startChar": 19,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73933538_164c6fb3",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
         "patchSetId": 3
@@ -68,6 +116,30 @@
       "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48a7e3c6_75109627",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T11:51:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "73933538_164c6fb3",
+      "range": {
+        "startLine": 98,
+        "startChar": 22,
+        "endLine": 98,
+        "endChar": 23
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -114,6 +186,30 @@
       "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1625e5a6_9cb14208",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-plugin-config/gr-repo-plugin-config.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T11:51:34Z",
+      "side": 1,
+      "message": "value? means that \u0027value\u0027 is an optional parameter. In this method the second parameter _key is a required parameter. Optional parameter can\u0027t be added before required parameter.",
+      "parentUuid": "323de748_21b122b8",
+      "range": {
+        "startLine": 169,
+        "startChar": 27,
+        "endLine": 169,
+        "endChar": 36
+      },
+      "revId": "85cc3c658d10616d5a1d8fa05e28fb5f81c5861f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

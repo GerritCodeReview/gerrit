@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "d9b178d8_3a51f80e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-17T12:27:46Z",
+      "side": 1,
+      "message": "Ah, thanks for the clarification. I agree.\n\nI quickly tried to make all tests use the new exact matching but some tests failed\n  * #byDefaultSearch returns user\u0027s account John Doe for query \"doe\"\n  * #byFullName returns an account for a query with a different case\n\nI think updating the other tests then is not needed and looks to me out of the scope of this change. There is no need to modify them in the meantime as well.",
+      "parentUuid": "d8911d3b_fe5429f4",
+      "range": {
+        "startLine": 12,
+        "startChar": 47,
+        "endLine": 14,
+        "endChar": 12
+      },
+      "revId": "187275dac9e8bfffffa7a9baccb6d681028ad38c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e5d44608_dd04043f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

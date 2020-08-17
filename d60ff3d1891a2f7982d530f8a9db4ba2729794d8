@@ -118,6 +118,30 @@
       "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28e5bf0d_32e32362",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-17T16:01:04Z",
+      "side": 0,
+      "message": "Done",
+      "parentUuid": "fc7c7629_659b8500",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

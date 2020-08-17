@@ -30,7 +30,7 @@ import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api
 
 declare global {
   interface HTMLElementTagNameMap {
-    'gr-http-password': GestureEventListeners;
+    'gr-http-password': GrHttpPassword;
   }
 }
 

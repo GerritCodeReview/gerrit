@@ -22,6 +22,30 @@
       "revId": "507ad411e20550060a1631a52eb23836eece7307",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9836e2d_a42efb55",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 427,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T08:24:45Z",
+      "side": 1,
+      "message": "yes, that\u0027s a good point. It\u0027s a part of the reformatting I\u0027m planning.",
+      "parentUuid": "89dde7de_574ce780",
+      "range": {
+        "startLine": 425,
+        "startChar": 0,
+        "endLine": 427,
+        "endChar": 86
+      },
+      "revId": "507ad411e20550060a1631a52eb23836eece7307",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

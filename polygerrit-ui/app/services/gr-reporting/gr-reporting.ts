@@ -85,8 +85,8 @@ export interface ReportingService {
    * @param elapsed The time elapsed of the RPC.
    */
   reportRpcTiming(anonymizedUrl: string, elapsed: number): void;
-  reportLifeCycle(eventName: string, details: EventDetails): void;
-  reportInteraction(eventName: string, details: EventDetails): void;
+  reportLifeCycle(eventName: string, details?: EventDetails): void;
+  reportInteraction(eventName: string, details?: EventDetails): void;
   /**
    * A draft interaction was started. Update the time-betweeen-draft-actions
    * timer.

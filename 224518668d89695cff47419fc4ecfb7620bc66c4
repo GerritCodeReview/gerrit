@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56c35d79_9154c929",
+        "filename": "polygerrit-ui/app/elements/shared/gr-diff-preferences/gr-diff-preferences.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T10:16:33Z",
+      "side": 1,
+      "message": "Remove !, seems unnecessary",
+      "range": {
+        "startLine": 98,
+        "startChar": 60,
+        "endLine": 98,
+        "endChar": 61
+      },
+      "revId": "224518668d89695cff47419fc4ecfb7620bc66c4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

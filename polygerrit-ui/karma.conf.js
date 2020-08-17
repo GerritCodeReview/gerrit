@@ -84,7 +84,7 @@ module.exports = function(config) {
       nodeResolve: {
         // By default, it tries to use page.mjs file instead of page.js
         // when importing 'page/page'.
-        extensions: ['.js'],
+        extensions: ['.js', '.ts'],
       },
       moduleDirs: getModulesDir(),
       // Bazel and yarn uses symlinks for files.

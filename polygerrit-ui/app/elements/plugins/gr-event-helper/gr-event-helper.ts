@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-interface EventWithPath extends Event {
+export interface EventWithPath extends Event {
   path?: HTMLElement[];
 }
 

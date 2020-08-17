@@ -165,7 +165,7 @@ suite('gr-autocomplete tests', () => {
   test('clear-on-commit behavior (off)', done => {
     let promise;
     const queryStub = sinon.spy(() => {
-      promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+      promise = Promise.resolve([{name: 'suggestion', value: '0'}]);
       return promise;
     });
     element.query = queryStub;
@@ -188,7 +188,7 @@ suite('gr-autocomplete tests', () => {
   test('clear-on-commit behavior (on)', done => {
     let promise;
     const queryStub = sinon.spy(() => {
-      promise = Promise.resolve([{name: 'suggestion', value: 0}]);
+      promise = Promise.resolve([{name: 'suggestion', value: '0'}]);
       return promise;
     });
     element.query = queryStub;
@@ -252,7 +252,7 @@ suite('gr-autocomplete tests', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
+          {name: 'suggestion', value: '0'},
         ]));
     element.query = queryStub;
     element.suggestOnlyWhenFocus = true;
@@ -271,7 +271,7 @@ suite('gr-autocomplete tests', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
+          {name: 'suggestion', value: '0'},
         ]));
     element.query = queryStub;
     element.suggestOnlyWhenFocus = true;
@@ -288,7 +288,7 @@ suite('gr-autocomplete tests', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
+          {name: 'suggestion', value: '0'},
         ]));
     element.query = queryStub;
     focusOnInput(element);
@@ -306,7 +306,7 @@ suite('gr-autocomplete tests', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
-          {name: 'suggestion', value: 0},
+          {name: 'suggestion', value: '0'},
         ]));
     element.query = queryStub;
     focusOnInput(element);

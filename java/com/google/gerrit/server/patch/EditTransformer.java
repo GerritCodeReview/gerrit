@@ -200,11 +200,15 @@ class EditTransformer {
 
     @Override
     public ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition) {
+      // Use an empty range at Gerrit "file level" if no target range is available. Such an empty
+      // range should not occur right now but this should be a safe fallback if something changes
+      // in the future.
+      Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
       return ContextAwareEdit.create(
           newPosition.filePath(),
           edit.getNewFilePath(),
-          newPosition.lineRange().start(),
-          newPosition.lineRange().end(),
+          updatedRange.start(),
+          updatedRange.end(),
           edit.getBeginB(),
           edit.getEndB(),
           !Objects.equals(edit.getOldFilePath(), newPosition.filePath()));
@@ -224,13 +228,17 @@ class EditTransformer {
 
     @Override
     public ContextAwareEdit createEditAtNewPosition(ContextAwareEdit edit, Position newPosition) {
+      // Use an empty range at Gerrit "file level" if no target range is available. Such an empty
+      // range should not occur right now but this should be a safe fallback if something changes
+      // in the future.
+      Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
       return ContextAwareEdit.create(
           edit.getOldFilePath(),
           newPosition.filePath(),
           edit.getBeginA(),
           edit.getEndA(),
-          newPosition.lineRange().start(),
-          newPosition.lineRange().end(),
+          updatedRange.start(),
+          updatedRange.end(),
           !Objects.equals(edit.getNewFilePath(), newPosition.filePath()));
     }
   }

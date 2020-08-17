@@ -1043,16 +1043,17 @@ export interface LabelTypeInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-content
  */
 export interface DiffContent {
-  a?: string;
-  b?: string;
-  ab?: string;
+  a?: string[];
+  b?: string[];
+  ab?: string[];
   // The inner array is always of length two. The first entry is the 'skip'
   // length. The second entry is the 'edit' length.
-  edit_a: number[][];
-  edit_b: number[][];
-  due_to_rebase: boolean;
+  edit_a?: number[][];
+  edit_b?: number[][];
+  due_to_rebase?: boolean;
   skip?: string;
   common?: string;
+  keyLocation?: boolean;
 }
 
 /**

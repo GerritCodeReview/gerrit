@@ -46,6 +46,30 @@
       "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d859bf9b_10326f1f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T10:39:56Z",
+      "side": 0,
+      "message": "\u003e\u003eIf it is undefined/null the outcome should be the same.\n\nI tried in developer console:\n\u003e\u003e _computeUsernameMutable({auth: {editable_account_fields: [\u0027USER_NAME\u0027]}}, undefined);\n\u003c\u003c undefined\n\n\u003e\u003e _computeUsernameMutable({auth: {editable_account_fields: [\u0027USER_NAME\u0027]}}, null);\n\u003c\u003c true\n\nSeems the result is different. Did I miss something?",
+      "parentUuid": "7c5f325b_eebeb724",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

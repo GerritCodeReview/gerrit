@@ -35,6 +35,7 @@ import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
+import com.google.gerrit.server.patch.GitPositionTransformer.BestPositionOnConflict;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
@@ -53,6 +54,8 @@ import java.util.Optional;
 @Singleton
 public class ListPortedComments implements RestReadView<RevisionResource> {
 
+  private final GitPositionTransformer positionTransformer =
+      new GitPositionTransformer(BestPositionOnConflict.INSTANCE);
   private final CommentsUtil commentsUtil;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
@@ -120,7 +123,7 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
         loadPatchsetMappings(project, originalPatchset, targetPatchset);
     ImmutableList<PositionedEntity<HumanComment>> positionedComments =
         comments.stream().map(this::toPositionedEntity).collect(toImmutableList());
-    return GitPositionTransformer.transform(positionedComments, mappings).stream()
+    return positionTransformer.transform(positionedComments, mappings).stream()
         .map(PositionedEntity::getEntityAtUpdatedPosition)
         .collect(toImmutableList());
   }

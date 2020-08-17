@@ -699,8 +699,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentBecomesFileCommentOnConflict() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -803,8 +801,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentEndingWithinModifiedLineBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -837,8 +833,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentWithinModifiedLineBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -871,8 +865,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentStartingWithinLastModifiedLineBecomesFileComment()
       throws Exception {
     // Set up change and patchsets.
@@ -939,11 +931,13 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     assertThat(portedComment).range().endCharacter().isEqualTo(5);
   }
 
+  // We could actually do better in such a situation but that involves some careful improvements
+  // which would need to be covered with even more tests (e.g. several modifications could be within
+  // the comment range; several comments could surround it; other modifications could have occurred
+  // in the file so that start is shifted too but different than end). That's why we go for the
+  // simple solution now (-> just map to file comment).
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and only map start/end conflicts to file
-  // comments.
-  @Ignore
-  public void portedRangeCommentStartingBeforeButEndingAfterModifiedLineCanBePorted()
+  public void portedRangeCommentStartingBeforeButEndingAfterModifiedLineBecomesFileComment()
       throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -971,10 +965,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
-    assertThat(portedComment).range().startLine().isEqualTo(3);
-    assertThat(portedComment).range().startCharacter().isEqualTo(2);
-    assertThat(portedComment).range().endLine().isEqualTo(4);
-    assertThat(portedComment).range().endCharacter().isEqualTo(5);
+    assertThat(portedComment).range().isNull();
+    assertThat(portedComment).line().isNull();
   }
 
   @Test
@@ -1161,8 +1153,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedLineCommentBecomesFileCommentOnConflict() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1221,8 +1211,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedLineCommentOnStartLineOfModificationBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1251,8 +1239,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedLineCommentOnLastLineOfModificationBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =

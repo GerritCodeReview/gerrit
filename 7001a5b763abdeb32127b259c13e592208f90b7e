@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60e6b5a6_bdec5f2d",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-17T19:26:36Z",
+      "side": 1,
+      "message": "Nit: should we have a better exception (also below in the other exception throw)?\nNit because it\u0027s a test class.",
+      "range": {
+        "startLine": 593,
+        "startChar": 8,
+        "endLine": 593,
+        "endChar": 23
+      },
+      "revId": "7001a5b763abdeb32127b259c13e592208f90b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

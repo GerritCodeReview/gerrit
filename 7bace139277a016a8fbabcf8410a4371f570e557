@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8c4db2ac_e77086b9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ChangeEdits.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-17T08:39:12Z",
+      "side": 1,
+      "message": "That would change the signature of the RestModifyView.apply() method. Or am I missing something?",
+      "range": {
+        "startLine": 452,
+        "startChar": 11,
+        "endLine": 452,
+        "endChar": 22
+      },
+      "revId": "7bace139277a016a8fbabcf8410a4371f570e557",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

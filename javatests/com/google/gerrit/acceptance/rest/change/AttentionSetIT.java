@@ -264,6 +264,34 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void robotSubmitsRemovesUsers() throws Exception {
+    PushOneCommit.Result r1 = createChange("refs/heads/master", "file1", "content");
+
+    change(r1)
+        .current()
+        .review(ReviewInput.approve().addUserToAttentionSet(user.email(), "reason"));
+
+    TestAccount robot =
+        accountCreator.create(
+            "robot2",
+            "robot2@example.com",
+            "Ro Bot",
+            "Ro",
+            "Non-Interactive Users",
+            "Administrators");
+    requestScopeOperations.setApiUser(robot.id());
+    change(r1).current().submit();
+
+    // Attention set updates that relate to the admin (the person who replied) are filtered out.
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r1, user));
+
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+  }
+
+  @Test
   public void addedReviewersAreAddedToAttentionSetOnMergedChanges() throws Exception {
     PushOneCommit.Result r = createChange();
     change(r).current().review(ReviewInput.approve());
@@ -382,6 +410,28 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
     assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+  }
+
+  @Test
+  public void robotReadyForReviewAddsAllReviewersToAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).setWorkInProgress();
+    change(r).addReviewer(user.email());
+
+    TestAccount robot =
+        accountCreator.create(
+            "robot1",
+            "robot1@example.com",
+            "Ro Bot",
+            "Ro",
+            "Non-Interactive Users",
+            "Administrators");
+    requestScopeOperations.setApiUser(robot.id());
+    change(r).setReadyForReview();
+    AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
+    assertThat(attentionSet.account()).isEqualTo(user.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
   }
 
   @Test
@@ -561,6 +611,26 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(exception.getMessage())
         .isEqualTo(
             "user can not be added/removed twice, and can not be added and removed at the same time");
+  }
+
+  @Test
+  public void reviewDoesNotAddReviewerWithoutAutomaticRules() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput reviewInput = ReviewInput.recommend().blockAutomaticAttentionSetRules();
+
+    change(r).current().review(reviewInput);
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
+  public void reviewDoesNotAddReviewer() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    ReviewInput reviewInput = ReviewInput.recommend();
+
+    change(r).current().review(reviewInput);
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
   }
 
   @Test

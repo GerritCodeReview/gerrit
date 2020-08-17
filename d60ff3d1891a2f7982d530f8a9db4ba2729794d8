@@ -94,6 +94,30 @@
       "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc7c7629_659b8500",
+        "filename": "polygerrit-ui/app/elements/settings/gr-registration-dialog/gr-registration-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-17T11:33:18Z",
+      "side": 0,
+      "message": "It seems the question is should undefined check for username be removed or not?\nRemoving the check seems safer. I don\u0027t mind if you don\u0027t remove it and only explain why do you think the existing change doesn\u0027t break anything. Right now I can\u0027t see why it is safe, but I didn\u0027t go deep into details.",
+      "parentUuid": "c8d1d170_40eb17bb",
+      "range": {
+        "startLine": 54,
+        "startChar": 8,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "d60ff3d1891a2f7982d530f8a9db4ba2729794d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

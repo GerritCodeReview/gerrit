@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aadd191c_7badf074",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-pointer-dialog/gr-create-pointer-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T13:20:44Z",
+      "side": 1,
+      "message": "Nice refactoring!",
+      "range": {
+        "startLine": 86,
+        "startChar": 16,
+        "endLine": 86,
+        "endChar": 80
+      },
+      "revId": "0aa96b9f9be9aab513f5500bf6aca67a9edd5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "470d2776_92ed13a5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T13:20:44Z",
+      "side": 1,
+      "message": "drafts don\u0027t",
+      "range": {
+        "startLine": 373,
+        "startChar": 9,
+        "endLine": 373,
+        "endChar": 23
+      },
+      "revId": "0aa96b9f9be9aab513f5500bf6aca67a9edd5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "738deb0a_5faf6cd5",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 660,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-17T13:20:44Z",
+      "side": 1,
+      "message": "for now",
+      "range": {
+        "startLine": 660,
+        "startChar": 63,
+        "endLine": 660,
+        "endChar": 70
+      },
+      "revId": "0aa96b9f9be9aab513f5500bf6aca67a9edd5bd3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

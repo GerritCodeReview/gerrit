@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f88e150e_2a0998d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-17T11:57:15Z",
+      "side": 1,
+      "message": "Thanks for the nice and detailed commit message. \n\nThe extracted code looks good overall. One general comment: I think GitPositionTransformer needs more comments/javadoc to clarify what \"transformation\" means, and how it\u0027s done using the mappings and what the shifting logic handles it.\n\nSince the code of this class is moved, that should have been added previously. It would be nice to include it with this change anyway.",
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6549d98f_94251d7c",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-17T11:57:15Z",
+      "side": 1,
+      "message": "Not sure if it\u0027s better to move this to GitPositionTransformer.Mapping\n\npublic static Mapping fromPatchListEntry(PatchListEntry e) { ... } \n\nIn this case, this class can be eliminated.",
+      "range": {
+        "startLine": 31,
+        "startChar": 24,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90474ed9_227fc07a",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-17T11:57:15Z",
+      "side": 1,
+      "message": "If the only purpose of this method is to duplicate positioned entities, we can possibly rename the method to #duplicateEntitiesWithSameOldFileMapping.\n\nWith this we can also get rid of the comment above this line.",
+      "range": {
+        "startLine": 66,
+        "startChar": 56,
+        "endLine": 66,
+        "endChar": 71
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44050519_53012df0",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-17T11:57:15Z",
+      "side": 1,
+      "message": "IMO groupByOldPath is a better rename.\n\nAlso can add a javadoc to the method to explain its purpose:\nreturns a list of new file paths for the input mappings, grouped by their old file paths.",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 73
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8375f727_3f5f9ad8",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-17T11:57:15Z",
+      "side": 1,
+      "message": "As I understand, we are using a generic here to represent comments later. At this point the only underlying entity we are using is ContextAwareEdit.",
+      "range": {
+        "startLine": 368,
+        "startChar": 38,
+        "endLine": 368,
+        "endChar": 41
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

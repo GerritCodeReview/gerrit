@@ -14,25 +14,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-dropdown/iron-dropdown.js';
-import '@polymer/paper-item/paper-item.js';
-import '@polymer/paper-listbox/paper-listbox.js';
-import '../../../styles/shared-styles.js';
-import '../gr-button/gr-button.js';
-import '../gr-date-formatter/gr-date-formatter.js';
-import '../gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-dropdown-list_html.js';
+import '@polymer/iron-dropdown/iron-dropdown';
+import '@polymer/paper-item/paper-item';
+import '@polymer/paper-listbox/paper-listbox';
+import '../../../styles/shared-styles';
+import '../gr-button/gr-button';
+import '../gr-date-formatter/gr-date-formatter';
+import '../gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-dropdown-list_html';
+import {customElement, property, observe} from '@polymer/decorators';
+import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 
 /**
  * fired when the selected value of the dropdown changes
  *
  * @event {change}
  */
-
-const Defs = {};
 
 /**
  * Requred values are text and value. mobileText and triggerText will
@@ -42,25 +42,31 @@ const Defs = {};
  * line.
  *
  * If date is not provided, nothing will be displayed in its place.
- *
- * @typedef {{
- *    text: string,
- *    value: (string|number),
- *    bottomText: (string|undefined),
- *    triggerText: (string|undefined),
- *    mobileText: (string|undefined),
- *    date: (!Date|undefined),
- * }}
  */
-Defs.item;
+interface DropdownItem {
+  text: string;
+  value: string | number;
+  bottomText?: string;
+  triggerText?: string;
+  mobileText?: string;
+  date?: Date;
+}
+
+export interface GrDropdownList {
+  $: {
+    dropdown: IronDropdownElement;
+  };
+}
 
 /** @extends PolymerElement */
-class GrDropdownList extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+@customElement('gr-dropdown-list')
+export class GrDropdownList extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-dropdown-list'; }
   /**
    * Fired when the selected value changes
    *
@@ -69,35 +75,25 @@ class GrDropdownList extends GestureEventListeners(
    * @property {string|number} value
    */
 
-  static get properties() {
-    return {
-      initialCount: Number,
-      /** @type {!Array<!Defs.item>} */
-      items: Object,
-      text: String,
-      disabled: {
-        type: Boolean,
-        value: false,
-      },
-      value: {
-        type: String,
-        notify: true,
-      },
-    };
-  }
+  @property({type: Number})
+  initialCount = 75;
 
-  static get observers() {
-    return [
-      '_handleValueChange(value, items)',
-    ];
-  }
+  @property({type: Object})
+  items?: DropdownItem[];
+
+  @property({type: String})
+  text?: string;
+
+  @property({type: Boolean})
+  disabled = false;
+
+  @property({type: String, notify: true})
+  value?: string;
 
   /**
    * Handle a click on the iron-dropdown element.
-   *
-   * @param {!Event} e
    */
-  _handleDropdownClick(e) {
+  _handleDropdownClick() {
     // async is needed so that that the click event is fired before the
     // dropdown closes (This was a bug for touch devices).
     this.async(() => {
@@ -107,10 +103,8 @@ class GrDropdownList extends GestureEventListeners(
 
   /**
    * Handle a click on the button to open the dropdown.
-   *
-   * @param {!Event} e
    */
-  _showDropdownTapHandler(e) {
+  _showDropdownTapHandler() {
     this._open();
   }
 
@@ -121,26 +115,33 @@ class GrDropdownList extends GestureEventListeners(
     this.$.dropdown.open();
   }
 
-  _computeMobileText(item) {
+  _computeMobileText(item: DropdownItem) {
     return item.mobileText ? item.mobileText : item.text;
   }
 
-  _handleValueChange(value, items) {
-    // Polymer 2: check for undefined
-    if ([value, items].some(arg => arg === undefined)) {
+  @observe('value', 'items')
+  _handleValueChange(value?: string, items?: DropdownItem[]) {
+    if (!value || !items) {
       return;
     }
-
-    if (!value) { return; }
-    const selectedObj = items.find(item => item.value + '' === value + '');
-    if (!selectedObj) { return; }
-    this.text = selectedObj.triggerText? selectedObj.triggerText :
-      selectedObj.text;
-    this.dispatchEvent(new CustomEvent('value-change', {
-      detail: {value},
-      bubbles: false,
-    }));
+    const selectedObj = items.find(item => `${item.value}` === `${value}`);
+    if (!selectedObj) {
+      return;
+    }
+    this.text = selectedObj.triggerText
+      ? selectedObj.triggerText
+      : selectedObj.text;
+    this.dispatchEvent(
+      new CustomEvent('value-change', {
+        detail: {value},
+        bubbles: false,
+      })
+    );
   }
 }
 
-customElements.define(GrDropdownList.is, GrDropdownList);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-dropdown-list': GrDropdownList;
+  }
+}

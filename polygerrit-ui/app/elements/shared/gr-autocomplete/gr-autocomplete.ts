@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/paper-input/paper-input.js';
-import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown.js';
-import '../gr-cursor-manager/gr-cursor-manager.js';
-import '../gr-icons/gr-icons.js';
-import '../../../styles/shared-styles.js';
-import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-autocomplete_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '@polymer/paper-input/paper-input';
+import '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
+import '../gr-cursor-manager/gr-cursor-manager';
+import '../gr-icons/gr-icons';
+import '../../../styles/shared-styles';
+import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-autocomplete_html';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -33,11 +33,15 @@ const DEBOUNCE_WAIT_MS = 200;
  * @extends PolymerElement
  */
 class GrAutocomplete extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-autocomplete'; }
+  static get is() {
+    return 'gr-autocomplete';
+  }
   /**
    * Fired when a value is chosen.
    *
@@ -59,7 +63,6 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
   static get properties() {
     return {
-
       /**
        * Query for requesting autocomplete suggestions. The function should
        * accept the input as a string parameter and return a promise. The
@@ -74,7 +77,7 @@ class GrAutocomplete extends KeyboardShortcutMixin(
       query: {
         type: Function,
         value() {
-          return function() {
+          return function () {
             return Promise.resolve([]);
           };
         },
@@ -164,12 +167,16 @@ class GrAutocomplete extends KeyboardShortcutMixin(
       /** @type {?} */
       _suggestions: {
         type: Array,
-        value() { return []; },
+        value() {
+          return [];
+        },
       },
 
       _suggestionEls: {
         type: Array,
-        value() { return []; },
+        value() {
+          return [];
+        },
       },
 
       _index: Number,
@@ -230,7 +237,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
   selectAll() {
     const nativeInputElement = this._nativeInput;
-    if (!this.$.input.value) { return; }
+    if (!this.$.input.value) {
+      return;
+    }
     nativeInputElement.setSelectionRange(0, this.$.input.value.length);
   }
 
@@ -240,7 +249,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
   _handleItemSelect(e) {
     // Let _handleKeydown deal with keyboard interaction.
-    if (e.detail.trigger !== 'click') { return; }
+    if (e.detail.trigger !== 'click') {
+      return;
+    }
     this._selected = e.detail.selected;
     this._commit();
   }
@@ -253,7 +264,7 @@ class GrAutocomplete extends KeyboardShortcutMixin(
   /**
    * Set the text of the input without triggering the suggestion dropdown.
    *
-   * @param {string} text The new text for the input.
+   * @param text The new text for the input.
    */
   setText(text) {
     this._disableSuggestions = true;
@@ -270,8 +281,10 @@ class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   _onInputBlur() {
-    this.$.input.classList.toggle('warnUncommitted',
-        this.warnUncommitted && this.text.length && !this._focused);
+    this.$.input.classList.toggle(
+      'warnUncommitted',
+      this.warnUncommitted && this.text.length && !this._focused
+    );
     // Needed so that --paper-input-container-input updated style is applied.
     this.updateStyles();
   }
@@ -289,7 +302,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
     // TODO(taoalpha): Also skip if text has not changed
 
-    if (this._disableSuggestions) { return; }
+    if (this._disableSuggestions) {
+      return;
+    }
     if (text.length < threshold) {
       this.value = '';
       return;
@@ -363,7 +378,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
         }
         break;
       case 13: // Enter
-        if (this.modifierPressed(e)) { break; }
+        if (this.modifierPressed(e)) {
+          break;
+        }
         e.preventDefault();
         this._handleInputCommit();
         break;
@@ -378,36 +395,45 @@ class GrAutocomplete extends KeyboardShortcutMixin(
         // immediately followed by a commit keystroke. @see Issue 8655
         this._suggestions = [];
     }
-    this.dispatchEvent(new CustomEvent('input-keydown', {
-      detail: {keyCode: e.keyCode, input: this.$.input},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('input-keydown', {
+        detail: {keyCode: e.keyCode, input: this.$.input},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _cancel() {
     if (this._suggestions.length) {
       this.set('_suggestions', []);
     } else {
-      this.dispatchEvent(new CustomEvent('cancel', {
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('cancel', {
+          composed: true,
+          bubbles: true,
+        })
+      );
     }
   }
 
   /**
-   * @param {boolean=} opt_tabComplete
+   * @param opt_tabComplete
    */
   _handleInputCommit(opt_tabComplete) {
     // Nothing to do if the dropdown is not open.
-    if (!this.allowNonSuggestedValues &&
-        this.$.suggestions.isHidden) { return; }
+    if (!this.allowNonSuggestedValues && this.$.suggestions.isHidden) {
+      return;
+    }
 
     this._selected = this.$.suggestions.getCursorTarget();
     this._commit(opt_tabComplete);
   }
 
   _updateValue(suggestion, suggestions) {
-    if (!suggestion) { return; }
+    if (!suggestion) {
+      return;
+    }
     const completed = suggestions[suggestion.dataset.index].value;
     if (this.multi) {
       // Append the completed text to the end of the string.
@@ -439,9 +465,9 @@ class GrAutocomplete extends KeyboardShortcutMixin(
   /**
    * Commits the suggestion, optionally firing the commit event.
    *
-   * @param {boolean=} opt_silent Allows for silent committing of an
-   *     autocomplete suggestion in order to handle cases like tab-to-complete
-   *     without firing the commit event.
+   * @param opt_silent Allows for silent committing of an
+   * autocomplete suggestion in order to handle cases like tab-to-complete
+   * without firing the commit event.
    */
   _commit(opt_silent) {
     // Allow values that are not in suggestion list iff suggestions are empty.
@@ -466,10 +492,13 @@ class GrAutocomplete extends KeyboardShortcutMixin(
 
     this._suggestions = [];
     if (!opt_silent) {
-      this.dispatchEvent(new CustomEvent('commit', {
-        detail: {value},
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('commit', {
+          detail: {value},
+          composed: true,
+          bubbles: true,
+        })
+      );
     }
 
     this._textChangedSinceCommit = false;

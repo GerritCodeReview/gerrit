@@ -83,8 +83,11 @@ module.exports = function(config) {
     esm: {
       nodeResolve: {
         // By default, it tries to use page.mjs file instead of page.js
-        // when importing 'page/page'.
-        extensions: ['.js'],
+        // when importing 'page/page', so we shouldn't use .mjs extension
+        // in node resolve.
+        // The .ts extension is required to display source code in browser
+        // (otherwise esm plugin crashes)
+        extensions: ['.js', '.ts'],
       },
       moduleDirs: getModulesDir(),
       // Bazel and yarn uses symlinks for files.

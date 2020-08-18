@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "1921db8c_9d4dde1c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-18T14:24:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8dd72ccc_63f9a326",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 5
+      },
+      "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6fa8eee_6edcb1fe",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "1ac18e93_3c6a8ea7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-18T14:24:36Z",
+      "side": 1,
+      "message": "Good catch. I was pretty sure that the type must be GrDiffLineType, which cannot have context-control anymore. But apparently it can also be GrDiffGroupType. Done.",
+      "parentUuid": "b6fa8eee_6edcb1fe",
+      "range": {
+        "startLine": 467,
+        "startChar": 39,
+        "endLine": 468,
+        "endChar": 15
+      },
+      "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a5f554c7_37eb511b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b22e5912_459a6769",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-18T14:24:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a5f554c7_37eb511b",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 13
+      },
+      "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

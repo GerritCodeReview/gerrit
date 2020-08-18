@@ -25,6 +25,7 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -52,7 +53,8 @@ import java.util.stream.Stream;
  *   <li>Go over all positions and replace the file path for each of them with the corresponding one
  *       in the target tree. If a file path maps to two file paths in the target tree (copied file),
  *       duplicate the position entry and use each of the new file paths with it. If a file path
- *       maps to no file in the target tree (deleted file), drop the position.
+ *       maps to no file in the target tree (deleted file), apply the specified conflict strategy
+ *       (e.g. drop position completely or map to next best guess).
  *   <li>Per file path, go through the file from top to bottom and keep track of how the range
  *       mappings for that file shift the lines. Derive the shifted amount by comparing the number
  *       of lines between source and target in the range mapping. While going through the file,
@@ -97,7 +99,7 @@ public class GitPositionTransformer {
     return shiftRanges(filePathUpdatedEntities, mappings);
   }
 
-  private static <T> ImmutableList<PositionedEntity<T>> updateFilePaths(
+  private <T> ImmutableList<PositionedEntity<T>> updateFilePaths(
       Collection<PositionedEntity<T>> entities, Set<Mapping> mappings) {
     Map<String, ImmutableSet<String>> newFilesPerOldFile = groupNewFilesByOldFiles(mappings);
     return entities.stream()
@@ -108,12 +110,22 @@ public class GitPositionTransformer {
   private static Map<String, ImmutableSet<String>> groupNewFilesByOldFiles(Set<Mapping> mappings) {
     return mappings.stream()
         .map(Mapping::file)
+        // Ignore file additions (irrelevant for mappings).
+        .filter(mapping -> mapping.oldPath().isPresent())
         .collect(
             groupingBy(
-                FileMapping::oldPath, Collectors.mapping(FileMapping::newPath, toImmutableSet())));
+                mapping -> mapping.oldPath().orElse(""),
+                collectingAndThen(
+                    Collectors.mapping(FileMapping::newPath, toImmutableSet()),
+                    // File deletion (empty Optional) -> empty set.
+                    GitPositionTransformer::unwrapOptionals)));
   }
 
-  private static <T> Stream<PositionedEntity<T>> mapToNewFileIfChanged(
+  private static ImmutableSet<String> unwrapOptionals(ImmutableSet<Optional<String>> optionals) {
+    return optionals.stream().flatMap(Streams::stream).collect(toImmutableSet());
+  }
+
+  private <T> Stream<PositionedEntity<T>> mapToNewFileIfChanged(
       Map<String, ? extends Set<String>> newFilesPerOldFile, PositionedEntity<T> entity) {
     if (!entity.position().filePath().isPresent()) {
       // No mapping of file paths necessary if no file path is set. -> Keep existing entry.
@@ -125,6 +137,11 @@ public class GitPositionTransformer {
       return Stream.of(entity);
     }
     Set<String> newFiles = newFilesPerOldFile.get(oldFilePath);
+    if (newFiles.isEmpty()) {
+      // File was deleted.
+      return Streams.stream(
+          positionConflictStrategy.getOnFileConflict(entity.position()).map(entity::withPosition));
+    }
     return newFiles.stream().map(entity::withFilePath);
   }
 
@@ -151,9 +168,11 @@ public class GitPositionTransformer {
   private static Map<String, ImmutableSet<RangeMapping>> groupRangeMappingsByNewFilePath(
       Set<Mapping> mappings) {
     return mappings.stream()
+        // Ignore range mappings of deleted files.
+        .filter(mapping -> mapping.file().newPath().isPresent())
         .collect(
             groupingBy(
-                mapping -> mapping.file().newPath(),
+                mapping -> mapping.file().newPath().orElse(""),
                 collectingAndThen(
                     Collectors.<Mapping, Set<RangeMapping>>reducing(
                         new HashSet<>(), Mapping::ranges, Sets::union),
@@ -271,20 +290,45 @@ public class GitPositionTransformer {
   @AutoValue
   public abstract static class FileMapping {
 
-    /** File path in the source tree. */
-    public abstract String oldPath();
-
-    /** File path in the target tree. Can be the same as {@link #oldPath()}. */
-    public abstract String newPath();
+    /** File path in the source tree. For file additions, this is an empty {@link Optional}. */
+    public abstract Optional<String> oldPath();
 
     /**
-     * Creates a new {@code FileMapping}.
-     *
-     * @param oldPath see {@link #oldPath()}
-     * @param newPath see {@link #newPath()}
+     * File path in the target tree. Can be the same as {@link #oldPath()} if unchanged. For file
+     * deletions, this is an empty {@link Optional}.
      */
-    public static FileMapping create(String oldPath, String newPath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(oldPath, newPath);
+    public abstract Optional<String> newPath();
+
+    /**
+     * Creates a {@link FileMapping} for a file addition.
+     *
+     * <p>In the context of {@link GitPositionTransformer}, file additions are irrelevant as no
+     * given position in the source tree can refer to such a new file in the target tree. We still
+     * provide this factory method so that code outside of {@link GitPositionTransformer} doesn't
+     * have to care about such details and can simply create {@link FileMapping}s for any
+     * modifications between the trees.
+     */
+    public static FileMapping forAddedFile(String filePath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.empty(), Optional.of(filePath));
+    }
+
+    /** Creates a {@link FileMapping} for a file deletion. */
+    public static FileMapping forDeletedFile(String filePath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.of(filePath), Optional.empty());
+    }
+
+    /** Creates a {@link FileMapping} for a file modification. */
+    public static FileMapping forModifiedFile(String filePath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.of(filePath), Optional.of(filePath));
+    }
+
+    /** Creates a {@link FileMapping} for a file renaming. */
+    public static FileMapping forRenamedFile(String oldPath, String newPath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.of(oldPath), Optional.of(newPath));
     }
   }
 
@@ -528,6 +572,16 @@ public class GitPositionTransformer {
      *     dropped
      */
     Optional<Position> getOnRangeConflict(Position oldPosition);
+
+    /**
+     * Determines an alternate {@link Position} when there is no file for the position (= file
+     * deletion) in the target tree.
+     *
+     * @param oldPosition position in the source tree
+     * @return the new {@link Position} or an empty {@link Optional} if the position should be *
+     *     dropped
+     */
+    Optional<Position> getOnFileConflict(Position oldPosition);
   }
 
   /**
@@ -540,6 +594,11 @@ public class GitPositionTransformer {
 
     @Override
     public Optional<Position> getOnRangeConflict(Position oldPosition) {
+      return Optional.empty();
+    }
+
+    @Override
+    public Optional<Position> getOnFileConflict(Position oldPosition) {
       return Optional.empty();
     }
   }
@@ -561,6 +620,12 @@ public class GitPositionTransformer {
     @Override
     public Optional<Position> getOnRangeConflict(Position oldPosition) {
       return Optional.of(oldPosition.withoutLineRange());
+    }
+
+    @Override
+    public Optional<Position> getOnFileConflict(Position oldPosition) {
+      // If there isn't a target file, we can also drop any ranges.
+      return Optional.of(Position.builder().build());
     }
   }
 }

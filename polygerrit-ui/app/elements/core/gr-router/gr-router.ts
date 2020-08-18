@@ -160,6 +160,8 @@ const RoutePattern = {
    */
   QUERY_LEGACY_SUFFIX: /^\/q\/.+,n,z$/,
 
+  CHANGE_ID_QUERY: /^\/id\/(I[0-9a-f]{40})$/,
+
   // Matches /c/<changeNum>/[<basePatchNum>..][<patchNum>][/].
   CHANGE_LEGACY: /^\/c\/(\d+)\/?(((-?\d+|edit)(\.\.(\d+|edit))?))?\/?$/,
   CHANGE_NUMBER_LEGACY: /^\/(\d+)\/?/,
@@ -1018,6 +1020,8 @@ export class GrRouter extends GestureEventListeners(
 
     this._mapRoute(RoutePattern.QUERY, '_handleQueryRoute');
 
+    this._mapRoute(RoutePattern.CHANGE_ID_QUERY, '_handleChangeIdQueryRoute');
+
     this._mapRoute(RoutePattern.DIFF_LEGACY_LINENUM, '_handleLegacyLinenum');
 
     this._mapRoute(
@@ -1507,6 +1511,16 @@ export class GrRouter extends GestureEventListeners(
       view: GerritView.SEARCH,
       query: data.params[0],
       offset: data.params[2],
+    });
+  }
+
+  _handleChangeIdQueryRoute(data: PageContextWithQueryMap) {
+    // TODO(pcc): This will need to indicate that this was a change ID query if
+    // standard queries gain the ability to search places like commit messages
+    // for change IDs.
+    this._setParams({
+      view: GerritNav.View.SEARCH,
+      query: data.params[0],
     });
   }
 

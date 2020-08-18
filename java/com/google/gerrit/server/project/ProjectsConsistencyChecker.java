@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.project;
 
-import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.index.query.Predicate.and;
 import static com.google.gerrit.index.query.Predicate.or;
 import static com.google.gerrit.server.query.change.ChangeStatusPredicate.open;
@@ -36,13 +35,16 @@ import com.google.gerrit.extensions.api.projects.CheckProjectResultInfo;
 import com.google.gerrit.extensions.api.projects.CheckProjectResultInfo.AutoCloseableChangesCheckResult;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.index.IndexConfig;
 import com.google.gerrit.index.query.Predicate;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.index.change.ChangeField;
 import com.google.gerrit.server.query.change.ChangeData;
@@ -75,17 +77,20 @@ public class ProjectsConsistencyChecker {
   private final RetryHelper retryHelper;
   private final ChangeJson.Factory changeJsonFactory;
   private final IndexConfig indexConfig;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
   ProjectsConsistencyChecker(
       GitRepositoryManager repoManager,
       RetryHelper retryHelper,
       ChangeJson.Factory changeJsonFactory,
-      IndexConfig indexConfig) {
+      IndexConfig indexConfig,
+      DynamicItem<UrlFormatter> urlFormatter) {
     this.repoManager = repoManager;
     this.retryHelper = retryHelper;
     this.changeJsonFactory = changeJsonFactory;
     this.indexConfig = indexConfig;
+    this.urlFormatter = urlFormatter;
   }
 
   public CheckProjectResultInfo check(Project.NameKey projectName, CheckProjectInput input)
@@ -172,7 +177,7 @@ public class ProjectsConsistencyChecker {
         mergedSha1s.add(commitId);
 
         // Consider all Change-Id lines since this is what ReceiveCommits#autoCloseChanges does.
-        List<String> changeIds = commit.getFooterLines(CHANGE_ID);
+        List<String> changeIds = ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get());
 
         // Number of predicates that we need to add for this commit, 1 per Change-Id plus one for
         // the commit.

@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
@@ -41,11 +40,13 @@ import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersOp;
@@ -56,6 +57,7 @@ import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
@@ -131,6 +133,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ReviewerAdder reviewerAdder;
   private final Change change;
   private final MessageIdGenerator messageIdGenerator;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   private final ProjectState projectState;
   private final BranchNameKey dest;
@@ -175,6 +178,7 @@ public class ReplaceOp implements BatchUpdateOp {
       ReviewerAdder reviewerAdder,
       Change change,
       MessageIdGenerator messageIdGenerator,
+      DynamicItem<UrlFormatter> urlFormatter,
       @Assisted ProjectState projectState,
       @Assisted BranchNameKey dest,
       @Assisted boolean checkMergedInto,
@@ -202,6 +206,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.reviewerAdder = reviewerAdder;
     this.change = change;
     this.messageIdGenerator = messageIdGenerator;
+    this.urlFormatter = urlFormatter;
 
     this.projectState = projectState;
     this.dest = dest;
@@ -483,7 +488,7 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(info);
 
-    List<String> idList = commit.getFooterLines(CHANGE_ID);
+    List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get());
     change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
   }
 

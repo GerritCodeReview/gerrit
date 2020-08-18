@@ -56,6 +56,26 @@ change viewed on the web.
 The `Change-Id` will not be added if `gerrit.createChangeId` is set
 to `false` in the git config.
 
+If `gerrit.reviewUrl` is set to the base URL of the Gerrit server that
+changes are uploaded to (e.g. `https://gerrit-review.googlesource.com/`)
+in the git config, then instead of adding a `Change-Id` trailer, a `Link`
+trailer will be inserted that will look like this:
+
+----
+Improve foo widget by attaching a bar.
+
+We want a bar, because it improves the foo by providing more
+wizbangery to the dowhatimeanery.
+
+Link: https://gerrit-review.googlesource.com/id/Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+Signed-off-by: A. U. Thor <author@example.com>
+----
+
+This link will become a valid link to the review page once the change is
+uploaded to the Gerrit server. Newer versions of the Gerrit server will read
+the change identifier out of the appropriate `Link` trailer and treat it in
+the same way as the change identifier in a `Change-Id` trailer.
+
 == OBTAINING
 
 To obtain the `commit-msg` script use `scp`, `wget` or `curl` to download

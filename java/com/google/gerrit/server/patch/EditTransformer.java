@@ -25,6 +25,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.OmitPositionOnConflict;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
@@ -218,14 +219,22 @@ class EditTransformer {
                 + " computation. This is likely a regression!",
             newPosition);
       }
+      // Same as for the range above. PATCHSET_LEVEL is a safe fallback.
+      String updatedFilePath = newPosition.filePath().orElse(Patch.PATCHSET_LEVEL);
+      if (!newPosition.filePath().isPresent()) {
+        logger.at(Level.WARNING).log(
+            "Position %s has an empty file path which is unexpected for the edits-due-to-rebase"
+                + " computation. This is likely a regression!",
+            newPosition);
+      }
       return ContextAwareEdit.create(
-          newPosition.filePath(),
+          updatedFilePath,
           edit.getNewFilePath(),
           updatedRange.start(),
           updatedRange.end(),
           edit.getBeginB(),
           edit.getEndB(),
-          !Objects.equals(edit.getOldFilePath(), newPosition.filePath()));
+          !Objects.equals(edit.getOldFilePath(), updatedFilePath));
     }
   }
 
@@ -246,14 +255,16 @@ class EditTransformer {
       // range should not occur right now but this should be a safe fallback if something changes
       // in the future.
       Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
+      // Same as far the range above. PATCHSET_LEVEL is a safe fallback.
+      String updatedFilePath = newPosition.filePath().orElse(Patch.PATCHSET_LEVEL);
       return ContextAwareEdit.create(
           edit.getOldFilePath(),
-          newPosition.filePath(),
+          updatedFilePath,
           edit.getBeginA(),
           edit.getEndA(),
           updatedRange.start(),
           updatedRange.end(),
-          !Objects.equals(edit.getNewFilePath(), newPosition.filePath()));
+          !Objects.equals(edit.getNewFilePath(), updatedFilePath));
     }
   }
 }

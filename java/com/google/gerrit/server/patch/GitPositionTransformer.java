@@ -85,7 +85,8 @@ public class GitPositionTransformer {
    * @param mappings the mappings describing all relevant changes between the source and the target
    *     tree
    * @param <T> an entity which has a {@link Position}
-   * @return a list of entities with transformed positions
+   * @return a list of entities with transformed positions. There are no guarantees about the order
+   *     of the returned elements.
    */
   public <T> ImmutableList<PositionedEntity<T>> transform(
       Collection<PositionedEntity<T>> entities, Set<Mapping> mappings) {
@@ -114,7 +115,11 @@ public class GitPositionTransformer {
 
   private static <T> Stream<PositionedEntity<T>> mapToNewFileIfChanged(
       Map<String, ? extends Set<String>> newFilesPerOldFile, PositionedEntity<T> entity) {
-    String oldFilePath = entity.position().filePath();
+    if (!entity.position().filePath().isPresent()) {
+      // No mapping of file paths necessary if no file path is set. -> Keep existing entry.
+      return Stream.of(entity);
+    }
+    String oldFilePath = entity.position().filePath().get();
     if (!newFilesPerOldFile.containsKey(oldFilePath)) {
       // Unchanged files don't have a mapping. -> Keep existing entries.
       return Stream.of(entity);
@@ -127,16 +132,19 @@ public class GitPositionTransformer {
       List<PositionedEntity<T>> filePathUpdatedEntities, Set<Mapping> mappings) {
     Map<String, ImmutableSet<RangeMapping>> mappingsPerNewFilePath =
         groupRangeMappingsByNewFilePath(mappings);
-    Map<String, ImmutableList<PositionedEntity<T>>> entitiesPerNewFilePath =
-        groupByFilePath(filePathUpdatedEntities);
-    return entitiesPerNewFilePath.entrySet().stream()
-        .flatMap(
-            newFilePathAndEntities ->
-                shiftRangesInOneFileIfChanged(
-                    mappingsPerNewFilePath,
-                    newFilePathAndEntities.getKey(),
-                    newFilePathAndEntities.getValue())
-                    .stream())
+    return Stream.concat(
+            // Keep positions without a file.
+            filePathUpdatedEntities.stream()
+                .filter(entity -> !entity.position().filePath().isPresent()),
+            // Shift ranges per file.
+            groupByFilePath(filePathUpdatedEntities).entrySet().stream()
+                .flatMap(
+                    newFilePathAndEntities ->
+                        shiftRangesInOneFileIfChanged(
+                            mappingsPerNewFilePath,
+                            newFilePathAndEntities.getKey(),
+                            newFilePathAndEntities.getValue())
+                            .stream()))
         .collect(toImmutableList());
   }
 
@@ -155,7 +163,8 @@ public class GitPositionTransformer {
   private static <T> Map<String, ImmutableList<PositionedEntity<T>>> groupByFilePath(
       List<PositionedEntity<T>> fileUpdatedEntities) {
     return fileUpdatedEntities.stream()
-        .collect(groupingBy(entity -> entity.position().filePath(), toImmutableList()));
+        .filter(entity -> entity.position().filePath().isPresent())
+        .collect(groupingBy(entity -> entity.position().filePath().orElse(""), toImmutableList()));
   }
 
   private <T> ImmutableList<PositionedEntity<T>> shiftRangesInOneFileIfChanged(
@@ -322,7 +331,7 @@ public class GitPositionTransformer {
   public abstract static class Position {
 
     /** Absolute file path. */
-    public abstract String filePath();
+    public abstract Optional<String> filePath();
 
     /**
      * Affected lines. An empty {@link Optional} indicates that this position does not refer to any

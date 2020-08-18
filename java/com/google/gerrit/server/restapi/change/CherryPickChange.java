@@ -20,7 +20,6 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
@@ -29,6 +28,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.api.changes.CherryPickInput;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MergeConflictException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
@@ -43,6 +43,7 @@ import com.google.gerrit.server.change.ChangeInserter;
 import com.google.gerrit.server.change.NotifyResolver;
 import com.google.gerrit.server.change.PatchSetInserter;
 import com.google.gerrit.server.change.SetCherryPickOp;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -112,6 +113,7 @@ public class CherryPickChange {
   private final ApprovalsUtil approvalsUtil;
   private final NotifyResolver notifyResolver;
   private final BatchUpdate.Factory batchUpdateFactory;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   @Inject
   CherryPickChange(
@@ -128,7 +130,8 @@ public class CherryPickChange {
       ProjectCache projectCache,
       ApprovalsUtil approvalsUtil,
       NotifyResolver notifyResolver,
-      BatchUpdate.Factory batchUpdateFactory) {
+      BatchUpdate.Factory batchUpdateFactory,
+      DynamicItem<UrlFormatter> urlFormatter) {
     this.seq = seq;
     this.queryProvider = queryProvider;
     this.gitManager = gitManager;
@@ -143,6 +146,7 @@ public class CherryPickChange {
     this.approvalsUtil = approvalsUtil;
     this.notifyResolver = notifyResolver;
     this.batchUpdateFactory = batchUpdateFactory;
+    this.urlFormatter = urlFormatter;
   }
 
   /**
@@ -312,7 +316,8 @@ public class CherryPickChange {
                 input.allowConflicts);
 
         Change.Key changeKey;
-        final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);
+        final List<String> idList =
+            ChangeUtil.getChangeIdsFromFooter(cherryPickCommit, urlFormatter.get());
         if (!idList.isEmpty()) {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = Change.key(idStr);

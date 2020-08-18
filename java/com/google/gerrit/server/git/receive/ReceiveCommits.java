@@ -60,7 +60,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -117,6 +116,7 @@ import com.google.gerrit.server.config.AllProjectsName;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
 import com.google.gerrit.server.git.BanCommit;
@@ -347,6 +347,7 @@ class ReceiveCommits {
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
   private final ReplyAttentionSetUpdates replyAttentionSetUpdates;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   // Assisted injected fields.
   private final ProjectState projectState;
@@ -427,6 +428,7 @@ class ReceiveCommits {
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
+      DynamicItem<UrlFormatter> urlFormatter,
       @Assisted ProjectState projectState,
       @Assisted IdentifiedUser user,
       @Assisted ReceivePack rp,
@@ -475,6 +477,7 @@ class ReceiveCommits {
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
     this.replyAttentionSetUpdates = replyAttentionSetUpdates;
+    this.urlFormatter = urlFormatter;
 
     // Assisted injected fields.
     this.projectState = projectState;
@@ -2092,7 +2095,7 @@ class ReceiveCommits {
       } catch (IOException e) {
         throw new StorageException("Can't parse commit", e);
       }
-      List<String> idList = create.commit.getFooterLines(FooterConstants.CHANGE_ID);
+      List<String> idList = ChangeUtil.getChangeIdsFromFooter(create.commit, urlFormatter.get());
 
       if (idList.isEmpty()) {
         messages.add(
@@ -2184,7 +2187,7 @@ class ReceiveCommits {
             }
           }
 
-          List<String> idList = c.getFooterLines(FooterConstants.CHANGE_ID);
+          List<String> idList = ChangeUtil.getChangeIdsFromFooter(c, urlFormatter.get());
           if (!idList.isEmpty()) {
             pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
           } else {
@@ -3323,7 +3326,8 @@ class ReceiveCommits {
                         }
                       }
 
-                      for (String changeId : c.getFooterLines(FooterConstants.CHANGE_ID)) {
+                      for (String changeId :
+                          ChangeUtil.getChangeIdsFromFooter(c, urlFormatter.get())) {
                         if (byKey == null) {
                           byKey =
                               retryHelper

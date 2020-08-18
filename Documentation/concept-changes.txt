@@ -203,6 +203,34 @@ While there are several ways you can add a Change-Id, the standard
 method uses git's link:cmd-hook-commit-msg.html[commit-msg hook]
 to automatically add the Change-Id to each new commit.
 
+== The Link footer
+
+Gerrit also supports the Link footer as an alternative to the Change-Id
+footer. A Link footer looks like this:
+
+....
+    Link: https://gerrit-review.googlesource.com/id/Ic8aaa0728a43936cd4c6e1ed590e01ba8f0fbf5b
+....
+
+The advantage of this style of footer is that it usually acts
+as a link directly to the change's review page, provided that
+the change has been uploaded to Gerrit. Projects such as the
+link:https://www.kernel.org/doc/html/latest/maintainer/configure-git.html#creating-commit-links-to-lore-kernel-org[Linux kernel]
+have a convention of adding links to commit messages using the
+Link footer.
+
+If multiple changes have been uploaded to Gerrit with the same
+change ID, for example if a change has been cherry-picked to multiple
+branches, the link will take the user to a list of changes.
+
+The base URL in the footer is required to match the server's base URL.
+If the URL does not match, the server will not recognize the footer
+as a change ID footer.
+
+The link:cmd-hook-commit-msg.html[commit-msg hook] can be configured
+to insert Link footers instead of Change-Id footers by setting the
+property `gerrit.reviewUrl` to the base URL of the Gerrit server.
+
 GERRIT
 ------
 Part of link:index.html[Gerrit Code Review]

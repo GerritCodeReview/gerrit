@@ -1129,6 +1129,7 @@ export class GrRestApiInterface
     });
   }
 
+  // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#list-groups
   getAccountGroups() {
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/groups',

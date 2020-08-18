@@ -15,65 +15,89 @@
  * limitations under the License.
  */
 
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-repo-dashboards_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/shared-styles';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-repo-dashboards_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {
+  RepositoryName,
+  DashboardId,
+  DashboardInfo,
+  ProjectName,
+} from '../../../types/common';
+import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 
-/**
- * @extends PolymerElement
- */
-class GrRepoDashboards extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrRepoDashboards {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get is() { return 'gr-repo-dashboards'; }
-
-  static get properties() {
-    return {
-      repo: {
-        type: String,
-        observer: '_repoChanged',
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _dashboards: Array,
-    };
+export interface DashboardRef {
+  section: string;
+  dashboards: DashboardInfo[];
+}
+@customElement('gr-repo-dashboards')
+export class GrRepoDashboards extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  _repoChanged(repo) {
-    this._loading = true;
-    if (!repo) { return Promise.resolve(); }
+  @property({type: String, observer: '_repoChanged'})
+  repo?: RepositoryName;
 
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: Array})
+  _dashboards?: DashboardRef[];
+
+  _repoChanged(repo?: RepositoryName) {
+    this._loading = true;
+    if (!repo) {
+      return Promise.resolve();
+    }
+
+    const errFn: ErrorCallback = response => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
-    this.$.restAPI.getRepoDashboards(this.repo, errFn).then(res => {
-      if (!res) { return Promise.resolve(); }
-
-      // Group by ref and sort by id.
-      const dashboards = res.concat.apply([], res).sort((a, b) =>
-        (a.id < b.id ? -1 : 1));
-      const dashboardsByRef = {};
-      dashboards.forEach(d => {
-        if (!dashboardsByRef[d.ref]) {
-          dashboardsByRef[d.ref] = [];
+    return this.$.restAPI
+      .getRepoDashboards(repo, errFn)
+      .then((res?: DashboardInfo[]) => {
+        if (!res) {
+          return;
         }
-        dashboardsByRef[d.ref].push(d);
-      });
 
-      const dashboardBuilder = [];
-      Object.keys(dashboardsByRef).sort()
+        // Group by ref and sort by id.
+        const dashboards = res.concat
+          .apply([], res)
+          .sort((a, b) => (a.id < b.id ? -1 : 1));
+        const dashboardsByRef: Record<string, DashboardInfo[]> = {};
+        dashboards.forEach(d => {
+          if (!dashboardsByRef[d.ref]) {
+            dashboardsByRef[d.ref] = [];
+          }
+          dashboardsByRef[d.ref].push(d);
+        });
+
+        const dashboardBuilder: DashboardRef[] = [];
+        Object.keys(dashboardsByRef)
+          .sort()
           .forEach(ref => {
             dashboardBuilder.push({
               section: ref,
@@ -81,29 +105,35 @@ class GrRepoDashboards extends GestureEventListeners(
             });
           });
 
-      this._dashboards = dashboardBuilder;
-      this._loading = false;
-      flush();
-    });
+        this._dashboards = dashboardBuilder;
+        this._loading = false;
+        flush();
+      });
   }
 
-  _getUrl(project, id) {
-    if (!project || !id) { return ''; }
+  _getUrl(project: ProjectName, id: DashboardId) {
+    if (!project || !id) {
+      return '';
+    }
 
     return GerritNav.getUrlForRepoDashboard(project, id);
   }
 
-  _computeLoadingClass(loading) {
+  _computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
 
-  _computeInheritedFrom(project, definingProject) {
+  _computeInheritedFrom(project: ProjectName, definingProject: ProjectName) {
     return project === definingProject ? '' : definingProject;
   }
 
-  _computeIsDefault(isDefault) {
+  _computeIsDefault(isDefault: boolean) {
     return isDefault ? '✓' : '';
   }
 }
 
-customElements.define(GrRepoDashboards.is, GrRepoDashboards);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-repo-dashboards': GrRepoDashboards;
+  }
+}

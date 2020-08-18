@@ -168,6 +168,30 @@
     },
     {
       "key": {
+        "uuid": "24634deb_0bb7b6f6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-18T13:13:40Z",
+      "side": 1,
+      "message": "I was referencing the part where event.target and event.localTarget should be the same under shadow DOM.\n\nI think this can be tackled later once we decide for the entire project.\nReverted the changes for now.",
+      "parentUuid": "5b08223a_e51ddbf9",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 16
+      },
+      "revId": "6996a1d27a8640adf8df5cf4876041b0367b8028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa70acfd_8cc05d58",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
         "patchSetId": 6

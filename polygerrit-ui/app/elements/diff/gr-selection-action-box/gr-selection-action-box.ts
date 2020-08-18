@@ -63,7 +63,7 @@ export class GrSelectionActionBox extends GestureEventListeners(
     this.addEventListener('mousedown', e => this._handleMouseDown(e));
   }
 
-  placeAbove(el: Text | HTMLElement) {
+  placeAbove(el: Text | Element | Range) {
     flush();
     const rect = this._getTargetBoundingRect(el);
     const boxRect = this.$.tooltip.getBoundingClientRect();
@@ -77,7 +77,7 @@ export class GrSelectionActionBox extends GestureEventListeners(
     }px`;
   }
 
-  placeBelow(el: Text | HTMLElement) {
+  placeBelow(el: Text | Element | Range) {
     flush();
     const rect = this._getTargetBoundingRect(el);
     const boxRect = this.$.tooltip.getBoundingClientRect();
@@ -103,7 +103,7 @@ export class GrSelectionActionBox extends GestureEventListeners(
     return null;
   }
 
-  private _getTargetBoundingRect(el: Text | HTMLElement) {
+  private _getTargetBoundingRect(el: Text | Element | Range) {
     let rect;
     if (el instanceof Text) {
       const range = document.createRange();

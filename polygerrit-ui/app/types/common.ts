@@ -1012,10 +1012,10 @@ export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-range
  */
 export interface CommentRange {
-  start_line: string;
-  start_character: string;
-  end_line: string;
-  end_character: string;
+  start_line: number;
+  start_character: number;
+  end_line: number;
+  end_character: number;
 }
 
 /**

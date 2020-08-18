@@ -16,6 +16,24 @@
       "revId": "21f05112a8c0130b301bc8796cac954263796223",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a08a8c0_286ddaee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-18T14:08:25Z",
+      "side": 1,
+      "message": "Yeah, it needs to be constantly updated since someone will update gr-rest-api.",
+      "parentUuid": "6414f024_59abcd6a",
+      "revId": "21f05112a8c0130b301bc8796cac954263796223",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

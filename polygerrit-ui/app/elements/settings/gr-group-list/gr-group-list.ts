@@ -14,22 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../../styles/gr-form-styles.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-group-list_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/shared-styles';
+import '../../../styles/gr-form-styles';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-group-list_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 
 /** @extends PolymerElement */
 class GrGroupList extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-group-list'; }
+  static get is() {
+    return 'gr-group-list';
+  }
 
   static get properties() {
     return {
@@ -48,7 +52,9 @@ class GrGroupList extends GestureEventListeners(
   }
 
   _computeGroupPath(group) {
-    if (!group || !group.id) { return; }
+    if (!group || !group.id) {
+      return;
+    }
 
     // Group ID is already encoded from the API
     // Decode it here to match with our router encoding behavior

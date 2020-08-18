@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f19f1fca_55230102",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-18T11:11:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2552b1b8_474f1255",
+      "range": {
+        "startLine": 37,
+        "startChar": 13,
+        "endLine": 37,
+        "endChar": 31
+      },
+      "revId": "6996a1d27a8640adf8df5cf4876041b0367b8028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ccc0a433_9adf40d9",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
         "patchSetId": 6
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-17T17:34:48Z",
       "side": 1,
       "message": "Just `e` does not seem obviously equivalent to `dom(e)`.",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 16
+      },
+      "revId": "6996a1d27a8640adf8df5cf4876041b0367b8028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70f82a3d_9a9afb96",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-18T11:11:04Z",
+      "side": 1,
+      "message": "IIUC Polymer.dom(e) is used when we want to use any additional API provided by the polymer. [1]\nWe aren\u0027t really using any of these API\u0027s so I guess we can directly use the event?\n\n\n[1] https://polymer-library.polymer-project.org/3.0/api/legacy/polymer.dom",
+      "parentUuid": "ccc0a433_9adf40d9",
       "range": {
         "startLine": 93,
         "startChar": 15,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2e65eced_b15399b6",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "As you\u0027re saying \"constant\" and not variable, I assume that you mean that I should put this example file content into a constant of this test class. I deliberately didn\u0027t do that. One main reason was to make each test self-explanatory. If we just had situations where a line was added at the end, we could of course use a constant as you suggested and still have self-explanatory tests. Even then, I would probably still prefer just a very short file content like \"Only line\" as that would be more explicit. The latter is what I did for the existing tests in this class. I went over the new tests again to make the necessary content as short as possible while still having the tests pass (background: the rename/copy behavior requires that we have enough file content which stays similar).",
+      "parentUuid": "56dda129_ea4e06ec",
+      "range": {
+        "startLine": 467,
+        "startChar": 21,
+        "endLine": 467,
+        "endChar": 66
+      },
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8b18055_d172a7a3",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "59f869a6_f5146284",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "I actually wanted to test the copy situation. It\u0027s just not possible to test without the rename but the test focus is still on the copy behavior. Hence, I wouldn\u0027t want to widen the focus in the name.",
+      "parentUuid": "d8b18055_d172a7a3",
+      "range": {
+        "startLine": 487,
+        "startChar": 32,
+        "endLine": 487,
+        "endChar": 42
+      },
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6d66d653_7087d1e3",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
         "patchSetId": 2
@@ -62,6 +110,24 @@
       "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f661e9b_1ef34cd3",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "Not exactly. We\u0027re only trying to make sure that at least one is a copy. We don\u0027t care whether the other one is a rename. That would be testing intrinsic behavior of Gerrit which we shouldn\u0027t cover here. I thought of a way to make this \"copy\" focus clearer here and adjusted it.",
+      "parentUuid": "6d66d653_7087d1e3",
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

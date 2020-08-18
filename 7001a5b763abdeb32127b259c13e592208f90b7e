@@ -22,6 +22,30 @@
       "revId": "7001a5b763abdeb32127b259c13e592208f90b7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d171850_29357c81",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "For public APIs, we would care about the exact exception type as we would want to make sure that the exception produces the right error code. In this test API, we only need to make sure that developers are best guided when writing tests which means that they are told about invalid things they are trying to do (-\u003e the test should fail with an exception). The exact exception type doesn\u0027t matter. If we tested for the exact type here, we would even make this test brittle as the exception comes from further down in our stack. It would really be unfortunate if this test unnecessarily failed after an unrelated change in another part of the code base. Hence, I chose to go with a less concrete exception type here.",
+      "parentUuid": "60e6b5a6_bdec5f2d",
+      "range": {
+        "startLine": 593,
+        "startChar": 8,
+        "endLine": 593,
+        "endChar": 23
+      },
+      "revId": "7001a5b763abdeb32127b259c13e592208f90b7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

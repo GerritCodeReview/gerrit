@@ -16,6 +16,41 @@
       "revId": "36891bd600377f85dca19649b39380ad5c63b3dd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3df8e2cc_77b6a8c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-18T12:33:57Z",
+      "side": 1,
+      "message": "I agree with Nasser on the -1. Although there is an improvement, the benefits are negligible and the change would break existing functionality used at Qualcomm.",
+      "revId": "36891bd600377f85dca19649b39380ad5c63b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "75d6d64b_9f11d85e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-18T12:33:57Z",
+      "side": 1,
+      "message": "Some stats about a basic use-case of Gerrit initialised in batch mode with \u0027--dev\u0027 configuration:\n\n1. Gerrit startup time: with or without the fix is always around 2.5s\n2. \u0027gerrit version\u0027 ssh command: there is a 5% improvement with this fix\n   - without the fix: 16.0 msec\n   - with the fix: 15.2 msec\n\nBear in mind that the \u0027gerrit version\u0027 was the worst case scenario, where the SSH command executed is basically negligible compared to the time to dispatch the command.\n\nThe improvement is on the DispatchCommand.Factory is of around 0.8 ms of CPU. However, in my E2E test case I see the SSH connection taking the majority of the execution time compared to Guice.\nAlso, in a real production environment, most of the commands are taking *a lot longer* than 16 msec to execute. The impact of 0.8 ms becomes negligible.",
+      "parentUuid": "5e295507_8de35626",
+      "revId": "36891bd600377f85dca19649b39380ad5c63b3dd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

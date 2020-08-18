@@ -19,17 +19,24 @@ import static java.util.stream.Collectors.toSet;
 
 import com.google.common.collect.Ordering;
 import com.google.common.io.BaseEncoding;
+import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.util.Collection;
+import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.stream.Stream;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 @Singleton
 public class ChangeUtil {
@@ -104,6 +111,30 @@ public class ChangeUtil {
 
   public static String status(Change c) {
     return c != null ? c.getStatus().name().toLowerCase() : "deleted";
+  }
+
+  private static final Pattern LINK_CHANGE_ID_PATTERN = Pattern.compile("I[0-9a-f]{40}");
+
+  public static List<String> getChangeIdsFromFooter(RevCommit c, UrlFormatter urlFormatter) {
+    List<String> changeIds = c.getFooterLines(FooterConstants.CHANGE_ID);
+    Optional<String> webUrl = urlFormatter.getWebUrl();
+    if (!webUrl.isPresent()) {
+      return changeIds;
+    }
+
+    String prefix = webUrl.get() + "id/";
+    for (String link : c.getFooterLines(FooterConstants.LINK)) {
+      if (!link.startsWith(prefix)) {
+        continue;
+      }
+      String changeId = link.substring(prefix.length());
+      Matcher m = LINK_CHANGE_ID_PATTERN.matcher(changeId);
+      if (m.matches()) {
+        changeIds.add(changeId);
+      }
+    }
+
+    return changeIds;
   }
 
   private ChangeUtil() {}

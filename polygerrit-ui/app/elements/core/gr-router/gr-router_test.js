@@ -182,6 +182,7 @@ suite('gr-router tests', () => {
       '_handleBranchListFilterOffsetRoute',
       '_handleBranchListFilterRoute',
       '_handleBranchListOffsetRoute',
+      '_handleChangeIdQueryRoute',
       '_handleChangeNumberLegacyRoute',
       '_handleChangeRoute',
       '_handleCommentRoute',
@@ -736,6 +737,14 @@ suite('gr-router tests', () => {
         view: GerritNav.View.SEARCH,
         query: 'project:foo/bar/baz',
         offset: '123',
+      });
+    });
+
+    test('_handleChangeIdQueryRoute', () => {
+      const data = {params: ['I0123456789abcdef0123456789abcdef01234567']};
+      assertDataToParams(data, '_handleChangeIdQueryRoute', {
+        view: GerritNav.View.SEARCH,
+        query: 'I0123456789abcdef0123456789abcdef01234567',
       });
     });
 

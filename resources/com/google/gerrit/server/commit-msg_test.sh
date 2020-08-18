@@ -110,6 +110,25 @@ EOF
   fi
 }
 
+# gerrit.reviewUrl causes us to create Link instead of Change-Id.
+function test_link {
+  cat << EOF > input
+bla bla
+EOF
+
+  git config gerrit.reviewUrl https://myhost/
+  ${hook} input || fail "failed hook execution"
+  git config --unset gerrit.reviewUrl
+  found=$(grep -c '^Change-Id' input || true)
+  if [[ "${found}" != "0" ]]; then
+    fail "got ${found} Change-Ids, want 0"
+  fi
+  found=$(grep -c '^Link: https://myhost/id/I' input || true)
+  if [[ "${found}" != "1" ]]; then
+    fail "got ${found} Link footers, want 1"
+  fi
+}
+
 # Change-Id goes after existing trailers.
 function test_at_end {
   cat << EOF > input

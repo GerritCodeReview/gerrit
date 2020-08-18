@@ -478,7 +478,7 @@ class OpenIdServiceImpl {
     rdr.append(urlProvider.get(req));
     String nextToken = Url.decode(token);
     if (isNew && !token.startsWith(PageLinks.REGISTER + "/")) {
-      rdr.append('#' + PageLinks.REGISTER);
+      rdr.append('#' + PageLinks.REGISTER + "/");
       if (nextToken.startsWith("#")) {
         // Need to strip the leading # off the token to fix registration page redirect
         nextToken = nextToken.substring(1);

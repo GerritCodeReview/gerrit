@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac3132ed_5ee79afc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-18T13:04:16Z",
+      "side": 1,
+      "message": "I\u0027ll push an update of this series soon, internal testing looks good",
+      "revId": "a6d05d2f4838fce62fdeb71108c4db2417de7a4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

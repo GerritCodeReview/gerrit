@@ -234,6 +234,30 @@
       "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fcfcabc6_4fda6e0d",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-18T10:41:34Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "365382bf_c4d16c85",
+      "range": {
+        "startLine": 380,
+        "startChar": 0,
+        "endLine": 386,
+        "endChar": 0
+      },
+      "revId": "32928cc867f966083777ec23f6a8c5a53bab0bf1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

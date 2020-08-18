@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91b722c8_0e18ccbb",
+        "filename": "polygerrit-ui/app/elements/settings/gr-group-list/gr-group-list.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-18T16:05:44Z",
+      "side": 1,
+      "message": "Please use type from the common.ts, i.e.\nas GroupId",
+      "range": {
+        "startLine": 71,
+        "startChar": 38,
+        "endLine": 71,
+        "endChar": 67
+      },
+      "revId": "d994081bb5d496183935c3b97c492b44285a5b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e1a36900_6d53cd44",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1137,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-18T16:05:44Z",
+      "side": 1,
+      "message": "Can you please explain a little bit, why fetchJSON can\u0027t return Promise\u003cundefined\u003e here?",
+      "range": {
+        "startLine": 1136,
+        "startChar": 26,
+        "endLine": 1137,
+        "endChar": 7
+      },
+      "revId": "d994081bb5d496183935c3b97c492b44285a5b21",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

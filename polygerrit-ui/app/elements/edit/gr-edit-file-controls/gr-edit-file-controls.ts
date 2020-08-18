@@ -14,55 +14,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-dropdown/gr-dropdown.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-edit-file-controls_html.js';
-import {GrEditConstants} from '../gr-edit-constants.js';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-dropdown/gr-dropdown';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-edit-file-controls_html';
+import {GrEditConstants} from '../gr-edit-constants';
+import {customElement, property} from '@polymer/decorators';
+
+interface EditAction {
+  label: string;
+  id: string;
+}
 
 /** @extends PolymerElement */
+@customElement('gr-edit-file-controls')
 class GrEditFileControls extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-edit-file-controls'; }
   /**
    * Fired when an action in the overflow menu is tapped.
    *
    * @event file-action-tap
    */
 
-  static get properties() {
-    return {
-      filePath: String,
-      _allFileActions: {
-        type: Array,
-        value: () => Object.values(GrEditConstants.Actions),
-      },
-      _fileActions: {
-        type: Array,
-        computed: '_computeFileActions(_allFileActions)',
-      },
-    };
-  }
+  @property({type: String})
+  filePath?: string;
 
-  _handleActionTap(e) {
+  @property({type: Array})
+  _allFileActions = (() => Object.values(GrEditConstants.Actions))();
+
+  @property({type: Array, computed: '_computeFileActions(_allFileActions)'})
+  _fileActions?: EditAction[];
+
+  _handleActionTap(e: CustomEvent) {
     e.preventDefault();
     e.stopPropagation();
     this._dispatchFileAction(e.detail.id, this.filePath);
   }
 
-  _dispatchFileAction(action, path) {
-    this.dispatchEvent(new CustomEvent(
-        'file-action-tap',
-        {detail: {action, path}, bubbles: true, composed: true}));
+  _dispatchFileAction(action: EditAction, path?: string) {
+    this.dispatchEvent(
+      new CustomEvent('file-action-tap', {
+        detail: {action, path},
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
-  _computeFileActions(actions) {
+  _computeFileActions(actions: EditAction[]) {
     // TODO(kaspern): conditionally disable some actions based on file status.
     return actions.map(action => {
       return {
@@ -73,4 +80,8 @@ class GrEditFileControls extends GestureEventListeners(
   }
 }
 
-customElements.define(GrEditFileControls.is, GrEditFileControls);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-edit-file-controls': GrEditFileControls;
+  }
+}

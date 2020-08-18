@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "008dfe2f_4e8e7d6a",
+        "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-18T12:34:01Z",
+      "side": 1,
+      "message": "localTarget: Retargeted event target (equivalent to event.target under shadow DOM). This node is always in the same scope as the node where the listener was added.\n\n[1] https://polymer-library.polymer-project.org/1.0/docs/devguide/events\n\nWe are not really using any method at all from the dom() wrapper class so I guess the only question is if we can replace localTarget with target which I think we can.",
+      "parentUuid": "274e3783_cfb65b5a",
+      "range": {
+        "startLine": 93,
+        "startChar": 15,
+        "endLine": 93,
+        "endChar": 16
+      },
+      "revId": "6996a1d27a8640adf8df5cf4876041b0367b8028",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "fa70acfd_8cc05d58",
         "filename": "polygerrit-ui/app/elements/settings/gr-ssh-editor/gr-ssh-editor.ts",
         "patchSetId": 6

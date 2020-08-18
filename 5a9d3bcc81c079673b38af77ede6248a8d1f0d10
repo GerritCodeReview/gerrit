@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7d556105_9b860381",
+        "filename": "polygerrit-ui/app/elements/shared/gr-textarea/gr-textarea.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-18T13:25:40Z",
+      "side": 1,
+      "message": "disableEnterKeyForSelectingEmoji already has a default value. Is it used before constructor finishes?",
+      "range": {
+        "startLine": 183,
+        "startChar": 4,
+        "endLine": 183,
+        "endChar": 49
+      },
+      "revId": "5a9d3bcc81c079673b38af77ede6248a8d1f0d10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

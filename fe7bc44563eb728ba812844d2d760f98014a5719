@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "bb2f7384_f756f4d9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "I added some more details, especially about the algorithm, to the Javadoc description of the class. Does this address your comment? If not, I\u0027d need more concrete pointers about aspects which are still unclear in the text.",
+      "parentUuid": "f88e150e_2a0998d5",
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6549d98f_94251d7c",
         "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "fd83ade1_00805628",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "I deliberately introduced this separate class as I wanted to keep GitPositionTransformer free of any other domain classes. It doesn\u0027t need to know about any objects we have for diffs and I would like to keep it that way.",
+      "parentUuid": "6549d98f_94251d7c",
+      "range": {
+        "startLine": 31,
+        "startChar": 24,
+        "endLine": 31,
+        "endChar": 33
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90474ed9_227fc07a",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 3
@@ -53,6 +95,30 @@
       "writtenOn": "2020-08-17T11:57:15Z",
       "side": 1,
       "message": "If the only purpose of this method is to duplicate positioned entities, we can possibly rename the method to #duplicateEntitiesWithSameOldFileMapping.\n\nWith this we can also get rid of the comment above this line.",
+      "range": {
+        "startLine": 66,
+        "startChar": 56,
+        "endLine": 66,
+        "endChar": 71
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b168eaf9_ee2a64bc",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "You might have misunderstood something. This method does something else than duplicating the entities with the same file path. It maps the file paths of the given positions to the target file paths as indicated by the mappings. The comment above this line is\n1) an explanation why this operation has to be done before we can shift the ranges according to the mappings\n2) a note that the returned entities might differ in their number and that mappings representing copies introduce more non-obvious behavior.\n\nIs my comment really that unclear? I didn\u0027t want to write a long paragraph as comment here but I\u0027m wondering whether I should use more words seeing your confusion. What do you think?",
+      "parentUuid": "90474ed9_227fc07a",
       "range": {
         "startLine": 66,
         "startChar": 56,
@@ -88,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "57d1a812_810ce22c",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "I like the groupXxxByYyy style and adopted it also for some other methods now. :-)\n\nI\u0027m a bit surprised that you\u0027re asking for a Javadoc description of this private method. I had hoped that the method name is descriptive enough that we didn\u0027t need a more detailed description for this simple method. Does the groupXxxByYyy method name help or do you still need a description?",
+      "parentUuid": "44050519_53012df0",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 73
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8375f727_3f5f9ad8",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 3
@@ -99,6 +189,30 @@
       "writtenOn": "2020-08-17T11:57:15Z",
       "side": 1,
       "message": "As I understand, we are using a generic here to represent comments later. At this point the only underlying entity we are using is ContextAwareEdit.",
+      "range": {
+        "startLine": 368,
+        "startChar": 38,
+        "endLine": 368,
+        "endChar": 41
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e51cd47e_556fd3c8",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "Yes, that\u0027s right.",
+      "parentUuid": "8375f727_3f5f9ad8",
       "range": {
         "startLine": 368,
         "startChar": 38,

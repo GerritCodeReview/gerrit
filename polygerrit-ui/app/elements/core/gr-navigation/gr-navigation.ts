@@ -262,7 +262,7 @@ export interface GenerateUrlRepoViewParameters {
 export interface GenerateUrlDashboardViewParameters {
   view: GerritView.DASHBOARD;
   user?: string;
-  repo?: RepositoryName;
+  repo?: RepositoryName | ProjectName;
   dashboard?: DashboardId;
 }
 
@@ -764,7 +764,10 @@ export const GerritNav = {
    * @param repo The name of the repo.
    * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.
    */
-  getUrlForRepoDashboard(repo: RepositoryName, dashboard: DashboardId) {
+  getUrlForRepoDashboard(
+    repo: RepositoryName | ProjectName,
+    dashboard: DashboardId
+  ) {
     return this._getUrlFor({
       view: GerritView.DASHBOARD,
       repo,

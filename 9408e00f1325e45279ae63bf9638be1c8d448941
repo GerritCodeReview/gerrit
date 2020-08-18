@@ -22,6 +22,30 @@
       "revId": "9408e00f1325e45279ae63bf9638be1c8d448941",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8622ab6_f8e41791",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 37,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "Right. It\u0027s only used in the follow-up change. I removed it here and added it in I48ef685ee again.",
+      "parentUuid": "f3ea8400_c593068a",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 37,
+        "endChar": 54
+      },
+      "revId": "9408e00f1325e45279ae63bf9638be1c8d448941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

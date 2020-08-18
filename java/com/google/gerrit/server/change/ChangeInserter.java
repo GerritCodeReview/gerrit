@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -41,17 +40,20 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.client.ReviewerState;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.ResourceConflictException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
 import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -110,6 +112,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final CommentAdded commentAdded;
   private final ReviewerAdder reviewerAdder;
   private final MessageIdGenerator messageIdGenerator;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   private final Change.Id changeId;
   private final PatchSet.Id psId;
@@ -159,6 +162,7 @@ public class ChangeInserter implements InsertChangeOp {
       RevisionCreated revisionCreated,
       ReviewerAdder reviewerAdder,
       MessageIdGenerator messageIdGenerator,
+      DynamicItem<UrlFormatter> urlFormatter,
       @Assisted Change.Id changeId,
       @Assisted ObjectId commitId,
       @Assisted String refName) {
@@ -175,6 +179,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.commentAdded = commentAdded;
     this.reviewerAdder = reviewerAdder;
     this.messageIdGenerator = messageIdGenerator;
+    this.urlFormatter = urlFormatter;
 
     this.changeId = changeId;
     this.psId = PatchSet.id(changeId, INITIAL_PATCH_SET_ID);
@@ -191,7 +196,7 @@ public class ChangeInserter implements InsertChangeOp {
   public Change createChange(Context ctx) throws IOException {
     change =
         new Change(
-            getChangeKey(ctx.getRevWalk(), commitId),
+            getChangeKey(ctx.getRevWalk()),
             changeId,
             ctx.getAccountId(),
             BranchNameKey.create(ctx.getProject(), refName),
@@ -206,10 +211,10 @@ public class ChangeInserter implements InsertChangeOp {
     return change;
   }
 
-  private static Change.Key getChangeKey(RevWalk rw, ObjectId id) throws IOException {
-    RevCommit commit = rw.parseCommit(id);
+  private Change.Key getChangeKey(RevWalk rw) throws IOException {
+    RevCommit commit = rw.parseCommit(commitId);
     rw.parseBody(commit);
-    List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
+    List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get());
     if (!idList.isEmpty()) {
       return Change.key(idList.get(idList.size() - 1).trim());
     }

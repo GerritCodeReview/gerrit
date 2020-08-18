@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Comment.Range;
 import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
@@ -147,7 +148,13 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
   }
 
   private static Position extractPosition(HumanComment comment) {
-    Position.Builder positionBuilder = Position.builder().filePath(comment.key.filename);
+    Position.Builder positionBuilder = Position.builder();
+    // Patchset-level comments don't have a file path. The transformation logic still works when
+    // using the magic file path but it doesn't hurt to use the actual representation for "no file"
+    // internally.
+    if (!Patch.PATCHSET_LEVEL.equals(comment.key.filename)) {
+      positionBuilder.filePath(comment.key.filename);
+    }
     return positionBuilder.lineRange(extractLineRange(comment)).build();
   }
 
@@ -169,7 +176,7 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
   private static HumanComment createCommentAtNewPosition(
       HumanComment originalComment, Position newPosition) {
     HumanComment portedComment = new HumanComment(originalComment);
-    portedComment.key.filename = newPosition.filePath();
+    portedComment.key.filename = newPosition.filePath().orElse(Patch.PATCHSET_LEVEL);
     if (portedComment.range != null && newPosition.lineRange().isPresent()) {
       // Comment was a range comment and also stayed one.
       portedComment.range =

@@ -22,6 +22,30 @@
       "revId": "4aebd5b0ca16377b750bfaab6c62d14ba7907c7a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6e469e4_205a3c83",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 406,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "Good idea. Done.",
+      "parentUuid": "83e3f0d7_045dd618",
+      "range": {
+        "startLine": 403,
+        "startChar": 0,
+        "endLine": 406,
+        "endChar": 0
+      },
+      "revId": "4aebd5b0ca16377b750bfaab6c62d14ba7907c7a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

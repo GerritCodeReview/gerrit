@@ -69,6 +69,30 @@
       "revId": "793c64a788fb47558be894f7859c3ea41f925049",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6e959e25_bf70530c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 735,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-18T13:06:22Z",
+      "side": 1,
+      "message": "got it.",
+      "parentUuid": "9fbc462f_c4f7e6c0",
+      "range": {
+        "startLine": 735,
+        "startChar": 27,
+        "endLine": 735,
+        "endChar": 67
+      },
+      "revId": "793c64a788fb47558be894f7859c3ea41f925049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

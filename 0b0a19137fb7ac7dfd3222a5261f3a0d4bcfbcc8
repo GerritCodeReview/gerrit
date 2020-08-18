@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "b4e8ab70_fb1c90d9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 4548,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-18T10:45:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1eb00af3_4f435024",
+      "range": {
+        "startLine": 4548,
+        "startChar": 4,
+        "endLine": 4548,
+        "endChar": 12
+      },
+      "revId": "0b0a19137fb7ac7dfd3222a5261f3a0d4bcfbcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "249809aa_5b5eaa44",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 7
@@ -140,6 +164,30 @@
       "revId": "0b0a19137fb7ac7dfd3222a5261f3a0d4bcfbcc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4b264ec_ede745dc",
+        "filename": "java/com/google/gerrit/sshd/SshDaemon.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 368,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-18T10:45:36Z",
+      "side": 1,
+      "message": "It is good enough for now, thanks.",
+      "parentUuid": "09848356_1bbe42e9",
+      "range": {
+        "startLine": 367,
+        "startChar": 0,
+        "endLine": 368,
+        "endChar": 37
+      },
+      "revId": "0b0a19137fb7ac7dfd3222a5261f3a0d4bcfbcc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

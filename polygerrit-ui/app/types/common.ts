@@ -1211,7 +1211,7 @@ export interface CommentLinkInfo {
  * The ConfigParameterInfo entity describes a project configurationparameter.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
  */
-export interface ConfigParameterInfo {
+export interface ConfigParameterInfoBase {
   display_name?: string;
   description?: string;
   warning?: string;
@@ -1224,6 +1224,21 @@ export interface ConfigParameterInfo {
   configured_value?: string;
   inherited_value?: string;
 }
+
+export interface ConfigArrayParameterInfo extends ConfigParameterInfoBase {
+  type: ConfigParameterInfoType.ARRAY;
+  values: string[];
+}
+
+export interface ConfigListParameterInfo extends ConfigParameterInfoBase {
+  type: ConfigParameterInfoType.LIST;
+  permitted_values?: string[];
+}
+
+export type ConfigParameterInfo =
+  | ConfigParameterInfoBase
+  | ConfigArrayParameterInfo
+  | ConfigListParameterInfo;
 
 export interface CommentLinks {
   [name: string]: CommentLinkInfo;
@@ -1252,10 +1267,18 @@ export interface ConfigInfo {
   match_author_to_committer_date?: InheritedBooleanInfo;
   state?: ProjectState;
   commentlinks: CommentLinks;
-  plugin_config?: ConfigParameterInfo;
+  plugin_config?: PluginNameToPluginParametersMap;
   actions?: {[viewName: string]: ActionInfo};
   reject_empty_commit?: InheritedBooleanInfo;
 }
+
+export type PluginParameterToConfigParameterInfoMap = {
+  [parameterName: string]: ConfigParameterInfo;
+};
+
+export type PluginNameToPluginParametersMap = {
+  [pluginName: string]: PluginParameterToConfigParameterInfoMap;
+};
 
 /**
  * The ProjectAccessInfo entity contains information about the access rights for a project

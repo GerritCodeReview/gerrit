@@ -166,6 +166,8 @@ export enum Side {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-parameter-info
  */
 export enum ConfigParameterInfoType {
+  // Should be kept in sync with
+  // gerrit/java/com/google/gerrit/extensions/api/projects/ProjectConfigEntryType.java.
   STRING = 'STRING',
   INT = 'INT',
   LONG = 'LONG',

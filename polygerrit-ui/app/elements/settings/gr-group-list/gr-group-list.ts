@@ -14,46 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../../styles/gr-form-styles.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-group-list_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/shared-styles';
+import '../../../styles/gr-form-styles';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-group-list_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {customElement, property} from '@polymer/decorators';
+import {GroupInfo, BrandType} from '../../../types/common';
 
-/** @extends PolymerElement */
-class GrGroupList extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrGroupList {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get is() { return 'gr-group-list'; }
-
-  static get properties() {
-    return {
-      _groups: Array,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group-list': GrGroupList;
   }
+}
+@customElement('gr-group-list')
+export class GrGroupList extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Array})
+  _groups: GroupInfo[] = [];
 
   loadData() {
     return this.$.restAPI.getAccountGroups().then(groups => {
-      this._groups = groups.sort((a, b) => a.name.localeCompare(b.name));
+      this._groups = groups.sort((a, b) =>
+        (a.name || '').localeCompare(b.name || '')
+      );
     });
   }
 
-  _computeVisibleToAll(group) {
-    return group.options.visible_to_all ? 'Yes' : 'No';
+  _computeVisibleToAll(group: GroupInfo) {
+    return group.options && group.options.visible_to_all ? 'Yes' : 'No';
   }
 
-  _computeGroupPath(group) {
-    if (!group || !group.id) { return; }
+  _computeGroupPath(group: GroupInfo) {
+    if (!group || !group.id) {
+      return;
+    }
 
     // Group ID is already encoded from the API
     // Decode it here to match with our router encoding behavior
-    return GerritNav.getUrlForGroup(decodeURIComponent(group.id));
+    return GerritNav.getUrlForGroup(
+      decodeURIComponent(group.id) as BrandType<string, '_groupId'>
+    );
   }
 }
-
-customElements.define(GrGroupList.is, GrGroupList);

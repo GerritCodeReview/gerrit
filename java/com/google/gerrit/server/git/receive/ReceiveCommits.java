@@ -60,7 +60,6 @@ import com.google.common.collect.Sets;
 import com.google.common.collect.SortedSetMultimap;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
@@ -2090,7 +2089,7 @@ class ReceiveCommits {
       } catch (IOException e) {
         throw new StorageException("Can't parse commit", e);
       }
-      List<String> idList = create.commit.getFooterLines(FooterConstants.CHANGE_ID);
+      List<String> idList = ChangeUtil.getChangeIdsFromFooter(create.commit);
 
       if (idList.isEmpty()) {
         messages.add(
@@ -2182,7 +2181,7 @@ class ReceiveCommits {
             }
           }
 
-          List<String> idList = c.getFooterLines(FooterConstants.CHANGE_ID);
+          List<String> idList = ChangeUtil.getChangeIdsFromFooter(c);
           if (!idList.isEmpty()) {
             pending.put(c, lookupByChangeKey(c, Change.key(idList.get(idList.size() - 1).trim())));
           } else {
@@ -3321,7 +3320,7 @@ class ReceiveCommits {
                         }
                       }
 
-                      for (String changeId : c.getFooterLines(FooterConstants.CHANGE_ID)) {
+                      for (String changeId : ChangeUtil.getChangeIdsFromFooter(c)) {
                         if (byKey == null) {
                           byKey =
                               retryHelper

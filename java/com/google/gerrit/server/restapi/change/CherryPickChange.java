@@ -20,7 +20,6 @@ import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
@@ -312,7 +311,7 @@ public class CherryPickChange {
                 input.allowConflicts);
 
         Change.Key changeKey;
-        final List<String> idList = cherryPickCommit.getFooterLines(FooterConstants.CHANGE_ID);
+        final List<String> idList = ChangeUtil.getChangeIdsFromFooter(cherryPickCommit);
         if (!idList.isEmpty()) {
           final String idStr = idList.get(idList.size() - 1).trim();
           changeKey = Change.key(idStr);

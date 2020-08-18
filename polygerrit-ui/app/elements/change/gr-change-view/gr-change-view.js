@@ -78,7 +78,7 @@ const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
   MISSING: 'missing',
 };
-const CHANGE_ID_REGEX_PATTERN = /^Change-Id\:\s(I[0-9a-f]{8,40})/gm;
+const CHANGE_ID_REGEX_PATTERN = /^(Change-Id\:\s|Link:.*\/q\/)(I[0-9a-f]{8,40})$/gm;
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
 const DEFAULT_NUM_FILES_SHOWN = 200;
@@ -1316,7 +1316,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     let changeIdArr;
 
     while (changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage)) {
-      changeId = changeIdArr[1];
+      changeId = changeIdArr[2];
     }
 
     if (changeId) {

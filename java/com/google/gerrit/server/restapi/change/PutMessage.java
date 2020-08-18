@@ -210,7 +210,7 @@ public class PutMessage implements RestModifyView<ChangeResource, CommitMessageI
     // Check that the commit message without footers is not empty
     CommitMessageUtil.checkAndSanitizeCommitMessage(revCommit.getShortMessage());
 
-    List<String> changeIdFooters = revCommit.getFooterLines(FooterConstants.CHANGE_ID);
+    List<String> changeIdFooters = ChangeUtil.getChangeIdsFromFooter(revCommit);
     if (!changeIdFooters.isEmpty() && !changeIdFooters.get(0).equals(currentChangeId)) {
       throw new ResourceConflictException("wrong Change-Id footer");
     }

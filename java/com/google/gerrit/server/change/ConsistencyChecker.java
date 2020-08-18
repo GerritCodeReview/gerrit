@@ -28,7 +28,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -455,8 +454,7 @@ public class ConsistencyChecker {
         case 0:
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
-          String changeId =
-              Iterables.getFirst(commit.getFooterLines(FooterConstants.CHANGE_ID), null);
+          String changeId = Iterables.getFirst(ChangeUtil.getChangeIdsFromFooter(commit), null);
           // Missing Change-Id footer is ok, but mismatched is not.
           if (changeId != null && !changeId.equals(change().getKey().get())) {
             problem(

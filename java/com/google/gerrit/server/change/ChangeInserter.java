@@ -28,7 +28,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Streams;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
@@ -47,6 +46,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
@@ -209,7 +209,7 @@ public class ChangeInserter implements InsertChangeOp {
   private static Change.Key getChangeKey(RevWalk rw, ObjectId id) throws IOException {
     RevCommit commit = rw.parseCommit(id);
     rw.parseBody(commit);
-    List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
+    List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit);
     if (!idList.isEmpty()) {
       return Change.key(idList.get(idList.size() - 1).trim());
     }

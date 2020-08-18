@@ -16,7 +16,6 @@ package com.google.gerrit.server.git.receive;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.common.FooterConstants.CHANGE_ID;
 import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
 import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
@@ -46,6 +45,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.ApprovalsUtil;
 import com.google.gerrit.server.ChangeMessagesUtil;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.change.AddReviewersOp;
@@ -483,7 +483,7 @@ public class ReplaceOp implements BatchUpdateOp {
     change.setStatus(Change.Status.NEW);
     change.setCurrentPatchSet(info);
 
-    List<String> idList = commit.getFooterLines(CHANGE_ID);
+    List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit);
     change.setKey(Change.key(idList.get(idList.size() - 1).trim()));
   }
 

@@ -34,6 +34,7 @@ import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.config.ConsistencyCheckInfo.ConsistencyProblemInfo;
 import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.AuthException;
+import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.externalids.ExternalIdsConsistencyChecker;
@@ -302,7 +303,7 @@ public class CommitValidators {
       }
       RevCommit commit = receiveEvent.commit;
       List<CommitValidationMessage> messages = new ArrayList<>();
-      List<String> idList = commit.getFooterLines(FooterConstants.CHANGE_ID);
+      List<String> idList = ChangeUtil.getChangeIdsFromFooter(commit);
 
       if (idList.isEmpty()) {
         String shortMsg = commit.getShortMessage();

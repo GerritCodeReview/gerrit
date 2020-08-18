@@ -1,0 +1,147 @@
+/**
+ * @license
+ * Copyright (C) 2017 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import '@polymer/iron-dropdown/iron-dropdown';
+import '@polymer/paper-item/paper-item';
+import '@polymer/paper-listbox/paper-listbox';
+import '../../../styles/shared-styles';
+import '../gr-button/gr-button';
+import '../gr-date-formatter/gr-date-formatter';
+import '../gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-dropdown-list_html';
+import {customElement, property, observe} from '@polymer/decorators';
+import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
+
+/**
+ * fired when the selected value of the dropdown changes
+ *
+ * @event {change}
+ */
+
+/**
+ * Requred values are text and value. mobileText and triggerText will
+ * fall back to text if not provided.
+ *
+ * If bottomText is not provided, nothing will display on the second
+ * line.
+ *
+ * If date is not provided, nothing will be displayed in its place.
+ */
+interface DropdownItem {
+  text: string;
+  value: string | number;
+  bottomText?: string;
+  triggerText?: string;
+  mobileText?: string;
+  date?: Date;
+}
+
+export interface GrDropdownList {
+  $: {
+    dropdown: IronDropdownElement;
+  };
+}
+
+/** @extends PolymerElement */
+@customElement('gr-dropdown-list')
+export class GrDropdownList extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  /**
+   * Fired when the selected value changes
+   *
+   * @event value-change
+   *
+   * @property {string|number} value
+   */
+
+  @property({type: Number})
+  initialCount = 75;
+
+  @property({type: Object})
+  items?: DropdownItem[];
+
+  @property({type: String})
+  text?: string;
+
+  @property({type: Boolean})
+  disabled = false;
+
+  @property({type: String, notify: true})
+  value?: string;
+
+  /**
+   * Handle a click on the iron-dropdown element.
+   */
+  _handleDropdownClick() {
+    // async is needed so that that the click event is fired before the
+    // dropdown closes (This was a bug for touch devices).
+    this.async(() => {
+      this.$.dropdown.close();
+    }, 1);
+  }
+
+  /**
+   * Handle a click on the button to open the dropdown.
+   */
+  _showDropdownTapHandler() {
+    this._open();
+  }
+
+  /**
+   * Open the dropdown.
+   */
+  _open() {
+    this.$.dropdown.open();
+  }
+
+  _computeMobileText(item: DropdownItem) {
+    return item.mobileText ? item.mobileText : item.text;
+  }
+
+  @observe('value', 'items')
+  _handleValueChange(value?: string, items?: DropdownItem[]) {
+    if (!value || !items) {
+      return;
+    }
+    const selectedObj = items.find(item => `${item.value}` === `${value}`);
+    if (!selectedObj) {
+      return;
+    }
+    this.text = selectedObj.triggerText
+      ? selectedObj.triggerText
+      : selectedObj.text;
+    this.dispatchEvent(
+      new CustomEvent('value-change', {
+        detail: {value},
+        bubbles: false,
+      })
+    );
+  }
+}
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-dropdown-list': GrDropdownList;
+  }
+}

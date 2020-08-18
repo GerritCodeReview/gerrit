@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5c4399e5_90addd55",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T13:10:58Z",
+      "side": 1,
+      "message": "I was torn between writing the unit test for the copy constructor and this test of the behavior of the PutDraft endpoint. In the end, I decided for the latter as I felt that updated draft comments should really keep their parent relations and the relevant code for that could be more than just the copy constructor. In addition, I have hopes that we\u0027ll move to AutoValues for our value types at some point in the future now that we don\u0027t have the GWT dependency anymore. For AutoValues, the unit test would be unnecessary.",
+      "parentUuid": "993a67dc_77e23866",
+      "range": {
+        "startLine": 734,
+        "startChar": 14,
+        "endLine": 734,
+        "endChar": 52
+      },
+      "revId": "793c64a788fb47558be894f7859c3ea41f925049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dab4aab_613c4b1f",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 2

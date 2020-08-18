@@ -165,7 +165,7 @@ suite('gr-cla-view tests', () => {
         element._computeHideAgreementClass(
             auth.name, config.auth.contributor_agreements),
         'hideAgreementsTextBox');
-    assert.isUndefined(
+    assert.isNotOk(
         element._computeHideAgreementClass(
             auth.name, config2.auth.contributor_agreements));
   });

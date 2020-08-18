@@ -155,6 +155,19 @@ export interface DetailedLabelInfo extends LabelCommonInfo {
   values?: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
 }
 
+// https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input
+export interface ContributorAgreementInput {
+  name?: string;
+}
+
+// https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-info
+export interface ContributorAgreementInfo {
+  name: string;
+  description: string;
+  url: string;
+  auto_verify_group?: GroupInfo;
+}
+
 /**
  * The ChangeInfo entity contains information about a change.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
@@ -584,7 +597,7 @@ export interface AccountsConfigInfo {
 export interface AuthInfo {
   type: string;
   use_contributor_agreements: boolean;
-  contributor_agreements: boolean;
+  contributor_agreements?: ContributorAgreementInfo;
   editable_account_fields: string;
   login_url?: string;
   login_text?: string;

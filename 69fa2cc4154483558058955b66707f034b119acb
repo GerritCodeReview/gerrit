@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d551719_0a6a0046",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-18T12:48:26Z",
+      "side": 1,
+      "message": "I tested this series a lot with our gerrit sites and will soon push an update for this series to get this finished",
+      "revId": "69fa2cc4154483558058955b66707f034b119acb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

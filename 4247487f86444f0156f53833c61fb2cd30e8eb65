@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4d7ae608_6260242e",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 467,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-18T13:01:46Z",
+      "side": 1,
+      "message": "It is easier so differentiate when you made the contents a little shorter, lgtm.",
+      "parentUuid": "2e65eced_b15399b6",
+      "range": {
+        "startLine": 467,
+        "startChar": 21,
+        "endLine": 467,
+        "endChar": 66
+      },
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8b18055_d172a7a3",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
         "patchSetId": 2
@@ -125,6 +149,24 @@
       "side": 1,
       "message": "Not exactly. We\u0027re only trying to make sure that at least one is a copy. We don\u0027t care whether the other one is a rename. That would be testing intrinsic behavior of Gerrit which we shouldn\u0027t cover here. I thought of a way to make this \"copy\" focus clearer here and adjusted it.",
       "parentUuid": "6d66d653_7087d1e3",
+      "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "cf2f1a54_9e344eca",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-18T13:01:46Z",
+      "side": 1,
+      "message": "Nice, it is in fact more clear this way.",
+      "parentUuid": "1f661e9b_1ef34cd3",
       "revId": "4247487f86444f0156f53833c61fb2cd30e8eb65",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

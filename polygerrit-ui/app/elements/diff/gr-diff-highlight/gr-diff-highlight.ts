@@ -14,71 +14,58 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../gr-selection-action-box/gr-selection-action-box.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-diff-highlight_html.js';
-import {GrAnnotation} from './gr-annotation.js';
-import {normalize} from './gr-range-normalizer.js';
-import {strToClassName} from '../../../utils/dom-util.js';
+import '../../../styles/shared-styles';
+import '../gr-selection-action-box/gr-selection-action-box';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-diff-highlight_html';
+import {GrAnnotation} from './gr-annotation';
+import {normalize} from './gr-range-normalizer';
+import {strToClassName} from '../../../utils/dom-util';
+import {customElement, property} from '@polymer/decorators';
 
 /**
  * @extends PolymerElement
  */
+@customElement('gr-diff-highlight')
 class GrDiffHighlight extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-diff-highlight'; }
-
-  static get properties() {
-    return {
-    /** @type {!Array<!Gerrit.HoveredRange>} */
-      commentRanges: {
-        type: Array,
-        notify: true,
-      },
-      loggedIn: Boolean,
-      /**
-       * querySelector can return null, so needs to be nullable.
-       *
-       * @type {?HTMLElement}
-       * */
-      _cachedDiffBuilder: Object,
-
-      /**
-       * Which range is currently selected by the user.
-       * Stored in order to add a range-based comment
-       * later.
-       * undefined if no range is selected.
-       *
-       * @type {{side: string, range: Gerrit.Range}|undefined}
-       */
-      selectedRange: {
-        type: Object,
-        notify: true,
-      },
-    };
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Array, notify: true})
+  commentRanges?: unknown;
+
+  @property({type: Boolean})
+  loggedIn?: boolean;
+
+  @property({type: Object})
+  _cachedDiffBuilder?: unknown;
+
+  @property({type: Object, notify: true})
+  selectedRange?: unknown;
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('comment-thread-mouseleave',
-        e => this._handleCommentThreadMouseleave(e));
-    this.addEventListener('comment-thread-mouseenter',
-        e => this._handleCommentThreadMouseenter(e));
-    this.addEventListener('create-comment-requested',
-        e => this._handleRangeCommentRequest(e));
+    this.addEventListener('comment-thread-mouseleave', e =>
+      this._handleCommentThreadMouseleave(e)
+    );
+    this.addEventListener('comment-thread-mouseenter', e =>
+      this._handleCommentThreadMouseenter(e)
+    );
+    this.addEventListener('create-comment-requested', e =>
+      this._handleRangeCommentRequest(e)
+    );
   }
 
   get diffBuilder() {
     if (!this._cachedDiffBuilder) {
-      this._cachedDiffBuilder =
-          dom(this).querySelector('gr-diff-builder');
+      this._cachedDiffBuilder = dom(this).querySelector('gr-diff-builder');
     }
     return this._cachedDiffBuilder;
   }
@@ -92,12 +79,12 @@ class GrDiffHighlight extends GestureEventListeners(
    * selectionchange event and retrieve the selection in gr-diff, and then
    * call this method to process the Selection.
    *
-   * @param {Selection} selection A DOM Selection living in the shadow DOM of
-   *     the diff element.
-   * @param {boolean} isMouseUp If true, this is called due to a mouseup
-   *     event, in which case we might want to immediately create a comment,
-   *     because isMouseUp === true combined with an existing selection must
-   *     mean that this is the end of a double-click.
+   * @param selection A DOM Selection living in the shadow DOM of
+   * the diff element.
+   * @param isMouseUp If true, this is called due to a mouseup
+   * event, in which case we might want to immediately create a comment,
+   * because isMouseUp === true combined with an existing selection must
+   * mean that this is the end of a double-click.
    */
   handleSelectionChange(selection, isMouseUp) {
     // Debounce is not just nice for waiting until the selection has settled,
@@ -108,8 +95,10 @@ class GrDiffHighlight extends GestureEventListeners(
     // ms, then you will have about 50 _handleSelection calls when doing a
     // simple drag for select.
     this.debounce(
-        'selectionChange', () => this._handleSelection(selection, isMouseUp),
-        10);
+      'selectionChange',
+      () => this._handleSelection(selection, isMouseUp),
+      10
+    );
   }
 
   _getThreadEl(e) {
@@ -133,15 +122,16 @@ class GrDiffHighlight extends GestureEventListeners(
     }
     if (curNode && curNode.querySelectorAll) {
       if (highlightRange) {
-        const rangeNodes = curNode
-            .querySelectorAll(`.range.${strToClassName(threadEl.rootId)}`);
+        const rangeNodes = curNode.querySelectorAll(
+          `.range.${strToClassName(threadEl.rootId)}`
+        );
         rangeNodes.forEach(rangeNode => {
           rangeNode.classList.add('rangeHighlight');
           rangeNode.classList.remove('range');
         });
       } else {
         const rangeNodes = curNode.querySelectorAll(
-            `.rangeHighlight.${strToClassName(threadEl.rootId)}`
+          `.rangeHighlight.${strToClassName(threadEl.rootId)}`
         );
         rangeNodes.forEach(rangeNode => {
           rangeNode.classList.remove('rangeHighlight');
@@ -190,14 +180,18 @@ class GrDiffHighlight extends GestureEventListeners(
       if (!a || !b) {
         return false;
       }
-      return a.start_line === b.start_line &&
-          a.start_character === b.start_character &&
-          a.end_line === b.end_line &&
-          a.end_character === b.end_character;
+      return (
+        a.start_line === b.start_line &&
+        a.start_character === b.start_character &&
+        a.end_line === b.end_line &&
+        a.end_character === b.end_character
+      );
     }
 
-    return this.commentRanges.findIndex(commentRange =>
-      commentRange.side === side && rangesEqual(commentRange.range, range));
+    return this.commentRanges.findIndex(
+      commentRange =>
+        commentRange.side === side && rangesEqual(commentRange.range, range)
+    );
   }
 
   /**
@@ -206,21 +200,8 @@ class GrDiffHighlight extends GestureEventListeners(
    * syntax highligh, convert native DOM Range objects to Gerrit concepts
    * (line, side, etc).
    *
-   * @param {Selection} selection
-   * @return {({
-   *   start: {
-   *     node: Node,
-   *     side: string,
-   *     line: Number,
-   *     column: Number
-   *   },
-   *   end: {
-   *     node: Node,
-   *     side: string,
-   *     line: Number,
-   *     column: Number
-   *   }
-   * })|null|!Object}
+   * @param selection
+   * @return
    */
   _getNormalizedRange(selection) {
     const rangeCount = selection.rangeCount;
@@ -231,7 +212,8 @@ class GrDiffHighlight extends GestureEventListeners(
     } else {
       const startRange = this._normalizeRange(selection.getRangeAt(0));
       const endRange = this._normalizeRange(
-          selection.getRangeAt(rangeCount - 1));
+        selection.getRangeAt(rangeCount - 1)
+      );
       return {
         start: startRange.start,
         end: endRange.end,
@@ -242,16 +224,20 @@ class GrDiffHighlight extends GestureEventListeners(
   /**
    * Normalize a specific DOM Range.
    *
-   * @return {!Object} fixed normalized range
+   * @return fixed normalized range
    */
   _normalizeRange(domRange) {
     const range = normalize(domRange);
-    return this._fixTripleClickSelection({
-      start: this._normalizeSelectionSide(
-          range.startContainer, range.startOffset),
-      end: this._normalizeSelectionSide(
-          range.endContainer, range.endOffset),
-    }, domRange);
+    return this._fixTripleClickSelection(
+      {
+        start: this._normalizeSelectionSide(
+          range.startContainer,
+          range.startOffset
+        ),
+        end: this._normalizeSelectionSide(range.endContainer, range.endOffset),
+      },
+      domRange
+    );
   }
 
   /**
@@ -260,9 +246,9 @@ class GrDiffHighlight extends GestureEventListeners(
    * - start.column == end.column == 0
    * - end.line == start.line + 1
    *
-   * @param {!Object} range Normalized range, ie column/line numbers
-   * @param {!Range} domRange DOM Range object
-   * @return {!Object} fixed normalized range
+   * @param range Normalized range, ie column/line numbers
+   * @param domRange DOM Range object
+   * @return fixed normalized range
    */
   _fixTripleClickSelection(range, domRange) {
     if (!range.start) {
@@ -272,17 +258,19 @@ class GrDiffHighlight extends GestureEventListeners(
     const start = range.start;
     const end = range.end;
     // Happens when triple click in side-by-side mode with other side empty.
-    const endsAtOtherEmptySide = !end &&
-        domRange.endOffset === 0 &&
-        domRange.endContainer.nodeName === 'TD' &&
-        (domRange.endContainer.classList.contains('left') ||
-         domRange.endContainer.classList.contains('right'));
-    const endsAtBeginningOfNextLine = end &&
-        start.column === 0 &&
-        end.column === 0 &&
-        end.line === start.line + 1;
+    const endsAtOtherEmptySide =
+      !end &&
+      domRange.endOffset === 0 &&
+      domRange.endContainer.nodeName === 'TD' &&
+      (domRange.endContainer.classList.contains('left') ||
+        domRange.endContainer.classList.contains('right'));
+    const endsAtBeginningOfNextLine =
+      end &&
+      start.column === 0 &&
+      end.column === 0 &&
+      end.line === start.line + 1;
     const content = domRange.cloneContents().querySelector('.contentText');
-    const lineLength = content && this._getLength(content) || 0;
+    const lineLength = (content && this._getLength(content)) || 0;
     if (lineLength && (endsAtBeginningOfNextLine || endsAtOtherEmptySide)) {
       // Move the selection to the end of the previous line.
       range.end = {
@@ -300,14 +288,9 @@ class GrDiffHighlight extends GestureEventListeners(
    * Moves range end if it's not inside td.content.
    * Returns null if selection end is not valid (outside of diff).
    *
-   * @param {Node} node td.content child
-   * @param {number} offset offset within node
-   * @return {({
-   *   node: Node,
-   *   side: string,
-   *   line: Number,
-   *   column: Number
-   * }|undefined)}
+   * @param node td.content child
+   * @param offset offset within node
+   * @return
    */
   _normalizeSelectionSide(node, offset) {
     let column;
@@ -371,9 +354,11 @@ class GrDiffHighlight extends GestureEventListeners(
     }
     const start = range.start;
     const end = range.end;
-    return !(start.side !== end.side ||
-        end.line < start.line ||
-        (start.line === end.line && start.column === end.column));
+    return !(
+      start.side !== end.side ||
+      end.line < start.line ||
+      (start.line === end.line && start.column === end.column)
+    );
   }
 
   _handleSelection(selection, isMouseUp) {
@@ -436,12 +421,17 @@ class GrDiffHighlight extends GestureEventListeners(
       this._positionActionBox(actionBox, start.line, domRange);
     } else if (start.node instanceof Text) {
       if (start.column) {
-        this._positionActionBox(actionBox, start.line,
-            start.node.splitText(start.column));
+        this._positionActionBox(
+          actionBox,
+          start.line,
+          start.node.splitText(start.column)
+        );
       }
       start.node.parentElement.normalize(); // Undo splitText from above.
-    } else if (start.node.classList.contains('content') &&
-        start.node.firstChild) {
+    } else if (
+      start.node.classList.contains('content') &&
+      start.node.firstChild
+    ) {
       this._positionActionBox(actionBox, start.line, start.node.firstChild);
     } else {
       this._positionActionBox(actionBox, start.line, start.node);
@@ -449,10 +439,13 @@ class GrDiffHighlight extends GestureEventListeners(
   }
 
   _fireCreateRangeComment(side, range) {
-    this.dispatchEvent(new CustomEvent('create-range-comment', {
-      detail: {side, range},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('create-range-comment', {
+        detail: {side, range},
+        composed: true,
+        bubbles: true,
+      })
+    );
     this._removeActionBox();
   }
 
@@ -467,8 +460,7 @@ class GrDiffHighlight extends GestureEventListeners(
 
   _removeActionBox() {
     this.selectedRange = undefined;
-    const actionBox = this.shadowRoot
-        .querySelector('gr-selection-action-box');
+    const actionBox = this.shadowRoot.querySelector('gr-selection-action-box');
     if (actionBox) {
       dom(this.root).removeChild(actionBox);
     }
@@ -478,8 +470,10 @@ class GrDiffHighlight extends GestureEventListeners(
     if (el instanceof Element && el.classList.contains('content')) {
       return offset;
     }
-    while (el.previousSibling ||
-        !el.parentElement.classList.contains('content')) {
+    while (
+      el.previousSibling ||
+      !el.parentElement.classList.contains('content')
+    ) {
       if (el.previousSibling) {
         el = el.previousSibling;
         offset += this._getLength(el);
@@ -494,17 +488,19 @@ class GrDiffHighlight extends GestureEventListeners(
    * Traverse Element from right to left, call callback for each node.
    * Stops if callback returns true.
    *
-   * @param {!Element} startNode
-   * @param {function(Node):boolean} callback
-   * @param {Object=} opt_flags If flags.left is true, traverse left.
+   * @param startNode
+   * @param callback
+   * @param opt_flags If flags.left is true, traverse left.
    */
   _traverseContentSiblings(startNode, callback, opt_flags) {
     const travelLeft = opt_flags && opt_flags.left;
     let node = startNode;
     while (node) {
-      if (node instanceof Element &&
-          node.tagName !== 'HL' &&
-          node.tagName !== 'SPAN') {
+      if (
+        node instanceof Element &&
+        node.tagName !== 'HL' &&
+        node.tagName !== 'SPAN'
+      ) {
         break;
       }
       const nextNode = travelLeft ? node.previousSibling : node.nextSibling;
@@ -519,8 +515,8 @@ class GrDiffHighlight extends GestureEventListeners(
    * Get length of a node. If the node is a content node, then only give the
    * length of its .contentText child.
    *
-   * @param {?Element} node this is sometimes passed as null.
-   * @return {number}
+   * @param node this is sometimes passed as null.
+   * @return
    */
   _getLength(node) {
     if (node instanceof Element && node.classList.contains('content')) {
@@ -531,4 +527,8 @@ class GrDiffHighlight extends GestureEventListeners(
   }
 }
 
-customElements.define(GrDiffHighlight.is, GrDiffHighlight);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-highlight': GrDiffHighlight;
+  }
+}

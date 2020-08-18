@@ -548,6 +548,15 @@ export interface GpgKeyInfo {
 }
 
 /**
+ * The GpgKeysInput entity contains information for adding/deleting GPG keys.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#gpg-keys-input
+ */
+export interface GpgKeysInput {
+  add?: string[];
+  delete?: string[];
+}
+
+/**
  * The GitPersonInfo entity contains information about theauthor/committer of
  * a commit.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#git-person-info

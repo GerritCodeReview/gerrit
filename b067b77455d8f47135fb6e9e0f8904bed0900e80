@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8dd72ccc_63f9a326",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 220,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-18T13:38:13Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 215,
+        "startChar": 0,
+        "endLine": 220,
+        "endChar": 5
+      },
+      "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6fa8eee_6edcb1fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-18T13:38:13Z",
+      "side": 1,
+      "message": "In .js the condition is type !\u003d\u003d \u0027blank\u0027 \u0026\u0026 type !\u003d\u003d \u0027contextControl\u0027\nIs it intended?\n\nThe gr-diff-builder-side-by-side.ts can create contextRow with the type CONTEXT_CONTROL",
+      "range": {
+        "startLine": 467,
+        "startChar": 39,
+        "endLine": 468,
+        "endChar": 15
+      },
+      "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5f554c7_37eb511b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 499,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-18T13:38:13Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 499,
+        "startChar": 0,
+        "endLine": 499,
+        "endChar": 13
+      },
+      "revId": "b067b77455d8f47135fb6e9e0f8904bed0900e80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

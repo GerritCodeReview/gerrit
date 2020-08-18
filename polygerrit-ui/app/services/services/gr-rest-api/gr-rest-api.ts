@@ -35,6 +35,9 @@ import {
   BranchName,
   BranchInput,
   TagInput,
+  GpgKeysInput,
+  GpgKeyId,
+  GpgKeyInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -201,4 +204,7 @@ export interface RestApiService {
     revision: TagInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
+  addAccountGPGKey(key: GpgKeysInput): Promise<Record<string, GpgKeyInfo>>;
+  deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
+  getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>>;
 }

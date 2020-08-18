@@ -31,6 +31,9 @@ import {
   DiffPreferencesInfo,
   DiffPreferenceInput,
   SshKeyInfo,
+  GpgKeysInput,
+  GpgKeyId,
+  GpgKeyInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -171,4 +174,7 @@ export interface RestApiService {
   getAccountSSHKeys(): Promise<SshKeyInfo[]>;
   deleteAccountSSHKey(key: string): void;
   addAccountSSHKey(key: string): Promise<SshKeyInfo>;
+  addAccountGPGKey(key: GpgKeysInput): Promise<Record<GpgKeyId, GpgKeyInfo>>;
+  deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
+  getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>>;
 }

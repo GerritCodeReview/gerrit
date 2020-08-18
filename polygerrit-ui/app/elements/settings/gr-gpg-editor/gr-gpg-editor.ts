@@ -14,47 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/gr-form-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-gpg-editor_html.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/gr-form-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-gpg-editor_html';
+import {customElement, property} from '@polymer/decorators';
+import {GpgKeyInfo, GpgKeyId} from '../../../types/common';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {IronAutogrowTextareaElement} from '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
-/** @extends PolymerElement */
-class GrGpgEditor extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrGpgEditor {
+  $: {
+    restAPI: RestApiService & Element;
+    viewKeyOverlay: GrOverlay;
+    addButton: GrButton;
+    newKey: IronAutogrowTextareaElement;
+  };
+}
 
-  static get is() { return 'gr-gpg-editor'; }
-
-  static get properties() {
-    return {
-      hasUnsavedChanges: {
-        type: Boolean,
-        value: false,
-        notify: true,
-      },
-      _keys: Array,
-      /** @type {?} */
-      _keyToView: Object,
-      _newKey: {
-        type: String,
-        value: '',
-      },
-      _keysToRemove: {
-        type: Array,
-        value() { return []; },
-      },
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-gpg-editor': GrGpgEditor;
   }
+}
+@customElement('gr-gpg-editor')
+export class GrGpgEditor extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Boolean, notify: true})
+  hasUnsavedChanges = false;
+
+  @property({type: Array})
+  _keys: GpgKeyInfo[] = [];
+
+  @property({type: Object})
+  _keyToView?: GpgKeyInfo;
+
+  @property({type: String})
+  _newKey = '';
+
+  @property({type: Array})
+  _keysToRemove: GpgKeyInfo[] = [];
 
   loadData() {
     this._keys = [];
@@ -62,18 +76,18 @@ class GrGpgEditor extends GestureEventListeners(
       if (!keys) {
         return;
       }
-      this._keys = Object.keys(keys)
-          .map(key => {
-            const gpgKey = keys[key];
-            gpgKey.id = key;
-            return gpgKey;
-          });
+      this._keys = Object.keys(keys).map(key => {
+        const gpgKey = keys[key];
+        gpgKey.id = key as GpgKeyId;
+        return gpgKey;
+      });
     });
   }
 
   save() {
-    const promises = this._keysToRemove
-        .map(key => this.$.restAPI.deleteAccountGPGKey(key.id));
+    const promises = this._keysToRemove.map(key =>
+      this.$.restAPI.deleteAccountGPGKey(key.id as GpgKeyId)
+    );
 
     return Promise.all(promises).then(() => {
       this._keysToRemove = [];
@@ -81,9 +95,9 @@ class GrGpgEditor extends GestureEventListeners(
     });
   }
 
-  _showKey(e) {
-    const el = dom(e).localTarget;
-    const index = parseInt(el.getAttribute('data-index'), 10);
+  _showKey(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as GrButton;
+    const index = parseInt(el.getAttribute('data-index')!, 10);
     this._keyToView = this._keys[index];
     this.$.viewKeyOverlay.open();
   }
@@ -92,9 +106,9 @@ class GrGpgEditor extends GestureEventListeners(
     this.$.viewKeyOverlay.close();
   }
 
-  _handleDeleteKey(e) {
-    const el = dom(e).localTarget;
-    const index = parseInt(el.getAttribute('data-index'), 10);
+  _handleDeleteKey(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as GrButton;
+    const index = parseInt(el.getAttribute('data-index')!, 10);
     this.push('_keysToRemove', this._keys[index]);
     this.splice('_keys', index, 1);
     this.hasUnsavedChanges = true;
@@ -103,21 +117,20 @@ class GrGpgEditor extends GestureEventListeners(
   _handleAddKey() {
     this.$.addButton.disabled = true;
     this.$.newKey.disabled = true;
-    return this.$.restAPI.addAccountGPGKey({add: [this._newKey.trim()]})
-        .then(key => {
-          this.$.newKey.disabled = false;
-          this._newKey = '';
-          this.loadData();
-        })
-        .catch(() => {
-          this.$.addButton.disabled = false;
-          this.$.newKey.disabled = false;
-        });
+    return this.$.restAPI
+      .addAccountGPGKey({add: [this._newKey.trim()]})
+      .then(() => {
+        this.$.newKey.disabled = false;
+        this._newKey = '';
+        this.loadData();
+      })
+      .catch(() => {
+        this.$.addButton.disabled = false;
+        this.$.newKey.disabled = false;
+      });
   }
 
-  _computeAddButtonDisabled(newKey) {
+  _computeAddButtonDisabled(newKey: string) {
     return !newKey.length;
   }
 }
-
-customElements.define(GrGpgEditor.is, GrGpgEditor);

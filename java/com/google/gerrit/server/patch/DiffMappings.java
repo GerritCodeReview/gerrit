@@ -16,7 +16,6 @@ package com.google.gerrit.server.patch;
 
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
@@ -29,24 +28,36 @@ public class DiffMappings {
   private DiffMappings() {}
 
   public static Mapping toMapping(PatchListEntry patchListEntry) {
-    // This is just a direct translation of the former logic in EditTransformer. It doesn't
-    // work for file deletions, though. As file deletions aren't relevant for 'edits due to rebase'
-    // situations, we didn't notice this in the past.
-    // TODO(aliceks): Fix for file deletions in another change.
-    FileMapping fileMapping =
-        FileMapping.create(getOldFilePath(patchListEntry), patchListEntry.getNewName());
-    ImmutableSet<RangeMapping> rangeMappings =
-        patchListEntry.getEdits().stream()
-            .map(
-                edit ->
-                    RangeMapping.create(
-                        Range.create(edit.getBeginA(), edit.getEndA()),
-                        Range.create(edit.getBeginB(), edit.getEndB())))
-            .collect(toImmutableSet());
+    FileMapping fileMapping = toFileMapping(patchListEntry);
+    ImmutableSet<RangeMapping> rangeMappings = toRangeMappings(patchListEntry);
     return Mapping.create(fileMapping, rangeMappings);
   }
 
-  private static String getOldFilePath(PatchListEntry patchListEntry) {
-    return MoreObjects.firstNonNull(patchListEntry.getOldName(), patchListEntry.getNewName());
+  private static FileMapping toFileMapping(PatchListEntry patchListEntry) {
+    switch (patchListEntry.getChangeType()) {
+      case ADDED:
+        return FileMapping.forAddedFile(patchListEntry.getNewName());
+      case MODIFIED:
+      case REWRITE:
+        return FileMapping.forModifiedFile(patchListEntry.getNewName());
+      case DELETED:
+        // Name of deleted file is mentioned as newName.
+        return FileMapping.forDeletedFile(patchListEntry.getNewName());
+      case RENAMED:
+      case COPIED:
+        return FileMapping.forRenamedFile(patchListEntry.getOldName(), patchListEntry.getNewName());
+      default:
+        throw new IllegalStateException("Unmapped diff type: " + patchListEntry.getChangeType());
+    }
+  }
+
+  private static ImmutableSet<RangeMapping> toRangeMappings(PatchListEntry patchListEntry) {
+    return patchListEntry.getEdits().stream()
+        .map(
+            edit ->
+                RangeMapping.create(
+                    Range.create(edit.getBeginA(), edit.getEndA()),
+                    Range.create(edit.getBeginB(), edit.getEndB())))
+        .collect(toImmutableSet());
   }
 }

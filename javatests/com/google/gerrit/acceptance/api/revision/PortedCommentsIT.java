@@ -970,8 +970,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Correct handling of deleted files.
-  @Ignore
   public void portedRangeCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1295,8 +1293,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Correct handling of deleted files.
-  @Ignore
   public void portedLineCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1398,8 +1394,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Correct handling of deleted files.
-  @Ignore
   public void portedFileCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =

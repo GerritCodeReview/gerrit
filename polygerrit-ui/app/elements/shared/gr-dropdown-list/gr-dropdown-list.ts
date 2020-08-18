@@ -27,6 +27,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-dropdown-list_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
+import {Timestamp} from '../../../types/common';
 
 /**
  * fired when the selected value of the dropdown changes
@@ -43,13 +44,14 @@ import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
  *
  * If date is not provided, nothing will be displayed in its place.
  */
-interface DropdownItem {
+export interface DropdownItem {
   text: string;
   value: string | number;
   bottomText?: string;
   triggerText?: string;
   mobileText?: string;
-  date?: Date;
+  date?: Timestamp;
+  disabled?: boolean;
 }
 
 export interface GrDropdownList {
@@ -57,6 +59,12 @@ export interface GrDropdownList {
     dropdown: IronDropdownElement;
   };
 }
+
+export interface ValueChangeDetail {
+  value: string;
+}
+
+export type DropDownValueChangeEvent = CustomEvent<ValueChangeDetail>;
 
 /** @extends PolymerElement */
 @customElement('gr-dropdown-list')
@@ -131,9 +139,10 @@ export class GrDropdownList extends GestureEventListeners(
     this.text = selectedObj.triggerText
       ? selectedObj.triggerText
       : selectedObj.text;
+    const detail: ValueChangeDetail = {value};
     this.dispatchEvent(
       new CustomEvent('value-change', {
-        detail: {value},
+        detail,
         bubbles: false,
       })
     );

@@ -232,7 +232,7 @@ function _computeWipForPatchSets(
 
 export const _testOnly_computeWipForPatchSets = _computeWipForPatchSets;
 
-export function computeLatestPatchNum(allPatchSets: PatchSet[]) {
+export function computeLatestPatchNum(allPatchSets?: PatchSet[]) {
   if (!allPatchSets || !allPatchSets.length) {
     return undefined;
   }

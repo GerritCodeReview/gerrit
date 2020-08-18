@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8160dcb7_63d0ae09",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-08-18T12:18:53Z",
+      "side": 1,
+      "message": "Hi David. Before I press ahead with the rest needed, am I totally off track here or is this the only way to achieve the opening up of the SSHD interface (receive/upload) to be extended via plugins?\n\nI have not seen any other way of doing it, because I can\u0027t see any way of injecting in something new but I am not sure if that is just my inexperience or plain ignorance of what the correct procedure for doing this would be.\n\nIf you confirm that this is should be acceptable, the next intention as stated in the TODO is to expand the change to add configuration to enable the default implementation to be switched off and thus replaced via new implementations via a plugin.\n\nI hope you have a spare moment and appreciate your input.",
+      "revId": "5b96c397179e86620e9daefbbfeeb7bd3e1cb71a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

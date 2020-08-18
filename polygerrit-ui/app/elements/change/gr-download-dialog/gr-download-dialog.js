@@ -70,11 +70,9 @@ class GrDownloadDialog extends GestureEventListeners(
   }
 
   getFocusStops() {
-    const links = this.shadowRoot
-        .querySelector('#archives').querySelectorAll('a');
     return {
-      start: this.$.closeButton,
-      end: links[links.length - 1],
+      start: this.$.downloadCommands.$.downloadTabs,
+      end: this.$.closeButton,
     };
   }
 

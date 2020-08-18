@@ -48,14 +48,17 @@ class GrDiffPreferencesDialog extends GestureEventListeners(
        */
       _editableDiffPrefs: Object,
 
-      _diffPrefsChanged: Boolean,
+      _diffPrefsChanged: {
+        type: Boolean,
+        observer: '_ondiffPrefsChanged',
+      },
     };
   }
 
   getFocusStops() {
     return {
       start: this.$.diffPreferences.$.contextSelect,
-      end: this.$.saveButton,
+      end: this.$.saveButton.disabled ? this.$.cancelButton : this.$.saveButton,
     };
   }
 
@@ -70,6 +73,10 @@ class GrDiffPreferencesDialog extends GestureEventListeners(
   _handleCancelDiff(e) {
     e.stopPropagation();
     this.$.diffPrefsOverlay.close();
+  }
+
+  _ondiffPrefsChanged() {
+    this.$.diffPrefsOverlay.setFocusStops(this.getFocusStops());
   }
 
   open() {

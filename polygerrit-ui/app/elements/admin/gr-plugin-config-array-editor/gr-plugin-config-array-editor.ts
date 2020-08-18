@@ -26,21 +26,15 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-plugin-config-array-editor_html';
 import {property, customElement} from '@polymer/decorators';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
-import {PluginOption} from '../gr-repo-plugin-config/gr-repo-plugin-config';
-import {ConfigArrayParameterInfo} from '../../../types/common';
+import {
+  PluginConfigOptionsChangedEventDetail,
+  ArrayPluginOption,
+} from '../gr-repo-plugin-config/gr-repo-plugin-config-types';
 
 declare global {
   interface HTMLElementTagNameMap {
     'gr-plugin-config-array-editor': GrPluginConfigArrayEditor;
   }
-}
-
-type ArrayPluginOption = PluginOption<ConfigArrayParameterInfo>;
-
-export interface PluginConfigOptionsChangedEventDetail {
-  _key: string;
-  info: ConfigArrayParameterInfo;
-  notifyPath: string;
 }
 
 @customElement('gr-plugin-config-array-editor')

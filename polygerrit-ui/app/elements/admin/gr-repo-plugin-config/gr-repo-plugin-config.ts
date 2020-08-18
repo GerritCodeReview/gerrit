@@ -33,21 +33,16 @@ import {ConfigParameterInfoType} from '../../../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {
   ConfigParameterInfo,
-  ConfigParameterInfoBase,
   PluginParameterToConfigParameterInfoMap,
 } from '../../../types/common';
 import {PaperToggleButtonElement} from '@polymer/paper-toggle-button/paper-toggle-button';
 import {IronInputElement} from '@polymer/iron-input/iron-input';
-import {PluginConfigOptionsChangedEventDetail} from '../gr-plugin-config-array-editor/gr-plugin-config-array-editor';
+import {
+  PluginConfigOptionsChangedEventDetail,
+  PluginOption,
+} from './gr-repo-plugin-config-types';
 
 const PLUGIN_CONFIG_CHANGED_EVENT_NAME = 'plugin-config-changed';
-
-export interface PluginOption<
-  T extends ConfigParameterInfoBase = ConfigParameterInfo
-> {
-  _key: string; // parameterName of PluginParameterToConfigParameterInfoMap
-  info: T;
-}
 
 export interface ConfigChangeInfo {
   _key: string; // parameterName of PluginParameterToConfigParameterInfoMap

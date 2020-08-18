@@ -1589,7 +1589,7 @@ export interface PreferencesInput {
  */
 export interface DiffPreferenceInput {
   context?: number;
-  expand_all_comments?: number;
+  expand_all_comments?: boolean;
   ignore_whitespace: IgnoreWhitespaceType;
   intraline_difference?: boolean;
   line_length?: number;

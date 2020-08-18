@@ -109,7 +109,7 @@ export class GrCursorManager extends GestureEventListeners(
 
   next(
     condition?: Function,
-    getTargetHeight?: Function,
+    getTargetHeight?: (target: HTMLElement) => number,
     clipToTop?: boolean,
     navigateToNextFile?: boolean
   ) {
@@ -272,7 +272,7 @@ export class GrCursorManager extends GestureEventListeners(
   _moveCursor(
     delta: number,
     condition?: Function,
-    getTargetHeight?: Function,
+    getTargetHeight?: (target: HTMLElement) => number,
     clipToTop?: boolean,
     navigateToNextFile?: boolean
   ) {

@@ -1129,11 +1129,12 @@ export class GrRestApiInterface
     });
   }
 
+  // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#list-groups
   getAccountGroups() {
-    return this._restApiHelper.fetchJSON({
+    return (this._restApiHelper.fetchJSON({
       url: '/accounts/self/groups',
       reportUrlAsIs: true,
-    }) as Promise<GroupInfo[] | undefined>;
+    }) as Promise<unknown>) as Promise<GroupInfo[]>;
   }
 
   getAccountAgreements() {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a0b52ef5_1d680f91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "Thanks.",
+      "parentUuid": "c18ceda2_9deb782a",
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e66089a_bf53129d",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
         "patchSetId": 2
@@ -39,6 +57,30 @@
       "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3789ec35_7272ebe9",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "I don\u0027t understand what you mean with \"return the removed comment\". Did you maybe mean that we should return the created comment from the test API instead of just its UUID? If so, it was a deliberate choice. In the beginning, we returned the entities from the test API when we created them. We changed our opinion later (see Id66ab8a33) and switched to the IDs/UUIDs instead. All additions to the test API should follow that approach.\n\nI also deliberately didn\u0027t document the author which is chosen as default or cover it with a test. No test creating a comment should rely on the default. If the author matters, the test should explicitly set the author. Unfortunately, the latter can\u0027t be enforced. I was tempted to add some randomization to the choice of default author but refrained from it as that aspect involves some deeper considerations to not make tests brittle and it\u0027s not my main focus right now.",
+      "parentUuid": "7e66089a_bf53129d",
+      "range": {
+        "startLine": 120,
+        "startChar": 58,
+        "endLine": 120,
+        "endChar": 92
+      },
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +107,30 @@
     },
     {
       "key": {
+        "uuid": "8c5b6b4c_2b4cfb20",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 302,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "If that should be a test covering the author chosen as default, please see my other comment.",
+      "parentUuid": "70ea5d2d_a46a93b7",
+      "range": {
+        "startLine": 302,
+        "startChar": 14,
+        "endLine": 302,
+        "endChar": 49
+      },
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "01fb248f_7663546e",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
         "patchSetId": 2
@@ -85,6 +151,30 @@
       "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b12dae9_955dc63f",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-18T12:57:17Z",
+      "side": 1,
+      "message": "Yes, I decided to remove it in the previous change and add it again in here.\n\nYou\u0027re right in that I could use \"user\" or \"admin\" from AbstractDaemonTest instead of creating a new account here. Consider them as a deprecated approach, though. They existed before we introduced the test API for accounts, which allows to easily create an account as you need it for a test. (It\u0027s still lacking an easy possibility to add an admin account but that should come in the future.) Each use of \"user\" and \"admin\" makes it harder to ever get rid of AbstractDaemonTest as an abstract test class and to use a rule to set up the test environment instead. Such an abstract test class introduces some issues (e.g. you can\u0027t use another runner like the one necessary for a parameterized test) and is actually not in line with best practices. Hence, every time I write a new test, I use the test API for accounts instead of \"user\" or \"admin\" (except if this isn\u0027t possible for some reason). In the specific case of this change, the test API for accounts is actually a perfect fit. It easily allows to create the user account I need for the test and has other benefits (e.g. the test is self-contained).\n\nAccountCreator is just like \"user\" and \"admin\". We should also try to avoid it for new tests. It\u0027s only injected in AbstractDaemonTest for legacy reasons.\n\nBy the way, we deliberately didn\u0027t inject the starting objects for the new test APIs in AbstractDaemonTest. We could have done so but tests would then be encouraged to use inherited properties from AbstractDaemonTest again. That\u0027s unnecessary. The tests can just inject the test API objects they need.",
+      "parentUuid": "01fb248f_7663546e",
+      "range": {
+        "startLine": 304,
+        "startChar": 27,
+        "endLine": 304,
+        "endChar": 44
+      },
+      "revId": "1448d7ef9ba2cd716a2fa0b0920135d782a347c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

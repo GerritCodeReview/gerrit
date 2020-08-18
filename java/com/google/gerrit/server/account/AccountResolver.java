@@ -567,6 +567,25 @@ public class AccountResolver {
         input, nameOrEmailSearchers, visibilitySupplierCanSee(), accountActivityPredicate());
   }
 
+  /**
+   * Same as {@link #resolveByNameOrEmail(String)}, but with exact matching for the full name, email
+   * and full name.
+   *
+   * @param input input string.
+   * @return a result describing matching accounts. Never null even if the result set is empty.
+   * @throws ConfigInvalidException if an error occurs.
+   * @throws IOException if an error occurs.
+   * @deprecated for use only by MailUtil for parsing commit footers; that class needs to be
+   *     reevaluated.
+   */
+  public Result resolveByExactNameOrEmail(String input) throws ConfigInvalidException, IOException {
+    return searchImpl(
+        input,
+        ImmutableList.of(new ByNameAndEmail(), new ByEmail(), new ByFullName(), new ByUsername()),
+        visibilitySupplierCanSee(),
+        accountActivityPredicate());
+  }
+
   private Supplier<Predicate<AccountState>> visibilitySupplierCanSee() {
     return () -> accountControlFactory.get()::canSee;
   }

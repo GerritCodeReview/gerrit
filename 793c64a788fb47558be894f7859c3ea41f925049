@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "db2d86b2_31721949",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 734,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T10:28:36Z",
+      "side": 1,
+      "message": "my $0.02 to Gal\u0027s comment: if you write those kind of tests throughout, you\u0027ll have a lot of test code (more maintenance work, slower test execution), and it will actually hamper refactoring of internals, because you\u0027ll have to change all those tests. As a first approximation, it\u0027s best to test observable behaviors (ie. executing REST APIs and checking if the results match expectations). Of course, for large projects, some sub-parts of the total system may become components with a well-defined, small external API that you can separately unittest, but I don\u0027t think the Comment class is a such a sub-part.",
+      "parentUuid": "5c4399e5_90addd55",
+      "range": {
+        "startLine": 734,
+        "startChar": 14,
+        "endLine": 734,
+        "endChar": 52
+      },
+      "revId": "793c64a788fb47558be894f7859c3ea41f925049",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5dab4aab_613c4b1f",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 2

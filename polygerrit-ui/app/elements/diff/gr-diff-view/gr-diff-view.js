@@ -192,6 +192,7 @@ class GrDiffView extends KeyboardShortcutMixin(
         computed: '_getDiffViewMode(changeViewState.diffMode, _userPrefs)',
       },
       _isImageDiff: Boolean,
+      // The return type is FilesWebLinks from gr-patch-range-select.
       _filesWeblinks: Object,
 
       /**

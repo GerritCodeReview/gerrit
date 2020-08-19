@@ -72,6 +72,16 @@ export interface PatchSetFile {
   patchNum: PatchSetNum;
 }
 
+export interface PatchNumOnly {
+  patchNum: PatchSetNum;
+}
+
+export function isPatchSetFile(
+  x: PatchSetFile | PatchNumOnly
+): x is PatchSetFile {
+  return !!(x as PatchSetFile).path;
+}
+
 export interface CommentThread {
   comments: CommentInfoWithTwoPaths[];
   patchNum?: PatchSetNum;
@@ -97,7 +107,7 @@ interface TwoSidesComments {
   right: CommentInfoWithPath[];
 }
 
-class ChangeComments {
+export class ChangeComments {
   private readonly _comments: PathToCommentsInfoWithPathMap;
 
   private readonly _robotComments: PathToCommentsInfoWithPathMap;
@@ -469,8 +479,8 @@ class ChangeComments {
   /**
    * Computes a string counting the number of commens in a given file.
    */
-  computeCommentCount(file: PatchSetFile) {
-    if (file.path) {
+  computeCommentCount(file: PatchSetFile | PatchNumOnly) {
+    if (isPatchSetFile(file)) {
       return this.getAllCommentsForFile(file).length;
     }
     const allComments = this.getAllPublishedComments(file.patchNum);
@@ -481,8 +491,8 @@ class ChangeComments {
    * Computes a string counting the number of draft comments in the entire
    * change, optionally filtered by path and/or patchNum.
    */
-  computeDraftCount(file: PatchSetFile) {
-    if (file && file.path) {
+  computeDraftCount(file?: PatchSetFile | PatchNumOnly) {
+    if (file && isPatchSetFile(file)) {
       return this.getAllDraftsForFile(file).length;
     }
     const allDrafts = this.getAllDrafts(file && file.patchNum);
@@ -492,11 +502,11 @@ class ChangeComments {
   /**
    * Computes a number of unresolved comment threads in a given file and path.
    */
-  computeUnresolvedNum(file: PatchSetFile) {
+  computeUnresolvedNum(file: PatchSetFile | PatchNumOnly) {
     let comments: CommentInfoWithPath[] = [];
     let drafts: CommentInfoWithPath[] = [];
 
-    if (file.path) {
+    if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
       drafts = this.getAllDraftsForFile(file);
     } else {

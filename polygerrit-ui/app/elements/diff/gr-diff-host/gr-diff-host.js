@@ -135,6 +135,7 @@ class GrDiffHost extends GestureEventListeners(
         notify: true,
       },
       commitRange: Object,
+      // The return type is FilesWebLinks from gr-patch-range-select.
       filesWeblinks: {
         type: Object,
         value() {
@@ -452,6 +453,7 @@ class GrDiffHost extends GestureEventListeners(
   }
 
   _getFilesWeblinks(diff) {
+    // The return type is FilesWebLinks from gr-patch-range-select.
     if (!this.commitRange) {
       return {};
     }

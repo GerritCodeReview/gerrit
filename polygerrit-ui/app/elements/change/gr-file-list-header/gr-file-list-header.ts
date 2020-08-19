@@ -346,6 +346,7 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
       new CustomEvent('open-diff-prefs', {
         composed: true,
         bubbles: true,
+        detail: {returnFocusTo: e.target as HTMLElement | null},
       })
     );
   }

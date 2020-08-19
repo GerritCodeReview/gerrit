@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "5ab9a5d7_8731d730",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T15:13:46Z",
+      "side": 1,
+      "message": "I tried fixing it but I\u0027m not sure if it\u0027s correct. PTAL.",
+      "parentUuid": "2a1b49d4_a7f848ee",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0c4117b_aac59413",
         "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
         "patchSetId": 6
@@ -227,6 +251,30 @@
       "side": 1,
       "message": "Ok. I think, that\u0027s not correct to check if(!completed).\nIn this code you want to check that value doesn\u0027t exists, so it is better to explicitly check if(completed \u003d\u003d\u003d undefined || completed \u003d\u003d\u003d null) ...\nIn this case tests remains unchanged.",
       "parentUuid": "421a4900_406f66dc",
+      "range": {
+        "startLine": 168,
+        "startChar": 61,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ff106e_d1de6a1d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T15:13:46Z",
+      "side": 1,
+      "message": "Even so, the interface Suggestion requires value to be a string so it\u0027s better to have tests conform to our types.",
+      "parentUuid": "7e712475_00ce496b",
       "range": {
         "startLine": 168,
         "startChar": 61,

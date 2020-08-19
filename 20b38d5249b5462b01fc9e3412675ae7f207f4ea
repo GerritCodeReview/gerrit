@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa655925_049542ac",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "is not the querystring set by the page context ?",
+      "range": {
+        "startLine": 251,
+        "startChar": 15,
+        "endLine": 251,
+        "endChar": 26
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f67b229d_bbfcdee9",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "this is used in gr-change-view.js for deep linking on tabs",
+      "range": {
+        "startLine": 253,
+        "startChar": 35,
+        "endLine": 253,
+        "endChar": 56
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb247098_68b05930",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "public should be default, no need to specify",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 308,
+        "endChar": 8
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecea29d0_2e37b4c4",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "seem duplicate with above",
+      "range": {
+        "startLine": 312,
+        "startChar": 21,
+        "endLine": 312,
+        "endChar": 48
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "adf0b308_cfe7c2c1",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "similar to L432, store it to a temp variable can help the readability",
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2669a7a_ccd1659a",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "let\u0027s use arrow functions :)",
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "763183e3_59b62a97",
+        "filename": "polygerrit-ui/app/elements/gr-app-interface.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "I remember seeing changes moving types to `file-types.ts` in previous changes, maybe either use the same suffix `types` to be consistent.",
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ba7a5c3_83ec9303",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T11:44:19Z",
+      "side": 1,
+      "message": "TODO(TS)",
+      "range": {
+        "startLine": 59,
+        "startChar": 5,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

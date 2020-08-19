@@ -1957,3 +1957,11 @@ export interface PluginInfo {
 export interface PluginInput {
   url: string;
 }
+
+/**
+ * The DocResult entity contains information about a document.
+ */
+export interface DocResult {
+  title: string;
+  url: string;
+}

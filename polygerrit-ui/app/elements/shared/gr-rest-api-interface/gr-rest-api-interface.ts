@@ -121,6 +121,7 @@ import {
   PluginInfo,
   GpgKeyInfo,
   GpgKeysInput,
+  DocResult,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -3438,7 +3439,7 @@ export class GrRestApiInterface
     }) as Promise<DashboardInfo | undefined>;
   }
 
-  getDocumentationSearches(filter: string) {
+  getDocumentationSearches(filter: string): Promise<DocResult[] | undefined> {
     filter = filter.trim();
     const encodedFilter = encodeURIComponent(filter);
 
@@ -3447,7 +3448,7 @@ export class GrRestApiInterface
     return this._fetchSharedCacheURL({
       url: `/Documentation/?q=${encodedFilter}`,
       anonymizedUrl: '/Documentation/?*',
-    });
+    }) as Promise<DocResult[] | undefined>;
   }
 
   getMergeable(changeNum: ChangeNum) {

@@ -14,84 +14,88 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-table-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-list-view/gr-list-view.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-documentation-search_html.js';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
+import '../../../styles/gr-table-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-list-view/gr-list-view';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-documentation-search_html';
+import {
+  ListViewMixin,
+  ListViewParams,
+} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {getBaseUrl} from '../../../utils/url-util';
+import {customElement, property} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {DocResult} from '../../../types/common';
 
-/**
- * @extends PolymerElement
- */
-class GrDocumentationSearch extends ListViewMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-documentation-search'; }
-
-  static get properties() {
-    return {
-    /**
-     * URL params passed from the router.
-     */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/Documentation',
-      },
-      _documentationSearches: Array,
-
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: {
-        type: String,
-        value: '',
-      },
-    };
+export interface GrDocumentationSearch {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
+@customElement('gr-documentation-search')
+export class GrDocumentationSearch extends ListViewMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Object, observer: '_paramsChanged'})
+  params?: ListViewParams;
+
+  @property({type: String, readOnly: true})
+  _path = '/Documentation';
+
+  @property({type: Array})
+  _documentationSearches?: DocResult[];
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: String})
+  _filter = '';
 
   /** @override */
   attached() {
     super.attached();
     this.dispatchEvent(
-        new CustomEvent('title-change', {title: 'Documentation Search'}));
+      new CustomEvent('title-change', {detail: {title: 'Documentation Search'}})
+    );
   }
 
-  _paramsChanged(params) {
+  _paramsChanged(params: ListViewParams) {
     this._loading = true;
     this._filter = this.getFilterValue(params);
 
     return this._getDocumentationSearches(this._filter);
   }
 
-  _getDocumentationSearches(filter) {
+  _getDocumentationSearches(filter: string) {
     this._documentationSearches = [];
-    return this.$.restAPI.getDocumentationSearches(filter)
-        .then(searches => {
-          // Late response.
-          if (filter !== this._filter || !searches) { return; }
-          this._documentationSearches = searches;
-          this._loading = false;
-        });
+    return this.$.restAPI.getDocumentationSearches(filter).then(searches => {
+      // Late response.
+      if (filter !== this._filter || !searches) {
+        return;
+      }
+      this._documentationSearches = searches;
+      this._loading = false;
+    });
   }
 
-  _computeSearchUrl(url) {
-    if (!url) { return ''; }
-    return getBaseUrl() + '/' + url;
+  _computeSearchUrl(url?: string) {
+    if (!url) {
+      return '';
+    }
+    return `${getBaseUrl()}/${url}`;
   }
 }
 
-customElements.define(GrDocumentationSearch.is, GrDocumentationSearch);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-documentation-search': GrDocumentationSearch;
+  }
+}

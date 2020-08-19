@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "aa0f7f37_98531fd3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:44:07Z",
+      "side": 1,
+      "message": "This is not a function. It should be:\nquery: Promise\u003cSuggestion[]\u003e \u003d Promise.resolve([])",
+      "range": {
+        "startLine": 97,
+        "startChar": 2,
+        "endLine": 97,
+        "endChar": 7
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0c4117b_aac59413",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:44:07Z",
+      "side": 1,
+      "message": "typescrtipt style guide:\nCode must use Number() to parse numeric values, and must check its return for NaN values explicitly, unless failing to parse is impossible from context.\n\nCode must also not use parseInt or parseFloat to parse numbers, except for non-base-10 strings.",
+      "range": {
+        "startLine": 473,
+        "startChar": 41,
+        "endLine": 473,
+        "endChar": 65
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef408011_23162f82",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:44:07Z",
+      "side": 1,
+      "message": "Do tests break without this change?",
+      "range": {
+        "startLine": 168,
+        "startChar": 61,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

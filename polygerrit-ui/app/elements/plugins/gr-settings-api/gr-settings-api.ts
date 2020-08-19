@@ -64,7 +64,7 @@ export class GrSettingsApi {
     this.plugin.hook('settings-menu-item').onAttached(el => {
       const menuItem = document.createElement('gr-settings-menu-item');
       menuItem.title = this._title;
-      menuItem.href = `#${token}`;
+      menuItem.setAttribute('href', `#${token}`);
       el.appendChild(menuItem);
     });
     const moduleName = this._moduleName;

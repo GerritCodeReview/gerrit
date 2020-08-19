@@ -127,7 +127,7 @@ class GrRepoPluginConfig extends GestureEventListeners(
   }
 
   _computeChecked(value = 'false') {
-    return JSON.parse(value);
+    return JSON.parse(value) as boolean;
   }
 
   _handleStringChange(e: Event) {

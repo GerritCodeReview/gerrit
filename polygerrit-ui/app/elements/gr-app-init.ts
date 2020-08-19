@@ -22,8 +22,13 @@ import {
 } from '../services/gr-reporting/gr-reporting_impl';
 import {appContext} from '../services/app-context';
 
+interface UninitializedPolymer {
+  lazyRegister: boolean;
+}
+
 if (!window.Polymer) {
-  window.Polymer = {
+  // Without as... it violates internal google rules.
+  (window.Polymer as UninitializedPolymer) = {
     lazyRegister: true,
   };
 }

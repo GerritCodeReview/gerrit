@@ -66,7 +66,7 @@ export class GrCommitInfo extends GestureEventListeners(
   }
 
   @computed('change', 'commitInfo', 'serverConfig')
-  get _webLink(): string {
+  get _webLink(): string | undefined {
     if (!this.change || !this.commitInfo || !this.serverConfig) {
       return '';
     }

@@ -31,6 +31,10 @@ import {
   DiffPreferencesInfo,
   DiffPreferenceInput,
   SshKeyInfo,
+  RepositoryName,
+  BranchName,
+  BranchInput,
+  TagInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -171,4 +175,30 @@ export interface RestApiService {
   getAccountSSHKeys(): Promise<SshKeyInfo[]>;
   deleteAccountSSHKey(key: string): void;
   addAccountSSHKey(key: string): Promise<SshKeyInfo>;
+
+  createRepoBranch(
+    name: RepositoryName,
+    branch: BranchName,
+    revision: BranchInput
+  ): Promise<Response>;
+
+  createRepoBranch(
+    name: RepositoryName,
+    branch: BranchName,
+    revision: BranchInput,
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+
+  createRepoTag(
+    name: RepositoryName,
+    tag: string,
+    revision: TagInput
+  ): Promise<Response>;
+
+  createRepoTag(
+    name: RepositoryName,
+    tag: string,
+    revision: TagInput,
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
 }

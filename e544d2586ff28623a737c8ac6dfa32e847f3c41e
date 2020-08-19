@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4ad005ee_2f41bf33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 2371,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-19T09:53:52Z",
+      "side": 1,
+      "message": "this is the only place with variable name changes, but should be safe as internal temp variable only and the name is better after the change, so i will keep it.",
+      "range": {
+        "startLine": 2371,
+        "startChar": 12,
+        "endLine": 2371,
+        "endChar": 27
+      },
+      "revId": "e544d2586ff28623a737c8ac6dfa32e847f3c41e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

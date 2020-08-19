@@ -37,7 +37,7 @@ interface PgElement extends Element {
   };
 }
 
-class GrStyleObject {
+export class GrStyleObject {
   private className = '';
 
   constructor(private readonly rulesStr: string) {

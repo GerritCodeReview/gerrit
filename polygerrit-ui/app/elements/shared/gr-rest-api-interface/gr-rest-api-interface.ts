@@ -119,6 +119,8 @@ import {
   IncludedInInfo,
   TagInput,
   PluginInfo,
+  GpgKeyInfo,
+  GpgKeysInput,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -3019,13 +3021,13 @@ export class GrRestApiInterface
   }
 
   getAccountGPGKeys() {
-    return this._restApiHelper.fetchJSON({
+    return (this._restApiHelper.fetchJSON({
       url: '/accounts/self/gpgkeys',
       reportUrlAsIs: true,
-    });
+    }) as Promise<unknown>) as Promise<Record<string, GpgKeyInfo>>;
   }
 
-  addAccountGPGKey(key: GpgKeyId) {
+  addAccountGPGKey(key: GpgKeysInput) {
     const req = {
       method: HttpMethod.POST,
       url: '/accounts/self/gpgkeys',

@@ -350,6 +350,7 @@ export const htmlTemplate = html`
           <span class="preferences desktop">
             <gr-button
               link=""
+              id="diffPrefsButton"
               class="prefsButton"
               has-tooltip=""
               title="Diff preferences"

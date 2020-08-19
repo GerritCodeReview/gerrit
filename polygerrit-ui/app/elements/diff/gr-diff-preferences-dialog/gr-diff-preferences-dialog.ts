@@ -53,6 +53,8 @@ export class GrDiffPreferencesDialog extends GestureEventListeners(
   @property({type: Boolean, observer: '_onDiffPrefsChanged'})
   _diffPrefsChanged?: boolean;
 
+  returnFocusTo?: HTMLElement;
+
   getFocusStops() {
     return {
       start: this.$.diffPreferences.$.contextSelect,
@@ -70,14 +72,21 @@ export class GrDiffPreferencesDialog extends GestureEventListeners(
 
   _handleCancelDiff(e: MouseEvent) {
     e.stopPropagation();
-    this.$.diffPrefsOverlay.close();
+    this.$.diffPrefsOverlay.cancel();
+  }
+
+  onOverlayCanceled() {
+    if (this.returnFocusTo) {
+      this.returnFocusTo.focus();
+    }
   }
 
   _onDiffPrefsChanged() {
     this.$.diffPrefsOverlay.setFocusStops(this.getFocusStops());
   }
 
-  open() {
+  open(_returnFocusTo?: HTMLElement) {
+    this.returnFocusTo = _returnFocusTo;
     // JSON.parse(JSON.stringify(...)) makes a deep clone of diffPrefs.
     // It is known, that diffPrefs is obtained from an RestAPI call and
     // it is safe to clone the object this way.
@@ -101,7 +110,7 @@ export class GrDiffPreferencesDialog extends GestureEventListeners(
         })
       );
 
-      this.$.diffPrefsOverlay.close();
+      this.$.diffPrefsOverlay.cancel();
     });
   }
 }

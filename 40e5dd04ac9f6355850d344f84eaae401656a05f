@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e166b2b_46bd4ed5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T14:44:56Z",
+      "side": 1,
+      "message": "Fixed conflicts.\nCan you also please submit when you +2 to avoid more conflicts.",
+      "revId": "40e5dd04ac9f6355850d344f84eaae401656a05f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d755511a_b0def667",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T11:53:45Z",
+      "side": 1,
+      "message": "The docs say \"Not set in map context\". Just checked that it does mean it is optional.",
+      "parentUuid": "9612513f_32d9ce49",
+      "range": {
+        "startLine": 89,
+        "startChar": 47,
+        "endLine": 89,
+        "endChar": 59
+      },
+      "revId": "ddc00ff69598a67da51ef232127688a37b78c8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32d483cb_8846f59b",
         "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3ef0f4c4_d12999a6",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T11:53:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "32d483cb_8846f59b",
+      "range": {
+        "startLine": 99,
+        "startChar": 48,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "ddc00ff69598a67da51ef232127688a37b78c8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f889cfda_1f62b585",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "ddc00ff69598a67da51ef232127688a37b78c8fe",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f125218_ac4fe860",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 3025,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T11:53:45Z",
+      "side": 1,
+      "message": "I think the signature must be a string and not of type GpgKeyId.",
+      "parentUuid": "f889cfda_1f62b585",
+      "range": {
+        "startLine": 3025,
+        "startChar": 46,
+        "endLine": 3025,
+        "endChar": 52
+      },
+      "revId": "ddc00ff69598a67da51ef232127688a37b78c8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -501,6 +501,15 @@ export interface CommitInfo {
 }
 
 /**
+ * Standalone Commit Info.
+ * Same as CommitInfo, except `commit` is required
+ * as it is only optional when used inside of the RevisionInfo.
+ */
+export interface StandaloneCommitInfo extends CommitInfo {
+  commit: CommitId;
+}
+
+/**
  * The parent commits of this commit as a list of CommitInfo entities.
  * In each parent only the commit and subject fields are populated.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#commit-info

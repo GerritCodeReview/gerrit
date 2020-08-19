@@ -27,7 +27,7 @@ import {htmlTemplate} from './gr-create-pointer-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, property, observe} from '@polymer/decorators';
-import {BranchName, RepositoryName} from '../../../types/common';
+import {BranchName, ProjectName} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 enum DetailType {
@@ -53,7 +53,7 @@ export class GrCreatePointerDialog extends GestureEventListeners(
   detailType?: string;
 
   @property({type: String})
-  repoName?: RepositoryName;
+  repoName?: ProjectName;
 
   @property({type: Boolean, notify: true})
   hasNewItemName = false;

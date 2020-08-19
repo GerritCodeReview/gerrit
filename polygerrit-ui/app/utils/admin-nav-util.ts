@@ -21,7 +21,7 @@ import {
   GroupDetailView,
 } from '../elements/core/gr-navigation/gr-navigation';
 import {
-  RepositoryName,
+  ProjectName,
   GroupId,
   AccountDetailInfo,
   CapabilityInfo,
@@ -171,7 +171,7 @@ export function getGroupSubsections(
   return subsection;
 }
 
-export function getRepoSubsections(repoName: RepositoryName) {
+export function getRepoSubsections(repoName: ProjectName) {
   return {
     name: repoName,
     view: GerritNav.View.REPO,
@@ -220,7 +220,7 @@ export interface SubsectionInterface {
 }
 
 export interface AdminNavLinksOption {
-  repoName?: RepositoryName;
+  repoName?: ProjectName;
   groupId?: GroupId;
   groupName?: string;
   groupIsInternal?: boolean;

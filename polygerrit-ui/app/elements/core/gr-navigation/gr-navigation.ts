@@ -20,7 +20,6 @@ import {
   PatchSetNum,
   ProjectName,
   TopicName,
-  RepositoryName,
   GroupId,
   DashboardId,
   NumericChangeId,
@@ -255,14 +254,14 @@ export interface GenerateUrlChangeViewParameters {
 
 export interface GenerateUrlRepoViewParameters {
   view: GerritView.REPO;
-  repoName: RepositoryName;
+  repoName: ProjectName;
   detail?: RepoDetailView;
 }
 
 export interface GenerateUrlDashboardViewParameters {
   view: GerritView.DASHBOARD;
   user?: string;
-  repo?: RepositoryName;
+  repo?: ProjectName;
   dashboard?: DashboardId;
 }
 
@@ -314,14 +313,14 @@ export type GenerateUrlParameters =
 
 export interface GenerateWebLinksPatchsetParameters {
   type: WeblinkType.PATCHSET;
-  repo: RepositoryName;
+  repo: ProjectName;
   commit: CommitId;
   // TODO(TS): provide better typing
   options?: unknown;
 }
 export interface GenerateWebLinksFileParameters {
   type: WeblinkType.FILE;
-  repo: RepositoryName;
+  repo: ProjectName;
   commit: CommitId;
   file: string;
   // TODO(TS): provide better typing
@@ -329,7 +328,7 @@ export interface GenerateWebLinksFileParameters {
 }
 export interface GenerateWebLinksChangeParameters {
   type: WeblinkType.CHANGE;
-  repo: RepositoryName;
+  repo: ProjectName;
   commit: CommitId;
   // TODO(TS): provide better typing
   options?: unknown;
@@ -764,7 +763,7 @@ export const GerritNav = {
    * @param repo The name of the repo.
    * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.
    */
-  getUrlForRepoDashboard(repo: RepositoryName, dashboard: DashboardId) {
+  getUrlForRepoDashboard(repo: ProjectName, dashboard: DashboardId) {
     return this._getUrlFor({
       view: GerritView.DASHBOARD,
       repo,
@@ -782,7 +781,7 @@ export const GerritNav = {
     this._navigate(relativeUrl);
   },
 
-  getUrlForRepo(repoName: RepositoryName) {
+  getUrlForRepo(repoName: ProjectName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -792,11 +791,11 @@ export const GerritNav = {
   /**
    * Navigate to a repo settings page.
    */
-  navigateToRepo(repoName: RepositoryName) {
+  navigateToRepo(repoName: ProjectName) {
     this._navigate(this.getUrlForRepo(repoName));
   },
 
-  getUrlForRepoTags(repoName: RepositoryName) {
+  getUrlForRepoTags(repoName: ProjectName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -804,7 +803,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoBranches(repoName: RepositoryName) {
+  getUrlForRepoBranches(repoName: ProjectName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -812,7 +811,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoAccess(repoName: RepositoryName) {
+  getUrlForRepoAccess(repoName: ProjectName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -820,7 +819,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoCommands(repoName: RepositoryName) {
+  getUrlForRepoCommands(repoName: ProjectName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -828,7 +827,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoDashboards(repoName: RepositoryName) {
+  getUrlForRepoDashboards(repoName: ProjectName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -864,7 +863,7 @@ export const GerritNav = {
   },
 
   getFileWebLinks(
-    repo: RepositoryName,
+    repo: ProjectName,
     commit: CommitId,
     file: string,
     options?: unknown
@@ -882,7 +881,7 @@ export const GerritNav = {
   },
 
   getPatchSetWeblink(
-    repo: RepositoryName,
+    repo: ProjectName,
     commit: CommitId,
     options?: unknown
   ): WebLink {
@@ -906,7 +905,7 @@ export const GerritNav = {
   },
 
   getChangeWeblinks(
-    repo: RepositoryName,
+    repo: ProjectName,
     commit: CommitId,
     options?: unknown
   ): WebLink[] {

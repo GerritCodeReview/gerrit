@@ -31,7 +31,7 @@ import {
   DiffPreferencesInfo,
   DiffPreferenceInput,
   SshKeyInfo,
-  RepositoryName,
+  ProjectName,
   BranchName,
   BranchInput,
   TagInput,
@@ -177,26 +177,26 @@ export interface RestApiService {
   addAccountSSHKey(key: string): Promise<SshKeyInfo>;
 
   createRepoBranch(
-    name: RepositoryName,
+    name: ProjectName,
     branch: BranchName,
     revision: BranchInput
   ): Promise<Response>;
 
   createRepoBranch(
-    name: RepositoryName,
+    name: ProjectName,
     branch: BranchName,
     revision: BranchInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoTag(
-    name: RepositoryName,
+    name: ProjectName,
     tag: string,
     revision: TagInput
   ): Promise<Response>;
 
   createRepoTag(
-    name: RepositoryName,
+    name: ProjectName,
     tag: string,
     revision: TagInput,
     errFn: ErrorCallback

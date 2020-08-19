@@ -72,7 +72,6 @@ export type GitRef = BrandType<string, '_gitRef'>;
 export type RequirementType = BrandType<string, '_requirementType'>;
 export type TrackingId = BrandType<string, '_trackingId'>;
 export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
-export type RepositoryName = BrandType<string, '_repositoryName'>;
 export type RobotId = BrandType<string, '_robotId'>;
 export type RobotRunId = BrandType<string, '_robotRunId'>;
 export type FixId = BrandType<string, '_fixId'>;

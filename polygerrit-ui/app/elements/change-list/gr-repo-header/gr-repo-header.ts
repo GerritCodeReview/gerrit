@@ -25,7 +25,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-header_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
-import {RepositoryName} from '../../../types/common';
+import {ProjectName} from '../../../types/common';
 
 /** @extends PolymerElement */
 @customElement('gr-repo-header')
@@ -42,7 +42,7 @@ class GrRepoHeader extends GestureEventListeners(
   @property({type: String})
   _repoUrl: string | null = null;
 
-  _repoChanged(repoName: RepositoryName) {
+  _repoChanged(repoName: ProjectName) {
     if (!repoName) {
       this._repoUrl = null;
       return;

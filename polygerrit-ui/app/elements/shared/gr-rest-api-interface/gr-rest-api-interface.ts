@@ -99,9 +99,8 @@ import {
   ProjectAccessInput,
   ProjectInfo,
   ProjectInput,
-  ProjectName,
   ProjectWatchInfo,
-  RepositoryName,
+  ProjectName,
   ReviewInput,
   RobotCommentInfo,
   ServerInfo,
@@ -366,7 +365,7 @@ export class GrRestApiInterface
   }
 
   getRepo(
-    repo: RepositoryName,
+    repo: ProjectName,
     errFn?: ErrorCallback
   ): Promise<ProjectInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -379,7 +378,7 @@ export class GrRestApiInterface
   }
 
   getProjectConfig(
-    repo: RepositoryName,
+    repo: ProjectName,
     errFn?: ErrorCallback
   ): Promise<ConfigInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -391,9 +390,7 @@ export class GrRestApiInterface
     }) as Promise<ConfigInfo | undefined>;
   }
 
-  getRepoAccess(
-    repo: RepositoryName
-  ): Promise<ProjectAccessInfoMap | undefined> {
+  getRepoAccess(repo: ProjectName): Promise<ProjectAccessInfoMap | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._fetchSharedCacheURL({
@@ -403,7 +400,7 @@ export class GrRestApiInterface
   }
 
   getRepoDashboards(
-    repo: RepositoryName,
+    repo: ProjectName,
     errFn?: ErrorCallback
   ): Promise<DashboardInfo[] | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -415,16 +412,16 @@ export class GrRestApiInterface
     }) as Promise<DashboardInfo[] | undefined>;
   }
 
-  saveRepoConfig(repo: RepositoryName, config: ConfigInput): Promise<Response>;
+  saveRepoConfig(repo: ProjectName, config: ConfigInput): Promise<Response>;
 
   saveRepoConfig(
-    repo: RepositoryName,
+    repo: ProjectName,
     config: ConfigInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   saveRepoConfig(
-    repo: RepositoryName,
+    repo: ProjectName,
     config: ConfigInput,
     errFn?: ErrorCallback
   ): Promise<Response | undefined> {
@@ -441,14 +438,14 @@ export class GrRestApiInterface
     });
   }
 
-  runRepoGC(repo: RepositoryName): Promise<Response>;
+  runRepoGC(repo: ProjectName): Promise<Response>;
 
   runRepoGC(
-    repo: RepositoryName,
+    repo: ProjectName,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  runRepoGC(repo: RepositoryName, errFn?: ErrorCallback) {
+  runRepoGC(repo: ProjectName, errFn?: ErrorCallback) {
     if (!repo) {
       // TODO(TS): fix return value
       return '';
@@ -522,15 +519,15 @@ export class GrRestApiInterface
     }) as Promise<GroupInfo | undefined>;
   }
 
-  deleteRepoBranches(repo: RepositoryName, ref: GitRef): Promise<Response>;
+  deleteRepoBranches(repo: ProjectName, ref: GitRef): Promise<Response>;
 
   deleteRepoBranches(
-    repo: RepositoryName,
+    repo: ProjectName,
     ref: GitRef,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  deleteRepoBranches(repo: RepositoryName, ref: GitRef, errFn?: ErrorCallback) {
+  deleteRepoBranches(repo: ProjectName, ref: GitRef, errFn?: ErrorCallback) {
     if (!repo || !ref) {
       // TODO(TS): fix return value
       return '';
@@ -548,15 +545,15 @@ export class GrRestApiInterface
     });
   }
 
-  deleteRepoTags(repo: RepositoryName, ref: GitRef): Promise<Response>;
+  deleteRepoTags(repo: ProjectName, ref: GitRef): Promise<Response>;
 
   deleteRepoTags(
-    repo: RepositoryName,
+    repo: ProjectName,
     ref: GitRef,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  deleteRepoTags(repo: RepositoryName, ref: GitRef, errFn?: ErrorCallback) {
+  deleteRepoTags(repo: ProjectName, ref: GitRef, errFn?: ErrorCallback) {
     if (!repo || !ref) {
       // TODO(TS): fix return type
       return '';
@@ -575,20 +572,20 @@ export class GrRestApiInterface
   }
 
   createRepoBranch(
-    name: RepositoryName,
+    name: ProjectName,
     branch: BranchName,
     revision: BranchInput
   ): Promise<Response>;
 
   createRepoBranch(
-    name: RepositoryName,
+    name: ProjectName,
     branch: BranchName,
     revision: BranchInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoBranch(
-    name: RepositoryName,
+    name: ProjectName,
     branch: BranchName,
     revision: BranchInput,
     errFn?: ErrorCallback
@@ -611,20 +608,20 @@ export class GrRestApiInterface
   }
 
   createRepoTag(
-    name: RepositoryName,
+    name: ProjectName,
     tag: string,
     revision: TagInput
   ): Promise<Response>;
 
   createRepoTag(
-    name: RepositoryName,
+    name: ProjectName,
     tag: string,
     revision: TagInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoTag(
-    name: RepositoryName,
+    name: ProjectName,
     tag: string,
     revision: TagInput,
     errFn?: ErrorCallback
@@ -1745,7 +1742,7 @@ export class GrRestApiInterface
     }) as Promise<ProjectInfo | undefined>;
   }
 
-  setRepoHead(repo: RepositoryName, ref: GitRef) {
+  setRepoHead(repo: ProjectName, ref: GitRef) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.send({
@@ -1758,7 +1755,7 @@ export class GrRestApiInterface
 
   getRepoBranches(
     filter: string,
-    repo: RepositoryName,
+    repo: ProjectName,
     reposBranchesPerPage: number,
     offset?: number,
     errFn?: ErrorCallback
@@ -1779,7 +1776,7 @@ export class GrRestApiInterface
 
   getRepoTags(
     filter: string,
-    repo: RepositoryName,
+    repo: ProjectName,
     reposTagsPerPage: number,
     offset?: number,
     errFn?: ErrorCallback
@@ -1816,7 +1813,7 @@ export class GrRestApiInterface
     });
   }
 
-  getRepoAccessRights(repoName: RepositoryName, errFn?: ErrorCallback) {
+  getRepoAccessRights(repoName: ProjectName, errFn?: ErrorCallback) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.fetchJSON({
@@ -1826,7 +1823,7 @@ export class GrRestApiInterface
     });
   }
 
-  setRepoAccessRights(repoName: RepositoryName, repoInfo: ProjectAccessInput) {
+  setRepoAccessRights(repoName: ProjectName, repoInfo: ProjectAccessInput) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.send({

@@ -18,6 +18,7 @@ import com.google.auto.value.AutoValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.acceptance.testsuite.change.TestRange.Position;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Patch;
 import java.util.Optional;
 import java.util.function.Function;
@@ -40,6 +41,10 @@ public abstract class TestCommentCreation {
   public abstract Optional<Boolean> unresolved();
 
   public abstract Optional<String> parentUuid();
+
+  public abstract Optional<String> tag();
+
+  public abstract Optional<Account.Id> author();
 
   abstract ThrowingFunction<TestCommentCreation, String> commentCreator();
 
@@ -154,6 +159,12 @@ public abstract class TestCommentCreation {
      * attributes (e.g. file, line, side) as the parent comment.
      */
     public abstract Builder parentUuid(String parentUuid);
+
+    /** Tag to attach to the comment. */
+    public abstract Builder tag(String value);
+
+    /** Author of the comment. Must be an existing user account. */
+    public abstract Builder author(Account.Id accountId);
 
     abstract TestCommentCreation.Builder commentCreator(
         ThrowingFunction<TestCommentCreation, String> commentCreator);

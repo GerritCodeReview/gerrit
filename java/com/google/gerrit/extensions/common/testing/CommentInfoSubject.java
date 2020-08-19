@@ -15,6 +15,7 @@
 package com.google.gerrit.extensions.common.testing;
 
 import static com.google.common.truth.Truth.assertAbout;
+import static com.google.gerrit.extensions.common.testing.AccountInfoSubject.accounts;
 import static com.google.gerrit.extensions.common.testing.RangeSubject.ranges;
 
 import com.google.common.truth.BooleanSubject;
@@ -48,6 +49,10 @@ public class CommentInfoSubject extends Subject {
   private CommentInfoSubject(FailureMetadata failureMetadata, CommentInfo commentInfo) {
     super(failureMetadata, commentInfo);
     this.commentInfo = commentInfo;
+  }
+
+  public StringSubject uuid() {
+    return check("id").that(commentInfo().id);
   }
 
   public IntegerSubject patchSet() {
@@ -84,6 +89,14 @@ public class CommentInfoSubject extends Subject {
 
   public StringSubject inReplyTo() {
     return check("inReplyTo").that(commentInfo().inReplyTo);
+  }
+
+  public AccountInfoSubject author() {
+    return check("author").about(accounts()).that(commentInfo().author);
+  }
+
+  public StringSubject tag() {
+    return check("tag").that(commentInfo().tag);
   }
 
   private CommentInfo commentInfo() {

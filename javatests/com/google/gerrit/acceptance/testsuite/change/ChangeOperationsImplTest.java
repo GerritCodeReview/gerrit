@@ -18,10 +18,12 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.permissionKey;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommitInfoSubject.hasCommit;
+import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
 import static com.google.gerrit.extensions.restapi.testing.BinaryResultSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -33,7 +35,9 @@ import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.ChangeKind;
 import com.google.gerrit.extensions.common.ChangeInfo;
+import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.CommitInfo;
+import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
@@ -437,6 +441,135 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
     assertThatMap(files).keys().containsExactly("file1", "renamed file");
     BinaryResult fileContent = getFileContent(changeId, patchsetId, "renamed file");
     assertThat(fileContent).asString().isEqualTo("Line one");
+  }
+
+  @Test
+  public void newPatchsetCanHaveRenamedFileWithModifiedContent() throws Exception {
+    // We need sufficient content so that the slightly modified content is considered similar enough
+    // (> 60% line similarity) for a rename.
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Some content")
+            .file("file2")
+            .content("Line 1\nLine 2\nLine 3\n")
+            .create();
+    PatchSet.Id patchset1Id =
+        changeOperations.change(changeId).currentPatchset().get().patchsetId();
+
+    PatchSet.Id patchset2Id =
+        changeOperations
+            .change(changeId)
+            .newPatchset()
+            .file("file2")
+            .delete()
+            .file("renamed file")
+            .content("Line 1\nLine two\nLine 3\n")
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    Map<String, FileInfo> files = change.revisions.get(change.currentRevision).files;
+    assertThatMap(files).keys().containsExactly("file1", "renamed file");
+    BinaryResult fileContent = getFileContent(changeId, patchset2Id, "renamed file");
+    assertThat(fileContent).asString().isEqualTo("Line 1\nLine two\nLine 3\n");
+    DiffInfo diff =
+        gApi.changes()
+            .id(changeId.get())
+            .revision(patchset2Id.get())
+            .file("renamed file")
+            .diffRequest()
+            .withBase(patchset1Id.getId())
+            .get();
+    assertThat(diff).changeType().isEqualTo(ChangeType.RENAMED);
+  }
+
+  @Test
+  public void newPatchsetCanHaveCopiedFile() throws Exception {
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Some content")
+            .file("file2")
+            .content("Line 1")
+            .create();
+    PatchSet.Id patchset1Id =
+        changeOperations.change(changeId).currentPatchset().get().patchsetId();
+
+    // Copies currently can only happen if a rename happens at the same time.
+    PatchSet.Id patchset2Id =
+        changeOperations
+            .change(changeId)
+            .newPatchset()
+            .file("file2")
+            .renameTo("renamed/copied file 1")
+            .file("renamed/copied file 2")
+            .content("Line 1")
+            .create();
+
+    // We can't control which of the files Gerrit/Git considers as rename and which as copy.
+    // -> Check both for the copy.
+    DiffInfo diff1 =
+        gApi.changes()
+            .id(changeId.get())
+            .revision(patchset2Id.get())
+            .file("renamed/copied file 1")
+            .diffRequest()
+            .withBase(patchset1Id.getId())
+            .get();
+    DiffInfo diff2 =
+        gApi.changes()
+            .id(changeId.get())
+            .revision(patchset2Id.get())
+            .file("renamed/copied file 2")
+            .diffRequest()
+            .withBase(patchset1Id.getId())
+            .get();
+    assertThat(ImmutableSet.of(diff1.changeType, diff2.changeType)).contains(ChangeType.COPIED);
+  }
+
+  @Test
+  public void newPatchsetCanHaveCopiedFileWithModifiedContent() throws Exception {
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Some content")
+            .file("file2")
+            .content("Line 1\nLine 2\nLine 3\nLine 4\n")
+            .create();
+    PatchSet.Id patchset1Id =
+        changeOperations.change(changeId).currentPatchset().get().patchsetId();
+
+    // A copy with modified content currently can only happen if the renamed file also has slightly
+    // modified content. Modify the copy slightly more as Gerrit/Git will then select it as the
+    // copied and not renamed file.
+    PatchSet.Id patchset2Id =
+        changeOperations
+            .change(changeId)
+            .newPatchset()
+            .file("file2")
+            .delete()
+            .file("renamed file")
+            .content("Line 1\nLine 1.1\nLine 2\nLine 3\nLine 4\n")
+            .file("copied file")
+            .content("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n")
+            .create();
+
+    DiffInfo diff =
+        gApi.changes()
+            .id(changeId.get())
+            .revision(patchset2Id.get())
+            .file("copied file")
+            .diffRequest()
+            .withBase(patchset1Id.getId())
+            .get();
+    assertThat(diff).changeType().isEqualTo(ChangeType.COPIED);
+    BinaryResult fileContent = getFileContent(changeId, patchset2Id, "copied file");
+    assertThat(fileContent)
+        .asString()
+        .isEqualTo("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n");
   }
 
   private ChangeInfo getChangeFromServer(Change.Id changeId) throws RestApiException {

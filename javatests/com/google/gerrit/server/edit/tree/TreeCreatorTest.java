@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit.tree;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static org.eclipse.jgit.lib.Constants.OBJ_BLOB;
 
@@ -90,6 +91,48 @@ public class TreeCreatorTest {
     ObjectId newTreeId = treeCreator.createNewTreeAndGetId(repository);
 
     assertThat(isEmptyTree(newTreeId)).isTrue();
+  }
+
+  @Test
+  public void modificationsMustNotReferToSameFilePaths() {
+    TreeCreator treeCreator = TreeCreator.basedOnEmptyTree();
+    treeCreator.addTreeModifications(
+        ImmutableList.of(
+            new RenameFileModification("oldFileName", "newFileName"),
+            new ChangeFileContentModification(
+                "newFileName", RawInputUtil.create("Different content"))));
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class, () -> treeCreator.createNewTreeAndGetId(repository));
+
+    assertThat(exception).hasMessageThat().contains("oldFileName");
+    assertThat(exception).hasMessageThat().contains("newFileName");
+  }
+
+  @Test
+  public void fileContentModificationRefersToModifiedFile() {
+    ChangeFileContentModification contentModification =
+        new ChangeFileContentModification("myFileName", RawInputUtil.create("Some content"));
+    assertThat(contentModification.getFilePaths()).containsExactly("myFileName");
+  }
+
+  @Test
+  public void renameFileModificationRefersToOldAndNewFilePath() {
+    RenameFileModification fileModification =
+        new RenameFileModification("oldFileName", "newFileName");
+    assertThat(fileModification.getFilePaths()).containsExactly("oldFileName", "newFileName");
+  }
+
+  @Test
+  public void deleteFileModificationRefersToDeletedFile() {
+    DeleteFileModification fileModification = new DeleteFileModification("myFileName");
+    assertThat(fileModification.getFilePaths()).containsExactly("myFileName");
+  }
+
+  @Test
+  public void restoreFileModificationRefersToRestoredFile() {
+    RestoreFileModification fileModification = new RestoreFileModification("myFileName");
+    assertThat(fileModification.getFilePaths()).containsExactly("myFileName");
   }
 
   private String getFileContent(ObjectId treeId, String filePath) throws Exception {

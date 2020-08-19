@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.testsuite.change;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.acceptance.testsuite.change.TestCommentCreation.CommentSide;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
@@ -30,6 +31,7 @@ import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
+import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -103,16 +105,20 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
         RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
       Timestamp now = TimeUtil.nowTs();
 
-      // Use identity of change owner until the API allows to specify the commenter.
-      IdentifiedUser changeOwner = userFactory.create(changeNotes.getChange().getOwner());
+      IdentifiedUser author = getAuthor(commentCreation);
       CommentAdditionOp commentAdditionOp = new CommentAdditionOp(commentCreation);
-      try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, changeOwner, now)) {
+      try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
         batchUpdate.setRepository(repository, revWalk, objectInserter);
         batchUpdate.addOp(changeNotes.getChangeId(), commentAdditionOp);
         batchUpdate.execute();
       }
       return commentAdditionOp.createdCommentUuid;
     }
+  }
+
+  private IdentifiedUser getAuthor(TestCommentCreation commentCreation) {
+    Account.Id authorId = commentCreation.author().orElse(changeNotes.getChange().getOwner());
+    return userFactory.create(authorId);
   }
 
   private class CommentAdditionOp implements BatchUpdateOp {
@@ -126,7 +132,10 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     @Override
     public boolean updateChange(ChangeContext context) throws Exception {
       HumanComment comment = toNewComment(context, commentCreation);
-      context.getUpdate(patchsetId).putComment(HumanComment.Status.PUBLISHED, comment);
+      ChangeUpdate changeUpdate = context.getUpdate(patchsetId);
+      changeUpdate.putComment(HumanComment.Status.PUBLISHED, comment);
+      // Only the tag set on the ChangeUpdate matters. The tag field of HumanComment is ignored.
+      commentCreation.tag().ifPresent(changeUpdate::setTag);
       createdCommentUuid = comment.key.uuid;
       return true;
     }

@@ -15,6 +15,7 @@
 package com.google.gerrit.server.edit.tree;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableSet;
 import java.util.Collections;
 import java.util.List;
 import org.eclipse.jgit.dircache.DirCacheEditor;
@@ -38,7 +39,7 @@ public class DeleteFileModification implements TreeModification {
   }
 
   @Override
-  public String getFilePath() {
-    return filePath;
+  public ImmutableSet<String> getFilePaths() {
+    return ImmutableSet.of(filePath);
   }
 }

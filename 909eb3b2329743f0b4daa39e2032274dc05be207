@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "64eed453_df57adfc",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T11:06:32Z",
+      "side": 1,
+      "message": "mmm, I\u0027d rename the method, but it\u0027s a bit hard to come up with a better name, or alternatively add a one line javadoc explaining what filtering it is doing.\n\nI prefer renaming the method because its body is clear and self explaining. Probably to \"filterInEarlierPatchsets\".",
+      "range": {
+        "startLine": 84,
+        "startChar": 38,
+        "endLine": 84,
+        "endChar": 54
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c71cd65_70e76b2a",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T11:06:32Z",
+      "side": 1,
+      "message": "I think it would be better to move this method to the Comment class \n  public PositionedEntity\u003cComment\u003e asPositionedEntity();\n\nMoving these details out of this class will make ListPortedComments more thin and readable. WDYT?\n\nSame for #extractPosition and #extractLineRange. Can also be moved to Comment.",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 59
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70c71128_085a341d",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T11:06:32Z",
+      "side": 1,
+      "message": "This static import is a bit confusing. Reader will think the method is in the same class. I\u0027d prefer just importing GitPositionTransformer and using GitPositionTransformer.Range.create",
+      "range": {
+        "startLine": 156,
+        "startChar": 13,
+        "endLine": 156,
+        "endChar": 19
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e54bc74_3d3d4042",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T11:06:32Z",
+      "side": 1,
+      "message": "Also can be moved to Comment as Comment#getAtNewPosition(Position position). It seems that this method is only using the attributes of the comment class.",
+      "range": {
+        "startLine": 161,
+        "startChar": 30,
+        "endLine": 161,
+        "endChar": 56
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbc516a4_2c17bd3b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T11:06:32Z",
+      "side": 1,
+      "message": "portedCommentHasOriginal* .. can these tests be combined?",
+      "range": {
+        "startLine": 394,
+        "startChar": 14,
+        "endLine": 394,
+        "endChar": 44
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

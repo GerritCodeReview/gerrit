@@ -14,36 +14,43 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-edit-preferences_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-edit-preferences_html';
+import {customElement, property} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {EditPreferencesInfo} from '../../../types/common';
 
-/** @extends PolymerElement */
-class GrEditPreferences extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-edit-preferences'; }
-
-  static get properties() {
-    return {
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-
-      /** @type {?} */
-      editPrefs: Object,
-    };
+export interface GrEditPreferences {
+  $: {
+    restAPI: GrRestApiInterface;
+    editSyntaxHighlighting: HTMLInputElement;
+    showAutoCloseBrackets: HTMLInputElement;
+    showIndentWithTabs: HTMLInputElement;
+    showMatchBrackets: HTMLInputElement;
+    editShowLineWrapping: HTMLInputElement;
+    editShowTabs: HTMLInputElement;
+  };
+}
+@customElement('gr-edit-preferences')
+export class GrEditPreferences extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Boolean, notify: true})
+  hasUnsavedChanges = false;
+
+  @property({type: Object})
+  editPrefs?: EditPreferencesInfo;
 
   loadData() {
     return this.$.restAPI.getEditPreferences().then(prefs => {
@@ -56,8 +63,10 @@ class GrEditPreferences extends GestureEventListeners(
   }
 
   _handleEditSyntaxHighlightingChanged() {
-    this.set('editPrefs.syntax_highlighting',
-        this.$.editSyntaxHighlighting.checked);
+    this.set(
+      'editPrefs.syntax_highlighting',
+      this.$.editSyntaxHighlighting.checked
+    );
     this._handleEditPrefsChanged();
   }
 
@@ -82,16 +91,24 @@ class GrEditPreferences extends GestureEventListeners(
   }
 
   _handleAutoCloseBracketsChanged() {
-    this.set('editPrefs.auto_close_brackets',
-        this.$.showAutoCloseBrackets.checked);
+    this.set(
+      'editPrefs.auto_close_brackets',
+      this.$.showAutoCloseBrackets.checked
+    );
     this._handleEditPrefsChanged();
   }
 
   save() {
-    return this.$.restAPI.saveEditPreferences(this.editPrefs).then(res => {
+    if (!this.editPrefs)
+      return Promise.reject(new Error('Missing edit preferences'));
+    return this.$.restAPI.saveEditPreferences(this.editPrefs).then(() => {
       this.hasUnsavedChanges = false;
     });
   }
 }
 
-customElements.define(GrEditPreferences.is, GrEditPreferences);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-edit-preferences': GrEditPreferences;
+  }
+}

@@ -69,6 +69,30 @@
       "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "056f0b3a_2f2f76da",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T10:17:44Z",
+      "side": 1,
+      "message": "disregard this - you\u0027re testing the fluent interface itself.",
+      "parentUuid": "e20026bc_13f6d08c",
+      "range": {
+        "startLine": 561,
+        "startChar": 8,
+        "endLine": 561,
+        "endChar": 17
+      },
+      "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

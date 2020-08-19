@@ -212,6 +212,30 @@
       "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e712475_00ce496b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T15:03:20Z",
+      "side": 1,
+      "message": "Ok. I think, that\u0027s not correct to check if(!completed).\nIn this code you want to check that value doesn\u0027t exists, so it is better to explicitly check if(completed \u003d\u003d\u003d undefined || completed \u003d\u003d\u003d null) ...\nIn this case tests remains unchanged.",
+      "parentUuid": "421a4900_406f66dc",
+      "range": {
+        "startLine": 168,
+        "startChar": 61,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "012a07fc_f13059b1",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-19T12:01:49Z",
+      "side": 1,
+      "message": "There is no patchset 6 uploaded yet.",
+      "parentUuid": "3ef0f4c4_d12999a6",
+      "range": {
+        "startLine": 99,
+        "startChar": 48,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "ddc00ff69598a67da51ef232127688a37b78c8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f889cfda_1f62b585",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
         "patchSetId": 5

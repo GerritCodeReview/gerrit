@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4f009e76_1f82d212",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T12:40:45Z",
+      "side": 1,
+      "message": "Change LGTM. Went through the tests that were un-ignored by this change and left minor comments.",
+      "revId": "91299b5fd2922bdcca0ecd9360e4df237db1764b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6fe7a33e_8448241d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-08-19T12:40:45Z",
+      "side": 1,
+      "message": "Do line/range being null imply that this is a file comment? i.e. no need for a separate assert that it became a file comment.",
+      "range": {
+        "startLine": 732,
+        "startChar": 45,
+        "endLine": 732,
+        "endChar": 46
+      },
+      "revId": "91299b5fd2922bdcca0ecd9360e4df237db1764b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

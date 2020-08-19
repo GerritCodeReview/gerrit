@@ -15,57 +15,89 @@
  * limitations under the License.
  */
 
-import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation.js';
+import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation';
+import {GrStyleObject} from '../../plugins/gr-styles-api/gr-styles-api';
+import {PatchSetNum} from '../../../types/common';
+import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
 
 /**
  * Used to create a context for GrAnnotationActionsInterface.
  *
- * @param {HTMLElement} contentEl The DIV.contentText element of the line
- *     content to apply the annotation to using annotateRange.
- * @param {HTMLElement} lineNumberEl The TD element of the line number to
- *     apply the annotation to using annotateLineNumber.
- * @param {GrDiffLine} line The line object.
- * @param {string} path The file path (eg: /COMMIT_MSG').
- * @param {string} changeNum The Gerrit change number.
- * @param {string} patchNum The Gerrit patch number.
+ * @param contentEl The DIV.contentText element of the line
+ * content to apply the annotation to using annotateRange.
+ * @param lineNumberEl The TD element of the line number to
+ * apply the annotation to using annotateLineNumber.
+ * @param line The line object.
+ * @param path The file path (eg: /COMMIT_MSG').
+ * @param changeNum The Gerrit change number.
+ * @param patchNum The Gerrit patch number.
  */
-export function GrAnnotationActionsContext(
-    contentEl, lineNumberEl, line, path, changeNum, patchNum) {
-  this._contentEl = contentEl;
-  this._lineNumberEl = lineNumberEl;
+export class GrAnnotationActionsContext {
+  private _contentEl: HTMLElement;
 
-  this.line = line;
-  this.path = path;
-  this.changeNum = parseInt(changeNum);
-  this.patchNum = parseInt(patchNum);
+  private _lineNumberEl: HTMLElement;
+
+  line: GrDiffLine;
+
+  path: string;
+
+  changeNum: number;
+
+  patchNum: number;
+
+  constructor(
+    contentEl: HTMLElement,
+    lineNumberEl: HTMLElement,
+    line: GrDiffLine,
+    path: string,
+    changeNum: string,
+    patchNum: PatchSetNum
+  ) {
+    this._contentEl = contentEl;
+    this._lineNumberEl = lineNumberEl;
+
+    this.line = line;
+    this.path = path;
+    this.changeNum = Number(changeNum);
+    this.patchNum = Number(patchNum);
+    if (isNaN(this.changeNum) || isNaN(this.patchNum)) {
+      console.error('invalid parameters');
+    }
+  }
+
+  /**
+   * Method to add annotations to a content line.
+   *
+   * @param offset The char offset where the update starts.
+   * @param length The number of chars that the update covers.
+   * @param styleObject The style object for the range.
+   * @param side The side of the update. ('left' or 'right')
+   */
+  annotateRange(
+    offset: number,
+    length: number,
+    styleObject: GrStyleObject,
+    side: string
+  ) {
+    if (this._contentEl && this._contentEl.getAttribute('data-side') === side) {
+      GrAnnotation.annotateElement(
+        this._contentEl,
+        offset,
+        length,
+        styleObject.getClassName(this._contentEl)
+      );
+    }
+  }
+
+  /**
+   * Method to add a CSS class to the line number TD element.
+   *
+   * @param styleObject The style object for the range.
+   * @param side The side of the update. ('left' or 'right')
+   */
+  annotateLineNumber(styleObject: GrStyleObject, side: string) {
+    if (this._lineNumberEl && this._lineNumberEl.classList.contains(side)) {
+      styleObject.apply(this._lineNumberEl);
+    }
+  }
 }
-
-/**
- * Method to add annotations to a content line.
- *
- * @param {number} offset The char offset where the update starts.
- * @param {number} length The number of chars that the update covers.
- * @param {GrStyleObject} styleObject The style object for the range.
- * @param {string} side The side of the update. ('left' or 'right')
- */
-GrAnnotationActionsContext.prototype.annotateRange = function(
-    offset, length, styleObject, side) {
-  if (this._contentEl && this._contentEl.getAttribute('data-side') == side) {
-    GrAnnotation.annotateElement(this._contentEl, offset, length,
-        styleObject.getClassName(this._contentEl));
-  }
-};
-
-/**
- * Method to add a CSS class to the line number TD element.
- *
- * @param {GrStyleObject} styleObject The style object for the range.
- * @param {string} side The side of the update. ('left' or 'right')
- */
-GrAnnotationActionsContext.prototype.annotateLineNumber = function(
-    styleObject, side) {
-  if (this._lineNumberEl && this._lineNumberEl.classList.contains(side)) {
-    styleObject.apply(this._lineNumberEl);
-  }
-};
-

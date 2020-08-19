@@ -45,6 +45,30 @@
       "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e20026bc_13f6d08c",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T10:10:22Z",
+      "side": 1,
+      "message": "(i noticed you had a similar discussion with Gal; I\u0027m worried that we might be papering over a 500 here.)",
+      "parentUuid": "a408a790_ad5951d7",
+      "range": {
+        "startLine": 561,
+        "startChar": 8,
+        "endLine": 561,
+        "endChar": 17
+      },
+      "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

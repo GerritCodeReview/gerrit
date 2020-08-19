@@ -314,7 +314,7 @@ export type GenerateUrlParameters =
 export interface GenerateWebLinksPatchsetParameters {
   type: WeblinkType.PATCHSET;
   repo: RepoName;
-  commit: CommitId;
+  commit?: CommitId;
   // TODO(TS): provide better typing
   options?: unknown;
 }
@@ -348,6 +348,7 @@ export type GenerateWebLinksCallback = (
 export type MapCommentLinksCallback = (patterns: CommentLinks) => CommentLinks;
 
 export interface WebLink {
+  name?: string;
   label: string;
   url: string;
 }
@@ -882,7 +883,7 @@ export const GerritNav = {
 
   getPatchSetWeblink(
     repo: RepoName,
-    commit: CommitId,
+    commit?: CommitId,
     options?: unknown
   ): WebLink {
     const params: GenerateWebLinksPatchsetParameters = {

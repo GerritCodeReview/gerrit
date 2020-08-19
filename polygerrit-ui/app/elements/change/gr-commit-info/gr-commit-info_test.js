@@ -43,8 +43,7 @@ suite('gr-commit-info tests', () => {
     element.serverConfig = {};
     element.change = {labels: [], project: ''};
 
-    assert.isNotOk(element._computeShowWebLink(element.change,
-        element.commitInfo, element.serverConfig));
+    assert.isNotOk(element._showWebLink);
   });
 
   test('use web link when available', () => {
@@ -57,10 +56,8 @@ suite('gr-commit-info tests', () => {
         {commit: 'commitsha', web_links: [{name: 'gitweb', url: 'link-url'}]};
     element.serverConfig = {};
 
-    assert.isOk(element._computeShowWebLink(element.change,
-        element.commitInfo, element.serverConfig));
-    assert.equal(element._computeWebLink(element.change, element.commitInfo,
-        element.serverConfig), 'link-url');
+    assert.isOk(element._showWebLink);
+    assert.equal(element._webLink, 'link-url');
   });
 
   test('does not relativize web links that begin with scheme', () => {
@@ -75,10 +72,8 @@ suite('gr-commit-info tests', () => {
     };
     element.serverConfig = {};
 
-    assert.isOk(element._computeShowWebLink(element.change,
-        element.commitInfo, element.serverConfig));
-    assert.equal(element._computeWebLink(element.change, element.commitInfo,
-        element.serverConfig), 'https://link-url');
+    assert.isOk(element._showWebLink);
+    assert.equal(element._webLink, 'https://link-url');
   });
 
   test('ignore web links that are neither gitweb nor gitiles', () => {
@@ -102,17 +97,21 @@ suite('gr-commit-info tests', () => {
     };
     element.serverConfig = {};
 
-    assert.isOk(element._computeShowWebLink(element.change,
-        element.commitInfo, element.serverConfig));
-    assert.equal(element._computeWebLink(element.change, element.commitInfo,
-        element.serverConfig), 'https://link-url');
+    assert.isOk(element._showWebLink);
+    assert.equal(element._webLink, 'https://link-url');
 
     // Remove gitiles link.
-    element.commitInfo.web_links.splice(1, 1);
-    assert.isNotOk(element._computeShowWebLink(element.change,
-        element.commitInfo, element.serverConfig));
-    assert.isNotOk(element._computeWebLink(element.change, element.commitInfo,
-        element.serverConfig));
+    element.commitInfo = {
+      commit: 'commit-sha',
+      web_links: [
+        {
+          name: 'ignore',
+          url: 'ignore',
+        },
+      ],
+    };
+    assert.isNotOk(element._showWebLink);
+    assert.isNotOk(element._webLink);
   });
 });
 

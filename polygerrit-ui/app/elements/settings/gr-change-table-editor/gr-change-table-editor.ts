@@ -14,60 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import '../../../styles/gr-form-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-table-editor_html.js';
-import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import '../../../styles/gr-form-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-table-editor_html';
+import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
+import {customElement, property} from '@polymer/decorators';
 
 /**
  * @extends PolymerElement
  */
-class GrChangeTableEditor extends ChangeTableMixin(GestureEventListeners(
-    LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-change-table-editor'; }
-
-  static get properties() {
-    return {
-      displayedColumns: {
-        type: Array,
-        notify: true,
-      },
-      showNumber: {
-        type: Boolean,
-        notify: true,
-      },
-    };
+@customElement('gr-change-table-editor')
+class GrChangeTableEditor extends ChangeTableMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Array, notify: true})
+  displayedColumns?: unknown;
+
+  @property({type: Boolean, notify: true})
+  showNumber?: boolean;
 
   /**
    * Get the list of enabled column names from whichever checkboxes are
    * checked (excluding the number checkbox).
    *
-   * @return {!Array<string>}
+   * @return
    */
   _getDisplayedColumns() {
-    return Array.from(dom(this.root)
-        .querySelectorAll('.checkboxContainer input:not([name=number])'))
-        .filter(checkbox => checkbox.checked)
-        .map(checkbox => checkbox.name);
+    if (this.root === null) return [];
+    return (Array.from(
+      this.root.querySelectorAll('.checkboxContainer input:not([name=number])')
+    ) as HTMLInputElement[])
+      .filter(checkbox => checkbox.checked)
+      .map(checkbox => checkbox.name);
   }
 
   /**
    * Handle a click on a checkbox container and relay the click to the checkbox it
    * contains.
    */
-  _handleCheckboxContainerClick(e) {
-    const checkbox = dom(e.target).querySelector('input');
-    if (!checkbox) { return; }
+  _handleCheckboxContainerClick(e: MouseEvent) {
+    if (e.target === null) return;
+    const checkbox = (e.target as HTMLElement).querySelector('input');
+    if (!checkbox) {
+      return;
+    }
     checkbox.click();
   }
 
@@ -75,17 +76,22 @@ class GrChangeTableEditor extends ChangeTableMixin(GestureEventListeners(
    * Handle a click on the number checkbox and update the showNumber property
    * accordingly.
    */
-  _handleNumberCheckboxClick(e) {
-    this.showNumber = dom(e).rootTarget.checked;
+  _handleNumberCheckboxClick(e: MouseEvent) {
+    this.showNumber = ((dom(e) as EventApi)
+      .rootTarget as HTMLInputElement).checked;
   }
 
   /**
    * Handle a click on a displayed column checkboxes (excluding number) and
    * update the displayedColumns property accordingly.
    */
-  _handleTargetClick(e) {
+  _handleTargetClick() {
     this.set('displayedColumns', this._getDisplayedColumns());
   }
 }
 
-customElements.define(GrChangeTableEditor.is, GrChangeTableEditor);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-table-editor': GrChangeTableEditor;
+  }
+}

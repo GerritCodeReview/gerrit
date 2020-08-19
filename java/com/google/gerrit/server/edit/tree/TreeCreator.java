@@ -87,11 +87,12 @@ public class TreeCreator {
 
   private void ensureTreeModificationsDoNotTouchSameFiles() {
     // The current implementation of TreeCreator doesn't properly support modifications which touch
-    // the same files even if they are provided in a logical order. According to JGit's
-    // documentation, DirCache applies some internal sorting to optimize the index modifications.
-    // The internal sorting doesn't seem to be the only issue, though. Even applying the
-    // modifications in batches within different, subsequent DirCaches just held in memory didn't
-    // seem to work. We might need to fully write each batch to disk before creating the next.
+    // the same files even if they are provided in a logical order. One reason for this is that
+    // JGit's DirCache implementation sorts the given path edits which is necessary due to the
+    // nature of the Git index. The internal sorting doesn't seem to be the only issue, though. Even
+    // applying the modifications in batches within different, subsequent DirCaches just held in
+    // memory didn't seem to work. We might need to fully write each batch to disk before creating
+    // the next.
     ImmutableList<String> filePaths =
         treeModifications.stream()
             .flatMap(treeModification -> treeModification.getFilePaths().stream())

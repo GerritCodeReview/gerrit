@@ -201,6 +201,10 @@ class GrReviewerList extends GestureEventListeners(
     }
     this._reviewers = result
         .filter(reviewer => reviewer._account_id != owner._account_id)
+        // Sort order:
+        // 1. Human users in the attention set.
+        // 2. Other human users.
+        // 3. Service users.
         .sort((r1, r2) => {
           const a1 = hasAttention(serverConfig, r1, this.change) ? 1 : 0;
           const a2 = hasAttention(serverConfig, r2, this.change) ? 1 : 0;

@@ -763,6 +763,7 @@ export const htmlTemplate = html`
     no-cancel-on-esc-key=""
     scroll-action="lock"
     with-backdrop=""
+    on-iron-overlay-canceled="onReplyOverlayCanceled"
   >
     <gr-reply-dialog
       id="replyDialog"

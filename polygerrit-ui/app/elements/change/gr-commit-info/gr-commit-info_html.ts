@@ -26,11 +26,11 @@ export const htmlTemplate = html`
   <div class="container">
     <template is="dom-if" if="[[_showWebLink]]">
       <a target="_blank" rel="noopener" href$="[[_webLink]]"
-        >[[_computeShortHash(commitInfo)]]</a
+        >[[_computeShortHash(change, commitInfo, serverConfig)]]</a
       >
     </template>
     <template is="dom-if" if="[[!_showWebLink]]">
-      [[_computeShortHash(commitInfo)]]
+      [[_computeShortHash(change, commitInfo, serverConfig)]]
     </template>
     <gr-copy-clipboard
       has-tooltip=""

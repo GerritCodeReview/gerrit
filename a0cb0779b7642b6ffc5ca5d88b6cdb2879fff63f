@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "5ee9b894_c7d701e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1017138
+      },
+      "writtenOn": "2020-08-19T17:49:02Z",
+      "side": 1,
+      "message": "Yes, if there are multiple cherry-picks then you will go to a list of changes, and I can update the documentation to reflect that that is what might happen.\n\nBut I\u0027d argue that this is probably the right thing to do. If you are clicking on this link to find out more about a change, you may very well want to find out about the cherry picks as well.\n\nI\u0027m not sure if it\u0027s a good idea to include the destination branch, because if the change is cherry-picked to another branch (e.g. outside of Gerrit), the branch name will not be updated, so the link will go to the wrong change.\n\nIt doesn\u0027t look like just putting the I-hash in the commit body will result in the change being found in this way. For example, if I navigate to https://android-review.googlesource.com/q/I3983bca1dddc9241bb70290ad3651d895f046660 I find only one change despite the existence of https://android-review.googlesource.com/c/platform/bionic/+/1198490 which includes a reference to the change in the commit message.",
+      "parentUuid": "691a3856_3425e81a",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 92
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88ecd6d_175e641e",
         "filename": "java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-19T09:56:16Z",
       "side": 1,
       "message": "should include an HTTP(s) prefix?",
+      "range": {
+        "startLine": 114,
+        "startChar": 74,
+        "endLine": 114,
+        "endChar": 75
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dce3939c_b5b03fd4",
+        "filename": "java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1017138
+      },
+      "writtenOn": "2020-08-19T17:49:02Z",
+      "side": 1,
+      "message": "Makes sense, this will make it less likely that random junk will appear before the actual link.\n\nThat being said, I was thinking of making this stricter in the sense that the hostname part of the link would be required to match the server hostname, which I believe is known to the server.",
+      "parentUuid": "a88ecd6d_175e641e",
       "range": {
         "startLine": 114,
         "startChar": 74,

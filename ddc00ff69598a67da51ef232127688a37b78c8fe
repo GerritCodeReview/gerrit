@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "4ea0a88e_62353a0f",
+        "filename": "polygerrit-ui/app/elements/settings/gr-gpg-editor/gr-gpg-editor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T12:05:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "012a07fc_f13059b1",
+      "range": {
+        "startLine": 99,
+        "startChar": 48,
+        "endLine": 99,
+        "endChar": 59
+      },
+      "revId": "ddc00ff69598a67da51ef232127688a37b78c8fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f889cfda_1f62b585",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
         "patchSetId": 5

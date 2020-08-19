@@ -80,6 +80,7 @@ import com.google.gerrit.server.restapi.change.GetPatch;
 import com.google.gerrit.server.restapi.change.GetRelated;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
 import com.google.gerrit.server.restapi.change.ListPortedComments;
+import com.google.gerrit.server.restapi.change.ListPortedDrafts;
 import com.google.gerrit.server.restapi.change.ListRevisionComments;
 import com.google.gerrit.server.restapi.change.ListRevisionDrafts;
 import com.google.gerrit.server.restapi.change.ListRobotComments;
@@ -132,6 +133,7 @@ class RevisionApiImpl implements RevisionApi {
   private final ListRevisionComments listComments;
   private final ListRobotComments listRobotComments;
   private final ListPortedComments listPortedComments;
+  private final ListPortedDrafts listPortedDrafts;
   private final ApplyFix applyFix;
   private final GetFixPreview getFixPreview;
   private final Fixes fixes;
@@ -178,6 +180,7 @@ class RevisionApiImpl implements RevisionApi {
       ListRevisionComments listComments,
       ListRobotComments listRobotComments,
       ListPortedComments listPortedComments,
+      ListPortedDrafts listPortedDrafts,
       ApplyFix applyFix,
       GetFixPreview getFixPreview,
       Fixes fixes,
@@ -223,6 +226,7 @@ class RevisionApiImpl implements RevisionApi {
     this.robotComments = robotComments;
     this.listRobotComments = listRobotComments;
     this.listPortedComments = listPortedComments;
+    this.listPortedDrafts = listPortedDrafts;
     this.applyFix = applyFix;
     this.getFixPreview = getFixPreview;
     this.fixes = fixes;
@@ -463,6 +467,15 @@ class RevisionApiImpl implements RevisionApi {
       return listPortedComments.apply(revision).value();
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve ported comments", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> portedDrafts() throws RestApiException {
+    try {
+      return listPortedDrafts.apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve ported draft comments", e);
     }
   }
 

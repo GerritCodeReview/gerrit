@@ -23,7 +23,6 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     :host {
       display: table;
-      --account-max-length: 20ch;
     }
     gr-change-requirements {
       --requirements-horizontal-padding: var(--metadata-horizontal-padding);
@@ -92,7 +91,8 @@ export const htmlTemplate = html`
       --linked-chip-text-color: var(--link-color);
     }
     gr-reviewer-list {
-      max-width: 200px;
+      --account-max-length: 120px;
+      max-width: 285px;
     }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">

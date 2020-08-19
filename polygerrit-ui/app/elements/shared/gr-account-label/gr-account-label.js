@@ -59,6 +59,13 @@ class GrAccountLabel extends GestureEventListeners(
         value: false,
       },
       /**
+       * Only show the first name in the account label.
+       */
+      firstName: {
+        type: Boolean,
+        value: false,
+      },
+      /**
        * Should attention set related features be shown in the component? Note
        * that the information whether the user is in the attention set or not is
        * part of the ChangeInfo object in the change property.
@@ -122,8 +129,8 @@ class GrAccountLabel extends GestureEventListeners(
         && change.attention_set.hasOwnProperty(account._account_id);
   }
 
-  _computeName(account, config) {
-    return getDisplayName(config, account);
+  _computeName(account, config, firstName) {
+    return getDisplayName(config, account, firstName);
   }
 }
 

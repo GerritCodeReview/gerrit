@@ -60,6 +60,13 @@ class GrAccountLink extends GestureEventListeners(
         type: Boolean,
         value: false,
       },
+      /**
+       * Only show the first name in the account label.
+       */
+      firstName: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 

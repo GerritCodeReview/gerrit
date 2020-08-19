@@ -196,6 +196,7 @@ export const htmlTemplate = html`
         <gr-account-link
           hide-avatar=""
           hide-status=""
+          first-name
           highlight-attention
           change="[[change]]"
           account="[[reviewer]]"

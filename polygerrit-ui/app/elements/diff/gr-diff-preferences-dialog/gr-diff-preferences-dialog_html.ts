@@ -47,7 +47,11 @@ export const htmlTemplate = html`
       padding: var(--spacing-s) var(--spacing-xl);
     }
   </style>
-  <gr-overlay id="diffPrefsOverlay" with-backdrop="">
+  <gr-overlay
+    id="diffPrefsOverlay"
+    with-backdrop=""
+    on-iron-overlay-canceled="onOverlayCanceled"
+  >
     <div role="dialog" aria-labelledby="diffPreferencesTitle">
       <h1
         class$="diffHeader [[_computeHeaderClass(_diffPrefsChanged)]]"

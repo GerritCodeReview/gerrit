@@ -716,9 +716,7 @@ suite('gr-change-view tests', () => {
         element.$.replyOverlay.close();
         assert.isFalse(element.$.replyOverlay.opened);
         assert(
-          openSpy.lastCall.calledWithExactly(
-            element.$.replyDialog.FocusTarget.ANY
-          ),
+          openSpy.lastCall.calledWith(element.$.replyDialog.FocusTarget.ANY),
           '_openReplyDialog should have been passed ANY'
         );
         assert.equal(openSpy.callCount, 1);
@@ -1876,9 +1874,7 @@ suite('gr-change-view tests', () => {
       const openStub = sinon.stub(element, '_openReplyDialog');
       tap(element.$.replyBtn);
       assert(
-        openStub.lastCall.calledWithExactly(
-          element.$.replyDialog.FocusTarget.ANY
-        ),
+        openStub.lastCall.calledWith(element.$.replyDialog.FocusTarget.ANY),
         '_openReplyDialog should have been passed ANY'
       );
       assert.equal(openStub.callCount, 1);
@@ -1900,9 +1896,7 @@ suite('gr-change-view tests', () => {
           })
         );
         assert(
-          openStub.lastCall.calledWithExactly(
-            element.$.replyDialog.FocusTarget.BODY
-          ),
+          openStub.lastCall.calledWith(element.$.replyDialog.FocusTarget.BODY),
           '_openReplyDialog should have been passed BODY'
         );
         assert.equal(openStub.callCount, 1);

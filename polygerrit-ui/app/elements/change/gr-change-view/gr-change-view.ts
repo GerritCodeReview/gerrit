@@ -54,7 +54,7 @@ import {
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter';
-import {getComputedStyleValue} from '../../../utils/dom-util';
+import {getComputedStyleValue, hasFocus} from '../../../utils/dom-util';
 import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -530,6 +530,8 @@ export class GrChangeView extends KeyboardShortcutMixin(
   _showRobotCommentsButton = false;
 
   _throttledToggleChangeStar?: EventListener;
+
+  returnFocusTo?: HTMLElement;
 
   keyboardShortcuts() {
     return {
@@ -1101,11 +1103,18 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   _handleReplyTap(e: MouseEvent) {
     e.preventDefault();
-    this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+    this._openReplyDialog(
+      this.$.replyDialog.FocusTarget.ANY,
+      e.target as HTMLElement | null
+    );
   }
 
-  _handleOpenDiffPrefs() {
-    this.$.fileList.openDiffPrefs();
+  _handleOpenDiffPrefs(e: CustomEvent<{returnFocusTo?: HTMLElement}>) {
+    if (e.detail?.returnFocusTo && hasFocus(e.detail.returnFocusTo)) {
+      this.$.fileList.openDiffPrefs(e.detail.returnFocusTo);
+    } else {
+      this.$.fileList.openDiffPrefs();
+    }
   }
 
   _handleOpenIncludedInDialog() {
@@ -1149,7 +1158,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
         .map(line => '> ' + line)
         .join('\n') + '\n\n';
     this.$.replyDialog.quote = quoteStr;
-    this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
+    this._openReplyDialog(
+      this.$.replyDialog.FocusTarget.BODY,
+      e.target as HTMLElement | null
+    );
   }
 
   _handleHideBackgroundContent() {
@@ -1168,12 +1180,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
       },
       {once: true}
     );
-    this.$.replyOverlay.close();
+    this.$.replyOverlay.cancel();
     this._reload();
   }
 
   _handleReplyCancel() {
-    this.$.replyOverlay.close();
+    this.$.replyOverlay.cancel();
   }
 
   _handleReplyAutogrow() {
@@ -1187,12 +1199,14 @@ export class GrChangeView extends KeyboardShortcutMixin(
     );
   }
 
-  _handleShowReplyDialog(e: CustomEvent<{value: {ccsOnly: boolean}}>) {
+  _handleShowReplyDialog(
+    e: CustomEvent<{value: {ccsOnly: boolean}; returnFocusTo?: HTMLElement}>
+  ) {
     let target = this.$.replyDialog.FocusTarget.REVIEWERS;
     if (e.detail.value && e.detail.value.ccsOnly) {
       target = this.$.replyDialog.FocusTarget.CCS;
     }
-    this._openReplyDialog(target);
+    this._openReplyDialog(target, e.detail?.returnFocusTo);
   }
 
   _handleScroll() {
@@ -1624,7 +1638,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
       }
 
       e.preventDefault();
-      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+      this._openReplyDialog(
+        this.$.replyDialog.FocusTarget.ANY,
+        e.target as HTMLElement | null
+      );
     });
   }
 
@@ -1878,7 +1895,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
     });
   }
 
-  _openReplyDialog(section?: FocusTarget) {
+  _openReplyDialog(section?: FocusTarget, returnFocusTo?: HTMLElement | null) {
+    if (returnFocusTo && hasFocus(returnFocusTo)) {
+      this.returnFocusTo = returnFocusTo;
+    } else {
+      this.returnFocusTo = undefined;
+    }
     this.$.replyOverlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       this._resetReplyOverlayFocusStops();
@@ -2780,6 +2802,12 @@ export class GrChangeView extends KeyboardShortcutMixin(
    */
   _computeAllPatchSets(change: ChangeInfo) {
     return computeAllPatchSets(change);
+  }
+
+  onReplyOverlayCanceled() {
+    if (this.returnFocusTo) {
+      this.returnFocusTo.focus();
+    }
   }
 }
 

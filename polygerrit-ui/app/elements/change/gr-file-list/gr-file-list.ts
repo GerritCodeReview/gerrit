@@ -515,8 +515,8 @@ export class GrFileList extends KeyboardShortcutMixin(
     );
   }
 
-  openDiffPrefs() {
-    this.$.diffPreferencesDialog.open();
+  openDiffPrefs(returnFocusTo?: HTMLElement | null) {
+    this.$.diffPreferencesDialog.open(returnFocusTo);
   }
 
   _calculatePatchChange(files: NormalizedFileInfo[]): PatchChange {

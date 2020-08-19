@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f719bf0_75ff5805",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-08-19T10:01:37Z",
+      "side": 1,
+      "message": "Hi Luca. Maybe David is off on holidays or just not the right first instance (I am not following or have not seen what the process is meant to be for Gerrit - point me in the right direction if there are some documents on Code Review process you have).\n\nAs mentioned to David I am hoping that this is a) the right way b) there is no other way which I have missed but if I am wrong on both accounts appreciate if you can spare a moment to explain how I can achieve what I want without having to re-implement the whole Receive/Upload functionality. I am only interested in extending it not replacing it.",
+      "revId": "8a2a8dbf9332b2845dce40c422eff4defe61d518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

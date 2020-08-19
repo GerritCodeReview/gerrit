@@ -119,6 +119,7 @@ import {
   BranchInput,
   IncludedInInfo,
   TagInput,
+  PluginInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1804,7 +1805,7 @@ export class GrRestApiInterface
     pluginsPerPage: number,
     offset?: number,
     errFn?: ErrorCallback
-  ) {
+  ): Promise<Record<string, PluginInfo> | undefined> {
     offset = offset || 0;
     const encodedFilter = this._computeFilter(filter);
     const n = pluginsPerPage + 1;

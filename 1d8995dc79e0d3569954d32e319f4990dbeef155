@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c65f871_2ffa1f1d",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T10:07:58Z",
+      "side": 1,
+      "message": "Is there a reason we shouldn\u0027t add this validation (not in this change, but in general)? If we did it would create extra work to fix this test to conform to the validation. Isn\u0027t there a snippet that you can steal from another test to create a real merge commit?",
+      "range": {
+        "startLine": 495,
+        "startChar": 15,
+        "endLine": 495,
+        "endChar": 68
+      },
+      "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a408a790_ad5951d7",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T10:07:58Z",
+      "side": 1,
+      "message": "is there a more a specific error to check for? I suppose this would return the equivalent of 404.",
+      "range": {
+        "startLine": 561,
+        "startChar": 8,
+        "endLine": 561,
+        "endChar": 17
+      },
+      "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

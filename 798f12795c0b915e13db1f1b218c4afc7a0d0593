@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e41935c5_c74342e0",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T10:35:52Z",
+      "side": 1,
+      "message": "Huh? the rest API doesn\u0027t let you change the Change-Id  (https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#set-message) \n\nI\u0027d expect this to fail.",
+      "range": {
+        "startLine": 398,
+        "startChar": 22,
+        "endLine": 399,
+        "endChar": 93
+      },
+      "revId": "798f12795c0b915e13db1f1b218c4afc7a0d0593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

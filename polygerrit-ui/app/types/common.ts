@@ -63,8 +63,8 @@ export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
 export type LegacyChangeId = BrandType<number, '_legacyChangeId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
-export type ProjectName = BrandType<string, '_projectName'>;
-export type UrlEncodedProjectName = BrandType<string, '_urlEncodedProjectName'>;
+export type RepoName = BrandType<string, '_repoName'>;
+export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
 export type TopicName = BrandType<string, '_topicName'>;
 // TODO(TS): Probably, we should separate AccountId and EncodedAccountId
 export type AccountId = BrandType<number, '_accountId'>;
@@ -176,7 +176,7 @@ export interface ContributorAgreementInfo {
  */
 export interface ChangeInfo {
   id: ChangeInfoId;
-  project: ProjectName;
+  project: RepoName;
   branch: BranchName;
   topic?: TopicName;
   attention_set?: IdToAttentionSetMap;
@@ -1025,13 +1025,13 @@ export interface CommentRange {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-info
  */
 export interface ProjectInfo {
-  id: UrlEncodedProjectName;
+  id: UrlEncodedRepoName;
   // name is not set if returned in a map where the project name is used as
   // map key
-  name?: ProjectName;
+  name?: RepoName;
   // ?-<n> if the parent project is not visible (<n> is a number which
   // is increased for each non-visible project).
-  parent?: ProjectName;
+  parent?: RepoName;
   description?: string;
   state?: ProjectState;
   branches?: {[branchName: string]: CommitId};
@@ -1356,8 +1356,8 @@ export interface PermissionRuleInfo {
  */
 export interface DashboardInfo {
   id: DashboardId;
-  project: ProjectName;
-  defining_project: ProjectName;
+  project: RepoName;
+  defining_project: RepoName;
   ref: string; // The name of the ref in which the dashboard is defined, without the refs/meta/dashboards/ prefix
   description?: string;
   foreach?: string;
@@ -1414,8 +1414,8 @@ export type ConfigInfoCommentLinks = {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#project-input
  */
 export interface ProjectInput {
-  name?: ProjectName;
-  parent?: ProjectName;
+  name?: RepoName;
+  parent?: RepoName;
   description?: string;
   permissions_only?: boolean;
   create_empty_commit?: boolean;
@@ -1479,7 +1479,7 @@ export interface Base64FileContent {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#project-watch-info
  */
 export interface ProjectWatchInfo {
-  project: ProjectName;
+  project: RepoName;
   filter?: string;
   notify_new_changes?: boolean;
   notify_new_patch_sets?: boolean;

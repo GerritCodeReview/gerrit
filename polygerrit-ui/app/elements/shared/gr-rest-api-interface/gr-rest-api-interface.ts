@@ -100,7 +100,7 @@ import {
   ProjectInfo,
   ProjectInput,
   ProjectWatchInfo,
-  ProjectName,
+  RepoName,
   ReviewInput,
   RobotCommentInfo,
   ServerInfo,
@@ -153,7 +153,7 @@ let siteBasedCache = new SiteBasedCache(); // Shared across instances.
 let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
-let projectLookup: {[changeNum: string]: ProjectName} = {}; // Shared across instances.
+let projectLookup: {[changeNum: string]: RepoName} = {}; // Shared across instances.
 
 export type ChangeNum = number; // !!!TODO: define correct types
 
@@ -365,7 +365,7 @@ export class GrRestApiInterface
   }
 
   getRepo(
-    repo: ProjectName,
+    repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<ProjectInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -378,7 +378,7 @@ export class GrRestApiInterface
   }
 
   getProjectConfig(
-    repo: ProjectName,
+    repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<ConfigInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -390,7 +390,7 @@ export class GrRestApiInterface
     }) as Promise<ConfigInfo | undefined>;
   }
 
-  getRepoAccess(repo: ProjectName): Promise<ProjectAccessInfoMap | undefined> {
+  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._fetchSharedCacheURL({
@@ -400,7 +400,7 @@ export class GrRestApiInterface
   }
 
   getRepoDashboards(
-    repo: ProjectName,
+    repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<DashboardInfo[] | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -412,16 +412,16 @@ export class GrRestApiInterface
     }) as Promise<DashboardInfo[] | undefined>;
   }
 
-  saveRepoConfig(repo: ProjectName, config: ConfigInput): Promise<Response>;
+  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
 
   saveRepoConfig(
-    repo: ProjectName,
+    repo: RepoName,
     config: ConfigInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   saveRepoConfig(
-    repo: ProjectName,
+    repo: RepoName,
     config: ConfigInput,
     errFn?: ErrorCallback
   ): Promise<Response | undefined> {
@@ -438,14 +438,14 @@ export class GrRestApiInterface
     });
   }
 
-  runRepoGC(repo: ProjectName): Promise<Response>;
+  runRepoGC(repo: RepoName): Promise<Response>;
 
   runRepoGC(
-    repo: ProjectName,
+    repo: RepoName,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  runRepoGC(repo: ProjectName, errFn?: ErrorCallback) {
+  runRepoGC(repo: RepoName, errFn?: ErrorCallback) {
     if (!repo) {
       // TODO(TS): fix return value
       return '';
@@ -462,10 +462,10 @@ export class GrRestApiInterface
     });
   }
 
-  createRepo(config: ProjectInput & {name: ProjectName}): Promise<Response>;
+  createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
 
   createRepo(
-    config: ProjectInput & {name: ProjectName},
+    config: ProjectInput & {name: RepoName},
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
@@ -519,15 +519,15 @@ export class GrRestApiInterface
     }) as Promise<GroupInfo | undefined>;
   }
 
-  deleteRepoBranches(repo: ProjectName, ref: GitRef): Promise<Response>;
+  deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
 
   deleteRepoBranches(
-    repo: ProjectName,
+    repo: RepoName,
     ref: GitRef,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  deleteRepoBranches(repo: ProjectName, ref: GitRef, errFn?: ErrorCallback) {
+  deleteRepoBranches(repo: RepoName, ref: GitRef, errFn?: ErrorCallback) {
     if (!repo || !ref) {
       // TODO(TS): fix return value
       return '';
@@ -545,15 +545,15 @@ export class GrRestApiInterface
     });
   }
 
-  deleteRepoTags(repo: ProjectName, ref: GitRef): Promise<Response>;
+  deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
 
   deleteRepoTags(
-    repo: ProjectName,
+    repo: RepoName,
     ref: GitRef,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
-  deleteRepoTags(repo: ProjectName, ref: GitRef, errFn?: ErrorCallback) {
+  deleteRepoTags(repo: RepoName, ref: GitRef, errFn?: ErrorCallback) {
     if (!repo || !ref) {
       // TODO(TS): fix return type
       return '';
@@ -572,20 +572,20 @@ export class GrRestApiInterface
   }
 
   createRepoBranch(
-    name: ProjectName,
+    name: RepoName,
     branch: BranchName,
     revision: BranchInput
   ): Promise<Response>;
 
   createRepoBranch(
-    name: ProjectName,
+    name: RepoName,
     branch: BranchName,
     revision: BranchInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoBranch(
-    name: ProjectName,
+    name: RepoName,
     branch: BranchName,
     revision: BranchInput,
     errFn?: ErrorCallback
@@ -608,20 +608,20 @@ export class GrRestApiInterface
   }
 
   createRepoTag(
-    name: ProjectName,
+    name: RepoName,
     tag: string,
     revision: TagInput
   ): Promise<Response>;
 
   createRepoTag(
-    name: ProjectName,
+    name: RepoName,
     tag: string,
     revision: TagInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   createRepoTag(
-    name: ProjectName,
+    name: RepoName,
     tag: string,
     revision: TagInput,
     errFn?: ErrorCallback
@@ -1742,7 +1742,7 @@ export class GrRestApiInterface
     }) as Promise<ProjectInfo | undefined>;
   }
 
-  setRepoHead(repo: ProjectName, ref: GitRef) {
+  setRepoHead(repo: RepoName, ref: GitRef) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.send({
@@ -1755,7 +1755,7 @@ export class GrRestApiInterface
 
   getRepoBranches(
     filter: string,
-    repo: ProjectName,
+    repo: RepoName,
     reposBranchesPerPage: number,
     offset?: number,
     errFn?: ErrorCallback
@@ -1776,7 +1776,7 @@ export class GrRestApiInterface
 
   getRepoTags(
     filter: string,
-    repo: ProjectName,
+    repo: RepoName,
     reposTagsPerPage: number,
     offset?: number,
     errFn?: ErrorCallback
@@ -1813,7 +1813,7 @@ export class GrRestApiInterface
     });
   }
 
-  getRepoAccessRights(repoName: ProjectName, errFn?: ErrorCallback) {
+  getRepoAccessRights(repoName: RepoName, errFn?: ErrorCallback) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.fetchJSON({
@@ -1823,7 +1823,7 @@ export class GrRestApiInterface
     });
   }
 
-  setRepoAccessRights(repoName: ProjectName, repoInfo: ProjectAccessInput) {
+  setRepoAccessRights(repoName: RepoName, repoInfo: ProjectAccessInput) {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.send({
@@ -1835,7 +1835,7 @@ export class GrRestApiInterface
   }
 
   setRepoAccessRightsForReview(
-    projectName: ProjectName,
+    projectName: RepoName,
     projectInfo: ProjectAccessInput
   ): Promise<ChangeInfo> {
     return (this._restApiHelper.send({
@@ -1979,7 +1979,7 @@ export class GrRestApiInterface
   }
 
   getChangeCherryPicks(
-    project: ProjectName,
+    project: RepoName,
     changeID: ChangeId,
     changeNum: ChangeNum
   ) {
@@ -2123,7 +2123,7 @@ export class GrRestApiInterface
   }
 
   createChange(
-    project: ProjectName,
+    project: RepoName,
     branch: BranchName,
     subject: string,
     topic?: string,
@@ -2368,10 +2368,8 @@ export class GrRestApiInterface
     // alongside the change number, so resolve the project name
     // first.
     return this.getFromProjectLookup(changeNum).then(project => {
-      const encodedProjectName = project
-        ? encodeURIComponent(project) + '~'
-        : '';
-      const url = `/accounts/self/starred.changes/${encodedProjectName}${changeNum}`;
+      const encodedRepoName = project ? encodeURIComponent(project) + '~' : '';
+      const url = `/accounts/self/starred.changes/${encodedRepoName}${changeNum}`;
       return this._restApiHelper.send({
         method: starred ? HttpMethod.PUT : HttpMethod.DELETE,
         url,
@@ -2787,7 +2785,7 @@ export class GrRestApiInterface
   }
 
   getCommitInfo(
-    project: ProjectName,
+    project: RepoName,
     commit: CommitId
   ): Promise<CommitInfo | undefined> {
     return this._restApiHelper.fetchJSON({
@@ -2890,7 +2888,7 @@ export class GrRestApiInterface
   _changeBaseURL(
     changeNum: ChangeNum,
     patchNum?: PatchSetNum,
-    project?: ProjectName
+    project?: RepoName
   ): Promise<string> {
     // TODO(kaspern): For full slicer migration, app should warn with a call
     // stack every time _changeBaseURL is called without a project.
@@ -2900,7 +2898,7 @@ export class GrRestApiInterface
     return projectPromise.then(project => {
       // TODO(TS): unclear why project can't be null here. Fix it
       let url = `/changes/${encodeURIComponent(
-        project as ProjectName
+        project as RepoName
       )}~${changeNum}`;
       if (patchNum) {
         url += `/revisions/${patchNum}`;
@@ -3207,7 +3205,7 @@ export class GrRestApiInterface
       });
   }
 
-  setInProjectLookup(changeNum: ChangeNum, project: ProjectName) {
+  setInProjectLookup(changeNum: ChangeNum, project: RepoName) {
     if (
       this._projectLookup[changeNum] &&
       this._projectLookup[changeNum] !== project
@@ -3225,7 +3223,7 @@ export class GrRestApiInterface
    * project. If not, calls the restAPI to get the change, populates
    * _projectLookup with the project for that change, and returns the project.
    */
-  getFromProjectLookup(changeNum: ChangeNum): Promise<ProjectName | undefined> {
+  getFromProjectLookup(changeNum: ChangeNum): Promise<RepoName | undefined> {
     const project = this._projectLookup[`${changeNum}`];
     if (project) {
       return Promise.resolve(project);
@@ -3420,7 +3418,7 @@ export class GrRestApiInterface
    * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#get-dashboard
    */
   getDashboard(
-    project: ProjectName,
+    project: RepoName,
     dashboard: DashboardId,
     errFn?: ErrorCallback
   ): Promise<DashboardInfo | undefined> {

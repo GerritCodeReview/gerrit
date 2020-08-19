@@ -18,7 +18,7 @@ import {
   BranchName,
   ChangeInfo,
   PatchSetNum,
-  ProjectName,
+  RepoName,
   TopicName,
   GroupId,
   DashboardId,
@@ -230,7 +230,7 @@ export interface GenerateUrlSearchViewParameters {
   view: GerritView.SEARCH;
   query?: string;
   offset?: number;
-  project?: ProjectName;
+  project?: RepoName;
   branch?: BranchName;
   topic?: TopicName;
   // TODO(TS): Define more precise type (enum?)
@@ -244,7 +244,7 @@ export interface GenerateUrlChangeViewParameters {
   view: GerritView.CHANGE;
   // TODO(TS): NumericChangeId - not sure about it, may be it can be removeds
   changeNum: NumericChangeId | LegacyChangeId;
-  project: ProjectName;
+  project: RepoName;
   patchNum?: PatchSetNum;
   basePatchNum?: PatchSetNum;
   edit?: boolean;
@@ -254,14 +254,14 @@ export interface GenerateUrlChangeViewParameters {
 
 export interface GenerateUrlRepoViewParameters {
   view: GerritView.REPO;
-  repoName: ProjectName;
+  repoName: RepoName;
   detail?: RepoDetailView;
 }
 
 export interface GenerateUrlDashboardViewParameters {
   view: GerritView.DASHBOARD;
   user?: string;
-  repo?: ProjectName;
+  repo?: RepoName;
   dashboard?: DashboardId;
 }
 
@@ -274,7 +274,7 @@ export interface GenerateUrlGroupViewParameters {
 export interface GenerateUrlEditViewParameters {
   view: GerritView.EDIT;
   changeNum: NumericChangeId | LegacyChangeId;
-  project: ProjectName;
+  project: RepoName;
   path: string;
   patchNum: PatchSetNum;
   lineNum?: number;
@@ -291,7 +291,7 @@ export interface GenerateUrlSettingsViewParameters {
 export interface GenerateUrlDiffViewParameters {
   view: GerritView.DIFF;
   changeNum: NumericChangeId | LegacyChangeId;
-  project: ProjectName;
+  project: RepoName;
   path?: string;
   patchNum?: PatchSetNum;
   basePatchNum?: PatchSetNum | ParentPatchSetNum;
@@ -313,14 +313,14 @@ export type GenerateUrlParameters =
 
 export interface GenerateWebLinksPatchsetParameters {
   type: WeblinkType.PATCHSET;
-  repo: ProjectName;
+  repo: RepoName;
   commit: CommitId;
   // TODO(TS): provide better typing
   options?: unknown;
 }
 export interface GenerateWebLinksFileParameters {
   type: WeblinkType.FILE;
-  repo: ProjectName;
+  repo: RepoName;
   commit: CommitId;
   file: string;
   // TODO(TS): provide better typing
@@ -328,7 +328,7 @@ export interface GenerateWebLinksFileParameters {
 }
 export interface GenerateWebLinksChangeParameters {
   type: WeblinkType.CHANGE;
-  repo: ProjectName;
+  repo: RepoName;
   commit: CommitId;
   // TODO(TS): provide better typing
   options?: unknown;
@@ -479,7 +479,7 @@ export const GerritNav = {
    * @param host The host in which to search.
    */
   getUrlForProjectChanges(
-    project: ProjectName,
+    project: RepoName,
     openOnly?: boolean,
     host?: string
   ) {
@@ -497,7 +497,7 @@ export const GerritNav = {
    */
   getUrlForBranch(
     branch: BranchName,
-    project: ProjectName,
+    project: RepoName,
     status?: string,
     host?: string
   ) {
@@ -589,7 +589,7 @@ export const GerritNav = {
 
   getUrlForChangeById(
     changeNum: NumericChangeId,
-    project: ProjectName,
+    project: RepoName,
     patchNum?: PatchSetNum
   ) {
     return this._getUrlFor({
@@ -642,7 +642,7 @@ export const GerritNav = {
 
   getUrlForComment(
     changeNum: NumericChangeId | LegacyChangeId,
-    project: ProjectName,
+    project: RepoName,
     commentId: UrlEncodedCommentId
   ) {
     return this._getUrlFor({
@@ -658,7 +658,7 @@ export const GerritNav = {
    */
   getUrlForDiffById(
     changeNum: NumericChangeId | LegacyChangeId,
-    project: ProjectName,
+    project: RepoName,
     filePath: string,
     patchNum?: PatchSetNum,
     basePatchNum?: PatchSetNum | ParentPatchSetNum,
@@ -704,7 +704,7 @@ export const GerritNav = {
    */
   getEditUrlForDiffById(
     changeNum: NumericChangeId | LegacyChangeId,
-    project: ProjectName,
+    project: RepoName,
     filePath: string,
     patchNum?: PatchSetNum,
     lineNum?: number
@@ -763,7 +763,7 @@ export const GerritNav = {
    * @param repo The name of the repo.
    * @param dashboard The ID of the dashboard, in the form of '<ref>:<path>'.
    */
-  getUrlForRepoDashboard(repo: ProjectName, dashboard: DashboardId) {
+  getUrlForRepoDashboard(repo: RepoName, dashboard: DashboardId) {
     return this._getUrlFor({
       view: GerritView.DASHBOARD,
       repo,
@@ -781,7 +781,7 @@ export const GerritNav = {
     this._navigate(relativeUrl);
   },
 
-  getUrlForRepo(repoName: ProjectName) {
+  getUrlForRepo(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -791,11 +791,11 @@ export const GerritNav = {
   /**
    * Navigate to a repo settings page.
    */
-  navigateToRepo(repoName: ProjectName) {
+  navigateToRepo(repoName: RepoName) {
     this._navigate(this.getUrlForRepo(repoName));
   },
 
-  getUrlForRepoTags(repoName: ProjectName) {
+  getUrlForRepoTags(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -803,7 +803,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoBranches(repoName: ProjectName) {
+  getUrlForRepoBranches(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -811,7 +811,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoAccess(repoName: ProjectName) {
+  getUrlForRepoAccess(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -819,7 +819,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoCommands(repoName: ProjectName) {
+  getUrlForRepoCommands(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -827,7 +827,7 @@ export const GerritNav = {
     });
   },
 
-  getUrlForRepoDashboards(repoName: ProjectName) {
+  getUrlForRepoDashboards(repoName: RepoName) {
     return this._getUrlFor({
       view: GerritView.REPO,
       repoName,
@@ -863,7 +863,7 @@ export const GerritNav = {
   },
 
   getFileWebLinks(
-    repo: ProjectName,
+    repo: RepoName,
     commit: CommitId,
     file: string,
     options?: unknown
@@ -881,7 +881,7 @@ export const GerritNav = {
   },
 
   getPatchSetWeblink(
-    repo: ProjectName,
+    repo: RepoName,
     commit: CommitId,
     options?: unknown
   ): WebLink {
@@ -905,7 +905,7 @@ export const GerritNav = {
   },
 
   getChangeWeblinks(
-    repo: ProjectName,
+    repo: RepoName,
     commit: CommitId,
     options?: unknown
   ): WebLink[] {

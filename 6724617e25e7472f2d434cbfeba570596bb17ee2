@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "581882b5_52a98f31",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T09:45:00Z",
+      "side": 1,
+      "message": "just a nit about a comment. (fine to fix up in a later commit)",
+      "revId": "6724617e25e7472f2d434cbfeba570596bb17ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "233376a3_92872802",
+        "filename": "java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T09:45:00Z",
+      "side": 1,
+      "message": "it\u0027s not just an optimization. Sorting is inherent to the DirCache. The Git index takes a list of files (including subdirectory paths, eg. \"dir/file\") with SHA1s, sorts them and the serializes the result. So you can\u0027t do create index files without doing a sort. \n\nit would probably be best if JGit threw an error on encountering duplicate paths (but no need for you to implement this)",
+      "range": {
+        "startLine": 91,
+        "startChar": 45,
+        "endLine": 91,
+        "endChar": 66
+      },
+      "revId": "6724617e25e7472f2d434cbfeba570596bb17ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

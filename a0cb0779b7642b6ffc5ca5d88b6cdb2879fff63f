@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "691a3856_3425e81a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T09:56:16Z",
+      "side": 1,
+      "message": "this jumps to the change if it is the only one with that I-hash. However, you could have multiple if you have a multiple destination branches. Also, if someone puts the I-hash in the commit body (referencing it), you\u0027d probably also trigger a match.\n\nIdeas: include destination branch (and possibly project). However, if you specify change:Ixxx you don\u0027t get redirected to the change page, so maybe we\u0027ll have to ask the frontend team about this.",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 92
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a88ecd6d_175e641e",
+        "filename": "java/com/google/gerrit/server/ChangeUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-19T09:56:16Z",
+      "side": 1,
+      "message": "should include an HTTP(s) prefix?",
+      "range": {
+        "startLine": 114,
+        "startChar": 74,
+        "endLine": 114,
+        "endChar": 75
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

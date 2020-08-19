@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bc943980_4e168eeb",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 251,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "Yes, pagecontext has it. But I didn\u0027t find where it is assigned to the GenerateUrlChangeViewParameters",
+      "parentUuid": "aa655925_049542ac",
+      "range": {
+        "startLine": 251,
+        "startChar": 15,
+        "endLine": 251,
+        "endChar": 26
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f67b229d_bbfcdee9",
         "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ea0019d_108885a8",
+        "filename": "polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "Thanks, comment is removing.",
+      "parentUuid": "f67b229d_bbfcdee9",
+      "range": {
+        "startLine": 253,
+        "startChar": 35,
+        "endLine": 253,
+        "endChar": 56
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c693154d_4bf00bb8",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "Typo, it should be private.",
+      "parentUuid": "fb247098_68b05930",
+      "range": {
+        "startLine": 308,
+        "startChar": 2,
+        "endLine": 308,
+        "endChar": 8
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ecea29d0_2e37b4c4",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 2
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "a2f501c4_c649903e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecea29d0_2e37b4c4",
+      "range": {
+        "startLine": 312,
+        "startChar": 21,
+        "endLine": 312,
+        "endChar": 48
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "adf0b308_cfe7c2c1",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
         "patchSetId": 2
@@ -108,6 +204,24 @@
       "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "594e189e_a03dac22",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "I am trying to avoid any changes where possible.",
+      "parentUuid": "adf0b308_cfe7c2c1",
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +242,24 @@
     },
     {
       "key": {
+        "uuid": "775e32ce_8a0cbcdf",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 838,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c2669a7a_ccd1659a",
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "763183e3_59b62a97",
         "filename": "polygerrit-ui/app/elements/gr-app-interface.ts",
         "patchSetId": 2
@@ -142,6 +274,24 @@
       "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dec7254_1f896311",
+        "filename": "polygerrit-ui/app/elements/gr-app-interface.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "763183e3_59b62a97",
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -165,6 +315,30 @@
       "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57124bc9_538fff5c",
+        "filename": "polygerrit-ui/app/elements/gr-app.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T12:12:24Z",
+      "side": 1,
+      "message": "It is not a todo, it is a not for future conversion.\nI rewrote it to make it more clear.",
+      "parentUuid": "9ba7a5c3_83ec9303",
+      "range": {
+        "startLine": 59,
+        "startChar": 5,
+        "endLine": 59,
+        "endChar": 11
+      },
+      "revId": "20b38d5249b5462b01fc9e3412675ae7f207f4ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

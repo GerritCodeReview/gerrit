@@ -1927,3 +1927,22 @@ export interface IncludedInInfo {
 
 // It is unclear what is name here
 export type NameToExternalSystemsMap = {[name: string]: string[]};
+
+/**
+ * The PluginInfo entity describes a plugin.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-plugins.html#plugin-info
+ */
+export interface PluginInfo {
+  id: string;
+  version: string;
+  api_version?: string;
+  index_url?: string;
+  filename?: string;
+  disabled: boolean;
+}
+/**
+ * The PluginInput entity describes a plugin that should be installed.
+ */
+export interface PluginInput {
+  url: string;
+}

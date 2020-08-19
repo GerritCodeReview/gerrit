@@ -332,6 +332,30 @@
       "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c0285a57_68bb9660",
+        "filename": "polygerrit-ui/app/elements/shared/gr-autocomplete/gr-autocomplete_test.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-19T15:52:49Z",
+      "side": 1,
+      "message": "Conservatives it is then!\nreverted changes to the test and added check for undefined \u0026 null",
+      "parentUuid": "e084c8aa_51d36a40",
+      "range": {
+        "startLine": 168,
+        "startChar": 61,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "0e8b0f24ad0eb3fd4c8146b2c6da36bf6dd322bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

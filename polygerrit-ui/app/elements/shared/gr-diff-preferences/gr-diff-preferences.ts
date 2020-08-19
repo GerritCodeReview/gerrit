@@ -26,6 +26,7 @@ import {htmlTemplate} from './gr-diff-preferences_html';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {DiffPreferencesInfo} from '../../../types/common';
+import {GrSelect} from '../gr-select/gr-select';
 
 export interface GrDiffPreferences {
   $: {
@@ -35,7 +36,9 @@ export interface GrDiffPreferences {
     showTrailingWhitespaceInput: HTMLInputElement;
     automaticReviewInput: HTMLInputElement;
     syntaxHighlightInput: HTMLInputElement;
+    contextSelect: GrSelect;
   };
+  save(): Promise<void>;
 }
 
 @customElement('gr-diff-preferences')
@@ -94,7 +97,8 @@ export class GrDiffPreferences extends GestureEventListeners(
   }
 
   save() {
-    if (!this.diffPrefs) return;
+    if (!this.diffPrefs)
+      return Promise.reject(new Error('Missing diff preferences'));
     return this.$.restAPI.saveDiffPreferences(this.diffPrefs).then(_ => {
       this.hasUnsavedChanges = false;
     });

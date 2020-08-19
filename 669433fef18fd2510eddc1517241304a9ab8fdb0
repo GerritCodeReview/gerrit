@@ -22,6 +22,30 @@
       "revId": "669433fef18fd2510eddc1517241304a9ab8fdb0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aee9bdc1_73f30e3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-19T11:39:41Z",
+      "side": 1,
+      "message": "Added in child change 278991.",
+      "parentUuid": "28812436_5ca7d22c",
+      "range": {
+        "startLine": 204,
+        "startChar": 9,
+        "endLine": 204,
+        "endChar": 13
+      },
+      "revId": "669433fef18fd2510eddc1517241304a9ab8fdb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

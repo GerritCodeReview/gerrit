@@ -578,6 +578,7 @@ public class AccountResolver {
    * @deprecated for use only by MailUtil for parsing commit footers; that class needs to be
    *     reevaluated.
    */
+  @Deprecated
   public Result resolveByExactNameOrEmail(String input) throws ConfigInvalidException, IOException {
     return searchImpl(
         input,

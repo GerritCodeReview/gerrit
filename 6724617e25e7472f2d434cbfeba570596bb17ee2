@@ -63,6 +63,30 @@
       "revId": "6724617e25e7472f2d434cbfeba570596bb17ee2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f78c801_b89c5eeb",
+        "filename": "java/com/google/gerrit/server/edit/tree/TreeCreator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-19T11:47:00Z",
+      "side": 1,
+      "message": "Fixed in I07d6a4e54.",
+      "parentUuid": "c91cfcf9_f59ac5bd",
+      "range": {
+        "startLine": 91,
+        "startChar": 45,
+        "endLine": 91,
+        "endChar": 66
+      },
+      "revId": "6724617e25e7472f2d434cbfeba570596bb17ee2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

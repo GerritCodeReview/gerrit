@@ -282,7 +282,7 @@ class GrReviewerList extends GestureEventListeners(
       value.ccsOnly = true;
     }
     this.dispatchEvent(new CustomEvent('show-reply-dialog', {
-      detail: {value},
+      detail: {value, focus, returnFocusTo: e.target},
       composed: true, bubbles: true,
     }));
   }

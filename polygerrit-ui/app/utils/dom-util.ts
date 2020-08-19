@@ -251,3 +251,23 @@ export function getSharedApiEl() {
   }
   return _sharedApiEl;
 }
+
+export function hasFocus(element: Element): boolean {
+  function hasFocusRecursive(
+    root: DocumentOrShadowRoot | null,
+    element: Element
+  ): boolean {
+    if (root === null) {
+      return false;
+    }
+    if (root.activeElement === element) {
+      return true;
+    }
+    if (root.activeElement && root.activeElement.shadowRoot) {
+      return hasFocusRecursive(root.activeElement.shadowRoot, element);
+    }
+    return false;
+  }
+
+  return hasFocusRecursive(document, element);
+}

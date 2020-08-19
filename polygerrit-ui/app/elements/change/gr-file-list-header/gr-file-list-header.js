@@ -247,7 +247,7 @@ class GrFileListHeader extends KeyboardShortcutMixin(
   _handlePrefsTap(e) {
     e.preventDefault();
     this.dispatchEvent(new CustomEvent('open-diff-prefs', {
-      composed: true, bubbles: true,
+      composed: true, bubbles: true, detail: {returnFocusTo: e.target},
     }));
   }
 

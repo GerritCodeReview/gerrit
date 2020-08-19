@@ -414,8 +414,12 @@ class GrFileList extends KeyboardShortcutMixin(
         el => !!el && !!el.style && el.style.display !== 'none');
   }
 
-  openDiffPrefs() {
-    this.$.diffPreferencesDialog.open();
+  openDiffPrefs(returnFocusTo) {
+    if (returnFocusTo) {
+      this.$.diffPreferencesDialog.open(returnFocusTo);
+    } else {
+      this.$.diffPreferencesDialog.open();
+    }
   }
 
   _calculatePatchChange(files) {

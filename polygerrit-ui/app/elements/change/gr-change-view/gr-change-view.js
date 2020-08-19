@@ -53,7 +53,7 @@ import {htmlTemplate} from './gr-change-view_html.js';
 import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
-import {getComputedStyleValue} from '../../../utils/dom-util.js';
+import {getComputedStyleValue, hasFocus} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
@@ -928,11 +928,16 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   _handleReplyTap(e) {
     e.preventDefault();
-    this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+    this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY, e.target);
   }
 
-  _handleOpenDiffPrefs() {
-    this.$.fileList.openDiffPrefs();
+  _handleOpenDiffPrefs(e) {
+    if (e.detail && e.detail.returnFocusTo
+      && hasFocus(e.detail.returnFocusTo)) {
+      this.$.fileList.openDiffPrefs(e.detail.returnFocusTo);
+    } else {
+      this.$.fileList.openDiffPrefs();
+    }
   }
 
   _handleOpenIncludedInDialog() {
@@ -973,7 +978,7 @@ class GrChangeView extends KeyboardShortcutMixin(
         line => '> ' + line)
         .join('\n') + '\n\n';
     this.$.replyDialog.quote = quoteStr;
-    this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
+    this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY, e.target);
   }
 
   _handleHideBackgroundContent() {
@@ -989,12 +994,12 @@ class GrChangeView extends KeyboardShortcutMixin(
         () => {
           this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
         }, {once: true});
-    this.$.replyOverlay.close();
+    this.$.replyOverlay.cancel();
     this._reload();
   }
 
   _handleReplyCancel(e) {
-    this.$.replyOverlay.close();
+    this.$.replyOverlay.cancel();
   }
 
   _handleReplyAutogrow(e) {
@@ -1009,7 +1014,12 @@ class GrChangeView extends KeyboardShortcutMixin(
     if (e.detail.value && e.detail.value.ccsOnly) {
       target = this.$.replyDialog.FocusTarget.CCS;
     }
-    this._openReplyDialog(target);
+    if (e.detail && e.detail.returnFocusTo
+        && hasFocus(e.detail.returnFocusTo)) {
+      this._openReplyDialog(target, e.detail.returnFocusTo);
+    } else {
+      this._openReplyDialog(target);
+    }
   }
 
   _handleScroll() {
@@ -1393,7 +1403,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       }
 
       e.preventDefault();
-      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
+      this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY, e.target);
     });
   }
 
@@ -1577,7 +1587,12 @@ class GrChangeView extends KeyboardShortcutMixin(
   /**
    * @param {string=} opt_section
    */
-  _openReplyDialog(opt_section) {
+  _openReplyDialog(opt_section, opt_returnFocusTo) {
+    if (opt_returnFocusTo && hasFocus(opt_returnFocusTo)) {
+      this.returnFocusTo = opt_returnFocusTo;
+    } else {
+      this.returnFocusTo = undefined;
+    }
     this.$.replyOverlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       this._resetReplyOverlayFocusStops();
@@ -2319,6 +2334,12 @@ class GrChangeView extends KeyboardShortcutMixin(
    */
   _computeAllPatchSets(change) {
     return computeAllPatchSets(change);
+  }
+
+  onReplyOverlayCanceled() {
+    if (this.returnFocusTo) {
+      this.returnFocusTo.focus();
+    }
   }
 }
 

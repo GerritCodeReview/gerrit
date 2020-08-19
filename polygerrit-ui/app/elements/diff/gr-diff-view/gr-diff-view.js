@@ -53,6 +53,7 @@ import {
 } from '../../../utils/path-list-util.js';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
 import {KnownExperimentId} from '../../../services/flags/flags.js';
+import {hasFocus} from '../../../utils/dom-util.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1165,7 +1166,11 @@ class GrDiffView extends KeyboardShortcutMixin(
 
   _handlePrefsTap(e) {
     e.preventDefault();
-    this.$.diffPreferencesDialog.open();
+    if (hasFocus(e.target)) {
+      this.$.diffPreferencesDialog.open(e.target);
+    } else {
+      this.$.diffPreferencesDialog.open();
+    }
   }
 
   /**

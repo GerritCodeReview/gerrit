@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9cbf16a8_6100afb3",
+        "filename": "polygerrit-ui/app/services/services/gr-rest-api/gr-rest-api.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-19T12:13:34Z",
+      "side": 1,
+      "message": "Why does it work here, but not below?",
+      "range": {
+        "startLine": 207,
+        "startChar": 47,
+        "endLine": 207,
+        "endChar": 76
+      },
+      "revId": "2e5ac338c196bba3672dcc6214607bf1ab43eb4e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

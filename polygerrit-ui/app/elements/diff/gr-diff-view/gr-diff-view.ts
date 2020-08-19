@@ -101,6 +101,7 @@ import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revisi
 import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
+import { hasFocus } from '../../../utils/dom-util';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1418,7 +1419,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
   _handlePrefsTap(e: Event) {
     e.preventDefault();
-    this.$.diffPreferencesDialog.open();
+    if (e.target && hasFocus(e.target as HTMLElement)) {
+      this.$.diffPreferencesDialog.open(e.target as HTMLElement);
+    } else {
+      this.$.diffPreferencesDialog.open();
+    }
   }
 
   /**

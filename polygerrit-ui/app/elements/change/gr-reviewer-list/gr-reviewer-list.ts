@@ -310,7 +310,10 @@ export class GrReviewerList extends GestureEventListeners(
     }
     this.dispatchEvent(
       new CustomEvent('show-reply-dialog', {
-        detail: {value},
+        detail: {
+          value,
+          returnFocusTo: e.target as HTMLElement | null,
+        },
         composed: true,
         bubbles: true,
       })

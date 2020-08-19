@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f5420e3_969bc29d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-plugin-list/gr-plugin-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T11:38:47Z",
+      "side": 1,
+      "message": "Seems the type is\nPluginInfoWithName[]\n\nP.S. Also, please restore comment from the old properties",
+      "range": {
+        "startLine": 63,
+        "startChar": 18,
+        "endLine": 63,
+        "endChar": 25
+      },
+      "revId": "7b410791defddc7d60528e936d2f0b7427efbcde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "01635643_047242a2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1808,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-19T11:38:47Z",
+      "side": 1,
+      "message": "Please define type as {[pluginName: string]: PluginInfo} (to make it clear that the key is a pluginName)",
+      "range": {
+        "startLine": 1808,
+        "startChar": 13,
+        "endLine": 1808,
+        "endChar": 40
+      },
+      "revId": "7b410791defddc7d60528e936d2f0b7427efbcde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

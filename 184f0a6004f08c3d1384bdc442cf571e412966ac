@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "952b8f1a_625870fc",
+        "filename": "java/com/google/gerrit/server/update/SubmissionContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-20T06:15:36Z",
+      "side": 1,
+      "message": "Working on this, I realized this name is meaningless.\n\nThis count is the amount of repositories touched in the submission (mostly to optimize when there is only one).",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

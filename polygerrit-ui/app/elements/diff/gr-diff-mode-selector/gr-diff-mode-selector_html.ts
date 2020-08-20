@@ -29,6 +29,19 @@ export const htmlTemplate = html`
       height: 1.3rem;
       width: 1.3rem;
     }
+    .a11y-visually-hidden {
+      border: 0;
+      clip: rect(0 0 0 0);
+      height: 1px;
+      margin: -1px;
+      overflow: hidden;
+      padding: 0;
+      position: absolute;
+      width: 1px;
+      outline: 0;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+    }
   </style>
   <gr-button
     id="sideBySideBtn"
@@ -36,6 +49,7 @@ export const htmlTemplate = html`
     has-tooltip=""
     class$="[[_computeSideBySideSelected(mode)]]"
     title="Side-by-side diff"
+    aria-pressed="[[isSideBySideSelected(mode)]]"
     on-click="_handleSideBySideTap"
   >
     <iron-icon icon="gr-icons:side-by-side"></iron-icon>
@@ -46,9 +60,13 @@ export const htmlTemplate = html`
     has-tooltip=""
     title="Unified diff"
     class$="[[_computeUnifiedSelected(mode)]]"
+    aria-pressed="[[isUnifiedSelected(mode)]]"
     on-click="_handleUnifiedTap"
   >
     <iron-icon icon="gr-icons:unified"></iron-icon>
   </gr-button>
+  <div class="a11y-visually-hidden" aria-atomic="true" aria-live="polite">
+    [[annoucement]]
+  </div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

@@ -50,6 +50,9 @@ export class GrDiffModeSelector extends GestureEventListeners(
   @property({type: Boolean})
   saveOnChange = false;
 
+  @property({type: String})
+  annoucement?: string;
+
   /**
    * Set the mode. If save on change is enabled also update the preference.
    */
@@ -58,6 +61,11 @@ export class GrDiffModeSelector extends GestureEventListeners(
       this.$.restAPI.savePreferences({diff_view: newMode});
     }
     this.mode = newMode;
+    if (this.isUnifiedSelected(newMode)) {
+      this.annoucement = 'Changed diff view to unified';
+    } else if (this.isSideBySideSelected(newMode)) {
+      this.annoucement = 'Changed diff view to side by side';
+    }
   }
 
   _computeSideBySideSelected(mode: DiffViewMode) {
@@ -66,6 +74,14 @@ export class GrDiffModeSelector extends GestureEventListeners(
 
   _computeUnifiedSelected(mode: DiffViewMode) {
     return mode === DiffViewMode.UNIFIED ? 'selected' : '';
+  }
+
+  isSideBySideSelected(mode: DiffViewMode) {
+    return mode === DiffViewMode.SIDE_BY_SIDE;
+  }
+
+  isUnifiedSelected(mode: DiffViewMode) {
+    return mode === DiffViewMode.UNIFIED;
   }
 
   _handleSideBySideTap() {

@@ -2137,7 +2137,7 @@ export class GrRestApiInterface
     baseChange?: ChangeId,
     baseCommit?: string
   ) {
-    return this._restApiHelper.send({
+    return (this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/changes/',
       body: {
@@ -2152,7 +2152,7 @@ export class GrRestApiInterface
       },
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<ChangeInfo | undefined>;
   }
 
   getFileContent(

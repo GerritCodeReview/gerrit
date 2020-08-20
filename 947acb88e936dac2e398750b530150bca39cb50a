@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f34ee33d_e92b9a86",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-08-20T22:32:42Z",
+      "side": 1,
+      "message": "The commit message is the place to describe the motivation for this change. What problem does it solve? What does it make possible that wasn\u0027t possible before?",
+      "revId": "947acb88e936dac2e398750b530150bca39cb50a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b695bd1_f8f48e29",
+        "filename": "java/com/google/gerrit/extensions/validators/CommentValidatorException.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-08-20T22:32:42Z",
+      "side": 1,
+      "message": "Can this get a brief javadoc comment? What are the semantics of this exception? E.g. when would I be expected to catch it?",
+      "revId": "947acb88e936dac2e398750b530150bca39cb50a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

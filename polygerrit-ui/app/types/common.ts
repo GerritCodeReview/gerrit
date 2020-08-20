@@ -1957,3 +1957,12 @@ export interface PluginInfo {
 export interface PluginInput {
   url: string;
 }
+
+/**
+ * The DocResult entity contains information about a document.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-documentation.html#doc-result
+ */
+export interface DocResult {
+  title: string;
+  url: string;
+}

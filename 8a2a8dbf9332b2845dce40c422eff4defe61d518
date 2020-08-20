@@ -57,6 +57,30 @@
       "revId": "8a2a8dbf9332b2845dce40c422eff4defe61d518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "698b79c1_520061d0",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-08-20T13:38:57Z",
+      "side": 1,
+      "message": "Yes, so we would like to intercept the Receive/Upload requests and do some monitoring in place there. This involves giving us a better grasp of what versions of Git our users are using among other things and offers a better granularity of understand who is doing what and why. So in short, the functionality we would like to add here is somewhat orthogonal to what these two operations do, and that is why allowing these two to be extended is the ideal outcome, because in reality when we have done our part we simply want to pass execution back to the real Gerrit implementation of Receive/Upload. As I mentioned I don\u0027t see why ReceiveSlaveMode exists. In reality you get almost identical responses with or without it - so this part can be dropped I think (the class and implementation deleted).\n\nSo we essentially want to be able to disable SSH completely for receive/upload, then let a plugin add in our implementation, which then will call the parent class when we are done.\n\nThe intention is to do something similar for HTTPS, but I\u0027ve not yet looked much into the differences in implementation there.",
+      "parentUuid": "7d616b5c_8461d654",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 21
+      },
+      "revId": "8a2a8dbf9332b2845dce40c422eff4defe61d518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

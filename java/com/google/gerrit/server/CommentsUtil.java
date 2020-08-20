@@ -37,7 +37,6 @@ import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.restapi.UnprocessableEntityException;
 import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.git.GitRepositoryManager;
@@ -132,8 +131,7 @@ public class CommentsUtil {
       short side,
       String message,
       @Nullable Boolean unresolved,
-      @Nullable String parentUuid)
-      throws UnprocessableEntityException {
+      @Nullable String parentUuid) {
     if (unresolved == null) {
       if (parentUuid == null) {
         // Default to false if comment is not descended from another.
@@ -142,10 +140,10 @@ public class CommentsUtil {
         // Inherit unresolved value from inReplyTo comment if not specified.
         Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
         Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, key);
-        if (!parent.isPresent()) {
-          throw new UnprocessableEntityException("Invalid parentUuid supplied for comment");
-        }
-        unresolved = parent.get().unresolved;
+
+        // If the comment was not found, it is descended from a robot comment, or the UUID is
+        // invalid. Either way, we use the default.
+        unresolved = parent.map(p -> p.unresolved).orElse(false);
       }
     }
     HumanComment c =
@@ -352,7 +350,7 @@ public class CommentsUtil {
    * @param newComments set of all the new comments added on the change by the current user.
    * @return set of all comments in the comments thread that received a reply.
    */
-  public Set<HumanComment> getAllCommentsInCommentThreads(
+  public Set<HumanComment> getAllHumanCommentsInCommentThreads(
       ChangeNotes changeNotes, ImmutableSet<HumanComment> newComments) {
     Map<String, HumanComment> uuidToComment =
         publishedHumanCommentsByChange(changeNotes).stream()
@@ -369,8 +367,9 @@ public class CommentsUtil {
       if (current.parentUuid != null) {
         HumanComment parent = uuidToComment.get(current.parentUuid);
         if (parent == null) {
-          throw new IllegalStateException(
-              String.format("Comment %s not found", current.parentUuid));
+          // If we can't find the parent within the human comments, the parent must be a robot
+          // comment and can be ignored.
+          continue;
         }
         if (!seen.contains(current.parentUuid)) {
           toTraverse.add(parent);

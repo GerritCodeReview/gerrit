@@ -833,6 +833,25 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void reviewIgnoresRobotCommentsForAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    testCommentHelper.addRobotComment(
+        r.getChangeId(),
+        testCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
+
+    requestScopeOperations.setApiUser(admin.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().robotCommentsAsList())
+                    .id));
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
   public void reviewAddsAllUsersInCommentThread() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());
@@ -865,6 +884,42 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
     assertThat(attentionSet.account()).isEqualTo(user2.id());
+    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+  }
+
+  @Test
+  public void reviewAddsAllUsersInCommentThreadWhenOriginalCommentIsARobotComment()
+      throws Exception {
+    PushOneCommit.Result result = createChange();
+    testCommentHelper.addRobotComment(
+        result.getChangeId(),
+        testCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
+
+    requestScopeOperations.setApiUser(user.id());
+    // Reply to the robot comment.
+    change(result)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(result.getChangeId()).current().robotCommentsAsList())
+                    .id));
+
+    requestScopeOperations.setApiUser(admin.id());
+    // Reply to the human comment. which was a reply to the robot comment.
+    change(result)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(result.getChangeId()).current().commentsAsList())
+                    .id));
+
+    // The user which replied to the robot comment was added to the attention set.
+    AttentionSetUpdate attentionSet =
+        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(result, user));
+    assertThat(attentionSet.account()).isEqualTo(user.id());
     assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
     assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
   }

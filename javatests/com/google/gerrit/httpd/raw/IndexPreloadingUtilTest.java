@@ -17,6 +17,7 @@ package com.google.gerrit.httpd.raw;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.computeChangeRequestsPath;
+import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.parseRequestedPage;
 
 import com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import org.junit.Test;
@@ -46,5 +47,15 @@ public class IndexPreloadingUtilTest {
         .isFalse();
     assertThat(computeChangeRequestsPath("/c/Scripts/+/232/1//COMMIT_MSG", RequestedPage.DIFF))
         .hasValue("changes/Scripts~232");
+  }
+
+  @Test
+  public void preloadOnlyForSelfDashboard() throws Exception {
+    assertThat(parseRequestedPage("https://gerrit-review.googlesource.com/dashboard/self"))
+        .isEqualTo(RequestedPage.DASHBOARD);
+    assertThat(parseRequestedPage("https://gerrit-review.googlesource.com/dashboard/1085901"))
+        .isEqualTo(RequestedPage.PAGE_WITHOUT_PRELOADING);
+    assertThat(parseRequestedPage("https://gerrit-review.googlesource.com/dashboard/gerrit"))
+        .isEqualTo(RequestedPage.PAGE_WITHOUT_PRELOADING);
   }
 }

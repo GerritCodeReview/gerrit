@@ -52,7 +52,7 @@ public class IndexPreloadingUtil {
       Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "(/(.+))" + "/?$");
-  public static final Pattern DASHBOARD_PATTERN = Pattern.compile(".*/dashboard/.+$");
+  public static final Pattern DASHBOARD_PATTERN = Pattern.compile(".*/dashboard/self$");
 
   // These queries should be kept in sync with PolyGerrit:
   // polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts

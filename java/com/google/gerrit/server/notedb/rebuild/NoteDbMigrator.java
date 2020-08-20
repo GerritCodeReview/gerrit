@@ -893,27 +893,27 @@ public class NoteDbMigrator implements AutoCloseable {
     List<ProjectSlice> slices = slice();
     List<ListenableFuture<Boolean>> futures = new ArrayList<>();
     for (ProjectSlice slice : slices) {
-        ListenableFuture<Boolean> future =
-            executor.submit(
-                () -> {
-                  try (ContextHelper contextHelper = new ContextHelper()) {
+      ListenableFuture<Boolean> future =
+          executor.submit(
+              () -> {
+                try (ContextHelper contextHelper = new ContextHelper()) {
                   return rebuildProjectSlice(contextHelper.getReviewDb(), slice);
-                  } catch (Exception e) {
+                } catch (Exception e) {
                   logger.atSevere().withCause(e).log("Error rebuilding project %s", slice.ctx);
-                    return false;
-                  }
-                });
-        futures.add(future);
-      }
-
-      boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
-      double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
-      logger.atInfo().log(
-        "Rebuilt %d changes in %.01fs (%.01f/s)\n", totalChangeCount, t, totalChangeCount / t);
-      if (!ok) {
-        throw new MigrationException("Rebuilding some changes failed, see log");
-      }
+                  return false;
+                }
+              });
+      futures.add(future);
     }
+
+    boolean ok = futuresToBoolean(futures, "Error rebuilding projects");
+    double t = sw.elapsed(TimeUnit.MILLISECONDS) / 1000d;
+    logger.atInfo().log(
+        "Rebuilt %d changes in %.01fs (%.01f/s)\n", totalChangeCount, t, totalChangeCount / t);
+    if (!ok) {
+      throw new MigrationException("Rebuilding some changes failed, see log");
+    }
+  }
 
   private ImmutableListMultimap<Project.NameKey, Change.Id> getChangesByProject()
       throws OrmException {
@@ -956,6 +956,11 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private boolean rebuildProjectSlice(ReviewDb db, ProjectSlice slice) {
     ProjectContext ctx = slice.ctx;
+    String oldThreadName = Thread.currentThread().getName();
+    Thread.currentThread()
+        .setName(
+            String.format(
+                "Rebuild %s (slice %d/%d)", ctx.project, slice.sliceNumber, ctx.sliceCount));
     boolean ok = true;
     ProgressMonitor pm =
         new TextProgressMonitor(
@@ -1082,6 +1087,7 @@ public class NoteDbMigrator implements AutoCloseable {
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Failed to rebuild project %s", project);
     }
+    Thread.currentThread().setName(oldThreadName);
     return ok;
   }
 

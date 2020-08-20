@@ -46,6 +46,30 @@
       "revId": "63480e06cd46646f8c34391746bdb4ac9906ba39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a232dd5_69a3b90b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-20T09:36:13Z",
+      "side": 1,
+      "message": "Ok, I just Dmitrii asked me to do it in one review, so I was thinking we will be consistent and use this assertNever and not leaving todo. But up to you and dmitrii :)",
+      "parentUuid": "6933b259_857e0342",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 10
+      },
+      "revId": "63480e06cd46646f8c34391746bdb4ac9906ba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

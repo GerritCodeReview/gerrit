@@ -14,15 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import {addListener} from '@polymer/polymer/lib/utils/gestures.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-diff-selection_html.js';
-import {normalize} from '../gr-diff-highlight/gr-range-normalizer.js';
-import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util.js';
+import '../../../styles/shared-styles';
+import {addListener} from '@polymer/polymer/lib/utils/gestures';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-diff-selection_html';
+import {
+  normalize,
+  NormalizedRange,
+} from '../gr-diff-highlight/gr-range-normalizer';
+import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util';
+import {customElement, property, observe} from '@polymer/decorators';
+import {DiffInfo} from '../../../types/common';
+import {Side} from '../../../constants/constants';
+
+// TODO(TS): Replace by GrDiffBuilderElement once that is converted.
+interface DiffBuilderElement extends HTMLElement {
+  diffElement: HTMLTableElement;
+  getLineElByChild(node: Node): HTMLElement;
+  getSideByLineEl(lineEl: HTMLElement): Side;
+  getLineNumberByChild(lineEl: HTMLElement): number;
+  getContentTdByLineEl(lineEl: HTMLElement): HTMLElement;
+}
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -35,43 +50,37 @@ const SelectionClass = {
   BLAME: 'selected-blame',
 };
 
-const getNewCache = () => { return {left: null, right: null}; };
+interface LinesCache {
+  left: string[] | null;
+  right: string[] | null;
+}
 
-/**
- * @extends PolymerElement
- */
-class GrDiffSelection extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+function getNewCache(): LinesCache {
+  return {left: null, right: null};
+}
 
-  static get is() { return 'gr-diff-selection'; }
-
-  static get properties() {
-    return {
-      diff: Object,
-      /** @type {?Object} */
-      _cachedDiffBuilder: Object,
-      _linesCache: {
-        type: Object,
-        value: getNewCache(),
-      },
-    };
+@customElement('gr-diff-selection')
+export class GrDiffSelection extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_diffChanged(diff)',
-    ];
-  }
+  @property({type: Object})
+  diff?: DiffInfo;
+
+  @property({type: Object})
+  _cachedDiffBuilder?: DiffBuilderElement;
+
+  @property({type: Object})
+  _linesCache: LinesCache = {left: null, right: null};
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('copy',
-        e => this._handleCopy(e));
-    addListener(this, 'down',
-        e => this._handleDown(e));
+    this.addEventListener('copy', e => this._handleCopy(e));
+    addListener(this, 'down', e => this._handleDown(e));
   }
 
   /** @override */
@@ -82,52 +91,57 @@ class GrDiffSelection extends GestureEventListeners(
 
   get diffBuilder() {
     if (!this._cachedDiffBuilder) {
-      this._cachedDiffBuilder =
-          this.querySelector('gr-diff-builder');
+      this._cachedDiffBuilder = this.querySelector(
+        'gr-diff-builder'
+      ) as DiffBuilderElement;
     }
     return this._cachedDiffBuilder;
   }
 
+  @observe('diff')
   _diffChanged() {
     this._linesCache = getNewCache();
   }
 
-  _handleDownOnRangeComment(node) {
-    if (node &&
-        node.nodeName &&
-        node.nodeName.toLowerCase() === 'gr-comment-thread') {
+  _handleDownOnRangeComment(node: Element) {
+    if (node?.nodeName?.toLowerCase() === 'gr-comment-thread') {
       this._setClasses([
         SelectionClass.COMMENT,
-        node.commentSide === 'left' ?
-          SelectionClass.LEFT :
-          SelectionClass.RIGHT,
+        node.getAttribute('comment-side') === Side.LEFT
+          ? SelectionClass.LEFT
+          : SelectionClass.RIGHT,
       ]);
       return true;
     }
     return false;
   }
 
-  _handleDown(e) {
+  _handleDown(e: Event) {
+    const target = e.target;
+    if (!(target instanceof Element)) return;
     // Handle the down event on comment thread in Polymer 2
-    const handled = this._handleDownOnRangeComment(e.target);
+    const handled = this._handleDownOnRangeComment(target);
     if (handled) return;
-
-    const lineEl = this.diffBuilder.getLineElByChild(e.target);
-    const blameSelected = this._elementDescendedFromClass(e.target, 'blame');
-    if (!lineEl && !blameSelected) { return; }
+    const lineEl = this.diffBuilder.getLineElByChild(target);
+    const blameSelected = this._elementDescendedFromClass(target, 'blame');
+    if (!lineEl && !blameSelected) {
+      return;
+    }
 
     const targetClasses = [];
 
     if (blameSelected) {
       targetClasses.push(SelectionClass.BLAME);
     } else {
-      const commentSelected =
-          this._elementDescendedFromClass(e.target, 'gr-comment');
+      const commentSelected = this._elementDescendedFromClass(
+        target,
+        'gr-comment'
+      );
       const side = this.diffBuilder.getSideByLineEl(lineEl);
 
-      targetClasses.push(side === 'left' ?
-        SelectionClass.LEFT :
-        SelectionClass.RIGHT);
+      targetClasses.push(
+        side === 'left' ? SelectionClass.LEFT : SelectionClass.RIGHT
+      );
 
       if (commentSelected) {
         targetClasses.push(SelectionClass.COMMENT);
@@ -140,17 +154,12 @@ class GrDiffSelection extends GestureEventListeners(
   /**
    * Set the provided list of classes on the element, to the exclusion of all
    * other SelectionClass values.
-   *
-   * @param {!Array<!string>} targetClasses
    */
-  _setClasses(targetClasses) {
+  _setClasses(targetClasses: string[]) {
     // Remove any selection classes that do not belong.
-    for (const key in SelectionClass) {
-      if (SelectionClass.hasOwnProperty(key)) {
-        const className = SelectionClass[key];
-        if (!targetClasses.includes(className)) {
-          this.classList.remove(SelectionClass[key]);
-        }
+    for (const className of Object.values(SelectionClass)) {
+      if (!targetClasses.includes(className)) {
+        this.classList.remove(className);
       }
     }
     // Add new selection classes iff they are not already present.
@@ -161,38 +170,32 @@ class GrDiffSelection extends GestureEventListeners(
     }
   }
 
-  _getCopyEventTarget(e) {
-    return dom(e).rootTarget;
+  _getCopyEventTarget(e: Event) {
+    return (dom(e) as EventApi).rootTarget;
   }
 
   /**
    * Utility function to determine whether an element is a descendant of
    * another element with the particular className.
-   *
-   * @param {!Element} element
-   * @param {!string} className
-   * @return {boolean}
    */
-  _elementDescendedFromClass(element, className) {
-    return descendedFromClass(element, className,
-        this.diffBuilder.diffElement);
+  _elementDescendedFromClass(element: Element, className: string) {
+    return descendedFromClass(element, className, this.diffBuilder.diffElement);
   }
 
-  _handleCopy(e) {
+  _handleCopy(e: ClipboardEvent) {
     let commentSelected = false;
     const target = this._getCopyEventTarget(e);
-    if (target.type === 'textarea') { return; }
-    if (!this._elementDescendedFromClass(target, 'diff-row')) { return; }
+    if (!(target instanceof Element)) return;
+    if (target instanceof HTMLTextAreaElement) return;
+    if (!this._elementDescendedFromClass(target, 'diff-row')) return;
     if (this.classList.contains(SelectionClass.COMMENT)) {
       commentSelected = true;
     }
     const lineEl = this.diffBuilder.getLineElByChild(target);
-    if (!lineEl) {
-      return;
-    }
+    if (!lineEl) return;
     const side = this.diffBuilder.getSideByLineEl(lineEl);
     const text = this._getSelectedText(side, commentSelected);
-    if (text) {
+    if (text && e.clipboardData) {
       e.clipboardData.setData('Text', text);
       e.preventDefault();
     }
@@ -210,8 +213,9 @@ class GrDiffSelection extends GestureEventListeners(
       return selection && selection.type !== 'None';
     });
 
-    return curDiffHost ?
-      curDiffHost.shadowRoot.getSelection(): window.getSelection();
+    return curDiffHost
+      ? curDiffHost.shadowRoot!.getSelection()
+      : window.getSelection();
   }
 
   /**
@@ -219,57 +223,62 @@ class GrDiffSelection extends GestureEventListeners(
    * true, it returns only the text of comments within the selection.
    * Otherwise it returns the text of the selected diff region.
    *
-   * @param {!string} side The side that is selected.
-   * @param {boolean} commentSelected Whether or not a comment is selected.
-   * @return {string} The selected text.
+   * @param side The side that is selected.
+   * @param commentSelected Whether or not a comment is selected.
+   * @return The selected text.
    */
-  _getSelectedText(side, commentSelected) {
+  _getSelectedText(side: Side, commentSelected: boolean) {
     const sel = this._getSelection();
-    if (sel.rangeCount != 1) {
+    if (!sel || sel.rangeCount !== 1) {
       return ''; // No multi-select support yet.
     }
     if (commentSelected) {
       return this._getCommentLines(sel, side);
     }
     const range = normalize(sel.getRangeAt(0));
-    const startLineEl =
-        this.diffBuilder.getLineElByChild(range.startContainer);
+    const startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
     const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
     // Happens when triple click in side-by-side mode with other side empty.
-    const endsAtOtherEmptySide = !endLineEl &&
-        range.endOffset === 0 &&
-        range.endContainer.nodeName === 'TD' &&
-        (range.endContainer.classList.contains('left') ||
-         range.endContainer.classList.contains('right'));
-    const startLineNum = parseInt(startLineEl.getAttribute('data-value'), 10);
+    const endsAtOtherEmptySide =
+      !endLineEl &&
+      range.endOffset === 0 &&
+      range.endContainer.nodeName === 'TD' &&
+      range.endContainer instanceof HTMLTableCellElement &&
+      (range.endContainer.classList.contains('left') ||
+        range.endContainer.classList.contains('right'));
+    const startLineDataValue = startLineEl.getAttribute('data-value');
+    if (!startLineDataValue) return;
+    const startLineNum = parseInt(startLineDataValue, 10);
     let endLineNum;
     if (endsAtOtherEmptySide) {
       endLineNum = startLineNum + 1;
     } else if (endLineEl) {
-      endLineNum = parseInt(endLineEl.getAttribute('data-value'), 10);
+      const endLineDataValue = endLineEl.getAttribute('data-value');
+      if (endLineDataValue) endLineNum = parseInt(endLineDataValue, 10);
     }
 
-    return this._getRangeFromDiff(startLineNum, range.startOffset, endLineNum,
-        range.endOffset, side);
+    return this._getRangeFromDiff(
+      startLineNum,
+      range.startOffset,
+      endLineNum,
+      range.endOffset,
+      side
+    );
   }
 
   /**
    * Query the diff object for the selected lines.
-   *
-   * @param {number} startLineNum
-   * @param {number} startOffset
-   * @param {number|undefined} endLineNum Use undefined to get the range
-   *     extending to the end of the file.
-   * @param {number} endOffset
-   * @param {!string} side The side that is currently selected.
-   * @return {string} The selected diff text.
    */
-  _getRangeFromDiff(startLineNum, startOffset, endLineNum, endOffset, side) {
-    const lines =
-        this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
+  _getRangeFromDiff(
+    startLineNum: number,
+    startOffset: number,
+    endLineNum: number | undefined,
+    endOffset: number,
+    side: Side
+  ) {
+    const lines = this._getDiffLines(side).slice(startLineNum - 1, endLineNum);
     if (lines.length) {
-      lines[lines.length - 1] = lines[lines.length - 1]
-          .substring(0, endOffset);
+      lines[lines.length - 1] = lines[lines.length - 1].substring(0, endOffset);
       lines[0] = lines[0].substring(startOffset);
     }
     return lines.join('\n');
@@ -278,20 +287,22 @@ class GrDiffSelection extends GestureEventListeners(
   /**
    * Query the diff object for the lines from a particular side.
    *
-   * @param {!string} side The side that is currently selected.
-   * @return {!Array<string>} An array of strings indexed by line number.
+   * @param side The side that is currently selected.
+   * @return An array of strings indexed by line number.
    */
-  _getDiffLines(side) {
+  _getDiffLines(side: Side): string[] {
     if (this._linesCache[side]) {
-      return this._linesCache[side];
+      return this._linesCache[side]!;
     }
-    let lines = [];
-    const key = side === 'left' ? 'a' : 'b';
+    if (!this.diff) return [];
+    let lines: string[] = [];
     for (const chunk of this.diff.content) {
       if (chunk.ab) {
         lines = lines.concat(chunk.ab);
-      } else if (chunk[key]) {
-        lines = lines.concat(chunk[key]);
+      } else if (side === Side.LEFT && chunk.a) {
+        lines = lines.concat(chunk.a);
+      } else if (side === Side.RIGHT && chunk.b) {
+        lines = lines.concat(chunk.b);
       }
     }
     this._linesCache[side] = lines;
@@ -302,32 +313,36 @@ class GrDiffSelection extends GestureEventListeners(
    * Query the diffElement for comments and check whether they lie inside the
    * selection range.
    *
-   * @param {!Selection} sel The selection of the window.
-   * @param {!string} side The side that is currently selected.
-   * @return {string} The selected comment text.
+   * @param sel The selection of the window.
+   * @param side The side that is currently selected.
+   * @return The selected comment text.
    */
-  _getCommentLines(sel, side) {
+  _getCommentLines(sel: Selection, side: Side) {
     const range = normalize(sel.getRangeAt(0));
     const content = [];
     // Query the diffElement for comments.
     const messages = this.diffBuilder.diffElement.querySelectorAll(
-        `.side-by-side [data-side="${side
-        }"] .message *, .unified .message *`);
+      `.side-by-side [data-side="${side}"] .message *, .unified .message *`
+    );
 
     for (let i = 0; i < messages.length; i++) {
       const el = messages[i];
       // Check if the comment element exists inside the selection.
       if (sel.containsNode(el, true)) {
         // Padded elements require newlines for accurate spacing.
-        if (el.parentElement.id === 'container' ||
-            el.parentElement.nodeName === 'BLOCKQUOTE') {
+        if (
+          el.parentElement!.id === 'container' ||
+          el.parentElement!.nodeName === 'BLOCKQUOTE'
+        ) {
           if (content.length && content[content.length - 1] !== '') {
             content.push('');
           }
         }
 
-        if (el.id === 'output' &&
-            !this._elementDescendedFromClass(el, 'collapsed')) {
+        if (
+          el.id === 'output' &&
+          !this._elementDescendedFromClass(el, 'collapsed')
+        ) {
           content.push(this._getTextContentForRange(el, sel, range));
         }
       }
@@ -341,17 +356,23 @@ class GrDiffSelection extends GestureEventListeners(
    * of the text content within that selection.
    * Using a domNode that isn't in the selection returns an empty string.
    *
-   * @param {!Node} domNode The root DOM node.
-   * @param {!Selection} sel The selection.
-   * @param {!Range} range The normalized selection range.
-   * @return {string} The text within the selection.
+   * @param domNode The root DOM node.
+   * @param sel The selection.
+   * @param range The normalized selection range.
+   * @return The text within the selection.
    */
-  _getTextContentForRange(domNode, sel, range) {
-    if (!sel.containsNode(domNode, true)) { return ''; }
+  _getTextContentForRange(
+    domNode: Node,
+    sel: Selection,
+    range: NormalizedRange
+  ) {
+    if (!sel.containsNode(domNode, true)) {
+      return '';
+    }
 
     let text = '';
     if (domNode instanceof Text) {
-      text = domNode.textContent;
+      text = domNode.textContent || '';
       if (domNode === range.endContainer) {
         text = text.substring(0, range.endOffset);
       }
@@ -367,4 +388,8 @@ class GrDiffSelection extends GestureEventListeners(
   }
 }
 
-customElements.define(GrDiffSelection.is, GrDiffSelection);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-selection': GrDiffSelection;
+  }
+}

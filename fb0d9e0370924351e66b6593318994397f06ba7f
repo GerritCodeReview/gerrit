@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "950782ec_d4aa7c62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-20T08:35:51Z",
+      "side": 1,
+      "message": "Please also write in the commit message what happens to the project slice migration tasks\nat the moment when packing refs is started. Will they all pause and await until the packing\nrefs is finished or will they continue with the migration?\n\nFurther, also write about the gcLock and what is its purpose:\n* to make sure that only one slice migration task performs ref packing (I think this is achieved via the atomic counter)\n* to make sure that other slice migration tasks which run parallel to ref packing do not start yet another ref-packing if the next 1000 changes gets migrated while the currently running ref-packing is still in progress.",
+      "revId": "fb0d9e0370924351e66b6593318994397f06ba7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7eee641d_0752efdb",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-20T08:35:51Z",
+      "side": 1,
+      "message": "Logging global progress is not in the scope of this change which only intends to run gc every\n1000 refs. Actually seeing the same constant (1000) here is a bit confusing as it is unrelated\nto the PACKREFS_INTERVAL which is incidentally also set to 1000.",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 998,
+        "endChar": 11
+      },
+      "revId": "fb0d9e0370924351e66b6593318994397f06ba7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

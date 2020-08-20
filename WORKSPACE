@@ -27,6 +27,9 @@ rbe_autoconfig(name = "rbe_default")
 # https://github.com/bazelbuild/rules_closure/pull/478
 http_archive(
     name = "io_bazel_rules_closure",
+    auth_patterns = {
+        "github.com": "",
+    },
     sha256 = "b9c2bc6ba377aa497eb7c31681d34404febf9d4e3c9c7d98ce0d78238a0af20f",
     strip_prefix = "rules_closure-0.31",
     urls = [

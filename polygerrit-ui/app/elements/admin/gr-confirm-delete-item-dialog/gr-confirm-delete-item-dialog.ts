@@ -14,27 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-confirm-delete-item-dialog_html.js';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-confirm-delete-item-dialog_html';
+import {customElement, property} from '@polymer/decorators';
 
-const DETAIL_TYPES = {
-  BRANCHES: 'branches',
-  ID: 'id',
-  TAGS: 'tags',
-};
+// TODO(TS): add description for this
+export enum DetailType {
+  BRANCHES = 'branches',
+  ID = 'id',
+  TAGS = 'tags',
+}
 
-/**
- * @extends PolymerElement
- */
-class GrConfirmDeleteItemDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-delete-item-dialog': GrConfirmDeleteItemDialog;
+  }
+}
 
-  static get is() { return 'gr-confirm-delete-item-dialog'; }
+@customElement('gr-confirm-delete-item-dialog')
+export class GrConfirmDeleteItemDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the confirm button is pressed.
    *
@@ -47,39 +55,44 @@ class GrConfirmDeleteItemDialog extends GestureEventListeners(
    * @event cancel
    */
 
-  static get properties() {
-    return {
-      item: String,
-      itemType: String,
-    };
-  }
+  @property({type: String})
+  item?: string;
 
-  _handleConfirmTap(e) {
+  @property({type: String})
+  itemType?: DetailType;
+
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('confirm', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _handleCancelTap(e) {
+  _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('cancel', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _computeItemName(detailType) {
-    if (detailType === DETAIL_TYPES.BRANCHES) {
+  _computeItemName(detailType: DetailType) {
+    if (detailType === DetailType.BRANCHES) {
       return 'Branch';
-    } else if (detailType === DETAIL_TYPES.TAGS) {
+    } else if (detailType === DetailType.TAGS) {
       return 'Tag';
-    } else if (detailType === DETAIL_TYPES.ID) {
+    } else if (detailType === DetailType.ID) {
       return 'ID';
     }
+    // TODO(TS): should never happen, this is to pass:
+    // not all code returns value
+    return '';
   }
 }
-
-customElements.define(GrConfirmDeleteItemDialog.is,
-    GrConfirmDeleteItemDialog);

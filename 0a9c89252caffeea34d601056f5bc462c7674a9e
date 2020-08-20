@@ -1,0 +1,326 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "47c43d04_58fb1d3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Convert to enum",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc656068_ec0bf84b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Use BranchName from common.ts",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "efd155e1_f084bec5",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "ChangeStatus from commont.ts",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 23
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "357f2a15_f4aebca9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "RepoName from common.ts",
+      "range": {
+        "startLine": 102,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 18
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dcca98bb_11c79703",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Please, define exact callback type",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc4f2c5c_5cde340a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Please define it as a map to make it clear what is a key",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 36
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc77d21_e47dfd44",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "It is better to use property initializers, where possible (the same for reporting)",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 17
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bbc3b19_eae4f776",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Use arrow function instead of bind",
+      "range": {
+        "startLine": 136,
+        "startChar": 18,
+        "endLine": 136,
+        "endChar": 65
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62a59f6b_9111b2fe",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Use map instead of record\n{[projectName: string]: boolean}",
+      "range": {
+        "startLine": 142,
+        "startChar": 20,
+        "endLine": 142,
+        "endChar": 43
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71678256_5dbe9d1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "It should be CherryPickType (after converting CHERRY_PICK_TYPES to enum)",
+      "range": {
+        "startLine": 223,
+        "startChar": 45,
+        "endLine": 223,
+        "endChar": 51
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa44b30f_40115196",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "It should be CherryPickType (after converting CHERRY_PICK_TYPES to enum)",
+      "range": {
+        "startLine": 227,
+        "startChar": 44,
+        "endLine": 227,
+        "endChar": 50
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f433b178_dbd471f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "If you replace\n if ([changeStatus, commitNum, commitMessage].includes(undefined))\nwith\n if (changeStatus \u003d\u003d\u003d undefined || commitNum \u003d\u003d\u003d undefined || commitMessage \u003d\u003d\u003d undefined))\nthen this condition (commitNum) is not needed.",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 21
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1522962a_ee3e147a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "this can be removed if you define project as RepoName",
+      "range": {
+        "startLine": 351,
+        "startChar": 43,
+        "endLine": 351,
+        "endChar": 54
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94015df5_64f1f665",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:48:37Z",
+      "side": 1,
+      "message": "Use hasOwnProperty from utils.ts",
+      "range": {
+        "startLine": 357,
+        "startChar": 15,
+        "endLine": 357,
+        "endChar": 46
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

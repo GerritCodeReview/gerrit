@@ -225,6 +225,7 @@ export const htmlTemplate = html`
           on-change="_handleReviewedChange"
           hidden$="[[!_loggedIn]]"
           hidden=""
+          aria-label="file reviewed"
         /><!--
        -->
         <div class="jumpToFileContainer">

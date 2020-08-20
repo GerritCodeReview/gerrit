@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "26af12aa_917ba3bb",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-20T08:08:27Z",
+      "side": 1,
+      "message": "Before this change, an exception would exit this method.\nWith this change, the \"NoteDB Migration complete\" message (line 168) will be printed\nalways (and even in the case of an abrupt exit due to an exception). This will\nbe confusing as on stdout we have a message that the NoteDB migration completed but in\nthe error_log we have an error.\n\nA more compliant way to exit a SiteProgram is to trow a Die exception:\n\n  throw new Die(e.getMessage(), e)\n\nThis exception is handled in the base class (AbstractProgram) and will be properly printed\nto the stdout.",
+      "revId": "0f1f4c42af908377cf765c54722274978f014319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

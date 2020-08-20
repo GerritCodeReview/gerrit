@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8798f31d_075d6f2c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-20T14:49:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "950782ec_d4aa7c62",
+      "revId": "fb0d9e0370924351e66b6593318994397f06ba7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7eee641d_0752efdb",
         "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
         "patchSetId": 4
@@ -39,6 +57,30 @@
       "revId": "fb0d9e0370924351e66b6593318994397f06ba7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "926e964c_77961aac",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-20T14:49:03Z",
+      "side": 1,
+      "message": "moved to a follow-up change",
+      "parentUuid": "7eee641d_0752efdb",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 998,
+        "endChar": 11
+      },
+      "revId": "fb0d9e0370924351e66b6593318994397f06ba7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

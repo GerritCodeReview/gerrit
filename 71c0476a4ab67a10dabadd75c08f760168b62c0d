@@ -16,6 +16,24 @@
       "revId": "71c0476a4ab67a10dabadd75c08f760168b62c0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d0e9663_9d862d82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-20T12:45:27Z",
+      "side": 1,
+      "message": "this TODO is quite some work in jgit and will take some time hence I propose we submit this change as is and address the todo when the upstream fix in jgit is available.",
+      "parentUuid": "62cd7257_bb9041a5",
+      "revId": "71c0476a4ab67a10dabadd75c08f760168b62c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

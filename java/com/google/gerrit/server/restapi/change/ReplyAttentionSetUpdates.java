@@ -210,7 +210,7 @@ public class ReplyAttentionSetUpdates {
   private void addAllAuthorsOfCommentThreads(
       BatchUpdate bu, ChangeNotes changeNotes, ImmutableSet<HumanComment> allNewComments) {
     Set<HumanComment> allCommentsInCommentThreads =
-        commentsUtil.getAllCommentsInCommentThreads(changeNotes, allNewComments);
+        commentsUtil.getAllHumanCommentsInCommentThreads(changeNotes, allNewComments);
     // Copy the set to make it mutable, so that we can delete users that were already added.
     Set<Account.Id> possibleUsersToAdd =
         new HashSet<>(approvalsUtil.getReviewers(changeNotes).all());

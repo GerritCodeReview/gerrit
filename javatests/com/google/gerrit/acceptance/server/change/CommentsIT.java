@@ -46,6 +46,7 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
+import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -60,6 +61,7 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
+import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Timestamp;
@@ -90,6 +92,7 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private Provider<PostReview> postReview;
   @Inject private RequestScopeOperations requestScopeOperations;
   @Inject private CommentsUtil commentsUtil;
+  @Inject private TestCommentHelper testCommentHelper;
 
   private final Integer[] lines = {0, 1};
 
@@ -1429,6 +1432,30 @@ public class CommentsIT extends AbstractDaemonTest {
 
     assertMetaBranchCommitsAfterRewriting(commitsBeforeDelete, id, uuid, expectedMsg);
     assertThat(getChangeSortedComments(id.get())).hasSize(3);
+  }
+
+  @Test
+  public void canCreateHumanCommentWithRobotCommentAsParentAndUnsetUnresolved() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    testCommentHelper.addRobotComment(
+        result.getChangeId(),
+        testCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME));
+    RobotCommentInfo robotCommentInfo =
+        Iterables.getOnlyElement(gApi.changes().id(changeId).current().robotCommentsAsList());
+
+    CommentInput comment = newComment(FILE_NAME, "comment 1 reply");
+    comment.inReplyTo = robotCommentInfo.id;
+    comment.unresolved = null;
+    addComments(changeId, ps1, comment);
+
+    CommentInfo resultComment = Iterables.getOnlyElement(getPublishedCommentsAsList(changeId));
+    assertThat(resultComment.inReplyTo).isEqualTo(robotCommentInfo.id);
+
+    // Default unresolved is false.
+    assertThat(resultComment.unresolved).isFalse();
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {

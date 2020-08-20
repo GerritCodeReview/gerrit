@@ -833,6 +833,25 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void reviewIgnoresRobotCommentsForAttentionSet() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    testCommentHelper.addRobotComment(
+        r.getChangeId(),
+        testCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
+
+    requestScopeOperations.setApiUser(admin.id());
+    change(r)
+        .current()
+        .review(
+            reviewInReplyToComment(
+                Iterables.getOnlyElement(
+                        gApi.changes().id(r.getChangeId()).current().robotCommentsAsList())
+                    .id));
+    assertThat(getAttentionSetUpdatesForUser(r, user)).isEmpty();
+  }
+
+  @Test
   public void reviewAddsAllUsersInCommentThread() throws Exception {
     PushOneCommit.Result r = createChange();
     requestScopeOperations.setApiUser(user.id());

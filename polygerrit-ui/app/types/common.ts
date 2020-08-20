@@ -129,6 +129,9 @@ export type Timestamp = BrandType<string, '_timestamp'>;
 export type IdToAttentionSetMap = {[accountId: string]: AttentionSetInfo};
 export type LabelNameToInfoMap = {[labelName: string]: LabelInfo};
 
+// {Verified: ["-1", " 0", "+1"]}
+export type LabelNameToValueMap = {[labelName: string]: string[]};
+
 // The map maps the values (“-2”, “-1”, " `0`", “+1”, “+2”) to the value descriptions.
 export type LabelValueToDescriptionMap = {[labelValue: string]: string};
 
@@ -204,7 +207,7 @@ export interface ChangeInfo {
   actions?: ActionInfo[];
   requirements?: Requirement[];
   labels?: LabelInfo[];
-  permitted_labels?: LabelNameToInfoMap;
+  permitted_labels?: LabelNameToValueMap;
   removable_reviewers?: AccountInfo[];
   reviewers?: AccountInfo[];
   pending_reviewers?: AccountInfo[];

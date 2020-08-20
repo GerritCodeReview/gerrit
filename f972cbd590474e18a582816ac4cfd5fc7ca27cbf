@@ -16,6 +16,24 @@
       "revId": "f972cbd590474e18a582816ac4cfd5fc7ca27cbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a69c43_688a52a5",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 827,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-20T14:21:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "563f7123_7c8641e5",
+      "revId": "f972cbd590474e18a582816ac4cfd5fc7ca27cbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

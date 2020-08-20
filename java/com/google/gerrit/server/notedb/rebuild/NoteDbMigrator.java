@@ -956,6 +956,11 @@ public class NoteDbMigrator implements AutoCloseable {
 
   private boolean rebuildProjectSlice(ReviewDb db, ProjectSlice slice) {
     ProjectContext ctx = slice.ctx;
+    String oldThreadName = Thread.currentThread().getName();
+    Thread.currentThread()
+        .setName(
+            String.format(
+                "Rebuild %s (slice %d/%d)", ctx.project, slice.sliceNumber, ctx.sliceCount));
     boolean ok = true;
     ProgressMonitor pm =
         new TextProgressMonitor(
@@ -1082,6 +1087,7 @@ public class NoteDbMigrator implements AutoCloseable {
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Failed to rebuild project %s", project);
     }
+    Thread.currentThread().setName(oldThreadName);
     return ok;
   }
 

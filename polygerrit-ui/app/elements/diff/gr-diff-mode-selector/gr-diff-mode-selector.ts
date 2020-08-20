@@ -25,6 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
+import { IronA11yAnnouncer } from '@polymer/iron-a11y-announcer';
 
 export interface GrDiffModeSelector {
   $: {
@@ -49,6 +50,11 @@ export class GrDiffModeSelector extends GestureEventListeners(
    */
   @property({type: Boolean})
   saveOnChange = false;
+
+  attached() {
+    super.attached();
+    IronA11yAnnouncer.requestAvailability();
+  }
 
   /**
    * Set the mode. If save on change is enabled also update the preference.

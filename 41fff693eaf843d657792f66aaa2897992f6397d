@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e4570721_4e13a2ae",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:27Z",
+      "side": 1,
+      "message": "Typo: asynchronously",
+      "range": {
+        "startLine": 10,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 42
+      },
+      "revId": "41fff693eaf843d657792f66aaa2897992f6397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85dedf9e_92930996",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:27Z",
+      "side": 1,
+      "message": "This sounds as if the Submission implementation and the SuperprojectUpdater implementation are always connected. Couldn\u0027t we find a solution which ties them closer together?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 14
+      },
+      "revId": "41fff693eaf843d657792f66aaa2897992f6397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "83b91d97_9b7435ca",
+        "filename": "java/com/google/gerrit/server/git/receive/SuperprojectsUpdaterImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:27Z",
+      "side": 1,
+      "message": "Nit: This explicit binding should be unnecessary.",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 28,
+        "endChar": 43
+      },
+      "revId": "41fff693eaf843d657792f66aaa2897992f6397d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

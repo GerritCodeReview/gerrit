@@ -1,0 +1,167 @@
+= Gerrit Code Review - Logs
+
+Gerrit writes log files in the `$site/logs/` folder tracking requests,
+background and plugin activity and errors. By default logs are written
+in text format, optionally in json format. By default log files are compressed
+at server startup and then daily at 11pm and rotated every midnight.
+
+== Logs
+
+The following logs are written.
+
+=== HTTPD Log
+
+The httpd log tracks HTTP requests processed by Gerrit's http daemon
+and is written to `$site/logs/httpd_log`.
+
+Format is an enhanced NCSA combined log [1], if a log field is not present,
+a "-" is substituted:
+
+* `host`: The IP address or host/subdomain name of the HTTP client that
+  made the HTTP resource request.
+* `[thread name]`: name of the Java thread executing the request. 
+* `remote logname`:  the identifier used to identify the client making the
+  HTTP request [2], Gerrit always logs a dash `-`.
+* `username`: the username, or user ID used by the client for authentication.
+* `[date:time]`: The date and time stamp of the HTTP request.
+  The time that the request was received. The format is:
+  ** `[day/month/year:hour:minute:second zone]`
+  ** `day = 2*digit`
+  ** `month = 3*letter`
+  ** `year = 4*digit`
+  ** `hour = 2*digit`
+  ** `minute = 2*digit`
+  ** `second = 2*digit`
+  ** `zone = ('+' | '-') 4*digit`
+* `request`: The request line from the client is given in double quotes.
+  ** the HTTP method used by the client
+  ** the resource the client requested
+  ** the protocol used by the client
+* `statuscode`: the HTTP status code [3] that the server sent back to the client.
+* `response size`: the number of bytes of data transferred as part of the HTTP
+  request, not including the HTTP header.
+* `latency`: response time in milliseconds
+* `referer`: the `Referer` HTTP request header. This gives the site that
+  the client reports having been referred from.
+* `client agent`: the client agent which sent the request.
+
+[1]:: http://httpd.apache.org/docs/2.4/logs.html#combined
+[2]:: https://tools.ietf.org/html/rfc1413
+[3]:: https://tools.ietf.org/html/rfc2616#section-10
+
+=== SSHD Log
+
+The sshd log tracks ssh requests processed by Gerrit's ssh daemon
+and is written to `$site/logs/httpd_log`.
+
+Log format:
+
+* `[date time]`: The time that the request was received.
+  The format is:
+  ** `[year-month-day hour:minute:second,millis zone]`
+  ** `year = 4*digit`
+  ** `month = 2*digit`
+  ** `day = 2*digit`
+  ** `hour = 2*digit`
+  ** `minute = 2*digit`
+  ** `second = 2*digit`
+  ** `millis = 3*digit`
+  ** `zone = ('+' | '-') 4*digit`
+* `sessionid`: hexadecimal session identifier, all requests of the
+  same session share the same sessionid.
+* `[thread name]`: : name of the Java thread executing the request.
+* `username`: the username, or user ID used by the client for authentication.
+* `accountid`: identifier of the Gerrit account which is logged on.
+* `command`: the command being executed via ssh.
+  ** `LOGIN FROM <host>`: login and start new SSH session from the given host.
+  ** `AUTH FAILURE FROM <host> <message>`: failed authentication from given host and cause of failure.
+  ** `LOGOUT`: logout and terminate SSH session.
+  ** `git-upload-pack.<projectname>`: git fetch or clone command for given project.
+  ** `git-receive-pack.<projectname>`: git push command for given project.
+  ** `gerrit.stream-events`: send gerrit stream-events.
+  ** `gerrit.version`: get the gerrit version.
+  ** `gerrit.query.<params>`: gerrit query with parameters.
+  ** `gerrit.review.<change>,<patchset>.params`: gerrit review, send review comments for a change.
+  ** `gerrit.set-reviewers.<params>`: set reviewers for a change.
+  ** `gerrit.logging.set-level.<severity>.<logger>`: set log-level for a logger.
+  ** `scp.-p.-f.hooks/commit-msg`: download Gerrit commit-msg hook via SCP.
+  ** `gerrit.ls-projects`: gerrit list projects command.
+  ** `gerrit.show-connections.<options>`: gerrit show-connections command.
+  ** `gerrit.create-branch.<project>.<branch>: create a branch for a project.
+* `wait`: command wait time, time in milliseconds the command waited for an execution thread.
+* `exec`: command execution time, time in milliseconds to execute the command.
+* `status`: status code.
+
+The `git-upload-pack` command provides the following additional fields,
+all times are in milliseconds, or -1 if not available:
+
+* `time negotiating`: time for negotiating which objects need to be transferred.
+* `time searching for reuse`: time jgit searched for deltas which can be reused. 
+* `time searching for sizes`: time jgit was searching for sizes.
+* `time counting`: time jgit was counting objects.
+* `time compressing`: time jgit was compressing objects.
+* `time writing`: time jgit needed to write packfile.
+* `total time in UploadPack`: total time jgit spent in upload-pack.
+* `bitmap index misses`: number of misses when trying to use bitmap index,
+  -1 means no bitmap index available.
+* `total deltas`: total number of deltas transferred.
+* `total objects`: total number of objects transferred.
+* `total bytes`: total number of bytes transferred.
+* `client agent`: the client agent which sent the request.
+
+=== Error Log
+
+The error log tracks errors and stack traces and is written to
+`$site/logs/error_log`.
+
+Log format:
+
+* `[date time]`: The time that the request was received.
+  The format is:
+  ** `[year-month-day hour:minute:second,millis zone]`
+  ** `year = 4*digit`
+  ** `month = 2*digit`
+  ** `day = 2*digit`
+  ** `hour = 2*digit`
+  ** `minute = 2*digit`
+  ** `second = 2*digit`
+  ** `millis = 3*digit`
+  ** `zone = ('+' | '-') 4*digit`
+* `[thread name]`: : name of the Java thread executing the request.
+* `level`: log level (ERROR, WARN, INFO, DEBUG)
+* `logger`: name of the logger
+* `message`: log message
+* `stacktrace`: Java stacktrace when an execption was caught
+
+=== GC Log
+
+The gc log tracks git garbage collection running in a background thread
+if enabled and is written to `$site/logs/gc_log`.
+
+Log format:
+
+* `[date time]`: The time that the request was received.
+  The format is:
+  ** `[year-month-day hour:minute:second,millis zone]`
+  ** `year = 4*digit`
+  ** `month = 2*digit`
+  ** `day = 2*digit`
+  ** `hour = 2*digit`
+  ** `minute = 2*digit`
+  ** `second = 2*digit`
+  ** `millis = 3*digit`
+  ** `zone = ('+' | '-') 4*digit`
+* `level`: log level (ERROR, WARN, INFO, DEBUG)
+* `message`: log message
+
+=== Plugin Logs
+
+Some plugins write their own log file.
+E.g. the replication plugin writes its log to `$site/logs/replication_log`.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

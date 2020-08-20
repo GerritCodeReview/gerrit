@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cf38bb17_e8209dfa",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-20T15:30:03Z",
+      "side": 1,
+      "message": "The only caller just uses `appendChild`, so the `dom()` can also be removed here, see other comment.",
+      "range": {
+        "startLine": 50,
+        "startChar": 11,
+        "endLine": 50,
+        "endChar": 14
+      },
+      "revId": "e5687d8e178c25d356493dae0bde00b24c189a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e098c7ab_114d0e1b",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-popup-interface/gr-popup-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-20T15:30:03Z",
+      "side": 1,
+      "message": "`appendChild` is one of the forwarded methods of Polymer\u0027s dom wrapper. You can safely replace `dom(popup)` by popup here and below.",
+      "range": {
+        "startLine": 66,
+        "startChar": 57,
+        "endLine": 66,
+        "endChar": 68
+      },
+      "revId": "e5687d8e178c25d356493dae0bde00b24c189a01",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

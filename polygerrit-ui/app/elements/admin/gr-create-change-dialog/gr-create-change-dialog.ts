@@ -14,144 +14,205 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-create-change-dialog_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-create-change-dialog_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property, observe} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {
+  RepoName,
+  BranchName,
+  ChangeId,
+  ConfigInfo,
+  InheritedBooleanInfo,
+} from '../../../types/common';
+import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
+import {hasOwnProperty} from '../../../utils/common-util';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
-/**
- * @extends PolymerElement
- */
-class GrCreateChangeDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrCreateChangeDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+    privateChangeCheckBox: HTMLInputElement;
+  };
+}
+@customElement('gr-create-change-dialog')
+export class GrCreateChangeDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-create-change-dialog'; }
+  @property({type: String})
+  repoName?: RepoName;
 
-  static get properties() {
-    return {
-      repoName: String,
-      branch: String,
-      /** @type {?} */
-      _repoConfig: Object,
-      subject: String,
-      topic: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getRepoBranchesSuggestions.bind(this);
-        },
-      },
-      baseChange: String,
-      baseCommit: String,
-      privateByDefault: String,
-      canCreate: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      _privateChangesEnabled: Boolean,
-    };
+  @property({type: String})
+  branch?: BranchName;
+
+  @property({type: Object})
+  _repoConfig?: ConfigInfo;
+
+  @property({type: String})
+  subject?: string;
+
+  @property({type: String})
+  topic?: string;
+
+  @property({type: Object})
+  _query?: (input: string) => Promise<{name: string}[]>;
+
+  @property({type: String})
+  baseChange?: ChangeId;
+
+  @property({type: String})
+  baseCommit?: string;
+
+  @property({type: Object})
+  privateByDefault?: InheritedBooleanInfo;
+
+  @property({type: Boolean, notify: true})
+  canCreate = false;
+
+  @property({type: Boolean})
+  _privateChangesEnabled?: boolean;
+
+  constructor() {
+    super();
+    this._query = this._getRepoBranchesSuggestions.bind(this);
   }
 
   /** @override */
   attached() {
     super.attached();
-    if (!this.repoName) { return Promise.resolve(); }
+    if (!this.repoName) {
+      return Promise.resolve();
+    }
 
     const promises = [];
 
-    promises.push(this.$.restAPI.getProjectConfig(this.repoName)
-        .then(config => {
-          this.privateByDefault = config.private_by_default;
-        }));
+    promises.push(
+      this.$.restAPI.getProjectConfig(this.repoName).then(config => {
+        if (!config) return;
+        this.privateByDefault = config.private_by_default;
+      })
+    );
 
-    promises.push(this.$.restAPI.getConfig().then(config => {
-      if (!config) { return; }
+    promises.push(
+      this.$.restAPI.getConfig().then(config => {
+        if (!config) {
+          return;
+        }
 
-      this._privateConfig = config && config.change &&
-          config.change.disable_private_changes;
-    }));
+        this._privateChangesEnabled =
+          config && config.change && !config.change.disable_private_changes;
+      })
+    );
 
     return Promise.all(promises);
   }
 
-  static get observers() {
-    return [
-      '_allowCreate(branch, subject)',
-    ];
-  }
-
-  _computeBranchClass(baseChange) {
+  _computeBranchClass(baseChange: boolean) {
     return baseChange ? 'hide' : '';
   }
 
-  _allowCreate(branch, subject) {
+  @observe('branch', 'subject')
+  _allowCreate(branch: BranchName, subject: string) {
     this.canCreate = !!branch && !!subject;
   }
 
   handleCreateChange() {
+    if (!this.repoName || !this.branch || !this.subject) return;
     const isPrivate = this.$.privateChangeCheckBox.checked;
     const isWip = true;
-    return this.$.restAPI.createChange(this.repoName, this.branch,
-        this.subject, this.topic, isPrivate, isWip, this.baseChange,
-        this.baseCommit || null)
-        .then(changeCreated => {
-          if (!changeCreated) { return; }
-          GerritNav.navigateToChange(changeCreated);
-        });
+    return this.$.restAPI
+      .createChange(
+        this.repoName,
+        this.branch,
+        this.subject,
+        this.topic,
+        isPrivate,
+        isWip,
+        this.baseChange,
+        this.baseCommit || undefined
+      )
+      .then(changeCreated => {
+        if (!changeCreated) {
+          return;
+        }
+        GerritNav.navigateToChange(changeCreated);
+      });
   }
 
-  _getRepoBranchesSuggestions(input) {
+  _getRepoBranchesSuggestions(input: string) {
+    if (!this.repoName) {
+      Promise.reject(new Error('missing repo name'));
+    }
     if (input.startsWith(REF_PREFIX)) {
       input = input.substring(REF_PREFIX.length);
     }
-    return this.$.restAPI.getRepoBranches(
-        input, this.repoName, SUGGESTIONS_LIMIT).then(response => {
-      const branches = [];
-      let branch;
-      for (const key in response) {
-        if (!response.hasOwnProperty(key)) { continue; }
-        if (response[key].ref.startsWith('refs/heads/')) {
-          branch = response[key].ref.substring('refs/heads/'.length);
-        } else {
-          branch = response[key].ref;
+    return this.$.restAPI
+      .getRepoBranches(input, this.repoName as RepoName, SUGGESTIONS_LIMIT)
+      .then(response => {
+        if (!response) return [];
+        const branches = [];
+        let branch;
+        for (const key in response) {
+          if (!hasOwnProperty(response, key)) {
+            continue;
+          }
+          if (response[key].ref.startsWith('refs/heads/')) {
+            branch = response[key].ref.substring('refs/heads/'.length);
+          } else {
+            branch = response[key].ref;
+          }
+          branches.push({
+            name: branch,
+          });
         }
-        branches.push({
-          name: branch,
-        });
-      }
-      return branches;
-    });
+        return branches;
+      });
   }
 
-  _formatBooleanString(config) {
-    if (config && config.configured_value === 'TRUE') {
+  _formatBooleanString(config: InheritedBooleanInfo) {
+    if (
+      config &&
+      config.configured_value === InheritedBooleanInfoConfiguredValue.TRUE
+    ) {
       return true;
-    } else if (config && config.configured_value === 'FALSE') {
+    } else if (
+      config &&
+      config.configured_value === InheritedBooleanInfoConfiguredValue.FALSE
+    ) {
       return false;
-    } else if (config && config.configured_value === 'INHERIT') {
+    } else if (
+      config &&
+      config.configured_value === InheritedBooleanInfoConfiguredValue.INHERITED
+    ) {
       return !!(config && config.inherited_value);
     } else {
       return false;
     }
   }
 
-  _computePrivateSectionClass(config) {
+  _computePrivateSectionClass(config: boolean) {
     return config ? 'hide' : '';
   }
 }
 
-customElements.define(GrCreateChangeDialog.is, GrCreateChangeDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-change-dialog': GrCreateChangeDialog;
+  }
+}

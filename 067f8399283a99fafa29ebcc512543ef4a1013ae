@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "41bc062d_d6953b52",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-20T07:20:42Z",
+      "side": 0,
+      "message": "This was unrelated. Let me remove it",
+      "range": {
+        "startLine": 8,
+        "startChar": 43,
+        "endLine": 8,
+        "endChar": 44
+      },
+      "revId": "067f8399283a99fafa29ebcc512543ef4a1013ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -2,6 +2,483 @@
   "comments": [
     {
       "key": {
+        "uuid": "83b40f25_018200bb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Typo: Missing \u0027of\u0027.",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c68013d7_29db6448",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Typo: executions",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "057c6287_36897e0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Typo: Missing \u0027that\u0027.",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c3f80ce_83f5220a",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Nit: Should be {@link BatchRefUpdate} here and below (and also in some other new Javadoc descriptions added in this change).",
+      "range": {
+        "startLine": 72,
+        "startChar": 77,
+        "endLine": 72,
+        "endChar": 91
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f77fada_11c4bd52",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Nit: Should be @code. @param can\u0027t be used to refer to a parameter. The complete part in the curly brackets is simply ignored which prints a strange Javadoc message.",
+      "range": {
+        "startLine": 77,
+        "startChar": 64,
+        "endLine": 77,
+        "endChar": 70
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3158d9f_3cdf866b",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "My impression is that this method is a bit out of place here on GitRepositoryManager. From just the descriptions here, it doesn\u0027t sound as if this method really needs to be on this class. Couldn\u0027t we add the method attachTo(BatchRefUpdate) to SubmissionContext and implement it differently depending on needs?",
+      "range": {
+        "startLine": 81,
+        "startChar": 25,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d126dcff_a1ccce2c",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "It\u0027s not directly clear to me why we don\u0027t attach the SubmissionContext when updating the All-Users repo. Would it hurt to do so?",
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5073bad_769f031e",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "If we continue to use null for the All-Users repository, we should annotate this parameter with @Nullable.",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 37
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f65bf0c_99743a8e",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Should this also happen on a dry-run? I would guess so but checking back.",
+      "range": {
+        "startLine": 374,
+        "startChar": 12,
+        "endLine": 374,
+        "endChar": 63
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70035ac7_fad2e05d",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Please make this a TODO(ifrade).",
+      "range": {
+        "startLine": 295,
+        "startChar": 7,
+        "endLine": 295,
+        "endChar": 11
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4407c91f_4fd3e3c8",
+        "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Please add a Javadoc description.",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d6016d6_fbd30b0d",
+        "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "The name of this class is confusing to me. I guess you used it as this Submission implementation is not doing anything. However, reading the name, I would assume that a use of this class really means that not any submission will happen (e.g. for use in a test or for a dry-run). Can you come up with a different name?",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c60c08b_f65a06e7",
+        "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "We shouldn\u0027t simply return null here. The method description doesn\u0027t say that this is allowed. In addition, there are no @Nullable annotations on the code paths which use this.\n\nOverall, passing around such null values is not a good style, especially if we always have null for the default implementation. Can you find a different solution which avoids this? Why not simply return an instance of the innocuous looking SubmissionContext class?",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "551b5938_37094b66",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Nit: Did you intend this enumeration to be a nicely formatted list of steps? If so, you might want to use\n\n  \u003col\u003e\n    \u003cli\u003e First step\n    \u003cli\u003e Second step\n  \u003c/ol\u003e",
+      "range": {
+        "startLine": 25,
+        "startChar": 65,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d2d2a22_4b062296",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Shouldn\u0027t we have tests which ensure that all of these steps are executed and in the right order?",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 64
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4cfbcdd_638928bd",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Nit: Should be {@link BatchRefUpdate}.",
+      "range": {
+        "startLine": 42,
+        "startChar": 27,
+        "endLine": 42,
+        "endChar": 41
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e338cab_cc09eb63",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Typo: against",
+      "range": {
+        "startLine": 51,
+        "startChar": 36,
+        "endLine": 51,
+        "endChar": 42
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77580590_1392a424",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Is this method meant as a clean-up step? If so, what about extending Submission from AutoCloseable? Thus, we\u0027ll have linter support in e.g. IDEs which remind us that the close() method must be called. In addition, we can use the handy try-with-resources statement.\n\nIf this method is rather meant as a trigger for finishing up some work or doing some post-processing, I\u0027d use a different, more action-oriented name like finish() or postProcess().",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df692cbe_16addf45",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Is the idea that this method does more than just some internal tracking? With more, I mean some actual work like triggering some pre-executions or other preparations. If so, we should clarify in the method description what is allowed and intended as that informs future refactoring of this part of the code. In addition, I would adjust the method name to something like \"prepareFor\".\n\nThe more I think about this interface, the more I feel that we shouldn\u0027t call it \"Builder\" (except if this does end up being like a simple AutoValue.Builder). What about using \"Preparation\" as interface name, \"prepareFor\" for this method, and \"finishPreparation\" or just \"finish\" for the current done() method? If we switch to that, I would likely also rename the method on GitRepositoryBuilder from createSubmissionBuilder() to startNewSubmission() or just newSubmission().",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 81
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be7f15a8_05f32fbd",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "If the interface stays called Builder, shouldn\u0027t this method be called create() to be in line with the regular terminology for builders?",
+      "range": {
+        "startLine": 71,
+        "startChar": 15,
+        "endLine": 71,
+        "endChar": 19
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "231dc1a5_d40eb2cf",
+        "filename": "java/com/google/gerrit/server/update/SubmissionContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Are there plans to use these fields in the default implementation? If not, I think we should rather transform this class into an interface or even remove it in favor of using Submission directly (e.g. for the attachTo() method I suggested in another comment).",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "952b8f1a_625870fc",
         "filename": "java/com/google/gerrit/server/update/SubmissionContext.java",
         "patchSetId": 6
@@ -18,6 +495,52 @@
         "startChar": 13,
         "endLine": 31,
         "endChar": 28
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a64078d_d18ce73a",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Nit: Should be Submission.Builder. (Just Builder is not clear enough.)",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13faed19_8957352e",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:13:03Z",
+      "side": 1,
+      "message": "Where do we close the repository? Why do we need to open a new one even though we already have one for the BatchUpdate?",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 72,
+        "endChar": 79
       },
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

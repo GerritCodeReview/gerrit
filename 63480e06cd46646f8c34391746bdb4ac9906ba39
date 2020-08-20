@@ -70,6 +70,30 @@
       "revId": "63480e06cd46646f8c34391746bdb4ac9906ba39",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ff89a576_107f3334",
+        "filename": "polygerrit-ui/app/elements/admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-20T16:15:23Z",
+      "side": 1,
+      "message": "I asked it here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/278532/1..2/polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts#b174\nIn this change it was safe to replace throw Error with assertNever, because the the old code already thrown an exception.",
+      "parentUuid": "3a232dd5_69a3b90b",
+      "range": {
+        "startLine": 88,
+        "startChar": 7,
+        "endLine": 91,
+        "endChar": 10
+      },
+      "revId": "63480e06cd46646f8c34391746bdb4ac9906ba39",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

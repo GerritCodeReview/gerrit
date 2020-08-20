@@ -93,6 +93,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.function.Consumer;
 import java.util.function.Predicate;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -442,6 +443,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private final boolean forceRebuild;
   private final int sequenceGap;
   private final boolean autoMigrate;
+
+  private final AtomicLong globalChangeCounter = new AtomicLong();
 
   private NoteDbMigrator(
       SitePaths sitePaths,
@@ -971,6 +974,10 @@ public class NoteDbMigrator implements AutoCloseable {
           } catch (Throwable t) {
             logger.atSevere().withCause(t).log("Failed to rebuild change %s", changeId);
             ok = false;
+          }
+          long cnt = globalChangeCounter.incrementAndGet();
+          if (cnt % 1000 == 0) {
+            logger.atInfo().log("Total number of rebuilt changes %d", cnt);
           }
           pm.update(1);
         }

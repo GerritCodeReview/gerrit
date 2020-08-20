@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "443c38dd_135311fa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T09:50:15Z",
+      "side": 1,
+      "message": "Yes, when creating a new comment (as draft or directly as published), we should verify that the referenced parent human/robot comment exists. I\u0027m fine with adding that check in a follow-up change.",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 25,
+        "endChar": 47
+      },
+      "revId": "aab98ad5509f875a0072c559c46b5431ab843142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "24c83daf_d3027638",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T09:50:15Z",
+      "side": 1,
+      "message": "FYI: I started the review on the first patchset and mostly left comments there.",
+      "revId": "aab98ad5509f875a0072c559c46b5431ab843142",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

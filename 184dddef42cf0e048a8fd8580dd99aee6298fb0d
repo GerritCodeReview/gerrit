@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbdb2e68_11ad8a21",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T09:50:15Z",
+      "side": 1,
+      "message": "That\u0027s not always accurate. The provided UUID could also just be an invalid UUID. Even then, the conclusion to use the default for the unresolved flag seems right to me. Can you please adjust the comment?",
+      "range": {
+        "startLine": 144,
+        "startChar": 11,
+        "endLine": 144,
+        "endChar": 77
+      },
+      "revId": "184dddef42cf0e048a8fd8580dd99aee6298fb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d3e936c_9961f299",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T09:50:15Z",
+      "side": 1,
+      "message": "This should rather be a combination of Optional#map and Optional#orElse.",
+      "range": {
+        "startLine": 146,
+        "startChar": 21,
+        "endLine": 146,
+        "endChar": 74
+      },
+      "revId": "184dddef42cf0e048a8fd8580dd99aee6298fb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8daf6db3_eb4027db",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 836,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T09:50:15Z",
+      "side": 1,
+      "message": "Do we have a test which ensures that the attention set updates work correctly if another user adds a second reply further down in the thread which was started by a robot comment?",
+      "range": {
+        "startLine": 836,
+        "startChar": 14,
+        "endLine": 836,
+        "endChar": 55
+      },
+      "revId": "184dddef42cf0e048a8fd8580dd99aee6298fb0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

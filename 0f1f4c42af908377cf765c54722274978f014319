@@ -16,6 +16,24 @@
       "revId": "0f1f4c42af908377cf765c54722274978f014319",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5a9c3e98_2300b24d",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-20T14:21:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26af12aa_917ba3bb",
+      "revId": "0f1f4c42af908377cf765c54722274978f014319",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

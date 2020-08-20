@@ -34,6 +34,24 @@
       "revId": "71c0476a4ab67a10dabadd75c08f760168b62c0d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f14a9d71_ea8814ab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-20T15:41:37Z",
+      "side": 1,
+      "message": "Also creating a bitmap index during the migration is not important for the notedb migration. The bitmap index can be recreated by the next scheduled gc running after the migration.",
+      "parentUuid": "3d0e9663_9d862d82",
+      "revId": "71c0476a4ab67a10dabadd75c08f760168b62c0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

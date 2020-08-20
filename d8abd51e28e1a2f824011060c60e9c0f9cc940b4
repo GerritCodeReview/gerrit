@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e4863f5_a7888f39",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:10:30Z",
+      "side": 1,
+      "message": "Typo: Moving",
+      "range": {
+        "startLine": 16,
+        "startChar": 12,
+        "endLine": 16,
+        "endChar": 16
+      },
+      "revId": "d8abd51e28e1a2f824011060c60e9c0f9cc940b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "033b3c35_7821fceb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:10:30Z",
+      "side": 1,
+      "message": "Typo: callers",
+      "range": {
+        "startLine": 16,
+        "startChar": 4,
+        "endLine": 16,
+        "endChar": 10
+      },
+      "revId": "d8abd51e28e1a2f824011060c60e9c0f9cc940b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e916b95e_915181f7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:10:30Z",
+      "side": 1,
+      "message": "Just checking back: The follow-up change I401b911d6 adds some more lines of code to that method. Is the idea to move those additional lines also to the callers?",
+      "revId": "d8abd51e28e1a2f824011060c60e9c0f9cc940b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ab75d0d_e7b699cd",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-20T17:10:30Z",
+      "side": 1,
+      "message": "Note for posterity/myself: This class should have a private constructor as it\u0027s just a utility class at the moment. The follow-up change I401b911d6 introduces a public constructor, though, and hence it\u0027s fine if this class misses the private constructor in this change.",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 31
+      },
+      "revId": "d8abd51e28e1a2f824011060c60e9c0f9cc940b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

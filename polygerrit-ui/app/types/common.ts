@@ -206,7 +206,7 @@ export interface ChangeInfo {
   owner: AccountInfo;
   actions?: ActionInfo[];
   requirements?: Requirement[];
-  labels?: LabelInfo[];
+  labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValueMap;
   removable_reviewers?: AccountInfo[];
   reviewers?: AccountInfo[];
@@ -460,7 +460,7 @@ export interface AttentionSetInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#approval-info
  */
 export interface ApprovalInfo extends AccountInfo {
-  value?: string;
+  value?: number;
   permitted_voting_range?: VotingRangeInfo;
   date?: Timestamp;
   tag?: ReviewInputTag;

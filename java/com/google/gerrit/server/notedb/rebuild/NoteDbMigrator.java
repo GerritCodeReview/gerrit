@@ -957,6 +957,11 @@ public class NoteDbMigrator implements AutoCloseable {
         new TextProgressMonitor(
             new PrintWriter(new BufferedWriter(new OutputStreamWriter(progressOut, UTF_8))));
     Project.NameKey project = ctx.project;
+    String oldThreadName = Thread.currentThread().getName();
+    Thread.currentThread()
+        .setName(
+            String.format(
+                "Rebuild %s (slice %d/%d)", ctx.project, slice.sliceNumber, ctx.sliceCount));
     try (Repository changeRepo = repoManager.openRepository(project);
         // Only use a PackInserter for the change repo, not All-Users.
         //
@@ -1074,6 +1079,8 @@ public class NoteDbMigrator implements AutoCloseable {
       logger.atWarning().log("Repository %s not found", project);
     } catch (IOException e) {
       logger.atSevere().withCause(e).log("Failed to rebuild project %s", project);
+    } finally {
+      Thread.currentThread().setName(oldThreadName);
     }
     return ok;
   }

@@ -29,6 +29,9 @@ http_archive(
     name = "io_bazel_rules_closure",
     sha256 = "b9c2bc6ba377aa497eb7c31681d34404febf9d4e3c9c7d98ce0d78238a0af20f",
     strip_prefix = "rules_closure-0.31",
+    auth_patterns = {
+        "github.com": ""
+    },
     urls = [
         "https://github.com/davido/rules_closure/archive/V0.31.tar.gz",
         "https://gerrit-ci.gerritforge.com/lib/V0.31.tar.gz",

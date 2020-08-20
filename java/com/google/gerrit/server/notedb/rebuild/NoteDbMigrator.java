@@ -447,6 +447,8 @@ public class NoteDbMigrator implements AutoCloseable {
   private final int sequenceGap;
   private final boolean autoMigrate;
 
+  private final AtomicLong globalChangeCounter = new AtomicLong();
+
   private NoteDbMigrator(
       SitePaths sitePaths,
       SchemaFactory<ReviewDb> schemaFactory,
@@ -987,8 +989,12 @@ public class NoteDbMigrator implements AutoCloseable {
             ok = false;
           }
           logger.atInfo().log("Rebuilt change %s", changeId.get());
+          long c = globalChangeCounter.incrementAndGet();
           if (gcCounter.incrementAndGet() % PACKREFS_INTERVAL == 0) {
             packRefs(project, changeRepo, gcLock);
+          }
+          if (c % 1000 == 0) {
+            logger.atInfo().log("Total number of rebuilt changes %d", c);
           }
           pm.update(1);
         }

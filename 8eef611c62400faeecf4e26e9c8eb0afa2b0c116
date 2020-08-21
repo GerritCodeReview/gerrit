@@ -117,6 +117,30 @@
       "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24c40dd2_0032f494",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-21T14:36:32Z",
+      "side": 1,
+      "message": "We actually don\u0027t linkify patchset level comments in the UI at all, since there is no place for us to link them to.\nThe link does not require them since we can determine the path.patchset when resolving the url in the frontend router but we still need some path to exist.",
+      "parentUuid": "2cdf5693_20347038",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 0
+      },
+      "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

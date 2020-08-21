@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3ff3ff22_50cbc9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-21T14:04:26Z",
+      "side": 1,
+      "message": "nit: we usually write I52cde7ce (10ish letters of the SHA-1).",
+      "range": {
+        "startLine": 9,
+        "startChar": 62,
+        "endLine": 9,
+        "endChar": 68
+      },
+      "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12bdc24c_1cf8c435",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-21T14:04:26Z",
+      "side": 1,
+      "message": "I wrote this as a workaround, since there was nothing I could do with patch-set level comments. Now, will you have a link to the comment itself? If so, we can probably remove this completely, since patchset level comments and normal comments will both have the same URL (can you make sure in playground?)",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 0
+      },
+      "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

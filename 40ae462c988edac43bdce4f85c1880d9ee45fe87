@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c5f7c8e9_76264867",
+        "filename": ".bazelproject",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-21T14:04:26Z",
+      "side": 0,
+      "message": "Please revert this.",
+      "range": {
+        "startLine": 26,
+        "startChar": 0,
+        "endLine": 34,
+        "endChar": 0
+      },
+      "revId": "40ae462c988edac43bdce4f85c1880d9ee45fe87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd630d9c_9c626582",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-21T14:04:26Z",
+      "side": 0,
+      "message": "I\u0027m not sure just deleting this is good.\nEach group of comments has the same file, and in the email we will still have a link to the file (or, I think we should still have it).\nIMO, Just keep those lines.",
+      "range": {
+        "startLine": 393,
+        "startChar": 0,
+        "endLine": 393,
+        "endChar": 51
+      },
+      "revId": "40ae462c988edac43bdce4f85c1880d9ee45fe87",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

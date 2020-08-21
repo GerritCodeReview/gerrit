@@ -73,19 +73,11 @@ public class CommentSender extends ReplyToChangeSender {
     public PatchFile fileData;
     public List<Comment> comments = new ArrayList<>();
 
-    /** @return a web link to the given patch set and file. */
-    public String getFileLink() {
-      return args.urlFormatter
-          .get()
-          .getPatchFileView(change, patchSetId, KeyUtil.encode(filename))
-          .orElse(null);
-    }
-
     /** @return a web link to a comment within a given patch set and file. */
-    public String getCommentLink(short side, int startLine) {
+    public String getCommentLink(String uuid) {
       return args.urlFormatter
           .get()
-          .getInlineCommentView(change, patchSetId, KeyUtil.encode(filename), side, startLine)
+          .getInlineCommentView(change, uuid)
           .orElse(null);
     }
 
@@ -389,9 +381,6 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
-      if (!group.filename.equals(Patch.PATCHSET_LEVEL)) {
-        groupData.put("link", group.getFileLink());
-      }
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);
 
@@ -426,10 +415,8 @@ public class CommentSender extends ReplyToChangeSender {
           } else {
             commentData.put("link", group.getCommentsTabLink());
           }
-        } else if (comment.lineNbr == 0) {
-          commentData.put("link", group.getFileLink());
         } else {
-          commentData.put("link", group.getCommentLink(comment.side, startLine));
+          commentData.put("link", group.getCommentLink(comment.key.uuid));
         }
 
         // Set robot comment data.

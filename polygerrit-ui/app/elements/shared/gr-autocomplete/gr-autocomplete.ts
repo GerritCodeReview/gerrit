@@ -51,12 +51,15 @@ declare global {
   }
 }
 
-interface Suggestion {
+export interface AutocompleteSuggestion {
   name: string;
   label?: string;
   value?: string;
   text?: string;
 }
+
+export type AutocompleteQueryCallback = (text: string) => Promise<AutocompleteSuggestion[]>;
+
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -94,7 +97,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
    *
    */
   @property({type: Object})
-  query: (_text?: string) => Promise<Suggestion[]> = () => Promise.resolve([]);
+  query: AutocompleteQueryCallback = () => Promise.resolve([]);
 
   /**
    * The number of characters that must be typed before suggestions are
@@ -165,7 +168,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   noDebounce = false;
 
   @property({type: Array})
-  _suggestions: Suggestion[] = [];
+  _suggestions: AutocompleteSuggestion[] = [];
 
   @property({type: Array})
   _suggestionEls = [];
@@ -324,7 +327,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   @observe('_suggestions', '_focused')
-  _maybeOpenDropdown(suggestions: Suggestion[], focused: boolean) {
+  _maybeOpenDropdown(suggestions: AutocompleteSuggestion[], focused: boolean) {
     if (suggestions.length > 0 && focused) {
       return this.$.suggestions.open();
     }
@@ -413,7 +416,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     this._commit(_tabComplete);
   }
 
-  _updateValue(suggestion: HTMLElement | null, suggestions: Suggestion[]) {
+  _updateValue(suggestion: HTMLElement | null, suggestions: AutocompleteSuggestion[]) {
     if (!suggestion) {
       return;
     }

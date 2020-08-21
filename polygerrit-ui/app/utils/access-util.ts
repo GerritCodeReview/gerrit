@@ -14,6 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {LabelName} from '../types/common';
 
 export const AccessPermissions = {
   abandon: {
@@ -122,18 +123,26 @@ export const AccessPermissions = {
   },
 };
 
-interface AccessPermission {
+export interface AccessPermission {
   id: string;
   name: string;
+  label?: LabelName;
 }
+
+export interface PermissionArrayItem<T> {
+  id: string;
+  value: T;
+}
+
+export type PermissionArray<T> = Array<PermissionArrayItem<T>>;
 
 /**
  * @return a sorted array sorted by the id of the original
  *    object.
  */
-export function toSortedPermissionsArray(
-  obj: Record<string, AccessPermission>
-) {
+export function toSortedPermissionsArray<T>(obj: {
+  [permissionId: string]: T;
+}): PermissionArray<T> {
   if (!obj) {
     return [];
   }

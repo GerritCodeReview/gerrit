@@ -14,28 +14,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-confirm-move-dialog_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '../../../styles/shared-styles';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-confirm-move-dialog_html';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {customElement, property} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RepoName} from '../../../types/common';
+import {AutoCompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const SUGGESTIONS_LIMIT = 15;
 
-/**
- * @extends PolymerElement
- */
-class GrConfirmMoveDialog extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(
-            PolymerElement))) {
-  static get template() { return htmlTemplate; }
+export interface GrConfirmMoveDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
+@customElement('gr-confirm-move-dialog')
+export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-confirm-move-dialog'; }
   /**
    * Fired when the confirm button is pressed.
    *
@@ -48,19 +55,17 @@ class GrConfirmMoveDialog extends KeyboardShortcutMixin(
    * @event cancel
    */
 
-  static get properties() {
-    return {
-      branch: String,
-      message: String,
-      project: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getProjectBranchesSuggestions.bind(this);
-        },
-      },
-    };
-  }
+  @property({type: String})
+  branch?: string;
+
+  @property({type: String})
+  message?: string;
+
+  @property({type: String})
+  project?: RepoName;
+
+  @property({type: Object})
+  _query?: (_text?: string) => Promise<AutoCompleteSuggestion[]>;
 
   get keyBindings() {
     return {
@@ -68,44 +73,66 @@ class GrConfirmMoveDialog extends KeyboardShortcutMixin(
     };
   }
 
-  _handleConfirmTap(e) {
-    e.preventDefault();
-    e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('confirm', {
-      composed: true, bubbles: false,
-    }));
+  constructor() {
+    super();
+    this._query = this._getProjectBranchesSuggestions.bind(this);
   }
 
-  _handleCancelTap(e) {
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('cancel', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('confirm', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _getProjectBranchesSuggestions(input) {
+  _handleCancelTap(e: Event) {
+    e.preventDefault();
+    e.stopPropagation();
+    this.dispatchEvent(
+      new CustomEvent('cancel', {
+        composed: true,
+        bubbles: false,
+      })
+    );
+  }
+
+  _getProjectBranchesSuggestions(
+    input?: string
+  ): Promise<AutoCompleteSuggestion[]> {
+    if (!this.project) return Promise.reject(new Error('Missing project'));
+    if (!input) return Promise.reject(new Error('Missing input'));
     if (input.startsWith('refs/heads/')) {
       input = input.substring('refs/heads/'.length);
     }
-    return this.$.restAPI.getRepoBranches(
-        input, this.project, SUGGESTIONS_LIMIT).then(response => {
-      const branches = [];
-      let branch;
-      for (const key in response) {
-        if (!response.hasOwnProperty(key)) { continue; }
-        if (response[key].ref.startsWith('refs/heads/')) {
-          branch = response[key].ref.substring('refs/heads/'.length);
-        } else {
-          branch = response[key].ref;
+    return this.$.restAPI
+      .getRepoBranches(input, this.project as RepoName, SUGGESTIONS_LIMIT)
+      .then(response => {
+        const branches: AutoCompleteSuggestion[] = [];
+        let branch;
+        if (response) {
+          response.forEach(value => {
+            if (value.ref.startsWith('refs/heads/')) {
+              branch = value.ref.substring('refs/heads/'.length);
+            } else {
+              branch = value.ref;
+            }
+            branches.push({
+              name: branch,
+            });
+          });
         }
-        branches.push({
-          name: branch,
-        });
-      }
-      return branches;
-    });
+
+        return branches;
+      });
   }
 }
 
-customElements.define(GrConfirmMoveDialog.is, GrConfirmMoveDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-move-dialog': GrConfirmMoveDialog;
+  }
+}

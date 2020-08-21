@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "11884124_6d693cb7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-21T06:54:35Z",
+      "side": 1,
+      "message": "You don\u0027t actually need this exception. In the cases where you throw it, please just throw an IllegalStateException.",
+      "revId": "947acb88e936dac2e398750b530150bca39cb50a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b695bd1_f8f48e29",
         "filename": "java/com/google/gerrit/extensions/validators/CommentValidatorException.java",
         "patchSetId": 1

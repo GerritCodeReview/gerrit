@@ -19,7 +19,6 @@ import '../../shared/gr-comment-thread/gr-comment-thread.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import '../gr-diff/gr-diff.js';
 import '../gr-syntax-layer/gr-syntax-layer.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -524,7 +523,7 @@ class GrDiffHost extends GestureEventListeners(
    */
   getThreadEls() {
     return Array.from(
-        dom(this.$.diff).querySelectorAll('.comment-thread'));
+        this.$.diff.querySelectorAll('.comment-thread'));
   }
 
   /** @param {HTMLElement} el */
@@ -793,13 +792,13 @@ class GrDiffHost extends GestureEventListeners(
   }
 
   _attachThreadElement(threadEl) {
-    dom(this.$.diff).appendChild(threadEl);
+    this.$.diff.appendChild(threadEl);
   }
 
   _clearThreads() {
     for (const threadEl of this.getThreadEls()) {
-      const parent = dom(threadEl).parentNode;
-      dom(parent).removeChild(threadEl);
+      const parent = threadEl.parentNode;
+      parent.removeChild(threadEl);
     }
   }
 
@@ -833,8 +832,8 @@ class GrDiffHost extends GestureEventListeners(
     const threadDiscardListener = e => {
       const threadEl = /** @type {!Node} */ (e.currentTarget);
 
-      const parent = dom(threadEl).parentNode;
-      dom(parent).removeChild(threadEl);
+      const parent = threadEl.parentNode;
+      parent.removeChild(threadEl);
 
       threadEl.removeEventListener('root-id-changed', rootIdChangedListener);
       threadEl.removeEventListener('thread-discard', threadDiscardListener);

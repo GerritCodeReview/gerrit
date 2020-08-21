@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import './gr-settings-view.js';
-import {flush, dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-settings-view');
 const blankFixture = fixtureFromElement('div');
@@ -249,14 +249,14 @@ suite('gr-settings-view tests', () => {
     assertMenusEqual(element._localMenu, preferences.my);
 
     const menu = element.$.menu.firstElementChild;
-    let tableRows = dom(menu.root).querySelectorAll('tbody tr');
+    let tableRows = menu.root.querySelectorAll('tbody tr');
     assert.equal(tableRows.length, preferences.my.length);
 
     // Add a menu item:
     element.splice('_localMenu', 1, 0, {name: 'foo', url: 'bar', target: ''});
     flush();
 
-    tableRows = dom(menu.root).querySelectorAll('tbody tr');
+    tableRows = menu.root.querySelectorAll('tbody tr');
     assert.equal(tableRows.length, preferences.my.length + 1);
 
     assert.isTrue(element._menuChanged);

@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 
@@ -77,7 +76,7 @@ suite('gr-plugin-list tests', () => {
 
     test('with and without urls', done => {
       flush(() => {
-        const names = dom(element.root).querySelectorAll('.name');
+        const names = element.root.querySelectorAll('.name');
         assert.isOk(names[1].querySelector('a'));
         assert.equal(names[1].querySelector('a').innerText, 'test1');
         assert.isNotOk(names[2].querySelector('a'));

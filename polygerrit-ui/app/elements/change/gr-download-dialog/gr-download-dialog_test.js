@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-download-dialog.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-download-dialog');
 
@@ -120,7 +119,7 @@ suite('gr-download-dialog', () => {
 
   test('anchors use download attribute', () => {
     const anchors = Array.from(
-        dom(element.root).querySelectorAll('a'));
+        element.root.querySelectorAll('a'));
     assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
   });
 

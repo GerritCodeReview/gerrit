@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment-thread.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 
@@ -438,7 +437,7 @@ suite('comment action tests with unresolved thread', () => {
     const saveOrDiscardStub = sinon.stub();
     element.addEventListener('thread-changed', saveOrDiscardStub);
     const draftEl =
-        dom(element.root).querySelectorAll('gr-comment')[1];
+        element.root.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl.addEventListener('comment-discard', () => {
       const drafts = element.comments.filter(c => c.__draft == true);
@@ -471,7 +470,7 @@ suite('comment action tests with unresolved thread', () => {
         const saveOrDiscardStub = sinon.stub();
         element.addEventListener('thread-changed', saveOrDiscardStub);
         const draftEl =
-        dom(element.root).querySelectorAll('gr-comment')[0];
+        element.root.querySelectorAll('gr-comment')[0];
         assert.ok(draftEl);
         draftEl.addEventListener('comment-discard', () => {
           assert.equal(element.comments.length, 0);
@@ -554,7 +553,7 @@ suite('comment action tests with unresolved thread', () => {
     flushAsynchronousOperations();
 
     const draftEl =
-    dom(element.root).querySelectorAll('gr-comment')[1];
+    element.root.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl.addEventListener('comment-discard', () => {
       assert.isFalse(storageStub.called);

@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-diff-view.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils';
@@ -771,7 +770,7 @@ suite('gr-diff-view tests', () => {
       const overlayOpenStub = sinon.stub(element.$.diffPreferencesDialog,
           'open');
       const prefsButton =
-          dom(element.root).querySelector('.prefsButton');
+          element.root.querySelector('.prefsButton');
 
       MockInteractions.tap(prefsButton);
 
@@ -895,7 +894,7 @@ suite('gr-diff-view tests', () => {
             ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
         flushAsynchronousOperations();
-        const linkEls = dom(element.root).querySelectorAll('.navLink');
+        const linkEls = element.root.querySelectorAll('.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
@@ -938,7 +937,7 @@ suite('gr-diff-view tests', () => {
             ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
         flushAsynchronousOperations();
-        const linkEls = dom(element.root).querySelectorAll('.navLink');
+        const linkEls = element.root.querySelectorAll('.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
@@ -1030,7 +1029,7 @@ suite('gr-diff-view tests', () => {
       element._prefs = {};
       flushAsynchronousOperations();
 
-      const commitMsg = dom(element.root).querySelector(
+      const commitMsg = element.root.querySelector(
           'input[type="checkbox"]');
 
       assert.isTrue(commitMsg.checked);

@@ -74,7 +74,7 @@ suite('gr-admin-view tests', () => {
     };
 
     flushAsynchronousOperations();
-    assert.equal(dom(element.root).querySelectorAll(
+    assert.equal(element.root.querySelectorAll(
         '.selected').length, 1);
     assert.ok(element.shadowRoot
         .querySelector('gr-repo-list'));

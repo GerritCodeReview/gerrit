@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff.js';
-import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {_setHiddenScroll} from '../../../scripts/hiddenscroll.js';
@@ -951,7 +951,7 @@ suite('gr-diff tests', () => {
       threadEl.className = 'comment-thread';
       threadEl.setAttribute('comment-side', 'right');
       threadEl.setAttribute('line-num', 3);
-      dom(element).appendChild(threadEl);
+      element.appendChild(threadEl);
       flush();
 
       element._renderDiffTable();
@@ -966,7 +966,7 @@ suite('gr-diff tests', () => {
       const threadEl = document.createElement('div');
       threadEl.className = 'comment-thread';
       threadEl.setAttribute('comment-side', 'left');
-      dom(element).appendChild(threadEl);
+      element.appendChild(threadEl);
       flush();
 
       element._renderDiffTable();

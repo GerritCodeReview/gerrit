@@ -20,7 +20,6 @@ import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromTemplate(html`
@@ -85,7 +84,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('moveToLastChunk', () => {
-    const chunks = Array.from(dom(diffElement.root).querySelectorAll(
+    const chunks = Array.from(diffElement.root.querySelectorAll(
         '.section.delta'));
     assert.isAbove(chunks.length, 1);
     assert.equal(chunks.indexOf(cursorElement.diffRow.parentElement), 0);
@@ -201,7 +200,7 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('chunk skip functionality', () => {
-    const chunks = dom(diffElement.root).querySelectorAll(
+    const chunks = diffElement.root.querySelectorAll(
         '.section.delta');
     const indexOfChunk = function(chunk) {
       return Array.prototype.indexOf.call(chunks, chunk);
@@ -387,7 +386,7 @@ suite('gr-diff-cursor tests', () => {
 
   test('_findRowByNumberAndFile', () => {
     // Get the first ab row after the first chunk.
-    const row = dom(diffElement.root).querySelectorAll('tr')[8];
+    const row = diffElement.root.querySelectorAll('tr')[8];
 
     // It should be line 8 on the right, but line 5 on the left.
     assert.equal(cursorElement._findRowByNumberAndFile(8, 'right'), row);

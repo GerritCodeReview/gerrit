@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-agreements-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-agreements-list');
 
@@ -42,7 +41,7 @@ suite('gr-agreements-list tests', () => {
   });
 
   test('renders', () => {
-    const rows = dom(element.root).querySelectorAll('tbody tr');
+    const rows = element.root.querySelectorAll('tbody tr');
 
     assert.equal(rows.length, 1);
 

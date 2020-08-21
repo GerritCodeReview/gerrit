@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
@@ -79,7 +78,7 @@ suite('gr-plugin-action-context tests', () => {
       button = instance.button('foo', {onclick: clickStub});
       // If you don't attach a Polymer element to the DOM, then the ready()
       // callback will not be called and then e.g. this.$ is undefined.
-      dom(document.body).appendChild(button);
+      document.body.appendChild(button);
     });
 
     test('click', done => {

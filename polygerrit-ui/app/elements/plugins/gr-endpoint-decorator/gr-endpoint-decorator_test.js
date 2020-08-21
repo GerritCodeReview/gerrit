@@ -19,7 +19,6 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-endpoint-decorator.js';
 import '../gr-endpoint-param/gr-endpoint-param.js';
 import '../gr-endpoint-slot/gr-endpoint-slot.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
@@ -92,7 +91,7 @@ suite('gr-endpoint-decorator', () => {
   test('decoration', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="first"]');
-    const modules = Array.from(dom(element.root).children).filter(
+    const modules = Array.from(element.root.children).filter(
         element => element.nodeName === 'SOME-MODULE');
     assert.equal(modules.length, 1);
     const [module] = modules;
@@ -111,7 +110,7 @@ suite('gr-endpoint-decorator', () => {
   test('decoration with slot', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="first"]');
-    const modules = [...dom(element).querySelectorAll('some-module-2')];
+    const modules = [...element.querySelectorAll('some-module-2')];
     assert.equal(modules.length, 1);
     const [module] = modules;
     assert.isOk(module);
@@ -129,7 +128,7 @@ suite('gr-endpoint-decorator', () => {
   test('replacement', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="second"]');
-    const module = Array.from(dom(element.root).children).find(
+    const module = Array.from(element.root.children).find(
         element => element.nodeName === 'OTHER-MODULE');
     assert.isOk(module);
     assert.equal(module['someparam'], 'foofoo');
@@ -148,7 +147,7 @@ suite('gr-endpoint-decorator', () => {
     flush(() => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="banana"]');
-      const module = Array.from(dom(element.root).children).find(
+      const module = Array.from(element.root.children).find(
           element => element.nodeName === 'NOOB-NOOB');
       assert.isOk(module);
       done();
@@ -161,10 +160,10 @@ suite('gr-endpoint-decorator', () => {
     flush(() => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="banana"]');
-      const module1 = Array.from(dom(element.root).children).find(
+      const module1 = Array.from(element.root.children).find(
           element => element.nodeName === 'MOD-ONE');
       assert.isOk(module1);
-      const module2 = Array.from(dom(element.root).children).find(
+      const module2 = Array.from(element.root.children).find(
           element => element.nodeName === 'MOD-TWO');
       assert.isOk(module2);
       done();
@@ -174,18 +173,18 @@ suite('gr-endpoint-decorator', () => {
   test('late param setup', done => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="banana"]');
-    const param = dom(element).querySelector('gr-endpoint-param');
+    const param = element.querySelector('gr-endpoint-param');
     param['value'] = undefined;
     plugin.registerCustomComponent('banana', 'noob-noob');
     flush(() => {
-      let module = Array.from(dom(element.root).children).find(
+      let module = Array.from(element.root.children).find(
           element => element.nodeName === 'NOOB-NOOB');
       // Module waits for param to be defined.
       assert.isNotOk(module);
       const value = {abc: 'def'};
       param.value = value;
       flush(() => {
-        module = Array.from(dom(element.root).children).find(
+        module = Array.from(element.root.children).find(
             element => element.nodeName === 'NOOB-NOOB');
         assert.isOk(module);
         assert.strictEqual(module['someParam'], value);
@@ -197,13 +196,13 @@ suite('gr-endpoint-decorator', () => {
   test('param is bound', done => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="banana"]');
-    const param = dom(element).querySelector('gr-endpoint-param');
+    const param = element.querySelector('gr-endpoint-param');
     const value1 = {abc: 'def'};
     const value2 = {def: 'abc'};
     param.value = value1;
     plugin.registerCustomComponent('banana', 'noob-noob');
     flush(() => {
-      const module = Array.from(dom(element.root).children).find(
+      const module = Array.from(element.root.children).find(
           element => element.nodeName === 'NOOB-NOOB');
       assert.strictEqual(module['someParam'], value1);
       param.value = value2;

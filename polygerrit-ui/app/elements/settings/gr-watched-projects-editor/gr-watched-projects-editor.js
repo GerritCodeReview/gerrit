@@ -184,7 +184,7 @@ class GrWatchedProjectsEditor extends GestureEventListeners(
   }
 
   _handleNotifCellClick(e) {
-    const checkbox = dom(e.target).querySelector('input');
+    const checkbox = e.target.querySelector('input');
     if (checkbox) { checkbox.click(); }
   }
 }

@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-group-list');
@@ -57,7 +56,7 @@ suite('gr-group-list tests', () => {
 
   test('renders', () => {
     const rows = Array.from(
-        dom(element.root).querySelectorAll('tbody tr'));
+        element.root.querySelectorAll('tbody tr'));
 
     assert.equal(rows.length, 3);
 

@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-change-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
@@ -140,7 +139,7 @@ suite('gr-change-list basic tests', () => {
       {results: [{}]},
     ];
     flushAsynchronousOperations();
-    const tdItemCount = dom(element.root).querySelectorAll(
+    const tdItemCount = element.root.querySelectorAll(
         'td').length;
 
     const changeTableColumns = [];
@@ -163,7 +162,7 @@ suite('gr-change-list basic tests', () => {
     ];
     flushAsynchronousOperations();
     afterNextRender(element, () => {
-      const elementItems = dom(element.root).querySelectorAll(
+      const elementItems = element.root.querySelectorAll(
           'gr-change-list-item');
       assert.equal(elementItems.length, 3);
 
@@ -231,7 +230,7 @@ suite('gr-change-list basic tests', () => {
       },
     ];
     flushAsynchronousOperations();
-    let elementItems = dom(element.root).querySelectorAll(
+    let elementItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(elementItems.length, 5);
     for (let i = 0; i < elementItems.length; i++) {
@@ -239,7 +238,7 @@ suite('gr-change-list basic tests', () => {
     }
 
     element.showReviewedState = true;
-    elementItems = dom(element.root).querySelectorAll(
+    elementItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(elementItems.length, 5);
     assert.isFalse(elementItems[0].hasAttribute('needs-review'));
@@ -249,7 +248,7 @@ suite('gr-change-list basic tests', () => {
     assert.isFalse(elementItems[4].hasAttribute('needs-review'));
 
     element.account = {_account_id: 42};
-    elementItems = dom(element.root).querySelectorAll(
+    elementItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(elementItems.length, 5);
     assert.isFalse(elementItems[0].hasAttribute('needs-review'));
@@ -261,7 +260,7 @@ suite('gr-change-list basic tests', () => {
     element._config = {
       change: {enable_attention_set: true},
     };
-    elementItems = dom(element.root).querySelectorAll(
+    elementItems = element.root.querySelectorAll(
         'gr-change-list-item');
     for (let i = 0; i < elementItems.length; i++) {
       assert.isFalse(elementItems[i].hasAttribute('needs-review'));
@@ -271,21 +270,21 @@ suite('gr-change-list basic tests', () => {
   test('no changes', () => {
     element.changes = [];
     flushAsynchronousOperations();
-    const listItems = dom(element.root).querySelectorAll(
+    const listItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(listItems.length, 0);
     const noChangesMsg =
-        dom(element.root).querySelector('.noChanges');
+        element.root.querySelector('.noChanges');
     assert.ok(noChangesMsg);
   });
 
   test('empty sections', () => {
     element.sections = [{results: []}, {results: []}];
     flushAsynchronousOperations();
-    const listItems = dom(element.root).querySelectorAll(
+    const listItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(listItems.length, 0);
-    const noChangesMsg = dom(element.root).querySelectorAll(
+    const noChangesMsg = element.root.querySelectorAll(
         '.noChanges');
     assert.equal(noChangesMsg.length, 2);
   });
@@ -537,7 +536,7 @@ suite('gr-change-list basic tests', () => {
       ];
       flushAsynchronousOperations();
       afterNextRender(element, () => {
-        const elementItems = dom(element.root).querySelectorAll(
+        const elementItems = element.root.querySelectorAll(
             'gr-change-list-item');
         assert.equal(elementItems.length, 9);
 

@@ -434,7 +434,7 @@ class GrDiff extends GestureEventListeners(
     }
 
     return Array.from(
-        dom(this.root).querySelectorAll(':not(.contextControl) > .diff-row'))
+        this.root.querySelectorAll(':not(.contextControl) > .diff-row'))
         .filter(tr => tr.querySelector('button'));
   }
 
@@ -849,7 +849,7 @@ class GrDiff extends GestureEventListeners(
         // are ignored.
         const slot = document.createElement('slot');
         slot.name = threadEl.getAttribute('slot');
-        dom(threadGroupEl).appendChild(slot);
+        threadGroupEl.appendChild(slot);
         lastEl = threadEl;
       }
 

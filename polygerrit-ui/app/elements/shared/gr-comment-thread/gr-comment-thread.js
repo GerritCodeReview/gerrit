@@ -319,7 +319,7 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
 
   _expandCollapseComments(actionIsCollapse) {
     const comments =
-        dom(this.root).querySelectorAll('gr-comment');
+        this.root.querySelectorAll('gr-comment');
     for (const comment of comments) {
       comment.collapsed = actionIsCollapse;
     }
@@ -437,7 +437,7 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _commentElWithDraftID(id) {
-    const els = dom(this.root).querySelectorAll('gr-comment');
+    const els = this.root.querySelectorAll('gr-comment');
     for (const el of els) {
       if (el.comment.id === id || el.comment.__draftID === id) {
         return el;

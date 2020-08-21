@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-hovercard.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromTemplate(html`
@@ -78,7 +77,7 @@ suite('gr-hovercard tests', () => {
     assert.isFalse(element._isShowing);
     assert.isFalse(element.classList.contains('hovered'));
     assert.equal(style.display, 'none');
-    assert.notEqual(element.container, dom(element).parentNode);
+    assert.notEqual(element.container, element.parentNode);
   });
 
   test('show', () => {
@@ -107,7 +106,7 @@ suite('gr-hovercard tests', () => {
   });
 
   test('card is scheduled to show on enter and hides on leave', done => {
-    const button = dom(document).querySelector('button');
+    const button = document.querySelector('button');
     assert.isFalse(element._isShowing);
     const enterHandler = event => {
       assert.isTrue(element._isScheduledToShow);
@@ -132,7 +131,7 @@ suite('gr-hovercard tests', () => {
   });
 
   test('card should disappear on click', done => {
-    const button = dom(document).querySelector('button');
+    const button = document.querySelector('button');
     assert.isFalse(element._isShowing);
     const enterHandler = event => {
       assert.isTrue(element._isScheduledToShow);

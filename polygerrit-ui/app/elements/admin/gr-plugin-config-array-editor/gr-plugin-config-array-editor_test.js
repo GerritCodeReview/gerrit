@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-config-array-editor.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-config-array-editor');
 
@@ -26,7 +25,7 @@ suite('gr-plugin-config-array-editor tests', () => {
 
   let dispatchStub;
 
-  const getAll = str => dom(element.root).querySelectorAll(str);
+  const getAll = str => element.root.querySelectorAll(str);
 
   setup(() => {
     element = basicFixture.instantiate();

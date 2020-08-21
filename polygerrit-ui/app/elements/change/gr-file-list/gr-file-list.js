@@ -27,7 +27,7 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-select/gr-select.js';
 import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
 import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
-import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -406,7 +406,7 @@ class GrFileList extends KeyboardShortcutMixin(
   }
 
   get diffs() {
-    const diffs = dom(this.root).querySelectorAll('gr-diff-host');
+    const diffs = this.root.querySelectorAll('gr-diff-host');
     // It is possible that a bogus diff element is hanging around invisibly
     // from earlier with a different patch set choice and associated with a
     // different entry in the files array. So filter on visible items only.
@@ -1121,7 +1121,7 @@ class GrFileList extends KeyboardShortcutMixin(
     if (this._files && this._files.length > 0) {
       flush();
       this.$.fileCursor.stops = Array.from(
-          dom(this.root).querySelectorAll(`.${FILE_ROW_CLASS}`));
+          this.root.querySelectorAll(`.${FILE_ROW_CLASS}`));
       this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     }
   }

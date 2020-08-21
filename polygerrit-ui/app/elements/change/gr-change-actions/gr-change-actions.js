@@ -1139,7 +1139,7 @@ class GrChangeActions extends GestureEventListeners(
 
   _hideAllDialogs() {
     const dialogEls =
-        dom(this.root).querySelectorAll('.confirmDialog');
+        this.root.querySelectorAll('.confirmDialog');
     for (const dialogEl of dialogEls) { dialogEl.hidden = true; }
     this.$.overlay.close();
   }

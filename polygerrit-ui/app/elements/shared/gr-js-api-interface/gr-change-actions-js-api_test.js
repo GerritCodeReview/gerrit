@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
@@ -145,7 +144,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
           assert.equal(button.getAttribute('data-label'), 'Yo');
           assert.equal(button.getAttribute('title'), 'Yo hint');
           assert.isTrue(button.disabled);
-          assert.equal(dom(button).querySelector('iron-icon').icon,
+          assert.equal(button.querySelector('iron-icon').icon,
               'gr-icons:pupper');
           done();
         });
@@ -195,14 +194,14 @@ suite('gr-change-actions-js-api-interface tests', () => {
         changeActions.add(changeActions.ActionType.CHANGE, 'Squanch?');
       flush(() => {
         let buttons =
-          dom(element.root).querySelectorAll('[data-action-key]');
+          element.root.querySelectorAll('[data-action-key]');
         assert.equal(buttons[0].getAttribute('data-action-key'), key1);
         assert.equal(buttons[1].getAttribute('data-action-key'), key2);
         changeActions.setActionPriority(
             changeActions.ActionType.REVISION, key1, 10);
         flush(() => {
           buttons =
-            dom(element.root).querySelectorAll('[data-action-key]');
+            element.root.querySelectorAll('[data-action-key]');
           assert.equal(buttons[0].getAttribute('data-action-key'), key2);
           assert.equal(buttons[1].getAttribute('data-action-key'), key1);
           done();

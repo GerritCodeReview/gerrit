@@ -132,9 +132,9 @@ suite('gr-repo-detail-list', () => {
       });
 
       test('Edit HEAD button admin', done => {
-        const saveBtn = dom(element.root).querySelector('.saveBtn');
-        const cancelBtn = dom(element.root).querySelector('.cancelBtn');
-        const editBtn = dom(element.root).querySelector('.editBtn');
+        const saveBtn = element.root.querySelector('.saveBtn');
+        const cancelBtn = element.root.querySelector('.cancelBtn');
+        const editBtn = element.root.querySelector('.editBtn');
         const revisionNoEditing = dom(element.root)
             .querySelector('.revisionNoEditing');
         const revisionWithEditing = dom(element.root)

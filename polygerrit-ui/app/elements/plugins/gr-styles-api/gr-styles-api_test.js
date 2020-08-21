@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
@@ -96,9 +95,9 @@ suite('gr-styles-api tests', () => {
       const element1 = document.createElement('div');
       const element2 = document.createElement('div');
       const element3 = document.createElement('div');
-      dom(parentElement).appendChild(element1);
-      dom(parentElement).appendChild(element2);
-      dom(element2).appendChild(element3);
+      parentElement.appendChild(element1);
+      parentElement.appendChild(element2);
+      element2.appendChild(element3);
 
       if (parentElement === document.body) {
         elementsToRemove.push(element1);
@@ -116,7 +115,7 @@ suite('gr-styles-api tests', () => {
 
     test('getClassName  - elements inside polymer element', () => {
       const polymerElement = document.createElement('gr-style-test-element');
-      dom(document.body).appendChild(polymerElement);
+      document.body.appendChild(polymerElement);
       elementsToRemove.push(polymerElement);
       const contentElements = createNestedElements(polymerElement.$.wrapper);
 
@@ -150,7 +149,7 @@ suite('gr-styles-api tests', () => {
 
     test('apply - elements inside polymer element', () => {
       const polymerElement = document.createElement('gr-style-test-element');
-      dom(document.body).appendChild(polymerElement);
+      document.body.appendChild(polymerElement);
       elementsToRemove.push(polymerElement);
       const contentElements = createNestedElements(polymerElement.$.wrapper);
 

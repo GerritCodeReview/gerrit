@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-label-score-row.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-label-score-row');
 
@@ -283,7 +282,7 @@ suite('gr-label-row-score tests', () => {
       assert.strictEqual(element.$.labelSelector
           .items.length, 2);
       assert.strictEqual(
-          dom(element.root).querySelectorAll('.placeholder').length,
+          element.root.querySelectorAll('.placeholder').length,
           3);
 
       element.permittedLabels = {
@@ -303,7 +302,7 @@ suite('gr-label-row-score tests', () => {
         assert.strictEqual(element.$.labelSelector
             .items.length, 5);
         assert.strictEqual(
-            dom(element.root).querySelectorAll('.placeholder').length,
+            element.root.querySelectorAll('.placeholder').length,
             0);
         done();
       });

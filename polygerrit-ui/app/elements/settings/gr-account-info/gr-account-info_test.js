@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-info.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-account-info');
 
@@ -27,7 +26,7 @@ suite('gr-account-info tests', () => {
   let config;
 
   function valueOf(title) {
-    const sections = dom(element.root).querySelectorAll('section');
+    const sections = element.root.querySelectorAll('section');
     let titleEl;
     for (let i = 0; i < sections.length; i++) {
       titleEl = sections[i].querySelector('.title');

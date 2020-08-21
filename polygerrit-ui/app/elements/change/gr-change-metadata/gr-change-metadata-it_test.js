@@ -18,7 +18,6 @@
 import '../../../test/common-test-setup-karma.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import './gr-change-metadata.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
@@ -76,7 +75,7 @@ suite('gr-change-metadata integration tests', () => {
 
   const getStyle = function(selector, name) {
     return window.getComputedStyle(
-        dom(element.root).querySelector(selector))[name];
+        element.root.querySelector(selector))[name];
   };
 
   function createElement() {

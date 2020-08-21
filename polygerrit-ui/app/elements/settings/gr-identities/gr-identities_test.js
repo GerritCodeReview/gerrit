@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-identities.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-identities');
 
@@ -52,7 +51,7 @@ suite('gr-identities tests', () => {
 
   test('renders', () => {
     const rows = Array.from(
-        dom(element.root).querySelectorAll('tbody tr'));
+        element.root.querySelectorAll('tbody tr'));
 
     assert.equal(rows.length, 2);
 
@@ -66,7 +65,7 @@ suite('gr-identities tests', () => {
 
   test('renders email', () => {
     const rows = Array.from(
-        dom(element.root).querySelectorAll('tbody tr'));
+        element.root.querySelectorAll('tbody tr'));
 
     assert.equal(rows.length, 2);
 
@@ -101,7 +100,7 @@ suite('gr-identities tests', () => {
 
   test('_handleDeleteItem opens modal', () => {
     const deleteBtn =
-        dom(element.root).querySelector('.deleteButton');
+        element.root.querySelector('.deleteButton');
     const deleteItem = sinon.stub(element, '_handleDeleteItem');
     MockInteractions.tap(deleteBtn);
     assert.isTrue(deleteItem.called);

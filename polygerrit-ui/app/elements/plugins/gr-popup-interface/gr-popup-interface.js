@@ -52,11 +52,11 @@ GrPopupInterface.prototype.open = function() {
             .then(hookEl => {
               const popup = document.createElement('gr-plugin-popup');
               if (this._moduleName) {
-                const el = dom(popup).appendChild(
+                const el = popup.appendChild(
                     document.createElement(this._moduleName));
                 el.plugin = this.plugin;
               }
-              this._popup = dom(hookEl).appendChild(popup);
+              this._popup = hookEl.appendChild(popup);
               flush();
               return this._popup.open().then(() => this);
             });

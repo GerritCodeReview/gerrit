@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 
 const basicFixture = fixtureFromElement('gr-repo');
@@ -90,11 +89,11 @@ suite('gr-repo tests', () => {
 
   function getFormFields() {
     const selects = Array.from(
-        dom(element.root).querySelectorAll('select'));
+        element.root.querySelectorAll('select'));
     const textareas = Array.from(
-        dom(element.root).querySelectorAll('iron-autogrow-textarea'));
+        element.root.querySelectorAll('iron-autogrow-textarea'));
     const inputs = Array.from(
-        dom(element.root).querySelectorAll('input'));
+        element.root.querySelectorAll('input'));
     return inputs.concat(textareas).concat(selects);
   }
 
@@ -326,7 +325,7 @@ suite('gr-repo tests', () => {
       const saveStub = sinon.stub(element.$.restAPI, 'saveRepoConfig')
           .callsFake(() => Promise.resolve({}));
 
-      const button = dom(element.root).querySelector('gr-button');
+      const button = element.root.querySelector('gr-button');
 
       return element._loadRepo().then(() => {
         assert.isTrue(button.hasAttribute('disabled'));

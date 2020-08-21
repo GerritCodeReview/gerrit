@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-gpg-editor.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-gpg-editor');
 
@@ -61,7 +60,7 @@ suite('gr-gpg-editor tests', () => {
   });
 
   test('renders', () => {
-    const rows = dom(element.root).querySelectorAll('tbody tr');
+    const rows = element.root.querySelectorAll('tbody tr');
 
     assert.equal(rows.length, 2);
 
@@ -82,7 +81,7 @@ suite('gr-gpg-editor tests', () => {
     assert.isFalse(element.hasUnsavedChanges);
 
     // Get the delete button for the last row.
-    const button = dom(element.root).querySelector(
+    const button = element.root.querySelector(
         'tbody tr:last-of-type td:nth-child(6) gr-button');
 
     MockInteractions.tap(button);
@@ -106,7 +105,7 @@ suite('gr-gpg-editor tests', () => {
     const openSpy = sinon.spy(element.$.viewKeyOverlay, 'open');
 
     // Get the show button for the last row.
-    const button = dom(element.root).querySelector(
+    const button = element.root.querySelector(
         'tbody tr:last-of-type td:nth-child(4) gr-button');
 
     MockInteractions.tap(button);

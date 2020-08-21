@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-message.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-message');
 
@@ -202,9 +201,9 @@ suite('gr-message tests', () => {
           message: `Patch Set 1: ${label}+1`,
         };
         assert.isNotOk(
-            dom(element.root).querySelector('.negativeVote'));
+            element.root.querySelector('.negativeVote'));
         assert.isNotOk(
-            dom(element.root).querySelector('.positiveVote'));
+            element.root.querySelector('.positiveVote'));
       });
     });
 
@@ -302,7 +301,7 @@ suite('gr-message tests', () => {
         'Trybot-Label3': {max: 3, min: 0},
       };
       flushAsynchronousOperations();
-      const scoreChips = dom(element.root).querySelectorAll('.score');
+      const scoreChips = element.root.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
       assert.isTrue(scoreChips[0].classList.contains('positive'));
@@ -327,7 +326,7 @@ suite('gr-message tests', () => {
         'Commit-Queue': {max: 3, min: 0},
       };
       flushAsynchronousOperations();
-      const scoreChips = dom(element.root).querySelectorAll('.score');
+      const scoreChips = element.root.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
       assert.isTrue(scoreChips[1].classList.contains('removed'));
@@ -341,7 +340,7 @@ suite('gr-message tests', () => {
         message: 'Patch Set 1: Cherry Picked from branch stable-2.14.',
       };
       element.labelExtremes = {};
-      const scoreChips = dom(element.root).querySelectorAll('.score');
+      const scoreChips = element.root.querySelectorAll('.score');
       assert.equal(scoreChips.length, 0);
     });
   });

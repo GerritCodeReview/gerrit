@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-rule-editor.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-rule-editor');
 
@@ -209,8 +208,8 @@ suite('gr-rule-editor tests', () => {
 
     test('values are set correctly', () => {
       assert.equal(element.$.action.bindValue, element.rule.value.action);
-      assert.isNotOk(dom(element.root).querySelector('#labelMin'));
-      assert.isNotOk(dom(element.root).querySelector('#labelMax'));
+      assert.isNotOk(element.root.querySelector('#labelMin'));
+      assert.isNotOk(element.root.querySelector('#labelMax'));
       assert.isFalse(element.$.force.classList.contains('force'));
     });
 
@@ -238,7 +237,7 @@ suite('gr-rule-editor tests', () => {
     });
 
     test('all selects are disabled when not in edit mode', () => {
-      const selects = dom(element.root).querySelectorAll('select');
+      const selects = element.root.querySelectorAll('select');
       for (const select of selects) {
         assert.isTrue(select.disabled);
       }
@@ -384,10 +383,10 @@ suite('gr-rule-editor tests', () => {
     test('values are set correctly', () => {
       assert.equal(element.$.action.bindValue, element.rule.value.action);
       assert.equal(
-          dom(element.root).querySelector('#labelMin').bindValue,
+          element.root.querySelector('#labelMin').bindValue,
           element.rule.value.min);
       assert.equal(
-          dom(element.root).querySelector('#labelMax').bindValue,
+          element.root.querySelector('#labelMax').bindValue,
           element.rule.value.max);
       assert.isFalse(element.$.force.classList.contains('force'));
     });
@@ -396,7 +395,7 @@ suite('gr-rule-editor tests', () => {
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       assert.isNotOk(element.rule.value.modified);
-      dom(element.root).querySelector('#labelMin').bindValue = 1;
+      element.root.querySelector('#labelMin').bindValue = 1;
       flushAsynchronousOperations();
       assert.isTrue(element.rule.value.modified);
       assert.isFalse(removeStub.called);
@@ -449,17 +448,17 @@ suite('gr-rule-editor tests', () => {
             element.$.action.bindValue,
             expectedRuleValue.action);
         assert.equal(
-            dom(element.root).querySelector('#labelMin').bindValue,
+            element.root.querySelector('#labelMin').bindValue,
             expectedRuleValue.min);
         assert.equal(
-            dom(element.root).querySelector('#labelMax').bindValue,
+            element.root.querySelector('#labelMax').bindValue,
             expectedRuleValue.max);
       });
     });
 
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
-      dom(element.root).querySelector('#labelMin').bindValue = 1;
+      element.root.querySelector('#labelMin').bindValue = 1;
       flushAsynchronousOperations();
       assert.isTrue(element.rule.value.modified);
 
@@ -496,10 +495,10 @@ suite('gr-rule-editor tests', () => {
       assert.isTrue(element.$.force.classList.contains('force'));
       assert.equal(element.$.action.bindValue, element.rule.value.action);
       assert.equal(
-          dom(element.root).querySelector('#force').bindValue,
+          element.root.querySelector('#force').bindValue,
           element.rule.value.force);
-      assert.isNotOk(dom(element.root).querySelector('#labelMin'));
-      assert.isNotOk(dom(element.root).querySelector('#labelMax'));
+      assert.isNotOk(element.root.querySelector('#labelMin'));
+      assert.isNotOk(element.root.querySelector('#labelMax'));
     });
 
     test('modify value', () => {
@@ -585,10 +584,10 @@ suite('gr-rule-editor tests', () => {
       assert.isTrue(element.$.force.classList.contains('force'));
       assert.equal(element.$.action.bindValue, element.rule.value.action);
       assert.equal(
-          dom(element.root).querySelector('#force').bindValue,
+          element.root.querySelector('#force').bindValue,
           element.rule.value.force);
-      assert.isNotOk(dom(element.root).querySelector('#labelMin'));
-      assert.isNotOk(dom(element.root).querySelector('#labelMax'));
+      assert.isNotOk(element.root.querySelector('#labelMin'));
+      assert.isNotOk(element.root.querySelector('#labelMax'));
     });
 
     test('modify value', () => {

@@ -83,7 +83,7 @@ class GrDiffSelection extends GestureEventListeners(
   get diffBuilder() {
     if (!this._cachedDiffBuilder) {
       this._cachedDiffBuilder =
-          dom(this).querySelector('gr-diff-builder');
+          this.querySelector('gr-diff-builder');
     }
     return this._cachedDiffBuilder;
   }

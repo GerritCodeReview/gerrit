@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-account-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-account-list');
 
@@ -54,7 +53,7 @@ suite('gr-account-list tests', () => {
   let suggestionsProvider;
 
   function getChips() {
-    return dom(element.root).querySelectorAll('gr-account-chip');
+    return element.root.querySelectorAll('gr-account-chip');
   }
 
   setup(() => {

@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-edit-controls.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
@@ -45,7 +44,7 @@ suite('gr-edit-controls tests', () => {
     // We take 1 away from the total found, due to an extra button being
     // added for the file uploads (browse).
     assert.equal(
-        dom(element.root).querySelectorAll('gr-button').length - 1,
+        element.root.querySelectorAll('gr-button').length - 1,
         element._actions.length);
   });
 

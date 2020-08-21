@@ -21,7 +21,6 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-change-list-item/gr-change-list-item.js';
 import '../../../styles/shared-styles.js';
 import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -416,7 +415,7 @@ class GrChangeList extends ChangeTableMixin(
 
   _getListItems() {
     return Array.from(
-        dom(this.root).querySelectorAll('gr-change-list-item'));
+        this.root.querySelectorAll('gr-change-list-item'));
   }
 
   _sectionsChanged() {

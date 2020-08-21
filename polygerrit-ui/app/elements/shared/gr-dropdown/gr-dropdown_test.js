@@ -95,7 +95,7 @@ suite('gr-dropdown tests', () => {
   test('Top text exists and is bolded correctly', () => {
     element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
     flushAsynchronousOperations();
-    const topItems = dom(element.root).querySelectorAll('.top-item');
+    const topItems = element.root.querySelectorAll('.top-item');
     assert.equal(topItems.length, 2);
     assert.isTrue(topItems[0].classList.contains('bold-text'));
     assert.isFalse(topItems[1].classList.contains('bold-text'));

@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-label-info.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {isHidden} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-label-info');
@@ -94,14 +93,14 @@ suite('gr-account-link tests', () => {
     test('valueless label rejected', () => {
       element.labelInfo = {rejected: {name: 'someone'}};
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('negative'));
     });
 
     test('valueless label approved', () => {
       element.labelInfo = {approved: {name: 'someone'}};
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('positive'));
     });
 
@@ -122,7 +121,7 @@ suite('gr-account-link tests', () => {
         },
       };
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
       assert.isTrue(labels[2].classList.contains('negative'));
@@ -142,7 +141,7 @@ suite('gr-account-link tests', () => {
         },
       };
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('min'));
     });
@@ -160,7 +159,7 @@ suite('gr-account-link tests', () => {
         },
       };
       flushAsynchronousOperations();
-      const labels = dom(element.root).querySelectorAll('gr-label');
+      const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
     });
@@ -183,7 +182,7 @@ suite('gr-account-link tests', () => {
       };
       flushAsynchronousOperations();
       const chips =
-          dom(element.root).querySelectorAll('gr-account-link');
+          element.root.querySelectorAll('gr-account-link');
       assert.equal(chips[0].account._account_id, element.account._account_id);
     });
   });

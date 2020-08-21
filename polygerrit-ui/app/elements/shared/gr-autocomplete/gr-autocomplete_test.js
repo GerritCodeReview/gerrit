@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-autocomplete.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
-import {dom, flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromTemplate(
     html`<gr-autocomplete no-debounce></gr-autocomplete>`);
@@ -57,7 +57,7 @@ suite('gr-autocomplete tests', () => {
     return promise.then(() => {
       assert.isFalse(element.$.suggestions.isHidden);
       const suggestions =
-          dom(element.$.suggestions.root).querySelectorAll('li');
+          element.$.suggestions.root.querySelectorAll('li');
       assert.equal(suggestions.length, 5);
 
       for (let i = 0; i < 5; i++) {

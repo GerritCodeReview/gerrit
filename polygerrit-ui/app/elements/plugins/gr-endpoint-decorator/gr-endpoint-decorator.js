@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
@@ -71,7 +70,7 @@ class GrEndpointDecorator extends GestureEventListeners(
             el => el.nodeName !== 'GR-ENDPOINT-PARAM'))
         .then(el => {
           const slotEl = slot ?
-            dom(this).querySelector(`gr-endpoint-slot[name=${slot}]`) :
+            this.querySelector(`gr-endpoint-slot[name=${slot}]`) :
             null;
           if (slot && slotEl) {
             slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
@@ -93,7 +92,7 @@ class GrEndpointDecorator extends GestureEventListeners(
 
   _getEndpointParams() {
     return Array.from(
-        dom(this).querySelectorAll('gr-endpoint-param'));
+        this.querySelectorAll('gr-endpoint-param'));
   }
 
   /**
@@ -130,7 +129,7 @@ class GrEndpointDecorator extends GestureEventListeners(
   }
 
   _appendChild(el) {
-    return dom(this.root).appendChild(el);
+    return this.root.appendChild(el);
   }
 
   _initModule({moduleName, plugin, type, domHook, slot}) {

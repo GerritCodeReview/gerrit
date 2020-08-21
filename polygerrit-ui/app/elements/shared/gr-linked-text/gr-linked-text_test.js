@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-linked-text.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -342,7 +341,7 @@ suite('gr-linked-text tests', () => {
       },
     };
     element.content = '- B: 123, 45';
-    const links = dom(element.root).querySelectorAll('a');
+    const links = element.root.querySelectorAll('a');
 
     assert.equal(links.length, 2);
     assert.equal(element.shadowRoot

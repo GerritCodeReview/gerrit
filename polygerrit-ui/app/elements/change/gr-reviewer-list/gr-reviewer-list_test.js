@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-reviewer-list.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-reviewer-list');
 
@@ -99,7 +98,7 @@ suite('gr-reviewer-list tests', () => {
     };
     flushAsynchronousOperations();
     const chips =
-        dom(element.root).querySelectorAll('gr-account-chip');
+        element.root.querySelectorAll('gr-account-chip');
     assert.equal(chips.length, 4);
 
     for (const el of Array.from(chips)) {

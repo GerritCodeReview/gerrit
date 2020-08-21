@@ -21,7 +21,6 @@ import '../../shared/gr-button/gr-button.js';
 import '../../shared/gr-icons/gr-icons.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../gr-permission/gr-permission.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
@@ -237,7 +236,7 @@ class GrAccessSection extends GestureEventListeners(
   }
 
   editRefInput() {
-    return dom(this.root).querySelector(PolymerElement ?
+    return this.root.querySelector(PolymerElement ?
       'iron-input.editRefInput' :
       'input[is=iron-input].editRefInput');
   }

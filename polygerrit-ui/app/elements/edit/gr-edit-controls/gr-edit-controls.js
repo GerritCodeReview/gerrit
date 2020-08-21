@@ -171,7 +171,7 @@ class GrEditControls extends GestureEventListeners(
   }
 
   _hideAllDialogs() {
-    const dialogs = dom(this.root).querySelectorAll('.dialog');
+    const dialogs = this.root.querySelectorAll('.dialog');
     for (const dialog of dialogs) { this._closeDialog(dialog); }
   }
 

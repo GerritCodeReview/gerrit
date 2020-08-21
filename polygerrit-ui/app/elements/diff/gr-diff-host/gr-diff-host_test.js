@@ -270,7 +270,7 @@ suite('gr-diff-host tests', () => {
     assert.equal(threadEls[0].rootId, 4711);
     assert.equal(threadEls[1].rootId, 42);
     for (const threadEl of threadEls) {
-      dom(element).appendChild(threadEl);
+      element.appendChild(threadEl);
     }
 
     threadEls[0].dispatchEvent(
@@ -904,7 +904,7 @@ suite('gr-diff-host tests', () => {
   test('getThreadEls() returns .comment-threads', () => {
     const threadEl = document.createElement('div');
     threadEl.className = 'comment-thread';
-    dom(element.$.diff).appendChild(threadEl);
+    element.$.diff.appendChild(threadEl);
     assert.deepEqual(element.getThreadEls(), [threadEl]);
   });
 

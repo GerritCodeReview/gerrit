@@ -22,7 +22,7 @@ import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-diff-builder-element.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
-import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
 import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
@@ -102,7 +102,7 @@ suite('gr-diff-builder tests', () => {
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
-      assert.equal(dom(buttons[0]).textContent, 'Show 10 common lines');
+      assert.equal(buttons[0].textContent, 'Show 10 common lines');
     });
 
     test('context control at the top', () => {
@@ -112,8 +112,8 @@ suite('gr-diff-builder tests', () => {
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 2);
-      assert.equal(dom(buttons[0]).textContent, 'Show 20 common lines');
-      assert.equal(dom(buttons[1]).textContent, '+10 below');
+      assert.equal(buttons[0].textContent, 'Show 20 common lines');
+      assert.equal(buttons[1].textContent, '+10 below');
     });
 
     test('context control in the middle', () => {
@@ -123,9 +123,9 @@ suite('gr-diff-builder tests', () => {
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);
-      assert.equal(dom(buttons[0]).textContent, '+10 above');
-      assert.equal(dom(buttons[1]).textContent, 'Show 20 common lines');
-      assert.equal(dom(buttons[2]).textContent, '+10 below');
+      assert.equal(buttons[0].textContent, '+10 above');
+      assert.equal(buttons[1].textContent, 'Show 20 common lines');
+      assert.equal(buttons[2].textContent, '+10 below');
     });
 
     test('context control at the top', () => {
@@ -135,8 +135,8 @@ suite('gr-diff-builder tests', () => {
       const buttons = td.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 2);
-      assert.equal(dom(buttons[0]).textContent, '+10 above');
-      assert.equal(dom(buttons[1]).textContent, 'Show 20 common lines');
+      assert.equal(buttons[0].textContent, '+10 above');
+      assert.equal(buttons[1].textContent, 'Show 20 common lines');
     });
   });
 

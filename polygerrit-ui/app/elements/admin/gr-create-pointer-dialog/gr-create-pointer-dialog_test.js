@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-create-pointer-dialog.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 
 const basicFixture = fixtureFromElement('gr-create-pointer-dialog');
 
@@ -25,7 +24,7 @@ suite('gr-create-pointer-dialog tests', () => {
   let element;
 
   const ironInput = function(element) {
-    return dom(element).querySelector('iron-input');
+    return element.querySelector('iron-input');
   };
 
   setup(() => {

@@ -51,13 +51,27 @@ export interface OwnerRoot {
  * Event type for an event fired by Polymer for an element generated from a
  * dom-repeat template.
  */
-export interface PolymerDomRepeatEvent<T> extends CustomEvent {
-  model: PolymerDomRepeatEventModel<T>;
+export interface PolymerDomRepeatEvent<TModel = unknown> extends Event {
+  model: PolymerDomRepeatEventModel<TModel>;
+}
+
+/**
+ * Event type for an event fired by Polymer for an element generated from a
+ * dom-repeat template.
+ */
+export interface PolymerDomRepeatCustomEvent<
+  TModel = unknown,
+  TDetail = unknown
+> extends CustomEvent<TDetail> {
+  model: PolymerDomRepeatEventModel<TModel>;
 }
 
 /**
  * Model containing additional information about the dom-repeat element
  * that fired an event.
+ *
+ * Note: This interface is valid only if both dom-repeat properties 'as' and
+ * 'indexAs' have default values ('item' and 'index' correspondingly)
  */
 export interface PolymerDomRepeatEventModel<T> {
   /**

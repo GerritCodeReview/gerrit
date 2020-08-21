@@ -193,10 +193,10 @@ suite('gr-permission tests', () => {
         assert.deepEqual(groups, [
           {
             name: 'Administrators',
-            value: {id: '4c97682e6ce61b7247f3381b6f1789356666de7f'},
+            value: '4c97682e6ce61b7247f3381b6f1789356666de7f',
           }, {
             name: 'Anonymous Users',
-            value: {id: 'global%3AAnonymous-Users'},
+            value: 'global%3AAnonymous-Users',
           },
         ]);
         done();
@@ -211,7 +211,7 @@ suite('gr-permission tests', () => {
       element._getGroupSuggestions().then(groups => {
         assert.deepEqual(groups, [{
           name: 'Anonymous Users',
-          value: {id: 'global%3AAnonymous-Users'},
+          value: 'global%3AAnonymous-Users',
         }]);
         done();
       });
@@ -293,9 +293,7 @@ suite('gr-permission tests', () => {
       element.$.groupAutocomplete.text = 'ldap/tests te.st';
       const e = {
         detail: {
-          value: {
-            id: 'ldap:CN=test+te.st',
-          },
+          value: 'ldap:CN=test+te.st',
         },
       };
       element.editing = true;

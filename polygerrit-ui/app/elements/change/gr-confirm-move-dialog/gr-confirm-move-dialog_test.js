@@ -35,7 +35,7 @@ suite('gr-confirm-move-dialog tests', () => {
             },
           ]);
         } else {
-          return Promise.resolve({});
+          return Promise.resolve(undefined);
         }
       },
     });

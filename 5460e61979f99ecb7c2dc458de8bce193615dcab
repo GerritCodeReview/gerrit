@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3299f38f_6a3baef9",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 998,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-21T13:45:34Z",
+      "side": 1,
+      "message": "Why is this not done immediately after the line 992? I think that it doesn\u0027t matter if we\npack refs before or after checking the value of c. The code, how it looks here, gives\na (false) impression that there is some dependency between packing refs and logging the total\nnumber of rebuild changes.\n\nThe c can also be inlined:\n\n  if (globalChangeCounter.incrementAndGet() % 1000 \u003d\u003d 0) {\n    logger...\n  }",
+      "range": {
+        "startLine": 996,
+        "startChar": 0,
+        "endLine": 998,
+        "endChar": 11
+      },
+      "revId": "5460e61979f99ecb7c2dc458de8bce193615dcab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

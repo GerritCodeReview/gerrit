@@ -1064,13 +1064,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + "(6 comments)\n"
                 + "\n"
                 + "comments\n"
-                + "\n"
-                + url
-                + "c/"
-                + project.get()
-                + "/+/"
-                + c
-                + "/1/a.txt \n"
+                + "\n\n"
                 + "File a.txt:\n"
                 + "\n"
                 + url
@@ -1078,7 +1072,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + project.get()
                 + "/+/"
                 + c
-                + "/1/a.txt@a1 \n"
+                + "/comment/" + ps1List.get(0).id + " \n"
                 + "PS1, Line 1: initial\n"
                 + "what happened to this?\n"
                 + "\n"
@@ -1088,17 +1082,11 @@ public class CommentsIT extends AbstractDaemonTest {
                 + project.get()
                 + "/+/"
                 + c
-                + "/1/a.txt@1 \n"
+                + "/comment/" + ps1List.get(1).id + " \n"
                 + "PS1, Line 1: boring\n"
                 + "Is it that bad?\n"
                 + "\n"
-                + "\n"
-                + url
-                + "c/"
-                + project.get()
-                + "/+/"
-                + c
-                + "/2/a.txt \n"
+                + "\n\n"
                 + "File a.txt:\n"
                 + "\n"
                 + url
@@ -1106,7 +1094,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + project.get()
                 + "/+/"
                 + c
-                + "/2/a.txt@a1 \n"
+                + "/comment/" + ps2List.get(0).id + " \n"
                 + "PS2, Line 1: initial content\n"
                 + "comment 1 on base\n"
                 + "\n"
@@ -1116,7 +1104,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + project.get()
                 + "/+/"
                 + c
-                + "/2/a.txt@a2 \n"
+                + "/comment/" + ps2List.get(1).id + " \n"
                 + "PS2, Line 2: \n"
                 + "comment 2 on base\n"
                 + "\n"
@@ -1126,7 +1114,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + project.get()
                 + "/+/"
                 + c
-                + "/2/a.txt@1 \n"
+                + "/comment/" + ps2List.get(2).id + " \n"
                 + "PS2, Line 1: interesting\n"
                 + "better now\n"
                 + "\n"
@@ -1136,7 +1124,7 @@ public class CommentsIT extends AbstractDaemonTest {
                 + project.get()
                 + "/+/"
                 + c
-                + "/2/a.txt@2 \n"
+                + "/comment/" + ps2List.get(3).id + " \n"
                 + "PS2, Line 2: cntent\n"
                 + "typo: content\n"
                 + "\n"

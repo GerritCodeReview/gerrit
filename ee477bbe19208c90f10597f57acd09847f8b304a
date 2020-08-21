@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "964a5c70_3a43d615",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 963,
+      "author": {
+        "id": 1003873
+      },
+      "writtenOn": "2020-08-21T13:57:55Z",
+      "side": 1,
+      "message": "Move that block down just before the try ... block. Then (re)use that try ... catch block\nto add finally section which (re)sets the current threads name.",
+      "revId": "ee477bbe19208c90f10597f57acd09847f8b304a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

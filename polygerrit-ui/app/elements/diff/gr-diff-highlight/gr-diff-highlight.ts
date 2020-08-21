@@ -207,7 +207,7 @@ export class GrDiffHighlight extends GestureEventListeners(
     const side = threadEl.getAttribute('comment-side') as Side;
     const rangeString = threadEl.getAttribute('range');
     if (!rangeString) return undefined;
-    const range = JSON.parse(rangeString);
+    const range = JSON.parse(rangeString) as CommentRange;
 
     if (!range) return undefined;
 

@@ -237,8 +237,8 @@ export class GrLabelScoreRow extends GestureEventListeners(
     this._selectedValueText = selectedItem.getAttribute('title') || '';
     // Needed to update the style of the selected button.
     this.updateStyles();
-    const name = selectedItem.dataset.name;
-    const value = selectedItem.dataset.value;
+    const name = selectedItem.dataset['name'];
+    const value = selectedItem.dataset['value'];
     this.dispatchEvent(
       new CustomEvent('labels-changed', {
         detail: {name, value},

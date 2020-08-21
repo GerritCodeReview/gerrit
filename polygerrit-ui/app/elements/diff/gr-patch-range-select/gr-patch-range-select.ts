@@ -49,6 +49,7 @@ import {ChangeComments} from '../gr-comment-api/gr-comment-api';
 import {
   DropdownItem,
   DropDownValueChangeEvent,
+  GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
 import {WebLink} from '../../core/gr-navigation/gr-navigation';
 
@@ -67,6 +68,12 @@ interface FilesWebLinks {
   meta_b: WebLink[];
 }
 
+export interface GrPatchRangeSelect {
+  $: {
+    patchNumDropdown: GrDropdownList;
+  };
+}
+
 /**
  * Fired when the patch range changes
  *
@@ -77,7 +84,7 @@ interface FilesWebLinks {
  * @extends PolymerElement
  */
 @customElement('gr-patch-range-select')
-class GrPatchRangeSelect extends GestureEventListeners(
+export class GrPatchRangeSelect extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

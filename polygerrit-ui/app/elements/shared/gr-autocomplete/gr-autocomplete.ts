@@ -39,7 +39,7 @@ const DEBOUNCE_WAIT_MS = 200;
 
 export interface GrAutocomplete {
   $: {
-    input: PaperInputElement;
+    input: PaperInputElement & {$: {nativeInput?: Element}};
     suggestions: GrAutocompleteDropdown;
     cursor: GrCursorManager;
   };
@@ -417,7 +417,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     if (!suggestion) {
       return;
     }
-    const index = Number(suggestion.dataset.index!);
+    const index = Number(suggestion.dataset['index']!);
     if (isNaN(index)) return;
     const completed = suggestions[index].value;
     if (completed === undefined || completed === null) return;
@@ -470,7 +470,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
         const dataSet = this._selected.dataset;
         // index property cannot be null for the data-set
         if (dataSet) {
-          const index = Number(dataSet.index!);
+          const index = Number(dataSet['index']!);
           if (isNaN(index)) return;
           this.setText(this._suggestions[index].name);
         }

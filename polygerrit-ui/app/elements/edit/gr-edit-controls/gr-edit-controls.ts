@@ -14,72 +14,80 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-dropdown/gr-dropdown.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-edit-controls_html.js';
-import {GrEditConstants} from '../gr-edit-constants.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '@polymer/iron-input/iron-input';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-edit-controls_html';
+import {GrEditAction, GrEditConstants} from '../gr-edit-constants';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {ChangeInfo, PatchSetNum} from '../../../types/common';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {
+  AutocompleteQuery,
+  Suggestion,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
 
-/**
- * @extends PolymerElement
- */
-class GrEditControls extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrEditControls {
+  $: {
+    restAPI: RestApiService & Element;
+    overlay: GrOverlay;
+    openDialog: GrDialog;
+    deleteDialog: GrDialog;
+    renameDialog: GrDialog;
+    restoreDialog: GrDialog;
+  };
+}
 
-  static get is() { return 'gr-edit-controls'; }
-
-  static get properties() {
-    return {
-      change: Object,
-      patchNum: String,
-
-      /**
-       * TODO(kaspern): by default, the RESTORE action should be hidden in the
-       * file-list as it is a per-file action only. Remove this default value
-       * when the Actions dictionary is moved to a shared constants file and
-       * use the hiddenActions property in the parent component.
-       */
-      hiddenActions: {
-        type: Array,
-        value() { return [GrEditConstants.Actions.RESTORE.id]; },
-      },
-
-      _actions: {
-        type: Array,
-        value() { return Object.values(GrEditConstants.Actions); },
-      },
-      _path: {
-        type: String,
-        value: '',
-      },
-      _newPath: {
-        type: String,
-        value: '',
-      },
-      _query: {
-        type: Function,
-        value() {
-          return this._queryFiles.bind(this);
-        },
-      },
-    };
+@customElement('gr-edit-controls')
+export class GrEditControls extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  _handleTap(e) {
+  @property({type: Object})
+  change!: ChangeInfo;
+
+  @property({type: String})
+  patchNum!: PatchSetNum;
+
+  @property({type: Array})
+  hiddenActions: string[] = [GrEditConstants.Actions.RESTORE.id];
+
+  @property({type: Array})
+  _actions: GrEditAction[] = Object.values(GrEditConstants.Actions);
+
+  @property({type: String})
+  _path = '';
+
+  @property({type: String})
+  _newPath = '';
+
+  @property({type: Object})
+  _query: AutocompleteQuery;
+
+  constructor() {
+    super();
+    this._query = this._queryFiles.bind(this);
+  }
+
+  _handleTap(e: Event) {
     e.preventDefault();
-    const action = dom(e).localTarget.id;
+    const target = (dom(e) as EventApi).localTarget as Element;
+    const action = target.id;
     switch (action) {
       case GrEditConstants.Actions.OPEN.id:
         this.openOpenDialog();
@@ -96,67 +104,58 @@ class GrEditControls extends GestureEventListeners(
     }
   }
 
-  /**
-   * @param {string=} opt_path
-   */
-  openOpenDialog(opt_path) {
-    if (opt_path) { this._path = opt_path; }
+  openOpenDialog(path?: string) {
+    if (path) {
+      this._path = path;
+    }
     return this._showDialog(this.$.openDialog);
   }
 
-  /**
-   * @param {string=} opt_path
-   */
-  openDeleteDialog(opt_path) {
-    if (opt_path) { this._path = opt_path; }
+  openDeleteDialog(path?: string) {
+    if (path) {
+      this._path = path;
+    }
     return this._showDialog(this.$.deleteDialog);
   }
 
-  /**
-   * @param {string=} opt_path
-   */
-  openRenameDialog(opt_path) {
-    if (opt_path) { this._path = opt_path; }
+  openRenameDialog(path?: string) {
+    if (path) {
+      this._path = path;
+    }
     return this._showDialog(this.$.renameDialog);
   }
 
-  /**
-   * @param {string=} opt_path
-   */
-  openRestoreDialog(opt_path) {
-    if (opt_path) { this._path = opt_path; }
+  openRestoreDialog(path?: string) {
+    if (path) {
+      this._path = path;
+    }
     return this._showDialog(this.$.restoreDialog);
   }
 
   /**
    * Given a path string, checks that it is a valid file path.
-   *
-   * @param {string} path
-   * @return {boolean}
    */
-  _isValidPath(path) {
+  _isValidPath(path: string) {
     // Double negation needed for strict boolean return type.
     return !!path.length && !path.endsWith('/');
   }
 
-  _computeRenameDisabled(path, newPath) {
+  _computeRenameDisabled(path: string, newPath: string) {
     return this._isValidPath(path) && this._isValidPath(newPath);
   }
 
   /**
    * Given a dom event, gets the dialog that lies along this event path.
-   *
-   * @param {!Event} e
-   * @return {!Element|undefined}
    */
-  _getDialogFromEvent(e) {
-    return dom(e).path.find(element => {
-      if (!element.classList) { return false; }
+  _getDialogFromEvent(e: Event): GrDialog | undefined {
+    return (dom(e) as EventApi).path.find(element => {
+      if (!(element instanceof Element)) return false;
+      if (!element.classList) return false;
       return element.classList.contains('dialog');
-    });
+    }) as GrDialog | undefined;
   }
 
-  _showDialog(dialog) {
+  _showDialog(dialog: GrDialog) {
     // Some dialogs may not fire their on-close event when closed in certain
     // ways (e.g. by clicking outside the dialog body). This call prevents
     // multiple dialogs from being shown in the same overlay.
@@ -165,120 +164,147 @@ class GrEditControls extends GestureEventListeners(
     return this.$.overlay.open().then(() => {
       dialog.classList.toggle('invisible', false);
       const autocomplete = dialog.querySelector('gr-autocomplete');
-      if (autocomplete) { autocomplete.focus(); }
-      this.async(() => { this.$.overlay.center(); }, 1);
+      if (autocomplete) {
+        autocomplete.focus();
+      }
+      this.async(() => {
+        this.$.overlay.center();
+      }, 1);
     });
   }
 
   _hideAllDialogs() {
-    const dialogs = this.root.querySelectorAll('.dialog');
-    for (const dialog of dialogs) { this._closeDialog(dialog); }
+    const dialogs = this.root!.querySelectorAll('.dialog') as NodeListOf<
+      GrDialog
+    >;
+    for (const dialog of dialogs) {
+      this._closeDialog(dialog);
+    }
   }
 
-  /**
-   * @param {Element|undefined} dialog
-   * @param {boolean=} clearInputs
-   */
-  _closeDialog(dialog, clearInputs) {
-    if (!dialog) { return; }
+  _closeDialog(dialog?: GrDialog, clearInputs = false) {
+    if (!dialog) return;
 
     if (clearInputs) {
       // Dialog may have autocompletes and plain inputs -- as these have
       // different properties representing their bound text, it is easier to
       // just make two separate queries.
-      dialog.querySelectorAll('gr-autocomplete')
-          .forEach(input => { input.text = ''; });
+      dialog.querySelectorAll('gr-autocomplete').forEach(input => {
+        input.text = '';
+      });
 
-      dialog.querySelectorAll('iron-input')
-          .forEach(input => { input.bindValue = ''; });
+      dialog.querySelectorAll('iron-input').forEach(input => {
+        input.bindValue = '';
+      });
     }
 
     dialog.classList.toggle('invisible', true);
     return this.$.overlay.close();
   }
 
-  _handleDialogCancel(e) {
+  _handleDialogCancel(e: Event) {
     this._closeDialog(this._getDialogFromEvent(e));
   }
 
-  _handleOpenConfirm(e) {
-    const url = GerritNav.getEditUrlForDiff(this.change, this._path,
-        this.patchNum);
+  _handleOpenConfirm(e: Event) {
+    const url = GerritNav.getEditUrlForDiff(
+      this.change,
+      this._path,
+      this.patchNum
+    );
     GerritNav.navigateToRelativeUrl(url);
     this._closeDialog(this._getDialogFromEvent(e), true);
   }
 
-  _handleUploadConfirm(path, fileData) {
+  _handleUploadConfirm(path: string, fileData: string) {
     if (!this.change || !path || !fileData) {
       this._closeDialog(this.$.openDialog, true);
       return;
     }
-    return this.$.restAPI.saveFileUploadChangeEdit(this.change._number, path,
-        fileData).then(res => {
-      if (!res.ok) { return; }
-      this._closeDialog(this.$.openDialog, true);
-      GerritNav.navigateToChange(this.change);
-    });
+    return this.$.restAPI
+      .saveFileUploadChangeEdit(this.change._number, path, fileData)
+      .then(res => {
+        if (!res || !res.ok) {
+          return;
+        }
+        this._closeDialog(this.$.openDialog, true);
+        GerritNav.navigateToChange(this.change);
+      });
   }
 
-  _handleDeleteConfirm(e) {
+  _handleDeleteConfirm(e: Event) {
     // Get the dialog before the api call as the event will change during bubbling
     // which will make Polymer.dom(e).path an empty array in polymer 2
     const dialog = this._getDialogFromEvent(e);
-    this.$.restAPI.deleteFileInChangeEdit(this.change._number, this._path)
-        .then(res => {
-          if (!res.ok) { return; }
-          this._closeDialog(dialog, true);
-          GerritNav.navigateToChange(this.change);
-        });
+    this.$.restAPI
+      .deleteFileInChangeEdit(this.change._number, this._path)
+      .then(res => {
+        if (!res || !res.ok) {
+          return;
+        }
+        this._closeDialog(dialog, true);
+        GerritNav.navigateToChange(this.change);
+      });
   }
 
-  _handleRestoreConfirm(e) {
+  _handleRestoreConfirm(e: Event) {
     const dialog = this._getDialogFromEvent(e);
-    this.$.restAPI.restoreFileInChangeEdit(this.change._number, this._path)
-        .then(res => {
-          if (!res.ok) { return; }
-          this._closeDialog(dialog, true);
-          GerritNav.navigateToChange(this.change);
-        });
+    this.$.restAPI
+      .restoreFileInChangeEdit(this.change._number, this._path)
+      .then(res => {
+        if (!res || !res.ok) {
+          return;
+        }
+        this._closeDialog(dialog, true);
+        GerritNav.navigateToChange(this.change);
+      });
   }
 
-  _handleRenameConfirm(e) {
+  _handleRenameConfirm(e: Event) {
     const dialog = this._getDialogFromEvent(e);
-    return this.$.restAPI.renameFileInChangeEdit(this.change._number,
-        this._path, this._newPath).then(res => {
-      if (!res.ok) { return; }
-      this._closeDialog(dialog, true);
-      GerritNav.navigateToChange(this.change);
-    });
+    return this.$.restAPI
+      .renameFileInChangeEdit(this.change._number, this._path, this._newPath)
+      .then(res => {
+        if (!res || !res.ok) {
+          return;
+        }
+        this._closeDialog(dialog, true);
+        GerritNav.navigateToChange(this.change);
+      });
   }
 
-  _queryFiles(input) {
-    return this.$.restAPI.queryChangeFiles(this.change._number,
-        this.patchNum, input).then(res => res.map(file => {
-      return {name: file};
-    }));
+  _queryFiles(input: string): Promise<Suggestion[]> {
+    return this.$.restAPI
+      .queryChangeFiles(this.change._number, this.patchNum, input)
+      .then(res =>
+        res!.map(file => {
+          return {name: file};
+        })
+      );
   }
 
-  _computeIsInvisible(id, hiddenActions) {
+  _computeIsInvisible(id: string, hiddenActions: string[]) {
     return hiddenActions.includes(id) ? 'invisible' : '';
   }
 
-  _handleDragAndDropUpload(event) {
-    // We prevent the default clicking.
+  _handleDragAndDropUpload(event: DragEvent) {
     event.preventDefault();
     event.stopPropagation();
 
-    this._fileUpload(event);
+    if (!event.dataTransfer) return;
+    this._fileUpload(event.dataTransfer.files);
   }
 
-  _handleFileUploadChanged(event) {
-    this._fileUpload(event);
+  _handleFileUploadChanged(event: InputEvent) {
+    if (!event.target) return;
+    if (!(event.target instanceof HTMLInputElement)) return;
+    const input = event.target as HTMLInputElement;
+    if (!input.files) return;
+    this._fileUpload(input.files);
   }
 
-  _fileUpload(event) {
-    const e = event.target.files || event.dataTransfer.files;
-    for (const file of e) {
+  _fileUpload(files: FileList) {
+    for (const file of files) {
       if (!file) continue;
 
       let path = this._path;
@@ -287,10 +313,12 @@ class GrEditControls extends GestureEventListeners(
       }
 
       const fr = new FileReader();
-      fr.file = file;
-      fr.onload = fileLoadEvent => {
+      // TODO(TS): Do we need this line?
+      // fr.file = file;
+      fr.onload = (fileLoadEvent: ProgressEvent<FileReader>) => {
         if (!fileLoadEvent) return;
-        const fileData = fileLoadEvent.target.result;
+        const fileData = fileLoadEvent.target!.result;
+        if (typeof fileData !== 'string') return;
         this._handleUploadConfirm(path, fileData);
       };
       fr.readAsDataURL(file);
@@ -298,4 +326,8 @@ class GrEditControls extends GestureEventListeners(
   }
 }
 
-customElements.define(GrEditControls.is, GrEditControls);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-edit-controls': GrEditControls;
+  }
+}

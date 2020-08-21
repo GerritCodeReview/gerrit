@@ -58,16 +58,15 @@ public interface UrlFormatter {
   }
 
   /** Returns the URL for viewing a file in a given patch set of a change. */
-  default Optional<String> getPatchFileView(Change change, int patchsetId, String filename) {
-    return getChangeViewUrl(change.getProject(), change.getId())
-        .map(url -> url + "/" + patchsetId + "/" + filename);
+  default Optional<String> getPatchFileView(Change change) {
+    return getChangeViewUrl(change.getProject(), change.getId());
   }
 
   /** Returns the URL for viewing a comment in a file in a given patch set of a change. */
   default Optional<String> getInlineCommentView(
-      Change change, int patchsetId, String filename, short side, int startLine) {
-    return getPatchFileView(change, patchsetId, filename)
-        .map(url -> url + String.format("@%s%d", side == 0 ? "a" : "", startLine));
+      Change change, String uuid) {
+    return getPatchFileView(change)
+        .map(url -> url + "/comment/" + uuid);
   }
 
   /** Returns a URL pointing to the settings page. */

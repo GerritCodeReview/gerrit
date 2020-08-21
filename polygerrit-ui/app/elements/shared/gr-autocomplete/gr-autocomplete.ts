@@ -61,6 +61,15 @@ export interface AutocompleteSuggestion {
   value?: string;
   text?: string;
 }
+
+export interface AutocompleteCommitEventDetail {
+  value: string;
+}
+
+export type AutocompleteCommitEvent = CustomEvent<
+  AutocompleteCommitEventDetail
+>;
+
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -490,7 +499,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     if (!silent) {
       this.dispatchEvent(
         new CustomEvent('commit', {
-          detail: {value},
+          detail: {value} as AutocompleteCommitEventDetail,
           composed: true,
           bubbles: true,
         })

@@ -15,6 +15,11 @@
  * limitations under the License.
  */
 
+export interface GrEditAction {
+  label: string;
+  id: string;
+}
+
 export const GrEditConstants = {
   // Order corresponds to order in the UI.
   Actions: {

@@ -45,6 +45,10 @@ export interface GrAutocomplete {
   };
 }
 
+export type AutocompleteQuery = (
+  text: string
+) => Promise<AutoCompleteSuggestion[]>;
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-autocomplete': GrAutocomplete;
@@ -94,8 +98,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
    *
    */
   @property({type: Object})
-  query: (_text?: string) => Promise<AutoCompleteSuggestion[]> = () =>
-    Promise.resolve([]);
+  query: AutocompleteQuery = () => Promise.resolve([]);
 
   /**
    * The number of characters that must be typed before suggestions are

@@ -28,8 +28,17 @@ suite('gr-edit-controls tests', () => {
   let showDialogSpy;
   let closeDialogSpy;
   let queryStub;
+  let ironOverlayBackdropStyleEl;
 
   setup(() => {
+    // Forcing an opacity of 0 onto the ironOverlayBackdrop is required, because
+    // otherwise the backdrop stays around in the DOM for too long waiting for
+    // an animation to finish.
+    ironOverlayBackdropStyleEl = document.createElement('style');
+    document.head.appendChild(ironOverlayBackdropStyleEl);
+    ironOverlayBackdropStyleEl.sheet.insertRule(
+        'body { --iron-overlay-backdrop-opacity: 0; }');
+
     element = basicFixture.instantiate();
     element.change = {_number: '42'};
     showDialogSpy = sinon.spy(element, '_showDialog');
@@ -38,6 +47,10 @@ suite('gr-edit-controls tests', () => {
     queryStub = sinon.stub(element.$.restAPI, 'queryChangeFiles')
         .returns(Promise.resolve([]));
     flushAsynchronousOperations();
+  });
+
+  teardown(() => {
+    ironOverlayBackdropStyleEl.remove();
   });
 
   test('all actions exist', () => {

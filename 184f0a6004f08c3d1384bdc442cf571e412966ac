@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "bbac8985_e865512b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "83b40f25_018200bb",
+      "range": {
+        "startLine": 9,
+        "startChar": 28,
+        "endLine": 9,
+        "endChar": 29
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c68013d7_29db6448",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -71,6 +95,54 @@
     },
     {
       "key": {
+        "uuid": "d99313b2_871863be",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c68013d7_29db6448",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 10
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d993a15b_165c60ef",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "057c6287_36897e0b",
+      "range": {
+        "startLine": 17,
+        "startChar": 23,
+        "endLine": 17,
+        "endChar": 24
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c3f80ce_83f5220a",
         "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 6
@@ -91,6 +163,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5f5e4d8_6e344ba2",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c3f80ce_83f5220a",
+      "range": {
+        "startLine": 72,
+        "startChar": 77,
+        "endLine": 72,
+        "endChar": 91
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "f3777b06_4957f9b4",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f77fada_11c4bd52",
+      "range": {
+        "startLine": 77,
+        "startChar": 64,
+        "endLine": 77,
+        "endChar": 70
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f3158d9f_3cdf866b",
         "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
         "patchSetId": 6
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "11eff7f9_941edfda",
+        "filename": "java/com/google/gerrit/server/git/GitRepositoryManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Agree. It is now in the Submission (SubmissionContext disappeared as part of another comment).",
+      "parentUuid": "f3158d9f_3cdf866b",
+      "range": {
+        "startLine": 81,
+        "startChar": 25,
+        "endLine": 81,
+        "endChar": 43
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d126dcff_a1ccce2c",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 6
@@ -154,6 +298,24 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dac52706_2ebd7aa1",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "It wouldn\u0027t break anything, It would just add updated refs in All-Users to the submission (and if no superproject is listening, is a no-op later).\n\nIn the submission implementation, we can optimize the single-repo submissions. I kept All-Users out thinking that it wont\u0027t have listeners and we get more submissions as single-repo... but now this sounds like an early (and misplaced?) optimization.\n\nI will add it to the submission and later we can change this behaviour if needed.",
+      "parentUuid": "d126dcff_a1ccce2c",
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -180,6 +342,30 @@
     },
     {
       "key": {
+        "uuid": "533688a7_5101e9ec",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Added anyway, as it comes from the Builder and it is not guaranteed to be set.",
+      "parentUuid": "c5073bad_769f031e",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 37
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5f65bf0c_99743a8e",
         "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
         "patchSetId": 6
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "494c0e9f_e9150f91",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Ack (will catch up on this offline).",
+      "parentUuid": "5f65bf0c_99743a8e",
+      "range": {
+        "startLine": 374,
+        "startChar": 12,
+        "endLine": 374,
+        "endChar": 63
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "70035ac7_fad2e05d",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 6
@@ -223,6 +433,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3854e562_171d714e",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70035ac7_fad2e05d",
+      "range": {
+        "startLine": 295,
+        "startChar": 7,
+        "endLine": 295,
+        "endChar": 11
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -272,6 +506,54 @@
     },
     {
       "key": {
+        "uuid": "e3545dba_7927259b",
+        "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4407c91f_4fd3e3c8",
+      "range": {
+        "startLine": 21,
+        "startChar": 7,
+        "endLine": 21,
+        "endChar": 12
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "91851977_d56b1b89",
+        "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "what about UntrackedSubmission?\n\nThis is the implementation of the interface that does nothing, e.g. to avoid passing nulls around. It should behave like it is not there.",
+      "parentUuid": "7d6016d6_fbd30b0d",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 27
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5c60c08b_f65a06e7",
         "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
         "patchSetId": 6
@@ -292,6 +574,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cd63120_cd36cf85",
+        "filename": "java/com/google/gerrit/server/update/NoOpSubmission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "SubmissionContext is gone.",
+      "parentUuid": "5c60c08b_f65a06e7",
+      "range": {
+        "startLine": 25,
+        "startChar": 11,
+        "endLine": 25,
+        "endChar": 15
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -341,6 +647,54 @@
     },
     {
       "key": {
+        "uuid": "dfe31956_7eb872ea",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done (SubmissionExecutorTest)",
+      "parentUuid": "5d2d2a22_4b062296",
+      "range": {
+        "startLine": 25,
+        "startChar": 6,
+        "endLine": 25,
+        "endChar": 64
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c120887_8bb9f47b",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "551b5938_37094b66",
+      "range": {
+        "startLine": 25,
+        "startChar": 65,
+        "endLine": 25,
+        "endChar": 67
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c4cfbcdd_638928bd",
         "filename": "java/com/google/gerrit/server/update/Submission.java",
         "patchSetId": 6
@@ -361,6 +715,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4d7ecc7_cbf98025",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c4cfbcdd_638928bd",
+      "range": {
+        "startLine": 42,
+        "startChar": 27,
+        "endLine": 42,
+        "endChar": 41
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -387,6 +765,30 @@
     },
     {
       "key": {
+        "uuid": "5ebabf7d_9ac239b2",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e338cab_cc09eb63",
+      "range": {
+        "startLine": 51,
+        "startChar": 36,
+        "endLine": 51,
+        "endChar": 42
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "77580590_1392a424",
         "filename": "java/com/google/gerrit/server/update/Submission.java",
         "patchSetId": 6
@@ -407,6 +809,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82641f87_f9a2e0e5",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "This has more the finishing up intention: here is where implementors can collect the results of the transaction (potentially expensive storage operation). I rename it as finish().",
+      "parentUuid": "77580590_1392a424",
+      "range": {
+        "startLine": 53,
+        "startChar": 7,
+        "endLine": 53,
+        "endChar": 16
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -433,6 +859,30 @@
     },
     {
       "key": {
+        "uuid": "76f1dc5a_d7e2e572",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Added api notes in the javadoc.\n\nRenamed to Preparation/prepareFor/finish. Will update also the GitRepositoryBuilder name when I get there.",
+      "parentUuid": "df692cbe_16addf45",
+      "range": {
+        "startLine": 64,
+        "startChar": 4,
+        "endLine": 64,
+        "endChar": 81
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be7f15a8_05f32fbd",
         "filename": "java/com/google/gerrit/server/update/Submission.java",
         "patchSetId": 6
@@ -453,6 +903,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "22cf9f5a_f9a2b577",
+        "filename": "java/com/google/gerrit/server/update/Submission.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Renamed to Preparation/prepareFor/finish",
+      "parentUuid": "be7f15a8_05f32fbd",
+      "range": {
+        "startLine": 71,
+        "startChar": 15,
+        "endLine": 71,
+        "endChar": 19
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -479,6 +953,30 @@
     },
     {
       "key": {
+        "uuid": "a9e92d67_f91e5fc6",
+        "filename": "java/com/google/gerrit/server/update/SubmissionContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 24,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Thanks, I think it makes sense to just use Submission. I am not sure if this methods need to be defined in the interface or is just implementation detail.\n\nIn any case, this class disappears.",
+      "parentUuid": "231dc1a5_d40eb2cf",
+      "range": {
+        "startLine": 23,
+        "startChar": 0,
+        "endLine": 24,
+        "endChar": 33
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "952b8f1a_625870fc",
         "filename": "java/com/google/gerrit/server/update/SubmissionContext.java",
         "patchSetId": 6
@@ -499,6 +997,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f2a0c12_f9381b12",
+        "filename": "java/com/google/gerrit/server/update/SubmissionContext.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "952b8f1a_625870fc",
+      "range": {
+        "startLine": 31,
+        "startChar": 13,
+        "endLine": 31,
+        "endChar": 28
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -525,6 +1047,30 @@
     },
     {
       "key": {
+        "uuid": "bd4b80df_1e326c44",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Submission.Preparation.",
+      "parentUuid": "5a64078d_d18ce73a",
+      "range": {
+        "startLine": 68,
+        "startChar": 6,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13faed19_8957352e",
         "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
         "patchSetId": 6
@@ -545,6 +1091,30 @@
       "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0590b023_c4672bd6",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T23:58:26Z",
+      "side": 1,
+      "message": "Thanks. I made the BatchUpdate#getRepoView() package visible to access the repository.",
+      "parentUuid": "13faed19_8957352e",
+      "range": {
+        "startLine": 72,
+        "startChar": 37,
+        "endLine": 72,
+        "endChar": 79
+      },
+      "revId": "184f0a6004f08c3d1384bdc442cf571e412966ac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

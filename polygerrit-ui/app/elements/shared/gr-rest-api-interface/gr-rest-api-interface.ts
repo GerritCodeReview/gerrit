@@ -121,7 +121,7 @@ import {
   PluginInfo,
   GpgKeyInfo,
   GpgKeysInput,
-  DocResult,
+  DocResult, ProjectAccessInfo, CapabilityInfoMap,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1679,7 +1679,11 @@ export class GrRestApiInterface
     );
   }
 
-  _getReposUrl(filter: string, reposPerPage: number, offset?: number) {
+  _getReposUrl(
+    filter: string | undefined,
+    reposPerPage: number,
+    offset?: number
+  ) {
     const defaultFilter = 'state:active OR state:read-only';
     const namePartDelimiters = /[@.\-\s/_]/g;
     offset = offset || 0;
@@ -1733,10 +1737,10 @@ export class GrRestApiInterface
   }
 
   getRepos(
-    filter: string,
+    filter: string | undefined,
     reposPerPage: number,
     offset?: number
-  ): Promise<ProjectInfo | undefined> {
+  ): Promise<NameToProjectInfoMap | undefined> {
     const url = this._getReposUrl(filter, reposPerPage, offset);
 
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
@@ -1744,7 +1748,7 @@ export class GrRestApiInterface
     return this._fetchSharedCacheURL({
       url,
       anonymizedUrl: '/projects/?*',
-    }) as Promise<ProjectInfo | undefined>;
+    }) as Promise<NameToProjectInfoMap | undefined>;
   }
 
   setRepoHead(repo: RepoName, ref: GitRef) {
@@ -1818,17 +1822,23 @@ export class GrRestApiInterface
     });
   }
 
-  getRepoAccessRights(repoName: RepoName, errFn?: ErrorCallback) {
+  getRepoAccessRights(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<ProjectAccessInfo | undefined> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.fetchJSON({
       url: `/projects/${encodeURIComponent(repoName)}/access`,
       errFn,
       anonymizedUrl: '/projects/*/access',
-    });
+    }) as Promise<ProjectAccessInfo | undefined>;
   }
 
-  setRepoAccessRights(repoName: RepoName, repoInfo: ProjectAccessInput) {
+  setRepoAccessRights(
+    repoName: RepoName,
+    repoInfo: ProjectAccessInput
+  ): Promise<Response> {
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
     return this._restApiHelper.send({
@@ -3094,12 +3104,14 @@ export class GrRestApiInterface
     });
   }
 
-  getCapabilities(errFn?: ErrorCallback) {
+  getCapabilities(
+    errFn?: ErrorCallback
+  ): Promise<CapabilityInfoMap | undefined> {
     return this._restApiHelper.fetchJSON({
       url: '/config/server/capabilities',
       errFn,
       reportUrlAsIs: true,
-    });
+    }) as Promise<CapabilityInfoMap | undefined>;
   }
 
   getTopMenus(errFn?: ErrorCallback) {

@@ -14,206 +14,216 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-menu-page-styles.js';
-import '../../../styles/gr-subpage-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-access-section/gr-access-section.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-repo-access_html.js';
-import {
-  encodeURL,
-  getBaseUrl,
-  singleDecodeURL,
-} from '../../../utils/url-util.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {toSortedPermissionsArray} from '../../../utils/access-util.js';
-
-const Defs = {};
+import '../../../styles/gr-menu-page-styles';
+import '../../../styles/gr-subpage-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-access-section/gr-access-section';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-repo-access_html';
+import {encodeURL, getBaseUrl, singleDecodeURL} from '../../../utils/url-util';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {PermissionArrayItem, toSortedPermissionsArray} from '../../../utils/access-util';
+import {customElement, property} from '@polymer/decorators';
+import {RepoName, ProjectInfo, LocalAccessSectionInfo, AccessSectionInfo, CapabilityInfoMap, LabelNameToLabelTypeInfoMap, ProjectAccessInput, GitRef} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {hasOwnProperty} from '../../../utils/common-util';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import { GrAccessSection } from '../gr-access-section/gr-access-section';
 
 const NOTHING_TO_SAVE = 'No changes to save.';
 
 const MAX_AUTOCOMPLETE_RESULTS = 50;
+
+enum UpdateType {
+  Add = 'add',
+  Remove = 'remove',
+}
+
+export interface GrRepoAccess {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
+
+export type PermissionAccessSection = PermissionArrayItem<AccessSectionInfo>;
+
+export interface AddRemoveObj {
+  [updateType: string]: {[pathItem: string]: AddRemoveUpdate};
+}
+export type AddRemoveUpdate = {rules: {}} | {permissions: {}} | {} | unknown;
+
+type TreeNode = TreeNodeWithDelete | TreeLeaf;
+type TreeLeaf = string | number | undefined;
+
+interface TreeNodeWithDelete {
+  [propName: string]: TreeNode;
+  deleted?: boolean;
+  modified?: boolean;
+  added?: boolean;
+  updatedId: string;
+}
 
 /**
  * Fired when save is a no-op
  *
  * @event show-alert
  */
-
-/**
- * @typedef {{
- *    value: !Object,
- * }}
- */
-Defs.rule;
-
-/**
- * @typedef {{
- *    rules: !Object<string, Defs.rule>
- * }}
- */
-Defs.permission;
-
-/**
- * Can be an empty object or consist of permissions.
- *
- * @typedef {{
- *    permissions: !Object<string, Defs.permission>
- * }}
- */
-Defs.permissions;
-
-/**
- * Can be an empty object or consist of permissions.
- *
- * @typedef {!Object<string, Defs.permissions>}
- */
-Defs.sections;
-
-/**
- * @typedef {{
- *    remove: !Defs.sections,
- *    add: !Defs.sections,
- * }}
- */
-Defs.projectAccessInput;
-
-/**
- * @extends PolymerElement
- */
-class GrRepoAccess extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-repo-access'; }
-
-  static get properties() {
-    return {
-      repo: {
-        type: String,
-        observer: '_repoChanged',
-      },
-      // The current path
-      path: String,
-
-      _canUpload: {
-        type: Boolean,
-        value: false,
-      },
-      _inheritFromFilter: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getInheritFromSuggestions.bind(this);
-        },
-      },
-      _ownerOf: Array,
-      _capabilities: Object,
-      _groups: Object,
-      /** @type {?} */
-      _inheritsFrom: Object,
-      _labels: Object,
-      _local: Object,
-      _editing: {
-        type: Boolean,
-        value: false,
-        observer: '_handleEditingChanged',
-      },
-      _modified: {
-        type: Boolean,
-        value: false,
-      },
-      _sections: Array,
-      _weblinks: Array,
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-    };
+@customElement('gr-repo-access')
+export class GrRepoAccess extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: String, observer: '_repoChanged'})
+  repo?: RepoName;
+
+  @property({type: String})
+  path?: string;
+
+  @property({type: Boolean})
+  _canUpload?: boolean = false; // restAPI can return undefined
+
+  @property({type: String})
+  _inheritFromFilter?: RepoName;
+
+  @property({type: Object})
+  _query: unknown = this._getInheritFromSuggestions.bind(this);
+
+  @property({type: Array})
+  _ownerOf?: GitRef[];
+
+  @property({type: Object})
+  _capabilities?: CapabilityInfoMap;
+
+  @property({type: Object})
+  _groups?: unknown;
+
+  @property({type: Object})
+  _inheritsFrom?: ProjectInfo | null;
+
+  @property({type: Object})
+  _labels?: LabelNameToLabelTypeInfoMap;
+
+  @property({type: Object})
+  _local?: LocalAccessSectionInfo;
+
+  @property({type: Boolean, observer: '_handleEditingChanged'})
+  _editing = false;
+
+  @property({type: Boolean})
+  _modified = false;
+
+  @property({type: Array})
+  _sections?: PermissionAccessSection[];
+
+  @property({type: Array})
+  _weblinks?: string[];
+
+  @property({type: Boolean})
+  _loading = true;
+
+  private _originalInheritsFrom?: ProjectInfo | null;
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('access-modified',
-        () =>
-          this._handleAccessModified());
+    this.addEventListener('access-modified', () =>
+      this._handleAccessModified()
+    );
   }
 
   _handleAccessModified() {
     this._modified = true;
   }
 
-  /**
-   * @param {string} repo
-   * @return {!Promise}
-   */
-  _repoChanged(repo) {
+  _repoChanged(repo: RepoName) {
     this._loading = true;
 
-    if (!repo) { return Promise.resolve(); }
+    if (!repo) {
+      return Promise.resolve();
+    }
 
     return this._reload(repo);
   }
 
-  _reload(repo) {
-    const promises = [];
-
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+  _reload(repo: RepoName) {
+    const errFn = (response?: Response | null) => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
     this._editing = false;
 
     // Always reset sections when a project changes.
     this._sections = [];
-    promises.push(this.$.restAPI.getRepoAccessRights(repo, errFn)
-        .then(res => {
-          if (!res) { return Promise.resolve(); }
+    const sectionsPromises = this.$.restAPI
+      .getRepoAccessRights(repo, errFn)
+      .then(res => {
+        if (!res) {
+          return Promise.resolve(undefined);
+        }
 
-          // Keep a copy of the original inherit from values separate from
-          // the ones data bound to gr-autocomplete, so the original value
-          // can be restored if the user cancels.
-          this._inheritsFrom = res.inherits_from ? ({
-            ...res.inherits_from}) : null;
-          this._originalInheritsFrom = res.inherits_from ? ({
-            ...res.inherits_from}) : null;
-          // Initialize the filter value so when the user clicks edit, the
-          // current value appears. If there is no parent repo, it is
-          // initialized as an empty string.
-          this._inheritFromFilter = res.inherits_from ?
-            this._inheritsFrom.name : '';
-          this._local = res.local;
-          this._groups = res.groups;
-          this._weblinks = res.config_web_links || [];
-          this._canUpload = res.can_upload;
-          this._ownerOf = res.owner_of || [];
-          return toSortedPermissionsArray(this._local);
-        }));
+        // Keep a copy of the original inherit from values separate from
+        // the ones data bound to gr-autocomplete, so the original value
+        // can be restored if the user cancels.
+        this._inheritsFrom = res.inherits_from
+          ? {
+              ...res.inherits_from,
+            }
+          : null;
+        this._originalInheritsFrom = res.inherits_from
+          ? {
+              ...res.inherits_from,
+            }
+          : null;
+        // Initialize the filter value so when the user clicks edit, the
+        // current value appears. If there is no parent repo, it is
+        // initialized as an empty string.
+        this._inheritFromFilter = this._inheritsFrom
+          ? this._inheritsFrom.name
+          : ('' as RepoName);
+        this._local = res.local;
+        this._groups = res.groups;
+        this._weblinks = res.config_web_links || [];
+        this._canUpload = res.can_upload;
+        this._ownerOf = res.owner_of || [];
+        return toSortedPermissionsArray(this._local);
+      });
 
-    promises.push(this.$.restAPI.getCapabilities(errFn)
-        .then(res => {
-          if (!res) { return Promise.resolve(); }
+    const capabilitiesPromises = this.$.restAPI
+      .getCapabilities(errFn)
+      .then(res => {
+        if (!res) {
+          return Promise.resolve(undefined);
+        }
 
-          return res;
-        }));
+        return res;
+      });
 
-    promises.push(this.$.restAPI.getRepo(repo, errFn)
-        .then(res => {
-          if (!res) { return Promise.resolve(); }
+    const labelsPromises = this.$.restAPI.getRepo(repo, errFn).then(res => {
+      if (!res) {
+        return Promise.resolve(undefined);
+      }
 
-          return res.labels;
-        }));
+      return res.labels;
+    });
 
-    return Promise.all(promises).then(([sections, capabilities, labels]) => {
+    return Promise.all([
+      sectionsPromises,
+      capabilitiesPromises,
+      labelsPromises,
+    ]).then(([sections, capabilities, labels]) => {
       this._capabilities = capabilities;
       this._labels = labels;
       this._sections = sections;
@@ -223,31 +233,36 @@ class GrRepoAccess extends GestureEventListeners(
 
   _handleUpdateInheritFrom(e) {
     if (!this._inheritsFrom) {
-      this._inheritsFrom = {};
+      this._inheritsFrom = {
+        id: e.detail.value,
+        name: this._inheritFromFilter,
+      };
+    } else {
+      this._inheritsFrom.id = e.detail.value;
+      this._inheritsFrom.name = this._inheritFromFilter;
     }
-    this._inheritsFrom.id = e.detail.value;
-    this._inheritsFrom.name = this._inheritFromFilter;
     this._handleAccessModified();
   }
 
   _getInheritFromSuggestions() {
-    return this.$.restAPI.getRepos(
-        this._inheritFromFilter,
-        MAX_AUTOCOMPLETE_RESULTS)
-        .then(response => {
-          const projects = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            projects.push({
-              name: response[key].name,
-              value: response[key].id,
-            });
+    return this.$.restAPI
+      .getRepos(this._inheritFromFilter, MAX_AUTOCOMPLETE_RESULTS)
+      .then(response => {
+        const projects = [];
+        for (const key in response) {
+          if (!hasOwnProperty(response, key)) {
+            continue;
           }
-          return projects;
-        });
+          projects.push({
+            name: response[key].name,
+            value: response[key].id,
+          });
+        }
+        return projects;
+      });
   }
 
-  _computeLoadingClass(loading) {
+  _computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
 
@@ -255,27 +270,36 @@ class GrRepoAccess extends GestureEventListeners(
     this._editing = !this._editing;
   }
 
-  _editOrCancel(editing) {
+  _editOrCancel(editing: boolean) {
     return editing ? 'Cancel' : 'Edit';
   }
 
-  _computeWebLinkClass(weblinks) {
+  _computeWebLinkClass(weblinks?: string[]) {
     return weblinks && weblinks.length ? 'show' : '';
   }
 
-  _computeShowInherit(inheritsFrom) {
+  _computeShowInherit(inheritsFrom?: RepoName) {
     return inheritsFrom ? 'show' : '';
   }
 
   _handleAddedSectionRemoved(e) {
-    const index = e.model.index;
-    this._sections = this._sections.slice(0, index)
-        .concat(this._sections.slice(index + 1, this._sections.length));
+    if (!this._sections) {
+      return;
+    }
+    const index = Number(e.model.index);
+    if (isNaN(index)) {
+      return;
+    }
+    this._sections = this._sections
+      .slice(0, index)
+      .concat(this._sections.slice(index + 1, this._sections.length));
   }
 
-  _handleEditingChanged(editing, editingOld) {
+  _handleEditingChanged(editing: boolean, editingOld: boolean) {
     // Ignore when editing gets set initially.
-    if (!editingOld || editing) { return; }
+    if (!editingOld || editing) {
+      return;
+    }
     // Remove any unsaved but added refs.
     if (this._sections) {
       this._sections = this._sections.filter(p => !p.value.added);
@@ -293,17 +317,19 @@ class GrRepoAccess extends GestureEventListeners(
   }
 
   /**
-   * @param {!Defs.projectAccessInput} addRemoveObj
-   * @param {!Array} path
-   * @param {string} type add or remove
-   * @param {!Object=} opt_value value to add if the type is 'add'
-   * @return {!Defs.projectAccessInput}
+   * @param value value to add if the type is 'add'
+   * @return
    */
-  _updateAddRemoveObj(addRemoveObj, path, type, opt_value) {
+  _updateAddRemoveObj(
+    addRemoveObj: {add: {[updateId: string]: TreeNodeWithDelete}; remove: {}},
+    path: string[],
+    type: UpdateType,
+    value?: unknown
+  ) {
     let curPos = addRemoveObj[type];
     for (const item of path) {
       if (!curPos[item]) {
-        if (item === path[path.length - 1] && type === 'remove') {
+        if (item === path[path.length - 1] && type === UpdateType.Remove) {
           if (path[path.length - 2] === 'permissions') {
             curPos[item] = {rules: {}};
           } else if (path.length === 1) {
@@ -311,8 +337,8 @@ class GrRepoAccess extends GestureEventListeners(
           } else {
             curPos[item] = {};
           }
-        } else if (item === path[path.length - 1] && type === 'add') {
-          curPos[item] = opt_value;
+        } else if (item === path[path.length - 1] && type === UpdateType.Add) {
+          curPos[item] = value;
         } else {
           curPos[item] = {};
         }
@@ -325,35 +351,54 @@ class GrRepoAccess extends GestureEventListeners(
   /**
    * Used to recursively remove any objects with a 'deleted' bit.
    */
-  _recursivelyRemoveDeleted(obj) {
+  _recursivelyRemoveDeleted(obj: TreeNodeWithDelete) {
     for (const k in obj) {
-      if (!obj.hasOwnProperty(k)) { continue; }
-
-      if (typeof obj[k] == 'object') {
-        if (obj[k].deleted) {
+      if (!hasOwnProperty(obj, k)) {
+        continue;
+      }
+      const node = obj[k];
+      if (typeof node === 'object') {
+        if (node.deleted) {
           delete obj[k];
           return;
         }
-        this._recursivelyRemoveDeleted(obj[k]);
+        this._recursivelyRemoveDeleted(node);
       }
     }
   }
 
-  _recursivelyUpdateAddRemoveObj(obj, addRemoveObj, path = []) {
+  _recursivelyUpdateAddRemoveObj(
+    obj: TreeNodeWithDelete,
+    addRemoveObj: {add: {[updateId: string]: TreeNodeWithDelete}; remove: {}},
+    pathFromRoot: string[] = []
+  ) {
     for (const k in obj) {
-      if (!obj.hasOwnProperty(k)) { continue; }
-      if (typeof obj[k] == 'object') {
-        const updatedId = obj[k].updatedId;
+      if (!hasOwnProperty(obj, k)) {
+        continue;
+      }
+      const node = obj[k];
+      if (typeof node === 'object') {
+        const updatedId = node.updatedId;
         const ref = updatedId ? updatedId : k;
-        if (obj[k].deleted) {
-          this._updateAddRemoveObj(addRemoveObj,
-              path.concat(k), 'remove');
+        if (node.deleted) {
+          this._updateAddRemoveObj(
+            addRemoveObj,
+            pathFromRoot.concat(k),
+            UpdateType.Remove
+          );
           continue;
-        } else if (obj[k].modified) {
-          this._updateAddRemoveObj(addRemoveObj,
-              path.concat(k), 'remove');
-          this._updateAddRemoveObj(addRemoveObj, path.concat(ref), 'add',
-              obj[k]);
+        } else if (node.modified) {
+          this._updateAddRemoveObj(
+            addRemoveObj,
+            pathFromRoot.concat(k),
+            UpdateType.Remove
+          );
+          this._updateAddRemoveObj(
+            addRemoveObj,
+            pathFromRoot.concat(ref),
+            UpdateType.Add,
+            node
+          );
           /* Special case for ref changes because they need to be added and
            removed in a different way. The new ref needs to include all
            changes but also the initial state. To do this, instead of
@@ -363,9 +408,13 @@ class GrRepoAccess extends GestureEventListeners(
             this._recursivelyRemoveDeleted(addRemoveObj.add[updatedId]);
           }
           continue;
-        } else if (obj[k].added) {
-          this._updateAddRemoveObj(addRemoveObj,
-              path.concat(ref), 'add', obj[k]);
+        } else if (node.added) {
+          this._updateAddRemoveObj(
+            addRemoveObj,
+            pathFromRoot.concat(ref),
+            UpdateType.Add,
+            node
+          );
           /**
            * As add / delete both can happen in the new section,
            * so here to make sure it will remove the deleted ones.
@@ -375,8 +424,11 @@ class GrRepoAccess extends GestureEventListeners(
           this._recursivelyRemoveDeleted(addRemoveObj.add[k]);
           continue;
         }
-        this._recursivelyUpdateAddRemoveObj(obj[k], addRemoveObj,
-            path.concat(k));
+        this._recursivelyUpdateAddRemoveObj(
+          node,
+          addRemoveObj,
+          pathFromRoot.concat(k)
+        );
       }
     }
   }
@@ -385,7 +437,7 @@ class GrRepoAccess extends GestureEventListeners(
    * Returns an object formatted for saving or submitting access changes for
    * review
    *
-   * @return {!Defs.projectAccessInput}
+   * @return
    */
   _computeAddAndRemove() {
     const addRemoveObj = {
@@ -393,17 +445,18 @@ class GrRepoAccess extends GestureEventListeners(
       remove: {},
     };
 
-    const originalInheritsFromId = this._originalInheritsFrom ?
-      singleDecodeURL(this._originalInheritsFrom.id) : null;
-    const inheritsFromId = this._inheritsFrom ?
-      singleDecodeURL(this._inheritsFrom.id) : null;
+    const originalInheritsFromId = this._originalInheritsFrom
+      ? singleDecodeURL(this._originalInheritsFrom.id)
+      : null;
+    const inheritsFromId = this._inheritsFrom
+      ? singleDecodeURL(this._inheritsFrom.id)
+      : null;
 
     const inheritFromChanged =
-        // Inherit from changed
-        (originalInheritsFromId &&
-            originalInheritsFromId !== inheritsFromId) ||
-        // Inherit from added (did not have one initially);
-        (!originalInheritsFromId && inheritsFromId);
+      // Inherit from changed
+      (originalInheritsFromId && originalInheritsFromId !== inheritsFromId) ||
+      // Inherit from added (did not have one initially);
+      (!originalInheritsFromId && inheritsFromId);
 
     this._recursivelyUpdateAddRemoveObj(this._local, addRemoveObj);
 
@@ -414,6 +467,9 @@ class GrRepoAccess extends GestureEventListeners(
   }
 
   _handleCreateSection() {
+    if (!this._local) {
+      return;
+    }
     let newRef = 'refs/for/*';
     // Avoid using an already used key for the placeholder, since it
     // immediately gets added to an object.
@@ -424,24 +480,30 @@ class GrRepoAccess extends GestureEventListeners(
     this.push('_sections', {id: newRef, value: section});
     this.set(['_local', newRef], section);
     flush();
-    this.root.querySelector('gr-access-section:last-of-type')
-        .editReference();
+    // Template already instantiated at this point
+    (this.root!.querySelector(
+      'gr-access-section:last-of-type'
+    ) as GrAccessSection).editReference();
   }
 
-  _getObjforSave() {
-    const addRemoveObj = this._computeAddAndRemove();
+  _getObjforSave(): ProjectAccessInput | undefined {
+    const addRemoveObj: ProjectAccessInput = this._computeAddAndRemove();
     // If there are no changes, don't actually save.
-    if (!Object.keys(addRemoveObj.add).length &&
-        !Object.keys(addRemoveObj.remove).length &&
-        !addRemoveObj.parent) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {message: NOTHING_TO_SAVE},
-        bubbles: true,
-        composed: true,
-      }));
+    if (
+      !Object.keys(addRemoveObj.add).length &&
+      !Object.keys(addRemoveObj.remove).length &&
+      !addRemoveObj.parent
+    ) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {message: NOTHING_TO_SAVE},
+          bubbles: true,
+          composed: true,
+        })
+      );
       return;
     }
-    const obj = {
+    const obj: ProjectAccessInput = {
       add: addRemoveObj.add,
       remove: addRemoveObj.remove,
     };
@@ -451,56 +513,72 @@ class GrRepoAccess extends GestureEventListeners(
     return obj;
   }
 
-  _handleSave(e) {
+  _handleSave(e: Event) {
     const obj = this._getObjforSave();
-    if (!obj) { return; }
-    const button = e && e.target;
+    if (!obj) {
+      return;
+    }
+    const button = e && (e.target as GrButton);
     if (button) {
       button.loading = true;
     }
-    return this.$.restAPI.setRepoAccessRights(this.repo, obj)
-        .then(() => {
-          this._reload(this.repo);
-        })
-        .finally(() => {
-          this._modified = false;
-          if (button) {
-            button.loading = false;
-          }
-        });
-  }
-
-  _handleSaveForReview(e) {
-    const obj = this._getObjforSave();
-    if (!obj) { return; }
-    const button = e && e.target;
-    if (button) {
-      button.loading = true;
+    const repo = this.repo;
+    if (!repo) {
+      return Promise.resolve();
     }
     return this.$.restAPI
-        .setRepoAccessRightsForReview(this.repo, obj)
-        .then(change => {
-          GerritNav.navigateToChange(change);
-        })
-        .finally(() => {
-          this._modified = false;
-          if (button) {
-            button.loading = false;
-          }
-        });
+      .setRepoAccessRights(repo, obj)
+      .then(() => {
+        this._reload(repo);
+      })
+      .finally(() => {
+        this._modified = false;
+        if (button) {
+          button.loading = false;
+        }
+      });
   }
 
-  _computeSaveReviewBtnClass(canUpload) {
+  _handleSaveForReview(e: Event) {
+    const obj = this._getObjforSave();
+    if (!obj) {
+      return;
+    }
+    const button = e && (e.target as GrButton);
+    if (button) {
+      button.loading = true;
+    }
+    if (!this.repo) {
+      return;
+    }
+    return this.$.restAPI
+      .setRepoAccessRightsForReview(this.repo, obj)
+      .then(change => {
+        GerritNav.navigateToChange(change);
+      })
+      .finally(() => {
+        this._modified = false;
+        if (button) {
+          button.loading = false;
+        }
+      });
+  }
+
+  _computeSaveReviewBtnClass(canUpload?: boolean) {
     return !canUpload ? 'invisible' : '';
   }
 
-  _computeSaveBtnClass(ownerOf) {
+  _computeSaveBtnClass(ownerOf?: GitRef[]) {
     return ownerOf && ownerOf.length === 0 ? 'invisible' : '';
   }
 
-  _computeMainClass(ownerOf, canUpload, editing) {
+  _computeMainClass(
+    ownerOf: GitRef[] | undefined,
+    canUpload: boolean,
+    editing: boolean
+  ) {
     const classList = [];
-    if (ownerOf && ownerOf.length > 0 || canUpload) {
+    if ((ownerOf && ownerOf.length > 0) || canUpload) {
       classList.push('admin');
     }
     if (editing) {
@@ -509,10 +587,13 @@ class GrRepoAccess extends GestureEventListeners(
     return classList.join(' ');
   }
 
-  _computeParentHref(repoName) {
-    return getBaseUrl() +
-        `/admin/repos/${encodeURL(repoName, true)},access`;
+  _computeParentHref(repoName: RepoName) {
+    return getBaseUrl() + `/admin/repos/${encodeURL(repoName, true)},access`;
   }
 }
 
-customElements.define(GrRepoAccess.is, GrRepoAccess);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-repo-access': GrRepoAccess;
+  }
+}

@@ -14,18 +14,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-permission/gr-permission.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {htmlTemplate} from './gr-access-section_html.js';
-import {AccessPermissions, toSortedPermissionsArray} from '../../../utils/access-util.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icons/gr-icons';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-permission/gr-permission';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {htmlTemplate} from './gr-access-section_html';
+import {
+  AccessPermissions,
+  toSortedPermissionsArray,
+} from '../../../utils/access-util';
+import {customElement, property} from '@polymer/decorators';
 
 /**
  * Fired when the section has been modified or removed.
@@ -50,49 +54,51 @@ const LABEL = 'Label';
 /**
  * @extends PolymerElement
  */
-class GrAccessSection extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-access-section'; }
-
-  static get properties() {
-    return {
-      capabilities: Object,
-      /** @type {?} */
-      section: {
-        type: Object,
-        notify: true,
-        observer: '_updateSection',
-      },
-      groups: Object,
-      labels: Object,
-      editing: {
-        type: Boolean,
-        value: false,
-        observer: '_handleEditingChanged',
-      },
-      canUpload: Boolean,
-      ownerOf: Array,
-      _originalId: String,
-      _editingRef: {
-        type: Boolean,
-        value: false,
-      },
-      _deleted: {
-        type: Boolean,
-        value: false,
-      },
-      _permissions: Array,
-    };
+@customElement('gr-access-section')
+export class GrAccessSection extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Object})
+  capabilities?: unknown;
+
+  @property({type: Object, notify: true, observer: '_updateSection'})
+  section?: unknown;
+
+  @property({type: Object})
+  groups?: unknown;
+
+  @property({type: Object})
+  labels?: unknown;
+
+  @property({type: Boolean, observer: '_handleEditingChanged'})
+  editing = false;
+
+  @property({type: Boolean})
+  canUpload?: boolean;
+
+  @property({type: Array})
+  ownerOf?: unknown;
+
+  @property({type: String})
+  _originalId?: string;
+
+  @property({type: Boolean})
+  _editingRef = false;
+
+  @property({type: Boolean})
+  _deleted = false;
+
+  @property({type: Array})
+  _permissions?: unknown;
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('access-saved',
-        () => this._handleAccessSaved());
+    this.addEventListener('access-saved', () => this._handleAccessSaved());
   }
 
   _updateSection(section) {
@@ -113,15 +119,18 @@ class GrAccessSection extends GestureEventListeners(
       // For a new section, this is not fired because new permissions and
       // rules have to be added in order to save, modifying the ref is not
       // enough.
-      this.dispatchEvent(new CustomEvent(
-          'access-modified', {bubbles: true, composed: true}));
+      this.dispatchEvent(
+        new CustomEvent('access-modified', {bubbles: true, composed: true})
+      );
     }
     this.section.value.updatedId = this.section.id;
   }
 
   _handleEditingChanged(editing, editingOld) {
     // Ignore when editing gets set initially.
-    if (!editingOld) { return; }
+    if (!editingOld) {
+      return;
+    }
     // Restore original values if no longer editing.
     if (!editing) {
       this._editingRef = false;
@@ -149,10 +158,12 @@ class GrAccessSection extends GestureEventListeners(
     } else {
       const labelOptions = this._computeLabelOptions(labels);
       allPermissions = labelOptions.concat(
-          toSortedPermissionsArray(AccessPermissions));
+        toSortedPermissionsArray(AccessPermissions)
+      );
     }
-    return allPermissions
-        .filter(permission => !this.section.value.permissions[permission.id]);
+    return allPermissions.filter(
+      permission => !this.section.value.permissions[permission.id]
+    );
   }
 
   _computeHideEditClass(section) {
@@ -161,13 +172,16 @@ class GrAccessSection extends GestureEventListeners(
 
   _handleAddedPermissionRemoved(e) {
     const index = e.model.index;
-    this._permissions = this._permissions.slice(0, index).concat(
-        this._permissions.slice(index + 1, this._permissions.length));
+    this._permissions = this._permissions
+      .slice(0, index)
+      .concat(this._permissions.slice(index + 1, this._permissions.length));
   }
 
   _computeLabelOptions(labels) {
     const labelOptions = [];
-    if (!labels) { return []; }
+    if (!labels) {
+      return [];
+    }
     for (const labelName of Object.keys(labels)) {
       labelOptions.push({
         id: 'label-' + labelName,
@@ -221,13 +235,18 @@ class GrAccessSection extends GestureEventListeners(
 
   _handleRemoveReference() {
     if (this.section.value.added) {
-      this.dispatchEvent(new CustomEvent(
-          'added-section-removed', {bubbles: true, composed: true}));
+      this.dispatchEvent(
+        new CustomEvent('added-section-removed', {
+          bubbles: true,
+          composed: true,
+        })
+      );
     }
     this._deleted = true;
     this.section.value.deleted = true;
     this.dispatchEvent(
-        new CustomEvent('access-modified', {bubbles: true, composed: true}));
+      new CustomEvent('access-modified', {bubbles: true, composed: true})
+    );
   }
 
   _handleUndoRemove() {
@@ -236,9 +255,11 @@ class GrAccessSection extends GestureEventListeners(
   }
 
   editRefInput() {
-    return this.root.querySelector(PolymerElement ?
-      'iron-input.editRefInput' :
-      'input[is=iron-input].editRefInput');
+    return this.root.querySelector(
+      PolymerElement
+        ? 'iron-input.editRefInput'
+        : 'input[is=iron-input].editRefInput'
+    );
   }
 
   editReference() {
@@ -252,8 +273,7 @@ class GrAccessSection extends GestureEventListeners(
 
   _computeSectionClass(editing, canUpload, ownerOf, editingRef, deleted) {
     const classList = [];
-    if (editing
-       && this._isEditEnabled(canUpload, ownerOf, this.section.id)) {
+    if (editing && this._isEditEnabled(canUpload, ownerOf, this.section.id)) {
       classList.push('editing');
     }
     if (editingRef) {
@@ -292,15 +312,19 @@ class GrAccessSection extends GestureEventListeners(
     // When we add a new item, we have to push the new permission in the same
     // format as the ones that have been returned by the API.
     if (value.startsWith('label')) {
-      permission.value.label =
-          value.replace('label-', '').replace('labelAs-', '');
+      permission.value.label = value
+        .replace('label-', '')
+        .replace('labelAs-', '');
     }
     // Add to the end of the array (used in dom-repeat) and also to the
     // section object that is two way bound with its parent element.
     this.push('_permissions', permission);
-    this.set(['section.value.permissions', permission.id],
-        permission.value);
+    this.set(['section.value.permissions', permission.id], permission.value);
   }
 }
 
-customElements.define(GrAccessSection.is, GrAccessSection);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-access-section': GrAccessSection;
+  }
+}

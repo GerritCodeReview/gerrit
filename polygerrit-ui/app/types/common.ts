@@ -111,6 +111,8 @@ export type ChangeInfoId = BrandType<string, '_changeInfoId'>;
 export type Hashtag = BrandType<string, '_hashtag'>;
 export type StarLabel = BrandType<string, '_startLabel'>;
 export type CommitId = BrandType<string, '_commitId'>;
+export type LabelName = BrandType<string, '_labelName'>;
+
 
 // The UUID of the group
 export type GroupId = BrandType<string, '_groupId'>;
@@ -663,6 +665,8 @@ export interface CapabilityInfo {
   name: string;
 }
 
+export type CapabilityInfoMap = {[id: string]: CapabilityInfo};
+
 /**
  * The ChangeConfigInfo entity contains information about Gerrit configuration
  * from the change section.
@@ -1059,12 +1063,13 @@ export interface ProjectInfo {
   state?: ProjectState;
   branches?: {[branchName: string]: CommitId};
   // labels is filled for Create Project and Get Project calls.
-  labels?: {[labelName: string]: LabelTypeInfo};
+  labels?: LabelNameToLabelTypeInfoMap;
   // Links to the project in external sites
   web_links?: WebLinkInfo[];
 }
 
 export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};
+export type LabelNameToLabelTypeInfoMap = {[labelName: string]: LabelTypeInfo};
 
 /**
  * The LabelTypeInfo entity contains metadata about the labels that a project
@@ -1072,9 +1077,11 @@ export type NameToProjectInfoMap = {[projectName: string]: ProjectInfo};
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#label-type-info
  */
 export interface LabelTypeInfo {
-  values: {[value: string]: string};
+  values: LabelTypeInfoValues;
   default_value: number;
 }
+
+export type LabelTypeInfoValues = {[value: string]: string};
 
 /**
  * The DiffContent entity contains information about the content differences in a file.
@@ -1333,7 +1340,7 @@ export interface ProjectAccessInfo {
   can_add_tags?: boolean;
   config_visible?: boolean;
   groups: ProjectAccessGroups;
-  configWebLinks: string[];
+  config_web_links: string[];
 }
 
 export type ProjectAccessInfoMap = {[projectName: string]: ProjectAccessInfo};

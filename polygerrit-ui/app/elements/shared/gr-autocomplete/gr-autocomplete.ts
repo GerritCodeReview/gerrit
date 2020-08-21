@@ -57,6 +57,9 @@ interface Suggestion {
   value?: string;
   text?: string;
 }
+
+export type AutocompleteQueryCallback = (text: string) => Promise<Suggestion[]>;
+
 @customElement('gr-autocomplete')
 export class GrAutocomplete extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -94,7 +97,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
    *
    */
   @property({type: Object})
-  query: (_text?: string) => Promise<Suggestion[]> = () => Promise.resolve([]);
+  query: AutocompleteQueryCallback = () => Promise.resolve([]);
 
   /**
    * The number of characters that must be typed before suggestions are

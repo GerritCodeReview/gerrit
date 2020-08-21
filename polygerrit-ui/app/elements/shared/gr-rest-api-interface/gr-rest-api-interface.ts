@@ -1578,7 +1578,7 @@ export class GrRestApiInterface
       endpoint: `/files?q=${encodeURIComponent(query)}`,
       patchNum,
       anonymizedEndpoint: '/files?q=*',
-    });
+    }) as Promise<string[] | undefined>;
   }
 
   getChangeOrEditFiles(changeNum: ChangeNum, patchRange: PatchRange) {

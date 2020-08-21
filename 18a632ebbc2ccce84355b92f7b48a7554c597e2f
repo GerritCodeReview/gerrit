@@ -22,6 +22,30 @@
       "revId": "18a632ebbc2ccce84355b92f7b48a7554c597e2f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08225cdd_433a7855",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-21T17:16:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eed8128_f7712f2b",
+      "range": {
+        "startLine": 161,
+        "startChar": 6,
+        "endLine": 161,
+        "endChar": 30
+      },
+      "revId": "18a632ebbc2ccce84355b92f7b48a7554c597e2f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

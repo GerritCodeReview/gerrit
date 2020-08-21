@@ -15,21 +15,26 @@
  * limitations under the License.
  */
 
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-hovercard_html.js';
-import {hovercardBehaviorMixin} from './gr-hovercard-behavior.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import './gr-hovercard-shared-style.js';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-hovercard_html';
+import {hovercardBehaviorMixin} from './gr-hovercard-behavior';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import './gr-hovercard-shared-style';
+import {customElement} from '@polymer/decorators';
 
-/** @extends PolymerElement */
-class GrHovercard extends GestureEventListeners(
-    hovercardBehaviorMixin(LegacyElementMixin(PolymerElement))
+@customElement('gr-hovercard')
+export class GrHovercard extends GestureEventListeners(
+  hovercardBehaviorMixin(LegacyElementMixin(PolymerElement))
 ) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-hovercard'; }
+  static get template() {
+    return htmlTemplate;
+  }
 }
 
-customElements.define(GrHovercard.is, GrHovercard);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-hovercard': GrHovercard;
+  }
+}

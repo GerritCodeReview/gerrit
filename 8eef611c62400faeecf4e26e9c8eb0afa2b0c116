@@ -93,6 +93,30 @@
       "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2cdf5693_20347038",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-21T14:33:02Z",
+      "side": 1,
+      "message": "If I understand correctly the link is:\n..CHANGE_ID/comments/COMMENT_ID\n\nThere\u0027s no path/file associated with them, but the link doesn\u0027t require path or file. In the frontend you created a link to other comments based on comment id, is there anything different in the frontend for patch set level comments?",
+      "parentUuid": "c7678387_a667e174",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 0
+      },
+      "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

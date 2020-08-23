@@ -39,6 +39,7 @@ import {
   GpgKeyId,
   GpgKeyInfo,
   PreferencesInfo,
+  EmailInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -177,6 +178,11 @@ export interface RestApiService {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
+
+  getAccountEmails(): Promise<EmailInfo[] | undefined>;
+  deleteAccountEmail(email: string): Promise<Response>;
+  setPreferredAccountEmail(email: string, errFn?: ErrorCallback): Promise<void>;
+
   getAccountSSHKeys(): Promise<SshKeyInfo[]>;
   deleteAccountSSHKey(key: string): void;
   addAccountSSHKey(key: string): Promise<SshKeyInfo>;

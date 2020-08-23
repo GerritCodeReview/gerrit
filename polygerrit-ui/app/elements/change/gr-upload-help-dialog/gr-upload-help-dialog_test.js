@@ -60,50 +60,37 @@ suite('gr-upload-help-dialog tests', () => {
       assert.isUndefined(element._computeFetchCommand({fetch: {}}));
     });
 
-    test('not all defined', () => {
+    test('revision not defined', () => {
       assert.isUndefined(
-          element._computeFetchCommand(testRev, undefined, ''));
-      assert.isUndefined(
-          element._computeFetchCommand(testRev, '', undefined));
-      assert.isUndefined(
-          element._computeFetchCommand(undefined, '', ''));
+          element._computeFetchCommand(undefined, ''));
     });
 
     test('insufficiently defined scheme', () => {
       assert.isUndefined(
-          element._computeFetchCommand(testRev, '', 'badscheme'));
+          element._computeFetchCommand(testRev, 'badscheme'));
 
       const rev = {...testRev};
       rev.fetch = {...testRev.fetch, nocmds: {commands: {}}};
       assert.isUndefined(
-          element._computeFetchCommand(rev, '', 'nocmds'));
+          element._computeFetchCommand(rev, 'nocmds'));
 
       rev.fetch.nocmds.commands.unsupported = 'unsupported';
       assert.isUndefined(
-          element._computeFetchCommand(rev, '', 'nocmds'));
+          element._computeFetchCommand(rev, 'nocmds'));
     });
 
     test('default scheme and command', () => {
-      const cmd = element._computeFetchCommand(testRev, '', '');
+      const cmd = element._computeFetchCommand(testRev, '');
       assert.isTrue(cmd === 'http checkout' || cmd === 'ssh pull');
     });
 
     test('default command', () => {
       assert.strictEqual(
-          element._computeFetchCommand(testRev, '', 'http'),
+          element._computeFetchCommand(testRev, 'http'),
           'http checkout');
       assert.strictEqual(
-          element._computeFetchCommand(testRev, '', 'ssh'),
+          element._computeFetchCommand(testRev, 'ssh'),
           'ssh pull');
-    });
-
-    test('user preferred scheme and command', () => {
-      assert.strictEqual(
-          element._computeFetchCommand(testRev, 'PULL', 'http'),
-          'http pull');
-      assert.strictEqual(
-          element._computeFetchCommand(testRev, 'badcmd', 'http'),
-          'http checkout');
     });
   });
 });

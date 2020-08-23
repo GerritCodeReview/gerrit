@@ -37,7 +37,7 @@ import {
   TagInput,
   GpgKeysInput,
   GpgKeyId,
-  GpgKeyInfo,
+  GpgKeyInfo, PreferencesInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -111,6 +111,7 @@ export interface RestApiService {
   dispatchEvent(event: Event, detail?: unknown): boolean;
   getConfig(noCache?: boolean): Promise<ServerInfo | undefined>;
   getLoggedIn(): Promise<boolean>;
+  getPreferences(): Promise<PreferencesInfo | undefined>;
   getVersion(): Promise<string | undefined>;
   invalidateReposCache(): void;
   getAccount(): Promise<AccountDetailInfo | undefined>;

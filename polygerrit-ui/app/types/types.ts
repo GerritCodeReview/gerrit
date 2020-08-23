@@ -46,3 +46,27 @@ export interface PolymerDomWrapper {
 export interface OwnerRoot {
   host?: HTMLElement;
 }
+
+/**
+ * Event type for an event fired by Polymer for an element generated from a
+ * dom-repeat template.
+ */
+export interface PolymerDomRepeatEvent<T> extends CustomEvent {
+  model: PolymerDomRepeatEventModel<T>;
+}
+
+/**
+ * Model containing additional information about the dom-repeat element
+ * that fired an event.
+ */
+export interface PolymerDomRepeatEventModel<T> {
+  /**
+   * The item corresponding to the element in the dom-repeat.
+   */
+  item: T;
+
+  /**
+   * The index of the element in the dom-repeat.
+   */
+  index: number;
+}

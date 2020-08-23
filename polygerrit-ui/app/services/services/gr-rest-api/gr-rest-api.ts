@@ -38,6 +38,7 @@ import {
   GpgKeysInput,
   GpgKeyId,
   GpgKeyInfo,
+  AccountExternalIdInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -117,6 +118,8 @@ export interface RestApiService {
   getAccountCapabilities(
     params?: string[]
   ): Promise<AccountCapabilityInfo | undefined>;
+  getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
+  deleteAccountIdentity(id: string[]): Promise<unknown>;
   getRepos(
     filter: string,
     reposPerPage: number,

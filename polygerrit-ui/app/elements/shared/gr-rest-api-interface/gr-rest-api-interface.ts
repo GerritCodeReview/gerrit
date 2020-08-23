@@ -122,6 +122,7 @@ import {
   GpgKeyInfo,
   GpgKeysInput,
   DocResult,
+  AccountExternalIdInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -957,7 +958,7 @@ export class GrRestApiInterface
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/external.ids',
       reportUrlAsIs: true,
-    });
+    }) as Promise<AccountExternalIdInfo[] | undefined>;
   }
 
   deleteAccountIdentity(id: string[]) {
@@ -967,7 +968,7 @@ export class GrRestApiInterface
       body: id,
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as Promise<unknown>;
   }
 
   getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined> {

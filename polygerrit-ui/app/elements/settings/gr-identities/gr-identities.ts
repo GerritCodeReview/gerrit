@@ -14,89 +14,100 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../../styles/gr-form-styles.js';
-import '../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-identities_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
+import '../../../styles/shared-styles';
+import '../../../styles/gr-form-styles';
+import '../../admin/gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-identities_html';
+import {getBaseUrl} from '../../../utils/url-util';
+import {customElement, property} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {AccountExternalIdInfo, ServerInfo} from '../../../types/common';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {PolymerDomRepeatEvent} from '../../../types/types';
 
-const AUTH = [
-  'OPENID',
-  'OAUTH',
-];
+const AUTH = ['OPENID', 'OAUTH'];
 
-/**
- * @extends PolymerElement
- */
-class GrIdentities extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrIdentities {
+  $: {
+    restAPI: RestApiService & Element;
+    overlay: GrOverlay;
+  };
+}
 
-  static get is() { return 'gr-identities'; }
-
-  static get properties() {
-    return {
-      _identities: Object,
-      _idName: String,
-      serverConfig: Object,
-      _showLinkAnotherIdentity: {
-        type: Boolean,
-        computed: '_computeShowLinkAnotherIdentity(serverConfig)',
-      },
-    };
+@customElement('gr-identities')
+export class GrIdentities extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Array})
+  _identities: AccountExternalIdInfo[] = [];
+
+  @property({type: String})
+  _idName?: string;
+
+  @property({type: Object})
+  serverConfig?: ServerInfo;
+
+  @property({
+    type: Boolean,
+    computed: '_computeShowLinkAnotherIdentity(serverConfig)',
+  })
+  _showLinkAnotherIdentity?: boolean;
 
   loadData() {
     return this.$.restAPI.getExternalIds().then(id => {
-      this._identities = id;
+      this._identities = id ?? [];
     });
   }
 
-  _computeIdentity(id) {
+  _computeIdentity(id: string) {
     return id && id.startsWith('mailto:') ? '' : id;
   }
 
-  _computeHideDeleteClass(canDelete) {
+  _computeHideDeleteClass(canDelete?: boolean) {
     return canDelete ? 'show' : '';
   }
 
   _handleDeleteItemConfirm() {
     this.$.overlay.close();
-    return this.$.restAPI.deleteAccountIdentity([this._idName])
-        .then(() => { this.loadData(); });
+    return this.$.restAPI.deleteAccountIdentity([this._idName!]).then(() => {
+      this.loadData();
+    });
   }
 
   _handleConfirmDialogCancel() {
     this.$.overlay.close();
   }
 
-  _handleDeleteItem(e) {
-    const name = e.model.get('item.identity');
-    if (!name) { return; }
+  _handleDeleteItem(e: PolymerDomRepeatEvent<AccountExternalIdInfo>) {
+    const name = e.model.item.identity;
+    if (!name) {
+      return;
+    }
     this._idName = name;
     this.$.overlay.open();
   }
 
-  _computeIsTrusted(item) {
+  _computeIsTrusted(item?: boolean) {
     return item ? '' : 'Untrusted';
   }
 
-  filterIdentities(item) {
+  filterIdentities(item: AccountExternalIdInfo) {
     return !item.identity.startsWith('username:');
   }
 
-  _computeShowLinkAnotherIdentity(config) {
-    if (config && config.auth &&
-        config.auth.git_basic_auth_policy) {
-      return AUTH.includes(
-          config.auth.git_basic_auth_policy.toUpperCase());
+  _computeShowLinkAnotherIdentity(config?: ServerInfo) {
+    if (config?.auth?.git_basic_auth_policy) {
+      return AUTH.includes(config.auth.git_basic_auth_policy.toUpperCase());
     }
 
     return false;
@@ -112,4 +123,8 @@ class GrIdentities extends GestureEventListeners(
   }
 }
 
-customElements.define(GrIdentities.is, GrIdentities);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-identities': GrIdentities;
+  }
+}

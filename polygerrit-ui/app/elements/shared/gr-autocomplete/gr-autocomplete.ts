@@ -45,14 +45,18 @@ export interface GrAutocomplete {
   };
 }
 
+export type AutocompleteQuery = (
+  text: string
+) => Promise<AutocompleteSuggestion[]>;
+
 declare global {
   interface HTMLElementTagNameMap {
     'gr-autocomplete': GrAutocomplete;
   }
 }
 
-interface Suggestion {
-  name: string;
+export interface AutocompleteSuggestion {
+  name?: string;
   label?: string;
   value?: string;
   text?: string;
@@ -94,7 +98,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
    *
    */
   @property({type: Object})
-  query: (_text?: string) => Promise<Suggestion[]> = () => Promise.resolve([]);
+  query: AutocompleteQuery = () => Promise.resolve([]);
 
   /**
    * The number of characters that must be typed before suggestions are
@@ -165,7 +169,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   noDebounce = false;
 
   @property({type: Array})
-  _suggestions: Suggestion[] = [];
+  _suggestions: AutocompleteSuggestion[] = [];
 
   @property({type: Array})
   _suggestionEls = [];
@@ -324,7 +328,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
   }
 
   @observe('_suggestions', '_focused')
-  _maybeOpenDropdown(suggestions: Suggestion[], focused: boolean) {
+  _maybeOpenDropdown(suggestions: AutocompleteSuggestion[], focused: boolean) {
     if (suggestions.length > 0 && focused) {
       return this.$.suggestions.open();
     }
@@ -413,7 +417,10 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     this._commit(_tabComplete);
   }
 
-  _updateValue(suggestion: HTMLElement | null, suggestions: Suggestion[]) {
+  _updateValue(
+    suggestion: HTMLElement | null,
+    suggestions: AutocompleteSuggestion[]
+  ) {
     if (!suggestion) {
       return;
     }
@@ -472,7 +479,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
         if (dataSet) {
           const index = Number(dataSet['index']!);
           if (isNaN(index)) return;
-          this.setText(this._suggestions[index].name);
+          this.setText(this._suggestions[index].name || '');
         }
       } else {
         this.clear();

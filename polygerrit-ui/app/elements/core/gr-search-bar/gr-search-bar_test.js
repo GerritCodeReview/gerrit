@@ -192,8 +192,8 @@ suite('gr-search-bar tests', () => {
         stub('gr-rest-api-interface', {
           getConfig() {
             return Promise.resolve({
-              index: {
-                mergeabilityComputationBehavior: mergeability,
+              change: {
+                mergeability_computation_behavior: mergeability,
               },
             });
           },

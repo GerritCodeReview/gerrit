@@ -676,7 +676,7 @@ export interface ChangeConfigInfo {
   update_delay: string;
   submit_whole_topic: boolean;
   disable_private_changes: boolean;
-  mergeability_computation_behavior: ChangeInfo;
+  mergeability_computation_behavior: string;
   enable_attention_set: boolean;
   enable_assignee: boolean;
 }

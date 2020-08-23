@@ -26,7 +26,7 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {customElement, property} from '@polymer/decorators';
 import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {RepoName, BranchName} from '../../../types/common';
-import {AutoCompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const SUGGESTIONS_LIMIT = 15;
 
@@ -65,7 +65,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
   project?: RepoName;
 
   @property({type: Object})
-  _query?: (_text?: string) => Promise<AutoCompleteSuggestion[]>;
+  _query?: (_text?: string) => Promise<AutocompleteSuggestion[]>;
 
   get keyBindings() {
     return {
@@ -102,7 +102,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
 
   _getProjectBranchesSuggestions(
     input?: string
-  ): Promise<AutoCompleteSuggestion[]> {
+  ): Promise<AutocompleteSuggestion[]> {
     if (!this.project) return Promise.reject(new Error('Missing project'));
     if (!input) return Promise.reject(new Error('Missing input'));
     if (input.startsWith('refs/heads/')) {
@@ -111,7 +111,7 @@ export class GrConfirmMoveDialog extends KeyboardShortcutMixin(
     return this.$.restAPI
       .getRepoBranches(input, this.project, SUGGESTIONS_LIMIT)
       .then(response => {
-        const branches: AutoCompleteSuggestion[] = [];
+        const branches: AutocompleteSuggestion[] = [];
         let branch;
         if (response) {
           response.forEach(value => {

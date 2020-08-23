@@ -14,15 +14,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-search-bar_html.js';
-import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-search-bar_html';
+import {
+  CustomKeyboardEvent,
+  KeyboardShortcutMixin,
+  Shortcut,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {customElement, property} from '@polymer/decorators';
+import {ServerInfo} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {
+  AutocompleteQuery,
+  AutocompleteSuggestion,
+  GrAutocomplete,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS = [
@@ -103,94 +115,90 @@ const SEARCH_OPERATORS = [
 ];
 
 // All of the ops, with corresponding negations.
-const SEARCH_OPERATORS_WITH_NEGATIONS_SET =
-  new Set(SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`)));
+const SEARCH_OPERATORS_WITH_NEGATIONS_SET = new Set(
+  SEARCH_OPERATORS.concat(SEARCH_OPERATORS.map(op => `-${op}`))
+);
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
-/**
- * @extends PolymerElement
- */
-class GrSearchBar extends KeyboardShortcutMixin(GestureEventListeners(
-    LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+type SuggestionProvider = (
+  predicate: string,
+  expression: string
+) => Promise<AutocompleteSuggestion[]>;
 
-  static get is() { return 'gr-search-bar'; }
+export interface GrSearchBar {
+  $: {
+    restAPI: RestApiService & Element;
+    searchInput: GrAutocomplete;
+  };
+}
+
+@customElement('gr-search-bar')
+export class GrSearchBar extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when a search is committed
    *
    * @event handle-search
    */
 
-  static get properties() {
-    return {
-      value: {
-        type: String,
-        value: '',
-        notify: true,
-        observer: '_valueChanged',
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      query: {
-        type: Function,
-        value() {
-          return this._getSearchSuggestions.bind(this);
-        },
-      },
-      projectSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
-        },
-      },
-      groupSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
-        },
-      },
-      accountSuggestions: {
-        type: Function,
-        value() {
-          return () => Promise.resolve([]);
-        },
-      },
-      _inputVal: String,
-      _threshold: {
-        type: Number,
-        value: 1,
-      },
-      /**
-       * Invisible label for input element. This label is exposed to
-       * screen readers by nested element
-       */
-      label: {
-        type: String,
-        value: '',
-      },
-    };
+  @property({type: String, notify: true, observer: '_valueChanged'})
+  value = '';
+
+  @property({type: Object})
+  keyEventTarget: unknown = document.body;
+
+  @property({type: Object})
+  query: AutocompleteQuery;
+
+  @property({type: Object})
+  projectSuggestions: SuggestionProvider = () => Promise.resolve([]);
+
+  @property({type: Object})
+  groupSuggestions: SuggestionProvider = () => Promise.resolve([]);
+
+  @property({type: Object})
+  accountSuggestions: SuggestionProvider = () => Promise.resolve([]);
+
+  @property({type: String})
+  _inputVal?: string;
+
+  @property({type: Number})
+  _threshold = 1;
+
+  @property({type: String})
+  label = '';
+
+  constructor() {
+    super();
+    this.query = (input: string) => this._getSearchSuggestions(input);
   }
 
   attached() {
     super.attached();
-    this.$.restAPI.getConfig().then(serverConfig => {
-      const mergeability = serverConfig
-       && serverConfig.index
-        && serverConfig.index.mergeabilityComputationBehavior;
-      if (mergeability === 'API_REF_UPDATED_AND_CHANGE_REINDEX'
-      || mergeability === 'REF_UPDATED_AND_CHANGE_REINDEX') {
+    this.$.restAPI.getConfig().then((serverConfig?: ServerInfo) => {
+      const mergeability =
+        serverConfig &&
+        serverConfig.change &&
+        serverConfig.change.mergeability_computation_behavior;
+      if (
+        mergeability === 'API_REF_UPDATED_AND_CHANGE_REINDEX' ||
+        mergeability === 'REF_UPDATED_AND_CHANGE_REINDEX'
+      ) {
         // add 'is:mergeable' to SEARCH_OPERATORS_WITH_NEGATIONS_SET
         this._addOperator('is:mergeable');
       }
     });
   }
 
-  _addOperator(name, include_neg = true) {
+  _addOperator(name: string, include_neg = true) {
     SEARCH_OPERATORS_WITH_NEGATIONS_SET.add(name);
     if (include_neg) {
       SEARCH_OPERATORS_WITH_NEGATIONS_SET.add(`-${name}`);
@@ -203,54 +211,55 @@ class GrSearchBar extends KeyboardShortcutMixin(GestureEventListeners(
     };
   }
 
-  _valueChanged(value) {
+  _valueChanged(value: string) {
     this._inputVal = value;
   }
 
-  _handleInputCommit(e) {
+  _handleInputCommit(e: Event) {
     this._preventDefaultAndNavigateToInputVal(e);
   }
 
   /**
    * This function is called in a few different cases:
-   *   - e.target is the search button
-   *   - e.target is the gr-autocomplete widget (#searchInput)
-   *   - e.target is the input element wrapped within #searchInput
-   *
-   * @param {!Event} e
+   * - e.target is the search button
+   * - e.target is the gr-autocomplete widget (#searchInput)
+   * - e.target is the input element wrapped within #searchInput
    */
-  _preventDefaultAndNavigateToInputVal(e) {
+  _preventDefaultAndNavigateToInputVal(e: Event) {
     e.preventDefault();
-    const target = dom(e).rootTarget;
+    const target = (dom(e) as EventApi).rootTarget as PolymerElement;
     // If the target is the #searchInput or has a sub-input component, that
     // is what holds the focus as opposed to the target from the DOM event.
     if (target.$.input) {
-      target.$.input.blur();
+      (target.$.input as HTMLElement).blur();
     } else {
       target.blur();
     }
     const trimmedInput = this._inputVal && this._inputVal.trim();
     if (trimmedInput) {
-      const predefinedOpOnlyQuery = [...SEARCH_OPERATORS_WITH_NEGATIONS_SET]
-          .some(op => op.endsWith(':') && op === trimmedInput);
+      const predefinedOpOnlyQuery = [
+        ...SEARCH_OPERATORS_WITH_NEGATIONS_SET,
+      ].some(op => op.endsWith(':') && op === trimmedInput);
       if (predefinedOpOnlyQuery) {
         return;
       }
-      this.dispatchEvent(new CustomEvent('handle-search', {
-        detail: {inputVal: this._inputVal},
-      }));
+      this.dispatchEvent(
+        new CustomEvent('handle-search', {
+          detail: {inputVal: this._inputVal},
+        })
+      );
     }
   }
 
   /**
    * Determine what array of possible suggestions should be provided
-   *     to _getSearchSuggestions.
+   * to _getSearchSuggestions.
    *
-   * @param {string} input - The full search term, in lowercase.
-   * @return {!Promise} This returns a promise that resolves to an array of
-   *     suggestion objects.
+   * @param input - The full search term, in lowercase.
+   * @return This returns a promise that resolves to an array of
+   * suggestion objects.
    */
-  _fetchSuggestions(input) {
+  _fetchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
     // Split the input on colon to get a two part predicate/expression.
     const splitInput = input.split(':');
     const predicate = splitInput[0];
@@ -279,60 +288,75 @@ class GrSearchBar extends KeyboardShortcutMixin(GestureEventListeners(
         return this.accountSuggestions(predicate, expression);
 
       default:
-        return Promise.resolve([...SEARCH_OPERATORS_WITH_NEGATIONS_SET]
+        return Promise.resolve(
+          [...SEARCH_OPERATORS_WITH_NEGATIONS_SET]
             .filter(operator => operator.includes(input))
-            .map(operator => { return {text: operator}; }));
+            .map(operator => {
+              return {text: operator};
+            })
+        );
     }
   }
 
   /**
    * Get the sorted, pruned list of suggestions for the current search query.
    *
-   * @param {string} input - The complete search query.
-   * @return {!Promise} This returns a promise that resolves to an array of
-   *     suggestions.
+   * @param input - The complete search query.
+   * @return This returns a promise that resolves to an array of
+   * suggestions.
    */
-  _getSearchSuggestions(input) {
+  _getSearchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
     // Allow spaces within quoted terms.
     const tokens = input.match(TOKENIZE_REGEX);
+    if (tokens === null) return Promise.resolve([]);
     const trimmedInput = tokens[tokens.length - 1].toLowerCase();
 
-    return this._fetchSuggestions(trimmedInput)
-        .then(suggestions => {
-          if (!suggestions || !suggestions.length) { return []; }
-          return suggestions
-              // Prioritize results that start with the input.
-              .sort((a, b) => {
-                const aContains = a.text.toLowerCase().indexOf(trimmedInput);
-                const bContains = b.text.toLowerCase().indexOf(trimmedInput);
-                if (aContains === bContains) {
-                  return a.text.localeCompare(b.text);
-                }
-                if (aContains === -1) {
-                  return 1;
-                }
-                if (bContains === -1) {
-                  return -1;
-                }
-                return aContains - bContains;
-              })
-              // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
-              .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
-              // Map to an object to play nice with gr-autocomplete.
-              .map(({text, label}) => {
-                return {
-                  name: text,
-                  value: text,
-                  label,
-                };
-              });
-        });
+    return this._fetchSuggestions(trimmedInput).then(suggestions => {
+      if (!suggestions || !suggestions.length) {
+        return [];
+      }
+      return (
+        suggestions
+          // Prioritize results that start with the input.
+          .sort((a, b) => {
+            const aContains = a.text?.toLowerCase().indexOf(trimmedInput);
+            const bContains = b.text?.toLowerCase().indexOf(trimmedInput);
+            if (aContains === undefined && bContains === undefined) return 0;
+            if (aContains === undefined && bContains !== undefined) return 1;
+            if (aContains !== undefined && bContains === undefined) return -1;
+            if (aContains === bContains) {
+              return a.text!.localeCompare(b.text!);
+            }
+            if (aContains === -1) {
+              return 1;
+            }
+            if (bContains === -1) {
+              return -1;
+            }
+            return aContains! - bContains!;
+          })
+          // Return only the first {MAX_AUTOCOMPLETE_RESULTS} results.
+          .slice(0, MAX_AUTOCOMPLETE_RESULTS - 1)
+          // Map to an object to play nice with gr-autocomplete.
+          .map(({text, label}) => {
+            return {
+              name: text,
+              value: text,
+              label,
+            };
+          })
+      );
+    });
   }
 
-  _handleSearch(e) {
+  _handleSearch(e: CustomKeyboardEvent) {
     const keyboardEvent = this.getKeyboardEvent(e);
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        (this.modifierPressed(e) && !keyboardEvent.shiftKey)) { return; }
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      (this.modifierPressed(e) && !keyboardEvent.shiftKey)
+    ) {
+      return;
+    }
 
     e.preventDefault();
     this.$.searchInput.focus();
@@ -340,4 +364,8 @@ class GrSearchBar extends KeyboardShortcutMixin(GestureEventListeners(
   }
 }
 
-customElements.define(GrSearchBar.is, GrSearchBar);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-search-bar': GrSearchBar;
+  }
+}

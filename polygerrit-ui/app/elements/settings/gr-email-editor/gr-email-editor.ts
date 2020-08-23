@@ -14,61 +14,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-email-editor_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-email-editor_html';
+import {customElement, property} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {EmailInfo} from '../../../types/common';
 
-/** @extends PolymerElement */
-class GrEmailEditor extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrEmailEditor {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
 
-  static get is() { return 'gr-email-editor'; }
-
-  static get properties() {
-    return {
-      hasUnsavedChanges: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-
-      _emails: Array,
-      _emailsToRemove: {
-        type: Array,
-        value() { return []; },
-      },
-      /** @type {?string} */
-      _newPreferred: {
-        type: String,
-        value: null,
-      },
-    };
+@customElement('gr-email-editor')
+export class GrEmailEditor extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Boolean, notify: true})
+  hasUnsavedChanges = false;
+
+  @property({type: Array})
+  _emails: EmailInfo[] = [];
+
+  @property({type: Array})
+  _emailsToRemove: EmailInfo[] = [];
+
+  @property({type: String})
+  _newPreferred: string | null = null;
 
   loadData() {
     return this.$.restAPI.getAccountEmails().then(emails => {
-      this._emails = emails;
+      this._emails = emails ?? [];
     });
   }
 
   save() {
-    const promises = [];
+    const promises: Promise<unknown>[] = [];
 
     for (const emailObj of this._emailsToRemove) {
       promises.push(this.$.restAPI.deleteAccountEmail(emailObj.email));
     }
 
     if (this._newPreferred) {
-      promises.push(this.$.restAPI.setPreferredAccountEmail(
-          this._newPreferred));
+      promises.push(
+        this.$.restAPI.setPreferredAccountEmail(this._newPreferred)
+      );
     }
 
     return Promise.all(promises).then(() => {
@@ -78,22 +79,30 @@ class GrEmailEditor extends GestureEventListeners(
     });
   }
 
-  _handleDeleteButton(e) {
-    const index = parseInt(dom(e).localTarget
-        .getAttribute('data-index'), 10);
+  _handleDeleteButton(e: Event) {
+    const target = (dom(e) as EventApi).localTarget;
+    if (!(target instanceof Element)) return;
+    const indexStr = target.getAttribute('data-index');
+    if (indexStr === null) return;
+    const index = parseInt(indexStr, 10);
     const email = this._emails[index];
     this.push('_emailsToRemove', email);
     this.splice('_emails', index, 1);
     this.hasUnsavedChanges = true;
   }
 
-  _handlePreferredControlClick(e) {
-    if (e.target.classList.contains('preferredControl')) {
+  _handlePreferredControlClick(e: Event) {
+    if (
+      e.target instanceof HTMLElement &&
+      e.target.classList.contains('preferredControl') &&
+      e.target.firstElementChild instanceof HTMLInputElement
+    ) {
       e.target.firstElementChild.click();
     }
   }
 
-  _handlePreferredChange(e) {
+  _handlePreferredChange(e: Event) {
+    if (!(e.target instanceof HTMLInputElement)) return;
     const preferred = e.target.value;
     for (let i = 0; i < this._emails.length; i++) {
       if (preferred === this._emails[i].email) {
@@ -107,4 +116,8 @@ class GrEmailEditor extends GestureEventListeners(
   }
 }
 
-customElements.define(GrEmailEditor.is, GrEmailEditor);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-email-editor': GrEmailEditor;
+  }
+}

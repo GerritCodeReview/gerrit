@@ -122,6 +122,7 @@ import {
   GpgKeyInfo,
   GpgKeysInput,
   DocResult,
+  EmailInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -981,7 +982,7 @@ export class GrRestApiInterface
     return this._fetchSharedCacheURL({
       url: '/accounts/self/emails',
       reportUrlAsIs: true,
-    });
+    }) as Promise<EmailInfo[] | undefined>;
   }
 
   addAccountEmail(email: string): Promise<Response>;

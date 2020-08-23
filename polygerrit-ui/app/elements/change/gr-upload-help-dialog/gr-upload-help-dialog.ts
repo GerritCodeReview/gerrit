@@ -14,123 +14,117 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-shell-command/gr-shell-command.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-upload-help-dialog_html.js';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-shell-command/gr-shell-command';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-upload-help-dialog_html';
+import {customElement, property} from '@polymer/decorators';
+import {RevisionInfo} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 const COMMIT_COMMAND = 'git add . && git commit --amend --no-edit';
 const PUSH_COMMAND_PREFIX = 'git push origin HEAD:refs/for/';
 
 // Command names correspond to download plugin definitions.
-const PREFERRED_FETCH_COMMAND_ORDER = [
-  'checkout',
-  'cherry pick',
-  'pull',
-];
+const PREFERRED_FETCH_COMMAND_ORDER = ['checkout', 'cherry pick', 'pull'];
 
-/**
- * @extends PolymerElement
- */
-class GrUploadHelpDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrUploadHelpDialog {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
 
-  static get is() { return 'gr-upload-help-dialog'; }
+@customElement('gr-upload-help-dialog')
+export class GrUploadHelpDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the user presses the close button.
    *
    * @event close
    */
 
-  static get properties() {
-    return {
-      revision: Object,
-      targetBranch: String,
-      _commitCommand: {
-        type: String,
-        value: COMMIT_COMMAND,
-        readOnly: true,
-      },
-      _fetchCommand: {
-        type: String,
-        computed: '_computeFetchCommand(revision, ' +
-          '_preferredDownloadCommand, _preferredDownloadScheme)',
-      },
-      _preferredDownloadCommand: String,
-      _preferredDownloadScheme: String,
-      _pushCommand: {
-        type: String,
-        computed: '_computePushCommand(targetBranch)',
-      },
-    };
-  }
+  @property({type: Object})
+  revision?: RevisionInfo;
+
+  @property({type: String})
+  targetBranch?: string;
+
+  @property({type: String, readOnly: true})
+  _commitCommand = COMMIT_COMMAND;
+
+  @property({
+    type: String,
+    computed: '_computeFetchCommand(revision, _preferredDownloadScheme)',
+  })
+  _fetchCommand?: string;
+
+  @property({type: String})
+  _preferredDownloadScheme?: string;
+
+  @property({type: String, computed: '_computePushCommand(targetBranch)'})
+  _pushCommand?: string;
 
   /** @override */
   attached() {
     super.attached();
-    this.$.restAPI.getLoggedIn()
-        .then(loggedIn => {
-          if (loggedIn) {
-            return this.$.restAPI.getPreferences();
-          }
-        })
-        .then(prefs => {
-          if (prefs) {
-            this._preferredDownloadCommand = prefs.download_command;
-            this._preferredDownloadScheme = prefs.download_scheme;
-          }
-        });
+    this.$.restAPI
+      .getLoggedIn()
+      .then(loggedIn =>
+        loggedIn ? this.$.restAPI.getPreferences() : Promise.resolve(undefined)
+      )
+      .then(prefs => {
+        if (prefs) {
+          // TODO(TS): The download_command pref was deleted in change 249223.
+          // this._preferredDownloadCommand = prefs.download_command;
+          this._preferredDownloadScheme = prefs.download_scheme;
+        }
+      });
   }
 
-  _handleCloseTap(e) {
+  _handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('close', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('close', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _computeFetchCommand(revision, preferredDownloadCommand,
-      preferredDownloadScheme) {
-    // Polymer 2: check for undefined
-    if ([
-      revision,
-      preferredDownloadCommand,
-      preferredDownloadScheme,
-    ].includes(undefined)) {
-      return undefined;
-    }
-
-    if (!revision) { return; }
-    if (!revision || !revision.fetch) { return; }
-
-    let scheme = preferredDownloadScheme;
+  _computeFetchCommand(
+    revision?: RevisionInfo,
+    scheme?: string
+  ): string | undefined {
+    if (!revision || !revision.fetch) return undefined;
     if (!scheme) {
       const keys = Object.keys(revision.fetch).sort();
       if (keys.length === 0) {
-        return;
+        return undefined;
       }
       scheme = keys[0];
     }
-
-    if (!revision.fetch[scheme] || !revision.fetch[scheme].commands) {
-      return;
+    if (
+      !scheme ||
+      !revision.fetch[scheme] ||
+      !revision.fetch[scheme].commands
+    ) {
+      return undefined;
     }
 
-    const cmds = {};
-    Object.entries(revision.fetch[scheme].commands).forEach(([key, cmd]) => {
+    const cmds: {[key: string]: string} = {};
+    Object.entries(revision.fetch[scheme].commands!).forEach(([key, cmd]) => {
       cmds[key.toLowerCase()] = cmd;
     });
-
-    if (preferredDownloadCommand &&
-        cmds[preferredDownloadCommand.toLowerCase()]) {
-      return cmds[preferredDownloadCommand.toLowerCase()];
-    }
 
     // If no supported command preference is given, look for known commands
     // from the downloads plugin in order of preference.
@@ -143,9 +137,13 @@ class GrUploadHelpDialog extends GestureEventListeners(
     return undefined;
   }
 
-  _computePushCommand(targetBranch) {
+  _computePushCommand(targetBranch: string) {
     return PUSH_COMMAND_PREFIX + targetBranch;
   }
 }
 
-customElements.define(GrUploadHelpDialog.is, GrUploadHelpDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-upload-help-dialog': GrUploadHelpDialog;
+  }
+}

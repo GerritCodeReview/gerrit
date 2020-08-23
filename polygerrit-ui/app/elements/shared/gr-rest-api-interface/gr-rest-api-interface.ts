@@ -52,6 +52,7 @@ import {AuthRequestInit, AuthService} from '../../../services/gr-auth/gr-auth';
 import {
   AccountCapabilityInfo,
   AccountDetailInfo,
+  AccountExternalIdInfo,
   AccountId,
   AccountInfo,
   AssigneeInput,
@@ -958,7 +959,7 @@ export class GrRestApiInterface
     return this._restApiHelper.fetchJSON({
       url: '/accounts/self/external.ids',
       reportUrlAsIs: true,
-    });
+    }) as Promise<AccountExternalIdInfo[] | undefined>;
   }
 
   deleteAccountIdentity(id: string[]) {
@@ -968,7 +969,7 @@ export class GrRestApiInterface
       body: id,
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as Promise<unknown>;
   }
 
   getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined> {

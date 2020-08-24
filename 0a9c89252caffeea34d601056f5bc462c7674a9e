@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "ef688e39_0abebe1b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "47c43d04_58fb1d3d",
+      "range": {
+        "startLine": 38,
+        "startChar": 6,
+        "endLine": 38,
+        "endChar": 23
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc656068_ec0bf84b",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -45,6 +69,30 @@
       "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "370122e3_23543692",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc656068_ec0bf84b",
+      "range": {
+        "startLine": 84,
+        "startChar": 11,
+        "endLine": 84,
+        "endChar": 17
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6f696030_96edaf09",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "efd155e1_f084bec5",
+      "range": {
+        "startLine": 90,
+        "startChar": 17,
+        "endLine": 90,
+        "endChar": 23
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "357f2a15_f4aebca9",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -91,6 +163,30 @@
       "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b6146cf_4deefed8",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "357f2a15_f4aebca9",
+      "range": {
+        "startLine": 102,
+        "startChar": 12,
+        "endLine": 102,
+        "endChar": 18
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "0e1a332e_f08f29dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dcca98bb_11c79703",
+      "range": {
+        "startLine": 108,
+        "startChar": 10,
+        "endLine": 108,
+        "endChar": 18
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fc4f2c5c_5cde340a",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -137,6 +257,30 @@
       "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04e1f31c_dd3ddeb7",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 124,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fc4f2c5c_5cde340a",
+      "range": {
+        "startLine": 124,
+        "startChar": 13,
+        "endLine": 124,
+        "endChar": 36
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +330,54 @@
     },
     {
       "key": {
+        "uuid": "35db008c_d217f344",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "In this case I remember asking before and the answer was to initialise on the constructor.\nWhat is the recommended way then?",
+      "parentUuid": "3dc77d21_e47dfd44",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 17
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d93b8fba_b4e8e8cd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7bbc3b19_eae4f776",
+      "range": {
+        "startLine": 136,
+        "startChar": 18,
+        "endLine": 136,
+        "endChar": 65
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62a59f6b_9111b2fe",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -206,6 +398,30 @@
       "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7386887_408b362b",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62a59f6b_9111b2fe",
+      "range": {
+        "startLine": 142,
+        "startChar": 20,
+        "endLine": 142,
+        "endChar": 43
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -232,6 +448,30 @@
     },
     {
       "key": {
+        "uuid": "aa5baa34_3a5529b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "71678256_5dbe9d1b",
+      "range": {
+        "startLine": 223,
+        "startChar": 45,
+        "endLine": 223,
+        "endChar": 51
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa44b30f_40115196",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -252,6 +492,30 @@
       "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc977d9f_a5721641",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 227,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aa44b30f_40115196",
+      "range": {
+        "startLine": 227,
+        "startChar": 44,
+        "endLine": 227,
+        "endChar": 50
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -278,6 +542,30 @@
     },
     {
       "key": {
+        "uuid": "efe77dc4_22b45d19",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 252,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f433b178_dbd471f9",
+      "range": {
+        "startLine": 252,
+        "startChar": 8,
+        "endLine": 252,
+        "endChar": 21
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1522962a_ee3e147a",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -301,6 +589,30 @@
     },
     {
       "key": {
+        "uuid": "4323dc06_4b9dc1dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1522962a_ee3e147a",
+      "range": {
+        "startLine": 351,
+        "startChar": 43,
+        "endLine": 351,
+        "endChar": 54
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94015df5_64f1f665",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11
@@ -321,6 +633,30 @@
       "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "053d0a12_a5181331",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 357,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-24T16:42:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94015df5_64f1f665",
+      "range": {
+        "startLine": 357,
+        "startChar": 15,
+        "endLine": 357,
+        "endChar": 46
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

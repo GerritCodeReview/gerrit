@@ -29,15 +29,7 @@ import {descendedFromClass, querySelectorAll} from '../../../utils/dom-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {DiffInfo} from '../../../types/common';
 import {Side} from '../../../constants/constants';
-
-// TODO(TS): Replace by GrDiffBuilderElement once that is converted.
-interface DiffBuilderElement extends HTMLElement {
-  diffElement: HTMLTableElement;
-  getLineElByChild(node: Node): HTMLElement;
-  getSideByLineEl(lineEl: HTMLElement): Side;
-  getLineNumberByChild(lineEl: HTMLElement): number;
-  getContentTdByLineEl(lineEl: HTMLElement): HTMLElement;
-}
+import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
 
 /**
  * Possible CSS classes indicating the state of selection. Dynamically added/
@@ -71,7 +63,7 @@ export class GrDiffSelection extends GestureEventListeners(
   diff?: DiffInfo;
 
   @property({type: Object})
-  _cachedDiffBuilder?: DiffBuilderElement;
+  _cachedDiffBuilder?: GrDiffBuilderElement;
 
   @property({type: Object})
   _linesCache: LinesCache = {left: null, right: null};
@@ -93,7 +85,7 @@ export class GrDiffSelection extends GestureEventListeners(
     if (!this._cachedDiffBuilder) {
       this._cachedDiffBuilder = this.querySelector(
         'gr-diff-builder'
-      ) as DiffBuilderElement;
+      ) as GrDiffBuilderElement;
     }
     return this._cachedDiffBuilder;
   }
@@ -132,7 +124,7 @@ export class GrDiffSelection extends GestureEventListeners(
 
     if (blameSelected) {
       targetClasses.push(SelectionClass.BLAME);
-    } else {
+    } else if (lineEl) {
       const commentSelected = this._elementDescendedFromClass(
         target,
         'gr-comment'
@@ -237,6 +229,7 @@ export class GrDiffSelection extends GestureEventListeners(
     }
     const range = normalize(sel.getRangeAt(0));
     const startLineEl = this.diffBuilder.getLineElByChild(range.startContainer);
+    if (!startLineEl) return;
     const endLineEl = this.diffBuilder.getLineElByChild(range.endContainer);
     // Happens when triple click in side-by-side mode with other side empty.
     const endsAtOtherEmptySide =

@@ -72,7 +72,7 @@ export abstract class GrDiffBuilder {
 
   protected readonly _outputEl: HTMLElement;
 
-  private readonly groups: GrDiffGroup[];
+  readonly groups: GrDiffGroup[];
 
   private _blameInfo: BlameInfo[] | null;
 
@@ -155,7 +155,7 @@ export abstract class GrDiffBuilder {
 
   abstract buildSectionElement(group: GrDiffGroup): HTMLElement;
 
-  emitGroup(group: GrDiffGroup, beforeSection: HTMLElement) {
+  emitGroup(group: GrDiffGroup, beforeSection: HTMLElement | null) {
     const element = this.buildSectionElement(group);
     this._outputEl.insertBefore(element, beforeSection);
     group.element = element;
@@ -198,7 +198,7 @@ export abstract class GrDiffBuilder {
   getContentTdByLine(
     lineNumber: LineNumber,
     side?: Side,
-    root: HTMLElement = this._outputEl
+    root: Element = this._outputEl
   ): Element | null {
     const sideSelector: string = side ? `.${side}` : '';
     return root.querySelector(
@@ -221,17 +221,16 @@ export abstract class GrDiffBuilder {
    * @param start The first line number
    * @param end The last line number
    * @param side The side of the range. Either 'left' or 'right'.
-   * @param out_lines The output list of line objects. Use
-   *     null if not desired.
-   * @param out_elements The output list of line elements.
-   *     Use null if not desired.
+   * @param out_lines The output list of line objects. Use null if not desired.
+   * @param out_elements The output list of line elements. Use null if not
+   *        desired.
    */
   findLinesByRange(
     start: LineNumber,
     end: LineNumber,
     side: Side,
-    out_lines: GrDiffLine[],
-    out_elements: HTMLElement[]
+    out_lines: GrDiffLine[] | null,
+    out_elements: HTMLElement[] | null
   ) {
     const groups = this.getGroupsByLineRange(start, end, side);
     for (const group of groups) {

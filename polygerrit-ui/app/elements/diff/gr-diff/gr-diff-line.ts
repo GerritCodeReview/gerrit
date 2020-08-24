@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 
+export const FILE = 'FILE';
 export type LineNumber = number | 'FILE';
 
 export enum GrDiffLineType {
@@ -23,8 +24,6 @@ export enum GrDiffLineType {
   BLANK = 'blank',
   REMOVE = 'remove',
 }
-
-export const FILE = 'FILE';
 
 export class GrDiffLine {
   constructor(

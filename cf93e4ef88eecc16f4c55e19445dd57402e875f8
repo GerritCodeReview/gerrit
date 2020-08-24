@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71a2704a_4a584f7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T12:40:18Z",
+      "side": 1,
+      "message": "JSON.parse(...) as ...",
+      "range": {
+        "startLine": 755,
+        "startChar": 12,
+        "endLine": 755,
+        "endChar": 43
+      },
+      "revId": "cf93e4ef88eecc16f4c55e19445dd57402e875f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

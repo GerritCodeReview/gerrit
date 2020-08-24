@@ -241,7 +241,7 @@ export class GrTextarea extends KeyboardShortcutMixin(
   }
 
   _handleEmojiSelect(e: CustomEvent) {
-    this._setEmoji(e.detail.selected.dataset.value);
+    this._setEmoji(e.detail.selected.dataset['value']);
   }
 
   _setEmoji(text: string) {

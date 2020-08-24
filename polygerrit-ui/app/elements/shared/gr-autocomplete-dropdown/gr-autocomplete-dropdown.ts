@@ -113,7 +113,7 @@ export class GrAutocompleteDropdown extends IronFitMixin(
   }
 
   getCurrentText() {
-    return this.getCursorTarget().dataset.value;
+    return this.getCursorTarget().dataset['value'];
   }
 
   _handleUp(e: Event) {

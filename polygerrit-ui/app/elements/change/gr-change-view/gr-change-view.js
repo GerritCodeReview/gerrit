@@ -620,7 +620,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     } else {
       for (let i = 0; i <= tabs.length; i++) {
         const tab = tabs[i];
-        if (tab.dataset.name === activeTabName) {
+        if (tab.dataset['name'] === activeTabName) {
           activeIndex = i;
           break;
         }
@@ -630,7 +630,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       console.warn('tab not found with given info', activeDetails);
       return;
     }
-    const tabName = tabs[activeIndex].dataset.name;
+    const tabName = tabs[activeIndex].dataset['name'];
     if (scrollIntoView) {
       paperTabs.scrollIntoView();
     }

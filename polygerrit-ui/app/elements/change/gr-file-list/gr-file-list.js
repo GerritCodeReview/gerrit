@@ -747,12 +747,12 @@ class GrFileList extends KeyboardShortcutMixin(
     }
 
     // No action needed for item without a valid file
-    if (!row.dataset.file) {
+    if (!row.dataset['file']) {
       return null;
     }
 
     return {
-      file: JSON.parse(row.dataset.file),
+      file: JSON.parse(row.dataset['file']),
       element: row,
     };
   }

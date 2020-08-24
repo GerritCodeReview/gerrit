@@ -48,7 +48,7 @@ export class GrMenuEditor extends GestureEventListeners(
   _handleMoveUpButton(e: Event) {
     const target = (dom(e) as EventApi).localTarget;
     if (!(target instanceof HTMLElement)) return;
-    const index = Number(target.dataset.index);
+    const index = Number(target.dataset['index']);
     if (index === 0) {
       return;
     }
@@ -60,7 +60,7 @@ export class GrMenuEditor extends GestureEventListeners(
   _handleMoveDownButton(e: Event) {
     const target = (dom(e) as EventApi).localTarget;
     if (!(target instanceof HTMLElement)) return;
-    const index = Number(target.dataset.index);
+    const index = Number(target.dataset['index']);
     if (index === this.menuItems.length - 1) {
       return;
     }
@@ -72,7 +72,7 @@ export class GrMenuEditor extends GestureEventListeners(
   _handleDeleteButton(e: Event) {
     const target = (dom(e) as EventApi).localTarget;
     if (!(target instanceof HTMLElement)) return;
-    const index = Number(target.dataset.index);
+    const index = Number(target.dataset['index']);
     this.splice('menuItems', index, 1);
   }
 

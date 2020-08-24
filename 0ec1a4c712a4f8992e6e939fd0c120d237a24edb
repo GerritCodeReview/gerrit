@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0ad8ef39_2594c502",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T09:17:34Z",
+      "side": 1,
+      "message": "Please use arrow function instead",
+      "range": {
+        "startLine": 84,
+        "startChar": 4,
+        "endLine": 84,
+        "endChar": 46
+      },
+      "revId": "0ec1a4c712a4f8992e6e939fd0c120d237a24edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7585995_7027e3af",
+        "filename": "polygerrit-ui/app/elements/edit/gr-edit-controls/gr-edit-controls.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T09:17:34Z",
+      "side": 1,
+      "message": "If res is undefined, the code throws an exception.\nTo avoid \u0027!\u0027 you can throw an exception explicitly if res is undefined.",
+      "range": {
+        "startLine": 280,
+        "startChar": 8,
+        "endLine": 280,
+        "endChar": 12
+      },
+      "revId": "0ec1a4c712a4f8992e6e939fd0c120d237a24edb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

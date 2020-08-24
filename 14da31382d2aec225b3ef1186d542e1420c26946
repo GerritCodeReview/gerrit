@@ -16,6 +16,23 @@
       "revId": "14da31382d2aec225b3ef1186d542e1420c26946",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b54d5d7e_ce745662",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-24T21:52:47Z",
+      "side": 1,
+      "message": "Missing (non-self) approval.",
+      "revId": "14da31382d2aec225b3ef1186d542e1420c26946",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

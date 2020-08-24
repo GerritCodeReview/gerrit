@@ -22,6 +22,30 @@
       "revId": "cf93e4ef88eecc16f4c55e19445dd57402e875f8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "96d5b6b2_d6d4e284",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 755,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-24T12:57:55Z",
+      "side": 1,
+      "message": "this is js file. I hope it will be fixed when migrated to ts.",
+      "parentUuid": "71a2704a_4a584f7f",
+      "range": {
+        "startLine": 755,
+        "startChar": 12,
+        "endLine": 755,
+        "endChar": 43
+      },
+      "revId": "cf93e4ef88eecc16f4c55e19445dd57402e875f8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

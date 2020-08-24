@@ -14,23 +14,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-coverage-layer/gr-coverage-layer.js';
-import '../gr-diff-processor/gr-diff-processor.js';
-import '../../shared/gr-hovercard/gr-hovercard.js';
-import '../gr-ranged-comment-layer/gr-ranged-comment-layer.js';
-import './gr-diff-builder-side-by-side.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-diff-builder-element_html.js';
-import {GrAnnotation} from '../gr-diff-highlight/gr-annotation.js';
-import {GrDiffBuilder} from './gr-diff-builder.js';
-import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side.js';
-import {GrDiffBuilderImage} from './gr-diff-builder-image.js';
-import {GrDiffBuilderUnified} from './gr-diff-builder-unified.js';
-import {GrDiffBuilderBinary} from './gr-diff-builder-binary.js';
-import {util} from '../../../scripts/util.js';
+import '../gr-coverage-layer/gr-coverage-layer';
+import '../gr-diff-processor/gr-diff-processor';
+import '../../shared/gr-hovercard/gr-hovercard';
+import '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import './gr-diff-builder-side-by-side';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-diff-builder-element_html';
+import {GrAnnotation} from '../gr-diff-highlight/gr-annotation';
+import {GrDiffBuilder} from './gr-diff-builder';
+import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
+import {GrDiffBuilderImage} from './gr-diff-builder-image';
+import {GrDiffBuilderUnified} from './gr-diff-builder-unified';
+import {GrDiffBuilderBinary} from './gr-diff-builder-binary';
+import {CancelablePromise, util} from '../../../scripts/util';
+import {customElement, property, observe} from '@polymer/decorators';
+import {BlameInfo, DiffInfo, DiffPreferencesInfo, ImageInfo} from '../../../types/common';
+import {CoverageRange} from '../../../types/types';
+import {GrDiffProcessor, KeyLocations} from '../gr-diff-processor/gr-diff-processor';
+import {CommentRangeLayer, DiffLayer, GrRangedCommentLayer} from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
+import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
+import {Side} from '../../../constants/constants';
+import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
+import {GrDiffGroup} from '../gr-diff/gr-diff-group';
+import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
+import {getLineNumber} from '../gr-diff/gr-diff-utils';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -43,14 +53,24 @@ const TRAILING_WHITESPACE_PATTERN = /\s+$/;
 const COMMIT_MSG_PATH = '/COMMIT_MSG';
 const COMMIT_MSG_LINE_LENGTH = 72;
 
-/**
- * @extends PolymerElement
- */
-class GrDiffBuilderElement extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
 
-  static get is() { return 'gr-diff-builder'; }
+export interface GrDiffBuilderElement {
+  $: {
+    processor: GrDiffProcessor;
+    rangeLayer: GrRangedCommentLayer;
+    coverageLayerLeft: GrCoverageLayer;
+    coverageLayerRight: GrCoverageLayer;
+  };
+}
+
+@customElement('gr-diff-builder')
+export class GrDiffBuilderElement extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the diff begins rendering.
    *
@@ -63,55 +83,74 @@ class GrDiffBuilderElement extends GestureEventListeners(
    * @event render-content
    */
 
-  static get properties() {
-    return {
-      diff: Object,
-      changeNum: String,
-      patchNum: String,
-      viewMode: String,
-      isImageDiff: Boolean,
-      baseImage: Object,
-      revisionImage: Object,
-      parentIndex: Number,
-      path: String,
-      projectName: String,
+  @property({type: Object})
+  diff!: DiffInfo;
 
-      _builder: Object,
-      _groups: Array,
-      _layers: Array,
-      _showTabs: Boolean,
-      /** @type {!Array<!Gerrit.HoveredRange>} */
-      commentRanges: {
-        type: Array,
-        value: () => [],
-      },
-      /** @type {!Array<!Gerrit.CoverageRange>} */
-      coverageRanges: {
-        type: Array,
-        value: () => [],
-      },
-      _leftCoverageRanges: {
-        type: Array,
-        computed: '_computeLeftCoverageRanges(coverageRanges)',
-      },
-      _rightCoverageRanges: {
-        type: Array,
-        computed: '_computeRightCoverageRanges(coverageRanges)',
-      },
-      /**
-       * The promise last returned from `render()` while the asynchronous
-       * rendering is running - `null` otherwise. Provides a `cancel()`
-       * method that rejects it with `{isCancelled: true}`.
-       *
-       * @type {?Object}
-       */
-      _cancelableRenderPromise: Object,
-      layers: {
-        type: Array,
-        value: [],
-      },
-    };
-  }
+  @property({type: String})
+  changeNum?: string;
+
+  @property({type: String})
+  patchNum?: string;
+
+  @property({type: String})
+  viewMode?: string;
+
+  @property({type: Boolean})
+  isImageDiff?: boolean;
+
+  @property({type: Object})
+  baseImage?: ImageInfo;
+
+  @property({type: Object})
+  revisionImage?: ImageInfo;
+
+  @property({type: Number})
+  parentIndex?: number;
+
+  @property({type: String})
+  path?: string;
+
+  @property({type: String})
+  projectName?: string;
+
+  @property({type: Object})
+  _builder?: GrDiffBuilder;
+
+  @property({type: Array})
+  _groups: GrDiffGroup[] = [];
+
+  @property({type: Array})
+  _layers: DiffLayer[] = [];
+
+  @property({type: Boolean})
+  _showTabs?: boolean;
+
+  @property({type: Boolean})
+  _showTrailingWhitespace?: boolean;
+
+  @property({type: Array})
+  commentRanges: CommentRangeLayer[] = [];
+
+  @property({type: Array})
+  coverageRanges: CoverageRange[] = [];
+
+  @property({type: Array, computed: '_computeLeftCoverageRanges(coverageRanges)'})
+  _leftCoverageRanges?: CoverageRange[];
+
+  @property({type: Array, computed: '_computeRightCoverageRanges(coverageRanges)'})
+  _rightCoverageRanges?: CoverageRange[]
+
+  /**
+   * The promise last returned from `render()` while the asynchronous
+   * rendering is running - `null` otherwise. Provides a `cancel()`
+   * method that rejects it with `{isCancelled: true}`.
+   */
+  @property({type: Object})
+  _cancelableRenderPromise: CancelablePromise<unknown> | null = null;
+
+  // TODO(TS): Is this really a static array???
+  @property({type: Array})
+  layers: any[] = [];
 
   /** @override */
   detached() {
@@ -122,24 +161,18 @@ class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   get diffElement() {
-    return this.queryEffectiveChildren('#diffTable');
+    return this.queryEffectiveChildren('#diffTable') as HTMLElement;
   }
 
-  static get observers() {
-    return [
-      '_groupsChanged(_groups.splices)',
-    ];
-  }
-
-  _computeLeftCoverageRanges(coverageRanges) {
+  _computeLeftCoverageRanges(coverageRanges: CoverageRange[]) {
     return coverageRanges.filter(range => range && range.side === 'left');
   }
 
-  _computeRightCoverageRanges(coverageRanges) {
+  _computeRightCoverageRanges(coverageRanges: CoverageRange[]) {
     return coverageRanges.filter(range => range && range.side === 'right');
   }
 
-  render(keyLocations, prefs) {
+  render(keyLocations: KeyLocations, prefs: DiffPreferencesInfo) {
     // Setting up annotation layers must happen after plugins are
     // installed, and |render| satisfies the requirement, however,
     // |attached| doesn't because in the diff view page, the element is
@@ -165,23 +198,32 @@ class GrDiffBuilderElement extends GestureEventListeners(
 
     const isBinary = !!(this.isImageDiff || this.diff.binary);
 
-    this.dispatchEvent(new CustomEvent(
-        'render-start', {bubbles: true, composed: true}));
+    this.dispatchEvent(
+      new CustomEvent('render-start', {bubbles: true, composed: true})
+    );
     this._cancelableRenderPromise = util.makeCancelable(
-        this.$.processor.process(this.diff.content, isBinary)
-            .then(() => {
-              if (this.isImageDiff) {
-                this._builder.renderDiff();
-              }
-              this.dispatchEvent(new CustomEvent('render-content',
-                  {bubbles: true, composed: true}));
-            }));
-    return this._cancelableRenderPromise
-        .finally(() => { this._cancelableRenderPromise = null; })
-    // Mocca testing does not like uncaught rejections, so we catch
-    // the cancels which are expected and should not throw errors in
-    // tests.
-        .catch(e => { if (!e.isCanceled) return Promise.reject(e); });
+      this.$.processor.process(this.diff.content, isBinary).then(() => {
+        if (this.isImageDiff) {
+          (this._builder as GrDiffBuilderImage).renderDiff();
+        }
+        this.dispatchEvent(
+          new CustomEvent('render-content', {bubbles: true, composed: true})
+        );
+      })
+    );
+    return (
+      this._cancelableRenderPromise
+        .finally(() => {
+          this._cancelableRenderPromise = null;
+        })
+        // Mocca testing does not like uncaught rejections, so we catch
+        // the cancels which are expected and should not throw errors in
+        // tests.
+        .catch(e => {
+          if (!e.isCanceled) return Promise.reject(e);
+          return;
+        })
+    );
   }
 
   _setupAnnotationLayers() {
@@ -200,87 +242,88 @@ class GrDiffBuilderElement extends GestureEventListeners(
     this._layers = layers;
   }
 
-  getLineElByChild(node) {
+  getLineElByChild(node?: Node): HTMLElement | null {
     while (node) {
       if (node instanceof Element) {
         if (node.classList.contains('lineNum')) {
-          return node;
+          return node as HTMLElement;
         }
         if (node.classList.contains('section')) {
           return null;
         }
       }
-      node = node.previousSibling || node.parentElement;
+      node = node.previousSibling ?? node.parentElement ?? undefined;
     }
     return null;
   }
 
-  getLineNumberByChild(node) {
+  getLineNumberByChild(node: Node) {
     const lineEl = this.getLineElByChild(node);
-    return lineEl ?
-      parseInt(lineEl.getAttribute('data-value'), 10) :
-      null;
+    return getLineNumber(lineEl);
   }
 
-  getContentTdByLine(lineNumber, opt_side, opt_root) {
-    return this._builder.getContentTdByLine(lineNumber, opt_side, opt_root);
+  getContentTdByLine(lineNumber: LineNumber, side?: Side, root?: Element) {
+    return this._builder!.getContentTdByLine(lineNumber, side, root);
   }
 
-  _getDiffRowByChild(child) {
+  _getDiffRowByChild(child: Element) {
     while (!child.classList.contains('diff-row') && child.parentElement) {
       child = child.parentElement;
     }
     return child;
   }
 
-  getContentTdByLineEl(lineEl) {
-    if (!lineEl) return;
-    const line = lineEl.getAttribute('data-value');
+  getContentTdByLineEl(lineEl?: Element): Element | null {
+    if (!lineEl) return null;
+    const line = getLineNumber(lineEl);
+    if (!line) return null;
     const side = this.getSideByLineEl(lineEl);
     // Performance optimization because we already have an element in the
     // correct row
-    const row = dom(this._getDiffRowByChild(lineEl));
+    const row = this._getDiffRowByChild(lineEl);
     return this.getContentTdByLine(line, side, row);
   }
 
-  getLineElByNumber(lineNumber, opt_side) {
-    const sideSelector = opt_side ? ('.' + opt_side) : '';
+  getLineElByNumber(lineNumber: string, side?: Side) {
+    const sideSelector = side ? '.' + side : '';
     return this.diffElement.querySelector(
-        '.lineNum[data-value="' + lineNumber + '"]' + sideSelector);
-  }
-
-  getContentsByLineRange(startLine, endLine, opt_side) {
-    const result = [];
-    this._builder.findLinesByRange(startLine, endLine, opt_side, null,
-        result);
-    return result;
-  }
-
-  getSideByLineEl(lineEl) {
-    return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT) ?
-      GrDiffBuilder.Side.RIGHT : GrDiffBuilder.Side.LEFT;
-  }
-
-  emitGroup(group, sectionEl) {
-    this._builder.emitGroup(group, sectionEl);
-  }
-
-  showContext(newGroups, sectionEl) {
-    const groups = this._builder.groups;
-
-    const contextIndex = groups.findIndex(group =>
-      group.element === sectionEl
+      '.lineNum[data-value="' + lineNumber + '"]' + sideSelector
     );
+  }
+
+  getSideByLineEl(lineEl: Element) {
+    return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT)
+      ? Side.RIGHT
+      : Side.LEFT;
+  }
+
+  emitGroup(group: GrDiffGroup, sectionEl: HTMLElement) {
+    this._builder!.emitGroup(group, sectionEl);
+  }
+
+  showContext(newGroups: GrDiffGroup[], sectionEl: HTMLElement) {
+    const groups = this._builder!.groups;
+
+    const contextIndex = groups.findIndex(group => group.element === sectionEl);
     groups.splice(contextIndex, 1, ...newGroups);
 
     for (const newGroup of newGroups) {
-      this._builder.emitGroup(newGroup, sectionEl);
+      this._builder!.emitGroup(newGroup, sectionEl);
     }
-    sectionEl.parentNode.removeChild(sectionEl);
+    if (sectionEl.parentNode) {
+      sectionEl.parentNode.removeChild(sectionEl);
+    }
 
-    this.async(() => this.dispatchEvent(new CustomEvent('render-content', {
-      composed: true, bubbles: true,
-    })), 1);
+    this.async(
+      () =>
+        this.dispatchEvent(
+          new CustomEvent('render-content', {
+            composed: true,
+            bubbles: true,
+          })
+        ),
+      1
+    );
   }
 
   cancel() {
@@ -291,25 +334,29 @@ class GrDiffBuilderElement extends GestureEventListeners(
     }
   }
 
-  _handlePreferenceError(pref) {
-    const message = `The value of the '${pref}' user preference is ` +
-        `invalid. Fix in diff preferences`;
-    this.dispatchEvent(new CustomEvent('show-alert', {
-      detail: {
-        message,
-      }, bubbles: true, composed: true}));
+  _handlePreferenceError(pref: string): never {
+    const message =
+      `The value of the '${pref}' user preference is ` +
+      'invalid. Fix in diff preferences';
+    this.dispatchEvent(
+      new CustomEvent('show-alert', {
+        detail: {
+          message,
+        },
+        bubbles: true,
+        composed: true,
+      })
+    );
     throw Error(`Invalid preference value: ${pref}`);
   }
 
-  _getDiffBuilder(diff, prefs) {
+  _getDiffBuilder(diff: DiffInfo, prefs: DiffPreferencesInfo): GrDiffBuilder {
     if (isNaN(prefs.tab_size) || prefs.tab_size <= 0) {
       this._handlePreferenceError('tab size');
-      return;
     }
 
     if (isNaN(prefs.line_length) || prefs.line_length <= 0) {
       this._handlePreferenceError('diff width');
-      return;
     }
 
     const localPrefs = {...prefs};
@@ -321,31 +368,33 @@ class GrDiffBuilderElement extends GestureEventListeners(
 
     let builder = null;
     if (this.isImageDiff) {
+      if (!this.baseImage || !this.revisionImage) {
+        throw new Error('Failed to create diff builder without ImageInfo.');
+      }
       builder = new GrDiffBuilderImage(
-          diff,
-          localPrefs,
-          this.diffElement,
-          this.baseImage,
-          this.revisionImage);
+        diff,
+        localPrefs,
+        this.diffElement,
+        this.baseImage,
+        this.revisionImage
+      );
     } else if (diff.binary) {
       // If the diff is binary, but not an image.
-      return new GrDiffBuilderBinary(
-          diff,
-          localPrefs,
-          this.diffElement);
+      return new GrDiffBuilderBinary(diff, localPrefs, this.diffElement);
     } else if (this.viewMode === DiffViewMode.SIDE_BY_SIDE) {
       builder = new GrDiffBuilderSideBySide(
-          diff,
-          localPrefs,
-          this.diffElement,
-          this._layers
+        diff,
+        localPrefs,
+        this.diffElement,
+        this._layers
       );
     } else if (this.viewMode === DiffViewMode.UNIFIED) {
       builder = new GrDiffBuilderUnified(
-          diff,
-          localPrefs,
-          this.diffElement,
-          this._layers);
+        diff,
+        localPrefs,
+        this.diffElement,
+        this._layers
+      );
     }
     if (!builder) {
       throw Error('Unsupported diff view mode: ' + this.viewMode);
@@ -354,17 +403,20 @@ class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   _clearDiffContent() {
-    this.diffElement.innerHTML = null;
+    this.diffElement.innerHTML = '';
   }
 
-  _groupsChanged(changeRecord) {
-    if (!changeRecord) { return; }
+  @observe('_groups.splices')
+  _groupsChanged(changeRecord: PolymerSpliceChange<GrDiffGroup[]>) {
+    if (!changeRecord || !this._builder) {
+      return;
+    }
     for (const splice of changeRecord.indexSplices) {
       let group;
       for (let i = 0; i < splice.addedCount; i++) {
         group = splice.object[splice.index + i];
         this._builder.groups.push(group);
-        this._builder.emitGroup(group);
+        this._builder.emitGroup(group, null);
       }
     }
   }
@@ -374,24 +426,28 @@ class GrDiffBuilderElement extends GestureEventListeners(
       // Take a DIV.contentText element and a line object with intraline
       // differences to highlight and apply them to the element as
       // annotations.
-      annotate(contentEl, lineNumberEl, line) {
+      annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         const HL_CLASS = 'style-scope gr-diff intraline';
         for (const highlight of line.highlights) {
           // The start and end indices could be the same if a highlight is
           // meant to start at the end of a line and continue onto the
           // next one. Ignore it.
-          if (highlight.startIndex === highlight.endIndex) { continue; }
+          if (highlight.startIndex === highlight.endIndex) {
+            continue;
+          }
 
           // If endIndex isn't present, continue to the end of the line.
-          const endIndex = highlight.endIndex === undefined ?
-            line.text.length :
-            highlight.endIndex;
+          const endIndex =
+            highlight.endIndex === undefined
+              ? line.text.length
+              : highlight.endIndex;
 
           GrAnnotation.annotateElement(
-              contentEl,
-              highlight.startIndex,
-              endIndex - highlight.startIndex,
-              HL_CLASS);
+            contentEl,
+            highlight.startIndex,
+            endIndex - highlight.startIndex,
+            HL_CLASS
+          );
         }
       },
     };
@@ -400,19 +456,27 @@ class GrDiffBuilderElement extends GestureEventListeners(
   _createTabIndicatorLayer() {
     const show = () => this._showTabs;
     return {
-      annotate(contentEl, lineNumberEl, line) {
+      annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         // If visible tabs are disabled, do nothing.
-        if (!show()) { return; }
+        if (!show()) {
+          return;
+        }
 
         // Find and annotate the locations of tabs.
         const split = line.text.split('\t');
-        if (!split) { return; }
+        if (!split) {
+          return;
+        }
         for (let i = 0, pos = 0; i < split.length - 1; i++) {
           // Skip forward by the length of the content
           pos += split[i].length;
 
-          GrAnnotation.annotateElement(contentEl, pos, 1,
-              'style-scope gr-diff tab-indicator');
+          GrAnnotation.annotateElement(
+            contentEl,
+            pos,
+            1,
+            'style-scope gr-diff tab-indicator'
+          );
 
           // Skip forward by one tab character.
           pos++;
@@ -422,32 +486,45 @@ class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   _createTrailingWhitespaceLayer() {
-    const show = function() {
+    const show = () => {
       return this._showTrailingWhitespace;
-    }.bind(this);
+    };
 
     return {
-      annotate(contentEl, lineNumberEl, line) {
-        if (!show()) { return; }
+      annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
+        if (!show()) {
+          return;
+        }
 
         const match = line.text.match(TRAILING_WHITESPACE_PATTERN);
         if (match) {
           // Normalize string positions in case there is unicode before or
           // within the match.
           const index = GrAnnotation.getStringLength(
-              line.text.substr(0, match.index));
+            line.text.substr(0, match.index)
+          );
           const length = GrAnnotation.getStringLength(match[0]);
-          GrAnnotation.annotateElement(contentEl, index, length,
-              'style-scope gr-diff trailing-whitespace');
+          GrAnnotation.annotateElement(
+            contentEl,
+            index,
+            length,
+            'style-scope gr-diff trailing-whitespace'
+          );
         }
       },
     };
   }
 
-  setBlame(blame) {
-    if (!this._builder || !blame) { return; }
+  setBlame(blame: BlameInfo[]) {
+    if (!this._builder || !blame) {
+      return;
+    }
     this._builder.setBlame(blame);
   }
 }
 
-customElements.define(GrDiffBuilderElement.is, GrDiffBuilderElement);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-builder': GrDiffBuilderElement;
+  }
+}

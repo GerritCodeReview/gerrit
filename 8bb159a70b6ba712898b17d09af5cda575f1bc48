@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79662ec6_dab30ee3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-24T12:35:46Z",
+      "side": 0,
+      "message": "this is required as we need to access `this.$.container`, otherwise we will have to use `$[\"container\"]` as `$` has an interface as `[key: string]: HTMLElement`",
+      "revId": "8bb159a70b6ba712898b17d09af5cda575f1bc48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -36,6 +36,7 @@ export const htmlTemplate = html`
     has-tooltip=""
     class$="[[_computeSideBySideSelected(mode)]]"
     title="Side-by-side diff"
+    aria-pressed="[[isSideBySideSelected(mode)]]"
     on-click="_handleSideBySideTap"
   >
     <iron-icon icon="gr-icons:side-by-side"></iron-icon>
@@ -46,6 +47,7 @@ export const htmlTemplate = html`
     has-tooltip=""
     title="Unified diff"
     class$="[[_computeUnifiedSelected(mode)]]"
+    aria-pressed="[[isUnifiedSelected(mode)]]"
     on-click="_handleUnifiedTap"
   >
     <iron-icon icon="gr-icons:unified"></iron-icon>

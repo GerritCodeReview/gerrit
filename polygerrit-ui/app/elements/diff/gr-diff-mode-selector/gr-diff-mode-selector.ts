@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import '@polymer/iron-icon/iron-icon';
+import '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import '../../../styles/shared-styles';
 import '../../shared/gr-button/gr-button';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
@@ -25,11 +26,16 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
+import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 
 export interface GrDiffModeSelector {
   $: {
     restAPI: RestApiService & Element;
   };
+}
+
+interface FixIronA11yAnnouncer extends IronA11yAnnouncer {
+  requestAvailability(): void;
 }
 
 @customElement('gr-diff-mode-selector')
@@ -50,6 +56,10 @@ export class GrDiffModeSelector extends GestureEventListeners(
   @property({type: Boolean})
   saveOnChange = false;
 
+  attached() {
+    ((IronA11yAnnouncer as unknown) as FixIronA11yAnnouncer).requestAvailability();
+  }
+
   /**
    * Set the mode. If save on change is enabled also update the preference.
    */
@@ -58,6 +68,21 @@ export class GrDiffModeSelector extends GestureEventListeners(
       this.$.restAPI.savePreferences({diff_view: newMode});
     }
     this.mode = newMode;
+    let annoucement;
+    if (this.isUnifiedSelected(newMode)) {
+      annoucement = 'Changed diff view to unified';
+    } else if (this.isSideBySideSelected(newMode)) {
+      annoucement = 'Changed diff view to side by side';
+    }
+    if (annoucement) {
+      this.fire(
+        'iron-announce',
+        {
+          text: annoucement,
+        },
+        {bubbles: true}
+      );
+    }
   }
 
   _computeSideBySideSelected(mode: DiffViewMode) {
@@ -66,6 +91,14 @@ export class GrDiffModeSelector extends GestureEventListeners(
 
   _computeUnifiedSelected(mode: DiffViewMode) {
     return mode === DiffViewMode.UNIFIED ? 'selected' : '';
+  }
+
+  isSideBySideSelected(mode: DiffViewMode) {
+    return mode === DiffViewMode.SIDE_BY_SIDE;
+  }
+
+  isUnifiedSelected(mode: DiffViewMode) {
+    return mode === DiffViewMode.UNIFIED;
   }
 
   _handleSideBySideTap() {

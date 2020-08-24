@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e268de67_94e95de0",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T09:08:12Z",
+      "side": 1,
+      "message": "Maybe BranchName ?",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 17
+      },
+      "revId": "c50d9023f3c2775383f0575567002f49c424d184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbb9817_34fabb45",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T09:08:12Z",
+      "side": 1,
+      "message": "Please change to arrow function",
+      "range": {
+        "startLine": 78,
+        "startChar": 18,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "c50d9023f3c2775383f0575567002f49c424d184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "547bf984_b33c933a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T09:08:12Z",
+      "side": 1,
+      "message": "project is RepoName, can be removed",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "c50d9023f3c2775383f0575567002f49c424d184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

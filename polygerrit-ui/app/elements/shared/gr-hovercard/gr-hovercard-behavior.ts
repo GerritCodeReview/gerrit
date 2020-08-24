@@ -245,7 +245,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
 
         // Reset and remove the hovercard from the DOM
         this.style.cssText = '';
-        this.$.container.setAttribute('tabindex', '-1');
+        this.$['container'].setAttribute('tabindex', '-1');
 
         // Remove the hovercard from the container, given that it is still a child
         // of the container.

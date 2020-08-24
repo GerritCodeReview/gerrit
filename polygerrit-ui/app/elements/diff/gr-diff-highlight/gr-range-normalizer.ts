@@ -18,6 +18,13 @@
 // Astral code point as per https://mathiasbynens.be/notes/javascript-unicode
 const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
 
+export interface NormalizedRange {
+  endContainer: Node;
+  endOffset: number;
+  startContainer: Node;
+  startOffset: number;
+}
+
 /**
  * Remap DOM range to whole lines of a diff if necessary. If the start or
  * end containers are DOM elements that are singular pieces of syntax
@@ -28,7 +35,7 @@ const REGEX_ASTRAL_SYMBOL = /[\uD800-\uDBFF][\uDC00-\uDFFF]/;
  * @return A modified version of the range that correctly accounts
  *     for syntax highlighting.
  */
-export function normalize(range: Range) {
+export function normalize(range: Range): NormalizedRange {
   const startContainer = _getContentTextParent(range.startContainer);
   const startOffset =
     range.startOffset + _getTextOffset(startContainer, range.startContainer);

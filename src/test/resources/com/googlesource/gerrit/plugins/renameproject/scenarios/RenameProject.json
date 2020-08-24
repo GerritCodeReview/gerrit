@@ -1,0 +1,6 @@
+[
+  {
+    "url": "HTTP_SCHEME://HOSTNAME:HTTP_PORT/a/projects/PROJECT/rename-project~rename",
+    "project": "RENAME_VAR"
+  }
+]

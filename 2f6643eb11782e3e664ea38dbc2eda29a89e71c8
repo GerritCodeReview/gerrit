@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ac234891_83ed0913",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-24T09:20:19Z",
+      "side": 1,
+      "message": "Please use arrow function",
+      "range": {
+        "startLine": 181,
+        "startChar": 17,
+        "endLine": 181,
+        "endChar": 55
+      },
+      "revId": "2f6643eb11782e3e664ea38dbc2eda29a89e71c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -296,18 +296,15 @@ suite('gr-diff-builder tests', () => {
     }
   });
 
-  test('_handlePreferenceError called with invalid preference', () => {
-    sinon.stub(element, '_handlePreferenceError');
+  test('_handlePreferenceError throws with invalid preference', () => {
     const prefs = {tab_size: 0};
-    element._getDiffBuilder(element.diff, prefs);
-    assert.isTrue(element._handlePreferenceError.lastCall
-        .calledWithExactly('tab size'));
+    assert.throws(() => element._getDiffBuilder(element.diff, prefs));
   });
 
   test('_handlePreferenceError triggers alert and javascript error', () => {
     const errorStub = sinon.stub();
     element.addEventListener('show-alert', errorStub);
-    assert.throws(element._handlePreferenceError.bind(element, 'tab size'));
+    assert.throws(() => element._handlePreferenceError('tab size'));
     assert.equal(errorStub.lastCall.args[0].detail.message,
         `The value of the 'tab size' user preference is invalid. ` +
       `Fix in diff preferences`);

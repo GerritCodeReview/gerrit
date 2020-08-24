@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8568c7c5_04146abe",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-24T09:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e268de67_94e95de0",
+      "range": {
+        "startLine": 59,
+        "startChar": 11,
+        "endLine": 59,
+        "endChar": 17
+      },
+      "revId": "c50d9023f3c2775383f0575567002f49c424d184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afbb9817_34fabb45",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3187ad04_d8d29d53",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-24T09:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afbb9817_34fabb45",
+      "range": {
+        "startLine": 78,
+        "startChar": 18,
+        "endLine": 78,
+        "endChar": 65
+      },
+      "revId": "c50d9023f3c2775383f0575567002f49c424d184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "547bf984_b33c933a",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "c50d9023f3c2775383f0575567002f49c424d184",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4cd2ea6_5f917b61",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-move-dialog/gr-confirm-move-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-24T09:53:41Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "547bf984_b33c933a",
+      "range": {
+        "startLine": 112,
+        "startChar": 42,
+        "endLine": 112,
+        "endChar": 54
+      },
+      "revId": "c50d9023f3c2775383f0575567002f49c424d184",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

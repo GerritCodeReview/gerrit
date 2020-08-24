@@ -80,7 +80,7 @@ const RANGE_HIGHLIGHT = 'style-scope gr-diff range';
 const HOVER_HIGHLIGHT = 'style-scope gr-diff rangeHighlight';
 
 @customElement('gr-ranged-comment-layer')
-class GrRangedCommentLayer
+export class GrRangedCommentLayer
   extends GestureEventListeners(LegacyElementMixin(PolymerElement))
   implements DiffLayer {
   static get template() {

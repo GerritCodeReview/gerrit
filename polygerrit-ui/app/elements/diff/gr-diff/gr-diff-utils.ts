@@ -16,6 +16,7 @@
  */
 
 import {CommentRange} from '../../../types/common';
+import {FILE, LineNumber} from './gr-diff-line';
 
 export enum DiffSide {
   LEFT = 'left',
@@ -40,4 +41,13 @@ export function rangesEqual(a: CommentRange, b: CommentRange): boolean {
     a.end_line === b.end_line &&
     a.end_character === b.end_character
   );
+}
+
+export function getLineNumber(lineEl?: Element | null): LineNumber | null {
+  if (!lineEl) return null;
+  const lineNumberStr = lineEl.getAttribute('data-value');
+  if (!lineNumberStr) return null;
+  if (lineNumberStr === FILE) return FILE;
+  const lineNumber = Number(lineNumberStr);
+  return Number.isInteger(lineNumber) ? lineNumber : null;
 }

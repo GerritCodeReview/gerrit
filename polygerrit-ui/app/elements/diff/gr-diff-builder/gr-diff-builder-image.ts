@@ -17,6 +17,7 @@
 
 import {GrDiffBuilderSideBySide} from './gr-diff-builder-side-by-side';
 import {DiffInfo, DiffPreferencesInfo, ImageInfo} from '../../../types/common';
+import {GrEndpointParam} from '../../plugins/gr-endpoint-param/gr-endpoint-param';
 
 // MIME types for images we allow showing. Do not include SVG, it can contain
 // arbitrary JavaScript.
@@ -27,8 +28,8 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    private readonly _baseImage: ImageInfo,
-    private readonly _revisionImage: ImageInfo
+    private readonly _baseImage: ImageInfo | null,
+    private readonly _revisionImage: ImageInfo | null
   ) {
     super(diff, prefs, outputEl, []);
   }
@@ -66,10 +67,11 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     return tbody;
   }
 
-  private _createEndpointParam(name: string, value: ImageInfo) {
-    // TODO(TS): Replace any by GrEndpointParam type when it is available.
-    const endpointParam: any = this._createElement('gr-endpoint-param');
-    endpointParam.setAttribute('name', name);
+  private _createEndpointParam(name: string, value: ImageInfo | null) {
+    const endpointParam = this._createElement(
+      'gr-endpoint-param'
+    ) as GrEndpointParam;
+    endpointParam.name = name;
     endpointParam.value = value;
     return endpointParam;
   }
@@ -89,7 +91,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 
   private _createImageCell(
-    image: ImageInfo,
+    image: ImageInfo | null,
     className: string,
     section: HTMLElement
   ) {
@@ -122,7 +124,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     this._setLabelText(label, image);
   }
 
-  private _setLabelText(label: HTMLElement, image: ImageInfo) {
+  private _setLabelText(label: HTMLElement, image: ImageInfo | null) {
     label.textContent = _getImageLabel(image);
   }
 
@@ -147,7 +149,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
 
     if (addNamesInLabel) {
       nameSpan = this._createElement('span', 'name');
-      nameSpan.textContent = this._baseImage._name;
+      nameSpan.textContent = this._baseImage?._name ?? '';
       label.appendChild(nameSpan);
       label.appendChild(this._createElement('br'));
     }
@@ -165,7 +167,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
 
     if (addNamesInLabel) {
       nameSpan = this._createElement('span', 'name');
-      nameSpan.textContent = this._revisionImage._name;
+      nameSpan.textContent = this._revisionImage?._name ?? '';
       label.appendChild(nameSpan);
       label.appendChild(this._createElement('br'));
     }
@@ -180,9 +182,9 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
   }
 }
 
-function _getImageLabel(image: ImageInfo) {
+function _getImageLabel(image: ImageInfo | null) {
   if (image) {
-    const type = image.type || image._expectedType;
+    const type = image.type ?? image._expectedType;
     if (image._width && image._height) {
       return `${image._width}×${image._height} ${type}`;
     } else {

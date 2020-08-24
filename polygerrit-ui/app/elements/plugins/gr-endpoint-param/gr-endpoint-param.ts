@@ -35,14 +35,11 @@ export class GrEndpointParam extends GestureEventListeners(
   @property({
     type: Object,
     notify: true,
-    observer: GrEndpointParam.prototype._valueChanged,
+    observer: '_valueChanged',
   })
-  value: Record<string, unknown> | undefined = undefined;
+  value?: unknown;
 
-  private _valueChanged(
-    newValue: Record<string, unknown>,
-    _oldValue: Record<string, unknown>
-  ) {
+  _valueChanged(value: unknown) {
     /* In polymer 2 the following change was made:
     "Property change notifications (property-changed events) aren't fired when
     the value changes as a result of a binding from the host"
@@ -51,9 +48,6 @@ export class GrEndpointParam extends GestureEventListeners(
     In some cases this fire the event twice, but our code is
     ready for it.
     */
-    const detail = {
-      value: newValue,
-    };
-    this.dispatchEvent(new CustomEvent('value-changed', {detail}));
+    this.dispatchEvent(new CustomEvent('value-changed', {detail: {value}}));
   }
 }

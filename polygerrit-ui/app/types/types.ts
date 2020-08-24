@@ -14,6 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {Side} from '../constants/constants';
+
+export interface CoverageRange {
+  type: CoverageType;
+  side: Side;
+  code_range: {end_line: number; start_line: number};
+}
 
 export enum CoverageType {
   /**

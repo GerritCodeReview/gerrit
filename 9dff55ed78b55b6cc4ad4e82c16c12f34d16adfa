@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "84264c73_3ffc5829",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-24T15:14:18Z",
+      "side": 1,
+      "message": "\u003e Looks good to me minus the test issue.\n\u003e \n\u003e Do you have a specific use case to mention in the commit message? is/has operators are limited in that they can\u0027t take arguments so I am curious what you are going to use this for.\n\nYeah, we use all 3 flavors internally. The most limited for us is Is. The only use case we have for that is is:manifest provided by our manifest plugin (which will be upstream [2] once we finish ripping all our internal-only crap out of it. We use Has for \u0027has:bug_internalBugTrackerPlugin\u0027. And we have all kinds of uses of the regular operator_plugin:value.\n\n[2] https://gerrit.googlesource.com/plugins/manifest\n\n\u003e \n\u003e We are looking into plugin defined operators for [1] where is/has likely won\u0027t be enough and one would also want to pass in values to plugin-defined operators (e.g. operator_pluginName:value).\n\nAwesome! Yeah, we use them a bunch with the task plugin for similar reasons. Let us know if you have more questions about how we use these.\n\n\u003e \n\u003e [1] https://gerrit-review.googlesource.com/c/homepage/+/279176",
+      "parentUuid": "1845ecf4_5dfeb62f",
+      "revId": "9dff55ed78b55b6cc4ad4e82c16c12f34d16adfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2751208d_b8979adb",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/PluginOperatorsIT.java",
         "patchSetId": 2
@@ -30,6 +48,30 @@
       "writtenOn": "2020-08-24T13:34:21Z",
       "side": 1,
       "message": "Using static variables to transfer state in tests is an anti pattern because it\u0027s hard to follow and can easily break. You could build a simple matcher instead: is:changeNumberEven_customPlugin\n\nThen you don\u0027t have to transfer state between the bound Is operator and the test method but instead just create two changes and check that it matches the first and not the second.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 49
+      },
+      "revId": "9dff55ed78b55b6cc4ad4e82c16c12f34d16adfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b4605fe_20ae6af6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PluginOperatorsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-24T15:14:18Z",
+      "side": 1,
+      "message": "Thanks for the suggestion, Adithya wasn\u0027t sure about doing it this way either 😊",
+      "parentUuid": "2751208d_b8979adb",
       "range": {
         "startLine": 41,
         "startChar": 2,

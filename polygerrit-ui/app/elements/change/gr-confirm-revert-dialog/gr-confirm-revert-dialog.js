@@ -23,8 +23,8 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-confirm-revert-dialog_html.js';
 
-const ERR_COMMIT_NOT_FOUND =
-    'Unable to find the commit hash of this change.';
+const ERR_CHANGE_NOT_FOUND =
+    'Unable to find the change id of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
 
 // TODO(dhruvsri): clean up repeated definitions after moving to js modules
@@ -102,8 +102,7 @@ class GrConfirmRevertDialog extends GestureEventListeners(
   populate(change, commitMessage, changes) {
     this._changesCount = changes.length;
     // The option to revert a single change is always available
-    this._populateRevertSingleChangeMessage(
-        change, commitMessage, change.current_revision);
+    this._populateRevertSingleChangeMessage(change, commitMessage);
     this._populateRevertSubmissionMessage(change, changes, commitMessage);
   }
 
@@ -111,14 +110,14 @@ class GrConfirmRevertDialog extends GestureEventListeners(
     // Figure out what the revert title should be.
     const originalTitle = (commitMessage || '').split('\n')[0];
     const revertTitle = `Revert "${originalTitle}"`;
-    if (!commitHash) {
+    if (!change.change_id) {
       this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {message: ERR_COMMIT_NOT_FOUND},
+        detail: {message: ERR_CHANGE_NOT_FOUND},
         composed: true, bubbles: true,
       }));
       return;
     }
-    const revertCommitText = `This reverts commit ${commitHash}.`;
+    const revertCommitText = `This reverts change ${change.change_id}.`;
 
     this._message = `${revertTitle}\n\n${revertCommitText}\n\n` +
         `Reason for revert: <INSERT REASONING HERE>\n`;
@@ -143,15 +142,6 @@ class GrConfirmRevertDialog extends GestureEventListeners(
   }
 
   _populateRevertSubmissionMessage(change, changes, commitMessage) {
-    // Follow the same convention of the revert
-    const commitHash = change.current_revision;
-    if (!commitHash) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {message: ERR_COMMIT_NOT_FOUND},
-        composed: true, bubbles: true,
-      }));
-      return;
-    }
     if (!changes || changes.length <= 1) return;
     const submissionId = change.submission_id;
     const revertTitle = 'Revert submission ' + submissionId;

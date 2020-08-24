@@ -16,6 +16,24 @@
       "revId": "8bb159a70b6ba712898b17d09af5cda575f1bc48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "755c6f73_69f2124f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-24T13:52:37Z",
+      "side": 0,
+      "message": "I understand, but if you try adding this back, then you will get an error when using\n\n  hovercardBehaviorMixin(LegacyElementMixin(PolymerElement))\n\nThat is then missung the HovercardElInterface part, which I have no idea how to resolve. Feel free to suggest something, but for now I would just continue using\n\n  this.$[\"container\"]\n\nWDYT?",
+      "parentUuid": "79662ec6_dab30ee3",
+      "revId": "8bb159a70b6ba712898b17d09af5cda575f1bc48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

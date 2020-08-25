@@ -137,12 +137,14 @@ public class CommentsUtil {
         // Default to false if comment is not descended from another.
         unresolved = false;
       } else {
-        // Inherit unresolved value from inReplyTo comment if not specified.
-        Comment.Key key = new Comment.Key(parentUuid, path, psId.get());
-        Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, key);
+        Optional<HumanComment> parent = getPublishedHumanComment(changeNotes, parentUuid);
 
-        // If the comment was not found, it is descended from a robot comment, or the UUID is
-        // invalid. Either way, we use the default.
+        // If the comment is neither human nor robot comment, it is an IllegalState.
+        if (!parent.isPresent() && !getRobotComment(changeNotes, parentUuid).isPresent()) {
+          throw new IllegalStateException(String.format("Comment %s not found", parentUuid));
+        }
+        // If the inReplyTo is a human comment, inherit the inReplyTo. If it's a robot comment, take
+        // the default of false.
         unresolved = parent.map(p -> p.unresolved).orElse(false);
       }
     }
@@ -188,6 +190,12 @@ public class CommentsUtil {
         .findFirst();
   }
 
+  public Optional<HumanComment> getPublishedHumanComment(ChangeNotes notes, String uuid) {
+    return publishedHumanCommentsByChange(notes).stream()
+        .filter(c -> c.key.uuid.equals(uuid))
+        .findFirst();
+  }
+
   public Optional<HumanComment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key) {
     return draftByChangeAuthor(notes, user.getAccountId()).stream()
         .filter(c -> key.equals(c.key))
@@ -202,6 +210,14 @@ public class CommentsUtil {
   public List<RobotComment> robotCommentsByChange(ChangeNotes notes) {
     notes.load();
     return sort(Lists.newArrayList(notes.getRobotComments().values()));
+  }
+
+  public Optional<RobotComment> getRobotComment(ChangeNotes notes, Comment.Key key) {
+    return robotCommentsByChange(notes).stream().filter(c -> key.equals(c.key)).findFirst();
+  }
+
+  public Optional<RobotComment> getRobotComment(ChangeNotes notes, String uuid) {
+    return robotCommentsByChange(notes).stream().filter(c -> c.key.uuid.equals(uuid)).findFirst();
   }
 
   public List<HumanComment> draftByChange(ChangeNotes notes) {
@@ -352,10 +368,12 @@ public class CommentsUtil {
    */
   public Set<HumanComment> getAllHumanCommentsInCommentThreads(
       ChangeNotes changeNotes, ImmutableSet<HumanComment> newComments) {
-    Map<String, HumanComment> uuidToComment =
+    Map<String, HumanComment> uuidToHumanComment =
         publishedHumanCommentsByChange(changeNotes).stream()
             .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
-
+    Map<String, RobotComment> uuidToRobotComment =
+        robotCommentsByChange(changeNotes).stream()
+            .collect(Collectors.toMap(c -> c.key.uuid, c -> c));
     // Copy the set so that it won't be mutated.
     List<HumanComment> toTraverse = new ArrayList<>(newComments);
     Set<String> seen = new HashSet<>();
@@ -365,10 +383,14 @@ public class CommentsUtil {
       allCommentsInCommentThreads.add(current);
 
       if (current.parentUuid != null) {
-        HumanComment parent = uuidToComment.get(current.parentUuid);
+        HumanComment parent = uuidToHumanComment.get(current.parentUuid);
         if (parent == null) {
           // If we can't find the parent within the human comments, the parent must be a robot
-          // comment and can be ignored.
+          // comment and can be ignored. If it's not a robot comment, that's an IllegalState.
+          if (uuidToRobotComment.get(current.parentUuid) == null) {
+            throw new IllegalStateException(
+                String.format("Comment %s not found", current.parentUuid));
+          }
           continue;
         }
         if (!seen.contains(current.parentUuid)) {

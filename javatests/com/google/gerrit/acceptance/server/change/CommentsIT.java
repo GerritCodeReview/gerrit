@@ -695,6 +695,19 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putDraft_invalidInReplyTo() throws Exception {
+    PushOneCommit.Result r = createChange();
+    String changeId = r.getChangeId();
+    String revId = r.getCommit().getName();
+    DraftInput draftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    draftInput.inReplyTo = "invalid";
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> addDraft(changeId, revId, draftInput));
+    assertThat(exception.getMessage())
+        .contains(String.format("%s not found", draftInput.inReplyTo));
+  }
+
+  @Test
   public void putDraft_updatePath() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -1456,6 +1469,20 @@ public class CommentsIT extends AbstractDaemonTest {
 
     // Default unresolved is false.
     assertThat(resultComment.unresolved).isFalse();
+  }
+
+  @Test
+  public void cannotCreateCommentWithInvalidInReplyTo() throws Exception {
+    PushOneCommit.Result result = createChange();
+    String changeId = result.getChangeId();
+    String ps1 = result.getCommit().name();
+
+    CommentInput comment = newComment(FILE_NAME, "comment 1 reply");
+    comment.inReplyTo = "invalid";
+
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> addComments(changeId, ps1, comment));
+    assertThat(exception.getMessage()).contains(String.format("%s not found", comment.inReplyTo));
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {

@@ -451,7 +451,8 @@ export interface ProblemInfo {
  */
 export interface AttentionSetInfo {
   account: AccountInfo;
-  last_update: Timestamp;
+  last_update?: Timestamp;
+  reason?: string;
 }
 
 /**

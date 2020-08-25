@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a92cc319_3f090694",
+        "filename": "javatests/com/google/gerrit/elasticsearch/ElasticContainer.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-25T19:58:38Z",
+      "side": 1,
+      "message": "Relies on the availability of that tag under [1]; cf. [2].\n\n[1] https://hub.docker.com/r/blacktop/elasticsearch/tags\n[2] https://github.com/blacktop/docker-elasticsearch-alpine/pull/37#issuecomment-680223059",
+      "range": {
+        "startLine": 64,
+        "startChar": 16,
+        "endLine": 64,
+        "endChar": 44
+      },
+      "revId": "ca3741fc1203d5fc7c9135bdecb113345df0d3c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

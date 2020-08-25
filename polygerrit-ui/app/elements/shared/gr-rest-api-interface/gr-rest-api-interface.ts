@@ -739,12 +739,12 @@ export class GrRestApiInterface
     }) as Promise<GroupAuditEventInfo[] | undefined>;
   }
 
-  saveGroupMembers(
+  saveGroupMember(
     groupName: GroupId,
-    groupMembers: AccountId
+    groupMember: AccountId
   ): Promise<AccountInfo> {
     const encodeName = encodeURIComponent(groupName);
-    const encodeMember = encodeURIComponent(groupMembers);
+    const encodeMember = encodeURIComponent(`${groupMember}`);
     return (this._restApiHelper.send({
       method: HttpMethod.PUT,
       url: `/groups/${encodeName}/members/${encodeMember}`,
@@ -776,12 +776,12 @@ export class GrRestApiInterface
     });
   }
 
-  deleteGroupMembers(
+  deleteGroupMember(
     groupName: GroupId,
-    groupMembers: AccountId
+    groupMember: AccountId
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
-    const encodeMember = encodeURIComponent(groupMembers);
+    const encodeMember = encodeURIComponent(`${groupMember}`);
     return this._restApiHelper.send({
       method: HttpMethod.DELETE,
       url: `/groups/${encodeName}/members/${encodeMember}`,

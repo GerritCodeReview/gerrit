@@ -164,7 +164,7 @@ class GrGroupMembers extends GestureEventListeners(
   }
 
   _handleSavingGroupMember() {
-    return this.$.restAPI.saveGroupMembers(this._groupName,
+    return this.$.restAPI.saveGroupMember(this._groupName,
         this._groupMemberSearchId).then(config => {
       if (!config) {
         return;
@@ -180,7 +180,7 @@ class GrGroupMembers extends GestureEventListeners(
   _handleDeleteConfirm() {
     this.$.overlay.close();
     if (this._itemType === 'member') {
-      return this.$.restAPI.deleteGroupMembers(this._groupName,
+      return this.$.restAPI.deleteGroupMember(this._groupName,
           this._itemId)
           .then(itemDeleted => {
             if (itemDeleted.status === 204) {

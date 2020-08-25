@@ -188,7 +188,7 @@ suite('gr-group tests', () => {
     element._groupConfig = {
       name: 'test-group',
     };
-
+    element.groupId = 'gg';
     sinon.stub(element.$.restAPI, 'saveGroupName')
         .returns(Promise.resolve({status: 200}));
 

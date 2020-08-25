@@ -81,6 +81,30 @@
       "revId": "8a2a8dbf9332b2845dce40c422eff4defe61d518",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a5aa4683_8c89d752",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 105,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-08-25T19:33:30Z",
+      "side": 1,
+      "message": "Would it be worth just doing the fix to allow sshEnabled() to actually disable SSH for both master and slave, but leave the classes final?\n\nI am assuming our classes could instantiate the Receive/Upload classes as members instead of using inheritance, unless you can think of some reason why this might not work?",
+      "parentUuid": "698b79c1_520061d0",
+      "range": {
+        "startLine": 94,
+        "startChar": 0,
+        "endLine": 105,
+        "endChar": 21
+      },
+      "revId": "8a2a8dbf9332b2845dce40c422eff4defe61d518",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

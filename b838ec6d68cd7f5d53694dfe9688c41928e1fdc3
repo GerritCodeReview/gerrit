@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8272f46f_d5d614e8",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 828,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 0,
+      "message": "Good catch. Adjusted, also in the change which originally added that test.",
+      "parentUuid": "571ace48_d1ea5a6d",
+      "range": {
+        "startLine": 828,
+        "startChar": 13,
+        "endLine": 828,
+        "endChar": 22
+      },
+      "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2509317c_2faa80d2",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-19T12:40:45Z",
       "side": 0,
       "message": "Idea: For this and the similar test portedRangeCommentBecomesFileCommentOnConflict(), I think the problem is that we can not identify the line offsets in the target patchset, but if we can know the target start/end lines (?), we can probably attach the comment somewhere there (e.g. on the start line).\nNot sure if this is feasible, but could be a future improvement.",
+      "range": {
+        "startLine": 1166,
+        "startChar": 14,
+        "endLine": 1166,
+        "endChar": 59
+      },
+      "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5a8ec0e_16016ed9",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1166,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 0,
+      "message": "You\u0027re right that we can do better in some cases. For instance, a comment range starting before modified lines and ending after the modified block could be mapped to a new position. Our porting logic just doesn\u0027t support it at the moment. I tried to quickly improve the logic but found out that it requires more considerations (and many more tests) than I originally thought. That\u0027s also the reason why I adjusted the portedRangeCommentStartingBeforeButEndingAfterModifiedLineCanBePorted to portedRangeCommentStartingBeforeButEndingAfterModifiedLineBecomesFileComment() in this change and decided to postpone any improvements to the porting logic. After we have all cases for ported comments covered (e.g. also porting comments on base; filtering out resolved comment threads), we can think about such improvements. Maybe, you\u0027d be interested in implementing such improvements yourself. :-) What do you think?",
+      "parentUuid": "2509317c_2faa80d2",
       "range": {
         "startLine": 1166,
         "startChar": 14,

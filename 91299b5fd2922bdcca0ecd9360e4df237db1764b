@@ -39,6 +39,30 @@
       "revId": "91299b5fd2922bdcca0ecd9360e4df237db1764b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b96b8ba5_4bd47381",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 732,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Yes. Range being empty and line being null or 0 means a file comment if the path is not /PATCHSET_LEVEL.",
+      "parentUuid": "6fe7a33e_8448241d",
+      "range": {
+        "startLine": 732,
+        "startChar": 45,
+        "endLine": 732,
+        "endChar": 46
+      },
+      "revId": "91299b5fd2922bdcca0ecd9360e4df237db1764b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

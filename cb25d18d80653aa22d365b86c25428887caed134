@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "2140f589_850d2cea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-08-25T12:18:10Z",
+      "side": 1,
+      "message": "I think it depends on how you want to represent the \"absence\" of highlight info...\n\nMaybe gr-diff should distinguish if the client sends undefined (no data sent \u003d no hasIntralineInfo) or empty array - intentionally no highlight data?\n\nI don\u0027t have a strong opinion here but I can see both making some sense.",
+      "parentUuid": "05a554fe_3a7876f7",
+      "revId": "cb25d18d80653aa22d365b86c25428887caed134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "e7ab6de5_7c6600d9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.js",
         "patchSetId": 1
@@ -69,6 +87,29 @@
       "revId": "cb25d18d80653aa22d365b86c25428887caed134",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "39d5fbd3_75331266",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 822,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-08-25T12:18:10Z",
+      "side": 1,
+      "message": "nit: it would be nice to have a test where hasIntralineInfo should be true as well.",
+      "range": {
+        "startLine": 822,
+        "startChar": 12,
+        "endLine": 822,
+        "endChar": 26
+      },
+      "revId": "cb25d18d80653aa22d365b86c25428887caed134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

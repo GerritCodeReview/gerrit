@@ -141,6 +141,30 @@
       "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "910b6f7e_a1cb0781",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T13:51:42Z",
+      "side": 1,
+      "message": "I had the same expectations/hopes as Gal. I think it\u0027s a bit sad that the frontend router is so dependent on the file path even though the link itself is not. Hopefully, that\u0027s something we can improve in the future.",
+      "parentUuid": "24c40dd2_0032f494",
+      "range": {
+        "startLine": 412,
+        "startChar": 0,
+        "endLine": 418,
+        "endChar": 0
+      },
+      "revId": "8eef611c62400faeecf4e26e9c8eb0afa2b0c116",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -68,15 +68,15 @@ public class ElasticVersionTest extends GerritBaseTests {
   public void atLeastMinorVersion() throws Exception {
     assertThat(ElasticVersion.V6_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isTrue();
     assertThat(ElasticVersion.V6_8.isAtLeastMinorVersion(ElasticVersion.V6_8)).isTrue();
-    assertThat(ElasticVersion.V7_0.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_1.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_2.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_3.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_4.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_5.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_6.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_7.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
-    assertThat(ElasticVersion.V7_8.isAtLeastMinorVersion(ElasticVersion.V6_7)).isFalse();
+    assertThat(ElasticVersion.V7_0.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_1.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_2.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_3.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_4.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_5.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_6.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_7.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
+    assertThat(ElasticVersion.V7_8.isAtLeastMinorVersion(ElasticVersion.V6_8)).isFalse();
   }
 
   @Test

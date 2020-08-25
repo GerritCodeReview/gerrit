@@ -14,22 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-confirm-rebase-dialog_html.js';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
+import {customElement, property, observe} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {hasOwnProperty} from '../../../utils/common-util';
+import {LegacyChangeId} from '../../../types/common';
+import {
+  GrAutocomplete,
+  AutocompleteQuery,
+  AutocompleteSuggestion,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
 
-/** @extends PolymerElement */
-class GrConfirmRebaseDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+interface RebaseChange {
+  name: string;
+  value: LegacyChangeId;
+}
 
-  static get is() { return 'gr-confirm-rebase-dialog'; }
+export interface GrConfirmRebaseDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+    parentInput: GrAutocomplete;
+    rebaseOnParentInput: HTMLInputElement;
+    rebaseOnOtherInput: HTMLInputElement;
+    rebaseOnTipInput: HTMLInputElement;
+  };
+}
+
+@customElement('gr-confirm-rebase-dialog')
+export class GrConfirmRebaseDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the confirm button is pressed.
    *
@@ -42,27 +67,30 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
    * @event cancel
    */
 
-  static get properties() {
-    return {
-      branch: String,
-      changeNumber: Number,
-      hasParent: Boolean,
-      rebaseOnCurrent: Boolean,
-      _text: String,
-      _query: {
-        type: Function,
-        value() {
-          return this._getChangeSuggestions.bind(this);
-        },
-      },
-      _recentChanges: Array,
-    };
-  }
+  @property({type: String})
+  branch?: string;
 
-  static get observers() {
-    return [
-      '_updateSelectedOption(rebaseOnCurrent, hasParent)',
-    ];
+  @property({type: Number})
+  changeNumber?: number;
+
+  @property({type: Boolean})
+  hasParent?: boolean;
+
+  @property({type: Boolean})
+  rebaseOnCurrent?: boolean;
+
+  @property({type: String})
+  _text?: string;
+
+  @property({type: Object})
+  _query?: AutocompleteQuery;
+
+  @property({type: Array})
+  _recentChanges?: RebaseChange[];
+
+  constructor() {
+    super();
+    this._query = input => this._getChangeSuggestions(input);
   }
 
   // This is called by gr-change-actions every time the rebase dialog is
@@ -72,19 +100,23 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
   // in case there are new/updated changes in the generic query since the
   // last time it was run.
   fetchRecentChanges() {
-    return this.$.restAPI.getChanges(null, `is:open -age:90d`)
-        .then(response => {
-          const changes = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            changes.push({
-              name: `${response[key]._number}: ${response[key].subject}`,
-              value: response[key]._number,
-            });
+    return this.$.restAPI
+      .getChanges(undefined, 'is:open -age:90d')
+      .then(response => {
+        if (!response) return [];
+        const changes: RebaseChange[] = [];
+        for (const key in response) {
+          if (!hasOwnProperty(response, key)) {
+            continue;
           }
-          this._recentChanges = changes;
-          return this._recentChanges;
-        });
+          changes.push({
+            name: `${response[key]._number}: ${response[key].subject}`,
+            value: response[key]._number,
+          });
+        }
+        this._recentChanges = changes;
+        return this._recentChanges;
+      });
   }
 
   _getRecentChanges() {
@@ -94,25 +126,39 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
     return this.fetchRecentChanges();
   }
 
-  _getChangeSuggestions(input) {
+  _getChangeSuggestions(input: string) {
     return this._getRecentChanges().then(changes =>
-      this._filterChanges(input, changes));
+      this._filterChanges(input, changes)
+    );
   }
 
-  _filterChanges(input, changes) {
-    return changes.filter(change => change.name.includes(input) &&
-        change.value !== this.changeNumber);
+  _filterChanges(
+    input: string,
+    changes: RebaseChange[]
+  ): AutocompleteSuggestion[] {
+    return changes
+      .filter(
+        change =>
+          change.name.includes(input) && change.value !== this.changeNumber
+      )
+      .map(
+        change =>
+          ({
+            name: change.name,
+            value: `${change.value}`,
+          } as AutocompleteSuggestion)
+      );
   }
 
-  _displayParentOption(rebaseOnCurrent, hasParent) {
+  _displayParentOption(rebaseOnCurrent: boolean, hasParent: boolean) {
     return hasParent && rebaseOnCurrent;
   }
 
-  _displayParentUpToDateMsg(rebaseOnCurrent, hasParent) {
+  _displayParentUpToDateMsg(rebaseOnCurrent: boolean, hasParent: boolean) {
     return hasParent && !rebaseOnCurrent;
   }
 
-  _displayTipOption(rebaseOnCurrent, hasParent) {
+  _displayTipOption(rebaseOnCurrent: boolean, hasParent: boolean) {
     return !(!rebaseOnCurrent && !hasParent);
   }
 
@@ -124,22 +170,30 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
    * should be rebased on top of its current parent.
    */
   _getSelectedBase() {
-    if (this.$.rebaseOnParentInput.checked) { return null; }
-    if (this.$.rebaseOnTipInput.checked) { return ''; }
+    if (this.$.rebaseOnParentInput.checked) {
+      return null;
+    }
+    if (this.$.rebaseOnTipInput.checked) {
+      return '';
+    }
+    if (!this._text) {
+      return null;
+    }
     // Change numbers will have their description appended by the
     // autocomplete.
     return this._text.split(':')[0];
   }
 
-  _handleConfirmTap(e) {
+  _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('confirm',
-        {detail: {base: this._getSelectedBase()}}));
+    this.dispatchEvent(
+      new CustomEvent('confirm', {detail: {base: this._getSelectedBase()}})
+    );
     this._text = '';
   }
 
-  _handleCancelTap(e) {
+  _handleCancelTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel'));
@@ -158,9 +212,10 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
    * Sets the default radio button based on the state of the app and
    * the corresponding value to be submitted.
    */
-  _updateSelectedOption(rebaseOnCurrent, hasParent) {
+  @observe('rebaseOnCurrent', 'hasParent')
+  _updateSelectedOption(rebaseOnCurrent?: boolean, hasParent?: boolean) {
     // Polymer 2: check for undefined
-    if ([rebaseOnCurrent, hasParent].includes(undefined)) {
+    if (rebaseOnCurrent === undefined || hasParent === undefined) {
       return;
     }
 
@@ -174,4 +229,8 @@ class GrConfirmRebaseDialog extends GestureEventListeners(
   }
 }
 
-customElements.define(GrConfirmRebaseDialog.is, GrConfirmRebaseDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-rebase-dialog': GrConfirmRebaseDialog;
+  }
+}

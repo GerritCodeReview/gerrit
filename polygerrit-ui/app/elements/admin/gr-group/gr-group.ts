@@ -15,18 +15,18 @@
  * limitations under the License.
  */
 
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/gr-subpage-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-group_html.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/gr-form-styles';
+import '../../../styles/gr-subpage-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-group_html';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -45,10 +45,15 @@ const OPTIONS = {
  * @extends PolymerElement
  */
 class GrGroup extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-group'; }
+  static get is() {
+    return 'gr-group';
+  }
   /**
    * Fired when the group name changes.
    *
@@ -122,51 +127,63 @@ class GrGroup extends GestureEventListeners(
   }
 
   _loadGroup() {
-    if (!this.groupId) { return; }
+    if (!this.groupId) {
+      return;
+    }
 
     const promises = [];
 
     const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
-    return this.$.restAPI.getGroupConfig(this.groupId, errFn)
-        .then(config => {
-          if (!config || !config.name) { return Promise.resolve(); }
+    return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
+      if (!config || !config.name) {
+        return Promise.resolve();
+      }
 
-          this._groupName = config.name;
-          this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
+      this._groupName = config.name;
+      this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
-          promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-            this._isAdmin = !!isAdmin;
-          }));
+      promises.push(
+        this.$.restAPI.getIsAdmin().then(isAdmin => {
+          this._isAdmin = !!isAdmin;
+        })
+      );
 
-          promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-              .then(isOwner => {
-                this._groupOwner = !!isOwner;
-              }));
+      promises.push(
+        this.$.restAPI.getIsGroupOwner(config.name).then(isOwner => {
+          this._groupOwner = !!isOwner;
+        })
+      );
 
-          // If visible to all is undefined, set to false. If it is defined
-          // as false, setting to false is fine. If any optional values
-          // are added with a default of true, then this would need to be an
-          // undefined check and not a truthy/falsy check.
-          if (!config.options.visible_to_all) {
-            config.options.visible_to_all = false;
-          }
-          this._groupConfig = config;
+      // If visible to all is undefined, set to false. If it is defined
+      // as false, setting to false is fine. If any optional values
+      // are added with a default of true, then this would need to be an
+      // undefined check and not a truthy/falsy check.
+      if (!config.options.visible_to_all) {
+        config.options.visible_to_all = false;
+      }
+      this._groupConfig = config;
 
-          this.dispatchEvent(new CustomEvent('title-change', {
-            detail: {title: config.name},
-            composed: true, bubbles: true,
-          }));
+      this.dispatchEvent(
+        new CustomEvent('title-change', {
+          detail: {title: config.name},
+          composed: true,
+          bubbles: true,
+        })
+      );
 
-          return Promise.all(promises).then(() => {
-            this._loading = false;
-          });
-        });
+      return Promise.all(promises).then(() => {
+        this._loading = false;
+      });
+    });
   }
 
   _computeLoadingClass(loading) {
@@ -178,18 +195,24 @@ class GrGroup extends GestureEventListeners(
   }
 
   _handleSaveName() {
-    return this.$.restAPI.saveGroupName(this.groupId, this._groupConfig.name)
-        .then(config => {
-          if (config.status === 200) {
-            this._groupName = this._groupConfig.name;
-            this.dispatchEvent(new CustomEvent('name-changed', {
-              detail: {name: this._groupConfig.name,
-                external: this._groupIsExtenral},
-              composed: true, bubbles: true,
-            }));
-            this._rename = false;
-          }
-        });
+    return this.$.restAPI
+      .saveGroupName(this.groupId, this._groupConfig.name)
+      .then(config => {
+        if (config.status === 200) {
+          this._groupName = this._groupConfig.name;
+          this.dispatchEvent(
+            new CustomEvent('name-changed', {
+              detail: {
+                name: this._groupConfig.name,
+                external: this._groupIsExtenral,
+              },
+              composed: true,
+              bubbles: true,
+            })
+          );
+          this._rename = false;
+        }
+      });
   }
 
   _handleSaveOwner() {
@@ -197,17 +220,17 @@ class GrGroup extends GestureEventListeners(
     if (this._groupConfigOwner) {
       owner = decodeURIComponent(this._groupConfigOwner);
     }
-    return this.$.restAPI.saveGroupOwner(this.groupId,
-        owner).then(config => {
+    return this.$.restAPI.saveGroupOwner(this.groupId, owner).then(config => {
       this._owner = false;
     });
   }
 
   _handleSaveDescription() {
-    return this.$.restAPI.saveGroupDescription(this.groupId,
-        this._groupConfig.description).then(config => {
-      this._description = false;
-    });
+    return this.$.restAPI
+      .saveGroupDescription(this.groupId, this._groupConfig.description)
+      .then(config => {
+        this._description = false;
+      });
   }
 
   _handleSaveOptions() {
@@ -215,29 +238,38 @@ class GrGroup extends GestureEventListeners(
 
     const options = {visible_to_all: visible};
 
-    return this.$.restAPI.saveGroupOptions(this.groupId,
-        options).then(config => {
-      this._options = false;
-    });
+    return this.$.restAPI
+      .saveGroupOptions(this.groupId, options)
+      .then(config => {
+        this._options = false;
+      });
   }
 
   _handleConfigName() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._rename = true;
   }
 
   _handleConfigOwner() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._owner = true;
   }
 
   _handleConfigDescription() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._description = true;
   }
 
   _handleConfigOptions() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._options = true;
   }
 
@@ -246,18 +278,19 @@ class GrGroup extends GestureEventListeners(
   }
 
   _getGroupSuggestions(input) {
-    return this.$.restAPI.getSuggestedGroups(input)
-        .then(response => {
-          const groups = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            groups.push({
-              name: key,
-              value: decodeURIComponent(response[key].id),
-            });
-          }
-          return groups;
+    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+      const groups = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) {
+          continue;
+        }
+        groups.push({
+          name: key,
+          value: decodeURIComponent(response[key].id),
         });
+      }
+      return groups;
+    });
   }
 
   _computeGroupDisabled(owner, admin, groupIsInternal) {

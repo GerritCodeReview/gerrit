@@ -32,7 +32,7 @@ const HIDE_CLASS = 'hide';
  * How long should we wait before showing the hovercard when the user hovers
  * over the element?
  */
-const SHOW_DELAY_MS = 500;
+const SHOW_DELAY_MS = 550;
 
 /**
  * How long should we wait before hiding the hovercard when the user moves from
@@ -40,7 +40,7 @@ const SHOW_DELAY_MS = 500;
  *
  * Note: this should be lower than SHOW_DELAY_MS to avoid flickering.
  */
-const HIDE_DELAY_MS = 300;
+const HIDE_DELAY_MS = 500;
 
 /**
  * The mixin for gr-hovercard-behavior.

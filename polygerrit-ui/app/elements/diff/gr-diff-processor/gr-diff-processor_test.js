@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
+import 'lodash/lodash.js';
 import './gr-diff-processor.js';
 import {GrDiffLineType, FILE} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
@@ -825,6 +826,7 @@ suite('gr-diff-processor tests', () => {
 
         assert.equal(result.length, rows.length);
         assert.equal(result[0].type, GrDiffLineType.ADD);
+        assert.notOk(result[0].hasIntralineInfo);
         assert.equal(result[0].afterNumber, startLineNum + 1);
         assert.notOk(result[0].beforeNumber);
         assert.equal(result[result.length - 1].afterNumber,
@@ -836,6 +838,7 @@ suite('gr-diff-processor tests', () => {
 
         assert.equal(result.length, rows.length);
         assert.equal(result[0].type, GrDiffLineType.REMOVE);
+        assert.notOk(result[0].hasIntralineInfo);
         assert.equal(result[0].beforeNumber, startLineNum + 1);
         assert.notOk(result[0].afterNumber);
         assert.equal(result[result.length - 1].beforeNumber,

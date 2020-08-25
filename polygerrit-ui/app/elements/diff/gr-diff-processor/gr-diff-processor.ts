@@ -417,7 +417,7 @@ export class GrDiffProcessor extends GestureEventListeners(
     offsetRight: number,
     row: string,
     i: number,
-    highlights: Highlights[] = []
+    highlights?: Highlights[]
   ): GrDiffLine {
     const line = new GrDiffLine(type);
     line.text = row;

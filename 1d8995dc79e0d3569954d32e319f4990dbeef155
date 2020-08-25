@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b2548bb6_5dbf10e5",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 495,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "\u003e Is there a reason we shouldn\u0027t add this validation (not in this change, but in general)? If we did it would create extra work to fix this test to conform to the validation.\n\nWe shouldn\u0027t add this validation in the code which the test API uses as\n1) the test API should have the freedom to also support otherwise disallowed behavior (e.g. maybe we do want to replicate a corner case)\n2) we might want to throw another REST-API-friendly exception type like BadRequestException for REST APIs, which we don\u0027t want to use that deep in the code or which varies depending on the calling code\n3) adding the validation so deep in the code means that any invalid comments slipping through might fail this validation if we reused the code when e.g. rewriting history.\n\nIn general, we should certainly add such validation for the actual backend APIs. Right now, the validations performed on new comments are not consistent among the different APIs (e.g. different for draft and directly published comments). In addition, quite some checks are missing.\n\n\u003e Isn\u0027t there a snippet that you can steal from another test to create a real merge commit?\n\nThere is. I just decided against it as I planned to extend the test API to merge commits anyway for ported comments and I then would have less effort adjusting this piece of code. I can add a todo here for me if you think that\u0027s better. Alternatively, I can add the implementation for the merge commit creation at the end of this chain as I\u0027m now far enough into the ported comments implementation that merge commits become relevant.",
+      "parentUuid": "7c65f871_2ffa1f1d",
+      "range": {
+        "startLine": 495,
+        "startChar": 15,
+        "endLine": 495,
+        "endChar": 68
+      },
+      "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a408a790_ad5951d7",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
         "patchSetId": 3
@@ -117,6 +141,30 @@
       "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ffbc9cc_55b5f461",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 561,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "We are testing the fluent test API here. Hence, we don\u0027t care about the actual error code or the actual exception. Any exceptions in the test API are only meant to keep developers from making severe mistakes in the test setup or to inform them that their desired test setup is not possible (e.g. that a comment was not created as planned).\n\nInterestingly, we don\u0027t have a test verifying the parent validation for the actual API. I06db2d8f3 removed the exception we\u0027re testing for in this test. This was only done as a quick fix to another issue and Gal promised to add the actually necessary check again. We should probably add tests for the REST API when we do so.\n\nAs the exception in the inner stack is gone, I decided that the test API should actually allow to create draft replies to draft comments. There\u0027s no harm in it and we can always change our opinion.",
+      "parentUuid": "d90a13e9_24525605",
+      "range": {
+        "startLine": 561,
+        "startChar": 8,
+        "endLine": 561,
+        "endChar": 17
+      },
+      "revId": "1d8995dc79e0d3569954d32e319f4990dbeef155",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

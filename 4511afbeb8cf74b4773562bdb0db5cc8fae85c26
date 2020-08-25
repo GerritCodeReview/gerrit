@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "16859fa2_f1296a91",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-25T09:13:41Z",
+      "side": 1,
+      "message": "original feature request:\n\nExpected behavior: when typing in a query, I should be able to easily find the supported syntax.\n\nObserved behavior: There\u0027s no \"help\" or \"?\" link anywhere near the search box.",
+      "revId": "4511afbeb8cf74b4773562bdb0db5cc8fae85c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

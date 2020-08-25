@@ -16,6 +16,7 @@
  */
 
 import '../../../test/common-test-setup-karma.js';
+import 'lodash/lodash.js';
 import './gr-diff-processor.js';
 import {GrDiffLineType, FILE} from '../gr-diff/gr-diff-line.js';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group.js';
@@ -537,6 +538,15 @@ suite('gr-diff-processor tests', () => {
           endIndex: 6,
         },
       ]);
+      const lines = element._linesFromRows(
+          GrDiffGroupType.BOTH, content, 0, highlights);
+      assert.equal(lines.length, 3);
+      assert.isTrue(lines[0].hasIntralineInfo);
+      assert.equal(lines[0].highlights.length, 1);
+      assert.isTrue(lines[1].hasIntralineInfo);
+      assert.equal(lines[1].highlights.length, 2);
+      assert.isTrue(lines[2].hasIntralineInfo);
+      assert.equal(lines[2].highlights.length, 1);
 
       content = [
         '        this._path = value.path;',
@@ -825,6 +835,7 @@ suite('gr-diff-processor tests', () => {
 
         assert.equal(result.length, rows.length);
         assert.equal(result[0].type, GrDiffLineType.ADD);
+        assert.notOk(result[0].hasIntralineInfo);
         assert.equal(result[0].afterNumber, startLineNum + 1);
         assert.notOk(result[0].beforeNumber);
         assert.equal(result[result.length - 1].afterNumber,
@@ -836,6 +847,7 @@ suite('gr-diff-processor tests', () => {
 
         assert.equal(result.length, rows.length);
         assert.equal(result[0].type, GrDiffLineType.REMOVE);
+        assert.notOk(result[0].hasIntralineInfo);
         assert.equal(result[0].beforeNumber, startLineNum + 1);
         assert.notOk(result[0].afterNumber);
         assert.equal(result[result.length - 1].beforeNumber,

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e9f24258_89ab5c21",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Updating the description as you indicated might impose a too strong contract for the implementation which isn\u0027t necessary. Let\u0027s rather add a note that this method can return a new instance but doesn\u0027t need to. Done.",
+      "parentUuid": "9017f6e6_21c320cc",
+      "range": {
+        "startLine": 325,
+        "startChar": 7,
+        "endLine": 325,
+        "endChar": 94
+      },
+      "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f49f81df_b1b88751",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "237ce51c_f6c7921b",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 361,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Doing so would put additional effort on the callers for constructing the Optional which is unnecessary. I don\u0027t see a reason why we shouldn\u0027t benefit from AutoValue offering both methods. There\u0027s also no concern about differing implementations as the code is generated.",
+      "parentUuid": "f49f81df_b1b88751",
+      "range": {
+        "startLine": 361,
+        "startChar": 6,
+        "endLine": 361,
+        "endChar": 57
+      },
+      "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9cb89b1e_a420d683",
         "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
         "patchSetId": 2
@@ -59,6 +107,30 @@
       "writtenOn": "2020-08-19T11:48:51Z",
       "side": 1,
       "message": "Prefer to use GitPositionTransformer.Range.create\n\nSame for other occurrences. This can be addressed in the previous change though.",
+      "range": {
+        "startLine": 157,
+        "startChar": 25,
+        "endLine": 157,
+        "endChar": 31
+      },
+      "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33f51c46_d2ccbfa2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Done in the previous change.",
+      "parentUuid": "9cb89b1e_a420d683",
       "range": {
         "startLine": 157,
         "startChar": 25,
@@ -91,6 +163,30 @@
       "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b899285b_9b9be4f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Gerrit\u0027s API allows both null and 0 for file level comments (or anything else not having an explicit line like patchset-level comments). The current formatting implementation happens to map 0 to null but that\u0027s not a given. Hence, I wouldn\u0027t hardcode that in a comment. If you think that a comment is helpful here, I can add one. Done.",
+      "parentUuid": "0591f528_c755c0a7",
+      "range": {
+        "startLine": 180,
+        "startChar": 93,
+        "endLine": 180,
+        "endChar": 94
+      },
+      "revId": "b838ec6d68cd7f5d53694dfe9688c41928e1fdc3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

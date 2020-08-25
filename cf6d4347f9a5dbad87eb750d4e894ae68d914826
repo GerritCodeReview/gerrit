@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "680979b8_0be988f3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-25T20:04:46Z",
+      "side": 1,
+      "message": "@Jacek, this series may interest you as well. -Adding you to its base, here. You may chime in also for the other /related changes above.",
+      "revId": "cf6d4347f9a5dbad87eb750d4e894ae68d914826",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

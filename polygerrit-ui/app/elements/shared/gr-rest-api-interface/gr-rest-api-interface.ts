@@ -1234,10 +1234,10 @@ export class GrRestApiInterface
   }
 
   getWatchedProjects() {
-    return this._fetchSharedCacheURL({
+    return (this._fetchSharedCacheURL({
       url: '/accounts/self/watched.projects',
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<ProjectWatchInfo[]>;
   }
 
   saveWatchedProjects(
@@ -1254,7 +1254,9 @@ export class GrRestApiInterface
     }) as unknown) as Promise<ProjectWatchInfo[]>;
   }
 
-  deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
+  deleteWatchedProjects(
+    projects: ProjectWatchInfo[]
+  ): Promise<Response | undefined>;
 
   deleteWatchedProjects(
     projects: ProjectWatchInfo[],

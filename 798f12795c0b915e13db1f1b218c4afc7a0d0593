@@ -22,6 +22,30 @@
       "revId": "798f12795c0b915e13db1f1b218c4afc7a0d0593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8149b8a_c88fae5e",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Yes, the API you linked doesn\u0027t let you specify another Change-Id in the commit message. I think we (unintentionally) allow it through the change edit API (https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#put-change-edit-message), though. For that endpoint, I don\u0027t see the explicit check of the Change-Id in the code.\n\nIn any case, the test API is separate and may support behavior (to generate special test setups) which we otherwise reject for requests. For this specific case, I didn\u0027t see a reason to disallow the specification of another Change-Id.",
+      "parentUuid": "e41935c5_c74342e0",
+      "range": {
+        "startLine": 398,
+        "startChar": 22,
+        "endLine": 399,
+        "endChar": 93
+      },
+      "revId": "798f12795c0b915e13db1f1b218c4afc7a0d0593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -211,6 +211,24 @@
       "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d97dd750_27374bc2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-25T15:42:51Z",
+      "side": 1,
+      "message": "We added a config instead: \"sendNewPatchsetEmails which will default to true.",
+      "parentUuid": "bb3ecfb8_9477493a",
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

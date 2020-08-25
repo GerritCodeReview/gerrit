@@ -107,6 +107,10 @@ class GrAccountLabel extends GestureEventListeners(
   ready() {
     super.ready();
     this.$.restAPI.getConfig().then(config => { this._config = config; });
+    this.addEventListener('attention-set-updated', e => {
+      // For re-evaluation of everything that depends on 'change'.
+      this.change = {...this.change};
+    });
   }
 
   _isAttentionSetEnabled(config, highlight, account, change) {

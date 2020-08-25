@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2dad3562_a83ea2a2",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "The implementation of this method is meant to be expanded in follow-up changes. For instance, we\u0027ll filter out unresolved comments in the future. For this reason, I chose a less specific name than \"filterInEarlierPatchsets\". I\u0027m willing to use an equally abstract name like \"filterToRelevant\" if you can think of a better one.",
+      "parentUuid": "64eed453_df57adfc",
+      "range": {
+        "startLine": 84,
+        "startChar": 38,
+        "endLine": 84,
+        "endChar": 54
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2c71cd65_70e76b2a",
         "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
         "patchSetId": 4
@@ -45,6 +69,30 @@
       "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b4ebc1fa_71da51c5",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Comment is a class which is used throughout our code base and also in comments. On the other hand, porting comments (and the involved classes like PositionedEntity and Position) is a very specific use case which I wouldn\u0027t want to spread in the code base. Hence, even if I agree with you that moving the methods to the Comment class would be nice from an object-oriented perspective, the encapsulation idea weighs more heavily for me here.\n\nBy the way, ListPortedComments will get shorter and more readable with the follow-up change 278988 as I extract the porting logic to another class in it.",
+      "parentUuid": "2c71cd65_70e76b2a",
+      "range": {
+        "startLine": 138,
+        "startChar": 2,
+        "endLine": 138,
+        "endChar": 59
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f5668d2e_b7c6f9c9",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "I agree. I also prefer the GitPositionTransformer.Range.create() variant. Adjusted.",
+      "parentUuid": "70c71128_085a341d",
+      "range": {
+        "startLine": 156,
+        "startChar": 13,
+        "endLine": 156,
+        "endChar": 19
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9e54bc74_3d3d4042",
         "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
         "patchSetId": 4
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "31e88bdc_86937289",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "Please see my other comment above.",
+      "parentUuid": "9e54bc74_3d3d4042",
+      "range": {
+        "startLine": 161,
+        "startChar": 30,
+        "endLine": 161,
+        "endChar": 56
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fbc516a4_2c17bd3b",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
         "patchSetId": 4
@@ -105,6 +201,30 @@
       "writtenOn": "2020-08-19T11:06:32Z",
       "side": 1,
       "message": "portedCommentHasOriginal* .. can these tests be combined?",
+      "range": {
+        "startLine": 394,
+        "startChar": 14,
+        "endLine": 394,
+        "endChar": 44
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d064ce_d30c5a06",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 1,
+      "message": "They could be. It depends on the test philosophy, though. Depending on who you ask and what they consider a \"behavior\", they would prefer to combine these tests or keep them separate. As not all fields have the same \"behavior\" for ported comments, I decided to test each field on its own which includes focusing on just the field which is relevant during the setup.\n\nI\u0027m willing to combine the tests if you or another reviewer feel that a single larger test with several assertions is better. That\u0027s not my test philosophy, though.",
+      "parentUuid": "fbc516a4_2c17bd3b",
       "range": {
         "startLine": 394,
         "startChar": 14,

@@ -33,6 +33,24 @@
       "revId": "d35032d6f6418355935e931aa727eeae649d4bf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "98ac8647_2b386b81",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T15:06:01Z",
+      "side": 0,
+      "message": "If you\u0027re asking that we should cover less test cases / code paths, then I really wouldn\u0027t want to do so. While I was writing these tests and the actual implementation, I learned to appreciate the coverage I achieved here. Sometimes, only a single test fails if I slightly adjust the implementation (e.g. not correctly adding +1 to line numbers in all cases). For other cases, it\u0027s also helpful to see that the base test covering a behavior (and not just the ones assuming some behavior) fails to pinpoint the actual error. Honestly, I even intended to add more test cases in a follow-up change as I identified some cases which I haven\u0027t covered so far (e.g. overlapping comments which can\u0027t happen for edits due to rebase and is hence untested).\n\nConsider these tests similar to the ones we have for diffs. When you worked on the new diff caches, didn\u0027t the large number of existing tests help to not introduce regressions?\n\nThe only thing I\u0027d be willing to do is combine tests and cover more behaviors with one test. It\u0027s not in line with my test philosophy, though. So, up to you and other reviewers if you feel that this is important to invest time in.",
+      "parentUuid": "a4e346c3_7cd8b426",
+      "revId": "d35032d6f6418355935e931aa727eeae649d4bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

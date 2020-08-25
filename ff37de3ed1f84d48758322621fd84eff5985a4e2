@@ -90,6 +90,24 @@
     },
     {
       "key": {
+        "uuid": "c7cfe014_f9cb9a3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-08-25T07:16:41Z",
+      "side": 1,
+      "message": "Marking as resolved.",
+      "parentUuid": "e66e8b0d_5a802044",
+      "revId": "ff37de3ed1f84d48758322621fd84eff5985a4e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e3361492_e1c82751",
         "filename": "WORKSPACE",
         "patchSetId": 4

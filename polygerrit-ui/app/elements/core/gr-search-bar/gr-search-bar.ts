@@ -230,8 +230,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(
     const target = (dom(e) as EventApi).rootTarget as PolymerElement;
     // If the target is the #searchInput or has a sub-input component, that
     // is what holds the focus as opposed to the target from the DOM event.
-    if (target.$.input) {
-      (target.$.input as HTMLElement).blur();
+    if (target.$['input']) {
+      (target.$['input'] as HTMLElement).blur();
     } else {
       target.blur();
     }

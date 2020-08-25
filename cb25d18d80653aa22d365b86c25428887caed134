@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "05a554fe_3a7876f7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 420,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-25T12:11:25Z",
+      "side": 1,
+      "message": "or change the `if()` inside ?",
+      "revId": "cb25d18d80653aa22d365b86c25428887caed134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7ab6de5_7c6600d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-processor/gr-diff-processor_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-25T12:11:25Z",
+      "side": 1,
+      "message": "is this needed ? I don\u0027t see its used in the new changes, and tests are passing without this change right ?",
+      "revId": "cb25d18d80653aa22d365b86c25428887caed134",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

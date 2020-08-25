@@ -46,6 +46,30 @@
       "revId": "798f12795c0b915e13db1f1b218c4afc7a0d0593",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f32823f0_79b003a1",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-25T18:45:12Z",
+      "side": 1,
+      "message": "Fair enough. I think this warrants a comment though.",
+      "parentUuid": "d8149b8a_c88fae5e",
+      "range": {
+        "startLine": 398,
+        "startChar": 22,
+        "endLine": 399,
+        "endChar": 93
+      },
+      "revId": "798f12795c0b915e13db1f1b218c4afc7a0d0593",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

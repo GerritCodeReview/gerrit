@@ -47,6 +47,9 @@ import {
   ProjectAccessInput,
   ChangeInfo,
   ProjectInfoWithName,
+  GroupId,
+  GroupInfo,
+  GroupOptionsInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -278,4 +281,27 @@ export interface RestApiService {
     projectName: RepoName,
     projectInfo: ProjectAccessInput
   ): Promise<ChangeInfo>;
+
+  getGroupConfig(
+    group: GroupId,
+    errFn?: ErrorCallback
+  ): Promise<GroupInfo | undefined>;
+
+  getIsAdmin(): Promise<boolean | undefined>;
+
+  getIsGroupOwner(groupName: GroupId): Promise<boolean>;
+
+  saveGroupName(groupId: GroupId, name: string): Promise<Response>;
+
+  saveGroupOwner(groupId: GroupId, ownerId: string): Promise<Response>;
+
+  saveGroupDescription(
+    groupId: GroupId,
+    description: string
+  ): Promise<Response>;
+
+  saveGroupOptions(
+    groupId: GroupId,
+    options: GroupOptionsInput
+  ): Promise<Response>;
 }

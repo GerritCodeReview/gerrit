@@ -15,18 +15,29 @@
  * limitations under the License.
  */
 
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/gr-subpage-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-group_html.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/gr-form-styles';
+import '../../../styles/gr-subpage-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-group_html';
+import {customElement, property, observe} from '@polymer/decorators';
+import {
+  AutocompleteSuggestion,
+  AutocompleteQuery,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GroupId, GroupInfo} from '../../../types/common';
+import {
+  ErrorCallback,
+  RestApiService,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {hasOwnProperty} from '../../../utils/common-util';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
 
@@ -41,78 +52,75 @@ const OPTIONS = {
   },
 };
 
-/**
- * @extends PolymerElement
- */
-class GrGroup extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrGroup {
+  $: {
+    restAPI: RestApiService & Element;
+    loading: HTMLDivElement;
+  };
+}
 
-  static get is() { return 'gr-group'; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group': GrGroup;
+  }
+}
+
+@customElement('gr-group')
+export class GrGroup extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the group name changes.
    *
    * @event name-changed
    */
 
-  static get properties() {
-    return {
-      groupId: Number,
-      _rename: {
-        type: Boolean,
-        value: false,
-      },
-      _groupIsInternal: Boolean,
-      _description: {
-        type: Boolean,
-        value: false,
-      },
-      _owner: {
-        type: Boolean,
-        value: false,
-      },
-      _options: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {?} */
-      _groupConfig: Object,
-      _groupConfigOwner: String,
-      _groupName: Object,
-      _groupOwner: {
-        type: Boolean,
-        value: false,
-      },
-      _submitTypes: {
-        type: Array,
-        value() {
-          return Object.values(OPTIONS);
-        },
-      },
-      _query: {
-        type: Function,
-        value() {
-          return this._getGroupSuggestions.bind(this);
-        },
-      },
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+  @property({type: String})
+  groupId?: GroupId;
 
-  static get observers() {
-    return [
-      '_handleConfigName(_groupConfig.name)',
-      '_handleConfigOwner(_groupConfig.owner, _groupConfigOwner)',
-      '_handleConfigDescription(_groupConfig.description)',
-      '_handleConfigOptions(_groupConfig.options.visible_to_all)',
-    ];
+  @property({type: Boolean})
+  _rename = false;
+
+  @property({type: Boolean})
+  _groupIsInternal = false;
+
+  @property({type: Boolean})
+  _description = false;
+
+  @property({type: Boolean})
+  _owner = false;
+
+  @property({type: Boolean})
+  _options = false;
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: Object})
+  _groupConfig?: GroupInfo;
+
+  @property({type: Object})
+  _groupName?: string;
+
+  @property({type: Boolean})
+  _groupOwner = false;
+
+  @property({type: Array})
+  _submitTypes = Object.values(OPTIONS);
+
+  @property({type: Object})
+  _query: AutocompleteQuery;
+
+  @property({type: Boolean})
+  _isAdmin = false;
+
+  constructor() {
+    super();
+    this._query = (input: string) => this._getGroupSuggestions(input);
   }
 
   /** @override */
@@ -122,54 +130,66 @@ class GrGroup extends GestureEventListeners(
   }
 
   _loadGroup() {
-    if (!this.groupId) { return; }
+    if (!this.groupId) {
+      return;
+    }
 
-    const promises = [];
+    const promises: Promise<unknown>[] = [];
 
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+    const errFn: ErrorCallback = response => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
-    return this.$.restAPI.getGroupConfig(this.groupId, errFn)
-        .then(config => {
-          if (!config || !config.name) { return Promise.resolve(); }
+    return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
+      if (!config || !config.name) {
+        return Promise.resolve();
+      }
 
-          this._groupName = config.name;
-          this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
+      this._groupName = config.name;
+      this._groupIsInternal = !!config.id.match(INTERNAL_GROUP_REGEX);
 
-          promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-            this._isAdmin = !!isAdmin;
-          }));
+      promises.push(
+        this.$.restAPI.getIsAdmin().then(isAdmin => {
+          this._isAdmin = !!isAdmin;
+        })
+      );
 
-          promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-              .then(isOwner => {
-                this._groupOwner = !!isOwner;
-              }));
+      promises.push(
+        this.$.restAPI.getIsGroupOwner(config.name as GroupId).then(isOwner => {
+          this._groupOwner = !!isOwner;
+        })
+      );
 
-          // If visible to all is undefined, set to false. If it is defined
-          // as false, setting to false is fine. If any optional values
-          // are added with a default of true, then this would need to be an
-          // undefined check and not a truthy/falsy check.
-          if (!config.options.visible_to_all) {
-            config.options.visible_to_all = false;
-          }
-          this._groupConfig = config;
+      // If visible to all is undefined, set to false. If it is defined
+      // as false, setting to false is fine. If any optional values
+      // are added with a default of true, then this would need to be an
+      // undefined check and not a truthy/falsy check.
+      if (config.options && !config.options.visible_to_all) {
+        config.options.visible_to_all = false;
+      }
+      this._groupConfig = config;
 
-          this.dispatchEvent(new CustomEvent('title-change', {
-            detail: {title: config.name},
-            composed: true, bubbles: true,
-          }));
+      this.dispatchEvent(
+        new CustomEvent('title-change', {
+          detail: {title: config.name},
+          composed: true,
+          bubbles: true,
+        })
+      );
 
-          return Promise.all(promises).then(() => {
-            this._loading = false;
-          });
-        });
+      return Promise.all(promises).then(() => {
+        this._loading = false;
+      });
+    });
   }
 
-  _computeLoadingClass(loading) {
+  _computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
 
@@ -178,97 +198,124 @@ class GrGroup extends GestureEventListeners(
   }
 
   _handleSaveName() {
-    return this.$.restAPI.saveGroupName(this.groupId, this._groupConfig.name)
-        .then(config => {
-          if (config.status === 200) {
-            this._groupName = this._groupConfig.name;
-            this.dispatchEvent(new CustomEvent('name-changed', {
-              detail: {name: this._groupConfig.name,
-                external: this._groupIsExtenral},
-              composed: true, bubbles: true,
-            }));
-            this._rename = false;
-          }
-        });
+    const groupConfig = this._groupConfig;
+    if (!this.groupId || !groupConfig || !groupConfig.name) {
+      return Promise.reject(new Error('invalid groupId or config name'));
+    }
+    return this.$.restAPI
+      .saveGroupName(this.groupId, groupConfig.name)
+      .then(config => {
+        if (config.status === 200) {
+          this._groupName = groupConfig.name;
+          this.dispatchEvent(
+            new CustomEvent('name-changed', {
+              detail: {
+                name: groupConfig.name,
+                external: !this._groupIsInternal,
+              },
+              composed: true,
+              bubbles: true,
+            })
+          );
+          this._rename = false;
+        }
+      });
   }
 
   _handleSaveOwner() {
-    let owner = this._groupConfig.owner;
-    if (this._groupConfigOwner) {
-      owner = decodeURIComponent(this._groupConfigOwner);
-    }
-    return this.$.restAPI.saveGroupOwner(this.groupId,
-        owner).then(config => {
+    if (!this.groupId || !this._groupConfig) return;
+    const owner = this._groupConfig.owner;
+    if (!owner) return;
+    return this.$.restAPI.saveGroupOwner(this.groupId, owner).then(() => {
       this._owner = false;
     });
   }
 
   _handleSaveDescription() {
-    return this.$.restAPI.saveGroupDescription(this.groupId,
-        this._groupConfig.description).then(config => {
-      this._description = false;
-    });
+    if (!this.groupId || !this._groupConfig || !this._groupConfig.description)
+      return;
+    return this.$.restAPI
+      .saveGroupDescription(this.groupId, this._groupConfig.description)
+      .then(() => {
+        this._description = false;
+      });
   }
 
   _handleSaveOptions() {
+    if (!this.groupId || !this._groupConfig || !this._groupConfig.options)
+      return;
     const visible = this._groupConfig.options.visible_to_all;
 
     const options = {visible_to_all: visible};
 
-    return this.$.restAPI.saveGroupOptions(this.groupId,
-        options).then(config => {
+    return this.$.restAPI.saveGroupOptions(this.groupId, options).then(() => {
       this._options = false;
     });
   }
 
+  @observe('_groupConfig.name')
   _handleConfigName() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._rename = true;
   }
 
+  @observe('_groupConfig.owner', '_groupConfigOwner')
   _handleConfigOwner() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._owner = true;
   }
 
+  @observe('_groupConfig.description')
   _handleConfigDescription() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._description = true;
   }
 
+  @observe('_groupConfig.options.visible_to_all')
   _handleConfigOptions() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._options = true;
   }
 
-  _computeHeaderClass(configChanged) {
+  _computeHeaderClass(configChanged: boolean) {
     return configChanged ? 'edited' : '';
   }
 
-  _getGroupSuggestions(input) {
-    return this.$.restAPI.getSuggestedGroups(input)
-        .then(response => {
-          const groups = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            groups.push({
-              name: key,
-              value: decodeURIComponent(response[key].id),
-            });
-          }
-          return groups;
+  _getGroupSuggestions(input: string) {
+    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+      const groups: AutocompleteSuggestion[] = [];
+      for (const key in response) {
+        if (!hasOwnProperty(response, key)) {
+          continue;
+        }
+        groups.push({
+          name: key,
+          value: decodeURIComponent(response[key].id),
         });
+      }
+      return groups;
+    });
   }
 
-  _computeGroupDisabled(owner, admin, groupIsInternal) {
+  _computeGroupDisabled(
+    owner: boolean,
+    admin: boolean,
+    groupIsInternal: boolean
+  ) {
     return !(groupIsInternal && (admin || owner));
   }
 
-  _getGroupUUID(id) {
+  _getGroupUUID(id: GroupId) {
     if (!id) return;
 
     return id.match(INTERNAL_GROUP_REGEX) ? id : decodeURIComponent(id);
   }
 }
-
-customElements.define(GrGroup.is, GrGroup);

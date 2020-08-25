@@ -162,7 +162,7 @@ suite('gr-group-members tests', () => {
 
     const memberName = 'test-admin';
 
-    const saveStub = sinon.stub(element.$.restAPI, 'saveGroupMembers')
+    const saveStub = sinon.stub(element.$.restAPI, 'saveGroupMember')
         .callsFake(() => Promise.resolve({}));
 
     const button = element.$.saveGroupMember;

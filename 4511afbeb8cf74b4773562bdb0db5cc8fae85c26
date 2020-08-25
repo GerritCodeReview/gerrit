@@ -33,6 +33,24 @@
       "revId": "4511afbeb8cf74b4773562bdb0db5cc8fae85c26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d551568_ebb3b745",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-25T15:25:04Z",
+      "side": 1,
+      "message": "ah thx! added",
+      "parentUuid": "5aa94f5e_24e44251",
+      "revId": "4511afbeb8cf74b4773562bdb0db5cc8fae85c26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -72,6 +72,7 @@ export class GrSshEditor extends GestureEventListeners(
 
   loadData() {
     return this.$.restAPI.getAccountSSHKeys().then(keys => {
+      if (!keys) return;
       this._keys = keys;
     });
   }

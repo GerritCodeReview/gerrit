@@ -14,17 +14,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-watched-projects-editor_html.js';
+import '@polymer/iron-input/iron-input';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-watched-projects-editor_html';
+import {customElement, property} from '@polymer/decorators';
+import {
+  AutocompleteQuery,
+  GrAutocomplete,
+  AutocompleteSuggestion,
+} from '../../shared/gr-autocomplete/gr-autocomplete';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {hasOwnProperty} from '../../../utils/common-util';
+import {ProjectWatchInfo} from '../../../types/common';
 
 const NOTIFICATION_TYPES = [
   {name: 'Changes', key: 'notify_new_changes'},
@@ -34,34 +43,36 @@ const NOTIFICATION_TYPES = [
   {name: 'Abandons', key: 'notify_abandoned_changes'},
 ];
 
-/** @extends PolymerElement */
-class GrWatchedProjectsEditor extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrWatchedProjectsEditor {
+  $: {
+    restAPI: GrRestApiInterface;
+    newFilter: HTMLInputElement;
+    newProject: GrAutocomplete;
+  };
+}
+@customElement('gr-watched-projects-editor')
+export class GrWatchedProjectsEditor extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-watched-projects-editor'; }
+  @property({type: Boolean, notify: true})
+  hasUnsavedChanges = false;
 
-  static get properties() {
-    return {
-      hasUnsavedChanges: {
-        type: Boolean,
-        value: false,
-        notify: true,
-      },
+  @property({type: Array})
+  _projects?: ProjectWatchInfo[];
 
-      _projects: Array,
-      _projectsToRemove: {
-        type: Array,
-        value() { return []; },
-      },
-      _query: {
-        type: Function,
-        value() {
-          return this._getProjectSuggestions.bind(this);
-        },
-      },
-    };
+  @property({type: Array})
+  _projectsToRemove: ProjectWatchInfo[] = [];
+
+  @property({type: Object})
+  _query?: AutocompleteQuery;
+
+  constructor() {
+    super();
+    this._query = input => this._getProjectSuggestions(input);
   }
 
   loadData() {
@@ -74,18 +85,25 @@ class GrWatchedProjectsEditor extends GestureEventListeners(
     let deletePromise;
     if (this._projectsToRemove.length) {
       deletePromise = this.$.restAPI.deleteWatchedProjects(
-          this._projectsToRemove);
+        this._projectsToRemove
+      );
     } else {
-      deletePromise = Promise.resolve();
+      deletePromise = Promise.resolve(undefined);
     }
 
     return deletePromise
-        .then(() => this.$.restAPI.saveWatchedProjects(this._projects))
-        .then(projects => {
-          this._projects = projects;
-          this._projectsToRemove = [];
-          this.hasUnsavedChanges = false;
-        });
+      .then(() => {
+        if (this._projects) {
+          return this.$.restAPI.saveWatchedProjects(this._projects);
+        } else {
+          return Promise.resolve(undefined);
+        }
+      })
+      .then(projects => {
+        this._projects = projects;
+        this._projectsToRemove = [];
+        this.hasUnsavedChanges = false;
+      });
   }
 
   _getTypes() {
@@ -96,45 +114,58 @@ class GrWatchedProjectsEditor extends GestureEventListeners(
     return this._getTypes().length;
   }
 
-  _computeCheckboxChecked(project, key) {
-    return project.hasOwnProperty(key);
+  _computeCheckboxChecked(project: ProjectWatchInfo, key: string) {
+    return hasOwnProperty(project, key);
   }
 
-  _getProjectSuggestions(input) {
-    return this.$.restAPI.getSuggestedProjects(input)
-        .then(response => {
-          const projects = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            projects.push({
-              name: key,
-              value: response[key],
-            });
-          }
-          return projects;
+  _getProjectSuggestions(input: string) {
+    return this.$.restAPI.getSuggestedProjects(input).then(response => {
+      const projects: AutocompleteSuggestion[] = [];
+      for (const key in response) {
+        if (!hasOwnProperty(response, key)) {
+          continue;
+        }
+        projects.push({
+          name: key,
+          value: response[key].id,
         });
+      }
+      return projects;
+    });
   }
 
-  _handleRemoveProject(e) {
-    const el = dom(e).localTarget;
-    const index = parseInt(el.getAttribute('data-index'), 10);
+  _handleRemoveProject(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLInputElement;
+    const dataIndex = el.getAttribute('data-index');
+    if (dataIndex === null || !this._projects) return;
+    const index = parseInt(dataIndex, 10);
     const project = this._projects[index];
     this.splice('_projects', index, 1);
     this.push('_projectsToRemove', project);
     this.hasUnsavedChanges = true;
   }
 
-  _canAddProject(project, text, filter) {
-    if ((!project || !project.id) && !text) { return false; }
+  _canAddProject(
+    project: string | null,
+    text: string | null,
+    filter: string | null
+  ) {
+    if (project === null && text === null) {
+      return false;
+    }
 
     // This will only be used if not using the auto complete
-    if (!project && text) { return true; }
+    if (!project && text) {
+      return true;
+    }
 
-    // Check if the project with filter is already in the list. Compare
-    // filters using == to coalesce null and undefined.
+    if (!this._projects) return true;
+    // Check if the project with filter is already in the list.
     for (let i = 0; i < this._projects.length; i++) {
-      if (this._projects[i].project === project.id &&
-          this._projects[i].filter == filter) {
+      if (
+        this._projects[i].project === project &&
+        this.areFiltersEqual(this._projects[i].filter, filter)
+      ) {
         return false;
       }
     }
@@ -142,12 +173,18 @@ class GrWatchedProjectsEditor extends GestureEventListeners(
     return true;
   }
 
-  _getNewProjectIndex(name, filter) {
+  _getNewProjectIndex(name: string, filter: string | null) {
+    if (!this._projects) return;
     let i;
     for (i = 0; i < this._projects.length; i++) {
-      if (this._projects[i].project > name ||
-          (this._projects[i].project === name &&
-              this._projects[i].filter > filter)) {
+      const projectFilter = this._projects[i].filter;
+      if (
+        this._projects[i].project > name ||
+        (this._projects[i].project === name &&
+          this.isFilterDefined(projectFilter) &&
+          this.isFilterDefined(filter) &&
+          projectFilter! > filter!)
+      ) {
         break;
       }
     }
@@ -159,34 +196,63 @@ class GrWatchedProjectsEditor extends GestureEventListeners(
     const newProjectName = this.$.newProject.text;
     const filter = this.$.newFilter.value || null;
 
-    if (!this._canAddProject(newProject, newProjectName, filter)) { return; }
+    if (!this._canAddProject(newProject, newProjectName, filter)) {
+      return;
+    }
 
     const insertIndex = this._getNewProjectIndex(newProjectName, filter);
 
-    this.splice('_projects', insertIndex, 0, {
-      project: newProjectName,
-      filter,
-      _is_local: true,
-    });
+    if (insertIndex !== undefined) {
+      this.splice('_projects', insertIndex, 0, {
+        project: newProjectName,
+        filter,
+        _is_local: true,
+      });
+    }
 
     this.$.newProject.clear();
-    this.$.newFilter.bindValue = '';
+    this.$.newFilter.value = '';
     this.hasUnsavedChanges = true;
   }
 
-  _handleCheckboxChange(e) {
-    const el = dom(e).localTarget;
-    const index = parseInt(el.getAttribute('data-index'), 10);
+  _handleCheckboxChange(e: Event) {
+    const el = (dom(e) as EventApi).localTarget as HTMLInputElement;
+    if (el === null) return;
+    const dataIndex = el.getAttribute('data-index');
     const key = el.getAttribute('data-key');
+    if (dataIndex === null || key === null) return;
+    const index = parseInt(dataIndex, 10);
     const checked = el.checked;
     this.set(['_projects', index, key], !!checked);
     this.hasUnsavedChanges = true;
   }
 
-  _handleNotifCellClick(e) {
-    const checkbox = e.target.querySelector('input');
-    if (checkbox) { checkbox.click(); }
+  _handleNotifCellClick(e: Event) {
+    if (e.target === null) return;
+    const checkbox = (e.target as HTMLElement).querySelector('input');
+    if (checkbox) {
+      checkbox.click();
+    }
+  }
+
+  isFilterDefined(filter: string | null | undefined) {
+    return filter !== null && filter !== undefined;
+  }
+
+  areFiltersEqual(
+    filter1: string | null | undefined,
+    filter2: string | null | undefined
+  ) {
+    // null and undefined are equal
+    if (!this.isFilterDefined(filter1) && !this.isFilterDefined(filter2)) {
+      return true;
+    }
+    return filter1 === filter2;
   }
 }
 
-customElements.define(GrWatchedProjectsEditor.is, GrWatchedProjectsEditor);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-watched-projects-editor': GrWatchedProjectsEditor;
+  }
+}

@@ -183,7 +183,7 @@ export interface RestApiService {
   deleteAccountEmail(email: string): Promise<Response>;
   setPreferredAccountEmail(email: string, errFn?: ErrorCallback): Promise<void>;
 
-  getAccountSSHKeys(): Promise<SshKeyInfo[]>;
+  getAccountSSHKeys(): Promise<SshKeyInfo[] | undefined>;
   deleteAccountSSHKey(key: string): void;
   addAccountSSHKey(key: string): Promise<SshKeyInfo>;
 

@@ -153,16 +153,16 @@ public class QueryChangesIT extends AbstractDaemonTest {
 
     // Create hidden project.
     Project.NameKey hiddenProject = projectOperations.newProject().create();
+    TestRepository<InMemoryRepository> hiddenRepo = cloneProject(hiddenProject, admin);
+    // Create 2 hidden changes.
+    createChange(hiddenRepo);
+    createChange(hiddenRepo);
+    // Actually hide project
     projectOperations
         .project(hiddenProject)
         .forUpdate()
         .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
         .update();
-    TestRepository<InMemoryRepository> hiddenRepo = cloneProject(hiddenProject, admin);
-
-    // Create 2 hidden changes.
-    createChange(hiddenRepo);
-    createChange(hiddenRepo);
 
     // Create a change query that matches all changes (visible and hidden changes).
     // The index returns the changes ordered by last updated timestamp:

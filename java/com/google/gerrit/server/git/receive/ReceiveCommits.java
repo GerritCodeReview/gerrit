@@ -1839,7 +1839,9 @@ class ReceiveCommits {
       magicBranch.perm = permissions.ref(ref);
 
       Optional<AuthException> err =
-          checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE);
+          checkRefPermission(magicBranch.perm, RefPermission.READ)
+              .map(Optional::of)
+              .orElse(checkRefPermission(magicBranch.perm, RefPermission.CREATE_CHANGE));
       if (err.isPresent()) {
         rejectProhibited(cmd, err.get());
         return;

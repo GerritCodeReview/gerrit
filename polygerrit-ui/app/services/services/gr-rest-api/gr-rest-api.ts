@@ -215,4 +215,5 @@ export interface RestApiService {
   addAccountGPGKey(key: GpgKeysInput): Promise<Record<string, GpgKeyInfo>>;
   deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
   getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>>;
+  probePath(path: string): Promise<boolean>;
 }

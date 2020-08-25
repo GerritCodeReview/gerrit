@@ -101,6 +101,11 @@ export const htmlTemplate = html`
       >
       </iron-icon>
     </div>
+
+    <!-- suffix as attribute is required to for polymer 1 -->
+    <div slot="suffix" suffix="">
+      <slot name="suffix"></slot>
+    </div>
   </paper-input>
   <gr-autocomplete-dropdown
     vertical-align="top"

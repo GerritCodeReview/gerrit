@@ -35,6 +35,7 @@ import {
   AutocompleteSuggestion,
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {getDocsBaseUrl} from '../../../utils/url-util';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS = [
@@ -176,6 +177,9 @@ export class GrSearchBar extends KeyboardShortcutMixin(
   @property({type: String})
   label = '';
 
+  @property({type: String})
+  docBaseUrl: string | null = null;
+
   constructor() {
     super();
     this.query = (input: string) => this._getSearchSuggestions(input);
@@ -195,7 +199,22 @@ export class GrSearchBar extends KeyboardShortcutMixin(
         // add 'is:mergeable' to SEARCH_OPERATORS_WITH_NEGATIONS_SET
         this._addOperator('is:mergeable');
       }
+      if (serverConfig) {
+        getDocsBaseUrl(serverConfig, this.$.restAPI).then(baseUrl => {
+          this.docBaseUrl = baseUrl;
+        });
+      }
     });
+  }
+
+  _computeHelpDocLink(docBaseUrl: string | null) {
+    // fallback to gerrit's official doc
+    let baseUrl =
+      docBaseUrl || 'https://gerrit-review.googlesource.com/documentation/';
+    if (baseUrl.endsWith('/')) {
+      baseUrl = baseUrl.substring(0, baseUrl.length - 1);
+    }
+    return `${baseUrl}/user-search.html`;
   }
 
   _addOperator(name: string, include_neg = true) {

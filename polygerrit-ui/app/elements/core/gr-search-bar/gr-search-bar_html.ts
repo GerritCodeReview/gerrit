@@ -41,7 +41,19 @@ export const htmlTemplate = html`
       threshold="[[_threshold]]"
       tab-complete=""
       vertical-offset="30"
-    ></gr-autocomplete>
+    >
+      <a
+        slot="suffix"
+        href$="[[_computeHelpDocLink(docBaseUrl)]]"
+        target="_blank"
+        class="help"
+      >
+        <iron-icon
+          icon="gr-icons:help-outline"
+          title="read documentation"
+        ></iron-icon>
+      </a>
+    </gr-autocomplete>
   </form>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

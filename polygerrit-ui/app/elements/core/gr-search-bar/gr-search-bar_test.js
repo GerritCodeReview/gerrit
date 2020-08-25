@@ -20,6 +20,7 @@ import './gr-search-bar.js';
 import '../../../scripts/util.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {_testOnly_clearDocsBaseUrlCache} from '../../../utils/url-util.js';
 
 const basicFixture = fixtureFromElement('gr-search-bar');
 
@@ -213,6 +214,40 @@ suite('gr-search-bar tests', () => {
           done();
         });
       });
+    });
+  });
+
+  suite('doc url', () => {
+    setup(done => {
+      stub('gr-rest-api-interface', {
+        getConfig() {
+          return Promise.resolve({
+            gerrit: {
+              doc_url: 'https://doc.com/',
+            },
+          });
+        },
+      });
+
+      _testOnly_clearDocsBaseUrlCache();
+      element = basicFixture.instantiate();
+      flush(done);
+    });
+
+    test('compute help doc url with correct path', () => {
+      assert.equal(element.docBaseUrl, 'https://doc.com/');
+      assert.equal(
+          element._computeHelpDocLink(element.docBaseUrl),
+          'https://doc.com/user-search.html'
+      );
+    });
+
+    test('compute help doc url fallback to gerrit url', () => {
+      assert.equal(
+          element._computeHelpDocLink(),
+          'https://gerrit-review.googlesource.com/documentation/' +
+          'user-search.html'
+      );
     });
   });
 });

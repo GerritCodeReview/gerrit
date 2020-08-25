@@ -1,3 +1,6 @@
+import {ServerInfo} from '../types/common';
+import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
+
 /**
  * @license
  * Copyright (C) 2020 The Android Open Source Project
@@ -17,24 +20,6 @@
 const PROBE_PATH = '/Documentation/index.html';
 const DOCS_BASE_PATH = '/Documentation';
 
-// NOTE: Below we define 2 types (DocUrlBehaviorConfig and RestApi) to avoid
-// type 'any'. These are temporary definitions and they must be
-// updated/moved/removed when we start converting our codebase to typescript.
-// Right now we are using these types here just for adding typescript support to
-// our build/test infrastructure. Doing so we avoid massive code updates at this
-// stage.
-
-// TODO: introduce global gerrit config type instead of DocUrlBehaviorConfig.
-// The DocUrlBehaviorConfig is a temporary type
-interface DocUrlBehaviorConfig {
-  gerrit?: {doc_url?: string};
-}
-
-// TODO: implement RestApi type correctly and remove interface from this file
-interface RestApi {
-  probePath(url: string): Promise<boolean>;
-}
-
 export function getBaseUrl(): string {
   return window.CANONICAL_PATH || '';
 }
@@ -50,8 +35,8 @@ let getDocsBaseUrlCachedPromise: Promise<string | null> | undefined;
  *     URL.
  */
 export function getDocsBaseUrl(
-  config: DocUrlBehaviorConfig,
-  restApi: RestApi
+  config: ServerInfo,
+  restApi: RestApiService
 ): Promise<string | null> {
   if (!getDocsBaseUrlCachedPromise) {
     getDocsBaseUrlCachedPromise = new Promise(resolve => {

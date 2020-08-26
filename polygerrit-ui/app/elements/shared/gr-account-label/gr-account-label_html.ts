@@ -68,12 +68,15 @@ export const htmlTemplate = html`
     .text:hover {
       @apply --gr-account-label-text-hover-style;
     }
+    #attentionButton {
+      /* This negates the 4px horizontal padding, which we appreciate as a
+         larger click target, but which we don't want to consume space. :-) */
+      margin: 0 -4px 0 -4px;
+      vertical-align: top;
+    }
     iron-icon.attention {
       width: 12px;
       height: 12px;
-      vertical-align: top;
-      position: relative;
-      top: 4px;
     }
     iron-icon.status {
       width: 14px;
@@ -86,6 +89,7 @@ export const htmlTemplate = html`
   <span>
     <template is="dom-if" if="[[!hideHovercard]]">
       <gr-hovercard-account
+        for="hovercardTarget"
         account="[[account]]"
         change="[[change]]"
         highlight-attention="[[highlightAttention]]"
@@ -97,8 +101,18 @@ export const htmlTemplate = html`
       is="dom-if"
       if="[[_hasAttention(_config, highlightAttention, account, change, forceAttention)]]"
     >
-      <iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
+      <gr-button
+        id="attentionButton"
+        link=""
+        aria-label="Remove user from attention set"
+        on-click="_handleRemoveAttentionClick"
+        has-tooltip=""
+        title="Click to remove user from the attention set"
+        ><iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
+      </gr-button>
     </template>
+  </span>
+  <span id="hovercardTarget">
     <template is="dom-if" if="[[!hideAvatar]]">
       <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
     </template>

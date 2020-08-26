@@ -278,7 +278,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
        * Set of account IDs that should constitute the attention set after
        * publishing the votes/comments. Will be initialized with a default (that
        * matches the default rules that the backend would also apply) by the
-       * _computeNewAttention(_account, _reviewers, change) observer.
+       * _computeNewAttention() observer.
        */
       _newAttentionSet: {
         type: Object,
@@ -326,7 +326,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       '_ccsChanged(_ccs.splices)',
       '_reviewersChanged(_reviewers.splices)',
       '_computeNewAttention(' +
-        '_account, _reviewers.*, change, draftCommentThreads)',
+        '_account, _reviewers.*, _ccs.*, change, draftCommentThreads)',
     ];
   }
 
@@ -835,7 +835,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     return newAttention && account && newAttention.has(account._account_id);
   }
 
-  _computeNewAttention(currentUser, reviewers, change, draftCommentThreads) {
+  _computeNewAttention(currentUser, reviewers, ccs, change,
+      draftCommentThreads) {
     if ([currentUser, reviewers, change, draftCommentThreads]
         .includes(undefined)) {
       return;
@@ -929,7 +930,10 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     return removeServiceUsers(allAccounts);
   }
 
-  _removeServiceUsers(accounts) {
+  /**
+   * The newAttentionSet param is only used to force re-computation.
+   */
+  _removeServiceUsers(accounts, newAttentionSet) {
     return removeServiceUsers(accounts);
   }
 

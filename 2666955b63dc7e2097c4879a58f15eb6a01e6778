@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c00299f9_891ea876",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-26T14:21:39Z",
+      "side": 1,
+      "message": "restAPI: RestApiService \u0026 Element;",
+      "revId": "2666955b63dc7e2097c4879a58f15eb6a01e6778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f7accfc_c6e4a8b8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-26T14:21:39Z",
+      "side": 1,
+      "message": "AutocompleteQuery",
+      "range": {
+        "startLine": 111,
+        "startChar": 10,
+        "endLine": 111,
+        "endChar": 18
+      },
+      "revId": "2666955b63dc7e2097c4879a58f15eb6a01e6778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

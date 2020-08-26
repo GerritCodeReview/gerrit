@@ -1238,10 +1238,10 @@ export class GrRestApiInterface
   }
 
   getWatchedProjects() {
-    return this._fetchSharedCacheURL({
+    return (this._fetchSharedCacheURL({
       url: '/accounts/self/watched.projects',
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<ProjectWatchInfo[] | undefined>;
   }
 
   saveWatchedProjects(
@@ -1258,7 +1258,9 @@ export class GrRestApiInterface
     }) as unknown) as Promise<ProjectWatchInfo[]>;
   }
 
-  deleteWatchedProjects(projects: ProjectWatchInfo[]): Promise<Response>;
+  deleteWatchedProjects(
+    projects: ProjectWatchInfo[]
+  ): Promise<Response | undefined>;
 
   deleteWatchedProjects(
     projects: ProjectWatchInfo[],
@@ -2999,7 +3001,7 @@ export class GrRestApiInterface
     return (this._fetchSharedCacheURL({
       url: '/accounts/self/sshkeys',
       reportUrlAsIs: true,
-    }) as Promise<unknown>) as Promise<SshKeyInfo[]>;
+    }) as Promise<unknown>) as Promise<SshKeyInfo[] | undefined>;
   }
 
   addAccountSSHKey(key: string): Promise<SshKeyInfo> {

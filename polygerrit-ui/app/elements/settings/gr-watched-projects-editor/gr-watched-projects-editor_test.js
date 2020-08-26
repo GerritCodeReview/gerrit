@@ -121,24 +121,23 @@ suite('gr-watched-projects-editor tests', () => {
 
   test('_canAddProject', () => {
     assert.isFalse(element._canAddProject(null, null, null));
-    assert.isFalse(element._canAddProject({}, null, null));
 
     // Can add a project that is not in the list.
-    assert.isTrue(element._canAddProject({id: 'project d'}, null, null));
-    assert.isTrue(element._canAddProject({id: 'project d'}, null, 'filter 3'));
+    assert.isTrue(element._canAddProject('project d', null, null));
+    assert.isTrue(element._canAddProject('project d', null, 'filter 3'));
 
     // Cannot add a project that is in the list with no filter.
-    assert.isFalse(element._canAddProject({id: 'project a'}, null, null));
+    assert.isFalse(element._canAddProject('project a', null, null));
 
     // Can add a project that is in the list if the filter differs.
-    assert.isTrue(element._canAddProject({id: 'project a'}, null, 'filter 4'));
+    assert.isTrue(element._canAddProject('project a', null, 'filter 4'));
 
     // Cannot add a project that is in the list with the same filter.
-    assert.isFalse(element._canAddProject({id: 'project b'}, null, 'filter 1'));
-    assert.isFalse(element._canAddProject({id: 'project b'}, null, 'filter 2'));
+    assert.isFalse(element._canAddProject('project b', null, 'filter 1'));
+    assert.isFalse(element._canAddProject('project b', null, 'filter 2'));
 
     // Can add a project that is in the list using a new filter.
-    assert.isTrue(element._canAddProject({id: 'project b'}, null, 'filter 3'));
+    assert.isTrue(element._canAddProject('project b', null, 'filter 3'));
 
     // Can add a project that is not added by the auto complete
     assert.isTrue(element._canAddProject(null, 'test', null));
@@ -159,7 +158,7 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('_handleAddProject', () => {
-    element.$.newProject.value = {id: 'project d'};
+    element.$.newProject.value = 'project d';
     element.$.newProject.setText('project d');
     element.$.newFilter.bindValue = '';
 
@@ -172,7 +171,7 @@ suite('gr-watched-projects-editor tests', () => {
   });
 
   test('_handleAddProject with invalid inputs', () => {
-    element.$.newProject.value = {id: 'project b'};
+    element.$.newProject.value = 'project b';
     element.$.newProject.setText('project b');
     element.$.newFilter.bindValue = 'filter 1';
     element.$.newFilter.value = 'filter 1';

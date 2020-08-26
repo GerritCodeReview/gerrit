@@ -459,6 +459,30 @@
     },
     {
       "key": {
+        "uuid": "90a7e561_d66ee021",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab6ee263_4a272e6c",
+      "range": {
+        "startLine": 122,
+        "startChar": 73,
+        "endLine": 122,
+        "endChar": 86
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76518eab_1bccde8f",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
         "patchSetId": 5
@@ -503,6 +527,30 @@
       "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bef10c41_233c2da6",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ce81045_d5f5b1e7",
+      "range": {
+        "startLine": 144,
+        "startChar": 8,
+        "endLine": 144,
+        "endChar": 60
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -553,6 +601,30 @@
     },
     {
       "key": {
+        "uuid": "d3f304f5_94b2e42e",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "We have this \"create dir cache, update gitlink, build commit\" in many places and it is kinda tricky. I thought we could have a simpler API for it, but my first attempts didn\u0027t go well. I remove the TODO.",
+      "parentUuid": "1ee6c8c4_078b7bf3",
+      "range": {
+        "startLine": 158,
+        "startChar": 2,
+        "endLine": 158,
+        "endChar": 78
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7f007850_da85d200",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
         "patchSetId": 5
@@ -600,6 +672,30 @@
     },
     {
       "key": {
+        "uuid": "184d62d6_5b581926",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "378ff9f1_c7c46d12",
+      "range": {
+        "startLine": 159,
+        "startChar": 2,
+        "endLine": 159,
+        "endChar": 11
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cad80952_190c8f01",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
         "patchSetId": 5
@@ -623,6 +719,30 @@
     },
     {
       "key": {
+        "uuid": "dbf429f3_87a0b566",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "I understand that the RevCommits are only valid in the RevWalk that created them.\n\nI tried new RevWalk(repoManager.openRepository(...),...) and it fails due to missing objects.",
+      "parentUuid": "cad80952_190c8f01",
+      "range": {
+        "startLine": 205,
+        "startChar": 7,
+        "endLine": 205,
+        "endChar": 92
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d215dae_8ba64111",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
         "patchSetId": 5
@@ -643,6 +763,30 @@
       "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a452d02c_3056462c",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitHelperTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 209,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "That was the idea in the TODO above. When I tried, it wasn\u0027t as straight-forwards as I thought.",
+      "parentUuid": "1d215dae_8ba64111",
+      "range": {
+        "startLine": 209,
+        "startChar": 19,
+        "endLine": 209,
+        "endChar": 38
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

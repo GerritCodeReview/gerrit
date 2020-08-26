@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "d5539a59_4a41a6d5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "\u003e Patch Set 7:\n\u003e \n\u003e (4 comments)\n\u003e \n\u003e Last time, I added several comments to the test class but didn\u0027t get an answer to any of them. If you simply missed them, can you please have a look at them? If you don\u0027t agree with them, please at least leave an \"Ack\" next time. I flagged the three comments which I care most about with an additional reply. Please make sure to address those.\n\nSorry about that. I somehow missed them.\n\nI have rebased the work on top of the subscription graph changes and addressed all the comments (I hope!). \n",
+      "revId": "07fbe13c0a589a0fbd631a311bac43f8a457ea58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62bebcda_733d4f08",
         "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java",
         "patchSetId": 7
@@ -22,6 +39,30 @@
       "revId": "07fbe13c0a589a0fbd631a311bac43f8a457ea58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bd922924_fdc64744",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-26T05:40:08Z",
+      "side": 1,
+      "message": "Some renamings didn\u0027t get here. Fixed now, I think.",
+      "parentUuid": "62bebcda_733d4f08",
+      "range": {
+        "startLine": 58,
+        "startChar": 13,
+        "endLine": 58,
+        "endChar": 33
+      },
+      "revId": "07fbe13c0a589a0fbd631a311bac43f8a457ea58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

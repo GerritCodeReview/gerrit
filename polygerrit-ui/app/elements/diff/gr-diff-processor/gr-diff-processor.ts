@@ -48,7 +48,7 @@ interface ChunkEnd {
   keyLocation: boolean;
 }
 
-interface KeyLocations {
+export interface KeyLocations {
   left: {[key: string]: boolean};
   right: {[key: string]: boolean};
 }

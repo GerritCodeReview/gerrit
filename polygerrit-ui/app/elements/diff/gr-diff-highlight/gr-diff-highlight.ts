@@ -28,6 +28,8 @@ import {customElement, property} from '@polymer/decorators';
 import {Side} from '../../../constants/constants';
 import {CommentRange} from '../../../types/common';
 import {GrSelectionActionBox} from '../gr-selection-action-box/gr-selection-action-box';
+import {GrDiffBuilderElement} from '../gr-diff-builder/gr-diff-builder-element';
+import {FILE} from '../gr-diff/gr-diff-line';
 
 interface SidedRange {
   side: Side;
@@ -51,14 +53,6 @@ interface CommentThreadElement extends HTMLElement {
   rootId: string;
 }
 
-// TODO(TS): Replace by GrDiffBuilderElement once that is converted.
-interface DiffBuilderElement extends HTMLElement {
-  getLineElByChild(node: Node): HTMLElement;
-  getSideByLineEl(lineEl: HTMLElement): Side;
-  getLineNumberByChild(lineEl: HTMLElement): number;
-  getContentTdByLineEl(lineEl: HTMLElement): HTMLElement;
-}
-
 @customElement('gr-diff-highlight')
 export class GrDiffHighlight extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -74,7 +68,7 @@ export class GrDiffHighlight extends GestureEventListeners(
   loggedIn?: boolean;
 
   @property({type: Object})
-  _cachedDiffBuilder?: DiffBuilderElement;
+  _cachedDiffBuilder?: GrDiffBuilderElement;
 
   @property({type: Object, notify: true})
   selectedRange?: SidedRange;
@@ -97,7 +91,7 @@ export class GrDiffHighlight extends GestureEventListeners(
     if (!this._cachedDiffBuilder) {
       this._cachedDiffBuilder = this.querySelector(
         'gr-diff-builder'
-      ) as DiffBuilderElement;
+      ) as GrDiffBuilderElement;
     }
     return this._cachedDiffBuilder;
   }
@@ -336,22 +330,15 @@ export class GrDiffHighlight extends GestureEventListeners(
     offset: number
   ): NormalizedPosition | null {
     let column;
-    if (!node || !this.contains(node)) {
-      return null;
-    }
+    if (!node || !this.contains(node)) return null;
     const lineEl = this.diffBuilder.getLineElByChild(node);
-    if (!lineEl) {
-      return null;
-    }
+    if (!lineEl) return null;
     const side = this.diffBuilder.getSideByLineEl(lineEl);
-    if (!side) {
-      return null;
-    }
+    if (!side) return null;
     const line = this.diffBuilder.getLineNumberByChild(lineEl);
-    if (!line) {
-      return null;
-    }
+    if (!line || line === FILE) return null;
     const contentTd = this.diffBuilder.getContentTdByLineEl(lineEl);
+    if (!contentTd) return null;
     const contentText = contentTd.querySelector('.contentText');
     if (!contentTd.contains(node)) {
       node = contentText;

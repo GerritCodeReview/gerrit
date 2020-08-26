@@ -480,7 +480,7 @@ export const htmlTemplate = html`
           <div>
             <template
               is="dom-repeat"
-              items="[[_removeServiceUsers(_reviewers)]]"
+              items="[[_removeServiceUsers(_reviewers, _newAttentionSet)]]"
               as="account"
             >
               <gr-account-label
@@ -501,7 +501,7 @@ export const htmlTemplate = html`
             <div>
               <template
                 is="dom-repeat"
-                items="[[_removeServiceUsers(_ccs)]]"
+                items="[[_removeServiceUsers(_ccs, _newAttentionSet)]]"
                 as="account"
               >
                 <gr-account-label

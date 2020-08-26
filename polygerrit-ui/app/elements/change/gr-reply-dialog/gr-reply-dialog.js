@@ -926,7 +926,10 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     return removeServiceUsers(allAccounts);
   }
 
-  _removeServiceUsers(accounts) {
+  /**
+   * The newAttentionSet param is only used to force re-computation.
+   */
+  _removeServiceUsers(accounts, newAttentionSet) {
     return removeServiceUsers(accounts);
   }
 

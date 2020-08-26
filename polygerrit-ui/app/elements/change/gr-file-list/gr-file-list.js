@@ -34,7 +34,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {asyncForeach} from '../../../utils/async-util.js';
 import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {GrFileListConstants} from '../gr-file-list-constants.js';
+import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
@@ -139,7 +139,7 @@ class GrFileList extends KeyboardShortcutMixin(
       },
       filesExpanded: {
         type: String,
-        value: GrFileListConstants.FilesExpandedState.NONE,
+        value: FilesExpandedState.NONE,
         notify: true,
       },
       _filesByPath: Object,
@@ -1210,11 +1210,11 @@ class GrFileList extends KeyboardShortcutMixin(
 
   _computeExpandedFiles(expandedCount, totalCount) {
     if (expandedCount === 0) {
-      return GrFileListConstants.FilesExpandedState.NONE;
+      return FilesExpandedState.NONE;
     } else if (expandedCount === totalCount) {
-      return GrFileListConstants.FilesExpandedState.ALL;
+      return FilesExpandedState.ALL;
     }
-    return GrFileListConstants.FilesExpandedState.SOME;
+    return FilesExpandedState.SOME;
   }
 
   /**
@@ -1575,7 +1575,7 @@ class GrFileList extends KeyboardShortcutMixin(
    * @return {boolean}
    */
   _noDiffsExpanded() {
-    return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
+    return this.filesExpanded === FilesExpandedState.NONE;
   }
 
   /**

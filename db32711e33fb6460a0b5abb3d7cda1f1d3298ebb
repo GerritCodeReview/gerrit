@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9d388ad0_f99fb967",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-26T09:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "59a94954_3ca47443",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 44
+      },
+      "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "afbb6c8a_fcc0d08b",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
         "patchSetId": 5
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "88ea1cbb_d06ac832",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-26T09:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "afbb6c8a_fcc0d08b",
+      "range": {
+        "startLine": 137,
+        "startChar": 48,
+        "endLine": 137,
+        "endChar": 51
+      },
+      "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38039ea5_e038308b",
         "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
         "patchSetId": 5
@@ -68,6 +116,30 @@
       "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5197432_528fd088",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-26T09:13:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38039ea5_e038308b",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 52
+      },
+      "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

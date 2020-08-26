@@ -98,6 +98,7 @@ public abstract class SubmitStrategy {
           SubmissionId submissionId,
           SubmitInput submitInput,
           SubmoduleOp submoduleOp,
+          SubscriptionGraph subscriptionGraph,
           boolean dryrun);
     }
 
@@ -130,6 +131,7 @@ public abstract class SubmitStrategy {
     final SubmitType submitType;
     final SubmitInput submitInput;
     final SubmoduleOp submoduleOp;
+    final SubscriptionGraph subscriptionGraph;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
@@ -168,6 +170,7 @@ public abstract class SubmitStrategy {
         @Assisted SubmissionId submissionId,
         @Assisted SubmitType submitType,
         @Assisted SubmitInput submitInput,
+        @Assisted SubscriptionGraph subscriptionGraph,
         @Assisted SubmoduleOp submoduleOp,
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
@@ -198,6 +201,7 @@ public abstract class SubmitStrategy {
       this.submitType = submitType;
       this.submitInput = submitInput;
       this.submoduleOp = submoduleOp;
+      this.subscriptionGraph = subscriptionGraph;
       this.dryrun = dryrun;
 
       this.project =

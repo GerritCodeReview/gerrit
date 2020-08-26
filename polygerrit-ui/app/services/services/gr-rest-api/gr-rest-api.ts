@@ -27,6 +27,7 @@ import {
   SuggestedReviewerInfo,
   GroupNameToGroupInfoMap,
   ParsedJSON,
+  PatchSetNum,
   RequestPayload,
   PreferencesInput,
   DiffPreferencesInfo,
@@ -44,6 +45,7 @@ import {
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
+import {ChangeNum} from '../../../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
@@ -219,4 +221,32 @@ export interface RestApiService {
   deleteAccountGPGKey(id: GpgKeyId): Promise<Response>;
   getAccountGPGKeys(): Promise<Record<string, GpgKeyInfo>>;
   probePath(path: string): Promise<boolean>;
+
+  saveFileUploadChangeEdit(
+    changeNum: ChangeNum,
+    path: string,
+    content: string
+  ): Promise<Response | undefined>;
+
+  deleteFileInChangeEdit(
+    changeNum: ChangeNum,
+    path: string
+  ): Promise<Response | undefined>;
+
+  restoreFileInChangeEdit(
+    changeNum: ChangeNum,
+    restore_path: string
+  ): Promise<Response | undefined>;
+
+  renameFileInChangeEdit(
+    changeNum: ChangeNum,
+    old_path: string,
+    new_path: string
+  ): Promise<Response | undefined>;
+
+  queryChangeFiles(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    query: string
+  ): Promise<string[] | undefined>;
 }

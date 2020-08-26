@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "abdc2693_5205411a",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:50:26Z",
+      "side": 1,
+      "message": "BranchName",
+      "range": {
+        "startLine": 71,
+        "startChar": 11,
+        "endLine": 71,
+        "endChar": 17
+      },
+      "revId": "a21376039a43ff16b3848641531f9fe7f0f4490d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f55d7f8_5f8c18bd",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:50:26Z",
+      "side": 1,
+      "message": "ChangeNum",
+      "range": {
+        "startLine": 74,
+        "startChar": 17,
+        "endLine": 74,
+        "endChar": 23
+      },
+      "revId": "a21376039a43ff16b3848641531f9fe7f0f4490d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4808e8b_33173f96",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-rebase-dialog/gr-confirm-rebase-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 180,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:50:26Z",
+      "side": 1,
+      "message": "JS code returns empty string if this._text is empty string. The ts code returns null (!\u0027\u0027 is true)\nIt is better to return \u0027\u0027 string here.",
+      "range": {
+        "startLine": 180,
+        "startChar": 13,
+        "endLine": 180,
+        "endChar": 17
+      },
+      "revId": "a21376039a43ff16b3848641531f9fe7f0f4490d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

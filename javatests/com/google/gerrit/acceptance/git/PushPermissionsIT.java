@@ -17,6 +17,7 @@ package com.google.gerrit.acceptance.git;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.allow;
+import static com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.block;
 import static com.google.gerrit.git.testing.PushResultSubject.assertThat;
 import static com.google.gerrit.server.group.SystemGroupBackend.REGISTERED_USERS;
 import static java.util.stream.Collectors.toList;
@@ -142,6 +143,22 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .onlyRef("refs/heads/newbranch")
         .isRejected("prohibited by Gerrit: not permitted: create");
     assertThat(r).containsMessages("You need 'Create' rights to create new references.");
+    assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
+  }
+
+  @Test
+  public void createDeniedIfUserCantRead() throws Exception {
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(block(Permission.READ).ref("refs/*").group(REGISTERED_USERS))
+        .add(allow(Permission.PUSH).ref("refs/*").group(REGISTERED_USERS))
+        .update();
+    testRepo.branch("HEAD").commit().create();
+    PushResult r = push("HEAD:refs/for/master");
+    assertThat(r)
+        .onlyRef("refs/for/master")
+        .isRejected("prohibited by Gerrit: not permitted: read on refs/heads/master");
     assertThat(r).hasProcessed(ImmutableMap.of("refs", 1));
   }
 

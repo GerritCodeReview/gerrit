@@ -96,6 +96,7 @@ import com.google.gerrit.extensions.webui.PatchSetWebLink;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
+import com.google.gerrit.testing.FakeEmailSender;
 import com.google.inject.Inject;
 import java.io.ByteArrayOutputStream;
 import java.sql.Timestamp;
@@ -1897,6 +1898,49 @@ public class RevisionIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     amendChangeWithUploader(result, project, user);
     assertThat(result.getChange().reviewers().all()).isEmpty();
+  }
+
+  @Test
+  public void notificationsOnPushNewPatchset() throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addReviewer(user.email());
+    sender.clear();
+
+    // check that reviewer is notified.
+    amendChange(r.getChangeId());
+    List<FakeEmailSender.Message> messages = sender.getMessages();
+    FakeEmailSender.Message m = Iterables.getOnlyElement(messages);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains("I'd like you to reexamine a change.");
+  }
+
+  @Test
+  @GerritConfig(name = "change.sendNewPatchsetEmails", value = "false")
+  public void notificationsOnPushNewPatchsetNotSentWithSendNewPatchsetEmailsAsFalse()
+      throws Exception {
+    PushOneCommit.Result r = createChange();
+    change(r).addReviewer(user.email());
+    sender.clear();
+
+    // check that reviewer is not notified
+    amendChange(r.getChangeId());
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  @GerritConfig(name = "change.sendNewPatchsetEmails", value = "false")
+  public void notificationsOnPushNewPatchsetAlwaysSentToProjectWatchers() throws Exception {
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    watch(project.get());
+    sender.clear();
+
+    // check that watcher is notified
+    amendChange(r.getChangeId());
+    List<FakeEmailSender.Message> messages = sender.getMessages();
+    FakeEmailSender.Message m = Iterables.getOnlyElement(messages);
+    assertThat(m.rcpt()).containsExactly(user.getNameEmail());
+    assertThat(m.body()).contains(admin.fullName() + " has uploaded a new patch set (#2).");
   }
 
   private static void assertCherryPickResult(

@@ -1400,6 +1400,14 @@ supported. Zero or negative values allow robot comments of unlimited size.
 +
 The default limit is 1MiB.
 
+[[change.sendNewPatchsetEmails]]change.sendNewPatchsetEmails::
++
+When false, emails will not be sent to owners, reviewers, and cc for
+creating a new patchset unless they are project watchers or have starred
+the change.
++
+Default is true.
+
 [[change.showAssigneeInChangesTable]]change.showAssigneeInChangesTable::
 +
 Show assignee field in changes table. If set to false, assignees will

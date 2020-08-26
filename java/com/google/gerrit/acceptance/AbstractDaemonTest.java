@@ -1387,6 +1387,7 @@ public abstract class AbstractDaemonTest {
           pwi.filter = filter;
           pwi.notifyAbandonedChanges = true;
           pwi.notifyNewChanges = true;
+          pwi.notifyNewPatchSets = true;
           pwi.notifyAllComments = true;
         });
   }

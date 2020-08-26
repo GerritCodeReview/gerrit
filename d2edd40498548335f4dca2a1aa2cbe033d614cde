@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "346c3424_86793993",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T10:52:44Z",
+      "side": 1,
+      "message": "This comment is not correct anymore",
+      "range": {
+        "startLine": 163,
+        "startChar": 63,
+        "endLine": 164,
+        "endChar": 55
+      },
+      "revId": "d2edd40498548335f4dca2a1aa2cbe033d614cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9cf17f93_640d15da",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T10:52:44Z",
+      "side": 1,
+      "message": "This is not very easy to understand without looking deeper into the code.\nMaybe add the following methods and use it to compare filter?\nisFilterDefined(filter) {\n   return filter !\u003d\u003d null \u0026\u0026 filter !\u003d\u003d undefined;\n}\nareFiltersEqual(filter1, filter2) {\n    // null and undefined are equal\n    if(!isFilterDefined(filter1) \u0026\u0026 !isFilterDefined(filter2)\n       return true;\n     return filter1 \u003d\u003d\u003d filter2;\n}",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 46
+      },
+      "revId": "d2edd40498548335f4dca2a1aa2cbe033d614cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5690710d_19c3aa7b",
+        "filename": "polygerrit-ui/app/elements/settings/gr-watched-projects-editor/gr-watched-projects-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 188,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T10:52:44Z",
+      "side": 1,
+      "message": "If you add isFilterDefined from the previous comment, you can rewrite this as\nif(isFilterDefined(projectFilter) \u0026\u0026 isFilterDefined(filter) \u0026\u0026 projectFilter \u003e filter)",
+      "range": {
+        "startLine": 186,
+        "startChar": 10,
+        "endLine": 188,
+        "endChar": 0
+      },
+      "revId": "d2edd40498548335f4dca2a1aa2cbe033d614cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bab8dc45_b72cb0f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1240,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T10:52:44Z",
+      "side": 1,
+      "message": "It should be Promise\u003cProjectWatchInfo[] | undefined\u003e (_fetchSharedCacheURL returns Promise\u003cParsedJSON | undefined\u003e)\nP.S. Also, could you please fix getAccountSSHKeys - it is also incorrect (you can do it in this change)",
+      "range": {
+        "startLine": 1240,
+        "startChar": 7,
+        "endLine": 1240,
+        "endChar": 50
+      },
+      "revId": "d2edd40498548335f4dca2a1aa2cbe033d614cde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

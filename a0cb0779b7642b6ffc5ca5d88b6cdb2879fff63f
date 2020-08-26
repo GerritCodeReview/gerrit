@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f6d5764_493ab8da",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1017138
+      },
+      "writtenOn": "2020-08-26T18:45:56Z",
+      "side": 1,
+      "message": "There\u0027s a policy here about linking to the mailing list archive with Link trailers: https://www.kernel.org/doc/html/latest/maintainer/configure-git.html#creating-commit-links-to-lore-kernel-org\n\nAs for other types of links, I couldn\u0027t find a policy about it, but it does seem to be common practice (e.g. git log --grep\u003d\u0027Link:.*bugzilla\u0027 will find commit messages with links to bugzilla), and Linus endorsed the idea of Link trailers pointing to Gerrit here: https://lists.linuxfoundation.org/pipermail/ksummit-discuss/2019-August/006740.html",
+      "parentUuid": "502f7860_3c14ca80",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "691a3856_3425e81a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -84,6 +108,30 @@
       "side": 1,
       "message": "We talked a bit with the Google TLs about this; in general we like the idea, but we think there should be a dedicated URL for this: we want to have the possibility to change behavior for /q/ without this breaking existing references in commit histories.  In particular, if we added better indexing of commit messages, we might start finding the other change, which would confuse anyone wanting to lookup the review history of just that change.",
       "parentUuid": "5ee9b894_c7d701e6",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 92
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f5c2218_1a6df69e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1017138
+      },
+      "writtenOn": "2020-08-26T18:45:56Z",
+      "side": 1,
+      "message": "Sounds reasonable. How about /id/ as the prefix?",
+      "parentUuid": "ab676fee_83062020",
       "range": {
         "startLine": 18,
         "startChar": 4,

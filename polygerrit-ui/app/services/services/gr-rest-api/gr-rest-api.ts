@@ -320,4 +320,10 @@ export interface RestApiService {
     groupId: GroupId,
     options: GroupOptionsInput
   ): Promise<Response>;
+
+  setDescription(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    desc: string
+  ): Promise<Response>;
 }

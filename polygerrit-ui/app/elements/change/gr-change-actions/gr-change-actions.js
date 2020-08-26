@@ -48,6 +48,7 @@ import {
   ListChangesOption,
   listChangesOptionsToHex,
 } from '../../../utils/change-util.js';
+import {NotifyType} from '../../../constants/constants';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -1515,7 +1516,9 @@ class GrChangeActions extends GestureEventListeners(
   }
 
   _handlePublishEditTap() {
-    this._fireAction('/edit:publish', this.actions.publishEdit, false);
+    // Type of payload is PublishChangeEditInput.
+    const payload = {notify: NotifyType.NONE};
+    this._fireAction('/edit:publish', this.actions.publishEdit, false, payload);
   }
 
   _handleRebaseEditTap() {

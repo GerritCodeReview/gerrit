@@ -148,7 +148,6 @@ class GrAppElement extends KeyboardShortcutMixin(
   keyboardShortcuts() {
     return {
       [Shortcut.OPEN_SHORTCUT_HELP_DIALOG]: '_showKeyboardShortcuts',
-      [Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
       [Shortcut.GO_TO_OPENED_CHANGES]: '_goToOpenedChanges',
       [Shortcut.GO_TO_MERGED_CHANGES]: '_goToMergedChanges',
       [Shortcut.GO_TO_ABANDONED_CHANGES]: '_goToAbandonedChanges',

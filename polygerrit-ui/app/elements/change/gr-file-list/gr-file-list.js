@@ -288,6 +288,7 @@ class GrFileList extends KeyboardShortcutMixin(
       [Shortcut.PREV_CHUNK]: '_handlePrevChunk',
       [Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
       [Shortcut.TOGGLE_LEFT_PANE]: '_handleToggleLeftPane',
+      [Shortcut.GO_TO_USER_DASHBOARD]: '_goToUserDashboard',
 
       // Final two are actually handled by gr-comment-thread.
       [Shortcut.EXPAND_ALL_COMMENT_THREADS]: null,
@@ -305,6 +306,10 @@ class GrFileList extends KeyboardShortcutMixin(
     super.created();
     this.addEventListener('keydown',
         e => this._scopedKeydownHandler(e));
+  }
+
+  _goToUserDashboard() {
+    console.log('user dashboard');
   }
 
   /** @override */

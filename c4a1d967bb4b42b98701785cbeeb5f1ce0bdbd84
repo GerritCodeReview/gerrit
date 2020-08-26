@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ef2465c7_93c2245d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-26T08:11:30Z",
+      "side": 1,
+      "message": "should not this still wait until the call finished ? what if the api failed ?",
+      "revId": "c4a1d967bb4b42b98701785cbeeb5f1ce0bdbd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c83ce70_71ffa2ce",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 174,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-26T08:11:30Z",
+      "side": 1,
+      "message": "ditto, the deletion should happen after the call right ? same time when hide the alert",
+      "revId": "c4a1d967bb4b42b98701785cbeeb5f1ce0bdbd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

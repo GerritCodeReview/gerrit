@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "1e38b733_a5dacf15",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-08-26T14:01:55Z",
+      "side": 1,
+      "message": "Thanks Ben for working on this change, LGTM. ",
+      "revId": "c65ada3b0bc45191fd29c0677191b22bade28f56",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4db9c277_9f055bd2",
         "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog_html.ts",
         "patchSetId": 2

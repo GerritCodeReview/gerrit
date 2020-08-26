@@ -27,6 +27,7 @@ import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.extensions.restapi.Url;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -46,13 +47,14 @@ public class IndexPreloadingUtil {
     PAGE_WITHOUT_PRELOADING,
   }
 
-  public static final String CHANGE_CANONICAL_URL = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
-  public static final String BASE_PATCH_NUM_URL_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
+  public static final String CHANGE_CANONICAL_PATH = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
+  public static final String BASE_PATCH_NUM_PATH_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
   public static final Pattern CHANGE_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "?" + "/?$");
+      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =
-      Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "(/(.+))" + "/?$");
-  public static final Pattern DASHBOARD_PATTERN = Pattern.compile(".*/dashboard/self$");
+      Pattern.compile(CHANGE_CANONICAL_PATH + BASE_PATCH_NUM_PATH_PART + "(/(.+))" + "/?$");
+  public static final Pattern DASHBOARD_PATTERN = Pattern.compile("/dashboard/self$");
+  public static final String ROOT_PATH = "/";
 
   // These queries should be kept in sync with PolyGerrit:
   // polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts
@@ -128,24 +130,36 @@ public class IndexPreloadingUtil {
     return ListOption.toHex(options);
   }
 
-  public static RequestedPage parseRequestedPage(@Nullable String requestedURL) {
-    if (requestedURL == null) {
+  public static String getPath(@Nullable String requestedURL) throws URISyntaxException {
+    if (requestedURL != null) {
+      return null;
+    }
+    URI uri = new URI(requestedURL);
+    return uri.getPath();
+  }
+
+  public static RequestedPage parseRequestedPage(@Nullable String requestedPath) {
+    if (requestedPath == null) {
       return RequestedPage.PAGE_WITHOUT_PRELOADING;
     }
 
     Optional<String> changeRequestsPath =
-        computeChangeRequestsPath(requestedURL, RequestedPage.CHANGE);
+        computeChangeRequestsPath(requestedPath, RequestedPage.CHANGE);
     if (changeRequestsPath.isPresent()) {
       return RequestedPage.CHANGE;
     }
 
-    changeRequestsPath = computeChangeRequestsPath(requestedURL, RequestedPage.DIFF);
+    changeRequestsPath = computeChangeRequestsPath(requestedPath, RequestedPage.DIFF);
     if (changeRequestsPath.isPresent()) {
       return RequestedPage.DIFF;
     }
 
-    Matcher dashboardMatcher = IndexPreloadingUtil.DASHBOARD_PATTERN.matcher(requestedURL);
+    Matcher dashboardMatcher = IndexPreloadingUtil.DASHBOARD_PATTERN.matcher(requestedPath);
     if (dashboardMatcher.matches()) {
+      return RequestedPage.DASHBOARD;
+    }
+
+    if (ROOT_PATH.equals(requestedPath)) {
       return RequestedPage.DASHBOARD;
     }
 

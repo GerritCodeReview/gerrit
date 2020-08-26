@@ -14,6 +14,7 @@
 
 package com.google.gerrit.httpd.raw;
 
+import static com.google.gerrit.httpd.raw.IndexPreloadingUtil.RequestedPage;
 import static com.google.template.soy.data.ordainers.GsonOrdainer.serializeObject;
 import static java.util.stream.Collectors.toSet;
 
@@ -74,7 +75,7 @@ public class IndexHtmlUtil {
 
   /** Returns dynamic parameters of {@code index.html}. */
   public static ImmutableMap<String, Object> dynamicTemplateData(
-      GerritApi gerritApi, String requestedURL) throws RestApiException {
+      GerritApi gerritApi, String requestedURL) throws RestApiException, URISyntaxException {
     ImmutableMap.Builder<String, Object> data = ImmutableMap.builder();
     Map<String, SanitizedContent> initialData = new HashMap<>();
     Server serverApi = gerritApi.config().server();
@@ -82,25 +83,24 @@ public class IndexHtmlUtil {
     initialData.put("\"/config/server/version\"", serializeObject(GSON, serverApi.getVersion()));
     initialData.put("\"/config/server/top-menus\"", serializeObject(GSON, serverApi.topMenus()));
 
-    IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedURL);
+    String requestedPath = IndexPreloadingUtil.getPath(requestedURL);
+    IndexPreloadingUtil.RequestedPage page = IndexPreloadingUtil.parseRequestedPage(requestedPath);
     switch (page) {
       case CHANGE:
         data.put(
             "defaultChangeDetailHex", IndexPreloadingUtil.getDefaultChangeDetailOptionsAsHex());
         data.put(
             "changeRequestsPath",
-            IndexPreloadingUtil.computeChangeRequestsPath(requestedURL, page).get());
+            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
         break;
       case DIFF:
         data.put("defaultDiffDetailHex", IndexPreloadingUtil.getDefaultDiffDetailOptionsAsHex());
         data.put(
             "changeRequestsPath",
-            IndexPreloadingUtil.computeChangeRequestsPath(requestedURL, page).get());
+            IndexPreloadingUtil.computeChangeRequestsPath(requestedPath, page).get());
         break;
       case DASHBOARD:
-        data.put("defaultDashboardHex", IndexPreloadingUtil.getDefaultDashboardHex(serverApi));
-        data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList(serverApi));
-        break;
+        // Dashboard is preloaded queries are added later when we check user is authenticated.
       case PAGE_WITHOUT_PRELOADING:
         break;
     }
@@ -117,6 +117,10 @@ public class IndexHtmlUtil {
           "\"/accounts/self/preferences.edit\"",
           serializeObject(GSON, accountApi.getEditPreferences()));
       data.put("userIsAuthenticated", true);
+      if (page == RequestedPage.DASHBOARD) {
+        data.put("defaultDashboardHex", IndexPreloadingUtil.getDefaultDashboardHex(serverApi));
+        data.put("dashboardQuery", IndexPreloadingUtil.computeDashboardQueryList(serverApi));
+      }
     } catch (AuthException e) {
       logger.atFine().log("Can't inline account-related data because user is unauthenticated");
       // Don't render data

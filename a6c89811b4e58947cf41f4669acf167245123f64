@@ -16,6 +16,23 @@
       "revId": "a6c89811b4e58947cf41f4669acf167245123f64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24a586f5_227367f1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-26T16:20:44Z",
+      "side": 1,
+      "message": "Can you also remove already removed reviewers from this section?",
+      "revId": "a6c89811b4e58947cf41f4669acf167245123f64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

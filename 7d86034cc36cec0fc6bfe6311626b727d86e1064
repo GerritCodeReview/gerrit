@@ -16,6 +16,41 @@
       "revId": "7d86034cc36cec0fc6bfe6311626b727d86e1064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af812b9a_e4da04a2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-26T10:03:23Z",
+      "side": 1,
+      "message": "I don\u0027t think it makes.\n\n1, user can search with complex rules and it will loose search query when redirecting\n2, user doesn\u0027t understand why this change was open -\u003e no information there was only 1 result, no way to go back to search\n\nuser understand when it was for change-id - you are looking for concrete change. But why does this redirects when you search with 2 and more rules? Why it redirects if you search for user who merged only 1 change?",
+      "parentUuid": "623210d1_e5fe18ed",
+      "revId": "7d86034cc36cec0fc6bfe6311626b727d86e1064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75a235e2_49510876",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-26T10:03:23Z",
+      "side": 1,
+      "message": "-1",
+      "revId": "7d86034cc36cec0fc6bfe6311626b727d86e1064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

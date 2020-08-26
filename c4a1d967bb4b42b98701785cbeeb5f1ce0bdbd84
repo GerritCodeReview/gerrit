@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c3ebae57_0fa711de",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-26T08:30:45Z",
+      "side": 1,
+      "message": "That was my first plan, but I decided to do the update right away.\n\nWe don\u0027t have proper error handling anyway, and the likelihood of an error is really low, so I think the UX is nicer, if the click immediately leads to a change in the UI. I think that is generally what \"optimistic updates\" are supposed to do.\n\nAlso, we are planning to change the attention icon to be clickable and then this should also become a \"remove\" action. In that case I find it even more important that the icon click removes the icon right away.\n\nThe API calls are fairly slow, so waiting for the response is fairly clunky.\n\nWDYT?",
+      "parentUuid": "ef2465c7_93c2245d",
+      "revId": "c4a1d967bb4b42b98701785cbeeb5f1ce0bdbd84",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8c83ce70_71ffa2ce",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.js",
         "patchSetId": 3

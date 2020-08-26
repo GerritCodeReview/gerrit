@@ -14,224 +14,281 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GrAnnotationActionsContext} from './gr-annotation-actions-context.js';
+import {GrAnnotationActionsContext} from './gr-annotation-actions-context';
+import {GrDiffLine, LineNumber} from '../../diff/gr-diff/gr-diff-line';
+import {CoverageRange} from '../../../types/types';
+import {Side} from '../../../constants/constants';
+import {PatchSetNum} from '../../../types/common';
 
-/** @constructor */
-export function GrAnnotationActionsInterface(plugin) {
-  this.plugin = plugin;
-  // Return this instance when there is an annotatediff event.
-  plugin.on('annotatediff', this);
+type HookCallback = (el: {content: Element & {hidden?: boolean}}) => void;
 
+// TODO(TS): remove once Plugin api converted to ts
+interface HookApi {
+  onAttached(callback: HookCallback): void;
+  onDetached(callback: HookCallback): void;
+}
+
+// TODO(TS): remove once Plugin api converted to ts
+interface PluginApi {
+  hook(hookName: string): HookApi;
+  on(eventName: string, callback: unknown): void;
+}
+
+type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
+
+type LayerUpdateListener = (
+  start: LineNumber,
+  end: LineNumber,
+  side: Side
+) => void;
+
+type NotifyFunc = (
+  path: string,
+  start: number,
+  end: number,
+  side: Side
+) => void;
+
+type CoverageProvider = (
+  changeNum: number,
+  path: string,
+  basePatchNum: number,
+  patchNum: number
+) => Promise<Array<CoverageRange>>;
+
+export class GrAnnotationActionsInterface {
   // Collect all annotation layers instantiated by getLayer. Will be used when
   // notifying their listeners in the notify function.
-  this._annotationLayers = [];
+  private annotationLayers: AnnotationLayer[] = [];
 
-  this._coverageProvider = null;
+  private coverageProvider: CoverageProvider | null = null;
 
   // Default impl is a no-op.
-  this._addLayerFunc = annotationActionsContext => {};
+  private addLayerFunc: AddLayerFunc = () => {};
+
+  constructor(private readonly plugin: PluginApi) {
+    // Return this instance when there is an annotatediff event.
+    plugin.on('annotatediff', this);
+  }
+
+  /**
+   * Register a function to call to apply annotations. Plugins should use
+   * GrAnnotationActionsContext.annotateRange and
+   * GrAnnotationActionsContext.annotateLineNumber to apply a CSS class to the
+   * line content or the line number.
+   *
+   * @param addLayerFunc The function
+   * that will be called when the AnnotationLayer is ready to annotate.
+   */
+  addLayer(addLayerFunc: AddLayerFunc) {
+    this.addLayerFunc = addLayerFunc;
+    return this;
+  }
+
+  /**
+   * The specified function will be called with a notify function for the plugin
+   * to call when it has all required data for annotation. Optional.
+   *
+   * @param notifyFunc See doc of the notify function below to see what it does.
+   */
+  addNotifier(notifyFunc: (n: NotifyFunc) => void) {
+    notifyFunc(
+      (path: string, startRange: number, endRange: number, side: Side) =>
+        this.notify(path, startRange, endRange, side)
+    );
+    return this;
+  }
+
+  /**
+   * The specified function will be called when a gr-diff component is built,
+   * and feeds the returned coverage data into the diff. Optional.
+   *
+   * Be sure to call this only once and only from one plugin. Multiple coverage
+   * providers are not supported. A second call will just overwrite the
+   * provider of the first call.
+   */
+  setCoverageProvider(
+    coverageProvider: CoverageProvider
+  ): GrAnnotationActionsInterface {
+    if (this.coverageProvider) {
+      console.warn('Overwriting an existing coverage provider.');
+    }
+    this.coverageProvider = coverageProvider;
+    return this;
+  }
+
+  /**
+   * Used by Gerrit to look up the coverage provider. Not intended to be called
+   * by plugins.
+   */
+  getCoverageProvider() {
+    return this.coverageProvider;
+  }
+
+  /**
+   * Returns a checkbox HTMLElement that can be used to toggle annotations
+   * on/off. The checkbox will be initially disabled. Plugins should enable it
+   * when data is ready and should add a click handler to toggle CSS on/off.
+   *
+   * Note1: Calling this method from multiple plugins will only work for the
+   * 1st call. It will print an error message for all subsequent calls
+   * and will not invoke their onAttached functions.
+   * Note2: This method will be deprecated and eventually removed when
+   * https://bugs.chromium.org/p/gerrit/issues/detail?id=8077 is
+   * implemented.
+   *
+   * @param checkboxLabel Will be used as the label for the checkbox.
+   * Optional. "Enable" is used if this is not specified.
+   * @param onAttached The function that will be called
+   * when the checkbox is attached to the page.
+   */
+  enableToggleCheckbox(
+    checkboxLabel: string,
+    onAttached: (checkboxEl: Element | null) => void
+  ) {
+    this.plugin.hook('annotation-toggler').onAttached(element => {
+      if (!element.content.hidden) {
+        console.error(
+          element.content.id + ' is already enabled. Cannot re-enable.'
+        );
+        return;
+      }
+      element.content.removeAttribute('hidden');
+
+      const label = element.content.querySelector('#annotation-label');
+      if (label) {
+        if (checkboxLabel) {
+          label.textContent = checkboxLabel;
+        } else {
+          label.textContent = 'Enable';
+        }
+      }
+      const checkbox = element.content.querySelector('#annotation-checkbox');
+      onAttached(checkbox);
+    });
+    return this;
+  }
+
+  /**
+   * The notify function will call the listeners of all required annotation
+   * layers. Intended to be called by the plugin when all required data for
+   * annotation is available.
+   *
+   * @param path The file path whose listeners should be notified.
+   * @param start The line where the update starts.
+   * @param end The line where the update ends.
+   * @param side The side of the update ('left' or 'right').
+   */
+  notify(path: string, start: number, end: number, side: Side) {
+    for (const annotationLayer of this.annotationLayers) {
+      // Notify only the annotation layer that is associated with the specified
+      // path.
+      if (annotationLayer.path === path) {
+        annotationLayer.notifyListeners(start, end, side);
+      }
+    }
+  }
+
+  /**
+   * Should be called to register annotation layers by the framework. Not
+   * intended to be called by plugins.
+   *
+   * Don't forget to dispose layer.
+   *
+   * @param path The file path (eg: /COMMIT_MSG').
+   * @param changeNum The Gerrit change number.
+   * @param patchNum The Gerrit patch number.
+   */
+  getLayer(path: string, changeNum: number, patchNum: number) {
+    const annotationLayer = new AnnotationLayer(
+      path,
+      changeNum,
+      patchNum,
+      this.addLayerFunc
+    );
+    this.annotationLayers.push(annotationLayer);
+    return annotationLayer;
+  }
+
+  disposeLayer(path: string) {
+    this.annotationLayers = this.annotationLayers.filter(
+      annotationLayer => annotationLayer.path !== path
+    );
+  }
 }
 
-/**
- * Register a function to call to apply annotations. Plugins should use
- * GrAnnotationActionsContext.annotateRange and
- * GrAnnotationActionsContext.annotateLineNumber to apply a CSS class to the
- * line content or the line number.
- *
- * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
- *     that will be called when the AnnotationLayer is ready to annotate.
- */
-GrAnnotationActionsInterface.prototype.addLayer = function(addLayerFunc) {
-  this._addLayerFunc = addLayerFunc;
-  return this;
-};
+export class AnnotationLayer {
+  private listeners: LayerUpdateListener[] = [];
 
-/**
- * The specified function will be called with a notify function for the plugin
- * to call when it has all required data for annotation. Optional.
- *
- * @param {function(function(String, Number, Number, String))} notifyFunc See
- *     doc of the notify function below to see what it does.
- */
-GrAnnotationActionsInterface.prototype.addNotifier = function(notifyFunc) {
-  // Register the notify function with the plugin's function.
-  notifyFunc(this.notify.bind(this));
-  return this;
-};
-
-/**
- * The specified function will be called when a gr-diff component is built,
- * and feeds the returned coverage data into the diff. Optional.
- *
- * Be sure to call this only once and only from one plugin. Multiple coverage
- * providers are not supported. A second call will just overwrite the
- * provider of the first call.
- *
- * @param {function(changeNum, path, basePatchNum, patchNum):
- * !Promise<!Array<!Gerrit.CoverageRange>>} coverageProvider
- * @return {GrAnnotationActionsInterface}
- */
-GrAnnotationActionsInterface.prototype.setCoverageProvider = function(
-    coverageProvider) {
-  if (this._coverageProvider) {
-    console.warn('Overwriting an existing coverage provider.');
+  /**
+   * Used to create an instance of the Annotation Layer interface.
+   *
+   * @param path The file path (eg: /COMMIT_MSG').
+   * @param changeNum The Gerrit change number.
+   * @param patchNum The Gerrit patch number.
+   * @param addLayerFunc The function
+   * that will be called when the AnnotationLayer is ready to annotate.
+   */
+  constructor(
+    readonly path: string,
+    private readonly changeNum: number,
+    private readonly patchNum: number,
+    private readonly addLayerFunc: AddLayerFunc
+  ) {
+    this.listeners = [];
   }
-  this._coverageProvider = coverageProvider;
-  return this;
-};
 
-/**
- * Used by Gerrit to look up the coverage provider. Not intended to be called
- * by plugins.
- */
-GrAnnotationActionsInterface.prototype.getCoverageProvider = function() {
-  return this._coverageProvider;
-};
+  /**
+   * Register a listener for layer updates.
+   * Don't forget to removeListener when you stop using layer.
+   *
+   * @param fn The update handler function.
+   * Should accept as arguments the line numbers for the start and end of
+   * the update and the side as a string.
+   */
+  addListener(fn: () => void) {
+    this.listeners.push(fn);
+  }
 
-/**
- * Returns a checkbox HTMLElement that can be used to toggle annotations
- * on/off. The checkbox will be initially disabled. Plugins should enable it
- * when data is ready and should add a click handler to toggle CSS on/off.
- *
- * Note1: Calling this method from multiple plugins will only work for the
- *        1st call. It will print an error message for all subsequent calls
- *        and will not invoke their onAttached functions.
- * Note2: This method will be deprecated and eventually removed when
- *        https://bugs.chromium.org/p/gerrit/issues/detail?id=8077 is
- *        implemented.
- *
- * @param {string} checkboxLabel Will be used as the label for the checkbox.
- *     Optional. "Enable" is used if this is not specified.
- * @param {function(HTMLElement)} onAttached The function that will be called
- *     when the checkbox is attached to the page.
- */
-GrAnnotationActionsInterface.prototype.enableToggleCheckbox = function(
-    checkboxLabel, onAttached) {
-  this.plugin.hook('annotation-toggler').onAttached(element => {
-    if (!element.content.hidden) {
-      console.error(
-          element.content.id + ' is already enabled. Cannot re-enable.');
-      return;
-    }
-    element.content.removeAttribute('hidden');
+  removeListener(fn: () => void) {
+    this.listeners = this.listeners.filter(f => f !== fn);
+  }
 
-    const label = element.content.querySelector('#annotation-label');
-    if (checkboxLabel) {
-      label.textContent = checkboxLabel;
-    } else {
-      label.textContent = 'Enable';
-    }
-    const checkbox = element.content.querySelector('#annotation-checkbox');
-    onAttached(checkbox);
-  });
-  return this;
-};
+  /**
+   * Layer method to add annotations to a line.
+   *
+   * @param contentEl The DIV.contentText element of the line
+   * content to apply the annotation to using annotateRange.
+   * @param lineNumberEl The TD element of the line number to
+   * apply the annotation to using annotateLineNumber.
+   * @param line The line object.
+   */
+  annotate(
+    contentEl: HTMLElement,
+    lineNumberEl: HTMLElement,
+    line: GrDiffLine
+  ) {
+    const annotationActionsContext = new GrAnnotationActionsContext(
+      contentEl,
+      lineNumberEl,
+      line,
+      this.path,
+      this.changeNum,
+      this.patchNum as PatchSetNum
+    );
+    this.addLayerFunc(annotationActionsContext);
+  }
 
-/**
- * The notify function will call the listeners of all required annotation
- * layers. Intended to be called by the plugin when all required data for
- * annotation is available.
- *
- * @param {string} path The file path whose listeners should be notified.
- * @param {number} start The line where the update starts.
- * @param {number} end The line where the update ends.
- * @param {string} side The side of the update ('left' or 'right').
- */
-GrAnnotationActionsInterface.prototype.notify = function(
-    path, startRange, endRange, side) {
-  for (const annotationLayer of this._annotationLayers) {
-    // Notify only the annotation layer that is associated with the specified
-    // path.
-    if (annotationLayer._path === path) {
-      annotationLayer.notifyListeners(startRange, endRange, side);
+  /**
+   * Notify Layer listeners of changes to annotations.
+   *
+   * @param start The line where the update starts.
+   * @param end The line where the update ends.
+   * @param side The side of the update. ('left' or 'right')
+   */
+  notifyListeners(start: LineNumber, end: LineNumber, side: Side) {
+    for (const listener of this.listeners) {
+      listener(start, end, side);
     }
   }
-};
-
-/**
- * Should be called to register annotation layers by the framework. Not
- * intended to be called by plugins.
- *
- * Don't forget to dispose layer.
- *
- * @param {string} path The file path (eg: /COMMIT_MSG').
- * @param {string} changeNum The Gerrit change number.
- * @param {string} patchNum The Gerrit patch number.
- */
-GrAnnotationActionsInterface.prototype.getLayer = function(
-    path, changeNum, patchNum) {
-  const annotationLayer = new AnnotationLayer(path, changeNum, patchNum,
-      this._addLayerFunc);
-  this._annotationLayers.push(annotationLayer);
-  return annotationLayer;
-};
-
-GrAnnotationActionsInterface.prototype.disposeLayer = function(path) {
-  this._annotationLayers = this._annotationLayers
-      .filter(annotationLayer => annotationLayer._path !== path);
-};
-
-/**
- * Used to create an instance of the Annotation Layer interface.
- *
- * @constructor
- * @param {string} path The file path (eg: /COMMIT_MSG').
- * @param {string} changeNum The Gerrit change number.
- * @param {string} patchNum The Gerrit patch number.
- * @param {function(GrAnnotationActionsContext)} addLayerFunc The function
- *     that will be called when the AnnotationLayer is ready to annotate.
- */
-function AnnotationLayer(path, changeNum, patchNum, addLayerFunc) {
-  this._path = path;
-  this._changeNum = changeNum;
-  this._patchNum = patchNum;
-  this._addLayerFunc = addLayerFunc;
-
-  this._listeners = [];
 }
-
-/**
- * Register a listener for layer updates.
- * Don't forget to removeListener when you stop using layer.
- *
- * @param {Function} fn The update handler function.
- *     Should accept as arguments the line numbers for the start and end of
- *     the update and the side as a string.
- */
-AnnotationLayer.prototype.addListener = function(fn) {
-  this._listeners.push(fn);
-};
-
-AnnotationLayer.prototype.removeListener = function(fn) {
-  this._listeners = this._listeners.filter(f => f != fn);
-};
-
-/**
- * Layer method to add annotations to a line.
- *
- * @param {HTMLElement} contentEl The DIV.contentText element of the line
- *     content to apply the annotation to using annotateRange.
- * @param {HTMLElement} lineNumberEl The TD element of the line number to
- *     apply the annotation to using annotateLineNumber.
- * @param {GrDiffLine} line The line object.
- */
-AnnotationLayer.prototype.annotate = function(contentEl, lineNumberEl, line) {
-  const annotationActionsContext = new GrAnnotationActionsContext(
-      contentEl, lineNumberEl, line, this._path, this._changeNum,
-      this._patchNum);
-  this._addLayerFunc(annotationActionsContext);
-};
-
-/**
- * Notify Layer listeners of changes to annotations.
- *
- * @param {number} start The line where the update starts.
- * @param {number} end The line where the update ends.
- * @param {string} side The side of the update. ('left' or 'right')
- */
-AnnotationLayer.prototype.notifyListeners = function(
-    startRange, endRange, side) {
-  for (const listener of this._listeners) {
-    listener(startRange, endRange, side);
-  }
-};

@@ -194,7 +194,7 @@ suite('gr-reply-dialog tests', () => {
       assert.isTrue(review.ignore_automatic_attention_set_rules);
       assert.deepEqual(review.add_to_attention_set, [{
         user: 314,
-        reason: 'manually added in reply dialog',
+        reason: 'Anonymous replied on the change',
       }]);
       assert.deepEqual(review.remove_from_attention_set, []);
       done();
@@ -277,7 +277,7 @@ suite('gr-reply-dialog tests', () => {
     checkComputeAttention('MERGED', 1, [22, 33], 1, [22, 33], [], [22, 33]);
   });
 
-  test('computeNewAttentionNames', () => {
+  test('computeNewAttentionAccounts', () => {
     element._reviewers = [
       {_account_id: 123, display_name: 'Ernie'},
       {_account_id: 321, display_name: 'Bert'},
@@ -285,15 +285,17 @@ suite('gr-reply-dialog tests', () => {
     element._ccs = [
       {_account_id: 7, display_name: 'Elmo'},
     ];
-    const compute = (currentAtt, newAtt) => element._computeNewAttentionNames(
-        undefined, new Set(currentAtt), new Set(newAtt));
+    const compute = (currentAtt, newAtt) =>
+      element._computeNewAttentionAccounts(
+          undefined, new Set(currentAtt), new Set(newAtt))
+          .map(a => a._account_id);
 
-    assert.equal(compute([], []), '');
-    assert.equal(compute([], [999]), 'Kermit');
-    assert.equal(compute([999], []), '');
-    assert.equal(compute([999], [999]), '');
-    assert.equal(compute([123, 321], [999]), 'Kermit');
-    assert.equal(compute([999], [7, 123, 999]), 'Elmo, Ernie');
+    assert.sameMembers(compute([], []), []);
+    assert.sameMembers(compute([], [999]), [999]);
+    assert.sameMembers(compute([999], []), []);
+    assert.sameMembers(compute([999], [999]), []);
+    assert.sameMembers(compute([123, 321], [999]), [999]);
+    assert.sameMembers(compute([999], [7, 123, 999]), [7, 123]);
   });
 
   test('toggle resolved checkbox', done => {

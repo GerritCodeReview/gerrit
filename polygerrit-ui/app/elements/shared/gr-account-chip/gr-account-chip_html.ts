@@ -92,6 +92,7 @@ export const htmlTemplate = html`
     <gr-account-link
       account="[[account]]"
       change="[[change]]"
+      force-attention="[[forceAttention]]"
       highlight-attention="[[highlightAttention]]"
       voteable-text="[[voteableText]]"
     >

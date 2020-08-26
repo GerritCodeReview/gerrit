@@ -15,10 +15,8 @@
  * limitations under the License.
  */
 
-export const GrFileListConstants = {
-  FilesExpandedState: {
-    ALL: 'all',
-    NONE: 'none',
-    SOME: 'some',
-  },
-};
+export enum FilesExpandedState {
+  ALL = 'all',
+  NONE = 'none',
+  SOME = 'some',
+}

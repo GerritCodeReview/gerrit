@@ -51,8 +51,7 @@ class GrAccountLabel extends GestureEventListeners(
       voteableText: String,
       /**
        * Should this user be considered to be in the attention set, regardless
-       * of the current state of the change object? This can be used in a widget
-       * that allows the user to make adjustments to the attention set.
+       * of the current state of the change object?
        */
       forceAttention: {
         type: Boolean,

@@ -161,8 +161,18 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: space-between;
     }
-    .attention-detail .peopleList {
-      margin-top: var(--spacing-s);
+    .attentionSummary gr-account-chip {
+      display: inline-block;
+      vertical-align: top;
+      /* The account chip is misbehaving currently: It consumes 22px height, so
+         it does not fit nicely into the 20px line-height of the standard
+         inline layout flow. :-( */
+      position: relative;
+      top: -1px;
+    }
+    .attentionSummary,
+    .attention-detail {
+      --account-max-length: 150px;
     }
     .attention-detail .peopleList .accountList {
       display: flex;
@@ -171,6 +181,7 @@ export const htmlTemplate = html`
     .attention-detail gr-account-label {
       display: inline-block;
       padding: var(--spacing-xs) var(--spacing-m);
+      vertical-align: baseline;
       user-select: none;
       --label-border-radius: 8px;
     }
@@ -184,15 +195,10 @@ export const htmlTemplate = html`
     .attention-detail .attentionDetailsTitle {
       display: flex;
       justify-content: space-between;
-      margin-bottom: var(--spacing-m);
-    }
-    .attention-detail .attentionDetailsFooter {
-      display: flex;
-      justify-content: space-between;
-      margin-top: var(--spacing-s);
     }
     .attention-detail .selectUsers {
       color: var(--deemphasized-text-color);
+      margin-bottom: var(--spacing-m);
     }
   </style>
   <div class="container" tabindex="-1">
@@ -345,24 +351,25 @@ export const htmlTemplate = html`
       >
         <div class="attentionSummary">
           <div>
-            <iron-icon
-              class="attention-icon"
-              icon="gr-icons:attention"
-            ></iron-icon>
             <template
               is="dom-if"
               if="[[_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
             >
-              <span>Do not add anyone to the attention set.</span>
+              <span>Do not update the attention set.</span>
             </template>
             <template
               is="dom-if"
               if="[[!_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
             >
-              <span
-                >Bring to attention of [[_computeNewAttentionNames(serverConfig,
-                _currentAttentionSet, _newAttentionSet)]].</span
+              <span>Bring to attention of</span>
+              <template
+                is="dom-repeat"
+                items="[[_computeNewAttentionAccounts(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+                as="account"
               >
+                <gr-account-chip account="[[account]]" force-attention="">
+                </gr-account-chip>
+              </template>
             </template>
             <gr-button
               class="edit-attention-button"
@@ -408,7 +415,7 @@ export const htmlTemplate = html`
       >
         <div class="attentionDetailsTitle">
           <div>
-            <span>Change attention set to:</span>
+            <span>Modify attention to</span>
           </div>
           <div></div>
           <div>
@@ -426,11 +433,17 @@ export const htmlTemplate = html`
               target="_blank"
             >
               <iron-icon
-                icon="gr-icons:info"
+                icon="gr-icons:help-outline"
                 title="read documentation"
               ></iron-icon>
             </a>
           </div>
+        </div>
+        <div class="selectUsers">
+          <span
+            >Select chips to set who will be in the attention set after sending
+            this reply</span
+          >
         </div>
         <div class="peopleList">
           <div class="peopleListLabel">Owner</div>
@@ -504,15 +517,6 @@ export const htmlTemplate = html`
             </div>
           </div>
         </template>
-        <div class="attentionDetailsFooter">
-          <div></div>
-          <div>
-            <span class="selectUsers"
-              >(click chips to add and remove users)</span
-            >
-          </div>
-          <div></div>
-        </div>
       </section>
       <section class="actions">
         <div class="left">

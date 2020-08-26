@@ -44,6 +44,14 @@ class GrAccountLink extends GestureEventListeners(
        */
       change: Object,
       /**
+       * Should this user be considered to be in the attention set, regardless
+       * of the current state of the change object?
+       */
+      forceAttention: {
+        type: Boolean,
+        value: false,
+      },
+      /**
        * Should attention set related features be shown in the component? Note
        * that the information whether the user is in the attention set or not is
        * part of the ChangeInfo object in the change property.

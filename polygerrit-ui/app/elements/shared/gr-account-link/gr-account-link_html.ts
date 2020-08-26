@@ -37,6 +37,7 @@ export const htmlTemplate = html`
       <gr-account-label
         account="[[account]]"
         change="[[change]]"
+        force-attention="[[forceAttention]]"
         highlight-attention="[[highlightAttention]]"
         hide-avatar="[[hideAvatar]]"
         hide-status="[[hideStatus]]"

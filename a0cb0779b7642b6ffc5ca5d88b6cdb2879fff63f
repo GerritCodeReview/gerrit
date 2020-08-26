@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "502f7860_3c14ca80",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-26T10:20:20Z",
+      "side": 1,
+      "message": "I was looking at https://kernel.googlesource.com/pub/scm/linux/kernel/git/torvalds/linux/+/refs/heads/master/Documentation/process/submitting-patches.rst but couldn\u0027t find a reference to this. \n\nCan you point to a link codifying policy?",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "691a3856_3425e81a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

@@ -378,6 +378,30 @@
     },
     {
       "key": {
+        "uuid": "d4077dbe_793f959c",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:26:47Z",
+      "side": 1,
+      "message": "Yes, you are right. Eslint reports error with property initializers.\n\n\u003e\u003e What is the recommended way then?\nUsually, try to use property initializer and if compiler or eslint report error - move to constructor.\nIn this case I forgot, that eslint reports error.",
+      "parentUuid": "35db008c_d217f344",
+      "range": {
+        "startLine": 136,
+        "startChar": 4,
+        "endLine": 136,
+        "endChar": 17
+      },
+      "revId": "0a9c89252caffeea34d601056f5bc462c7674a9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "62a59f6b_9111b2fe",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 11

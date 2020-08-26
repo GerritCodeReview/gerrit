@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d5ecf1_cb340a2e",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:26:47Z",
+      "side": 1,
+      "message": "According to style guide (https://google.github.io/styleguide/jsguide.html#naming-enum-names), it should be CherryPickType",
+      "range": {
+        "startLine": 47,
+        "startChar": 5,
+        "endLine": 47,
+        "endChar": 22
+      },
+      "revId": "dd56bd90e135fe2f5e92af9644209c2a33b3d5e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

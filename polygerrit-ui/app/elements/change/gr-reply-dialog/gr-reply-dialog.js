@@ -38,8 +38,8 @@ import {ChangeStatus, SpecialFilePath} from '../../../constants/constants.js';
 import {KnownExperimentId} from '../../../services/flags/flags.js';
 import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {getDisplayName} from '../../../utils/display-name-util.js';
 import {removeServiceUsers} from '../../../utils/account-util.js';
+import {getDisplayName} from '../../../utils/display-name-util.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -557,23 +557,20 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     }
 
     if (this._isAttentionSetEnabled(this.serverConfig)) {
+      const selfName = getDisplayName(this.serverConfig, this._account);
+      const reason = `${selfName} replied on the change`;
+
       reviewInput.ignore_automatic_attention_set_rules = true;
       reviewInput.add_to_attention_set = [];
       for (const user of this._newAttentionSet) {
         if (!this._currentAttentionSet.has(user)) {
-          reviewInput.add_to_attention_set.push({
-            user,
-            reason: 'manually added in reply dialog',
-          });
+          reviewInput.add_to_attention_set.push({user, reason});
         }
       }
       reviewInput.remove_from_attention_set = [];
       for (const user of this._currentAttentionSet) {
         if (!this._newAttentionSet.has(user)) {
-          reviewInput.remove_from_attention_set.push({
-            user,
-            reason: 'manually removed in reply dialog',
-          });
+          reviewInput.remove_from_attention_set.push({user, reason});
         }
       }
       this.reportAttentionSetChanges(this._attentionModified,
@@ -810,11 +807,23 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   _handleAttentionClick(e) {
     const id = e.target.account._account_id;
     if (!id) return;
+
+    const selfId = (this._account && this._account._account_id) || -1;
+    const ownerId = (this.change && this.change.owner
+        && this.change.owner._account_id) || -1;
+    const self = id === selfId ? '_SELF' : '';
+    const role = id === ownerId ? '_OWNER' : '_REVIEWER';
+
     if (this._newAttentionSet.has(id)) {
       this._newAttentionSet.delete(id);
+      this.reporting.reportInteraction(
+          'attention-set-chip', {action: `REMOVE${self}${role}`});
     } else {
       this._newAttentionSet.add(id);
+      this.reporting.reportInteraction(
+          'attention-set-chip', {action: `ADD${self}${role}`});
     }
+
     // Ensure that Polymer picks up the change.
     this._newAttentionSet = new Set(this._newAttentionSet);
   }
@@ -892,19 +901,16 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _isNewAttentionEmpty(config, currentAttentionSet, newAttentionSet) {
-    return this._computeNewAttentionNames(
+    return this._computeNewAttentionAccounts(
         config, currentAttentionSet, newAttentionSet).length === 0;
   }
 
-  _computeNewAttentionNames(config, currentAttentionSet, newAttentionSet) {
-    if ([currentAttentionSet, newAttentionSet].includes(undefined)) return '';
-    const addedNames = [...newAttentionSet]
+  _computeNewAttentionAccounts(config, currentAttentionSet, newAttentionSet) {
+    if ([currentAttentionSet, newAttentionSet].includes(undefined)) return [];
+    return [...newAttentionSet]
         .filter(id => !currentAttentionSet.has(id))
         .map(id => this._findAccountById(id))
-        .filter(account => !!account)
-        .map(account => getDisplayName(config, account, true))
-        .sort();
-    return addedNames.join(', ');
+        .filter(account => !!account);
   }
 
   _findAccountById(accountId) {

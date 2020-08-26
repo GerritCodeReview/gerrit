@@ -584,4 +584,9 @@ export interface RestApiService {
   invalidateGroupsCache(): void;
   invalidateReposCache(): void;
   invalidateAccountsCache(): void;
+  setDescription(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    desc: string
+  ): Promise<Response>;
 }

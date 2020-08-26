@@ -15,10 +15,12 @@
  * limitations under the License.
  */
 
+enum FilesExpandedState {
+  ALL = 'all',
+  NONE = 'none',
+  SOME = 'some',
+}
+
 export const GrFileListConstants = {
-  FilesExpandedState: {
-    ALL: 'all',
-    NONE: 'none',
-    SOME: 'some',
-  },
+  FilesExpandedState,
 };

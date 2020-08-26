@@ -20,6 +20,7 @@ import './gr-file-list-header.js';
 import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {generateChange} from '../../../test/test-utils.js';
+import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-file-list-header');
 
@@ -61,12 +62,20 @@ suite('gr-file-list-header tests', () => {
   });
 
   test('_computeDescriptionReadOnly', () => {
-    assert.equal(element._computeDescriptionReadOnly(false,
-        {owner: {_account_id: 1}}, {_account_id: 1}), true);
-    assert.equal(element._computeDescriptionReadOnly(true,
-        {owner: {_account_id: 0}}, {_account_id: 1}), true);
-    assert.equal(element._computeDescriptionReadOnly(true,
-        {owner: {_account_id: 1}}, {_account_id: 1}), false);
+    element.loggedIn = false;
+    element.change = {owner: {_account_id: 1}};
+    element.account = {_account_id: 1};
+    assert.equal(element._descriptionReadOnly, true);
+
+    element.loggedIn = true;
+    element.change = {owner: {_account_id: 0}};
+    element.account = {_account_id: 1};
+    assert.equal(element._descriptionReadOnly, true);
+
+    element.loggedIn = true;
+    element.change = {owner: {_account_id: 1}};
+    element.account = {_account_id: 1};
+    assert.equal(element._descriptionReadOnly, false);
   });
 
   test('_computeDescriptionPlaceholder', () => {
@@ -96,11 +105,13 @@ suite('gr-file-list-header tests', () => {
       owner: {_account_id: 1},
     };
     element.account = {_account_id: 1};
+    element.owner = {_account_id: 1};
     element.loggedIn = true;
 
     flushAsynchronousOperations();
 
     // The element has a description, so the account chip should be visible
+    element.owner = {_account_id: 1};
     // and the description label should not exist.
     const chip = element.root.querySelector('#descriptionChip');
     let label = element.root.querySelector('#descriptionLabel');

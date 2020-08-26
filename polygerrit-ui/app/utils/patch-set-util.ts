@@ -81,7 +81,7 @@ export function isMergeParent(n: PatchSetNum) {
  * @return The correspondent revision obj from {revisions}
  */
 export function getRevisionByPatchNum(
-  revisions: RevisionInfo[],
+  revisions: {[revisionId: string]: RevisionInfo},
   patchNum: PatchSetNum
 ) {
   for (const rev of Object.values(revisions || {})) {

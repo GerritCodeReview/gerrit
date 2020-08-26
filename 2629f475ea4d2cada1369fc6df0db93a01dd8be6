@@ -69,6 +69,30 @@
       "revId": "2629f475ea4d2cada1369fc6df0db93a01dd8be6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7296d50_02fc1cd2",
+        "filename": "polygerrit-ui/app/elements/admin/gr-group/gr-group.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-26T16:04:58Z",
+      "side": 0,
+      "message": "Yes. You can remove _groupConfigOwner completely it seems.",
+      "parentUuid": "b843075e_1cf20bf1",
+      "range": {
+        "startLine": 198,
+        "startChar": 14,
+        "endLine": 198,
+        "endChar": 32
+      },
+      "revId": "2629f475ea4d2cada1369fc6df0db93a01dd8be6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

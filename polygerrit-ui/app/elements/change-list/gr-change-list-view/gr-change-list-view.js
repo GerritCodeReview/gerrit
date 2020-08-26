@@ -31,6 +31,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
   CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
+  COMMIT: /[0-9a-f]{40}/,
 };
 
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;

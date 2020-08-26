@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "59a94954_3ca47443",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:44:58Z",
+      "side": 1,
+      "message": "This condition looks unnecessary. Can it be removed?",
+      "range": {
+        "startLine": 76,
+        "startChar": 21,
+        "endLine": 76,
+        "endChar": 44
+      },
+      "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afbb6c8a_fcc0d08b",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:44:58Z",
+      "side": 1,
+      "message": "I suggest to keep \u0027\u003d\u003d\u0027 here add a TODO(ts) to change it later.\nReason - we haven\u0027t migrate to typescript fully yet and javascript code can assign string to _account_id instead of number",
+      "range": {
+        "startLine": 137,
+        "startChar": 48,
+        "endLine": 137,
+        "endChar": 51
+      },
+      "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38039ea5_e038308b",
+        "filename": "polygerrit-ui/app/elements/change/gr-label-scores/gr-label-scores.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:44:58Z",
+      "side": 1,
+      "message": "It\u0027s the same as (!permittedLabel || !label)",
+      "range": {
+        "startLine": 202,
+        "startChar": 8,
+        "endLine": 202,
+        "endChar": 52
+      },
+      "revId": "db32711e33fb6460a0b5abb3d7cda1f1d3298ebb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -46,13 +46,14 @@ public class IndexPreloadingUtil {
     PAGE_WITHOUT_PRELOADING,
   }
 
-  public static final String CHANGE_CANONICAL_URL = ".*/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
+  public static final String CHANGE_CANONICAL_URL = "/c/(?<project>.+)/\\+/(?<changeNum>\\d+)";
   public static final String BASE_PATCH_NUM_URL_PART = "(/(-?\\d+|edit)(\\.\\.(\\d+|edit))?)";
   public static final Pattern CHANGE_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "?" + "/?$");
   public static final Pattern DIFF_URL_PATTERN =
       Pattern.compile(CHANGE_CANONICAL_URL + BASE_PATCH_NUM_URL_PART + "(/(.+))" + "/?$");
-  public static final Pattern DASHBOARD_PATTERN = Pattern.compile(".*/dashboard/self$");
+  public static final Pattern DASHBOARD_PATTERN = Pattern.compile("/dashboard/self$");
+  public static final String ROOT_URL = "/";
 
   // These queries should be kept in sync with PolyGerrit:
   // polygerrit-ui/app/elements/core/gr-navigation/gr-navigation.ts
@@ -146,6 +147,10 @@ public class IndexPreloadingUtil {
 
     Matcher dashboardMatcher = IndexPreloadingUtil.DASHBOARD_PATTERN.matcher(requestedURL);
     if (dashboardMatcher.matches()) {
+      return RequestedPage.DASHBOARD;
+    }
+
+    if (ROOT_URL.equals(requestedURL)) {
       return RequestedPage.DASHBOARD;
     }
 

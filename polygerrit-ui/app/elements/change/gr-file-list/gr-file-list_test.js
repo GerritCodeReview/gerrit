@@ -21,7 +21,7 @@ import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import './gr-file-list.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GrFileListConstants} from '../gr-file-list-constants.js';
+import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
@@ -1107,23 +1107,23 @@ suite('gr-file-list tests', () => {
       };
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
-          GrFileListConstants.FilesExpandedState.NONE);
+          FilesExpandedState.NONE);
       element.push('_expandedFiles', {path: 'baz.bar'});
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
-          GrFileListConstants.FilesExpandedState.SOME);
+          FilesExpandedState.SOME);
       element.push('_expandedFiles', {path: 'foo.bar'});
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
-          GrFileListConstants.FilesExpandedState.ALL);
+          FilesExpandedState.ALL);
       element.collapseAllDiffs();
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
-          GrFileListConstants.FilesExpandedState.NONE);
+          FilesExpandedState.NONE);
       element.expandAllDiffs();
       flushAsynchronousOperations();
       assert.equal(element.filesExpanded,
-          GrFileListConstants.FilesExpandedState.ALL);
+          FilesExpandedState.ALL);
     });
 
     test('_renderInOrder', done => {

@@ -133,7 +133,7 @@ export function changePath(changeNum: LegacyChangeId) {
 }
 
 export function changeIsOpen(change?: Change) {
-  return change && change.status === ChangeStatus.NEW;
+  return change?.status === ChangeStatus.NEW;
 }
 
 export function changeStatuses(

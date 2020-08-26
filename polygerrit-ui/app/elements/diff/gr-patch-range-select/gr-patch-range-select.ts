@@ -405,7 +405,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
     addFrontSpace?: boolean
   ) {
     const rev = getRevisionByPatchNum(revisions, patchNum);
-    return rev && rev.description
+    return rev?.description
       ? (addFrontSpace ? ' ' : '') +
           rev.description.substring(0, PATCH_DESC_MAX_LENGTH)
       : '';

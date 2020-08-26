@@ -84,7 +84,7 @@ export function getRevisionByPatchNum(
   revisions: RevisionInfo[],
   patchNum: PatchSetNum
 ) {
-  for (const rev of Object.values(revisions || {})) {
+  for (const rev of revisions) {
     if (patchNumEquals(rev._number, patchNum)) {
       return rev;
     }

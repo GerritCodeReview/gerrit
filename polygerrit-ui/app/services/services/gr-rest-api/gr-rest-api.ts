@@ -585,4 +585,9 @@ export interface RestApiService {
   ): Promise<void>;
   setAccountStatus(status: string, errFn?: ErrorCallback): Promise<void>;
   getAvatarChangeUrl(): Promise<string | undefined>;
+  setDescription(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    desc: string
+  ): Promise<Response>;
 }

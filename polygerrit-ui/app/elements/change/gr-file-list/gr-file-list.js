@@ -34,7 +34,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-file-list_html.js';
 import {asyncForeach} from '../../../utils/async-util.js';
 import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {GrFileListConstants} from '../gr-file-list-constants.js';
+import {FilesExpandedState} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
@@ -42,7 +42,6 @@ import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {descendedFromClass} from '../../../utils/dom-util.js';
-import {getRevisionByPatchNum} from '../../../utils/patch-set-util.js';
 import {
   addUnmodifiedFiles,
   computeDisplayPath,
@@ -51,8 +50,6 @@ import {
   specialFilePathCompare,
 } from '../../../utils/path-list-util.js';
 
-// Maximum length for patch set descriptions.
-const PATCH_DESC_MAX_LENGTH = 500;
 const WARN_SHOW_ALL_THRESHOLD = 1000;
 const LOADING_DEBOUNCE_INTERVAL = 100;
 
@@ -139,7 +136,7 @@ class GrFileList extends KeyboardShortcutMixin(
       },
       filesExpanded: {
         type: String,
-        value: GrFileListConstants.FilesExpandedState.NONE,
+        value: FilesExpandedState.NONE,
         notify: true,
       },
       _filesByPath: Object,
@@ -1161,17 +1158,6 @@ class GrFileList extends KeyboardShortcutMixin(
     this.numFilesShown = this._files.length;
   }
 
-  _computePatchSetDescription(revisions, patchNum) {
-    // Polymer 2: check for undefined
-    if ([revisions, patchNum].includes(undefined)) {
-      return '';
-    }
-
-    const rev = getRevisionByPatchNum(revisions, patchNum);
-    return (rev && rev.description) ?
-      rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
-  }
-
   /**
    * Get a descriptive label for use in the status indicator's tooltip and
    * ARIA label.
@@ -1210,11 +1196,11 @@ class GrFileList extends KeyboardShortcutMixin(
 
   _computeExpandedFiles(expandedCount, totalCount) {
     if (expandedCount === 0) {
-      return GrFileListConstants.FilesExpandedState.NONE;
+      return FilesExpandedState.NONE;
     } else if (expandedCount === totalCount) {
-      return GrFileListConstants.FilesExpandedState.ALL;
+      return FilesExpandedState.ALL;
     }
-    return GrFileListConstants.FilesExpandedState.SOME;
+    return FilesExpandedState.SOME;
   }
 
   /**
@@ -1575,7 +1561,7 @@ class GrFileList extends KeyboardShortcutMixin(
    * @return {boolean}
    */
   _noDiffsExpanded() {
-    return this.filesExpanded === GrFileListConstants.FilesExpandedState.NONE;
+    return this.filesExpanded === FilesExpandedState.NONE;
   }
 
   /**

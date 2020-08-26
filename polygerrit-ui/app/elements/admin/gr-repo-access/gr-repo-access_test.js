@@ -586,7 +586,7 @@ suite('gr-repo-access tests', () => {
           .querySelector('gr-access-section').shadowRoot
           .querySelector('gr-permission')
           ._handleAddRuleItem(
-              {detail: {value: {id: 'Maintainers'}}});
+              {detail: {value: 'Maintainers'}});
 
       flushAsynchronousOperations();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
@@ -686,7 +686,7 @@ suite('gr-repo-access tests', () => {
               .querySelector('gr-access-section').root).querySelectorAll(
               'gr-permission')[2];
       newPermission._handleAddRuleItem(
-          {detail: {value: {id: 'Maintainers'}}});
+          {detail: {value: 'Maintainers'}});
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Modify a section reference.
@@ -806,7 +806,7 @@ suite('gr-repo-access tests', () => {
 
       newSection.shadowRoot
           .querySelector('gr-permission')._handleAddRuleItem(
-              {detail: {value: {id: 'Maintainers'}}});
+              {detail: {value: 'Maintainers'}});
 
       flushAsynchronousOperations();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
@@ -921,7 +921,7 @@ suite('gr-repo-access tests', () => {
               .querySelector('gr-access-section').root).querySelectorAll(
               'gr-permission')[1];
       readPermission._handleAddRuleItem(
-          {detail: {value: {id: 'Maintainers'}}});
+          {detail: {value: 'Maintainers'}});
 
       expectedInput = {
         add: {
@@ -997,7 +997,7 @@ suite('gr-repo-access tests', () => {
       flushAsynchronousOperations();
       newSection.shadowRoot
           .querySelector('gr-permission')._handleAddRuleItem(
-              {detail: {value: {id: 'Maintainers'}}});
+              {detail: {value: 'Maintainers'}});
       // Modify a the reference from the default value.
       element._local['refs/for/*'].updatedId = 'refs/for/new';
 
@@ -1071,7 +1071,7 @@ suite('gr-repo-access tests', () => {
       flushAsynchronousOperations();
       newSection.shadowRoot
           .querySelector('gr-permission')._handleAddRuleItem(
-              {detail: {value: {id: 'Maintainers'}}});
+              {detail: {value: 'Maintainers'}});
       // Modify a the reference from the default value.
       element._local['refs/for/**'].updatedId = 'refs/for/new2';
       expectedInput = {

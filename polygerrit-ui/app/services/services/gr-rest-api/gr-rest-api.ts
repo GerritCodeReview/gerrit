@@ -42,6 +42,11 @@ import {
   GpgKeyInfo,
   PreferencesInfo,
   EmailInfo,
+  ProjectAccessInfo,
+  CapabilityInfoMap,
+  ProjectAccessInput,
+  ChangeInfo,
+  ProjectInfoWithName,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -126,10 +131,10 @@ export interface RestApiService {
   getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
   deleteAccountIdentity(id: string[]): Promise<unknown>;
   getRepos(
-    filter: string,
+    filter: string | undefined,
     reposPerPage: number,
     offset?: number
-  ): Promise<ProjectInfo | undefined>;
+  ): Promise<ProjectInfoWithName[] | undefined>;
 
   send(
     method: HttpMethod,
@@ -249,4 +254,28 @@ export interface RestApiService {
     patchNum: PatchSetNum,
     query: string
   ): Promise<string[] | undefined>;
+
+  getRepoAccessRights(
+    repoName: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<ProjectAccessInfo | undefined>;
+
+  getRepo(
+    repo: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<ProjectInfo | undefined>;
+
+  getCapabilities(
+    errFn?: ErrorCallback
+  ): Promise<CapabilityInfoMap | undefined>;
+
+  setRepoAccessRights(
+    repoName: RepoName,
+    repoInfo: ProjectAccessInput
+  ): Promise<Response>;
+
+  setRepoAccessRightsForReview(
+    projectName: RepoName,
+    projectInfo: ProjectAccessInput
+  ): Promise<ChangeInfo>;
 }

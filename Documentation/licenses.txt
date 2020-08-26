@@ -44,6 +44,7 @@ Apache2.0
 
 * auto:auto-value
 * auto:auto-value-annotations
+* auto:auto-value-gson
 * commons:codec
 * commons:compress
 * commons:dbcp

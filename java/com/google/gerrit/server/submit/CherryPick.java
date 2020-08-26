@@ -193,7 +193,7 @@ public class CherryPick extends SubmitStrategy {
       // was configured.
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)
-          && !args.submoduleOp.hasSubscription(args.destBranch)) {
+          && !args.subscriptionGraph.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
         PersonIdent myIdent = new PersonIdent(args.serverIdent, ctx.getWhen());

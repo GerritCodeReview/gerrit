@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "91e29c9d_c6e4bf19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-26T14:21:58Z",
+      "side": 1,
+      "message": "We chose to reduce the emails that are sent through the UI by change edits (e.g create new patchset).",
+      "revId": "818a9c2070042d00e5f768b8519a01239b8d32fe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

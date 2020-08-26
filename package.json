@@ -17,7 +17,7 @@
     "polymer-cli": "^1.9.11",
     "prettier": "2.0.5",
     "terser": "^4.8.0",
-    "typescript": "3.8.2"
+    "typescript": "3.9.5"
   },
   "scripts": {
     "clean": "git clean -fdx && bazel clean --expunge",

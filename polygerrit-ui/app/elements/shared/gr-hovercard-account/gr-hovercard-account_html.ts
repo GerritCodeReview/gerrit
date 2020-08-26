@@ -131,11 +131,14 @@ export const htmlTemplate = html`
           </div>
           <div class="reason">
             <span class="title">Reason:</span>
-            <span class="value">[[_computeReason(change)]]</span>,
-            <gr-date-formatter
-              has-tooltip
-              date-str="[[_computeLastUpdate(change)]]"
-            ></gr-date-formatter>
+            <span class="value">[[_computeReason(change)]]</span>
+            <template is="dom-if" if="[[_computeLastUpdate(change)]]">
+              (<gr-date-formatter
+                has-tooltip
+                date-str="[[_computeLastUpdate(change)]]"
+              ></gr-date-formatter
+              >)
+            </template>
           </div>
         </div>
       </template>

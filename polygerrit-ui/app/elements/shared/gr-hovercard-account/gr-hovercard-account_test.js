@@ -124,23 +124,24 @@ suite('gr-hovercard-account tests', () => {
     flushAsynchronousOperations();
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
-    const reloadListener = sinon.spy();
+    const updatedListener = sinon.spy();
     element.addEventListener('show-alert', showAlertListener);
     element._target.addEventListener('hide-alert', hideAlertListener);
-    element._target.addEventListener('reload', reloadListener);
+    element._target.addEventListener('attention-set-updated', updatedListener);
 
     const button = element.shadowRoot.querySelector('.addToAttentionSet');
     assert.isOk(button);
     assert.isTrue(element._isShowing, 'hovercard is showing');
     MockInteractions.tap(button);
 
+    assert.equal(Object.keys(element.change.attention_set).length, 1);
     assert.isTrue(showAlertListener.called, 'showAlertListener was called');
+    assert.isTrue(updatedListener.called, 'updatedListener was called');
     assert.isFalse(element._isShowing, 'hovercard is hidden');
 
     apiResolve({});
     flush(() => {
       assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
-      assert.isTrue(reloadListener.called, 'reloadListener was called');
       done();
     });
   });
@@ -158,23 +159,24 @@ suite('gr-hovercard-account tests', () => {
     flushAsynchronousOperations();
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
-    const reloadListener = sinon.spy();
+    const updatedListener = sinon.spy();
     element.addEventListener('show-alert', showAlertListener);
     element._target.addEventListener('hide-alert', hideAlertListener);
-    element._target.addEventListener('reload', reloadListener);
+    element._target.addEventListener('attention-set-updated', updatedListener);
 
     const button = element.shadowRoot.querySelector('.removeFromAttentionSet');
     assert.isOk(button);
     assert.isTrue(element._isShowing, 'hovercard is showing');
     MockInteractions.tap(button);
 
+    assert.equal(Object.keys(element.change.attention_set).length, 0);
     assert.isTrue(showAlertListener.called, 'showAlertListener was called');
+    assert.isTrue(updatedListener.called, 'updatedListener was called');
     assert.isFalse(element._isShowing, 'hovercard is hidden');
 
     apiResolve({});
     flush(() => {
       assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
-      assert.isTrue(reloadListener.called, 'reloadListener was called');
       done();
     });
   });

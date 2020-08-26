@@ -27,6 +27,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-hovercard-account_html.js';
 import {appContext} from '../../../services/app-context.js';
 import {isServiceUser} from '../../../utils/account-util.js';
+import {getDisplayName} from '../../../utils/display-name-util.js';
 
 /** @extends PolymerElement */
 class GrHovercardAccount extends GestureEventListeners(
@@ -135,18 +136,29 @@ class GrHovercardAccount extends GestureEventListeners(
   _handleClickAddToAttentionSet(e) {
     this.dispatchEvent(new CustomEvent('show-alert', {
       detail: {
-        message: 'Adding user to attention set. Will be reloading ...',
+        message: 'Saving attention set update ...',
         dismissOnNavigation: true,
       },
       composed: true,
       bubbles: true,
     }));
+
+    // We are deliberately updating the UI before making the API call. It is a
+    // risk that we are taking to achieve a better UX for 99.9% of the cases.
+    const selfName = getDisplayName(this._config, this._selfAccount);
+    const reason = `Added by ${selfName} using the hovercard menu`;
+    if (!this.change.attention_set) this.change.attention_set = {};
+    this.change.attention_set[this.account._account_id] = {
+      account: this.account,
+      reason,
+    };
+    this.dispatchEventThroughTarget('attention-set-updated');
+
     this.reporting.reportInteraction('attention-hovercard-add',
         this._reportingDetails());
     this.$.restAPI.addToAttentionSet(this.change._number,
-        this.account._account_id, 'manually added').then(obj => {
+        this.account._account_id, reason).then(obj => {
       this.dispatchEventThroughTarget('hide-alert');
-      this.dispatchEventThroughTarget('reload');
     });
     this.hide();
   }
@@ -154,18 +166,25 @@ class GrHovercardAccount extends GestureEventListeners(
   _handleClickRemoveFromAttentionSet(e) {
     this.dispatchEvent(new CustomEvent('show-alert', {
       detail: {
-        message: 'Removing user from attention set. Will be reloading ...',
+        message: 'Saving attention set update ...',
         dismissOnNavigation: true,
       },
       composed: true,
       bubbles: true,
     }));
+
+    // We are deliberately updating the UI before making the API call. It is a
+    // risk that we are taking to achieve a better UX for 99.9% of the cases.
+    const selfName = getDisplayName(this._config, this._selfAccount);
+    const reason = `Removed by ${selfName} using the hovercard menu`;
+    delete this.change.attention_set[this.account._account_id];
+    this.dispatchEventThroughTarget('attention-set-updated');
+
     this.reporting.reportInteraction('attention-hovercard-remove',
         this._reportingDetails());
     this.$.restAPI.removeFromAttentionSet(this.change._number,
-        this.account._account_id, 'manually removed').then(obj => {
+        this.account._account_id, reason).then(obj => {
       this.dispatchEventThroughTarget('hide-alert');
-      this.dispatchEventThroughTarget('reload');
     });
     this.hide();
   }

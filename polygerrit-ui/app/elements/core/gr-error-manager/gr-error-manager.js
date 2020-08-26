@@ -27,6 +27,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-error-manager_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 import {appContext} from '../../../services/app-context.js';
+import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -122,6 +123,8 @@ class GrErrorManager extends GestureEventListeners(
           event => {
             this._handleAuthError(event.message, event.action);
           });
+
+    IronA11yAnnouncer.requestAvailability();
   }
 
   /** @override */
@@ -272,6 +275,7 @@ class GrErrorManager extends GestureEventListeners(
     const el = this._createToastAlert();
     el.show(text, opt_actionText, opt_actionCallback);
     this._alertElement = el;
+    this.fire('iron-announce', {text}, {bubbles: true} );
   }
 
   _hideAlert() {
@@ -302,7 +306,7 @@ class GrErrorManager extends GestureEventListeners(
     this._alertElement.type = ErrorType.AUTH;
     this._alertElement.show(errorText, actionText,
         this._createLoginPopup.bind(this));
-
+    this.fire('iron-announce', {text: errorText}, {bubbles: true} );
     this._refreshingCredentials = true;
     this._requestCheckLoggedIn();
     if (!document.hidden) {

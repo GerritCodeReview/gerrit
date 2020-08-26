@@ -148,7 +148,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _computeBaseDropdownContent(
     availablePatches?: PatchSet[],
     patchNum?: PatchSetNum,
-    _sortedRevisions?: RevisionInfo[],
+    _sortedRevisions?: {[revisionId: string]: RevisionInfo},
     changeComments?: ChangeComments,
     revisionInfo?: RevisionInfoClass
   ): DropdownItem[] | undefined {
@@ -211,7 +211,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _computeMobileText(
     patchNum: PatchSetNum,
     changeComments: ChangeComments,
-    revisions: RevisionInfo[]
+    revisions: {[revisionId: string]: RevisionInfo}
   ) {
     return (
       `${patchNum}` +
@@ -223,7 +223,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _computePatchDropdownContent(
     availablePatches?: PatchSet[],
     basePatchNum?: PatchSetNum,
-    _sortedRevisions?: RevisionInfo[],
+    _sortedRevisions?: {[revisionId: string]: RevisionInfo},
     changeComments?: ChangeComments
   ): DropdownItem[] | undefined {
     // Polymer 2: check for undefined
@@ -274,7 +274,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _createDropdownEntry(
     patchNum: PatchSetNum,
     prefix: string,
-    sortedRevisions: RevisionInfo[],
+    sortedRevisions: {[revisionId: string]: RevisionInfo},
     changeComments: ChangeComments,
     sha: string
   ) {
@@ -319,7 +319,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _computeLeftDisabled(
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
-    sortedRevisions: RevisionInfo[]
+    sortedRevisions: {[revisionId: string]: RevisionInfo}
   ): boolean {
     return (
       findSortedIndex(basePatchNum, sortedRevisions) <=
@@ -344,7 +344,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _computeRightDisabled(
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
-    sortedRevisions: RevisionInfo[]
+    sortedRevisions: {[revisionId: string]: RevisionInfo}
   ): boolean {
     if (patchNumEquals(basePatchNum, ParentPatchSetNum)) {
       return false;
@@ -400,7 +400,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   }
 
   _computePatchSetDescription(
-    revisions: RevisionInfo[],
+    revisions: {[revisionId: string]: RevisionInfo},
     patchNum: PatchSetNum,
     addFrontSpace?: boolean
   ) {
@@ -412,7 +412,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   }
 
   _computePatchSetDate(
-    revisions: RevisionInfo[],
+    revisions: {[revisionId: string]: RevisionInfo},
     patchNum: PatchSetNum
   ): Timestamp | undefined {
     const rev = getRevisionByPatchNum(revisions, patchNum);

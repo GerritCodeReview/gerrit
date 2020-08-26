@@ -575,4 +575,9 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<NameToProjectInfoMap | undefined>;
+  setDescription(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    desc: string
+  ): Promise<Response>;
 }

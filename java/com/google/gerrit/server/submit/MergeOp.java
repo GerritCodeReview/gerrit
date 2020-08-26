@@ -689,11 +689,12 @@ public class MergeOp implements AutoCloseable {
                 submissionId,
                 submitInput,
                 submoduleOp,
+                submoduleOp.getSubscriptionGraph(),
                 dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
-            && submoduleOp.hasSubscription(branch)) {
+            && submoduleOp.getSubscriptionGraph().hasSubscription(branch)) {
           submoduleOp.addOp(or.getUpdate(), branch);
         }
       } else {

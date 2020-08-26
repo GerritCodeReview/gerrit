@@ -535,7 +535,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
    */
   protected CodeReviewCommit amendGitlink(CodeReviewCommit commit)
       throws IntegrationConflictException {
-    if (!args.submoduleOp.hasSubscription(args.destBranch)) {
+    if (!args.subscriptionGraph.hasSubscription(args.destBranch)) {
       return commit;
     }
 

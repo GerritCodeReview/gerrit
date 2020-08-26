@@ -93,6 +93,30 @@
       "revId": "1188360f8a328805786489ba8b527cb8b462986b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8aa2c4af_566c1bf5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T18:56:08Z",
+      "side": 1,
+      "message": "Yes, maybe I overcomplicate it. We can add the enum later, if needed.",
+      "parentUuid": "486b643e_3393df60",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 24
+      },
+      "revId": "1188360f8a328805786489ba8b527cb8b462986b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

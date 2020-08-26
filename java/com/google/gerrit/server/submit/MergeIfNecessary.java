@@ -30,7 +30,7 @@ public class MergeIfNecessary extends SubmitStrategy {
     List<SubmitStrategyOp> ops = new ArrayList<>(sorted.size());
 
     if (args.mergeTip.getInitialTip() == null
-        || !args.submoduleOp.hasSubscription(args.destBranch)) {
+        || !args.subscriptionGraph.hasSubscription(args.destBranch)) {
       CodeReviewCommit firstFastForward =
           args.mergeUtil.getFirstFastForward(args.mergeTip.getInitialTip(), args.rw, sorted);
       if (firstFastForward != null && !firstFastForward.equals(args.mergeTip.getInitialTip())) {

@@ -56,6 +56,7 @@ public class SubmitStrategyFactory {
       SubmissionId submissionId,
       SubmitInput submitInput,
       SubmoduleOp submoduleOp,
+      SubscriptionGraph subscriptionGraph,
       boolean dryrun) {
     SubmitStrategy.Arguments args =
         argsFactory.create(
@@ -71,6 +72,7 @@ public class SubmitStrategyFactory {
             submissionId,
             submitInput,
             submoduleOp,
+            subscriptionGraph,
             dryrun);
     switch (submitType) {
       case CHERRY_PICK:

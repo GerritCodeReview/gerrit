@@ -305,7 +305,7 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
       // merge commits.
       MergeTip mergeTip = args.mergeTip;
       if (args.rw.isMergedInto(mergeTip.getCurrentTip(), toMerge)
-          && !args.submoduleOp.hasSubscription(args.destBranch)) {
+          && !args.subscriptionGraph.hasSubscription(args.destBranch)) {
         mergeTip.moveTipTo(toMerge, toMerge);
       } else {
         PersonIdent caller =

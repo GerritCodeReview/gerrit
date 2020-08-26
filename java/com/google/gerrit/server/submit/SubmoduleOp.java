@@ -122,6 +122,12 @@ public class SubmoduleOp {
     this.submoduleCommits = new SubmoduleCommits(orm, myIdent, cfg);
   }
 
+  // TODO(ifrade): subscription graph should be instantiated somewhere else and passed to
+  // SubmoduleOp
+  SubscriptionGraph getSubscriptionGraph() {
+    return subscriptionGraph;
+  }
+
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
   public boolean hasSuperproject(BranchNameKey branch) {
     return subscriptionGraph.hasSuperproject(branch);
@@ -206,10 +212,6 @@ public class SubmoduleOp {
     branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
     branches.addAll(subscriptionGraph.getUpdatedBranches());
     return ImmutableSet.copyOf(branches);
-  }
-
-  boolean hasSubscription(BranchNameKey branch) {
-    return subscriptionGraph.hasSubscription(branch);
   }
 
   void addBranchTip(BranchNameKey branch, CodeReviewCommit tip) {

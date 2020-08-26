@@ -70,6 +70,30 @@
       "revId": "b0fba26b21c503fe50ce5d56cbf7c8fd2a18e3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0708df4_faca846b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-26T09:01:20Z",
+      "side": 1,
+      "message": "yeah both options are fine for me. I guess the on-XX patter for these usually points to XX being an event(on-click,on-tap etc).",
+      "parentUuid": "070dcfd7_a26d3966",
+      "range": {
+        "startLine": 238,
+        "startChar": 12,
+        "endLine": 238,
+        "endChar": 32
+      },
+      "revId": "b0fba26b21c503fe50ce5d56cbf7c8fd2a18e3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

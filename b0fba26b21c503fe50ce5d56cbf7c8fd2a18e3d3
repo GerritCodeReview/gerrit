@@ -22,6 +22,30 @@
       "revId": "b0fba26b21c503fe50ce5d56cbf7c8fd2a18e3d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e5b400_66af9757",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-26T08:54:15Z",
+      "side": 1,
+      "message": "its for the trigger text, i thought full name might be too long. maybe I should just do `show-copy-for-trigger-text` instead ? sounds better ?",
+      "parentUuid": "7b2e323b_14405acd",
+      "range": {
+        "startLine": 238,
+        "startChar": 12,
+        "endLine": 238,
+        "endChar": 32
+      },
+      "revId": "b0fba26b21c503fe50ce5d56cbf7c8fd2a18e3d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

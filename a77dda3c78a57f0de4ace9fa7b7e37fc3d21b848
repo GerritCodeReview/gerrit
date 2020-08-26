@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5b266d31_02bdf742",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:02:24Z",
+      "side": 1,
+      "message": "Please add comment why it can\u0027t be null",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 7
+      },
+      "revId": "a77dda3c78a57f0de4ace9fa7b7e37fc3d21b848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f97bcb0_04c1327a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-element.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:02:24Z",
+      "side": 1,
+      "message": "Either add why _builder can\u0027t be null it can\u0027t be null or add a check for null.\nThe same in showContext.",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 18
+      },
+      "revId": "a77dda3c78a57f0de4ace9fa7b7e37fc3d21b848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6051454_93ef93c2",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:02:24Z",
+      "side": 1,
+      "message": "Typescript style guide recommends to use Number(...) for string instead of parseInt:\nCode must use Number() to parse numeric values, and must check its return for NaN values explicitly, unless failing to parse is impossible from context.\nCode must also not use parseInt or parseFloat to parse numbers, except for non-base-10 strings.\n\nI don\u0027t comment about it in the old code, but because this is a new code - let\u0027s use a recommended approach",
+      "range": {
+        "startLine": 51,
+        "startChar": 21,
+        "endLine": 51,
+        "endChar": 29
+      },
+      "revId": "a77dda3c78a57f0de4ace9fa7b7e37fc3d21b848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21e6e46d_77a910f0",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-param/gr-endpoint-param.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-26T08:02:24Z",
+      "side": 1,
+      "message": "Typescript style guide recommends to use unknown instead of any",
+      "range": {
+        "startLine": 40,
+        "startChar": 10,
+        "endLine": 40,
+        "endChar": 13
+      },
+      "revId": "a77dda3c78a57f0de4ace9fa7b7e37fc3d21b848",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

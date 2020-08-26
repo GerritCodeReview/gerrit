@@ -44,14 +44,17 @@ export const htmlTemplate = html`
       /* We want the :hover highlight to extend to the border of the dialog. */
       padding: var(--spacing-m) 0;
     }
-    .actions {
+    .stickyBottom {
       background-color: var(--dialog-background-color);
+      box-shadow: 0px 0px 8px 0px rgba(60, 64, 67, 0.15);
       bottom: 0;
-      display: flex;
-      justify-content: space-between;
       position: sticky;
       /* @see Issue 8602 */
       z-index: 1;
+    }
+    .actions {
+      display: flex;
+      justify-content: space-between;
     }
     .actions .right gr-button {
       margin-left: var(--spacing-l);
@@ -304,173 +307,6 @@ export const htmlTemplate = html`
       <div id="pluginMessage">[[_pluginMessage]]</div>
     </section>
     <section
-      hidden$="[[!_showAttentionSummary(serverConfig, _attentionModified)]]"
-      class="attention"
-    >
-      <div class="attentionSummary">
-        <div>
-          <iron-icon
-            class="attention-icon"
-            icon="gr-icons:attention"
-          ></iron-icon>
-          <template
-            is="dom-if"
-            if="[[_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
-          >
-            <span>Do not add anyone to the attention set.</span>
-          </template>
-          <template
-            is="dom-if"
-            if="[[!_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
-          >
-            <span
-              >Bring to attention of [[_computeNewAttentionNames(serverConfig,
-              _currentAttentionSet, _newAttentionSet)]].</span
-            >
-          </template>
-          <gr-button
-            class="edit-attention-button"
-            on-click="_handleAttentionModify"
-            link=""
-            position-below=""
-            data-label="Edit"
-            data-action-type="change"
-            data-action-key="edit"
-            title="Edit attention set changes"
-            role="button"
-            tabindex="0"
-          >
-            <iron-icon icon="gr-icons:edit"></iron-icon>
-            Modify
-          </gr-button>
-        </div>
-        <div>
-          <a
-            href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
-            target="_blank"
-          >
-            <iron-icon icon="gr-icons:bug" title="report a problem"></iron-icon>
-          </a>
-          <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
-            target="_blank"
-          >
-            <iron-icon
-              icon="gr-icons:help-outline"
-              title="read documentation"
-            ></iron-icon>
-          </a>
-        </div>
-      </div>
-    </section>
-    <section
-      hidden$="[[!_showAttentionDetails(serverConfig, _attentionModified)]]"
-      class="attention-detail"
-    >
-      <div class="attentionDetailsTitle">
-        <div>
-          <span>Change attention set to:</span>
-        </div>
-        <div></div>
-        <div>
-          <a
-            href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
-            target="_blank"
-          >
-            <iron-icon icon="gr-icons:bug" title="report a problem"></iron-icon>
-          </a>
-          <a
-            href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
-            target="_blank"
-          >
-            <iron-icon
-              icon="gr-icons:info"
-              title="read documentation"
-            ></iron-icon>
-          </a>
-        </div>
-      </div>
-      <div class="peopleList">
-        <div class="peopleListLabel">Owner</div>
-        <div>
-          <gr-account-label
-            account="[[_owner]]"
-            force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-            selected$="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
-            deselected$="[[!_computeHasNewAttention(_owner, _newAttentionSet)]]"
-            hide-hovercard=""
-            on-click="_handleAttentionClick"
-          >
-          </gr-account-label>
-        </div>
-      </div>
-      <template is="dom-if" if="[[_uploader]]">
-        <div class="peopleList">
-          <div class="peopleListLabel">Uploader</div>
-          <div>
-            <gr-account-label
-              account="[[_uploader]]"
-              force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-              selected$="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-              deselected$="[[!_computeHasNewAttention(_uploader, _newAttentionSet)]]"
-              hide-hovercard=""
-              on-click="_handleAttentionClick"
-            >
-            </gr-account-label>
-          </div>
-        </div>
-      </template>
-      <div class="peopleList">
-        <div class="peopleListLabel">Reviewers</div>
-        <div>
-          <template
-            is="dom-repeat"
-            items="[[_removeServiceUsers(_reviewers)]]"
-            as="account"
-          >
-            <gr-account-label
-              account="[[account]]"
-              force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-              selected$="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-              deselected$="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
-              hide-hovercard=""
-              on-click="_handleAttentionClick"
-            >
-            </gr-account-label>
-          </template>
-        </div>
-      </div>
-      <template is="dom-if" if="[[_computeShowAttentionCcs(_ccs)]]">
-        <div class="peopleList">
-          <div class="peopleListLabel">CC</div>
-          <div>
-            <template
-              is="dom-repeat"
-              items="[[_removeServiceUsers(_ccs)]]"
-              as="account"
-            >
-              <gr-account-label
-                account="[[account]]"
-                force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                selected$="[[_computeHasNewAttention(account, _newAttentionSet)]]"
-                deselected$="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
-                hide-hovercard=""
-                on-click="_handleAttentionClick"
-              >
-              </gr-account-label>
-            </template>
-          </div>
-        </div>
-      </template>
-      <div class="attentionDetailsFooter">
-        <div></div>
-        <div>
-          <span class="selectUsers">(click chips to add and remove users)</span>
-        </div>
-        <div></div>
-      </div>
-    </section>
-    <section
       class="draftsContainer"
       hidden$="[[_computeHideDraftList(draftCommentThreads)]]"
     >
@@ -502,56 +338,225 @@ export const htmlTemplate = html`
         Saving comments...
       </span>
     </section>
-    <section class="actions">
-      <div class="left">
-        <span
-          id="checkingStatusLabel"
-          hidden$="[[!_isState(knownLatestState, 'checking')]]"
-        >
-          Checking whether patch [[patchNum]] is latest...
-        </span>
-        <span
-          id="notLatestLabel"
-          hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
-        >
-          [[_computePatchSetWarning(patchNum, _labelsChanged)]]
-          <gr-button link="" on-click="_reload">Reload</gr-button>
-        </span>
-      </div>
-      <div class="right">
-        <gr-button
-          link=""
-          id="cancelButton"
-          class="action cancel"
-          on-click="_cancelTapHandler"
-          >Cancel</gr-button
-        >
-        <template is="dom-if" if="[[canBeStarted]]">
-          <!-- Use 'Send' here as the change may only about reviewers / ccs
-              and when this button is visible, the next button will always
-              be 'Start review' -->
+    <div class="stickyBottom">
+      <section
+        hidden$="[[!_showAttentionSummary(serverConfig, _attentionModified)]]"
+        class="attention"
+      >
+        <div class="attentionSummary">
+          <div>
+            <iron-icon
+              class="attention-icon"
+              icon="gr-icons:attention"
+            ></iron-icon>
+            <template
+              is="dom-if"
+              if="[[_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+            >
+              <span>Do not add anyone to the attention set.</span>
+            </template>
+            <template
+              is="dom-if"
+              if="[[!_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+            >
+              <span
+                >Bring to attention of [[_computeNewAttentionNames(serverConfig,
+                _currentAttentionSet, _newAttentionSet)]].</span
+              >
+            </template>
+            <gr-button
+              class="edit-attention-button"
+              on-click="_handleAttentionModify"
+              link=""
+              position-below=""
+              data-label="Edit"
+              data-action-type="change"
+              data-action-key="edit"
+              title="Edit attention set changes"
+              role="button"
+              tabindex="0"
+            >
+              <iron-icon icon="gr-icons:edit"></iron-icon>
+              Modify
+            </gr-button>
+          </div>
+          <div>
+            <a
+              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
+              target="_blank"
+            >
+              <iron-icon icon="gr-icons:bug" title="report a problem"></iron-icon>
+            </a>
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              target="_blank"
+            >
+              <iron-icon
+                icon="gr-icons:help-outline"
+                title="read documentation"
+              ></iron-icon>
+            </a>
+          </div>
+        </div>
+      </section>
+      <section
+        hidden$="[[!_showAttentionDetails(serverConfig, _attentionModified)]]"
+        class="attention-detail"
+      >
+        <div class="attentionDetailsTitle">
+          <div>
+            <span>Change attention set to:</span>
+          </div>
+          <div></div>
+          <div>
+            <a
+              href="https://bugs.chromium.org/p/gerrit/issues/entry?template=Attention+Set"
+              target="_blank"
+            >
+              <iron-icon icon="gr-icons:bug" title="report a problem"></iron-icon>
+            </a>
+            <a
+              href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+              target="_blank"
+            >
+              <iron-icon
+                icon="gr-icons:info"
+                title="read documentation"
+              ></iron-icon>
+            </a>
+          </div>
+        </div>
+        <div class="peopleList">
+          <div class="peopleListLabel">Owner</div>
+          <div>
+            <gr-account-label
+              account="[[_owner]]"
+              force-attention="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
+              selected$="[[_computeHasNewAttention(_owner, _newAttentionSet)]]"
+              deselected$="[[!_computeHasNewAttention(_owner, _newAttentionSet)]]"
+              hide-hovercard=""
+              on-click="_handleAttentionClick"
+            >
+            </gr-account-label>
+          </div>
+        </div>
+        <template is="dom-if" if="[[_uploader]]">
+          <div class="peopleList">
+            <div class="peopleListLabel">Uploader</div>
+            <div>
+              <gr-account-label
+                account="[[_uploader]]"
+                force-attention="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                selected$="[[_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                deselected$="[[!_computeHasNewAttention(_uploader, _newAttentionSet)]]"
+                hide-hovercard=""
+                on-click="_handleAttentionClick"
+              >
+              </gr-account-label>
+            </div>
+          </div>
+        </template>
+        <div class="peopleList">
+          <div class="peopleListLabel">Reviewers</div>
+          <div>
+            <template
+              is="dom-repeat"
+              items="[[_removeServiceUsers(_reviewers)]]"
+              as="account"
+            >
+              <gr-account-label
+                account="[[account]]"
+                force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                selected$="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                deselected$="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
+                hide-hovercard=""
+                on-click="_handleAttentionClick"
+              >
+              </gr-account-label>
+            </template>
+          </div>
+        </div>
+        <template is="dom-if" if="[[_computeShowAttentionCcs(_ccs)]]">
+          <div class="peopleList">
+            <div class="peopleListLabel">CC</div>
+            <div>
+              <template
+                is="dom-repeat"
+                items="[[_removeServiceUsers(_ccs)]]"
+                as="account"
+              >
+                <gr-account-label
+                  account="[[account]]"
+                  force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                  selected$="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                  deselected$="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
+                  hide-hovercard=""
+                  on-click="_handleAttentionClick"
+                >
+                </gr-account-label>
+              </template>
+            </div>
+          </div>
+        </template>
+        <div class="attentionDetailsFooter">
+          <div></div>
+          <div>
+            <span class="selectUsers">(click chips to add and remove users)</span>
+          </div>
+          <div></div>
+        </div>
+      </section>
+      <section class="actions">
+        <div class="left">
+          <span
+            id="checkingStatusLabel"
+            hidden$="[[!_isState(knownLatestState, 'checking')]]"
+          >
+            Checking whether patch [[patchNum]] is latest...
+          </span>
+          <span
+            id="notLatestLabel"
+            hidden$="[[!_isState(knownLatestState, 'not-latest')]]"
+          >
+            [[_computePatchSetWarning(patchNum, _labelsChanged)]]
+            <gr-button link="" on-click="_reload">Reload</gr-button>
+          </span>
+        </div>
+        <div class="right">
           <gr-button
             link=""
-            disabled="[[_isState(knownLatestState, 'not-latest')]]"
-            class="action save"
-            has-tooltip=""
-            title="[[_saveTooltip]]"
-            on-click="_saveClickHandler"
-            >Save</gr-button
+            id="cancelButton"
+            class="action cancel"
+            on-click="_cancelTapHandler"
+            >Cancel</gr-button
           >
-        </template>
-        <gr-button
-          id="sendButton"
-          primary=""
-          disabled="[[_sendDisabled]]"
-          class="action send"
-          has-tooltip=""
-          title$="[[_computeSendButtonTooltip(canBeStarted)]]"
-          on-click="_sendTapHandler"
-          >[[_sendButtonLabel]]</gr-button
-        >
-      </div>
-    </section>
+          <template is="dom-if" if="[[canBeStarted]]">
+            <!-- Use 'Send' here as the change may only about reviewers / ccs
+                and when this button is visible, the next button will always
+                be 'Start review' -->
+            <gr-button
+              link=""
+              disabled="[[_isState(knownLatestState, 'not-latest')]]"
+              class="action save"
+              has-tooltip=""
+              title="[[_saveTooltip]]"
+              on-click="_saveClickHandler"
+              >Save</gr-button
+            >
+          </template>
+          <gr-button
+            id="sendButton"
+            primary=""
+            disabled="[[_sendDisabled]]"
+            class="action send"
+            has-tooltip=""
+            title$="[[_computeSendButtonTooltip(canBeStarted)]]"
+            on-click="_sendTapHandler"
+            >[[_sendButtonLabel]]</gr-button
+          >
+        </div>
+      </section>
+    </div>
   </div>
   <gr-js-api-interface id="jsAPI"></gr-js-api-interface>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

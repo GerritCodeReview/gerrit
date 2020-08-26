@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "02a9645f_08f55401",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-26T13:34:02Z",
+      "side": 1,
+      "message": "`show-copy-button` or `show-copy-icon` works just fine for me, will update",
+      "parentUuid": "6ac27087_124ee4e9",
+      "range": {
+        "startLine": 238,
+        "startChar": 12,
+        "endLine": 238,
+        "endChar": 38
+      },
+      "revId": "1188360f8a328805786489ba8b527cb8b462986b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ed5f11f1_cc69f98e",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 2
@@ -36,6 +60,30 @@
       "writtenOn": "2020-08-26T09:41:54Z",
       "side": 1,
       "message": "Can we have enum what to copy (text or value)? Sometimes text can have additional information, that shouldn\u0027t be copied.",
+      "range": {
+        "startLine": 102,
+        "startChar": 2,
+        "endLine": 102,
+        "endChar": 24
+      },
+      "revId": "1188360f8a328805786489ba8b527cb8b462986b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "486b643e_3393df60",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-26T13:34:02Z",
+      "side": 1,
+      "message": "i actually thought about this, but then i realize that the copy button is more linked with the visible text instead of the hidden value (if exists), and copy with hidden value confused people a lot, i remember seeing complains related that before. I think people might be more confused if its showing as AAAA and after copy, it becomes BBBB. thoughts ?",
+      "parentUuid": "ed5f11f1_cc69f98e",
       "range": {
         "startLine": 102,
         "startChar": 2,

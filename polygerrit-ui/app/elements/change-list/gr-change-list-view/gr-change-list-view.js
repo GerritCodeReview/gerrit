@@ -28,6 +28,11 @@ import {htmlTemplate} from './gr-change-list-view_html.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
+const LookupQueryPatterns = {
+  CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
+  CHANGE_NUM: /^\s*[1-9][0-9]*\s*$/g,
+};
+
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 
 const REPO_QUERY_PATTERN =
@@ -178,10 +183,15 @@ class GrChangeListView extends GestureEventListeners(
         .then(changes => {
           changes = changes || [];
           if (this._query && changes.length === 1) {
-            // "Back"/"Forward" buttons work correctly only with
-            // opt_redirect options
-            GerritNav.navigateToChange(changes[0], null, null, null, true);
-            return;
+            for (const query in LookupQueryPatterns) {
+              if (LookupQueryPatterns.hasOwnProperty(query) &&
+              this._query.match(LookupQueryPatterns[query])) {
+                // "Back"/"Forward" buttons work correctly only with
+                // opt_redirect options
+                GerritNav.navigateToChange(changes[0], null, null, null, true);
+                return;
+              }
+            }
           }
           this._changes = changes;
           this._loading = false;

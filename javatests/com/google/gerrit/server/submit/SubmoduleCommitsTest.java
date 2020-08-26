@@ -88,8 +88,7 @@ public class SubmoduleCommitsTest {
     BranchNameKey superBranch = BranchNameKey.create(superProject, MASTER);
     BranchNameKey subBranch = BranchNameKey.create(subProject, MASTER);
     SubmoduleSubscription ss = new SubmoduleSubscription(superBranch, subBranch, "dir-x");
-    SubmoduleCommits helper =
-        new SubmoduleCommits(mergeOpRepoManager, ident, new Config(), new BranchTips());
+    SubmoduleCommits helper = new SubmoduleCommits(mergeOpRepoManager, ident, new Config());
     Optional<CodeReviewCommit> newGitLinksCommit =
         helper.composeGitlinksCommit(
             BranchNameKey.create(superProject, MASTER), ImmutableList.of(ss));
@@ -118,8 +117,7 @@ public class SubmoduleCommitsTest {
     BranchNameKey superBranch = BranchNameKey.create(superProject, MASTER);
     BranchNameKey subBranch = BranchNameKey.create(subProject, MASTER);
     SubmoduleSubscription ss = new SubmoduleSubscription(superBranch, subBranch, "dir-x");
-    SubmoduleCommits helper =
-        new SubmoduleCommits(mergeOpRepoManager, ident, new Config(), new BranchTips());
+    SubmoduleCommits helper = new SubmoduleCommits(mergeOpRepoManager, ident, new Config());
     CodeReviewCommit amendedCommit =
         helper.amendGitlinksCommit(
             BranchNameKey.create(superProject, MASTER), superprojectTip, ImmutableList.of(ss));

@@ -54,6 +54,14 @@ class GrAccountChip extends GestureEventListeners(
        * related features like adding the user as a reviewer.
        */
       change: Object,
+      /**
+       * Should this user be considered to be in the attention set, regardless
+       * of the current state of the change object?
+       */
+      forceAttention: {
+        type: Boolean,
+        value: false,
+      },
       voteableText: String,
       disabled: {
         type: Boolean,

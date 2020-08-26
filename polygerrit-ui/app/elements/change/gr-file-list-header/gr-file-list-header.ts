@@ -14,30 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector.js';
-import '../../diff/gr-patch-range-select/gr-patch-range-select.js';
-import '../../edit/gr-edit-controls/gr-edit-controls.js';
-import '../../shared/gr-editable-label/gr-editable-label.js';
-import '../../shared/gr-linked-chip/gr-linked-chip.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../gr-commit-info/gr-commit-info.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-file-list-header_html.js';
-import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {GrFileListConstants} from '../gr-file-list-constants.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/shared-styles';
+import '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
+import '../../diff/gr-patch-range-select/gr-patch-range-select';
+import '../../edit/gr-edit-controls/gr-edit-controls';
+import '../../shared/gr-editable-label/gr-editable-label';
+import '../../shared/gr-linked-chip/gr-linked-chip';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icons/gr-icons';
+import '../gr-commit-info/gr-commit-info';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-file-list-header_html';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {GrFileListConstants} from '../gr-file-list-constants';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {
   computeLatestPatchNum,
   getRevisionByPatchNum,
   patchNumEquals,
-} from '../../../utils/patch-set-util.js';
+} from '../../../utils/patch-set-util';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -47,12 +47,15 @@ const MERGED_STATUS = 'MERGED';
  * @extends PolymerElement
  */
 class GrFileListHeader extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(
-            PolymerElement))) {
-  static get template() { return htmlTemplate; }
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-file-list-header'; }
+  static get is() {
+    return 'gr-file-list-header';
+  }
   /**
    * @event expand-diffs
    */
@@ -120,9 +123,7 @@ class GrFileListHeader extends KeyboardShortcutMixin(
   }
 
   static get observers() {
-    return [
-      '_computePatchSetDescription(change, patchNum)',
-    ];
+    return ['_computePatchSetDescription(change, patchNum)'];
   }
 
   setDiffViewMode(mode) {
@@ -131,16 +132,22 @@ class GrFileListHeader extends KeyboardShortcutMixin(
 
   _expandAllDiffs() {
     this._expanded = true;
-    this.dispatchEvent(new CustomEvent('expand-diffs', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('expand-diffs', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _collapseAllDiffs() {
     this._expanded = false;
-    this.dispatchEvent(new CustomEvent('collapse-diffs', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('collapse-diffs', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _computeExpandedClass(filesExpanded) {
@@ -148,8 +155,10 @@ class GrFileListHeader extends KeyboardShortcutMixin(
     if (filesExpanded === GrFileListConstants.FilesExpandedState.ALL) {
       classes.push('expanded');
     }
-    if (filesExpanded === GrFileListConstants.FilesExpandedState.SOME ||
-          filesExpanded === GrFileListConstants.FilesExpandedState.ALL) {
+    if (
+      filesExpanded === GrFileListConstants.FilesExpandedState.SOME ||
+      filesExpanded === GrFileListConstants.FilesExpandedState.ALL
+    ) {
       classes.push('openFile');
     }
     return classes.join(' ');
@@ -165,7 +174,7 @@ class GrFileListHeader extends KeyboardShortcutMixin(
       return undefined;
     }
 
-    return !(loggedIn && (account._account_id === change.owner._account_id));
+    return !(loggedIn && account._account_id === change.owner._account_id);
   }
 
   _computePatchSetDescription(change, patchNum) {
@@ -175,8 +184,10 @@ class GrFileListHeader extends KeyboardShortcutMixin(
     }
 
     const rev = getRevisionByPatchNum(change.revisions, patchNum);
-    this._patchsetDescription = (rev && rev.description) ?
-      rev.description.substring(0, PATCH_DESC_MAX_LENGTH) : '';
+    this._patchsetDescription =
+      rev && rev.description
+        ? rev.description.substring(0, PATCH_DESC_MAX_LENGTH)
+        : '';
   }
 
   _handleDescriptionRemoved(e) {
@@ -184,14 +195,13 @@ class GrFileListHeader extends KeyboardShortcutMixin(
   }
 
   /**
-   * @param {!Object} revisions The revisions object keyed by revision hashes
-   * @param {?Object} patchSet A revision already fetched from {revisions}
-   * @return {string|undefined} the SHA hash corresponding to the revision.
+   * @param revisions The revisions object keyed by revision hashes
+   * @param patchSet A revision already fetched from {revisions}
+   * @return the SHA hash corresponding to the revision.
    */
   _getPatchsetHash(revisions, patchSet) {
     for (const rev in revisions) {
-      if (revisions.hasOwnProperty(rev) &&
-          revisions[rev] === patchSet) {
+      if (revisions.hasOwnProperty(rev) && revisions[rev] === patchSet) {
         return rev;
       }
     }
@@ -205,28 +215,34 @@ class GrFileListHeader extends KeyboardShortcutMixin(
   /**
    * Update the patchset description with the rest API.
    *
-   * @param {string} desc
-   * @param {?(Event|Node)} e
-   * @return {!Promise}
+   * @param desc
+   * @param e
+   * @return
    */
   _updateDescription(desc, e) {
     const target = dom(e).rootTarget;
-    if (target) { target.disabled = true; }
-    const rev = getRevisionByPatchNum(this.change.revisions,
-        this.patchNum);
+    if (target) {
+      target.disabled = true;
+    }
+    const rev = getRevisionByPatchNum(this.change.revisions, this.patchNum);
     const sha = this._getPatchsetHash(this.change.revisions, rev);
-    return this.$.restAPI.setDescription(this.changeNum, this.patchNum, desc)
-        .then(res => {
-          if (res.ok) {
-            if (target) { target.disabled = false; }
-            this.set(['change', 'revisions', sha, 'description'], desc);
-            this._patchsetDescription = desc;
+    return this.$.restAPI
+      .setDescription(this.changeNum, this.patchNum, desc)
+      .then(res => {
+        if (res.ok) {
+          if (target) {
+            target.disabled = false;
           }
-        })
-        .catch(err => {
-          if (target) { target.disabled = false; }
-          return;
-        });
+          this.set(['change', 'revisions', sha, 'description'], desc);
+          this._patchsetDescription = desc;
+        }
+      })
+      .catch(err => {
+        if (target) {
+          target.disabled = false;
+        }
+        return;
+      });
   }
 
   _computePrefsButtonHidden(prefs, diffPrefsDisabled) {
@@ -239,30 +255,41 @@ class GrFileListHeader extends KeyboardShortcutMixin(
 
   _handlePatchChange(e) {
     const {basePatchNum, patchNum} = e.detail;
-    if (patchNumEquals(basePatchNum, this.basePatchNum) &&
-        patchNumEquals(patchNum, this.patchNum)) { return; }
+    if (
+      patchNumEquals(basePatchNum, this.basePatchNum) &&
+      patchNumEquals(patchNum, this.patchNum)
+    ) {
+      return;
+    }
     GerritNav.navigateToChange(this.change, patchNum, basePatchNum);
   }
 
   _handlePrefsTap(e) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('open-diff-prefs', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('open-diff-prefs', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _handleIncludedInTap(e) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('open-included-in-dialog', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('open-included-in-dialog', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _handleDownloadTap(e) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
-        new CustomEvent('open-download-dialog', {bubbles: false}));
+      new CustomEvent('open-download-dialog', {bubbles: false})
+    );
   }
 
   _computeEditModeClass(editMode) {
@@ -285,13 +312,16 @@ class GrFileListHeader extends KeyboardShortcutMixin(
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(
-        new CustomEvent('open-upload-help-dialog', {bubbles: false}));
+      new CustomEvent('open-upload-help-dialog', {bubbles: false})
+    );
   }
 
   _computeUploadHelpContainerClass(change, account) {
     const changeIsMerged = change && change.status === MERGED_STATUS;
-    const ownerId = change && change.owner && change.owner._account_id ?
-      change.owner._account_id : null;
+    const ownerId =
+      change && change.owner && change.owner._account_id
+        ? change.owner._account_id
+        : null;
     const userId = account && account._account_id;
     const userIsOwner = ownerId && userId && ownerId === userId;
     const hideContainer = !userIsOwner || changeIsMerged;

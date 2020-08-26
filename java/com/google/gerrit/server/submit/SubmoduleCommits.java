@@ -52,9 +52,9 @@ class SubmoduleCommits {
   private final MergeOpRepoManager orm;
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
-  private final BranchTips branchTips;
+  private final BranchTips branchTips = new BranchTips();
 
-  SubmoduleCommits(MergeOpRepoManager orm, PersonIdent myIdent, Config cfg, BranchTips branchTips) {
+  SubmoduleCommits(MergeOpRepoManager orm, PersonIdent myIdent, Config cfg) {
     this.orm = orm;
     this.myIdent = myIdent;
     this.verboseSuperProject =
@@ -62,7 +62,15 @@ class SubmoduleCommits {
     this.maxCombinedCommitMessageSize =
         cfg.getLong("submodule", "maxCombinedCommitMessageSize", 256 << 10);
     this.maxCommitMessages = cfg.getLong("submodule", "maxCommitMessages", 1000);
-    this.branchTips = branchTips;
+  }
+
+  /**
+   * Use the commit as tip of the branch
+   *
+   * <p>This keeps track of the tip of the branch as the submission progresses.
+   */
+  void addBranchTip(BranchNameKey branch, CodeReviewCommit tip) {
+    branchTips.put(branch, tip);
   }
 
   /**

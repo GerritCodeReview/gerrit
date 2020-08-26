@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "ab676fee_83062020",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-08-26T09:42:04Z",
+      "side": 1,
+      "message": "We talked a bit with the Google TLs about this; in general we like the idea, but we think there should be a dedicated URL for this: we want to have the possibility to change behavior for /q/ without this breaking existing references in commit histories.  In particular, if we added better indexing of commit messages, we might start finding the other change, which would confuse anyone wanting to lookup the review history of just that change.",
+      "parentUuid": "5ee9b894_c7d701e6",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 92
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a88ecd6d_175e641e",
         "filename": "java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1

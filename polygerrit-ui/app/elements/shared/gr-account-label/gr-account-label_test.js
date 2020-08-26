@@ -23,6 +23,10 @@ const basicFixture = fixtureFromElement('gr-account-label');
 suite('gr-account-label tests', () => {
   let element;
 
+  function createAccount(name, id) {
+    return {name, _account_id: id};
+  }
+
   setup(() => {
     stub('gr-rest-api-interface', {
       getConfig() { return Promise.resolve({}); },
@@ -74,6 +78,34 @@ suite('gr-account-label tests', () => {
       const account = {};
       assert.deepEqual(element._computeName(account, config),
           'TestAnon');
+    });
+  });
+
+  suite('attention set', () => {
+    setup(() => {
+      element.highlightAttention = true;
+      element._config = {
+        change: {enable_attention_set: true},
+        user: {anonymous_coward_name: 'Anonymous Coward'},
+      };
+      element._selfAccount = createAccount('kermit', 31);
+      element.account = createAccount('ernie', 42);
+      element.change = {attention_set: {42: {}}};
+      flushAsynchronousOperations();
+    });
+
+    test('show attention button', () => {
+      assert.ok(element.shadowRoot.querySelector('#attentionButton'));
+    });
+
+    test('tap attention button', () => {
+      const apiStub = sinon.stub(element.$.restAPI, 'removeFromAttentionSet')
+          .callsFake(() => Promise.resolve());
+      const button = element.shadowRoot.querySelector('#attentionButton');
+      assert.ok(button);
+      MockInteractions.tap(button);
+      assert.isTrue(apiStub.calledOnce);
+      assert.equal(apiStub.lastCall.args[1], 42);
     });
   });
 });

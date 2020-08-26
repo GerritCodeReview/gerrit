@@ -211,7 +211,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _computeMobileText(
     patchNum: PatchSetNum,
     changeComments: ChangeComments,
-    revisions: RevisionInfo[]
+    revisions: {[revisionId: string]: RevisionInfo}
   ) {
     return (
       `${patchNum}` +
@@ -274,7 +274,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   _createDropdownEntry(
     patchNum: PatchSetNum,
     prefix: string,
-    sortedRevisions: RevisionInfo[],
+    sortedRevisions: {[revisionId: string]: RevisionInfo},
     changeComments: ChangeComments,
     sha: string
   ) {
@@ -400,7 +400,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   }
 
   _computePatchSetDescription(
-    revisions: RevisionInfo[],
+    revisions: {[revisionId: string]: RevisionInfo},
     patchNum: PatchSetNum,
     addFrontSpace?: boolean
   ) {
@@ -412,7 +412,7 @@ export class GrPatchRangeSelect extends GestureEventListeners(
   }
 
   _computePatchSetDate(
-    revisions: RevisionInfo[],
+    revisions: {[revisionId: string]: RevisionInfo},
     patchNum: PatchSetNum
   ): Timestamp | undefined {
     const rev = getRevisionByPatchNum(revisions, patchNum);

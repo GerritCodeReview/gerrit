@@ -256,6 +256,18 @@ export interface AccountDetailInfo extends AccountInfo {
 }
 
 /**
+ * The AccountExternalIdInfo entity contains information for an external id of
+ * an account.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-external-id-info
+ */
+export interface AccountExternalIdInfo {
+  identity: string;
+  email?: string;
+  trusted?: boolean;
+  can_delete?: boolean;
+}
+
+/**
  * The GroupAuditEventInfo entity contains information about an auditevent of a group.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
  */

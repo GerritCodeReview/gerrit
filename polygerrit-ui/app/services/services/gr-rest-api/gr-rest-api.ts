@@ -17,6 +17,7 @@
 
 import {
   AccountDetailInfo,
+  AccountExternalIdInfo,
   AccountInfo,
   NumericChangeId,
   ServerInfo,
@@ -120,6 +121,8 @@ export interface RestApiService {
   getAccountCapabilities(
     params?: string[]
   ): Promise<AccountCapabilityInfo | undefined>;
+  getExternalIds(): Promise<AccountExternalIdInfo[] | undefined>;
+  deleteAccountIdentity(id: string[]): Promise<unknown>;
   getRepos(
     filter: string,
     reposPerPage: number,

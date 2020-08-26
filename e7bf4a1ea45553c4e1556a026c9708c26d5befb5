@@ -247,6 +247,24 @@
       "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48850cb3_f3a84f60",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-26T14:29:47Z",
+      "side": 1,
+      "message": "This lets admins decide if they want to send these emails or not. On googlesource.com we consider patch set uploaded emails to be spammy because they don\u0027t mark an actionable point in the course of a code review (such as adding you as reviewer or responding to comments). Per-user watches will still be respected, so I think this is a good middle ground for now.",
+      "parentUuid": "36d73890_1e30619c",
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

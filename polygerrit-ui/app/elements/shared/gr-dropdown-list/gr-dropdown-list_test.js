@@ -30,6 +30,24 @@ suite('gr-dropdown-list tests', () => {
     element = basicFixture.instantiate();
   });
 
+  test('hide copy by default', () => {
+    const copyEl = element.shadowRoot
+        .querySelector('#triggerText + gr-copy-clipboard');
+    assert.isTrue(!!copyEl);
+    assert.isTrue(copyEl.hidden);
+  });
+
+  test('show copy if enabled', done => {
+    element.showCopyOnTrigger = true;
+    flush(() => {
+      const copyEl = element.shadowRoot
+          .querySelector('#triggerText + gr-copy-clipboard');
+      assert.isTrue(!!copyEl);
+      assert.isFalse(copyEl.hidden);
+      done();
+    });
+  });
+
   test('tap on trigger opens menu', () => {
     sinon.stub(element, '_open')
         .callsFake(() => { element.$.dropdown.open(); });

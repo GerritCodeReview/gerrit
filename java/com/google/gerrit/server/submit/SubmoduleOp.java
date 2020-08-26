@@ -54,17 +54,14 @@ public class SubmoduleOp {
   /** Only used for branches without code review changes */
   public static class GitlinkOp implements RepoOnlyOp {
     private final BranchNameKey branch;
-    private final BranchTips currentBranchTips;
     private final SubmoduleCommits commitHelper;
     private final List<SubmoduleSubscription> branchTargets;
 
     GitlinkOp(
         BranchNameKey branch,
-        BranchTips branchTips,
         SubmoduleCommits commitHelper,
         List<SubmoduleSubscription> branchTargets) {
       this.branch = branch;
-      this.currentBranchTips = branchTips;
       this.commitHelper = commitHelper;
       this.branchTargets = branchTargets;
     }
@@ -75,7 +72,7 @@ public class SubmoduleOp {
       if (commit.isPresent()) {
         CodeReviewCommit c = commit.get();
         ctx.addRefUpdate(c.getParent(0), c, branch.branch());
-        currentBranchTips.put(branch, c);
+        commitHelper.addBranchTip(branch, c);
       }
     }
   }
@@ -113,8 +110,6 @@ public class SubmoduleOp {
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
 
-  private final BranchTips branchTips = new BranchTips();
-
   private final SubmoduleCommits submoduleCommits;
 
   private SubmoduleOp(
@@ -124,7 +119,7 @@ public class SubmoduleOp {
       SubscriptionGraph subscriptionGraph) {
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
-    this.submoduleCommits = new SubmoduleCommits(orm, myIdent, cfg, branchTips);
+    this.submoduleCommits = new SubmoduleCommits(orm, myIdent, cfg);
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
@@ -218,11 +213,11 @@ public class SubmoduleOp {
   }
 
   void addBranchTip(BranchNameKey branch, CodeReviewCommit tip) {
-    branchTips.put(branch, tip);
+    submoduleCommits.addBranchTip(branch, tip);
   }
 
   void addOp(BatchUpdate bu, BranchNameKey branch) {
-    bu.addRepoOnlyOp(new GitlinkOp(branch, branchTips, submoduleCommits, getSubscriptions(branch)));
+    bu.addRepoOnlyOp(new GitlinkOp(branch, submoduleCommits, getSubscriptions(branch)));
   }
 
   private List<SubmoduleSubscription> getSubscriptions(BranchNameKey branch) {

@@ -16,6 +16,24 @@
       "revId": "9d35ed15c656c031854fb1b90e50bffdbcfd2cda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17f03c81_eeb50f45",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-27T11:20:13Z",
+      "side": 1,
+      "message": "Yes, that\u0027s right. Fixed: https://gerrit-review.googlesource.com/c/gerrit/+/279779",
+      "parentUuid": "ec1c0b62_e383eab7",
+      "revId": "9d35ed15c656c031854fb1b90e50bffdbcfd2cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

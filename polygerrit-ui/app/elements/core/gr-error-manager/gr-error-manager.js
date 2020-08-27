@@ -28,6 +28,7 @@ import {htmlTemplate} from './gr-error-manager_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 import {appContext} from '../../../services/app-context.js';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -91,6 +92,16 @@ class GrErrorManager extends GestureEventListeners(
         type: String,
         value: '/login',
       },
+
+      showErrorDialog: {
+        type: Boolean,
+        value: false,
+      },
+
+      showAuthError: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -152,6 +163,8 @@ class GrErrorManager extends GestureEventListeners(
   }
 
   _handleAuthError(msg, action) {
+    this.showAuthError = true;
+    flush();
     this.$.noInteractionOverlay.open().then(() => {
       this._showAuthErrorAlert(msg, action);
     });
@@ -421,10 +434,13 @@ class GrErrorManager extends GestureEventListeners(
   }
 
   _handleDismissErrorDialog() {
+    this.showErrorDialog = false;
     this.$.errorOverlay.close();
   }
 
   _showErrorDialog(message, opt_options) {
+    this.showErrorDialog = true;
+    flush();
     this.reporting.reportErrorDialog(message);
     this.$.errorDialog.text = message;
     this.$.errorDialog.showSignInButton =

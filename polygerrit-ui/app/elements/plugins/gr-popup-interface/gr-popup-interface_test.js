@@ -21,6 +21,7 @@ import {GrPopupInterface} from './gr-popup-interface.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
+import {createIronOverlayBackdropStyleEl} from '../../../test/test-utils';
 
 class GrUserTestPopupElement extends PolymerElement {
   static get is() { return 'gr-user-test-popup'; }
@@ -39,8 +40,10 @@ suite('gr-popup-interface tests', () => {
   let container;
   let instance;
   let plugin;
+  let ironOverlayBackdropStyleEl;
 
   setup(() => {
+    ironOverlayBackdropStyleEl = createIronOverlayBackdropStyleEl();
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
     container = containerFixture.instantiate();
@@ -49,6 +52,10 @@ suite('gr-popup-interface tests', () => {
         return Promise.resolve(container);
       },
     });
+  });
+
+  teardown(() => {
+    ironOverlayBackdropStyleEl.remove();
   });
 
   suite('manual', () => {

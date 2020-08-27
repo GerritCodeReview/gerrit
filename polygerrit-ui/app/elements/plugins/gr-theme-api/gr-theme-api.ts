@@ -16,16 +16,7 @@
  */
 import './gr-custom-plugin-header';
 import {GrCustomPluginHeader} from './gr-custom-plugin-header';
-
-// TODO(TS): replace with Plugin once gr-public-js-api migrated
-interface PluginApi {
-  hook(
-    endpointName: string,
-    option: {replace?: boolean}
-  ): {
-    onAttached(callback: (el: Element) => void): void;
-  };
-}
+import {PluginApi} from '../gr-plugin-types';
 
 /**
  * Defines api for theme, can be used to set header logo and title.

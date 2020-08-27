@@ -15,19 +15,13 @@
  * limitations under the License.
  */
 
-import {GrPluginRestApi} from './gr-plugin-rest-api';
-import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
-import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
-import {HttpMethod} from '../../../constants/constants';
-
-interface PluginApi {
-  restApi(): GrPluginRestApi;
-  deprecated: PluginDeprecatedApi;
-  eventHelper(element: Node): GrEventHelper;
-}
-interface PluginDeprecatedApi {
-  popup(element: Node): GrPopupInterface;
-}
+import {
+  RevisionInfo,
+  ChangeInfo,
+  RequestPayload,
+  ActionInfo,
+} from '../../../types/common';
+import {PluginApi} from '../../plugins/gr-plugin-types';
 
 interface GrPopupInterface {
   close(): void;
@@ -37,18 +31,12 @@ interface ButtonCallBacks {
   onclick: (event: Event) => boolean;
 }
 
-interface ActionInterface {
-  method: HttpMethod;
-  __url: string;
-  __key: string;
-}
-
 export class GrPluginActionContext {
   private _popups: GrPopupInterface[] = [];
 
   constructor(
     public readonly plugin: PluginApi,
-    public readonly action: ActionInterface,
+    public readonly action: ActionInfo,
     public readonly change: ChangeInfo,
     public readonly revision: RevisionInfo
   ) {}
@@ -115,6 +103,7 @@ export class GrPluginActionContext {
   }
 
   call(payload: RequestPayload, onSuccess: (result: unknown) => void) {
+    if (!this.action.method) return;
     if (!this.action.__url) {
       console.warn(`Unable to ${this.action.method} to ${this.action.__key}!`);
       return;

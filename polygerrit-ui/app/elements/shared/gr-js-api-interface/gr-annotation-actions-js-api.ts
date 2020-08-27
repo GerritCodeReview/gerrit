@@ -19,20 +19,7 @@ import {GrDiffLine, LineNumber} from '../../diff/gr-diff/gr-diff-line';
 import {CoverageRange} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {PatchSetNum} from '../../../types/common';
-
-type HookCallback = (el: {content: Element & {hidden?: boolean}}) => void;
-
-// TODO(TS): remove once Plugin api converted to ts
-interface HookApi {
-  onAttached(callback: HookCallback): void;
-  onDetached(callback: HookCallback): void;
-}
-
-// TODO(TS): remove once Plugin api converted to ts
-interface PluginApi {
-  hook(hookName: string): HookApi;
-  on(eventName: string, callback: unknown): void;
-}
+import {PluginApi} from '../../plugins/gr-plugin-types';
 
 type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
 
@@ -147,6 +134,10 @@ export class GrAnnotationActionsInterface {
     onAttached: (checkboxEl: Element | null) => void
   ) {
     this.plugin.hook('annotation-toggler').onAttached(element => {
+      if (!element.content) {
+        console.error('plugin endpoint without content.');
+        return;
+      }
       if (!element.content.hidden) {
         console.error(
           element.content.id + ' is already enabled. Cannot re-enable.'

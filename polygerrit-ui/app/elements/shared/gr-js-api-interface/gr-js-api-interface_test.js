@@ -353,6 +353,8 @@ suite('gr-js-api-interface tests', () => {
   });
 
   test('deprecated.install', () => {
+    assert.notStrictEqual(plugin.popup, plugin.deprecated.popup);
+    assert.notStrictEqual(plugin.onAction, plugin.deprecated.onAction);
     plugin.deprecated.install();
     assert.strictEqual(plugin.popup, plugin.deprecated.popup);
     assert.strictEqual(plugin.onAction, plugin.deprecated.onAction);

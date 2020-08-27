@@ -15,7 +15,6 @@
 package com.google.gerrit.acceptance.pgm;
 
 import static com.google.common.truth.Truth.assertThat;
-import static com.google.common.truth.Truth8.assertThat;
 
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.group.GroupOperations;

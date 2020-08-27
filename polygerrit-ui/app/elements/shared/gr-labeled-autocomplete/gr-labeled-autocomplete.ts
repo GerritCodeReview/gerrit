@@ -14,68 +14,63 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-autocomplete/gr-autocomplete.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-labeled-autocomplete_html.js';
+import '../gr-autocomplete/gr-autocomplete';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-labeled-autocomplete_html';
+import {customElement, property} from '@polymer/decorators';
+import {
+  GrAutocomplete,
+  AutocompleteQuery,
+} from '../gr-autocomplete/gr-autocomplete';
 
-/** @extends PolymerElement */
-class GrLabeledAutocomplete extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrLabeledAutocomplete {
+  $: {
+    autocomplete: GrAutocomplete;
+  };
+}
+@customElement('gr-labeled-autocomplete')
+export class GrLabeledAutocomplete extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-labeled-autocomplete'; }
   /**
    * Fired when a value is chosen.
    *
    * @event commit
    */
 
-  static get properties() {
-    return {
+  @property({type: Object})
+  query: AutocompleteQuery = () => Promise.resolve([]);
 
-      /**
-       * Used just like the query property of gr-autocomplete.
-       *
-       * @type {function(string): Promise<?>}
-       */
-      query: {
-        type: Function,
-        value() {
-          return function() {
-            return Promise.resolve([]);
-          };
-        },
-      },
+  @property({type: String, notify: true})
+  text = '';
 
-      text: {
-        type: String,
-        value: '',
-        notify: true,
-      },
-      label: String,
-      placeholder: String,
-      disabled: Boolean,
+  @property({type: String})
+  label?: string;
 
-      _autocompleteThreshold: {
-        type: Number,
-        value: 0,
-        readOnly: true,
-      },
-    };
-  }
+  @property({type: String})
+  placeholder?: string;
 
-  _handleTriggerClick(e) {
+  @property({type: Boolean})
+  disabled?: boolean;
+
+  @property({type: Number, readOnly: true})
+  _autocompleteThreshold = 0;
+
+  _handleTriggerClick(e: Event) {
     // Stop propagation here so we don't confuse gr-autocomplete, which
     // listens for taps on body to try to determine when it's blurred.
     e.stopPropagation();
     this.$.autocomplete.focus();
   }
 
-  setText(text) {
+  setText(text: string) {
     this.$.autocomplete.setText(text);
   }
 
@@ -84,4 +79,8 @@ class GrLabeledAutocomplete extends GestureEventListeners(
   }
 }
 
-customElements.define(GrLabeledAutocomplete.is, GrLabeledAutocomplete);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-labeled-autocomplete': GrLabeledAutocomplete;
+  }
+}

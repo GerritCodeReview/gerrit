@@ -24,13 +24,10 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
-import com.google.gerrit.server.update.RepoContext;
-import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -39,39 +36,12 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.PersonIdent;
 
 public class SubmoduleOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /** Only used for branches without code review changes */
-  public static class GitlinkOp implements RepoOnlyOp {
-    private final BranchNameKey branch;
-    private final SubmoduleCommits commitHelper;
-    private final Collection<SubmoduleSubscription> branchTargets;
-
-    GitlinkOp(
-        BranchNameKey branch,
-        SubmoduleCommits commitHelper,
-        Collection<SubmoduleSubscription> branchTargets) {
-      this.branch = branch;
-      this.commitHelper = commitHelper;
-      this.branchTargets = branchTargets;
-    }
-
-    @Override
-    public void updateRepo(RepoContext ctx) throws Exception {
-      Optional<CodeReviewCommit> commit = commitHelper.composeGitlinksCommit(branch, branchTargets);
-      if (commit.isPresent()) {
-        CodeReviewCommit c = commit.get();
-        ctx.addRefUpdate(c.getParent(0), c, branch.branch());
-        commitHelper.addBranchTip(branch, c);
-      }
-    }
-  }
 
   @Singleton
   public static class Factory {
@@ -140,6 +110,8 @@ public class SubmoduleOp {
 
     LinkedHashSet<Project.NameKey> superProjects = new LinkedHashSet<>();
     try {
+      GitlinkOp.Factory gitlinkOpFactory =
+          new GitlinkOp.Factory(submoduleCommits, subscriptionGraph);
       for (Project.NameKey project : projects) {
         // only need superprojects
         if (subscriptionGraph.isAffectedSuperProject(project)) {
@@ -147,7 +119,7 @@ public class SubmoduleOp {
           // get a new BatchUpdate for the super project
           OpenRepo or = orm.getRepo(project);
           for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
-            addOp(or.getUpdate(), branch);
+            or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
           }
         }
       }
@@ -206,10 +178,5 @@ public class SubmoduleOp {
     branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
     branches.addAll(subscriptionGraph.getUpdatedBranches());
     return ImmutableSet.copyOf(branches);
-  }
-
-  void addOp(BatchUpdate bu, BranchNameKey branch) {
-    bu.addRepoOnlyOp(
-        new GitlinkOp(branch, submoduleCommits, subscriptionGraph.getSubscriptions(branch)));
   }
 }

@@ -664,6 +664,12 @@ public class MergeOp implements AutoCloseable {
     Set<BranchNameKey> allBranches = submoduleOp.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
+
+    // TODO(ifrade): injection for these classes
+    SubmoduleCommits submoduleCommits = submoduleOp.getSubmoduleCommits();
+    SubscriptionGraph subscriptionGraph = submoduleOp.getSubscriptionGraph();
+    GitlinkOp.Factory gitlinkOpFactory = new GitlinkOp.Factory(submoduleCommits, subscriptionGraph);
+
     for (BranchNameKey branch : allBranches) {
       OpenRepo or = orm.getRepo(branch.project());
       if (toSubmit.containsKey(branch)) {
@@ -694,13 +700,13 @@ public class MergeOp implements AutoCloseable {
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
-            && submoduleOp.getSubscriptionGraph().hasSubscription(branch)) {
-          submoduleOp.addOp(or.getUpdate(), branch);
+            && subscriptionGraph.hasSubscription(branch)) {
+          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
         }
       } else {
         // no open change for this branch
         // add submodule triggered op into BatchUpdate
-        submoduleOp.addOp(or.getUpdate(), branch);
+        or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
       }
     }
     return strategies;

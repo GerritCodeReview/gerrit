@@ -352,13 +352,6 @@ suite('gr-js-api-interface tests', () => {
     assert.isOk(plugin.attributeHelper());
   });
 
-  test('deprecated.install', () => {
-    plugin.deprecated.install();
-    assert.strictEqual(plugin.popup, plugin.deprecated.popup);
-    assert.strictEqual(plugin.onAction, plugin.deprecated.onAction);
-    assert.notStrictEqual(plugin.install, plugin.deprecated.install);
-  });
-
   test('getAdminMenuLinks', () => {
     const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
     const getCallbacksStub = sinon.stub(element, '_getEventCallbacks')

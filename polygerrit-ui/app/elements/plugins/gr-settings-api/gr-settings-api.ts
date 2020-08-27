@@ -16,18 +16,7 @@
  */
 import '../../settings/gr-settings-view/gr-settings-item';
 import '../../settings/gr-settings-view/gr-settings-menu-item';
-
-// TODO(TS): replace with Plugin once gr-public-js-api migrated
-interface PluginApi {
-  getPluginName(): string;
-  hook(endpointName: string, option?: {replace?: boolean}): HookApi;
-}
-
-interface HookApi {
-  onAttached(callback: HookCallback): this;
-}
-
-type HookCallback = (el: Node) => void;
+import {PluginApi} from '../gr-plugin-types';
 
 export class GrSettingsApi {
   private _token: string;
@@ -38,7 +27,8 @@ export class GrSettingsApi {
 
   constructor(readonly plugin: PluginApi) {
     // Generate default screen URL token, specific to plugin, and unique(ish).
-    this._token = plugin.getPluginName() + Math.random().toString(36).substr(5);
+    this._token =
+      (plugin.getPluginName() ?? 'NULL') + Math.random().toString(36).substr(5);
   }
 
   title(newTitle: string) {

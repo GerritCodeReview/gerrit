@@ -15,12 +15,11 @@
  * limitations under the License.
  */
 import {
-  ApiElement,
   GrChangeActions,
   ActionType,
   ActionPriority,
-  JsApiService,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ApiElement, JsApiService} from '../../plugins/gr-plugin-types';
 
 interface Plugin {
   getPluginName(): string;

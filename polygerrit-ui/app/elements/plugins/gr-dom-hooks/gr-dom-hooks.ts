@@ -15,25 +15,14 @@
  * limitations under the License.
  */
 import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {HookApi, HookCallback, PluginApi} from '../gr-plugin-types';
 
-type HookCallback = (el: Element) => void;
-interface HookApi {
-  onAttached(callback: HookCallback): void;
-}
-interface PluginAPI {
-  hook(hookname: string): HookApi;
-  getPluginName(): string;
-}
-
-/** @constructor */
 export class GrDomHooksManager {
   private _hooks: Record<string, GrDomHook>;
 
-  // TODO(TS): Convert type to GrPlugin.
-  private _plugin: PluginAPI;
+  private _plugin: PluginApi;
 
-  // TODO(TS): Convert type to GrPlugin.
-  constructor(plugin: PluginAPI) {
+  constructor(plugin: PluginApi) {
     this._plugin = plugin;
     this._hooks = {};
   }
@@ -61,18 +50,8 @@ export class GrDomHooksManager {
   }
 }
 
-interface PublicApi {
-  onAttached(callback: HookCallback): PublicApi;
-  onDetached(callback: HookCallback): PublicApi;
-  getAllAttached(): any;
-  getLastAttached(): any;
-  getModuleName(): string;
-}
-
-/** @constructor */
-export class GrDomHook {
-  // TODO(TS): specify type for this
-  private _instances: unknown[] = [];
+export class GrDomHook implements HookApi {
+  private _instances: HTMLElement[] = [];
 
   private _attachCallbacks: HookCallback[] = [];
 
@@ -80,7 +59,7 @@ export class GrDomHook {
 
   private _moduleName: string;
 
-  private _lastAttachedPromise: Promise<HookCallback> | null = null;
+  private _lastAttachedPromise: Promise<HTMLElement> | null = null;
 
   constructor(hookName: string, moduleName?: string) {
     if (moduleName) {
@@ -108,7 +87,7 @@ export class GrDomHook {
     customElements.define(HookPlaceholder.is, HookPlaceholder);
   }
 
-  handleInstanceDetached(instance: Element) {
+  handleInstanceDetached(instance: HTMLElement) {
     const index = this._instances.indexOf(instance);
     if (index !== -1) {
       this._instances.splice(index, 1);
@@ -116,7 +95,7 @@ export class GrDomHook {
     this._detachCallbacks.forEach(callback => callback(instance));
   }
 
-  handleInstanceAttached(instance: Element) {
+  handleInstanceAttached(instance: HTMLElement) {
     this._instances.push(instance);
     this._attachCallbacks.forEach(callback => callback(instance));
   }
@@ -124,27 +103,25 @@ export class GrDomHook {
   /**
    * Get instance of last DOM hook element attached into the endpoint.
    * Returns a Promise, that's resolved when attachment is done.
-   *
-   * @return
    */
-  getLastAttached() {
+  getLastAttached(): Promise<HTMLElement> {
     if (this._instances.length) {
       return Promise.resolve(this._instances.slice(-1)[0]);
     }
     if (!this._lastAttachedPromise) {
       let resolve: HookCallback;
-      const promise = new Promise(r => {
+      const promise = new Promise<HTMLElement>(r => {
         resolve = r;
         this._attachCallbacks.push(resolve);
       });
-      this._lastAttachedPromise = promise.then(element => {
+      this._lastAttachedPromise = promise.then((element: HTMLElement) => {
         this._lastAttachedPromise = null;
         const index = this._attachCallbacks.indexOf(resolve);
         if (index !== -1) {
           this._attachCallbacks.splice(index, 1);
         }
         return element;
-      }) as Promise<HookCallback>;
+      });
     }
     return this._lastAttachedPromise;
   }
@@ -182,15 +159,5 @@ export class GrDomHook {
    */
   getModuleName() {
     return this._moduleName;
-  }
-
-  getPublicAPI(): PublicApi {
-    return {
-      onAttached: this.onAttached.bind(this),
-      onDetached: this.onDetached.bind(this),
-      getAllAttached: this.getAllAttached.bind(this),
-      getLastAttached: this.getLastAttached.bind(this),
-      getModuleName: this.getModuleName.bind(this),
-    };
   }
 }

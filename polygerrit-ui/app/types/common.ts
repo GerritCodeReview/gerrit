@@ -367,6 +367,8 @@ export interface MembersInput {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#action-info
  */
 export interface ActionInfo {
+  __key?: string;
+  __url?: string;
   method?: HttpMethod; // Most actions use POST, PUT or DELETE to cause state changes.
   label?: string; // Short title to display to a user describing the action
   title?: string; // Longer text to display describing the action

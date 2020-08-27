@@ -51,6 +51,7 @@ import {
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {appContext} from '../services/app-context.js';
+import { flush } from '@polymer/polymer/lib/utils/flush';
 
 /**
  * @extends PolymerElement
@@ -134,6 +135,16 @@ class GrAppElement extends KeyboardShortcutMixin(
       _loginUrl: {
         type: String,
         value: '/login',
+      },
+
+      showRegistration: {
+        type: Boolean,
+        value: false,
+      },
+
+      showKeyboardShortcuts: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -422,6 +433,8 @@ class GrAppElement extends KeyboardShortcutMixin(
     this.set('_showDocumentationSearch',
         view === GerritNav.View.DOCUMENTATION_SEARCH);
     if (this.params.justRegistered) {
+      this.showRegistration = true;
+      flush();
       this.$.registrationOverlay.open();
       this.$.registrationDialog.loadData().then(() => {
         this.$.registrationOverlay.refit();
@@ -519,6 +532,8 @@ class GrAppElement extends KeyboardShortcutMixin(
   }
 
   handleShowKeyboardShortcuts() {
+    this.showKeyboardShortcuts = true;
+    flush();
     this.$.keyboardShortcuts.open();
   }
 

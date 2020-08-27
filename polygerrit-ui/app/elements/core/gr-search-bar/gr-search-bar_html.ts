@@ -29,31 +29,33 @@ export const htmlTemplate = html`
     }
   </style>
   <form>
-    <gr-autocomplete
-      label="[[label]]"
-      show-search-icon=""
-      id="searchInput"
-      text="{{_inputVal}}"
-      query="[[query]]"
-      on-commit="_handleInputCommit"
-      allow-non-suggested-values=""
-      multi=""
-      threshold="[[_threshold]]"
-      tab-complete=""
-      vertical-offset="30"
-    >
-      <a
-        slot="suffix"
-        href$="[[_computeHelpDocLink(docBaseUrl)]]"
-        target="_blank"
-        class="help"
+    <template is="dom-if" if="[[label]]">
+      <gr-autocomplete
+        label="[[label]]"
+        show-search-icon=""
+        id="searchInput"
+        text="{{_inputVal}}"
+        query="[[query]]"
+        on-commit="_handleInputCommit"
+        allow-non-suggested-values=""
+        multi=""
+        threshold="[[_threshold]]"
+        tab-complete=""
+        vertical-offset="30"
       >
-        <iron-icon
-          icon="gr-icons:help-outline"
-          title="read documentation"
-        ></iron-icon>
-      </a>
-    </gr-autocomplete>
+        <a
+          slot="suffix"
+          href$="[[_computeHelpDocLink(docBaseUrl)]]"
+          target="_blank"
+          class="help"
+        >
+          <iron-icon
+            icon="gr-icons:help-outline"
+            title="read documentation"
+          ></iron-icon>
+        </a>
+      </gr-autocomplete>
+    </template>
   </form>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

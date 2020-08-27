@@ -176,11 +176,11 @@ export class GrRuleEditor extends GestureEventListeners(
   }
 
   _computeForce(permission: string, action: string) {
-    if (AccessPermissions.push.id === permission && action !== Action.DENY) {
+    if (AccessPermissions['push'].id === permission && action !== Action.DENY) {
       return true;
     }
 
-    return AccessPermissions.editTopicName.id === permission;
+    return AccessPermissions['editTopicName'].id === permission;
   }
 
   _computeForceClass(permission: string, action: string) {
@@ -221,7 +221,7 @@ export class GrRuleEditor extends GestureEventListeners(
   }
 
   _computeForceOptions(permission: string, action: string) {
-    if (permission === AccessPermissions.push.id) {
+    if (permission === AccessPermissions['push'].id) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;
       } else if (action === Action.BLOCK) {
@@ -229,7 +229,7 @@ export class GrRuleEditor extends GestureEventListeners(
       } else {
         return [];
       }
-    } else if (permission === AccessPermissions.editTopicName.id) {
+    } else if (permission === AccessPermissions['editTopicName'].id) {
       return FORCE_EDIT_OPTIONS;
     }
     return [];

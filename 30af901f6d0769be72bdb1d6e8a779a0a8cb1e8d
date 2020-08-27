@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "65023270_3c20512a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T10:58:30Z",
+      "side": 0,
+      "message": "The change can currently not be submitted, because this method is relied on at least by the automerger plugin.\n\nEither my reviewers have to tell me how to magically replace TS methods when this is called. Or we have to fix automerger and get rid of this (and maybe all the deprecated methods).",
+      "revId": "30af901f6d0769be72bdb1d6e8a779a0a8cb1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

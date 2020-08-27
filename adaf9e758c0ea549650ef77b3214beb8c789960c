@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5623b240_186ddd54",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-27T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f0218c9_d7f8675c",
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4eeaa38_0bb66ac2",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "040083a6_f9f16086",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-27T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4eeaa38_0bb66ac2",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9175ece_d7184e81",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 1
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "5b5faa12_54bcc2f3",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-27T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9175ece_d7184e81",
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "79cacc23_6cff178e",
         "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
         "patchSetId": 1
@@ -73,6 +133,24 @@
       "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8252316e_02584842",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-27T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79cacc23_6cff178e",
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "b91c87a3_b6a076c1",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-27T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "224efdaa_044fa659",
+      "range": {
+        "startLine": 49,
+        "startChar": 46,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "36889e7d_352dd580",
         "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
         "patchSetId": 1
@@ -119,6 +221,30 @@
       "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c1b4710_de34c360",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-27T12:03:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "36889e7d_352dd580",
+      "range": {
+        "startLine": 161,
+        "startChar": 22,
+        "endLine": 161,
+        "endChar": 25
+      },
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

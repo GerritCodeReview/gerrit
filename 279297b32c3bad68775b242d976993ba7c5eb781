@@ -22,6 +22,29 @@
       "revId": "279297b32c3bad68775b242d976993ba7c5eb781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ec30201b_07569d3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T14:23:02Z",
+      "side": 1,
+      "message": "is the Statuses type you defined also applies here ?",
+      "range": {
+        "startLine": 136,
+        "startChar": 13,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "279297b32c3bad68775b242d976993ba7c5eb781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

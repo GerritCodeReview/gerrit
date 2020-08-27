@@ -96,7 +96,7 @@ public class TestGroupBackend implements GroupBackend {
 
   /**
    * Makes this backend return the specified {@link GroupMembership} when being asked for the
-   * specified {@link Account.Id}.
+   * specified {@link com.google.gerrit.entities.Account.Id}.
    */
   public void setMembershipsOf(Account.Id user, GroupMembership membership) {
     memberships.put(user, membership);

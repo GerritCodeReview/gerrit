@@ -16,117 +16,146 @@
  */
 import {LabelName} from '../types/common';
 
-export type AccessPermissionMap = {[id: string]: AccessPermission};
+export enum AccessPermissionId {
+  ABANDON = 'abandon',
+  ADD_PATCH_SET = 'addPatchSet',
+  CREATE = 'create',
+  CREATE_TAG = 'createTag',
+  CREATE_SIGNED_TAG = 'createSignedTag',
+  DELETE = 'delete',
+  DELETE_CHANGES = 'deleteChanges',
+  DELETE_OWN_CHANGES = 'deleteOwnChanges',
+  EDIT_ASSIGNEE = 'editAssignee',
+  EDIT_HASHTAGS = 'editHashtags',
+  EDIT_TOPIC_NAME = 'editTopicName',
+  FORGE_AUTHOR = 'forgeAuthor',
+  FORGE_COMMITTER = 'forgeCommitter',
+  FORGE_SERVER_AS_COMMITTER = 'forgeServerAsCommitter',
+  OWNER = 'owner',
+  PUBLISH_DRAFTS = 'publishDrafts',
+  PUSH = 'push',
+  PUSH_MERGE = 'pushMerge',
+  READ = 'read',
+  REBASE = 'rebase',
+  REVERT = 'revert',
+  REMOVE_REVIEWER = 'removeReviewer',
+  SUBMIT = 'submit',
+  SUBMIT_AS = 'submitAs',
+  TOGGLE_WIP_STATE = 'toggleWipState',
+  VIEW_PRIVATE_CHANGES = 'viewPrivateChanges',
 
-export const AccessPermissions: AccessPermissionMap = {
-  abandon: {
-    id: 'abandon',
+  PRIORITY = 'priority',
+}
+
+export const AccessPermissions: {[id: string]: AccessPermission} = {
+  [AccessPermissionId.ABANDON]: {
+    id: AccessPermissionId.ABANDON,
     name: 'Abandon',
   },
-  addPatchSet: {
-    id: 'addPatchSet',
+  [AccessPermissionId.ADD_PATCH_SET]: {
+    id: AccessPermissionId.ADD_PATCH_SET,
     name: 'Add Patch Set',
   },
-  create: {
-    id: 'create',
+  [AccessPermissionId.CREATE]: {
+    id: AccessPermissionId.CREATE,
     name: 'Create Reference',
   },
-  createTag: {
-    id: 'createTag',
+  [AccessPermissionId.CREATE_TAG]: {
+    id: AccessPermissionId.CREATE_TAG,
     name: 'Create Annotated Tag',
   },
-  createSignedTag: {
-    id: 'createSignedTag',
+  [AccessPermissionId.CREATE_SIGNED_TAG]: {
+    id: AccessPermissionId.CREATE_SIGNED_TAG,
     name: 'Create Signed Tag',
   },
-  delete: {
-    id: 'delete',
+  [AccessPermissionId.DELETE]: {
+    id: AccessPermissionId.DELETE,
     name: 'Delete Reference',
   },
-  deleteChanges: {
-    id: 'deleteChanges',
+  [AccessPermissionId.DELETE_CHANGES]: {
+    id: AccessPermissionId.DELETE_CHANGES,
     name: 'Delete Changes',
   },
-  deleteOwnChanges: {
-    id: 'deleteOwnChanges',
+  [AccessPermissionId.DELETE_OWN_CHANGES]: {
+    id: AccessPermissionId.DELETE_OWN_CHANGES,
     name: 'Delete Own Changes',
   },
-  editAssignee: {
-    id: 'editAssignee',
+  [AccessPermissionId.EDIT_ASSIGNEE]: {
+    id: AccessPermissionId.EDIT_ASSIGNEE,
     name: 'Edit Assignee',
   },
-  editHashtags: {
-    id: 'editHashtags',
+  [AccessPermissionId.EDIT_HASHTAGS]: {
+    id: AccessPermissionId.EDIT_HASHTAGS,
     name: 'Edit Hashtags',
   },
-  editTopicName: {
-    id: 'editTopicName',
+  [AccessPermissionId.EDIT_TOPIC_NAME]: {
+    id: AccessPermissionId.EDIT_TOPIC_NAME,
     name: 'Edit Topic Name',
   },
-  forgeAuthor: {
-    id: 'forgeAuthor',
+  [AccessPermissionId.FORGE_AUTHOR]: {
+    id: AccessPermissionId.FORGE_AUTHOR,
     name: 'Forge Author Identity',
   },
-  forgeCommitter: {
-    id: 'forgeCommitter',
+  [AccessPermissionId.FORGE_COMMITTER]: {
+    id: AccessPermissionId.FORGE_COMMITTER,
     name: 'Forge Committer Identity',
   },
-  forgeServerAsCommitter: {
-    id: 'forgeServerAsCommitter',
+  [AccessPermissionId.FORGE_SERVER_AS_COMMITTER]: {
+    id: AccessPermissionId.FORGE_SERVER_AS_COMMITTER,
     name: 'Forge Server Identity',
   },
-  owner: {
-    id: 'owner',
+  [AccessPermissionId.OWNER]: {
+    id: AccessPermissionId.OWNER,
     name: 'Owner',
   },
-  publishDrafts: {
-    id: 'publishDrafts',
+  [AccessPermissionId.PUBLISH_DRAFTS]: {
+    id: AccessPermissionId.PUBLISH_DRAFTS,
     name: 'Publish Drafts',
   },
-  push: {
-    id: 'push',
+  [AccessPermissionId.PUSH]: {
+    id: AccessPermissionId.PUSH,
     name: 'Push',
   },
-  pushMerge: {
-    id: 'pushMerge',
+  [AccessPermissionId.PUSH_MERGE]: {
+    id: AccessPermissionId.PUSH_MERGE,
     name: 'Push Merge Commit',
   },
-  read: {
-    id: 'read',
+  [AccessPermissionId.READ]: {
+    id: AccessPermissionId.READ,
     name: 'Read',
   },
-  rebase: {
-    id: 'rebase',
+  [AccessPermissionId.REBASE]: {
+    id: AccessPermissionId.REBASE,
     name: 'Rebase',
   },
-  revert: {
-    id: 'revert',
+  [AccessPermissionId.REVERT]: {
+    id: AccessPermissionId.REVERT,
     name: 'Revert',
   },
-  removeReviewer: {
-    id: 'removeReviewer',
+  [AccessPermissionId.REMOVE_REVIEWER]: {
+    id: AccessPermissionId.REMOVE_REVIEWER,
     name: 'Remove Reviewer',
   },
-  submit: {
-    id: 'submit',
+  [AccessPermissionId.SUBMIT]: {
+    id: AccessPermissionId.SUBMIT,
     name: 'Submit',
   },
-  submitAs: {
-    id: 'submitAs',
+  [AccessPermissionId.SUBMIT_AS]: {
+    id: AccessPermissionId.SUBMIT_AS,
     name: 'Submit (On Behalf Of)',
   },
-  toggleWipState: {
-    id: 'toggleWipState',
+  [AccessPermissionId.TOGGLE_WIP_STATE]: {
+    id: AccessPermissionId.TOGGLE_WIP_STATE,
     name: 'Toggle Work In Progress State',
   },
-  viewPrivateChanges: {
-    id: 'viewPrivateChanges',
+  [AccessPermissionId.VIEW_PRIVATE_CHANGES]: {
+    id: AccessPermissionId.VIEW_PRIVATE_CHANGES,
     name: 'View Private Changes',
   },
 };
 
 export interface AccessPermission {
-  id: string;
+  id: AccessPermissionId;
   name: string;
   label?: LabelName;
 }

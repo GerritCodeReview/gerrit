@@ -16,6 +16,10 @@
  */
 import {Side} from '../constants/constants';
 
+export function notUndefined<T>(x: T | undefined): x is T {
+  return x !== undefined;
+}
+
 export interface CoverageRange {
   type: CoverageType;
   side: Side;

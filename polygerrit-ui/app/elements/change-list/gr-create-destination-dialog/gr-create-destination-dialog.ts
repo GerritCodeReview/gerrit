@@ -15,43 +15,52 @@
  * limitations under the License.
  */
 
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-create-destination-dialog_html.js';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-repo-branch-picker/gr-repo-branch-picker';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-create-destination-dialog_html';
+import {customElement, property} from '@polymer/decorators';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {RepoName, BranchName} from '../../../types/common';
 
 /**
  * Fired when a destination has been picked. Event details contain the repo
  * name and the branch name.
  *
  * @event confirm
- * @extends PolymerElement
  */
-class GrCreateDestinationDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrCreateDestinationDialog {
+  $: {
+    createOverlay: GrOverlay;
+  };
+}
 
-  static get is() { return 'gr-create-destination-dialog'; }
-
-  static get properties() {
-    return {
-      _repo: String,
-      _branch: String,
-      _repoAndBranchSelected: {
-        type: Boolean,
-        value: false,
-        computed: '_computeRepoAndBranchSelected(_repo, _branch)',
-      },
-    };
+@customElement('gr-create-destination-dialog')
+export class GrCreateDestinationDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
+  @property({type: String})
+  _repo?: RepoName;
+
+  @property({type: String})
+  _branch?: BranchName;
+
+  @property({
+    type: Boolean,
+    computed: '_computeRepoAndBranchSelected(_repo, _branch)',
+  })
+  _repoAndBranchSelected = false;
+
   open() {
-    this._repo = '';
-    this._branch = '';
+    this._repo = '' as RepoName;
+    this._branch = '' as BranchName;
     this.$.createOverlay.open();
   }
 
@@ -59,7 +68,7 @@ class GrCreateDestinationDialog extends GestureEventListeners(
     this.$.createOverlay.close();
   }
 
-  _pickerConfirm(e) {
+  _pickerConfirm(e: Event) {
     this.$.createOverlay.close();
     const detail = {repo: this._repo, branch: this._branch};
     // e is a 'confirm' event from gr-dialog. We want to fire a more detailed
@@ -69,10 +78,13 @@ class GrCreateDestinationDialog extends GestureEventListeners(
     this.dispatchEvent(new CustomEvent('confirm', {detail, bubbles: false}));
   }
 
-  _computeRepoAndBranchSelected(repo, branch) {
+  _computeRepoAndBranchSelected(repo?: RepoName, branch?: BranchName) {
     return !!(repo && branch);
   }
 }
 
-customElements.define(GrCreateDestinationDialog.is,
-    GrCreateDestinationDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-destination-dialog': GrCreateDestinationDialog;
+  }
+}

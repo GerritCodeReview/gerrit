@@ -25,7 +25,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-rule-editor_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
-import {AccessPermissions} from '../../../utils/access-util';
+import {AccessPermissionId} from '../../../utils/access-util';
 import {property, customElement, observe} from '@polymer/decorators';
 
 /**
@@ -126,7 +126,7 @@ export class GrRuleEditor extends GestureEventListeners(
 
   // This is required value for this component
   @property({type: String})
-  permission!: string;
+  permission!: AccessPermissionId;
 
   @property({type: Object, notify: true})
   rule?: Rule;
@@ -175,15 +175,15 @@ export class GrRuleEditor extends GestureEventListeners(
     }
   }
 
-  _computeForce(permission: string, action: string) {
-    if (AccessPermissions.push.id === permission && action !== Action.DENY) {
+  _computeForce(permission: AccessPermissionId, action: string) {
+    if (AccessPermissionId.PUSH === permission && action !== Action.DENY) {
       return true;
     }
 
-    return AccessPermissions.editTopicName.id === permission;
+    return AccessPermissionId.EDIT_TOPIC_NAME === permission;
   }
 
-  _computeForceClass(permission: string, action: string) {
+  _computeForceClass(permission: AccessPermissionId, action: string) {
     return this._computeForce(permission, action) ? 'force' : '';
   }
 
@@ -221,7 +221,7 @@ export class GrRuleEditor extends GestureEventListeners(
   }
 
   _computeForceOptions(permission: string, action: string) {
-    if (permission === AccessPermissions.push.id) {
+    if (permission === AccessPermissionId.PUSH) {
       if (action === Action.ALLOW) {
         return ForcePushOptions.ALLOW;
       } else if (action === Action.BLOCK) {
@@ -229,16 +229,16 @@ export class GrRuleEditor extends GestureEventListeners(
       } else {
         return [];
       }
-    } else if (permission === AccessPermissions.editTopicName.id) {
+    } else if (permission === AccessPermissionId.EDIT_TOPIC_NAME) {
       return FORCE_EDIT_OPTIONS;
     }
     return [];
   }
 
-  _getDefaultRuleValues(permission: string, label?: RuleLabel) {
+  _getDefaultRuleValues(permission: AccessPermissionId, label?: RuleLabel) {
     const ruleAction = Action.ALLOW;
     const value: RuleValue = {};
-    if (permission === 'priority') {
+    if (permission === AccessPermissionId.PRIORITY) {
       value.action = PRIORITY_OPTIONS[0];
       return value;
     } else if (label) {

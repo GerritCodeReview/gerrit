@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "22cebbec_abaec418",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T15:52:34Z",
+      "side": 1,
+      "message": "I have been using this pattern lately:\n\n  restAPI: RestApiService \u0026 Element;",
+      "revId": "f65e661b7dd50bf00ac2f5f5b737403ffaf35e3f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

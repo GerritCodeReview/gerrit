@@ -97,7 +97,7 @@ public abstract class SubmitStrategy {
           Set<CodeReviewCommit> incoming,
           SubmissionId submissionId,
           SubmitInput submitInput,
-          SubmoduleOp submoduleOp,
+          SubmoduleCommits submoduleCommits,
           SubscriptionGraph subscriptionGraph,
           boolean dryrun);
     }
@@ -130,8 +130,8 @@ public abstract class SubmitStrategy {
     final SubmissionId submissionId;
     final SubmitType submitType;
     final SubmitInput submitInput;
-    final SubmoduleOp submoduleOp;
     final SubscriptionGraph subscriptionGraph;
+    final SubmoduleCommits submoduleCommits;
 
     final ProjectState project;
     final MergeSorter mergeSorter;
@@ -171,7 +171,7 @@ public abstract class SubmitStrategy {
         @Assisted SubmitType submitType,
         @Assisted SubmitInput submitInput,
         @Assisted SubscriptionGraph subscriptionGraph,
-        @Assisted SubmoduleOp submoduleOp,
+        @Assisted SubmoduleCommits submoduleCommits,
         @Assisted boolean dryrun) {
       this.accountCache = accountCache;
       this.approvalsUtil = approvalsUtil;
@@ -200,7 +200,7 @@ public abstract class SubmitStrategy {
       this.submissionId = submissionId;
       this.submitType = submitType;
       this.submitInput = submitInput;
-      this.submoduleOp = submoduleOp;
+      this.submoduleCommits = submoduleCommits;
       this.subscriptionGraph = subscriptionGraph;
       this.dryrun = dryrun;
 

@@ -688,7 +688,7 @@ public class MergeOp implements AutoCloseable {
                 commitStatus,
                 submissionId,
                 submitInput,
-                submoduleOp,
+                submoduleOp.getSubmoduleCommits(),
                 submoduleOp.getSubscriptionGraph(),
                 dryrun);
         strategies.add(strategy);

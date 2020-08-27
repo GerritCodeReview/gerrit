@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8b6bdbc6_de5b8db9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-27T11:03:40Z",
+      "side": 1,
+      "message": "experienced any de-ja-vu when reading this? :-)",
+      "parentUuid": "d991cbe5_3aa37c10",
+      "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c753fab_48c43b44",
         "filename": "java/com/google/gerrit/extensions/restapi/testing/AttentionSetUpdateSubject.java",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "605e7954_f3e4827e",
+        "filename": "java/com/google/gerrit/extensions/restapi/testing/AttentionSetUpdateSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-27T11:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c753fab_48c43b44",
+      "range": {
+        "startLine": 64,
+        "startChar": 23,
+        "endLine": 64,
+        "endChar": 32
+      },
+      "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9db761f0_46b06ed8",
         "filename": "java/com/google/gerrit/extensions/restapi/testing/AttentionSetUpdateSubject.java",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7d984d9_4e5c0a92",
+        "filename": "java/com/google/gerrit/extensions/restapi/testing/AttentionSetUpdateSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-27T11:03:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9db761f0_46b06ed8",
+      "range": {
+        "startLine": 75,
+        "startChar": 57,
+        "endLine": 75,
+        "endChar": 69
+      },
+      "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

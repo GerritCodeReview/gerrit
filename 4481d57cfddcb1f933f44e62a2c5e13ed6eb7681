@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "02f98384_8b2b52e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b16b2e4a_5cc84849",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1ab847e_62d0cad7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c22dd759_be070632",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1ab847e_62d0cad7",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "86c0cc7d_3ddbf591",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1eb2ae2_dfa5a2db",
+      "range": {
+        "startLine": 79,
+        "startChar": 35,
+        "endLine": 79,
+        "endChar": 41
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd3b97e7_5f79f18e",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -82,6 +142,30 @@
     },
     {
       "key": {
+        "uuid": "07306ee8_42ccffa8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd3b97e7_5f79f18e",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 21
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "089c16db_b39236a4",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -93,6 +177,30 @@
       "writtenOn": "2020-08-27T11:34:18Z",
       "side": 1,
       "message": "There is no install in deprecated. Is it intended?",
+      "range": {
+        "startLine": 85,
+        "startChar": 4,
+        "endLine": 85,
+        "endChar": 19
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6840ea3_c79051cf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "See my other comment. Yes, that is a problem. We cannot submit as is.\n\nBut I do not know how I would maintain the old behavior of replacing methods with typescript. :-(",
+      "parentUuid": "089c16db_b39236a4",
       "range": {
         "startLine": 85,
         "startChar": 4,
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "2a499819_ceb2d230",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70492c9a_7a3eb8ab",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 18
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dd784b19_3f6ad9e7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -148,6 +280,30 @@
       "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9ed1db4_30ef91a8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd784b19_3f6ad9e7",
+      "range": {
+        "startLine": 223,
+        "startChar": 12,
+        "endLine": 223,
+        "endChar": 23
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "f7a1d63c_ca4b7947",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e89af828_6e8a50a9",
+      "range": {
+        "startLine": 233,
+        "startChar": 14,
+        "endLine": 233,
+        "endChar": 43
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "00752696_fc8a6b9b",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -197,6 +377,30 @@
     },
     {
       "key": {
+        "uuid": "72210201_268309ef",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Changed attribute helper to also use HTMLElement.\n\nAdded a TODO(TS) to the attribute helper to change `element` field from any to something more like HTMLElement.",
+      "parentUuid": "00752696_fc8a6b9b",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 38
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9a615b2_f33c0cff",
         "filename": "polygerrit-ui/app/test/test-utils.js",
         "patchSetId": 2
@@ -214,6 +418,24 @@
     },
     {
       "key": {
+        "uuid": "1250abed_7b6bff3f",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a9a615b2_f33c0cff",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2fb61df4_50cdd936",
         "filename": "polygerrit-ui/app/utils/dom-util.ts",
         "patchSetId": 2
@@ -228,6 +450,24 @@
       "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3908beca_78acc562",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "Changed the TODO to make this a service.",
+      "parentUuid": "2fb61df4_50cdd936",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

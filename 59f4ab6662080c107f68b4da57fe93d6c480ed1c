@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3a7c4345_971ada2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T16:11:37Z",
+      "side": 1,
+      "message": "I am blocked on automerger to migrate off deprecated.install(), or to come up with a workaround.\n\nWould still be great to get a +1 from you, if you think the change is otherwise fine.",
+      "revId": "59f4ab6662080c107f68b4da57fe93d6c480ed1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

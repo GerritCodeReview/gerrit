@@ -72,6 +72,24 @@
     },
     {
       "key": {
+        "uuid": "dacdebe9_c69137af",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-27T20:08:57Z",
+      "side": 1,
+      "message": "\u003e tried to re-run it but it seems even weirder now: seems that both passing (Code Style and PolyGerrit UI tests) are running now but the other two are again scheduled...\n\nYes, because this is a front-end change only: we don\u0027t build or test the backend at all, as a shortcut. You have received the Verified +1 anyway, so you should be good to go !",
+      "parentUuid": "d3425fc8_56260b74",
+      "revId": "f0b9d5e51fb1cbcd15f4ddcbd06e2ae738ae08ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "213f8116_b7c3b432",
         "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
         "patchSetId": 3

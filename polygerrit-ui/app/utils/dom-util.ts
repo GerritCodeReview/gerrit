@@ -251,3 +251,7 @@ export function getSharedApiEl() {
   }
   return _sharedApiEl;
 }
+
+export function removeAllChildren(el: HTMLElement) {
+  while (el.firstChild) el.removeChild(el.firstChild);
+}

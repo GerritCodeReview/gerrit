@@ -97,7 +97,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     String revId = result.getCommit().getName();
     when(mockCommentValidator.validateComments(
             CommentValidationContext.create(
-                result.getChange().getId().get(), result.getChange().project().get()),
+                result.getChange().getId().get(), result.getChange().project().get(), user.email()),
             ImmutableList.of(COMMENT_FOR_VALIDATION)))
         .thenReturn(ImmutableList.of());
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);
@@ -182,7 +182,7 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     String revId = result.getCommit().getName();
     when(mockCommentValidator.validateComments(
             CommentValidationContext.create(
-                result.getChange().getId().get(), result.getChange().project().get()),
+                result.getChange().getId().get(), result.getChange().project().get(), user.email()),
             ImmutableList.of(COMMENT_FOR_VALIDATION)))
         .thenReturn(ImmutableList.of(COMMENT_FOR_VALIDATION.failValidation("Oh no!")));
     DraftInput comment = testCommentHelper.newDraft(COMMENT_TEXT);

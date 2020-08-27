@@ -34,7 +34,10 @@ public abstract class CommentValidationContext {
   /** Returns the project the comment is being added to. */
   public abstract String getProject();
 
-  public static CommentValidationContext create(int changeId, String project) {
-    return new AutoValue_CommentValidationContext(changeId, project);
+  /** Returns the preferred email of the user leaving the comment. */
+  public abstract String getEmail();
+
+  public static CommentValidationContext create(int changeId, String project, String email) {
+    return new AutoValue_CommentValidationContext(changeId, project, email);
   }
 }

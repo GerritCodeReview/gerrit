@@ -16,117 +16,146 @@
  */
 import {LabelName} from '../types/common';
 
-export type AccessPermissionMap = {[id: string]: AccessPermission};
+export enum AccessPermissionId {
+  ABANDON = 'abandon',
+  ADD_PATCH_SET = 'addPatchSet',
+  CREATE = 'create',
+  CREATE_TAG = 'createTag',
+  CREATE_SIGNED_TAG = 'createSignedTag',
+  DELETE = 'delete',
+  DELETE_CHANGES = 'deleteChanges',
+  DELETE_OWN_CHANGES = 'deleteOwnChanges',
+  EDIT_ASSIGNEE = 'editAssignee',
+  EDIT_HASHTAGS = 'editHashtags',
+  EDIT_TOPIC_NAME = 'editTopicName',
+  FORGE_AUTHOR = 'forgeAuthor',
+  FORGE_COMMITTER = 'forgeCommitter',
+  FORGE_SERVER_AS_COMMITTER = 'forgeServerAsCommitter',
+  OWNER = 'owner',
+  PUBLISH_DRAFTS = 'publishDrafts',
+  PUSH = 'push',
+  PUSH_MERGE = 'pushMerge',
+  READ = 'read',
+  REBASE = 'rebase',
+  REVERT = 'revert',
+  REMOVE_REVIEWER = 'removeReviewer',
+  SUBMIT = 'submit',
+  SUBMIT_AS = 'submitAs',
+  TOGGLE_WIP_STATE = 'toggleWipState',
+  VIEW_PRIVATE_CHANGES = 'viewPrivateChanges',
 
-export const AccessPermissions: AccessPermissionMap = {
+  PRIORITY = 'priority',
+}
+
+export const AccessPermissions = {
   abandon: {
-    id: 'abandon',
+    id: AccessPermissionId.ABANDON,
     name: 'Abandon',
   },
   addPatchSet: {
-    id: 'addPatchSet',
+    id: AccessPermissionId.ADD_PATCH_SET,
     name: 'Add Patch Set',
   },
   create: {
-    id: 'create',
+    id: AccessPermissionId.CREATE,
     name: 'Create Reference',
   },
   createTag: {
-    id: 'createTag',
+    id: AccessPermissionId.CREATE_TAG,
     name: 'Create Annotated Tag',
   },
   createSignedTag: {
-    id: 'createSignedTag',
+    id: AccessPermissionId.CREATE_SIGNED_TAG,
     name: 'Create Signed Tag',
   },
   delete: {
-    id: 'delete',
+    id: AccessPermissionId.DELETE,
     name: 'Delete Reference',
   },
   deleteChanges: {
-    id: 'deleteChanges',
+    id: AccessPermissionId.DELETE_CHANGES,
     name: 'Delete Changes',
   },
   deleteOwnChanges: {
-    id: 'deleteOwnChanges',
+    id: AccessPermissionId.DELETE_OWN_CHANGES,
     name: 'Delete Own Changes',
   },
   editAssignee: {
-    id: 'editAssignee',
+    id: AccessPermissionId.EDIT_ASSIGNEE,
     name: 'Edit Assignee',
   },
   editHashtags: {
-    id: 'editHashtags',
+    id: AccessPermissionId.EDIT_HASHTAGS,
     name: 'Edit Hashtags',
   },
   editTopicName: {
-    id: 'editTopicName',
+    id: AccessPermissionId.EDIT_TOPIC_NAME,
     name: 'Edit Topic Name',
   },
   forgeAuthor: {
-    id: 'forgeAuthor',
+    id: AccessPermissionId.FORGE_AUTHOR,
     name: 'Forge Author Identity',
   },
   forgeCommitter: {
-    id: 'forgeCommitter',
+    id: AccessPermissionId.FORGE_COMMITTER,
     name: 'Forge Committer Identity',
   },
   forgeServerAsCommitter: {
-    id: 'forgeServerAsCommitter',
+    id: AccessPermissionId.FORGE_SERVER_AS_COMMITTER,
     name: 'Forge Server Identity',
   },
   owner: {
-    id: 'owner',
+    id: AccessPermissionId.OWNER,
     name: 'Owner',
   },
   publishDrafts: {
-    id: 'publishDrafts',
+    id: AccessPermissionId.PUBLISH_DRAFTS,
     name: 'Publish Drafts',
   },
   push: {
-    id: 'push',
+    id: AccessPermissionId.PUSH,
     name: 'Push',
   },
   pushMerge: {
-    id: 'pushMerge',
+    id: AccessPermissionId.PUSH_MERGE,
     name: 'Push Merge Commit',
   },
   read: {
-    id: 'read',
+    id: AccessPermissionId.READ,
     name: 'Read',
   },
   rebase: {
-    id: 'rebase',
+    id: AccessPermissionId.REBASE,
     name: 'Rebase',
   },
   revert: {
-    id: 'revert',
+    id: AccessPermissionId.REVERT,
     name: 'Revert',
   },
   removeReviewer: {
-    id: 'removeReviewer',
+    id: AccessPermissionId.REMOVE_REVIEWER,
     name: 'Remove Reviewer',
   },
   submit: {
-    id: 'submit',
+    id: AccessPermissionId.SUBMIT,
     name: 'Submit',
   },
   submitAs: {
-    id: 'submitAs',
+    id: AccessPermissionId.SUBMIT_AS,
     name: 'Submit (On Behalf Of)',
   },
   toggleWipState: {
-    id: 'toggleWipState',
+    id: AccessPermissionId.TOGGLE_WIP_STATE,
     name: 'Toggle Work In Progress State',
   },
   viewPrivateChanges: {
-    id: 'viewPrivateChanges',
+    id: AccessPermissionId.VIEW_PRIVATE_CHANGES,
     name: 'View Private Changes',
   },
 };
 
 export interface AccessPermission {
-  id: string;
+  id: AccessPermissionId;
   name: string;
   label?: LabelName;
 }

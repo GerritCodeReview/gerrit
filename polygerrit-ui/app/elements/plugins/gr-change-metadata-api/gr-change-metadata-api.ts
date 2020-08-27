@@ -1,5 +1,3 @@
-import {GrAttributeHelper} from '../gr-attribute-helper/gr-attribute-helper';
-
 /**
  * @license
  * Copyright (C) 2018 The Android Open Source Project
@@ -16,25 +14,14 @@ import {GrAttributeHelper} from '../gr-attribute-helper/gr-attribute-helper';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+import {HookApi, PluginApi} from '../gr-plugin-types';
 
-type HookCallback = (el: Element) => void;
-interface HookApi {
-  onAttached(callback: HookCallback): void;
-}
-interface PluginAPI {
-  hook(hookname: string): HookApi;
-  attributeHelper(element: Element): GrAttributeHelper;
-}
-
-/** @constructor */
 export class GrChangeMetadataApi {
-  // TODO(TS): Convert to GrDomHook once converted
   private _hook: HookApi | null;
 
-  // TODO(TS): Convert type to GrPlugin.
-  public plugin: PluginAPI;
+  public plugin: PluginApi;
 
-  constructor(plugin: PluginAPI) {
+  constructor(plugin: PluginApi) {
     this.plugin = plugin;
     this._hook = null;
   }

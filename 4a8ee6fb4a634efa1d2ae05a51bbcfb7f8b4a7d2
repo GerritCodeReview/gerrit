@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d991cbe5_3aa37c10",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-27T11:01:45Z",
+      "side": 1,
+      "message": "Nice",
+      "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3c753fab_48c43b44",
+        "filename": "java/com/google/gerrit/extensions/restapi/testing/AttentionSetUpdateSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-27T11:01:45Z",
+      "side": 1,
+      "message": "nit: hasReasonThat",
+      "range": {
+        "startLine": 64,
+        "startChar": 23,
+        "endLine": 64,
+        "endChar": 32
+      },
+      "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9db761f0_46b06ed8",
+        "filename": "java/com/google/gerrit/extensions/restapi/testing/AttentionSetUpdateSubject.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-27T11:01:45Z",
+      "side": 1,
+      "message": "nit: hasOperationThat",
+      "range": {
+        "startLine": 75,
+        "startChar": 57,
+        "endLine": 75,
+        "endChar": 69
+      },
+      "revId": "4a8ee6fb4a634efa1d2ae05a51bbcfb7f8b4a7d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

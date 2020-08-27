@@ -16,21 +16,9 @@
  */
 import './gr-plugin-repo-command';
 import {ConfigInfo} from '../../../types/common';
+import {HookApi, PluginApi} from '../gr-plugin-types';
 
-// TODO(TS): replace with Plugin and proper hook once gr-public-js-api migrated
-interface PluginApi {
-  hook(endpointName: string, option?: {replace?: boolean}): HookApi;
-  eventHelper(
-    el: Element
-  ): {
-    on(name: string, callback: EventListener): void;
-  };
-}
-interface HookApi {
-  onAttached<T extends Element>(callback: HookCallback<T>): this;
-}
-type HookCallback<T extends Element> = (el: T) => void;
-type RepoCommandCallback = (repo: string, config: ConfigInfo | null) => boolean;
+type RepoCommandCallback = (repo?: string, config?: ConfigInfo) => boolean;
 
 /**
  * Parameters provided on repo-command endpoint
@@ -60,7 +48,7 @@ export class GrRepoApi {
       return this._hook;
     }
     this._hook = this._createHook(title);
-    this._hook.onAttached((element: GrRepoCommandEndpointEl) => {
+    this._hook.onAttached(element => {
       if (callback(element.repoName, element.config) === false) {
         element.hidden = true;
       }
@@ -68,7 +56,7 @@ export class GrRepoApi {
     return this;
   }
 
-  onTap(callback: EventListener) {
+  onTap(callback: (event: Event) => boolean) {
     if (!this._hook) {
       console.warn('Call createCommand first.');
       return this;

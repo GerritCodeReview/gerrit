@@ -55,11 +55,6 @@ import {ChangeNum} from '../../../elements/shared/gr-rest-api-interface/gr-rest-
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
 
-export enum ApiElement {
-  CHANGE_ACTIONS = 'changeactions',
-  REPLY_DIALOG = 'replydialog',
-}
-
 // TODO(TS): remove when GrReplyDialog converted to typescript
 export interface GrReplyDialog {
   getLabelValue(label: string): string;
@@ -102,17 +97,6 @@ export interface GrChangeActions extends Element {
   removeActionButton(key: string): void;
   setActionButtonProp(key: string, prop: string, value: string): void;
   getActionDetails(actionName: string): ActionInfo;
-}
-
-export interface RestApiTagNameMap {
-  [ApiElement.REPLY_DIALOG]: GrReplyDialog;
-  [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
-}
-
-export interface JsApiService {
-  getElement<K extends keyof RestApiTagNameMap>(
-    elementKey: K
-  ): RestApiTagNameMap[K];
 }
 
 export interface RestApiService {

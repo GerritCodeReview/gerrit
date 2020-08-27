@@ -2,6 +2,40 @@
   "comments": [
     {
       "key": {
+        "uuid": "b16b2e4a_5cc84849",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-plugin-endpoints.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "nit: maybe move to util, seems a common method that other files can benefit from",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1ab847e_62d0cad7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "enum ?",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f1eb2ae2_dfa5a2db",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -71,6 +105,29 @@
     },
     {
       "key": {
+        "uuid": "70492c9a_7a3eb8ab",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "nit: `?` is already indicating optional, maybe remove `opt_` for all of them",
+      "range": {
+        "startLine": 135,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 18
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dd784b19_3f6ad9e7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
         "patchSetId": 2
@@ -88,6 +145,86 @@
         "endLine": 223,
         "endChar": 23
       },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e89af828_6e8a50a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 233,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "this appears quite some time, maybe define a type above and use it for all, easier to change in the future as well.",
+      "range": {
+        "startLine": 233,
+        "startChar": 14,
+        "endLine": 233,
+        "endChar": 43
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00752696_fc8a6b9b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 327,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "is this intended to use Element above but HTMLElement for eventHelper ? or we have a TODO(TS) to clean up for them ?",
+      "range": {
+        "startLine": 322,
+        "startChar": 0,
+        "endLine": 327,
+        "endChar": 38
+      },
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a615b2_f33c0cff",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "may worth adding a doc above (with following comments)",
+      "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fb61df4_50cdd936",
+        "filename": "polygerrit-ui/app/utils/dom-util.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:08:29Z",
+      "side": 1,
+      "message": "can we remove this todo then ? or we still need it for gr-js-api-interface ?",
       "revId": "4481d57cfddcb1f933f44e62a2c5e13ed6eb7681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

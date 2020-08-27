@@ -14,67 +14,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-create-group-dialog_html.js';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-create-group-dialog_html';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
+import {page} from '../../../utils/page-wrapper-utils';
+import {customElement, property, observe} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GroupId} from '../../../types/common';
 
-/**
- * @extends PolymerElement
- */
-class GrCreateGroupDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrCreateGroupDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get is() { return 'gr-create-group-dialog'; }
-
-  static get properties() {
-    return {
-      hasNewGroupName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-      _name: Object,
-      _groupCreated: {
-        type: Boolean,
-        value: false,
-      },
-    };
+@customElement('gr-create-group-dialog')
+export class GrCreateGroupDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_updateGroupName(_name)',
-    ];
-  }
+  @property({type: Boolean, notify: true})
+  hasNewGroupName = false;
 
-  _computeGroupUrl(groupId) {
+  @property({type: Object})
+  _name = '';
+
+  @property({type: Boolean})
+  _groupCreated = false;
+
+  _computeGroupUrl(groupId: string) {
     return getBaseUrl() + '/admin/groups/' + encodeURL(groupId, true);
   }
 
-  _updateGroupName(name) {
+  @observe('_name')
+  _updateGroupName(name: Record<string, any>) {
     this.hasNewGroupName = !!name;
   }
 
   handleCreateGroup() {
-    return this.$.restAPI.createGroup({name: this._name})
-        .then(groupRegistered => {
-          if (groupRegistered.status !== 201) { return; }
-          this._groupCreated = true;
-          return this.$.restAPI.getGroupConfig(this._name)
-              .then(group => {
-                page.show(this._computeGroupUrl(group.group_id));
-              });
-        });
+    return this.$.restAPI
+      .createGroup({name: this._name})
+      .then(groupRegistered => {
+        if (groupRegistered.status !== 201) {
+          return;
+        }
+        this._groupCreated = true;
+        return this.$.restAPI
+          .getGroupConfig(this._name as GroupId)
+          .then(group => {
+            // TODO(TS): should group always defined ?
+            page.show(this._computeGroupUrl(group!.group_id!));
+          });
+      });
   }
 }
 
-customElements.define(GrCreateGroupDialog.is, GrCreateGroupDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-group-dialog': GrCreateGroupDialog;
+  }
+}

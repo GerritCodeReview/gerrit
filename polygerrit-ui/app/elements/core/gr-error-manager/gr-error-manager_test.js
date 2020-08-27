@@ -176,7 +176,7 @@ suite('gr-error-manager tests', () => {
           }));
       flush(() => {
         assert.equal(
-            element.$.errorDialog.text,
+            element.shadowRoot.querySelector('#errorDialog').text,
             'Error 500: 500\nTrace Id: xxxx'
         );
         done();
@@ -275,7 +275,8 @@ suite('gr-error-manager tests', () => {
           toast.root.textContent, 'Refresh credentials');
 
       // noInteractionOverlay
-      const noInteractionOverlay = element.$.noInteractionOverlay;
+      const noInteractionOverlay =
+        element.shadowRoot.querySelector('#noInteractionOverlay');
       assert.isOk(noInteractionOverlay);
       sinon.spy(noInteractionOverlay, 'close');
       assert.equal(

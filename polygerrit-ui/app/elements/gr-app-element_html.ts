@@ -192,20 +192,24 @@ export const htmlTemplate = html`
       <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
     </div>
   </footer>
-  <gr-overlay id="keyboardShortcuts" with-backdrop="">
-    <gr-keyboard-shortcuts-dialog
-      on-close="_handleKeyboardShortcutDialogClose"
-    ></gr-keyboard-shortcuts-dialog>
-  </gr-overlay>
-  <gr-overlay id="registrationOverlay" with-backdrop="">
-    <gr-registration-dialog
-      id="registrationDialog"
-      settings-url="[[_settingsUrl]]"
-      on-account-detail-update="_handleAccountDetailUpdate"
-      on-close="_handleRegistrationDialogClose"
-    >
-    </gr-registration-dialog>
-  </gr-overlay>
+  <template is="dom-if" if="[[showKeyboardShortcuts]]">
+    <gr-overlay id="keyboardShortcuts" with-backdrop="">
+      <gr-keyboard-shortcuts-dialog
+        on-close="_handleKeyboardShortcutDialogClose"
+      ></gr-keyboard-shortcuts-dialog>
+    </gr-overlay>
+  </template>
+  <template is="dom-if" if="[[showRegistration]]">
+    <gr-overlay id="registrationOverlay" with-backdrop="">
+      <gr-registration-dialog
+        id="registrationDialog"
+        settings-url="[[_settingsUrl]]"
+        on-account-detail-update="_handleAccountDetailUpdate"
+        on-close="_handleRegistrationDialogClose"
+      >
+      </gr-registration-dialog>
+    </gr-overlay>
+  </template>
   <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
   <gr-error-manager
     id="errorManager"

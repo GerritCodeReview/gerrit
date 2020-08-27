@@ -311,7 +311,7 @@ public class AllChangesIndexer extends SiteIndexer<Change.Id, ChangeData, Change
       }
     }
 
-    private void fail(String error, boolean failed, Exception e) {
+    private void fail(String error, boolean failed, Throwable e) {
       if (failed) {
         this.failed.update(1);
       }

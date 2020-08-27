@@ -51,7 +51,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.entities.SubmitRecord;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.server.AssigneeStatusUpdate;
 import com.google.gerrit.server.ReviewerByEmailSet;
 import com.google.gerrit.server.ReviewerSet;
@@ -248,7 +247,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       ChangeNotes n = new ChangeNotes(args, rawChangeFromNoteDb, true, null);
       try {
         n.load();
-      } catch (StorageException e) {
+      } catch (Exception e) {
         return ChangeNotesResult.error(n.getChangeId(), e);
       }
       return ChangeNotesResult.notes(n);
@@ -257,7 +256,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     /** Result of {@link #scan(Repository,Project.NameKey)}. */
     @AutoValue
     public abstract static class ChangeNotesResult {
-      static ChangeNotesResult error(Change.Id id, StorageException e) {
+      static ChangeNotesResult error(Change.Id id, Throwable e) {
         return new AutoValue_ChangeNotes_Factory_ChangeNotesResult(id, Optional.of(e), null);
       }
 
@@ -270,7 +269,7 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
       public abstract Change.Id id();
 
       /** Error encountered while loading this change, if any. */
-      public abstract Optional<StorageException> error();
+      public abstract Optional<Throwable> error();
 
       /**
        * Notes loaded for this change.

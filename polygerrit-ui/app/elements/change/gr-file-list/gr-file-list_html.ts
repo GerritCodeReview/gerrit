@@ -670,20 +670,22 @@ export const htmlTemplate = html`
   </div>
   <div class="row totalChanges" hidden$="[[_hideChangeTotals]]">
     <div class="total-stats">
-      <span
-        class="added"
-        tabindex="0"
-        aria-label$="Total [[_patchChange.inserted]] lines added"
-      >
-        +[[_patchChange.inserted]]
-      </span>
-      <span
-        class="removed"
-        tabindex="0"
-        aria-label$="Total [[_patchChange.deleted]] lines removed"
-      >
-        -[[_patchChange.deleted]]
-      </span>
+      <div>
+        <span
+          class="added"
+          tabindex="0"
+          aria-label$="Total [[_patchChange.inserted]] lines added"
+        >
+          +[[_patchChange.inserted]]
+        </span>
+        <span
+          class="removed"
+          tabindex="0"
+          aria-label$="Total [[_patchChange.deleted]] lines removed"
+        >
+          -[[_patchChange.deleted]]
+        </span>
+      </div>
     </div>
     <!-- endpoint: change-view-file-list-summary -->
     <template is="dom-if" if="[[_showDynamicColumns]]">

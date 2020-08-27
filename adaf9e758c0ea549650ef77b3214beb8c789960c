@@ -1,0 +1,124 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8f0218c9_d7f8675c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-27T07:54:33Z",
+      "side": 1,
+      "message": "Can you explain a bit of the background here?\n\nWhen I go to https://gerrit-review.googlesource.com I get redirected to https://gerrit-review.googlesource.com/dashboard/self immediately. How does preloading tie in to that?\n\nWhen I am not logged it, I get redirected to https://gerrit-review.googlesource.com/q/status:open+-is:wip\n\nI assume this doesn\u0027t count against our dashboard metrics but is actually search?",
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4eeaa38_0bb66ac2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-27T07:54:33Z",
+      "side": 1,
+      "message": "nit: \"logged in\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 51,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9175ece_d7184e81",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-27T07:54:33Z",
+      "side": 1,
+      "message": "nit: could go into it\u0027s own method.",
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79cacc23_6cff178e",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexHtmlUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-27T07:54:33Z",
+      "side": 1,
+      "message": "Please leave a comment here that this is added later because we only preload when the user is authenticated.",
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "224efdaa_044fa659",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-27T07:54:33Z",
+      "side": 1,
+      "message": "nit: these are all paths, not URLs",
+      "range": {
+        "startLine": 49,
+        "startChar": 46,
+        "endLine": 49,
+        "endChar": 50
+      },
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36889e7d_352dd580",
+        "filename": "java/com/google/gerrit/httpd/raw/IndexPreloadingUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-27T07:54:33Z",
+      "side": 1,
+      "message": "Path",
+      "range": {
+        "startLine": 161,
+        "startChar": 22,
+        "endLine": 161,
+        "endChar": 25
+      },
+      "revId": "adaf9e758c0ea549650ef77b3214beb8c789960c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

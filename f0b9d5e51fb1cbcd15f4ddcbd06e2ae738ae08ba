@@ -39,6 +39,30 @@
       "revId": "f0b9d5e51fb1cbcd15f4ddcbd06e2ae738ae08ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06554f60_c2f92331",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-08-27T11:36:54Z",
+      "side": 1,
+      "message": "The thing is that none of this fancy chars are allowed for the project/repo name, see line #1842 project is taken as it is without being decoded, the only effect of calling encodeURIComponent is \u0027/\u0027 being changed to `%2F` and I believe that Gerrit already takes care of proper URLs being generated for the project part as it encodes the dashboard name part.\n\nIn the dashboard name (data.params[1]) one can have any character but Gerrit encodes it when link to dashboard is generated - here is fancy dashboard name \u0027test_project(proj1010):All Changes   Open\u0027 (note the multiple spaces) becomes:\n\u0027#/projects/TF-Projects/proj1010,dashboards/test_project%28proj1010%29:All+Changes+++Open\u0027 in GWT\n\u0027/p/TF-Projects/proj1010/+/dashboard/test_project%28proj1010%29:All+Changes+++Open\u0027 in Polymer.\n\nHaving said that I have added a menu entry that contains un-encoded chars\n\u0027/projects/parent_proj name,dashboards/parent_proj(group):All Changes Open\u0027 (both project and dashboard contains spaces)\nbut it was turned to URI encoded chars in redirect to become\n\u0027parent_proj%20name/+/dashboard/parent_proj(group):All%20Changes%20Open\u0027\n\nTo sum it up, I could be wrong but, but IMHO one only gets the properly encoded URLs in the first place and in case it doesn\u0027t Gerrit handles it properly anyway (call to page.redirect(...) solves the problem) hence it is not needed to encode it again ;)",
+      "parentUuid": "213f8116_b7c3b432",
+      "range": {
+        "startLine": 1051,
+        "startChar": 29,
+        "endLine": 1051,
+        "endChar": 43
+      },
+      "revId": "f0b9d5e51fb1cbcd15f4ddcbd06e2ae738ae08ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

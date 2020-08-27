@@ -1005,7 +1005,9 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
 
       CommentValidationContext commentValidationCtx =
           CommentValidationContext.create(
-              ctx.getChange().getChangeId(), ctx.getChange().getProject().get());
+              ctx.getChange().getChangeId(),
+              ctx.getChange().getProject().get(),
+              user.getAccount().preferredEmail());
       switch (in.drafts) {
         case PUBLISH:
         case PUBLISH_ALL_REVISIONS:

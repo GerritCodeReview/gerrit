@@ -2069,7 +2069,10 @@ class ReceiveCommits {
                             comment.message.length()))
                 .collect(toImmutableList());
         CommentValidationContext ctx =
-            CommentValidationContext.create(change.getChangeId(), change.getProject().get());
+            CommentValidationContext.create(
+                change.getChangeId(),
+                change.getProject().get(),
+                user.getAccount().preferredEmail());
         ImmutableList<CommentValidationFailure> commentValidationFailures =
             PublishCommentUtil.findInvalidComments(ctx, commentValidators, draftsForValidation);
         magicBranch.setWithholdComments(!commentValidationFailures.isEmpty());

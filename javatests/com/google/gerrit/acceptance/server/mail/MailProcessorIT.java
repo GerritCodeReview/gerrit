@@ -451,7 +451,7 @@ public class MailProcessorIT extends AbstractMailIT {
             CommentForValidation.CommentSource.HUMAN, type, COMMENT_TEXT, COMMENT_TEXT.length());
 
     when(mockCommentValidator.validateComments(
-            CommentValidationContext.create(failChange, failProject),
+            CommentValidationContext.create(failChange, failProject, user.email()),
             ImmutableList.of(commentForValidation)))
         .thenReturn(ImmutableList.of(commentForValidation.failValidation("Oh no!")));
   }

@@ -28,6 +28,7 @@ import {htmlTemplate} from './gr-error-manager_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 import {appContext} from '../../../services/app-context.js';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -91,6 +92,16 @@ class GrErrorManager extends GestureEventListeners(
         type: String,
         value: '/login',
       },
+
+      showErrorDialog: {
+        type: Boolean,
+        value: false,
+      },
+
+      showAuthError: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -152,7 +163,11 @@ class GrErrorManager extends GestureEventListeners(
   }
 
   _handleAuthError(msg, action) {
-    this.$.noInteractionOverlay.open().then(() => {
+    this.showAuthError = true;
+    flush();
+    const noInteractionOverlay =
+      this.shadowRoot.querySelector('#noInteractionOverlay');
+    noInteractionOverlay.open().then(() => {
       this._showAuthErrorAlert(msg, action);
     });
   }
@@ -406,7 +421,11 @@ class GrErrorManager extends GestureEventListeners(
     this._refreshingCredentials = false;
     this._hideAlert();
     this._showAlert('Credentials refreshed.');
-    this.$.noInteractionOverlay.close();
+    const noInteractionOverlay =
+      this.shadowRoot.querySelector('#noInteractionOverlay');
+    if (noInteractionOverlay) {
+      noInteractionOverlay.close();
+    }
 
     // Clear the cache for auth
     this._authService.clearCache();
@@ -421,15 +440,23 @@ class GrErrorManager extends GestureEventListeners(
   }
 
   _handleDismissErrorDialog() {
-    this.$.errorOverlay.close();
+    this.showErrorDialog = false;
+    const errorOverlay = this.shadowRoot.querySelector('#errorOverlay');
+    if (errorOverlay) {
+      errorOverlay.close();
+    }
   }
 
   _showErrorDialog(message, opt_options) {
     this.reporting.reportErrorDialog(message);
-    this.$.errorDialog.text = message;
-    this.$.errorDialog.showSignInButton =
+    this.showErrorDialog = true;
+    flush();
+    const errorDialog =
+      this.shadowRoot.querySelector('#errorDialog');
+    errorDialog.text = message;
+    errorDialog.showSignInButton =
         opt_options && opt_options.showSignInButton;
-    this.$.errorOverlay.open();
+    this.shadowRoot.querySelector('#errorOverlay').open();
   }
 }
 

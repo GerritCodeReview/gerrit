@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "59e1d93b_d816f715",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T11:51:50Z",
+      "side": 1,
+      "message": "oh it was defined as Object, but it should be a string, forgot to update the type above.",
+      "parentUuid": "344a7539_8620dcfa",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 49,
+        "endChar": 12
+      },
+      "revId": "2024374df2e45a39e88f3bb366e9f53213435528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2bdb977b_d0b54de6",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6783ca07_3d171449",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T11:51:50Z",
+      "side": 1,
+      "message": "weird, i don\u0027t recall I change this part at all lol",
+      "parentUuid": "2bdb977b_d0b54de6",
+      "range": {
+        "startLine": 59,
+        "startChar": 25,
+        "endLine": 59,
+        "endChar": 31
+      },
+      "revId": "2024374df2e45a39e88f3bb366e9f53213435528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ff19ecc6_e57f0515",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "2024374df2e45a39e88f3bb366e9f53213435528",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "059fcb01_1f81725d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-group-dialog/gr-create-group-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T11:51:50Z",
+      "side": 1,
+      "message": "_name is string, GroupId is a brand type, will need to cast it here.",
+      "parentUuid": "ff19ecc6_e57f0515",
+      "range": {
+        "startLine": 72,
+        "startChar": 40,
+        "endLine": 72,
+        "endChar": 47
+      },
+      "revId": "2024374df2e45a39e88f3bb366e9f53213435528",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

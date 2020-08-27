@@ -51,6 +51,7 @@ import {
 } from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {GerritNav} from './core/gr-navigation/gr-navigation.js';
 import {appContext} from '../services/app-context.js';
+import {flush} from '@polymer/polymer/lib/utils/flush';
 
 /**
  * @extends PolymerElement
@@ -134,6 +135,16 @@ class GrAppElement extends KeyboardShortcutMixin(
       _loginUrl: {
         type: String,
         value: '/login',
+      },
+
+      loadRegistrationDialog: {
+        type: Boolean,
+        value: false,
+      },
+
+      loadKeyboardShortcutsDialog: {
+        type: Boolean,
+        value: false,
       },
     };
   }
@@ -422,6 +433,8 @@ class GrAppElement extends KeyboardShortcutMixin(
     this.set('_showDocumentationSearch',
         view === GerritNav.View.DOCUMENTATION_SEARCH);
     if (this.params.justRegistered) {
+      this.loadRegistrationDialog = true;
+      flush();
       this.$.registrationOverlay.open();
       this.$.registrationDialog.loadData().then(() => {
         this.$.registrationOverlay.refit();
@@ -519,22 +532,29 @@ class GrAppElement extends KeyboardShortcutMixin(
   }
 
   handleShowKeyboardShortcuts() {
-    this.$.keyboardShortcuts.open();
+    this.loadKeyboardShortcutsDialog = true;
+    flush();
+    this.shadowRoot.querySelector('#keyboardShortcuts').open();
   }
 
   _showKeyboardShortcuts(e) {
     // same shortcut should close the dialog if pressed again
     // when dialog is open
-    if (this.$.keyboardShortcuts.opened) {
-      this.$.keyboardShortcuts.close();
+    this.loadKeyboardShortcutsDialog = true;
+    flush();
+    const keyboardShortcuts =
+      this.shadowRoot.querySelector('#keyboardShortcuts');
+    if (!keyboardShortcuts) return;
+    if (keyboardShortcuts.opened) {
+      keyboardShortcuts.close();
       return;
     }
     if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    this.$.keyboardShortcuts.open();
+    keyboardShortcuts.open();
   }
 
   _handleKeyboardShortcutDialogClose() {
-    this.$.keyboardShortcuts.close();
+    this.shadowRoot.querySelector('#keyboardShortcuts').close();
   }
 
   _handleAccountDetailUpdate(e) {

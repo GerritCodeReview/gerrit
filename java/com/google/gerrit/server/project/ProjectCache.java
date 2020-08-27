@@ -52,8 +52,8 @@ public interface ProjectCache {
    * Get the cached data for a project by its unique name.
    *
    * @param projectName name of the project.
-   * @return an {@link Optional} wrapping the the cached data; {@code absent} if no such project
-   *     exists or the projectName is null
+   * @return an {@link Optional} wrapping the cached data; {@code absent} if no such project exists
+   *     or the projectName is null
    * @throws StorageException when there was an error.
    */
   Optional<ProjectState> get(@Nullable Project.NameKey projectName) throws StorageException;

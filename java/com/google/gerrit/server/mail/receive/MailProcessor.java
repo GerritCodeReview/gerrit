@@ -420,7 +420,7 @@ public class MailProcessor {
 
     private HumanComment persistentCommentFromMailComment(
         ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
-        throws UnprocessableEntityException, PatchListNotAvailableException {
+        throws PatchListNotAvailableException {
       String fileName;
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.

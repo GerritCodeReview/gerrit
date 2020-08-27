@@ -940,8 +940,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
-        throws UnprocessableEntityException, PatchListNotAvailableException,
-            CommentsRejectedException {
+        throws PatchListNotAvailableException, CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
       if (inputComments == null) {
         inputComments = Collections.emptyMap();

@@ -133,8 +133,7 @@ public class ReplyAttentionSetUpdates {
   }
 
   private ImmutableSet<HumanComment> getAllNewComments(
-      ChangeNotes changeNotes, ReviewInput input, CurrentUser currentUser)
-      throws UnprocessableEntityException {
+      ChangeNotes changeNotes, ReviewInput input, CurrentUser currentUser) {
     Set<HumanComment> newComments = new HashSet<>();
     if (input.comments != null) {
       for (ReviewInput.CommentInput commentInput :

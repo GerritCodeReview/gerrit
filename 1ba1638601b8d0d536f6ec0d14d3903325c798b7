@@ -272,6 +272,30 @@
     },
     {
       "key": {
+        "uuid": "80c79b3a_daae1bbe",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-08-27T17:46:13Z",
+      "side": 1,
+      "message": "After further refactoring, I find out your suggestion was very sensible. I move it in different change, as this one was almost ready (I can squash them also).\n\nHere I move branchTips into SubmoduleCommits\nhttps://gerrit-review.googlesource.com/c/gerrit/+/279676\n\nAnd later in https://gerrit-review.googlesource.com/c/gerrit/+/279836 (WIP) I make submitStrategyOp to use directly SubmoduleCommits.",
+      "parentUuid": "e48936f3_dfa4ef16",
+      "range": {
+        "startLine": 71,
+        "startChar": 18,
+        "endLine": 71,
+        "endChar": 50
+      },
+      "revId": "1ba1638601b8d0d536f6ec0d14d3903325c798b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "15187937_c70f0a55",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 5

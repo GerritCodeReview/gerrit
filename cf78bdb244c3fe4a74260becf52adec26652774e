@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f63107dc_e22b978a",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 371,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T07:55:33Z",
+      "side": 1,
+      "message": "can we use `keyup` instead, as keydown will be triggered multiple times when you hold the key (or press it a bit longer)",
+      "range": {
+        "startLine": 371,
+        "startChar": 32,
+        "endLine": 371,
+        "endChar": 41
+      },
+      "revId": "cf78bdb244c3fe4a74260becf52adec26652774e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

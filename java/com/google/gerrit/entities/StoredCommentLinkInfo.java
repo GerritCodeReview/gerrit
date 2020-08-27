@@ -42,11 +42,11 @@ public abstract class StoredCommentLinkInfo {
   @Nullable
   public abstract Boolean getEnabled();
 
-  /** If set, {@link StoredCommentLinkInfo} has to be overriden to take any effect. */
+  /** If set, {@link StoredCommentLinkInfo} has to be overridden to take any effect. */
   public abstract boolean getOverrideOnly();
 
   /**
-   * Creates an enabled {@link StoredCommentLinkInfo} that can be overriden but doesn't do anything
+   * Creates an enabled {@link StoredCommentLinkInfo} that can be overridden but doesn't do anything
    * on its own.
    */
   public static StoredCommentLinkInfo enabled(String name) {
@@ -54,7 +54,7 @@ public abstract class StoredCommentLinkInfo {
   }
 
   /**
-   * Creates a disabled {@link StoredCommentLinkInfo} that can be overriden but doesn't do anything
+   * Creates a disabled {@link StoredCommentLinkInfo} that can be overridden but doesn't do anything
    * on it's own.
    */
   public static StoredCommentLinkInfo disabled(String name) {

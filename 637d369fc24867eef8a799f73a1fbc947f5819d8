@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f35e99f6_b0675088",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T14:01:22Z",
+      "side": 1,
+      "message": "nit: can move all these to above so you don\u0027t need the constructor at all",
+      "range": {
+        "startLine": 143,
+        "startChar": 4,
+        "endLine": 145,
+        "endChar": 78
+      },
+      "revId": "637d369fc24867eef8a799f73a1fbc947f5819d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72100bd2_a42813ed",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T14:01:22Z",
+      "side": 1,
+      "message": "its used in so many places, maybe just define it at the top and use here (also easier in the future when you need to change it)",
+      "range": {
+        "startLine": 182,
+        "startChar": 47,
+        "endLine": 182,
+        "endChar": 69
+      },
+      "revId": "637d369fc24867eef8a799f73a1fbc947f5819d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63b70e8b_69979611",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 212,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T14:01:22Z",
+      "side": 1,
+      "message": "nit: should this be an enum instead ?",
+      "range": {
+        "startLine": 212,
+        "startChar": 25,
+        "endLine": 212,
+        "endChar": 32
+      },
+      "revId": "637d369fc24867eef8a799f73a1fbc947f5819d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e6a1704_af3bc7a3",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 17
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T14:01:22Z",
+      "side": 1,
+      "message": "nit: why not just do `changeStatus?: string` ?",
+      "range": {
+        "startLine": 250,
+        "startChar": 4,
+        "endLine": 250,
+        "endChar": 16
+      },
+      "revId": "637d369fc24867eef8a799f73a1fbc947f5819d8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

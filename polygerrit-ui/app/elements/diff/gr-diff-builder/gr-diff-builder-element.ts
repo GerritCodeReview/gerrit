@@ -183,7 +183,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   get diffElement() {
-    return this.queryEffectiveChildren('#diffTable') as HTMLElement;
+    return this.queryEffectiveChildren('#diffTable') as HTMLTableElement;
   }
 
   _computeLeftCoverageRanges(coverageRanges: CoverageRange[]) {

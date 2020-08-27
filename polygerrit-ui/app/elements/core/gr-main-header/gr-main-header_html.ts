@@ -227,7 +227,9 @@ export const htmlTemplate = html`
         >
           <iron-icon icon="gr-icons:settings"></iron-icon>
         </a>
-        <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
+        <template is="dom-if" if="[[_account]]">
+          <gr-account-dropdown account="[[_account]]"></gr-account-dropdown>
+        </template>
       </div>
     </div>
   </nav>

@@ -15,6 +15,7 @@
 package com.google.gerrit.acceptance.rest.change;
 
 import static com.google.common.truth.Truth.assertThat;
+import static com.google.gerrit.extensions.restapi.testing.AttentionSetUpdateSubject.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableList;
@@ -209,15 +210,15 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate userUpdate =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(userUpdate.account()).isEqualTo(user.id());
-    assertThat(userUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(userUpdate.reason()).isEqualTo("Change was abandoned");
+    assertThat(userUpdate).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(userUpdate).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(userUpdate).hasReasonThat().isEqualTo("Change was abandoned");
 
     AttentionSetUpdate adminUpdate =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(adminUpdate.account()).isEqualTo(admin.id());
-    assertThat(adminUpdate.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(adminUpdate.reason()).isEqualTo("Change was abandoned");
+    assertThat(adminUpdate).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(adminUpdate).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(adminUpdate).hasReasonThat().isEqualTo("Change was abandoned");
   }
 
   @Test
@@ -228,9 +229,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).setWorkInProgress();
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Change was marked work in progress");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was marked work in progress");
   }
 
   @Test
@@ -251,16 +252,16 @@ public class AttentionSetIT extends AbstractDaemonTest {
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r1, user));
 
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was submitted");
 
     // Attention set updates that relate to the admin (the person who replied) are filtered out.
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r2, user));
 
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was submitted");
   }
 
   @Test
@@ -281,9 +282,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r1, user));
 
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Change was submitted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was submitted");
   }
 
   @Test
@@ -296,9 +297,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
 
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
   }
 
   @Test
@@ -308,16 +309,16 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(user.id().toString());
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
 
     change(r).reviewer(user.email()).remove();
 
     attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was removed");
   }
 
   @Test
@@ -327,16 +328,16 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(user.email());
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
 
     change(r).reviewer(user.email()).remove();
 
     attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was removed");
   }
 
   @Test
@@ -373,9 +374,10 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(user.id().toString());
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason())
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet)
+        .hasReasonThat()
         .isEqualTo("removed and not re-added when re-adding as reviewer");
   }
 
@@ -402,9 +404,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).addReviewer(addReviewerInput);
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was removed");
   }
 
   @Test
@@ -419,9 +421,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(robot.id());
     change(r).setReadyForReview();
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was marked ready for review");
   }
 
   @Test
@@ -432,9 +434,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     change(r).setReadyForReview();
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Change was marked ready for review");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Change was marked ready for review");
   }
 
   @Test
@@ -453,9 +455,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was removed");
   }
 
   @Test
@@ -468,9 +470,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
   }
 
   @Test
@@ -484,9 +486,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).setHashtags(hashtagsInput);
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("removed");
   }
 
   @Test
@@ -499,9 +501,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for adding to attention set were sent.
     email.getMessages().isEmpty();
@@ -519,9 +521,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
 
     // No emails for removing from attention set were sent.
     email.getMessages().isEmpty();
@@ -566,9 +568,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Attention set updates that relate to the admin (the person who replied) are filtered out.
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -655,9 +657,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Attention set updates that relate to the admin (the person who replied) are filtered out.
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -674,9 +676,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Attention set updates that relate to the admin (the person who replied) are filtered out.
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -688,9 +690,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).current().review(reviewInput);
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("removed on reply");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("removed on reply");
   }
 
   @Test
@@ -701,9 +703,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).current().review(reviewInput);
 
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -718,9 +720,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("removed on reply");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("removed on reply");
   }
 
   @Test
@@ -746,9 +748,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
   }
 
   @Test
@@ -797,9 +799,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
   }
 
   @Test
@@ -821,15 +823,15 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Uploader added
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
 
     // Owner added
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
   }
 
   @Test
@@ -878,14 +880,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Someone else replied on a comment you posted");
 
     attentionSet = Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user2));
-    assertThat(attentionSet.account()).isEqualTo(user2.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user2.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Someone else replied on a comment you posted");
   }
 
   @Test
@@ -919,9 +925,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // The user which replied to the robot comment was added to the attention set.
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(result, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Someone else replied on a comment you posted");
   }
 
   @Test
@@ -944,9 +952,11 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on a comment you posted");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet)
+        .hasReasonThat()
+        .isEqualTo("Someone else replied on a comment you posted");
   }
 
   @Test
@@ -981,9 +991,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // cc removed
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was removed");
   }
 
   @Test
@@ -1010,9 +1020,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Owner added
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Someone else replied on the change");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Someone else replied on the change");
   }
 
   @Test
@@ -1027,9 +1037,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // reviewer removed
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("removed on reply");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("removed on reply");
   }
 
   @Test
@@ -1046,9 +1056,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // admin is still in the attention set, although replies remove from attention set, and removing
     // from reviewer also should remove from attention set.
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -1100,9 +1110,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Admin is still removed although we block default attention set rules, since we remove
     // the admin manually.
     AttentionSetUpdate attentionSet = Iterables.getOnlyElement(r.getChange().attentionSet());
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.REMOVE);
-    assertThat(attentionSet.reason()).isEqualTo("removed");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.REMOVE);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("removed");
   }
 
   @Test
@@ -1136,9 +1146,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     // Bots can still change the attention set, just not when replying.
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
   }
 
   @Test
@@ -1162,9 +1172,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("A robot voted negatively on a label");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("A robot voted negatively on a label");
   }
 
   @Test
@@ -1181,9 +1191,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("A robot comment was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("A robot comment was added");
   }
 
   @Test
@@ -1196,9 +1206,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet.account()).isEqualTo(admin.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -1209,9 +1219,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("reason");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("reason");
   }
 
   @Test
@@ -1222,9 +1232,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     AttentionSetUpdate attentionSet =
         Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, user));
-    assertThat(attentionSet.account()).isEqualTo(user.id());
-    assertThat(attentionSet.operation()).isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet.reason()).isEqualTo("Reviewer was added");
+    assertThat(attentionSet).hasAccountIdThat().isEqualTo(user.id());
+    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
+    assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

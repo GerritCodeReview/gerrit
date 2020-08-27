@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.submit;
 
-import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toList;
-
 import com.google.common.collect.ImmutableSet;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
@@ -42,7 +39,6 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
@@ -55,12 +51,12 @@ public class SubmoduleOp {
   public static class GitlinkOp implements RepoOnlyOp {
     private final BranchNameKey branch;
     private final SubmoduleCommits commitHelper;
-    private final List<SubmoduleSubscription> branchTargets;
+    private final Collection<SubmoduleSubscription> branchTargets;
 
     GitlinkOp(
         BranchNameKey branch,
         SubmoduleCommits commitHelper,
-        List<SubmoduleSubscription> branchTargets) {
+        Collection<SubmoduleSubscription> branchTargets) {
       this.branch = branch;
       this.commitHelper = commitHelper;
       this.branchTargets = branchTargets;
@@ -109,7 +105,6 @@ public class SubmoduleOp {
 
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
-
   private final SubmoduleCommits submoduleCommits;
 
   private SubmoduleOp(
@@ -126,6 +121,10 @@ public class SubmoduleOp {
   // SubmoduleOp
   SubscriptionGraph getSubscriptionGraph() {
     return subscriptionGraph;
+  }
+
+  SubmoduleCommits getSubmoduleCommits() {
+    return submoduleCommits;
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
@@ -156,11 +155,6 @@ public class SubmoduleOp {
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
     }
-  }
-
-  CodeReviewCommit amendGitlinksCommit(BranchNameKey branch, CodeReviewCommit commit)
-      throws SubmoduleConflictException, IOException {
-    return submoduleCommits.amendGitlinksCommit(branch, commit, getSubscriptions(branch));
   }
 
   ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleConflictException {
@@ -214,17 +208,8 @@ public class SubmoduleOp {
     return ImmutableSet.copyOf(branches);
   }
 
-  void addBranchTip(BranchNameKey branch, CodeReviewCommit tip) {
-    submoduleCommits.addBranchTip(branch, tip);
-  }
-
   void addOp(BatchUpdate bu, BranchNameKey branch) {
-    bu.addRepoOnlyOp(new GitlinkOp(branch, submoduleCommits, getSubscriptions(branch)));
-  }
-
-  private List<SubmoduleSubscription> getSubscriptions(BranchNameKey branch) {
-    return subscriptionGraph.getSubscriptions(branch).stream()
-        .sorted(comparing(SubmoduleSubscription::getPath))
-        .collect(toList());
+    bu.addRepoOnlyOp(
+        new GitlinkOp(branch, submoduleCommits, subscriptionGraph.getSubscriptions(branch)));
   }
 }

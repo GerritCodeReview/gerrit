@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0f2a2f3a_5b60b703",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T14:21:42Z",
+      "side": 1,
+      "message": "i think we recommend to not using Record but just do `{[someName: string]: Status}` and `Statuses` is a bad name tbh lol\nbut i won\u0027t block you for that",
+      "range": {
+        "startLine": 52,
+        "startChar": 16,
+        "endLine": 52,
+        "endChar": 39
+      },
+      "revId": "279297b32c3bad68775b242d976993ba7c5eb781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

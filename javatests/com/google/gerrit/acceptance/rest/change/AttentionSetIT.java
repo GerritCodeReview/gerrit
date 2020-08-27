@@ -838,7 +838,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     requestScopeOperations.setApiUser(user.id());
     testCommentHelper.addRobotComment(
         r.getChangeId(),
-        testCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
 
     requestScopeOperations.setApiUser(admin.id());
     change(r)
@@ -894,7 +894,7 @@ public class AttentionSetIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange();
     testCommentHelper.addRobotComment(
         result.getChangeId(),
-        testCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(Patch.COMMIT_MSG));
 
     requestScopeOperations.setApiUser(user.id());
     // Reply to the robot comment.

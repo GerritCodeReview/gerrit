@@ -1480,7 +1480,7 @@ public class CommentsIT extends AbstractDaemonTest {
 
     testCommentHelper.addRobotComment(
         result.getChangeId(),
-        testCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME));
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME));
     RobotCommentInfo robotCommentInfo =
         Iterables.getOnlyElement(gApi.changes().id(changeId).current().robotCommentsAsList());
 

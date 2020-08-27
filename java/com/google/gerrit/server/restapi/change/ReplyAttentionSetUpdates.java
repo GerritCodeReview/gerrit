@@ -263,11 +263,11 @@ public class ReplyAttentionSetUpdates {
 
   /**
    * Bots don't process automatic rules, but they do have special rules; One of them: When adding a
-   * robot comment, add the owner and uploader.
+   * robot comment, add the owner and uploader. This only applies on open changes.
    */
   private void robotCommentAddsOwnerAndUploader(
       BatchUpdate bu, ChangeNotes changeNotes, ReviewInput input) {
-    if (input.robotComments != null) {
+    if (input.robotComments != null && changeNotes.getChange().isNew()) {
       Account.Id uploader = changeNotes.getCurrentPatchSet().uploader();
       Account.Id owner = changeNotes.getChange().getOwner();
       addToAttentionSet(bu, changeNotes, owner, "A robot comment was added", false);

@@ -53,7 +53,7 @@ export const htmlTemplate = html`
           title="read documentation"
         ></iron-icon>
       </a>
-    </gr-autocomplete>
+    </template>
   </form>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>
 `;

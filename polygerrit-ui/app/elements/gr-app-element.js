@@ -368,7 +368,7 @@ class GrAppElement extends KeyboardShortcutMixin(
     this.bindShortcut(
         Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
     this.bindShortcut(
-        Shortcut.TOGGLE_BLAME, 'b');
+        Shortcut.TOGGLE_BLAME, 'b:keyup');
     this.bindShortcut(
         Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
 

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6f336617_905daf68",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-27T14:27:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f2a2f3a_5b60b703",
+      "range": {
+        "startLine": 52,
+        "startChar": 16,
+        "endLine": 52,
+        "endChar": 39
+      },
+      "revId": "279297b32c3bad68775b242d976993ba7c5eb781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec30201b_07569d3d",
         "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
         "patchSetId": 18
@@ -45,6 +69,30 @@
       "revId": "279297b32c3bad68775b242d976993ba7c5eb781",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9606242a_5ad0babc",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-cherrypick-dialog/gr-confirm-cherrypick-dialog.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-08-27T14:27:27Z",
+      "side": 1,
+      "message": "yeah I remember replacing the map but did not replace everywhere.\nnice catch.\nupdated now.",
+      "parentUuid": "ec30201b_07569d3d",
+      "range": {
+        "startLine": 136,
+        "startChar": 13,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "279297b32c3bad68775b242d976993ba7c5eb781",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

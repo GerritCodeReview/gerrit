@@ -16,6 +16,24 @@
       "revId": "5b935c83af2cfbcc7133b157f8df776ae99b3128",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc6e338_51b9c185",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T10:20:08Z",
+      "side": 0,
+      "message": "unlikely, i don\u0027t see any endpoint here or in gr-create-group-dialog or through $.createNewModal, should be fine to remove",
+      "parentUuid": "10daf9e6_474b08e0",
+      "revId": "5b935c83af2cfbcc7133b157f8df776ae99b3128",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

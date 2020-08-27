@@ -55,7 +55,7 @@ public class SubmitStrategyFactory {
       CommitStatus commitStatus,
       SubmissionId submissionId,
       SubmitInput submitInput,
-      SubmoduleOp submoduleOp,
+      SubmoduleCommits submoduleCommits,
       SubscriptionGraph subscriptionGraph,
       boolean dryrun) {
     SubmitStrategy.Arguments args =
@@ -71,7 +71,7 @@ public class SubmitStrategyFactory {
             incoming,
             submissionId,
             submitInput,
-            submoduleOp,
+            submoduleCommits,
             subscriptionGraph,
             dryrun);
     switch (submitType) {

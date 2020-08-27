@@ -98,6 +98,9 @@ export class GrDropdownList extends GestureEventListeners(
   @property({type: String, notify: true})
   value?: string;
 
+  @property({type: Boolean})
+  showCopyForTriggerText = false;
+
   /**
    * Handle a click on the iron-dropdown element.
    */

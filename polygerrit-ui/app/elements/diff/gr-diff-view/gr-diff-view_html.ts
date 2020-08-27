@@ -235,6 +235,7 @@ export const htmlTemplate = html`
             on-value-change="_handleFileChange"
             items="[[_formattedFiles]]"
             initial-count="75"
+            show-copy-for-trigger-text
           >
           </gr-dropdown-list>
         </div>

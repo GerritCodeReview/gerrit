@@ -127,6 +127,11 @@ export const htmlTemplate = html`
     slot="dropdown-trigger"
   >
     <span id="triggerText">[[text]]</span>
+    <gr-copy-clipboard
+      hidden="[[!showCopyForTriggerText]]"
+      hide-input=""
+      text="[[text]]"
+    ></gr-copy-clipboard>
   </gr-button>
   <iron-dropdown
     id="dropdown"

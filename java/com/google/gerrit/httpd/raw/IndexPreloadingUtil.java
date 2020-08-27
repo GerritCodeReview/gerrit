@@ -162,6 +162,8 @@ public class IndexPreloadingUtil {
       case DIFF:
         matcher = DIFF_URL_PATTERN.matcher(requestedURL);
         break;
+      case DASHBOARD:
+      case PAGE_WITHOUT_PRELOADING:
       default:
         return Optional.empty();
     }

@@ -53,6 +53,7 @@ import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
 import {GrDiffGroup} from '../gr-diff/gr-diff-group';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {getLineNumber} from '../gr-diff/gr-diff-utils';
+import {emptyDomElement} from '../../../utils/dom-util';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -428,7 +429,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   _clearDiffContent() {
-    this.diffElement.innerHTML = '';
+    emptyDomElement(this.diffElement);
   }
 
   @observe('_groups.splices')

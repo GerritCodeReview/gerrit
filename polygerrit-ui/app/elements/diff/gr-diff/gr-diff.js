@@ -34,6 +34,7 @@ import {
   patchNumEquals,
   SPECIAL_PATCH_SET_NUM,
 } from '../../../utils/patch-set-util.js';
+import {emptyDomElement} from '../../../utils/dom-util.js';
 
 const ERR_COMMENT_ON_EDIT = 'You cannot comment on an edit.';
 const ERR_COMMENT_ON_EDIT_BASE = 'You cannot comment on the base patch set ' +
@@ -886,7 +887,7 @@ class GrDiff extends GestureEventListeners(
 
   clearDiffContent() {
     this._unobserveIncrementalNodes();
-    this.$.diffTable.innerHTML = null;
+    emptyDomElement(this.$.diffTable);
   }
 
   /** @return {!Array} */

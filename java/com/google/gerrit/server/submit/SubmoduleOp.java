@@ -109,7 +109,6 @@ public class SubmoduleOp {
 
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
-
   private final SubmoduleCommits submoduleCommits;
 
   private SubmoduleOp(
@@ -126,6 +125,10 @@ public class SubmoduleOp {
   // SubmoduleOp
   SubscriptionGraph getSubscriptionGraph() {
     return subscriptionGraph;
+  }
+
+  SubmoduleCommits getSubmoduleCommits() {
+    return submoduleCommits;
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
@@ -156,11 +159,6 @@ public class SubmoduleOp {
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
     }
-  }
-
-  CodeReviewCommit amendGitlinksCommit(BranchNameKey branch, CodeReviewCommit commit)
-      throws SubmoduleConflictException, IOException {
-    return submoduleCommits.amendGitlinksCommit(branch, commit, getSubscriptions(branch));
   }
 
   ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleConflictException {
@@ -212,10 +210,6 @@ public class SubmoduleOp {
     branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
     branches.addAll(subscriptionGraph.getUpdatedBranches());
     return ImmutableSet.copyOf(branches);
-  }
-
-  void addBranchTip(BranchNameKey branch, CodeReviewCommit tip) {
-    submoduleCommits.addBranchTip(branch, tip);
   }
 
   void addOp(BatchUpdate bu, BranchNameKey branch) {

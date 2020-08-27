@@ -50,7 +50,7 @@ export class GrAnnotationActionsContext {
     lineNumberEl: HTMLElement,
     line: GrDiffLine,
     path: string,
-    changeNum: string,
+    changeNum: string | number,
     patchNum: PatchSetNum
   ) {
     this._contentEl = contentEl;

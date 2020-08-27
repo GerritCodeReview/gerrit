@@ -101,13 +101,15 @@ export const htmlTemplate = html`
   >
   </gr-main-header>
   <main>
-    <gr-smart-search
-      id="search"
-      label="Search for changes"
-      search-query="{{params.query}}"
-      hidden="[[!mobileSearch]]"
-    >
+    <template is="dom-if" if="[[mobileSearch]]">
+      <gr-smart-search
+        id="search"
+        label="Search for changes"
+        search-query="{{params.query}}"
+        hidden="[[!mobileSearch]]"
+      >
     </gr-smart-search>
+    </template>
     <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
       <gr-change-list-view
         params="[[params]]"
@@ -192,20 +194,24 @@ export const htmlTemplate = html`
       <gr-endpoint-decorator name="footer-right"></gr-endpoint-decorator>
     </div>
   </footer>
-  <gr-overlay id="keyboardShortcuts" with-backdrop="">
-    <gr-keyboard-shortcuts-dialog
-      on-close="_handleKeyboardShortcutDialogClose"
-    ></gr-keyboard-shortcuts-dialog>
-  </gr-overlay>
-  <gr-overlay id="registrationOverlay" with-backdrop="">
-    <gr-registration-dialog
-      id="registrationDialog"
-      settings-url="[[_settingsUrl]]"
-      on-account-detail-update="_handleAccountDetailUpdate"
-      on-close="_handleRegistrationDialogClose"
-    >
-    </gr-registration-dialog>
-  </gr-overlay>
+  <template is="dom-if" if="[[loadKeyboardShortcutsDialog]]">
+    <gr-overlay id="keyboardShortcuts" with-backdrop="">
+      <gr-keyboard-shortcuts-dialog
+        on-close="_handleKeyboardShortcutDialogClose"
+      ></gr-keyboard-shortcuts-dialog>
+    </gr-overlay>
+  </template>
+  <template is="dom-if" if="[[loadRegistrationDialog]]">
+    <gr-overlay id="registrationOverlay" with-backdrop="">
+      <gr-registration-dialog
+        id="registrationDialog"
+        settings-url="[[_settingsUrl]]"
+        on-account-detail-update="_handleAccountDetailUpdate"
+        on-close="_handleRegistrationDialogClose"
+      >
+      </gr-registration-dialog>
+    </gr-overlay>
+  </template>
   <gr-endpoint-decorator name="plugin-overlay"></gr-endpoint-decorator>
   <gr-error-manager
     id="errorManager"

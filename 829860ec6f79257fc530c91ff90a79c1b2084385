@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "101d08ec_34f96574",
+        "filename": "polygerrit-ui/app/elements/admin/gr-rule-editor/gr-rule-editor.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T10:10:45Z",
+      "side": 1,
+      "message": "can we define AccessPermissions with a more specific interface other than just ` {[id: string]: AccessPermission}` ?",
+      "range": {
+        "startLine": 179,
+        "startChar": 8,
+        "endLine": 179,
+        "endChar": 25
+      },
+      "revId": "829860ec6f79257fc530c91ff90a79c1b2084385",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

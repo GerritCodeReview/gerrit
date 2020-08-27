@@ -15,30 +15,38 @@
  * limitations under the License.
  */
 
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {getSharedApiEl} from '../../../utils/dom-util.js';
-import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper.js';
-import {GrChangeActionsInterface} from './gr-change-actions-js-api.js';
-import {GrChangeReplyInterface} from './gr-change-reply-js-api.js';
-import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks.js';
-import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api.js';
-import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
-import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api.js';
-import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api.js';
-import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api.js';
-import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper.js';
-import {GrPluginRestApi} from './gr-plugin-rest-api.js';
-import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api.js';
-import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
-import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api.js';
-import {GrPluginActionContext} from './gr-plugin-action-context.js';
-import {getPluginEndpoints} from './gr-plugin-endpoints.js';
+import {getBaseUrl} from '../../../utils/url-util';
+import {getSharedApiEl} from '../../../utils/dom-util';
+import {GrAttributeHelper} from '../../plugins/gr-attribute-helper/gr-attribute-helper';
+import {GrChangeActionsInterface} from './gr-change-actions-js-api';
+import {GrChangeReplyInterface} from './gr-change-reply-js-api';
+import {GrDomHooksManager} from '../../plugins/gr-dom-hooks/gr-dom-hooks';
+import {GrThemeApi} from '../../plugins/gr-theme-api/gr-theme-api';
+import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface';
+import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
+import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
+import {GrChangeMetadataApi} from '../../plugins/gr-change-metadata-api/gr-change-metadata-api';
+import {GrEventHelper} from '../../plugins/gr-event-helper/gr-event-helper';
+import {GrPluginRestApi} from './gr-plugin-rest-api';
+import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api';
+import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api';
+import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api';
+import {GrPluginActionContext} from './gr-plugin-action-context';
+import {getPluginEndpoints} from './gr-plugin-endpoints';
 
+import {getPluginNameFromUrl, PRELOADED_PROTOCOL, send} from './gr-api-utils';
 import {
-  PRELOADED_PROTOCOL,
-  getPluginNameFromUrl,
-  send,
-} from './gr-api-utils.js';
+  ApiElement,
+  HookApi,
+  JsApiService,
+  PanelInfo,
+  PluginApi,
+  PluginDeprecatedApi,
+  RegisterOptions,
+  SettingsInfo,
+} from '../../plugins/gr-plugin-types';
+import {ActionInfo, RequestPayload} from '../../../types/common';
+import {HttpMethod} from '../../../constants/constants';
 
 const PANEL_ENDPOINTS_MAPPING = {
   CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
@@ -61,37 +69,57 @@ const EndpointType = {
   STYLE: 'style',
 };
 
-export class Plugin {
-  constructor(opt_url) {
+export class Plugin implements PluginApi {
+  readonly deprecated: PluginDeprecatedApi;
+
+  readonly _url?: URL;
+
+  private _domHooks: GrDomHooksManager;
+
+  private readonly _name: string = 'NULL';
+
+  // TODO(TS): Change type to GrJsApiInterface
+  private readonly sharedApiElement: JsApiService;
+
+  constructor(opt_url: string) {
+    this.deprecated = {
+      _loadedGwt: () => {},
+      onAction: (
+        type: string,
+        action: string,
+        callback: (ctx: GrPluginActionContext) => void
+      ) => this.deprecatedOnAction(type, action, callback),
+      panel: (extensionpoint: string, callback: (panel: PanelInfo) => void) =>
+        this.deprecatedPanel(extensionpoint, callback),
+      popup: (el: Element) => this.deprecatedPopup(el),
+      screen: (pattern: string, callback: (settings: SettingsInfo) => void) =>
+        this.deprecatedScreen(pattern, callback),
+      settingsScreen: (
+        path: string,
+        menu: string,
+        callback: (settings: SettingsInfo) => void
+      ) => this.deprecatedSettingsScreen(path, menu, callback),
+    };
+    this.sharedApiElement = getSharedApiEl();
     this._domHooks = new GrDomHooksManager(this);
 
     if (!opt_url) {
       console.warn(
-          'Plugin not being loaded from /plugins base path.',
-          'Unable to determine name.'
+        'Plugin not being loaded from /plugins base path.',
+        'Unable to determine name.'
       );
       return this;
     }
-    this.deprecated = {
-      _loadedGwt: deprecatedAPI._loadedGwt.bind(this),
-      install: deprecatedAPI.install.bind(this),
-      onAction: deprecatedAPI.onAction.bind(this),
-      panel: deprecatedAPI.panel.bind(this),
-      popup: deprecatedAPI.popup.bind(this),
-      screen: deprecatedAPI.screen.bind(this),
-      settingsScreen: deprecatedAPI.settingsScreen.bind(this),
-    };
 
     this._url = new URL(opt_url);
-    this._name = getPluginNameFromUrl(this._url);
-    this.sharedApiElement = getSharedApiEl();
+    this._name = getPluginNameFromUrl(this._url) ?? 'NULL';
   }
 
   getPluginName() {
     return this._name;
   }
 
-  registerStyleModule(endpoint, moduleName) {
+  registerStyleModule(endpoint: string, moduleName: string) {
     getPluginEndpoints().registerModule(this, {
       endpoint,
       type: EndpointType.STYLE,
@@ -102,11 +130,15 @@ export class Plugin {
   /**
    * Registers an endpoint for the plugin.
    */
-  registerCustomComponent(endpointName, opt_moduleName, opt_options) {
+  registerCustomComponent(
+    endpointName: string,
+    opt_moduleName?: string,
+    opt_options?: RegisterOptions
+  ): HookApi {
     return this._registerCustomComponent(
-        endpointName,
-        opt_moduleName,
-        opt_options
+      endpointName,
+      opt_moduleName,
+      opt_options
     );
   }
 
@@ -116,22 +148,26 @@ export class Plugin {
    * Dynamic plugins are registered by specific prefix, such as
    * 'change-list-header'.
    */
-  registerDynamicCustomComponent(endpointName, opt_moduleName, opt_options) {
+  registerDynamicCustomComponent(
+    endpointName: string,
+    opt_moduleName?: string,
+    opt_options?: RegisterOptions
+  ): HookApi {
     const fullEndpointName = `${endpointName}-${this.getPluginName()}`;
     return this._registerCustomComponent(
-        fullEndpointName,
-        opt_moduleName,
-        opt_options,
-        endpointName
+      fullEndpointName,
+      opt_moduleName,
+      opt_options,
+      endpointName
     );
   }
 
   _registerCustomComponent(
-      endpoint,
-      opt_moduleName,
-      opt_options,
-      dynamicEndpoint
-  ) {
+    endpoint: string,
+    opt_moduleName?: string,
+    opt_options?: RegisterOptions,
+    dynamicEndpoint?: string
+  ): HookApi {
     const type =
       opt_options && opt_options.replace
         ? EndpointType.REPLACE
@@ -147,14 +183,14 @@ export class Plugin {
       domHook,
       dynamicEndpoint,
     });
-    return domHook.getPublicAPI();
+    return domHook;
   }
 
   /**
    * Returns instance of DOM hook API for endpoint. Creates a placeholder
    * element for the first call.
    */
-  hook(endpointName, opt_options) {
+  hook(endpointName: string, opt_options?: RegisterOptions) {
     return this.registerCustomComponent(endpointName, undefined, opt_options);
   }
 
@@ -162,12 +198,13 @@ export class Plugin {
     return document.createElement('gr-rest-api-interface').getConfig();
   }
 
-  on(eventName, callback) {
+  on(eventName: string, callback: (...args: any[]) => void) {
     this.sharedApiElement.addEventCallback(eventName, callback);
   }
 
-  url(opt_path) {
-    const relPath = '/plugins/' + this._name + (opt_path || '/');
+  url(path?: string) {
+    if (!this._url) throw new Error('plugin url not set');
+    const relPath = '/plugins/' + this._name + (path || '/');
     const sameOriginPath = window.location.origin + `${getBaseUrl()}${relPath}`;
     if (window.location.origin === this._url.origin) {
       // Plugin loaded from the same origin as gr-app, getBaseUrl in effect.
@@ -183,42 +220,53 @@ export class Plugin {
     }
   }
 
-  screenUrl(opt_screenName) {
+  screenUrl(screenName: string) {
     const origin = location.origin;
     const base = getBaseUrl();
-    const tokenPart = opt_screenName ? '/' + opt_screenName : '';
+    const tokenPart = screenName ? '/' + screenName : '';
     return `${origin}${base}/x/${this.getPluginName()}${tokenPart}`;
   }
 
-  _send(method, url, opt_callback, opt_payload) {
-    return send(method, this.url(url), opt_callback, opt_payload);
+  _send(
+    method: HttpMethod,
+    url: string,
+    callback?: (response: unknown) => void,
+    payload?: RequestPayload
+  ) {
+    return send(method, this.url(url), callback, payload);
   }
 
-  get(url, opt_callback) {
+  get(url: string, callback?: (response: unknown) => void) {
     console.warn('.get() is deprecated! Use .restApi().get()');
-    return this._send('GET', url, opt_callback);
+    return this._send(HttpMethod.GET, url, callback);
   }
 
-  post(url, payload, opt_callback) {
+  post(
+    url: string,
+    payload: RequestPayload,
+    callback?: (response: unknown) => void
+  ) {
     console.warn('.post() is deprecated! Use .restApi().post()');
-    return this._send('POST', url, opt_callback, payload);
+    return this._send(HttpMethod.POST, url, callback, payload);
   }
 
-  put(url, payload, opt_callback) {
+  put(
+    url: string,
+    payload: RequestPayload,
+    callback?: (response: unknown) => void
+  ) {
     console.warn('.put() is deprecated! Use .restApi().put()');
-    return this._send('PUT', url, opt_callback, payload);
+    return this._send(HttpMethod.PUT, url, callback, payload);
   }
 
-  delete(url, opt_callback) {
+  delete(url: string, callback?: (response: unknown) => void) {
     console.warn('.delete() is deprecated! Use plugin.restApi().delete()');
     return this.restApi()
-        .delete(this.url(url))
-        .then(res => {
-          if (opt_callback) {
-            opt_callback(res);
-          }
-          return res;
-        });
+      .delete(this.url(url))
+      .then(res => {
+        if (callback) callback(res);
+        return res;
+      });
   }
 
   annotationApi() {
@@ -227,10 +275,8 @@ export class Plugin {
 
   changeActions() {
     return new GrChangeActionsInterface(
-        this,
-        this.sharedApiElement.getElement(
-            this.sharedApiElement.Element.CHANGE_ACTIONS
-        )
+      this,
+      this.sharedApiElement.getElement(ApiElement.CHANGE_ACTIONS)
     );
   }
 
@@ -267,22 +313,21 @@ export class Plugin {
    *
    * @example
    * const pluginRestApi = plugin.restApi(plugin.url());
-   *
-   * @param {string=} opt_prefix url for subsequent .get(), .post() etc requests.
+   * @param prefix url for subsequent .get(), .post() etc requests.
    */
-  restApi(opt_prefix) {
-    return new GrPluginRestApi(opt_prefix);
+  restApi(prefix?: string) {
+    return new GrPluginRestApi(prefix);
   }
 
-  attributeHelper(element) {
+  attributeHelper(element: Element) {
     return new GrAttributeHelper(element);
   }
 
-  eventHelper(element) {
+  eventHelper(element: HTMLElement) {
     return new GrEventHelper(element);
   }
 
-  popup(moduleName) {
+  popup(moduleName: string) {
     if (typeof moduleName !== 'string') {
       console.error('.popup(element) deprecated, use .popup(moduleName)!');
       return;
@@ -293,63 +338,63 @@ export class Plugin {
 
   panel() {
     console.error(
-        '.panel() is deprecated! ' + 'Use registerCustomComponent() instead.'
+      '.panel() is deprecated! ' + 'Use registerCustomComponent() instead.'
     );
   }
 
   settingsScreen() {
     console.error(
-        '.settingsScreen() is deprecated! ' + 'Use .settings() instead.'
+      '.settingsScreen() is deprecated! ' + 'Use .settings() instead.'
     );
   }
 
-  screen(screenName, opt_moduleName) {
+  screen(screenName: string, opt_moduleName: string) {
     if (opt_moduleName && typeof opt_moduleName !== 'string') {
       console.error(
-          '.screen(pattern, callback) deprecated, use ' +
+        '.screen(pattern, callback) deprecated, use ' +
           '.screen(screenName, opt_moduleName)!'
       );
       return;
     }
     return this.registerCustomComponent(
-        this._getScreenName(screenName),
-        opt_moduleName
+      this._getScreenName(screenName),
+      opt_moduleName
     );
   }
 
-  _getScreenName(screenName) {
+  _getScreenName(screenName: string) {
     return `${this.getPluginName()}-screen-${screenName}`;
   }
-}
 
-// TODO: should be removed soon after all core plugins moved away from it.
-const deprecatedAPI = {
-  _loadedGwt: () => {},
+  // !!! DEPRECATED !!!
+  // All methods below are deprecated!
+  // TODO: should be removed soon after all core plugins moved away from it.
 
-  install() {
-    console.info('Installing deprecated APIs is deprecated!');
-    for (const method in this.deprecated) {
-      if (method === 'install') continue;
-      this[method] = this.deprecated[method];
-    }
-  },
-
-  popup(el) {
+  deprecatedPopup(el: Element): GrPopupInterface {
     console.warn(
-        'plugin.deprecated.popup() is deprecated, '
-        + 'use plugin.popup() insted!'
+      'plugin.deprecated.popup() is deprecated, ' + 'use plugin.popup() insted!'
     );
     if (!el) {
       throw new Error('Popup contents not found');
     }
     const api = new GrPopupInterface(this);
-    api.open().then(api => api._getElement().appendChild(el));
+    api.open().then(api => {
+      const popupEl = api._getElement();
+      if (!popupEl) {
+        throw new Error('Popup element not found');
+      }
+      popupEl.appendChild(el);
+    });
     return api;
-  },
+  }
 
-  onAction(type, action, callback) {
+  deprecatedOnAction(
+    type: string,
+    action: string,
+    callback: (ctx: GrPluginActionContext) => void
+  ) {
     console.warn(
-        'plugin.deprecated.onAction() is deprecated,' +
+      'plugin.deprecated.onAction() is deprecated,' +
         ' use plugin.changeActions() instead!'
     );
     if (type !== 'change' && type !== 'revision') {
@@ -357,10 +402,16 @@ const deprecatedAPI = {
       return;
     }
     this.on('showchange', (change, revision) => {
-      const details = this.changeActions().getActionDetails(action);
+      const details: ActionInfo = this.changeActions().getActionDetails(action);
       if (!details) {
         console.warn(
-            `${this.getPluginName()} onAction error: ${action} not found!`
+          `${this.getPluginName()} onAction error: ${action} not found!`
+        );
+        return;
+      }
+      if (!details.__key) {
+        console.warn(
+          `${this.getPluginName()} onAction error: ${action} has no key!`
         );
         return;
       }
@@ -368,20 +419,15 @@ const deprecatedAPI = {
         callback(new GrPluginActionContext(this, details, change, revision));
       });
     });
-  },
+  }
 
-  screen(pattern, callback) {
+  deprecatedScreen(
+    pattern: string,
+    callback: (settings: SettingsInfo) => void
+  ) {
     console.warn(
-        'plugin.deprecated.screen is deprecated,'
-        + ' use plugin.screen instead!'
+      'plugin.deprecated.screen is deprecated,' + ' use plugin.screen instead!'
     );
-    if (pattern instanceof RegExp) {
-      console.error(
-          'deprecated.screen() does not support RegExp. ' +
-          'Please use strings for patterns.'
-      );
-      return;
-    }
     this.hook(this._getScreenName(pattern)).onAttached(el => {
       el.style.display = 'none';
       callback({
@@ -395,17 +441,19 @@ const deprecatedAPI = {
         },
       });
     });
-  },
+  }
 
-  settingsScreen(path, menu, callback) {
+  deprecatedSettingsScreen(
+    path: string,
+    menu: string,
+    callback: (settings: SettingsInfo) => void
+  ) {
     console.warn('.settingsScreen() is deprecated! Use .settings() instead.');
-    const hook = this.settings().title(menu)
-        .token(path)
-        .module('div')
-        .build();
+    const hook = this.settings().title(menu).token(path).module('div').build();
     hook.onAttached(el => {
       el.style.display = 'none';
       const body = el.querySelector('div');
+      if (!body) return;
       callback({
         body,
         onUnload: () => {},
@@ -416,13 +464,19 @@ const deprecatedAPI = {
         },
       });
     });
-  },
+  }
 
-  panel(extensionpoint, callback) {
+  deprecatedPanel(
+    extensionpoint: string,
+    callback: (panel: PanelInfo) => void
+  ) {
     console.warn(
-        '.panel() is deprecated! ' + 'Use registerCustomComponent() instead.'
+      '.panel() is deprecated! ' + 'Use registerCustomComponent() instead.'
     );
-    const endpoint = PANEL_ENDPOINTS_MAPPING[extensionpoint];
+    let endpoint;
+    for (const [key, value] of Object.entries(PANEL_ENDPOINTS_MAPPING)) {
+      if (key === extensionpoint) endpoint = value;
+    }
     if (!endpoint) {
       console.warn(`.panel ${extensionpoint} not supported!`);
       return;
@@ -437,5 +491,5 @@ const deprecatedAPI = {
         onUnload: () => {},
       })
     );
-  },
-};
+  }
+}

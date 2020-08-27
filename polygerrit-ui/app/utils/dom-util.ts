@@ -17,6 +17,7 @@
 
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {JsApiService} from '../elements/plugins/gr-plugin-types';
 
 /**
  * Event emitted from polymer elements.
@@ -238,16 +239,18 @@ export function strToClassName(str = '', prefix = 'generated_') {
 // shared API element
 // TODO: once gr-js-api-interface moved to ts
 // use GrJsApiInterface instead
-let _sharedApiEl: Element;
+let _sharedApiEl: JsApiService;
 
 /**
  * Retrieves the shared API element.
  * We want to keep a single instance of API element instead of
  * creating multiple elements.
  */
-export function getSharedApiEl() {
+export function getSharedApiEl(): JsApiService {
   if (!_sharedApiEl) {
-    _sharedApiEl = document.createElement('gr-js-api-interface');
+    _sharedApiEl = document.createElement(
+      'gr-js-api-interface'
+    ) as JsApiService;
   }
   return _sharedApiEl;
 }

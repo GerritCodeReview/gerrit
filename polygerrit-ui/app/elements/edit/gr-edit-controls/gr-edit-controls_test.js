@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-edit-controls.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {createIronOverlayBackdropStyleEl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-edit-controls');
 
@@ -31,14 +32,7 @@ suite('gr-edit-controls tests', () => {
   let ironOverlayBackdropStyleEl;
 
   setup(() => {
-    // Forcing an opacity of 0 onto the ironOverlayBackdrop is required, because
-    // otherwise the backdrop stays around in the DOM for too long waiting for
-    // an animation to finish.
-    ironOverlayBackdropStyleEl = document.createElement('style');
-    document.head.appendChild(ironOverlayBackdropStyleEl);
-    ironOverlayBackdropStyleEl.sheet.insertRule(
-        'body { --iron-overlay-backdrop-opacity: 0; }');
-
+    ironOverlayBackdropStyleEl = createIronOverlayBackdropStyleEl();
     element = basicFixture.instantiate();
     element.change = {_number: '42'};
     showDialogSpy = sinon.spy(element, '_showDialog');

@@ -15,16 +15,13 @@
  * limitations under the License.
  */
 
+import {PluginApi} from '../gr-plugin-types';
+
 /** Interface for menu link */
 export interface MenuLink {
   text: string;
   url: string;
   capability: string | null;
-}
-
-// TODO(TS): replace with Plugin once gr-public-js-api migrated
-interface PluginApi {
-  on(eventName: string, adminApi: GrAdminApi): void;
 }
 
 /**

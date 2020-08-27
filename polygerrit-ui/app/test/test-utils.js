@@ -123,3 +123,14 @@ export function generateChange(options) {
   }
   return change;
 }
+
+export function createIronOverlayBackdropStyleEl() {
+  // Forcing an opacity of 0 onto the ironOverlayBackdrop is required, because
+  // otherwise the backdrop stays around in the DOM for too long waiting for
+  // an animation to finish.
+  const ironOverlayBackdropStyleEl = document.createElement('style');
+  document.head.appendChild(ironOverlayBackdropStyleEl);
+  ironOverlayBackdropStyleEl.sheet.insertRule(
+      'body { --iron-overlay-backdrop-opacity: 0; }');
+  return ironOverlayBackdropStyleEl;
+}

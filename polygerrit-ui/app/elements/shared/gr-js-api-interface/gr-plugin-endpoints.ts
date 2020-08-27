@@ -16,17 +16,20 @@
  */
 
 import {importHref} from '../../../scripts/import-href';
+import {HookApi, PluginApi} from '../../plugins/gr-plugin-types';
 
 type Callback = (value: any) => void;
 
+function notUndefined<T>(x: T | undefined): x is T {
+  return x !== undefined;
+}
+
 interface ModuleInfo {
   moduleName: string;
-  // TODO(TS): Convert type to GrPlugin.
-  plugin: any;
-  pluginUrl: URL;
+  plugin: PluginApi;
+  pluginUrl?: URL;
   type?: string;
-  // TODO(TS): Convert type to GrDomHook.
-  domHook: any;
+  domHook?: HookApi;
   slot?: string;
 }
 
@@ -36,8 +39,7 @@ interface Options {
   slot?: string;
   type?: string;
   moduleName?: string;
-  // TODO(TS): Convert type to GrDomHook.
-  domHook?: any;
+  domHook?: HookApi;
 }
 
 export class GrPluginEndpoints {
@@ -71,7 +73,7 @@ export class GrPluginEndpoints {
     }
   }
 
-  _getOrCreateModuleInfo(plugin: any, opts: Options): ModuleInfo {
+  _getOrCreateModuleInfo(plugin: PluginApi, opts: Options): ModuleInfo {
     const {endpoint, slot, type, moduleName, domHook} = opts;
     const existingModule = this._endpoints
       .get(endpoint!)!
@@ -105,7 +107,7 @@ export class GrPluginEndpoints {
    * 'change-list-header'. These plugins are then fetched by prefix to determine
    * which endpoints to dynamically add to the page.
    */
-  registerModule(plugin: any, opts: Options) {
+  registerModule(plugin: PluginApi, opts: Options) {
     const endpoint = opts.endpoint!;
     const dynamicEndpoint = opts.dynamicEndpoint;
     if (dynamicEndpoint) {
@@ -173,7 +175,9 @@ export class GrPluginEndpoints {
     if (!modulesData.length) {
       return [];
     }
-    return Array.from(new Set(modulesData.map(m => m.pluginUrl)));
+    return Array.from(new Set(modulesData.map(m => m.pluginUrl))).filter(
+      notUndefined
+    );
   }
 
   importUrl(pluginUrl: URL) {

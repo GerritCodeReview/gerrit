@@ -17,17 +17,10 @@
 import './gr-plugin-popup';
 import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GrPluginPopup} from './gr-plugin-popup';
-
-// TODO(TS): replace with Plugin API once its migrated to ts
-interface HookApi {
-  getLastAttached(): Promise<Node>;
-}
-interface PluginAPI {
-  hook(hookname: string): HookApi;
-}
+import {PluginApi} from '../gr-plugin-types';
 
 interface CustomPolymerPluginEl extends HTMLElement {
-  plugin: PluginAPI;
+  plugin: PluginApi;
 }
 
 /**
@@ -42,14 +35,14 @@ export class GrPopupInterface {
   private _popup: GrPluginPopup | null = null;
 
   constructor(
-    readonly plugin: PluginAPI,
+    readonly plugin: PluginApi,
     private _moduleName: string | null = null
   ) {}
 
   _getElement() {
     // TODO(TS): maybe consider removing this if no one is using
     // anything other than native methods on the return
-    return dom(this._popup);
+    return (dom(this._popup) as unknown) as HTMLElement;
   }
 
   /**

@@ -63,6 +63,30 @@
       "revId": "f0b9d5e51fb1cbcd15f4ddcbd06e2ae738ae08ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b77b5be7_4a7f070e",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 1051,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-27T12:12:30Z",
+      "side": 1,
+      "message": "oh thanks for the detailed explanation! was just pointing out as I saw the `encodeURIComponent` right below and think it should not hurt to have it even no special chars used :) but you should definitely know this issue better than me :)",
+      "parentUuid": "06554f60_c2f92331",
+      "range": {
+        "startLine": 1051,
+        "startChar": 29,
+        "endLine": 1051,
+        "endChar": 43
+      },
+      "revId": "f0b9d5e51fb1cbcd15f4ddcbd06e2ae738ae08ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

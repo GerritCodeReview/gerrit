@@ -101,12 +101,14 @@ export const htmlTemplate = html`
   >
   </gr-main-header>
   <main>
+  <template is="dom-if" if="[[mobileSearch]]">
     <gr-smart-search
       id="search"
       label="Search for changes"
       search-query="{{params.query}}"
       hidden="[[!mobileSearch]]"
     >
+  </template>
     </gr-smart-search>
     <template is="dom-if" if="[[_showChangeListView]]" restamp="true">
       <gr-change-list-view

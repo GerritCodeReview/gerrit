@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc6659ef_51661c83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-27T06:52:13Z",
+      "side": 1,
+      "message": "SGTM, would be best to have another couple of eyes from a front-end maintainer though.\nThanks, Jacek, for finding and fixing this bug.",
+      "revId": "f0b9d5e51fb1cbcd15f4ddcbd06e2ae738ae08ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

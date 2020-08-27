@@ -37,7 +37,6 @@ class GrCreateGroupDialog extends GestureEventListeners(
 
   static get properties() {
     return {
-      params: Object,
       hasNewGroupName: {
         type: Boolean,
         notify: true,

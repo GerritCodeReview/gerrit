@@ -73,7 +73,6 @@ export const htmlTemplate = html`
       <div class="main" slot="main">
         <gr-create-group-dialog
           has-new-group-name="{{_hasNewGroupName}}"
-          params="[[params]]"
           id="createNewModal"
         ></gr-create-group-dialog>
       </div>

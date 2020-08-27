@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec1c0b62_e383eab7",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list_html.js",
+        "patchSetId": 9
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-27T10:09:21Z",
+      "side": 1,
+      "message": "The total stats are not aligned anymore with the per-file stats. Maybe because of the additional \u003cdiv\u003e for the per-file stats?",
+      "revId": "9d35ed15c656c031854fb1b90e50bffdbcfd2cda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

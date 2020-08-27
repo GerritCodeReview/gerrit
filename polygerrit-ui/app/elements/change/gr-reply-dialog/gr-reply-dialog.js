@@ -40,6 +40,7 @@ import {fetchChangeUpdates} from '../../../utils/patch-set-util.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {removeServiceUsers} from '../../../utils/account-util.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
+import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -332,6 +333,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   /** @override */
   attached() {
     super.attached();
+    IronA11yAnnouncer.requestAvailability();
     this._getAccount().then(account => {
       this._account = account || {};
     });
@@ -634,6 +636,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
           this.dispatchEvent(new CustomEvent('send', {
             composed: true, bubbles: false,
           }));
+          this.fire('iron-announce', {text: 'Reply sent'}, {bubbles: true} );
           return accountAdditions;
         })
         .then(result => {

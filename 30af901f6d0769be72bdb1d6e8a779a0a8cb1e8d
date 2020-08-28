@@ -16,6 +16,24 @@
       "revId": "30af901f6d0769be72bdb1d6e8a779a0a8cb1e8d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38a7f4bd_22fa7d34",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-public-js-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-28T08:23:47Z",
+      "side": 0,
+      "message": "Maybe something like this:\ninstall: () \u003d\u003e {\n        console.info(\u0027Installing deprecated APIs is deprecated!\u0027);\n        const deprecatedThis \u003d (this as unknown) as PluginDeprecatedApi;\n        deprecatedThis._loadedGwt \u003d this.deprecated._loadedGwt;\n        deprecatedThis.onAction \u003d this.deprecated.onAction;\n        deprecatedThis.panel \u003d this.deprecated.panel;\n        deprecatedThis.popup \u003d this.deprecated.popup;\n        deprecatedThis.screen \u003d this.deprecated.screen;\n        deprecatedThis.settingsScreen \u003d this.deprecated.settingsScreen;\n      },",
+      "parentUuid": "65023270_3c20512a",
+      "revId": "30af901f6d0769be72bdb1d6e8a779a0a8cb1e8d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

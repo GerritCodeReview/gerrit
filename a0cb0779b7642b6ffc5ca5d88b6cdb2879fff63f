@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "395e3623_0ee65b56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1017138
+      },
+      "writtenOn": "2020-08-28T22:16:27Z",
+      "side": 1,
+      "message": "I went ahead with this prefix.",
+      "parentUuid": "2f5c2218_1a6df69e",
+      "range": {
+        "startLine": 18,
+        "startChar": 4,
+        "endLine": 18,
+        "endChar": 92
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a88ecd6d_175e641e",
         "filename": "java/com/google/gerrit/server/ChangeUtil.java",
         "patchSetId": 1

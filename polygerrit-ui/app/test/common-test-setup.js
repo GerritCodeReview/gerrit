@@ -18,10 +18,10 @@
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 import '../scripts/bundled-polymer.js';
-import './test-app-context-init.js';
 import 'polymer-resin/standalone/polymer-resin.js';
 import '@polymer/iron-test-helpers/iron-test-helpers.js';
 import './test-router.js';
+import {_testOnlyInitAppContext} from './test-app-context-init';
 import {_testOnly_resetPluginLoader} from '../elements/shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnlyResetRestApi} from '../elements/shared/gr-js-api-interface/gr-plugin-rest-api.js';
 import {_testOnlyResetGrRestApiSharedObjects} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface.js';
@@ -30,6 +30,7 @@ import {flushDebouncers} from '@polymer/polymer/lib/utils/debounce';
 import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import sinon from 'sinon/pkg/sinon-esm.js';
 import {safeTypesBridge} from '../utils/safe-types-util.js';
+import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit.js';
 window.sinon = sinon;
 
 security.polymer_resin.install({
@@ -65,6 +66,8 @@ setup(() => {
   // The following calls is nessecary to avoid influence of previously executed
   // tests.
   TestKeyboardShortcutBinder.push();
+  _testOnlyInitAppContext();
+  _testOnly_initGerritPluginApi();
   const mgr = _testOnly_getShortcutManagerInstance();
   assert.equal(mgr.activeHosts.size, 0);
   assert.equal(mgr.listeners.size, 0);

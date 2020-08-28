@@ -277,23 +277,25 @@ suite('gr-thread-list tests', () => {
     'none');
   });
 
-  test('show all threads by default', () => {
-    assert.equal(dom(element.root)
-        .querySelectorAll('gr-comment-thread').length, element.threads.length);
-    assert.equal(getVisibleThreads().length, element.threads.length);
+  test('show unresolved threads by default', () => {
+    const unresolvedThreads = element.threads.filter(t => t.comments.some(
+        c => c.unresolved
+    ));
+    assert.equal(getVisibleThreads().length, unresolvedThreads.length);
   });
 
   test('showing file name takes visible threads into account', () => {
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element._unresolvedOnly, element._draftsOnly,
-        element.onlyShowRobotCommentsWithHumanReply), true);
-    element._unresolvedOnly = true;
+        element.onlyShowRobotCommentsWithHumanReply), false);
+    element._unresolvedOnly = false;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
         element._sortedThreads[2], element._unresolvedOnly, element._draftsOnly,
-        element.onlyShowRobotCommentsWithHumanReply), false);
+        element.onlyShowRobotCommentsWithHumanReply), true);
   });
 
   test('onlyShowRobotCommentsWithHumanReply ', () => {
+    element._unresolvedOnly = false;
     element.onlyShowRobotCommentsWithHumanReply = true;
     flushAsynchronousOperations();
     assert.equal(
@@ -543,12 +545,14 @@ suite('gr-thread-list tests', () => {
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
+    element._unresolvedOnly = false;
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
     flushAsynchronousOperations();
     assert.equal(getVisibleThreads().length, 2);
   });
 
   test('toggle drafts and unresolved should ignore comments in editing', () => {
+    element._unresolvedOnly = false;
     const modifiedThreads = [...element.threads];
     modifiedThreads[5] = {...modifiedThreads[5]};
     modifiedThreads[5].comments = [...modifiedThreads[5].comments];
@@ -566,6 +570,7 @@ suite('gr-thread-list tests', () => {
 
   test('toggle drafts and unresolved only shows threads with drafts and ' +
       'publicly unresolved ', () => {
+    element._unresolvedOnly = false;
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));

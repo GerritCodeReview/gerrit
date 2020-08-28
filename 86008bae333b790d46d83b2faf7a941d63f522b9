@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "a83cb7a1_b625f1fe",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c53c236_e8769985",
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6d92d50_33ff421a",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -47,6 +65,30 @@
       "writtenOn": "2020-08-28T08:30:17Z",
       "side": 1,
       "message": "I have never seen this happening: do you ever see a host/subdomain?",
+      "range": {
+        "startLine": 20,
+        "startChar": 28,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49d85f35_c100c42e",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "no, I have taken this text from the above link for the NCSA combined log format",
+      "parentUuid": "a6d92d50_33ff421a",
       "range": {
         "startLine": 20,
         "startChar": 28,
@@ -76,6 +118,24 @@
     },
     {
       "key": {
+        "uuid": "6bdb1365_51d3612f",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "I guess that depends on the proxy configuration.",
+      "parentUuid": "d6c68621_d0717218",
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81edb17b_1fd9638b",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -96,6 +156,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c3ae102_f9ee2270",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "No, that\u0027s the user identifier expected by the configured authentication system. I think that depends on the authentication system being used.\nFor me that\u0027s msohn at Eclipse and d0xxxxx internally. I removed user ID for the sake of simplicity.",
+      "parentUuid": "81edb17b_1fd9638b",
+      "range": {
+        "startLine": 25,
+        "startChar": 28,
+        "endLine": 25,
+        "endChar": 38
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +206,30 @@
     },
     {
       "key": {
+        "uuid": "a84bf25f_697fccb8",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c918e2da_f598bf67",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0af98706_d46f5971",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -133,6 +241,30 @@
       "writtenOn": "2020-08-28T08:30:17Z",
       "side": 1,
       "message": "HTTP protocol version?",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a299c245_53ca7e64",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "it\u0027s both protocol and version",
+      "parentUuid": "0af98706_d46f5971",
       "range": {
         "startLine": 39,
         "startChar": 7,
@@ -168,6 +300,30 @@
     },
     {
       "key": {
+        "uuid": "3d57220e_aa65539b",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46a33de9_5f3fdb3e",
+      "range": {
+        "startLine": 42,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 9
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af72307_d94c1907",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -191,6 +347,30 @@
     },
     {
       "key": {
+        "uuid": "69cfc1bc_6642cf0f",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9af72307_d94c1907",
+      "range": {
+        "startLine": 43,
+        "startChar": 41,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b09df1e4_a88d12e6",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -211,6 +391,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04b399b8_9f13f86c",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b09df1e4_a88d12e6",
+      "range": {
+        "startLine": 55,
+        "startChar": 30,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -261,6 +465,30 @@
     },
     {
       "key": {
+        "uuid": "fd70d522_f3b9d0e6",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5e249e79_9b8c834c",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b8a5552_853755fa",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -272,6 +500,30 @@
       "writtenOn": "2020-08-28T08:30:17Z",
       "side": 1,
       "message": "SSH connection?",
+      "range": {
+        "startLine": 71,
+        "startChar": 7,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49a034a4_f9756c99",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "theoretically multiple ssh sessions could be multiplexed on a single connection [1], don\u0027t know if git/gerrit support this.\n\nhttps://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing",
+      "parentUuid": "6b8a5552_853755fa",
       "range": {
         "startLine": 71,
         "startChar": 7,
@@ -307,6 +559,30 @@
     },
     {
       "key": {
+        "uuid": "c4fe41b3_251deaca",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "301c1477_1e94ca92",
+      "range": {
+        "startLine": 73,
+        "startChar": 28,
+        "endLine": 73,
+        "endChar": 38
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16e7d0a7_fe72733e",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -327,6 +603,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c738c0f_fb974cc0",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16e7d0a7_fe72733e",
+      "range": {
+        "startLine": 74,
+        "startChar": 2,
+        "endLine": 74,
+        "endChar": 13
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -353,6 +653,30 @@
     },
     {
       "key": {
+        "uuid": "216e66d2_e2d99f49",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4bd9df66_a9ea9151",
+      "range": {
+        "startLine": 75,
+        "startChar": 17,
+        "endLine": 75,
+        "endChar": 25
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d2ef1f74_723674d3",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -364,6 +688,30 @@
       "writtenOn": "2020-08-28T08:30:17Z",
       "side": 1,
       "message": "Any other SSH command",
+      "range": {
+        "startLine": 81,
+        "startChar": 3,
+        "endLine": 81,
+        "endChar": 23
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ea8a206_8fed27bf",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "the linked documentation only documents Gerrit ssh commands",
+      "parentUuid": "d2ef1f74_723674d3",
       "range": {
         "startLine": 81,
         "startChar": 3,
@@ -399,6 +747,30 @@
     },
     {
       "key": {
+        "uuid": "e6dd901b_498ebcba",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea037064_b43e4739",
+      "range": {
+        "startLine": 82,
+        "startChar": 52,
+        "endLine": 82,
+        "endChar": 53
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28fe057f_109b1a64",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -410,6 +782,30 @@
       "writtenOn": "2020-08-28T08:30:17Z",
       "side": 1,
       "message": "in the executor\u0027s queue",
+      "range": {
+        "startLine": 83,
+        "startChar": 62,
+        "endLine": 83,
+        "endChar": 68
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4cd0d409_70d289b0",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "I think that\u0027s an implementation detail",
+      "parentUuid": "28fe057f_109b1a64",
       "range": {
         "startLine": 83,
         "startChar": 62,
@@ -442,6 +838,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f539b71b_bdbeb103",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9424132a_81bc7ab6",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -491,6 +911,30 @@
     },
     {
       "key": {
+        "uuid": "67d68b44_e3fe8801",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "It\u0027s not necessarily git, could be e.g. openssh\n\nDone",
+      "parentUuid": "c0447b1d_b3a1f184",
+      "range": {
+        "startLine": 102,
+        "startChar": 29,
+        "endLine": 102,
+        "endChar": 34
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "50a79266_572f9ad0",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -511,6 +955,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d050863b_21404fb8",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "50a79266_572f9ad0",
+      "range": {
+        "startLine": 111,
+        "startChar": 0,
+        "endLine": 121,
+        "endChar": 31
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -537,6 +1005,30 @@
     },
     {
       "key": {
+        "uuid": "3327c234_c75016ed",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7d1f98c_9baba4ee",
+      "range": {
+        "startLine": 126,
+        "startChar": 16,
+        "endLine": 126,
+        "endChar": 60
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "18d0fcb4_ee24d03a",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -557,6 +1049,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a0e1d9d_730356a6",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T10:06:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18d0fcb4_ee24d03a",
+      "range": {
+        "startLine": 137,
+        "startChar": 0,
+        "endLine": 145,
+        "endChar": 31
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

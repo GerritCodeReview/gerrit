@@ -33,6 +33,24 @@
       "revId": "861bda9ddfe869443152c99b96c3cb013bfaa287",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bd63df4_3be4dded",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T10:03:18Z",
+      "side": 1,
+      "message": "It will NOT trigger the hovercard when hovering over the icon.\n\nThat is what `for\u003d\"hovercardTarget\"` is for. It allows you to specify a target div, which triggers the hovering.",
+      "parentUuid": "2cb69a86_9cc0b604",
+      "revId": "861bda9ddfe869443152c99b96c3cb013bfaa287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

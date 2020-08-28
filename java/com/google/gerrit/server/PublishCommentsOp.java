@@ -28,6 +28,7 @@ import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.CommentsRejectedException;
@@ -46,7 +47,7 @@ import java.util.List;
  * <p>This class uses the {@link PublishCommentUtil} to publish draft comments and fires the
  * necessary event for this.
  */
-public class PublishCommentsOp implements BatchUpdateOp {
+public class PublishCommentsOp implements BatchUpdateOp, AsyncPostUpdateOp {
   private final PatchSetUtil psUtil;
   private final ChangeNotes.Factory changeNotesFactory;
   private final ChangeMessagesUtil cmUtil;
@@ -61,6 +62,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private List<HumanComment> comments = new ArrayList<>();
   private ChangeMessage message;
   private IdentifiedUser user;
+  private ChangeNotes changeNotes;
+  private PatchSet patchset;
 
   public interface Factory {
     PublishCommentsOp create(PatchSet.Id psId, Project.NameKey projectNameKey);
@@ -109,11 +112,24 @@ public class PublishCommentsOp implements BatchUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
+    changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
+    patchset = psUtil.get(changeNotes, psId);
+
+    commentAdded.fire(
+        changeNotes.getChange(),
+        patchset,
+        ctx.getAccount(),
+        message.getMessage(),
+        ImmutableMap.of(),
+        ImmutableMap.of(),
+        ctx.getWhen());
+  }
+
+  @Override
+  public void asyncPostUpdate(Context ctx) {
     if (message == null || comments.isEmpty()) {
       return;
     }
-    ChangeNotes changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
-    PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
     if (notify.shouldNotify()) {
       RepoView repoView;
@@ -124,17 +140,10 @@ public class PublishCommentsOp implements BatchUpdateOp {
             String.format("Repository %s not found", ctx.getProject().get()), ex);
       }
       email
-          .create(notify, changeNotes, ps, user, message, comments, null, labelDelta, repoView)
-          .sendAsync();
+          .create(
+              notify, changeNotes, patchset, user, message, comments, null, labelDelta, repoView)
+          .send();
     }
-    commentAdded.fire(
-        changeNotes.getChange(),
-        ps,
-        ctx.getAccount(),
-        message.getMessage(),
-        ImmutableMap.of(),
-        ImmutableMap.of(),
-        ctx.getWhen());
   }
 
   private boolean insertMessage(ChangeContext ctx, ChangeUpdate changeUpdate) {

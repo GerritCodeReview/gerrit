@@ -120,6 +120,7 @@ import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -448,7 +449,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
           ccByEmail.addAll(addition.reviewersByEmail);
         }
       }
-      addReviewersEmail.emailReviewersAsync(
+      addReviewersEmail.emailReviewers(
           user.asIdentifiedUser(), change, to, cc, toByEmail, ccByEmail, notify);
     }
   }
@@ -859,7 +860,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     abstract Comment.Range range();
   }
 
-  private class Op implements BatchUpdateOp {
+  private class Op implements BatchUpdateOp, AsyncPostUpdateOp {
     private final ProjectState projectState;
     private final PatchSet.Id psId;
     private final ReviewInput in;
@@ -905,7 +906,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     @Override
-    public void postUpdate(Context ctx) {
+    public void asyncPostUpdate(Context ctx) {
       if (message == null) {
         return;
       }
@@ -923,12 +924,20 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
                   in.message,
                   labelDelta,
                   ctx.getRepoView())
-              .sendAsync();
+              .send();
         } catch (IOException ex) {
           throw new StorageException(
               String.format("Repository %s not found", ctx.getProject().get()), ex);
         }
       }
+    }
+
+    @Override
+    public void postUpdate(Context ctx) {
+      if (message == null) {
+        return;
+      }
+
       commentAdded.fire(
           notes.getChange(),
           ps,

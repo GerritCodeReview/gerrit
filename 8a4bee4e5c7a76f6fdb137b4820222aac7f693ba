@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc3e3475_4f71742a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 796,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T09:48:04Z",
+      "side": 1,
+      "message": "add a test for this path ?",
+      "revId": "8a4bee4e5c7a76f6fdb137b4820222aac7f693ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c088c75b_3c2e6fd6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 799,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T09:48:04Z",
+      "side": 1,
+      "message": "maybe just create a method for these and use it here and above `else`",
+      "range": {
+        "startLine": 797,
+        "startChar": 10,
+        "endLine": 799,
+        "endChar": 43
+      },
+      "revId": "8a4bee4e5c7a76f6fdb137b4820222aac7f693ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

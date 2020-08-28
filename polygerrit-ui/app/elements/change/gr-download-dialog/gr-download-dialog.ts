@@ -14,45 +14,72 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-download-commands/gr-download-commands.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-download-dialog_html.js';
-import {patchNumEquals} from '../../../utils/patch-set-util.js';
-import {changeBaseURL} from '../../../utils/change-util.js';
+import '../../../styles/shared-styles';
+import '../../shared/gr-download-commands/gr-download-commands';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-download-dialog_html';
+import {patchNumEquals} from '../../../utils/patch-set-util';
+import {changeBaseURL} from '../../../utils/change-util';
+import {customElement, property, computed, observe} from '@polymer/decorators';
+import {ChangeInfo, ServerInfo, PatchSetNum} from '../../../types/common';
+import {RevisionInfo} from '../../shared/revision-info/revision-info';
+import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
+import {GrButton} from '../../shared/gr-button/gr-button';
+import {hasOwnProperty} from '../../../utils/common-util';
 
-/**
- * @extends PolymerElement
- */
-class GrDownloadDialog extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrDownloadDialog {
+  $: {
+    download: HTMLAnchorElement;
+    downloadCommands: GrDownloadCommands;
+    closeButton: GrButton;
+  };
+}
 
-  static get is() { return 'gr-download-dialog'; }
+@customElement('gr-download-dialog')
+export class GrDownloadDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the user presses the close button.
    *
    * @event close
    */
 
-  static get properties() {
-    return {
-    /** @type {{ revisions: Array }} */
-      change: Object,
-      patchNum: String,
-      /** @type {?} */
-      config: Object,
+  @property({type: Object})
+  change: ChangeInfo | undefined;
 
-      _schemes: {
-        type: Array,
-        value() { return []; },
-        computed: '_computeSchemes(change, patchNum)',
-        observer: '_schemesChanged',
-      },
-      _selectedScheme: String,
-    };
+  @property({type: Object})
+  config?: ServerInfo;
+
+  @property({type: String})
+  patchNum: PatchSetNum | undefined;
+
+  @property({type: String})
+  _selectedScheme?: string;
+
+  @computed('change', 'patchNum')
+  get _schemes() {
+    // Polymer 2: check for undefined
+    if (this.change === undefined || this.patchNum === undefined) {
+      return [];
+    }
+
+    for (const rev of Object.values(this.change.revisions || {})) {
+      if (patchNumEquals(rev._number, this.patchNum)) {
+        const fetch = rev.fetch;
+        if (fetch) {
+          return Object.keys(fetch).sort();
+        }
+        break;
+      }
+    }
+    return [];
   }
 
   /** @override */
@@ -76,19 +103,29 @@ class GrDownloadDialog extends GestureEventListeners(
     };
   }
 
-  _computeDownloadCommands(change, patchNum, _selectedScheme) {
+  _computeDownloadCommands(
+    change?: ChangeInfo,
+    patchNum?: PatchSetNum,
+    selectedScheme?: string
+  ) {
     let commandObj;
-    if (!change) return [];
+    if (!change || !selectedScheme) return [];
     for (const rev of Object.values(change.revisions || {})) {
-      if (patchNumEquals(rev._number, patchNum) &&
-          rev && rev.fetch && rev.fetch.hasOwnProperty(_selectedScheme)) {
-        commandObj = rev.fetch[_selectedScheme].commands;
+      if (
+        patchNumEquals(rev._number, patchNum) &&
+        rev &&
+        rev.fetch &&
+        hasOwnProperty(rev.fetch, selectedScheme)
+      ) {
+        commandObj = rev.fetch[selectedScheme].commands;
         break;
       }
     }
     const commands = [];
     for (const title in commandObj) {
-      if (!commandObj || !commandObj.hasOwnProperty(title)) { continue; }
+      if (!commandObj || !hasOwnProperty(commandObj, title)) {
+        continue;
+      }
       commands.push({
         title,
         command: commandObj[title],
@@ -97,52 +134,37 @@ class GrDownloadDialog extends GestureEventListeners(
     return commands;
   }
 
-  /**
-   * @param {!Object} change
-   * @param {number|string} patchNum
-   *
-   * @return {string}
-   */
-  _computeZipDownloadLink(change, patchNum) {
+  _computeZipDownloadLink(change?: ChangeInfo, patchNum?: PatchSetNum) {
     return this._computeDownloadLink(change, patchNum, true);
   }
 
-  /**
-   * @param {!Object} change
-   * @param {number|string} patchNum
-   *
-   * @return {string}
-   */
-  _computeZipDownloadFilename(change, patchNum) {
+  _computeZipDownloadFilename(change?: ChangeInfo, patchNum?: PatchSetNum) {
     return this._computeDownloadFilename(change, patchNum, true);
   }
 
-  /**
-   * @param {!Object} change
-   * @param {number|string} patchNum
-   * @param {boolean=} opt_zip
-   *
-   * @return {string} Not sure why there was a mismatch
-   */
-  _computeDownloadLink(change, patchNum, opt_zip) {
+  _computeDownloadLink(
+    change?: ChangeInfo,
+    patchNum?: PatchSetNum,
+    zip?: boolean
+  ) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].includes(undefined)) {
+    if (change === undefined || patchNum === undefined) {
       return '';
     }
-    return changeBaseURL(change.project, change._number, patchNum) +
-        '/patch?' + (opt_zip ? 'zip' : 'download');
+    return (
+      changeBaseURL(change.project, change._number, patchNum) +
+      '/patch?' +
+      (zip ? 'zip' : 'download')
+    );
   }
 
-  /**
-   * @param {!Object} change
-   * @param {number|string} patchNum
-   * @param {boolean=} opt_zip
-   *
-   * @return {string}
-   */
-  _computeDownloadFilename(change, patchNum, opt_zip) {
+  _computeDownloadFilename(
+    change?: ChangeInfo,
+    patchNum?: PatchSetNum,
+    zip?: boolean
+  ) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].includes(undefined)) {
+    if (change === undefined || patchNum === undefined) {
       return '';
     }
 
@@ -153,74 +175,82 @@ class GrDownloadDialog extends GestureEventListeners(
         break;
       }
     }
-    return shortRev + '.diff.' + (opt_zip ? 'zip' : 'base64');
+    return shortRev + '.diff.' + (zip ? 'zip' : 'base64');
   }
 
-  _computeHidePatchFile(change, patchNum) {
+  _computeHidePatchFile(change?: ChangeInfo, patchNum?: PatchSetNum) {
     // Polymer 2: check for undefined
-    if ([change, patchNum].includes(undefined)) {
+    if (change === undefined || patchNum === undefined) {
       return false;
     }
     for (const rev of Object.values(change.revisions || {})) {
       if (patchNumEquals(rev._number, patchNum)) {
-        const parentLength = rev.commit && rev.commit.parents ?
-          rev.commit.parents.length : 0;
-        return parentLength == 0;
+        const parentLength =
+          rev.commit && rev.commit.parents ? rev.commit.parents.length : 0;
+        return parentLength === 0;
       }
     }
     return false;
   }
 
-  _computeArchiveDownloadLink(change, patchNum, format) {
+  _computeArchiveDownloadLink(
+    change?: ChangeInfo,
+    patchNum?: PatchSetNum,
+    format?: string
+  ) {
     // Polymer 2: check for undefined
-    if ([change, patchNum, format].includes(undefined)) {
+    if (
+      change === undefined ||
+      patchNum === undefined ||
+      format === undefined
+    ) {
       return '';
     }
-    return changeBaseURL(change.project, change._number, patchNum) +
-        '/archive?format=' + format;
+    return (
+      changeBaseURL(change.project, change._number, patchNum) +
+      '/archive?format=' +
+      format
+    );
   }
 
-  _computeSchemes(change, patchNum) {
-    // Polymer 2: check for undefined
-    if ([change, patchNum].includes(undefined)) {
-      return [];
+  _computePatchSetQuantity(revisions?: {[revisionId: string]: RevisionInfo}) {
+    if (!revisions) {
+      return 0;
     }
-
-    for (const rev of Object.values(change.revisions || {})) {
-      if (patchNumEquals(rev._number, patchNum)) {
-        const fetch = rev.fetch;
-        if (fetch) {
-          return Object.keys(fetch).sort();
-        }
-        break;
-      }
-    }
-    return [];
-  }
-
-  _computePatchSetQuantity(revisions) {
-    if (!revisions) { return 0; }
     return Object.keys(revisions).length;
   }
 
-  _handleCloseTap(e) {
+  _handleCloseTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('close', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('close', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _schemesChanged(schemes) {
-    if (schemes.length === 0) { return; }
+  @observe('_schemes')
+  _schemesChanged(schemes: string[]) {
+    if (schemes.length === 0) {
+      return;
+    }
+    if (!this._selectedScheme) {
+      return;
+    }
     if (!schemes.includes(this._selectedScheme)) {
       this._selectedScheme = schemes.sort()[0];
     }
   }
 
-  _computeShowDownloadCommands(schemes) {
+  _computeShowDownloadCommands(schemes: string[]) {
     return schemes.length ? '' : 'hidden';
   }
 }
 
-customElements.define(GrDownloadDialog.is, GrDownloadDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-download-dialog': GrDownloadDialog;
+  }
+}

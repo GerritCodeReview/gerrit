@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "85d01914_835a0ba8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-08-28T14:28:16Z",
+      "side": 1,
+      "message": "Why these \u0027as...\u0027 are needed?\nI suppose the change shouldn\u0027t require any type change in the code",
+      "range": {
+        "startLine": 691,
+        "startChar": 8,
+        "endLine": 694,
+        "endChar": 0
+      },
+      "revId": "28d611fe9d59864ca4f640f4925a9e71aa35f850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

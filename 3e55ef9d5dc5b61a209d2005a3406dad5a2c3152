@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "4ff11a7b_88e5e7fc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T16:36:39Z",
+      "side": 1,
+      "message": "hmm somehow the votes are not showing but all checks finished with green :( override ",
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "647e6ff9_792f5d5e",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
         "patchSetId": 1

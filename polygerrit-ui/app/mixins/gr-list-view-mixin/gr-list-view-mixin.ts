@@ -45,16 +45,16 @@ export const ListViewMixin = dedupingMixin(
         return getBaseUrl() + path + encodeURL(item, true);
       }
 
-      getFilterValue(params: ListViewParams): string {
+      getFilterValue<T extends ListViewParams>(params: T): string {
         if (!params) {
           return '';
         }
         return params.filter || '';
       }
 
-      getOffsetValue(params: ListViewParams): number {
+      getOffsetValue<T extends ListViewParams>(params: T): number {
         if (params && params.offset) {
-          return params.offset;
+          return Number(params.offset);
         }
         return 0;
       }
@@ -68,11 +68,11 @@ export interface ListViewMixinInterface {
   computeLoadingClass(loading: boolean): string;
   computeShownItems<T>(items: T[]): T[];
   getUrl(path: string, item: string): string;
-  getFilterValue(params: ListViewParams): string;
-  getOffsetValue(params: ListViewParams): number;
+  getFilterValue<T extends ListViewParams>(params: T): string;
+  getOffsetValue<T extends ListViewParams>(params: T): number;
 }
 
 export interface ListViewParams {
-  filter?: string;
-  offset?: number;
+  filter?: string | null;
+  offset?: number | string;
 }

@@ -14,148 +14,150 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/gr-table-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-list-view/gr-list-view.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-create-repo-dialog/gr-create-repo-dialog.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-repo-list_html.js';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/gr-table-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-list-view/gr-list-view';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-create-repo-dialog/gr-create-repo-dialog';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-repo-list_html';
+import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property, observe, computed} from '@polymer/decorators';
+import {AppElementAdminParams} from '../../gr-app-types';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {RepoName, ProjectInfoWithName} from '../../../types/common';
+import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
 
-/**
- * @appliesMixin ListViewMixin
- * @extends PolymerElement
- */
-class GrRepoList extends ListViewMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-repo-list': GrRepoList;
+  }
+}
 
-  static get is() { return 'gr-repo-list'; }
+export interface GrRepoList {
+  $: {
+    restAPI: GrRestApiInterface;
+    createOverlay: GrOverlay;
+    createNewModal: GrCreateRepoDialog;
+  };
+}
 
-  static get properties() {
-    return {
-    /**
-     * URL params passed from the router.
-     */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+@customElement('gr-repo-list')
+export class GrRepoList extends ListViewMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-      /**
-       * Offset of currently visible query results.
-       */
-      _offset: Number,
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/admin/repos',
-      },
-      _hasNewRepoName: Boolean,
-      _createNewCapability: {
-        type: Boolean,
-        value: false,
-      },
-      _repos: Array,
+  @property({type: Object})
+  params?: AppElementAdminParams;
 
-      /**
-       * Because  we request one more than the projectsPerPage, _shownProjects
-       * maybe one less than _projects.
-       * */
-      _shownRepos: {
-        type: Array,
-        computed: 'computeShownItems(_repos)',
-      },
+  @property({type: Number})
+  _offset?: number;
 
-      _reposPerPage: {
-        type: Number,
-        value: 25,
-      },
+  @property({type: String})
+  readonly _path = '/admin/repos';
 
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: {
-        type: String,
-        value: '',
-      },
-    };
+  @property({type: Boolean})
+  _hasNewRepoName = false;
+
+  @property({type: Boolean})
+  _createNewCapability = false;
+
+  @property({type: Array})
+  _repos: ProjectInfoWithName[] = [];
+
+  @property({type: Number})
+  _reposPerPage = 25;
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: String})
+  _filter = '';
+
+  @computed('_repos')
+  get _shownRepos() {
+    return this.computeShownItems(this._repos);
   }
 
   /** @override */
   attached() {
     super.attached();
     this._getCreateRepoCapability();
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: 'Repos'},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title: 'Repos'},
+        composed: true,
+        bubbles: true,
+      })
+    );
     this._maybeOpenCreateOverlay(this.params);
   }
 
-  _paramsChanged(params) {
+  @observe('params')
+  _paramsChanged(params: AppElementAdminParams) {
     this._loading = true;
     this._filter = this.getFilterValue(params);
     this._offset = this.getOffsetValue(params);
 
-    return this._getRepos(this._filter, this._reposPerPage,
-        this._offset);
+    return this._getRepos(this._filter, this._reposPerPage, this._offset);
   }
 
   /**
    * Opens the create overlay if the route has a hash 'create'
-   *
-   * @param {!Object} params
    */
-  _maybeOpenCreateOverlay(params) {
+  _maybeOpenCreateOverlay(params?: AppElementAdminParams) {
     if (params && params.openCreateModal) {
       this.$.createOverlay.open();
     }
   }
 
-  _computeRepoUrl(name) {
+  _computeRepoUrl(name: string) {
     return this.getUrl(this._path + '/', name);
   }
 
-  _computeChangesLink(name) {
-    return GerritNav.getUrlForProjectChanges(name);
+  _computeChangesLink(name: string) {
+    return GerritNav.getUrlForProjectChanges(name as RepoName);
   }
 
   _getCreateRepoCapability() {
     return this.$.restAPI.getAccount().then(account => {
-      if (!account) { return; }
-      return this.$.restAPI.getAccountCapabilities(['createProject'])
-          .then(capabilities => {
-            if (capabilities.createProject) {
-              this._createNewCapability = true;
-            }
-          });
+      if (!account) {
+        return;
+      }
+      return this.$.restAPI
+        .getAccountCapabilities(['createProject'])
+        .then(capabilities => {
+          if (capabilities && capabilities.createProject) {
+            this._createNewCapability = true;
+          }
+        });
     });
   }
 
-  _getRepos(filter, reposPerPage, offset) {
+  _getRepos(filter: string, reposPerPage: number, offset?: number) {
     this._repos = [];
-    return this.$.restAPI.getRepos(filter, reposPerPage, offset)
-        .then(repos => {
-          // Late response.
-          if (filter !== this._filter || !repos) { return; }
-          this._repos = repos;
-          this._loading = false;
-        });
+    return this.$.restAPI.getRepos(filter, reposPerPage, offset).then(repos => {
+      // Late response.
+      if (filter !== this._filter || !repos) {
+        return;
+      }
+      this._repos = repos;
+      this._loading = false;
+    });
   }
 
   _refreshReposList() {
     this.$.restAPI.invalidateReposCache();
-    return this._getRepos(this._filter, this._reposPerPage,
-        this._offset);
+    return this._getRepos(this._filter, this._reposPerPage, this._offset);
   }
 
   _handleCreateRepo() {
@@ -172,15 +174,15 @@ class GrRepoList extends ListViewMixin(GestureEventListeners(
     this.$.createOverlay.open();
   }
 
-  _readOnly(item) {
-    return item.state === 'READ_ONLY' ? 'Y' : '';
+  _readOnly(repo: ProjectInfoWithName) {
+    return repo.state === 'READ_ONLY' ? 'Y' : '';
   }
 
-  _computeWeblink(repo) {
-    if (!repo.web_links) { return ''; }
+  _computeWeblink(repo: ProjectInfoWithName) {
+    if (!repo.web_links) {
+      return '';
+    }
     const webLinks = repo.web_links;
     return webLinks.length ? webLinks : null;
   }
 }
-
-customElements.define(GrRepoList.is, GrRepoList);

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3002f3f8_1f98e3f3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-list/gr-repo-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T13:10:24Z",
+      "side": 1,
+      "message": "Maybe use ProjectState.READ_ONLY?",
+      "range": {
+        "startLine": 178,
+        "startChar": 27,
+        "endLine": 178,
+        "endChar": 36
+      },
+      "revId": "4c2be2ddf6e174f16f7ee21e05eceb5499c873df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

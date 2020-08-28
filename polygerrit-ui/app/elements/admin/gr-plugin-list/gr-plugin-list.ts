@@ -27,7 +27,7 @@ import {
   ListViewParams,
 } from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
 import {customElement, property} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {PluginInfo} from '../../../types/common';
 
@@ -36,7 +36,7 @@ interface PluginInfoWithName extends PluginInfo {
 }
 export interface GrPluginList {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-plugin-list')

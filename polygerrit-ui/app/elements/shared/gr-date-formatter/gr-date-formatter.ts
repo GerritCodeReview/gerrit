@@ -31,9 +31,9 @@ import {
   formatDate,
   utcOffsetString,
 } from '../../../utils/date-util';
-import {GrRestApiInterface} from '../gr-rest-api-interface/gr-rest-api-interface';
 import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -78,7 +78,7 @@ declare global {
 
 export interface GrDateFormatter {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

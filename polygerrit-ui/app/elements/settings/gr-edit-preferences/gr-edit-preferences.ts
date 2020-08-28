@@ -24,12 +24,12 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-edit-preferences_html';
 import {customElement, property} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {EditPreferencesInfo} from '../../../types/common';
 
 export interface GrEditPreferences {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     editSyntaxHighlighting: HTMLInputElement;
     showAutoCloseBrackets: HTMLInputElement;
     showIndentWithTabs: HTMLInputElement;

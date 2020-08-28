@@ -23,15 +23,13 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-included-in-dialog_html';
 import {customElement, property} from '@polymer/decorators';
-import {
-  GrRestApiInterface,
-  ChangeNum,
-} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {IncludedInInfo} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 export interface GrIncludedInDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

@@ -23,10 +23,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
-import {
-  GrRestApiInterface,
-  ChangeNum,
-} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {LegacyChangeId, BranchName} from '../../../types/common';
 import {
@@ -34,6 +31,7 @@ import {
   AutocompleteQuery,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 interface RebaseChange {
   name: string;
@@ -42,7 +40,7 @@ interface RebaseChange {
 
 export interface GrConfirmRebaseDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     parentInput: GrAutocomplete;
     rebaseOnParentInput: HTMLInputElement;
     rebaseOnOtherInput: HTMLInputElement;

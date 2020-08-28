@@ -34,7 +34,7 @@ import {
 } from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   GrAutocomplete,
   AutocompleteSuggestion,
@@ -67,7 +67,7 @@ declare global {
 // is converted
 export interface GrConfirmCherrypickDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     branchInput: GrAutocomplete;
   };
 }

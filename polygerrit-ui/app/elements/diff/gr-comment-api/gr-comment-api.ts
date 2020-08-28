@@ -37,12 +37,10 @@ import {
   RobotCommentInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {
-  ChangeNum,
-  GrRestApiInterface,
-} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide} from '../../../constants/constants';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 export interface HumanCommentInfoWithPath extends CommentInfo {
   path: string;
@@ -121,9 +119,9 @@ export class ChangeComments {
    * elements of that which uses the gr-comment-api.
    */
   constructor(
-    comments: PathToCommentsInfoMap,
-    robotComments: PathToRobotCommentsInfoMap,
-    drafts: PathToCommentsInfoMap,
+    comments: PathToCommentsInfoMap | undefined,
+    robotComments: PathToRobotCommentsInfoMap | undefined,
+    drafts: PathToCommentsInfoMap | undefined,
     changeNum: ChangeNum
   ) {
     this._comments = this._addPath(comments);
@@ -648,7 +646,7 @@ export const _testOnly_findCommentById =
 
 interface GrCommentApi {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 
@@ -691,7 +689,10 @@ class GrCommentApi extends GestureEventListeners(
     return Promise.all(promises).then(([comments, robotComments, drafts]) => {
       this._changeComments = new ChangeComments(
         comments,
-        robotComments,
+        // TODO(TS): Promise.all somehow resolve all types to
+        // PathToCommentsInfoMap given its PathToRobotCommentsInfoMap
+        // returned from the second promise
+        robotComments as PathToRobotCommentsInfoMap,
         drafts,
         changeNum
       );

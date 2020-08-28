@@ -59,7 +59,7 @@ import {
   ServerInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   AppElement,
   AppElementParams,
@@ -261,7 +261,7 @@ if (!app) {
 
 export interface GrRouter {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

@@ -66,7 +66,6 @@ export interface ValueChangeDetail {
 
 export type DropDownValueChangeEvent = CustomEvent<ValueChangeDetail>;
 
-/** @extends PolymerElement */
 @customElement('gr-dropdown-list')
 export class GrDropdownList extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)

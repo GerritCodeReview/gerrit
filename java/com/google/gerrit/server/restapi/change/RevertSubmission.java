@@ -598,9 +598,13 @@ public class RevertSubmission
     }
 
     @Override
-    public void postUpdate(Context ctx) throws Exception {
+    public void postUpdate(Context ctx) {
       changeReverted.fire(
           change, changeNotesFactory.createChecked(revertChangeId).getChange(), ctx.getWhen());
+    }
+
+    @Override
+    public void asyncPostUpdate(Context ctx) {
       try {
         RevertedSender emailSender = revertedSenderFactory.create(ctx.getProject(), change.getId());
         emailSender.setFrom(ctx.getAccountId());

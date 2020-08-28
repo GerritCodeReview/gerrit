@@ -120,6 +120,7 @@ import com.google.gerrit.extensions.api.changes.ReviewResult;
 import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
+import com.google.gerrit.extensions.api.changes.SubmitInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
 import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
@@ -284,10 +285,16 @@ public class ChangeIT extends AbstractDaemonTest {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+
+    // Emails are sent here async which triggers cache hits, so we must wait until those email are
+    // actually sent.
+    sender.clear();
+
     String triplet = project.get() + "~master~" + result.getChangeId();
     CacheStats startPatch = cloneStats(fileCache.stats());
     CacheStats startIntra = cloneStats(intraCache.stats());
     CacheStats startSummary = cloneStats(diffSummaryCache.stats());
+
     gApi.changes().id(triplet).get(ImmutableList.of(ListChangesOption.SKIP_DIFFSTAT));
 
     assertThat(fileCache.stats()).since(startPatch).hasMissCount(0);
@@ -834,11 +841,20 @@ public class ChangeIT extends AbstractDaemonTest {
     ChangeInfo ci2 = get(r2.getChangeId(), CURRENT_REVISION, CURRENT_COMMIT);
     RevisionInfo ri2 = ci2.revisions.get(ci2.currentRevision);
     assertThat(ri2.commit.parents.get(0).commit).isEqualTo(branchTip);
-
     // Submit first change.
     Change.Id id1 = r1.getChange().getId();
+    gApi.changes().id(id1.get()).addReviewer(user.email());
     gApi.changes().id(id1.get()).current().review(ReviewInput.approve());
-    gApi.changes().id(id1.get()).current().submit();
+
+    SubmitInput submitInput = new SubmitInput();
+    submitInput.onBehalfOf = accountCreator.admin2().email();
+    projectOperations
+        .project(project)
+        .forUpdate()
+        .add(allow(Permission.SUBMIT_AS).ref("refs/heads/master").group(REGISTERED_USERS))
+        .update();
+
+    gApi.changes().id(id1.get()).current().submit(submitInput);
 
     // Rebase second change on first change.
     RebaseInput in = new RebaseInput();

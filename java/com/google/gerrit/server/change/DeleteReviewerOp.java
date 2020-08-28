@@ -76,11 +76,12 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final AccountState reviewer;
   private final DeleteReviewerInput input;
 
-  ChangeMessage changeMessage;
-  Change currChange;
-  PatchSet currPs;
-  Map<String, Short> newApprovals = new HashMap<>();
-  Map<String, Short> oldApprovals = new HashMap<>();
+  private ChangeMessage changeMessage;
+  private Change currChange;
+  private PatchSet currPs;
+  private Map<String, Short> newApprovals = new HashMap<>();
+  private Map<String, Short> oldApprovals = new HashMap<>();
+  private NotifyResolver.Result notify;
 
   @Inject
   DeleteReviewerOp(
@@ -165,13 +166,13 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     changeMessage =
         ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
     cmUtil.addChangeMessage(update, changeMessage);
+    notify = ctx.getNotify(currChange.getId());
 
     return true;
   }
 
   @Override
-  public void postUpdate(Context ctx) {
-    NotifyResolver.Result notify = ctx.getNotify(currChange.getId());
+  public void asyncPostUpdate(Context ctx) {
     if (input.notify == null
         && currChange.isWorkInProgress()
         && !oldApprovals.isEmpty()
@@ -187,6 +188,10 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
     }
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
     reviewerDeleted.fire(
         currChange,
         currPs,

@@ -101,7 +101,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void asyncPostUpdate(Context ctx) {
     if (!notify) {
       return;
     }
@@ -114,7 +114,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp {
               reason,
               messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()),
               attentionUserId)
-          .sendAsync();
+          .send();
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
     }

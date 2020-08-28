@@ -4472,13 +4472,6 @@ Default is 0. A timeout of zero is interpreted as an infinite
 timeout. The connection will then block until established or
 an error occurs.
 
-[[sendemail.threadPoolSize]]sendemail.threadPoolSize::
-+
-Maximum size of thread pool in which the review comments
-notifications are sent out asynchronously.
-+
-By default, 1.
-
 [[sendemail.from]]sendemail.from::
 +
 Designates what name and address Gerrit will place in the From

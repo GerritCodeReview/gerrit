@@ -55,7 +55,6 @@ import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
 import com.google.gerrit.server.git.MergedByPushOp;
@@ -73,7 +72,6 @@ import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
@@ -84,8 +82,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
@@ -121,7 +117,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final ExecutorService sendEmailExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -154,7 +149,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private ChangeMessage msg;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
-  private RequestScopePropagator requestScopePropagator;
   private ReviewerAdditionList reviewerAdditions;
   private MailRecipients oldRecipients;
 
@@ -171,7 +165,6 @@ public class ReplaceOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
       ReviewerAdder reviewerAdder,
       Change change,
       MessageIdGenerator messageIdGenerator,
@@ -198,7 +191,6 @@ public class ReplaceOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.projectCache = projectCache;
-    this.sendEmailExecutor = sendEmailExecutor;
     this.reviewerAdder = reviewerAdder;
     this.change = change;
     this.messageIdGenerator = messageIdGenerator;
@@ -234,11 +226,7 @@ public class ReplaceOp implements BatchUpdateOp {
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(
-                requestScopePropagator,
-                patchSetId,
-                new SubmissionId(change),
-                mergedInto,
-                mergeResultRevId);
+                patchSetId, new SubmissionId(change), mergedInto, mergeResultRevId);
       }
     }
 
@@ -488,18 +476,8 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(Context ctx) {
     reviewerAdditions.postUpdate(ctx);
-    if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-      // TODO(dborowitz): Merge email templates so we only have to send one.
-      Runnable e = new ReplaceEmailTask(ctx);
-      if (requestScopePropagator != null) {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
-      } else {
-        e.run();
-      }
-    }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
@@ -512,15 +490,11 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private class ReplaceEmailTask implements Runnable {
-    private final Context ctx;
-
-    private ReplaceEmailTask(Context ctx) {
-      this.ctx = ctx;
-    }
-
-    @Override
-    public void run() {
+  @Override
+  public void asyncPostUpdate(Context ctx) {
+    reviewerAdditions.asyncPostUpdate(ctx);
+    if (changeKind != ChangeKind.TRIVIAL_REBASE) {
+      // TODO(dborowitz): Merge email templates so we only have to send one.
       try {
         ReplacePatchSetSender emailSender =
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
@@ -548,10 +522,8 @@ public class ReplaceOp implements BatchUpdateOp {
             "Cannot send email for new patch set %s", newPatchSet.id());
       }
     }
-
-    @Override
-    public String toString() {
-      return "send-email newpatchset";
+    if (mergedByPushOp != null) {
+      mergedByPushOp.asyncPostUpdate(ctx);
     }
   }
 
@@ -606,11 +578,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
   public ReceiveCommand getCommand() {
     return cmd;
-  }
-
-  public ReplaceOp setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
-    this.requestScopePropagator = requestScopePropagator;
-    return this;
   }
 
   private static String findMergedInto(Context ctx, String first, RevCommit commit) {

@@ -126,8 +126,7 @@ public class WorkInProgressOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
-    stateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
+  public void asyncPostUpdate(Context ctx) {
     NotifyResolver.Result notify = ctx.getNotify(change.getId());
     if (workInProgress
         || notify.handling().compareTo(NotifyHandling.OWNER_REVIEWERS) < 0
@@ -152,6 +151,11 @@ public class WorkInProgressOp implements BatchUpdateOp {
             cmsg.getMessage(),
             ImmutableList.of(),
             repoView)
-        .sendAsync();
+        .send();
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
+    stateChanged.fire(change, ps, ctx.getAccount(), ctx.getWhen());
   }
 }

@@ -51,18 +51,6 @@ public class SysExecutorModule extends AbstractModule {
 
   @Provides
   @Singleton
-  @SendEmailExecutor
-  public ExecutorService provideSendEmailExecutor(
-      @GerritServerConfig Config config, WorkQueue queues) {
-    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
-    if (poolSize == 0) {
-      return newDirectExecutorService();
-    }
-    return queues.createQueue(poolSize, "SendEmail", true);
-  }
-
-  @Provides
-  @Singleton
   @FanOutExecutor
   public ExecutorService provideFanOutExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {

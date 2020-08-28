@@ -37,12 +37,10 @@ import {
   RobotCommentInfo,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {
-  ChangeNum,
-  GrRestApiInterface,
-} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide} from '../../../constants/constants';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 export interface HumanCommentInfoWithPath extends CommentInfo {
   path: string;
@@ -648,7 +646,7 @@ export const _testOnly_findCommentById =
 
 interface GrCommentApi {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 
@@ -690,9 +688,9 @@ class GrCommentApi extends GestureEventListeners(
 
     return Promise.all(promises).then(([comments, robotComments, drafts]) => {
       this._changeComments = new ChangeComments(
-        comments,
-        robotComments,
-        drafts,
+        comments as PathToCommentsInfoMap,
+        robotComments as PathToRobotCommentsInfoMap,
+        drafts as PathToCommentsInfoMap,
         changeNum
       );
       return this._changeComments;
@@ -716,7 +714,7 @@ class GrCommentApi extends GestureEventListeners(
       this._changeComments = new ChangeComments(
         oldChangeComments.comments,
         (oldChangeComments.robotComments as unknown) as PathToRobotCommentsInfoMap,
-        drafts,
+        drafts as PathToCommentsInfoMap,
         changeNum
       );
       return this._changeComments;

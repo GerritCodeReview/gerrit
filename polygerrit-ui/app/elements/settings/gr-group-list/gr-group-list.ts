@@ -22,13 +22,13 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-group-list_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {customElement, property} from '@polymer/decorators';
 import {GroupInfo, GroupId} from '../../../types/common';
 
 export interface GrGroupList {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

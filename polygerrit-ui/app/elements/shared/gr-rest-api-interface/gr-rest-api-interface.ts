@@ -103,7 +103,6 @@ import {
   ProjectWatchInfo,
   RepoName,
   ReviewInput,
-  RobotCommentInfo,
   ServerInfo,
   SshKeyInfo,
   UrlEncodedCommentId,
@@ -132,6 +131,8 @@ import {
   CancelConditionCallback,
   ErrorCallback,
   RestApiService,
+  GetDiffCommentsOutput,
+  GetDiffRobotCommentsOutput,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   CommentSide,
@@ -246,16 +247,6 @@ interface GetDiffParams {
 }
 
 type SendChangeRequest = SendRawChangeRequest | SendJSONChangeRequest;
-
-interface GetDiffCommentsOutput {
-  baseComments: CommentInfo[];
-  comments: CommentInfo[];
-}
-
-interface GetDiffRobotCommentsOutput {
-  baseComments: RobotCommentInfo[];
-  comments: RobotCommentInfo[];
-}
 
 export function _testOnlyResetGrRestApiSharedObjects() {
   // TODO(TS): The commented code below didn't do anything.

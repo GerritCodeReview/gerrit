@@ -24,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-repo-dashboards_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {RepoName, DashboardId, DashboardInfo} from '../../../types/common';
 import {ErrorCallback} from '../../../services/services/gr-rest-api/gr-rest-api';
 
@@ -35,7 +35,7 @@ interface DashboardRef {
 
 export interface GrRepoDashboards {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-repo-dashboards')

@@ -26,7 +26,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-http-password_html';
 import {property, customElement} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -36,7 +36,7 @@ declare global {
 
 export interface GrHttpPassword {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     generatedPasswordOverlay: GrOverlay;
   };
 }

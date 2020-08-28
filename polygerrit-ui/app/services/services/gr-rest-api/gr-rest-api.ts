@@ -31,6 +31,7 @@ import {
   RequestPayload,
   PreferencesInput,
   DiffPreferencesInfo,
+  EditPreferencesInfo,
   DiffPreferenceInput,
   SshKeyInfo,
   RepoName,
@@ -51,6 +52,26 @@ import {
   GroupInfo,
   GroupOptionsInput,
   BranchInfo,
+  ConfigInfo,
+  ReviewInput,
+  EditInfo,
+  ChangeId,
+  DashboardInfo,
+  ProjectAccessInfoMap,
+  IncludedInInfo,
+  RobotCommentInfo,
+  CommentInfo,
+  PathToCommentsInfoMap,
+  PathToRobotCommentsInfoMap,
+  CommentInput,
+  GroupInput,
+  PluginInfo,
+  DocResult,
+  ContributorAgreementInfo,
+  ContributorAgreementInput,
+  Password,
+  ProjectWatchInfo,
+  NameToProjectInfoMap,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -117,6 +138,16 @@ export interface JsApiService {
   getElement<K extends keyof RestApiTagNameMap>(
     elementKey: K
   ): RestApiTagNameMap[K];
+}
+
+export interface GetDiffCommentsOutput {
+  baseComments: CommentInfo[];
+  comments: CommentInfo[];
+}
+
+export interface GetDiffRobotCommentsOutput {
+  baseComments: RobotCommentInfo[];
+  comments: RobotCommentInfo[];
 }
 
 export interface RestApiService {
@@ -207,6 +238,26 @@ export interface RestApiService {
   getDiffPreferences(): Promise<DiffPreferencesInfo | undefined>;
 
   saveDiffPreferences(prefs: DiffPreferenceInput): Promise<Response>;
+  saveDiffPreferences(
+    prefs: DiffPreferenceInput,
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+  saveDiffPreferences(
+    prefs: DiffPreferenceInput,
+    errFn?: ErrorCallback
+  ): Promise<Response>;
+
+  getEditPreferences(): Promise<EditPreferencesInfo | undefined>;
+
+  saveEditPreferences(prefs: EditPreferencesInfo): Promise<Response>;
+  saveEditPreferences(
+    prefs: EditPreferencesInfo,
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+  saveEditPreferences(
+    prefs: EditPreferencesInfo,
+    errFn?: ErrorCallback
+  ): Promise<Response>;
 
   getAccountEmails(): Promise<EmailInfo[] | undefined>;
   deleteAccountEmail(email: string): Promise<Response>;
@@ -284,6 +335,18 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<ProjectInfo | undefined>;
 
+  getRepoDashboards(
+    repo: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<DashboardInfo[] | undefined>;
+
+  getRepoAccess(repo: RepoName): Promise<ProjectAccessInfoMap | undefined>;
+
+  getProjectConfig(
+    repo: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<ConfigInfo | undefined>;
+
   getCapabilities(
     errFn?: ErrorCallback
   ): Promise<CapabilityInfoMap | undefined>;
@@ -320,4 +383,156 @@ export interface RestApiService {
     groupId: GroupId,
     options: GroupOptionsInput
   ): Promise<Response>;
+
+  saveChangeReview(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    review: ReviewInput
+  ): Promise<Response>;
+  saveChangeReview(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    review: ReviewInput,
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+  saveChangeReview(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    review: ReviewInput,
+    errFn?: ErrorCallback
+  ): Promise<Response>;
+
+  getChangeEdit(
+    changeNum: ChangeNum,
+    downloadCommands?: boolean
+  ): Promise<false | EditInfo | undefined>;
+
+  createChange(
+    project: RepoName,
+    branch: BranchName,
+    subject: string,
+    topic?: string,
+    isPrivate?: boolean,
+    workInProgress?: boolean,
+    baseChange?: ChangeId,
+    baseCommit?: string
+  ): Promise<ChangeInfo | undefined>;
+
+  getChangeIncludedIn(
+    changeNum: ChangeNum
+  ): Promise<IncludedInInfo | undefined>;
+
+  getFromProjectLookup(changeNum: ChangeNum): Promise<RepoName | undefined>;
+
+  saveDiffDraft(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    draft: CommentInput
+  ): Promise<Response>;
+
+  getDiffChangeDetail(
+    changeNum: ChangeNum,
+    errFn?: ErrorCallback,
+    cancelCondition?: CancelConditionCallback
+  ): Promise<ChangeInfo | undefined | null>;
+
+  getDiffComments(
+    changeNum: ChangeNum,
+    basePatchNum?: PatchSetNum,
+    patchNum?: PatchSetNum,
+    path?: string
+  ): Promise<GetDiffCommentsOutput>;
+
+  // TODO(TS): maybe should overload following two methods to have more specific return type
+  getDiffRobotComments(
+    changeNum: ChangeNum,
+    basePatchNum?: PatchSetNum,
+    patchNum?: PatchSetNum,
+    path?: string
+  ): Promise<GetDiffRobotCommentsOutput | PathToRobotCommentsInfoMap>;
+
+  getDiffDrafts(
+    changeNum: ChangeNum,
+    basePatchNum?: PatchSetNum,
+    patchNum?: PatchSetNum,
+    path?: string
+  ): Promise<GetDiffCommentsOutput | PathToCommentsInfoMap>;
+
+  createGroup(config: GroupInput & {name: string}): Promise<Response>;
+  createGroup(
+    config: GroupInput & {name: string},
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+  createGroup(config: GroupInput, errFn?: ErrorCallback): Promise<Response>;
+
+  getPlugins(
+    filter: string,
+    pluginsPerPage: number,
+    offset?: number,
+    errFn?: ErrorCallback
+  ): Promise<{[pluginName: string]: PluginInfo} | undefined>;
+
+  getChanges(
+    changesPerPage?: number,
+    query?: string,
+    offset?: 'n,z' | number,
+    options?: string
+  ): Promise<ChangeInfo[] | undefined>;
+  getChanges(
+    changesPerPage?: number,
+    query?: string[],
+    offset?: 'n,z' | number,
+    options?: string
+  ): Promise<ChangeInfo[][] | undefined>;
+  /**
+   * @return If opt_query is an
+   * array, _fetchJSON will return an array of arrays of changeInfos. If it
+   * is unspecified or a string, _fetchJSON will return an array of
+   * changeInfos.
+   */
+  getChanges(
+    changesPerPage?: number,
+    query?: string | string[],
+    offset?: 'n,z' | number,
+    options?: string
+  ): Promise<ChangeInfo[] | ChangeInfo[][] | undefined>;
+
+  getDocumentationSearches(filter: string): Promise<DocResult[] | undefined>;
+
+  getAccountAgreements(): Promise<ContributorAgreementInfo[] | undefined>;
+
+  getAccountGroups(): Promise<GroupInfo[] | undefined>;
+
+  saveAccountAgreement(name: ContributorAgreementInput): Promise<Response>;
+
+  generateAccountHttpPassword(): Promise<Password>;
+
+  setAccountName(name: string, errFn?: ErrorCallback): Promise<void>;
+
+  setAccountUsername(username: string, errFn?: ErrorCallback): Promise<void>;
+
+  getWatchedProjects(): Promise<ProjectWatchInfo[] | undefined>;
+
+  saveWatchedProjects(
+    projects: ProjectWatchInfo[],
+    errFn?: ErrorCallback
+  ): Promise<ProjectWatchInfo[]>;
+
+  deleteWatchedProjects(
+    projects: ProjectWatchInfo[]
+  ): Promise<Response | undefined>;
+  deleteWatchedProjects(
+    projects: ProjectWatchInfo[],
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+  deleteWatchedProjects(
+    projects: ProjectWatchInfo[],
+    errFn?: ErrorCallback
+  ): Promise<Response | undefined>;
+
+  getSuggestedProjects(
+    inputVal: string,
+    n?: number,
+    errFn?: ErrorCallback
+  ): Promise<NameToProjectInfoMap | undefined>;
 }

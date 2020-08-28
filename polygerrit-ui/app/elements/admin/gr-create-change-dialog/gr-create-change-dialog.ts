@@ -27,7 +27,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-create-change-dialog_html';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {
   RepoName,
   BranchName,
@@ -37,13 +36,14 @@ import {
 } from '../../../types/common';
 import {InheritedBooleanInfoConfiguredValue} from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
 
 export interface GrCreateChangeDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     privateChangeCheckBox: HTMLInputElement;
   };
 }

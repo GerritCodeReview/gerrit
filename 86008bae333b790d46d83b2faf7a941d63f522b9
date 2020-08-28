@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c918e2da_f598bf67",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-08-28T07:55:46Z",
+      "side": 1,
+      "message": "Just a note (and you are probably aware of this already since IIRC you guys fixed it):\nOnce this change is merged back we\u0027ll need to adjust this since it\u0027s no longer true for later versions.",
+      "range": {
+        "startLine": 28,
+        "startChar": 3,
+        "endLine": 28,
+        "endChar": 45
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9af72307_d94c1907",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-08-28T07:55:46Z",
+      "side": 1,
+      "message": "nit:\npunctuation",
+      "range": {
+        "startLine": 43,
+        "startChar": 41,
+        "endLine": 43,
+        "endChar": 42
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b09df1e4_a88d12e6",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-08-28T07:55:46Z",
+      "side": 1,
+      "message": "sshd",
+      "range": {
+        "startLine": 55,
+        "startChar": 30,
+        "endLine": 55,
+        "endChar": 35
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d1bef7f0_cc01ebfd",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-08-28T07:55:46Z",
+      "side": 1,
+      "message": "Would it make more sense to instead have it described like:\n\n    [yyyy-MM-dd hh:mm:ss,sss Z]",
+      "range": {
+        "startLine": 61,
+        "startChar": 0,
+        "endLine": 68,
+        "endChar": 21
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea037064_b43e4739",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-08-28T07:55:46Z",
+      "side": 1,
+      "message": "nit:\npuncuation",
+      "range": {
+        "startLine": 82,
+        "startChar": 52,
+        "endLine": 82,
+        "endChar": 53
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

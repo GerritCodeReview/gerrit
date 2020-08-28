@@ -58,7 +58,9 @@ declare global {
 export interface AutocompleteSuggestion {
   name?: string;
   label?: string;
-  value?: string;
+  // TODO(TS): this value can be string or arbitrary object (in gr-create-repo-dialog)
+  // probably should limit it to string only as it seems not used
+  value?: any;
   text?: string;
 }
 

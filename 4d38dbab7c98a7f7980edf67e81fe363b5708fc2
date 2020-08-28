@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f99a4c52_001396f2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 802,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T10:28:15Z",
+      "side": 1,
+      "message": "no need to have brackets :)",
+      "revId": "4d38dbab7c98a7f7980edf67e81fe363b5708fc2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

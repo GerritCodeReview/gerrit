@@ -28,7 +28,7 @@ import {htmlTemplate} from './gr-create-repo-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, observe, property} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ProjectInput, RepoName} from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
@@ -41,7 +41,7 @@ declare global {
 
 export interface GrCreateRepoDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

@@ -33,7 +33,7 @@ import {
   BranchInfo,
 } from '../../../types/common';
 import {GrLabeledAutocomplete} from '../gr-labeled-autocomplete/gr-labeled-autocomplete';
-import {GrRestApiInterface} from '../gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 const SUGGESTIONS_LIMIT = 15;
 const REF_PREFIX = 'refs/heads/';
@@ -42,7 +42,7 @@ export interface GrRepoBranchPicker {
   $: {
     repoInput: GrLabeledAutocomplete;
     branchInput: GrLabeledAutocomplete;
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-repo-branch-picker')

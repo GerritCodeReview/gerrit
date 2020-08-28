@@ -23,8 +23,8 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-download-commands_html';
 import {customElement, property, observe} from '@polymer/decorators';
-import {GrRestApiInterface} from '../gr-rest-api-interface/gr-rest-api-interface';
 import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -35,7 +35,7 @@ declare global {
 export interface GrDownloadCommands {
   $: {
     downloadTabs: PaperTabsElement;
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

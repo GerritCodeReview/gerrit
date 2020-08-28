@@ -72,6 +72,7 @@ import {
   Password,
   ProjectWatchInfo,
   NameToProjectInfoMap,
+  ProjectInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -329,6 +330,13 @@ export interface RestApiService {
     repoName: RepoName,
     errFn?: ErrorCallback
   ): Promise<ProjectAccessInfo | undefined>;
+
+  createRepo(config: ProjectInput & {name: RepoName}): Promise<Response>;
+  createRepo(
+    config: ProjectInput & {name: RepoName},
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+  createRepo(config: ProjectInput, errFn?: ErrorCallback): Promise<Response>;
 
   getRepo(
     repo: RepoName,

@@ -29,7 +29,7 @@ import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mix
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, ProjectInfoWithName} from '../../../types/common';
 import {GrCreateRepoDialog} from '../gr-create-repo-dialog/gr-create-repo-dialog';
@@ -43,7 +43,7 @@ declare global {
 
 export interface GrRepoList {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     createOverlay: GrOverlay;
     createNewModal: GrCreateRepoDialog;
   };

@@ -1,0 +1,181 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "27a57c28_169b4cc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "Great content in here Matthias, thanks for doing this!\n\nThe -1 is just for $site (instead of $site_path). The rest is \"nice to have\".",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b35c1ba3_3ec1e99a",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "There\u0027s one other doc with a reference to $site, but the rest use $site_path. Probably best to stick to $site_path. (comment applies to everywhere you use $site)",
+      "range": {
+        "startLine": 3,
+        "startChar": 32,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57e95086_e7abfb79",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "s/json/JSON/ is typical for non-option references",
+      "range": {
+        "startLine": 5,
+        "startChar": 30,
+        "endLine": 5,
+        "endChar": 34
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "516c51f3_fe3bd4c1",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "s/are/can be/ since we don\u0027t always write all of these, correct?",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08254e63_8ce77e06",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "Mention the config that controls if this log is written? https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#httpd.requestLog",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6404d10d_4ff0919c",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "Is this \u0027-\u0027 for anonymous requests?",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3798d7af_0eca8a82",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "nit: A bit strange to mention 3.2 in a 2.16 doc? I don\u0027t really care, but just thought I\u0027d note it.",
+      "range": {
+        "startLine": 31,
+        "startChar": 41,
+        "endLine": 31,
+        "endChar": 51
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f57e2e39_cb8285e0",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "mention https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#sshd.requestLog ?",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d16c22a2_15116ddf",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-08-28T21:29:53Z",
+      "side": 1,
+      "message": "\"... refer to each plugin\u0027s documentation for more details on their logs\" ?",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

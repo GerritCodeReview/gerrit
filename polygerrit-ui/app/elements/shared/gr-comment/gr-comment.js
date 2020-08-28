@@ -778,6 +778,12 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
     }, TOAST_DEBOUNCE_INTERVAL);
   }
 
+  _handleDraftFailure() {
+    this.$.container.classList.add('unableToSave');
+    this._unableToSave = true;
+    this._handleFailedDraftRequest();
+  }
+
   _saveDraft(draft) {
     this._showStartRequest();
     return this.$.restAPI.saveDiffDraft(this.changeNum, this.patchNum, draft)
@@ -787,11 +793,13 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
             this.$.container.classList.remove('unableToSave');
             this._showEndRequest();
           } else {
-            this.$.container.classList.add('unableToSave');
-            this._unableToSave = true;
-            this._handleFailedDraftRequest();
+            this._handleDraftFailure();
           }
           return result;
+        })
+        .catch(err => {
+          this._handleDraftFailure();
+          throw (err);
         });
   }
 

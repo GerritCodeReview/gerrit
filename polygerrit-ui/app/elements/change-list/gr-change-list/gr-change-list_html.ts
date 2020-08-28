@@ -85,10 +85,16 @@ export const htmlTemplate = html`
               class="cell"
               colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
             >
-              <template is="dom-if" if="[[_isOutgoing(changeSection)]]">
-                <slot name="empty-outgoing"></slot>
+              <template
+                is="dom-if"
+                if="[[_getSpecialEmptySlot(changeSection)]]"
+              >
+                <slot name="[[_getSpecialEmptySlot(changeSection)]]"></slot>
               </template>
-              <template is="dom-if" if="[[!_isOutgoing(changeSection)]]">
+              <template
+                is="dom-if"
+                if="[[!_getSpecialEmptySlot(changeSection)]]"
+              >
                 No changes
               </template>
             </td>

@@ -289,30 +289,30 @@ suite('gr-change-list basic tests', () => {
     assert.equal(noChangesMsg.length, 2);
   });
 
-  suite('empty outgoing', () => {
+  suite('empty section', () => {
     test('not shown on empty non-outgoing sections', () => {
       const section = {results: []};
       assert.isTrue(element._isEmpty(section));
-      assert.isFalse(element._isOutgoing(section));
+      assert.equal(element._getSpecialEmptySlot(section), '');
     });
 
     test('shown on empty outgoing sections', () => {
       const section = {results: [], isOutgoing: true};
       assert.isTrue(element._isEmpty(section));
-      assert.isTrue(element._isOutgoing(section));
+      assert.equal(element._getSpecialEmptySlot(section), 'empty-outgoing');
+    });
+
+    test('shown on empty outgoing sections', () => {
+      const section = {results: [], name: 'Your Turn'};
+      assert.isTrue(element._isEmpty(section));
+      assert.equal(element._getSpecialEmptySlot(section), 'empty-your-turn');
     });
 
     test('not shown on non-empty outgoing sections', () => {
       const section = {isOutgoing: true, results: [
         {_number: 0, labels: {Verified: {approved: {}}}}]};
       assert.isFalse(element._isEmpty(section));
-      assert.isTrue(element._isOutgoing(section));
     });
-  });
-
-  test('_isOutgoing', () => {
-    assert.isTrue(element._isOutgoing({results: [], isOutgoing: true}));
-    assert.isFalse(element._isOutgoing({results: []}));
   });
 
   suite('empty column preference', () => {

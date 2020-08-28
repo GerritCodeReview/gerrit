@@ -57,15 +57,19 @@ export const htmlTemplate = html`
       border-top: 1px solid var(--border-color);
       margin-top: var(--spacing-xl);
     }
+    .resolved-comments-message {
+      color: var(--link-color);
+      cursor: pointer;
+    }
   </style>
   <template is="dom-if" if="[[!hideToggleButtons]]">
     <div class="header">
       <div class="toggleItem">
         <paper-toggle-button
           id="unresolvedToggle"
-          checked="{{_unresolvedOnly}}"
+          checked="{{!_unresolvedOnly}}"
           on-tap="_onTapUnresolvedToggle"
-          >Only unresolved threads</paper-toggle-button
+          >All comments</paper-toggle-button
         >
       </div>
       <div
@@ -75,48 +79,55 @@ export const htmlTemplate = html`
           id="draftToggle"
           checked="{{_draftsOnly}}"
           on-tap="_onTapUnresolvedToggle"
-          >Only threads with drafts</paper-toggle-button
+          >Comments with drafts</paper-toggle-button
         >
       </div>
     </div>
   </template>
   <div id="threads">
-    <template is="dom-if" if="[[!threads.length]]">
-      [[emptyThreadMsg]]
+    <template
+      is="dom-if"
+      if="[[_showEmptyThreadsMessage(threads, _displayedThreads, _unresolvedOnly)]]"
+    >
+      <div on-click="_handleResolvedCommentsMessageClick">
+        <span>
+          &#x1f389; [[_computeEmptyThreadsMessage(threads, _displayedThreads,
+          _unresolvedOnly)]]
+          <span class="resolved-comments-message">
+            [[_computeResolvedCommentsMessage(threads, _displayedThreads,
+            _unresolvedOnly)]]
+          </span>
+        </span>
+      </div>
     </template>
     <template
       is="dom-repeat"
-      items="[[_sortedThreads]]"
+      items="[[_displayedThreads]]"
       as="thread"
       initial-count="10"
       target-framerate="60"
     >
       <template
         is="dom-if"
-        if="[[_shouldShowThread(thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
+        if="[[_shouldRenderSeparator(_displayedThreads, thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
       >
-        <template
-          is="dom-if"
-          if="[[_shouldRenderSeparator(_sortedThreads, thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
-        >
-          <div class="thread-separator"></div>
-        </template>
-        <gr-comment-thread
-          show-file-path=""
-          change-num="[[changeNum]]"
-          comments="[[thread.comments]]"
-          comment-side="[[thread.commentSide]]"
-          show-file-name="[[_isFirstThreadWithFileName(_sortedThreads, thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
-          project-name="[[change.project]]"
-          is-on-parent="[[_isOnParent(thread.commentSide)]]"
-          line-num="[[thread.line]]"
-          patch-num="[[thread.patchNum]]"
-          path="[[thread.path]]"
-          root-id="{{thread.rootId}}"
-          on-thread-changed="_handleCommentsChanged"
-          on-thread-discard="_handleThreadDiscard"
-        ></gr-comment-thread>
+        <div class="thread-separator"></div>
       </template>
+      <gr-comment-thread
+        show-file-path=""
+        change-num="[[changeNum]]"
+        comments="[[thread.comments]]"
+        comment-side="[[thread.commentSide]]"
+        show-file-name="[[_isFirstThreadWithFileName(_displayedThreads, thread, _unresolvedOnly, _draftsOnly, onlyShowRobotCommentsWithHumanReply)]]"
+        project-name="[[change.project]]"
+        is-on-parent="[[_isOnParent(thread.commentSide)]]"
+        line-num="[[thread.line]]"
+        patch-num="[[thread.patchNum]]"
+        path="[[thread.path]]"
+        root-id="{{thread.rootId}}"
+        on-thread-changed="_handleCommentsChanged"
+        on-thread-discard="_handleThreadDiscard"
+      ></gr-comment-thread>
     </template>
   </div>
 `;

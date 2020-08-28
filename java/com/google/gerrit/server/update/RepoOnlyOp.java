@@ -30,10 +30,10 @@ public interface RepoOnlyOp {
   default void updateRepo(RepoContext ctx) throws Exception {}
 
   /**
-   * Override this method to do something after the update e.g. send email or run hooks
+   * Override this method to do something after the update e.g. send email or run hooks. This method
+   * will be invoked asynchronously.
    *
    * @param ctx context
    */
-  // TODO(dborowitz): Support async operations?
   default void postUpdate(Context ctx) throws Exception {}
 }

@@ -75,6 +75,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -332,6 +333,7 @@ public class BatchUpdate implements AutoCloseable {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final ExecutorService executorService;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -360,6 +362,7 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      ExecutorService executorService,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
@@ -369,6 +372,7 @@ public class BatchUpdate implements AutoCloseable {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.executorService = executorService;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -640,17 +644,27 @@ public class BatchUpdate implements AutoCloseable {
   private void executePostOps() throws Exception {
     ContextImpl ctx = new ContextImpl();
     for (BatchUpdateOp op : ops.values()) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
+      asyncPostUpdate(ctx, op);
     }
 
     for (RepoOnlyOp op : repoOnlyOps) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
-      }
+      asyncPostUpdate(ctx, op);
+    }
+  }
+
+  /** Invoke the postUpdate method asynchronously. */
+  private void asyncPostUpdate(ContextImpl ctx, RepoOnlyOp op) throws Exception {
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+      executorService.execute(
+          () -> {
+            try {
+              op.postUpdate(ctx);
+            } catch (Exception ex) {
+              logDebug(ex.toString());
+            }
+          });
+      op.postUpdate(ctx);
     }
   }
 

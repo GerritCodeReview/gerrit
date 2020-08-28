@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e141dea2_e7670522",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-create-destination-dialog/gr-create-destination-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T13:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c5003b4_e1e26405",
+      "range": {
+        "startLine": 81,
+        "startChar": 32,
+        "endLine": 81,
+        "endChar": 36
+      },
+      "revId": "9194621ecfd29466dc7bbdcb56f893ba52f04de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d255454f_9d36488e",
         "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
         "patchSetId": 1
@@ -69,6 +93,30 @@
       "revId": "9194621ecfd29466dc7bbdcb56f893ba52f04de1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b647568_6bc4a261",
+        "filename": "polygerrit-ui/app/elements/shared/gr-repo-branch-picker/gr-repo-branch-picker.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T13:40:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "86e56c9a_733f8aba",
+      "range": {
+        "startLine": 106,
+        "startChar": 12,
+        "endLine": 106,
+        "endChar": 54
+      },
+      "revId": "9194621ecfd29466dc7bbdcb56f893ba52f04de1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

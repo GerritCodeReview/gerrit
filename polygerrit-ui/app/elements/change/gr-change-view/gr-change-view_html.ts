@@ -637,6 +637,7 @@ export const htmlTemplate = html`
           logged-in="[[_loggedIn]]"
           only-show-robot-comments-with-human-reply=""
           on-thread-list-modified="_handleReloadDiffComments"
+          unresolved-only
         ></gr-thread-list>
       </template>
       <template

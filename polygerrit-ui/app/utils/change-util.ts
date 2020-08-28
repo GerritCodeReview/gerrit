@@ -16,13 +16,7 @@
  */
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
-
-// WARNING: The types below can be completely wrong!
-// The types was added to avoid eslinter and typescript errors.
-// Correct typing requires more analysis and (probably) code changes.
-// This will be done later.
-type ChangeNum = string; // This can be wrong! See WARNING above
-type PatchNum = string; // This can be wrong! See WARNING above
+import {LegacyChangeId, PatchSetNum} from '../types/common';
 
 // This can be wrong! See WARNING above
 interface Change {
@@ -124,19 +118,18 @@ export function listChangesOptionsToHex(...args: number[]) {
 
 export function changeBaseURL(
   project: string,
-  changeNum: ChangeNum,
-  patchNum: PatchNum
+  changeNum: LegacyChangeId,
+  patchNum: PatchSetNum
 ): string {
-  let v =
-    getBaseUrl() + '/changes/' + encodeURIComponent(project) + '~' + changeNum;
+  let v = `${getBaseUrl()}/changes/${encodeURIComponent(project)}~${changeNum}`;
   if (patchNum) {
-    v += '/revisions/' + patchNum;
+    v += `/revisions/${patchNum}`;
   }
   return v;
 }
 
-export function changePath(changeNum: ChangeNum) {
-  return getBaseUrl() + '/c/' + changeNum;
+export function changePath(changeNum: LegacyChangeId) {
+  return `${getBaseUrl()}/c/${changeNum}`;
 }
 
 export function changeIsOpen(change?: Change) {

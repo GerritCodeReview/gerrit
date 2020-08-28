@@ -318,7 +318,7 @@ suite('gr-comment tests', () => {
         element.comment = {};
         return element._handleSave(mockEvent).then(() => {
           assert.equal(element.shadowRoot.querySelector('gr-account-label').
-              shadowRoot.querySelector('span').innerText.trim(),
+              shadowRoot.querySelector('span.name').innerText.trim(),
           'Dhruv Srivastava');
           assert.isTrue(endStub.calledOnce);
           assert.isTrue(getTimerStub.calledOnce);
@@ -654,7 +654,8 @@ suite('gr-comment tests', () => {
         assert.isTrue(runDetailsLink.href.indexOf(element.comment.url) !== -1);
 
         const robotServiceName = element.shadowRoot
-            .querySelector('gr-account-label').shadowRoot.querySelector('span');
+            .querySelector('gr-account-label')
+            .shadowRoot.querySelector('span.name');
         assert.equal(robotServiceName.textContent.trim(), 'Display name Robot');
 
         const authorName = element.shadowRoot
@@ -679,7 +680,8 @@ suite('gr-comment tests', () => {
       element.collapsed = false;
       flush(() => {
         const authorName = element.shadowRoot
-            .querySelector('gr-account-label').shadowRoot.querySelector('span');
+            .querySelector('gr-account-label')
+            .shadowRoot.querySelector('span.name');
         assert.equal(authorName.innerText.trim(), 'test@test.com');
         done();
       });

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "559ec45b_4da6319c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T08:14:42Z",
+      "side": 1,
+      "message": "override and self-approval for renamed ts changes",
+      "revId": "c14ed1470d46eb87aac567c923f82434aba31892",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

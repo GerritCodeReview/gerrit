@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f713c065_25dc5704",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 801,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T10:04:23Z",
+      "side": 1,
+      "message": "to continue the original behavior, you might still want to throw the error so whoever rely on `_saveDraft` can expect no change after this behavior. like in the `save()`\n\ni guess we don\u0027t have tests on that path so its not caught by any tests ?",
+      "revId": "1b6cdd239e8c0b02bef978807d845a8ef69ce060",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

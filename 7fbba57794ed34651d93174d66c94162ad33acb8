@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "efb388e9_27754d37",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:47:15Z",
+      "side": 1,
+      "message": "what\u0027s the difference ?",
+      "parentUuid": "430dbf95_180e7121",
+      "revId": "7fbba57794ed34651d93174d66c94162ad33acb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b92f46a7_73788d55",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
         "patchSetId": 2
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "da8c568b_2e80a7b8",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:47:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b92f46a7_73788d55",
+      "range": {
+        "startLine": 75,
+        "startChar": 10,
+        "endLine": 75,
+        "endChar": 18
+      },
+      "revId": "7fbba57794ed34651d93174d66c94162ad33acb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "716a3d4c_1c9fbc5d",
         "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
         "patchSetId": 2
@@ -62,6 +104,30 @@
       "revId": "7fbba57794ed34651d93174d66c94162ad33acb8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50c5cf44_45c92da4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:47:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "716a3d4c_1c9fbc5d",
+      "range": {
+        "startLine": 78,
+        "startChar": 16,
+        "endLine": 78,
+        "endChar": 24
+      },
+      "revId": "7fbba57794ed34651d93174d66c94162ad33acb8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

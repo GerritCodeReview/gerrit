@@ -16,6 +16,52 @@
       "revId": "2b43fff6bf66a85c2ab3627abe444f1ea7619454",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13c81397_ab25d7bb",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 432,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T10:40:22Z",
+      "side": 1,
+      "message": "maybe empty string ? so it has a consistent return type",
+      "range": {
+        "startLine": 432,
+        "startChar": 11,
+        "endLine": 432,
+        "endChar": 20
+      },
+      "revId": "2b43fff6bf66a85c2ab3627abe444f1ea7619454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8972da91_3e07592e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view_html.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T10:40:22Z",
+      "side": 1,
+      "message": "is this intended ? (i remember we had complaining about emojis before - some people maybe not in favor of emojis :))",
+      "range": {
+        "startLine": 102,
+        "startChar": 14,
+        "endLine": 102,
+        "endChar": 23
+      },
+      "revId": "2b43fff6bf66a85c2ab3627abe444f1ea7619454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

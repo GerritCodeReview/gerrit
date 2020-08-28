@@ -238,7 +238,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(Context ctx) {
     opResult =
         Result.builder()
             .setAddedReviewers(addedReviewers)
@@ -246,16 +246,6 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCs(addedCCs)
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
-    if (sendEmail) {
-      addReviewersEmail.emailReviewersAsync(
-          ctx.getUser().asIdentifiedUser(),
-          change,
-          Lists.transform(addedReviewers, PatchSetApproval::accountId),
-          addedCCs,
-          addedReviewersByEmail,
-          addedCCsByEmail,
-          ctx.getNotify(change.getId()));
-    }
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers.stream()
@@ -263,6 +253,20 @@ public class AddReviewersOp implements BatchUpdateOp {
               .flatMap(Streams::stream)
               .collect(toList());
       reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+    }
+  }
+
+  @Override
+  public void asyncPostUpdate(Context ctx) {
+    if (sendEmail) {
+      addReviewersEmail.emailReviewers(
+          ctx.getUser().asIdentifiedUser(),
+          change,
+          Lists.transform(addedReviewers, PatchSetApproval::accountId),
+          addedCCs,
+          addedReviewersByEmail,
+          addedCCsByEmail,
+          ctx.getNotify(change.getId()));
     }
   }
 

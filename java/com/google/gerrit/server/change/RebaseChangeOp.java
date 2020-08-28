@@ -221,6 +221,11 @@ public class RebaseChangeOp implements BatchUpdateOp {
     patchSetInserter.postUpdate(ctx);
   }
 
+  @Override
+  public void asyncPostUpdate(Context ctx) {
+    patchSetInserter.asyncPostUpdate(ctx);
+  }
+
   public RevCommit getRebasedCommit() {
     checkState(rebasedCommit != null, "getRebasedCommit() only valid after updateRepo");
     return rebasedCommit;

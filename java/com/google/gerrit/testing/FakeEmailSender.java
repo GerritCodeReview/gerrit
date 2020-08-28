@@ -128,6 +128,7 @@ public class FakeEmailSender implements EmailSender {
   }
 
   public synchronized @Nullable Message peekMessage() {
+    waitForEmails();
     if (messagesRead >= messages.size()) {
       return null;
     }
@@ -135,6 +136,7 @@ public class FakeEmailSender implements EmailSender {
   }
 
   public synchronized @Nullable Message nextMessage() {
+    waitForEmails();
     Message msg = peekMessage();
     messagesRead++;
     return msg;
@@ -160,7 +162,7 @@ public class FakeEmailSender implements EmailSender {
     // a single thread in tests (tricky because most callers just use the
     // default executor).
     for (WorkQueue.Task<?> task : workQueue.getTasks()) {
-      if (task.toString().contains("send-email")) {
+      if (task.toString().contains("async-post-updates")) {
         try {
           task.get();
         } catch (ExecutionException | InterruptedException e) {

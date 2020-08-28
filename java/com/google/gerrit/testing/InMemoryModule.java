@@ -58,7 +58,6 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
@@ -275,13 +274,6 @@ public class InMemoryModule extends FactoryModule {
 
       return "gerrit";
     }
-  }
-
-  @Provides
-  @Singleton
-  @SendEmailExecutor
-  public ExecutorService createSendEmailExecutor() {
-    return newDirectExecutorService();
   }
 
   @Provides

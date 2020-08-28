@@ -149,6 +149,12 @@ public class Restore
 
     @Override
     public void postUpdate(Context ctx) {
+      changeRestored.fire(
+          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
+    }
+
+    @Override
+    public void asyncPostUpdate(Context ctx) {
       try {
         ReplyToChangeSender emailSender =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
@@ -160,8 +166,6 @@ public class Restore
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
-      changeRestored.fire(
-          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
     }
   }
 

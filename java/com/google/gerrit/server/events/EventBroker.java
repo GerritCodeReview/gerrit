@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.events;
 
+import com.google.common.base.Strings;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.BranchNameKey;
@@ -111,7 +112,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Change change, ChangeEvent event) throws PermissionBackendException {
-    setInstanceId(event);
+    setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(change, user)) {
@@ -122,7 +123,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Project.NameKey project, ProjectEvent event) {
-    setInstanceId(event);
+    setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
 
       CurrentUser user = c.call(UserScopedEventListener::getUser);
@@ -135,7 +136,7 @@ public class EventBroker implements EventDispatcher {
 
   protected void fireEvent(BranchNameKey branchName, RefEvent event)
       throws PermissionBackendException {
-    setInstanceId(event);
+    setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(branchName, user)) {
@@ -146,7 +147,7 @@ public class EventBroker implements EventDispatcher {
   }
 
   protected void fireEvent(Event event) throws PermissionBackendException {
-    setInstanceId(event);
+    setInstanceIdWhenEmpty(event);
     for (PluginSetEntryContext<UserScopedEventListener> c : listeners) {
       CurrentUser user = c.call(UserScopedEventListener::getUser);
       if (isVisibleTo(event, user)) {
@@ -156,8 +157,10 @@ public class EventBroker implements EventDispatcher {
     fireEventForUnrestrictedListeners(event);
   }
 
-  protected void setInstanceId(Event event) {
-    event.instanceId = gerritInstanceId;
+  protected void setInstanceIdWhenEmpty(Event event) {
+    if (Strings.isNullOrEmpty(event.instanceId)) {
+      event.instanceId = gerritInstanceId;
+    }
   }
 
   protected boolean isVisibleTo(Project.NameKey project, CurrentUser user) {

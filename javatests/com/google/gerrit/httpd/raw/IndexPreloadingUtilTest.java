@@ -51,11 +51,11 @@ public class IndexPreloadingUtilTest {
 
   @Test
   public void preloadOnlyForSelfDashboard() throws Exception {
-    assertThat(parseRequestedPage("https://gerrit-review.googlesource.com/dashboard/self"))
-        .isEqualTo(RequestedPage.DASHBOARD);
-    assertThat(parseRequestedPage("https://gerrit-review.googlesource.com/dashboard/1085901"))
+    assertThat(parseRequestedPage("/dashboard/self")).isEqualTo(RequestedPage.DASHBOARD);
+    assertThat(parseRequestedPage("/dashboard/1085901"))
         .isEqualTo(RequestedPage.PAGE_WITHOUT_PRELOADING);
-    assertThat(parseRequestedPage("https://gerrit-review.googlesource.com/dashboard/gerrit"))
+    assertThat(parseRequestedPage("/dashboard/gerrit"))
         .isEqualTo(RequestedPage.PAGE_WITHOUT_PRELOADING);
+    assertThat(parseRequestedPage("/")).isEqualTo(RequestedPage.DASHBOARD);
   }
 }

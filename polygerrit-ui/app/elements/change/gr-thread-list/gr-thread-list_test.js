@@ -287,13 +287,23 @@ suite('gr-thread-list tests', () => {
     assert.equal(getVisibleThreads().length, element.threads.length);
   });
 
+  test('show unresolved threads if unresolvedOnly is set', done => {
+    element.unresolvedOnly = true;
+    flush();
+    const unresolvedThreads = element.threads.filter(t => t.comments.some(
+        c => c.unresolved
+    ));
+    assert.equal(getVisibleThreads().length, unresolvedThreads.length);
+    done();
+  });
+
   test('showing file name takes visible threads into account', () => {
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
-        element._sortedThreads[2], element._unresolvedOnly, element._draftsOnly,
+        element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
         element.onlyShowRobotCommentsWithHumanReply), true);
-    element._unresolvedOnly = true;
+    element.unresolvedOnly = true;
     assert.equal(element._isFirstThreadWithFileName(element._sortedThreads,
-        element._sortedThreads[2], element._unresolvedOnly, element._draftsOnly,
+        element._sortedThreads[2], element.unresolvedOnly, element._draftsOnly,
         element.onlyShowRobotCommentsWithHumanReply), false);
   });
 
@@ -539,7 +549,7 @@ suite('gr-thread-list tests', () => {
     });
   });
 
-  test('toggle unresolved only shows unresolved comments', () => {
+  test('toggle unresolved shows all comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
     flush();
@@ -617,18 +627,9 @@ suite('gr-thread-list tests', () => {
     });
 
     test('default empty message should show', () => {
-      assert.equal(
-          element.shadowRoot.querySelector('#threads').textContent.trim(),
-          NO_THREADS_MSG
-      );
-    });
-
-    test('can override empty message', () => {
-      element.emptyThreadMsg = 'test';
-      assert.equal(
-          element.shadowRoot.querySelector('#threads').textContent.trim(),
-          'test'
-      );
+      assert.isTrue(
+          element.shadowRoot.querySelector('#threads').textContent.trim()
+              .includes(NO_THREADS_MSG));
     });
   });
 });

@@ -16,8 +16,7 @@
  */
 
 /** @desc Default message shown when no threads in gr-thread-list */
-export const NO_THREADS_MSG =
-  'There are no inline comment threads on any diff for this change.';
+export const NO_THREADS_MSG = 'No comments yet.';
 
 /** @desc Message shown when no threads in gr-thread-list for robot comments */
 export const NO_ROBOT_COMMENTS_THREADS_MSG =

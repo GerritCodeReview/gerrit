@@ -301,6 +301,24 @@
       "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b04697c_cb500b42",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1013267
+      },
+      "writtenOn": "2020-08-28T07:31:51Z",
+      "side": 1,
+      "message": "the equivalent search expression would be (owner:self OR reviewer:self), afaict. i guess this is an adequate stop-gap for an advanced user, but is somewhat questionable UX.",
+      "parentUuid": "186efdfa_8adb2ac0",
+      "revId": "e7bf4a1ea45553c4e1556a026c9708c26d5befb5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

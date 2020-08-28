@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "647e6ff9_792f5d5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T12:51:52Z",
+      "side": 1,
+      "message": "change? instead of |undefined\n\nThat is the same, right? Would be nice to stay consistent.\n\nSame for patchNum",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7a14786_574e1643",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T12:51:52Z",
+      "side": 1,
+      "message": "I remember Dmitrii pointing out that getters are against the style guide?",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "843f79f4_270d38d7",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T12:51:52Z",
+      "side": 1,
+      "message": "Are you sure that this is not a semantic change?",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 34
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

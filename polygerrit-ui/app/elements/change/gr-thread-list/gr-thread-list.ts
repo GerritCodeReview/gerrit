@@ -24,12 +24,14 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-thread-list_html';
 import {parseDate} from '../../../utils/date-util';
 
-import {NO_THREADS_MSG} from '../../../constants/messages';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {customElement, observe, property} from '@polymer/decorators';
-import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
-import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
+import {
+  PolymerSpliceChange,
+  PolymerDeepPropertyChange,
+} from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
+import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
 
 interface CommentThreadWithInfo {
   thread: CommentThread;
@@ -64,8 +66,19 @@ export class GrThreadList extends GestureEventListeners(
   @property({type: Array})
   _sortedThreads: CommentThread[] = [];
 
+  @property({
+    computed:
+      '_computeDisplayedThreads(_sortedThreads.*, unresolvedOnly, ' +
+      '_draftsOnly, onlyShowRobotCommentsWithHumanReply)',
+    type: Array,
+  })
+  _displayedThreads: CommentThread[] = [];
+
+  // thread-list is used in multiple places like the change log, hence
+  // keeping the default to be false. When used in comments tab, it's
+  // set as true.
   @property({type: Boolean})
-  _unresolvedOnly = false;
+  unresolvedOnly = false;
 
   @property({type: Boolean})
   _draftsOnly = false;
@@ -76,11 +89,48 @@ export class GrThreadList extends GestureEventListeners(
   @property({type: Boolean})
   hideToggleButtons = false;
 
-  @property({type: String})
-  emptyThreadMsg = NO_THREADS_MSG;
-
   _computeShowDraftToggle(loggedIn?: boolean) {
     return loggedIn ? 'show' : '';
+  }
+
+  _showEmptyThreadsMessage(
+    threads: CommentThread[],
+    displayedThreads: CommentThread[],
+    unresolvedOnly: boolean
+  ) {
+    if (!threads || !displayedThreads) return false;
+    return !threads.length || (unresolvedOnly && !displayedThreads.length);
+  }
+
+  _computeEmptyThreadsMessage(threads: CommentThread[]) {
+    return !threads.length ? 'No comments.' : 'No unresolved comments';
+  }
+
+  _showPartyPopper(threads: CommentThread[]) {
+    return !!threads.length;
+  }
+
+  _computeResolvedCommentsMessage(
+    threads: CommentThread[],
+    displayedThreads: CommentThread[],
+    unresolvedOnly: boolean
+  ) {
+    if (unresolvedOnly && threads.length && !displayedThreads.length) {
+      return `Show ${threads.length} resolved comments`;
+    }
+    return '';
+  }
+
+  _showResolvedCommentsButton(
+    threads: CommentThread[],
+    displayedThreads: CommentThread[],
+    unresolvedOnly: boolean
+  ) {
+    return unresolvedOnly && threads.length && !displayedThreads.length;
+  }
+
+  _handleResolvedCommentsMessageClick() {
+    this.unresolvedOnly = !this.unresolvedOnly;
   }
 
   _compareThreads(c1: CommentThreadWithInfo, c2: CommentThreadWithInfo) {
@@ -166,6 +216,7 @@ export class GrThreadList extends GestureEventListeners(
   ) {
     if (!threads || threads.length === 0) {
       this._sortedThreads = [];
+      this._displayedThreads = [];
       return;
     }
     // We only want to sort on thread additions / removals to avoid
@@ -196,14 +247,34 @@ export class GrThreadList extends GestureEventListeners(
       .map(threadInfo => threadInfo.thread);
   }
 
+  _computeDisplayedThreads(
+    sortedThreadsRecord?: PolymerDeepPropertyChange<
+      CommentThread[],
+      CommentThread[]
+    >,
+    unresolvedOnly?: boolean,
+    draftsOnly?: boolean,
+    onlyShowRobotCommentsWithHumanReply?: boolean
+  ) {
+    if (!sortedThreadsRecord || !sortedThreadsRecord.base) return [];
+    return sortedThreadsRecord.base.filter(t =>
+      this._shouldShowThread(
+        t,
+        unresolvedOnly,
+        draftsOnly,
+        onlyShowRobotCommentsWithHumanReply
+      )
+    );
+  }
+
   _isFirstThreadWithFileName(
-    sortedThreads: CommentThread[],
+    displayedThreads: CommentThread[],
     thread: CommentThread,
     unresolvedOnly?: boolean,
     draftsOnly?: boolean,
     onlyShowRobotCommentsWithHumanReply?: boolean
   ) {
-    const threads = sortedThreads.filter(t =>
+    const threads = displayedThreads.filter(t =>
       this._shouldShowThread(
         t,
         unresolvedOnly,
@@ -219,13 +290,13 @@ export class GrThreadList extends GestureEventListeners(
   }
 
   _shouldRenderSeparator(
-    sortedThreads: CommentThread[],
+    displayedThreads: CommentThread[],
     thread: CommentThread,
     unresolvedOnly?: boolean,
     draftsOnly?: boolean,
     onlyShowRobotCommentsWithHumanReply?: boolean
   ) {
-    const threads = sortedThreads.filter(t =>
+    const threads = displayedThreads.filter(t =>
       this._shouldShowThread(
         t,
         unresolvedOnly,
@@ -240,7 +311,7 @@ export class GrThreadList extends GestureEventListeners(
     return (
       index > 0 &&
       this._isFirstThreadWithFileName(
-        sortedThreads,
+        displayedThreads,
         thread,
         unresolvedOnly,
         draftsOnly,

@@ -230,7 +230,7 @@ suite('gr-reply-dialog tests', () => {
     element.change = change;
     element._reviewers = reviewers.base;
     flushAsynchronousOperations();
-    element._computeNewAttention(user, reviewers, change, draftThreads);
+    element._computeNewAttention(user, reviewers, [], change, draftThreads);
     assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 
@@ -950,6 +950,51 @@ suite('gr-reply-dialog tests', () => {
         [reviewer1, reviewer2, reviewer3, cc1, cc4, cc3]);
     assert.deepEqual(element._ccs, [cc2]);
     assert.deepEqual(element._reviewersPendingRemove.CC, [cc1, cc4, cc3]);
+  });
+
+  test('update attention section when reviewers and ccs change', () => {
+    element._account = makeAccount();
+    element._reviewers = [makeAccount(), makeAccount()];
+    element._ccs = [makeAccount(), makeAccount()];
+    element.draftCommentThreads = [];
+    MockInteractions.tap(
+        element.shadowRoot.querySelector('.edit-attention-button'));
+    flushAsynchronousOperations();
+
+    assert.isTrue(element._attentionModified);
+    let accountLabels = Array.from(element.shadowRoot.querySelectorAll(
+        '.attention-detail gr-account-label'));
+    assert.equal(accountLabels.length, 5);
+
+    element.push('_reviewers', makeAccount());
+    element.push('_ccs', makeAccount());
+    flushAsynchronousOperations();
+
+    // The 'attention modified' section collapses and resets when reviewers or
+    // ccs change.
+    assert.isFalse(element._attentionModified);
+
+    MockInteractions.tap(
+        element.shadowRoot.querySelector('.edit-attention-button'));
+    flushAsynchronousOperations();
+
+    assert.isTrue(element._attentionModified);
+    accountLabels = Array.from(element.shadowRoot.querySelectorAll(
+        '.attention-detail gr-account-label'));
+    assert.equal(accountLabels.length, 7);
+
+    element.pop('_reviewers', makeAccount());
+    element.pop('_reviewers', makeAccount());
+    element.pop('_ccs', makeAccount());
+    element.pop('_ccs', makeAccount());
+
+    MockInteractions.tap(
+        element.shadowRoot.querySelector('.edit-attention-button'));
+    flushAsynchronousOperations();
+
+    accountLabels = Array.from(element.shadowRoot.querySelectorAll(
+        '.attention-detail gr-account-label'));
+    assert.equal(accountLabels.length, 3);
   });
 
   test('moving from reviewer to cc', () => {

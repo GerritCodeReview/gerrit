@@ -110,7 +110,6 @@ export const htmlTemplate = html`
       <div class="main" slot="main">
         <gr-create-repo-dialog
           has-new-repo-name="{{_hasNewRepoName}}"
-          params="[[params]]"
           id="createNewModal"
         ></gr-create-repo-dialog>
       </div>

@@ -426,8 +426,10 @@ class GrChangeList extends ChangeTableMixin(
     });
   }
 
-  _isOutgoing(section) {
-    return !!section.isOutgoing;
+  _getSpecialEmptySlot(section) {
+    if (section.isOutgoing) return 'empty-outgoing';
+    if (section.name === 'Your Turn') return 'empty-your-turn';
+    return '';
   }
 
   _isEmpty(section) {

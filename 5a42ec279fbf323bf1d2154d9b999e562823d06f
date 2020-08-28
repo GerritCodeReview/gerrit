@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4e53487d_7c2b39f3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T12:55:23Z",
+      "side": 1,
+      "message": "restAPI: RestApiService \u0026 Element;",
+      "revId": "5a42ec279fbf323bf1d2154d9b999e562823d06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3871982f_a40febb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-download-commands/gr-download-commands.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T12:55:23Z",
+      "side": 1,
+      "message": "Nit: Maybe use ?.\n\n  prefs?.download_scheme",
+      "range": {
+        "startLine": 91,
+        "startChar": 10,
+        "endLine": 91,
+        "endChar": 25
+      },
+      "revId": "5a42ec279fbf323bf1d2154d9b999e562823d06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -61,6 +61,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
   private List<HumanComment> comments = new ArrayList<>();
   private ChangeMessage message;
   private IdentifiedUser user;
+  private ChangeNotes changeNotes;
+  private PatchSet patchset;
 
   public interface Factory {
     PublishCommentsOp create(PatchSet.Id psId, Project.NameKey projectNameKey);
@@ -94,6 +96,8 @@ public class PublishCommentsOp implements BatchUpdateOp {
           PatchListNotAvailableException, CommentsRejectedException {
     user = ctx.getIdentifiedUser();
     comments = commentsUtil.draftByChangeAuthor(ctx.getNotes(), ctx.getUser().getAccountId());
+    changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
+    patchset = psUtil.get(changeNotes, psId);
 
     // PublishCommentsOp should update a separate ChangeUpdate Object than the one used by other ops
     // For example, with the "publish comments on PS upload" workflow,
@@ -108,12 +112,10 @@ public class PublishCommentsOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void asyncPostUpdate(Context ctx) {
     if (message == null || comments.isEmpty()) {
       return;
     }
-    ChangeNotes changeNotes = changeNotesFactory.createChecked(projectNameKey, psId.changeId());
-    PatchSet ps = psUtil.get(changeNotes, psId);
     NotifyResolver.Result notify = ctx.getNotify(changeNotes.getChangeId());
     if (notify.shouldNotify()) {
       RepoView repoView;
@@ -124,12 +126,17 @@ public class PublishCommentsOp implements BatchUpdateOp {
             String.format("Repository %s not found", ctx.getProject().get()), ex);
       }
       email
-          .create(notify, changeNotes, ps, user, message, comments, null, labelDelta, repoView)
-          .sendAsync();
+          .create(
+              notify, changeNotes, patchset, user, message, comments, null, labelDelta, repoView)
+          .send();
     }
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
     commentAdded.fire(
         changeNotes.getChange(),
-        ps,
+        patchset,
         ctx.getAccount(),
         message.getMessage(),
         ImmutableMap.of(),

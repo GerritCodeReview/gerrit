@@ -157,6 +157,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     private PatchSet ps;
     private Map<String, Short> newApprovals = new HashMap<>();
     private Map<String, Short> oldApprovals = new HashMap<>();
+    private IdentifiedUser user;
 
     private Op(
         ProjectState projectState, AccountState accountState, String label, DeleteVoteInput input) {
@@ -215,17 +216,31 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       changeMessage =
           ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_VOTE);
       cmUtil.addChangeMessage(ctx.getUpdate(psId), changeMessage);
+      user = ctx.getIdentifiedUser();
 
       return true;
     }
 
     @Override
     public void postUpdate(Context ctx) {
+      voteDeleted.fire(
+          change,
+          ps,
+          accountState,
+          newApprovals,
+          oldApprovals,
+          input.notify,
+          changeMessage.getMessage(),
+          user.state(),
+          ctx.getWhen());
+    }
+
+    @Override
+    public void asyncPostUpdate(Context ctx) {
       if (changeMessage == null) {
         return;
       }
 
-      IdentifiedUser user = ctx.getIdentifiedUser();
       try {
         NotifyResolver.Result notify = ctx.getNotify(change.getId());
         if (notify.shouldNotify()) {
@@ -241,17 +256,6 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
-
-      voteDeleted.fire(
-          change,
-          ps,
-          accountState,
-          newApprovals,
-          oldApprovals,
-          input.notify,
-          changeMessage.getMessage(),
-          user.state(),
-          ctx.getWhen());
     }
   }
 }

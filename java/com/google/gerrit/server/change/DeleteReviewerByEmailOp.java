@@ -73,7 +73,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void asyncPostUpdate(Context ctx) {
     try {
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (!notify.shouldNotify()) {

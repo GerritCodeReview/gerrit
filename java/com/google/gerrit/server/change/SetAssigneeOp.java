@@ -120,7 +120,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void asyncPostUpdate(Context ctx) {
     try {
       SetAssigneeSender emailSender =
           setAssigneeSenderFactory.create(
@@ -133,6 +133,10 @@ public class SetAssigneeOp implements BatchUpdateOp {
       logger.atSevere().withCause(err).log(
           "Cannot send email to new assignee of change %s", change.getId());
     }
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
     assigneeChanged.fire(
         change, ctx.getAccount(), oldAssignee != null ? oldAssignee.state() : null, ctx.getWhen());
   }

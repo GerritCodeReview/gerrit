@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "fdf17267_dbb67760",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-28T13:05:16Z",
+      "side": 1,
+      "message": "https://google.github.io/styleguide/jsguide.html#features-classes-getters-and-setters\n\nBut that does not apply to typescript anymore apparently. :-)",
+      "parentUuid": "f0415ab1_ec7e0b67",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843f79f4_270d38d7",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
         "patchSetId": 1

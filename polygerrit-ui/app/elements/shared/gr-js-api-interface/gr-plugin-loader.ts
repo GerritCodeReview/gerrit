@@ -48,7 +48,7 @@ interface PluginOption {
   sync?: boolean;
 }
 
-interface PluginOptionMap {
+export interface PluginOptionMap {
   [path: string]: PluginOption;
 }
 
@@ -328,7 +328,7 @@ export class PluginLoader {
   /**
    * Checks if given plugin path/url is loaded or not.
    */
-  isPluginLoaded(pathOrUrl: string) {
+  isPluginLoaded(pathOrUrl: string): boolean {
     const url = this._urlFor(pathOrUrl);
     const key = this._getPluginKeyFromUrl(url);
     return this._plugins.has(key)

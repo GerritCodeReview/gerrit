@@ -178,6 +178,24 @@
     },
     {
       "key": {
+        "uuid": "5f3843d8_a5ca1ed0",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-08-28T11:16:59Z",
+      "side": 1,
+      "message": "I think it would be appreciated by users but I don\u0027t think it should be documented here, it should be documented in a \"reverse proxy\" segment of the docs, if/when we have such documentation we could simply have a \"read more\" link to it.",
+      "parentUuid": "de453a28_2bb69888",
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "81edb17b_1fd9638b",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3

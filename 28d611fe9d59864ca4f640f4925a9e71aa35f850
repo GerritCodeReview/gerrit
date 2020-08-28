@@ -70,6 +70,30 @@
       "revId": "28d611fe9d59864ca4f640f4925a9e71aa35f850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7bc6c5dc_3b2869ed",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T15:00:23Z",
+      "side": 1,
+      "message": "actually, the existing code somehow infers all above as `{}` so its assignable to PathToxxxInfoMap... will add overload",
+      "parentUuid": "40978c92_0fb7c15d",
+      "range": {
+        "startLine": 691,
+        "startChar": 8,
+        "endLine": 694,
+        "endChar": 0
+      },
+      "revId": "28d611fe9d59864ca4f640f4925a9e71aa35f850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -48,7 +48,7 @@ interface PluginOption {
   sync?: boolean;
 }
 
-type PluginOptionMap = {[path: string]: PluginOption};
+export type PluginOptionMap = {[path: string]: PluginOption};
 
 type GerritScriptElement = HTMLScriptElement & {
   __importElement: HTMLScriptElement;
@@ -334,7 +334,7 @@ export class PluginLoader {
   /**
    * Checks if given plugin path/url is loaded or not.
    */
-  isPluginLoaded(pathOrUrl: string) {
+  isPluginLoaded(pathOrUrl: string): boolean {
     const url = this._urlFor(pathOrUrl);
     if (!url) return false;
     const key = this._getPluginKeyFromUrl(url);

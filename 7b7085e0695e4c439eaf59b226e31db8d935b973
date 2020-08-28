@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c9259ba_fd06ff33",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-repo-dialog/gr-create-repo-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:34:35Z",
+      "side": 0,
+      "message": "removed as not used",
+      "revId": "7b7085e0695e4c439eaf59b226e31db8d935b973",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

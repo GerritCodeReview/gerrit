@@ -169,6 +169,30 @@
       "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77a52030_08921bee",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T12:14:39Z",
+      "side": 1,
+      "message": "Yes, without flush, querySelector will be null.",
+      "parentUuid": "6f86e591_a13c6366",
+      "range": {
+        "startLine": 438,
+        "startChar": 13,
+        "endLine": 438,
+        "endChar": 32
+      },
+      "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

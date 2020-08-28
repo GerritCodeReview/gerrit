@@ -103,7 +103,6 @@ import {
   ProjectWatchInfo,
   RepoName,
   ReviewInput,
-  RobotCommentInfo,
   ServerInfo,
   SshKeyInfo,
   UrlEncodedCommentId,
@@ -132,6 +131,8 @@ import {
   CancelConditionCallback,
   ErrorCallback,
   RestApiService,
+  GetDiffCommentsOutput,
+  GetDiffRobotCommentsOutput,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {
   CommentSide,
@@ -246,16 +247,6 @@ interface GetDiffParams {
 }
 
 type SendChangeRequest = SendRawChangeRequest | SendJSONChangeRequest;
-
-interface GetDiffCommentsOutput {
-  baseComments: CommentInfo[];
-  comments: CommentInfo[];
-}
-
-interface GetDiffRobotCommentsOutput {
-  baseComments: RobotCommentInfo[];
-  comments: RobotCommentInfo[];
-}
 
 export function _testOnlyResetGrRestApiSharedObjects() {
   // TODO(TS): The commented code below didn't do anything.
@@ -2507,11 +2498,25 @@ export class GrRestApiInterface
   }
 
   getDiffComments(
+    changeNum: ChangeNum
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
+  getDiffComments(
+    changeNum: ChangeNum,
+    basePatchNum: PatchSetNum,
+    patchNum: PatchSetNum,
+    path: string
+  ): Promise<GetDiffCommentsOutput>;
+
+  getDiffComments(
     changeNum: ChangeNum,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ) {
+    if (!basePatchNum && !patchNum && !path) {
+      return this._getDiffComments(changeNum, '/comments');
+    }
     return this._getDiffComments(
       changeNum,
       '/comments',
@@ -2522,11 +2527,26 @@ export class GrRestApiInterface
   }
 
   getDiffRobotComments(
+    changeNum: ChangeNum
+  ): Promise<PathToRobotCommentsInfoMap | undefined>;
+
+  getDiffRobotComments(
+    changeNum: ChangeNum,
+    basePatchNum: PatchSetNum,
+    patchNum: PatchSetNum,
+    path: string
+  ): Promise<GetDiffRobotCommentsOutput>;
+
+  getDiffRobotComments(
     changeNum: ChangeNum,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
   ) {
+    if (!basePatchNum && !patchNum && !path) {
+      return this._getDiffComments(changeNum, '/robotcomments');
+    }
+
     return this._getDiffComments(
       changeNum,
       '/robotcomments',
@@ -2542,6 +2562,17 @@ export class GrRestApiInterface
    * empty object.
    */
   getDiffDrafts(
+    changeNum: ChangeNum
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
+  getDiffDrafts(
+    changeNum: ChangeNum,
+    basePatchNum: PatchSetNum,
+    patchNum: PatchSetNum,
+    path: string
+  ): Promise<GetDiffCommentsOutput>;
+
+  getDiffDrafts(
     changeNum: ChangeNum,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
@@ -2549,7 +2580,10 @@ export class GrRestApiInterface
   ) {
     return this.getLoggedIn().then(loggedIn => {
       if (!loggedIn) {
-        return Promise.resolve({});
+        return {};
+      }
+      if (!basePatchNum && !patchNum && !path) {
+        return this._getDiffComments(changeNum, '/drafts');
       }
       return this._getDiffComments(
         changeNum,

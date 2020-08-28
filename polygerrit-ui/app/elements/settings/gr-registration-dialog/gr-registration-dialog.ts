@@ -25,11 +25,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-registration-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ServerInfo, AccountDetailInfo} from '../../../types/common';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 export interface GrRegistrationDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     name: HTMLInputElement;
     username: HTMLInputElement;
     email: HTMLSelectElement;

@@ -31,7 +31,7 @@ import {
   GrAutocomplete,
   AutocompleteSuggestion,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {ProjectWatchInfo} from '../../../types/common';
 
@@ -45,7 +45,7 @@ const NOTIFICATION_TYPES = [
 
 export interface GrWatchedProjectsEditor {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
     newFilter: HTMLInputElement;
     newProject: GrAutocomplete;
   };

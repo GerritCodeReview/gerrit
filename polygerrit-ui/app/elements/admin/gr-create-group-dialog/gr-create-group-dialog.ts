@@ -25,12 +25,12 @@ import {htmlTemplate} from './gr-create-group-dialog_html';
 import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, property, observe} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GroupId} from '../../../types/common';
 
 export interface GrCreateGroupDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 

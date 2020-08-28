@@ -24,12 +24,12 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-agreements-list_html';
 import {getBaseUrl} from '../../../utils/url-util';
 import {customElement, property} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ContributorAgreementInfo} from '../../../types/common';
 
 export interface GrAgreementsList {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-agreements-list')

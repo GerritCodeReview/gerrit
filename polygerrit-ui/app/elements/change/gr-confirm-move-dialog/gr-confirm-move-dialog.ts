@@ -24,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-move-dialog_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
-import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {RepoName, BranchName} from '../../../types/common';
 import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 
@@ -32,7 +32,7 @@ const SUGGESTIONS_LIMIT = 15;
 
 export interface GrConfirmMoveDialog {
   $: {
-    restAPI: GrRestApiInterface;
+    restAPI: RestApiService & Element;
   };
 }
 @customElement('gr-confirm-move-dialog')

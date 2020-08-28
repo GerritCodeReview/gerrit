@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "91f4e5db_040ed636",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:54:58Z",
+      "side": 1,
+      "message": "its because of the computed decorator, it requires to be non-optional",
+      "parentUuid": "647e6ff9_792f5d5e",
+      "range": {
+        "startLine": 55,
+        "startChar": 2,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c7a14786_574e1643",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f0415ab1_ec7e0b67",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:54:58Z",
+      "side": 1,
+      "message": "i think that\u0027s when you have more complicate properties like `reflectToAttribute` as we can not use @computed for that case.",
+      "parentUuid": "c7a14786_574e1643",
+      "range": {
+        "startLine": 67,
+        "startChar": 2,
+        "endLine": 67,
+        "endChar": 5
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "843f79f4_270d38d7",
         "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7f94732_4ecc24d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-download-dialog/gr-download-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T12:54:58Z",
+      "side": 1,
+      "message": "the below code is assuming the selectedScheme always exist (undefined won\u0027t  get into the if below. So compared to always assert below when access `fetch[selectedScheme]`, i think add it here should be safe",
+      "parentUuid": "843f79f4_270d38d7",
+      "range": {
+        "startLine": 112,
+        "startChar": 16,
+        "endLine": 112,
+        "endChar": 34
+      },
+      "revId": "3e55ef9d5dc5b61a209d2005a3406dad5a2c3152",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

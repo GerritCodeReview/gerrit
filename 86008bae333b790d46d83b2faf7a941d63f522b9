@@ -125,6 +125,30 @@
     },
     {
       "key": {
+        "uuid": "afb6df6e_5a8b8ab1",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T12:00:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90099a8f_5afe3c85",
+      "range": {
+        "startLine": 20,
+        "startChar": 28,
+        "endLine": 20,
+        "endChar": 47
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d6c68621_d0717218",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -394,6 +418,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "599ffa36_48310ff7",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T12:00:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "03a95e23_77cb36c7",
+      "range": {
+        "startLine": 39,
+        "startChar": 7,
+        "endLine": 39,
+        "endChar": 15
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -677,6 +725,30 @@
       "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "968c98f9_f8664a04",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T12:00:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db48a75f_281b78b6",
+      "range": {
+        "startLine": 71,
+        "startChar": 7,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -1081,6 +1153,30 @@
     },
     {
       "key": {
+        "uuid": "0df1f5e6_9a73c802",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T12:00:45Z",
+      "side": 1,
+      "message": "value \u0027killed\u0027 is different from value \u00270\u0027",
+      "parentUuid": "864d4b4e_36d73529",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 24
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a60f479c_f1417eb5",
         "filename": "Documentation/logs.txt",
         "patchSetId": 3
@@ -1092,6 +1188,30 @@
       "writtenOn": "2020-08-28T08:30:17Z",
       "side": 1,
       "message": "Could you elaborate more on searching \u0027where\u0027? and which \u0027sizes\u0027?",
+      "range": {
+        "startLine": 92,
+        "startChar": 40,
+        "endLine": 92,
+        "endChar": 63
+      },
+      "revId": "86008bae333b790d46d83b2faf7a941d63f522b9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712ea718_2b604168",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-28T12:00:45Z",
+      "side": 1,
+      "message": "need to dig into jgit source code to answer this question",
+      "parentUuid": "a60f479c_f1417eb5",
       "range": {
         "startLine": 92,
         "startChar": 40,

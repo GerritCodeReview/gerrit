@@ -22,6 +22,30 @@
       "revId": "28d611fe9d59864ca4f640f4925a9e71aa35f850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29b42837_763429ff",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 694,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T14:31:42Z",
+      "side": 1,
+      "message": "the `getDiffComments` is not overloaded but an internal implementation for `_getDiffComents` is, so when use GrRestApiInterface`, it can figure out which `_getDiffComments` was called underneath. I added a comment above `getDiffComments`.",
+      "parentUuid": "85d01914_835a0ba8",
+      "range": {
+        "startLine": 691,
+        "startChar": 8,
+        "endLine": 694,
+        "endChar": 0
+      },
+      "revId": "28d611fe9d59864ca4f640f4925a9e71aa35f850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

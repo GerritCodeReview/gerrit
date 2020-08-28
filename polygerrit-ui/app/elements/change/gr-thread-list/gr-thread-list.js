@@ -24,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-thread-list_html.js';
 import {parseDate} from '../../../utils/date-util.js';
 
-import {NO_THREADS_MSG} from '../../../constants/messages.js';
+import {NO_THREADS_MSG, NO_UNRESOLVED_COMMENTS} from '../../../constants/messages.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 
 /**
@@ -50,9 +50,14 @@ class GrThreadList extends GestureEventListeners(
       _sortedThreads: {
         type: Array,
       },
+      _displayedThreads: {
+        type: Array,
+        computed: '_computeDisplayedThreads(_sortedThreads.*, _unresolvedOnly, '
+          + '_draftsOnly)',
+      },
       _unresolvedOnly: {
         type: Boolean,
-        value: false,
+        value: true,
       },
       _draftsOnly: {
         type: Boolean,
@@ -76,11 +81,39 @@ class GrThreadList extends GestureEventListeners(
   }
 
   static get observers() {
-    return ['_updateSortedThreads(threads, threads.splices)'];
+    return [
+      '_updateSortedThreads(threads, threads.splices)',
+    ];
   }
 
   _computeShowDraftToggle(loggedIn) {
     return loggedIn ? 'show' : '';
+  }
+
+  _showEmptyThreadsMessage(threads, displayedThreads, unresolvedOnly) {
+    if (!threads || !displayedThreads) return false;
+    return !threads.length || (unresolvedOnly && !displayedThreads.length);
+  }
+
+  _computeEmptyThreadsMessage(threads, displayedThreads, unresolvedOnly) {
+    if (!threads || !displayedThreads) return '';
+    if (!threads.length) return this.emptyThreadMsg;
+    if (unresolvedOnly && !displayedThreads.length) {
+      return NO_UNRESOLVED_COMMENTS;
+    }
+    return '';
+  }
+
+  _computeResolvedCommentsMessage(threads, displayedThreads, unresolvedOnly) {
+    if (!threads || !displayedThreads) return '';
+    if (unresolvedOnly && threads.length && !displayedThreads.length) {
+      return `Show ${threads.length} comments`;
+    }
+    return '';
+  }
+
+  _handleResolvedCommentsMessageClick() {
+    this._unresolvedOnly = !this._unresolvedOnly;
   }
 
   _compareThreads(c1, c2) {
@@ -153,6 +186,7 @@ class GrThreadList extends GestureEventListeners(
   _updateSortedThreads(threads, spliceRecord) {
     if (!threads) {
       this._sortedThreads = [];
+      this._displayedThreads = [];
       return;
     }
     // We only want to sort on thread additions / removals to avoid
@@ -182,9 +216,16 @@ class GrThreadList extends GestureEventListeners(
       this._compareThreads(t1, t2)).map(threadInfo => threadInfo.thread);
   }
 
-  _isFirstThreadWithFileName(sortedThreads, thread, unresolvedOnly, draftsOnly,
-      onlyShowRobotCommentsWithHumanReply) {
-    const threads = sortedThreads.filter(t => this._shouldShowThread(
+  _computeDisplayedThreads(sortedFilesRecord, unresolvedOnly, draftsOnly) {
+    if (!sortedFilesRecord || !sortedFilesRecord.base) return [];
+    return sortedFilesRecord.base.filter(t => this._shouldShowThread(
+        t, unresolvedOnly, draftsOnly,
+        this.onlyShowRobotCommentsWithHumanReply));
+  }
+
+  _isFirstThreadWithFileName(displayedThreads, thread, unresolvedOnly,
+      draftsOnly, onlyShowRobotCommentsWithHumanReply) {
+    const threads = displayedThreads.filter(t => this._shouldShowThread(
         t, unresolvedOnly, draftsOnly,
         onlyShowRobotCommentsWithHumanReply));
     const index = threads.findIndex(t => t.rootId === thread.rootId);
@@ -194,16 +235,16 @@ class GrThreadList extends GestureEventListeners(
     return index === 0 || (threads[index - 1].path !== threads[index].path);
   }
 
-  _shouldRenderSeparator(sortedThreads, thread, unresolvedOnly, draftsOnly,
+  _shouldRenderSeparator(displayedThreads, thread, unresolvedOnly, draftsOnly,
       onlyShowRobotCommentsWithHumanReply) {
-    const threads = sortedThreads.filter(t => this._shouldShowThread(
+    const threads = displayedThreads.filter(t => this._shouldShowThread(
         t, unresolvedOnly, draftsOnly,
         onlyShowRobotCommentsWithHumanReply));
     const index = threads.findIndex(t => t.rootId === thread.rootId);
     if (index === -1) {
       return false;
     }
-    return index > 0 && this._isFirstThreadWithFileName(sortedThreads,
+    return index > 0 && this._isFirstThreadWithFileName(displayedThreads,
         thread, unresolvedOnly, draftsOnly,
         onlyShowRobotCommentsWithHumanReply);
   }

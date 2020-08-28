@@ -792,6 +792,11 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
             this._handleFailedDraftRequest();
           }
           return result;
+        })
+        .catch(() => {
+          this.$.container.classList.add('unableToSave');
+          this._unableToSave = true;
+          this._handleFailedDraftRequest();
         });
   }
 

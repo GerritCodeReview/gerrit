@@ -23,4 +23,4 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 /** Marker on the global {@link ScheduledThreadPoolExecutor} used to send email. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface SendEmailExecutor {}
+public @interface AsyncPostUpdateExecutor {}

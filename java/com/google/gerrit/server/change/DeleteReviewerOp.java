@@ -43,6 +43,7 @@ import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.RemoveReviewerControl;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -55,7 +56,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-public class DeleteReviewerOp implements BatchUpdateOp {
+public class DeleteReviewerOp implements BatchUpdateOp, AsyncPostUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -76,11 +77,12 @@ public class DeleteReviewerOp implements BatchUpdateOp {
   private final AccountState reviewer;
   private final DeleteReviewerInput input;
 
-  ChangeMessage changeMessage;
-  Change currChange;
-  PatchSet currPs;
-  Map<String, Short> newApprovals = new HashMap<>();
-  Map<String, Short> oldApprovals = new HashMap<>();
+  private ChangeMessage changeMessage;
+  private Change currChange;
+  private PatchSet currPs;
+  private Map<String, Short> newApprovals = new HashMap<>();
+  private Map<String, Short> oldApprovals = new HashMap<>();
+  private NotifyResolver.Result notify;
 
   @Inject
   DeleteReviewerOp(
@@ -165,13 +167,27 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     changeMessage =
         ChangeMessagesUtil.newMessage(ctx, msg.toString(), ChangeMessagesUtil.TAG_DELETE_REVIEWER);
     cmUtil.addChangeMessage(update, changeMessage);
+    notify = ctx.getNotify(currChange.getId());
 
     return true;
   }
 
   @Override
   public void postUpdate(Context ctx) {
-    NotifyResolver.Result notify = ctx.getNotify(currChange.getId());
+    reviewerDeleted.fire(
+        currChange,
+        currPs,
+        reviewer,
+        ctx.getAccount(),
+        changeMessage.getMessage(),
+        newApprovals,
+        oldApprovals,
+        notify.handling(),
+        ctx.getWhen());
+  }
+
+  @Override
+  public void asyncPostUpdate(Context ctx) {
     if (input.notify == null
         && currChange.isWorkInProgress()
         && !oldApprovals.isEmpty()
@@ -187,16 +203,6 @@ public class DeleteReviewerOp implements BatchUpdateOp {
     } catch (Exception err) {
       logger.atSevere().withCause(err).log("Cannot email update for change %s", currChange.getId());
     }
-    reviewerDeleted.fire(
-        currChange,
-        currPs,
-        reviewer,
-        ctx.getAccount(),
-        changeMessage.getMessage(),
-        newApprovals,
-        oldApprovals,
-        notify.handling(),
-        ctx.getWhen());
   }
 
   private Iterable<PatchSetApproval> approvals(ChangeContext ctx, Account.Id accountId) {

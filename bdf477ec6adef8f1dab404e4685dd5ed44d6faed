@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "a2f5251d_5811865f",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T12:05:25Z",
+      "side": 1,
+      "message": "I would leave it public so it\u0027s more flexible. Other components can change behavior.",
+      "parentUuid": "b10b3ae1_7bf128eb",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 140,
+        "endChar": 28
+      },
+      "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "634fd64f_651c39ea",
         "filename": "polygerrit-ui/app/elements/gr-app-element.js",
         "patchSetId": 13
@@ -56,6 +80,24 @@
       "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb426320_41704e38",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T12:05:25Z",
+      "side": 1,
+      "message": "yes, I tested it and without flush there isn\u0027t dom element.",
+      "parentUuid": "634fd64f_651c39ea",
+      "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -79,6 +121,30 @@
       "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56723181_57d84677",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 13
+      },
+      "lineNbr": 438,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T12:05:25Z",
+      "side": 1,
+      "message": "Oh thanks, I don\u0027t know how I missed this.",
+      "parentUuid": "432fd9cc_0690e94a",
+      "range": {
+        "startLine": 438,
+        "startChar": 13,
+        "endLine": 438,
+        "endChar": 32
+      },
+      "revId": "bdf477ec6adef8f1dab404e4685dd5ed44d6faed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

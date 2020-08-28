@@ -46,20 +46,26 @@ changing the attention set:
   conversations that the user is replying to.
 * If a *reviewer* replies, then the change owner (and uploader) are added to the
   attention set.
+* For merged and abandoned change the owner is added when a new comment is
+  created.
 * Only owner, uploader, reviewers and ccs can be in the attention set.
 
 *!IMPORTANT!* These rules are not meant to be super smart and to always do the
 right thing, e.g. if the change owner sends a reply, then they are often
-expected to individually select whose turn it is instead of adding *all*
-reviewers to the attention set.
+expected to individually select whose turn it is.
 
 Note that just uploading a new patchset is not a relevant event for the
 attention set to change.
 
 === Interaction
 
-There are two ways to interact with the attention set: The hovercard of owner
-and reviewer chips and the "Reply" dialog.
+There are three ways to interact with the attention set: The attention icon,
+the hovercard of owner and reviewer chips and the "Reply" dialog.
+
+*The attention icon* can be used to quickly remove yourself (or someone else)
+from the attention set. Just click the icon, and it will disappear:
+
+image::images/user-attention-set-icon-click.png["attention set icon with tooltip", align="center"]
 
 *The hovercard* (on both the Dashboard and Change page) contains information
 about whether, why and when a user was added to the attention set. It also
@@ -72,8 +78,7 @@ passed.
 
 image::images/user-attention-set-reply-modify.png["reply dialog section for modifying", align="center"]
 
-If you do not click "MODIFY", then the backend will just apply the
-automated rules as stated above. If you click "MODIFY", then the section will
+If you click "MODIFY", then the section will
 expand and you can select and de-select users by clicking on their chips.
 Whatever you select here will be the new state of the attention set for this
 change. As a change owner make sure to remove reviewers that you don't expect to
@@ -83,22 +88,23 @@ image::images/user-attention-set-reply-select.png["reply dialog section for sele
 
 === Bots
 
-[Caveat: This is not fully implemented yet!]
-
 The attention set is meant for human reviews only. Triggering bots and reacting
 to their results is a different workflow and not in scope of the attenion set.
 Thus members of the "Service Users" group will never be added to the
-attention set. And replies by such users will not add the change owner to the
-attention set.
+attention set. And replies by such users will only add the change owner to the
+attention set, if it comes along with a negative vote.
 
 === Dashboard
 
 The default *dashboard* contains a new section at the top called "Your Turn". It
-lists all changes where the logged-in user is in the attention set. As an active
-developer one of your daily goals will be to iterate over this list and clear
-it.
+lists all changes where the logged-in user is in the attention set.
 
 image::images/user-attention-set-dashboard.png["dashboard with Your Turn section", align="center"]
+
+As an active developer one of your daily goals will be to iterate over this list
+and clear it.
+
+image::images/user-attention-set-dashboard-empty.png["dashboard with empty Your Turn section", align="center"]
 
 Note that you can also navigate to other users' dashboards to check their
 "Your Turn" section.

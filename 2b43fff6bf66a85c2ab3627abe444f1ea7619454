@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "f838ce6b_01982358",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 431,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-28T10:41:55Z",
+      "side": 1,
+      "message": "any particular reason to have a special name for Your Turn ? feel like this can be unified into just one slot name",
+      "revId": "2b43fff6bf66a85c2ab3627abe444f1ea7619454",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13c81397_ab25d7bb",
         "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
         "patchSetId": 1

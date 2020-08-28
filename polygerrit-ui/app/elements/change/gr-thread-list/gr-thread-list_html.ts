@@ -63,9 +63,9 @@ export const htmlTemplate = html`
       <div class="toggleItem">
         <paper-toggle-button
           id="unresolvedToggle"
-          checked="{{_unresolvedOnly}}"
+          checked="{{!_unresolvedOnly}}"
           on-tap="_onTapUnresolvedToggle"
-          >Only unresolved threads</paper-toggle-button
+          >All comments</paper-toggle-button
         >
       </div>
       <div
@@ -75,7 +75,7 @@ export const htmlTemplate = html`
           id="draftToggle"
           checked="{{_draftsOnly}}"
           on-tap="_onTapUnresolvedToggle"
-          >Only threads with drafts</paper-toggle-button
+          >Comments with drafts</paper-toggle-button
         >
       </div>
     </div>

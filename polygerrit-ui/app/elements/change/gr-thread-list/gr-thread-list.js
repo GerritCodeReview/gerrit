@@ -52,7 +52,7 @@ class GrThreadList extends GestureEventListeners(
       },
       _unresolvedOnly: {
         type: Boolean,
-        value: false,
+        value: true,
       },
       _draftsOnly: {
         type: Boolean,

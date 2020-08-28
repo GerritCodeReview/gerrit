@@ -22,6 +22,30 @@
       "revId": "b5461649b1eb5edf336816f14b6e2b9d4ebfa864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "49b18431_6094885c",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-08-28T12:33:28Z",
+      "side": 1,
+      "message": "I used showXXX, but felt that this is more about loading. It will not show to user, it will render/load to DOM tree.",
+      "parentUuid": "1ab763ee_1f1539d0",
+      "range": {
+        "startLine": 140,
+        "startChar": 6,
+        "endLine": 140,
+        "endChar": 28
+      },
+      "revId": "b5461649b1eb5edf336816f14b6e2b9d4ebfa864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

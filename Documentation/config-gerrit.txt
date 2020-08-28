@@ -4474,8 +4474,8 @@ an error occurs.
 
 [[sendemail.threadPoolSize]]sendemail.threadPoolSize::
 +
-Maximum size of thread pool in which the review comments
-notifications are sent out asynchronously.
+Maximum size of thread pool in which emails are sent out
+asynchronously.
 +
 By default, 1.
 

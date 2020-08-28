@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b0b14520_864e57ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-28T11:07:56Z",
+      "side": 1,
+      "message": "@Matthias there just a few other points to address (not major) and the rebase onto the latest stable-2.16. After that, I believe we should be ready for a +2. @Sven WDYT?",
+      "revId": "6b33f49d8d6da3b51f90f928d0789024ad972636",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

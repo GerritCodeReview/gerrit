@@ -14,91 +14,89 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-create-repo-dialog_html.js';
-import {encodeURL, getBaseUrl} from '../../../utils/url-util.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-create-repo-dialog_html';
+import {encodeURL, getBaseUrl} from '../../../utils/url-util';
+import {page} from '../../../utils/page-wrapper-utils';
+import {customElement, observe, property} from '@polymer/decorators';
+import {GrRestApiInterface} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import {ProjectInput, RepoName} from '../../../types/common';
+import {hasOwnProperty} from '../../../utils/common-util';
 
-/**
- * @extends PolymerElement
- */
-class GrCreateRepoDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-create-repo-dialog': GrCreateRepoDialog;
+  }
+}
 
-  static get is() { return 'gr-create-repo-dialog'; }
+export interface GrCreateRepoDialog {
+  $: {
+    restAPI: GrRestApiInterface;
+  };
+}
 
-  static get properties() {
-    return {
-      params: Object,
-      hasNewRepoName: {
-        type: Boolean,
-        notify: true,
-        value: false,
-      },
-
-      /** @type {?} */
-      _repoConfig: {
-        type: Object,
-        value: () => {
-        // Set default values for dropdowns.
-          return {
-            create_empty_commit: true,
-            permissions_only: false,
-          };
-        },
-      },
-      _repoCreated: {
-        type: Boolean,
-        value: false,
-      },
-      _repoOwner: String,
-      _repoOwnerId: {
-        type: String,
-        observer: '_repoOwnerIdUpdate',
-      },
-
-      _query: {
-        type: Function,
-        value() {
-          return this._getRepoSuggestions.bind(this);
-        },
-      },
-      _queryGroups: {
-        type: Function,
-        value() {
-          return this._getGroupSuggestions.bind(this);
-        },
-      },
-    };
+@customElement('gr-create-repo-dialog')
+export class GrCreateRepoDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_updateRepoName(_repoConfig.name)',
-    ];
+  @property({type: Object})
+  params: unknown;
+
+  @property({type: Boolean, notify: true})
+  hasNewRepoName = false;
+
+  @property({type: Object})
+  _repoConfig: ProjectInput & {name: RepoName} = {
+    create_empty_commit: true,
+    permissions_only: false,
+    name: '' as RepoName,
+  };
+
+  @property({type: Boolean})
+  _repoCreated = false;
+
+  @property({type: String})
+  _repoOwner?: string;
+
+  @property({type: String})
+  _repoOwnerId?: string;
+
+  @property({type: Object})
+  _query: Function;
+
+  @property({type: Object})
+  _queryGroups: Function;
+
+  constructor() {
+    super();
+    this._query = (input: string) => this._getRepoSuggestions(input);
+    this._queryGroups = (input: string) => this._getGroupSuggestions(input);
   }
 
-  _computeRepoUrl(repoName) {
-    return getBaseUrl() + '/admin/repos/' +
-        encodeURL(repoName, true);
+  _computeRepoUrl(repoName: string) {
+    return getBaseUrl() + '/admin/repos/' + encodeURL(repoName, true);
   }
 
-  _updateRepoName(name) {
+  @observe('_repoConfig.name')
+  _updateRepoName(name: string) {
     this.hasNewRepoName = !!name;
   }
 
-  _repoOwnerIdUpdate(id) {
+  @observe('_repoOwnerId')
+  _repoOwnerIdUpdate(id?: string) {
     if (id) {
       this.set('_repoConfig.owners', [id]);
     } else {
@@ -107,44 +105,43 @@ class GrCreateRepoDialog extends GestureEventListeners(
   }
 
   handleCreateRepo() {
-    return this.$.restAPI.createRepo(this._repoConfig)
-        .then(repoRegistered => {
-          if (repoRegistered.status === 201) {
-            this._repoCreated = true;
-            page.show(this._computeRepoUrl(this._repoConfig.name));
-          }
-        });
+    return this.$.restAPI.createRepo(this._repoConfig).then(repoRegistered => {
+      if (repoRegistered.status === 201) {
+        this._repoCreated = true;
+        page.show(this._computeRepoUrl(this._repoConfig.name));
+      }
+    });
   }
 
-  _getRepoSuggestions(input) {
-    return this.$.restAPI.getSuggestedProjects(input)
-        .then(response => {
-          const repos = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            repos.push({
-              name: key,
-              value: response[key],
-            });
-          }
-          return repos;
+  _getRepoSuggestions(input: string) {
+    return this.$.restAPI.getSuggestedProjects(input).then(response => {
+      const repos = [];
+      for (const key in response) {
+        if (!hasOwnProperty(response, key)) {
+          continue;
+        }
+        repos.push({
+          name: key,
+          value: response[key],
         });
+      }
+      return repos;
+    });
   }
 
-  _getGroupSuggestions(input) {
-    return this.$.restAPI.getSuggestedGroups(input)
-        .then(response => {
-          const groups = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            groups.push({
-              name: key,
-              value: decodeURIComponent(response[key].id),
-            });
-          }
-          return groups;
+  _getGroupSuggestions(input: string) {
+    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+      const groups = [];
+      for (const key in response) {
+        if (!hasOwnProperty(response, key)) {
+          continue;
+        }
+        groups.push({
+          name: key,
+          value: decodeURIComponent(response[key].id),
         });
+      }
+      return groups;
+    });
   }
 }
-
-customElements.define(GrCreateRepoDialog.is, GrCreateRepoDialog);

@@ -236,6 +236,8 @@ public class MergeOp implements AutoCloseable {
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
+  // Refs that were updated by this MergeOp.
+  private final Set<BranchNameKey> updatedRefs;
 
   private Timestamp ts;
   private SubmissionId submissionId;
@@ -282,6 +284,7 @@ public class MergeOp implements AutoCloseable {
     this.topicMetrics = topicMetrics;
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
+    this.updatedRefs = new HashSet<>();
   }
 
   @Override
@@ -523,6 +526,15 @@ public class MergeOp implements AutoCloseable {
             .defaultTimeoutMultiplier(cs.projects().size())
             .call();
 
+        if (!dryrun) {
+          // updateSuperProjects reads the branch tips from the ORM and resets the BatchUpdate,
+          // but in dryrun the repos are not actually updated and the supposed results are read from
+          // the BatchUpdate.
+          // (dryrun adds its own superproject update op instead).
+          SubmoduleOp submoduleOp2 = subOpFactory.create(updatedRefs, orm);
+          submoduleOp2.updateSuperProjects();
+        }
+
         if (projects > 1) {
           topicMetrics.topicSubmissionsCompleted.increment();
         }
@@ -618,16 +630,22 @@ public class MergeOp implements AutoCloseable {
           getSubmitStrategies(
               toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
       this.allProjects = updateOrderCalculator.getProjectsInOrder();
+      List<BatchUpdate> batchUpdates = orm.batchUpdates(allProjects);
       try {
         BatchUpdate.execute(
-            orm.batchUpdates(allProjects),
+            batchUpdates,
             new SubmitStrategyListener(submitInput, strategies, commitStatus),
             dryrun);
       } finally {
         // If the BatchUpdate fails it can be that merging some of the changes was actually
-        // successful. This is why we must to collect the updated changes also when an exception was
-        // thrown.
+        // successful. This is why we must to collect the updated changes and refs also when an
+        // exception was thrown.
         strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
+        Set<BranchNameKey> updatedBranches =
+            batchUpdates.stream()
+                .flatMap(bu -> bu.getSuccessfullyUpdatedBranches(dryrun))
+                .collect(toSet());
+        updatedRefs.addAll(updatedBranches);
       }
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(e.getMessage());
@@ -710,16 +728,22 @@ public class MergeOp implements AutoCloseable {
                 dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
-        if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
-            && subscriptionGraph.hasSubscription(branch)) {
-          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
-        }
+        // TODO(ifrade): This case doesn't seem to trigger in the test... not sure what case it
+        // covers
+        //        if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
+        //            && subscriptionGraph.hasSubscription(branch)) {
+        //          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
+        //        }
       } else {
         // no open change for this branch
-        // add submodule triggered op into BatchUpdate
-        or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
+        // dryrun won't work with a later superproject update, so it adds its own superproject
+        // update ops.
+        if (dryrun) {
+          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
+        }
       }
     }
+
     return strategies;
   }
 

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "12104d17_2018facf",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b35c1ba3_3ec1e99a",
+      "range": {
+        "startLine": 3,
+        "startChar": 32,
+        "endLine": 3,
+        "endChar": 37
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "57e95086_e7abfb79",
         "filename": "Documentation/logs.txt",
         "patchSetId": 7
@@ -62,6 +86,30 @@
       "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7afab97_9eaea8f2",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57e95086_e7abfb79",
+      "range": {
+        "startLine": 5,
+        "startChar": 30,
+        "endLine": 5,
+        "endChar": 34
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "30f6c850_519b3fe8",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "516c51f3_fe3bd4c1",
+      "range": {
+        "startLine": 10,
+        "startChar": 19,
+        "endLine": 10,
+        "endChar": 22
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08254e63_8ce77e06",
         "filename": "Documentation/logs.txt",
         "patchSetId": 7
@@ -102,6 +174,24 @@
       "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bbab247_45ae6c31",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08254e63_8ce77e06",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -122,6 +212,24 @@
     },
     {
       "key": {
+        "uuid": "9b1ecb96_8206f470",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6404d10d_4ff0919c",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3798d7af_0eca8a82",
         "filename": "Documentation/logs.txt",
         "patchSetId": 7
@@ -133,6 +241,30 @@
       "writtenOn": "2020-08-28T21:29:53Z",
       "side": 1,
       "message": "nit: A bit strange to mention 3.2 in a 2.16 doc? I don\u0027t really care, but just thought I\u0027d note it.",
+      "range": {
+        "startLine": 31,
+        "startChar": 41,
+        "endLine": 31,
+        "endChar": 51
+      },
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f48fd913_984295ed",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "I propose we phrase it like this in 2.16-3.1 and remove the old format in stable-3.2. This makes users aware that the format will change in 3.2.",
+      "parentUuid": "3798d7af_0eca8a82",
       "range": {
         "startLine": 31,
         "startChar": 41,
@@ -162,6 +294,24 @@
     },
     {
       "key": {
+        "uuid": "37707bc5_86d0f767",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f57e2e39_cb8285e0",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d16c22a2_15116ddf",
         "filename": "Documentation/logs.txt",
         "patchSetId": 7
@@ -176,6 +326,24 @@
       "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a856bcd_192a97a8",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-08-30T21:51:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d16c22a2_15116ddf",
+      "revId": "8601d5bb96c7f483005f212dbdecbb9a51618aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

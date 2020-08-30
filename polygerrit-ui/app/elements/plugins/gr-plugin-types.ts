@@ -18,10 +18,6 @@ import {GrAttributeHelper} from './gr-attribute-helper/gr-attribute-helper';
 import {GrPluginRestApi} from '../shared/gr-js-api-interface/gr-plugin-rest-api';
 import {GrEventHelper} from './gr-event-helper/gr-event-helper';
 import {GrPopupInterface} from './gr-popup-interface/gr-popup-interface';
-import {
-  GrChangeActions,
-  GrReplyDialog,
-} from '../../services/services/gr-rest-api/gr-rest-api';
 import {GrPluginActionContext} from '../shared/gr-js-api-interface/gr-plugin-action-context';
 import {ConfigInfo} from '../../types/common';
 
@@ -43,21 +39,26 @@ export interface HookApi {
   getModuleName(): string;
 }
 
-export enum ApiElement {
+export enum TargetElement {
   CHANGE_ACTIONS = 'changeactions',
   REPLY_DIALOG = 'replydialog',
 }
 
-export interface RestApiTagNameMap {
-  [ApiElement.REPLY_DIALOG]: GrReplyDialog;
-  [ApiElement.CHANGE_ACTIONS]: GrChangeActions;
-}
-
-export interface JsApiService extends HTMLElement {
-  getElement<K extends keyof RestApiTagNameMap>(
-    elementKey: K
-  ): RestApiTagNameMap[K];
-  addEventCallback(eventName: string, callback: () => void): void;
+// Note: for new events, naming convention should be: `a-b`
+export enum EventType {
+  HISTORY = 'history',
+  LABEL_CHANGE = 'labelchange',
+  SHOW_CHANGE = 'showchange',
+  SUBMIT_CHANGE = 'submitchange',
+  SHOW_REVISION_ACTIONS = 'show-revision-actions',
+  COMMIT_MSG_EDIT = 'commitmsgedit',
+  COMMENT = 'comment',
+  REVERT = 'revert',
+  REVERT_SUBMISSION = 'revert_submission',
+  POST_REVERT = 'postrevert',
+  ANNOTATE_DIFF = 'annotatediff',
+  ADMIN_MENU_LINKS = 'admin-menu-links',
+  HIGHLIGHTJS_LOADED = 'highlightjs-loaded',
 }
 
 export interface RegisterOptions {

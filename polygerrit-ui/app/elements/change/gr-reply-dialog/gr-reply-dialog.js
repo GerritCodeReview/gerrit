@@ -41,6 +41,7 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {removeServiceUsers} from '../../../utils/account-util.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer.js';
+import {TargetElement} from '../../plugins/gr-plugin-types.js';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -361,7 +362,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     super.ready();
     this._isPatchsetCommentsExperimentEnabled = this.flagsService
         .isEnabled(KnownExperimentId.PATCHSET_COMMENTS);
-    this.$.jsAPI.addElement(this.$.jsAPI.Element.REPLY_DIALOG, this);
+    this.$.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
   }
 
   open(opt_focusTarget) {

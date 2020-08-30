@@ -17,7 +17,7 @@
 
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {JsApiService} from '../elements/plugins/gr-plugin-types';
+import {JsApiService} from '../elements/shared/gr-js-api-interface/gr-js-api-types';
 
 /**
  * Event emitted from polymer elements.
@@ -247,9 +247,9 @@ let _sharedApiEl: JsApiService;
  */
 export function getSharedApiEl(): JsApiService {
   if (!_sharedApiEl) {
-    _sharedApiEl = document.createElement(
+    _sharedApiEl = (document.createElement(
       'gr-js-api-interface'
-    ) as JsApiService;
+    ) as unknown) as JsApiService;
   }
   return _sharedApiEl;
 }

@@ -49,6 +49,7 @@ import {
   listChangesOptionsToHex,
 } from '../../../utils/change-util.js';
 import {NotifyType} from '../../../constants/constants.js';
+import {TargetElement, EventType} from '../../plugins/gr-plugin-types.js';
 
 const ERR_BRANCH_EMPTY = 'The destination branch can’t be empty.';
 const ERR_COMMIT_EMPTY = 'The commit message can’t be empty.';
@@ -495,7 +496,7 @@ class GrChangeActions extends GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
-    this.$.jsAPI.addElement(this.$.jsAPI.Element.CHANGE_ACTIONS, this);
+    this.$.jsAPI.addElement(TargetElement.CHANGE_ACTIONS, this);
     this.$.restAPI.getConfig().then(config => {
       this._config = config;
     });
@@ -555,7 +556,7 @@ class GrChangeActions extends GestureEventListeners(
 
   _sendShowRevisionActions(detail) {
     this.$.jsAPI.handleEvent(
-        this.$.jsAPI.EventType.SHOW_REVISION_ACTIONS,
+        EventType.SHOW_REVISION_ACTIONS,
         detail
     );
   }

@@ -36,17 +36,19 @@ import {getPluginEndpoints} from './gr-plugin-endpoints';
 
 import {getPluginNameFromUrl, PRELOADED_PROTOCOL, send} from './gr-api-utils';
 import {
-  ApiElement,
+  EventType,
   HookApi,
-  JsApiService,
   PanelInfo,
   PluginApi,
   PluginDeprecatedApi,
   RegisterOptions,
   SettingsInfo,
+  TargetElement,
 } from '../../plugins/gr-plugin-types';
 import {ActionInfo, RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
+import {JsApiService} from './gr-js-api-types';
+import {GrChangeActions} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 const PANEL_ENDPOINTS_MAPPING = {
   CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
@@ -197,7 +199,7 @@ export class Plugin implements PluginApi {
     return document.createElement('gr-rest-api-interface').getConfig();
   }
 
-  on(eventName: string, callback: (...args: any[]) => void) {
+  on(eventName: EventType, callback: (...args: any[]) => any) {
     this.sharedApiElement.addEventCallback(eventName, callback);
   }
 
@@ -267,7 +269,9 @@ export class Plugin implements PluginApi {
   changeActions() {
     return new GrChangeActionsInterface(
       this,
-      this.sharedApiElement.getElement(ApiElement.CHANGE_ACTIONS)
+      (this.sharedApiElement.getElement(
+        TargetElement.CHANGE_ACTIONS
+      ) as unknown) as GrChangeActions
     );
   }
 
@@ -403,7 +407,7 @@ export class Plugin implements PluginApi {
       console.warn(`${type} actions are not supported.`);
       return;
     }
-    this.on('showchange', (change, revision) => {
+    this.on(EventType.SHOW_CHANGE, (change, revision) => {
       const details: ActionInfo = this.changeActions().getActionDetails(action);
       if (!details) {
         console.warn(

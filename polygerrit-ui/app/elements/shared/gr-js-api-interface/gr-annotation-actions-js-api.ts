@@ -36,7 +36,7 @@ type NotifyFunc = (
   side: Side
 ) => void;
 
-type CoverageProvider = (
+export type CoverageProvider = (
   changeNum: number,
   path: string,
   basePatchNum: number,

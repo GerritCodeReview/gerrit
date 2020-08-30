@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
+import {EventType} from '../../plugins/gr-plugin-types.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {pluginLoader} from './gr-plugin-loader.js';
@@ -183,13 +184,13 @@ suite('gr-js-api-interface tests', () => {
   });
 
   test('history event', done => {
-    plugin.on(element.EventType.HISTORY, throwErrFn);
-    plugin.on(element.EventType.HISTORY, path => {
+    plugin.on(EventType.HISTORY, throwErrFn);
+    plugin.on(EventType.HISTORY, path => {
       assert.equal(path, '/path/to/awesomesauce');
       assert.isTrue(errorStub.calledOnce);
       done();
     });
-    element.handleEvent(element.EventType.HISTORY,
+    element.handleEvent(EventType.HISTORY,
         {path: '/path/to/awesomesauce'});
   });
 
@@ -199,15 +200,15 @@ suite('gr-js-api-interface tests', () => {
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     const expectedChange = {mergeable: false, ...testChange};
-    plugin.on(element.EventType.SHOW_CHANGE, throwErrFn);
-    plugin.on(element.EventType.SHOW_CHANGE, (change, revision, info) => {
+    plugin.on(EventType.SHOW_CHANGE, throwErrFn);
+    plugin.on(EventType.SHOW_CHANGE, (change, revision, info) => {
       assert.deepEqual(change, expectedChange);
       assert.deepEqual(revision, testChange.revisions.abc);
       assert.deepEqual(info, {mergeable: false});
       assert.isTrue(errorStub.calledOnce);
       done();
     });
-    element.handleEvent(element.EventType.SHOW_CHANGE,
+    element.handleEvent(EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1, info: {mergeable: false}});
   });
 
@@ -216,14 +217,14 @@ suite('gr-js-api-interface tests', () => {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
-    plugin.on(element.EventType.SHOW_REVISION_ACTIONS, throwErrFn);
-    plugin.on(element.EventType.SHOW_REVISION_ACTIONS, (actions, change) => {
+    plugin.on(EventType.SHOW_REVISION_ACTIONS, throwErrFn);
+    plugin.on(EventType.SHOW_REVISION_ACTIONS, (actions, change) => {
       assert.deepEqual(change, testChange);
       assert.deepEqual(actions, {test: {}});
       assert.isTrue(errorStub.calledOnce);
       done();
     });
-    element.handleEvent(element.EventType.SHOW_REVISION_ACTIONS,
+    element.handleEvent(EventType.SHOW_REVISION_ACTIONS,
         {change: testChange, revisionActions: {test: {}}});
   });
 
@@ -234,8 +235,8 @@ suite('gr-js-api-interface tests', () => {
     };
     const spy = sinon.spy();
     pluginLoader.loadPlugins(['plugins/test.html']);
-    plugin.on(element.EventType.SHOW_CHANGE, spy);
-    element.handleEvent(element.EventType.SHOW_CHANGE,
+    plugin.on(EventType.SHOW_CHANGE, spy);
+    element.handleEvent(EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1});
     assert.isFalse(spy.called);
 
@@ -250,13 +251,13 @@ suite('gr-js-api-interface tests', () => {
 
   test('comment event', done => {
     const testCommentNode = {foo: 'bar'};
-    plugin.on(element.EventType.COMMENT, throwErrFn);
-    plugin.on(element.EventType.COMMENT, commentNode => {
+    plugin.on(EventType.COMMENT, throwErrFn);
+    plugin.on(EventType.COMMENT, commentNode => {
       assert.deepEqual(commentNode, testCommentNode);
       assert.isTrue(errorStub.calledOnce);
       done();
     });
-    element.handleEvent(element.EventType.COMMENT, {node: testCommentNode});
+    element.handleEvent(EventType.COMMENT, {node: testCommentNode});
   });
 
   test('revert event', () => {
@@ -267,13 +268,13 @@ suite('gr-js-api-interface tests', () => {
     assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'), 'test');
     assert.equal(errorStub.callCount, 0);
 
-    plugin.on(element.EventType.REVERT, throwErrFn);
-    plugin.on(element.EventType.REVERT, appendToRevertMsg);
+    plugin.on(EventType.REVERT, throwErrFn);
+    plugin.on(EventType.REVERT, appendToRevertMsg);
     assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
         'test\n> origTest\ninfo');
     assert.isTrue(errorStub.calledOnce);
 
-    plugin.on(element.EventType.REVERT, appendToRevertMsg);
+    plugin.on(EventType.REVERT, appendToRevertMsg);
     assert.equal(element.modifyRevertMsg(null, 'test', 'origTest'),
         'test\n> origTest\ninfo\n> origTest\ninfo');
     assert.isTrue(errorStub.calledTwice);
@@ -287,8 +288,8 @@ suite('gr-js-api-interface tests', () => {
     assert.deepEqual(element.getLabelValuesPostRevert(null), {});
     assert.equal(errorStub.callCount, 0);
 
-    plugin.on(element.EventType.POST_REVERT, throwErrFn);
-    plugin.on(element.EventType.POST_REVERT, getLabels);
+    plugin.on(EventType.POST_REVERT, throwErrFn);
+    plugin.on(EventType.POST_REVERT, getLabels);
     assert.deepEqual(
         element.getLabelValuesPostRevert(null), {'Code-Review': 1});
     assert.isTrue(errorStub.calledOnce);
@@ -296,8 +297,8 @@ suite('gr-js-api-interface tests', () => {
 
   test('commitmsgedit event', done => {
     const testMsg = 'Test CL commit message';
-    plugin.on(element.EventType.COMMIT_MSG_EDIT, throwErrFn);
-    plugin.on(element.EventType.COMMIT_MSG_EDIT, (change, msg) => {
+    plugin.on(EventType.COMMIT_MSG_EDIT, throwErrFn);
+    plugin.on(EventType.COMMIT_MSG_EDIT, (change, msg) => {
       assert.deepEqual(msg, testMsg);
       assert.isTrue(errorStub.calledOnce);
       done();
@@ -307,35 +308,35 @@ suite('gr-js-api-interface tests', () => {
 
   test('labelchange event', done => {
     const testChange = {_number: 42};
-    plugin.on(element.EventType.LABEL_CHANGE, throwErrFn);
-    plugin.on(element.EventType.LABEL_CHANGE, change => {
+    plugin.on(EventType.LABEL_CHANGE, throwErrFn);
+    plugin.on(EventType.LABEL_CHANGE, change => {
       assert.deepEqual(change, testChange);
       assert.isTrue(errorStub.calledOnce);
       done();
     });
-    element.handleEvent(element.EventType.LABEL_CHANGE, {change: testChange});
+    element.handleEvent(EventType.LABEL_CHANGE, {change: testChange});
   });
 
   test('submitchange', () => {
-    plugin.on(element.EventType.SUBMIT_CHANGE, throwErrFn);
-    plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
+    plugin.on(EventType.SUBMIT_CHANGE, throwErrFn);
+    plugin.on(EventType.SUBMIT_CHANGE, () => true);
     assert.isTrue(element.canSubmitChange());
     assert.isTrue(errorStub.calledOnce);
-    plugin.on(element.EventType.SUBMIT_CHANGE, () => false);
-    plugin.on(element.EventType.SUBMIT_CHANGE, () => true);
+    plugin.on(EventType.SUBMIT_CHANGE, () => false);
+    plugin.on(EventType.SUBMIT_CHANGE, () => true);
     assert.isFalse(element.canSubmitChange());
     assert.isTrue(errorStub.calledTwice);
   });
 
   test('highlightjs-loaded event', done => {
     const testHljs = {_number: 42};
-    plugin.on(element.EventType.HIGHLIGHTJS_LOADED, throwErrFn);
-    plugin.on(element.EventType.HIGHLIGHTJS_LOADED, hljs => {
+    plugin.on(EventType.HIGHLIGHTJS_LOADED, throwErrFn);
+    plugin.on(EventType.HIGHLIGHTJS_LOADED, hljs => {
       assert.deepEqual(hljs, testHljs);
       assert.isTrue(errorStub.calledOnce);
       done();
     });
-    element.handleEvent(element.EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
+    element.handleEvent(EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
   });
 
   test('getLoggedIn', done => {
@@ -372,7 +373,7 @@ suite('gr-js-api-interface tests', () => {
     assert.deepEqual(result, links);
     assert.isTrue(getCallbacksStub.calledOnce);
     assert.equal(getCallbacksStub.lastCall.args[0],
-        element.EventType.ADMIN_MENU_LINKS);
+        EventType.ADMIN_MENU_LINKS);
   });
 
   suite('test plugin with base url', () => {

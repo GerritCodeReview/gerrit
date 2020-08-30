@@ -58,7 +58,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
-
 import {PrimaryTab, SecondaryTab} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
 import {appContext} from '../../../services/app-context.js';
@@ -73,6 +72,7 @@ import {
   SPECIAL_PATCH_SET_NUM,
 } from '../../../utils/patch-set-util.js';
 import {changeStatuses, changeStatusString} from '../../../utils/change-util.js';
+import {EventType} from '../../plugins/gr-plugin-types.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -1098,7 +1098,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _sendShowChangeEvent() {
-    this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.SHOW_CHANGE, {
+    this.$.jsAPI.handleEvent(EventType.SHOW_CHANGE, {
       change: this._change,
       patchNum: this._patchRange.patchNum,
       info: {mergeable: this._mergeable},
@@ -1569,7 +1569,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       this._handleLabelRemoved(changeRecord.value.indexSplices,
           changeRecord.path);
     }
-    this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.LABEL_CHANGE, {
+    this.$.jsAPI.handleEvent(EventType.LABEL_CHANGE, {
       change: this._change,
     });
   }

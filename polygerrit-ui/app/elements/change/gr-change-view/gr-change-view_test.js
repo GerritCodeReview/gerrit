@@ -27,6 +27,7 @@ import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
+import {EventType} from '../../plugins/gr-plugin-types.js';
 
 import 'lodash/lodash.js';
 import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
@@ -2254,8 +2255,7 @@ suite('gr-change-view tests', () => {
     const showStub = sinon.stub(element.$.jsAPI, 'handleEvent');
     element._sendShowChangeEvent();
     assert.isTrue(showStub.calledOnce);
-    assert.equal(
-        showStub.lastCall.args[0], element.$.jsAPI.EventType.SHOW_CHANGE);
+    assert.equal(showStub.lastCall.args[0], EventType.SHOW_CHANGE);
     assert.deepEqual(showStub.lastCall.args[1], {
       change: {labels: {}},
       patchNum: 4,

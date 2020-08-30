@@ -19,7 +19,6 @@
  * This defines the Gerrit instance. All methods directly attached to Gerrit
  * should be defined or linked here.
  */
-
 import {pluginLoader, PluginOptionMap} from './gr-plugin-loader';
 import {getRestAPI, send} from './gr-api-utils';
 import {appContext} from '../../../services/app-context';
@@ -117,7 +116,7 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
    * @deprecated Use plugin.styles().css(rulesStr) instead. Please, consult
    * the documentation how to replace it accordingly.
    */
-  globalGerritObj.css = function (rulesStr: string) {
+  globalGerritObj.css = (rulesStr: string) => {
     console.warn(
       'Gerrit.css(rulesStr) is deprecated!',
       'Use plugin.styles().css(rulesStr)'
@@ -136,11 +135,11 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
     return name;
   };
 
-  globalGerritObj.install = function (callback, opt_version, opt_src) {
+  globalGerritObj.install = (callback, opt_version, opt_src) => {
     pluginLoader.install(callback, opt_version, opt_src);
   };
 
-  globalGerritObj.getLoggedIn = function () {
+  globalGerritObj.getLoggedIn = () => {
     console.warn(
       'Gerrit.getLoggedIn() is deprecated! ' +
         'Use plugin.restApi().getLoggedIn()'
@@ -148,62 +147,62 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
     return document.createElement('gr-rest-api-interface').getLoggedIn();
   };
 
-  globalGerritObj.get = function (
+  globalGerritObj.get = (
     url: string,
     callback?: (response: unknown) => void
-  ) {
+  ) => {
     console.warn('.get() is deprecated! Use plugin.restApi().get()');
     send(HttpMethod.GET, url, callback);
   };
 
-  globalGerritObj.post = function (
+  globalGerritObj.post = (
     url: string,
     payload?: RequestPayload,
     callback?: (response: unknown) => void
-  ) {
+  ) => {
     console.warn('.post() is deprecated! Use plugin.restApi().post()');
     send(HttpMethod.POST, url, callback, payload);
   };
 
-  globalGerritObj.put = function (
+  globalGerritObj.put = (
     url: string,
     payload?: RequestPayload,
     callback?: (response: unknown) => void
-  ) {
+  ) => {
     console.warn('.put() is deprecated! Use plugin.restApi().put()');
     send(HttpMethod.PUT, url, callback, payload);
   };
 
-  globalGerritObj.delete = function (
+  globalGerritObj.delete = (
     url: string,
     callback?: (response: Response) => void
-  ) {
+  ) => {
     deprecatedDelete(url, callback);
   };
 
-  globalGerritObj.awaitPluginsLoaded = function () {
+  globalGerritObj.awaitPluginsLoaded = () => {
     return pluginLoader.awaitPluginsLoaded();
   };
 
   // TODO(taoalpha): consider removing these proxy methods
   // and using pluginLoader directly
-  globalGerritObj._loadPlugins = function (plugins, opt_option) {
+  globalGerritObj._loadPlugins = (plugins, opt_option) => {
     pluginLoader.loadPlugins(plugins, opt_option);
   };
 
-  globalGerritObj._arePluginsLoaded = function () {
+  globalGerritObj._arePluginsLoaded = () => {
     return pluginLoader.arePluginsLoaded();
   };
 
-  globalGerritObj._isPluginPreloaded = function (url) {
+  globalGerritObj._isPluginPreloaded = url => {
     return pluginLoader.isPluginPreloaded(url);
   };
 
-  globalGerritObj._isPluginEnabled = function (pathOrUrl) {
+  globalGerritObj._isPluginEnabled = pathOrUrl => {
     return pluginLoader.isPluginEnabled(pathOrUrl);
   };
 
-  globalGerritObj._isPluginLoaded = function (pathOrUrl) {
+  globalGerritObj._isPluginLoaded = pathOrUrl => {
     return pluginLoader.isPluginLoaded(pathOrUrl);
   };
 

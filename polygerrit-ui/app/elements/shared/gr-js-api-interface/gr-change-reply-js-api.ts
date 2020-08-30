@@ -16,11 +16,8 @@
  */
 
 import {GrReplyDialog} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {
-  ApiElement,
-  JsApiService,
-  PluginApi,
-} from '../../plugins/gr-plugin-types';
+import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
+import {JsApiService} from './gr-js-api-types';
 
 // TODO(TS): maybe move interfaces\types to other files when convertion complete
 interface LabelsChangedDetail {
@@ -44,7 +41,9 @@ export class GrChangeReplyInterface {
   ) {}
 
   get _el(): GrReplyDialog {
-    return this.sharedApiElement.getElement(ApiElement.REPLY_DIALOG);
+    return (this.sharedApiElement.getElement(
+      TargetElement.REPLY_DIALOG
+    ) as unknown) as GrReplyDialog;
   }
 
   getLabelValue(label: string) {

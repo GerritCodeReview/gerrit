@@ -19,6 +19,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-lib-loader_html.js';
+import {EventType} from '../../plugins/gr-plugin-types.js';
 
 // preloaded in PolyGerritIndexHtml.soy
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
@@ -79,7 +80,7 @@ class GrLibLoader extends GestureEventListeners(
   _onHLJSLibLoaded() {
     const lib = this._getHighlightLib();
     this._hljsState.loading = false;
-    this.$.jsAPI.handleEvent(this.$.jsAPI.EventType.HIGHLIGHTJS_LOADED, {
+    this.$.jsAPI.handleEvent(EventType.HIGHLIGHTJS_LOADED, {
       hljs: lib,
     });
     for (const cb of this._hljsState.callbacks) {

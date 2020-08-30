@@ -19,7 +19,8 @@ import {
   ActionType,
   ActionPriority,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
-import {ApiElement, JsApiService} from '../../plugins/gr-plugin-types';
+import {JsApiService} from './gr-js-api-types';
+import {TargetElement} from '../../plugins/gr-plugin-types';
 
 interface Plugin {
   getPluginName(): string;
@@ -62,7 +63,11 @@ export class GrChangeActionsInterface {
       const sharedApiElement = (document.createElement(
         'gr-js-api-interface'
       ) as unknown) as JsApiService;
-      this.setEl(sharedApiElement.getElement(ApiElement.CHANGE_ACTIONS));
+      this.setEl(
+        (sharedApiElement.getElement(
+          TargetElement.CHANGE_ACTIONS
+        ) as unknown) as GrChangeActions
+      );
     }
     return this._el!;
   }

@@ -17,6 +17,29 @@
       "revId": "21585ebbf0f59f5d96d4b274093a0e08283d54fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84ea90c4_2f7d8f3d",
+        "filename": "Documentation/config-reverseproxy.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-30T20:13:48Z",
+      "side": 1,
+      "message": "Should we also amend the Apache HTTPD config with ProxyAddHeaders ?",
+      "range": {
+        "startLine": 29,
+        "startChar": 8,
+        "endLine": 29,
+        "endChar": 13
+      },
+      "revId": "21585ebbf0f59f5d96d4b274093a0e08283d54fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

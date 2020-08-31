@@ -227,6 +227,9 @@ class GrRelatedChangesList extends GestureEventListeners(
     if ([relatedChange, currentChange].includes(undefined)) {
       return classes;
     }
+    if (this._changesEqual(relatedChange, currentChange)) {
+      classes.push('thisChange');
+    }
     return classes.join(' ');
   }
 

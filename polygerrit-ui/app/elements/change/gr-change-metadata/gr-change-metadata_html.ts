@@ -277,7 +277,7 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[_showAddTopic(change.*, _settingTopic)]]">
           <gr-editable-label
             class="topicEditableLabel"
-            label-text="Add a topic"
+            label-text="[[createTitle(Shortcut.EDIT_TOPIC, ShortcutSection.ACTION)]]"
             value="[[change.topic]]"
             max-length="1024"
             placeholder="[[_computeTopicPlaceholder(_topicReadOnly)]]"

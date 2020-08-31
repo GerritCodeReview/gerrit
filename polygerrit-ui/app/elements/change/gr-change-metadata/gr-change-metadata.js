@@ -42,6 +42,7 @@ import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
+import { KeyboardShortcutMixin } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -77,8 +78,8 @@ const CertificateStatus = {
 /**
  * @extends PolymerElement
  */
-class GrChangeMetadata extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
+class GrChangeMetadata extends KeyboardShortcutMixin(GestureEventListeners(
+    LegacyElementMixin(PolymerElement))) {
   static get template() { return htmlTemplate; }
 
   static get is() { return 'gr-change-metadata'; }

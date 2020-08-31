@@ -225,12 +225,17 @@ export const htmlTemplate = html`
         <gr-button
           id="expandBtn"
           link=""
-          title="[[createTitle(Shortcut.EXPAND_ALL_DIFF_CONTEXT,
-                ShortcutSection.DIFFS)]]"
+          title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
+                ShortcutSection.FILE_LIST)]]"
           on-click="_expandAllDiffs"
           >Expand All</gr-button
         >
-        <gr-button id="collapseBtn" link="" on-click="_collapseAllDiffs"
+        <gr-button
+          id="collapseBtn"
+          link=""
+          on-click="_collapseAllDiffs"
+          title="[[createTitle(Shortcut.TOGGLE_ALL_INLINE_DIFFS,
+          ShortcutSection.FILE_LIST)]]"
           >Collapse All</gr-button
         >
       </template>

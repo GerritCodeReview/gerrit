@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ec72102_9b2f7135",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-31T17:32:48Z",
+      "side": 1,
+      "message": "these are probably readonly, but i think its fine to not mark for now.",
+      "revId": "cf04b3774da48ed10af4a6080f2a1fd4a650ed48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

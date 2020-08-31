@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2df5b307_0a81547c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-group-list/gr-admin-group-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T10:01:15Z",
+      "side": 1,
+      "message": "opt nit: remove",
+      "revId": "7d334b41eee3557b7d9eb1fafa13da97180f752a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

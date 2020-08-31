@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "df94d7cd_4881f909",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T19:30:24Z",
+      "side": 1,
+      "message": "Downgrading to +1 as there is still one point to be addressed. Otherwise, everything looks great ! Thanks again Matthias for this change.",
+      "revId": "e98f5a69021e883138c749af70bcf1355cc9180c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

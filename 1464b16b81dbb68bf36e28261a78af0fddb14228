@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "c7dd88f2_b56c9d2b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T20:43:38Z",
+      "side": 1,
+      "message": "Ack. I agree. But this entire design of this class is so flawed that I find the \"any\" is the least problem we have here. We rather want to use EventEmitter of DOM events or have dedicated \"handle\" methods for each event type. I don\u0027t want to spend time with adding generics like \u003cT extends A|B|C|D|E|F\u003e.",
+      "parentUuid": "81b39e5a_ec1aba86",
+      "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "88a1f8a9_555e8c86",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
         "patchSetId": 2
@@ -33,6 +51,24 @@
       "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "219454c5_8e9f4653",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T20:43:38Z",
+      "side": 1,
+      "message": "The TODO is to get rid of this entire class. It is terrible from start to end. :-)\n\nAs is \"cb\" is just \"any\". There is nothing we can currently do about it.\n\nAs you can see here, in this case \"cb\" is not even a function. WAT!",
+      "parentUuid": "88a1f8a9_555e8c86",
+      "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "7c1532cf_6eeff2a3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-interface-element.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 314,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T20:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "62c15779_ed213417",
+      "range": {
+        "startLine": 314,
+        "startChar": 27,
+        "endLine": 314,
+        "endChar": 43
+      },
+      "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e1041f9_4ef37eb7",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
         "patchSetId": 2
@@ -79,6 +139,30 @@
       "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3ca028f_a0751980",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T20:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e1041f9_4ef37eb7",
+      "range": {
+        "startLine": 3,
+        "startChar": 17,
+        "endLine": 3,
+        "endChar": 21
+      },
+      "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +189,30 @@
     },
     {
       "key": {
+        "uuid": "8f559f31_68461ef0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T20:43:38Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84b817ef_99b38201",
+      "range": {
+        "startLine": 33,
+        "startChar": 38,
+        "endLine": 33,
+        "endChar": 49
+      },
+      "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5bff4b35_00411cc8",
         "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
         "patchSetId": 2
@@ -119,6 +227,24 @@
       "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a091bbfa_72c02a68",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-js-api-types.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T20:43:38Z",
+      "side": 1,
+      "message": "Added a TODO.",
+      "parentUuid": "5bff4b35_00411cc8",
+      "revId": "1464b16b81dbb68bf36e28261a78af0fddb14228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

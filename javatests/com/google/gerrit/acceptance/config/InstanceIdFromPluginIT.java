@@ -19,10 +19,19 @@ import static com.google.common.truth.Truth.assertThat;
 import com.google.gerrit.acceptance.LightweightPluginDaemonTest;
 import com.google.gerrit.acceptance.TestPlugin;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
+import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.server.config.GerritInstanceId;
+import com.google.gerrit.server.events.Event;
+import com.google.gerrit.server.events.EventDispatcher;
+import com.google.gerrit.server.events.EventListener;
+import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
+import com.google.inject.Key;
 import com.google.inject.Scopes;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.Test;
 
 @TestPlugin(
@@ -35,6 +44,8 @@ public class InstanceIdFromPluginIT extends LightweightPluginDaemonTest {
     @Override
     protected void configure() {
       bind(InstanceIdLoader.class).in(Scopes.SINGLETON);
+      bind(TestEventListener.class).in(Scopes.SINGLETON);
+      DynamicSet.bind(binder(), EventListener.class).to(TestEventListener.class);
     }
   }
 
@@ -47,6 +58,27 @@ public class InstanceIdFromPluginIT extends LightweightPluginDaemonTest {
     }
   }
 
+  public static class TestEventListener implements EventListener {
+    private final List<Event> events = new ArrayList<>();
+
+    @Override
+    public void onEvent(Event event) {
+      events.add(event);
+    }
+
+    public List<Event> getEvents() {
+      return events;
+    }
+  }
+
+  public static class TestEvent extends Event {
+
+    protected TestEvent(String instanceId) {
+      super("test");
+      this.instanceId = instanceId;
+    }
+  }
+
   @Test
   @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
   public void shouldReturnInstanceIdWhenDefined() {
@@ -56,6 +88,21 @@ public class InstanceIdFromPluginIT extends LightweightPluginDaemonTest {
   @Test
   public void shouldReturnNullWhenNotDefined() {
     assertThat(getInstanceIdLoader().gerritInstanceId).isNull();
+  }
+
+  @Test
+  @GerritConfig(name = "gerrit.instanceId", value = "testInstanceId")
+  public void shouldPreserveEventInstanceIdWhenDefined() throws PermissionBackendException {
+    EventDispatcher dispatcher =
+        plugin.getSysInjector().getInstance(new Key<DynamicItem<EventDispatcher>>() {}).get();
+    String eventInstanceId = "eventInstanceId";
+    TestEventListener eventListener = plugin.getSysInjector().getInstance(TestEventListener.class);
+    TestEvent testEvent = new TestEvent(eventInstanceId);
+
+    dispatcher.postEvent(testEvent);
+    List<Event> receivedEvents = eventListener.getEvents();
+    assertThat(receivedEvents).hasSize(1);
+    assertThat(receivedEvents.get(0).instanceId).isEqualTo(eventInstanceId);
   }
 
   private InstanceIdLoader getInstanceIdLoader() {

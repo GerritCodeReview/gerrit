@@ -23,8 +23,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "dropwizard-core",
-        artifact = "io.dropwizard.metrics:metrics-core:4.1.11",
-        sha1 = "7f05969f40bf7296eac0dbb36c78ada28bf975f6",
+        artifact = "io.dropwizard.metrics:metrics-core:4.1.12.1",
+        sha1 = "cb2f351bf4463751201f43bb99865235d5ba07ca",
     )
 
     SSHD_VERS = "2.4.0"
@@ -102,8 +102,8 @@ def declare_nongoogle_deps():
 
     maven_jar(
         name = "jackson-core",
-        artifact = "com.fasterxml.jackson.core:jackson-core:2.11.1",
-        sha1 = "8b02908d53183fdf9758e7e20f2fdee87613a962",
+        artifact = "com.fasterxml.jackson.core:jackson-core:2.11.2",
+        sha1 = "bc022ab0f0c83c07f9c52c5ab9a6a4932b15cc35",
     )
 
     # Google internal dependencies: these are developed at Google, so there is

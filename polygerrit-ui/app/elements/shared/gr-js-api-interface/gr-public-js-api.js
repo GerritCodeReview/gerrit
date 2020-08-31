@@ -39,6 +39,7 @@ import {
   getPluginNameFromUrl,
   send,
 } from './gr-api-utils.js';
+import {GrReporintJsApi} from './gr-reporting-js-api.js';
 
 const PANEL_ENDPOINTS_MAPPING = {
   CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
@@ -236,6 +237,10 @@ export class Plugin {
 
   changeReply() {
     return new GrChangeReplyInterface(this, this.sharedApiElement);
+  }
+
+  reporting() {
+    return new GrReporintJsApi(this);
   }
 
   theme() {

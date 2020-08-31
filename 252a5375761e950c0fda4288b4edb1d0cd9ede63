@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7873bbc1_e50c3810",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 803,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-31T13:56:00Z",
+      "side": 1,
+      "message": "do they need to be exposed as polymer property ? can they just expose as normal property to the class ?",
+      "revId": "252a5375761e950c0fda4288b4edb1d0cd9ede63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8d1e3b8e_c20b52d9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-js-api-interface/gr-gerrit.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-08-31T11:11:30Z",
+      "side": 1,
+      "message": "arrow functions instead ?",
+      "range": {
+        "startLine": 120,
+        "startChar": 24,
+        "endLine": 120,
+        "endChar": 32
+      },
+      "revId": "05d3e1c90a5c37eed1c65b2e6e313894d8c6951a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

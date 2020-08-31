@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "56df712d_e06bb8d5",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-31T10:30:39Z",
+      "side": 1,
+      "message": "human",
+      "range": {
+        "startLine": 49,
+        "startChar": 63,
+        "endLine": 49,
+        "endChar": 64
+      },
+      "revId": "6d8453ba670d7e225d1b40baed598aabad2fcd9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b76fe2a8_5c6b3fe3",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-31T10:30:39Z",
+      "side": 1,
+      "message": "nit: and uploader",
+      "range": {
+        "startLine": 94,
+        "startChar": 66,
+        "endLine": 94,
+        "endChar": 71
+      },
+      "revId": "6d8453ba670d7e225d1b40baed598aabad2fcd9e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

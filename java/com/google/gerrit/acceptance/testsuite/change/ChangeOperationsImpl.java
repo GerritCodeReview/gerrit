@@ -348,7 +348,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
         ChangeNotes changeNotes,
         TestPatchsetCreation patchsetCreation,
         Timestamp now)
-        throws IOException {
+        throws IOException, BadRequestException {
       ObjectId oldPatchsetCommitId = changeNotes.getCurrentPatchSet().commitId();
       RevCommit oldPatchsetCommit = repository.parseCommit(oldPatchsetCommitId);
 
@@ -356,12 +356,28 @@ public class ChangeOperationsImpl implements ChangeOperations {
           createNewTree(
               repository, revWalk, oldPatchsetCommitId, patchsetCreation.treeModifications());
 
-      String commitMessage = oldPatchsetCommit.getFullMessage();
+      String commitMessage =
+          correctCommitMessage(
+              changeNotes.getChange().getKey().get(),
+              patchsetCreation.commitMessage().orElseGet(oldPatchsetCommit::getFullMessage));
 
       ImmutableList<ObjectId> parentCommitIds = getParents(oldPatchsetCommit);
       PersonIdent author = getAuthor(oldPatchsetCommit);
       PersonIdent committer = getCommitter(oldPatchsetCommit, now);
       return createCommit(objectInserter, tree, parentCommitIds, author, committer, commitMessage);
+    }
+
+    private String correctCommitMessage(String oldChangeId, String desiredCommitMessage)
+        throws BadRequestException {
+      String commitMessage = CommitMessageUtil.checkAndSanitizeCommitMessage(desiredCommitMessage);
+
+      // Remove initial 'I' and treat the rest as ObjectId. This is not the cleanest approach but
+      // unfortunately, we don't seem to have other utility code which takes the string-based
+      // change-id and ensures that it is part of the commit message.
+      ObjectId id = ObjectId.fromString(oldChangeId.substring(1));
+      commitMessage = ChangeIdUtil.insertId(commitMessage, id, false);
+
+      return commitMessage;
     }
 
     private PersonIdent getAuthor(RevCommit oldPatchsetCommit) {

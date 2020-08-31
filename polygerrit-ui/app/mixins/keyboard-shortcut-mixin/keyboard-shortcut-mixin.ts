@@ -800,6 +800,12 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       @property({type: Object})
       _shortcut_v_table: Map<string, string> = new Map();
 
+      @property({type: Object})
+      Shortcut = Shortcut;
+
+      @property({type: Object})
+      ShortcutSection = ShortcutSection;
+
       modifierPressed(event: CustomKeyboardEvent) {
         /* We are checking for g/v as modifiers pressed. There are cases such as
          * pressing v and then /, where we want the handler for / to be triggered.

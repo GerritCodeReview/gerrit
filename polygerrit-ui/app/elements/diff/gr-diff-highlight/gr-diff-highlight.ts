@@ -154,7 +154,7 @@ export class GrDiffHighlight extends GestureEventListeners(
       if (curNode.nodeName === 'TABLE') break;
       curNode = curNode.parentElement;
     }
-    if (curNode && curNode.querySelectorAll) {
+    if (curNode?.querySelectorAll) {
       if (highlightRange) {
         const rangeNodes = curNode.querySelectorAll(
           `.range.${strToClassName(threadEl.rootId)}`
@@ -345,7 +345,7 @@ export class GrDiffHighlight extends GestureEventListeners(
       column = 0;
     } else {
       const thread = contentTd.querySelector('.comment-thread');
-      if (thread && thread.contains(node)) {
+      if (thread?.contains(node)) {
         column = this._getLength(contentText);
         node = contentText;
       } else {

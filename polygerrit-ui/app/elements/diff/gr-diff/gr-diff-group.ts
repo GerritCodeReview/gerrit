@@ -113,7 +113,6 @@ export function hideInContextControl(
  * with some lines before and some lines after the split will be split into
  * two groups, which will be put into the first and second list.
  *
- * @param groups
  * @param split A line number offset relative to the first group's
  *     start line at which the groups should be split.
  * @return The outer array has 2 elements, the

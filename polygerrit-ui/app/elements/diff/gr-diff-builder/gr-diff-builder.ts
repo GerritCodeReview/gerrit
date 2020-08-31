@@ -660,7 +660,6 @@ export abstract class GrDiffBuilder {
    * current set of blame information. If no blame information has been
    * provided, null is returned.
    *
-   * @param lineNum
    * @return The commit information.
    */
   _getBlameCommitForBaseLine(lineNum: LineNumber) {
@@ -682,7 +681,6 @@ export abstract class GrDiffBuilder {
    * Given the number of a base line, get the content for the blame cell of that
    * line. If there is no blame information for that line, returns null.
    *
-   * @param lineNum
    * @param commit Optionally provide the commit object, so that
    *     it does not need to be searched.
    */

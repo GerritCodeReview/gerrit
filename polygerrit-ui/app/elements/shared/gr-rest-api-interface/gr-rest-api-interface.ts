@@ -758,7 +758,7 @@ export class GrRestApiInterface
       anonymizedUrl: '/groups/*/groups/*',
     };
     return this._restApiHelper.send(req).then(response => {
-      if (response && response.ok) {
+      if (response?.ok) {
         return (this.getResponseObject(response) as unknown) as Promise<
           GroupInfo
         >;
@@ -1361,7 +1361,7 @@ export class GrRestApiInterface
    * Inserts a change into _projectLookup iff it has a valid structure.
    */
   _maybeInsertInLookup(change: ChangeInfo): void {
-    if (change && change.project && change._number) {
+    if (change?.project && change._number) {
       this.setInProjectLookup(change._number, change.project);
     }
   }
@@ -1401,7 +1401,7 @@ export class GrRestApiInterface
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
     ];
-    if (config && config.change && config.change.enable_attention_set) {
+    if (config?.change && config.change.enable_attention_set) {
       options.push(ListChangesOption.DETAILED_LABELS);
     } else {
       options.push(ListChangesOption.REVIEWED);
@@ -1432,7 +1432,7 @@ export class GrRestApiInterface
       ListChangesOption.WEB_LINKS,
       ListChangesOption.SKIP_DIFFSTAT,
     ];
-    if (config && config.receive && config.receive.enable_signed_push) {
+    if (config?.receive?.enable_signed_push) {
       options.push(ListChangesOption.PUSH_CERTIFICATES);
     }
     return listChangesOptionsToHex(...options);
@@ -1444,7 +1444,7 @@ export class GrRestApiInterface
     cancelCondition?: CancelConditionCallback
   ) {
     let optionsHex = '';
-    if (window.DEFAULT_DETAIL_HEXES && window.DEFAULT_DETAIL_HEXES.diffPage) {
+    if (window.DEFAULT_DETAIL_HEXES?.diffPage) {
       optionsHex = window.DEFAULT_DETAIL_HEXES.diffPage;
     } else {
       optionsHex = listChangesOptionsToHex(
@@ -1478,7 +1478,7 @@ export class GrRestApiInterface
           anonymizedUrl: '/changes/*~*/detail?O=' + optionsHex,
         };
         return this._restApiHelper.fetchRawJSON(req).then(response => {
-          if (response && response.status === 304) {
+          if (response?.status === 304) {
             return (this._restApiHelper.parsePrefixedJSON(
               // urlWithParams already cached
               this._etags.getCachedPayload(urlWithParams)!
@@ -1658,7 +1658,7 @@ export class GrRestApiInterface
   }
 
   _computeFilter(filter: string) {
-    if (filter && filter.startsWith('^')) {
+    if (filter?.startsWith('^')) {
       filter = '&r=' + encodeURIComponent(filter);
     } else if (filter) {
       filter = '&m=' + encodeURIComponent(filter);
@@ -2171,7 +2171,7 @@ export class GrRestApiInterface
     // 404s indicate the file does not exist yet in the revision, so suppress
     // them.
     const suppress404s: ErrorCallback = res => {
-      if (res && res.status !== 404) {
+      if (res?.status !== 404) {
         this.dispatchEvent(
           new CustomEvent('server-error', {
             detail: {res},
@@ -2890,7 +2890,7 @@ export class GrRestApiInterface
     let promiseA;
     let promiseB;
 
-    if (diff.meta_a && diff.meta_a.content_type.startsWith('image/')) {
+    if (diff.meta_a?.content_type.startsWith('image/')) {
       if (patchRange.basePatchNum === ParentPatchSetNum) {
         // Note: we only attempt to get the image from the first parent.
         promiseA = this.getB64FileContents(
@@ -2910,7 +2910,7 @@ export class GrRestApiInterface
       promiseA = Promise.resolve(null);
     }
 
-    if (diff.meta_b && diff.meta_b.content_type.startsWith('image/')) {
+    if (diff.meta_b?.content_type.startsWith('image/')) {
       promiseB = this.getB64FileContents(
         changeNum,
         patchRange.patchNum,
@@ -3138,7 +3138,7 @@ export class GrRestApiInterface
       reportUrlAsIs: true,
     };
     return this._restApiHelper.send(req).then(response => {
-      if (response && response.status === 204) {
+      if (response?.status === 204) {
         return 'Email confirmed successfully.';
       }
       return null;
@@ -3201,7 +3201,7 @@ export class GrRestApiInterface
       reportUrlAsIs: true,
     };
     return this._getChangeURLAndSend(req).then(response => {
-      if (response && response.status === 204) {
+      if (response?.status === 204) {
         return 'Change marked as Work In Progress.';
       }
       return undefined;

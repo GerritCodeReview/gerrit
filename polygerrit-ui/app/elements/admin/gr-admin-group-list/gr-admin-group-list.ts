@@ -121,8 +121,6 @@ export class GrAdminGroupList extends ListViewMixin(
 
   /**
    * Opens the create overlay if the route has a hash 'create'
-   *
-   * @param params
    */
   _maybeOpenCreateOverlay(params?: AppElementAdminParams) {
     if (params?.openCreateModal) {

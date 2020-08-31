@@ -228,7 +228,7 @@ export const GrAnnotation = {
    * @return Trailing Text Node.
    */
   splitTextNode(node: Text, offset: number) {
-    if (node.textContent && node.textContent.match(REGEX_ASTRAL_SYMBOL)) {
+    if (node.textContent?.match(REGEX_ASTRAL_SYMBOL)) {
       // TODO (viktard): Polyfill Array.from for IE10.
       const head = Array.from(node.textContent);
       const tail = head.splice(offset);

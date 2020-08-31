@@ -116,7 +116,7 @@ export class GrRepoList extends ListViewMixin(
    * Opens the create overlay if the route has a hash 'create'
    */
   _maybeOpenCreateOverlay(params?: AppElementAdminParams) {
-    if (params && params.openCreateModal) {
+    if (params?.openCreateModal) {
       this.$.createOverlay.open();
     }
   }
@@ -137,7 +137,7 @@ export class GrRepoList extends ListViewMixin(
       return this.$.restAPI
         .getAccountCapabilities(['createProject'])
         .then(capabilities => {
-          if (capabilities && capabilities.createProject) {
+          if (capabilities?.createProject) {
             this._createNewCapability = true;
           }
         });

@@ -159,8 +159,6 @@ export class GrDomHook {
   /**
    * Install a new callback to invoke when a new instance of DOM hook element
    * is attached.
-   *
-   * @param callback
    */
   onAttached(callback: HookCallback) {
     this._attachCallbacks.push(callback);

@@ -86,7 +86,7 @@ export function _getTextOffset(node: Node | null, child: Node): number {
     if (n === child) {
       break;
     }
-    if (n && n.childNodes && n.childNodes.length !== 0) {
+    if (n?.childNodes && n.childNodes.length !== 0) {
       const arr = [];
       for (const childNode of n.childNodes) {
         arr.push(childNode);

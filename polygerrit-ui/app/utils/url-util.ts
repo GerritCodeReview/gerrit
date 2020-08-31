@@ -40,7 +40,7 @@ export function getDocsBaseUrl(
 ): Promise<string | null> {
   if (!getDocsBaseUrlCachedPromise) {
     getDocsBaseUrlCachedPromise = new Promise(resolve => {
-      if (config && config.gerrit && config.gerrit.doc_url) {
+      if (config?.gerrit?.doc_url) {
         resolve(config.gerrit.doc_url);
       } else {
         restApi.probePath(getBaseUrl() + PROBE_PATH).then(ok => {

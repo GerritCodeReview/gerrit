@@ -53,7 +53,7 @@ export const ListViewMixin = dedupingMixin(
       }
 
       getOffsetValue<T extends ListViewParams>(params: T): number {
-        if (params && params.offset) {
+        if (params?.offset) {
           return Number(params.offset);
         }
         return 0;

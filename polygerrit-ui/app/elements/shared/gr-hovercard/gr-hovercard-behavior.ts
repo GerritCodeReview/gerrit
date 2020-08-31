@@ -249,7 +249,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
 
         // Remove the hovercard from the container, given that it is still a child
         // of the container.
-        if (this.container && this.container.contains(this)) {
+        if (this.container?.contains(this)) {
           this.container.removeChild(this);
         }
       }

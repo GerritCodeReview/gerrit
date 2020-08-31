@@ -23,11 +23,11 @@ export function getUserName(
   config?: ServerInfo,
   account?: AccountInfo
 ): string {
-  if (account && account.name) {
+  if (account?.name) {
     return account.name;
-  } else if (account && account.username) {
+  } else if (account?.username) {
     return account.username;
-  } else if (account && account.email) {
+  } else if (account?.email) {
     return account.email;
   } else if (
     config &&
@@ -45,7 +45,7 @@ export function getDisplayName(
   account?: AccountInfo,
   firstNameOnly = false
 ): string {
-  if (account && account.display_name) {
+  if (account?.display_name) {
     return account.display_name;
   }
   if (!account || !account.name) {

@@ -341,10 +341,6 @@ export class GrRouter extends GestureEventListeners(
     page.redirect(url);
   }
 
-  /**
-   * @param params
-   * @return
-   */
   _generateUrl(params: GenerateUrlParameters) {
     const base = getBaseUrl();
     let url = '';
@@ -427,7 +423,7 @@ export class GrRouter extends GestureEventListeners(
     }
     let weblink;
     // Use primary weblink if configured and exists.
-    if (config && config.gerrit && config.gerrit.primary_weblink_name) {
+    if (config?.gerrit?.primary_weblink_name) {
       const primaryWeblinkName = config.gerrit.primary_weblink_name;
       weblink = weblinks.find(weblink => weblink.name === primaryWeblinkName);
     }
@@ -560,10 +556,6 @@ export class GrRouter extends GestureEventListeners(
     });
   }
 
-  /**
-   * @param params
-   * @return
-   */
   _generateDiffOrEditUrl(
     params: GenerateUrlDiffViewParameters | GenerateUrlEditViewParameters
   ) {
@@ -679,8 +671,6 @@ export class GrRouter extends GestureEventListeners(
    * Normalizes the params object, and determines if the URL needs to be
    * modified to fit the proper schema.
    *
-   * @param params
-   * @return whether or not the URL needs to be upgraded.
    */
   _normalizePatchRangeParams(params: PatchRangeParams) {
     if (params.basePatchNum === null || params.basePatchNum === undefined) {
@@ -710,8 +700,6 @@ export class GrRouter extends GestureEventListeners(
   /**
    * Redirect the user to login using the given return-URL for redirection
    * after authentication success.
-   *
-   * @param returnUrl
    */
   _redirectToLogin(returnUrl: string) {
     const basePath = getBaseUrl() || '';

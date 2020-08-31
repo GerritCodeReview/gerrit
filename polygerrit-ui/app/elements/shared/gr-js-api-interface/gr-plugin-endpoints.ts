@@ -203,7 +203,7 @@ export class GrPluginEndpoints {
         // TODO: we will deprecate html plugins entirely
         // for now, keep the original behavior and import
         // only for html ones
-        if (pluginUrl && pluginUrl.pathname.endsWith('.html')) {
+        if (pluginUrl?.pathname.endsWith('.html')) {
           return this.importUrl(pluginUrl);
         } else {
           return Promise.resolve();

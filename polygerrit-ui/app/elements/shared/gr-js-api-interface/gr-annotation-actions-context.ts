@@ -79,7 +79,7 @@ export class GrAnnotationActionsContext {
     styleObject: GrStyleObject,
     side: string
   ) {
-    if (this._contentEl && this._contentEl.getAttribute('data-side') === side) {
+    if (this._contentEl?.getAttribute('data-side') === side) {
       GrAnnotation.annotateElement(
         this._contentEl,
         offset,
@@ -96,7 +96,7 @@ export class GrAnnotationActionsContext {
    * @param side The side of the update. ('left' or 'right')
    */
   annotateLineNumber(styleObject: GrStyleObject, side: string) {
-    if (this._lineNumberEl && this._lineNumberEl.classList.contains(side)) {
+    if (this._lineNumberEl?.classList.contains(side)) {
       styleObject.apply(this._lineNumberEl);
     }
   }

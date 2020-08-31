@@ -168,7 +168,7 @@ export const TooltipMixin = dedupingMixin(
         this.removeEventListener('click', this.hideHandler);
         this.setAttribute('title', this._titleText);
 
-        if (this._tooltip && this._tooltip.parentNode) {
+        if (this._tooltip?.parentNode) {
           this._tooltip.parentNode.removeChild(this._tooltip);
         }
         this._tooltip = null;

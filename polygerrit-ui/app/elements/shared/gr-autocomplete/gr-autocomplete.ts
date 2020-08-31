@@ -443,7 +443,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
       // Append the completed text to the end of the string.
       // Allow spaces within quoted terms.
       const tokens = this.text.match(TOKENIZE_REGEX);
-      if (tokens && tokens.length) {
+      if (tokens?.length) {
         tokens[tokens.length - 1] = completed;
         this.value = tokens.join(' ');
       }

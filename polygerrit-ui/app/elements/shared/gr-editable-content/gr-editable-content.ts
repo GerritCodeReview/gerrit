@@ -147,7 +147,7 @@ export class GrEditableContent extends GestureEventListeners(
       const storedContent = this.$.storage.getEditableContentItem(
         this.storageKey
       );
-      if (storedContent && storedContent.message) {
+      if (storedContent?.message) {
         content = storedContent.message;
         this.dispatchEvent(
           new CustomEvent('show-alert', {

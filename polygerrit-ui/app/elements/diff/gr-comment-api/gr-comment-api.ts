@@ -676,9 +676,6 @@ class GrCommentApi extends GestureEventListeners(
    * Load all comments (with drafts and robot comments) for the given change
    * number. The returned promise resolves when the comments have loaded, but
    * does not yield the comment data.
-   *
-   * @param changeNum
-   * @return
    */
   loadAll(changeNum: ChangeNum) {
     const promises = [];
@@ -704,9 +701,6 @@ class GrCommentApi extends GestureEventListeners(
    * Re-initialize _changeComments with a new ChangeComments object, that
    * uses the previous values for comments and robot comments, but fetches
    * updated draft comments.
-   *
-   * @param changeNum
-   * @return
    */
   reloadDrafts(changeNum: ChangeNum) {
     if (!this._changeComments) {

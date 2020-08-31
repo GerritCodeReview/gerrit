@@ -22,6 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-change-star_html';
 import {customElement, property} from '@polymer/decorators';
 import {ChangeInfo} from '../../../types/common';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,8 +31,8 @@ declare global {
 }
 
 @customElement('gr-change-star')
-export class GrChangeStar extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
+export class GrChangeStar extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
 ) {
   static get template() {
     return htmlTemplate;

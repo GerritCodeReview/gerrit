@@ -348,7 +348,8 @@ export const htmlTemplate = html`
               link=""
               class="prefsButton"
               has-tooltip=""
-              title="Diff preferences"
+              title="[[createTitle(Shortcut.OPEN_DIFF_PREFS,
+                ShortcutSection.DIFFS)]]"
               on-click="_handlePrefsTap"
               ><iron-icon icon="gr-icons:settings"></iron-icon
             ></gr-button>

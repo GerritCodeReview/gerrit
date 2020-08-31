@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "f4956fce_cbc31ea1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T07:03:45Z",
+      "side": 1,
+      "message": "+1\n\nDid you check what things besides emails would make sense to do async?\n\nI think it could make sense to offer two methods here:\npostUpdate (synchronous)\nasyncPostUpdate (async)\n\nand let the implementor decide what can be done asynchronous (e.g. emails) and what not (e.g. cache evictions, events, reindexing, ...).",
+      "parentUuid": "a2ea1f3d_78e45ad4",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "65c6aa1a05ca533b5bb70a58880f901adc3d30f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b435862_55189688",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

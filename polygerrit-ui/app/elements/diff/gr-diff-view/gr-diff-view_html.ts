@@ -36,7 +36,6 @@ export const htmlTemplate = html`
     }
     .stickyHeader {
       background-color: var(--view-background-color);
-      border-bottom: 1px solid var(--border-color);
       position: sticky;
       top: 0;
       /* TODO(dhruvsri): This is required only because of 'position:relative' in
@@ -54,6 +53,7 @@ export const htmlTemplate = html`
     }
     header {
       padding: var(--spacing-s) var(--spacing-xl);
+      border-bottom: 1px solid var(--border-color);
     }
     .changeNumberColon {
       color: transparent;

@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "2341c797_659baac0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-08-31T12:39:39Z",
+      "side": 1,
+      "message": "Thanks!\nI checked the current existing postUpdates, but I didn\u0027t find any cache evictions or reindexing (but admittedly I didn\u0027t check all the methods).\n\nHowever, events happen quite often in those postUpdates. I had actually thought that events can be done async, too - makes sense to support both, if not.",
+      "parentUuid": "c7125402_cf790551",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "65c6aa1a05ca533b5bb70a58880f901adc3d30f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b435862_55189688",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

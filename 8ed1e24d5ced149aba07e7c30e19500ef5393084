@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66aefa96_6273741e",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-08-31T11:36:19Z",
+      "side": 1,
+      "message": "Should we also show a screenshot of the bug icon in the UI.\n\n\"You can also report a bug through the bug icon in the user hovercard and in the reply dialog.\"",
+      "range": {
+        "startLine": 9,
+        "startChar": 99,
+        "endLine": 9,
+        "endChar": 100
+      },
+      "revId": "8ed1e24d5ced149aba07e7c30e19500ef5393084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

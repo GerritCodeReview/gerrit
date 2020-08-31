@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4911bd5e_a34449c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:02:05Z",
+      "side": 1,
+      "message": "Nice. The test coverage is outstanding!",
+      "revId": "fda8c4fc92d0ba7418abaad6ad0a94082f2a0e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "48b12a46_e0eaf34f",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:02:05Z",
+      "side": 1,
+      "message": "I don\u0027t quite understand this comment. You are already only looking at older patch sets?",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 87,
+        "endChar": 67
+      },
+      "revId": "fda8c4fc92d0ba7418abaad6ad0a94082f2a0e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51309a99_9cce9e69",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:02:05Z",
+      "side": 1,
+      "message": "I guess you mean resolved (here and below)?\n\nShould we rather do this in the frontend?",
+      "range": {
+        "startLine": 136,
+        "startChar": 31,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "fda8c4fc92d0ba7418abaad6ad0a94082f2a0e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

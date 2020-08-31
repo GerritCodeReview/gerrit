@@ -613,7 +613,9 @@ export class ShortcutManager {
   getShortcut(shortcutName: Shortcut) {
     const bindings = this.bindings.get(shortcutName);
     return bindings
-      ? bindings.map(binding => this.describeBinding(binding)).join(', ')
+      ? bindings
+          .map(binding => this.describeBinding(binding).join('+'))
+          .join(',')
       : '';
   }
 

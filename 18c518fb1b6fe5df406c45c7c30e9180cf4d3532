@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "19130fa9_f74bd28e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "Blank line or joined sentences above?",
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3f5e352_e559a402",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "Move to stable-3.0?",
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6824069d_ec193e1c",
+        "filename": "e2e-tests/build.sbt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "Now that we removed the local use of this, down below, is this value still used (elsewhere or so)? if not, would remove this whole line in turn.",
+      "range": {
+        "startLine": 5,
+        "startChar": 9,
+        "endLine": 5,
+        "endChar": 28
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d21bcb8e_f927d6b2",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "gatlingGit would look cleaner I think.",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10b9bc75_042b7666",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "\u003d Seq",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3e413b7_c69ce100",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "GatlingGitVersion",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53ef26f0_1ed99031",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:32:49Z",
+      "side": 1,
+      "message": "Single %, rather?",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

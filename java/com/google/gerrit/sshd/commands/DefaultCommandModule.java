@@ -82,6 +82,16 @@ public class DefaultCommandModule extends CommandModule {
       command(git, "upload-pack").to(Upload.class);
       command("git-upload-archive").to(Commands.key(git, "upload-archive"));
       command(git, "upload-archive").to(UploadArchive.class);
+      if (slaveMode) {
+        command("git-receive-pack").to(ReceiveSlaveMode.class);
+        command("gerrit-receive-pack").to(ReceiveSlaveMode.class);
+        command(git, "receive-pack").to(ReceiveSlaveMode.class);
+      } else {
+        command("git-receive-pack").to(Commands.key(git, "receive-pack"));
+        command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
+        command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
+        command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
+      }
     }
     command("suexec").to(SuExec.class);
     listener().to(ShowCaches.StartupListener.class);
@@ -91,18 +101,6 @@ public class DefaultCommandModule extends CommandModule {
     command(gerrit, CreateProjectCommand.class);
     command(gerrit, SetHeadCommand.class);
 
-    if (slaveMode) {
-      command("git-receive-pack").to(ReceiveSlaveMode.class);
-      command("gerrit-receive-pack").to(ReceiveSlaveMode.class);
-      command(git, "receive-pack").to(ReceiveSlaveMode.class);
-    } else {
-      if (sshEnabled()) {
-        command("git-receive-pack").to(Commands.key(git, "receive-pack"));
-        command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
-        command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
-      }
-      command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
-    }
     command(gerrit, Receive.class);
 
     command(gerrit, RenameGroupCommand.class);

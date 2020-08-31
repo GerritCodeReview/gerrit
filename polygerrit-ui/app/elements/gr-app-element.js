@@ -230,6 +230,7 @@ class GrAppElement extends KeyboardShortcutMixin(
         patchRange: null,
         selectedFileIndex: 0,
         showReplyDialog: false,
+        showDownloadDialog: false,
         diffMode: null,
         numFilesShown: null,
         scrollTop: 0,

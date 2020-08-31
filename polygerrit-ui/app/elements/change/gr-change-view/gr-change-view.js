@@ -1108,6 +1108,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   _performPostLoadTasks() {
     this._maybeShowReplyDialog();
     this._maybeShowRevertDialog();
+    this._maybeShowDownloadDialog();
 
     this._sendShowChangeEvent();
 
@@ -1206,6 +1207,13 @@ class GrChangeView extends KeyboardShortcutMixin(
         this.set('viewState.showReplyDialog', false);
       }
     });
+  }
+
+  _maybeShowDownloadDialog() {
+    if (this.viewState.showDownloadDialog) {
+      this._handleOpenDownloadDialog();
+      this.set('viewState.showDownloadDialog', false);
+    }
   }
 
   _resetFileListViewState() {

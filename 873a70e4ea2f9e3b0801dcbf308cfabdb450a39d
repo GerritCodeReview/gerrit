@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58eedd84_661e2fc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-08-31T20:18:07Z",
+      "side": 1,
+      "message": "This change is the head of a T-shaped series of related changes. I say \"T\" because of 1. its base changes and 2. its hashtag relatives.\n\nThese changes need reviews, as previously shared during our presentation last week. I\u0027m adding a few more reviewers, hoping we can be enough of us to share the review load. No need to be experts yet at this component. Thanks again! 😎",
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

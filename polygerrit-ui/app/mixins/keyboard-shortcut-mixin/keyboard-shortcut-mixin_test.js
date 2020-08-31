@@ -79,7 +79,16 @@ suite('keyboard-shortcut-mixin tests', () => {
 
       assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
       mgr.bindShortcut(NEXT_FILE, ']', '}', 'right');
-      assert.equal(mgr.getShortcut(NEXT_FILE), '], }, →');
+      assert.equal(mgr.getShortcut(NEXT_FILE), '],},→');
+    });
+
+    test('getShortcut with modifiers', () => {
+      const mgr = new ShortcutManager();
+      const NEXT_FILE = Shortcut.NEXT_FILE;
+
+      assert.isUndefined(mgr.getBindingsForShortcut(NEXT_FILE));
+      mgr.bindShortcut(NEXT_FILE, 'Shift+a:key');
+      assert.equal(mgr.getShortcut(NEXT_FILE), 'Shift+a');
     });
 
     suite('binding descriptions', () => {

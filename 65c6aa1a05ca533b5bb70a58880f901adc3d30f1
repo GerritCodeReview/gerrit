@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c7125402_cf790551",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-31T07:05:55Z",
+      "side": 1,
+      "message": "\u003e I think it could make sense to offer two methods here:\nYeah, I think this is what Dave had in mind when he was writing that TODO.",
+      "parentUuid": "f4956fce_cbc31ea1",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "65c6aa1a05ca533b5bb70a58880f901adc3d30f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b435862_55189688",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

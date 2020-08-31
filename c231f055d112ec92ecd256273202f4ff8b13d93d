@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6b9cb2d5_da9e63dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T19:42:50Z",
+      "side": 1,
+      "message": "It should be:\nBug: Issue 11906\n\nAlso, is the issue number correct? This looks more like a bug-fix, where we were still binding the Git/SSH commands even if the SSHD was disabled.",
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

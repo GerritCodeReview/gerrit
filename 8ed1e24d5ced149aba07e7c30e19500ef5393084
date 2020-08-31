@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "fea7c854_40198381",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T14:59:13Z",
+      "side": 1,
+      "message": "Added the sentence. The bug icon is visible already on two screenshots below, so I think another screenshot here just for the icon is not necessary.",
+      "parentUuid": "66aefa96_6273741e",
+      "range": {
+        "startLine": 9,
+        "startChar": 99,
+        "endLine": 9,
+        "endChar": 100
+      },
+      "revId": "8ed1e24d5ced149aba07e7c30e19500ef5393084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3275cd58_3f691685",
         "filename": "Documentation/user-attention-set.txt",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "8ed1e24d5ced149aba07e7c30e19500ef5393084",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9361893_d447e360",
+        "filename": "Documentation/user-attention-set.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-08-31T14:59:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3275cd58_3f691685",
+      "range": {
+        "startLine": 49,
+        "startChar": 32,
+        "endLine": 49,
+        "endChar": 33
+      },
+      "revId": "8ed1e24d5ced149aba07e7c30e19500ef5393084",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

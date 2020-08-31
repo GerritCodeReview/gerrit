@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "8ac780be_e1bc3e2b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T21:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "19130fa9_f74bd28e",
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c3f5e352_e559a402",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -56,6 +74,30 @@
       "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "410aaac9_88fc2a26",
+        "filename": "e2e-tests/build.sbt",
+        "patchSetId": 2
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T21:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6824069d_ec193e1c",
+      "range": {
+        "startLine": 5,
+        "startChar": 9,
+        "endLine": 5,
+        "endChar": 28
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +147,54 @@
     },
     {
       "key": {
+        "uuid": "bbbe6542_cf92d66f",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T21:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d21bcb8e_f927d6b2",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c4b8af3d_5918782f",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T21:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "10b9bc75_042b7666",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a3e413b7_c69ce100",
         "filename": "e2e-tests/project/Dependencies.scala",
         "patchSetId": 2
@@ -148,6 +238,54 @@
       "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a1e4ebd_72fce088",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T21:28:46Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a3e413b7_c69ce100",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30f1ffdf_5f49fadc",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-08-31T21:28:46Z",
+      "side": 1,
+      "message": "\u003e Single %, rather?\n\nNope, we need the double here: it needs to be expanded based on the version of Scala.",
+      "parentUuid": "53ef26f0_1ed99031",
+      "range": {
+        "startLine": 13,
+        "startChar": 22,
+        "endLine": 13,
+        "endChar": 24
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

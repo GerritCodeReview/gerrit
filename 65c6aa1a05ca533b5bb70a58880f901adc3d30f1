@@ -97,6 +97,30 @@
     },
     {
       "key": {
+        "uuid": "85e495a8_a4be3836",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-08-31T13:00:29Z",
+      "side": 1,
+      "message": "\u003e I checked the current existing postUpdates, but I didn\u0027t find any cache evictions or reindexing (but admittedly \n\nI didn\u0027t check all the methods).\nI saw it in SubmitStrategyOp.",
+      "parentUuid": "2341c797_659baac0",
+      "range": {
+        "startLine": 14,
+        "startChar": 4,
+        "endLine": 15,
+        "endChar": 41
+      },
+      "revId": "65c6aa1a05ca533b5bb70a58880f901adc3d30f1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b435862_55189688",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1

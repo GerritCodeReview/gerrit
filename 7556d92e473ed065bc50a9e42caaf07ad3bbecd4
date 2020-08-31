@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d10681c4_0f59dbdc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:17:08Z",
+      "side": 1,
+      "message": "My comments are just nits. LGTM!",
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "952c8e94_7ffd9af2",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:17:08Z",
+      "side": 1,
+      "message": "optional: drop?\n\nWith autovalues, this is actually guaranteed and this isn\u0027t public API surface of Gerrit where we\u0027d need such strong definitions.",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 94
+      },
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c5e43c7_7759fb50",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:17:08Z",
+      "side": 1,
+      "message": "nit: mention explicitly that this is used for edits due to rebase",
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5b9a1233_e76d3ec6",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-08-31T13:17:08Z",
+      "side": 1,
+      "message": "nit: mention explicitly that this is used for ported comments\n\n(at first, I though this strategy switch is unneeded complexity, but then I understood that you actually need this because you cater two use cases with different needs)",
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

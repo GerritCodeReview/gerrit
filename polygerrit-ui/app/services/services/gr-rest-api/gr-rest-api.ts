@@ -159,7 +159,6 @@ export interface RestApiService {
   getLoggedIn(): Promise<boolean>;
   getPreferences(): Promise<PreferencesInfo | undefined>;
   getVersion(): Promise<string | undefined>;
-  invalidateReposCache(): void;
   getAccount(): Promise<AccountDetailInfo | undefined>;
   getAccountCapabilities(
     params?: string[]
@@ -369,6 +368,12 @@ export interface RestApiService {
     projectInfo: ProjectAccessInput
   ): Promise<ChangeInfo>;
 
+  getGroups(
+    filter: string,
+    groupsPerPage: number,
+    offset?: number
+  ): Promise<GroupNameToGroupInfoMap | undefined>;
+
   getGroupConfig(
     group: GroupId,
     errFn?: ErrorCallback
@@ -575,4 +580,8 @@ export interface RestApiService {
     n?: number,
     errFn?: ErrorCallback
   ): Promise<NameToProjectInfoMap | undefined>;
+
+  invalidateGroupsCache(): void;
+  invalidateReposCache(): void;
+  invalidateAccountsCache(): void;
 }

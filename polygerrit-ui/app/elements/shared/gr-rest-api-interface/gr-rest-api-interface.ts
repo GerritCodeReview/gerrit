@@ -1731,7 +1731,7 @@ export class GrRestApiInterface
     return this._fetchSharedCacheURL({
       url,
       anonymizedUrl: '/groups/?*',
-    });
+    }) as Promise<GroupNameToGroupInfoMap | undefined>;
   }
 
   getRepos(

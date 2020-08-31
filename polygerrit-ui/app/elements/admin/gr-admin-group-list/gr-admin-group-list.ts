@@ -15,152 +15,163 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-table-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-list-view/gr-list-view.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-create-group-dialog/gr-create-group-dialog.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-admin-group-list_html.js';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/gr-table-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-list-view/gr-list-view';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-create-group-dialog/gr-create-group-dialog';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-admin-group-list_html';
+import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property, observe, computed} from '@polymer/decorators';
+import {AppElementAdminParams} from '../../gr-app-types';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GroupId, GroupInfo} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
 
-/**
- * @appliesMixin ListViewMixin
- * @extends PolymerElement
- */
-class GrAdminGroupList extends ListViewMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-admin-group-list'; }
-
-  static get properties() {
-    return {
-    /**
-     * URL params passed from the router.
-     */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-
-      /**
-       * Offset of currently visible query results.
-       */
-      _offset: Number,
-      _path: {
-        type: String,
-        readOnly: true,
-        value: '/admin/groups',
-      },
-      _hasNewGroupName: Boolean,
-      _createNewCapability: {
-        type: Boolean,
-        value: false,
-      },
-      _groups: Array,
-
-      /**
-       * Because  we request one more than the groupsPerPage, _shownGroups
-       * may be one less than _groups.
-       * */
-      _shownGroups: {
-        type: Array,
-        computed: 'computeShownItems(_groups)',
-      },
-
-      _groupsPerPage: {
-        type: Number,
-        value: 25,
-      },
-
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: String,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-admin-group-list': GrAdminGroupList;
   }
+}
+
+export interface GrAdminGroupList {
+  $: {
+    createOverlay: GrOverlay;
+    createNewModal: GrCreateGroupDialog;
+    restAPI: RestApiService & Element;
+  };
+}
+
+@customElement('gr-admin-group-list')
+export class GrAdminGroupList extends ListViewMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Object})
+  params?: AppElementAdminParams;
+
+  /**
+   * Offset of currently visible query results.
+   */
+  @property({type: Number})
+  _offset?: number;
+
+  @property({type: String})
+  readonly _path = '/admin/groups';
+
+  @property({type: Boolean})
+  _hasNewGroupName?: boolean;
+
+  @property({type: Boolean})
+  _createNewCapability = false;
+
+  @property({type: Array})
+  _groups: GroupInfo[] = [];
+
+  /**
+   * Because  we request one more than the groupsPerPage, _shownGroups
+   * may be one less than _groups.
+   * */
+  @computed('_groups')
+  get _shownGroups() {
+    return this.computeShownItems(this._groups);
+  }
+
+  @property({type: Number})
+  _groupsPerPage = 25;
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: String})
+  _filter = '';
 
   /** @override */
   attached() {
     super.attached();
     this._getCreateGroupCapability();
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: 'Groups'},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title: 'Groups'},
+        composed: true,
+        bubbles: true,
+      })
+    );
     this._maybeOpenCreateOverlay(this.params);
   }
 
-  _paramsChanged(params) {
+  @observe('params')
+  _paramsChanged(params: AppElementAdminParams) {
     this._loading = true;
     this._filter = this.getFilterValue(params);
     this._offset = this.getOffsetValue(params);
 
-    return this._getGroups(this._filter, this._groupsPerPage,
-        this._offset);
+    return this._getGroups(this._filter, this._groupsPerPage, this._offset);
   }
 
   /**
    * Opens the create overlay if the route has a hash 'create'
    *
-   * @param {!Object} params
+   * @param params
    */
-  _maybeOpenCreateOverlay(params) {
-    if (params && params.openCreateModal) {
+  _maybeOpenCreateOverlay(params?: AppElementAdminParams) {
+    if (params?.openCreateModal) {
       this.$.createOverlay.open();
     }
   }
 
   /**
    * Generates groups link (/admin/groups/<uuid>)
-   *
-   * @param {string} id
    */
-  _computeGroupUrl(id) {
-    return GerritNav.getUrlForGroup(decodeURIComponent(id));
+  _computeGroupUrl(id: string) {
+    return GerritNav.getUrlForGroup(decodeURIComponent(id) as GroupId);
   }
 
   _getCreateGroupCapability() {
     return this.$.restAPI.getAccount().then(account => {
-      if (!account) { return; }
-      return this.$.restAPI.getAccountCapabilities(['createGroup'])
-          .then(capabilities => {
-            if (capabilities.createGroup) {
-              this._createNewCapability = true;
-            }
-          });
+      if (!account) {
+        return;
+      }
+      return this.$.restAPI
+        .getAccountCapabilities(['createGroup'])
+        .then(capabilities => {
+          if (capabilities?.createGroup) {
+            this._createNewCapability = true;
+          }
+        });
     });
   }
 
-  _getGroups(filter, groupsPerPage, offset) {
+  _getGroups(filter: string, groupsPerPage: number, offset?: number) {
     this._groups = [];
-    return this.$.restAPI.getGroups(filter, groupsPerPage, offset)
-        .then(groups => {
-          if (!groups) {
-            return;
-          }
-          this._groups = Object.keys(groups)
-              .map(key => {
-                const group = groups[key];
-                group.name = key;
-                return group;
-              });
-          this._loading = false;
+    return this.$.restAPI
+      .getGroups(filter, groupsPerPage, offset)
+      .then(groups => {
+        if (!groups) {
+          return;
+        }
+        this._groups = Object.keys(groups).map(key => {
+          const group = groups[key];
+          group.name = key;
+          return group;
         });
+        this._loading = false;
+      });
   }
 
   _refreshGroupsList() {
     this.$.restAPI.invalidateGroupsCache();
-    return this._getGroups(this._filter, this._groupsPerPage,
-        this._offset);
+    return this._getGroups(this._filter, this._groupsPerPage, this._offset);
   }
 
   _handleCreateGroup() {
@@ -177,9 +188,7 @@ class GrAdminGroupList extends ListViewMixin(GestureEventListeners(
     this.$.createOverlay.open();
   }
 
-  _visibleToAll(item) {
-    return item.options.visible_to_all === true ? 'Y' : 'N';
+  _visibleToAll(item: GroupInfo) {
+    return item.options?.visible_to_all === true ? 'Y' : 'N';
   }
 }
-
-customElements.define(GrAdminGroupList.is, GrAdminGroupList);

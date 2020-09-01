@@ -14,62 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {pluginLoader} from './gr-plugin-loader.js';
-import {patchNumEquals} from '../../../utils/patch-set-util.js';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {pluginLoader} from './gr-plugin-loader';
+import {patchNumEquals} from '../../../utils/patch-set-util';
+import {customElement} from '@polymer/decorators';
+import {ChangeInfo, RevisionInfo} from '../../../types/common';
+import {
+  CoverageProvider,
+  GrAnnotationActionsInterface,
+} from './gr-annotation-actions-js-api';
+import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
+import {
+  JsApiService,
+  EventCallback,
+  ShowChangeDetail,
+  ShowRevisionActionsDetail,
+} from './gr-js-api-types';
+import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
 
-// Note: for new events, naming convention should be: `a-b`
-const EventType = {
-  HISTORY: 'history',
-  LABEL_CHANGE: 'labelchange',
-  SHOW_CHANGE: 'showchange',
-  SUBMIT_CHANGE: 'submitchange',
-  SHOW_REVISION_ACTIONS: 'show-revision-actions',
-  COMMIT_MSG_EDIT: 'commitmsgedit',
-  COMMENT: 'comment',
-  REVERT: 'revert',
-  REVERT_SUBMISSION: 'revert_submission',
-  POST_REVERT: 'postrevert',
-  ANNOTATE_DIFF: 'annotatediff',
-  ADMIN_MENU_LINKS: 'admin-menu-links',
-  HIGHLIGHTJS_LOADED: 'highlightjs-loaded',
-};
+const elements: {[key: string]: HTMLElement} = {};
+const eventCallbacks: {[key: string]: EventCallback[]} = {};
 
-const Element = {
-  CHANGE_ACTIONS: 'changeactions',
-  REPLY_DIALOG: 'replydialog',
-};
-
-/**
- * @extends PolymerElement
- */
-class GrJsApiInterface extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get is() { return 'gr-js-api-interface'; }
-
-  constructor() {
-    super();
-    this.Element = Element;
-    this.EventType = EventType;
-  }
-
-  static get properties() {
-    return {
-      _elements: {
-        type: Object,
-        value: {}, // Shared across all instances.
-      },
-      _eventCallbacks: {
-        type: Object,
-        value: {}, // Shared across all instances.
-      },
-    };
-  }
-
-  handleEvent(type, detail) {
+@customElement('gr-js-api-interface')
+export class GrJsApiInterface
+  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
+  implements JsApiService {
+  handleEvent(type: EventType, detail: any) {
     pluginLoader.awaitPluginsLoaded().then(() => {
       switch (type) {
         case EventType.HISTORY:
@@ -91,29 +63,28 @@ class GrJsApiInterface extends GestureEventListeners(
           this._handleHighlightjsLoaded(detail);
           break;
         default:
-          console.warn('handleEvent called with unsupported event type:',
-              type);
+          console.warn('handleEvent called with unsupported event type:', type);
           break;
       }
     });
   }
 
-  addElement(key, el) {
-    this._elements[key] = el;
+  addElement(key: TargetElement, el: HTMLElement) {
+    elements[key] = el;
   }
 
-  getElement(key) {
-    return this._elements[key];
+  getElement(key: TargetElement) {
+    return elements[key];
   }
 
-  addEventCallback(eventName, callback) {
-    if (!this._eventCallbacks[eventName]) {
-      this._eventCallbacks[eventName] = [];
+  addEventCallback(eventName: EventType, callback: EventCallback) {
+    if (!eventCallbacks[eventName]) {
+      eventCallbacks[eventName] = [];
     }
-    this._eventCallbacks[eventName].push(callback);
+    eventCallbacks[eventName].push(callback);
   }
 
-  canSubmitChange(change, revision) {
+  canSubmitChange(change: ChangeInfo, revision: RevisionInfo) {
     const submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
     const cancelSubmit = submitCallbacks.some(callback => {
       try {
@@ -127,14 +98,15 @@ class GrJsApiInterface extends GestureEventListeners(
     return !cancelSubmit;
   }
 
+  /** For testing only. */
   _removeEventCallbacks() {
-    for (const k in EventType) {
-      if (!EventType.hasOwnProperty(k)) { continue; }
-      this._eventCallbacks[EventType[k]] = [];
+    for (const type of Object.values(EventType)) {
+      eventCallbacks[type] = [];
     }
   }
 
-  _handleHistory(detail) {
+  // TODO(TS): The HISTORY event and its handler seem unused.
+  _handleHistory(detail: {path: string}) {
     for (const cb of this._getEventCallbacks(EventType.HISTORY)) {
       try {
         cb(detail.path);
@@ -144,7 +116,7 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  _handleShowChange(detail) {
+  _handleShowChange(detail: ShowChangeDetail) {
     // Note (issue 8221) Shallow clone the change object and add a mergeable
     // getter with deprecation warning. This makes the change detail appear as
     // though SKIP_MERGEABLE was not set, so that plugins that expect it can
@@ -155,11 +127,16 @@ class GrJsApiInterface extends GestureEventListeners(
     //
     // assign on getter with existing property will report error
     // see Issue: 12286
-    const change = {...detail.change, get mergeable() {
-      console.warn('Accessing change.mergeable from SHOW_CHANGE is ' +
-            'deprecated! Use info.mergeable instead.');
-      return detail.info && detail.info.mergeable;
-    }};
+    const change = {
+      ...detail.change,
+      get mergeable() {
+        console.warn(
+          'Accessing change.mergeable from SHOW_CHANGE is ' +
+            'deprecated! Use info.mergeable instead.'
+        );
+        return detail.info && detail.info.mergeable;
+      },
+    };
     const patchNum = detail.patchNum;
     const info = detail.info;
 
@@ -180,12 +157,9 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  /**
-   * @param {!{change: !Object, revisionActions: !Object}} detail
-   */
-  _handleShowRevisionActions(detail) {
+  _handleShowRevisionActions(detail: ShowRevisionActionsDetail) {
     const registeredCallbacks = this._getEventCallbacks(
-        EventType.SHOW_REVISION_ACTIONS
+      EventType.SHOW_REVISION_ACTIONS
     );
     for (const cb of registeredCallbacks) {
       try {
@@ -196,7 +170,7 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  handleCommitMessage(change, msg) {
+  handleCommitMessage(change: ChangeInfo, msg: string) {
     for (const cb of this._getEventCallbacks(EventType.COMMIT_MSG_EDIT)) {
       try {
         cb(change, msg);
@@ -206,7 +180,8 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  _handleComment(detail) {
+  // TODO(TS): The COMMENT event and its handler seem unused.
+  _handleComment(detail: {node: Node}) {
     for (const cb of this._getEventCallbacks(EventType.COMMENT)) {
       try {
         cb(detail.node);
@@ -216,7 +191,7 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  _handleLabelChange(detail) {
+  _handleLabelChange(detail: {change: ChangeInfo}) {
     for (const cb of this._getEventCallbacks(EventType.LABEL_CHANGE)) {
       try {
         cb(detail.change);
@@ -226,7 +201,7 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  _handleHighlightjsLoaded(detail) {
+  _handleHighlightjsLoaded(detail: {hljs: unknown}) {
     for (const cb of this._getEventCallbacks(EventType.HIGHLIGHTJS_LOADED)) {
       try {
         cb(detail.hljs);
@@ -236,10 +211,10 @@ class GrJsApiInterface extends GestureEventListeners(
     }
   }
 
-  modifyRevertMsg(change, revertMsg, origMsg) {
+  modifyRevertMsg(change: ChangeInfo, revertMsg: string, origMsg: string) {
     for (const cb of this._getEventCallbacks(EventType.REVERT)) {
       try {
-        revertMsg = cb(change, revertMsg, origMsg);
+        revertMsg = cb(change, revertMsg, origMsg) as string;
       } catch (err) {
         console.error(err);
       }
@@ -247,10 +222,18 @@ class GrJsApiInterface extends GestureEventListeners(
     return revertMsg;
   }
 
-  modifyRevertSubmissionMsg(change, revertSubmissionMsg, origMsg) {
+  modifyRevertSubmissionMsg(
+    change: ChangeInfo,
+    revertSubmissionMsg: string,
+    origMsg: string
+  ) {
     for (const cb of this._getEventCallbacks(EventType.REVERT_SUBMISSION)) {
       try {
-        revertSubmissionMsg = cb(change, revertSubmissionMsg, origMsg);
+        revertSubmissionMsg = cb(
+          change,
+          revertSubmissionMsg,
+          origMsg
+        ) as string;
       } catch (err) {
         console.error(err);
       }
@@ -258,10 +241,10 @@ class GrJsApiInterface extends GestureEventListeners(
     return revertSubmissionMsg;
   }
 
-  getDiffLayers(path, changeNum, patchNum) {
+  getDiffLayers(path: string, changeNum: number, patchNum: number) {
     const layers = [];
-    for (const annotationApi of
-      this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+    for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+      const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
       try {
         const layer = annotationApi.getLayer(path, changeNum, patchNum);
         layers.push(layer);
@@ -272,10 +255,10 @@ class GrJsApiInterface extends GestureEventListeners(
     return layers;
   }
 
-  disposeDiffLayers(path) {
-    for (const annotationApi of
-      this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
+  disposeDiffLayers(path: string) {
+    for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
       try {
+        const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
         annotationApi.disposeLayer(path);
       } catch (err) {
         console.error(err);
@@ -289,25 +272,27 @@ class GrJsApiInterface extends GestureEventListeners(
    * Will wait for plugins to be loaded. If multiple plugins offer a coverage
    * provider, the first one is returned. If no plugin offers a coverage provider,
    * will resolve to null.
-   *
-   * @return {!Promise<?GrAnnotationActionsInterface>}
    */
-  getCoverageAnnotationApi() {
-    return pluginLoader.awaitPluginsLoaded()
-        .then(() => this._getEventCallbacks(EventType.ANNOTATE_DIFF)
-            .find(api => api.getCoverageProvider()));
+  getCoverageAnnotationApi(): Promise<CoverageProvider | undefined> {
+    return pluginLoader.awaitPluginsLoaded().then(
+      () =>
+        this._getEventCallbacks(EventType.ANNOTATE_DIFF).find(cb => {
+          const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
+          return annotationApi.getCoverageProvider();
+        }) as CoverageProvider | undefined
+    );
   }
 
   getAdminMenuLinks() {
     const links = [];
-    for (const adminApi of
-      this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
+    for (const cb of this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
+      const adminApi = (cb as unknown) as GrAdminApi;
       links.push(...adminApi.getMenuLinks());
     }
     return links;
   }
 
-  getLabelValuesPostRevert(change) {
+  getLabelValuesPostRevert(change: ChangeInfo) {
     let labels = {};
     for (const cb of this._getEventCallbacks(EventType.POST_REVERT)) {
       try {
@@ -319,9 +304,13 @@ class GrJsApiInterface extends GestureEventListeners(
     return labels;
   }
 
-  _getEventCallbacks(type) {
-    return this._eventCallbacks[type] || [];
+  _getEventCallbacks(type: EventType) {
+    return eventCallbacks[type] || [];
   }
 }
 
-customElements.define(GrJsApiInterface.is, GrJsApiInterface);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-js-api-interface': JsApiService & Element;
+  }
+}

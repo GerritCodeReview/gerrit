@@ -1,5 +1,3 @@
-import {appContext} from '../../../services/app-context.js';
-
 /**
  * @license
  * Copyright (C) 2019 The Android Open Source Project
@@ -16,40 +14,57 @@ import {appContext} from '../../../services/app-context.js';
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {importHref} from '../../../scripts/import-href.js';
+import {appContext} from '../../../services/app-context';
+import {importHref} from '../../../scripts/import-href';
 import {
   PLUGIN_LOADING_TIMEOUT_MS,
   PRELOADED_PROTOCOL,
   getPluginNameFromUrl,
-} from './gr-api-utils.js';
-import {Plugin} from './gr-public-js-api.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {getPluginEndpoints} from './gr-plugin-endpoints.js';
+} from './gr-api-utils';
+import {Plugin} from './gr-public-js-api';
+import {getBaseUrl} from '../../../utils/url-util';
+import {getPluginEndpoints} from './gr-plugin-endpoints';
+import {PluginApi} from '../../plugins/gr-plugin-types';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {hasOwnProperty} from '../../../utils/common-util';
 
-/**
- * @enum {string}
- */
-const PluginState = {
-  /**
-   * State that indicates the plugin is pending to be loaded.
-   */
-  PENDING: 'PENDING',
+enum PluginState {
+  /** State that indicates the plugin is pending to be loaded. */
+  PENDING = 'PENDING',
+  /** State that indicates the plugin is already loaded. */
+  LOADED = 'LOADED',
+  /** State that indicates the plugin failed to load. */
+  LOAD_FAILED = 'LOAD_FAILED',
+}
 
-  /**
-   * State that indicates the plugin is already loaded.
-   */
-  LOADED: 'LOADED',
+interface PluginObject {
+  name: string;
+  url: string;
+  state: PluginState;
+  plugin: PluginApi | null;
+}
 
-  /**
-   * State that indicates the plugin is already loaded.
-   */
-  PRE_LOADED: 'PRE_LOADED',
+interface PluginOption {
+  sync?: boolean;
+}
 
-  /**
-   * State that indicates the plugin failed to load.
-   */
-  LOAD_FAILED: 'LOAD_FAILED',
+export interface PluginOptionMap {
+  [path: string]: PluginOption;
+}
+
+type GerritScriptElement = HTMLScriptElement & {
+  __importElement: HTMLScriptElement;
 };
+
+type PluginCallback = (plugin: PluginApi) => void;
+
+interface PluginCallbackMap {
+  [name: string]: PluginCallback;
+}
+
+interface GerritGlobal {
+  _preloadedPlugins?: PluginCallbackMap;
+}
 
 // Prefix for any unrecognized plugin urls.
 // Url should match following patterns:
@@ -71,20 +86,17 @@ const API_VERSION = '0.1';
  * Check plugin status and if all plugins loaded.
  */
 export class PluginLoader {
-  constructor() {
-    this._pluginListLoaded = false;
+  _pluginListLoaded = false;
 
-    /** @type {Map<string,PluginLoader.PluginObject>} */
-    this._plugins = new Map();
+  _plugins = new Map<string, PluginObject>();
 
-    this._reporting = null;
+  _reporting: ReportingService | null = null;
 
-    // Promise that resolves when all plugins loaded
-    this._loadingPromise = null;
+  // Promise that resolves when all plugins loaded
+  _loadingPromise: Promise<void> | null = null;
 
-    // Resolver to resolve _loadingPromise once all plugins loaded
-    this._loadingResolver = null;
-  }
+  // Resolver to resolve _loadingPromise once all plugins loaded
+  _loadingResolver: (() => void) | null = null;
 
   _getReporting() {
     if (!this._reporting) {
@@ -95,22 +107,15 @@ export class PluginLoader {
 
   /**
    * Use the plugin name or use the full url if not recognized.
-   *
-   * @see gr-api-utils#getPluginNameFromUrl
-   * @param {string|URL} url
    */
-  _getPluginKeyFromUrl(url) {
-    return getPluginNameFromUrl(url) ||
-      `${UNKNOWN_PLUGIN_PREFIX}${url}`;
+  _getPluginKeyFromUrl(url: string) {
+    return getPluginNameFromUrl(url) || `${UNKNOWN_PLUGIN_PREFIX}${url}`;
   }
 
   /**
    * Load multiple plugins with certain options.
-   *
-   * @param {Array<string>} plugins
-   * @param {Object<string, PluginLoader.PluginOption>} opts
    */
-  loadPlugins(plugins = [], opts = {}) {
+  loadPlugins(plugins: string[] = [], opts: PluginOptionMap = {}) {
     this._pluginListLoaded = true;
 
     plugins.forEach(path => {
@@ -143,7 +148,7 @@ export class PluginLoader {
     });
   }
 
-  _isPathEndsWith(url, suffix) {
+  _isPathEndsWith(url: string | URL, suffix: string) {
     if (!(url instanceof URL)) {
       try {
         url = new URL(url);
@@ -166,19 +171,29 @@ export class PluginLoader {
     return installedPlugins;
   }
 
-  install(callback, opt_version, opt_src) {
+  install(
+    callback: (plugin: PluginApi) => void,
+    version?: string,
+    src?: string
+  ) {
     // HTML import polyfill adds __importElement pointing to the import tag.
-    const script = document.currentScript &&
-        (document.currentScript.__importElement || document.currentScript);
-    let src = opt_src || (script && script.src);
-    if (!src || src.startsWith('data:')) {
+    const gerritScript = document.currentScript as GerritScriptElement | null;
+    const script = gerritScript?.__importElement ?? gerritScript;
+    if (!src && script && script.src) {
+      src = script.src;
+    }
+    if ((!src || src.startsWith('data:')) && script && script.baseURI) {
       src = script && script.baseURI;
     }
-
-    if (opt_version && opt_version !== API_VERSION) {
-      this._failToLoad(`Plugin ${src} install error: only version ` +
-          API_VERSION + ' is supported in PolyGerrit. ' + opt_version +
-          ' was given.', src);
+    if (!src) {
+      this._failToLoad('Failed to determine src.');
+      return;
+    }
+    if (version && version !== API_VERSION) {
+      this._failToLoad(
+        `Plugin ${src} install error: only version ${API_VERSION} is supported in PolyGerrit. ${version} was given.`,
+        src
+      );
       return;
     }
 
@@ -231,21 +246,23 @@ export class PluginLoader {
     return `Timeout when loading plugins: ${pendingPlugins.join(',')}`;
   }
 
-  _failToLoad(message, pluginUrl) {
+  _failToLoad(message: string, pluginUrl?: string) {
     // Show an alert with the error
-    document.dispatchEvent(new CustomEvent('show-alert', {
-      detail: {
-        message: `Plugin install error: ${message} from ${pluginUrl}`,
-      },
-    }));
-    this._updatePluginState(pluginUrl, PluginState.LOAD_FAILED);
+    document.dispatchEvent(
+      new CustomEvent('show-alert', {
+        detail: {
+          message: `Plugin install error: ${message} from ${pluginUrl}`,
+        },
+      })
+    );
+    if (pluginUrl) this._updatePluginState(pluginUrl, PluginState.LOAD_FAILED);
     this._checkIfCompleted();
   }
 
-  _updatePluginState(pluginUrl, state) {
+  _updatePluginState(pluginUrl: string, state: PluginState): PluginObject {
     const key = this._getPluginKeyFromUrl(pluginUrl);
     if (this._plugins.has(key)) {
-      this._plugins.get(key).state = state;
+      this._plugins.get(key)!.state = state;
     } else {
       // Plugin is not recorded for some reason.
       console.info(`Plugin loaded separately: ${pluginUrl}`);
@@ -256,10 +273,10 @@ export class PluginLoader {
         plugin: null,
       });
     }
-    return this._plugins.get(key);
+    return this._plugins.get(key)!;
   }
 
-  _pluginInstalled(url, plugin) {
+  _pluginInstalled(url: string, plugin: PluginApi) {
     const pluginObj = this._updatePluginState(url, PluginState.LOADED);
     pluginObj.plugin = plugin;
     this._getReporting().pluginLoaded(plugin.getPluginName() || url);
@@ -268,20 +285,22 @@ export class PluginLoader {
   }
 
   installPreloadedPlugins() {
-    if (!window.Gerrit || !window.Gerrit._preloadedPlugins) { return; }
-    const Gerrit = window.Gerrit;
-    for (const name in Gerrit._preloadedPlugins) {
-      if (!Gerrit._preloadedPlugins.hasOwnProperty(name)) { continue; }
+    const Gerrit = window.Gerrit as GerritGlobal;
+    if (!Gerrit || !Gerrit._preloadedPlugins) {
+      return;
+    }
+    for (const name of Object.keys(Gerrit._preloadedPlugins)) {
       const callback = Gerrit._preloadedPlugins[name];
       this.install(callback, API_VERSION, PRELOADED_PROTOCOL + name);
     }
   }
 
-  isPluginPreloaded(pathOrUrl) {
+  isPluginPreloaded(pathOrUrl: string) {
     const url = this._urlFor(pathOrUrl);
     const name = getPluginNameFromUrl(url);
-    if (name && window.Gerrit._preloadedPlugins) {
-      return window.Gerrit._preloadedPlugins.hasOwnProperty(name);
+    const Gerrit = window.Gerrit as GerritGlobal;
+    if (name && Gerrit._preloadedPlugins) {
+      return hasOwnProperty(Gerrit._preloadedPlugins, name);
     } else {
       return false;
     }
@@ -289,10 +308,8 @@ export class PluginLoader {
 
   /**
    * Checks if given plugin path/url is enabled or not.
-   *
-   * @param {string} pathOrUrl
    */
-  isPluginEnabled(pathOrUrl) {
+  isPluginEnabled(pathOrUrl: string) {
     const url = this._urlFor(pathOrUrl);
     if (this.isPluginPreloaded(url)) return true;
     const key = this._getPluginKeyFromUrl(url);
@@ -301,54 +318,48 @@ export class PluginLoader {
 
   /**
    * Returns the plugin object with a given url.
-   *
-   * @param {string} pathOrUrl
    */
-  getPlugin(pathOrUrl) {
-    const key = this._getPluginKeyFromUrl(this._urlFor(pathOrUrl));
+  getPlugin(pathOrUrl: string) {
+    const url = this._urlFor(pathOrUrl);
+    const key = this._getPluginKeyFromUrl(url);
     return this._plugins.get(key);
   }
 
   /**
    * Checks if given plugin path/url is loaded or not.
-   *
-   * @param {string} pathOrUrl
    */
-  isPluginLoaded(pathOrUrl) {
+  isPluginLoaded(pathOrUrl: string): boolean {
     const url = this._urlFor(pathOrUrl);
     const key = this._getPluginKeyFromUrl(url);
-    return this._plugins.has(key) ?
-      this._plugins.get(key).state === PluginState.LOADED :
-      false;
+    return this._plugins.has(key)
+      ? this._plugins.get(key)!.state === PluginState.LOADED
+      : false;
   }
 
-  _importHtmlPlugin(pluginUrl, opts = {}) {
+  _importHtmlPlugin(pluginUrl: string, opts: PluginOption = {}) {
     const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
     const urlWithoutAP = this._urlFor(pluginUrl);
-    let onerror = null;
+    let onerror = undefined;
     if (urlWithAP !== urlWithoutAP) {
       onerror = () => this._loadHtmlPlugin(urlWithoutAP, opts.sync);
     }
     this._loadHtmlPlugin(urlWithAP, opts.sync, onerror);
   }
 
-  _loadHtmlPlugin(url, sync, onerror) {
+  _loadHtmlPlugin(url: string, sync?: boolean, onerror?: (e: Event) => void) {
     if (!onerror) {
       onerror = () => {
         this._failToLoad(`${url} import error`, url);
       };
     }
 
-    importHref(
-        url, () => {},
-        onerror,
-        !sync);
+    importHref(url, () => {}, onerror, !sync);
   }
 
-  _loadJsPlugin(pluginUrl) {
+  _loadJsPlugin(pluginUrl: string) {
     const urlWithAP = this._urlFor(pluginUrl, window.ASSETS_PATH);
     const urlWithoutAP = this._urlFor(pluginUrl);
-    let onerror = null;
+    let onerror = undefined;
     if (urlWithAP !== urlWithoutAP) {
       onerror = () => this._createScriptTag(urlWithoutAP);
     }
@@ -356,7 +367,7 @@ export class PluginLoader {
     this._createScriptTag(urlWithAP, onerror);
   }
 
-  _createScriptTag(url, onerror) {
+  _createScriptTag(url: string, onerror?: OnErrorEventHandler) {
     if (!onerror) {
       onerror = () => this._failToLoad(`${url} load error`, url);
     }
@@ -372,23 +383,24 @@ export class PluginLoader {
     return document.body.appendChild(el);
   }
 
-  _urlFor(pathOrUrl, assetsPath) {
-    if (!pathOrUrl) {
-      return pathOrUrl;
-    }
-
+  _urlFor(pathOrUrl: string, assetsPath?: string): string {
     // theme is per host, should always load from assetsPath
-    const isThemeFile = pathOrUrl.endsWith('static/gerrit-theme.html') ||
+    const isThemeFile =
+      pathOrUrl.endsWith('static/gerrit-theme.html') ||
       pathOrUrl.endsWith('static/gerrit-theme.js');
     const shouldTryLoadFromAssetsPathFirst = !isThemeFile && assetsPath;
-    if (pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||
-        pathOrUrl.startsWith('http')) {
+    if (
+      pathOrUrl.startsWith(PRELOADED_PROTOCOL) ||
+      pathOrUrl.startsWith('http')
+    ) {
       // Plugins are loaded from another domain or preloaded.
-      if (pathOrUrl.includes(location.host) &&
-        shouldTryLoadFromAssetsPathFirst) {
+      if (
+        pathOrUrl.includes(location.host) &&
+        shouldTryLoadFromAssetsPathFirst &&
+        assetsPath
+      ) {
         // if is loading from host server, try replace with cdn when assetsPath provided
-        return pathOrUrl
-            .replace(location.origin, assetsPath);
+        return pathOrUrl.replace(location.origin, assetsPath);
       }
       return pathOrUrl;
     }
@@ -397,7 +409,7 @@ export class PluginLoader {
       pathOrUrl = '/' + pathOrUrl;
     }
 
-    if (shouldTryLoadFromAssetsPathFirst) {
+    if (shouldTryLoadFromAssetsPathFirst && assetsPath) {
       return assetsPath + pathOrUrl;
     }
 
@@ -412,38 +424,24 @@ export class PluginLoader {
       return Promise.resolve();
     }
     if (!this._loadingPromise) {
-      let timerId;
-      this._loadingPromise =
-        Promise.race([
-          new Promise(resolve => this._loadingResolver = resolve),
-          new Promise((_, reject) => timerId = setTimeout(
-              () => {
-                reject(new Error(this._timeout()));
-              }, PLUGIN_LOADING_TIMEOUT_MS)),
-        ]).finally(() => {
-          if (timerId) clearTimeout(timerId);
-        });
+      // TODO(TS): Should be a number, but TS thinks that is must be some weird
+      // NodeJS.Timeout object.
+      let timerId: any;
+      this._loadingPromise = Promise.race([
+        new Promise(resolve => (this._loadingResolver = resolve)),
+        new Promise(
+          (_, reject) =>
+            (timerId = setTimeout(() => {
+              reject(new Error(this._timeout()));
+            }, PLUGIN_LOADING_TIMEOUT_MS))
+        ),
+      ]).finally(() => {
+        if (timerId) clearTimeout(timerId);
+      }) as Promise<void>;
     }
     return this._loadingPromise;
   }
 }
-
-/**
- * @typedef {{
- *            name:string,
- *            url:string,
- *            state:PluginState,
- *            plugin:Object
- *          }}
- */
-PluginLoader.PluginObject;
-
-/**
- * @typedef {{
- *            sync:boolean,
- *          }}
- */
-PluginLoader.PluginOption;
 
 // TODO(dmfilippov): Convert to service and add to appContext
 export let pluginLoader = new PluginLoader();

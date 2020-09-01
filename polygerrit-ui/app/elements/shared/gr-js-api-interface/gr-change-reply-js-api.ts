@@ -15,11 +15,9 @@
  * limitations under the License.
  */
 
-import {
-  ApiElement,
-  GrReplyDialog,
-  JsApiService,
-} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrReplyDialog} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {PluginApi, TargetElement} from '../../plugins/gr-plugin-types';
+import {JsApiService} from './gr-js-api-types';
 
 // TODO(TS): maybe move interfaces\types to other files when convertion complete
 interface LabelsChangedDetail {
@@ -30,55 +28,8 @@ interface ValueChangedDetail {
   value: string;
 }
 
-interface GerritHtmlElementEventMap {
-  'value-changed': CustomEvent<ValueChangedDetail>;
-  'labels-changed': CustomEvent<LabelsChangedDetail>;
-}
-
-interface GerritHtmlElement extends EventTarget {
-  addEventListener<K extends keyof GerritHtmlElementEventMap>(
-    type: K,
-    listener: (
-      this: GerritHtmlElement,
-      ev: GerritHtmlElementEventMap[K]
-    ) => void,
-    options?: boolean | AddEventListenerOptions
-  ): void;
-  addEventListener(
-    type: string,
-    listener: EventListenerOrEventListenerObject,
-    options?: boolean | AddEventListenerOptions
-  ): void;
-
-  removeEventListener<K extends keyof GerritHtmlElementEventMap>(
-    type: K,
-    listener: (
-      this: GerritHtmlElement,
-      ev: GerritHtmlElementEventMap[K]
-    ) => void,
-    options?: boolean | EventListenerOptions
-  ): void;
-  removeEventListener(
-    type: string,
-    listener: EventListenerOrEventListenerObject,
-    options?: boolean | EventListenerOptions
-  ): void;
-}
-
-type HookCallback = (el: {content: GerritHtmlElement}) => void;
 type ReplyChangedCallback = (text: string) => void;
 type LabelsChangedCallback = (detail: LabelsChangedDetail) => void;
-
-// TODO(TS): remove once Plugin api converted to ts
-interface HookApi {
-  onAttached(callback: HookCallback): void;
-  onDetached(callback: HookCallback): void;
-}
-
-// TODO(TS): remove once Plugin api converted to ts
-interface PluginApi {
-  hook(hookName: string): HookApi;
-}
 
 /**
  * GrChangeReplyInterface, provides a set of handy methods on reply dialog.
@@ -90,7 +41,9 @@ export class GrChangeReplyInterface {
   ) {}
 
   get _el(): GrReplyDialog {
-    return this.sharedApiElement.getElement(ApiElement.REPLY_DIALOG);
+    return (this.sharedApiElement.getElement(
+      TargetElement.REPLY_DIALOG
+    ) as unknown) as GrReplyDialog;
   }
 
   getLabelValue(label: string) {
@@ -107,8 +60,10 @@ export class GrChangeReplyInterface {
 
   addReplyTextChangedCallback(handler: ReplyChangedCallback) {
     const hookApi = this.plugin.hook('reply-text');
-    const registeredHandler = (e: CustomEvent<ValueChangedDetail>) =>
-      handler(e.detail.value);
+    const registeredHandler = (e: Event) => {
+      const ce = e as CustomEvent<ValueChangedDetail>;
+      handler(ce.detail.value);
+    };
     hookApi.onAttached(el => {
       if (!el.content) {
         return;
@@ -125,8 +80,10 @@ export class GrChangeReplyInterface {
 
   addLabelValuesChangedCallback(handler: LabelsChangedCallback) {
     const hookApi = this.plugin.hook('reply-label-scores');
-    const registeredHandler = (e: CustomEvent<LabelsChangedDetail>) =>
-      handler(e.detail);
+    const registeredHandler = (e: Event) => {
+      const ce = e as CustomEvent<LabelsChangedDetail>;
+      handler(ce.detail);
+    };
     hookApi.onAttached(el => {
       if (!el.content) {
         return;

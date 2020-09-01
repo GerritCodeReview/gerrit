@@ -18,6 +18,7 @@
 export class GrAttributeHelper {
   private readonly _promises = new Map<string, Promise<any>>();
 
+  // TOOD(TS): Change any to something more like HTMLElement.
   constructor(public element: any) {}
 
   _getChangedEventName(name: string): string {

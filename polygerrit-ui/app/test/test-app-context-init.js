@@ -20,13 +20,15 @@ import {initAppContext} from '../services/app-context-init.js';
 import {grReportingMock} from '../services/gr-reporting/gr-reporting_mock.js';
 import {appContext} from '../services/app-context.js';
 
-initAppContext();
+export function _testOnlyInitAppContext() {
+  initAppContext();
 
-function setMock(serviceName, setupMock) {
-  Object.defineProperty(appContext, serviceName, {
-    get() {
-      return setupMock;
-    },
-  });
+  function setMock(serviceName, setupMock) {
+    Object.defineProperty(appContext, serviceName, {
+      get() {
+        return setupMock;
+      },
+    });
+  }
+  setMock('reportingService', grReportingMock);
 }
-setMock('reportingService', grReportingMock);

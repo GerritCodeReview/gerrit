@@ -15,9 +15,14 @@
  * limitations under the License.
  */
 import {Side} from '../constants/constants';
+import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
+}
+
+export interface FixIronA11yAnnouncer extends IronA11yAnnouncer {
+  requestAvailability(): void;
 }
 
 export interface CoverageRange {
@@ -44,6 +49,12 @@ export enum CoverageType {
    * end_character of the range will be ignored for this type.
    */
   NOT_INSTRUMENTED = 'NOT_INSTRUMENTED',
+}
+
+export enum ErrorType {
+  AUTH = 'AUTH',
+  NETWORK = 'NETWORK',
+  GENERIC = 'GENERIC',
 }
 
 /**

@@ -29,6 +29,8 @@ public abstract class TestPatchsetCreation {
 
   public abstract ImmutableList<TreeModification> treeModifications();
 
+  public abstract Optional<ImmutableList<TestCommitIdentifier>> parents();
+
   abstract ThrowingFunction<TestPatchsetCreation, PatchSet.Id> patchsetCreator();
 
   public static TestPatchsetCreation.Builder builder(
@@ -47,6 +49,37 @@ public abstract class TestPatchsetCreation {
     }
 
     abstract ImmutableList.Builder<TreeModification> treeModificationsBuilder();
+
+    /**
+     * Parent commit of the change. The commit can be specified via various means in the returned
+     * builder.
+     *
+     * <p>This method will just change the parent but not influence the contents of the patchset
+     * commit.
+     *
+     * <p>It's possible to switch from a change representing a merge commit to a change not being a
+     * merge commit with this method.
+     */
+    public ParentBuilder<Builder> parent() {
+      return new ParentBuilder<>(parent -> parents(ImmutableList.of(parent)));
+    }
+
+    /**
+     * Parent commits of the change. Each parent commit can be specified via various means in the
+     * returned builder. The order of the parents matters and is preserved (first parent commit in
+     * fluent change -> first parent of the change).
+     *
+     * <p>This method will just change the parents but not influence the contents of the patchset
+     * commit.
+     *
+     * <p>It's possible to switch from a change representing a non-merge commit to a change which is
+     * a merge commit with this method.
+     */
+    public ParentBuilder<MultipleParentBuilder<Builder>> parents() {
+      return new ParentBuilder<>(parent -> new MultipleParentBuilder<>(this::parents, parent));
+    }
+
+    abstract Builder parents(ImmutableList<TestCommitIdentifier> value);
 
     abstract TestPatchsetCreation.Builder patchsetCreator(
         ThrowingFunction<TestPatchsetCreation, PatchSet.Id> patchsetCreator);

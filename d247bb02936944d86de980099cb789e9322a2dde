@@ -16,6 +16,23 @@
       "revId": "d247bb02936944d86de980099cb789e9322a2dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a998d22_a5fa96d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T19:17:56Z",
+      "side": 1,
+      "message": "The Download-patch dialog for me only has two (2) clickable options now. Do you see this too? Same goes for the other Download one.\n\nI wanted to Verify this change locally before approving, but was stopped by that. If you were already able to Verify it, can you score accordingly?",
+      "revId": "d247bb02936944d86de980099cb789e9322a2dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

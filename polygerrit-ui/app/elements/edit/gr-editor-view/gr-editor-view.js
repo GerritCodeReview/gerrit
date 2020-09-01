@@ -188,8 +188,9 @@ class GrEditorView extends KeyboardShortcutMixin(GestureEventListeners(
 
     return this.$.restAPI.getFileContent(changeNum, path, patchNum)
         .then(res => {
+          const content = (res && res.content) || '';
           if (storedContent && storedContent.message &&
-              storedContent.message !== res.content) {
+              storedContent.message !== content) {
             this.dispatchEvent(new CustomEvent('show-alert', {
               detail: {message: RESTORED_MESSAGE},
               bubbles: true,
@@ -198,14 +199,14 @@ class GrEditorView extends KeyboardShortcutMixin(GestureEventListeners(
 
             this._newContent = storedContent.message;
           } else {
-            this._newContent = res.content || '';
+            this._newContent = content;
           }
-          this._content = res.content || '';
+          this._content = content;
 
           // A non-ok response may result if the file does not yet exist.
           // The `type` field of the response is only valid when the file
           // already exists.
-          if (res.ok && res.type) {
+          if (res && res.ok && res.type) {
             this._type = res.type;
           } else {
             this._type = '';

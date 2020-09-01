@@ -64,6 +64,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RevisionDiffIT extends AbstractDaemonTest {
@@ -119,6 +120,13 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
     assertDiffForNewFile(result, fileName, fileContent);
     assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
+  }
+
+
+  @Ignore
+  @Test
+  public void diffWithRootCommit() throws Exception {
+    // TODO(ghareeb): Implement this test
   }
 
   @Test

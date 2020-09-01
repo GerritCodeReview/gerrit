@@ -113,6 +113,7 @@ java_library(
         "//lib/commons:compress",
         "//lib/commons:dbcp",
         "//lib/commons:lang",
+        "//lib/commons:lang3",
         "//lib/commons:net",
         "//lib/commons:validator",
         "//lib/errorprone:annotations",

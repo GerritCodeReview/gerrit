@@ -37,9 +37,9 @@ export const htmlTemplate = html`
     .changeContainer {
       display: flex;
     }
-    .changeContainer.thisChange:before {
-      content: '➔';
+    .arrowToCurrentChange {
       width: 1.2em;
+      position: absolute;
     }
     h4,
     section div {
@@ -107,6 +107,14 @@ export const htmlTemplate = html`
           items="[[_relatedResponse.changes]]"
           as="related"
         >
+          <template is="dom-if" if="[[_changesEqual(related, change)]]">
+            <span
+              role="img"
+              class="arrowToCurrentChange"
+              aria-label="Arrow marking current change"
+              >➔</span
+            >
+          </template>
           <div
             class$="rightIndent [[_computeChangeContainerClass(change, related)]]"
           >
@@ -133,6 +141,14 @@ export const htmlTemplate = html`
           items="[[_submittedTogether.changes]]"
           as="related"
         >
+          <template is="dom-if" if="[[_changesEqual(related, change)]]">
+            <span
+              role="img"
+              class="arrowToCurrentChange"
+              aria-label="Arrow marking current change"
+              >➔</span
+            >
+          </template>
           <div class$="[[_computeChangeContainerClass(change, related)]]">
             <a
               href$="[[_computeChangeURL(related._number, related.project)]]"
@@ -145,6 +161,8 @@ export const htmlTemplate = html`
               tabindex="-1"
               title="Submittable"
               class$="submittableCheck [[_computeLinkClass(related)]]"
+              role="img"
+              aria-label="Submittable"
               >✓</span
             >
           </div>

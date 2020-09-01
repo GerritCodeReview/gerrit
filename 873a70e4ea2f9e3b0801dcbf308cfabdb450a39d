@@ -2,6 +2,86 @@
   "comments": [
     {
       "key": {
+        "uuid": "c427c06e_3006110e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-01T21:05:46Z",
+      "side": 1,
+      "message": "that\u0027s a strange term, I\u0027d say \"scenarios using multiple protocols\"",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0233ef03_c96ea924",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-01T21:05:46Z",
+      "side": 1,
+      "message": "I wouldn\u0027t mention the framework here\n\nUse git protocol only for the step that requires it.",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "76751747_86b012d6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-01T21:05:46Z",
+      "side": 1,
+      "message": "Use http protocol for every other non-git test step.",
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6aab37b8_5e097ba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-01T21:05:46Z",
+      "side": 1,
+      "message": "I don\u0027t understand this sentence. Which core is meant here ?",
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "58eedd84_661e2fc0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 6

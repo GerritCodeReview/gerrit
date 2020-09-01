@@ -34,6 +34,23 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8797bd04_bc84216b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-01T09:37:45Z",
+      "side": 1,
+      "message": "It would be great if this change could be included in a 3.2.x release.",
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

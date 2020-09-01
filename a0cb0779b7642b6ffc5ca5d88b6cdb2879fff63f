@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "e5d2c106_aa3eb5d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-09-01T09:52:52Z",
+      "side": 1,
+      "message": "can you reference the policy in the commit message?",
+      "parentUuid": "8f6d5764_493ab8da",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "a0cb0779b7642b6ffc5ca5d88b6cdb2879fff63f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "691a3856_3425e81a",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

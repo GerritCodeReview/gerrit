@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "f0e56f17_77a8efa3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-01T20:16:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "b0db3b66_f377b309",
+      "range": {
+        "startLine": 7,
+        "startChar": 51,
+        "endLine": 7,
+        "endChar": 58
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16fde9bb_53f9383c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-01T20:16:16Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "52ade8bd_5909c57d",
+      "range": {
+        "startLine": 7,
+        "startChar": 0,
+        "endLine": 7,
+        "endChar": 1
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b31df341_727d9114",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-09-01T15:29:58Z",
       "side": 1,
       "message": "IMO this use-case could (should) be supported by ReceiveSlaveMode.\nIf this is the only (primary) use-case, I think it\u0027s a much easier way forward.\n\nFor reference see [1].\n\nInstead of just returning the message from ServiceNotEnabledException it shouldn\u0027t (IIUC) be a problem to return a static message like:\n\n    git-receive-pack is not available on replica servers\n\nIt should also be possible to provide a configurable alternative as response to the pushing user on command-line.\n\nFor tracking you could write an ERROR to the log in the lines of:\n\n    User $USER issued a receive-pack command when in replica-mode.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/157212",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4ef4a7a7_d6b7fcc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-01T20:16:16Z",
+      "side": 1,
+      "message": "No the whole point was to be able to extend the functionality as required. What I suggested was just an example. For example for CI systems just printing something doesn\u0027t solve anything. Initially I considered removing the final and making the classes public, so that via SSH disabled we could replace the implementation with some intersects and then pass on execution.\n\nIf you are ok with making the classes non-final I can include that too now?",
+      "parentUuid": "b31df341_727d9114",
       "range": {
         "startLine": 11,
         "startChar": 0,
@@ -160,6 +232,30 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da8c8c5a_be95f755",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-01T20:16:16Z",
+      "side": 1,
+      "message": "Note that this moves the test submit away from the others + I don\u0027t know whether the gerrit Receive.class should be where it is. I\u0027ve not fully understood the duplication there is in the SSHD command module between git and gerrit commands.",
+      "parentUuid": "3a7ae81e_941e7392",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,7 +21,7 @@ import '../gr-endpoint-param/gr-endpoint-param.js';
 import '../gr-endpoint-slot/gr-endpoint-slot.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {resetPlugins} from '../../../test/test-utils.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
@@ -71,7 +71,7 @@ suite('gr-endpoint-decorator', () => {
     replacementHook = plugin.registerCustomComponent(
         'second', 'other-module', {replace: true});
     // Mimic all plugins loaded.
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
     flush(done);
   });
 

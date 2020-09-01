@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-admin-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-admin-view');
@@ -35,7 +35,7 @@ suite('gr-admin-view tests', () => {
       },
     });
     const pluginsLoaded = Promise.resolve();
-    sinon.stub(pluginLoader, 'awaitPluginsLoaded').returns(pluginsLoaded);
+    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
     pluginsLoaded.then(() => flush(done));
   });
 

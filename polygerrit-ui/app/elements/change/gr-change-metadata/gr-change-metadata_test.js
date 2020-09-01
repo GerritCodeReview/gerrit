@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import '../../core/gr-router/gr-router.js';
 import './gr-change-metadata.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const basicFixture = fixtureFromElement('gr-change-metadata');
@@ -763,7 +763,7 @@ suite('gr-change-metadata tests', () => {
           },
           '0.1',
           'http://some/plugins/url.html');
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
       flush(() => {
         assert.strictEqual(hookEl.plugin, plugin);
         assert.strictEqual(hookEl.change, element.change);

@@ -22,7 +22,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-avatar_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
-import {pluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
 
 /**
  * @extends PolymerElement
@@ -56,7 +56,7 @@ class GrAvatar extends GestureEventListeners(
     super.attached();
     Promise.all([
       this._getConfig(),
-      pluginLoader.awaitPluginsLoaded(),
+      getPluginLoader().awaitPluginsLoaded(),
     ]).then(([cfg]) => {
       this._hasAvatars = !!(cfg && cfg.plugin && cfg.plugin.has_avatars);
 

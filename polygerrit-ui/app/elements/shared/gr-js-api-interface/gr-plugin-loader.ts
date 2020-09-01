@@ -444,8 +444,12 @@ export class PluginLoader {
 }
 
 // TODO(dmfilippov): Convert to service and add to appContext
-export let pluginLoader = new PluginLoader();
+let pluginLoader = new PluginLoader();
 export function _testOnly_resetPluginLoader() {
   pluginLoader = new PluginLoader();
+  return pluginLoader;
+}
+
+export function getPluginLoader() {
   return pluginLoader;
 }

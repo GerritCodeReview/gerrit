@@ -21,7 +21,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-external-style_html.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 /** @extends PolymerElement */
 class GrExternalStyle extends GestureEventListeners(
@@ -75,7 +75,8 @@ class GrExternalStyle extends GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
-    pluginLoader.awaitPluginsLoaded().then(() => this._importAndApply());
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => this._importAndApply());
   }
 }
 

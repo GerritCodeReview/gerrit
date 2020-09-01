@@ -37,7 +37,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-change-actions_html.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {
   fetchChangeUpdates,
@@ -551,7 +551,8 @@ class GrChangeActions extends GestureEventListeners(
   }
 
   _handleLoadingComplete() {
-    pluginLoader.awaitPluginsLoaded().then(() => this._loading = false);
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => this._loading = false);
   }
 
   _sendShowRevisionActions(detail) {

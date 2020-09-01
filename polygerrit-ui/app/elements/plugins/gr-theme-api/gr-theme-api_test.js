@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../gr-endpoint-decorator/gr-endpoint-decorator.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -56,7 +56,7 @@ suite('gr-theme-api tests', () => {
         /** @override */
         ready() { customHeader = this; },
       });
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
     });
 
     test('sets logo and title', done => {

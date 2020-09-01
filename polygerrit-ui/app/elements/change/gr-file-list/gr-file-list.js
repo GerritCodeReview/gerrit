@@ -38,7 +38,7 @@ import {GrFileListConstants} from '../gr-file-list-constants.js';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {descendedFromClass} from '../../../utils/dom-util.js';
@@ -310,34 +310,35 @@ class GrFileList extends KeyboardShortcutMixin(
   /** @override */
   attached() {
     super.attached();
-    pluginLoader.awaitPluginsLoaded().then(() => {
-      this._dynamicHeaderEndpoints = getPluginEndpoints()
-          .getDynamicEndpoints('change-view-file-list-header');
-      this._dynamicContentEndpoints = getPluginEndpoints()
-          .getDynamicEndpoints('change-view-file-list-content');
-      this._dynamicPrependedHeaderEndpoints = getPluginEndpoints()
-          .getDynamicEndpoints('change-view-file-list-header-prepend');
-      this._dynamicPrependedContentEndpoints = getPluginEndpoints()
-          .getDynamicEndpoints('change-view-file-list-content-prepend');
-      this._dynamicSummaryEndpoints = getPluginEndpoints()
-          .getDynamicEndpoints('change-view-file-list-summary');
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => {
+          this._dynamicHeaderEndpoints = getPluginEndpoints()
+              .getDynamicEndpoints('change-view-file-list-header');
+          this._dynamicContentEndpoints = getPluginEndpoints()
+              .getDynamicEndpoints('change-view-file-list-content');
+          this._dynamicPrependedHeaderEndpoints = getPluginEndpoints()
+              .getDynamicEndpoints('change-view-file-list-header-prepend');
+          this._dynamicPrependedContentEndpoints = getPluginEndpoints()
+              .getDynamicEndpoints('change-view-file-list-content-prepend');
+          this._dynamicSummaryEndpoints = getPluginEndpoints()
+              .getDynamicEndpoints('change-view-file-list-summary');
 
-      if (this._dynamicHeaderEndpoints.length !==
+          if (this._dynamicHeaderEndpoints.length !==
           this._dynamicContentEndpoints.length) {
-        console.warn(
-            'Different number of dynamic file-list header and content.');
-      }
-      if (this._dynamicPrependedHeaderEndpoints.length !==
+            console.warn(
+                'Different number of dynamic file-list header and content.');
+          }
+          if (this._dynamicPrependedHeaderEndpoints.length !==
         this._dynamicPrependedContentEndpoints.length) {
-        console.warn(
-            'Different number of dynamic file-list header and content.');
-      }
-      if (this._dynamicHeaderEndpoints.length !==
+            console.warn(
+                'Different number of dynamic file-list header and content.');
+          }
+          if (this._dynamicHeaderEndpoints.length !==
           this._dynamicSummaryEndpoints.length) {
-        console.warn(
-            'Different number of dynamic file-list headers and summary.');
-      }
-    });
+            console.warn(
+                'Different number of dynamic file-list headers and summary.');
+          }
+        });
   }
 
   /** @override */

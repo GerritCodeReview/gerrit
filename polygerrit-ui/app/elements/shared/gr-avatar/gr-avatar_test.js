@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-avatar.js';
-import {pluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
 
 const basicFixture = fixtureFromElement('gr-avatar');
 
@@ -101,11 +101,11 @@ suite('gr-avatar tests', () => {
       assert.strictEqual(element.style.backgroundImage, '');
 
       // Emulate plugins loaded.
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
 
       return Promise.all([
         element.$.restAPI.getConfig(),
-        pluginLoader.awaitPluginsLoaded(),
+        getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isFalse(element.hasAttribute('hidden'));
 
@@ -131,11 +131,11 @@ suite('gr-avatar tests', () => {
       assert.isFalse(element.hasAttribute('hidden'));
 
       // Emulate plugins loaded.
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
 
       return Promise.all([
         element.$.restAPI.getConfig(),
-        pluginLoader.awaitPluginsLoaded(),
+        getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isTrue(element.hasAttribute('hidden'));
 
@@ -164,11 +164,11 @@ suite('gr-avatar tests', () => {
         _account_id: 123,
       };
       // Emulate plugins loaded.
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
 
       return Promise.all([
         element.$.restAPI.getConfig(),
-        pluginLoader.awaitPluginsLoaded(),
+        getPluginLoader().awaitPluginsLoaded(),
       ]).then(() => {
         assert.isTrue(element.hasAttribute('hidden'));
       });

@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-reply-dialog.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 const basicFixture = fixtureFromElement('gr-reply-dialog');
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -122,20 +122,21 @@ suite('gr-reply-dialog-it tests', () => {
     }, null, 'http://test.com/plugins/lgtm.js');
     element = basicFixture.instantiate();
     setupElement(element);
-    pluginLoader.loadPlugins([]);
-    pluginLoader.awaitPluginsLoaded().then(() => {
-      flush(() => {
-        const textarea = element.$.textarea.getNativeTextarea();
-        textarea.value = 'LGTM';
-        textarea.dispatchEvent(new CustomEvent(
-            'input', {bubbles: true, composed: true}));
-        const labelScoreRows = dom(element.$.labelScores.root)
-            .querySelector('gr-label-score-row[name="Code-Review"]');
-        const selectedBtn = dom(labelScoreRows.root)
-            .querySelector('gr-button[data-value="+1"].iron-selected');
-        assert.isOk(selectedBtn);
-        done();
-      });
-    });
+    getPluginLoader().loadPlugins([]);
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => {
+          flush(() => {
+            const textarea = element.$.textarea.getNativeTextarea();
+            textarea.value = 'LGTM';
+            textarea.dispatchEvent(new CustomEvent(
+                'input', {bubbles: true, composed: true}));
+            const labelScoreRows = dom(element.$.labelScores.root)
+                .querySelector('gr-label-score-row[name="Code-Review"]');
+            const selectedBtn = dom(labelScoreRows.root)
+                .querySelector('gr-button[data-value="+1"].iron-selected');
+            assert.isOk(selectedBtn);
+            done();
+          });
+        });
   });
 });

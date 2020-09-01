@@ -19,7 +19,7 @@ import '../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../utils/dom-util.js';
 import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import './gr-app.js';
-import {pluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const basicFixture = fixtureFromElement('gr-app');
 
@@ -36,8 +36,9 @@ suite('gr-app custom light theme tests', () => {
       _fetchSharedCacheURL() { return Promise.resolve({}); },
     });
     element = basicFixture.instantiate();
-    pluginLoader.loadPlugins([]);
-    pluginLoader.awaitPluginsLoaded().then(() => flush(done));
+    getPluginLoader().loadPlugins([]);
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => flush(done));
   });
   teardown(() => {
     // The app sends requests to server. This can lead to

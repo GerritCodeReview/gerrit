@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import './gr-change-metadata.js';
 import {resetPlugins} from '../../../test/test-utils.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const testHtmlPlugin = document.createElement('dom-module');
@@ -117,10 +117,11 @@ suite('gr-change-metadata integration tests', () => {
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
       }, undefined, 'http://test.com/plugins/style.js');
       element = createElement();
-      pluginLoader.loadPlugins([]);
-      pluginLoader.awaitPluginsLoaded().then(() => {
-        flush(done);
-      });
+      getPluginLoader().loadPlugins([]);
+      getPluginLoader().awaitPluginsLoaded()
+          .then(() => {
+            flush(done);
+          });
     });
 
     teardown(() => {
@@ -143,8 +144,8 @@ suite('gr-change-metadata integration tests', () => {
         plugin = p;
         plugin.registerStyleModule('change-metadata', 'my-plugin-style');
       }, undefined, 'http://test.com/plugins/style.js');
-      sinon.stub(pluginLoader, 'arePluginsLoaded').returns(true);
-      pluginLoader.loadPlugins([]);
+      sinon.stub(getPluginLoader(), 'arePluginsLoaded').returns(true);
+      getPluginLoader().loadPlugins([]);
       element = createElement();
     });
 

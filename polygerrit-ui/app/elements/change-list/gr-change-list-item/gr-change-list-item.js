@@ -34,7 +34,7 @@ import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getDisplayName} from '../../../utils/display-name-util.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {appContext} from '../../../services/app-context.js';
 import {truncatePath} from '../../../utils/path-list-util.js';
 import {changeStatuses} from '../../../utils/change-util.js';
@@ -107,10 +107,11 @@ class GrChangeListItem extends ChangeTableMixin(GestureEventListeners(
   /** @override */
   attached() {
     super.attached();
-    pluginLoader.awaitPluginsLoaded().then(() => {
-      this._dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
-          'change-list-item-cell');
-    });
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => {
+          this._dynamicCellEndpoints = getPluginEndpoints().getDynamicEndpoints(
+              'change-list-item-cell');
+        });
   }
 
   _changeStatuses(change) {

@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-change-actions.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {generateChange} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
@@ -85,7 +85,7 @@ suite('gr-change-actions tests', () => {
         getProjectConfig() { return Promise.resolve({}); },
       });
 
-      sinon.stub(pluginLoader, 'awaitPluginsLoaded')
+      sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
           .returns(Promise.resolve());
 
       element = basicFixture.instantiate();
@@ -2013,7 +2013,7 @@ suite('gr-change-actions tests', () => {
         getProjectConfig() { return Promise.resolve({}); },
       });
 
-      sinon.stub(pluginLoader, 'awaitPluginsLoaded')
+      sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
           .returns(Promise.resolve());
 
       element = basicFixture.instantiate();

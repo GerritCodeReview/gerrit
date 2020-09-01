@@ -19,7 +19,7 @@
  * This defines the Gerrit instance. All methods directly attached to Gerrit
  * should be defined or linked here.
  */
-import {pluginLoader, PluginOptionMap} from './gr-plugin-loader';
+import {getPluginLoader, PluginOptionMap} from './gr-plugin-loader';
 import {getRestAPI, send} from './gr-api-utils';
 import {appContext} from '../../../services/app-context';
 import {PluginApi} from '../../plugins/gr-plugin-types';
@@ -81,7 +81,7 @@ export function initGerritPluginApi() {
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.
   // (Gerrit.install() is set in initGerritPluginsMethods)
-  pluginLoader.installPreloadedPlugins();
+  getPluginLoader().installPreloadedPlugins();
 }
 
 export function _testOnly_initGerritPluginApi(): GerritGlobal {
@@ -136,7 +136,7 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
   };
 
   globalGerritObj.install = (callback, opt_version, opt_src) => {
-    pluginLoader.install(callback, opt_version, opt_src);
+    getPluginLoader().install(callback, opt_version, opt_src);
   };
 
   globalGerritObj.getLoggedIn = () => {
@@ -181,29 +181,29 @@ function initGerritPluginsMethods(globalGerritObj: GerritGlobal) {
   };
 
   globalGerritObj.awaitPluginsLoaded = () => {
-    return pluginLoader.awaitPluginsLoaded();
+    return getPluginLoader().awaitPluginsLoaded();
   };
 
   // TODO(taoalpha): consider removing these proxy methods
-  // and using pluginLoader directly
+  // and using getPluginLoader() directly
   globalGerritObj._loadPlugins = (plugins, opt_option) => {
-    pluginLoader.loadPlugins(plugins, opt_option);
+    getPluginLoader().loadPlugins(plugins, opt_option);
   };
 
   globalGerritObj._arePluginsLoaded = () => {
-    return pluginLoader.arePluginsLoaded();
+    return getPluginLoader().arePluginsLoaded();
   };
 
   globalGerritObj._isPluginPreloaded = url => {
-    return pluginLoader.isPluginPreloaded(url);
+    return getPluginLoader().isPluginPreloaded(url);
   };
 
   globalGerritObj._isPluginEnabled = pathOrUrl => {
-    return pluginLoader.isPluginEnabled(pathOrUrl);
+    return getPluginLoader().isPluginEnabled(pathOrUrl);
   };
 
   globalGerritObj._isPluginLoaded = pathOrUrl => {
-    return pluginLoader.isPluginLoaded(pathOrUrl);
+    return getPluginLoader().isPluginLoaded(pathOrUrl);
   };
 
   const eventEmitter = appContext.eventEmitter;

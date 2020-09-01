@@ -26,7 +26,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-main-header_html.js';
 import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {getAdminLinks} from '../../../utils/admin-nav-util.js';
 
 const DEFAULT_LINKS = [{
@@ -259,7 +259,7 @@ class GrMainHeader extends GestureEventListeners(
     const promises = [
       this.$.restAPI.getAccount(),
       this.$.restAPI.getTopMenus(),
-      pluginLoader.awaitPluginsLoaded(),
+      getPluginLoader().awaitPluginsLoaded(),
     ];
 
     return Promise.all(promises).then(result => {

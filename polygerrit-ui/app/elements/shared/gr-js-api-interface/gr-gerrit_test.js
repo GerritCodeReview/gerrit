@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-js-api-interface.js';
-import {pluginLoader} from './gr-plugin-loader.js';
+import {getPluginLoader} from './gr-plugin-loader.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
@@ -52,10 +52,10 @@ suite('gr-gerrit tests', () => {
   });
 
   suite('proxy methods', () => {
-    test('Gerrit._isPluginEnabled proxy to pluginLoader', () => {
+    test('Gerrit._isPluginEnabled proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
       sinon.stub(
-          pluginLoader,
+          getPluginLoader(),
           'isPluginEnabled')
           .callsFake((...args) => stubFn(...args)
           );
@@ -63,20 +63,20 @@ suite('gr-gerrit tests', () => {
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginLoaded proxy to pluginLoader', () => {
+    test('Gerrit._isPluginLoaded proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
       sinon.stub(
-          pluginLoader,
+          getPluginLoader(),
           'isPluginLoaded')
           .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
 
-    test('Gerrit._isPluginPreloaded proxy to pluginLoader', () => {
+    test('Gerrit._isPluginPreloaded proxy to getPluginLoader()', () => {
       const stubFn = sinon.stub();
       sinon.stub(
-          pluginLoader,
+          getPluginLoader(),
           'isPluginPreloaded')
           .callsFake((...args) => stubFn(...args));
       pluginApi._isPluginPreloaded('test_plugin');

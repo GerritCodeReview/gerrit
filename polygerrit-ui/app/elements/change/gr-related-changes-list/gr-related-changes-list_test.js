@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-related-changes-list.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 
@@ -581,7 +581,7 @@ suite('gr-related-changes-list plugin tests', () => {
         },
         '0.1',
         'http://some/plugins/url1.html');
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
     flush(() => {
       assert.strictEqual(hookEl.plugin, plugin);
       assert.strictEqual(hookEl.change, element.change);
@@ -605,7 +605,7 @@ suite('gr-related-changes-list plugin tests', () => {
         },
         '0.1',
         'http://some/plugins/url2.html');
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
     flush(() => {
       // No changes, and plugin without hidden attribute. So it's visible.
       element._resultsChanged({}, {}, [], [], []);

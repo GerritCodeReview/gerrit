@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fbfee691_67feb125",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-01T13:49:37Z",
+      "side": 1,
+      "message": "@Marco can you check again? I\u0027ve re-done the changes locally and re-pushed.",
+      "revId": "d247bb02936944d86de980099cb789e9322a2dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

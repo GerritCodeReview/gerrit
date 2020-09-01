@@ -177,6 +177,7 @@ class GrChangeMetadata extends GestureEventListeners(
 
   _changeChanged(change) {
     this._assignee = change.assignee ? [change.assignee] : [];
+    this._settingTopic = false;
   }
 
   _assigneeChanged(assigneeRecord) {
@@ -236,8 +237,12 @@ class GrChangeMetadata extends GestureEventListeners(
     const lastTopic = this.change.topic;
     if (!topic.length) { topic = null; }
     this._settingTopic = true;
-    this.$.restAPI.setChangeTopic(this.change._number, topic)
+    const topicChangedForChangeNumber = this.change._number;
+    this.$.restAPI.setChangeTopic(topicChangedForChangeNumber, topic)
         .then(newTopic => {
+          if (this.change._number !== topicChangedForChangeNumber) {
+            return;
+          }
           this._settingTopic = false;
           this.set(['change', 'topic'], newTopic);
           if (newTopic !== lastTopic) {

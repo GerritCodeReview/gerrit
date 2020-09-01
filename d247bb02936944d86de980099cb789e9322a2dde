@@ -33,6 +33,41 @@
       "revId": "d247bb02936944d86de980099cb789e9322a2dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "70c508c4_bdb82c3f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-01T20:41:49Z",
+      "side": 1,
+      "message": "\u003e The Download-patch dialog for me only has two (2) clickable options now. Do you see this too? Same goes for the other Download one.\n\nYes, it has been filed this morning as a bug:\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13344\n\n\u003e I wanted to Verify this change locally before approving, but was stopped by that. If you were already able to Verify it, can you score accordingly?\n\nYes, it works.",
+      "parentUuid": "4a998d22_a5fa96d7",
+      "revId": "d247bb02936944d86de980099cb789e9322a2dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "231a2f9d_a770b26e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-01T20:41:49Z",
+      "side": 1,
+      "message": "Test locally and works as expected.",
+      "revId": "d247bb02936944d86de980099cb789e9322a2dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

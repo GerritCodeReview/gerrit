@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "53f72d41_273aca7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-01T08:29:40Z",
+      "side": 1,
+      "message": "Add a test to make sure keyboard shortcut sets the state and calls navigateToChangeView.",
+      "revId": "b32615cf6ae6965a854f368a158fda83ab8454a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

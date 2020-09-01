@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "ebdcbe32_059b24df",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-09-01T14:04:11Z",
+      "side": 1,
+      "message": "we discussed this last week in the TL meeting, right? If we use a different URL here, we paint ourselves less in a corner if we ever want to make changes to /q/ for better UX, or if the search implementation indexes more fields (eg. Ixxx strings in freeform text).",
+      "parentUuid": "85690b50_90b30819",
+      "revId": "30f95b465f88d76382605333ccfebf92c324e70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0244480c_f5ac0183",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 5

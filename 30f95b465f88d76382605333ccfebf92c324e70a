@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d67f64c2_82feaa3d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-09-01T09:52:52Z",
+      "side": 1,
+      "message": "+ben for FE.\n\nI think this needs a tweak to the documentation somewhere too.",
+      "revId": "30f95b465f88d76382605333ccfebf92c324e70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0244480c_f5ac0183",
+        "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
+        "patchSetId": 5
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-09-01T09:52:52Z",
+      "side": 1,
+      "message": "$( )",
+      "range": {
+        "startLine": 51,
+        "startChar": 11,
+        "endLine": 51,
+        "endChar": 14
+      },
+      "revId": "30f95b465f88d76382605333ccfebf92c324e70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

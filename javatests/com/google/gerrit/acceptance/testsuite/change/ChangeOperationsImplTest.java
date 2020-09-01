@@ -25,6 +25,7 @@ import static com.google.gerrit.truth.MapSubject.assertThatMap;
 import static com.google.gerrit.truth.OptionalSubject.assertThat;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -43,6 +44,7 @@ import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.restapi.BinaryResult;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -154,7 +156,417 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
         .parents()
         .onlyElement()
         .commit()
-        .isEqualTo(parentCommitId.getName());
+        .isEqualTo(parentCommitId.name());
+  }
+
+  @Test
+  public void createdChangeUsesSpecifiedBranchTipAsParent() throws Exception {
+    Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .project(project)
+            .childOf()
+            .tipOfBranch("refs/heads/test-branch")
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId parentCommitId = projectOperations.project(project).getHead("test-branch").getId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .onlyElement()
+        .commit()
+        .isEqualTo(parentCommitId.name());
+  }
+
+  @Test
+  public void specifiedParentBranchMayHaveShortName() throws Exception {
+    Project.NameKey project = projectOperations.newProject().branches("test-branch").create();
+
+    Change.Id changeId =
+        changeOperations.newChange().project(project).childOf().tipOfBranch("test-branch").create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId parentCommitId = projectOperations.project(project).getHead("test-branch").getId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .onlyElement()
+        .commit()
+        .isEqualTo(parentCommitId.name());
+  }
+
+  @Test
+  public void specifiedParentBranchMustExist() {
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations.newChange().childOf().tipOfBranch("not-existing-branch").create());
+    assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
+  }
+
+  @Test
+  public void createdChangeUsesSpecifiedChangeAsParent() throws Exception {
+    Change.Id parentChangeId = changeOperations.newChange().create();
+
+    Change.Id changeId = changeOperations.newChange().childOf().change(parentChangeId).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId parentCommitId =
+        changeOperations.change(parentChangeId).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .onlyElement()
+        .commit()
+        .isEqualTo(parentCommitId.name());
+  }
+
+  @Test
+  public void specifiedParentChangeMustExist() {
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () -> changeOperations.newChange().childOf().change(Change.id(987654321)).create());
+    assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
+  }
+
+  @Test
+  public void createdChangeUsesSpecifiedPatchsetAsParent() throws Exception {
+    Change.Id parentChangeId = changeOperations.newChange().create();
+    TestPatchset parentPatchset = changeOperations.change(parentChangeId).currentPatchset().get();
+
+    Change.Id changeId =
+        changeOperations.newChange().childOf().patchset(parentPatchset.patchsetId()).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .onlyElement()
+        .commit()
+        .isEqualTo(parentPatchset.commitId().name());
+  }
+
+  @Test
+  public void changeOfSpecifiedParentPatchsetMustExist() {
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .newChange()
+                    .childOf()
+                    .patchset(PatchSet.id(Change.id(987654321), 1))
+                    .create());
+    assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
+  }
+
+  @Test
+  public void specifiedParentPatchsetMustExist() {
+    Change.Id parentChangeId = changeOperations.newChange().create();
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .newChange()
+                    .childOf()
+                    .patchset(PatchSet.id(parentChangeId, 1000))
+                    .create());
+    assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
+  }
+
+  @Test
+  public void createdChangeUsesSpecifiedCommitAsParent() throws Exception {
+    // Currently, the easiest way to create a commit is by creating another change.
+    Change.Id anotherChangeId = changeOperations.newChange().create();
+    ObjectId parentCommitId =
+        changeOperations.change(anotherChangeId).currentPatchset().get().commitId();
+
+    Change.Id changeId = changeOperations.newChange().childOf().commit(parentCommitId).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .onlyElement()
+        .commit()
+        .isEqualTo(parentCommitId.name());
+  }
+
+  @Test
+  public void specifiedParentCommitMustExist() {
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .newChange()
+                    .childOf()
+                    .commit(ObjectId.fromString("0123456789012345678901234567890123456789"))
+                    .create());
+    assertThat(exception).hasMessageThat().ignoringCase().contains("parent");
+  }
+
+  @Test
+  public void createdChangeUsesSpecifiedChangesInGivenOrderAsParents() throws Exception {
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId parent1CommitId =
+        changeOperations.change(parent1ChangeId).currentPatchset().get().commitId();
+    ObjectId parent2CommitId =
+        changeOperations.change(parent2ChangeId).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .comparingElementsUsing(hasSha1())
+        .containsExactly(parent1CommitId.name(), parent2CommitId.name())
+        .inOrder();
+  }
+
+  @Test
+  public void createdChangeUsesMergedParentsAsBaseCommit() throws Exception {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Line 1").create();
+    Change.Id parent2ChangeId =
+        changeOperations.newChange().file("file2").content("Some other content").create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
+    assertThat(file1Content).asString().isEqualTo("Line 1");
+    BinaryResult file2Content = getFileContent(changeId, patchsetId, "file2");
+    assertThat(file2Content).asString().isEqualTo("Some other content");
+  }
+
+  @Test
+  public void mergeConflictsOfParentsAreReported() {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId =
+        changeOperations.newChange().file("file1").content("Content 2").create();
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .newChange()
+                    .mergeOf()
+                    .change(parent1ChangeId)
+                    .and()
+                    .change(parent2ChangeId)
+                    .create());
+
+    assertThat(exception).hasMessageThat().ignoringCase().contains("conflict");
+  }
+
+  @Test
+  public void mergeConflictsCanBeAvoidedByUsingTheFirstParentAsBase() throws Exception {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId =
+        changeOperations.newChange().file("file1").content("Content 2").create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOfButBaseOnFirst()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
+    assertThat(file1Content).asString().isEqualTo("Content 1");
+  }
+
+  @Test
+  public void createdChangeHasAllParentsEvenWhenBasedOnFirst() throws Exception {
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOfButBaseOnFirst()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId parent1CommitId =
+        changeOperations.change(parent1ChangeId).currentPatchset().get().commitId();
+    ObjectId parent2CommitId =
+        changeOperations.change(parent2ChangeId).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .comparingElementsUsing(hasSha1())
+        .containsExactly(parent1CommitId.name(), parent2CommitId.name())
+        .inOrder();
+  }
+
+  @Test
+  public void automaticMergeOfMoreThanTwoParentsIsNotPossible() {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId =
+        changeOperations.newChange().file("file2").content("Content 2").create();
+    Change.Id parent3ChangeId =
+        changeOperations.newChange().file("file3").content("Content 3").create();
+
+    IllegalStateException exception =
+        assertThrows(
+            IllegalStateException.class,
+            () ->
+                changeOperations
+                    .newChange()
+                    .mergeOf()
+                    .change(parent1ChangeId)
+                    .followedBy()
+                    .change(parent2ChangeId)
+                    .and()
+                    .change(parent3ChangeId)
+                    .create());
+
+    assertThat(exception).hasMessageThat().ignoringCase().contains("conflict");
+  }
+
+  @Test
+  public void createdChangeCanHaveMoreThanTwoParentsWhenBasedOnFirst() throws Exception {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId =
+        changeOperations.newChange().file("file2").content("Content 2").create();
+    Change.Id parent3ChangeId =
+        changeOperations.newChange().file("file3").content("Content 3").create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOfButBaseOnFirst()
+            .change(parent1ChangeId)
+            .followedBy()
+            .change(parent2ChangeId)
+            .and()
+            .change(parent3ChangeId)
+            .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId parent1CommitId =
+        changeOperations.change(parent1ChangeId).currentPatchset().get().commitId();
+    ObjectId parent2CommitId =
+        changeOperations.change(parent2ChangeId).currentPatchset().get().commitId();
+    ObjectId parent3CommitId =
+        changeOperations.change(parent3ChangeId).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .comparingElementsUsing(hasSha1())
+        .containsExactly(parent1CommitId.name(), parent2CommitId.name(), parent3CommitId.name())
+        .inOrder();
+  }
+
+  @Test
+  public void changeBasedOnParentMayHaveAdditionalFileModifications() throws Exception {
+    Change.Id parentChangeId =
+        changeOperations
+            .newChange()
+            .file("file1")
+            .content("Content 1")
+            .file("file2")
+            .content("Content 2")
+            .create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .childOf()
+            .change(parentChangeId)
+            .file("file1")
+            .content("Different content")
+            .create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
+    assertThat(file1Content).asString().isEqualTo("Different content");
+    BinaryResult file2Content = getFileContent(changeId, patchsetId, "file2");
+    assertThat(file2Content).asString().isEqualTo("Content 2");
+  }
+
+  @Test
+  public void changeFromMergedParentsMayHaveAdditionalFileModifications() throws Exception {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId =
+        changeOperations.newChange().file("file2").content("Content 2").create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .file("file1")
+            .content("Different content")
+            .create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
+    assertThat(file1Content).asString().isEqualTo("Different content");
+    BinaryResult file2Content = getFileContent(changeId, patchsetId, "file2");
+    assertThat(file2Content).asString().isEqualTo("Content 2");
+  }
+
+  @Test
+  public void changeBasedOnFirstOfMultipleParentsMayHaveAdditionalFileModifications()
+      throws Exception {
+    Change.Id parent1ChangeId =
+        changeOperations.newChange().file("file1").content("Content 1").create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOfButBaseOnFirst()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .file("file1")
+            .content("Different content")
+            .create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
+    assertThat(file1Content).asString().isEqualTo("Different content");
   }
 
   @Test
@@ -626,6 +1038,105 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void newPatchsetCanHaveADifferentParent() throws Exception {
+    Change.Id originalParentChange = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations.newChange().childOf().change(originalParentChange).create();
+    Change.Id newParentChange = changeOperations.newChange().create();
+
+    changeOperations.change(changeId).newPatchset().parent().change(newParentChange).create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId newParentCommitId =
+        changeOperations.change(newParentChange).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .onlyElement()
+        .commit()
+        .isEqualTo(newParentCommitId.name());
+  }
+
+  @Test
+  public void newPatchsetCanHaveDifferentParents() throws Exception {
+    Change.Id originalParent1Change = changeOperations.newChange().create();
+    Change.Id originalParent2Change = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(originalParent1Change)
+            .and()
+            .change(originalParent2Change)
+            .create();
+    Change.Id newParent1Change = changeOperations.newChange().create();
+    Change.Id newParent2Change = changeOperations.newChange().create();
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .parents()
+        .change(newParent1Change)
+        .and()
+        .change(newParent2Change)
+        .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId newParent1CommitId =
+        changeOperations.change(newParent1Change).currentPatchset().get().commitId();
+    ObjectId newParent2CommitId =
+        changeOperations.change(newParent2Change).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .comparingElementsUsing(hasSha1())
+        .containsExactly(newParent1CommitId.name(), newParent2CommitId.name());
+  }
+
+  @Test
+  public void newPatchsetCanHaveADifferentNumberOfParents() throws Exception {
+    Change.Id originalParentChange = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations.newChange().childOf().change(originalParentChange).create();
+    Change.Id newParent1Change = changeOperations.newChange().create();
+    Change.Id newParent2Change = changeOperations.newChange().create();
+
+    changeOperations
+        .change(changeId)
+        .newPatchset()
+        .parents()
+        .change(newParent1Change)
+        .and()
+        .change(newParent2Change)
+        .create();
+
+    ChangeInfo change = getChangeFromServer(changeId);
+    CommitInfo currentPatchsetCommit = change.revisions.get(change.currentRevision).commit;
+    ObjectId newParent1CommitId =
+        changeOperations.change(newParent1Change).currentPatchset().get().commitId();
+    ObjectId newParent2CommitId =
+        changeOperations.change(newParent2Change).currentPatchset().get().commitId();
+    assertThat(currentPatchsetCommit)
+        .parents()
+        .comparingElementsUsing(hasSha1())
+        .containsExactly(newParent1CommitId.name(), newParent2CommitId.name());
+  }
+
+  @Test
+  public void newPatchsetKeepsFileContentsWithDifferentParent() throws Exception {
+    Change.Id changeId =
+        changeOperations.newChange().file("file1").content("Actual change content").create();
+    Change.Id newParentChange =
+        changeOperations.newChange().file("file1").content("Parent content").create();
+
+    changeOperations.change(changeId).newPatchset().parent().change(newParentChange).create();
+
+    PatchSet.Id patchsetId = changeOperations.change(changeId).currentPatchset().get().patchsetId();
+    BinaryResult file1Content = getFileContent(changeId, patchsetId, "file1");
+    assertThat(file1Content).asString().isEqualTo("Actual change content");
+  }
+
+  @Test
   public void publishedCommentCanBeRetrieved() {
     Change.Id changeId = changeOperations.newChange().create();
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();
@@ -720,5 +1231,9 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   private BinaryResult getFileContent(Change.Id changeId, PatchSet.Id patchsetId, String filePath)
       throws RestApiException {
     return gApi.changes().id(changeId.get()).revision(patchsetId.get()).file(filePath).content();
+  }
+
+  private Correspondence<CommitInfo, String> hasSha1() {
+    return NullAwareCorrespondence.transforming(commitInfo -> commitInfo.commit, "hasSha1");
   }
 }

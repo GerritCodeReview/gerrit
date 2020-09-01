@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
@@ -52,12 +53,16 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Optional;
 import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.AnyObjectId;
 import org.eclipse.jgit.lib.CommitBuilder;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeStrategy;
+import org.eclipse.jgit.merge.Merger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.util.ChangeIdUtil;
@@ -196,50 +201,152 @@ public class ChangeOperationsImpl implements ChangeOperations {
       TestChangeCreation changeCreation,
       PersonIdent authorAndCommitter)
       throws IOException, BadRequestException {
-    Optional<ObjectId> branchTip = getTip(repository, changeCreation.branch());
-
-    ObjectId tree =
-        createNewTree(
-            repository,
-            revWalk,
-            branchTip.orElse(ObjectId.zeroId()),
-            changeCreation.treeModifications());
-
+    ImmutableList<ObjectId> parentCommits = getParentCommits(repository, revWalk, changeCreation);
+    TreeCreator treeCreator =
+        getTreeCreator(objectInserter, parentCommits, changeCreation.mergeStrategy());
+    ObjectId tree = createNewTree(repository, treeCreator, changeCreation.treeModifications());
     String commitMessage = correctCommitMessage(changeCreation.commitMessage());
-
-    ImmutableList<ObjectId> parentCommitIds = Streams.stream(branchTip).collect(toImmutableList());
     return createCommit(
-        objectInserter,
-        tree,
-        parentCommitIds,
-        authorAndCommitter,
-        authorAndCommitter,
-        commitMessage);
+        objectInserter, tree, parentCommits, authorAndCommitter, authorAndCommitter, commitMessage);
   }
 
-  private Optional<ObjectId> getTip(Repository repository, String branch) throws IOException {
-    Optional<Ref> ref = Optional.ofNullable(repository.findRef(branch));
-    return ref.map(Ref::getObjectId);
+  private ImmutableList<ObjectId> getParentCommits(
+      Repository repository, RevWalk revWalk, TestChangeCreation changeCreation) {
+
+    return changeCreation
+        .parents()
+        .map(parents -> resolveParents(repository, revWalk, parents))
+        .orElseGet(() -> asImmutableList(getTip(repository, changeCreation.branch())));
+  }
+
+  private ImmutableList<ObjectId> resolveParents(
+      Repository repository, RevWalk revWalk, ImmutableList<TestCommitIdentifier> parents) {
+    return parents.stream()
+        .map(parent -> resolveCommit(repository, revWalk, parent))
+        .collect(toImmutableList());
+  }
+
+  private ObjectId resolveCommit(
+      Repository repository, RevWalk revWalk, TestCommitIdentifier parentCommit) {
+    switch (parentCommit.getKind()) {
+      case BRANCH:
+        return resolveBranchTip(repository, parentCommit.branch());
+      case CHANGE_ID:
+        return resolveChange(parentCommit.changeId());
+      case COMMIT_SHA_1:
+        return resolveCommitFromSha1(revWalk, parentCommit.commitSha1());
+      case PATCHSET_ID:
+        return resolvePatchset(parentCommit.patchsetId());
+      default:
+        throw new IllegalStateException(
+            String.format("No parent behavior implemented for %s.", parentCommit.getKind()));
+    }
+  }
+
+  private static ObjectId resolveBranchTip(Repository repository, String branchName) {
+    return getTip(repository, branchName)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Tip of branch %s not found and hence can't be used as parent.",
+                        branchName)));
+  }
+
+  private static Optional<ObjectId> getTip(Repository repository, String branch) {
+    try {
+      Optional<Ref> ref = Optional.ofNullable(repository.findRef(branch));
+      return ref.map(Ref::getObjectId);
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  private ObjectId resolveChange(Change.Id changeId) {
+    Optional<ChangeNotes> changeNotes = changeFinder.findOne(changeId);
+    return changeNotes
+        .map(ChangeNotes::getCurrentPatchSet)
+        .map(PatchSet::commitId)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Change %s not found and hence can't be used as parent.", changeId)));
+  }
+
+  private static RevCommit resolveCommitFromSha1(RevWalk revWalk, ObjectId commitSha1) {
+    try {
+      return revWalk.parseCommit(commitSha1);
+    } catch (Exception e) {
+      throw new IllegalStateException(
+          String.format("Commit %s not found and hence can't be used as parent/base.", commitSha1),
+          e);
+    }
+  }
+
+  private ObjectId resolvePatchset(PatchSet.Id patchsetId) {
+    Optional<ChangeNotes> changeNotes = changeFinder.findOne(patchsetId.changeId());
+    return changeNotes
+        .map(ChangeNotes::getPatchSets)
+        .map(patchsets -> patchsets.get(patchsetId))
+        .map(PatchSet::commitId)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Patchset %s not found and hence can't be used as parent.", patchsetId)));
+  }
+
+  private static <T> ImmutableList<T> asImmutableList(Optional<T> value) {
+    return Streams.stream(value).collect(toImmutableList());
+  }
+
+  private static TreeCreator getTreeCreator(
+      RevWalk revWalk, ObjectId customBaseCommit, ImmutableList<ObjectId> parentCommits) {
+    RevCommit commit = resolveCommitFromSha1(revWalk, customBaseCommit);
+    // Use actual parents; relevant for example when a file is restored (->
+    // RestoreFileModification).
+    return TreeCreator.basedOnTree(commit.getTree(), parentCommits);
+  }
+
+  private static TreeCreator getTreeCreator(
+      ObjectInserter objectInserter,
+      ImmutableList<ObjectId> parentCommits,
+      MergeStrategy mergeStrategy) {
+    if (parentCommits.isEmpty()) {
+      return TreeCreator.basedOnEmptyTree();
+    }
+    ObjectId baseTreeId = merge(objectInserter, parentCommits, mergeStrategy);
+    return TreeCreator.basedOnTree(baseTreeId, parentCommits);
+  }
+
+  private static ObjectId merge(
+      ObjectInserter objectInserter,
+      ImmutableList<ObjectId> parentCommits,
+      MergeStrategy mergeStrategy) {
+    try {
+      Merger merger = mergeStrategy.newMerger(objectInserter, new Config());
+      boolean mergeSuccessful = merger.merge(parentCommits.toArray(new AnyObjectId[0]));
+      if (!mergeSuccessful) {
+        throw new IllegalStateException(
+            "Conflicts encountered while merging the specified parents. Use"
+                + " mergeOfButBaseOnFirst() instead to avoid these conflicts and define any"
+                + " other desired file contents with file().content().");
+      }
+      return merger.getResultTreeId();
+    } catch (IOException e) {
+      throw new IllegalStateException(
+          "Creating the merge commits of the specified parents failed for an unknown reason.", e);
+    }
   }
 
   private static ObjectId createNewTree(
       Repository repository,
-      RevWalk revWalk,
-      ObjectId baseCommitId,
+      TreeCreator treeCreator,
       ImmutableList<TreeModification> treeModifications)
       throws IOException {
-    TreeCreator treeCreator = getTreeCreator(revWalk, baseCommitId);
     treeCreator.addTreeModifications(treeModifications);
     return treeCreator.createNewTreeAndGetId(repository);
-  }
-
-  private static TreeCreator getTreeCreator(RevWalk revWalk, ObjectId baseCommitId)
-      throws IOException {
-    if (ObjectId.zeroId().equals(baseCommitId)) {
-      return TreeCreator.basedOnEmptyTree();
-    }
-    RevCommit baseCommit = revWalk.parseCommit(baseCommitId);
-    return TreeCreator.basedOn(baseCommit);
   }
 
   private String correctCommitMessage(String desiredCommitMessage) throws BadRequestException {
@@ -352,16 +459,16 @@ public class ChangeOperationsImpl implements ChangeOperations {
       ObjectId oldPatchsetCommitId = changeNotes.getCurrentPatchSet().commitId();
       RevCommit oldPatchsetCommit = repository.parseCommit(oldPatchsetCommitId);
 
-      ObjectId tree =
-          createNewTree(
-              repository, revWalk, oldPatchsetCommitId, patchsetCreation.treeModifications());
+      ImmutableList<ObjectId> parentCommitIds =
+          getParents(repository, revWalk, patchsetCreation, oldPatchsetCommit);
+      TreeCreator treeCreator = getTreeCreator(revWalk, oldPatchsetCommit, parentCommitIds);
+      ObjectId tree = createNewTree(repository, treeCreator, patchsetCreation.treeModifications());
 
       String commitMessage =
           correctCommitMessage(
               changeNotes.getChange().getKey().get(),
               patchsetCreation.commitMessage().orElseGet(oldPatchsetCommit::getFullMessage));
 
-      ImmutableList<ObjectId> parentCommitIds = getParents(oldPatchsetCommit);
       PersonIdent author = getAuthor(oldPatchsetCommit);
       PersonIdent committer = getCommitter(oldPatchsetCommit, now);
       return createCommit(objectInserter, tree, parentCommitIds, author, committer, commitMessage);
@@ -404,10 +511,16 @@ public class ChangeOperationsImpl implements ChangeOperations {
       return date.getTime() / 1000;
     }
 
-    private ImmutableList<ObjectId> getParents(RevCommit oldPatchsetCommit) {
-      return Arrays.stream(oldPatchsetCommit.getParents())
-          .map(ObjectId::toObjectId)
-          .collect(toImmutableList());
+    private ImmutableList<ObjectId> getParents(
+        Repository repository,
+        RevWalk revWalk,
+        TestPatchsetCreation patchsetCreation,
+        RevCommit oldPatchsetCommit) {
+      return patchsetCreation
+          .parents()
+          .map(parents -> resolveParents(repository, revWalk, parents))
+          .orElseGet(
+              () -> Arrays.stream(oldPatchsetCommit.getParents()).collect(toImmutableList()));
     }
 
     private PatchSetInserter getPatchSetInserter(

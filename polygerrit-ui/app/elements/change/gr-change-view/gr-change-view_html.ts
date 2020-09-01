@@ -466,6 +466,7 @@ export const htmlTemplate = html`
                 <gr-button
                   link=""
                   class="editCommitMessage"
+                  title="Edit commit message"
                   on-click="_handleEditCommitMessage"
                   hidden$="[[_hideEditCommitMessage]]"
                   >Edit</gr-button

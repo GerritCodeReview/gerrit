@@ -222,17 +222,6 @@ class GrRelatedChangesList extends GestureEventListeners(
     return GerritNav.getUrlForChangeById(changeNum, project, opt_patchNum);
   }
 
-  _computeChangeContainerClass(currentChange, relatedChange) {
-    const classes = ['changeContainer'];
-    if ([relatedChange, currentChange].includes(undefined)) {
-      return classes;
-    }
-    if (this._changesEqual(relatedChange, currentChange)) {
-      classes.push('thisChange');
-    }
-    return classes.join(' ');
-  }
-
   /**
    * Do the given objects describe the same change? Compares the changes by
    * their numbers.

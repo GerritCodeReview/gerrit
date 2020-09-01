@@ -2569,7 +2569,8 @@ By default, `gerrit`.
 +
 Enable (or disable) the `'$site_path'/logs/httpd_log` request log.
 If enabled, an NCSA combined log format request log file is written
-out by the internal HTTP daemon.
+out by the internal HTTP daemon. The httpd log format is documented
+link:logs.html#_httpd_log[here].
 +
 `log4j.appender` with the name `httpd_log` can be configured to overwrite
 programmatic configuration.
@@ -4681,6 +4682,7 @@ By default, `host/canonical.host.name`
 +
 Enable (or disable) the `'$site_path'/logs/sshd_log` request log.
 If enabled, a request log file is written out by the SSH daemon.
+The sshd log format is documented link:logs.html#_sshd_log[here].
 +
 `log4j.appender` with the name `sshd_log` can be configured to overwrite
 programmatic configuration.

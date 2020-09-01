@@ -243,6 +243,30 @@
     },
     {
       "key": {
+        "uuid": "69d32e66_c92d4afe",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-01T13:16:00Z",
+      "side": 1,
+      "message": "Apologies, I did an on-line edit and something didn\u0027t work. Will do it again with a regular push.",
+      "parentUuid": "cddc8120_357ae221",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3e413b7_c69ce100",
         "filename": "e2e-tests/project/Dependencies.scala",
         "patchSetId": 2

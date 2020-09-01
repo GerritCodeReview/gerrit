@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "85690b50_90b30819",
+        "filename": "polygerrit-ui/app/elements/core/gr-router/gr-router.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1023,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-01T13:47:25Z",
+      "side": 1,
+      "message": "Can you maybe re-use the query route? Example:\n\n  https://gerrit-review.googlesource.com/q/I32e9863c8d1dd5e88c4525024bd87202ee5a4c88\n\nWe have special code that directly jumps to the change instead of showing a results page, if there is only one result.",
+      "revId": "30f95b465f88d76382605333ccfebf92c324e70a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0244480c_f5ac0183",
         "filename": "resources/com/google/gerrit/server/tools/root/hooks/commit-msg",
         "patchSetId": 5

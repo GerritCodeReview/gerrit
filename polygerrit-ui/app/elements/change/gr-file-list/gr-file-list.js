@@ -56,6 +56,8 @@ const PATCH_DESC_MAX_LENGTH = 500;
 const WARN_SHOW_ALL_THRESHOLD = 1000;
 const LOADING_DEBOUNCE_INTERVAL = 100;
 
+const MAX_NUM_OF_PREFETCH_REQ = 10;
+
 const SIZE_BAR_MAX_WIDTH = 61;
 const SIZE_BAR_GAP_WIDTH = 1;
 const SIZE_BAR_MIN_WIDTH = 1.5;
@@ -1277,12 +1279,15 @@ class GrFileList extends KeyboardShortcutMixin(
   _renderInOrder(files, diffElements, initialCount) {
     let iter = 0;
 
+    let numOfPrefetchReqs = 0;
     for (const file of files) {
       const path = file.path;
       const diffElem = this._findDiffByPath(path, diffElements);
       if (diffElem) {
         diffElem.prefetchDiff();
+        numOfPrefetchReqs++;
       }
+      if (numOfPrefetchReqs > MAX_NUM_OF_PREFETCH_REQ) { break; }
     }
 
     return (new Promise(resolve => {

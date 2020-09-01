@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "37f6ed36_1e076012",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T21:16:23Z",
+      "side": 1,
+      "message": "Commit message should have mentioned the Issue 13344; next time then.\n\nThanks for the fix. Looking forward to its deployment.",
+      "revId": "d8fdcbf6c125c69047f4a594ffa88da3451e7228",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

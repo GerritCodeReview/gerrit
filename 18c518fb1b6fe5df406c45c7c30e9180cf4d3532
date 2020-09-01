@@ -195,6 +195,54 @@
     },
     {
       "key": {
+        "uuid": "7850e221_05f5e847",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T12:43:57Z",
+      "side": 1,
+      "message": "(Pushed?)",
+      "parentUuid": "bbbe6542_cf92d66f",
+      "range": {
+        "startLine": 12,
+        "startChar": 11,
+        "endLine": 12,
+        "endChar": 27
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cddc8120_357ae221",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T12:43:57Z",
+      "side": 1,
+      "message": "(Pushed?)",
+      "parentUuid": "c4b8af3d_5918782f",
+      "range": {
+        "startLine": 12,
+        "startChar": 28,
+        "endLine": 12,
+        "endChar": 34
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a3e413b7_c69ce100",
         "filename": "e2e-tests/project/Dependencies.scala",
         "patchSetId": 2
@@ -286,6 +334,30 @@
       "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2f27c5c8_73516ee1",
+        "filename": "e2e-tests/project/Dependencies.scala",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T12:43:57Z",
+      "side": 1,
+      "message": "(Pushed?)",
+      "parentUuid": "7a1e4ebd_72fce088",
+      "range": {
+        "startLine": 13,
+        "startChar": 41,
+        "endLine": 13,
+        "endChar": 49
+      },
+      "revId": "18c518fb1b6fe5df406c45c7c30e9180cf4d3532",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

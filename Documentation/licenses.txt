@@ -49,6 +49,7 @@ Apache2.0
 * commons:compress
 * commons:dbcp
 * commons:lang
+* commons:lang3
 * commons:net
 * commons:pool
 * commons:validator

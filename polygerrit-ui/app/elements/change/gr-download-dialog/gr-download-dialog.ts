@@ -236,10 +236,7 @@ export class GrDownloadDialog extends GestureEventListeners(
     if (schemes.length === 0) {
       return;
     }
-    if (!this._selectedScheme) {
-      return;
-    }
-    if (!schemes.includes(this._selectedScheme)) {
+    if (!this._selectedScheme || !schemes.includes(this._selectedScheme)) {
       this._selectedScheme = schemes.sort()[0];
     }
   }

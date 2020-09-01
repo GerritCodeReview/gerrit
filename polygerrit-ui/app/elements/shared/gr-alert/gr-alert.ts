@@ -22,6 +22,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-alert_html';
 import {getRootElement} from '../../../scripts/rootElement';
 import {customElement, property} from '@polymer/decorators';
+import {ErrorType} from '../../core/gr-error-manager/gr-error-manager';
 
 declare global {
   interface HTMLElementTagNameMap {
@@ -30,7 +31,7 @@ declare global {
 }
 
 @customElement('gr-alert')
-class GrAlert extends GestureEventListeners(
+export class GrAlert extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
@@ -50,7 +51,7 @@ class GrAlert extends GestureEventListeners(
   actionText?: string;
 
   @property({type: String})
-  type?: string;
+  type?: ErrorType;
 
   @property({type: Boolean, reflectToAttribute: true})
   shown = true;
@@ -88,7 +89,7 @@ class GrAlert extends GestureEventListeners(
     }
   }
 
-  show(text: string, opt_actionText: string, opt_actionCallback?: () => void) {
+  show(text: string, opt_actionText?: string, opt_actionCallback?: () => void) {
     this.text = text;
     this.actionText = opt_actionText;
     this._hideActionButton = !opt_actionText;

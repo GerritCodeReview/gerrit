@@ -39,6 +39,7 @@ import com.google.gerrit.acceptance.ExtensionRegistry.Registration;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
+import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.CachedProjectConfig;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
@@ -63,6 +64,7 @@ public class CustomLabelIT extends AbstractDaemonTest {
 
   @Inject private ProjectOperations projectOperations;
   @Inject private ExtensionRegistry extensionRegistry;
+  @Inject private RequestScopeOperations requestScopeOperations;
 
   @Before
   public void setUp() throws Exception {
@@ -201,6 +203,28 @@ public class CustomLabelIT extends AbstractDaemonTest {
     assertThat(q.disliked).isNull();
     assertThat(q.rejected).isNotNull();
     assertThat(q.blocking).isTrue();
+  }
+
+  @Test
+  public void customLabelMaxWithBlock_DeletedVoteDoesNotTriggerNegativeBlock() throws Exception {
+    saveLabelConfig(P.toBuilder().setFunction(MAX_WITH_BLOCK));
+    PushOneCommit.Result r = createChange();
+    requestScopeOperations.setApiUser(user.id());
+    revision(r).review(new ReviewInput().label(P_LABEL_NAME, 1));
+    requestScopeOperations.setApiUser(admin.id());
+    revision(r).review(new ReviewInput().label(P_LABEL_NAME, 1));
+
+    LabelInfo labelInfo = getWithLabels(r).labels.get(P_LABEL_NAME);
+    assertThat(labelInfo.all).hasSize(2);
+    assertThat(labelInfo.approved).isNotNull();
+    assertThat(labelInfo.blocking).isNull();
+
+    revision(r).reviewer(admin.email()).deleteVote(P_LABEL_NAME);
+    labelInfo = getWithLabels(r).labels.get(P_LABEL_NAME);
+    assertThat(labelInfo.all).hasSize(2); // 0 vote still delivered
+    assertThat(labelInfo.approved).isNotNull();
+    assertThat(labelInfo.rejected).isNull();
+    assertThat(labelInfo.blocking).isNull(); // label is not blocking the change submission
   }
 
   @Test

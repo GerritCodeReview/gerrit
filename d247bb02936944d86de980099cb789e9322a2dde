@@ -68,6 +68,41 @@
       "revId": "d247bb02936944d86de980099cb789e9322a2dde",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "baa5e613_c278b71c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T21:20:34Z",
+      "side": 1,
+      "message": "You may submit or review otherwise, at will.",
+      "revId": "d247bb02936944d86de980099cb789e9322a2dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "26ed9943_59709278",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T21:20:34Z",
+      "side": 1,
+      "message": "\u003e \u003e The Download-patch dialog for me only has two (2) clickable options now. Do you see this too? Same goes for the other Download one.\n\u003e \n\u003e Yes, it has been filed this morning as a bug:\n\u003e https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13344\n\nThanks for the lead.\n\n\u003e \u003e I wanted to Verify this change locally before approving, but was stopped by that. If you were already able to Verify it, can you score accordingly?\n\u003e \n\u003e Yes, it works.\n\nApproved then; thanks.",
+      "parentUuid": "70c508c4_bdb82c3f",
+      "revId": "d247bb02936944d86de980099cb789e9322a2dde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

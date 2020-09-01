@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "acc1edbf_207276f0",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-01T15:54:37Z",
+      "side": 1,
+      "message": "I would keep the previous code here. There\u0027s no value in throwing an IllegalStateException here. We would also only run into this exception if the method parameter \u0027unresolved\u0027 was null, making this a brittle check.\n\nBy the way, I\u0027m pretty sure that the new test I added for the test API of comments will fail with this check (I\u0027ll trigger a CI rerun). For the test API, I decided to explicitly allow the creation of such \u0027invalid\u0027 comments as they might sneak in somehow (or are present due to legacy reasons) and we would want to test the robustness of some of our other endpoints.",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 9
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e49cc57_3e5e95b0",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-01T15:54:37Z",
+      "side": 1,
+      "message": "This method seems to be unused. Remove?",
+      "range": {
+        "startLine": 215,
+        "startChar": 32,
+        "endLine": 215,
+        "endChar": 47
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4846c195_db20892f",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-01T15:54:37Z",
+      "side": 1,
+      "message": "Similar to above, we shouldn\u0027t throw an IllegalStateException here. Here, it\u0027s even more dangerous. The method name getAllHumanCommentsInCommentThreads() suggests a read operation. During a read operation, it\u0027s very unfortunate if we run into an error and then omit all valid results just because a single entry is invalid.\n\nAn different example which might show the frustration users can have from something like this: If a file contains a comment in an invalid location (e.g. after the line or file end), Gerrit\u0027s UI does not show any of the comments within that file. It\u0027s a bug which turned out more difficult to fix for some reason but you might understand that users want to see as many comments as possible and ideally even the ones in an invalid location.\n\nTL;DR: Choose a behavior which is robust/resilient even when invalid entries are already stored in the database.",
+      "range": {
+        "startLine": 391,
+        "startChar": 22,
+        "endLine": 391,
+        "endChar": 43
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84e806b1_de515347",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-01T15:54:37Z",
+      "side": 1,
+      "message": "Two nits:\n- The internal check might \u0027forget\u0027 to look for robot comments. Hence, we should also have a test which ensures that human replies to robot comments work. (Same for the draft endpoint.)\n- Robot comments can also be replies and are not covered here.",
+      "range": {
+        "startLine": 1475,
+        "startChar": 14,
+        "endLine": 1475,
+        "endChar": 53
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

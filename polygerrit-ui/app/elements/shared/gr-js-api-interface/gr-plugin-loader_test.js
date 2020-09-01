@@ -540,4 +540,3 @@ suite('gr-plugin-loader tests', () => {
     });
   });
 });
-

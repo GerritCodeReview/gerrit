@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../change/gr-change-actions/gr-change-actions.js';
 import {resetPlugins} from '../../../test/test-utils.js';
-import {pluginLoader} from './gr-plugin-loader.js';
+import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 
 const basicFixture = fixtureFromElement('gr-change-actions');
@@ -44,7 +44,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
       pluginApi.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
       // Mimic all plugins loaded.
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
       changeActions = plugin.changeActions();
       element = basicFixture.instantiate();
     });
@@ -72,7 +72,7 @@ suite('gr-change-actions-js-api-interface tests', () => {
           'http://test.com/plugins/testplugin/static/test.js');
       changeActions = plugin.changeActions();
       // Mimic all plugins loaded.
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
     });
 
     teardown(() => {

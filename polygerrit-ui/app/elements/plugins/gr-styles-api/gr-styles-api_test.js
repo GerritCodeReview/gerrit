@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
@@ -41,7 +41,7 @@ suite('gr-styles-api tests', () => {
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
     stylesApi = plugin.styles();
   });
 
@@ -68,7 +68,7 @@ suite('gr-styles-api tests', () => {
       let plugin;
       pluginApi.install(p => { plugin = p; }, '0.1',
           'http://test.com/plugins/testplugin/static/test.js');
-      pluginLoader.loadPlugins([]);
+      getPluginLoader().loadPlugins([]);
       stylesApi = plugin.styles();
       displayInlineStyle = stylesApi.css('display: inline');
       displayNoneStyle = stylesApi.css('display: none');

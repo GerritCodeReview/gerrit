@@ -17,7 +17,7 @@
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {pluginLoader} from './gr-plugin-loader';
+import {getPluginLoader} from './gr-plugin-loader';
 import {patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement} from '@polymer/decorators';
 import {ChangeInfo, RevisionInfo} from '../../../types/common';
@@ -42,31 +42,36 @@ export class GrJsApiInterface
   extends GestureEventListeners(LegacyElementMixin(PolymerElement))
   implements JsApiService {
   handleEvent(type: EventType, detail: any) {
-    pluginLoader.awaitPluginsLoaded().then(() => {
-      switch (type) {
-        case EventType.HISTORY:
-          this._handleHistory(detail);
-          break;
-        case EventType.SHOW_CHANGE:
-          this._handleShowChange(detail);
-          break;
-        case EventType.COMMENT:
-          this._handleComment(detail);
-          break;
-        case EventType.LABEL_CHANGE:
-          this._handleLabelChange(detail);
-          break;
-        case EventType.SHOW_REVISION_ACTIONS:
-          this._handleShowRevisionActions(detail);
-          break;
-        case EventType.HIGHLIGHTJS_LOADED:
-          this._handleHighlightjsLoaded(detail);
-          break;
-        default:
-          console.warn('handleEvent called with unsupported event type:', type);
-          break;
-      }
-    });
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        switch (type) {
+          case EventType.HISTORY:
+            this._handleHistory(detail);
+            break;
+          case EventType.SHOW_CHANGE:
+            this._handleShowChange(detail);
+            break;
+          case EventType.COMMENT:
+            this._handleComment(detail);
+            break;
+          case EventType.LABEL_CHANGE:
+            this._handleLabelChange(detail);
+            break;
+          case EventType.SHOW_REVISION_ACTIONS:
+            this._handleShowRevisionActions(detail);
+            break;
+          case EventType.HIGHLIGHTJS_LOADED:
+            this._handleHighlightjsLoaded(detail);
+            break;
+          default:
+            console.warn(
+              'handleEvent called with unsupported event type:',
+              type
+            );
+            break;
+        }
+      });
   }
 
   addElement(key: TargetElement, el: HTMLElement) {
@@ -274,13 +279,15 @@ export class GrJsApiInterface
    * will resolve to null.
    */
   getCoverageAnnotationApi(): Promise<CoverageProvider | undefined> {
-    return pluginLoader.awaitPluginsLoaded().then(
-      () =>
-        this._getEventCallbacks(EventType.ANNOTATE_DIFF).find(cb => {
-          const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
-          return annotationApi.getCoverageProvider();
-        }) as CoverageProvider | undefined
-    );
+    return getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(
+        () =>
+          this._getEventCallbacks(EventType.ANNOTATE_DIFF).find(cb => {
+            const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
+            return annotationApi.getCoverageProvider();
+          }) as CoverageProvider | undefined
+      );
   }
 
   getAdminMenuLinks() {

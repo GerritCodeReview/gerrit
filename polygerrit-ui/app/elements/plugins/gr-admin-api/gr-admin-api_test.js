@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 
 const pluginApi = _testOnly_initGerritPluginApi();
@@ -29,7 +29,7 @@ suite('gr-admin-api tests', () => {
     let plugin;
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
     adminApi = plugin.admin();
   });
 

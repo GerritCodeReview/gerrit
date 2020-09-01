@@ -25,7 +25,7 @@ import {GrEditConstants} from '../../edit/gr-edit-constants.js';
 import {_testOnly_resetEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {EventType} from '../../plugins/gr-plugin-types.js';
 
@@ -301,7 +301,7 @@ suite('gr-change-view tests', () => {
     });
     element = fixture.instantiate();
     sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
     pluginApi.install(
         plugin => {
           plugin.registerDynamicCustomComponent(
@@ -1642,7 +1642,7 @@ suite('gr-change-view tests', () => {
   test('revert dialog opened with revert param', done => {
     sinon.stub(element.$.restAPI, 'getLoggedIn')
         .callsFake(() => Promise.resolve(true));
-    sinon.stub(pluginLoader, 'awaitPluginsLoaded')
+    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
         .callsFake(() => Promise.resolve());
 
     element._patchRange = {
@@ -1671,7 +1671,7 @@ suite('gr-change-view tests', () => {
         done);
 
     element._maybeShowRevertDialog();
-    assert.isTrue(pluginLoader.awaitPluginsLoaded.called);
+    assert.isTrue(getPluginLoader().awaitPluginsLoaded.called);
   });
 
   suite('scroll related tests', () => {

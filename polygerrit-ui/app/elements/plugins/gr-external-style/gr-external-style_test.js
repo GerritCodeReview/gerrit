@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import {resetPlugins} from '../../../test/test-utils.js';
 import './gr-external-style.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
 import {_testOnly_initGerritPluginApi} from '../../shared/gr-js-api-interface/gr-gerrit.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
@@ -68,7 +68,7 @@ suite('gr-external-style integration tests', () => {
   setup(() => {
     sinon.stub(getPluginEndpoints(), 'importUrl')
         .callsFake( url => Promise.resolve());
-    sinon.stub(pluginLoader, 'awaitPluginsLoaded')
+    sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
         .returns(Promise.resolve());
   });
 

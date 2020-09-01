@@ -18,7 +18,7 @@ import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 /** @extends PolymerElement */
 class GrPluginHost extends GestureEventListeners(
@@ -42,7 +42,7 @@ class GrPluginHost extends GestureEventListeners(
         plugins && plugins.js_resource_paths || [], htmlPlugins
     );
     const shouldLoadTheme = config.default_theme &&
-          !pluginLoader.isPluginPreloaded('preloaded:gerrit-theme');
+          !getPluginLoader().isPluginPreloaded('preloaded:gerrit-theme');
     const themeToLoad =
           shouldLoadTheme ? [config.default_theme] : [];
 
@@ -57,7 +57,7 @@ class GrPluginHost extends GestureEventListeners(
       pluginOpts[config.default_theme] = {sync: true};
     }
 
-    pluginLoader.loadPlugins(pluginsPending, pluginOpts);
+    getPluginLoader().loadPlugins(pluginsPending, pluginOpts);
   }
 
   /**

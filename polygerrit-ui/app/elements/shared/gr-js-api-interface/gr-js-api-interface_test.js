@@ -22,7 +22,7 @@ import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {EventType} from '../../plugins/gr-plugin-types.js';
 import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
-import {pluginLoader} from './gr-plugin-loader.js';
+import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 
@@ -60,7 +60,7 @@ suite('gr-js-api-interface tests', () => {
     errorStub = sinon.stub(console, 'error');
     pluginApi.install(p => { plugin = p; }, '0.1',
         'http://test.com/plugins/testplugin/static/test.js');
-    pluginLoader.loadPlugins([]);
+    getPluginLoader().loadPlugins([]);
   });
 
   teardown(() => {
@@ -234,7 +234,7 @@ suite('gr-js-api-interface tests', () => {
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     const spy = sinon.spy();
-    pluginLoader.loadPlugins(['plugins/test.html']);
+    getPluginLoader().loadPlugins(['plugins/test.html']);
     plugin.on(EventType.SHOW_CHANGE, spy);
     element.handleEvent(EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1});

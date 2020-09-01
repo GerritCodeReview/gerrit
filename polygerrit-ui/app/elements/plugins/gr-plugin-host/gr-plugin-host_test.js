@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-host.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-host');
 
@@ -31,21 +31,21 @@ suite('gr-plugin-host tests', () => {
   });
 
   test('load plugins should be called', () => {
-    sinon.stub(pluginLoader, 'loadPlugins');
+    sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
       plugin: {
         html_resource_paths: ['plugins/foo/bar', 'plugins/baz'],
         js_resource_paths: ['plugins/42'],
       },
     };
-    assert.isTrue(pluginLoader.loadPlugins.calledOnce);
-    assert.isTrue(pluginLoader.loadPlugins.calledWith([
+    assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
+    assert.isTrue(getPluginLoader().loadPlugins.calledWith([
       'plugins/42', 'plugins/foo/bar', 'plugins/baz',
     ], {}));
   });
 
   test('theme plugins should be loaded if enabled', () => {
-    sinon.stub(pluginLoader, 'loadPlugins');
+    sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
       default_theme: 'gerrit-theme.html',
       plugin: {
@@ -53,23 +53,23 @@ suite('gr-plugin-host tests', () => {
         js_resource_paths: ['plugins/42'],
       },
     };
-    assert.isTrue(pluginLoader.loadPlugins.calledOnce);
-    assert.isTrue(pluginLoader.loadPlugins.calledWith([
+    assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
+    assert.isTrue(getPluginLoader().loadPlugins.calledWith([
       'gerrit-theme.html', 'plugins/42', 'plugins/foo/bar', 'plugins/baz',
     ], {'gerrit-theme.html': {sync: true}}));
   });
 
   test('skip theme if preloaded', () => {
-    sinon.stub(pluginLoader, 'isPluginPreloaded')
+    sinon.stub(getPluginLoader(), 'isPluginPreloaded')
         .withArgs('preloaded:gerrit-theme')
         .returns(true);
-    sinon.stub(pluginLoader, 'loadPlugins');
+    sinon.stub(getPluginLoader(), 'loadPlugins');
     element.config = {
       default_theme: '/oof',
       plugin: {},
     };
-    assert.isTrue(pluginLoader.loadPlugins.calledOnce);
-    assert.isTrue(pluginLoader.loadPlugins.calledWith([], {}));
+    assert.isTrue(getPluginLoader().loadPlugins.calledOnce);
+    assert.isTrue(getPluginLoader().loadPlugins.calledWith([], {}));
   });
 });
 

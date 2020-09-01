@@ -39,7 +39,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-admin-view_html.js';
 import {getBaseUrl} from '../../../utils/url-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {getAdminLinks} from '../../../utils/admin-nav-util.js';
 
 const INTERNAL_GROUP_REGEX = /^[\da-f]{40}$/;
@@ -112,7 +112,7 @@ class GrAdminView extends GestureEventListeners(
   reload() {
     const promises = [
       this.$.restAPI.getAccount(),
-      pluginLoader.awaitPluginsLoaded(),
+      getPluginLoader().awaitPluginsLoaded(),
     ];
     return Promise.all(promises).then(result => {
       this._account = result[0];

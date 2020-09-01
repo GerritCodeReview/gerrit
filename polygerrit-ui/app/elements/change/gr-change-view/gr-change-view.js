@@ -56,7 +56,7 @@ import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {pluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {PrimaryTab, SecondaryTab} from '../../../constants/constants.js';
 import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
@@ -498,7 +498,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       this._setDiffViewMode();
     });
 
-    pluginLoader.awaitPluginsLoaded()
+    getPluginLoader().awaitPluginsLoaded()
         .then(() => {
           this._dynamicTabHeaderEndpoints =
             getPluginEndpoints().getDynamicEndpoints('change-view-tab-header');
@@ -1075,9 +1075,10 @@ class GrChangeView extends KeyboardShortcutMixin(
       this._performPostLoadTasks();
     });
 
-    pluginLoader.awaitPluginsLoaded().then(() => {
-      this._initActiveTabs(value);
-    });
+    getPluginLoader().awaitPluginsLoaded()
+        .then(() => {
+          this._initActiveTabs(value);
+        });
   }
 
   _initActiveTabs(params = {}) {
@@ -1180,7 +1181,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _maybeShowRevertDialog() {
-    pluginLoader.awaitPluginsLoaded()
+    getPluginLoader().awaitPluginsLoaded()
         .then(this._getLoggedIn.bind(this))
         .then(loggedIn => {
           if (!loggedIn || !this._change ||

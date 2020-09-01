@@ -60,7 +60,7 @@ import {GrPluginRestApi} from './shared/gr-js-api-interface/gr-plugin-rest-api.j
 import {GrRepoApi} from './plugins/gr-repo-api/gr-repo-api.js';
 import {GrSettingsApi} from './plugins/gr-settings-api/gr-settings-api.js';
 import {GrStylesApi} from './plugins/gr-styles-api/gr-styles-api.js';
-import {pluginLoader, PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
+import {getPluginLoader, PluginLoader} from './shared/gr-js-api-interface/gr-plugin-loader.js';
 import {GrPluginActionContext} from './shared/gr-js-api-interface/gr-plugin-action-context.js';
 import {getPluginNameFromUrl, getRestAPI, PLUGIN_LOADING_TIMEOUT_MS, PRELOADED_PROTOCOL, send} from './shared/gr-js-api-interface/gr-api-utils.js';
 import {getBaseUrl} from '../utils/url-util.js';
@@ -138,7 +138,7 @@ export function initGlobalVariables() {
   window.Gerrit.getRootElement = getRootElement;
   window.Gerrit.Auth = appContext.authService;
 
-  window.Gerrit._pluginLoader = pluginLoader;
+  window.Gerrit._pluginLoader = getPluginLoader();
   // TODO: should define as a getter
   window.Gerrit._endpoints = getPluginEndpoints();
 

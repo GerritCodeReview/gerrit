@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8840bb1e_73fc00a5",
+        "filename": "Documentation/logs.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-01T08:43:15Z",
+      "side": 1,
+      "message": "Replace tabs with two spaces? (here and below)",
+      "range": {
+        "startLine": 98,
+        "startChar": 0,
+        "endLine": 98,
+        "endChar": 1
+      },
+      "revId": "9c55fbce0de833151c7ea7f5dcd0b40ac28c31f7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

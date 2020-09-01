@@ -274,6 +274,8 @@ class GrDiffView extends KeyboardShortcutMixin(
           '_handleOpenReplyDialogOrToggleLeftPane',
       [Shortcut.TOGGLE_LEFT_PANE]:
           '_handleOpenReplyDialogOrToggleLeftPane',
+      [Shortcut.OPEN_DOWNLOAD_DIALOG]:
+          '_handleOpenDownloadDialog',
       [Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
       [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
       [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
@@ -588,6 +590,14 @@ class GrDiffView extends KeyboardShortcutMixin(
     if (!this._loggedIn) { return; }
 
     this.set('changeViewState.showReplyDialog', true);
+    e.preventDefault();
+    this._navToChangeView();
+  }
+
+  _handleOpenDownloadDialog(e) {
+    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+    if (this.modifierPressed(e)) { return; }
+    this.set('changeViewState.showDownloadDialog', true);
     e.preventDefault();
     this._navToChangeView();
   }

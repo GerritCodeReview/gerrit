@@ -50,6 +50,7 @@ suite('gr-diff-view tests', () => {
       kb.bindShortcut(Shortcut.PREV_CHUNK, 'p');
       kb.bindShortcut(Shortcut.PREV_COMMENT_THREAD, 'shift+p');
       kb.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a');
+      kb.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd');
       kb.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
       kb.bindShortcut(Shortcut.UP_TO_CHANGE, 'u');
       kb.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
@@ -539,6 +540,10 @@ suite('gr-diff-view tests', () => {
       assert(changeNavStub.lastCall.calledWithExactly(element._change, '10',
           '5'),
       'Should navigate to /c/42/5..10');
+
+      assert.isUndefined(element.changeViewState.showDownloadDialog);
+      MockInteractions.pressAndReleaseKeyOn(element, 68, null, 'd');
+      assert.isTrue(element.changeViewState.showDownloadDialog);
     });
 
     test('keyboard shortcuts with old patch number', () => {

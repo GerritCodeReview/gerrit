@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "67a6997b_e72a0805",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T22:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c427c06e_3006110e",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 7,
+        "endChar": 41
+      },
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0233ef03_c96ea924",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "4b565888_9f7e1e5c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T22:05:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0233ef03_c96ea924",
+      "range": {
+        "startLine": 10,
+        "startChar": 63,
+        "endLine": 11,
+        "endChar": 64
+      },
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "76751747_86b012d6",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -65,6 +113,24 @@
     },
     {
       "key": {
+        "uuid": "155dd40d_9349824c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T22:05:12Z",
+      "side": 1,
+      "message": "Done. I applied an hybrid based on your suggestion.",
+      "parentUuid": "76751747_86b012d6",
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6aab37b8_5e097ba3",
         "filename": "/COMMIT_MSG",
         "patchSetId": 6
@@ -79,6 +145,24 @@
       "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "409885f5_310389e0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 6
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-01T22:05:12Z",
+      "side": 1,
+      "message": "Removed; was unnecessary anyway. Thanks for the highlight.",
+      "parentUuid": "6aab37b8_5e097ba3",
+      "revId": "873a70e4ea2f9e3b0801dcbf308cfabdb450a39d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

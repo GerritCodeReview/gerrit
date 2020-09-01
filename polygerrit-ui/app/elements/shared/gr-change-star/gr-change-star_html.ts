@@ -39,7 +39,9 @@ export const htmlTemplate = html`
   </style>
   <button
     role="checkbox"
-    aria-label="[[_computeAriaLabel(change.starred)]]]"
+    title="[[createTitle(Shortcut.TOGGLE_CHANGE_STAR,
+      ShortcutSection.ACTIONS)]]"
+    aria-label="[[_computeAriaLabel(change.starred)]]"
     on-click="toggleStar"
   >
     <iron-icon

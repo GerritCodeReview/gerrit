@@ -33,5 +33,10 @@ export type EventCallback = (...args: any[]) => any;
 export interface JsApiService {
   getElement(key: TargetElement): HTMLElement;
   addEventCallback(eventName: EventType, callback: EventCallback): void;
+  modifyRevertSubmissionMsg(
+    change: ChangeInfo,
+    revertSubmissionMsg: string,
+    origMsg: string
+  ): string;
   // TODO(TS): Add more methods when needed for the TS conversion.
 }

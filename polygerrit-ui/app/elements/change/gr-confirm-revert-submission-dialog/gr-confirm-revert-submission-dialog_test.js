@@ -40,7 +40,6 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
   test('single line', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
-        'one line commit\n\nChange-Id: abcdefg\n',
         {current_revision: 'abcd123', submission_id: '111'});
     const expected = 'Revert submission 111\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
@@ -50,7 +49,6 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
   test('multi line', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
-        'many lines\ncommit\n\nmessage\n\nChange-Id: abcdefg\n',
         {current_revision: 'abcd123', submission_id: '111'});
     const expected = 'Revert submission 111\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';
@@ -60,7 +58,6 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
   test('issue above change id', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
-        'test \nvery\n\ncommit\n\nBug: Issue 42\nChange-Id: abcdefg\n',
         {current_revision: 'abcd123', submission_id: '111'});
     const expected = 'Revert submission 111\n\n' +
         'Reason for revert: <INSERT REASONING HERE>\n';
@@ -70,7 +67,6 @@ suite('gr-confirm-revert-submission-dialog tests', () => {
   test('revert a revert', () => {
     assert.isNotOk(element.message);
     element._populateRevertSubmissionMessage(
-        'Revert "one line commit"\n\nChange-Id: abcdefg\n',
         {current_revision: 'abcd123', submission_id: '111'});
     const expected = 'Revert submission 111\n\n' +
       'Reason for revert: <INSERT REASONING HERE>\n';

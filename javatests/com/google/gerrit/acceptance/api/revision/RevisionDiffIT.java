@@ -118,6 +118,12 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     assertDiffForNewFile(result, COMMIT_MSG, result.getCommit().getFullMessage());
   }
 
+  @Ignore
+  @Test
+  public void diffWithRootCommit() throws Exception {
+    // TODO(ghareeb): Implement this test
+  }
+
   @Test
   public void patchsetLevelFileDiffIsEmpty() throws Exception {
     PushOneCommit.Result result = createChange();

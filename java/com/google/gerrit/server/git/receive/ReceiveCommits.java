@@ -932,17 +932,9 @@ class ReceiveCommits {
         updateGroups.forEach(r -> r.addOps(bu));
 
         logger.atFine().log("Executing batch");
-
         try {
-          retryHelper
-              .changeUpdate(
-                  "insertChangesAndPatchSets",
-                  () -> {
-                    bu.execute();
-                    return null;
-                  })
-              .call();
-        } catch (Exception e) {
+          bu.execute();
+        } catch (UpdateException e) {
           throw asRestApiException(e);
         }
 

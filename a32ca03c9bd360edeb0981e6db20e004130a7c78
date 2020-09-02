@@ -22,6 +22,30 @@
       "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "450729ba_5534f9ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T21:31:59Z",
+      "side": 1,
+      "message": "It\u0027s actually fully configurable - you\u0027re free to set the poolThreadSize to 0 on your host, and then this change is a no-op for you.\nThe default is \"1\", as in, only 1 thread would be added (so if you try to send 2 emails, it will send those 2 emails with 1 additional thread).\n\nAlso, the most frequent emails are already sent async (with this config I mentioned above as the limit for number of threads).\n\nI don\u0027t think a giant backlog could result with these limitations.",
+      "parentUuid": "83d2d79c_fe1d668c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

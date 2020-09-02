@@ -12,21 +12,14 @@
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.patch.filediff;
 
-import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
-import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
+import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.server.patch.DiffNotAvailableException;
 
-/**
- * Thrown by the diff caches - the {@link GitModifiedFilesCache} and the {@link ModifiedFilesCache},
- * if the implementations failed to retrieve the modified files between the 2 commits.
- */
-public class DiffNotAvailableException extends Exception {
-  public DiffNotAvailableException(Throwable cause) {
-    super(cause);
-  }
+public interface FileDiffCache {
+  FileDiffOutput get(FileDiffCacheImpl.Key key) throws DiffNotAvailableException;
 
-  public DiffNotAvailableException(String message) {
-    super(message);
-  }
+  ImmutableMap<FileDiffCacheImpl.Key, FileDiffOutput> getAll(Iterable<FileDiffCacheImpl.Key> keys)
+      throws DiffNotAvailableException;
 }

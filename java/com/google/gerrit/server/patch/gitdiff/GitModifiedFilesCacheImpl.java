@@ -150,7 +150,7 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
     }
 
     private static Patch.ChangeType toChangeType(DiffEntry.ChangeType changeType) {
-      if (changeTypeMap.containsKey(changeType)) {
+      if (!changeTypeMap.containsKey(changeType)) {
         throw new IllegalArgumentException("Unsupported type " + changeType);
       }
       return changeTypeMap.get(changeType);

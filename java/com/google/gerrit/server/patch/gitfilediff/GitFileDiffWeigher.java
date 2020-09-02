@@ -11,22 +11,18 @@
 //  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 //  See the License for the specific language governing permissions and
 //  limitations under the License.
+//
+//
+//
 
-package com.google.gerrit.server.patch;
+package com.google.gerrit.server.patch.gitfilediff;
 
-import com.google.gerrit.server.patch.diff.ModifiedFilesCache;
-import com.google.gerrit.server.patch.gitdiff.GitModifiedFilesCache;
+import com.google.common.cache.Weigher;
 
-/**
- * Thrown by the diff caches - the {@link GitModifiedFilesCache} and the {@link ModifiedFilesCache},
- * if the implementations failed to retrieve the modified files between the 2 commits.
- */
-public class DiffNotAvailableException extends Exception {
-  public DiffNotAvailableException(Throwable cause) {
-    super(cause);
-  }
+public class GitFileDiffWeigher implements Weigher<GitFileDiffCacheImpl.Key, GitFileDiff> {
 
-  public DiffNotAvailableException(String message) {
-    super(message);
+  @Override
+  public int weigh(GitFileDiffCacheImpl.Key key, GitFileDiff gitFileDiff) {
+    return key.weight() + gitFileDiff.weight();
   }
 }

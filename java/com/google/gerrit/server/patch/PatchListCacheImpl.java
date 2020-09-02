@@ -25,6 +25,7 @@ import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.cache.CacheBackend;
 import com.google.gerrit.server.cache.CacheModule;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.patch.filediff.PatchListLoader;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.Singleton;
@@ -37,7 +38,7 @@ import org.eclipse.jgit.lib.ObjectId;
 /** Provides a cached list of {@link PatchListEntry}. */
 @Singleton
 public class PatchListCacheImpl implements PatchListCache {
-  static final String FILE_NAME = "diff";
+  public static final String FILE_NAME = "diff";
   static final String INTRA_NAME = "diff_intraline";
   static final String DIFF_SUMMARY = "diff_summary";
 

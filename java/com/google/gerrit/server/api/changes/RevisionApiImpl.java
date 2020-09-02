@@ -79,6 +79,7 @@ import com.google.gerrit.server.restapi.change.GetMergeList;
 import com.google.gerrit.server.restapi.change.GetPatch;
 import com.google.gerrit.server.restapi.change.GetRelated;
 import com.google.gerrit.server.restapi.change.GetRevisionActions;
+import com.google.gerrit.server.restapi.change.ListPortedComments;
 import com.google.gerrit.server.restapi.change.ListRevisionComments;
 import com.google.gerrit.server.restapi.change.ListRevisionDrafts;
 import com.google.gerrit.server.restapi.change.ListRobotComments;
@@ -130,6 +131,7 @@ class RevisionApiImpl implements RevisionApi {
   private final FileApiImpl.Factory fileApi;
   private final ListRevisionComments listComments;
   private final ListRobotComments listRobotComments;
+  private final ListPortedComments listPortedComments;
   private final ApplyFix applyFix;
   private final GetFixPreview getFixPreview;
   private final Fixes fixes;
@@ -175,6 +177,7 @@ class RevisionApiImpl implements RevisionApi {
       FileApiImpl.Factory fileApi,
       ListRevisionComments listComments,
       ListRobotComments listRobotComments,
+      ListPortedComments listPortedComments,
       ApplyFix applyFix,
       GetFixPreview getFixPreview,
       Fixes fixes,
@@ -219,6 +222,7 @@ class RevisionApiImpl implements RevisionApi {
     this.listComments = listComments;
     this.robotComments = robotComments;
     this.listRobotComments = listRobotComments;
+    this.listPortedComments = listPortedComments;
     this.applyFix = applyFix;
     this.getFixPreview = getFixPreview;
     this.fixes = fixes;
@@ -450,6 +454,15 @@ class RevisionApiImpl implements RevisionApi {
       return listRobotComments.getComments(revision);
     } catch (Exception e) {
       throw asRestApiException("Cannot retrieve robot comments", e);
+    }
+  }
+
+  @Override
+  public Map<String, List<CommentInfo>> portedComments() throws RestApiException {
+    try {
+      return listPortedComments.apply(revision).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot retrieve ported comments", e);
     }
   }
 

@@ -172,6 +172,8 @@ public class Module extends RestApiModule {
     post(FIX_KIND, "apply").to(ApplyFix.class);
     get(FIX_KIND, "preview").to(GetFixPreview.class);
 
+    get(REVISION_KIND, "ported_comments").to(ListPortedComments.class);
+
     child(REVISION_KIND, "files").to(Files.class);
     put(FILE_KIND, "reviewed").to(PutReviewed.class);
     delete(FILE_KIND, "reviewed").to(DeleteReviewed.class);

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "724dc670_2ace339f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-02T14:13:32Z",
+      "side": 1,
+      "message": "Could this be included in the next release of 3.2 and if so, when is the next one due?\n\nI am asking because we are planning an upgrade in September and it would be nice to have this included!",
+      "revId": "d9c0fa23211e03d5aed025fd0ccaffc170e1f90c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

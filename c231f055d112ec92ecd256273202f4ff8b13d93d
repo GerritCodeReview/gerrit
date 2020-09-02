@@ -167,6 +167,30 @@
     },
     {
       "key": {
+        "uuid": "82cbd957_ee78d773",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T07:15:44Z",
+      "side": 1,
+      "message": "I still believe the commit message and the code are diverging. @Per can you clarify if you want to achieve what is written in the commit message OR you want to fix a problem with the code?",
+      "parentUuid": "549578b8_fc8deff6",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b9cb2d5_da9e63dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -202,6 +226,24 @@
     },
     {
       "key": {
+        "uuid": "260ca1e5_1df9b2b1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T07:15:44Z",
+      "side": 1,
+      "message": "\u003e Luca, yes you are correct in that sense. However I believe this might be all that I need to be able to extend SSHD functionality via plugins, so that is why I picked that issue number.\n\nCan you clarify how this change is allowing you to make the error message extensible via plugins?\nWhat I see in the code and in the commit message do not match.\n\n\u003e I am going to explore doing extension not by inheritance but by member instantiation instead (Upload/Receive).\n\nIs that part of this change?",
+      "parentUuid": "5d074dce_1987e9cf",
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "8797bd04_bc84216b",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -233,6 +275,24 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "46c682c8_67442972",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T07:15:44Z",
+      "side": 1,
+      "message": "+1, @Per can you raise a separate issue and link it to this change?",
+      "parentUuid": "b9768369_1efc5e62",
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

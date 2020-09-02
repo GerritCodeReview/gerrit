@@ -51,6 +51,24 @@
       "revId": "d35032d6f6418355935e931aa727eeae649d4bf8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51c221e9_9beff17c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T10:00:57Z",
+      "side": 0,
+      "message": "Considering that Patrick didn\u0027t comment on this, I assume that we can keep the current tests as they are.",
+      "parentUuid": "98ac8647_2b386b81",
+      "revId": "d35032d6f6418355935e931aa727eeae649d4bf8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

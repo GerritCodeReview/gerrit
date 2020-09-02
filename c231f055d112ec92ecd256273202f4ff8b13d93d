@@ -143,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "549578b8_fc8deff6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-02T07:00:35Z",
+      "side": 1,
+      "message": "\u003e No the whole point was to be able to extend the functionality as required. What I suggested was just an example. For example for CI systems just printing something doesn\u0027t solve anything.\n\nSort of of topic and should probably be discussed in the Issue, sorry for starting the discussion here. In short:\nI don\u0027t understand what you are trying to solve for CI systems.\nIn general if your CI job is pushing to Gerrit and it\u0027s trying to push to a replica it will never work, it should be apparent the first time you run your job (which I suggest should be done by a human that can interpret the output and solve the problem).\n\n\u003e Initially I considered removing the final and making the classes public, so that via SSH disabled we could replace the implementation with some intersects and then pass on execution.\n\u003e \n\u003e If you are ok with making the classes non-final I can include that too now?\n\nNo! You should strive for atomic commits.\nThis change will work on it\u0027s own regardless of what the end goal is.",
+      "parentUuid": "4ef4a7a7_d6b7fcc7",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6b9cb2d5_da9e63dd",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1
@@ -256,6 +280,30 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2a18d381_fc0627a6",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-02T07:00:35Z",
+      "side": 1,
+      "message": "\u003e Note that this moves the test submit away from the others + I don\u0027t know whether the gerrit Receive.class should be where it is. I\u0027ve not fully understood the duplication there is in the SSHD command module between git and gerrit commands.\n\nI\u0027m sorry I don\u0027t follow your reasoning.\nOne of the main purposes of code-review is that your code is reviewed by those who are (hopefully) more familiar with the code-base and/or the domain. Not trusting that others have at least have a decent understanding of what they are talking about sort of defeats the purpose.\nThe fact that you are uncertain of what this piece of code does doesn\u0027t mean that everyone is equally uncertain and is a perfect example of how code-review enables you to contribute to code-bases that you aren\u0027t fully familiar with, and hopefully expands your knowledge and understanding of said code-base in particular and software-development in general. At least this has been my experience.\nIf my review comment isn\u0027t valid you can bet that other reviewers will react and correct me with a reason why which in turn will  make my understanding grow. 😊\n\nMoving all ssh git-command bindings into a single if-ssh-enabled clause seems to me like an improvement.\nIf you follow the logic of this piece of code, what will change logically if you move this section into the block above?\nWhat is gained by having these two code segments in two separate if clauses?\nProximity of code doesn\u0027t matter for the outcome only order, and the order between the if clause and the clause on lines 105-107 doesn\u0027t change. Could you explain what your worry is exactly?",
+      "parentUuid": "da8c8c5a_be95f755",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

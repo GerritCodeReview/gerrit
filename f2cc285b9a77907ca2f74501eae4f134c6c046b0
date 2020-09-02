@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ca170c69_586792f4",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedDrafts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T13:35:00Z",
+      "side": 1,
+      "message": "nit: I think small functions like these make the code harder to read when they just wrap service or utility functions from elsewhere, especially for small classes like this one.",
+      "revId": "f2cc285b9a77907ca2f74501eae4f134c6c046b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

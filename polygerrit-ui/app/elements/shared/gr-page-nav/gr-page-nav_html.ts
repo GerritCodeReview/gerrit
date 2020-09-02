@@ -36,7 +36,7 @@ export const htmlTemplate = html`
       }
     }
   </style>
-  <nav id="nav">
+  <nav id="nav" aria-label="Sidebar">
     <slot></slot>
   </nav>
 `;

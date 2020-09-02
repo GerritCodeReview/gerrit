@@ -28,7 +28,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-menu-page-styles">
       :host {
         display: block;
       }
-      main {
+      div.main {
         margin: var(--spacing-xxl) auto;
         max-width: 50em;
       }

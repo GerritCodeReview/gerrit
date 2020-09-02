@@ -87,6 +87,30 @@
       "revId": "638d814140085c235191b12da762f1955eb01c2a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e01e503_02877b1d",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T15:16:07Z",
+      "side": 1,
+      "message": "Sure. I added a log statement. I\u0027ll add a similar one for the file path in the follow-up change.",
+      "parentUuid": "4eb0299f_4b2145f8",
+      "range": {
+        "startLine": 203,
+        "startChar": 84,
+        "endLine": 204,
+        "endChar": 41
+      },
+      "revId": "638d814140085c235191b12da762f1955eb01c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

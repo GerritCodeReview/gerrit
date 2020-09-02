@@ -116,6 +116,10 @@ export const htmlTemplate = html`
         @apply --native-select-style;
       }
     }
+    iron-icon {
+      margin: 0 var(--spacing-xs);
+      vertical-align: top;
+    }
   </style>
   <gr-button
     disabled="[[disabled]]"
@@ -146,9 +150,27 @@ export const htmlTemplate = html`
       selected="{{value}}"
       on-tap="_handleDropdownTap"
     >
+        <iron-input
+          bind-value="{{searchText}}"
+          type="text"
+          on-input="_handleValueChange"
+          on-click="_handleSearchBarClicked"
+        >
+          <input
+            is="iron-input"
+            placeholder="Search files"
+            bind-value="{{searchText}}"
+            on-click="_handleSearchBarClicked"
+          />
+        </iron-input>
+        <!-- prefix as attribute is required to for polymer 1 -->
+        <div slot="prefix" prefix="">
+          <iron-icon icon="gr-icons:search" class$="searchIcon"> </iron-icon>
+        </div>
+      </paper-input>
       <template
         is="dom-repeat"
-        items="[[items]]"
+        items="[[displayedItems]]"
         initial-count="[[initialCount]]"
       >
         <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">

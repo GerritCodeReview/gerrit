@@ -14,42 +14,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../gr-js-api-interface/gr-js-api-interface.js';
-import '../gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-avatar_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
-import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader.js';
+import '../../../styles/shared-styles';
+import '../gr-js-api-interface/gr-js-api-interface';
+import '../gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-avatar_html';
+import {getBaseUrl} from '../../../utils/url-util';
+import {getPluginLoader} from '../gr-js-api-interface/gr-plugin-loader';
+import {customElement, property} from '@polymer/decorators';
+import {AccountInfo} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
-/**
- * @extends PolymerElement
- */
-class GrAvatar extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-avatar'; }
-
-  static get properties() {
-    return {
-      account: {
-        type: Object,
-        observer: '_accountChanged',
-      },
-      imageSize: {
-        type: Number,
-        value: 16,
-      },
-      _hasAvatars: {
-        type: Boolean,
-        value: false,
-      },
-    };
+export interface GrAvatar {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
+@customElement('gr-avatar')
+export class GrAvatar extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Object, observer: '_accountChanged'})
+  account?: AccountInfo;
+
+  @property({type: Number})
+  imageSize = 16;
+
+  @property({type: Boolean})
+  _hasAvatars = false;
 
   /** @override */
   attached() {
@@ -68,7 +66,7 @@ class GrAvatar extends GestureEventListeners(
     return this.$.restAPI.getConfig();
   }
 
-  _accountChanged(account) {
+  _accountChanged() {
     this._updateAvatarURL();
   }
 
@@ -85,23 +83,36 @@ class GrAvatar extends GestureEventListeners(
     }
   }
 
-  _getAccounts(account) {
-    return account._account_id || account.email || account.username ||
-        account.name;
+  _getAccounts(account: AccountInfo) {
+    return (
+      account._account_id || account.email || account.username || account.name
+    );
   }
 
-  _buildAvatarURL(account) {
-    if (!account) { return ''; }
+  _buildAvatarURL(account: AccountInfo) {
+    if (!account) {
+      return '';
+    }
     const avatars = account.avatars || [];
     for (let i = 0; i < avatars.length; i++) {
       if (avatars[i].height === this.imageSize) {
         return avatars[i].url;
       }
     }
-    return getBaseUrl() + '/accounts/' +
-      encodeURIComponent(this._getAccounts(account)) +
-      '/avatar?s=' + this.imageSize;
+    const accountID = this._getAccounts(account);
+    if (!accountID) {
+      return '';
+    }
+    return (
+      `${getBaseUrl()}/accounts/` +
+      encodeURIComponent(`${this._getAccounts(account)}`) +
+      `/avatar?s=${this.imageSize}`
+    );
   }
 }
 
-customElements.define(GrAvatar.is, GrAvatar);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-avatar': GrAvatar;
+  }
+}

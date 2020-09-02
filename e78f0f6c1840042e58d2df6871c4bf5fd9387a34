@@ -46,6 +46,30 @@
       "revId": "e78f0f6c1840042e58d2df6871c4bf5fd9387a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "5be93ea6_5369023c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T18:28:23Z",
+      "side": 1,
+      "message": "It certainly is not trivial, thanks for taking it on.\n\nI don\u0027t think postUpdate is limited to sending emails, but your commit message only talks about the impacts to emails. What else does this change impact? Could we imagine any negative or unexpected (to a client) impacts of this change?",
+      "parentUuid": "73a2b40f_d9d59268",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "e78f0f6c1840042e58d2df6871c4bf5fd9387a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

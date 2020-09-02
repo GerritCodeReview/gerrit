@@ -57,6 +57,7 @@ export interface DropdownItem {
 export interface GrDropdownList {
   $: {
     dropdown: IronDropdownElement;
+    filter: HTMLInputElement;
   };
 }
 
@@ -65,6 +66,8 @@ export interface ValueChangeDetail {
 }
 
 export type DropDownValueChangeEvent = CustomEvent<ValueChangeDetail>;
+
+const SEARCH_THRESHOLD = 20;
 
 @customElement('gr-dropdown-list')
 export class GrDropdownList extends GestureEventListeners(
@@ -88,6 +91,8 @@ export class GrDropdownList extends GestureEventListeners(
   @property({type: Object})
   items?: DropdownItem[];
 
+  displayedItems: DropdownItem[] = [];
+
   @property({type: String})
   text?: string;
 
@@ -99,6 +104,35 @@ export class GrDropdownList extends GestureEventListeners(
 
   @property({type: Boolean})
   showCopyForTriggerText = false;
+
+  @property({type: Boolean})
+  showSearchBar = false;
+
+  @property({type: String})
+  searchText = '';
+
+  _handleSearchBarClicked(e: Event) {
+    // stop event from propogating to dropdown
+    e.preventDefault();
+    e.stopPropagation();
+    (this.shadowRoot!.querySelector('#filter') as HTMLElement).focus();
+  }
+
+  _handleKeyPressed(e: KeyboardEvent) {
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  _shouldShowSearchBar(items: DropdownItem[], showSearchBar: boolean) {
+    return items?.length > SEARCH_THRESHOLD && showSearchBar;
+  }
+
+  @observe('items', 'searchText')
+  computeDisplayedItems(items: DropdownItem[], searchText: string) {
+    this.displayedItems = (items || []).filter(item =>
+      item.text.includes(searchText.toLowerCase())
+    );
+  }
 
   /**
    * Handle a click on the iron-dropdown element.

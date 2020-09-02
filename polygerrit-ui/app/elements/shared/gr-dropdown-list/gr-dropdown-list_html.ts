@@ -54,7 +54,7 @@ export const htmlTemplate = html`
       --paper-item-min-height: 0;
       --paper-item: {
         min-height: 0;
-        padding: 10px 16px;
+        padding: var(--spacing-m) var(--spacing-l);
       }
       --paper-item-focused-before: {
         background-color: var(--selection-background-color);
@@ -116,6 +116,13 @@ export const htmlTemplate = html`
         @apply --native-select-style;
       }
     }
+    input {
+      padding: var(--spacing-s) var(--spacing-l);
+    }
+    iron-input,
+    input {
+      width: 100%;
+    }
   </style>
   <gr-button
     disabled="[[disabled]]"
@@ -139,6 +146,23 @@ export const htmlTemplate = html`
     allow-outside-scroll="true"
     on-click="_handleDropdownClick"
   >
+    <template is="dom-if" if="[[_shouldShowSearchBar(items, showSearchBar)]]">
+      <iron-input
+        bind-value="{{searchText}}"
+        on-input="_handleValueChange"
+        on-click="_handleSearchBarClicked"
+      >
+        <input
+          is="iron-input"
+          placeholder="Filter"
+          id="filter"
+          type="text"
+          bind-value="{{searchText}}"
+          on-click="_handleSearchBarClicked"
+        />
+      </iron-input>
+    </template>
+
     <paper-listbox
       class="dropdown-content"
       slot="dropdown-content"
@@ -148,7 +172,7 @@ export const htmlTemplate = html`
     >
       <template
         is="dom-repeat"
-        items="[[items]]"
+        items="[[displayedItems]]"
         initial-count="[[initialCount]]"
       >
         <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">

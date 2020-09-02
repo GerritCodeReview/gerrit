@@ -20,6 +20,29 @@ import './gr-dropdown-list.js';
 
 const basicFixture = fixtureFromElement('gr-dropdown-list');
 
+const ITEMS = [
+  {
+    value: 1,
+    text: 'Top Text 1',
+  },
+  {
+    value: 2,
+    bottomText: 'Bottom Text 2',
+    triggerText: 'Button Text 2',
+    text: 'Top Text 2',
+    mobileText: 'Mobile Text 2',
+  },
+  {
+    value: 3,
+    disabled: true,
+    bottomText: 'Bottom Text 3',
+    triggerText: 'Button Text 3',
+    date: '2017-08-18 23:11:42.569000000',
+    text: 'Top Text 3',
+    mobileText: 'Mobile Text 3',
+  },
+];
+
 suite('gr-dropdown-list tests', () => {
   let element;
 
@@ -66,30 +89,33 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(element._computeMobileText(item), item.mobileText);
   });
 
+  suite('displayed items', () => {
+    setup(() => {
+      element.items = ITEMS;
+    });
+
+    test('displayed items equal items initially', () => {
+      assert.deepEqual(element.items, element.displayedItems);
+    });
+
+    test('search filter works correctly', () => {
+      element.searchText = 'not this one';
+      assert.equal(element.displayedItems.length, 0);
+      assert.equal(element.items.length, ITEMS.length);
+
+      element.searchText = 'Top';
+      assert.equal(element.displayedItems.length, ITEMS.length);
+      assert.equal(element.items.length, ITEMS.length);
+
+      element.searchText = 'Top Text 3';
+      assert.equal(element.displayedItems.length, 1);
+      assert.equal(element.items.length, ITEMS.length);
+    });
+  });
+
   test('options are selected and laid out correctly', done => {
     element.value = 2;
-    element.items = [
-      {
-        value: 1,
-        text: 'Top Text 1',
-      },
-      {
-        value: 2,
-        bottomText: 'Bottom Text 2',
-        triggerText: 'Button Text 2',
-        text: 'Top Text 2',
-        mobileText: 'Mobile Text 2',
-      },
-      {
-        value: 3,
-        disabled: true,
-        bottomText: 'Bottom Text 3',
-        triggerText: 'Button Text 3',
-        date: '2017-08-18 23:11:42.569000000',
-        text: 'Top Text 3',
-        mobileText: 'Mobile Text 3',
-      },
-    ];
+    element.items = ITEMS;
     assert.equal(element.shadowRoot
         .querySelector('paper-listbox').selected, element.value);
     assert.equal(element.text, 'Button Text 2');

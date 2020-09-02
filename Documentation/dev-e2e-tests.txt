@@ -25,9 +25,9 @@ initially proposed, the link:https://github.com/GerritForge/gatling-git[Gatling 
 leveraged to run tests at the Git protocol level.
 
 Gatling is written in Scala, but the abstraction provided by the Gatling DSL makes the scenarios
-implementation easy even without any Scala knowledge. The
-link:https://gitenterprise.me/2019/12/20/stress-your-gerrit-with-gatling/[Stress your Gerrit with Gatling]
-blog post has more introductory information.
+implementation easy even without any Scala knowledge. The online `End-to-end tests`
+link:https://www.gerritcodereview.com/presentations.html#list-of-presentations[presentation] links
+posted on the homepage have more introductory information.
 
 == IDE: IntelliJ
 

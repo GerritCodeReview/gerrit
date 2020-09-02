@@ -56,6 +56,34 @@ class EditTransformer {
   }
 
   /**
+   * Creates and initializes a new {@link EditTransformer} for a single file identified by its old
+   * and new paths.
+   *
+   * @param edits the list of git edits for a single file
+   * @param oldPath the old file path
+   * @param newPath the new file path
+   */
+  public EditTransformer(List<Edit> edits, String oldPath, String newPath) {
+    if (edits.isEmpty()) {
+      this.edits = ImmutableList.of(ContextAwareEdit.createForNoContentEdit(oldPath, newPath));
+    } else {
+      this.edits =
+          edits.stream()
+              .map(
+                  edit ->
+                      ContextAwareEdit.create(
+                          oldPath,
+                          newPath,
+                          edit.getBeginA(),
+                          edit.getEndA(),
+                          edit.getBeginB(),
+                          edit.getEndB(),
+                          false))
+              .collect(toImmutableList());
+    }
+  }
+
+  /**
    * Transforms the references of side A of the edits. If the edits describe differences between
    * {@code treeA} and {@code treeB} and the specified {@code PatchListEntry}s define a
    * transformation from {@code treeA} to {@code treeA'}, the resulting edits will be defined as
@@ -81,6 +109,30 @@ class EditTransformer {
    */
   public void transformReferencesOfSideB(List<PatchListEntry> transformationEntries) {
     transformEdits(transformationEntries, SideBStrategy.INSTANCE);
+  }
+
+  /**
+   * Similar to {@link #transformReferencesOfSideA(List)} but transforms the edits for a single
+   * file.
+   *
+   * @param transformationEdits a list of edits defining the transformation of {@code treeA} to
+   *     {@code treeA'}
+   * @param newPath the new path of the file
+   */
+  public void transformReferencesOfSideAForFile(List<Edit> transformationEdits, String newPath) {
+    transformEditsForFile(transformationEdits, newPath, SideAStrategy.INSTANCE);
+  }
+
+  /**
+   * Similar to {@link #transformReferencesOfSideB(List)} but transforms the edits for a single
+   * file.
+   *
+   * @param transformationEdits a list of edits defining the transformation of {@code treeB} to
+   *     {@code treeB'}
+   * @param newPath the new path of the file
+   */
+  public void transformReferencesOfSideBForFile(List<Edit> transformationEdits, String newPath) {
+    transformEditsForFile(transformationEdits, newPath, SideBStrategy.INSTANCE);
   }
 
   /**
@@ -119,6 +171,28 @@ class EditTransformer {
                   return transformEdits(sideStrategy, pathAndEdits.getValue(), transEntries);
                 })
             .collect(toList());
+  }
+
+  private void transformEditsForFile(
+      List<Edit> transformingEntries, String newFilePath, SideStrategy sideStrategy) {
+    Map<String, List<ContextAwareEdit>> editsPerFilePath =
+        edits.stream().collect(groupingBy(sideStrategy::getFilePath));
+
+    edits =
+        editsPerFilePath.entrySet().stream()
+            .flatMap(
+                pathAndEdits ->
+                    transformEditsForFile(
+                        sideStrategy, pathAndEdits.getValue(), transformingEntries, newFilePath))
+            .collect(toList());
+  }
+
+  private static Stream<ContextAwareEdit> transformEditsForFile(
+      SideStrategy sideStrategy,
+      List<ContextAwareEdit> originalEdits,
+      List<Edit> transformingEntries,
+      String newPath) {
+    return transformEdits(sideStrategy, originalEdits, transformingEntries, newPath).stream();
   }
 
   private static String getOldFilePath(PatchListEntry patchListEntry) {
@@ -193,6 +267,10 @@ class EditTransformer {
     static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
       return create(
           patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
+    }
+
+    static ContextAwareEdit createForNoContentEdit(String oldPath, String newPath) {
+      return create(oldPath, newPath, -1, -1, -1, -1, false);
     }
 
     static ContextAwareEdit create(

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "b62f46d1_b88a86aa",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedComments.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T10:00:57Z",
+      "side": 1,
+      "message": "It\u0027s not about older patchsets but about the parent commit(s) of the patchset commit (-\u003e \"left-side\" comments). We unfortunately don\u0027t have a clear name for those which is not ambiguous.",
+      "parentUuid": "48b12a46_e0eaf34f",
+      "range": {
+        "startLine": 87,
+        "startChar": 11,
+        "endLine": 87,
+        "endChar": 67
+      },
+      "revId": "fda8c4fc92d0ba7418abaad6ad0a94082f2a0e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "51309a99_9cce9e69",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
         "patchSetId": 7
@@ -62,6 +86,30 @@
       "revId": "fda8c4fc92d0ba7418abaad6ad0a94082f2a0e0a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "174d3aa4_d13bc09c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T10:00:57Z",
+      "side": 1,
+      "message": "No, we shouldn\u0027t. We want to filter out as many comments as early as possible to get the best performance. Otherwise, we need to compute many unnecessary diffs, which would especially become an issue on later patchsets (with many resolved comments on prior patchsets).",
+      "parentUuid": "51309a99_9cce9e69",
+      "range": {
+        "startLine": 136,
+        "startChar": 31,
+        "endLine": 136,
+        "endChar": 41
+      },
+      "revId": "fda8c4fc92d0ba7418abaad6ad0a94082f2a0e0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

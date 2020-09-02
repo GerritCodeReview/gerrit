@@ -234,6 +234,30 @@
       "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1efd9ac4_6fa72121",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 394,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T10:00:57Z",
+      "side": 1,
+      "message": "Marking as resolved as I didn\u0027t hear other opinions.",
+      "parentUuid": "c7d064ce_d30c5a06",
+      "range": {
+        "startLine": 394,
+        "startChar": 14,
+        "endLine": 394,
+        "endChar": 44
+      },
+      "revId": "909eb3b2329743f0b4daa39e2032274dc05be207",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

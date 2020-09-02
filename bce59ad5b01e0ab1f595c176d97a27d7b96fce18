@@ -16,6 +16,23 @@
       "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a8e11a9_abeac420",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-02T14:02:07Z",
+      "side": 1,
+      "message": "Cheers Luca/Sven. \n\nWould it be possible to merge this into 3.2? Can I help by creating a change for that or how is it effected?",
+      "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

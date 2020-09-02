@@ -94,6 +94,30 @@
       "revId": "e78f0f6c1840042e58d2df6871c4bf5fd9387a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3f4c75b7_0b0e9ec8",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T20:48:06Z",
+      "side": 1,
+      "message": "Please don\u0027t mark resolved until I ACK.\n\nI have to admit, I\u0027m more confused now. Your subject says \"postUpdate to run asynchronously\" (which I would assume to affect more than emails), but in your comment above, you\u0027re saying this only affects email updates.",
+      "parentUuid": "a1aa79f5_f6b5d0d5",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "e78f0f6c1840042e58d2df6871c4bf5fd9387a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

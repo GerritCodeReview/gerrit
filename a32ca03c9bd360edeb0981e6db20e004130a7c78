@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83d2d79c_fe1d668c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T20:48:06Z",
+      "side": 1,
+      "message": "I don\u0027t think this improves performance of email sending. It moves email sending to the background (and uses more threads). This commit message does not discuss the tradeoff of more threads and the unboundedness this creates. If email sending is slow, a giant backlog of threads could result. I think this needs more discussion in this change.",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

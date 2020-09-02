@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "f7b773d0_a9f3ad2c",
+        "filename": "java/com/google/gerrit/server/config/SysExecutorModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:27:27Z",
+      "side": 0,
+      "message": "thanks for pointing me to this config, by the way. I wouldn\u0027t have found that bug without it.",
+      "parentUuid": "728f64bb_13e3d723",
+      "range": {
+        "startLine": 57,
+        "startChar": 33,
+        "endLine": 57,
+        "endChar": 68
+      },
+      "revId": "5284edcf82455d8734f7aa1cabc5548a36723b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "be905f3e_8a71b05a",
         "filename": "java/com/google/gerrit/server/submit/EmailMerge.java",
         "patchSetId": 3

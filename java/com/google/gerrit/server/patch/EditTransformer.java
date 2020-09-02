@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Multimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Patch;
+import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.OmitPositionOnConflict;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
@@ -63,6 +64,34 @@ class EditTransformer {
   }
 
   /**
+   * Creates and initializes a new {@link EditTransformer} for a single file identied by its old and
+   * new paths.
+   *
+   * @param edits the list of git edits for a single file
+   * @param oldPath the old file path
+   * @param newPath the new file path
+   */
+  public EditTransformer(List<Edit> edits, String oldPath, String newPath) {
+    if (edits.isEmpty()) {
+      this.edits = ImmutableList.of(ContextAwareEdit.createForNoContentEdit(oldPath, newPath));
+    } else {
+      this.edits =
+          edits.stream()
+              .map(
+                  edit ->
+                      ContextAwareEdit.create(
+                          oldPath,
+                          newPath,
+                          edit.getBeginA(),
+                          edit.getEndA(),
+                          edit.getBeginB(),
+                          edit.getEndB(),
+                          false))
+              .collect(toImmutableList());
+    }
+  }
+
+  /**
    * Transforms the references of side A of the edits. If the edits describe differences between
    * {@code treeA} and {@code treeB} and the specified {@code PatchListEntry}s define a
    * transformation from {@code treeA} to {@code treeA'}, the resulting edits will be defined as
@@ -88,6 +117,34 @@ class EditTransformer {
    */
   public void transformReferencesOfSideB(List<PatchListEntry> transformationEntries) {
     transformEdits(transformationEntries, SideBStrategy.INSTANCE);
+  }
+
+  /**
+   * Similar to {@link #transformReferencesOfSideA(List)} but transforms the edits for a single
+   * file.
+   *
+   * @param transformationEdits a list of edits defining the transformation of {@code TreeA} to
+   *     {@code TreeA'}
+   * @param newPath the new path of the file
+   */
+  public void transformReferencesOfSideAForFile(
+      List<Edit> transformationEdits, String oldPath, String newPath, ChangeType changeType) {
+    transformEditsForFile(
+        transformationEdits, oldPath, newPath, changeType, SideAStrategy.INSTANCE);
+  }
+
+  /**
+   * Similar to {@link #transformReferencesOfSideB(List)} but transforms the edits for a single
+   * file.
+   *
+   * @param transformationEdits a list of edits defining the transformation of {@code TreeB} to
+   *     {@code TreeB'}
+   * @param newPath the new path of the file
+   */
+  public void transformReferencesOfSideBForFile(
+      List<Edit> transformationEdits, String oldPath, String newPath, ChangeType changeType) {
+    transformEditsForFile(
+        transformationEdits, oldPath, newPath, changeType, SideBStrategy.INSTANCE);
   }
 
   /**
@@ -125,6 +182,25 @@ class EditTransformer {
             .collect(toImmutableList());
   }
 
+  private void transformEditsForFile(
+      List<Edit> transformingEdits,
+      String oldPath,
+      String newPath,
+      ChangeType changeType,
+      SideStrategy sideStrategy) {
+    ImmutableList<PositionedEntity<ContextAwareEdit>> positionedEdits =
+        edits.stream()
+            .map(edit -> toPositionedEntity(edit, sideStrategy))
+            .collect(toImmutableList());
+
+    Mapping mapping = DiffMappings.toMapping(transformingEdits, oldPath, newPath, changeType);
+
+    edits =
+        positionTransformer.transform(positionedEdits, mapping).stream()
+            .map(PositionedEntity::getEntityAtUpdatedPosition)
+            .collect(toImmutableList());
+  }
+
   private static PositionedEntity<ContextAwareEdit> toPositionedEntity(
       ContextAwareEdit edit, SideStrategy sideStrategy) {
     return PositionedEntity.create(
@@ -149,6 +225,12 @@ class EditTransformer {
       // (-1:-1, -1:-1) in the future.
       return create(
           patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
+    }
+
+    static ContextAwareEdit createForNoContentEdit(String oldPath, String newPath) {
+      // Remove the warning in createEditAtNewPosition() if we switch to an empty range instead of
+      // (-1:-1, -1:-1) in the future.
+      return create(oldPath, newPath, -1, -1, -1, -1, false);
     }
 
     static ContextAwareEdit create(

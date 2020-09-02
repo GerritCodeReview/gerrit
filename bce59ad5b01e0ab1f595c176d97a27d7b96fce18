@@ -33,6 +33,24 @@
       "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "814a3298_c8fdbea6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T14:04:51Z",
+      "side": 1,
+      "message": "\u003e Cheers Luca/Sven. \n\u003e \n\u003e Would it be possible to merge this into 3.2? Can I help by creating a change for that or how is it effected?\n\nJust click the top-right three buttons on this change and cherry-pick to stable-3.2, there you go :-)\n\nIt is so easy with Gerrit, compared to other tools ;-)",
+      "parentUuid": "1a8e11a9_abeac420",
+      "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

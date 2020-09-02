@@ -70,6 +70,30 @@
       "revId": "e78f0f6c1840042e58d2df6871c4bf5fd9387a34",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1aa79f5_f6b5d0d5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T18:40:30Z",
+      "side": 1,
+      "message": "Clarified.\nNo change to all other updates - they are still working exactly the same way (with synchronous postUpdate).",
+      "parentUuid": "5be93ea6_5369023c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "e78f0f6c1840042e58d2df6871c4bf5fd9387a34",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

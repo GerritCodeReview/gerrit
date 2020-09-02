@@ -88,6 +88,8 @@ export class GrDropdownList extends GestureEventListeners(
   @property({type: Object})
   items?: DropdownItem[];
 
+  displayedItems: DropdownItem[] = [];
+
   @property({type: String})
   text?: string;
 
@@ -99,6 +101,24 @@ export class GrDropdownList extends GestureEventListeners(
 
   @property({type: Boolean})
   showCopyForTriggerText = false;
+
+  @property({type: Boolean})
+  showSearchBar = false;
+
+  @property({type: String})
+  searchText = '';
+
+  _handleSearchBarClicked(e: Event) {
+    // stop event from propogating to dropdown
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  @observe('items', 'searchText')
+  computeDisplayedItems(items: DropdownItem[], searchText: string) {
+    if (!items) return;
+    this.displayedItems = items.filter(item => item.text.includes(searchText));
+  }
 
   /**
    * Handle a click on the iron-dropdown element.

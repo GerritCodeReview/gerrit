@@ -236,6 +236,7 @@ export const htmlTemplate = html`
             items="[[_formattedFiles]]"
             initial-count="75"
             show-copy-for-trigger-text
+            show-search-bar
           >
           </gr-dropdown-list>
         </div>

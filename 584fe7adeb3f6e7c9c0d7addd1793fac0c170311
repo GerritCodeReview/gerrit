@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b08c6db2_8f783be0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-02T21:19:29Z",
+      "side": 1,
+      "message": "I just re-ran the previously long-pending checks, now.",
+      "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

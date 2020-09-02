@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2ad0d885_cf86f0a3",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-02T18:03:09Z",
+      "side": 1,
+      "message": "Fix the license header here and in the other file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 2
+      },
+      "revId": "b06b1156d533360fca4f8219ed243033c208d287",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

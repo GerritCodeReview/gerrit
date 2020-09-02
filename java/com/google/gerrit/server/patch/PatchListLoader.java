@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.patch.EditTransformer.ContextAwareEdit;
+import com.google.gerrit.server.patch.entities.FileEdits;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -306,11 +307,37 @@ public class PatchListLoader implements Callable<PatchList> {
         getRelevantPatchListEntries(
             parentDiffEntries, parentCommitA, parentCommitB, touchedFilePaths, df);
 
-    EditTransformer editTransformer = new EditTransformer(parentPatchListEntries);
-    editTransformer.transformReferencesOfSideA(oldPatches);
-    editTransformer.transformReferencesOfSideB(newPatches);
+    EditTransformer editTransformer = new EditTransformer(toFileEditsList(parentPatchListEntries));
+    editTransformer.transformReferencesOfSideA(toFileEditsList(oldPatches));
+    editTransformer.transformReferencesOfSideB(toFileEditsList(newPatches));
     return EditsDueToRebaseResult.create(
         relevantDiffEntries, editTransformer.getEditsPerFilePath());
+  }
+
+  private ImmutableList<FileEdits> toFileEditsList(List<PatchListEntry> entries) {
+    return entries.stream().map(this::toFileEdits).collect(toImmutableList());
+  }
+
+  private FileEdits toFileEdits(PatchListEntry ple) {
+    Optional<String> oldName = Optional.empty();
+    Optional<String> newName = Optional.empty();
+    switch (ple.getChangeType()) {
+      case DELETED:
+        oldName = Optional.of(ple.getNewName());
+        break;
+      case ADDED:
+      case MODIFIED:
+      case REWRITE:
+        newName = Optional.of(ple.getNewName());
+        break;
+
+      case COPIED:
+      case RENAMED:
+        oldName = Optional.of(ple.getOldName());
+        newName = Optional.of(ple.getNewName());
+        break;
+    }
+    return FileEdits.create(ple.getEdits(), oldName, newName);
   }
 
   private static boolean isRootOrMergeCommit(RevCommit commit) {
@@ -405,7 +432,7 @@ public class PatchListLoader implements Callable<PatchList> {
     PatchListEntry patchListEntry =
         newEntry(treeA, fileHeader, contentEditsDueToRebase, newSize, newSize - oldSize);
     // All edits in a file are due to rebase -> exclude the file from the diff.
-    if (EditTransformer.toEdits(patchListEntry).allMatch(editsDueToRebase::contains)) {
+    if (EditTransformer.toEdits(toFileEdits(patchListEntry)).allMatch(editsDueToRebase::contains)) {
       return Optional.empty();
     }
     return Optional.of(patchListEntry);

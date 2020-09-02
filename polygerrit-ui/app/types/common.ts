@@ -908,6 +908,8 @@ export interface MemSummaryInfo {
  */
 export interface PluginConfigInfo {
   has_avatars: boolean;
+  js_resource_paths: string[];
+  html_resource_paths: string[];
 }
 
 /**

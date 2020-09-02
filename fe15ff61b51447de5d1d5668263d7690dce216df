@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9a6f940_dab0be04",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-02T04:51:20Z",
+      "side": 1,
+      "message": "beyond the scope of this change.\ndo you think these codes should be replaced with an enum instead of constants?",
+      "range": {
+        "startLine": 190,
+        "startChar": 28,
+        "endLine": 190,
+        "endChar": 31
+      },
+      "revId": "fe15ff61b51447de5d1d5668263d7690dce216df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

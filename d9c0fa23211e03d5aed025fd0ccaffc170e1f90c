@@ -16,6 +16,24 @@
       "revId": "d9c0fa23211e03d5aed025fd0ccaffc170e1f90c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9992d5be_6f21cf6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T14:18:51Z",
+      "side": 1,
+      "message": "\u003e Could this be included in the next release of 3.2 and if so, when is the next one due?\n\nThe v3.2.4 should be imminent, I am just waiting for some changes to be finalised and merged from stable-2.16 up to master and then I\u0027ll be ready to go.\n\n\u003e I am asking because we are planning an upgrade in September and it would be nice to have this included!\n\nIt *should* come out before the end of September. You could always get the latest on the stable-3.2 branch from the Gerrit-CI anyway.",
+      "parentUuid": "724dc670_2ace339f",
+      "revId": "d9c0fa23211e03d5aed025fd0ccaffc170e1f90c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

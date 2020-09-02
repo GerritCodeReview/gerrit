@@ -191,9 +191,13 @@ export class GrDiffCursor extends GestureEventListeners(
     }
   }
 
+  _isNextVisibleChunk(row: HTMLElement) {
+    return this._isFirstRowOfChunk(row) && row.getBoundingClientRect().top > 0;
+  }
+
   moveToNextChunk(clipToTop?: boolean, navigateToNextFile?: boolean) {
     this.$.cursorManager.next(
-      this._isFirstRowOfChunk.bind(this),
+      this._isNextVisibleChunk.bind(this),
       target => (target?.parentNode as HTMLElement)?.scrollHeight || 0,
       clipToTop,
       navigateToNextFile
@@ -201,8 +205,15 @@ export class GrDiffCursor extends GestureEventListeners(
     this._fixSide();
   }
 
+  _isPreviousVisibleChunk(row: HTMLElement) {
+    return (
+      this._isFirstRowOfChunk(row) &&
+      row.getBoundingClientRect().top < window.innerHeight
+    );
+  }
+
   moveToPreviousChunk() {
-    this.$.cursorManager.previous(this._isFirstRowOfChunk.bind(this));
+    this.$.cursorManager.previous(this._isPreviousVisibleChunk.bind(this));
     this._fixSide();
   }
 

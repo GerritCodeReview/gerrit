@@ -35,7 +35,6 @@ export const htmlTemplate = html`
       background-color: var(--dropdown-background-color);
       box-shadow: var(--elevation-level-2);
       max-height: 70vh;
-      margin-top: var(--spacing-xxl);
       min-width: 266px;
       @apply --dropdown-content-style;
     }
@@ -54,7 +53,7 @@ export const htmlTemplate = html`
       --paper-item-min-height: 0;
       --paper-item: {
         min-height: 0;
-        padding: 10px 16px;
+        padding: var(--spacing-m) var(--spacing-l);
       }
       --paper-item-focused-before: {
         background-color: var(--selection-background-color);
@@ -116,6 +115,13 @@ export const htmlTemplate = html`
         @apply --native-select-style;
       }
     }
+    input {
+      padding: var(--spacing-s) var(--spacing-l);
+    }
+    iron-input,
+    input {
+      width: 100%;
+    }
   </style>
   <gr-button
     disabled="[[disabled]]"
@@ -133,39 +139,57 @@ export const htmlTemplate = html`
       text="[[text]]"
     ></gr-copy-clipboard>
   </gr-button>
+
   <iron-dropdown
     id="dropdown"
     vertical-align="top"
     allow-outside-scroll="true"
     on-click="_handleDropdownClick"
   >
-    <paper-listbox
-      class="dropdown-content"
-      slot="dropdown-content"
-      attr-for-selected="data-value"
-      selected="{{value}}"
-      on-tap="_handleDropdownTap"
-    >
-      <template
-        is="dom-repeat"
-        items="[[items]]"
-        initial-count="[[initialCount]]"
-      >
-        <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">
-          <div class="topContent">
-            <div>[[item.text]]</div>
-            <template is="dom-if" if="[[item.date]]">
-              <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
-            </template>
-          </div>
-          <template is="dom-if" if="[[item.bottomText]]">
-            <div class="bottomContent">
-              <div>[[item.bottomText]]</div>
-            </div>
-          </template>
-        </paper-item>
+    <div slot="dropdown-content">
+      <template is="dom-if" if="[[_shouldShowSearchBar(items, showSearchBar)]]">
+        <iron-input
+          bind-value="{{searchText}}"
+          on-input="_handleValueChange"
+          on-click="_handleSearchBarClicked"
+        >
+          <input
+            is="iron-input"
+            placeholder="Filter"
+            id="filter"
+            type="text"
+            bind-value="{{searchText}}"
+            on-click="_handleSearchBarClicked"
+          />
+        </iron-input>
       </template>
-    </paper-listbox>
+      <paper-listbox
+        class="dropdown-content"
+        attr-for-selected="data-value"
+        selected="{{value}}"
+        on-tap="_handleDropdownTap"
+      >
+        <template
+          is="dom-repeat"
+          items="[[displayedItems]]"
+          initial-count="[[initialCount]]"
+        >
+          <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">
+            <div class="topContent">
+              <div>[[item.text]]</div>
+              <template is="dom-if" if="[[item.date]]">
+                <gr-date-formatter date-str="[[item.date]]"></gr-date-formatter>
+              </template>
+            </div>
+            <template is="dom-if" if="[[item.bottomText]]">
+              <div class="bottomContent">
+                <div>[[item.bottomText]]</div>
+              </div>
+            </template>
+          </paper-item>
+        </template>
+      </paper-listbox>
+    </div>
   </iron-dropdown>
   <gr-select bind-value="{{value}}">
     <select>

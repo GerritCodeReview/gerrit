@@ -14,45 +14,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-js-api-interface/gr-js-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-lib-loader_html.js';
-import {EventType} from '../../plugins/gr-plugin-types.js';
+import '../gr-js-api-interface/gr-js-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-lib-loader_html';
+import {EventType} from '../../plugins/gr-plugin-types';
+import {customElement, property} from '@polymer/decorators';
+import {JsApiService} from '../gr-js-api-interface/gr-js-api-types';
 
 // preloaded in PolyGerritIndexHtml.soy
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 
-/** @extends PolymerElement */
-class GrLibLoader extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+interface HljsState {
+  configured: boolean;
+  loading: boolean;
+  callbacks: ((value: unknown) => void)[];
+}
 
-  static get is() { return 'gr-lib-loader'; }
-
-  static get properties() {
-    return {
-      _hljsState: {
-        type: Object,
-
-        // NOTE: intended singleton.
-        value: {
-          configured: false,
-          loading: false,
-          callbacks: [],
-        },
-      },
-    };
+export interface GrLibLoader {
+  $: {
+    jsAPI: JsApiService & Element;
+  };
+}
+@customElement('gr-lib-loader')
+export class GrLibLoader extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  // NOTE: intended singleton.
+  @property({type: Object})
+  _hljsState: HljsState = {
+    configured: false,
+    loading: false,
+    callbacks: [],
+  };
 
   /**
    * Get the HLJS library. Returns a promise that resolves with a reference to
    * the library after it's been loaded. The promise resolves immediately if
    * it's already been loaded.
-   *
-   * @return {!Promise<Object>}
    */
   getHLJS() {
     return new Promise((resolve, reject) => {
@@ -66,8 +70,8 @@ class GrLibLoader extends GestureEventListeners(
       if (!this._hljsState.loading) {
         this._hljsState.loading = true;
         this._loadScript(this._getHLJSUrl())
-            .then(this._onHLJSLibLoaded.bind(this))
-            .catch(reject);
+          .then(this._onHLJSLibLoaded.bind(this))
+          .catch(reject);
       }
 
       this._hljsState.callbacks.push(resolve);
@@ -92,8 +96,6 @@ class GrLibLoader extends GestureEventListeners(
   /**
    * Get the HLJS library, assuming it has been loaded. Configure the library
    * if it hasn't already been configured.
-   *
-   * @return {!Object}
    */
   _getHighlightLib() {
     const lib = window.hljs;
@@ -108,8 +110,6 @@ class GrLibLoader extends GestureEventListeners(
   /**
    * Get the resource path used to load the application. If the application
    * was loaded through a CDN, then this will be the path to CDN resources.
-   *
-   * @return {string}
    */
   _getLibRoot() {
     if (window.STATIC_RESOURCE_PATH) {
@@ -121,11 +121,11 @@ class GrLibLoader extends GestureEventListeners(
   /**
    * Load and execute a JS file from the lib root.
    *
-   * @param {string} src The path to the JS file without the lib root.
-   * @return {Promise} a promise that resolves when the script's onload
-   *     executes.
+   * @param src The path to the JS file without the lib root.
+   * @return a promise that resolves when the script's onload
+   * executes.
    */
-  _loadScript(src) {
+  _loadScript(src: string | null) {
     return new Promise((resolve, reject) => {
       const script = document.createElement('script');
 
@@ -143,9 +143,15 @@ class GrLibLoader extends GestureEventListeners(
 
   _getHLJSUrl() {
     const root = this._getLibRoot();
-    if (!root) { return null; }
+    if (!root) {
+      return null;
+    }
     return root + HLJS_PATH;
   }
 }
 
-customElements.define(GrLibLoader.is, GrLibLoader);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-lib-loader': GrLibLoader;
+  }
+}

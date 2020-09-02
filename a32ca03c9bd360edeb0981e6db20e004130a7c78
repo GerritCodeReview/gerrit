@@ -46,6 +46,30 @@
       "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bae66972_52f5b22c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T22:21:23Z",
+      "side": 1,
+      "message": "Oh, I see, I think you\u0027re referring to https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#sendemail.threadPoolSize ?\n\nThat config doesn\u0027t mention what happens if you set it to 0. It sounds like you\u0027re saying a direct executor is used when it\u0027s 0?\n\nI don\u0027t think that prevents a backlog, just prevents more threads being used. You could still have many emails waiting on a small thread pool and a situation where new \"emails to send\" outpace \"emails sent\". I think that\u0027s just a general design concern with sending emails async.",
+      "parentUuid": "450729ba_5534f9ec",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

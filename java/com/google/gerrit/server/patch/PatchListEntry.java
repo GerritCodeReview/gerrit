@@ -36,16 +36,19 @@ import com.google.gerrit.entities.Patch.PatchType;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
+import org.apache.commons.lang.ArrayUtils;
 import org.eclipse.jgit.diff.Edit;
 import org.eclipse.jgit.patch.CombinedFileHeader;
 import org.eclipse.jgit.patch.FileHeader;
 import org.eclipse.jgit.util.IntList;
 import org.eclipse.jgit.util.RawParseUtils;
 
-public class PatchListEntry {
+public class PatchListEntry implements Serializable {
+  private static final long serialVersionUID = 1L;
   private static final byte[] EMPTY_HEADER = {};
 
   static PatchListEntry empty(String fileName) {
@@ -61,6 +64,15 @@ public class PatchListEntry {
         0,
         0,
         0);
+  }
+
+  /**
+   * Returns true if the PatchListEntry is empty.
+   *
+   * @return true if the PatchListEntry is empty, false otherwise.
+   */
+  boolean isEmpty() {
+    return ArrayUtils.isEmpty(header);
   }
 
   private final ChangeType changeType;

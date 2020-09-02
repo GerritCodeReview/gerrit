@@ -80,14 +80,16 @@ public class ModifiedFilesCache {
     public GitModifiedFilesList load(Key key) throws IOException, ExecutionException {
       try (Repository repo = repoManager.openRepository(key.project());
           ObjectReader reader = repo.newObjectReader();
-          ObjectInserter ins = repo.newObjectInserter();
+          ObjectInserter ins = diffUtil.newInserter(repo);
           RevWalk rw = new RevWalk(reader)) {
         ImmutableList.Builder<GitModifiedFile> result = ImmutableList.builder();
         result.add(getCommit());
         if (isMergeCommit(rw, key.bCommit())) {
           result.add(getMergeList());
         }
-        result.addAll(getFiles(key, repo, ins, rw));
+        if (key.includeFiles()) {
+          result.addAll(getFiles(key, repo, ins, rw));
+        }
         return GitModifiedFilesList.create(result.build());
       }
     }
@@ -211,9 +213,10 @@ public class ModifiedFilesCache {
         ObjectId bTree,
         DiffPreferencesInfo.Whitespace whitespace,
         boolean renameDetectionFlag,
-        int renameScore) {
+        int renameScore,
+        boolean includeFiles) {
       return new AutoValue_ModifiedFilesCache_Key(
-          project, aTree, bTree, whitespace, renameDetectionFlag, renameScore);
+          project, aTree, bTree, whitespace, renameDetectionFlag, renameScore, includeFiles);
     }
 
     public abstract Project.NameKey project();
@@ -227,5 +230,7 @@ public class ModifiedFilesCache {
     public abstract boolean renameDetectionFlag();
 
     public abstract int renameScore();
+
+    public abstract boolean includeFiles();
   }
 }

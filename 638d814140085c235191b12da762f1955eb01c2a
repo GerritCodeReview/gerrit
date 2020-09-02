@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "40aa0c15_4aec09a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T14:20:15Z",
+      "side": 1,
+      "message": "Please don\u0027t be discouraged by my longer reply. I just needed more words to get my thoughts across now that we can\u0027t talk directly. I\u0027m happy to hear your opinion. If you think that we should still switch to an exception, I can adjust the code.",
+      "revId": "638d814140085c235191b12da762f1955eb01c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "efeafb29_621264d4",
         "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
         "patchSetId": 4
@@ -13,6 +30,30 @@
       "writtenOn": "2020-08-31T13:10:13Z",
       "side": 1,
       "message": "This is basically a future programmer error, right?\n\nIn that case, I think we should throw an IllegalArgumentException. This makes it easier to catch the regression when it gets introduced instead of covering it up and only noticing it\u0027s effect later on.",
+      "range": {
+        "startLine": 203,
+        "startChar": 84,
+        "endLine": 204,
+        "endChar": 41
+      },
+      "revId": "638d814140085c235191b12da762f1955eb01c2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc9f6908_cb702b6a",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 204,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T14:20:15Z",
+      "side": 1,
+      "message": "The only reason why we currently don\u0027t see an empty range (and in the follow-up change an empty file path) is that the currently used input always has a file path and range and the mapping strategy never drops them. Pure renames are currently represented by a (-1:-1, -1:-1) range as that was the existing code in EditTransformer. In theory, they should use an empty range but we\u0027d need to do more refactoring. For instance, we could likely remove ContextAwareEdit now that we have the Position class. I wanted to concentrate on ported comments, though, and it might also make sense to wait for the new diff caches which should use other classes than JGit\u0027s Edit.\n\nWe should still never see an empty file path as a diff/edit only exists when a file was changed. So, of course, we could throw an error for that other case (or also for the no-empty range until the refactoring happened). However, I\u0027m not sure that throwing an exception would do any good.\nLet\u0027s assume that there is a test which triggers that exception. That test should be written such that it notices when the behavior changes (e.g. range of file path is missing). Then, throwing the exception does not help additionally as the test should have caught the regression anyway.\nLet\u0027s assume that no such test exists. We\u0027d only notice the regression after user complaints or (if we\u0027re lucky) by noticing it in our logs and reacting to it. Both would require that a user runs into a (corner) case which triggers the exception. In such a case, users couldn\u0027t see the complete diff between patchsets and they\u0027d get an error popup. Until we have the new diff caches, ported comments would also be affected (if the diff between patchsets necessary for their computation failed).\n\nIf we follow the spirit that Gerrit should be as resilient (and not just robust) as possible, we should not throw an error here in my opinion. We have a reasonable fallback behavior we can use when the inputs for the computation (which we don\u0027t fully control due to them coming from different code parts and also being derived from JGit behavior) are malformed. That fallback minimizes the effects on the user (-\u003e only the single malformed edit would be affected) and also has no drastic consequences (-\u003e we\u0027d show an edit as regular instead of marking it as due to rebase -\u003e false negative which also exist for other situations and are perfectly acceptable).",
+      "parentUuid": "efeafb29_621264d4",
       "range": {
         "startLine": 203,
         "startChar": 84,

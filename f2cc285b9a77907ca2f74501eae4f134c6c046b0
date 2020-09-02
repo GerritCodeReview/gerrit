@@ -16,6 +16,24 @@
       "revId": "f2cc285b9a77907ca2f74501eae4f134c6c046b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32d5c8e5_b240b420",
+        "filename": "java/com/google/gerrit/server/restapi/change/ListPortedDrafts.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T15:16:07Z",
+      "side": 1,
+      "message": "Done. I also inlined the similar method for ported published comments in the previous change.",
+      "parentUuid": "ca170c69_586792f4",
+      "revId": "f2cc285b9a77907ca2f74501eae4f134c6c046b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

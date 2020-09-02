@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d0f9f603_c1e70e93",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T16:35:02Z",
+      "side": 1,
+      "message": "None of this commit message tells me why we\u0027re making this change or what possible impacts of the change could/would be. The few lines above this just note that it\u0027s not currently async (which I could assume from the subject line) and most everything below is about the tests. What\u0027s the goal of this change?",
+      "revId": "332e8544709c5dca71872645ce937baec50fca2c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9875d46b_972868d3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8ca68664_521b72ec",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ccad62b_f7a7c515",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "4bd01084_ed112119",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Well, nextMessage() does call waitForEmails() now. However, this is not good enough to rely on the returned message since sometimes two emails are sent async, and we don\u0027t know the order of those emails.\n\nWhat I just said above was true until this patchset, but now I limited the threadPool for email sendings by default to be 1, so that\u0027s the case in tests. Because of that, we can actually count on the result of nextMessage(). I will anyway keep the changes I\u0027ve made in those tests since it makes the code cleaner (and easier to replace later if we change this threadPool default).\n\nnextMessage() is called by peekMessage(), which is called by AbstractNotificationTest#didNotSend, which is called by every test in ChangeNotificationsIT. I can\u0027t think of a way to fix it without going through all of that file and no longer using didNotSend.\n\nAnyway, I think it\u0027s too much work to refactor this class and it\u0027s not worth it (due to all above reasons). I did change it to call readOneMessage() instead of nextMessage() since I don\u0027t care about the result, I just want to increase the counter of read messages for #didnotSend which depends on read messages.",
+      "parentUuid": "9ead3df4_e8c86b2f",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9057d35e_70895c70",
         "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
         "patchSetId": 3
@@ -73,6 +115,24 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79b850f8_29618364",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9057d35e_70895c70",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +153,24 @@
     },
     {
       "key": {
+        "uuid": "d2662546_f3d9f14e",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "No - this is actually needed in both postUpdate and asyncPostUpdate, and therefore has to be done earlier. updateChange is done before postUpdate and asyncPostUpdate (postUpdate is done before asyncPostUpdate, but I didn\u0027t want to use this sort-of-implementation-detail unnecessarily).\n\nThis is not the case in DeleteReviewerByEmailOp since there is no postUpdate() there.",
+      "parentUuid": "ead4e2b9_8c99aee8",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b9151382_73a6ef4f",
         "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
         "patchSetId": 3
@@ -107,6 +185,24 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "280f5db7_6a770ba1",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b9151382_73a6ef4f",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -133,6 +229,30 @@
     },
     {
       "key": {
+        "uuid": "abbfc6be_a7ef7796",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b77bc07_ae9a48c1",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "21239d95_1d10f002",
         "filename": "java/com/google/gerrit/server/restapi/change/DeleteVote.java",
         "patchSetId": 3
@@ -147,6 +267,24 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0dee1327_24784848",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVote.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21239d95_1d10f002",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -173,6 +311,30 @@
     },
     {
       "key": {
+        "uuid": "220b9bc8_b9a1f44c",
+        "filename": "java/com/google/gerrit/server/submit/EmailMerge.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0bf08c9e_73f1c5e4",
+      "range": {
+        "startLine": 87,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a4fe8346_b27ed463",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 3
@@ -187,6 +349,24 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02275ab7_b5a019f0",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Yes, thanks for the idea, sounds great!\nIdeally AsyncPostUpdateOp should inherit BatchUpdateOp/RepoOnlyOp somehow, but that doesn\u0027t work since there are some Ops that would be RepoOnlyOp and async, but not BatchUpdateOp - that\u0027s too bad.\nDone.",
+      "parentUuid": "a4fe8346_b27ed463",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -207,6 +387,24 @@
     },
     {
       "key": {
+        "uuid": "025360ee_3d7a293d",
+        "filename": "java/com/google/gerrit/server/update/ExecuteAsyncPostUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0071ccc2_1c4343c8",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "38f340dc_5397677a",
         "filename": "java/com/google/gerrit/server/update/RepoOnlyOp.java",
         "patchSetId": 3
@@ -221,6 +419,24 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ee7ab2a_9ada73cd",
+        "filename": "java/com/google/gerrit/server/update/RepoOnlyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38f340dc_5397677a",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -247,6 +463,30 @@
     },
     {
       "key": {
+        "uuid": "65e8cf27_850cd114",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1b32f8b2_8d3ff5a0",
+      "range": {
+        "startLine": 95,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7c18d155_3f363a77",
         "filename": "java/com/google/gerrit/testing/FakeEmailSender.java",
         "patchSetId": 3
@@ -267,6 +507,30 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fc36b2e_1aa55ca7",
+        "filename": "java/com/google/gerrit/testing/FakeEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-02T16:24:55Z",
+      "side": 1,
+      "message": "Unfortunately, we do need this.\nSee comment in l161.\nAnyway, I went back to using @SendEmailExecutor due to Id8177b374. I have no reason to believe this bug will not reoccur, so I guess I have to keep this either way.\nThis is fine since one thread is almost always enough to post updates, it will just make them a little slower if there are multiple asyncPostUpdates to perform.",
+      "parentUuid": "7c18d155_3f363a77",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 17
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

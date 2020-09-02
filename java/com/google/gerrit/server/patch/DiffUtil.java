@@ -15,13 +15,14 @@
 
 package com.google.gerrit.server.patch;
 
+import com.google.common.collect.MoreCollectors;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import org.eclipse.jgit.diff.DiffEntry;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.diff.RawTextComparator;
@@ -40,12 +41,10 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class DiffUtil {
   private final AutoMerger autoMerger;
   private final ThreeWayMergeStrategy mergeStrategy;
-  private final GitRepositoryManager repoManager;
-  private final boolean save;
+  private final boolean save; // TODO(ghareeb): use save for repo vs. in-memory inserter
 
   @Inject
-  DiffUtil(AutoMerger am, GitRepositoryManager repoManager, @GerritServerConfig Config cfg) {
-    this.repoManager = repoManager;
+  DiffUtil(AutoMerger am, @GerritServerConfig Config cfg) {
     this.autoMerger = am;
     this.save = AutoMerger.cacheAutomerge(cfg);
     this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
@@ -161,6 +160,38 @@ public class DiffUtil {
       df.getRenameDetector().setRenameScore(key.renameScore());
     }
     return df.scan(key.aTree(), key.bTree());
+  }
+
+  /**
+   * Returns the git diff entries for a single file path identified by the <code>key</code>
+   * parameter.
+   *
+   * @param repo the git repository
+   * @param reader reader object for the repository
+   * @param df
+   * @param key
+   * @return
+   * @throws IOException
+   */
+  public static Optional<DiffEntry> getOneGitTreeDiff(
+      Repository repo, ObjectReader reader, DiffFormatter df, GitFileDiffCache.Key key)
+      throws IOException {
+    df.setReader(reader, repo.getConfig());
+    RawTextComparator cmp = comparatorFor(key.ws());
+    df.setDiffComparator(cmp);
+    df.setDetectRenames(true);
+
+    // TODO(ghareeb): configure path filter
+    // Config config = new Config();
+    // config.setBoolean("diff", null, "renames", true);
+    // TreeFilter filter1 = PathFilter.create(key.newFilePath());
+    // TreeFilter filter2 = FollowFilter.create(key.newFilePath(), config.get(DiffConfig.KEY));
+    // TreeFilter orFilter = OrTreeFilter.create(filter1, filter2);
+    // df.setPathFilter(orFilter);
+    List<DiffEntry> diffEntries = df.scan(key.oldTree(), key.newTree());
+    return diffEntries.stream()
+        .filter(d -> d.getNewPath().equals(key.newFilePath()))
+        .collect(MoreCollectors.toOptional());
   }
 
   public static RawTextComparator comparatorFor(Whitespace ws) {

@@ -131,6 +131,30 @@
     },
     {
       "key": {
+        "uuid": "cecc97d5_446ee039",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T10:02:13Z",
+      "side": 1,
+      "message": "Marking as resolved for now.",
+      "parentUuid": "b168eaf9_ee2a64bc",
+      "range": {
+        "startLine": 66,
+        "startChar": 56,
+        "endLine": 66,
+        "endChar": 71
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "44050519_53012df0",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 3
@@ -175,6 +199,30 @@
       "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f84a4e3d_cdcfd358",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T10:02:13Z",
+      "side": 1,
+      "message": "Marking as resolved. Feel free to add descriptions in the future if you feel they are necessary.",
+      "parentUuid": "57d1a812_810ce22c",
+      "range": {
+        "startLine": 79,
+        "startChar": 51,
+        "endLine": 79,
+        "endChar": 73
+      },
+      "revId": "fe7bc44563eb728ba812844d2d760f98014a5719",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

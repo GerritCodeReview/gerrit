@@ -16,8 +16,11 @@
 package com.google.gerrit.server.patch;
 
 import com.google.common.collect.MoreCollectors;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
+import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
@@ -41,13 +44,58 @@ import org.eclipse.jgit.util.io.DisabledOutputStream;
 public class DiffUtil {
   private final AutoMerger autoMerger;
   private final ThreeWayMergeStrategy mergeStrategy;
-  private final boolean save; // TODO(ghareeb): use save for repo vs. in-memory inserter
+  private final GitRepositoryManager repoManager;
+  private final boolean save;
 
   @Inject
-  DiffUtil(AutoMerger am, @GerritServerConfig Config cfg) {
+  DiffUtil(AutoMerger am, @GerritServerConfig Config cfg, GitRepositoryManager repoManager) {
     this.autoMerger = am;
     this.save = AutoMerger.cacheAutomerge(cfg);
     this.mergeStrategy = MergeUtil.getMergeStrategy(cfg);
+    this.repoManager = repoManager;
+  }
+
+  /**
+   * Returns the commit object for the base commit identified by the key parameter. If the oldId
+   * field of the key is null, return the parent commit of the commit identified by newId.
+   *
+   * @param project the name of the project
+   * @param key a key containing the old and new commits
+   * @return the commit object for the base commit identified by the key parameter
+   * @throws IOException
+   */
+  public RevObject getBaseCommit(Project.NameKey project, PatchListKey key) throws IOException {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectInserter ins = newInserter(repo);
+        ObjectReader reader = ins.newReader();
+        RevWalk rw = new RevWalk(reader)) {
+      if (key.getOldId() == null) {
+        return getParentCommit(repo, ins, rw, key.getParentNum(), key.getNewId());
+      }
+      return rw.parseAny(key.getOldId());
+    }
+  }
+
+  /**
+   * Returns the comparison type of 2 commits (old and new), i.e. whether old is considered as
+   * another patchset, a parent, or an auto-merge for the new commit.
+   *
+   * @param key a key containing the old and new commits
+   * @param oldCommit a RevObject for the old commit
+   * @param newCommit a RevObject for the new commit
+   * @return the type of comparison between the 2 commits
+   */
+  public ComparisonType getComparisonType(
+      PatchListKey key, RevObject oldCommit, RevCommit newCommit) {
+    for (int i = 0; i < newCommit.getParentCount(); i++) {
+      if (newCommit.getParent(i).equals(oldCommit)) {
+        return ComparisonType.againstParent(i + 1);
+      }
+    }
+    if (key.getOldId() == null && newCommit.getParentCount() > 0) {
+      return ComparisonType.againstAutoMerge();
+    }
+    return ComparisonType.againstOtherPatchSet();
   }
 
   /**
@@ -112,7 +160,7 @@ public class DiffUtil {
   }
 
   /**
-   * Returns the RevCommit object given the 20 bytes commitId SHA-1 hash.
+   * Returns the RevCommit object given the 20 bytes commitId SHA-1 hash and a RevWalk for the repo.
    *
    * @param rw A RevWalk used to iterate over commits
    * @param commitId 20 bytes commitId SHA-1 hash
@@ -121,6 +169,22 @@ public class DiffUtil {
    */
   public static RevCommit getRevCommit(RevWalk rw, ObjectId commitId) throws IOException {
     return rw.parseCommit(commitId);
+  }
+
+  /**
+   * Returns the RevCommit object given the 20 bytes commitId SHA-1 hash and the project name.
+   *
+   * @param project the project's name
+   * @param commitId 20 bytes commitId SHA-1 hash
+   * @return The RevCommit representing the commit in Git
+   * @throws IOException
+   */
+  public RevCommit getRevCommit(Project.NameKey project, ObjectId commitId) throws IOException {
+    try (Repository repo = repoManager.openRepository(project);
+        ObjectReader reader = repo.newObjectReader();
+        RevWalk rw = new RevWalk(reader)) {
+      return getRevCommit(rw, commitId);
+    }
   }
 
   /**
@@ -228,5 +292,9 @@ public class DiffUtil {
 
   private static boolean haveCommonParent(RevCommit commitA, RevCommit commitB) {
     return ObjectId.isEqual(commitA.getParent(0), commitB.getParent(0));
+  }
+
+  ObjectInserter newInserter(Repository repo) {
+    return save ? repo.newObjectInserter() : new InMemoryInserter(repo);
   }
 }

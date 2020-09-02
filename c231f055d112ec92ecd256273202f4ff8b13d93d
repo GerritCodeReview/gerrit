@@ -448,6 +448,30 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "64b835c2_45e1665c",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-02T10:00:33Z",
+      "side": 1,
+      "message": "Sorry about the rant I somehow didn\u0027t notice the changes you did in PS 4 it was completely my mistake!",
+      "parentUuid": "2a18d381_fc0627a6",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

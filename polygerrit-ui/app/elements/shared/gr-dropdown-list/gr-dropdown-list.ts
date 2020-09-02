@@ -100,6 +100,21 @@ export class GrDropdownList extends GestureEventListeners(
   @property({type: Boolean})
   showCopyForTriggerText = false;
 
+  @property({type: String})
+  searchText?: string;
+
+  _handleSearchBarClicked(e: Event) {
+    // stop event from propogating to dropdown
+    e.preventDefault();
+    e.stopPropagation();
+  }
+
+  @observe('searchText')
+  searchTextChanged(searchText: string) {
+    if (!this.items) return;
+    this.items = this.items.filter(item => item.text.includes(searchText));
+  }
+
   /**
    * Handle a click on the iron-dropdown element.
    */

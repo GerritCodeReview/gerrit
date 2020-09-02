@@ -47,6 +47,7 @@ export const htmlTemplate = html`
         href$="[[_computeHelpDocLink(docBaseUrl)]]"
         target="_blank"
         class="help"
+        hidden="[[hideDocumentationIcon]]"
       >
         <iron-icon
           icon="gr-icons:help-outline"

@@ -146,6 +146,19 @@ export const htmlTemplate = html`
       selected="{{value}}"
       on-tap="_handleDropdownTap"
     >
+      <gr-search-bar
+        id="search"
+        hide-documentation-icon
+        hide-suggestions
+        on-click="_handleSearchBarClicked"
+        searchText="{{_inputVal}}"
+      ></gr-search-bar>
+      <!-- <paper-input value="{{_searchText}}"> -->
+        <!-- prefix as attribute is required to for polymer 1 -->
+        <!-- <div slot="prefix" prefix="">
+          <iron-icon icon="gr-icons:search" class$="searchIcon"> </iron-icon>
+        </div>
+      </paper-input> -->
       <template
         is="dom-repeat"
         items="[[items]]"

@@ -33,6 +33,7 @@ import {
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
+import {HighlightJS} from '../gr-lib-loader/gr-lib-loader';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
@@ -206,7 +207,7 @@ export class GrJsApiInterface
     }
   }
 
-  _handleHighlightjsLoaded(detail: {hljs: unknown}) {
+  _handleHighlightjsLoaded(detail: {hljs: unknown & HighlightJS}) {
     for (const cb of this._getEventCallbacks(EventType.HIGHLIGHTJS_LOADED)) {
       try {
         cb(detail.hljs);

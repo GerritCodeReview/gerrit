@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "8ca68664_521b72ec",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T14:07:13Z",
+      "side": 1,
+      "message": "nit: doesn\u0027t",
+      "range": {
+        "startLine": 9,
+        "startChar": 22,
+        "endLine": 9,
+        "endChar": 27
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2ccad62b_f7a7c515",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 3
@@ -36,6 +59,23 @@
     },
     {
       "key": {
+        "uuid": "9057d35e_70895c70",
+        "filename": "java/com/google/gerrit/server/change/AbandonOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T14:07:13Z",
+      "side": 1,
+      "message": "nit: use the same ordering as in the interface (async after non-async)",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ead4e2b9_8c99aee8",
         "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
         "patchSetId": 3
@@ -47,6 +87,23 @@
       "writtenOn": "2020-09-02T08:04:14Z",
       "side": 1,
       "message": "Can this be moved into asyncPostUpdate (e.g. as it is done in DeleteReviewerByEmailOp)?\n\nHere and in other classes.",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9151382_73a6ef4f",
+        "filename": "java/com/google/gerrit/server/change/DeleteReviewerOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T14:07:13Z",
+      "side": 1,
+      "message": "nit: ordering",
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -116,6 +173,40 @@
     },
     {
       "key": {
+        "uuid": "a4fe8346_b27ed463",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 676,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T14:07:13Z",
+      "side": 1,
+      "message": "This will always schedule a task on the executor, even for Ops that don\u0027t have any code inside asyncPostUpdate. This sounds more wasteful than it needs to be.\n\nCould we separate asyncPostUpdate into it\u0027s own interface and have Ops that want the behavior implement both {RepoOnlyOp,BatchUpdateOp} and AsyncPostUpdate (name to be bikeshedded)?\n\nThen here you could check:\n\n  if (of instanceof AsyncPostUpdateOp) schedule else return\n\nIt comes at the downside of an additional iterface, but eliminates the cost of no-op runnable scheduling. You could make AsyncPostUpdate an inner interface to RepoOnlyOp so that it doesn\u0027t get confusing.\n\nWDYT?",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0071ccc2_1c4343c8",
+        "filename": "java/com/google/gerrit/server/update/ExecuteAsyncPostUpdates.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T14:07:13Z",
+      "side": 1,
+      "message": "nit: javadoc missing",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "38f340dc_5397677a",
         "filename": "java/com/google/gerrit/server/update/RepoOnlyOp.java",
         "patchSetId": 3
@@ -149,6 +240,29 @@
         "startChar": 2,
         "endLine": 98,
         "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c18d155_3f363a77",
+        "filename": "java/com/google/gerrit/testing/FakeEmailSender.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-02T14:07:13Z",
+      "side": 1,
+      "message": "Do we actually need this? I thought we bind FanOutExecutor to a directExecutor in tests?",
+      "range": {
+        "startLine": 131,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 17
       },
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

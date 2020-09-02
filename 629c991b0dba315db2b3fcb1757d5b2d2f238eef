@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2a42578b_86c0c35c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-02T13:24:53Z",
+      "side": 1,
+      "message": "I would like not to have to self-approve this, if possible for you to review, please; thanks. This change should be close to trivial anyway.",
+      "revId": "629c991b0dba315db2b3fcb1757d5b2d2f238eef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

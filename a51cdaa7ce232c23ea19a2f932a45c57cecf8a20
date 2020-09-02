@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d42478c_599e1474",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T22:24:07Z",
+      "side": 1,
+      "message": "Repeated info?",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db11cf6c_422b1b14",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T22:24:07Z",
+      "side": 1,
+      "message": "Is this \"also\" or the entire intent of the change? If it\u0027s the intent of the change, maybe put that in the subject? \"Migrate all emails to send async\"",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 5
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7de9c1ee_510eb806",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-02T22:24:07Z",
+      "side": 1,
+      "message": "What does \"those\" refer to? The emails?",
+      "range": {
+        "startLine": 54,
+        "startChar": 48,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

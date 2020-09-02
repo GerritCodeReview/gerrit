@@ -180,6 +180,12 @@ export class GrSearchBar extends KeyboardShortcutMixin(
   @property({type: String})
   docBaseUrl: string | null = null;
 
+  @property({type: Boolean})
+  hideDocumentationIcon = false;
+
+  @property({type: Boolean})
+  hideSuggestions = false;
+
   constructor() {
     super();
     this.query = (input: string) => this._getSearchSuggestions(input);
@@ -187,6 +193,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(
 
   attached() {
     super.attached();
+    if (this.hideSuggestions) return;
     this.$.restAPI.getConfig().then((serverConfig?: ServerInfo) => {
       const mergeability =
         serverConfig &&
@@ -325,6 +332,7 @@ export class GrSearchBar extends KeyboardShortcutMixin(
    * suggestions.
    */
   _getSearchSuggestions(input: string): Promise<AutocompleteSuggestion[]> {
+    if (this.hideSuggestions) return Promise.resolve([]);
     // Allow spaces within quoted terms.
     const tokens = input.match(TOKENIZE_REGEX);
     if (tokens === null) return Promise.resolve([]);

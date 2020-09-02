@@ -16,6 +16,143 @@
       "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9ead3df4_e8c86b2f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractNotificationTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "Should nextMessage() just call waitForEmails() so that we can rely on the returned message here?\n\nOtherwise is the call needed or can we just drop it, and also the nextMessage() method since this is the only caller?",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ead4e2b9_8c99aee8",
+        "filename": "java/com/google/gerrit/server/change/ChangeInserter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "Can this be moved into asyncPostUpdate (e.g. as it is done in DeleteReviewerByEmailOp)?\n\nHere and in other classes.",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b77bc07_ae9a48c1",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "No longer needed?",
+      "range": {
+        "startLine": 130,
+        "startChar": 2,
+        "endLine": 133,
+        "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "21239d95_1d10f002",
+        "filename": "java/com/google/gerrit/server/restapi/change/DeleteVote.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "Maybe just use ctx.getIdentifiedUser() at the 2 places where this is used?",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0bf08c9e_73f1c5e4",
+        "filename": "java/com/google/gerrit/server/submit/EmailMerge.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "No longer needed?",
+      "range": {
+        "startLine": 87,
+        "startChar": 2,
+        "endLine": 90,
+        "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38f340dc_5397677a",
+        "filename": "java/com/google/gerrit/server/update/RepoOnlyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "Maybe document that the request is not waiting for the async updates to finish.",
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b32f8b2_8d3ff5a0",
+        "filename": "java/com/google/gerrit/server/util/AttentionSetEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 1,
+      "message": "No longer needed?",
+      "range": {
+        "startLine": 95,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 3
+      },
+      "revId": "bdc66fa7e287fbcadac09bd12842535a40936b51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

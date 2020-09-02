@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6cf2edb_827417c4",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 0,
+      "message": "I wonder why it\u0027s using user.getRealUser() here?\nWith the new code we seem to use just user now (see ExecuteAsyncPostUpdates), so this seems to be a change in behaviour.",
+      "range": {
+        "startLine": 158,
+        "startChar": 11,
+        "endLine": 158,
+        "endChar": 29
+      },
+      "revId": "5284edcf82455d8734f7aa1cabc5548a36723b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7109c7df_1598a3a3",
+        "filename": "java/com/google/gerrit/server/config/SysExecutorModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 0,
+      "message": "If this parameter is no longer used, please also remove its documentation from config-gerrit.txt",
+      "range": {
+        "startLine": 57,
+        "startChar": 33,
+        "endLine": 57,
+        "endChar": 68
+      },
+      "revId": "5284edcf82455d8734f7aa1cabc5548a36723b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be905f3e_8a71b05a",
+        "filename": "java/com/google/gerrit/server/submit/EmailMerge.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-02T08:04:14Z",
+      "side": 0,
+      "message": "This seems to be lost with the new code?",
+      "range": {
+        "startLine": 116,
+        "startChar": 4,
+        "endLine": 118,
+        "endChar": 5
+      },
+      "revId": "5284edcf82455d8734f7aa1cabc5548a36723b04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "03c70840_3e48bd2f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 11
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T17:35:30Z",
+      "side": 1,
+      "message": "You mentioned that you wanted to apply further changes. Will you create them as follow-ups? If so, feel free to submit this change.",
+      "revId": "870609efc4acbad29d2c5bb40e9d86688f7d9eef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

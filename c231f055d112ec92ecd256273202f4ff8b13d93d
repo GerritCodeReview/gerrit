@@ -496,6 +496,30 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80fff519_3bb18f76",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-02T10:11:41Z",
+      "side": 1,
+      "message": "I believe all issues have been addressed. I am happy to give a +2 for this fix.\nThanks for your contribution, much appreciated.",
+      "parentUuid": "ea72ea58_82ba34c1",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

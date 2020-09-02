@@ -19,7 +19,6 @@ import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.Multimaps.toMultimap;
 
 import com.google.auto.value.AutoValue;
-import com.google.common.base.MoreObjects;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
@@ -31,12 +30,13 @@ import com.google.gerrit.server.patch.GitPositionTransformer.OmitPositionOnConfl
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
 import com.google.gerrit.server.patch.GitPositionTransformer.Range;
+import com.google.gerrit.server.patch.entities.Edit;
+import com.google.gerrit.server.patch.entities.FileEdits;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import org.eclipse.jgit.diff.Edit;
 
 /**
  * Transformer of edits regarding their base trees. An edit describes a difference between {@code
@@ -54,40 +54,42 @@ class EditTransformer {
 
   /**
    * Creates a new {@code EditTransformer} for the edits contained in the specified {@code
-   * PatchListEntry}s.
+   * FileEdits}s.
    *
-   * @param patchListEntries a list of {@code PatchListEntry}s containing the edits
+   * @param fileEdits a list of {@code FileEdits}s containing the edits
    */
-  public EditTransformer(List<PatchListEntry> patchListEntries) {
-    edits = patchListEntries.stream().flatMap(EditTransformer::toEdits).collect(toImmutableList());
+  public EditTransformer(ImmutableList<FileEdits> fileEdits) {
+    // TODO(ghareeb): Can we replace FileEdits with another entity from the new refactored
+    // diff cache implementation? e.g. one of the GitFileDiffCache entities
+    edits = fileEdits.stream().flatMap(EditTransformer::toEdits).collect(toImmutableList());
   }
 
   /**
    * Transforms the references of side A of the edits. If the edits describe differences between
-   * {@code treeA} and {@code treeB} and the specified {@code PatchListEntry}s define a
-   * transformation from {@code treeA} to {@code treeA'}, the resulting edits will be defined as
-   * differences between {@code treeA'} and {@code treeB}. Edits which can't be transformed due to
-   * conflicts with the transformation are omitted.
+   * {@code treeA} and {@code treeB} and the specified {@code FileEdits}s define a transformation
+   * from {@code treeA} to {@code treeA'}, the resulting edits will be defined as differences
+   * between {@code treeA'} and {@code treeB}. Edits which can't be transformed due to conflicts
+   * with the transformation are omitted.
    *
-   * @param transformationEntries a list of {@code PatchListEntry}s defining the transformation of
-   *     {@code treeA} to {@code treeA'}
+   * @param transformingEntries a list of {@code FileEdits}s defining the transformation of {@code
+   *     treeA} to {@code treeA'}
    */
-  public void transformReferencesOfSideA(List<PatchListEntry> transformationEntries) {
-    transformEdits(transformationEntries, SideAStrategy.INSTANCE);
+  public void transformReferencesOfSideA(ImmutableList<FileEdits> transformingEntries) {
+    transformEdits(transformingEntries, SideAStrategy.INSTANCE);
   }
 
   /**
    * Transforms the references of side B of the edits. If the edits describe differences between
-   * {@code treeA} and {@code treeB} and the specified {@code PatchListEntry}s define a
-   * transformation from {@code treeB} to {@code treeB'}, the resulting edits will be defined as
-   * differences between {@code treeA} and {@code treeB'}. Edits which can't be transformed due to
-   * conflicts with the transformation are omitted.
+   * {@code treeA} and {@code treeB} and the specified {@code FileEdits}s define a transformation
+   * from {@code treeB} to {@code treeB'}, the resulting edits will be defined as differences
+   * between {@code treeA} and {@code treeB'}. Edits which can't be transformed due to conflicts
+   * with the transformation are omitted.
    *
-   * @param transformationEntries a list of {@code PatchListEntry}s defining the transformation of
+   * @param transformingEntries a list of {@code PatchListEntry}s defining the transformation of
    *     {@code treeB} to {@code treeB'}
    */
-  public void transformReferencesOfSideB(List<PatchListEntry> transformationEntries) {
-    transformEdits(transformationEntries, SideBStrategy.INSTANCE);
+  public void transformReferencesOfSideB(ImmutableList<FileEdits> transformingEntries) {
+    transformEdits(transformingEntries, SideBStrategy.INSTANCE);
   }
 
   /**
@@ -99,25 +101,33 @@ class EditTransformer {
     return edits.stream()
         .collect(
             toMultimap(
-                ContextAwareEdit::getNewFilePath, Function.identity(), ArrayListMultimap::create));
+                c -> {
+                  String path =
+                      c.getNewFilePath().isPresent()
+                          ? c.getNewFilePath().get()
+                          : c.getOldFilePath().get();
+                  return path;
+                },
+                Function.identity(),
+                ArrayListMultimap::create));
   }
 
-  public static Stream<ContextAwareEdit> toEdits(PatchListEntry patchListEntry) {
-    ImmutableList<Edit> edits = patchListEntry.getEdits();
+  public static Stream<ContextAwareEdit> toEdits(FileEdits in) {
+    List<Edit> edits = in.edits();
     if (edits.isEmpty()) {
-      return Stream.of(ContextAwareEdit.createForNoContentEdit(patchListEntry));
+      return Stream.of(ContextAwareEdit.createForNoContentEdit(in.oldPath(), in.newPath()));
     }
 
-    return edits.stream().map(edit -> ContextAwareEdit.create(patchListEntry, edit));
+    return edits.stream().map(edit -> ContextAwareEdit.create(in.oldPath(), in.newPath(), edit));
   }
 
-  private void transformEdits(List<PatchListEntry> transformingEntries, SideStrategy sideStrategy) {
+  private void transformEdits(List<FileEdits> inputs, SideStrategy sideStrategy) {
     ImmutableList<PositionedEntity<ContextAwareEdit>> positionedEdits =
         edits.stream()
             .map(edit -> toPositionedEntity(edit, sideStrategy))
             .collect(toImmutableList());
     ImmutableSet<Mapping> mappings =
-        transformingEntries.stream().map(DiffMappings::toMapping).collect(toImmutableSet());
+        inputs.stream().map(DiffMappings::toMapping).collect(toImmutableSet());
 
     edits =
         positionTransformer.transform(positionedEdits, mappings).stream()
@@ -133,41 +143,40 @@ class EditTransformer {
 
   @AutoValue
   abstract static class ContextAwareEdit {
-    static ContextAwareEdit create(PatchListEntry patchListEntry, Edit edit) {
+    static ContextAwareEdit create(Optional<String> oldPath, Optional<String> newPath, Edit edit) {
+      // TODO(ghareeb): Look if the new FileEdits class is capable of representing renames/copies
+      // and in this case we can get rid of the ContextAwareEdit class.
       return create(
-          patchListEntry.getOldName(),
-          patchListEntry.getNewName(),
-          edit.getBeginA(),
-          edit.getEndA(),
-          edit.getBeginB(),
-          edit.getEndB(),
-          false);
+          oldPath, newPath, edit.beginA(), edit.endA(), edit.beginB(), edit.endB(), false);
     }
 
-    static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
+    static ContextAwareEdit createForNoContentEdit(
+        Optional<String> oldPath, Optional<String> newPath) {
       // Remove the warning in createEditAtNewPosition() if we switch to an empty range instead of
       // (-1:-1, -1:-1) in the future.
-      return create(
-          patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
+      return create(oldPath, newPath, -1, -1, -1, -1, false);
     }
 
     static ContextAwareEdit create(
-        String oldFilePath,
-        String newFilePath,
+        Optional<String> oldFilePath,
+        Optional<String> newFilePath,
         int beginA,
         int endA,
         int beginB,
         int endB,
         boolean filePathAdjusted) {
-      String adjustedOldFilePath = MoreObjects.firstNonNull(oldFilePath, newFilePath);
-      boolean implicitRename = !Objects.equals(oldFilePath, newFilePath) && filePathAdjusted;
+      boolean implicitRename =
+          newFilePath.isPresent()
+              && oldFilePath.isPresent()
+              && !Objects.equals(oldFilePath.get(), newFilePath.get())
+              && filePathAdjusted;
       return new AutoValue_EditTransformer_ContextAwareEdit(
-          adjustedOldFilePath, newFilePath, beginA, endA, beginB, endB, implicitRename);
+          oldFilePath, newFilePath, beginA, endA, beginB, endB, implicitRename);
     }
 
-    public abstract String getOldFilePath();
+    public abstract Optional<String> getOldFilePath();
 
-    public abstract String getNewFilePath();
+    public abstract Optional<String> getNewFilePath();
 
     public abstract int getBeginA();
 
@@ -180,12 +189,13 @@ class EditTransformer {
     // Used for equals(), for which this value is important.
     public abstract boolean isImplicitRename();
 
-    public Optional<Edit> toEdit() {
+    public Optional<org.eclipse.jgit.diff.Edit> toEdit() {
       if (getBeginA() < 0) {
         return Optional.empty();
       }
 
-      return Optional.of(new Edit(getBeginA(), getEndA(), getBeginB(), getEndB()));
+      return Optional.of(
+          new org.eclipse.jgit.diff.Edit(getBeginA(), getEndA(), getBeginB(), getEndB()));
     }
   }
 
@@ -200,8 +210,12 @@ class EditTransformer {
 
     @Override
     public Position extractPosition(ContextAwareEdit edit) {
+      String filePath =
+          edit.getOldFilePath().isPresent()
+              ? edit.getOldFilePath().get()
+              : edit.getNewFilePath().get();
       return Position.builder()
-          .filePath(edit.getOldFilePath())
+          .filePath(filePath)
           .lineRange(Range.create(edit.getBeginA(), edit.getEndA()))
           .build();
     }
@@ -227,13 +241,13 @@ class EditTransformer {
             newPosition);
       }
       return ContextAwareEdit.create(
-          updatedFilePath,
+          Optional.of(updatedFilePath),
           edit.getNewFilePath(),
           updatedRange.start(),
           updatedRange.end(),
           edit.getBeginB(),
           edit.getEndB(),
-          !Objects.equals(edit.getOldFilePath(), updatedFilePath));
+          !Objects.equals(edit.getOldFilePath(), Optional.of(updatedFilePath)));
     }
   }
 
@@ -242,8 +256,12 @@ class EditTransformer {
 
     @Override
     public Position extractPosition(ContextAwareEdit edit) {
+      String filePath =
+          edit.getNewFilePath().isPresent()
+              ? edit.getNewFilePath().get()
+              : edit.getOldFilePath().get();
       return Position.builder()
-          .filePath(edit.getNewFilePath())
+          .filePath(filePath)
           .lineRange(Range.create(edit.getBeginB(), edit.getEndB()))
           .build();
     }
@@ -255,7 +273,8 @@ class EditTransformer {
       // in the future.
       Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
       // Same as far the range above. PATCHSET_LEVEL is a safe fallback.
-      String updatedFilePath = newPosition.filePath().orElse(Patch.PATCHSET_LEVEL);
+      Optional<String> updatedFilePath =
+          Optional.of(newPosition.filePath().orElse(Patch.PATCHSET_LEVEL));
       return ContextAwareEdit.create(
           edit.getOldFilePath(),
           updatedFilePath,

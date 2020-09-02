@@ -330,6 +330,11 @@ public class GitPositionTransformer {
       return new AutoValue_GitPositionTransformer_FileMapping(
           Optional.of(oldPath), Optional.of(newPath));
     }
+
+    /** Creates a {@link FileMapping} using the old and new paths. */
+    public static FileMapping forFile(Optional<String> oldPath, Optional<String> newPath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(oldPath, newPath);
+    }
   }
 
   /**

@@ -472,6 +472,30 @@
       "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea72ea58_82ba34c1",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-02T10:03:35Z",
+      "side": 1,
+      "message": "I feel we are spending more time commenting on the commentary than the actual code here. I have tried to be helpful and explain my motivations for making this change, and hope you are satisfied now. If there is anything else you need from me on this code change please clarify on that.",
+      "parentUuid": "64b835c2_45e1665c",
+      "range": {
+        "startLine": 95,
+        "startChar": 0,
+        "endLine": 103,
+        "endChar": 7
+      },
+      "revId": "c231f055d112ec92ecd256273202f4ff8b13d93d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

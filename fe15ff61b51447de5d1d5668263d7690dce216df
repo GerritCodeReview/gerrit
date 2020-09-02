@@ -22,6 +22,29 @@
       "revId": "fe15ff61b51447de5d1d5668263d7690dce216df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23e9dffb_fd8e0c07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-02T04:52:16Z",
+      "side": 1,
+      "message": "remove opt prefix from the names\nsame for `opt_actionCallback`",
+      "range": {
+        "startLine": 92,
+        "startChar": 21,
+        "endLine": 92,
+        "endChar": 35
+      },
+      "revId": "fe15ff61b51447de5d1d5668263d7690dce216df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

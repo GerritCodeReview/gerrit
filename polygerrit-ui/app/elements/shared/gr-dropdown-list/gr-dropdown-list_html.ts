@@ -116,6 +116,10 @@ export const htmlTemplate = html`
         @apply --native-select-style;
       }
     }
+    iron-input,
+    input {
+      width: 100%;
+    }
   </style>
   <gr-button
     disabled="[[disabled]]"
@@ -146,9 +150,24 @@ export const htmlTemplate = html`
       selected="{{value}}"
       on-tap="_handleDropdownTap"
     >
+      <template is="dom-if" if="[[showSearchBar]]">
+        <iron-input
+          bind-value="{{searchText}}"
+          type="text"
+          on-input="_handleValueChange"
+          on-click="_handleSearchBarClicked"
+        >
+          <input
+            is="iron-input"
+            placeholder="Search files"
+            bind-value="{{searchText}}"
+            on-click="_handleSearchBarClicked"
+          />
+        </iron-input>
+      </template>
       <template
         is="dom-repeat"
-        items="[[items]]"
+        items="[[displayedItems]]"
         initial-count="[[initialCount]]"
       >
         <paper-item disabled="[[item.disabled]]" data-value$="[[item.value]]">

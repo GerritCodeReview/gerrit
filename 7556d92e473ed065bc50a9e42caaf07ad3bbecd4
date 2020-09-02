@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "cd3d5098_7a5ab4f8",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T15:16:07Z",
+      "side": 1,
+      "message": "The shiftBy() method which is just above this method is comparable but does not always return a new instance. Youssef commented that it might be helpful to point this out in the Javadoc description. For consistency, I added the warning to all similar methods.\n\nIf you prefer that we don\u0027t have this warning, I can remove it from all Javadoc descriptions. Up to you. :-)",
+      "parentUuid": "952c8e94_7ffd9af2",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 94
+      },
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c5e43c7_7759fb50",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 4
@@ -59,6 +83,24 @@
     },
     {
       "key": {
+        "uuid": "c7cbece1_6f712869",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 535,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T15:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c5e43c7_7759fb50",
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5b9a1233_e76d3ec6",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 4
@@ -73,6 +115,24 @@
       "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08e28d67_4a5e24ac",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 547,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-02T15:16:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b9a1233_e76d3ec6",
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

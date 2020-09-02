@@ -39,6 +39,7 @@ import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.InMemoryInserter;
 import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.patch.EditTransformer.ContextAwareEdit;
+import com.google.gerrit.server.patch.entities.FileEdits;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
@@ -306,11 +307,20 @@ public class PatchListLoader implements Callable<PatchList> {
         getRelevantPatchListEntries(
             parentDiffEntries, parentCommitA, parentCommitB, touchedFilePaths, df);
 
-    EditTransformer editTransformer = new EditTransformer(parentPatchListEntries);
-    editTransformer.transformReferencesOfSideA(oldPatches);
-    editTransformer.transformReferencesOfSideB(newPatches);
+    EditTransformer editTransformer = new EditTransformer(toFileEditsList(parentPatchListEntries));
+    editTransformer.transformReferencesOfSideA(toFileEditsList(oldPatches));
+    editTransformer.transformReferencesOfSideB(toFileEditsList(newPatches));
     return EditsDueToRebaseResult.create(
         relevantDiffEntries, editTransformer.getEditsPerFilePath());
+  }
+
+  private ImmutableList<FileEdits> toFileEditsList(List<PatchListEntry> entries) {
+    return entries.stream().map(this::toFileEdits).collect(toImmutableList());
+  }
+
+  private FileEdits toFileEdits(PatchListEntry ple) {
+    return FileEdits.create(
+        ple.getEdits(), ple.getOldName(), ple.getNewName(), ple.getChangeType());
   }
 
   private static boolean isRootOrMergeCommit(RevCommit commit) {

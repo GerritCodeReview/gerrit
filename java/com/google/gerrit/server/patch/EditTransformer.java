@@ -31,6 +31,7 @@ import com.google.gerrit.server.patch.GitPositionTransformer.OmitPositionOnConfl
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
 import com.google.gerrit.server.patch.GitPositionTransformer.Range;
+import com.google.gerrit.server.patch.entities.FileEdits;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -45,7 +46,7 @@ import org.eclipse.jgit.diff.Edit;
  * treeB} to {@code treeB'}. Edits which can't be transformed due to conflicts with the
  * transformation are omitted.
  */
-class EditTransformer {
+public class EditTransformer {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitPositionTransformer positionTransformer =
@@ -54,40 +55,40 @@ class EditTransformer {
 
   /**
    * Creates a new {@code EditTransformer} for the edits contained in the specified {@code
-   * PatchListEntry}s.
+   * FileEdits}s.
    *
-   * @param patchListEntries a list of {@code PatchListEntry}s containing the edits
+   * @param fileEdits a list of {@code FileEdits}s containing the edits
    */
-  public EditTransformer(List<PatchListEntry> patchListEntries) {
-    edits = patchListEntries.stream().flatMap(EditTransformer::toEdits).collect(toImmutableList());
+  public EditTransformer(ImmutableList<FileEdits> fileEdits) {
+    edits = fileEdits.stream().flatMap(EditTransformer::toEdits).collect(toImmutableList());
   }
 
   /**
    * Transforms the references of side A of the edits. If the edits describe differences between
-   * {@code treeA} and {@code treeB} and the specified {@code PatchListEntry}s define a
-   * transformation from {@code treeA} to {@code treeA'}, the resulting edits will be defined as
-   * differences between {@code treeA'} and {@code treeB}. Edits which can't be transformed due to
-   * conflicts with the transformation are omitted.
+   * {@code treeA} and {@code treeB} and the specified {@code FileEdits}s define a transformation
+   * from {@code treeA} to {@code treeA'}, the resulting edits will be defined as differences
+   * between {@code treeA'} and {@code treeB}. Edits which can't be transformed due to conflicts
+   * with the transformation are omitted.
    *
-   * @param transformationEntries a list of {@code PatchListEntry}s defining the transformation of
-   *     {@code treeA} to {@code treeA'}
+   * @param transformingEntries a list of {@code FileEdits}s defining the transformation of {@code
+   *     treeA} to {@code treeA'}
    */
-  public void transformReferencesOfSideA(List<PatchListEntry> transformationEntries) {
-    transformEdits(transformationEntries, SideAStrategy.INSTANCE);
+  public void transformReferencesOfSideA(ImmutableList<FileEdits> transformingEntries) {
+    transformEdits(transformingEntries, SideAStrategy.INSTANCE);
   }
 
   /**
    * Transforms the references of side B of the edits. If the edits describe differences between
-   * {@code treeA} and {@code treeB} and the specified {@code PatchListEntry}s define a
-   * transformation from {@code treeB} to {@code treeB'}, the resulting edits will be defined as
-   * differences between {@code treeA} and {@code treeB'}. Edits which can't be transformed due to
-   * conflicts with the transformation are omitted.
+   * {@code treeA} and {@code treeB} and the specified {@code FileEdits}s define a transformation
+   * from {@code treeB} to {@code treeB'}, the resulting edits will be defined as differences
+   * between {@code treeA} and {@code treeB'}. Edits which can't be transformed due to conflicts
+   * with the transformation are omitted.
    *
-   * @param transformationEntries a list of {@code PatchListEntry}s defining the transformation of
+   * @param transformingEntries a list of {@code PatchListEntry}s defining the transformation of
    *     {@code treeB} to {@code treeB'}
    */
-  public void transformReferencesOfSideB(List<PatchListEntry> transformationEntries) {
-    transformEdits(transformationEntries, SideBStrategy.INSTANCE);
+  public void transformReferencesOfSideB(ImmutableList<FileEdits> transformingEntries) {
+    transformEdits(transformingEntries, SideBStrategy.INSTANCE);
   }
 
   /**
@@ -111,13 +112,22 @@ class EditTransformer {
     return edits.stream().map(edit -> ContextAwareEdit.create(patchListEntry, edit));
   }
 
-  private void transformEdits(List<PatchListEntry> transformingEntries, SideStrategy sideStrategy) {
+  public static Stream<ContextAwareEdit> toEdits(FileEdits in) {
+    List<Edit> edits = in.edits();
+    if (edits.isEmpty()) {
+      return Stream.of(ContextAwareEdit.createForNoContentEdit(in.oldPath(), in.newPath()));
+    }
+
+    return edits.stream().map(edit -> ContextAwareEdit.create(in.oldPath(), in.newPath(), edit));
+  }
+
+  private void transformEdits(List<FileEdits> inputs, SideStrategy sideStrategy) {
     ImmutableList<PositionedEntity<ContextAwareEdit>> positionedEdits =
         edits.stream()
             .map(edit -> toPositionedEntity(edit, sideStrategy))
             .collect(toImmutableList());
     ImmutableSet<Mapping> mappings =
-        transformingEntries.stream().map(DiffMappings::toMapping).collect(toImmutableSet());
+        inputs.stream().map(DiffMappings::toMapping).collect(toImmutableSet());
 
     edits =
         positionTransformer.transform(positionedEdits, mappings).stream()
@@ -144,11 +154,25 @@ class EditTransformer {
           false);
     }
 
+    static ContextAwareEdit create(String oldPath, String newPath, Edit edit) {
+      return create(
+          oldPath,
+          newPath,
+          edit.getBeginA(),
+          edit.getEndA(),
+          edit.getBeginB(),
+          edit.getEndB(),
+          false);
+    }
+
     static ContextAwareEdit createForNoContentEdit(PatchListEntry patchListEntry) {
+      return createForNoContentEdit(patchListEntry.getOldName(), patchListEntry.getNewName());
+    }
+
+    static ContextAwareEdit createForNoContentEdit(String oldPath, String newPath) {
       // Remove the warning in createEditAtNewPosition() if we switch to an empty range instead of
       // (-1:-1, -1:-1) in the future.
-      return create(
-          patchListEntry.getOldName(), patchListEntry.getNewName(), -1, -1, -1, -1, false);
+      return create(oldPath, newPath, -1, -1, -1, -1, false);
     }
 
     static ContextAwareEdit create(

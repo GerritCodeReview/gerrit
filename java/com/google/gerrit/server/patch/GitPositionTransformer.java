@@ -26,6 +26,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.collect.Streams;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
@@ -97,6 +98,11 @@ public class GitPositionTransformer {
     List<PositionedEntity<T>> filePathUpdatedEntities = updateFilePaths(entities, mappings);
 
     return shiftRanges(filePathUpdatedEntities, mappings);
+  }
+
+  public <T> ImmutableList<PositionedEntity<T>> transform(
+      Collection<PositionedEntity<T>> entities, Mapping mapping) {
+    return shiftRangesInOneFile(new ArrayList<>(entities), mapping.ranges());
   }
 
   private <T> ImmutableList<PositionedEntity<T>> updateFilePaths(

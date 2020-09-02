@@ -17,10 +17,14 @@ package com.google.gerrit.server.patch;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.gerrit.entities.Patch;
 import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Range;
 import com.google.gerrit.server.patch.GitPositionTransformer.RangeMapping;
+import com.google.gerrit.server.patch.entities.FileEdits;
+import java.util.List;
+import org.eclipse.jgit.diff.Edit;
 
 /** Mappings derived from diffs. */
 public class DiffMappings {
@@ -33,26 +37,41 @@ public class DiffMappings {
     return Mapping.create(fileMapping, rangeMappings);
   }
 
-  private static FileMapping toFileMapping(PatchListEntry patchListEntry) {
-    switch (patchListEntry.getChangeType()) {
+  public static Mapping toMapping(FileEdits in) {
+    FileMapping fileMapping = toFileMapping(in.changeType(), in.oldPath(), in.newPath());
+    ImmutableSet<RangeMapping> rangeMappings = toRangeMappings(in.edits());
+    return Mapping.create(fileMapping, rangeMappings);
+  }
+
+  private static FileMapping toFileMapping(PatchListEntry ple) {
+    return toFileMapping(ple.getChangeType(), ple.getOldName(), ple.getNewName());
+  }
+
+  private static FileMapping toFileMapping(
+      Patch.ChangeType changeType, String oldName, String newName) {
+    switch (changeType) {
       case ADDED:
-        return FileMapping.forAddedFile(patchListEntry.getNewName());
+        return FileMapping.forAddedFile(newName);
       case MODIFIED:
       case REWRITE:
-        return FileMapping.forModifiedFile(patchListEntry.getNewName());
+        return FileMapping.forModifiedFile(newName);
       case DELETED:
         // Name of deleted file is mentioned as newName.
-        return FileMapping.forDeletedFile(patchListEntry.getNewName());
+        return FileMapping.forDeletedFile(newName);
       case RENAMED:
       case COPIED:
-        return FileMapping.forRenamedFile(patchListEntry.getOldName(), patchListEntry.getNewName());
+        return FileMapping.forRenamedFile(oldName, newName);
       default:
-        throw new IllegalStateException("Unmapped diff type: " + patchListEntry.getChangeType());
+        throw new IllegalStateException("Unmapped diff type: " + changeType);
     }
   }
 
   private static ImmutableSet<RangeMapping> toRangeMappings(PatchListEntry patchListEntry) {
-    return patchListEntry.getEdits().stream()
+    return toRangeMappings(patchListEntry.getEdits());
+  }
+
+  private static ImmutableSet<RangeMapping> toRangeMappings(List<Edit> edits) {
+    return edits.stream()
         .map(
             edit ->
                 RangeMapping.create(

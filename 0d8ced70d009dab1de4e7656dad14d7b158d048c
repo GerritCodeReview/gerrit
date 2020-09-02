@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "d5aa5db5_136a0ba3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012449
+      },
+      "writtenOn": "2020-09-02T23:06:46Z",
+      "side": 1,
+      "message": "I tried doing a test with this change and didn\u0027t see a performance improvement. In-fact migration got slower.\n\nRAM 16 GB, 2.6 GHz 6-Core Intel Core i7, 1 thread for migration\nMy test-site had only one project with ~120k changes.\n\n java -Xms2g -Xmx8g -XX:+UseG1GC -XX:MaxGCPauseMillis\u003d5000 -jar gerrit.war migrate-to-note-db -d \u003ctestsite\u003e --reindex\u003dfalse --threads\u003d1\n\nWithout change: \n [main] INFO  com.google.gerrit.server.notedb.rebuild.NoteDbMigrator : Rebuilt 119999 changes in 390.3s (307.4/s)\n\nWith change:\n [main] INFO  com.google.gerrit.server.notedb.rebuild.NoteDbMigrator : Rebuilt 119999 changes in 782.7s (153.3/s)\n\nMaybe I didn\u0027t see any improvement because my machine has a SSD? Let me try doing a similar test on a machine without SSD.",
+      "parentUuid": "94c7ca72_39865aca",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

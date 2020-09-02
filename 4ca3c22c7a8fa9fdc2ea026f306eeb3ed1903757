@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46fb8959_53bc9158",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-09-02T14:10:51Z",
+      "side": 1,
+      "message": "I think adding a file picker is a useful addition to the file dropdown for users to quickly find a file in the change.\nIn this case, I suggest some layout changes as such https://imgur.com/a/4ks3Knp ",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

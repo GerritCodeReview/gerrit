@@ -147,6 +147,10 @@ class GrMainHeader extends GestureEventListeners(
         type: String,
         value: null,
       },
+      _mobileSearchbarShown: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -334,6 +338,7 @@ class GrMainHeader extends GestureEventListeners(
   _onMobileSearchTap(e) {
     e.preventDefault();
     e.stopPropagation();
+    this._mobileSearchbarShown = !this._mobileSearchbarShown;
     this.dispatchEvent(new CustomEvent('mobile-search', {
       composed: true, bubbles: false,
     }));
@@ -345,6 +350,14 @@ class GrMainHeader extends GestureEventListeners(
     }
 
     return '';
+  }
+
+  _computeShowHideAriaLabel(mobileSearchbarShown) {
+    if (mobileSearchbarShown) {
+      return 'Hide Searchbar';
+    } else {
+      return 'Show Searchbar';
+    }
   }
 }
 

@@ -211,6 +211,8 @@ export const htmlTemplate = html`
           id="mobileSearch"
           icon="gr-icons:search"
           on-tap="_onMobileSearchTap"
+          role="button"
+          aria-label="[[_computeShowHideAriaLabel(_mobileSearchbarShown)]]"
         ></iron-icon>
         <div class$="[[_computeIsInvisible(_registerURL)]]">
           <a class="registerButton" href$="[[_registerURL]]">

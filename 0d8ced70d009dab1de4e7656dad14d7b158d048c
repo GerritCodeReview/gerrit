@@ -181,6 +181,24 @@
     },
     {
       "key": {
+        "uuid": "c9aa6826_23793a8b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-03T14:49:41Z",
+      "side": 1,
+      "message": "| * Commits                    |           |                                |\n|   * Count                    |  14.5 M   | *****************************  |\n|   * Total size               |  6.95 GiB | *****************************  |\n\nWow, 14.5M of commits, that is *definitely* a lot!\n\n| * Trees                      |           |                                |\n|   * Count                    |  8.72 M   | *****                          |\n|   * Total size               |   116 GiB | !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! |\n\n116 GBytes of trees !!!\n\n|   * Total tree entries       |  2.52 G   | !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! |\n| * Blobs                      |           |                                |\n|   * Count                    |  4.06 M   | **                             |\n|   * Total size               |   246 GiB | **************************     |\n\nDo you typically keep the entire BLOB size in JGIt cache?\nYour \"monster\" machine could definitely do it, but you would need Java 11 IMHO to avoid huge STW cycles.\n\n| * References                 |           |                                |\n|   * Count                    |  1.54 M   | !!!!!!!!!!!!!!!!!!!!!!!!!!!!!! |\n\nw000t ????\n\nYou would definitely need Git protocol v2 with repo, with 1.54M refs.\n\nThanks, @Matthias, for sharing the numbers.",
+      "parentUuid": "4656fd93_4579f6f1",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

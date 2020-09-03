@@ -147,6 +147,10 @@ class GrMainHeader extends GestureEventListeners(
         type: String,
         value: null,
       },
+      mobileSearchHidden: {
+        type: Boolean,
+        value: false,
+      },
     };
   }
 
@@ -345,6 +349,14 @@ class GrMainHeader extends GestureEventListeners(
     }
 
     return '';
+  }
+
+  _computeShowHideAriaLabel(mobileSearchHidden) {
+    if (mobileSearchHidden) {
+      return 'Show Searchbar';
+    } else {
+      return 'Hide Searchbar';
+    }
   }
 }
 

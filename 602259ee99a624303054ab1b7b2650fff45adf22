@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3e19c2da_426076a9",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:15:37Z",
+      "side": 1,
+      "message": "I would prefer to consistently use the terms \u0027visible\u0027 and \u0027hidden\u0027 instead of \u0027shown\u0027.",
+      "range": {
+        "startLine": 150,
+        "startChar": 22,
+        "endLine": 150,
+        "endChar": 27
+      },
+      "revId": "602259ee99a624303054ab1b7b2650fff45adf22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f727419d_371f2113",
+        "filename": "polygerrit-ui/app/elements/core/gr-main-header/gr-main-header.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:15:37Z",
+      "side": 1,
+      "message": "This seems fragile, because gr-app-elements also maintains a mobileSearch property. Can you just pass that value down, so remove this line here and add such a line to the gr-app-element template:\n\n  mobile-search-visible\u003d[[mobileSearch]]",
+      "revId": "602259ee99a624303054ab1b7b2650fff45adf22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

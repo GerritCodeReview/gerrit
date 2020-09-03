@@ -35,7 +35,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.logging.Level;
 import java.util.stream.Stream;
 import org.eclipse.jgit.diff.Edit;
 
@@ -214,7 +213,7 @@ class EditTransformer {
       // in the future.
       Range updatedRange = newPosition.lineRange().orElseGet(() -> Range.create(-1, -1));
       if (!newPosition.lineRange().isPresent()) {
-        logger.at(Level.WARNING).log(
+        logger.atWarning().log(
             "Position %s has an empty range which is unexpected for the edits-due-to-rebase"
                 + " computation. This is likely a regression!",
             newPosition);
@@ -222,7 +221,7 @@ class EditTransformer {
       // Same as for the range above. PATCHSET_LEVEL is a safe fallback.
       String updatedFilePath = newPosition.filePath().orElse(Patch.PATCHSET_LEVEL);
       if (!newPosition.filePath().isPresent()) {
-        logger.at(Level.WARNING).log(
+        logger.atWarning().log(
             "Position %s has an empty file path which is unexpected for the edits-due-to-rebase"
                 + " computation. This is likely a regression!",
             newPosition);

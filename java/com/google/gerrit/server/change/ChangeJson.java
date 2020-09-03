@@ -39,6 +39,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -67,6 +68,7 @@ import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -156,13 +158,17 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options, Optional.empty());
+      return factory.create(options, Optional.empty(), Optional.empty());
     }
 
     public ChangeJson create(
         Iterable<ListChangesOption> options,
-        PluginDefinedAttributesFactory pluginDefinedAttributesFactory) {
-      return factory.create(options, Optional.of(pluginDefinedAttributesFactory));
+        PluginDefinedAttributesFactory pluginDefinedAttributesFactory,
+        PluginDefinedInfosFactory pluginDefinedInfosFactory) {
+      return factory.create(
+          options,
+          Optional.of(pluginDefinedAttributesFactory),
+          Optional.of(pluginDefinedInfosFactory));
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -173,7 +179,8 @@ public class ChangeJson {
   public interface AssistedFactory {
     ChangeJson create(
         Iterable<ListChangesOption> options,
-        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory);
+        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory,
+        Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory);
   }
 
   @Singleton
@@ -220,6 +227,7 @@ public class ChangeJson {
   private final Metrics metrics;
   private final RevisionJson revisionJson;
   private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
+  private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
 
@@ -243,7 +251,8 @@ public class ChangeJson {
       RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
-      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
+      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory,
+      @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.userProvider = user;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
@@ -261,6 +270,7 @@ public class ChangeJson {
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
+    this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
 
     logger.atFine().log("options = %s", options);
   }
@@ -279,12 +289,12 @@ public class ChangeJson {
   }
 
   public ChangeInfo format(ChangeData cd) {
-    return format(cd, Optional.empty(), true);
+    return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
 
   public ChangeInfo format(RevisionResource rsrc) {
     ChangeData cd = changeDataFactory.create(rsrc.getNotes());
-    return format(cd, Optional.of(rsrc.getPatchSet().id()), true);
+    return format(cd, Optional.of(rsrc.getPatchSet().id()), true, getPluginInfos(cd));
   }
 
   public List<List<ChangeInfo>> format(List<QueryResult<ChangeData>> in)
@@ -293,8 +303,10 @@ public class ChangeJson {
       accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
       List<List<ChangeInfo>> res = new ArrayList<>(in.size());
       Map<Change.Id, ChangeInfo> cache = Maps.newHashMapWithExpectedSize(in.size());
+      ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange =
+          getPluginInfos(in.stream().flatMap(e -> e.entities().stream()).collect(toList()));
       for (QueryResult<ChangeData> r : in) {
-        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache);
+        List<ChangeInfo> infos = toChangeInfos(r.entities(), cache, pluginInfosByChange);
         if (!infos.isEmpty() && r.more()) {
           infos.get(infos.size() - 1)._moreChanges = true;
         }
@@ -309,8 +321,9 @@ public class ChangeJson {
     accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
     ensureLoaded(in);
     List<ChangeInfo> out = new ArrayList<>(in.size());
+    ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange = getPluginInfos(in);
     for (ChangeData cd : in) {
-      out.add(format(cd, Optional.empty(), false));
+      out.add(format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId())));
     }
     accountLoader.fill();
     return out;
@@ -326,7 +339,8 @@ public class ChangeJson {
       }
       return checkOnly(changeDataFactory.create(project, id));
     }
-    return format(changeDataFactory.create(notes), Optional.empty(), true);
+    ChangeData cd = changeDataFactory.create(notes);
+    return format(cd, Optional.empty(), true, getPluginInfos(cd));
   }
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
@@ -358,15 +372,18 @@ public class ChangeJson {
   }
 
   private ChangeInfo format(
-      ChangeData cd, Optional<PatchSet.Id> limitToPsId, boolean fillAccountLoader) {
+      ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId,
+      boolean fillAccountLoader,
+      List<PluginDefinedInfo> pluginInfosForChange) {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
-        ChangeInfo res = toChangeInfo(cd, limitToPsId);
+        ChangeInfo res = toChangeInfo(cd, limitToPsId, pluginInfosForChange);
         accountLoader.fill();
         return res;
       }
-      return toChangeInfo(cd, limitToPsId);
+      return toChangeInfo(cd, limitToPsId, pluginInfosForChange);
     } catch (PatchListNotAvailableException
         | GpgException
         | IOException
@@ -404,7 +421,9 @@ public class ChangeJson {
   }
 
   private List<ChangeInfo> toChangeInfos(
-      List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
+      List<ChangeData> changes,
+      Map<Change.Id, ChangeInfo> cache,
+      ImmutableListMultimap<Change.Id, PluginDefinedInfo> pluginInfosByChange) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
       for (int i = 0; i < changes.size(); i++) {
@@ -425,7 +444,7 @@ public class ChangeJson {
         // Compute and cache if possible
         try {
           ensureLoaded(Collections.singleton(cd));
-          info = format(cd, Optional.empty(), false);
+          info = format(cd, Optional.empty(), false, pluginInfosByChange.get(cd.getId()));
           changeInfos.add(info);
           if (isCacheable) {
             cache.put(Change.id(info._number), info);
@@ -480,14 +499,18 @@ public class ChangeJson {
     return info;
   }
 
-  private ChangeInfo toChangeInfo(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+  private ChangeInfo toChangeInfo(
+      ChangeData cd,
+      Optional<PatchSet.Id> limitToPsId,
+      List<PluginDefinedInfo> pluginInfosForChange)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     try (Timer0.Context ignored = metrics.toChangeInfoLatency.start()) {
-      return toChangeInfoImpl(cd, limitToPsId);
+      return toChangeInfoImpl(cd, limitToPsId, pluginInfosForChange);
     }
   }
 
-  private ChangeInfo toChangeInfoImpl(ChangeData cd, Optional<PatchSet.Id> limitToPsId)
+  private ChangeInfo toChangeInfoImpl(
+      ChangeData cd, Optional<PatchSet.Id> limitToPsId, List<PluginDefinedInfo> pluginInfos)
       throws PatchListNotAvailableException, GpgException, PermissionBackendException, IOException {
     ChangeInfo out = new ChangeInfo();
     CurrentUser user = userProvider.get();
@@ -588,6 +611,15 @@ public class ChangeJson {
     setSubmitter(cd, out);
     if (pluginDefinedAttributesFactory.isPresent()) {
       out.plugins = pluginDefinedAttributesFactory.get().create(cd);
+    }
+
+    if (!pluginInfos.isEmpty()) {
+      if (out.plugins == null) {
+        out.plugins = pluginInfos;
+      } else {
+        out.plugins = new ArrayList<>(out.plugins);
+        out.plugins.addAll(pluginInfos);
+      }
     }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
     out.submissionId = cd.change().getSubmissionId();
@@ -818,5 +850,17 @@ public class ChangeJson {
       map.put(patchSet.id(), patchSet);
     }
     return map;
+  }
+
+  private List<PluginDefinedInfo> getPluginInfos(ChangeData cd) {
+    return getPluginInfos(Collections.singleton(cd)).get(cd.getId());
+  }
+
+  private ImmutableListMultimap<Change.Id, PluginDefinedInfo> getPluginInfos(
+      Collection<ChangeData> cds) {
+    if (pluginDefinedInfosFactory.isPresent()) {
+      return pluginDefinedInfosFactory.get().createPluginDefinedInfos(cds);
+    }
+    return ImmutableListMultimap.of();
   }
 }

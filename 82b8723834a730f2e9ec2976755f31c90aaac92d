@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9d5e8b35_d0e6599d",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:39:45Z",
+      "side": 0,
+      "message": "Keep the comment? Also for _lastCredentialCheck.",
+      "revId": "82b8723834a730f2e9ec2976755f31c90aaac92d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

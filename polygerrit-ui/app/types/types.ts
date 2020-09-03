@@ -106,3 +106,7 @@ export interface PolymerDomRepeatEventModel<T> {
    */
   index: number;
 }
+
+export interface HighlightJS {
+  configure: (options: {classPrefix: string}) => void;
+}

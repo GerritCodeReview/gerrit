@@ -15,6 +15,7 @@
  * limitations under the License.
  */
 import {ParsedJSON} from './common';
+import {HighlightJS} from './types';
 
 export {};
 
@@ -42,12 +43,14 @@ declare global {
     // page shouldn't be exposed in window and it shouldn't be used
     // it's defined because of limitations from typescript, which don't import .mjs
     page?: unknown;
+    hljs?: HighlightJS;
 
     DEFAULT_DETAIL_HEXES?: {
       diffPage?: string;
       changePage?: string;
       dashboardPage?: string;
     };
+    STATIC_RESOURCE_PATH?: string;
   }
 
   interface Performance {

@@ -38,5 +38,6 @@ export interface JsApiService {
     revertSubmissionMsg: string,
     origMsg: string
   ): string;
+  handleEvent(eventName: EventType, detail: any): void;
   // TODO(TS): Add more methods when needed for the TS conversion.
 }

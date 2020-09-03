@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "af6bfafd_95b2a1ff",
+        "filename": "java/com/google/gerrit/server/submit/GitlinkOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-03T14:15:40Z",
+      "side": 1,
+      "message": "This class feels like a strange factory to me. Other classes only ever call addOp() on it and never use create(). I see two options for improvement:\n1) Rename this class and inline the create() method to avoid confusion.\n2) Adjust all users of addOp() to call create() instead and execute BatchUpdate#addRepoOnlyOp themselves.\n\nI prefer 2) as it would be overall the cleaner and more explicit approach for me.",
+      "range": {
+        "startLine": 32,
+        "startChar": 15,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "8b7bbd9eb056bb9a3eaf675ef0deaa85e27d1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "28e6139e_d62079fe",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-03T14:15:40Z",
+      "side": 1,
+      "message": "I\u0027d like to wait for this follow-up change before we submit this change.",
+      "range": {
+        "startLine": 668,
+        "startChar": 4,
+        "endLine": 668,
+        "endChar": 48
+      },
+      "revId": "8b7bbd9eb056bb9a3eaf675ef0deaa85e27d1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.git.validators;
 
+import java.util.Objects;
+
 /**
  * Message used as result of a validation that run during a git operation (for example {@code git
  * push}. Intended to be shown to users.
@@ -69,5 +71,24 @@ public class ValidationMessage {
    */
   public boolean isError() {
     return type == Type.ERROR;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(message, type);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj instanceof ValidationMessage) {
+      ValidationMessage other = (ValidationMessage) obj;
+      return Objects.equals(message, other.message) && Objects.equals(type, other.type);
+    }
+    return false;
+  }
+
+  @Override
+  public String toString() {
+    return getType() + ": " + getMessage();
   }
 }

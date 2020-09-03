@@ -27,15 +27,12 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-mode-selector_html';
 import {customElement, property} from '@polymer/decorators';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
+import {FixIronA11yAnnouncer} from '../../../types/types';
 
 export interface GrDiffModeSelector {
   $: {
     restAPI: RestApiService & Element;
   };
-}
-
-interface FixIronA11yAnnouncer extends IronA11yAnnouncer {
-  requestAvailability(): void;
 }
 
 @customElement('gr-diff-mode-selector')

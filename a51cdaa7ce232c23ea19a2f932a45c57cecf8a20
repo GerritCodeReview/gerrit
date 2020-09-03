@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "db3f017a_c2a2ad56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-03T08:45:51Z",
+      "side": 1,
+      "message": "definitely not all, but we send the most important ones async.",
+      "parentUuid": "8aa1f0c7_cab82aca",
+      "range": {
+        "startLine": 13,
+        "startChar": 1,
+        "endLine": 16,
+        "endChar": 34
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d42478c_599e1474",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85d42b24_37c5ace2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-03T08:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d42478c_599e1474",
+      "range": {
+        "startLine": 18,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 62
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "307f73af_f626ed9a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-03T08:45:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "97c5d924_e495ea44",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 5
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7de9c1ee_510eb806",
         "filename": "/COMMIT_MSG",
         "patchSetId": 8
@@ -106,6 +178,30 @@
       "writtenOn": "2020-09-02T22:24:07Z",
       "side": 1,
       "message": "What does \"those\" refer to? The emails?",
+      "range": {
+        "startLine": 54,
+        "startChar": 48,
+        "endLine": 55,
+        "endChar": 8
+      },
+      "revId": "a51cdaa7ce232c23ea19a2f932a45c57cecf8a20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "24d4069d_60667afb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-03T08:45:51Z",
+      "side": 1,
+      "message": "It refers to the async sendings: They were cleaned to only send async once.",
+      "parentUuid": "7de9c1ee_510eb806",
       "range": {
         "startLine": 54,
         "startChar": 48,

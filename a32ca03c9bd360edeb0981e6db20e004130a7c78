@@ -70,6 +70,30 @@
       "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7817c059_78f9a807",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-03T08:45:51Z",
+      "side": 1,
+      "message": "Yes - that\u0027s what I was referring to.\nAnd yes, when it\u0027s 0, a direct executor is used (see SysExecutorModule#provideSendEmailExecutor).\nI can clarify the docs.",
+      "parentUuid": "bae66972_52f5b22c",
+      "range": {
+        "startLine": 13,
+        "startChar": 0,
+        "endLine": 13,
+        "endChar": 53
+      },
+      "revId": "a32ca03c9bd360edeb0981e6db20e004130a7c78",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

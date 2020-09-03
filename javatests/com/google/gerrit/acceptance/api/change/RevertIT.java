@@ -250,6 +250,17 @@ public class RevertIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void revertChangeWithWip() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    RevertInput in = getWipRevertInput();
+    ChangeInfo revertChange = gApi.changes().id(r.getChangeId()).revert(in).get();
+    assertThat(revertChange.workInProgress).isTrue();
+  }
+
+  @Test
   public void revertWithDefaultTopic() throws Exception {
     PushOneCommit.Result result = createChange();
     gApi.changes().id(result.getChangeId()).current().review(ReviewInput.approve());
@@ -318,6 +329,18 @@ public class RevertIT extends AbstractDaemonTest {
     assertThat(messages).hasSize(2);
     assertThat(sender.getMessages(revertChange.changeId, "newchange")).hasSize(1);
     assertThat(sender.getMessages(r.getChangeId(), "revert")).hasSize(1);
+  }
+
+  @Test
+  public void revertNotificationsSupressedOnWip() throws Exception {
+    PushOneCommit.Result r = createChange();
+    gApi.changes().id(r.getChangeId()).addReviewer(user.email());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).review(ReviewInput.approve());
+    gApi.changes().id(r.getChangeId()).revision(r.getCommit().name()).submit();
+
+    sender.clear();
+    gApi.changes().id(r.getChangeId()).revert(getWipRevertInput()).get();
+    assertThat(sender.getMessages()).isEmpty();
   }
 
   @Test
@@ -1293,5 +1316,11 @@ public class RevertIT extends AbstractDaemonTest {
       results.add(gApi.changes().id(changeInfo._number));
     }
     return results;
+  }
+
+  private RevertInput getWipRevertInput() {
+    RevertInput input = new RevertInput();
+    input.workInProgress = true;
+    return input;
   }
 }

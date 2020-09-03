@@ -16,6 +16,29 @@
       "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9aee427d_ecb5e787",
+        "filename": "java/com/google/gerrit/server/update/AsyncPostUpdateOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-03T14:44:19Z",
+      "side": 1,
+      "message": "Maybe add the postUpdate config now and deprecate the sendemail value? postUpdate would take precedence over sendemail if set? This seems like something we probably shouldn\u0027t put off for later. Ideally it would be introduced in the same change as this interface that uses it. It would require re-organizing your change a bit, but could you make this first change: 1) introduce asyncPostUpdate and the new config and 2) transition existing async emails to use it? And then in a second change, migrate all other email sending to use asyncPostUpdate?",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 47
+      },
+      "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "4a6f2733_8bb03b6b",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-03T06:13:13Z",
+      "side": 1,
+      "message": "Leaving SGTM then, thanks for the explanation!",
+      "parentUuid": "cd3d5098_7a5ab4f8",
+      "range": {
+        "startLine": 351,
+        "startChar": 0,
+        "endLine": 351,
+        "endChar": 94
+      },
+      "revId": "7556d92e473ed065bc50a9e42caaf07ad3bbecd4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4c5e43c7_7759fb50",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
         "patchSetId": 4

@@ -989,8 +989,7 @@ class GrChangeActions extends GestureEventListeners(
     this.$.restAPI.getChanges('', query)
         .then(changes => {
           this.$.confirmRevertSubmissionDialog.
-              _populateRevertSubmissionMessage(
-                  this.commitMessage, this.change, changes);
+              _populateRevertSubmissionMessage(this.change, changes);
           this._showActionDialog(this.$.confirmRevertSubmissionDialog);
         });
   }

@@ -68,7 +68,7 @@ export const htmlTemplate = html`
           role="switch"
           on-tap="_onTapShowAllActivityToggle"
         ></paper-toggle-button>
-        <div id="showAllEntriesLabel">
+        <div id="showAllEntriesLabel" aria-hidden="true">
           <span>Show all entries</span>
           <span class="hiddenEntries" hidden$="[[_showAllActivity]]">
             ([[_computeHiddenEntriesCount(_combinedMessages)]] hidden)

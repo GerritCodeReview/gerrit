@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "76ef581c_e319ba93",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-03T14:15:21Z",
+      "side": 1,
+      "message": "I\u0027d like to wait for the follow-up change before we submit this change.",
+      "range": {
+        "startLine": 125,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 16
+      },
+      "revId": "87d4e80df72094c28d3b22b33ce6b80c0197bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

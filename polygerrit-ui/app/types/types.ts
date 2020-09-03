@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import {Side} from '../constants/constants';
-import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer';
+import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;

@@ -203,6 +203,7 @@ public class RevertSubmission
 
     checkPermissionsForAllChanges(changeResource, changeDatas);
     input.topic = createTopic(input.topic, submissionId);
+
     return Response.ok(revertSubmission(changeDatas, input));
   }
 
@@ -258,6 +259,9 @@ public class RevertSubmission
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
       cherryPickInput.destination = projectAndBranch.branch();
+      if (revertInput.workInProgress) {
+        cherryPickInput.notify = NotifyHandling.OWNER;
+      }
       Collection<ChangeData> changesInProjectAndBranch =
           changesPerProjectAndBranch.get(projectAndBranch);
 

@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "197e7425_8fcd40e3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T07:05:29Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "f7a076f945ca740dddc505ccccf7e87fa7bd71eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e9407af5_de028bb9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T07:05:29Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "f7a076f945ca740dddc505ccccf7e87fa7bd71eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7df45f14_1f755406",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T07:05:29Z",
+      "side": 1,
+      "message": "I would prefer to not have a dep from types to elements. Maybe move the HighlightJS interface to types?",
+      "revId": "f7a076f945ca740dddc505ccccf7e87fa7bd71eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b09b43b5_85bf2271",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T07:05:29Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "f7a076f945ca740dddc505ccccf7e87fa7bd71eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23b2f51c_04581236",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T07:05:29Z",
+      "side": 1,
+      "message": "why unknown?",
+      "range": {
+        "startLine": 47,
+        "startChar": 11,
+        "endLine": 47,
+        "endChar": 18
+      },
+      "revId": "f7a076f945ca740dddc505ccccf7e87fa7bd71eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

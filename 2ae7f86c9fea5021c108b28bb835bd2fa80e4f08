@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60f8a7a6_8a31a5d8",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 560,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-03T14:15:33Z",
+      "side": 1,
+      "message": "As the order matters for the implementation in SubmoduleCommits, could we move the sorting to SubmoduleCommits instead of doing it here and in SubmoduleOp?",
+      "range": {
+        "startLine": 560,
+        "startChar": 38,
+        "endLine": 560,
+        "endChar": 54
+      },
+      "revId": "2ae7f86c9fea5021c108b28bb835bd2fa80e4f08",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

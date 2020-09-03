@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 import '../test/common-test-setup-karma.js';
-import {isValidDate, parseDate, fromNow, isWithinDay, isWithinHalfYear, formatDate} from './date-util.js';
+import {isValidDate, parseDate, fromNow, isWithinDay, isWithinHalfYear, formatDate, wasYesterday} from './date-util.js';
 
 suite('date-util tests', () => {
   suite('parseDate', () => {
@@ -61,6 +61,21 @@ suite('date-util tests', () => {
           new Date('May 08 2020 02:00:00')));
       assert.isFalse(isWithinDay(new Date('May 08 2020 12:00:00'),
           new Date('May 07 2020 12:00:00')));
+    });
+  });
+
+  suite('wasYesterday', () => {
+    test('less 24 hours', () => {
+      assert.isFalse(wasYesterday(new Date('May 08 2020 12:00:00'),
+          new Date('May 08 2020 02:00:00')));
+      assert.isTrue(wasYesterday(new Date('May 08 2020 12:00:00'),
+          new Date('May 07 2020 12:00:00')));
+    });
+    test('more 24 hours', () => {
+      assert.isTrue(wasYesterday(new Date('May 08 2020 12:00:00'),
+          new Date('May 07 2020 2:00:00')));
+      assert.isFalse(wasYesterday(new Date('May 08 2020 12:00:00'),
+          new Date('May 06 2020 14:00:00')));
     });
   });
 

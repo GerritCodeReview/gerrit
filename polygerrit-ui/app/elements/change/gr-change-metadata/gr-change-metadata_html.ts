@@ -116,6 +116,22 @@ export const htmlTemplate = html`
         >
       </div>
     </template>
+    <template is="dom-if" if="[[_isNewChangeSummaryUiEnabled]]">
+      <template is="dom-if" if="[[change.submitted]]">
+        <section
+          class$="[[_computeDisplayState(_showAllSections, change, _SECTION.SUBMITTED)]]"
+        >
+          <span class="title">Submitted</span>
+          <span class="value">
+            <gr-date-formatter
+              has-tooltip=""
+              date-str="[[change.submitted]]"
+              show-yesterday=""
+            ></gr-date-formatter>
+          </span>
+        </section>
+      </template>
+    </template>
     <section
       class$="[[_computeDisplayState(_showAllSections, change, _SECTION.UPDATED)]]"
     >
@@ -124,6 +140,7 @@ export const htmlTemplate = html`
         <gr-date-formatter
           has-tooltip=""
           date-str="[[change.updated]]"
+          show-yesterday=""
         ></gr-date-formatter>
       </span>
     </section>

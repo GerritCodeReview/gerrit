@@ -237,6 +237,54 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void publishedCommentsAreNotPortedViaApiForDraftComments() throws Exception {
+    Account.Id accountId = accountOps.newAccount().create();
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comment.
+    changeOps.change(changeId).patchset(patchset1Id).newComment().author(accountId).create();
+
+    List<CommentInfo> portedComments =
+        flatten(getPortedDraftCommentsOfUser(patchset2Id, accountId));
+
+    assertThatList(portedComments).isEmpty();
+  }
+
+  @Test
+  public void draftCommentCanBePorted() throws Exception {
+    Account.Id accountId = accountOps.newAccount().create();
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add draft comment.
+    changeOps.change(changeId).patchset(patchset1Id).newComment().author(accountId).create();
+
+    List<CommentInfo> portedComments =
+        flatten(getPortedDraftCommentsOfUser(patchset2Id, accountId));
+
+    assertThatList(portedComments).isEmpty();
+  }
+
+  @Test
+  public void portedDraftCommentOfOtherUserIsNotVisible() throws Exception {
+    Account.Id userId = accountOps.newAccount().create();
+    Account.Id otherUserId = accountOps.newAccount().create();
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add draft comment.
+    changeOps.change(changeId).patchset(patchset1Id).newComment().author(otherUserId).create();
+
+    List<CommentInfo> portedComments = flatten(getPortedDraftCommentsOfUser(patchset2Id, userId));
+
+    assertThatList(portedComments).isEmpty();
+  }
+
+  @Test
   public void publishedCommentsOfAllTypesArePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").create();
@@ -334,6 +382,32 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void portedDraftCommentHasPatchsetFilled() throws Exception {
+    // Set up change and patchsets.
+    Account.Id authorId = accountOps.newAccount().create();
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comment.
+    String commentUuid =
+        changeOps
+            .change(changeId)
+            .patchset(patchset1Id)
+            .newDraftComment()
+            .author(authorId)
+            .create();
+
+    Map<String, List<CommentInfo>> portedComments =
+        getPortedDraftCommentsOfUser(patchset2Id, authorId);
+    CommentInfo portedComment = extractSpecificComment(portedComments, commentUuid);
+
+    // We explicitly need to request that the patchset field is filled, which we could have missed
+    // for drafts. -> Test that aspect. Don't verify the actual patchset number as that's already
+    // covered by the previous test.
+    assertThat(portedComment).patchSet().isNotNull();
+  }
+
+  @Test
   public void portedCommentHasOriginalPatchsetCommitId() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
@@ -391,7 +465,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void portedCommentHasOriginalAuthor() throws Exception {
+  public void portedPublishedCommentHasOriginalAuthor() throws Exception {
     // Set up change and patchsets.
     Account.Id authorId = accountOps.newAccount().create();
     Change.Id changeId = changeOps.newChange().create();
@@ -404,6 +478,30 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
     assertThat(portedComment).author().id().isEqualTo(authorId.get());
+  }
+
+  @Test
+  public void portedDraftCommentHasNoAuthor() throws Exception {
+    // Set up change and patchsets.
+    Account.Id authorId = accountOps.newAccount().create();
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comment.
+    String commentUuid =
+        changeOps
+            .change(changeId)
+            .patchset(patchset1Id)
+            .newDraftComment()
+            .author(authorId)
+            .create();
+
+    Map<String, List<CommentInfo>> portedComments =
+        getPortedDraftCommentsOfUser(patchset2Id, authorId);
+    CommentInfo portedComment = extractSpecificComment(portedComments, commentUuid);
+
+    // Authors of draft comments are never set.
+    assertThat(portedComment).author().isNull();
   }
 
   @Test
@@ -699,8 +797,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentBecomesFileCommentOnConflict() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -803,8 +899,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentEndingWithinModifiedLineBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -837,8 +931,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentWithinModifiedLineBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -871,8 +963,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedRangeCommentStartingWithinLastModifiedLineBecomesFileComment()
       throws Exception {
     // Set up change and patchsets.
@@ -939,11 +1029,13 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     assertThat(portedComment).range().endCharacter().isEqualTo(5);
   }
 
+  // We could actually do better in such a situation but that involves some careful improvements
+  // which would need to be covered with even more tests (e.g. several modifications could be within
+  // the comment range; several comments could surround it; other modifications could have occurred
+  // in the file so that start is shifted too but different than end). That's why we go for the
+  // simple solution now (-> just map to file comment).
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and only map start/end conflicts to file
-  // comments.
-  @Ignore
-  public void portedRangeCommentStartingBeforeButEndingAfterModifiedLineCanBePorted()
+  public void portedRangeCommentStartingBeforeButEndingAfterModifiedLineBecomesFileComment()
       throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -971,15 +1063,11 @@ public class PortedCommentsIT extends AbstractDaemonTest {
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
-    assertThat(portedComment).range().startLine().isEqualTo(3);
-    assertThat(portedComment).range().startCharacter().isEqualTo(2);
-    assertThat(portedComment).range().endLine().isEqualTo(4);
-    assertThat(portedComment).range().endCharacter().isEqualTo(5);
+    assertThat(portedComment).range().isNull();
+    assertThat(portedComment).line().isNull();
   }
 
   @Test
-  // TODO(aliceks): Correct handling of deleted files.
-  @Ignore
   public void portedRangeCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1161,8 +1249,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedLineCommentBecomesFileCommentOnConflict() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1221,8 +1307,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedLineCommentOnStartLineOfModificationBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1251,8 +1335,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Adjust code to not ignore conflicts and add mapping to file comments.
-  @Ignore
   public void portedLineCommentOnLastLineOfModificationBecomesFileComment() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1309,8 +1391,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Correct handling of deleted files.
-  @Ignore
   public void portedLineCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1412,8 +1492,6 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Correct handling of deleted files.
-  @Ignore
   public void portedFileCommentBecomesPatchsetLevelCommentOnFileDeletion() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1515,6 +1593,13 @@ public class PortedCommentsIT extends AbstractDaemonTest {
         .id(patchsetId.changeId().get())
         .revision(patchsetId.get())
         .portedComments();
+  }
+
+  private Map<String, List<CommentInfo>> getPortedDraftCommentsOfUser(
+      PatchSet.Id patchsetId, Account.Id accountId) throws RestApiException {
+    // Draft comments are only visible to their author.
+    requestScopeOps.setApiUser(accountId);
+    return gApi.changes().id(patchsetId.changeId().get()).revision(patchsetId.get()).portedDrafts();
   }
 
   private static CommentInfo extractSpecificComment(

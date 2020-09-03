@@ -31,14 +31,14 @@ import java.util.List;
 import java.util.Map;
 
 @Singleton
-public class ListPortedComments implements RestReadView<RevisionResource> {
+public class ListPortedDrafts implements RestReadView<RevisionResource> {
 
   private final CommentsUtil commentsUtil;
   private final CommentPorter commentPorter;
   private final Provider<CommentJson> commentJson;
 
   @Inject
-  public ListPortedComments(
+  public ListPortedDrafts(
       Provider<CommentJson> commentJson, CommentsUtil commentsUtil, CommentPorter commentPorter) {
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
@@ -50,18 +50,21 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
       throws PermissionBackendException, PatchListNotAvailableException {
     PatchSet targetPatchset = revisionResource.getPatchSet();
 
-    List<HumanComment> allComments =
-        commentsUtil.publishedHumanCommentsByChange(revisionResource.getNotes());
-    ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(revisionResource.getNotes(), targetPatchset, allComments);
-    return Response.ok(format(portedComments));
+    List<HumanComment> draftComments =
+        commentsUtil.draftByChangeAuthor(
+            revisionResource.getNotes(), revisionResource.getAccountId());
+    ImmutableList<HumanComment> portedDraftComments =
+        commentPorter.portComments(revisionResource.getNotes(), targetPatchset, draftComments);
+    return Response.ok(format(portedDraftComments));
   }
 
   private Map<String, List<CommentInfo>> format(List<HumanComment> comments)
       throws PermissionBackendException {
     return commentJson
         .get()
-        .setFillAccounts(true)
+        // Always unset for draft comments as only draft comments of the requesting user are
+        // returned.
+        .setFillAccounts(false)
         .setFillPatchSet(true)
         .newHumanCommentFormatter()
         .format(comments);

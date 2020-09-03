@@ -108,6 +108,8 @@ public interface RevisionApi {
 
   Map<String, List<CommentInfo>> portedComments() throws RestApiException;
 
+  Map<String, List<CommentInfo>> portedDrafts() throws RestApiException;
+
   /**
    * Applies the indicated fix by creating a new change edit or integrating the fix with the
    * existing change edit. If no change edit exists before this call, the fix must refer to the
@@ -297,6 +299,11 @@ public interface RevisionApi {
 
     @Override
     public Map<String, List<CommentInfo>> portedComments() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public Map<String, List<CommentInfo>> portedDrafts() throws RestApiException {
       throw new NotImplementedException();
     }
 

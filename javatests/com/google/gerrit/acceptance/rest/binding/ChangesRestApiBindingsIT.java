@@ -163,6 +163,8 @@ public class ChangesRestApiBindingsIT extends AbstractDaemonTest {
           RestCall.put("/changes/%s/revisions/%s/drafts"),
           RestCall.get("/changes/%s/revisions/%s/comments"),
           RestCall.get("/changes/%s/revisions/%s/robotcomments"),
+          RestCall.get("/changes/%s/revisions/%s/ported_comments"),
+          RestCall.get("/changes/%s/revisions/%s/ported_drafts"),
           RestCall.builder(GET, "/changes/%s/revisions/%s/fixes")
               // GET /changes/<change>/revisions/<revision>/fixes is not implemented
               .expectedResponseCode(SC_NOT_FOUND)

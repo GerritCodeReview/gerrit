@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.patch;
 
+import static com.google.common.collect.Comparators.emptiesFirst;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
@@ -24,10 +25,12 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
+import com.google.common.collect.Streams;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
 import java.util.function.Function;
@@ -50,18 +53,25 @@ import java.util.stream.Stream;
  *   <li>Go over all positions and replace the file path for each of them with the corresponding one
  *       in the target tree. If a file path maps to two file paths in the target tree (copied file),
  *       duplicate the position entry and use each of the new file paths with it. If a file path
- *       maps to no file in the target tree (deleted file), drop the position.
+ *       maps to no file in the target tree (deleted file), apply the specified conflict strategy
+ *       (e.g. drop position completely or map to next best guess).
  *   <li>Per file path, go through the file from top to bottom and keep track of how the range
  *       mappings for that file shift the lines. Derive the shifted amount by comparing the number
  *       of lines between source and target in the range mapping. While going through the file,
  *       shift each encountered position by the currently tracked amount. If a position overlaps
- *       with the lines of a range mapping, drop the position.
+ *       with the lines of a range mapping, apply the specified conflict strategy (e.g. drop
+ *       position completely or map to next best guess).
  * </ol>
  */
 public class GitPositionTransformer {
+  private final PositionConflictStrategy positionConflictStrategy;
 
-  // This is currently only a utility class but it won't stay like that.
-  private GitPositionTransformer() {}
+  /**
+   * Creates a new {@code GitPositionTransformer} which uses the specified strategy for conflicts.
+   */
+  public GitPositionTransformer(PositionConflictStrategy positionConflictStrategy) {
+    this.positionConflictStrategy = positionConflictStrategy;
+  }
 
   /**
    * Transforms the {@link Position}s of the specified entities as indicated via the {@link
@@ -77,9 +87,10 @@ public class GitPositionTransformer {
    * @param mappings the mappings describing all relevant changes between the source and the target
    *     tree
    * @param <T> an entity which has a {@link Position}
-   * @return a list of entities with transformed positions
+   * @return a list of entities with transformed positions. There are no guarantees about the order
+   *     of the returned elements.
    */
-  public static <T> ImmutableList<PositionedEntity<T>> transform(
+  public <T> ImmutableList<PositionedEntity<T>> transform(
       Collection<PositionedEntity<T>> entities, Set<Mapping> mappings) {
     // Update the file paths first as copied files might exist. For copied files, this operation
     // will duplicate the PositionedEntity instances of the original file.
@@ -88,7 +99,7 @@ public class GitPositionTransformer {
     return shiftRanges(filePathUpdatedEntities, mappings);
   }
 
-  private static <T> ImmutableList<PositionedEntity<T>> updateFilePaths(
+  private <T> ImmutableList<PositionedEntity<T>> updateFilePaths(
       Collection<PositionedEntity<T>> entities, Set<Mapping> mappings) {
     Map<String, ImmutableSet<String>> newFilesPerOldFile = groupNewFilesByOldFiles(mappings);
     return entities.stream()
@@ -99,45 +110,69 @@ public class GitPositionTransformer {
   private static Map<String, ImmutableSet<String>> groupNewFilesByOldFiles(Set<Mapping> mappings) {
     return mappings.stream()
         .map(Mapping::file)
+        // Ignore file additions (irrelevant for mappings).
+        .filter(mapping -> mapping.oldPath().isPresent())
         .collect(
             groupingBy(
-                FileMapping::oldPath, Collectors.mapping(FileMapping::newPath, toImmutableSet())));
+                mapping -> mapping.oldPath().orElse(""),
+                collectingAndThen(
+                    Collectors.mapping(FileMapping::newPath, toImmutableSet()),
+                    // File deletion (empty Optional) -> empty set.
+                    GitPositionTransformer::unwrapOptionals)));
   }
 
-  private static <T> Stream<PositionedEntity<T>> mapToNewFileIfChanged(
+  private static ImmutableSet<String> unwrapOptionals(ImmutableSet<Optional<String>> optionals) {
+    return optionals.stream().flatMap(Streams::stream).collect(toImmutableSet());
+  }
+
+  private <T> Stream<PositionedEntity<T>> mapToNewFileIfChanged(
       Map<String, ? extends Set<String>> newFilesPerOldFile, PositionedEntity<T> entity) {
-    String oldFilePath = entity.position().filePath();
+    if (!entity.position().filePath().isPresent()) {
+      // No mapping of file paths necessary if no file path is set. -> Keep existing entry.
+      return Stream.of(entity);
+    }
+    String oldFilePath = entity.position().filePath().get();
     if (!newFilesPerOldFile.containsKey(oldFilePath)) {
       // Unchanged files don't have a mapping. -> Keep existing entries.
       return Stream.of(entity);
     }
     Set<String> newFiles = newFilesPerOldFile.get(oldFilePath);
+    if (newFiles.isEmpty()) {
+      // File was deleted.
+      return Streams.stream(
+          positionConflictStrategy.getOnFileConflict(entity.position()).map(entity::withPosition));
+    }
     return newFiles.stream().map(entity::withFilePath);
   }
 
-  private static <T> ImmutableList<PositionedEntity<T>> shiftRanges(
+  private <T> ImmutableList<PositionedEntity<T>> shiftRanges(
       List<PositionedEntity<T>> filePathUpdatedEntities, Set<Mapping> mappings) {
     Map<String, ImmutableSet<RangeMapping>> mappingsPerNewFilePath =
         groupRangeMappingsByNewFilePath(mappings);
-    Map<String, ImmutableList<PositionedEntity<T>>> entitiesPerNewFilePath =
-        groupByFilePath(filePathUpdatedEntities);
-    return entitiesPerNewFilePath.entrySet().stream()
-        .flatMap(
-            newFilePathAndEntities ->
-                shiftRangesInOneFileIfChanged(
-                    mappingsPerNewFilePath,
-                    newFilePathAndEntities.getKey(),
-                    newFilePathAndEntities.getValue())
-                    .stream())
+    return Stream.concat(
+            // Keep positions without a file.
+            filePathUpdatedEntities.stream()
+                .filter(entity -> !entity.position().filePath().isPresent()),
+            // Shift ranges per file.
+            groupByFilePath(filePathUpdatedEntities).entrySet().stream()
+                .flatMap(
+                    newFilePathAndEntities ->
+                        shiftRangesInOneFileIfChanged(
+                            mappingsPerNewFilePath,
+                            newFilePathAndEntities.getKey(),
+                            newFilePathAndEntities.getValue())
+                            .stream()))
         .collect(toImmutableList());
   }
 
   private static Map<String, ImmutableSet<RangeMapping>> groupRangeMappingsByNewFilePath(
       Set<Mapping> mappings) {
     return mappings.stream()
+        // Ignore range mappings of deleted files.
+        .filter(mapping -> mapping.file().newPath().isPresent())
         .collect(
             groupingBy(
-                mapping -> mapping.file().newPath(),
+                mapping -> mapping.file().newPath().orElse(""),
                 collectingAndThen(
                     Collectors.<Mapping, Set<RangeMapping>>reducing(
                         new HashSet<>(), Mapping::ranges, Sets::union),
@@ -147,10 +182,11 @@ public class GitPositionTransformer {
   private static <T> Map<String, ImmutableList<PositionedEntity<T>>> groupByFilePath(
       List<PositionedEntity<T>> fileUpdatedEntities) {
     return fileUpdatedEntities.stream()
-        .collect(groupingBy(entity -> entity.position().filePath(), toImmutableList()));
+        .filter(entity -> entity.position().filePath().isPresent())
+        .collect(groupingBy(entity -> entity.position().filePath().orElse(""), toImmutableList()));
   }
 
-  private static <T> ImmutableList<PositionedEntity<T>> shiftRangesInOneFileIfChanged(
+  private <T> ImmutableList<PositionedEntity<T>> shiftRangesInOneFileIfChanged(
       Map<String, ImmutableSet<RangeMapping>> mappingsPerNewFilePath,
       String newFilePath,
       ImmutableList<PositionedEntity<T>> sameFileEntities) {
@@ -164,7 +200,7 @@ public class GitPositionTransformer {
     return shiftRangesInOneFile(sameFileEntities, sameFileRangeMappings);
   }
 
-  private static <T> ImmutableList<PositionedEntity<T>> shiftRangesInOneFile(
+  private <T> ImmutableList<PositionedEntity<T>> shiftRangesInOneFile(
       List<PositionedEntity<T>> sameFileEntities, Set<RangeMapping> sameFileRangeMappings) {
     ImmutableList<PositionedEntity<T>> sortedEntities = sortByStartEnd(sameFileEntities);
     ImmutableList<RangeMapping> sortedMappings = sortByOldStartEnd(sameFileRangeMappings);
@@ -176,15 +212,25 @@ public class GitPositionTransformer {
         ImmutableList.builderWithExpectedSize(sortedEntities.size());
     while (entityIndex < sortedEntities.size() && mappingIndex < sortedMappings.size()) {
       PositionedEntity<T> entity = sortedEntities.get(entityIndex);
-      RangeMapping mapping = sortedMappings.get(mappingIndex);
-      if (mapping.oldLineRange().end() <= entity.position().lineRange().start()) {
-        shiftedAmount = mapping.newLineRange().end() - mapping.oldLineRange().end();
-        mappingIndex++;
-      } else if (entity.position().lineRange().end() <= mapping.oldLineRange().start()) {
-        resultingEntities.add(entity.shiftPositionBy(shiftedAmount));
-        entityIndex++;
+      if (entity.position().lineRange().isPresent()) {
+        Range range = entity.position().lineRange().get();
+        RangeMapping mapping = sortedMappings.get(mappingIndex);
+        if (mapping.oldLineRange().end() <= range.start()) {
+          shiftedAmount = mapping.newLineRange().end() - mapping.oldLineRange().end();
+          mappingIndex++;
+        } else if (range.end() <= mapping.oldLineRange().start()) {
+          resultingEntities.add(entity.shiftPositionBy(shiftedAmount));
+          entityIndex++;
+        } else {
+          positionConflictStrategy
+              .getOnRangeConflict(entity.position())
+              .map(entity::withPosition)
+              .ifPresent(resultingEntities::add);
+          entityIndex++;
+        }
       } else {
-        // Overlapping -> ignore.
+        // No range -> no need to shift.
+        resultingEntities.add(entity);
         entityIndex++;
       }
     }
@@ -200,7 +246,7 @@ public class GitPositionTransformer {
         .sorted(
             comparing(
                 entity -> entity.position().lineRange(),
-                comparing(Range::start).thenComparing(Range::end)))
+                emptiesFirst(comparing(Range::start).thenComparing(Range::end))))
         .collect(toImmutableList());
   }
 
@@ -244,20 +290,45 @@ public class GitPositionTransformer {
   @AutoValue
   public abstract static class FileMapping {
 
-    /** File path in the source tree. */
-    public abstract String oldPath();
-
-    /** File path in the target tree. Can be the same as {@link #oldPath()}. */
-    public abstract String newPath();
+    /** File path in the source tree. For file additions, this is an empty {@link Optional}. */
+    public abstract Optional<String> oldPath();
 
     /**
-     * Creates a new {@code FileMapping}.
-     *
-     * @param oldPath see {@link #oldPath()}
-     * @param newPath see {@link #newPath()}
+     * File path in the target tree. Can be the same as {@link #oldPath()} if unchanged. For file
+     * deletions, this is an empty {@link Optional}.
      */
-    public static FileMapping create(String oldPath, String newPath) {
-      return new AutoValue_GitPositionTransformer_FileMapping(oldPath, newPath);
+    public abstract Optional<String> newPath();
+
+    /**
+     * Creates a {@link FileMapping} for a file addition.
+     *
+     * <p>In the context of {@link GitPositionTransformer}, file additions are irrelevant as no
+     * given position in the source tree can refer to such a new file in the target tree. We still
+     * provide this factory method so that code outside of {@link GitPositionTransformer} doesn't
+     * have to care about such details and can simply create {@link FileMapping}s for any
+     * modifications between the trees.
+     */
+    public static FileMapping forAddedFile(String filePath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.empty(), Optional.of(filePath));
+    }
+
+    /** Creates a {@link FileMapping} for a file deletion. */
+    public static FileMapping forDeletedFile(String filePath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.of(filePath), Optional.empty());
+    }
+
+    /** Creates a {@link FileMapping} for a file modification. */
+    public static FileMapping forModifiedFile(String filePath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.of(filePath), Optional.of(filePath));
+    }
+
+    /** Creates a {@link FileMapping} for a file renaming. */
+    public static FileMapping forRenamedFile(String oldPath, String newPath) {
+      return new AutoValue_GitPositionTransformer_FileMapping(
+          Optional.of(oldPath), Optional.of(newPath));
     }
   }
 
@@ -304,27 +375,47 @@ public class GitPositionTransformer {
   public abstract static class Position {
 
     /** Absolute file path. */
-    public abstract String filePath();
+    public abstract Optional<String> filePath();
 
-    /** Affected lines. */
-    public abstract Range lineRange();
+    /**
+     * Affected lines. An empty {@link Optional} indicates that this position does not refer to any
+     * specific lines (e.g. used for a file comment).
+     */
+    public abstract Optional<Range> lineRange();
 
     /**
      * Creates a copy of this {@code Position} whose range is shifted by the indicated amount.
      *
+     * <p><strong>Note:</strong> There's no guarantee that this method returns a new instance.
+     *
      * @param amount number of lines to shift. Negative values mean moving the range up, positive
      *     values mean moving the range down.
-     * @return a new {@code Position} instance with an updated range
+     * @return a {@code Position} instance with the updated range
      */
     public Position shiftBy(int amount) {
-      return toBuilder().lineRange(lineRange().shiftBy(amount)).build();
+      return lineRange()
+          .map(range -> toBuilder().lineRange(range.shiftBy(amount)).build())
+          .orElse(this);
+    }
+
+    /**
+     * Creates a copy of this {@code Position} which doesn't refer to any specific lines.
+     *
+     * <p><strong>Note:</strong> There's no guarantee that this method returns a new instance.
+     *
+     * @return a {@code Position} instance without a line range
+     */
+    public Position withoutLineRange() {
+      return toBuilder().lineRange(Optional.empty()).build();
     }
 
     /**
      * Creates a copy of this {@code Position} whose file path is adjusted to the indicated value.
      *
+     * <p><strong>Note:</strong> There's no guarantee that this method returns a new instance.
+     *
      * @param filePath the new file path to use
-     * @return a new {@code Position} instance with an update file path
+     * @return a {@code Position} instance with the indicated file path
      */
     public Position withFilePath(String filePath) {
       return toBuilder().filePath(filePath).build();
@@ -346,6 +437,9 @@ public class GitPositionTransformer {
       /** See {@link #lineRange()}. */
       public abstract Builder lineRange(Range lineRange);
 
+      /** See {@link #lineRange()}. */
+      public abstract Builder lineRange(Optional<Range> lineRange);
+
       public abstract Position build();
     }
   }
@@ -364,9 +458,11 @@ public class GitPositionTransformer {
      * Creates a copy of this {@code Range} which is shifted by the indicated amount. A shift
      * equally applies to both {@link #start()} end {@link #end()}.
      *
+     * <p><strong>Note:</strong> There's no guarantee that this method returns a new instance.
+     *
      * @param amount amount to shift. Negative values mean moving the range up, positive values mean
      *     moving the range down.
-     * @return a new {@code Range} instance with updated start/end
+     * @return a {@code Range} instance with updated start/end
      */
     public Range shiftBy(int amount) {
       return create(start() + amount, end() + amount);
@@ -450,6 +546,98 @@ public class GitPositionTransformer {
      */
     public PositionedEntity<T> withFilePath(String filePath) {
       return new PositionedEntity<>(entity, position.withFilePath(filePath), updatedEntityCreator);
+    }
+
+    /**
+     * Updates the tracked {@link Position}.
+     *
+     * @return a {@code PositionedEntity} with updated {@link Position}
+     */
+    public PositionedEntity<T> withPosition(Position newPosition) {
+      return new PositionedEntity<>(entity, newPosition, updatedEntityCreator);
+    }
+  }
+
+  /**
+   * Strategy indicating how to handle {@link Position}s for which mapping conflicts exist. A
+   * mapping conflict means that a {@link Position} can't be transformed such that it still refers
+   * to exactly the same commit content afterwards.
+   *
+   * <p>Example: A {@link Position} refers to file foo.txt and lines 5-6 which contain the text
+   * "Line 5\nLine 6". One of the {@link Mapping}s given to {@link #transform(Collection, Set)}
+   * indicates that line 5 of foo.txt was modified to "Line five\nLine 5.1\n". We could derive a
+   * transformed {@link Position} (foo.txt, lines 5-7) but that {@link Position} would then refer to
+   * the content "Line five\nLine 5.1\nLine 6". If the modification started already in line 4, we
+   * could even only guess what the transformed {@link Position} would be.
+   */
+  public interface PositionConflictStrategy {
+    /**
+     * Determines an alternate {@link Position} when the range of the position can't be mapped
+     * without a conflict.
+     *
+     * @param oldPosition position in the source tree
+     * @return the new {@link Position} or an empty {@link Optional} if the position should be
+     *     dropped
+     */
+    Optional<Position> getOnRangeConflict(Position oldPosition);
+
+    /**
+     * Determines an alternate {@link Position} when there is no file for the position (= file
+     * deletion) in the target tree.
+     *
+     * @param oldPosition position in the source tree
+     * @return the new {@link Position} or an empty {@link Optional} if the position should be *
+     *     dropped
+     */
+    Optional<Position> getOnFileConflict(Position oldPosition);
+  }
+
+  /**
+   * A strategy which drops any {@link Position}s on a conflicting mapping. Such a strategy is
+   * useful if it's important that any mapped {@link Position} still refers to exactly the same
+   * commit content as before. See more details at {@link PositionConflictStrategy}.
+   *
+   * <p>We need this strategy for computing edits due to rebase.
+   */
+  public enum OmitPositionOnConflict implements PositionConflictStrategy {
+    INSTANCE;
+
+    @Override
+    public Optional<Position> getOnRangeConflict(Position oldPosition) {
+      return Optional.empty();
+    }
+
+    @Override
+    public Optional<Position> getOnFileConflict(Position oldPosition) {
+      return Optional.empty();
+    }
+  }
+
+  /**
+   * A strategy which tries to select the next suitable {@link Position} on a conflicting mapping.
+   * At the moment, this strategy is very basic and only defers to the next higher level (e.g. range
+   * unclear -> drop range but keep file reference). This could be improved in the future.
+   *
+   * <p>We need this strategy for ported comments.
+   *
+   * <p><strong>Warning:</strong> With this strategy, mapped {@link Position}s are not guaranteed to
+   * refer to exactly the same commit content as before. See more details at {@link
+   * PositionConflictStrategy}.
+   *
+   * <p>Contract: This strategy will never drop any {@link Position}.
+   */
+  public enum BestPositionOnConflict implements PositionConflictStrategy {
+    INSTANCE;
+
+    @Override
+    public Optional<Position> getOnRangeConflict(Position oldPosition) {
+      return Optional.of(oldPosition.withoutLineRange());
+    }
+
+    @Override
+    public Optional<Position> getOnFileConflict(Position oldPosition) {
+      // If there isn't a target file, we can also drop any ranges.
+      return Optional.of(Position.builder().build());
     }
   }
 }

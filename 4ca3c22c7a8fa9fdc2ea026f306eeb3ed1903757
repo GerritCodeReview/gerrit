@@ -144,6 +144,24 @@
     },
     {
       "key": {
+        "uuid": "bbef4e5f_be7b2c99",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-09-03T13:15:26Z",
+      "side": 1,
+      "message": "We\u0027ll need to consider this use case. The result will be a zero state such as \"No files\".",
+      "parentUuid": "508021a8_b095d2f8",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ed945b36_62d8b992",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
         "patchSetId": 8
@@ -155,6 +173,24 @@
       "writtenOn": "2020-09-03T08:07:03Z",
       "side": 1,
       "message": "Always showing this even for \u003c10 files is too much IMO. What about introducing a threshold number property for showing the filter instead of a boolean?\n\nMaybe 20 is a good threshold for the file list on the diff page?",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dee9ea1b_e2ba3a0a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-09-03T13:15:26Z",
+      "side": 1,
+      "message": "I like this idea, especially considering that for \u003c10 files it will use some space for users on small screen space that could be used to show a file instead.",
+      "parentUuid": "ed945b36_62d8b992",
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -189,6 +225,30 @@
       "writtenOn": "2020-09-03T08:07:03Z",
       "side": 1,
       "message": "Maybe \"Filter\" instead?\n\n\"files\" might not be correct, if this is used somewhere else for dropdowns.",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "452b7283_61feb830",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-09-03T13:15:26Z",
+      "side": 1,
+      "message": "I think Search files is fine, this is the copy used for such component. \n\n\u003c\"files\" might not be correct, if this is used somewhere else for dropdowns.\u003e\nWhat do you mean by if used somewhere else?",
+      "parentUuid": "37153a37_cb6433a1",
       "range": {
         "startLine": 162,
         "startChar": 25,

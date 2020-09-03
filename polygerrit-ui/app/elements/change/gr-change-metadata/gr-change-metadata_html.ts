@@ -96,6 +96,18 @@ export const htmlTemplate = html`
     }
   </style>
   <gr-external-style id="externalStyle" name="change-metadata">
+    <template is="dom-if" if="[[change.submitted]]">
+      <section>
+        <span class="title">Submitted</span>
+        <span class="value">
+          <gr-date-formatter
+            has-tooltip=""
+            date-str="[[change.submitted]]"
+            show-only-date=""
+          ></gr-date-formatter>
+        </span>
+      </section>
+    </template>
     <section>
       <span class="title">Updated</span>
       <span class="value">

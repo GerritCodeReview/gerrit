@@ -96,6 +96,9 @@ export class GrDateFormatter extends TooltipMixin(
   @property({type: Boolean})
   showDateAndTime = false;
 
+  @property({type: Boolean})
+  showOnlyDate = false;
+
   /**
    * When true, the detailed date appears in a GR-TOOLTIP rather than in the
    * native browser tooltip.
@@ -227,16 +230,20 @@ export class GrDateFormatter extends TooltipMixin(
       return fromNow(date);
     }
     const now = new Date();
-    let format = dateFormat.full;
+
+    if (this.showOnlyDate) {
+      return formatDate(date, dateFormat.full);
+    }
     if (isWithinDay(now, date)) {
-      format = timeFormat;
-    } else {
-      if (isWithinHalfYear(now, date)) {
-        format = dateFormat.short;
-      }
-      if (this.showDateAndTime || showDateAndTime) {
-        format = `${format} ${timeFormat}`;
-      }
+      return formatDate(date, timeFormat);
+    }
+
+    let format = dateFormat.full;
+    if (isWithinHalfYear(now, date)) {
+      format = dateFormat.short;
+    }
+    if (this.showDateAndTime || showDateAndTime) {
+      format = `${format} ${timeFormat}`;
     }
     return formatDate(date, format);
   }

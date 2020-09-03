@@ -50,6 +50,24 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void pluginDefinedQueryChangeWithNullAttribute() throws Exception {
+    getChangeWithPluginDefinedNullAttribute(
+        id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeWithNullAttribute() throws Exception {
+    getChangeWithPluginDefinedNullAttribute(
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeDetailWithNullAttribute() throws Exception {
+    getChangeWithPluginDefinedNullAttribute(
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))));
+  }
+
+  @Test
   public void queryChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
         id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))));
@@ -64,6 +82,24 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   @Test
   public void getChangeDetailWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedQueryChangeWithSimpleAttribute() throws Exception {
+    getChangeWithPluginDefinedSimpleAttribute(
+        id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeWithSimpleAttribute() throws Exception {
+    getChangeWithPluginDefinedSimpleAttribute(
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeDetailWithSimpleAttribute() throws Exception {
+    getChangeWithPluginDefinedSimpleAttribute(
         id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))));
   }
 
@@ -86,6 +122,33 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     getChangeWithOption(
         id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))),
         (id, opts) -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedQueryChangeWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))),
+        (id, opts) -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id))),
+        (id, opts) -> pluginInfoFromChangeInfo(adminRestSession.get(changeUrl(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeDetailWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))),
+        (id, opts) -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
+  }
+
+  @Test
+  public void queryChangeWithPluginDefinedBulkAttribute() throws Exception {
+    getChangeWithPluginDefinedBulkAttribute(
+        () -> pluginInfosFromChangeInfos(adminRestSession.get("/changes/?q=status:open")));
   }
 
   private String changeQueryUrl(Change.Id id) {
@@ -147,5 +210,13 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     Map<String, Object> changeInfo =
         GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
     return decodeRawPluginsList(GSON, changeInfo.get("plugins"));
+  }
+
+  @Nullable
+  private List<MyInfo> pluginInfosFromChangeInfos(RestResponse res) throws Exception {
+    res.assertOK();
+    List<Map<String, Object>> changeInfos =
+        GSON.fromJson(res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
+    return getPluginInfosFromChangeInfos(GSON, changeInfos);
   }
 }

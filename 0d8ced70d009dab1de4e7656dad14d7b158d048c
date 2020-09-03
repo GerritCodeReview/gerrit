@@ -199,6 +199,24 @@
     },
     {
       "key": {
+        "uuid": "4712158e_ae3519af",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-03T22:11:43Z",
+      "side": 1,
+      "message": "The jgit cache doesn\u0027t cache parsed objects but unparsed packfile pages containing deltified compressed objects. The page size is configured via option core.packedGitWindowSize. Max. size of this cache is configured via option core.packedGitLimit. This means if you want to be able to completely cache this repository you\u0027d need to set packedGitLimit to at least 7g if the repository is perfectly packed.\n\nWe set core.packedGitLimit\u003d30g and core.packedGitUseStrongRefs\u003dtrue to ensure Java GC doesn\u0027t drop the jgit cache in case the committed heap comes close to max heap size. We observe that in practice typically not more than 12GB are used with our current workload. Some of the huge repositories are read-only so they aren\u0027t accessed frequently.\n\nThere is another cache for parsed, uncompressed base objects (not deltas) which is configured via option core.deltaBaseCacheLimit, default is 10m.",
+      "parentUuid": "c9aa6826_23793a8b",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

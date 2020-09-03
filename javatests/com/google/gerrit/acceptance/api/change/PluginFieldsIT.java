@@ -18,7 +18,10 @@ import com.google.gerrit.acceptance.AbstractPluginFieldsTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.inject.AbstractModule;
+import java.util.Arrays;
+import java.util.Collections;
 import org.junit.Test;
 
 @NoHttpd
@@ -38,6 +41,18 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void pluginDefinedQueryChangeWithNullAttribute() throws Exception {
+    getChangeWithPluginDefinedNullAttribute(
+        id -> pluginInfosFromChangeInfos(gApi.changes().query(id.toString()).get()));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeWithNullAttribute() throws Exception {
+    getChangeWithPluginDefinedNullAttribute(
+        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.toString()).get())));
+  }
+
+  @Test
   public void queryChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()));
@@ -47,6 +62,18 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   public void getChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
         id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()));
+  }
+
+  @Test
+  public void querySingleChangeWithBulkAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromChangeInfos(gApi.changes().query(id.toString()).get()));
+  }
+
+  @Test
+  public void getSingleChangeWithBulkAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.toString()).get())));
   }
 
   @Test
@@ -65,12 +92,55 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
         (id, opts) -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get(opts)));
   }
 
+  @Test
+  public void queryChangeWithOptionBulkAttribute() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfosFromChangeInfos(gApi.changes().query(id.toString()).get()),
+        (id, opts) ->
+            pluginInfosFromChangeInfos(
+                gApi.changes().query(id.toString()).withPluginOptions(opts).get()));
+  }
+
+  @Test
+  public void getChangeWithOptionBulkAttribute() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get())),
+        (id, opts) ->
+            pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get(opts))));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedBulkAttribute() throws Exception {
+    getMultipleChangesWithPluginDefinedBulkAttribute(
+        () -> pluginInfosFromChangeInfos(gApi.changes().query("status:open").get()));
+  }
+
+  @Test
+  public void getEvenChangesWithPluginDefinedBulkAttribute() throws Exception {
+    getEvenChangesWithPluginDefinedBulkAttribute(
+        () -> pluginInfosFromChangeInfos(gApi.changes().query("status:open").get()));
+  }
+
   static class SimpleAttributeWithExplicitExportModule extends AbstractModule {
     @Override
     public void configure() {
       bind(ChangeAttributeFactory.class)
           .annotatedWith(Exports.named("simple"))
           .toInstance((cd, bp, p) -> new MyInfo("change " + cd.getId()));
+    }
+  }
+
+  static class PluginDefinedSimpleAttributeWithExplicitExportModule extends AbstractModule {
+    @Override
+    public void configure() {
+      bind(ChangePluginDefinedInfoFactory.class)
+          .annotatedWith(Exports.named("simple"))
+          .toInstance(
+              (cds, bp, p) ->
+                  cds.get(0) != null
+                      ? Collections.singletonMap(
+                          cds.get(0).getId(), new MyInfo("change " + cds.get(0).getId()))
+                      : null);
     }
   }
 
@@ -82,5 +152,15 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     getChangeWithSimpleAttribute(
         id -> pluginInfoFromChangeInfo(gApi.changes().id(id.toString()).get()),
         SimpleAttributeWithExplicitExportModule.class);
+  }
+
+  @Test
+  public void getChangeWithSimpleAttributeWithExplicitExportPluginDefined() throws Exception {
+    // For backwards compatibility with old plugins, allow modules to bind into the
+    // DynamicSet<ChangeAttributeFactory> as if it were a DynamicMap. We only need one variant of
+    // this test to prove that the mapping works.
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.toString()).get())),
+        PluginDefinedSimpleAttributeWithExplicitExportModule.class);
   }
 }

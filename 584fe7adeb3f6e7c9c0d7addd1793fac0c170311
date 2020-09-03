@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "b40a81a5_2b61894a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-03T21:32:09Z",
+      "side": 1,
+      "message": "prior to using",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 27
+      },
+      "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3987d344_25afad87",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-03T21:32:09Z",
+      "side": 1,
+      "message": "before?",
+      "range": {
+        "startLine": 10,
+        "startChar": 10,
+        "endLine": 10,
+        "endChar": 15
+      },
+      "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f320307a_20651267",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-03T21:32:09Z",
+      "side": 1,
+      "message": "before (or, prior to)",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 16,
+        "endChar": 5
+      },
+      "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04548f14_cb0be769",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-03T21:32:09Z",
+      "side": 1,
+      "message": "Same here.",
+      "range": {
+        "startLine": 23,
+        "startChar": 13,
+        "endLine": 23,
+        "endChar": 26
+      },
+      "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b08c6db2_8f783be0",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -13,6 +105,23 @@
       "writtenOn": "2020-09-02T21:19:29Z",
       "side": 1,
       "message": "I just re-ran the previously long-pending checks, now.",
+      "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8157b769_15fcb385",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-03T21:32:09Z",
+      "side": 1,
+      "message": "Pending @Tao\u0027s FE-level approval or review, or so I understand. Adding @Ben as cc\u0027ed on Issue\u0027s component. A few commit message nits for me.",
       "revId": "584fe7adeb3f6e7c9c0d7addd1793fac0c170311",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

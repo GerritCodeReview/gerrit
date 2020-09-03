@@ -17,6 +17,10 @@ package com.google.gerrit.extensions.api.changes;
 import com.google.gerrit.extensions.restapi.DefaultInput;
 import java.util.Map;
 
+/**
+ * Input passed to {@code POST /changes/[change-id]/revert} and {@code POST
+ * /changes/[change-id]/revert_submission}
+ */
 public class RevertInput {
   @DefaultInput public String message;
 
@@ -26,4 +30,7 @@ public class RevertInput {
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
   public String topic;
+
+  /** Mark the change as work-in-progress. This will also override the notify value to OWNER */
+  public boolean workInProgress;
 }

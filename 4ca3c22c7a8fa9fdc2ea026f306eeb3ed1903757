@@ -70,6 +70,29 @@
     },
     {
       "key": {
+        "uuid": "8d6ae987_c049bb71",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-03T08:32:46Z",
+      "side": 1,
+      "message": "Maybe ignore uppercase. so user can search \u0027commit\u0027 and will see \u0027Commit Message\u0027",
+      "range": {
+        "startLine": 120,
+        "startChar": 66,
+        "endLine": 120,
+        "endChar": 76
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "dffd96f9_3ba0fb33",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
         "patchSetId": 8
@@ -98,6 +121,23 @@
       "writtenOn": "2020-09-03T08:07:03Z",
       "side": 1,
       "message": "Same horizontal padding as paper-item. Vertical padding can stay smaller. Currently this `input` css rules from shared styles applies:\n\n  padding: var(--spacing-s);\n\nMaybe change to:\n\n  padding: var(--spacing-s) var(--spacing-l);",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "508021a8_b095d2f8",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-03T08:32:46Z",
+      "side": 1,
+      "message": "Could you make sure that searchbar input doesn\u0027t change size when result list is empty?",
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

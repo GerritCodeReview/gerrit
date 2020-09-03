@@ -85,6 +85,7 @@ export const htmlTemplate = html`
     .container .changeInfo {
       display: flex;
       background-color: var(--background-color-secondary);
+      padding-right: var(--spacing-m);
     }
     section {
       background-color: var(--view-background-color);

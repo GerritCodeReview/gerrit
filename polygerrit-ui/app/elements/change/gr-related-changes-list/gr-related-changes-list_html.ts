@@ -72,10 +72,8 @@ export const htmlTemplate = html`
     .indirectAncestor {
       color: #33691e;
     }
-    .submittable {
-      color: #1b5e20;
-    }
     .submittableCheck {
+      padding-left: var(--spacing-s);
       color: var(--positive-green-text-color);
       display: none;
     }

@@ -732,6 +732,10 @@ export class GrChangeMetadata extends GestureEventListeners(
     provider.init();
     return provider;
   }
+
+  _computeShowUpdated(change?: ParsedChangeInfo) {
+    return change.submitted ? 'hideDisplay' : '';
+  }
 }
 
 declare global {

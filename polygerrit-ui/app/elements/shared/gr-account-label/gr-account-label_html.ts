@@ -106,8 +106,9 @@ export const htmlTemplate = html`
         link=""
         aria-label="Remove user from attention set"
         on-click="_handleRemoveAttentionClick"
-        has-tooltip=""
-        title="Click to remove the user from the attention set"
+        disabled="[[!_hasUnforcedAttention(_config, highlightAttention, account, change)]]"
+        has-tooltip="[[_hasUnforcedAttention(_config, highlightAttention, account, change)]]"
+        title="[[_computeAttentionIconTtitle(_config, highlightAttention, account, change)]]"
         ><iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
       </gr-button>
     </template>

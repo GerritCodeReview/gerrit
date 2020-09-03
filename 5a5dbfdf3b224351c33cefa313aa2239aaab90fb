@@ -46,6 +46,30 @@
       "revId": "5a5dbfdf3b224351c33cefa313aa2239aaab90fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d87cb35f_0100643f",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-03T10:02:02Z",
+      "side": 1,
+      "message": "Done in I561ea6430.",
+      "parentUuid": "a9503bd0_24c8a838",
+      "range": {
+        "startLine": 225,
+        "startChar": 15,
+        "endLine": 225,
+        "endChar": 32
+      },
+      "revId": "5a5dbfdf3b224351c33cefa313aa2239aaab90fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -15,7 +15,9 @@
 package com.google.gerrit.server.restapi.change;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.Streams;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.client.ListChangesOption;
 import com.google.gerrit.extensions.client.ListOption;
 import com.google.gerrit.extensions.common.ChangeInfo;
@@ -27,11 +29,13 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.gerrit.server.change.ChangeJson;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
+import java.util.Collection;
 import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,6 +47,7 @@ public class GetChange
         DynamicOptions.BeanProvider {
   private final ChangeJson.Factory json;
   private final DynamicSet<ChangeAttributeFactory> attrFactories;
+  private final DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories;
   private final EnumSet<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
 
@@ -57,9 +62,13 @@ public class GetChange
   }
 
   @Inject
-  GetChange(ChangeJson.Factory json, DynamicSet<ChangeAttributeFactory> attrFactories) {
+  GetChange(
+      ChangeJson.Factory json,
+      DynamicSet<ChangeAttributeFactory> attrFactories,
+      DynamicSet<ChangePluginDefinedInfoFactory> pdiFactories) {
     this.json = json;
     this.attrFactories = attrFactories;
+    this.pdiFactories = pdiFactories;
   }
 
   @Override
@@ -82,11 +91,17 @@ public class GetChange
   }
 
   private ChangeJson newChangeJson() {
-    return json.create(options, this::buildPluginInfo);
+    return json.create(options, this::buildPluginInfo, this::createPluginDefinedInfos);
   }
 
   private ImmutableList<PluginDefinedInfo> buildPluginInfo(ChangeData cd) {
     return PluginDefinedAttributesFactories.createAll(
         cd, this, Streams.stream(attrFactories.entries()));
+  }
+
+  private ImmutableListMultimap<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+      Collection<ChangeData> cds) {
+    return PluginDefinedAttributesFactories.createAll(
+        cds, this, Streams.stream(pdiFactories.entries()));
   }
 }

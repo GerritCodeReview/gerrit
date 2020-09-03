@@ -1,4 +1,5 @@
 import {Timestamp} from '../types/common';
+import {hasEditBasedOnCurrentPatchSet} from './patch-set-util';
 
 /**
  * @license
@@ -67,6 +68,16 @@ export function fromNow(date: Date, noAgo = false) {
 export function isWithinDay(now: Date, date: Date) {
   const diff = now.valueOf() - date.valueOf();
   return diff < Duration.DAY && date.getDay() === now.getDay();
+}
+
+export function wasYesterday(now: Date, date: Date) {
+  const diff = now.valueOf() - date.valueOf();
+  // return true if date is withing 24 hours and not on the same day
+  if (diff < Duration.DAY && date.getDay() !== now.getDay()) return true;
+
+  // move now to yesterday
+  now.setDate(now.getDate() - 1);
+  return isWithinDay(now, date);
 }
 
 /**

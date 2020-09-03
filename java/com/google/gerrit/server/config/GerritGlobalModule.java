@@ -110,6 +110,7 @@ import com.google.gerrit.server.change.ChangeETagComputation;
 import com.google.gerrit.server.change.ChangeFinder;
 import com.google.gerrit.server.change.ChangeJson;
 import com.google.gerrit.server.change.ChangeKindCacheImpl;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.LabelsJson;
 import com.google.gerrit.server.change.MergeabilityCacheImpl;
 import com.google.gerrit.server.change.ReviewerSuggestion;
@@ -435,6 +436,7 @@ public class GerritGlobalModule extends FactoryModule {
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeHasOperandFactory.class);
     DynamicMap.mapOf(binder(), ChangeQueryBuilder.ChangeIsOperandFactory.class);
     DynamicSet.setOf(binder(), ChangeAttributeFactory.class);
+    DynamicSet.setOf(binder(), ChangePluginDefinedInfoFactory.class);
 
     install(new GitwebConfig.LegacyModule(cfg));
 

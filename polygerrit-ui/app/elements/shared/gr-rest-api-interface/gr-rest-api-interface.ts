@@ -946,7 +946,7 @@ export class GrRestApiInterface
           this._cache.delete('/accounts/self/avatar.change.url');
         }
       },
-    });
+    }) as Promise<string | undefined>;
   }
 
   getExternalIds() {

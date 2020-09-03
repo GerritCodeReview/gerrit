@@ -15,75 +15,63 @@
  * limitations under the License.
  */
 
-import '../gr-account-label/gr-account-label.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-account-link_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../gr-account-label/gr-account-label';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-account-link_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {AccountInfo, ChangeInfo} from '../../../types/common';
 
-/**
- * @extends PolymerElement
- */
+@customElement('gr-account-link')
 class GrAccountLink extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-account-link'; }
-
-  static get properties() {
-    return {
-      voteableText: String,
-      account: Object,
-      /**
-       * Optional ChangeInfo object, typically comes from the change page or
-       * from a row in a list of search results. This is needed for some change
-       * related features like adding the user as a reviewer.
-       */
-      change: Object,
-      /**
-       * Should this user be considered to be in the attention set, regardless
-       * of the current state of the change object?
-       */
-      forceAttention: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * Should attention set related features be shown in the component? Note
-       * that the information whether the user is in the attention set or not is
-       * part of the ChangeInfo object in the change property.
-       */
-      highlightAttention: {
-        type: Boolean,
-        value: false,
-      },
-      hideAvatar: {
-        type: Boolean,
-        value: false,
-      },
-      hideStatus: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * Only show the first name in the account label.
-       */
-      firstName: {
-        type: Boolean,
-        value: false,
-      },
-    };
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  _computeOwnerLink(account) {
-    if (!account) { return; }
+  @property({type: String})
+  voteableText?: string;
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Object})
+  change?: ChangeInfo;
+
+  @property({type: Boolean})
+  forceAttention = false;
+
+  @property({type: Boolean})
+  highlightAttention = false;
+
+  @property({type: Boolean})
+  hideAvatar = false;
+
+  @property({type: Boolean})
+  hideStatus = false;
+
+  @property({type: Boolean})
+  firstName = false;
+
+  _computeOwnerLink(account?: AccountInfo) {
+    if (!account) {
+      return;
+    }
     return GerritNav.getUrlForOwner(
-        account.email || account.username || account.name ||
-        account._account_id);
+      account.email ||
+        account.username ||
+        account.name ||
+        `${account._account_id}`
+    );
   }
 }
 
-customElements.define(GrAccountLink.is, GrAccountLink);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-account-link': GrAccountLink;
+  }
+}

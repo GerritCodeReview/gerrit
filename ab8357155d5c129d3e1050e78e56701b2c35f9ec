@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "b42fe1af_7602c804",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-03T14:44:43Z",
+      "side": 1,
+      "message": "The commit message reads much nicer now, thanks Gal!",
+      "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aee427d_ecb5e787",
         "filename": "java/com/google/gerrit/server/update/AsyncPostUpdateOp.java",
         "patchSetId": 10

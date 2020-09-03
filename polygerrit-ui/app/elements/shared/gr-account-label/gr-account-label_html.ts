@@ -108,7 +108,7 @@ export const htmlTemplate = html`
         on-click="_handleRemoveAttentionClick"
         disabled="[[!_hasUnforcedAttention(_config, highlightAttention, account, change)]]"
         has-tooltip="[[_hasUnforcedAttention(_config, highlightAttention, account, change)]]"
-        title="[[_computeAttentionIconTtitle(_config, highlightAttention, account, change)]]"
+        title="[[_computeAttentionIconTitle(_config, highlightAttention, account, change)]]"
         ><iron-icon class="attention" icon="gr-icons:attention"></iron-icon>
       </gr-button>
     </template>

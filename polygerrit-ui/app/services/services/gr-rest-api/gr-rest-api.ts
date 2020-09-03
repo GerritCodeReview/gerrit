@@ -73,6 +73,7 @@ import {
   ProjectWatchInfo,
   NameToProjectInfoMap,
   ProjectInput,
+  AccountId,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -568,4 +569,20 @@ export interface RestApiService {
   invalidateGroupsCache(): void;
   invalidateReposCache(): void;
   invalidateAccountsCache(): void;
+  removeFromAttentionSet(
+    changeNum: ChangeNum,
+    user: AccountId,
+    reason: string
+  ): Promise<Response>;
+  addToAttentionSet(
+    changeNum: ChangeNum,
+    user: AccountId | undefined | null,
+    reason: string
+  ): Promise<Response>;
+  setAccountDisplayName(
+    displayName: string,
+    errFn?: ErrorCallback
+  ): Promise<void>;
+  setAccountStatus(status: string, errFn?: ErrorCallback): Promise<void>;
+  getAvatarChangeUrl(): Promise<string | undefined>;
 }

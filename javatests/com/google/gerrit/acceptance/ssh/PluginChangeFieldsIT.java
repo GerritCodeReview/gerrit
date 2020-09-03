@@ -23,6 +23,7 @@ import com.google.gerrit.acceptance.AbstractPluginFieldsTest;
 import com.google.gerrit.acceptance.UseSsh;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.server.query.change.OutputStreamQuery;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -52,10 +53,53 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void querySingleChangeWithBulkAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromList(adminSshSession.exec(changeQueryCmd(id))));
+  }
+
+  @Test
   public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
         (id, opts) -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
+  }
+
+  @Test
+  public void queryPluginDefinedAttributeChangeWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfosFromList(adminSshSession.exec(changeQueryCmd(id))),
+        (id, opts) -> pluginInfosFromList(adminSshSession.exec(changeQueryCmd(id, opts))));
+  }
+
+  @Test
+  public void queryMultipleChangesWithPluginDefinedAttribute() throws Exception {
+    getMultipleChangesWithPluginDefinedAttribute(
+        () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
+  }
+
+  @Test
+  public void queryEvenChangesWithPluginDefinedAttribute() throws Exception {
+    getEvenChangesWithPluginDefinedAttribute(
+        () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedAndChangeAttributes() throws Exception {
+    getMultipleChangesWithPluginDefinedAndChangeAttributes(
+        () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedAttributeInSingleCall() throws Exception {
+    getMultipleChangesWithPluginDefinedAttributeInSingleCall(
+        () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
+  }
+
+  @Test
+  public void getChangeWithPluginDefinedException() throws Exception {
+    getChangeWithPluginDefinedException(
+        id -> pluginInfosFromList(adminSshSession.exec(changeQueryCmd(id))));
   }
 
   private String changeQueryCmd(Change.Id id) {
@@ -72,7 +116,22 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Nullable
-  private static List<MyInfo> pluginInfoFromSingletonList(String sshOutput) throws Exception {
+  private static List<PluginDefinedInfo> pluginInfoFromSingletonList(String sshOutput)
+      throws Exception {
+    List<Map<String, Object>> changeAttrs = getChangeAttrs(sshOutput);
+
+    assertThat(changeAttrs).hasSize(1);
+    return decodeRawPluginsList(GSON, changeAttrs.get(0).get("plugins"));
+  }
+
+  @Nullable
+  private static Map<Change.Id, List<PluginDefinedInfo>> pluginInfosFromList(String sshOutput)
+      throws Exception {
+    List<Map<String, Object>> changeAttrs = getChangeAttrs(sshOutput);
+    return getPluginInfosFromChangeInfos(GSON, changeAttrs);
+  }
+
+  private static List<Map<String, Object>> getChangeAttrs(String sshOutput) throws Exception {
     List<Map<String, Object>> changeAttrs = new ArrayList<>();
     for (String line : CharStreams.readLines(new StringReader(sshOutput))) {
       Map<String, Object> changeAttr =
@@ -81,8 +140,6 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
         changeAttrs.add(changeAttr);
       }
     }
-
-    assertThat(changeAttrs).hasSize(1);
-    return decodeRawPluginsList(GSON, changeAttrs.get(0).get("plugins"));
+    return changeAttrs;
   }
 }

@@ -16,6 +16,148 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "94a248b3_191ed4a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Nice feature. Was this requested by someone?",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "395c4207_68c87750",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "I have tried this out locally and I have substantial problems with the search bar often losing focus when typing.\n\nFor example if you have files starting with \"polygerrit-ui/...\" in the list and you play around with typing \u0027p\u0027s and backspace, then you can easily trigger the problem.",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ff85db8_907c195c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Nit: If items change from defined to undefined, then you also want to clear the displayedItems, I think.\n\nYou can use (items ?? []) in the line below.",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dffd96f9_3ba0fb33",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Maybe change that to:\n\n  padding: var(--spacing-m) var(--spacing-l);",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1768f2c_4fe08a18",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Same horizontal padding as paper-item. Vertical padding can stay smaller. Currently this `input` css rules from shared styles applies:\n\n  padding: var(--spacing-s);\n\nMaybe change to:\n\n  padding: var(--spacing-s) var(--spacing-l);",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed945b36_62d8b992",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Always showing this even for \u003c10 files is too much IMO. What about introducing a threshold number property for showing the filter instead of a boolean?\n\nMaybe 20 is a good threshold for the file list on the diff page?",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc4bd0af_fb66f034",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Nit: The 3 attributes \"is, bind-value, on-click\" are Polymer 1 legacy. They don\u0027t do any harm, but you can also remove them.\n\nOTOH type is not a valid property of \u003ciron-input\u003e. It should be moved to \u003cinput\u003e.",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37153a37_cb6433a1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:07:03Z",
+      "side": 1,
+      "message": "Maybe \"Filter\" instead?\n\n\"files\" might not be correct, if this is used somewhere else for dropdowns.",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

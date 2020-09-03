@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "12664585_538d84af",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:25:35Z",
+      "side": 1,
+      "message": "This is a bug. You want to return a string here instead of an array, I think.\n\nBut anyway, please remove the _computeChangeContainerClass() method altogether. It always returns \u0027changeContainer\u0027, so you can just use that static class name in the template.",
+      "revId": "951beac8ca369254c4f3103234705f350430d687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b28725f6_5f851d85",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:25:35Z",
+      "side": 1,
+      "message": "I would prefer this to be placed next to the \"overflow: hidden\" in the gr-change-view html template.",
+      "revId": "951beac8ca369254c4f3103234705f350430d687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1047ea92_67f5d16e",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list_html.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:25:35Z",
+      "side": 1,
+      "message": "Width does not make sense for spans, even less so for absolutely positioned ones. Maybe you can just drop this?",
+      "revId": "951beac8ca369254c4f3103234705f350430d687",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -26,4 +26,6 @@ public class RevertInput {
   public Map<RecipientType, NotifyInfo> notifyDetails;
 
   public String topic;
+
+  public boolean workInProgress;
 }

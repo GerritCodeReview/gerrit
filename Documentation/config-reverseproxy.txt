@@ -21,6 +21,13 @@ during 'init'.
   	listenUrl = proxy-http://127.0.0.1:8081/r/
 ----
 
+== Reverse proxy and client IPs
+
+When behind a reverse proxy the http_log will log the IP of the reverse proxy
+as client.ip. To log the correct client IP you must provide the
+'X-Forwarded-For' header from the reverse proxy.
+See the nginx configuration example below.
+
 
 == Apache 2 Configuration
 

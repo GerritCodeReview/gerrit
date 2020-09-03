@@ -69,6 +69,7 @@
 . link:cmd-index.html[Command Line Tools]
 . link:config-plugins.html#replication[Replication]
 . link:config-plugins.html[Plugins]
+. link:logs.html[Log Files]
 . link:metrics.html[Metrics]
 . link:config-reverseproxy.html[Reverse Proxy]
 . link:config-auto-site-initialization.html[Automatic Site Initialization on Startup]

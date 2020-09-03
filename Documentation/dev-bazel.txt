@@ -91,12 +91,12 @@ they could be added to ~/.bazelrc resource file:
 
 ```
 $ cat << EOF > ~/.bazelrc
-> build --define=ABSOLUTE_JAVABASE=<path-to-java-13>
-> build --javabase=@bazel_tools//tools/jdk:absolute_javabase
-> build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
-> build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
-> build --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
-> EOF
+build --define=ABSOLUTE_JAVABASE=<path-to-java-13>
+build --javabase=@bazel_tools//tools/jdk:absolute_javabase
+build --host_javabase=@bazel_tools//tools/jdk:absolute_javabase
+build --host_java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
+build --java_toolchain=@bazel_tools//tools/jdk:toolchain_vanilla
+EOF
 ```
 
 Now, invoking Bazel with just `bazel build :release` would include

@@ -35,6 +35,7 @@ const RoutePattern = {
   DASHBOARD: /^\/dashboard\/(.+)$/,
   CUSTOM_DASHBOARD: /^\/dashboard\/?$/,
   PROJECT_DASHBOARD: /^\/p\/(.+)\/\+\/dashboard\/(.+)/,
+  LEGACY_PROJECT_DASHBOARD: /^\/projects\/(.+),dashboards\/(.+)/,
 
   AGREEMENTS: /^\/settings\/agreements\/?/,
   NEW_AGREEMENTS: /^\/settings\/new-agreement\/?/,
@@ -781,6 +782,9 @@ class GrRouter extends mixinBehaviors( [
     this._mapRoute(RoutePattern.PROJECT_DASHBOARD,
         '_handleProjectDashboardRoute');
 
+    this._mapRoute(RoutePattern.LEGACY_PROJECT_DASHBOARD,
+        '_handleLegacyProjectDashboardRoute');
+
     this._mapRoute(RoutePattern.GROUP_INFO, '_handleGroupInfoRoute', true);
 
     this._mapRoute(RoutePattern.GROUP_AUDIT_LOG, '_handleGroupAuditLogRoute',
@@ -1090,6 +1094,10 @@ class GrRouter extends mixinBehaviors( [
       dashboard: decodeURIComponent(data.params[1]),
     });
     this.$.reporting.setRepoName(project);
+  }
+
+  _handleLegacyProjectDashboardRoute(data) {
+    this._redirect('/p/' + data.params[0] + '/+/dashboard/' + data.params[1]);
   }
 
   _handleGroupInfoRoute(data) {

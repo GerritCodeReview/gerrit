@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2b8549d2_41b78c29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-03T08:23:35Z",
+      "side": 1,
+      "message": "Thanks. It\u0027s now much better",
+      "revId": "c6d0c59b8ed3ab6e923c44a23933ad9a0a0934a8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

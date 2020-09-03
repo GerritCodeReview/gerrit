@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "17be91f9_792e79c1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-03T00:00:43Z",
+      "side": 1,
+      "message": "@Kaushik in your test scenario the conversion to NoteDb was very quick. I believe Matthias\u0027 scenario is when the conversion to NoteDb takes a lot more time, because of the fragmentation of the underlying repository and the huge number of loose refs created.\n\n@Matthias can you share the output of the \u0027git-sizer\u0027 of your test repository for the conversion?\n\nAlso another difference could be the underlying filesystem: in my experience the loose refs are very problematic with remotely mounted filesystems, such as NFS. Possibly the scenario that Matthias is optimising is that one, rather than a local SSD.",
+      "parentUuid": "d5aa5db5_136a0ba3",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

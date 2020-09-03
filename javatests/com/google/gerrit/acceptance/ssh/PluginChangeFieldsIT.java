@@ -46,8 +46,20 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void queryChangeWithPluginDefinedNullAttribute() throws Exception {
+    getChangeWithPluginDefinedNullAttribute(
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
+  }
+
+  @Test
   public void queryChangeWithSimpleAttribute() throws Exception {
     getChangeWithSimpleAttribute(
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
+  }
+
+  @Test
+  public void queryChangeWithPluginDefinedSimpleAttribute() throws Exception {
+    getChangeWithPluginDefinedSimpleAttribute(
         id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))));
   }
 
@@ -56,6 +68,19 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
         (id, opts) -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedAttributeQueryChangeWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
+        (id, opts) -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
+  }
+
+  @Test
+  public void queryChangeWithPluginDefinedBulkAttribute() throws Exception {
+    getChangeWithPluginDefinedBulkAttribute(
+        () -> pluginInfosFromList(adminSshSession.exec("gerrit query --format json status:open")));
   }
 
   private String changeQueryCmd(Change.Id id) {
@@ -73,6 +98,19 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
 
   @Nullable
   private static List<MyInfo> pluginInfoFromSingletonList(String sshOutput) throws Exception {
+    List<Map<String, Object>> changeAttrs = getChangeAttrs(sshOutput);
+
+    assertThat(changeAttrs).hasSize(1);
+    return decodeRawPluginsList(GSON, changeAttrs.get(0).get("plugins"));
+  }
+
+  @Nullable
+  private static List<MyInfo> pluginInfosFromList(String sshOutput) throws Exception {
+    List<Map<String, Object>> changeAttrs = getChangeAttrs(sshOutput);
+    return getPluginInfosFromChangeInfos(GSON, changeAttrs);
+  }
+
+  private static List<Map<String, Object>> getChangeAttrs(String sshOutput) throws Exception {
     List<Map<String, Object>> changeAttrs = new ArrayList<>();
     for (String line : CharStreams.readLines(new StringReader(sshOutput))) {
       Map<String, Object> changeAttr =
@@ -81,8 +119,6 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
         changeAttrs.add(changeAttr);
       }
     }
-
-    assertThat(changeAttrs).hasSize(1);
-    return decodeRawPluginsList(GSON, changeAttrs.get(0).get("plugins"));
+    return changeAttrs;
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ea05362_f2ce4a29",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-03T18:19:53Z",
+      "side": 1,
+      "message": "Thanks David (O.) for having contributed to this bazel release.",
+      "revId": "eb767fff4a820d32eec7971af015f0c2044c79e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

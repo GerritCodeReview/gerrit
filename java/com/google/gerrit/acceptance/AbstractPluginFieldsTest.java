@@ -27,8 +27,11 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.commands.Query;
@@ -36,8 +39,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import org.kohsuke.args4j.Option;
 
 public class AbstractPluginFieldsTest extends AbstractDaemonTest {
@@ -83,11 +92,43 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     }
   }
 
+  protected static class PluginDefinedNullAttributeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .toInstance((cds, bp, p) -> null);
+    }
+  }
+
   protected static class SimpleAttributeModule extends AbstractModule {
     @Override
     public void configure() {
       DynamicSet.bind(binder(), ChangeAttributeFactory.class)
           .toInstance((cd, bp, p) -> new MyInfo("change " + cd.getId()));
+    }
+  }
+
+  protected static class PluginDefinedSimpleAttributeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .toInstance(
+              (cds, bp, p) ->
+                  Collections.singletonMap(
+                      cds.get(0).getId(), new MyInfo("change " + cds.get(0).getId())));
+    }
+  }
+
+  protected static class PluginDefinedBulkAttributeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .toInstance(
+              (cds, bp, p) -> {
+                Map<Change.Id, PluginDefinedInfo> out = new HashMap<>();
+                cds.forEach(cd -> out.put(cd.getId(), new MyInfo("change " + cd.getId())));
+                return out;
+              });
     }
   }
 
@@ -111,11 +152,46 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     }
   }
 
+  protected static class PluginDefinedOptionAttributeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class)
+          .to(BulkAttributeFactory.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(Query.class)).to(MyOptions.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(QueryChanges.class)).to(MyOptions.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(GetChange.class)).to(MyOptions.class);
+    }
+  }
+
+  public static class BulkAttributeFactory implements ChangePluginDefinedInfoFactory {
+    protected MyOptions opts;
+
+    @Override
+    public Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+        List<ChangeData> cds, DynamicOptions.BeanProvider beanProvider, String plugin) {
+      if (opts == null) {
+        opts = (MyOptions) beanProvider.getDynamicBean(plugin);
+      }
+      Map out = new HashMap<Change.Id, PluginDefinedInfo>();
+      cds.forEach(cd -> out.put(cd.getId(), new MyInfo("opt " + opts.opt)));
+      return out;
+    }
+  }
+
   protected void getChangeWithNullAttribute(PluginInfoGetter getter) throws Exception {
+    getChangeWithNullAttribute(getter, NullAttributeModule.class);
+  }
+
+  protected void getChangeWithPluginDefinedNullAttribute(PluginInfoGetter getter) throws Exception {
+    getChangeWithNullAttribute(getter, PluginDefinedNullAttributeModule.class);
+  }
+
+  protected void getChangeWithNullAttribute(
+      PluginInfoGetter getter, Class<? extends Module> moduleClass) throws Exception {
     Change.Id id = createChange().getChange().getId();
     assertThat(getter.call(id)).isNull();
 
-    try (AutoCloseable ignored = installPlugin("my-plugin", NullAttributeModule.class)) {
+    try (AutoCloseable ignored = installPlugin("my-plugin", moduleClass)) {
       assertThat(getter.call(id)).isNull();
     }
 
@@ -124,6 +200,11 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
 
   protected void getChangeWithSimpleAttribute(PluginInfoGetter getter) throws Exception {
     getChangeWithSimpleAttribute(getter, SimpleAttributeModule.class);
+  }
+
+  protected void getChangeWithPluginDefinedSimpleAttribute(PluginInfoGetter getter)
+      throws Exception {
+    getChangeWithSimpleAttribute(getter, PluginDefinedSimpleAttributeModule.class);
   }
 
   protected void getChangeWithSimpleAttribute(
@@ -136,6 +217,40 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     }
 
     assertThat(getter.call(id)).isNull();
+  }
+
+  protected void getChangeWithPluginDefinedBulkAttribute(BulkPluginInfoGetter getter)
+      throws Exception {
+    Change.Id id1 = createChange().getChange().getId();
+    Change.Id id2 = createChange().getChange().getId();
+    assertThat(getter.call()).hasSize(0);
+
+    try (AutoCloseable ignored =
+        installPlugin("my-plugin", PluginDefinedBulkAttributeModule.class)) {
+      List<MyInfo> pluginInfos = getter.call();
+      assertThat(pluginInfos).hasSize(2);
+      assertThat(pluginInfos).contains(new MyInfo("my-plugin", "change " + id1));
+      assertThat(pluginInfos).contains(new MyInfo("my-plugin", "change " + id2));
+    }
+
+    assertThat(getter.call()).hasSize(0);
+  }
+
+  protected void getChangeWithPluginDefinedAttributeOption(
+      PluginInfoGetter getterWithoutOptions, PluginInfoGetterWithOptions getterWithOptions)
+      throws Exception {
+    Change.Id id = createChange().getChange().getId();
+    assertThat(getterWithoutOptions.call(id)).isNull();
+
+    try (AutoCloseable ignored =
+        installPlugin("my-plugin", PluginDefinedOptionAttributeModule.class)) {
+      assertThat(getterWithoutOptions.call(id))
+          .containsExactly(new MyInfo("my-plugin", "opt null"));
+      assertThat(getterWithOptions.call(id, ImmutableListMultimap.of("my-plugin--opt", "foo")))
+          .containsExactly(new MyInfo("my-plugin", "opt foo"));
+    }
+
+    assertThat(getterWithoutOptions.call(id)).isNull();
   }
 
   protected void getChangeWithOption(
@@ -157,6 +272,17 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
   protected static List<MyInfo> pluginInfoFromSingletonList(List<ChangeInfo> changeInfos) {
     assertThat(changeInfos).hasSize(1);
     return pluginInfoFromChangeInfo(changeInfos.get(0));
+  }
+
+  protected static List<MyInfo> pluginInfosFromChangeInfos(List<ChangeInfo> changeInfos) {
+    Set<MyInfo> out = new HashSet<>();
+    changeInfos.forEach(
+        ci -> {
+          if (ci.plugins != null) {
+            out.addAll(ci.plugins.stream().map(MyInfo.class::cast).collect(toImmutableList()));
+          }
+        });
+    return new ArrayList<MyInfo>(out);
   }
 
   protected static List<MyInfo> pluginInfoFromChangeInfo(ChangeInfo changeInfo) {
@@ -188,9 +314,27 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     return gson.fromJson(gson.toJson(plugins), new TypeToken<List<MyInfo>>() {}.getType());
   }
 
+  protected static List<MyInfo> getPluginInfosFromChangeInfos(
+      Gson gson, List<Map<String, Object>> changeInfos) {
+    List<MyInfo> out = new ArrayList<>();
+    changeInfos.forEach(
+        change -> {
+          Object pluginInfo = change.get("plugins");
+          if (pluginInfo != null) {
+            out.add(decodeRawPluginsList(gson, pluginInfo).get(0));
+          }
+        });
+    return out;
+  }
+
   @FunctionalInterface
   protected interface PluginInfoGetter {
     List<MyInfo> call(Change.Id id) throws Exception;
+  }
+
+  @FunctionalInterface
+  protected interface BulkPluginInfoGetter {
+    List<MyInfo> call() throws Exception;
   }
 
   @FunctionalInterface

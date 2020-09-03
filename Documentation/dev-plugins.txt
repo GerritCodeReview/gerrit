@@ -864,8 +864,10 @@ boolean json;
 [[query_attributes]]
 === Change Attributes ===
 
+====ChangePluginDefinedInfoFactory
+
 Plugins can provide additional attributes to be returned from the Get Change and
-Query Change APIs by implementing implementing the `ChangeAttributeFactory`
+Query Change APIs by implementing implementing the `ChangePluginDefinedInfoFactory`
 interface and adding it to the `DynamicSet` in the plugin module's `configure()`
 method. The new attribute(s) will be output under a `plugin` attribute in the
 change output. This can be further controlled by registering a class containing
@@ -921,12 +923,15 @@ public class AttributeFactory implements ChangeAttributeFactory {
   }
 
   @Override
-  public PluginDefinedInfo create(ChangeData c, BeanProvider bp, String plugin) {
+  public Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+      List<ChangeData> cds, BeanProvider bp, String plugin) {
     if (options == null) {
       options = (MyChangeOptions) bp.getDynamicBean(plugin);
     }
+    Map out = new HashMap<Change.Id, PluginDefinedInfo>();
     if (options.all) {
-      return new PluginAttribute(c);
+      cds.forEach(cd -> out.put(cd.getId(), new PluginAttribute(c)));
+      return out;
     }
     return null;
   }
@@ -970,10 +975,25 @@ Output:
 }
 ----
 
+====ChangeAttributeFactory
+
+Alternatively, we also have `ChangeAttributeFactory` which takes in single
+`ChangeData` at a time. `ChangePluginDefinedInfoFactory` should be considered
+over this to handle many changes at once which also decreases the round-trip
+time for queries resulting in performance increase for bulk queries.
+
 Implementors of the `ChangeAttributeFactory` interface should check whether
 they need to contribute to the link:#change-etag-computation[change ETag
 computation] to prevent callers using ETags from potentially seeing outdated
 plugin attributes.
+
+Similarly `ChangePluginDefinedInfoFactory` is introduced to allow list of
+ChangeData for plugins attribute to get bulk data and provide additional
+attributes to be output in a change query result. A common use case is,
+class implementing ChangePluginDefinedInfoFactory will handle many changes
+instead of a single change, for which all have plugin-specific results
+added in the query output. This results in decrease of roundtrip time for
+the queries and increases the performance for bulk queries.
 
 [[simple-configuration]]
 == Simple Configuration in `gerrit.config`

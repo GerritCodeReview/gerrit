@@ -136,7 +136,11 @@ class GrAccountLabel extends GestureEventListeners(
   }
 
   _hasAttention(config, highlight, account, change, force) {
-    if (force) return true;
+    return force || this._hasUnforcedAttention(config, highlight, account,
+        change);
+  }
+
+  _hasUnforcedAttention(config, highlight, account, change) {
     return this._isAttentionSetEnabled(config, highlight, account, change)
         && change.attention_set
         && change.attention_set.hasOwnProperty(account._account_id);
@@ -195,6 +199,12 @@ class GrAccountLabel extends GestureEventListeners(
       targetIsReviewer: reviewerIds.includes(targetId),
       targetIsSelf: targetId === selfId,
     };
+  }
+
+  _computeAttentionIconTtitle(config, highlight, account, change) {
+    return this._hasUnforcedAttention(config, highlight, account, change)
+      ? 'Click to remove the user from the attention set'
+      : 'Disabled. Use "Modify" to make changes.';
   }
 }
 

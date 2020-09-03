@@ -455,6 +455,10 @@ class GrChangeMetadata extends GestureEventListeners(
     return this._getNonOwnerRole(change, role) ? '' : 'hideDisplay';
   }
 
+  _computeShowUpdated(change) {
+    return change.submitted ? 'hideDisplay' : '';
+  }
+
   /**
    * Get the user with the specified role on the change. Returns null if the
    * user with that role is the same as the owner.

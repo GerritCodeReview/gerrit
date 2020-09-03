@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "007efe21_e5ee3b1e",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 72,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:39:45Z",
+      "side": 1,
+      "message": "We will need this a third time for reply-dialog. Can you move to types/ dir?",
+      "revId": "b22c9fda7f801a09ee0cd56e19ac5c0d1e181f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8f280ca_b654a162",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 444,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:39:45Z",
+      "side": 1,
+      "message": "Nit You could use optional chaining:\n\n  account?._account_id",
+      "range": {
+        "startLine": 444,
+        "startChar": 16,
+        "endLine": 444,
+        "endChar": 47
+      },
+      "revId": "b22c9fda7f801a09ee0cd56e19ac5c0d1e181f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f4f9f31_235a64aa",
+        "filename": "polygerrit-ui/app/elements/shared/gr-alert/gr-alert.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-03T08:39:45Z",
+      "side": 1,
+      "message": "That is a circular dependency. Move the Type to type/ dir.",
+      "revId": "b22c9fda7f801a09ee0cd56e19ac5c0d1e181f1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

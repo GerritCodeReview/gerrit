@@ -39,6 +39,7 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.base.Joiner;
 import com.google.common.base.MoreObjects;
 import com.google.common.base.Throwables;
+import com.google.common.collect.ImmutableListMultimap;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ListMultimap;
@@ -67,6 +68,7 @@ import com.google.gerrit.extensions.common.AttentionSetInfo;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.ChangeMessageInfo;
 import com.google.gerrit.extensions.common.LabelInfo;
+import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ReviewerUpdateInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
@@ -107,6 +109,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -156,13 +159,17 @@ public class ChangeJson {
     }
 
     public ChangeJson create(Iterable<ListChangesOption> options) {
-      return factory.create(options, Optional.empty());
+      return factory.create(options, Optional.empty(), Optional.empty());
     }
 
     public ChangeJson create(
         Iterable<ListChangesOption> options,
-        PluginDefinedAttributesFactory pluginDefinedAttributesFactory) {
-      return factory.create(options, Optional.of(pluginDefinedAttributesFactory));
+        PluginDefinedAttributesFactory pluginDefinedAttributesFactory,
+        PluginDefinedInfosFactory pluginDefinedInfosFactory) {
+      return factory.create(
+          options,
+          Optional.of(pluginDefinedAttributesFactory),
+          Optional.of(pluginDefinedInfosFactory));
     }
 
     public ChangeJson create(ListChangesOption first, ListChangesOption... rest) {
@@ -173,7 +180,8 @@ public class ChangeJson {
   public interface AssistedFactory {
     ChangeJson create(
         Iterable<ListChangesOption> options,
-        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory);
+        Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory,
+        Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory);
   }
 
   @Singleton
@@ -220,11 +228,13 @@ public class ChangeJson {
   private final Metrics metrics;
   private final RevisionJson revisionJson;
   private final Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory;
+  private final Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory;
   private final boolean includeMergeable;
   private final boolean lazyLoad;
 
   private AccountLoader accountLoader;
   private FixInput fix;
+  private ImmutableListMultimap<Change.Id, PluginDefinedInfo> pdisByChange;
 
   @Inject
   ChangeJson(
@@ -243,7 +253,8 @@ public class ChangeJson {
       RevisionJson.Factory revisionJsonFactory,
       @GerritServerConfig Config cfg,
       @Assisted Iterable<ListChangesOption> options,
-      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory) {
+      @Assisted Optional<PluginDefinedAttributesFactory> pluginDefinedAttributesFactory,
+      @Assisted Optional<PluginDefinedInfosFactory> pluginDefinedInfosFactory) {
     this.userProvider = user;
     this.changeDataFactory = cdf;
     this.permissionBackend = permissionBackend;
@@ -261,6 +272,7 @@ public class ChangeJson {
     this.includeMergeable = MergeabilityComputationBehavior.fromConfig(cfg).includeInApi();
     this.lazyLoad = containsAnyOf(this.options, REQUIRE_LAZY_LOAD);
     this.pluginDefinedAttributesFactory = pluginDefinedAttributesFactory;
+    this.pluginDefinedInfosFactory = pluginDefinedInfosFactory;
 
     logger.atFine().log("options = %s", options);
   }
@@ -362,6 +374,10 @@ public class ChangeJson {
     try {
       if (fillAccountLoader) {
         accountLoader = accountLoaderFactory.create(has(DETAILED_ACCOUNTS));
+        if (pluginDefinedInfosFactory.isPresent() && pdisByChange == null) {
+          pdisByChange =
+              pluginDefinedInfosFactory.get().createPluginDefinedInfos(Arrays.asList(cd));
+        }
         ChangeInfo res = toChangeInfo(cd, limitToPsId);
         accountLoader.fill();
         return res;
@@ -407,6 +423,9 @@ public class ChangeJson {
       List<ChangeData> changes, Map<Change.Id, ChangeInfo> cache) {
     try (Timer0.Context ignored = metrics.toChangeInfosLatency.start()) {
       List<ChangeInfo> changeInfos = new ArrayList<>(changes.size());
+      if (pluginDefinedInfosFactory.isPresent()) {
+        pdisByChange = pluginDefinedInfosFactory.get().createPluginDefinedInfos(changes);
+      }
       for (int i = 0; i < changes.size(); i++) {
         // We can only cache and re-use an entity if it's not the last in the list. The last entity
         // may later get _moreChanges set. If it was cached or re-used, that setting would propagate
@@ -588,6 +607,16 @@ public class ChangeJson {
     setSubmitter(cd, out);
     if (pluginDefinedAttributesFactory.isPresent()) {
       out.plugins = pluginDefinedAttributesFactory.get().create(cd);
+    }
+    if (pdisByChange != null) {
+      List<PluginDefinedInfo> pluginInfos = pdisByChange.get(cd.getId());
+      if (pluginInfos.size() > 0) {
+        if (out.plugins == null) {
+          out.plugins = pluginInfos;
+        } else {
+          out.plugins.addAll(pluginInfos);
+        }
+      }
     }
     out.revertOf = cd.change().getRevertOf() != null ? cd.change().getRevertOf().get() : null;
     out.submissionId = cd.change().getSubmissionId();

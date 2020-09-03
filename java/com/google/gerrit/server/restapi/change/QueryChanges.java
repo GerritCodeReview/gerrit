@@ -165,7 +165,9 @@ public class QueryChanges implements RestReadView<TopLevelResource>, DynamicOpti
     int cnt = queries.size();
     List<QueryResult<ChangeData>> results = queryProcessor.query(qb.parse(queries));
     List<List<ChangeInfo>> res =
-        json.create(options, queryProcessor.getAttributesFactory()).format(results);
+        json.create(
+                options, queryProcessor.getAttributesFactory(), queryProcessor.getInfosFactory())
+            .format(results);
     for (int n = 0; n < cnt; n++) {
       List<ChangeInfo> info = res.get(n);
       if (results.get(n).more() && !info.isEmpty()) {

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "aeb5aeee_1f8cab6f",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-03T08:08:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dc3c6110_49f9226b",
+      "revId": "eda5c3357fbb4bd01f04eb04a2b1fbf3be917265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3aef6ed5_adc58287",
         "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.ts",
         "patchSetId": 1
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "f13156f1_55195490",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-plugin-host/gr-plugin-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-03T08:08:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3aef6ed5_adc58287",
+      "range": {
+        "startLine": 54,
+        "startChar": 46,
+        "endLine": 54,
+        "endChar": 60
+      },
+      "revId": "eda5c3357fbb4bd01f04eb04a2b1fbf3be917265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3defc826_5927f113",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 1
@@ -62,6 +104,30 @@
       "revId": "eda5c3357fbb4bd01f04eb04a2b1fbf3be917265",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3738d675_af4329b4",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-03T08:08:07Z",
+      "side": 1,
+      "message": "From server code, it looks like it is always defined:\n\n  private PluginConfigInfo getPluginInfo() {\n    PluginConfigInfo info \u003d new PluginConfigInfo();\n    info.hasAvatars \u003d toBoolean(avatar.hasImplementation());\n    info.jsResourcePaths \u003d new ArrayList\u003c\u003e();\n    info.htmlResourcePaths \u003d new ArrayList\u003c\u003e();",
+      "parentUuid": "3defc826_5927f113",
+      "range": {
+        "startLine": 911,
+        "startChar": 0,
+        "endLine": 912,
+        "endChar": 32
+      },
+      "revId": "eda5c3357fbb4bd01f04eb04a2b1fbf3be917265",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

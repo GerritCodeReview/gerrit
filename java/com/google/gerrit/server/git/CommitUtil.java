@@ -265,6 +265,9 @@ public class CommitUtil {
     RevCommit revertCommit = revWalk.parseCommit(revertCommitId);
     Change changeToRevert = notes.getChange();
     Change.Id changeId = Change.id(seq.nextChangeId());
+    if (input.workInProgress) {
+      input.notify = NotifyHandling.OWNER;
+    }
     NotifyResolver.Result notify =
         notifyResolver.resolve(firstNonNull(input.notify, NotifyHandling.ALL), input.notifyDetails);
 
@@ -284,6 +287,7 @@ public class CommitUtil {
     ccs.remove(user.getAccountId());
     ins.setReviewersAndCcs(reviewers, ccs);
     ins.setRevertOf(notes.getChangeId());
+    ins.setWorkInProgress(input.workInProgress);
 
     try (BatchUpdate bu = updateFactory.create(notes.getProjectName(), user, ts)) {
       bu.setRepository(git, revWalk, oi);

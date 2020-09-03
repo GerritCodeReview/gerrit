@@ -25,6 +25,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.json.OutputFormat;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import org.junit.Test;
@@ -68,6 +69,24 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void querySingleChangeWithBulkAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromChangeInfos(adminRestSession.get(changeQueryUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeWithSimpleAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfoMapFromChangeInfo(adminRestSession.get(changeUrl(id))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeDetailWithSimpleAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfoMapFromChangeInfo(adminRestSession.get(changeDetailUrl(id))));
+  }
+
+  @Test
   public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(adminRestSession.get(changeQueryUrl(id))),
@@ -86,6 +105,51 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     getChangeWithOption(
         id -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id))),
         (id, opts) -> pluginInfoFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedQueryChangeWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfosFromChangeInfos(adminRestSession.get(changeQueryUrl(id))),
+        (id, opts) -> pluginInfosFromChangeInfos(adminRestSession.get(changeQueryUrl(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfoMapFromChangeInfo(adminRestSession.get(changeUrl(id))),
+        (id, opts) -> pluginInfoMapFromChangeInfo(adminRestSession.get(changeUrl(id, opts))));
+  }
+
+  @Test
+  public void pluginDefinedGetChangeDetailWithOption() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfoMapFromChangeInfo(adminRestSession.get(changeDetailUrl(id))),
+        (id, opts) -> pluginInfoMapFromChangeInfo(adminRestSession.get(changeDetailUrl(id, opts))));
+  }
+
+  @Test
+  public void queryMultipleChangesWithPluginDefinedAttribute() throws Exception {
+    getMultipleChangesWithPluginDefinedAttribute(
+        () -> pluginInfosFromChangeInfos(adminRestSession.get("/changes/?q=status:open")));
+  }
+
+  @Test
+  public void queryEvenChangesWithPluginDefinedAttribute() throws Exception {
+    getEvenChangesWithPluginDefinedAttribute(
+        () -> pluginInfosFromChangeInfos(adminRestSession.get("/changes/?q=status:open")));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedAndChangeAttributes() throws Exception {
+    getMultipleChangesWithPluginDefinedAndChangeAttributes(
+        () -> pluginInfosFromChangeInfos(adminRestSession.get("/changes/?q=status:open")));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedAttributeInSingleCall() throws Exception {
+    getMultipleChangesWithPluginDefinedAttributeInSingleCall(
+        () -> pluginInfosFromChangeInfos(adminRestSession.get("/changes/?q=status:open")));
   }
 
   private String changeQueryUrl(Change.Id id) {
@@ -147,5 +211,23 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     Map<String, Object> changeInfo =
         GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
     return decodeRawPluginsList(GSON, changeInfo.get("plugins"));
+  }
+
+  @Nullable
+  private Map<Change.Id, List<MyInfo>> pluginInfoMapFromChangeInfo(RestResponse res)
+      throws Exception {
+    res.assertOK();
+    Map<String, Object> changeInfo =
+        GSON.fromJson(res.getReader(), new TypeToken<Map<String, Object>>() {}.getType());
+    return getPluginInfosFromChangeInfos(GSON, Arrays.asList(changeInfo));
+  }
+
+  @Nullable
+  private Map<Change.Id, List<MyInfo>> pluginInfosFromChangeInfos(RestResponse res)
+      throws Exception {
+    res.assertOK();
+    List<Map<String, Object>> changeInfos =
+        GSON.fromJson(res.getReader(), new TypeToken<List<Map<String, Object>>>() {}.getType());
+    return getPluginInfosFromChangeInfos(GSON, changeInfos);
   }
 }

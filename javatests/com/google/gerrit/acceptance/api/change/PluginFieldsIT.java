@@ -19,6 +19,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
 import com.google.inject.AbstractModule;
+import java.util.Arrays;
 import org.junit.Test;
 
 @NoHttpd
@@ -50,6 +51,18 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void querySingleChangeWithBulkAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromChangeInfos(gApi.changes().query(id.toString()).get()));
+  }
+
+  @Test
+  public void getSingleChangeWithBulkAttribute() throws Exception {
+    getSingleChangeWithPluginDefinedBulkAttribute(
+        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.toString()).get())));
+  }
+
+  @Test
   public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(gApi.changes().query(id.toString()).get()),
@@ -63,6 +76,47 @@ public class PluginFieldsIT extends AbstractPluginFieldsTest {
     getChangeWithOption(
         id -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get()),
         (id, opts) -> pluginInfoFromChangeInfo(gApi.changes().id(id.get()).get(opts)));
+  }
+
+  @Test
+  public void queryChangeWithOptionBulkAttribute() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfosFromChangeInfos(gApi.changes().query(id.toString()).get()),
+        (id, opts) ->
+            pluginInfosFromChangeInfos(
+                gApi.changes().query(id.toString()).withPluginOptions(opts).get()));
+  }
+
+  @Test
+  public void getChangeWithOptionBulkAttribute() throws Exception {
+    getChangeWithPluginDefinedAttributeOption(
+        id -> pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get())),
+        (id, opts) ->
+            pluginInfosFromChangeInfos(Arrays.asList(gApi.changes().id(id.get()).get(opts))));
+  }
+
+  @Test
+  public void queryMultipleChangesWithPluginDefinedAttribute() throws Exception {
+    getMultipleChangesWithPluginDefinedAttribute(
+        () -> pluginInfosFromChangeInfos(gApi.changes().query("status:open").get()));
+  }
+
+  @Test
+  public void queryEvenChangesWithPluginDefinedAttribute() throws Exception {
+    getEvenChangesWithPluginDefinedAttribute(
+        () -> pluginInfosFromChangeInfos(gApi.changes().query("status:open").get()));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedAndChangeAttributes() throws Exception {
+    getMultipleChangesWithPluginDefinedAndChangeAttributes(
+        () -> pluginInfosFromChangeInfos(gApi.changes().query("status:open").get()));
+  }
+
+  @Test
+  public void getMultipleChangesWithPluginDefinedAttributeInSingleCall() throws Exception {
+    getMultipleChangesWithPluginDefinedAttributeInSingleCall(
+        () -> pluginInfosFromChangeInfos(gApi.changes().query("status:open").get()));
   }
 
   static class SimpleAttributeWithExplicitExportModule extends AbstractModule {

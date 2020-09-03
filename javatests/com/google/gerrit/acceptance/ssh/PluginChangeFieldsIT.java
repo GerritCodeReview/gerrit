@@ -52,6 +52,13 @@ public class PluginChangeFieldsIT extends AbstractPluginFieldsTest {
   }
 
   @Test
+  public void queryChangeWithPluginDefinedAttribute() throws Exception {
+    getChangeWithPluginDefinedAttribute(
+        id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),
+        (id, opts) -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id, opts))));
+  }
+
+  @Test
   public void queryChangeWithOption() throws Exception {
     getChangeWithOption(
         id -> pluginInfoFromSingletonList(adminSshSession.exec(changeQueryCmd(id))),

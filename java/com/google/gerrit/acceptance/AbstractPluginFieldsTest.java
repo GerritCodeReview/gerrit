@@ -27,8 +27,11 @@ import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
+import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
+import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.restapi.change.GetChange;
 import com.google.gerrit.server.restapi.change.QueryChanges;
 import com.google.gerrit.sshd.commands.Query;
@@ -36,7 +39,9 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.google.inject.AbstractModule;
 import com.google.inject.Module;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import org.kohsuke.args4j.Option;
 
@@ -111,6 +116,31 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     }
   }
 
+  protected static class PluginDefinedOptionAttributeModule extends AbstractModule {
+    @Override
+    public void configure() {
+      DynamicSet.bind(binder(), ChangePluginDefinedInfoFactory.class).to(AttributeFactory.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(Query.class)).to(MyOptions.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(QueryChanges.class)).to(MyOptions.class);
+      bind(DynamicBean.class).annotatedWith(Exports.named(GetChange.class)).to(MyOptions.class);
+    }
+  }
+
+  public static class AttributeFactory implements ChangePluginDefinedInfoFactory {
+    protected MyOptions opts;
+
+    @Override
+    public Map<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+        List<ChangeData> cds, DynamicOptions.BeanProvider beanProvider, String plugin) {
+      if (opts == null) {
+        opts = (MyOptions) beanProvider.getDynamicBean(plugin);
+      }
+      Map out = new HashMap<Change.Id, PluginDefinedInfo>();
+      cds.forEach(cd -> out.put(cd.getId(), new MyInfo("opt " + opts.opt)));
+      return out;
+    }
+  }
+
   protected void getChangeWithNullAttribute(PluginInfoGetter getter) throws Exception {
     Change.Id id = createChange().getChange().getId();
     assertThat(getter.call(id)).isNull();
@@ -136,6 +166,23 @@ public class AbstractPluginFieldsTest extends AbstractDaemonTest {
     }
 
     assertThat(getter.call(id)).isNull();
+  }
+
+  protected void getChangeWithPluginDefinedAttribute(
+      PluginInfoGetter getterWithoutOptions, PluginInfoGetterWithOptions getterWithOptions)
+      throws Exception {
+    Change.Id id = createChange().getChange().getId();
+    assertThat(getterWithoutOptions.call(id)).isNull();
+
+    try (AutoCloseable ignored =
+        installPlugin("my-plugin", PluginDefinedOptionAttributeModule.class)) {
+      assertThat(getterWithoutOptions.call(id))
+          .containsExactly(new MyInfo("my-plugin", "opt null"));
+      assertThat(getterWithOptions.call(id, ImmutableListMultimap.of("my-plugin--opt", "foo")))
+          .containsExactly(new MyInfo("my-plugin", "opt foo"));
+    }
+
+    assertThat(getterWithoutOptions.call(id)).isNull();
   }
 
   protected void getChangeWithOption(

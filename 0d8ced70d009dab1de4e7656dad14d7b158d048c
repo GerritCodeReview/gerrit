@@ -217,6 +217,24 @@
     },
     {
       "key": {
+        "uuid": "70a26661_2f719a4b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T09:50:39Z",
+      "side": 1,
+      "message": "Thanks, @Matthias, for the clarification.\n\nDo the numbers tell that this auto-pack during conversion should be configurable?\nIt would slowdown small repos conversion but would massive speedup the largest ones.",
+      "parentUuid": "4712158e_ae3519af",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

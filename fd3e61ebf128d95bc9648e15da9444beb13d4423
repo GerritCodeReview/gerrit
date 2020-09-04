@@ -1,0 +1,348 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "79fe252d_06fa6381",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "nit: Looks like maybe these lines are longer than they should be?",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6155b196_e4bc1615",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "This is effectively adding a new plugin extension, so adding a broad set of reviewers in case any have feedback. Feel free to remove yourself from the change if you\u0027re not interested.",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "78883ac1_cfead9c9",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "space after \u003d ?",
+      "range": {
+        "startLine": 867,
+        "startChar": 3,
+        "endLine": 867,
+        "endChar": 5
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b1bec86_cdd15a16",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "Should be ChangePluginDefinedInfoFactory?",
+      "range": {
+        "startLine": 887,
+        "startChar": 30,
+        "endLine": 887,
+        "endChar": 52
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f6c1fd0_8fddebb8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "ChangePluginDefinedInfoFactory?",
+      "range": {
+        "startLine": 912,
+        "startChar": 41,
+        "endLine": 912,
+        "endChar": 63
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8667daae_0352a757",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "Map\u003cChange.Id, PluginDefinedInfo\u003e out \u003d new HashMap\u003c\u003e();",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ea0587f4_b6fb1b16",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "space after \u003d",
+      "range": {
+        "startLine": 978,
+        "startChar": 3,
+        "endLine": 978,
+        "endChar": 5
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bafd2194_f9e8c98b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "s/considered/preferred/",
+      "range": {
+        "startLine": 981,
+        "startChar": 67,
+        "endLine": 981,
+        "endChar": 77
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f2fd53c_6862a120",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "s/to handle/as it handles/",
+      "range": {
+        "startLine": 982,
+        "startChar": 10,
+        "endLine": 982,
+        "endChar": 19
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "104be148_35280865",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "Copy the old ChangeAttributeFactory example into here now?",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b1bc697_d7cf18eb",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "Does this apply to ChangePluginDefinedInfoFactory too?",
+      "range": {
+        "startLine": 985,
+        "startChar": 0,
+        "endLine": 988,
+        "endChar": 18
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f1217bd_81c363fc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "Remove this now? Or is there some info here you think should move into the ChangePluginDefinedInfoFactory section above?",
+      "range": {
+        "startLine": 990,
+        "startChar": 0,
+        "endLine": 996,
+        "endChar": 59
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d5b7b2e2_9cb12fd7",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "make copies of these that use ChangePluginDefinedInfoFactory? We want to ensure ChangePluginDefinedInfoFactory has at least as much coverage as ChangeAttributeFactory.",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4978e348_51569dc5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "Are all these bindings being tested?",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 96
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1594e13a_7b85a9fd",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "BulkAttributeFactory?",
+      "range": {
+        "startLine": 129,
+        "startChar": 22,
+        "endLine": 129,
+        "endChar": 38
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e93ebc9f_8439f463",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T19:10:29Z",
+      "side": 1,
+      "message": "2020",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

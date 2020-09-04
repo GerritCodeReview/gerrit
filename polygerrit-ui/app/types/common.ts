@@ -210,7 +210,10 @@ export interface ChangeInfo {
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValueMap;
   removable_reviewers?: AccountInfo[];
-  reviewers?: AccountInfo[];
+  reviewers?: {
+    REVIEWER?: AccountInfo[];
+    CC?: AccountInfo[];
+  };
   pending_reviewers?: AccountInfo[];
   reviewer_updates?: ReviewerUpdateInfo[];
   messages?: ChangeMessageInfo[];

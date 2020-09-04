@@ -27,7 +27,6 @@ export const htmlTemplate = html`
     project-name="[[projectName]]"
     display-line="[[displayLine]]"
     is-image-diff="[[isImageDiff]]"
-    commit-range="[[commitRange]]"
     hidden$="[[hidden]]"
     no-render-on-prefs-change="[[noRenderOnPrefsChange]]"
     line-wrapping="[[lineWrapping]]"

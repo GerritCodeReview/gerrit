@@ -112,7 +112,8 @@ export class GrDiffHighlight extends GestureEventListeners(
    * because isMouseUp === true combined with an existing selection must
    * mean that this is the end of a double-click.
    */
-  handleSelectionChange(selection: Selection, isMouseUp: boolean) {
+  handleSelectionChange(selection: Selection | null, isMouseUp: boolean) {
+    if (selection === null) return;
     // Debounce is not just nice for waiting until the selection has settled,
     // it is also vital for being able to click on the action box before it is
     // removed.

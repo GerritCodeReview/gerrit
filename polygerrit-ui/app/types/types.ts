@@ -17,6 +17,7 @@
 import {Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
+import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -65,7 +66,17 @@ export enum ErrorType {
  */
 export interface PolymerDomWrapper {
   getOwnerRoot(): Node & OwnerRoot;
+  getEffectiveChildNodes(): Node[];
+  observeNodes(
+    callback: (p0: {
+      target: HTMLElement;
+      addedNodes: Element[];
+      removedNodes: Element[];
+    }) => void
+  ): FlattenedNodesObserver;
+  unobserveNodes(observerHandle: FlattenedNodesObserver): void;
 }
+
 export interface OwnerRoot {
   host?: HTMLElement;
 }

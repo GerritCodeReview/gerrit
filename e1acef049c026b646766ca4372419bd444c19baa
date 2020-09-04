@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "35dce4e7_5aae9ef3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-04T22:19:45Z",
+      "side": 1,
+      "message": "when this change was submitted we should create the stable-3.2 branch\nfor the delete-project plugin on the commit e952b920ec",
+      "revId": "e1acef049c026b646766ca4372419bd444c19baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

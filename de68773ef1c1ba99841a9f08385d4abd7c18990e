@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0cbc535b_cf953bad",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-04T19:34:47Z",
+      "side": 1,
+      "message": "Ping. If harder to fully review, CR+1\u0027s (or otherwise) are as welcome. I may approve if getting enough +1\u0027s. The base change is also still open for reviews. -Thanks.",
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -34,6 +34,41 @@
       "revId": "e1acef049c026b646766ca4372419bd444c19baa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f3b3cd2e_186c096e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T22:38:16Z",
+      "side": 1,
+      "message": "Agreed. One question: does that mean that the Gerrit stable-3.2 branch is currently broken?\n\nThe build includes all core plugins. So if the submodule pointer of reviewnotes is broken, then the stable-3.2 build should fail, correct?",
+      "parentUuid": "e0108fa8_e746ef11",
+      "revId": "e1acef049c026b646766ca4372419bd444c19baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a84ea1c_541ede69",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T22:38:16Z",
+      "side": 1,
+      "message": "Have ",
+      "revId": "e1acef049c026b646766ca4372419bd444c19baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

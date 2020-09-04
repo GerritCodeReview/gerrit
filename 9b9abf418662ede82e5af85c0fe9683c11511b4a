@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9791cd40_c46d3b94",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-04T12:39:45Z",
+      "side": 1,
+      "message": "Given long review times and Ericsson\u0027s need to get this series in, I might have to self-approve if no comments. Thanks.",
+      "revId": "9b9abf418662ede82e5af85c0fe9683c11511b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

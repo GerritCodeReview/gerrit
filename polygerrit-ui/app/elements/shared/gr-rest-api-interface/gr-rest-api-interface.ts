@@ -40,7 +40,6 @@ import {
   getParentIndex,
   isMergeParent,
   patchNumEquals,
-  SPECIAL_PATCH_SET_NUM,
 } from '../../../utils/patch-set-util';
 import {
   ListChangesOption,
@@ -2471,9 +2470,7 @@ export class GrRestApiInterface
     };
     if (isMergeParent(basePatchNum)) {
       params.parent = getParentIndex(basePatchNum);
-    } else if (
-      !patchNumEquals(basePatchNum, SPECIAL_PATCH_SET_NUM.PARENT as PatchSetNum)
-    ) {
+    } else if (!patchNumEquals(basePatchNum, ParentPatchSetNum)) {
       // TODO (TS): fix as PatchSetNum in the condition above
       params.base = basePatchNum;
     }

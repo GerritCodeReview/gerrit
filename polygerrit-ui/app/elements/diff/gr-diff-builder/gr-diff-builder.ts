@@ -621,8 +621,9 @@ export abstract class GrDiffBuilder {
    * Set the blame information for the diff. For any already-rendered line,
    * re-render its blame cell content.
    */
-  setBlame(blame: BlameInfo[]) {
+  setBlame(blame: BlameInfo[] | null) {
     this._blameInfo = blame;
+    if (!blame) return;
 
     // TODO(wyatta): make this loop asynchronous.
     for (const commit of blame) {

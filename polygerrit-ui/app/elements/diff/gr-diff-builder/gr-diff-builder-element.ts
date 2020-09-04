@@ -310,10 +310,10 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     return this.getContentTdByLine(line, side, row);
   }
 
-  getLineElByNumber(lineNumber: string, side?: Side) {
+  getLineElByNumber(lineNumber: string | number, side?: Side) {
     const sideSelector = side ? '.' + side : '';
     return this.diffElement.querySelector(
-      '.lineNum[data-value="' + lineNumber + '"]' + sideSelector
+      `.lineNum[data-value="${lineNumber}"]${sideSelector}`
     );
   }
 
@@ -540,10 +540,8 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     };
   }
 
-  setBlame(blame: BlameInfo[]) {
-    if (!this._builder || !blame) {
-      return;
-    }
+  setBlame(blame: BlameInfo[] | null) {
+    if (!this._builder) return;
     this._builder.setBlame(blame);
   }
 }

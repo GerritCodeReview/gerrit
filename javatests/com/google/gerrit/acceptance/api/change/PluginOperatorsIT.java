@@ -49,10 +49,11 @@ public class PluginOperatorsIT extends AbstractDaemonTest {
     assertThat(getChanges(queryChanges)).hasSize(0);
 
     try (AutoCloseable ignored = installPlugin("myplugin", IsOperatorModule.class)) {
-      List<ChangeInfo> changes = getChanges(queryChanges);
+      List<?> changes = getChanges(queryChanges);
       assertThat(changes).hasSize(1);
 
-      String outputChangeId = changes.get(0).changeId;
+      ChangeInfo c = (ChangeInfo) changes.get(0);
+      String outputChangeId = c.changeId;
       assertThat(outputChangeId).isEqualTo(evenChangeId);
       assertThat(outputChangeId).isNotEqualTo(oddChangeId);
     }
@@ -95,8 +96,8 @@ public class PluginOperatorsIT extends AbstractDaemonTest {
     }
   }
 
-  private List<ChangeInfo> getChanges(QueryChanges queryChanges)
+  private List<?> getChanges(QueryChanges queryChanges)
       throws AuthException, PermissionBackendException, BadRequestException {
-    return (List<ChangeInfo>) queryChanges.apply(TopLevelResource.INSTANCE).value();
+    return queryChanges.apply(TopLevelResource.INSTANCE).value();
   }
 }

@@ -52,7 +52,7 @@ public class PluginOperatorsIT extends AbstractDaemonTest {
       List<ChangeInfo> changes = getChanges(queryChanges);
       assertThat(changes).hasSize(1);
 
-      String outputChangeId = ((ChangeInfo) changes.get(0)).changeId;
+      String outputChangeId = changes.get(0).changeId;
       assertThat(outputChangeId).isEqualTo(evenChangeId);
       assertThat(outputChangeId).isNotEqualTo(oddChangeId);
     }

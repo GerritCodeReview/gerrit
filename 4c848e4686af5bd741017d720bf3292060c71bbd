@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5b8739d_7a7f4465",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-04T21:19:33Z",
+      "side": 1,
+      "message": "Can we use the db pool implementation from the rest of the code instead? I think that would avoid the problem you have a later change to fix.",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

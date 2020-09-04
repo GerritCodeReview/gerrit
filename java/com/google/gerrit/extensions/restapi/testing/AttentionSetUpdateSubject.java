@@ -66,11 +66,11 @@ public class AttentionSetUpdateSubject extends Subject {
   }
 
   /**
-   * Returns a {@link ComparableSubject} for the {@link AttentionSetUpdate.Operation} of attention
-   * set update.
+   * Returns a {@link ComparableSubject} for the {@link
+   * com.google.gerrit.entities.AttentionSetUpdate.Operation} of attention set update.
    *
-   * @return {@link ComparableSubject} for the {@link AttentionSetUpdate.Operation} of attention set
-   *     update
+   * @return {@link ComparableSubject} for the {@link
+   *     com.google.gerrit.entities.AttentionSetUpdate.Operation} of attention set update
    */
   public ComparableSubject<AttentionSetUpdate.Operation> hasOperationThat() {
     return check("operation()").that(attentionSetUpdate().operation());

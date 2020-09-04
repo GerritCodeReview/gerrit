@@ -14,45 +14,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-endpoint-decorator_html.js';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-endpoint-decorator_html';
+import {
+  getPluginEndpoints,
+  ModuleInfo,
+} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {customElement, property} from '@polymer/decorators';
+import {HookApi, PluginApi} from '../gr-plugin-types';
 
 const INIT_PROPERTIES_TIMEOUT_MS = 10000;
 
-/** @extends PolymerElement */
+@customElement('gr-endpoint-decorator')
 class GrEndpointDecorator extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-endpoint-decorator'; }
-
-  static get properties() {
-    return {
-      name: String,
-      /** @type {!Map} */
-      _domHooks: {
-        type: Map,
-        value() { return new Map(); },
-      },
-      /**
-       * This map prevents importing the same endpoint twice.
-       * Without caching, if a plugin is loaded after the loaded plugins
-       * callback fires, it will be imported twice and appear twice on the page.
-       *
-       * @type {!Map}
-       */
-      _initializedPlugins: {
-        type: Map,
-        value() { return new Map(); },
-      },
-    };
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: String})
+  name!: string;
+
+  @property({type: Object})
+  _domHooks = new Map<HTMLElement, HookApi>();
+
+  @property({type: Object})
+  _initializedPlugins = new Map<string, boolean>();
+
+  /**
+   * This is the callback that the plugin endpoint manager should be calling
+   * when a new element is registered for this endpoint. It points to
+   * _initModule().
+   */
+  _endpointCallBack: (info: ModuleInfo) => void = () => {};
 
   /** @override */
   detached() {
@@ -63,76 +62,93 @@ class GrEndpointDecorator extends GestureEventListeners(
     getPluginEndpoints().onDetachedEndpoint(this.name, this._endpointCallBack);
   }
 
-  _initDecoration(name, plugin, slot) {
+  _initDecoration(
+    name: string,
+    plugin: PluginApi,
+    slot?: string
+  ): Promise<HTMLElement> {
     const el = document.createElement(name);
-    return this._initProperties(el, plugin,
-        this.getContentChildren().find(
-            el => el.nodeName !== 'GR-ENDPOINT-PARAM'))
-        .then(el => {
-          const slotEl = slot ?
-            this.querySelector(`gr-endpoint-slot[name=${slot}]`) :
-            null;
-          if (slot && slotEl) {
-            slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
-          } else {
-            this._appendChild(el);
-          }
-          return el;
-        });
+    return this._initProperties(
+      el,
+      plugin,
+      this.getContentChildren().find(el => el.nodeName !== 'GR-ENDPOINT-PARAM')
+    ).then(el => {
+      const slotEl = slot
+        ? this.querySelector(`gr-endpoint-slot[name=${slot}]`)
+        : null;
+      if (slot && slotEl?.parentNode) {
+        slotEl.parentNode.insertBefore(el, slotEl.nextSibling);
+      } else {
+        this._appendChild(el);
+      }
+      return el;
+    });
   }
 
-  _initReplacement(name, plugin) {
+  _initReplacement(name: string, plugin: PluginApi): Promise<HTMLElement> {
     this.getContentChildNodes()
-        .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
-        .forEach(node => node.remove());
+      .filter(node => node.nodeName !== 'GR-ENDPOINT-PARAM')
+      .forEach(node => (node as ChildNode).remove());
     const el = document.createElement(name);
-    return this._initProperties(el, plugin).then(
-        el => this._appendChild(el));
+    return this._initProperties(el, plugin).then((el: HTMLElement) =>
+      this._appendChild(el)
+    );
   }
 
   _getEndpointParams() {
-    return Array.from(
-        this.querySelectorAll('gr-endpoint-param'));
+    return Array.from(this.querySelectorAll('gr-endpoint-param'));
   }
 
-  /**
-   * @param {!Element} el
-   * @param {!Object} plugin
-   * @param {!Element=} opt_content
-   * @return {!Promise<Element>}
-   */
-  _initProperties(el, plugin, opt_content) {
+  _initProperties(
+    htmlEl: HTMLElement,
+    plugin: PluginApi,
+    content?: HTMLElement
+  ) {
+    const el = htmlEl as HTMLElement & {
+      plugin?: PluginApi;
+      content?: HTMLElement;
+    };
     el.plugin = plugin;
-    if (opt_content) {
-      el.content = opt_content;
+    if (content) {
+      el.content = content;
     }
     const expectProperties = this._getEndpointParams().map(paramEl => {
       const helper = plugin.attributeHelper(paramEl);
       const paramName = paramEl.getAttribute('name');
-      return helper.get('value').then(
-          value => helper.bind('value',
-              value => plugin.attributeHelper(el).set(paramName, value))
-      );
+      if (!paramName) throw Error('plugin endpoint parameter missing a name');
+      return helper
+        .get('value')
+        .then(() =>
+          helper.bind('value', value =>
+            plugin.attributeHelper(el).set(paramName, value)
+          )
+        );
     });
-    let timeoutId;
+    // TODO(TS): Should be a number, but TS thinks that is must be some weird
+    // NodeJS.Timeout object.
+    let timeoutId: any;
     const timeout = new Promise(
-        resolve => timeoutId = setTimeout(() => {
+      () =>
+        (timeoutId = setTimeout(() => {
           console.warn(
-              'Timeout waiting for endpoint properties initialization: ' +
-            `plugin ${plugin.getPluginName()}, endpoint ${this.name}`);
-        }, INIT_PROPERTIES_TIMEOUT_MS));
+            'Timeout waiting for endpoint properties initialization: ' +
+              `plugin ${plugin.getPluginName()}, endpoint ${this.name}`
+          );
+        }, INIT_PROPERTIES_TIMEOUT_MS))
+    );
     return Promise.race([timeout, Promise.all(expectProperties)])
-        .then(() => el)
-        .finally(() => {
-          if (timeoutId) clearTimeout(timeoutId);
-        });
+      .then(() => el)
+      .finally(() => {
+        if (timeoutId) clearTimeout(timeoutId);
+      });
   }
 
-  _appendChild(el) {
+  _appendChild(el: HTMLElement): HTMLElement {
+    if (!this.root) throw Error('plugin endpoint decorator missing root');
     return this.root.appendChild(el);
   }
 
-  _initModule({moduleName, plugin, type, domHook, slot}) {
+  _initModule({moduleName, plugin, type, domHook, slot}: ModuleInfo) {
     const name = plugin.getPluginName() + '.' + moduleName;
     if (this._initializedPlugins.get(name)) {
       return;
@@ -147,30 +163,37 @@ class GrEndpointDecorator extends GestureEventListeners(
         break;
     }
     if (!initPromise) {
-      console.warn('Unable to initialize module ' + name);
+      throw Error(`unknown endpoint type ${type} used by plugin ${name}`);
     }
     this._initializedPlugins.set(name, true);
     initPromise.then(el => {
-      domHook.handleInstanceAttached(el);
-      this._domHooks.set(el, domHook);
+      if (domHook) {
+        domHook.handleInstanceAttached(el);
+        this._domHooks.set(el, domHook);
+      }
     });
   }
 
   /** @override */
   ready() {
     super.ready();
-    this._endpointCallBack = this._initModule.bind(this);
+    this._endpointCallBack = (info: ModuleInfo) => this._initModule(info);
     getPluginEndpoints().onNewEndpoint(this.name, this._endpointCallBack);
     if (this.name) {
-      getPluginLoader().awaitPluginsLoaded()
-          .then(() => getPluginEndpoints().getAndImportPlugins(this.name))
-          .then(() =>
-            getPluginEndpoints()
-                .getDetails(this.name)
-                .forEach(this._initModule, this)
-          );
+      getPluginLoader()
+        .awaitPluginsLoaded()
+        .then(() => getPluginEndpoints().getAndImportPlugins(this.name))
+        .then(() =>
+          getPluginEndpoints()
+            .getDetails(this.name)
+            .forEach(this._initModule, this)
+        );
     }
   }
 }
 
-customElements.define(GrEndpointDecorator.is, GrEndpointDecorator);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-endpoint-decorator': GrEndpointDecorator;
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4d33881a_10b16b6b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T09:48:17Z",
+      "side": 1,
+      "message": "Adding @Tao just to double-check, as this involves a PolyGerrit FE adaptation during the merge.",
+      "revId": "d183987b04eb2dae5741b92c9df48493a1ae14c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

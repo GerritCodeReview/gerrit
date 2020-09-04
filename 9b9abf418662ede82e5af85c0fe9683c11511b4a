@@ -63,6 +63,30 @@
       "revId": "9b9abf418662ede82e5af85c0fe9683c11511b4a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a072103_9166664a",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CreateProject.scala",
+        "patchSetId": 9
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-04T23:00:50Z",
+      "side": 1,
+      "message": "\u003e Yes, in order for gatling to be able to parse the (hereby added) body variable attribute [4].\n\u003e \n\u003e [4] https://gerrit-review.googlesource.com/c/gerrit/+/276414/9/e2e-tests/src/test/resources/data/com/google/gerrit/scenarios/CreateProject-body.json\n\nGotcha, thanks for the explanation.",
+      "parentUuid": "1bae5ef5_d6951c10",
+      "range": {
+        "startLine": 31,
+        "startChar": 29,
+        "endLine": 31,
+        "endChar": 31
+      },
+      "revId": "9b9abf418662ede82e5af85c0fe9683c11511b4a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

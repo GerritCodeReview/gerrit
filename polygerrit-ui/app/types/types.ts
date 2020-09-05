@@ -16,6 +16,7 @@
  */
 import {Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
+import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -107,6 +108,32 @@ export interface PolymerDomRepeatEventModel<T> {
   index: number;
 }
 
+/** https://highlightjs.readthedocs.io/en/latest/api.html */
+export interface HighlightJSResult {
+  value: string;
+  top: unknown;
+}
+
+/** https://highlightjs.readthedocs.io/en/latest/api.html */
 export interface HighlightJS {
-  configure: (options: {classPrefix: string}) => void;
+  configure(options: {classPrefix: string}): void;
+  getLanguage(languageName: string): unknown | undefined;
+  highlight(
+    languageName: string,
+    code: string,
+    ignore_illegals: boolean,
+    continuation: unknown
+  ): HighlightJSResult;
+}
+
+export type DiffLayerListener = (
+  start: number,
+  end: number,
+  side: Side
+) => void;
+
+export interface DiffLayer {
+  annotate(el: HTMLElement, lineEl: HTMLElement, line: GrDiffLine): void;
+  addListener(listener: DiffLayerListener): void;
+  removeListener(listener: DiffLayerListener): void;
 }

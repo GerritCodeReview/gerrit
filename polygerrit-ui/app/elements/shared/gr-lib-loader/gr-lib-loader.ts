@@ -22,6 +22,7 @@ import {htmlTemplate} from './gr-lib-loader_html';
 import {EventType} from '../../plugins/gr-plugin-types';
 import {customElement, property} from '@polymer/decorators';
 import {JsApiService} from '../gr-js-api-interface/gr-js-api-types';
+import {HighlightJS} from '../../../types/types';
 
 // preloaded in PolyGerritIndexHtml.soy
 const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
@@ -29,7 +30,7 @@ const HLJS_PATH = 'bower_components/highlightjs/highlight.min.js';
 interface HljsState {
   configured: boolean;
   loading: boolean;
-  callbacks: ((value: unknown) => void)[];
+  callbacks: ((value?: HighlightJS) => void)[];
 }
 
 export interface GrLibLoader {
@@ -58,8 +59,8 @@ export class GrLibLoader extends GestureEventListeners(
    * the library after it's been loaded. The promise resolves immediately if
    * it's already been loaded.
    */
-  getHLJS() {
-    return new Promise((resolve, reject) => {
+  getHLJS(): Promise<HighlightJS | undefined> {
+    return new Promise<HighlightJS | undefined>((resolve, reject) => {
       // If the lib is totally loaded, resolve immediately.
       if (this._getHighlightLib()) {
         resolve(this._getHighlightLib());
@@ -97,7 +98,7 @@ export class GrLibLoader extends GestureEventListeners(
    * Get the HLJS library, assuming it has been loaded. Configure the library
    * if it hasn't already been configured.
    */
-  _getHighlightLib() {
+  _getHighlightLib(): HighlightJS | undefined {
     const lib = window.hljs;
     if (lib && !this._hljsState.configured) {
       this._hljsState.configured = true;

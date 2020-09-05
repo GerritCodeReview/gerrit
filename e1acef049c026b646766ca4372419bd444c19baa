@@ -87,6 +87,24 @@
       "revId": "e1acef049c026b646766ca4372419bd444c19baa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "abb5e1c3_1f4b7236",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-05T09:02:39Z",
+      "side": 1,
+      "message": "\u003e no, the stable-3.2 branch isn\u0027t broken since it refers to an older version of the master branch for the reviewnotes plugin, the build fails when trying to build the tip of the master branch against core stable-3.2\n\nUnderstood, it shouldn\u0027t be an issue as the submodule doesn\u0027t point to it. Should we need to make changes to the reviewnotes plugin, we would need to create a stable-3.2 branch.",
+      "parentUuid": "a5e7512b_03ac344c",
+      "revId": "e1acef049c026b646766ca4372419bd444c19baa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

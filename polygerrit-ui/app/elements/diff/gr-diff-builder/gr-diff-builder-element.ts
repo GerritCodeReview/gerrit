@@ -37,14 +37,13 @@ import {
   DiffPreferencesInfo,
   ImageInfo,
 } from '../../../types/common';
-import {CoverageRange} from '../../../types/types';
+import {CoverageRange, DiffLayer} from '../../../types/types';
 import {
   GrDiffProcessor,
   KeyLocations,
 } from '../gr-diff-processor/gr-diff-processor';
 import {
   CommentRangeLayer,
-  DiffLayer,
   GrRangedCommentLayer,
 } from '../gr-ranged-comment-layer/gr-ranged-comment-layer';
 import {GrCoverageLayer} from '../gr-coverage-layer/gr-coverage-layer';
@@ -252,7 +251,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   _setupAnnotationLayers() {
-    const layers = [
+    const layers: DiffLayer[] = [
       this._createTrailingWhitespaceLayer(),
       this._createIntralineLayer(),
       this._createTabIndicatorLayer(),
@@ -446,7 +445,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     }
   }
 
-  _createIntralineLayer() {
+  _createIntralineLayer(): DiffLayer {
     return {
       // Take a DIV.contentText element and a line object with intraline
       // differences to highlight and apply them to the element as
@@ -478,7 +477,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     };
   }
 
-  _createTabIndicatorLayer() {
+  _createTabIndicatorLayer(): DiffLayer {
     const show = () => this._showTabs;
     return {
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
@@ -510,7 +509,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
     };
   }
 
-  _createTrailingWhitespaceLayer() {
+  _createTrailingWhitespaceLayer(): DiffLayer {
     const show = () => {
       return this._showTrailingWhitespace;
     };

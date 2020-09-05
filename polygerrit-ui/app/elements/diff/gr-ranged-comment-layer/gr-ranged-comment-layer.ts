@@ -28,18 +28,7 @@ import {
   PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
 import {CommentRange} from '../../../types/common';
-
-// TODO(TS): Use for all diff layers.
-export type DiffLayerListener = (
-  start: number,
-  end: number,
-  side: Side
-) => void;
-
-// TODO(TS): Use for all diff layers.
-export interface DiffLayer {
-  annotate(el: HTMLElement, lineEl: HTMLElement, line: GrDiffLine): void;
-}
+import {DiffLayer, DiffLayerListener} from '../../../types/types';
 
 /**
  * Enhanced CommentRange by UI state. Interface for incoming ranges set from the

@@ -63,7 +63,18 @@ export class GrOverlay extends IronOverlayMixin(
     if (this.focusableNodes) {
       return this.focusableNodes;
     }
-    return super._focusableNodes;
+    // TODO(TS): to avoid ts error for:
+    // Only public and protected methods of the base class are accessible
+    // via the 'super' keyword.
+    // we call IronFocsablesHelper directly here
+    // Currently IronFocsablesHelper is not exported from iron-focusables-helper
+    // as it should so we use Polymer.IronFocsablesHelper here instead
+    // (can not use the IronFocsablesHelperClass
+    // in case different behavior due to singleton)
+    // once the type contains the exported member,
+    // should replace with:
+    // import {IronFocusablesHelper} from '@polymer/iron-overlay-behavior/iron-focusables-helper';
+    return (window.Polymer as any).IronFocusablesHelper.getTabbableNodes(this);
   }
 
   /** @override */

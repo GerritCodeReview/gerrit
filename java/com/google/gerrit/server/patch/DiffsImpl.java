@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TreeMap;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.diff.DiffEntry.ChangeType;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevObject;
@@ -142,6 +143,53 @@ public class DiffsImpl implements Diffs {
       throw new PatchListNotAvailableException(e);
     }
     return files;
+  }
+
+  @Override
+  public PatchListEntry getOneModifiedFile(
+      Project.NameKey project, PatchListKey key, String fileName) throws IOException {
+    try {
+      RevObject aCommit = diffUtil.getBaseCommit(project, key);
+      RevCommit bCommit = diffUtil.getRevCommit(project, key.getNewId());
+      ComparisonType cmp = diffUtil.getComparisonType(key, aCommit, bCommit);
+
+      // TODO(ghareeb): Add parameters for renameDetection and renameScore
+      ModifiedFilesCache.Key allKey =
+          ModifiedFilesCache.Key.create(
+              project, aCommit.getId(), bCommit.getId(), key.getWhitespace(), true, 60, true);
+
+      List<GitModifiedFile> modifiedFilesEntities =
+          modifiedFilesCache.get(allKey).gitModifiedFiles();
+
+      modifiedFilesEntities =
+          modifiedFilesEntities.stream()
+              .filter(
+                  entry ->
+                      entry.changeType() == ChangeType.DELETE
+                          ? entry.oldPath().equals(fileName)
+                          : entry.newPath().equals(fileName))
+              .collect(Collectors.toList());
+
+      if (modifiedFilesEntities.isEmpty()) {
+        return PatchListEntry.empty(fileName);
+      }
+      // TODO(ghareeb): assign similarityLevel and diffAlgorithm
+      FileDiffCache.Key diffKey =
+          FileDiffCache.Key.create(
+              project,
+              aCommit.getId(),
+              bCommit.getId(),
+              modifiedFilesEntities.get(0).newPath(),
+              null,
+              null,
+              key.getWhitespace(),
+              cmp);
+      return fileDiffCache.get(diffKey);
+    } catch (ExecutionException e) {
+      // TODO(ghareeb): handle all exceptions
+      e.printStackTrace();
+      throw new RuntimeException("EXECUTION EXCEPTION");
+    }
   }
 
   private Optional getFileDiff(

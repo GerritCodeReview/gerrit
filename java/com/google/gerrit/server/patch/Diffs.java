@@ -16,6 +16,7 @@ package com.google.gerrit.server.patch;
 
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.FileInfo;
+import java.io.IOException;
 import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
@@ -33,4 +34,16 @@ public interface Diffs {
    */
   Map<String, FileInfo> getModifiedFilesIn(Project.NameKey project, PatchListKey key)
       throws PatchListNotAvailableException;
+
+  /**
+   * Returns the diff for a single file between 2 commits (patchsets).
+   *
+   * @param project a project name representing a git repository
+   * @param key the key containing information about the 2 commits
+   * @param fileName the file name for which the diff should be evaluated
+   * @return the diff for the file between the 2 commits
+   * @throws IOException
+   */
+  PatchListEntry getOneModifiedFile(Project.NameKey project, PatchListKey key, String fileName)
+      throws IOException;
 }

@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c6d37960_86c4482c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 242,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "Why was sorting added?",
+      "range": {
+        "startLine": 242,
+        "startChar": 6,
+        "endLine": 242,
+        "endChar": 53
+      },
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88724f9a_69b6791a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "remove these four lines",
+      "range": {
+        "startLine": 278,
+        "startChar": 2,
+        "endLine": 281,
+        "endChar": 12
+      },
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d32b43ed_aa68dc2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "Maybe add a comment that the target is either a GrEditableLabel (update) or a GrLinkedChip (remove).",
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cbad3299_2ba6c911",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 295,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "Opt/Nit: You can avoid the type dance by using setAttribute(\u0027disabled\u0027, \u0027true\u0027).",
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "18227492_e8c54351",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "Why is sorting added?",
+      "range": {
+        "startLine": 298,
+        "startChar": 6,
+        "endLine": 298,
+        "endChar": 19
+      },
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cf62d173_886cfc52",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 375,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "optional",
+      "range": {
+        "startLine": 375,
+        "startChar": 24,
+        "endLine": 375,
+        "endChar": 32
+      },
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0849c55_2436c4bf",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "both params optional",
+      "range": {
+        "startLine": 379,
+        "startChar": 25,
+        "endLine": 379,
+        "endChar": 72
+      },
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6714b49_21276a56",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T11:06:25Z",
+      "side": 1,
+      "message": "optional",
+      "range": {
+        "startLine": 387,
+        "startChar": 18,
+        "endLine": 387,
+        "endChar": 24
+      },
+      "revId": "4d51af1c33489c8b9e13334b798931d38acad1f5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

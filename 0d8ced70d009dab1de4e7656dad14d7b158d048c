@@ -235,6 +235,24 @@
     },
     {
       "key": {
+        "uuid": "0b83eebe_1d9dc132",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-07T19:24:02Z",
+      "side": 1,
+      "message": "I didn\u0027t do individual measurements for each of these commits since restoring a site backup and running the test for a restored site takes several hours. So I can\u0027t provide scientific prove that this change improves performance by x%. I can try to find time to do this for this individual change but I won\u0027t do it for each of the changes in this series. I already spent several weeks on testing this series and we recently migrated the first of our two productive sites.\n\nWe ran into performance issues after the migration to notedb and found that object allocation rate after the migration to notedb was a lot higher than on reviewdb. Hence java gc ratio went up too much (\u003e50%) causing performance issues. We first throttled the system by reducing thread pool sizes trading less churn in java gc against larger queue sizes. Finally we could mitigate the performance issues to an acceptable level by switching from G1GC to parallel GC and switching off pack.deltaCompression which we could use earlier on 2.16 on reviewdb.\n\nMeanwhile we tried to upgrade a staging copy of this site to 3.2 and found that this fixes the issue of increased object allocation rate. Therefore we are now focussing on preparing the upgrade to 3.2 for the instance which now runs on 2.16 on notedb. Only when this upgrade is done we will migrate the second (larger) site on 2.16 to notedb and immediately all the way up to 3.2 in order to avoid these issues for the second site.",
+      "parentUuid": "70a26661_2f719a4b",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

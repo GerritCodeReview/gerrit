@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c8eeadb_badfff08",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T09:31:59Z",
+      "side": 1,
+      "message": "Thanks for the contribution of this fix!\n\nI have found another usage of `group.id` without decoding in this file:\nelements/admin/gr-group-audit-log/gr-group-audit-log.js\n\nMaybe you also want to fix that?",
+      "revId": "7b8f1ac95d355b1bfe3e8a0fa5a7fb9718fcb1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

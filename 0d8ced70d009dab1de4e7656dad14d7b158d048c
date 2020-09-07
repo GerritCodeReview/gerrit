@@ -253,6 +253,24 @@
     },
     {
       "key": {
+        "uuid": "bb84ace1_42c890e5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-07T19:44:41Z",
+      "side": 1,
+      "message": "Could we make this auto-pack a migration option to NoteDb? So that people can use it only for very large repos? WDYT?",
+      "parentUuid": "0b83eebe_1d9dc132",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

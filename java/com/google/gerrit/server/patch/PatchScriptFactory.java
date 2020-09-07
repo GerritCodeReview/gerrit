@@ -95,6 +95,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
+  private final Diffs diffs;
 
   private final Change.Id changeId;
   private boolean loadComments = true;
@@ -112,6 +113,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
+      Diffs diffs,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted("patchSetA") @Nullable PatchSet.Id patchSetA,
@@ -127,6 +129,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.diffs = diffs;
 
     this.fileName = fileName;
     this.psa = patchSetA;
@@ -148,6 +151,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
+      Diffs diffs,
       @Assisted ChangeNotes notes,
       @Assisted String fileName,
       @Assisted int parentNum,
@@ -163,6 +167,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
+    this.diffs = diffs;
 
     this.fileName = fileName;
     this.psa = null;
@@ -214,9 +219,12 @@ public class PatchScriptFactory implements Callable<PatchScript> {
           changeEdit = true;
         }
 
-        final PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
         final PatchScriptBuilder b = newBuilder();
-        final PatchListEntry content = list.get(fileName);
+
+        final PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));
+        final PatchListEntry content =
+            diffs.getOneModifiedFile(
+                notes.getProjectName(), keyFor(aId, bId, diffPrefs.ignoreWhitespace), fileName);
 
         Optional<CommentDetail> comments = loadComments(content, changeEdit);
 

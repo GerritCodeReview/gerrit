@@ -5245,6 +5245,49 @@ Sample `etc/jgit.config` file:
   trustFolderStat = false
 ----
 
+[[jgit-gc]]
+=== Section gc
+
+Options in section gc are used when command link:cmd-gc.html[gerrit gc] is used
+or scheduled via options link:cmd-gc.html#gc.startTime[gc.startTime] and
+link:cmd-gc.html#gc.interval[gc.interval].
+
+[[gc.auto]]gc.auto::
++
+When there are approximately more than this many loose objects in the repository,
+auto gc will pack them. Some commands use this command to perform a light-weight
+garbage collection from time to time. The default value is 6700.
++
+Setting this to 0 disables not only automatic packing based on the number of
+loose objects, but any other heuristic auto gc will otherwise use to determine
+if there’s work to do, such as link:#gc.autoPackLimit[gc.autoPackLimit].
+
+[[gc.autodetach]]gc.autodetach::
++
+Makes auto gc run in a background thread. Default is `true`.
+
+[[gc.autopacklimit]]gc.autopacklimit::
++
+When there are more than this many packs that are not marked with `*.keep` file
+in the repository, auto gc consolidates them into one larger pack. The
+default value is 50. Setting this to 0 disables it. Setting `gc.auto` to 0 will
+also disable this.
+
+[[gc.packRefs]]gc.packRefs::
++
+This variable determines whether gc runs git pack-refs. The default is `true`.
+
+[[gc.reflogExpire]]gc.reflogExpire::
++
+Removes reflog entries older than this time; defaults to 90 days. The value "now"
+expires all entries immediately, and "never" suppresses expiration altogether.
+
+[[gc.reflogExpireUnreachable]]gc.reflogExpireUnreachable::
++
+Removes reflog entries older than this time and are not reachable from the
+current tip; defaults to 30 days. The value "now" expires all entries immediately,
+and "never" suppresses expiration altogether.
+
 [[jgit-protocol]]
 === Section protocol
 
@@ -5261,6 +5304,17 @@ Supported versions:
 1:: the original wire protocol with the addition of a version string in the initial response from the server.
 2:: wire protocol version 2. Speeds up fetches from repositories with many refs by allowing the client
     to specify which refs to list before the server lists them.
+
+
+[[jgit-receive]]
+=== Section receive
+
+[[receive.autogc]]receive.autogc::
++
+By default, `git-receive-pack` will run auto gc after receiving data from git-push and updating refs.
+You can stop it by setting this variable to `false`. This is recommended in gerrit to avoid the
+additional load this creates. Instead schedule gc using link:cmd-gc.html#gc.startTime[gc.startTime]
+and link:cmd-gc.html#gc.interval[gc.interval] or e.g. in a cron job running gc in a separate process.
 
 GERRIT
 ------

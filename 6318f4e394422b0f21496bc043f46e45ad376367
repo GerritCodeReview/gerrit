@@ -1,0 +1,182 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f178d630_f6078ec4",
+        "filename": "java/com/google/gerrit/server/restapi/change/PutDraftComment.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "There\u0027s no need to create new ChangeNotes. DraftCommentResource wraps RevisionResource which has a reference to an instance of ChangeNotes. We simply need to adjust DraftCommentResource to hand out the internal ChangeNotes instance.",
+      "range": {
+        "startLine": 82,
+        "startChar": 4,
+        "endLine": 82,
+        "endChar": 81
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7415645a_95a1d689",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "Any reason not to use\n\n    Change.Id changeId \u003d changeOperations.newChange().create();\n    PatchSet.Id patchsetId \u003d changeOperations.change(changeId).currentPatchset().get().patchsetId();\n    String parentCommentUuid \u003d\n        changeOperations.change(changeId).patchset(patchsetId).newComment().create();\n\ninstead of this longer, less readable code now that we have the test API for changes, patchsets, and comments?",
+      "range": {
+        "startLine": 664,
+        "startChar": 4,
+        "endLine": 674,
+        "endChar": 83
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ecf3bdf_00383bb6",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 779,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "nit, here and for other tests: It\u0027s a bit confusing to see draftInput1 and draftInput2 even though draftInput1 is just used for the setup and not relevant for the actual test. Same goes for commentInfo of which we use commentInfo.id later, which first made we think that we use it as parent UUID even though we just need the UUID of the draft comment to update it. Using more descriptive names and different formatting (-\u003e empty line after the setup) could simplify readability.",
+      "range": {
+        "startLine": 779,
+        "startChar": 15,
+        "endLine": 779,
+        "endChar": 26
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0decba20_89032890",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 805,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "nit, and for other tests: Until this line, all of the code is just test setup. It would be helpful if you could visually distinguish that.",
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66a95b95_d4edf8fd",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1618,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "nit: These two values are exactly the same. -\u003e Remove one of them.",
+      "range": {
+        "startLine": 1617,
+        "startChar": 4,
+        "endLine": 1618,
+        "endChar": 48
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61efec68_ebbbfe51",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1635,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "nit, here and in other tests: Finding the newly created comment by ignoring all comments with the parent UUID is a bit indirect and requires additional, mental cycles. I see that we don\u0027t directly have the UUID of the new comment at hand. What if we set a unique message on the new comment and filter to that message? That would be a bit more explicit in my opinion.",
+      "range": {
+        "startLine": 1635,
+        "startChar": 16,
+        "endLine": 1635,
+        "endChar": 53
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03e883f9_54a610e7",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1636,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "nit: In new code, we should use ImmutableSet.toImmutableSet() instead.",
+      "range": {
+        "startLine": 1636,
+        "startChar": 25,
+        "endLine": 1636,
+        "endChar": 43
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df6e56e1_8305ebb4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1661,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "nit: All tests for robot comment endpoints are in RobotCommentsIT. Please move this test to that other test class.",
+      "range": {
+        "startLine": 1661,
+        "startChar": 14,
+        "endLine": 1661,
+        "endChar": 59
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

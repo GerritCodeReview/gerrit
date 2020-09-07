@@ -187,6 +187,30 @@
       "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1a936b39_e49c5d7b",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-07T15:05:39Z",
+      "side": 1,
+      "message": "As you updated the code for updateDraft in response to the tests, the additional tests were already helpful, weren\u0027t they?",
+      "parentUuid": "8c6982c1_e062f26f",
+      "range": {
+        "startLine": 1475,
+        "startChar": 14,
+        "endLine": 1475,
+        "endChar": 53
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

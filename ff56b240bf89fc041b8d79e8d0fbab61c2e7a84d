@@ -2,6 +2,52 @@
   "comments": [
     {
       "key": {
+        "uuid": "e008f4bc_3dfc235f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-07T12:37:53Z",
+      "side": 1,
+      "message": "nit: I\u0027d find work_in_progress (or \"work in progress\" in quotes) easier to read.",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b938f007_d4d84221",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-07T12:37:53Z",
+      "side": 1,
+      "message": "This seems unused. (Also in the next test.)",
+      "range": {
+        "startLine": 687,
+        "startChar": 4,
+        "endLine": 689,
+        "endChar": 61
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b55ee32b_dc48eaed",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3
@@ -19,6 +65,23 @@
         "endLine": 698,
         "endChar": 37
       },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a78c3ec7_f87d368c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-07T12:37:53Z",
+      "side": 1,
+      "message": "nit: inline",
       "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -45,6 +108,46 @@
       "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "23fc49ef_58410506",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-07T12:37:53Z",
+      "side": 1,
+      "message": "How about:\n    assertThat(revertSubmissionInfo.revertChanges.stream().anyMatch(r -\u003e !r.workInProgress))\n        .isFalse();\n?",
+      "range": {
+        "startLine": 726,
+        "startChar": 16,
+        "endLine": 728,
+        "endChar": 31
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e247fcd_d6a4c94a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1368,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-07T12:37:53Z",
+      "side": 1,
+      "message": "nit: getFoo() sounds like it returns something that already exists. Maybe just wipRevertInput() or createWipRevertInput()?",
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -185,11 +185,28 @@ func handleSrcRequest(compiledSrcPath string, dirListingMux *http.ServeMux, writ
 		//   'page/page.mjs' -> '/node_modules/page.mjs'
 		//   '@polymer/iron-icon' -> '/node_modules/@polymer/iron-icon.js'
 		//   './element/file' -> './element/file.js'
-		moduleImportRegexp = regexp.MustCompile(`(?m)^(import.*)'(.*?)(\.(m?)js)?';$`)
-		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '$2.${4}js';"))
+		moduleImportRegexp = regexp.MustCompile(`(?m)^(import.*|export.* from )['"](.*?)(\.(m?)js)?['"];$`)
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1'$2.${4}js';"))
 
-		moduleImportRegexp = regexp.MustCompile("(?m)^(import.*)'([^/.].*)';$")
-		data = moduleImportRegexp.ReplaceAll(data, []byte("$1 '/node_modules/$2';"))
+		moduleImportRegexp = regexp.MustCompile(`(?m)^(import.*|export.* from )['"]([^/.].*)['"];$`)
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1'/node_modules/$2';"))
+
+		// The es module version of rxjs can be found in the _esm2015/ directory.
+		moduleImportRegexp = regexp.MustCompile("(?m)^(import.*|export.*)('/node_modules/rxjs)(/.*';)$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("$1$2/_esm2015$3"))
+
+		// The es module version of tslib.js can be found in tslib.es6.js.
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)tslib.js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}tslib/tslib.es6.js';"))
+
+		// 'lit-element' imports and exports have to be resolved to 'lit-element/lit-element.js'.
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)lit-element.js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}lit-element/lit-element.js';"))
+
+		// 'rxjs' imports have to be resolved to 'rxjs/index.js'.
+		// 'rxjs/operators' imports have to be resolved to 'rxjs/operators/index.js'.
+		moduleImportRegexp = regexp.MustCompile("(?m)^((import|export).*'/node_modules/)rxjs(/operators)?.js';$")
+		data = moduleImportRegexp.ReplaceAll(data, []byte("${1}rxjs${3}/index.js';"))
 
 		if strings.HasSuffix(normalizedContentPath, "/node_modules/page/page.js") {
 			// Can't import page.js directly, because this is undefined.

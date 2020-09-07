@@ -340,6 +340,7 @@ export const htmlTemplate = html`
   <!-- TODO(taoalpha): remove on-show-checks-table,
     Gerrit should not have any thing too special for a plugin,
     replace with a generic event: show-primary-tab. -->
+  <test-lit name="Gerrit"></test-lit>
   <div
     id="mainContent"
     class="container"

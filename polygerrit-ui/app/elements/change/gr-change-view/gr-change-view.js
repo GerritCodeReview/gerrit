@@ -31,6 +31,7 @@ import '../../shared/gr-overlay/gr-overlay.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
 import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
 import '../../shared/revision-info/revision-info.js';
+import '../../lit/test-lit.js';
 import '../gr-change-actions/gr-change-actions.js';
 import '../gr-change-metadata/gr-change-metadata.js';
 import '../../shared/gr-icons/gr-icons.js';

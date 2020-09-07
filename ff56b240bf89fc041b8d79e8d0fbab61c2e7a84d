@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b55ee32b_dc48eaed",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T11:05:04Z",
+      "side": 1,
+      "message": "getWipRevertInput()",
+      "range": {
+        "startLine": 697,
+        "startChar": 30,
+        "endLine": 698,
+        "endChar": 37
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "253b18d5_2a53ed00",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 724,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T11:05:04Z",
+      "side": 1,
+      "message": "we\u0027ve never used this streaming in tests, I like it, actually :-)",
+      "range": {
+        "startLine": 724,
+        "startChar": 4,
+        "endLine": 724,
+        "endChar": 14
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

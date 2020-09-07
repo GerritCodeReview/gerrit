@@ -165,6 +165,7 @@ export const htmlTemplate = html`
       margin-bottom: var(--spacing-l);
       max-height: var(--relation-chain-max-height, 2em);
       overflow: hidden;
+      position: relative; /* for arrowToCurrentChange to have position:absolute and be hidden */
     }
     .commitContainer {
       display: flex;

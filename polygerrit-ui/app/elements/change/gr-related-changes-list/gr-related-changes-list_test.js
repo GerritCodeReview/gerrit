@@ -209,19 +209,6 @@ suite('gr-related-changes-list tests', () => {
     ]);
   });
 
-  test('_computeChangeContainerClass', () => {
-    const change1 = {change_id: 123, _number: 0};
-    const change2 = {change_id: 456, _change_number: 1};
-    const change3 = {change_id: 123, _number: 2};
-
-    assert.notEqual(element._computeChangeContainerClass(
-        change1, change1).indexOf('thisChange'), -1);
-    assert.equal(element._computeChangeContainerClass(
-        change1, change2).indexOf('thisChange'), -1);
-    assert.equal(element._computeChangeContainerClass(
-        change1, change3).indexOf('thisChange'), -1);
-  });
-
   test('_changesEqual', () => {
     const change1 = {change_id: 123, _number: 0};
     const change2 = {change_id: 456, _number: 1};

@@ -37,9 +37,8 @@ export const htmlTemplate = html`
     .changeContainer {
       display: flex;
     }
-    .changeContainer.thisChange:before {
-      content: '➔';
-      width: 1.2em;
+    .arrowToCurrentChange {
+      position: absolute;
     }
     h4,
     section div {
@@ -105,9 +104,15 @@ export const htmlTemplate = html`
           items="[[_relatedResponse.changes]]"
           as="related"
         >
-          <div
-            class$="rightIndent [[_computeChangeContainerClass(change, related)]]"
-          >
+          <template is="dom-if" if="[[_changesEqual(related, change)]]">
+            <span
+              role="img"
+              class="arrowToCurrentChange"
+              aria-label="Arrow marking current change"
+              >➔</span
+            >
+          </template>
+          <div class="rightIndent changeContainer">
             <a
               href$="[[_computeChangeURL(related._change_number, related.project, related._revision_number)]]"
               class$="[[_computeLinkClass(related)]]"
@@ -131,7 +136,15 @@ export const htmlTemplate = html`
           items="[[_submittedTogether.changes]]"
           as="related"
         >
-          <div class$="[[_computeChangeContainerClass(change, related)]]">
+          <template is="dom-if" if="[[_changesEqual(related, change)]]">
+            <span
+              role="img"
+              class="arrowToCurrentChange"
+              aria-label="Arrow marking current change"
+              >➔</span
+            >
+          </template>
+          <div class="changeContainer">
             <a
               href$="[[_computeChangeURL(related._number, related.project)]]"
               class$="[[_computeLinkClass(related)]]"
@@ -143,6 +156,8 @@ export const htmlTemplate = html`
               tabindex="-1"
               title="Submittable"
               class$="submittableCheck [[_computeLinkClass(related)]]"
+              role="img"
+              aria-label="Submittable"
               >✓</span
             >
           </div>

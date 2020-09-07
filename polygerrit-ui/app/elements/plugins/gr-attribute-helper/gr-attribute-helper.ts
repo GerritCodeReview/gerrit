@@ -65,9 +65,8 @@ export class GrAttributeHelper {
   /**
    * Get value of the property from wrapped object. Waits for the property
    * to be initialized if it isn't defined.
-   *
    */
-  get(name: string) {
+  get(name: string): Promise<unknown> {
     if (this._elementHasProperty(name)) {
       return Promise.resolve(this.element[name]);
     }
@@ -80,7 +79,7 @@ export class GrAttributeHelper {
       });
       this._promises.set(name, promise);
     }
-    return this._promises.get(name);
+    return this._promises.get(name)!;
   }
 
   /**

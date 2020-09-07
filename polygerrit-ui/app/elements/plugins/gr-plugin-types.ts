@@ -37,6 +37,8 @@ export interface HookApi {
   getAllAttached(): HTMLElement[];
   getLastAttached(): Promise<HTMLElement>;
   getModuleName(): string;
+  handleInstanceDetached(instance: HTMLElement): void;
+  handleInstanceAttached(instance: HTMLElement): void;
 }
 
 export enum TargetElement {

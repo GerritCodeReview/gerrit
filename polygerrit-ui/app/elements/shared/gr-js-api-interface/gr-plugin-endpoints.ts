@@ -21,7 +21,7 @@ import {notUndefined} from '../../../types/types';
 
 type Callback = (value: any) => void;
 
-interface ModuleInfo {
+export interface ModuleInfo {
   moduleName: string;
   plugin: PluginApi;
   pluginUrl?: URL;

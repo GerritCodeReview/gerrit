@@ -18,7 +18,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-coverage-layer_html';
-import {CoverageType} from '../../../types/types';
+import {CoverageType, DiffLayer} from '../../../types/types';
 import {customElement, property} from '@polymer/decorators';
 
 declare global {
@@ -35,9 +35,9 @@ const TOOLTIP_MAP = new Map([
 ]);
 
 @customElement('gr-coverage-layer')
-export class GrCoverageLayer extends GestureEventListeners(
-  LegacyElementMixin(PolymerElement)
-) {
+export class GrCoverageLayer
+  extends GestureEventListeners(LegacyElementMixin(PolymerElement))
+  implements DiffLayer {
   static get template() {
     return htmlTemplate;
   }

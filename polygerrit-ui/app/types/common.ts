@@ -1133,6 +1133,7 @@ export interface DiffFileMetaInfo {
   content_type: string;
   lines: string;
   web_links?: WebLinkInfo[];
+  language?: string;
 }
 
 /**

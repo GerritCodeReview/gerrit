@@ -271,6 +271,24 @@
     },
     {
       "key": {
+        "uuid": "f20ebe97_407ed1cd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-07T20:03:26Z",
+      "side": 1,
+      "message": "Sure we could, though I don\u0027t know if this would make a big difference since on a smaller repository it will run less often since it also has less refs. I\u0027ll try to do another test with a complete site comparing performance of the complete series against the same series with this change reverted so that we do not regularly pack refs.\n\nI found that apart from obvious bugs and introducing slicing the biggest factor is  the size distribution of the repositories being migrated. If there are some very large repositories with tons of refs in a site they dominate the migration speed for the complete site even when using slicing since they also contribute a large fraction of all slices. Another effect is that object allocation rate goes up a lot when migrating large repositories which means you can run less threads on the same hardware since otherwise java gc can\u0027t keep pace and increasing java gc ratio will slow down everything to a crawl. This means if you have very large repositories and your migration is slow try to use less threads than one per CPI and test if this can speed up the migration.\n\nOur two sites are very different in size distribution, one has a few very large repositories but only 300 repositories in total. The other one has 24k repositories but only one huge repository. By trying many combinations of parameters I found that for the first site we best migrate it using only around 20 threads I think since the large object allocation rate caused by the large repository create a lot of pressure on Java gc. For the other site we will migrate the nasty huge repository separately and transport the meta refs via git transport to the productive site and migrate all the other 24k repositories using one thread per cpu while skipping the huge repository which was migrated separately. The size and complexity of these many repositories seems more homogenous so that migration can fully use all CPUs for migrating many repositories concurrently. Here I reached \u003e1200 changes/second.",
+      "parentUuid": "bb84ace1_42c890e5",
+      "revId": "0d8ced70d009dab1de4e7656dad14d7b158d048c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d74c68f9_09bd16ed",
         "filename": "/COMMIT_MSG",
         "patchSetId": 1

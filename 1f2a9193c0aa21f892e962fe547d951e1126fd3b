@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5274191_48b2dd2a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-lib-loader/gr-lib-loader.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:49:38Z",
+      "side": 1,
+      "message": "nit: maybe alias this to a type instead",
+      "range": {
+        "startLine": 33,
+        "startChar": 14,
+        "endLine": 33,
+        "endChar": 43
+      },
+      "revId": "1f2a9193c0aa21f892e962fe547d951e1126fd3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "336b0180_3658763b",
+        "filename": "polygerrit-ui/app/types/types.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 137,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:49:38Z",
+      "side": 1,
+      "message": "can we mark these as optional? it seems a lot of them don\u0027t have them defined",
+      "range": {
+        "startLine": 137,
+        "startChar": 2,
+        "endLine": 137,
+        "endChar": 13
+      },
+      "revId": "1f2a9193c0aa21f892e962fe547d951e1126fd3b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

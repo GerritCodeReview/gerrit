@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5e1eb96_2d30dd14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "maybe add type to make it a proper type guard ? `node as GrCommentThread`",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 19
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e5d061c_35956622",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "TODO(TS): this should be replaced once gr-comment-thread is converted",
+      "range": {
+        "startLine": 93,
+        "startChar": 5,
+        "endLine": 93,
+        "endChar": 20
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03e3e1d9_05a20edb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "can we define an interface for it ?",
+      "range": {
+        "startLine": 172,
+        "startChar": 16,
+        "endLine": 172,
+        "endChar": 23
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ca438fa_ed93e4ac",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "why its removed ?",
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e4c1316_4a599379",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "ditto, we probably should aim to use as fewer unknown as possible :) even an interface missing some properties are better than unknown :)",
+      "range": {
+        "startLine": 189,
+        "startChar": 18,
+        "endLine": 189,
+        "endChar": 25
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd50e346_2d93b114",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "it seems its either `null` or string, never undefined",
+      "range": {
+        "startLine": 254,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 17
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08168633_2cf4933b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "can not we define an interface for this (if we don\u0027t already have one)",
+      "range": {
+        "startLine": 275,
+        "startChar": 11,
+        "endLine": 275,
+        "endChar": 18
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68039b9_fc571e10",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "you might not need this if isThreadEl has a proper type guard",
+      "range": {
+        "startLine": 362,
+        "startChar": 8,
+        "endLine": 362,
+        "endChar": 29
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f5a86cc_20bd30fb",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "i remember we had issue with this before (milutin\u0027s change), i think we try to avoid set innerHTML directly due to some conformance issue (it might be fine for this one as all table elements seems can use the innerHTML), but just to make it easier to read and fit for conformance, we can always use removeChild to empty the content (ya its not efficient, but I think we discussed this before).",
+      "range": {
+        "startLine": 978,
+        "startChar": 21,
+        "endLine": 978,
+        "endChar": 30
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "73d8a355_11bdb79c",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 1,
+      "message": "seems the usage is removed, can we just remove it ?",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

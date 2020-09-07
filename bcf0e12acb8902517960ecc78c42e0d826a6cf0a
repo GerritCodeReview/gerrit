@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d6896fe_eb3515c8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 717,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:03:45Z",
+      "side": 0,
+      "message": "is this a bug ? seems the property is `blame` before this migration...",
+      "range": {
+        "startLine": 717,
+        "startChar": 9,
+        "endLine": 717,
+        "endChar": 15
+      },
+      "revId": "bcf0e12acb8902517960ecc78c42e0d826a6cf0a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

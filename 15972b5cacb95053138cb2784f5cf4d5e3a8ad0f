@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e1e7c7e3_649da36a",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T14:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ec68391a_6d8711b2",
+      "range": {
+        "startLine": 69,
+        "startChar": 29,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "15972b5cacb95053138cb2784f5cf4d5e3a8ad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7b2b078b_d5b8d413",
         "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "15972b5cacb95053138cb2784f5cf4d5e3a8ad0f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "101c5c0d_04963179",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T14:30:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7b2b078b_d5b8d413",
+      "range": {
+        "startLine": 79,
+        "startChar": 24,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "15972b5cacb95053138cb2784f5cf4d5e3a8ad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

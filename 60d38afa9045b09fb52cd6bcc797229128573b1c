@@ -33,6 +33,24 @@
       "revId": "60d38afa9045b09fb52cd6bcc797229128573b1c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dcb885d_0136a015",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T11:34:58Z",
+      "side": 1,
+      "message": "hmm seems not failing the eslint.. oh it ignores the comments area...",
+      "parentUuid": "0c1d013c_f8bc9adc",
+      "revId": "60d38afa9045b09fb52cd6bcc797229128573b1c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

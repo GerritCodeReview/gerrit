@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ec68391a_6d8711b2",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-attribute-helper/gr-attribute-helper.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:42:50Z",
+      "side": 1,
+      "message": "unknown maybe better than `any` for this case (when you try to access property of an unknown, it will throw an error, but not for an any)",
+      "range": {
+        "startLine": 69,
+        "startChar": 29,
+        "endLine": 69,
+        "endChar": 32
+      },
+      "revId": "15972b5cacb95053138cb2784f5cf4d5e3a8ad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b2b078b_d5b8d413",
+        "filename": "polygerrit-ui/app/elements/plugins/gr-endpoint-decorator/gr-endpoint-decorator.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-07T13:42:50Z",
+      "side": 1,
+      "message": "slotEl?.parentNode ? ;)",
+      "range": {
+        "startLine": 79,
+        "startChar": 24,
+        "endLine": 79,
+        "endChar": 34
+      },
+      "revId": "15972b5cacb95053138cb2784f5cf4d5e3a8ad0f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

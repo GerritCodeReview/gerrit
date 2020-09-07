@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "093f0c7f_56bae07c",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T16:00:25Z",
+      "side": 1,
+      "message": "I think there is a good reason: We\u0027re testing the API of creating comments itself, which is not being directly called by changeOperations.\nE.g, Using changeOperations, I managed to create a comment with invalid inReplyTo, since the code in PerPatchSetOperationsImpl#toNewComment doesn\u0027t  call the same validations as done in e.g CreateDraftComment#apply.\n\nShould the code in PerPatchSetOperationsImpl call the same validations?\nI guess not - but then we can\u0027t use it for the purpose in this change.\nWDYT?",
+      "parentUuid": "7415645a_95a1d689",
+      "range": {
+        "startLine": 664,
+        "startChar": 4,
+        "endLine": 674,
+        "endChar": 83
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ecf3bdf_00383bb6",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 3

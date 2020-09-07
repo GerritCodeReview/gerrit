@@ -615,6 +615,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
         ensureRangeIsValid(path, comment.range);
         ensureValidPatchsetLevelComment(path, comment);
+        ensureValidInReplyTo(revision.getNotes(), comment.inReplyTo);
       }
     }
   }
@@ -658,6 +659,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     if (path.equals(PATCHSET_LEVEL)
         && (comment.side != null || comment.range != null || comment.line != null)) {
       throw new BadRequestException("Patchset-level comments can't have side, range, or line");
+    }
+  }
+
+  private void ensureValidInReplyTo(ChangeNotes changeNotes, String inReplyTo)
+      throws BadRequestException {
+    if (inReplyTo != null
+        && !commentsUtil.getPublishedHumanComment(changeNotes, inReplyTo).isPresent()
+        && !commentsUtil.getRobotComment(changeNotes, inReplyTo).isPresent()) {
+      throw new BadRequestException(
+          String.format("Invalid inReplyTo, comment %s not found", inReplyTo));
     }
   }
 

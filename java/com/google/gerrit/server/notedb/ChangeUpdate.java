@@ -787,12 +787,13 @@ public class ChangeUpdate extends AbstractChangeUpdate {
             AttentionSetUpdate.createForWrite(
                 reviewer.getKey(), AttentionSetUpdate.Operation.ADD, "Reviewer was added"));
       }
-      // Treat both REMOVED and CC as "removed reviewers".
-      if (!reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
-          && currentReviewers.contains(reviewer.getKey())) {
+      // Treat both REMOVED and CC as "removed reviewers", also treat REMOVED as "removed from Cc".
+      if ((!reviewer.getValue().equals(ReviewerStateInternal.REVIEWER)
+              && currentReviewers.contains(reviewer.getKey()))
+          || (reviewer.getValue().equals(ReviewerStateInternal.REMOVED))) {
         updates.add(
             AttentionSetUpdate.createForWrite(
-                reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer was removed"));
+                reviewer.getKey(), AttentionSetUpdate.Operation.REMOVE, "Reviewer/Cc was removed"));
       }
     }
     addToPlannedAttentionSetUpdates(updates);

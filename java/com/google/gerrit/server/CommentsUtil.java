@@ -188,6 +188,12 @@ public class CommentsUtil {
         .findFirst();
   }
 
+  public Optional<HumanComment> getPublishedHumanComment(ChangeNotes notes, String uuid) {
+    return publishedHumanCommentsByChange(notes).stream()
+        .filter(c -> c.key.uuid.equals(uuid))
+        .findFirst();
+  }
+
   public Optional<HumanComment> getDraft(ChangeNotes notes, IdentifiedUser user, Comment.Key key) {
     return draftByChangeAuthor(notes, user.getAccountId()).stream()
         .filter(c -> key.equals(c.key))
@@ -202,6 +208,10 @@ public class CommentsUtil {
   public List<RobotComment> robotCommentsByChange(ChangeNotes notes) {
     notes.load();
     return sort(Lists.newArrayList(notes.getRobotComments().values()));
+  }
+
+  public Optional<RobotComment> getRobotComment(ChangeNotes notes, String uuid) {
+    return robotCommentsByChange(notes).stream().filter(c -> c.key.uuid.equals(uuid)).findFirst();
   }
 
   public List<HumanComment> draftByChange(ChangeNotes notes) {

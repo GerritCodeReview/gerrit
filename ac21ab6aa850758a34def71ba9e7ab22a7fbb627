@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "77ffa6db_fa224b07",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Yeah, much nicer. Done.",
+      "parentUuid": "a5e1eb96_2d30dd14",
+      "range": {
+        "startLine": 69,
+        "startChar": 9,
+        "endLine": 69,
+        "endChar": 19
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e5d061c_35956622",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "746b72ac_a3122919",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e5d061c_35956622",
+      "range": {
+        "startLine": 93,
+        "startChar": 5,
+        "endLine": 93,
+        "endChar": 20
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "aa46f0b7_b5548064",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Apparently this property is unused. Removed it.",
+      "parentUuid": "03e3e1d9_05a20edb",
+      "range": {
+        "startLine": 172,
+        "startChar": 16,
+        "endLine": 172,
+        "endChar": 23
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5ca438fa_ed93e4ac",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 1
@@ -85,6 +157,24 @@
       "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25fbc9fa_025fc3a4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "I had problems reconciling this with \u0027hidden\u0027 property of the HTMLElement parent interface. But it is fine now. Just had to avoid it being potentially undefined.",
+      "parentUuid": "5ca438fa_ed93e4ac",
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +201,30 @@
     },
     {
       "key": {
+        "uuid": "e8346f8c_d3ecdfab",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e4c1316_4a599379",
+      "range": {
+        "startLine": 189,
+        "startChar": 18,
+        "endLine": 189,
+        "endChar": 25
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fd50e346_2d93b114",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 1
@@ -131,6 +245,30 @@
       "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d057bcb_d25515d0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fd50e346_2d93b114",
+      "range": {
+        "startLine": 254,
+        "startChar": 2,
+        "endLine": 254,
+        "endChar": 17
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "b0b8bda1_73a096f4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "08168633_2cf4933b",
+      "range": {
+        "startLine": 275,
+        "startChar": 11,
+        "endLine": 275,
+        "endChar": 18
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e68039b9_fc571e10",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
         "patchSetId": 1
@@ -177,6 +339,30 @@
       "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a3d3a40c_0617044a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 362,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e68039b9_fc571e10",
+      "range": {
+        "startLine": 362,
+        "startChar": 8,
+        "endLine": 362,
+        "endChar": 29
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +389,30 @@
     },
     {
       "key": {
+        "uuid": "58f7efba_23dbfb3b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6f5a86cc_20bd30fb",
+      "range": {
+        "startLine": 978,
+        "startChar": 21,
+        "endLine": 978,
+        "endChar": 30
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73d8a355_11bdb79c",
         "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
         "patchSetId": 1
@@ -223,6 +433,30 @@
       "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e78fff0a_222e902e",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-07T18:06:14Z",
+      "side": 1,
+      "message": "No, just all usages in ts files were removed. I did not touch js files.",
+      "parentUuid": "73d8a355_11bdb79c",
+      "range": {
+        "startLine": 38,
+        "startChar": 13,
+        "endLine": 38,
+        "endChar": 34
+      },
+      "revId": "ac21ab6aa850758a34def71ba9e7ab22a7fbb627",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

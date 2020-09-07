@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "3e6fcbae_fd499bfb",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-07T21:50:23Z",
+      "side": 0,
+      "message": "I think because there is no where this value is used even though it\u0027s being assigned.",
+      "parentUuid": "0f7ac324_8ccfe3eb",
+      "revId": "d5ea8440d49492e2fe7ae58b240dc01150b310bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "826a6b12_9693fadb",
         "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
         "patchSetId": 14
@@ -33,6 +51,24 @@
       "revId": "d5ea8440d49492e2fe7ae58b240dc01150b310bb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bb6d975_32dee63a",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list-header/gr-file-list-header.ts",
+        "patchSetId": 14
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-07T21:50:23Z",
+      "side": 0,
+      "message": "Same",
+      "parentUuid": "826a6b12_9693fadb",
+      "revId": "d5ea8440d49492e2fe7ae58b240dc01150b310bb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

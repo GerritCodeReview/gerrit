@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "546be866_895bfb89",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 145,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T12:28:19Z",
+      "side": 1,
+      "message": "I\u0027m fine with omitting this since BadRequestException was added to replace it.",
+      "parentUuid": "acc1edbf_207276f0",
+      "range": {
+        "startLine": 142,
+        "startChar": 8,
+        "endLine": 145,
+        "endChar": 9
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5e49cc57_3e5e95b0",
         "filename": "java/com/google/gerrit/server/CommentsUtil.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7db69d19_33c7d5b1",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 215,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T12:28:19Z",
+      "side": 1,
+      "message": "I thought it might be nice to have for later, but whoever needs it can just create it, so done.",
+      "parentUuid": "5e49cc57_3e5e95b0",
+      "range": {
+        "startLine": 215,
+        "startChar": 32,
+        "endLine": 215,
+        "endChar": 47
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "48fe2dae_f318100a",
+        "filename": "java/com/google/gerrit/server/CommentsUtil.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T12:28:19Z",
+      "side": 1,
+      "message": "I\u0027m fine with omitting this since BadRequestException was added to replace it.",
+      "parentUuid": "4846c195_db20892f",
+      "range": {
+        "startLine": 391,
+        "startChar": 22,
+        "endLine": 391,
+        "endChar": 43
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84e806b1_de515347",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -91,6 +163,30 @@
       "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c6982c1_e062f26f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1475,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-07T12:28:19Z",
+      "side": 1,
+      "message": "I added those and a bunch of other tests that I found useful (also for \"updateDraft\" since \"create draft\" and \"update draft\" use different endpoints).\nI think those tests will mainly be helpful once I migrate the logic of \"create draft\"/ \"update draft\"/ \"create comment\" / \"create robot comment\" to have the same validation logic (sanity check that at least inReplyTo works correctly in all of them).",
+      "parentUuid": "84e806b1_de515347",
+      "range": {
+        "startLine": 1475,
+        "startChar": 14,
+        "endLine": 1475,
+        "endChar": 53
+      },
+      "revId": "71ec33fc1c3bf7b9c818541f8c1d1341bd1d1925",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

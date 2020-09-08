@@ -417,7 +417,7 @@
       if (reviewer.account) {
         reviewerId = reviewer.account._account_id || reviewer.account.email;
       } else if (reviewer.group) {
-        reviewerId = reviewer.group.id;
+        reviewerId = decodeURIComponent(reviewer.group.id);
         confirmed = reviewer.group.confirmed;
       }
       return {reviewer: reviewerId, confirmed};

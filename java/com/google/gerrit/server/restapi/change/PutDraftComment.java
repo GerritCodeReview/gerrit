@@ -14,9 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
-
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -31,6 +28,7 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -43,9 +41,13 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
+
 import java.sql.Timestamp;
 import java.util.Collections;
 import java.util.Optional;
+
+import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
+import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 @Singleton
 public class PutDraftComment implements RestModifyView<DraftCommentResource, DraftInput> {
@@ -55,6 +57,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final PatchSetUtil psUtil;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
+  private final ChangeNotes.Factory changeNotesFactory;
 
   @Inject
   PutDraftComment(
@@ -63,13 +66,15 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       Provider<CommentJson> commentJson,
-      PatchListCache patchListCache) {
+      PatchListCache patchListCache,
+      ChangeNotes.Factory changeNotesFactory) {
     this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.commentJson = commentJson;
     this.patchListCache = patchListCache;
+    this.changeNotesFactory = changeNotesFactory;
   }
 
   @Override
@@ -86,8 +91,12 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       throw new BadRequestException("patchset-level comments can't have side, range, or line");
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
+    } else if (in.inReplyTo != null
+        && !commentsUtil.getPublishedHumanComment(rsrc.getNotes(), in.inReplyTo).isPresent()
+        && !commentsUtil.getRobotComment(rsrc.getNotes(), in.inReplyTo).isPresent()) {
+      throw new BadRequestException(
+          String.format("Invalid inReplyTo, comment %s not found", in.inReplyTo));
     }
-
     try (BatchUpdate bu =
         updateFactory.create(rsrc.getChange().getProject(), rsrc.getUser(), TimeUtil.nowTs())) {
       Op op = new Op(rsrc.getComment().key, in);

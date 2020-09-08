@@ -1557,6 +1557,27 @@ public abstract class AbstractPushForReview extends AbstractDaemonTest {
   }
 
   @Test
+  public void pushWithLinkFooter() throws Exception {
+    String changeId = "I0123456789abcdef0123456789abcdef01234567";
+    String url = cfg.getString("gerrit", null, "canonicalWebUrl");
+    if (!url.endsWith("/")) {
+      url += "/";
+    }
+    RevCommit c = createCommit(testRepo, "test commit\n\nLink: " + url + "id/" + changeId);
+    pushForReviewOk(testRepo);
+
+    List<ChangeMessageInfo> messages = getMessages(changeId);
+    assertThat(messages.get(0).message).isEqualTo("Uploaded patch set 1.");
+  }
+
+  @Test
+  public void pushWithWrongHostLinkFooter() throws Exception {
+    String changeId = "I0123456789abcdef0123456789abcdef01234567";
+    RevCommit c = createCommit(testRepo, "test commit\n\nLink: https://wronghost/id/" + changeId);
+    pushForReviewRejected(testRepo, "missing Change-Id in message footer");
+  }
+
+  @Test
   public void pushWithChangeIdAboveFooterWithCreateNewChangeForAllNotInTarget() throws Exception {
     enableCreateNewChangeForAllNotInTarget();
     testPushWithChangeIdAboveFooter();

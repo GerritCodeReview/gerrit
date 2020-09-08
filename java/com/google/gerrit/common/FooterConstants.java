@@ -20,6 +20,9 @@ public class FooterConstants {
   /** The change ID as used to track patch sets. */
   public static final FooterKey CHANGE_ID = new FooterKey("Change-Id");
 
+  /** Link is an alternative footer that may be used to track patch sets. */
+  public static final FooterKey LINK = new FooterKey("Link");
+
   /** The footer telling us who reviewed the change. */
   public static final FooterKey REVIEWED_BY = new FooterKey("Reviewed-by");
 

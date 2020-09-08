@@ -28,7 +28,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
-import com.google.gerrit.common.FooterConstants;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
@@ -38,12 +37,14 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.FixInput;
 import com.google.gerrit.extensions.common.ProblemInfo;
 import com.google.gerrit.extensions.common.ProblemInfo.Status;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.Accounts;
+import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.PatchSetState;
@@ -115,6 +116,7 @@ public class ConsistencyChecker {
   private final Provider<CurrentUser> user;
   private final Provider<PersonIdent> serverIdent;
   private final RetryHelper retryHelper;
+  private final DynamicItem<UrlFormatter> urlFormatter;
 
   private BatchUpdate.Factory updateFactory;
   private FixInput fix;
@@ -141,7 +143,8 @@ public class ConsistencyChecker {
       PatchSetInserter.Factory patchSetInserterFactory,
       PatchSetUtil psUtil,
       Provider<CurrentUser> user,
-      RetryHelper retryHelper) {
+      RetryHelper retryHelper,
+      DynamicItem<UrlFormatter> urlFormatter) {
     this.accounts = accounts;
     this.accountPatchReviewStore = accountPatchReviewStore;
     this.notesFactory = notesFactory;
@@ -152,6 +155,7 @@ public class ConsistencyChecker {
     this.retryHelper = retryHelper;
     this.serverIdent = serverIdent;
     this.user = user;
+    this.urlFormatter = urlFormatter;
     reset();
   }
 
@@ -456,7 +460,8 @@ public class ConsistencyChecker {
           // No patch set for this commit; insert one.
           rw.parseBody(commit);
           String changeId =
-              Iterables.getFirst(commit.getFooterLines(FooterConstants.CHANGE_ID), null);
+              Iterables.getFirst(
+                  ChangeUtil.getChangeIdsFromFooter(commit, urlFormatter.get()), null);
           // Missing Change-Id footer is ok, but mismatched is not.
           if (changeId != null && !changeId.equals(change().getKey().get())) {
             problem(

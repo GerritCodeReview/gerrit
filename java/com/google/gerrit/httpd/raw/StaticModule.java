@@ -69,6 +69,7 @@ public class StaticModule extends ServletModule {
       ImmutableList.of(
           "/",
           "/c/*",
+          "/id/*",
           "/p/*",
           "/q/*",
           "/x/*",

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3d0a7e7c_3103b6ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-08T20:04:53Z",
+      "side": 1,
+      "message": "So, I have had a look at creating a new SSH command which will then invoke an existing command and I cannot see how it could be done. However, I know it is a trivial issue if I can extend the commands I am looking to extend the functionality of, namely Receive/Upload. \n\nThere appears not to be any great logic in looking at the final/public declarations for the SSHD commands. Some are public and some are final. UploadArchive for example is already public, meaning I can proceed in extending that, but I cannot extend Upload.\n\nI am all for being shown the error of my ways, but if I want to extend either of these two, effectively intercepting them and doing my own thing in between - then that is what I need to solve.\n\nEffectively something like:\n\n    public class MyUpload extends Upload {\n      @Override\n          protected void runImpl() {\n        ...\n        super.runImpl();\n      }\n    }\n\nI cannot see that this use case is catered for and to untangle the whole Factory business of finding and executing an SSHD command seems to be a whole lot more complicated than extending the existing classes. Finally I don\u0027t want to reimplement all the functionality in Receive/Upload just because I can\u0027t extend it.",
+      "revId": "c12536eff765328da5dcf882add6d3a12e7f3006",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

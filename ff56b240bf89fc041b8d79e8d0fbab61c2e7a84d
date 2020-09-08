@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "ca45e37b_f297d44f",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-08T10:45:08Z",
+      "side": 1,
+      "message": "this is used since we want to try to revert the submission of both of those changes (which implicitly depend on each other).",
+      "parentUuid": "b938f007_d4d84221",
+      "range": {
+        "startLine": 687,
+        "startChar": 4,
+        "endLine": 689,
+        "endChar": 61
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b55ee32b_dc48eaed",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3

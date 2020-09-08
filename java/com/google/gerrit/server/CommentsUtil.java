@@ -57,6 +57,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
+import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
@@ -411,15 +412,33 @@ public class CommentsUtil {
         ps.id(),
         c);
     if (c.getCommitId() == null) {
-      if (Side.fromShort(c.side) == Side.PARENT) {
-        if (c.side < 0) {
-          c.setCommitId(cache.getOldId(change, ps, -c.side));
-        } else {
-          c.setCommitId(cache.getOldId(change, ps, null));
-        }
+      c.setCommitId(determineCommitId(cache, change, ps, c.side));
+    }
+  }
+
+  /**
+   * Determines the SHA-1 of the commit referenced by the (change, patchset, side) triple.
+   *
+   * @param patchListCache the cache to use for SHA-1 lookups
+   * @param change the change to which the commit belongs
+   * @param patchset the patchset to which the commit belongs
+   * @param side the side indicating which commit of the patchset to take. 1 is the patchset commit,
+   *     0 the parent commit (or auto-merge for changes representing merge commits); -x the xth
+   *     parent commit of a merge commit
+   * @return the commit SHA-1
+   * @throws PatchListNotAvailableException if the SHA-1 is unavailable for an unknown reason
+   */
+  public static ObjectId determineCommitId(
+      PatchListCache patchListCache, Change change, PatchSet patchset, short side)
+      throws PatchListNotAvailableException {
+    if (Side.fromShort(side) == Side.PARENT) {
+      if (side < 0) {
+        return patchListCache.getOldId(change, patchset, -side);
       } else {
-        c.setCommitId(ps.commitId());
+        return patchListCache.getOldId(change, patchset, null);
       }
+    } else {
+      return patchset.commitId();
     }
   }
 

@@ -37,7 +37,6 @@ public class DefaultCommandModule extends CommandModule {
 
   @Override
   protected void configure() {
-    CommandName git = Commands.named("git");
     CommandName gerrit = Commands.named("gerrit");
     CommandName logging = Commands.named(gerrit, "logging");
     CommandName plugin = Commands.named(gerrit, "plugin");
@@ -70,7 +69,6 @@ public class DefaultCommandModule extends CommandModule {
     alias(plugin, "add", PluginInstallCommand.class);
     alias(plugin, "rm", PluginRemoveCommand.class);
 
-    command(git).toProvider(new DispatchCommandProvider(git));
 
     command("ps").to(ShowQueue.class);
     command("kill").to(KillCommand.class);
@@ -78,6 +76,8 @@ public class DefaultCommandModule extends CommandModule {
 
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms
     if (sshEnabled()) {
+      CommandName git = Commands.named("git");
+      command(git).toProvider(new DispatchCommandProvider(git));
       command("git-upload-pack").to(Commands.key(git, "upload-pack"));
       command(git, "upload-pack").to(Upload.class);
       command("git-upload-archive").to(Commands.key(git, "upload-archive"));

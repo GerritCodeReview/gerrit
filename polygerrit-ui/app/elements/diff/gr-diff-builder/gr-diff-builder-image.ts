@@ -52,8 +52,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     // TODO(kaspern): Support blame for image diffs and remove the hardcoded 4
     // column limit.
     td.setAttribute('colspan', '4');
-    const endpoint = this._createElement('gr-endpoint-decorator');
-    const endpointDomApi = endpoint;
+    const endpointDomApi = this._createElement('gr-endpoint-decorator');
     endpointDomApi.setAttribute('name', 'image-diff');
     endpointDomApi.appendChild(
       this._createEndpointParam('baseImage', this._baseImage)
@@ -61,7 +60,7 @@ export class GrDiffBuilderImage extends GrDiffBuilderSideBySide {
     endpointDomApi.appendChild(
       this._createEndpointParam('revisionImage', this._revisionImage)
     );
-    td.appendChild(endpoint);
+    td.appendChild(endpointDomApi);
     tr.appendChild(td);
     tbody.appendChild(tr);
     return tbody;

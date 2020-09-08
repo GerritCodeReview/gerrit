@@ -29,7 +29,7 @@ declare global {
 export class GrEndpointParam extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
-  @property({type: String})
+  @property({type: String, reflectToAttribute: true})
   name = '';
 
   @property({

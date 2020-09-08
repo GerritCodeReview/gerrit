@@ -25,6 +25,29 @@
     },
     {
       "key": {
+        "uuid": "4db5ec3f_1bce23e7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-08T11:29:22Z",
+      "side": 1,
+      "message": "Can you make this name more descriptive? Maybe firstChangeId or changeId1 or something?",
+      "range": {
+        "startLine": 687,
+        "startChar": 11,
+        "endLine": 687,
+        "endChar": 22
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b938f007_d4d84221",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3

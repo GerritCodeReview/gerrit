@@ -2,7 +2,6 @@ import Dependencies._
 
 enablePlugins(GatlingPlugin)
 
-lazy val gatlingGitExtension = RootProject(uri("git://github.com/GerritForge/gatling-git.git"))
 lazy val root = (project in file("."))
     .settings(
       inThisBuild(List(
@@ -12,8 +11,8 @@ lazy val root = (project in file("."))
       )),
       name := "gerrit",
       libraryDependencies ++=
-          gatling ++
+          gatling ++ gatlingGit ++
               Seq("io.gatling" % "gatling-core" % GatlingVersion) ++
               Seq("io.gatling" % "gatling-app" % GatlingVersion),
       scalacOptions += "-language:postfixOps"
-    ) dependsOn gatlingGitExtension
+    )

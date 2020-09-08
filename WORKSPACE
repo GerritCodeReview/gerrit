@@ -219,15 +219,15 @@ maven_jar(
     sha1 = GUAVA_BIN_SHA1,
 )
 
-CAFFEINE_VERS = "2.8.0"
+CAFFEINE_VERS = "2.8.5"
 
 maven_jar(
     name = "caffeine",
     artifact = "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
-    sha1 = "6000774d7f8412ced005a704188ced78beeed2bb",
+    sha1 = "f0eafef6e1529a44e36549cd9d1fc06d3a57f384",
 )
 
-CAFFEINE_GUAVA_SHA256 = "3a66ee3ec70971dee0bae6e56bda7b8742bc4bedd7489161bfbbaaf7137d89e1"
+CAFFEINE_GUAVA_SHA256 = "a7ce6d29c40bccd688815a6734070c55b20cd326351a06886a6144005aa32299"
 
 # TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential
 # naming collision between caffeine guava adapter and guava library itself.
@@ -758,8 +758,8 @@ maven_jar(
 # Keep this version of Soy synchronized with the version used in Gitiles.
 maven_jar(
     name = "soy",
-    artifact = "com.google.template:soy:2019-10-08",
-    sha1 = "4518bf8bac2dbbed684849bc209c39c4cb546237",
+    artifact = "com.google.template:soy:2020-08-24",
+    sha1 = "e774bf5cc95923d2685292883fe219e231346e50",
 )
 
 maven_jar(

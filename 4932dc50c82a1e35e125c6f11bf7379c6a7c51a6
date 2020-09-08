@@ -22,6 +22,30 @@
       "revId": "4932dc50c82a1e35e125c6f11bf7379c6a7c51a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccbcbb3b_522e376f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T20:09:43Z",
+      "side": 1,
+      "message": "This framework relies on credentials for both ssh (keys) and http. The git commands don\u0027t pass without proper authentication of the test user. Why proposing anonymous, though?",
+      "parentUuid": "3d0c1ce8_46cc8444",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "4932dc50c82a1e35e125c6f11bf7379c6a7c51a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

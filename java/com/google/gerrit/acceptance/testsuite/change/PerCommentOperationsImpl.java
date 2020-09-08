@@ -56,6 +56,11 @@ public class PerCommentOperationsImpl implements PerCommentOperations {
   }
 
   static TestHumanComment toTestComment(HumanComment comment) {
-    return TestHumanComment.builder().uuid(comment.key.uuid).parentUuid(comment.parentUuid).build();
+    return TestHumanComment.builder()
+        .uuid(comment.key.uuid)
+        .parentUuid(comment.parentUuid)
+        .tag(comment.tag)
+        .unresolved(comment.unresolved)
+        .build();
   }
 }

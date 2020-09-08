@@ -664,6 +664,39 @@ public class ChangeOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void tagOfPublishedCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String childCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().tag("tag").create();
+
+    TestHumanComment comment = changeOperations.change(changeId).comment(childCommentUuid).get();
+
+    assertThat(comment.tag()).value().isEqualTo("tag");
+  }
+
+  @Test
+  public void unresolvedOfUnresolvedPublishedCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String childCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().unresolved(true).create();
+
+    TestHumanComment comment = changeOperations.change(changeId).comment(childCommentUuid).get();
+
+    assertThat(comment.unresolved()).value().isEqualTo(true);
+  }
+
+  @Test
+  public void unresolvedOfResolvedPublishedCommentCanBeRetrieved() {
+    Change.Id changeId = changeOperations.newChange().create();
+    String childCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().unresolved(false).create();
+
+    TestHumanComment comment = changeOperations.change(changeId).comment(childCommentUuid).get();
+
+    assertThat(comment.unresolved()).value().isEqualTo(false);
+  }
+
+  @Test
   public void draftCommentCanBeRetrieved() {
     Change.Id changeId = changeOperations.newChange().create();
     String commentUuid = changeOperations.change(changeId).currentPatchset().newComment().create();

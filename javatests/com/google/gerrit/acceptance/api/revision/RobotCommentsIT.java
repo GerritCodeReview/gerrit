@@ -14,9 +14,11 @@
 
 package com.google.gerrit.acceptance.api.revision;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.collect.MoreCollectors.onlyElement;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.extensions.client.ListChangesOption.MESSAGES;
 import static com.google.gerrit.extensions.common.testing.DiffInfoSubject.assertThat;
@@ -32,8 +34,11 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.UseClockStep;
 import com.google.gerrit.acceptance.config.GerritConfig;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.PublishChangeEditInput;
+import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput.RobotCommentInput;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
@@ -67,6 +72,7 @@ import org.junit.Test;
 
 public class RobotCommentsIT extends AbstractDaemonTest {
   @Inject private TestCommentHelper testCommentHelper;
+  @Inject private ChangeOperations changeOperations;
 
   private static final String PLAIN_TEXT_CONTENT_TYPE = "text/plain";
   private static final String GERRIT_COMMIT_MESSAGE_TYPE = "text/x-gerrit-commit-message";
@@ -317,6 +323,58 @@ public class RobotCommentsIT extends AbstractDaemonTest {
         assertThrows(
             BadRequestException.class, () -> testCommentHelper.addRobotComment(changeId, input));
     assertThat(ex.getMessage()).contains("file path must not be " + PATCHSET_LEVEL);
+  }
+
+  @Test
+  public void robotCommentInvalidInReplyTo() throws Exception {
+    RobotCommentInput input = TestCommentHelper.createRobotCommentInput(PATCHSET_LEVEL);
+    input.inReplyTo = "invalid";
+    BadRequestException ex =
+        assertThrows(
+            BadRequestException.class, () -> testCommentHelper.addRobotComment(changeId, input));
+    assertThat(ex.getMessage()).contains("inReplyTo");
+  }
+
+  @Test
+  public void canCreateRobotCommentWithRobotCommentAsParent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentRobotCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
+
+    ReviewInput.RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(COMMIT_MSG);
+    robotCommentInput.message = "comment reply";
+    robotCommentInput.inReplyTo = parentRobotCommentUuid;
+    testCommentHelper.addRobotComment(changeIdSha1, robotCommentInput);
+
+    RobotCommentInfo resultComment =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeIdSha1).current().robotCommentsAsList().stream()
+                .filter(c -> c.message.equals("comment reply"))
+                .collect(toImmutableSet()));
+    assertThat(resultComment.inReplyTo).isEqualTo(parentRobotCommentUuid);
+  }
+
+  @Test
+  public void canCreateRobotCommentWithHumanCommentAsParent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    ReviewInput.RobotCommentInput robotCommentInput =
+        TestCommentHelper.createRobotCommentInputWithMandatoryFields(COMMIT_MSG);
+    robotCommentInput.message = "comment reply";
+    robotCommentInput.inReplyTo = parentCommentUuid;
+    testCommentHelper.addRobotComment(changeIdSha1, robotCommentInput);
+
+    RobotCommentInfo resultComment =
+        Iterables.getOnlyElement(
+            gApi.changes().id(changeIdSha1).current().robotCommentsAsList().stream()
+                .filter(c -> c.message.equals("comment reply"))
+                .collect(toImmutableSet()));
+    assertThat(resultComment.inReplyTo).isEqualTo(parentCommentUuid);
   }
 
   @Test

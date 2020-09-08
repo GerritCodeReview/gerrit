@@ -14,10 +14,12 @@
 
 package com.google.gerrit.acceptance.server.change;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.acceptance.PushOneCommit.FILE_NAME;
 import static com.google.gerrit.acceptance.PushOneCommit.SUBJECT;
+import static com.google.gerrit.entities.Patch.COMMIT_MSG;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 import static com.google.gerrit.truth.MapSubject.assertThatMap;
@@ -51,7 +53,6 @@ import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.ChangeInfo;
 import com.google.gerrit.extensions.common.CommentInfo;
-import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
@@ -658,6 +659,36 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putDraft_humanInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    DraftInput draft = newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
+    draft.inReplyTo = parentCommentUuid;
+    String createdDraftUuid =
+        addDraft(changeOperations.change(changeId).get().changeId(), draft).id;
+    TestHumanComment actual =
+        changeOperations.change(changeId).draftComment(createdDraftUuid).get();
+    assertThat(actual.parentUuid()).hasValue(parentCommentUuid);
+  }
+
+  @Test
+  public void putDraft_robotInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String parentRobotCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
+
+    DraftInput draft = newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
+    draft.inReplyTo = parentRobotCommentUuid;
+    String createdDraftUuid =
+        addDraft(changeOperations.change(changeId).get().changeId(), draft).id;
+    TestHumanComment actual =
+        changeOperations.change(changeId).draftComment(createdDraftUuid).get();
+    assertThat(actual.parentUuid()).hasValue(parentRobotCommentUuid);
+  }
+
+  @Test
   public void putDraft_idMismatch() throws Exception {
     String file = "file";
     PushOneCommit.Result r = createChange();
@@ -702,6 +733,18 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void putDraft_invalidInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    DraftInput draft = newDraft(COMMIT_MSG, Side.REVISION, 0, "foo");
+    draft.inReplyTo = "invalid";
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> addDraft(changeOperations.change(changeId).get().changeId(), draft));
+    assertThat(exception.getMessage()).contains(String.format("%s not found", draft.inReplyTo));
+  }
+
+  @Test
   public void putDraft_updatePath() throws Exception {
     PushOneCommit.Result r = createChange();
     String changeId = r.getChangeId();
@@ -715,22 +758,66 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void putDraft_updateInReplyToAndTag() throws Exception {
-    PushOneCommit.Result r = createChange();
-    String changeId = r.getChangeId();
-    String revId = r.getCommit().getName();
-    DraftInput draftInput1 = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
-    CommentInfo commentInfo = addDraft(changeId, revId, draftInput1);
-    DraftInput draftInput2 = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
-    String inReplyTo = "in_reply_to";
+  public void putDraft_updateInvalidInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    CommentInfo originalDraft = addDraft(changeIdSha1, originalDraftInput);
+
+    DraftInput updatedDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    updatedDraftInput.inReplyTo = "invalid";
+    BadRequestException exception =
+        assertThrows(
+            BadRequestException.class,
+            () -> updateDraft(changeIdSha1, updatedDraftInput, originalDraft.id));
+    assertThat(exception.getMessage()).contains(String.format("Invalid inReplyTo"));
+  }
+
+  @Test
+  public void putDraft_updateHumanInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    CommentInfo originalDraft = addDraft(changeIdSha1, originalDraftInput);
+
+    DraftInput updateDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    updateDraftInput.inReplyTo = parentCommentUuid;
+    updateDraft(changeIdSha1, updateDraftInput, originalDraft.id);
+    assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().parentUuid())
+        .hasValue(parentCommentUuid);
+  }
+
+  @Test
+  public void putDraft_updateRobotInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentRobotCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
+    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    CommentInfo originalDraft = addDraft(changeIdSha1, originalDraftInput);
+
+    DraftInput updateDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
+    updateDraftInput.inReplyTo = parentRobotCommentUuid;
+    updateDraft(changeIdSha1, updateDraftInput, originalDraft.id);
+    assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().parentUuid())
+        .hasValue(parentRobotCommentUuid);
+  }
+
+  @Test
+  public void putDraft_updateTag() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    DraftInput originalDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "foo");
+    CommentInfo originalDraft = addDraft(changeIdSha1, originalDraftInput);
+
+    DraftInput updateDraftInput = newDraft(FILE_NAME, Side.REVISION, 0, "bar");
     String tag = "täg";
-    draftInput2.inReplyTo = inReplyTo;
-    draftInput2.tag = tag;
-    updateDraft(changeId, revId, draftInput2, commentInfo.id);
-    com.google.gerrit.entities.Comment comment =
-        Iterables.getOnlyElement(commentsUtil.draftByChange(r.getChange().notes()));
-    assertThat(comment.parentUuid).isEqualTo(inReplyTo);
-    assertThat(comment.tag).isEqualTo(tag);
+    updateDraftInput.tag = tag;
+    updateDraft(changeIdSha1, updateDraftInput, originalDraft.id);
+    assertThat(changeOperations.change(changeId).draftComment(originalDraft.id).get().tag())
+        .hasValue(tag);
   }
 
   @Test
@@ -1474,26 +1561,77 @@ public class CommentsIT extends AbstractDaemonTest {
 
   @Test
   public void canCreateHumanCommentWithRobotCommentAsParentAndUnsetUnresolved() throws Exception {
-    PushOneCommit.Result result = createChange();
-    String changeId = result.getChangeId();
-    String ps1 = result.getCommit().name();
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentRobotCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
 
-    testCommentHelper.addRobotComment(
-        result.getChangeId(),
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields(FILE_NAME));
-    RobotCommentInfo robotCommentInfo =
-        Iterables.getOnlyElement(gApi.changes().id(changeId).current().robotCommentsAsList());
+    CommentInput createdCommentInput = newComment(COMMIT_MSG, "comment reply");
+    createdCommentInput.inReplyTo = parentRobotCommentUuid;
+    createdCommentInput.unresolved = null;
+    addComments(changeIdSha1, createdCommentInput);
 
-    CommentInput comment = newComment(FILE_NAME, "comment 1 reply");
-    comment.inReplyTo = robotCommentInfo.id;
-    comment.unresolved = null;
-    addComments(changeId, ps1, comment);
+    CommentInfo resultNewComment =
+        Iterables.getOnlyElement(
+            getPublishedCommentsAsList(changeIdSha1).stream()
+                .filter(c -> c.message.equals("comment reply"))
+                .collect(toImmutableSet()));
 
-    CommentInfo resultComment = Iterables.getOnlyElement(getPublishedCommentsAsList(changeId));
-    assertThat(resultComment.inReplyTo).isEqualTo(robotCommentInfo.id);
+    assertThat(resultNewComment.inReplyTo).isEqualTo(parentRobotCommentUuid);
 
     // Default unresolved is false.
-    assertThat(resultComment.unresolved).isFalse();
+    assertThat(resultNewComment.unresolved).isFalse();
+  }
+
+  @Test
+  public void canCreateHumanCommentWithHumanCommentAsParent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newComment().create();
+
+    CommentInput createdCommentInput = newComment(COMMIT_MSG, "comment reply");
+    createdCommentInput.inReplyTo = parentCommentUuid;
+    addComments(changeIdSha1, createdCommentInput);
+
+    CommentInfo resultNewComment =
+        Iterables.getOnlyElement(
+            getPublishedCommentsAsList(changeIdSha1).stream()
+                .filter(c -> c.message.equals("comment reply"))
+                .collect(toImmutableSet()));
+    assertThat(resultNewComment.inReplyTo).isEqualTo(parentCommentUuid);
+  }
+
+  @Test
+  public void canCreateHumanCommentWithRobotCommentAsParent() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+    String parentRobotCommentUuid =
+        changeOperations.change(changeId).currentPatchset().newRobotComment().create();
+
+    CommentInput createdCommentInput = newComment(COMMIT_MSG, "comment reply");
+    createdCommentInput.inReplyTo = parentRobotCommentUuid;
+    addComments(changeIdSha1, createdCommentInput);
+
+    CommentInfo resultNewComment =
+        Iterables.getOnlyElement(
+            getPublishedCommentsAsList(changeIdSha1).stream()
+                .filter(c -> c.message.equals("comment reply"))
+                .collect(toImmutableSet()));
+    assertThat(resultNewComment.inReplyTo).isEqualTo(parentRobotCommentUuid);
+  }
+
+  @Test
+  public void cannotCreateCommentWithInvalidInReplyTo() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+    String changeIdSha1 = changeOperations.change(changeId).get().changeId();
+
+    CommentInput comment = newComment(COMMIT_MSG, "comment 1 reply");
+    comment.inReplyTo = "invalid";
+
+    BadRequestException exception =
+        assertThrows(BadRequestException.class, () -> addComments(changeIdSha1, comment));
+    assertThat(exception.getMessage()).contains(String.format("%s not found", comment.inReplyTo));
   }
 
   private List<CommentInfo> getRevisionComments(String changeId, String revId) throws Exception {
@@ -1515,6 +1653,12 @@ public class CommentsIT extends AbstractDaemonTest {
     ReviewInput input = new ReviewInput();
     input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
     gApi.changes().id(changeId).revision(revision).review(input);
+  }
+
+  private void addComments(String changeId, CommentInput... commentInputs) throws Exception {
+    ReviewInput input = new ReviewInput();
+    input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
+    gApi.changes().id(changeId).current().review(input);
   }
 
   /**
@@ -1610,9 +1754,17 @@ public class CommentsIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
 
+  private CommentInfo addDraft(String changeId, DraftInput in) throws Exception {
+    return gApi.changes().id(changeId).current().createDraft(in).get();
+  }
+
   private void updateDraft(String changeId, String revId, DraftInput in, String uuid)
       throws Exception {
     gApi.changes().id(changeId).revision(revId).draft(uuid).update(in);
+  }
+
+  private void updateDraft(String changeId, DraftInput in, String uuid) throws Exception {
+    gApi.changes().id(changeId).current().draft(uuid).update(in);
   }
 
   private void deleteDraft(String changeId, String revId, String uuid) throws Exception {

@@ -28,6 +28,12 @@ public abstract class TestHumanComment {
   /** UUID of another comment to which this comment is a reply. */
   public abstract Optional<String> parentUuid();
 
+  /** Tag of a comment. */
+  public abstract Optional<String> tag();
+
+  /** Unresolved state of a comment. */
+  public abstract Optional<Boolean> unresolved();
+
   static Builder builder() {
     return new AutoValue_TestHumanComment.Builder();
   }
@@ -37,6 +43,10 @@ public abstract class TestHumanComment {
     abstract Builder uuid(String uuid);
 
     abstract Builder parentUuid(@Nullable String parentUuid);
+
+    abstract Builder tag(@Nullable String tag);
+
+    abstract Builder unresolved(@Nullable Boolean unresolved);
 
     abstract TestHumanComment build();
   }

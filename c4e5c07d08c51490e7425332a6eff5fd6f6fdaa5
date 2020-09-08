@@ -16,6 +16,23 @@
       "revId": "c4e5c07d08c51490e7425332a6eff5fd6f6fdaa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "57920387_42238666",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-08T11:24:50Z",
+      "side": 1,
+      "message": "Was something missed here? I\u0027ve attempted to use @GerritIsReplica in a standalone plugin and Intellij is telling me there is no such thing as a @GerritIsReplica annotation in the API?\n\nUsing stable-3.2 I\u0027ve been able to use the value using:\n\n  @Inject\n  @GerritIsReplica\n  boolean isReplica;\n\nBut I cannot figure out why @GerritIsReplica is not importable from the API?\n\nCould some clarification be given on how to use this correctly, if the above is not right?\n\nIf it is the right way, perhaps better documentation would be helpful?\n",
+      "revId": "c4e5c07d08c51490e7425332a6eff5fd6f6fdaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -16,6 +16,23 @@
       "revId": "8cab93302d9c35316d691e848b67e687a68182b5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bd65701_322b3973",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-09-08T18:13:01Z",
+      "side": 1,
+      "message": "probably needs a link in the release notes too, but not sure where those are.",
+      "revId": "8cab93302d9c35316d691e848b67e687a68182b5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

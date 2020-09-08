@@ -33,6 +33,24 @@
       "revId": "c4e5c07d08c51490e7425332a6eff5fd6f6fdaa5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "13c7ea4a_8297bc2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-08T13:18:42Z",
+      "side": 1,
+      "message": "\u003e Was something missed here? I\u0027ve attempted to use @GerritIsReplica in a standalone plugin and Intellij is telling me there is no such thing as a @GerritIsReplica annotation in the API?\n\nDoes it build with Bazel? Is it something related to IntelliJ? Can you reproduce the issue with Eclipse?",
+      "parentUuid": "57920387_42238666",
+      "revId": "c4e5c07d08c51490e7425332a6eff5fd6f6fdaa5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -46,6 +46,30 @@
       "revId": "4932dc50c82a1e35e125c6f11bf7379c6a7c51a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d3ae09f6_bb20aa75",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-08T22:40:57Z",
+      "side": 1,
+      "message": "then I didn\u0027t understand what you mean by git protocol, it could be anonymous git, git over ssh or git over http",
+      "parentUuid": "ccbcbb3b_522e376f",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "4932dc50c82a1e35e125c6f11bf7379c6a7c51a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

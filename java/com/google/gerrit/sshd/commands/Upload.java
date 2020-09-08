@@ -45,7 +45,7 @@ import org.eclipse.jgit.transport.PreUploadHookChain;
 import org.eclipse.jgit.transport.UploadPack;
 
 /** Publishes Git repositories over SSH using the Git upload-pack protocol. */
-final class Upload extends AbstractGitCommand {
+public class Upload extends AbstractGitCommand {
   @Inject private TransferConfig config;
   @Inject private DynamicSet<PreUploadHook> preUploadHooks;
   @Inject private DynamicSet<PostUploadHook> postUploadHooks;

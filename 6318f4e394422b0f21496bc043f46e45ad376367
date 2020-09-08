@@ -72,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "f3ccf707_0778f798",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 674,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-08T07:20:11Z",
+      "side": 1,
+      "message": "The code in PerPatchsetOperationsImpl should not call the same validations. Tests should have the possibility to set up invalid comments to also test some corner cases. For instance, I intend to test how the ported comments endpoint reacts to comments which refer to not-existing parent comments once I\u0027ve added the filtering code for resolved comments.\n\nFor the tests in this class, we have to distinguish between setup code and the actual code under test. Setup code (e.g. lines 664-674) is not intended to test the comments API. For that part, we can use any API which is convenient (e.g. the test API). The same holds for the validation part (e.g. lines 679-680) if the return value of the code under test isn\u0027t directly used for assertions. Only the code under test (e.g. lines 676-678) must call the comments API.",
+      "parentUuid": "093f0c7f_56bae07c",
+      "range": {
+        "startLine": 664,
+        "startChar": 4,
+        "endLine": 674,
+        "endChar": 83
+      },
+      "revId": "6318f4e394422b0f21496bc043f46e45ad376367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6ecf3bdf_00383bb6",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 3

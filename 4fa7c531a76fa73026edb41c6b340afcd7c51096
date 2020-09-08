@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b328a1c_6bc59d06",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-08T14:59:15Z",
+      "side": 1,
+      "message": "somehow its changed here from setAttribute to directly assignment.",
+      "revId": "4fa7c531a76fa73026edb41c6b340afcd7c51096",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

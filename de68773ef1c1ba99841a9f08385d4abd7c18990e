@@ -2,6 +2,98 @@
   "comments": [
     {
       "key": {
+        "uuid": "da176ad8_36c7a6c4",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-08T07:05:44Z",
+      "side": 1,
+      "message": "verifies ? it still exists",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a3e061a_a4bfb945",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-08T07:05:44Z",
+      "side": 1,
+      "message": "to clone the expected content of the replica instead",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dc12d9b_b9875359",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-08T07:05:44Z",
+      "side": 1,
+      "message": "The new scenario is",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6dcf6290_3923c23c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-08T07:05:44Z",
+      "side": 1,
+      "message": "git config options usually use camel case not snake case\n\nreplicationDelay",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "0cbc535b_cf953bad",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 7
@@ -16,6 +108,29 @@
       "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1d5d6846_99784db5",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-08T07:05:44Z",
+      "side": 1,
+      "message": "why the suffix 1 and not http_port ?",
+      "range": {
+        "startLine": 33,
+        "startChar": 32,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -34,6 +34,24 @@
       "revId": "35ac0dd2563bfb6d6653def76894bbebc1a4d4bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e42e88b5_b89779b3",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-08T18:57:45Z",
+      "side": 1,
+      "message": "ah agreed, will use `reflectToAtribute` for now (will add a TODO mention this might not needed, tho I think its better to have have the name in dom, easier to see when debug",
+      "parentUuid": "d12b0281_51507646",
+      "revId": "35ac0dd2563bfb6d6653def76894bbebc1a4d4bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

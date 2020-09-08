@@ -626,6 +626,15 @@ class ChangeApiImpl implements ChangeApi {
   }
 
   @Override
+  public List<RobotCommentInfo> robotCommentsAsList() throws RestApiException {
+    try {
+      return listChangeRobotComments.getRobotComments(change).value();
+    } catch (Exception e) {
+      throw asRestApiException("Cannot get robot comments", e);
+    }
+  }
+
+  @Override
   public Map<String, List<CommentInfo>> drafts() throws RestApiException {
     try {
       return listDrafts.apply(change).value();

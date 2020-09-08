@@ -348,6 +348,15 @@ public interface ChangeApi {
   Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException;
 
   /**
+   * Get all robot comments on a change as a list.
+   *
+   * @return robot comments as a list; robot comments have the {@code revision} field set to
+   *     indicate their patch set.
+   * @throws RestApiException
+   */
+  List<RobotCommentInfo> robotCommentsAsList() throws RestApiException;
+
+  /**
    * Get all draft comments for the current user on a change.
    *
    * @return drafts in a map keyed by path; comments have the {@code revision} field set to indicate
@@ -614,6 +623,11 @@ public interface ChangeApi {
 
     @Override
     public Map<String, List<RobotCommentInfo>> robotComments() throws RestApiException {
+      throw new NotImplementedException();
+    }
+
+    @Override
+    public List<RobotCommentInfo> robotCommentsAsList() throws RestApiException {
       throw new NotImplementedException();
     }
 

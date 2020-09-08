@@ -66,4 +66,14 @@ public class ListChangeRobotComments implements RestReadView<ChangeResource> {
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, false);
     return Response.ok(robotCommentsMap);
   }
+
+  public Response<List<RobotCommentInfo>> getRobotComments(ChangeResource rsrc) throws Exception {
+    return Response.ok(
+        commentJson
+            .get()
+            .setFillAccounts(true)
+            .setFillPatchSet(true)
+            .newRobotCommentFormatter()
+            .formatAsList(commentsUtil.robotCommentsByChange(rsrc.getNotes())));
+  }
 }

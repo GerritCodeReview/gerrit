@@ -40,7 +40,7 @@ import org.kohsuke.args4j.Option;
 @CommandMetaData(
     name = "receive-pack",
     description = "Standard Git server side command for client side git push")
-final class Receive extends AbstractGitCommand {
+public class Receive extends AbstractGitCommand {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Inject private AsyncReceiveCommits.Factory factory;

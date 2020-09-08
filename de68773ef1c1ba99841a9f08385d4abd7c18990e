@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "463d1768_2fced09b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T20:04:07Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "da176ad8_36c7a6c4",
+      "range": {
+        "startLine": 11,
+        "startChar": 11,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4a3e061a_a4bfb945",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -45,6 +69,30 @@
       "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06e3daba_717264de",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T20:04:07Z",
+      "side": 1,
+      "message": "Done, but kept a bit smaller while still conveying the meaning I think.",
+      "parentUuid": "4a3e061a_a4bfb945",
+      "range": {
+        "startLine": 13,
+        "startChar": 12,
+        "endLine": 13,
+        "endChar": 63
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "8e4f4334_f40d49a2",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T20:04:07Z",
+      "side": 1,
+      "message": "Done, slightly altered to preserve what I originally meant.",
+      "parentUuid": "3dc12d9b_b9875359",
+      "range": {
+        "startLine": 15,
+        "startChar": 0,
+        "endLine": 15,
+        "endChar": 47
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6dcf6290_3923c23c",
         "filename": "/COMMIT_MSG",
         "patchSetId": 7
@@ -91,6 +163,30 @@
       "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f712039_c69ac52d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T20:04:07Z",
+      "side": 1,
+      "message": "This is not the git config option, but rather its e2e-test related cousin. The latter has this underscore convention for property term names, hence this consistent syntax. See [1] (below), to which this wording directly refers.",
+      "parentUuid": "6dcf6290_3923c23c",
+      "range": {
+        "startLine": 18,
+        "startChar": 12,
+        "endLine": 18,
+        "endChar": 29
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -131,6 +227,30 @@
       "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6efb7f4_ff300f1d",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 7
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T20:04:07Z",
+      "side": 1,
+      "message": "Because this property is not the default http_port one, but rather the 8081 one. See the otherwise 8080 value described under [1]. This basic scenario assumes a second (replica) gerrit node running aside, locally. The latter runs on 8081, while the origin or source one runs on 8080.\n\n[1] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.12/dev-e2e-tests.html#_environment_properties",
+      "parentUuid": "1d5d6846_99784db5",
+      "range": {
+        "startLine": 33,
+        "startChar": 32,
+        "endLine": 33,
+        "endChar": 42
+      },
+      "revId": "de68773ef1c1ba99841a9f08385d4abd7c18990e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

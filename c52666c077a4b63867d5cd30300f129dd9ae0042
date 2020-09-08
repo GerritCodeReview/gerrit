@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bb963255_7a978501",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5254,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-08T19:44:16Z",
+      "side": 1,
+      "message": "Says the same thing twice?",
+      "range": {
+        "startLine": 5254,
+        "startChar": 18,
+        "endLine": 5254,
+        "endChar": 94
+      },
+      "revId": "c52666c077a4b63867d5cd30300f129dd9ae0042",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1ffbdb30_43e3a7e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:26:09Z",
+      "side": 1,
+      "message": "In PS4, I also modified CherryPickChange to accept a work in progress (WIP) flag. The RevertSubmission uses a normal revert for the first change, and cherry picks for subsequent changes of the chain. \n\nIn PS3, the cherry picked changes notifications were suppressed (working as expected), but the changes were not marked as WIP. The test in [1] didn\u0027t catch it because I was checking that the array [null, true] does not contain false. I changed the condition so that it asserts that all WIP values are true.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/280716/3..4/javatests/com/google/gerrit/acceptance/api/change/RevertIT.java#720",
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

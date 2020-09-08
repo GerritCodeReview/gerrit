@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6e2e1336_88bd26bc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-08T14:59:37Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/279360 it was changed here.",
+      "revId": "35ac0dd2563bfb6d6653def76894bbebc1a4d4bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

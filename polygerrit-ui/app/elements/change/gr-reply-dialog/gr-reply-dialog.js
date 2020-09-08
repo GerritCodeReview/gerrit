@@ -657,14 +657,14 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     }
     if (section === FocusTarget.BODY) {
       const textarea = this.$.textarea;
-      textarea.async(textarea.getNativeTextarea()
-          .focus.bind(textarea.getNativeTextarea()));
+      textarea.async(() => textarea.getNativeTextarea()
+          .focus());
     } else if (section === FocusTarget.REVIEWERS) {
       const reviewerEntry = this.$.reviewers.focusStart;
-      reviewerEntry.async(reviewerEntry.focus);
+      reviewerEntry.async(() => reviewerEntry.focus());
     } else if (section === FocusTarget.CCS) {
       const ccEntry = this.$.ccs.focusStart;
-      ccEntry.async(ccEntry.focus);
+      ccEntry.async(() => ccEntry.focus());
     }
   }
 

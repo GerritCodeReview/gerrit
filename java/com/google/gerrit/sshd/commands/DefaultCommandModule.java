@@ -70,14 +70,13 @@ public class DefaultCommandModule extends CommandModule {
     alias(plugin, "add", PluginInstallCommand.class);
     alias(plugin, "rm", PluginRemoveCommand.class);
 
-    command(git).toProvider(new DispatchCommandProvider(git));
-
     command("ps").to(ShowQueue.class);
     command("kill").to(KillCommand.class);
     command("scp").to(ScpCommand.class);
 
     // Honor the legacy hyphenated forms as aliases for the non-hyphenated forms
     if (sshEnabled()) {
+      command(git).toProvider(new DispatchCommandProvider(git));
       command("git-upload-pack").to(Commands.key(git, "upload-pack"));
       command(git, "upload-pack").to(Upload.class);
       command("git-upload-archive").to(Commands.key(git, "upload-archive"));

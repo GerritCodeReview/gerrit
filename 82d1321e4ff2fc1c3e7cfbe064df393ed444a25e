@@ -16,6 +16,92 @@
       "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cf9a10f_1f0ca823",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-08T13:48:09Z",
+      "side": 1,
+      "message": "thanks!\nSorry for the late comments.",
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "848cdffa_124fd950",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-08T13:48:09Z",
+      "side": 1,
+      "message": "Isn\u0027t it strange that I can specify notify\u003dNONE because I don\u0027t want notifications, and it will be overridden to notify\u003dOWNER?",
+      "range": {
+        "startLine": 7398,
+        "startChar": 21,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93cf11bd_8e46d6aa",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-08T13:48:09Z",
+      "side": 1,
+      "message": "optional (if you do that, you can ignore my other comment in the test):\nstrange that you can specify notify\u003dALL which be completely and silently ignored. Maybe throw a bad request?",
+      "range": {
+        "startLine": 7397,
+        "startChar": 52,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab083b0c_a66f7cd2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-08T13:48:09Z",
+      "side": 1,
+      "message": "Maybe add\nrevertInput.notify \u003d NotifyHandling.ALL\nThis sets the notifications explicitly, and they should be overridden to be suppressed because of the WIP.",
+      "range": {
+        "startLine": 697,
+        "startChar": 30,
+        "endLine": 697,
+        "endChar": 50
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

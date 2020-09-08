@@ -33,6 +33,24 @@
       "revId": "7b8f1ac95d355b1bfe3e8a0fa5a7fb9718fcb1b7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "98f3d0d4_fe1b4165",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-08T11:46:18Z",
+      "side": 1,
+      "message": "Thanks for heads up but I believe that this is not the case as group audit is only available for the internal groups. IOW when one navigates to the Browse-\u003eGroups then virtual groups are not showed there. It makes sense as they are maintained outside of the Gerrit system hence they change is not recorded.\n\nHaving said that I believe that I have found another issue :D in GWT UI when one navigates to the Project-\u003eName-\u003eAccess only internal groups are linkified (one can click on the link that shows group details like membership and audit log) however in Polymer UI all groups are linked and clicking on the virtual one results in error e.g. `Error 400 (Bad Request): Group \"TF: Gated Project - Site Wide Admin Access\" does not exist`... I will check if I can fix it and propose a fix with issue for it somewhere in the following days.",
+      "parentUuid": "7c8eeadb_badfff08",
+      "revId": "7b8f1ac95d355b1bfe3e8a0fa5a7fb9718fcb1b7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

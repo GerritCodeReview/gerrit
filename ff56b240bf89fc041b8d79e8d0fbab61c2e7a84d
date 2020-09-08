@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "266c77ab_5b85f279",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e008f4bc_3dfc235f",
+      "range": {
+        "startLine": 7,
+        "startChar": 8,
+        "endLine": 7,
+        "endChar": 24
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4db5ec3f_1bce23e7",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2f7860d_85e845b6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 687,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Done. Here and in the other test RevertSubmissionWipMarksAllChangesAsWip().",
+      "parentUuid": "4db5ec3f_1bce23e7",
+      "range": {
+        "startLine": 687,
+        "startChar": 11,
+        "endLine": 687,
+        "endChar": 22
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -95,6 +143,30 @@
     },
     {
       "key": {
+        "uuid": "8847391c_7a406e71",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 689,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Thanks Gal. Yes It\u0027s not. revert submission is tested with a chain of 2 changes.",
+      "parentUuid": "b938f007_d4d84221",
+      "range": {
+        "startLine": 687,
+        "startChar": 4,
+        "endLine": 689,
+        "endChar": 61
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b55ee32b_dc48eaed",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3
@@ -118,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "36ae75de_6fc37c5e",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 698,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b55ee32b_dc48eaed",
+      "range": {
+        "startLine": 697,
+        "startChar": 30,
+        "endLine": 698,
+        "endChar": 37
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a78c3ec7_f87d368c",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3
@@ -132,6 +228,24 @@
       "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee012222_4afea14d",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 702,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a78c3ec7_f87d368c",
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -181,6 +295,30 @@
     },
     {
       "key": {
+        "uuid": "08c04c76_56af0ff6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Yes Much better. Done. \nPreferred allMatch(r -\u003e r.workInProgress).isTrue() instead of using 2 negations.",
+      "parentUuid": "23fc49ef_58410506",
+      "range": {
+        "startLine": 726,
+        "startChar": 16,
+        "endLine": 728,
+        "endChar": 31
+      },
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e247fcd_d6a4c94a",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 3
@@ -195,6 +333,24 @@
       "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d4c61d_c52a6ac4",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1368,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-08T12:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1e247fcd_d6a4c94a",
+      "revId": "ff56b240bf89fc041b8d79e8d0fbab61c2e7a84d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

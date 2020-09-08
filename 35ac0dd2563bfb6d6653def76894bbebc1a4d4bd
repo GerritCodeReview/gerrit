@@ -16,6 +16,24 @@
       "revId": "35ac0dd2563bfb6d6653def76894bbebc1a4d4bd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d12b0281_51507646",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-image.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-08T18:21:52Z",
+      "side": 1,
+      "message": "Setting both property and attribute is not the right fix.\n\n\u0027name\u0027 is a Polymer controlled property, so when you change the attribute, then the property will be updated automatically.\n\nI would actually argue that calling getAttribute(\u0027name\u0027) is wrong. The decorator should read the property instead. And if for some reason it must be the attribute, then the right fix would be to set \u0027reflectToAttribute\u0027.\n\nWDYT?\n\nAll that said, I am sorry for breaking this. It was definitely a stupid oversight from me to just use the property instead of the attribute without checking the details. :-/",
+      "parentUuid": "6e2e1336_88bd26bc",
+      "revId": "35ac0dd2563bfb6d6653def76894bbebc1a4d4bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

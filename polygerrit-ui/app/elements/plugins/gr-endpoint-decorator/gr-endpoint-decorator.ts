@@ -114,6 +114,7 @@ class GrEndpointDecorator extends GestureEventListeners(
     }
     const expectProperties = this._getEndpointParams().map(paramEl => {
       const helper = plugin.attributeHelper(paramEl);
+      // TODO: this should be replaced by accessing the property directly
       const paramName = paramEl.getAttribute('name');
       if (!paramName) throw Error('plugin endpoint parameter missing a name');
       return helper

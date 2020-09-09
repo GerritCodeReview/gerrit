@@ -73,6 +73,24 @@
     },
     {
       "key": {
+        "uuid": "0f025b26_ebd3818f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T17:35:50Z",
+      "side": 1,
+      "message": "It would also be especially good to have a test showing a plugin-created cache still works as expected.",
+      "parentUuid": "2ce8bbd6_9447a9d0",
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74e3cf2e_305e471e",
         "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
         "patchSetId": 1

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a971debd_c7aea2e6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T17:35:50Z",
+      "side": 1,
+      "message": "Do we have some numbers to back this up? The bug linked below vaguely mentions \"deadlocks\" but doesn\u0027t have any output/logs/stacks showing a deadlock.",
+      "range": {
+        "startLine": 12,
+        "startChar": 38,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "9af56d8779ba1ad18aaa0a1877f436ff906d995a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

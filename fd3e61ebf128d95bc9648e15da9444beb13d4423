@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "919ed5df_2636fb73",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "79fe252d_06fa6381",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6155b196_e4bc1615",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -59,6 +77,30 @@
     },
     {
       "key": {
+        "uuid": "572a02c9_bb54f9f0",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 867,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "78883ac1_cfead9c9",
+      "range": {
+        "startLine": 867,
+        "startChar": 3,
+        "endLine": 867,
+        "endChar": 5
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8b1bec86_cdd15a16",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -79,6 +121,30 @@
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "79bb26f8_b45db90a",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8b1bec86_cdd15a16",
+      "range": {
+        "startLine": 887,
+        "startChar": 30,
+        "endLine": 887,
+        "endChar": 52
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -105,6 +171,30 @@
     },
     {
       "key": {
+        "uuid": "472d5b0d_8e3e88a2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 912,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2f6c1fd0_8fddebb8",
+      "range": {
+        "startLine": 912,
+        "startChar": 41,
+        "endLine": 912,
+        "endChar": 63
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8667daae_0352a757",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -119,6 +209,24 @@
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "116b4f73_2609c064",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 931,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8667daae_0352a757",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -145,6 +253,30 @@
     },
     {
       "key": {
+        "uuid": "1dd8e481_0e70a753",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 978,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea0587f4_b6fb1b16",
+      "range": {
+        "startLine": 978,
+        "startChar": 3,
+        "endLine": 978,
+        "endChar": 5
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bafd2194_f9e8c98b",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -165,6 +297,30 @@
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e0f7b1f_89aa8807",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 981,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bafd2194_f9e8c98b",
+      "range": {
+        "startLine": 981,
+        "startChar": 67,
+        "endLine": 981,
+        "endChar": 77
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -191,6 +347,30 @@
     },
     {
       "key": {
+        "uuid": "e5440955_e5cbc4d2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 982,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5f2fd53c_6862a120",
+      "range": {
+        "startLine": 982,
+        "startChar": 10,
+        "endLine": 982,
+        "endChar": 19
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "104be148_35280865",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -202,6 +382,24 @@
       "writtenOn": "2020-09-04T19:10:29Z",
       "side": 1,
       "message": "Copy the old ChangeAttributeFactory example into here now?",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8ce6a3d0_39439b52",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "This is would be very similar to the example above and is intuitive. Do you still think it would be necessary ?",
+      "parentUuid": "104be148_35280865",
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -231,6 +429,30 @@
     },
     {
       "key": {
+        "uuid": "e1505937_9d1acc15",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b1bc697_d7cf18eb",
+      "range": {
+        "startLine": 985,
+        "startChar": 0,
+        "endLine": 988,
+        "endChar": 18
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f1217bd_81c363fc",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1
@@ -251,6 +473,30 @@
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b0b37a6d_62ac1abc",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 996,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f1217bd_81c363fc",
+      "range": {
+        "startLine": 990,
+        "startChar": 0,
+        "endLine": 996,
+        "endChar": 59
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -277,6 +523,30 @@
     },
     {
       "key": {
+        "uuid": "23c5ef91_aa06b60d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d5b7b2e2_9cb12fd7",
+      "range": {
+        "startLine": 84,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4978e348_51569dc5",
         "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
         "patchSetId": 1
@@ -297,6 +567,30 @@
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b75cee9_96ef0285",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4978e348_51569dc5",
+      "range": {
+        "startLine": 123,
+        "startChar": 0,
+        "endLine": 125,
+        "endChar": 96
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -323,6 +617,30 @@
     },
     {
       "key": {
+        "uuid": "45dba425_496fef1c",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 129,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1594e13a_7b85a9fd",
+      "range": {
+        "startLine": 129,
+        "startChar": 22,
+        "endLine": 129,
+        "endChar": 38
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e93ebc9f_8439f463",
         "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
         "patchSetId": 1
@@ -343,6 +661,30 @@
       "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f23effa_c1dcc283",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T05:23:12Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e93ebc9f_8439f463",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

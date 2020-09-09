@@ -337,20 +337,19 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             rangeCommentUuid, lineCommentUuid, fileCommentUuid, patchsetLevelCommentUuid);
   }
 
-  // This is not the desired behavior but at least a current state which doesn't throw exceptions
-  // or has wrong behavior.
   @Test
-  public void commentOnParentCommitIsIgnored() throws Exception {
+  public void commentOnParentCommitIsPorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().onParentCommit().create();
+    String commentUuid =
+        changeOps.change(changeId).patchset(patchset1Id).newComment().onParentCommit().create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
-    assertThat(portedComments).isEmpty();
+    assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
   }
 
   @Test
@@ -1553,7 +1552,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void lineCommentOnCommitMessageIsPortedToNewPosition() throws Exception {
+  public void commentOnCommitMessageIsPortedToNewPosition() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
         changeOps.newChange().commitMessage("Summary line\n\nText 1\nText 2").create();
@@ -1579,6 +1578,202 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
     assertThat(portedComment).line().isEqualTo(11);
+  }
+
+  @Test
+  public void commentOnParentIsPortedToNewPosition() throws Exception {
+    // Set up change and patchsets.
+    Change.Id parentChangeId = changeOps.newChange().file("myFile").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .childOf()
+            .change(parentChangeId)
+            .file("myFile")
+            .content("Line one\n")
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id parentPatchset2Id =
+        changeOps
+            .change(parentChangeId)
+            .newPatchset()
+            .file("myFile")
+            .content("Line 0\nLine 1\n")
+            .create();
+    PatchSet.Id childPatchset2Id =
+        changeOps.change(childChangeId).newPatchset().parent().patchset(parentPatchset2Id).create();
+    // Add comment.
+    String commentUuid =
+        changeOps
+            .change(childChangeId)
+            .patchset(childPatchset1Id)
+            .newComment()
+            .onParentCommit()
+            .onLine(1)
+            .ofFile("myFile")
+            .create();
+
+    CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
+
+    assertThat(portedComment).line().isEqualTo(2);
+  }
+
+  @Test
+  public void commentOnFirstParentIsPortedToNewPosition() throws Exception {
+    // Set up change and patchsets.
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .file("file1")
+            .content("Line one\n")
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id parent1Patchset2Id =
+        changeOps
+            .change(parent1ChangeId)
+            .newPatchset()
+            .file("file1")
+            .content("Line 0\nLine 1\n")
+            .create();
+    PatchSet.Id childPatchset2Id =
+        changeOps
+            .change(childChangeId)
+            .newPatchset()
+            .parents()
+            .patchset(parent1Patchset2Id)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+    // Add comment.
+    String commentUuid =
+        changeOps
+            .change(childChangeId)
+            .patchset(childPatchset1Id)
+            .newComment()
+            .onParentCommit()
+            .onLine(1)
+            .ofFile("file1")
+            .create();
+
+    CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
+
+    assertThat(portedComment).line().isEqualTo(2);
+  }
+
+  @Test
+  public void commentOnSecondParentIsPortedToNewPosition() throws Exception {
+    // Set up change and patchsets.
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .file("file2")
+            .content("Line one\n")
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id parent2Patchset2Id =
+        changeOps
+            .change(parent1ChangeId)
+            .newPatchset()
+            .file("file2")
+            .content("Line 0\nLine 1\n")
+            .create();
+    PatchSet.Id childPatchset2Id =
+        changeOps
+            .change(childChangeId)
+            .newPatchset()
+            .parents()
+            .change(parent1ChangeId)
+            .and()
+            .patchset(parent2Patchset2Id)
+            .create();
+    // Add comment.
+    String commentUuid =
+        changeOps
+            .change(childChangeId)
+            .patchset(childPatchset1Id)
+            .newComment()
+            .onSecondParentCommit()
+            .onLine(1)
+            .ofFile("file2")
+            .create();
+
+    CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
+
+    assertThat(portedComment).line().isEqualTo(2);
+  }
+
+  @Test
+  public void commentOnAutoMergeCommitIsPortedToNewPosition() throws Exception {
+    // Set up change and patchsets. Use the same file so that there's a meaningful auto-merge
+    // commit/diff.
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id parent1Patchset2Id =
+        changeOps
+            .change(parent1ChangeId)
+            .newPatchset()
+            .file("file1")
+            .content("Line 0\nLine 1\n")
+            .create();
+    PatchSet.Id parent2Patchset2Id =
+        changeOps
+            .change(parent1ChangeId)
+            .newPatchset()
+            .file("file1")
+            .content("Line zero\nLine 1\n")
+            .create();
+    PatchSet.Id childPatchset2Id =
+        changeOps
+            .change(childChangeId)
+            .newPatchset()
+            .parents()
+            .patchset(parent1Patchset2Id)
+            .and()
+            .patchset(parent2Patchset2Id)
+            .create();
+    // Add comment.
+    String commentUuid =
+        changeOps
+            .change(childChangeId)
+            .patchset(childPatchset1Id)
+            .newComment()
+            .onAutoMergeCommit()
+            .onLine(1)
+            .ofFile("file1")
+            .create();
+
+    CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
+
+    // Merging the parents creates a conflict in the file. -> Several lines are added due to
+    // conflict markers in the auto-merge commit. We don't care about the exact number, just that
+    // the comment moved down several lines (instead of just one in each parent) and that the
+    // porting logic hence used the auto-merge commit for its computation.
+    assertThat(portedComment).line().isGreaterThan(2);
   }
 
   private CommentInfo getPortedComment(PatchSet.Id patchsetId, String commentUuid)

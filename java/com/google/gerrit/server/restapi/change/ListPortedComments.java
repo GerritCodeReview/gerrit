@@ -22,7 +22,6 @@ import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -47,7 +46,7 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
 
   @Override
   public Response<Map<String, List<CommentInfo>>> apply(RevisionResource revisionResource)
-      throws PermissionBackendException, PatchListNotAvailableException {
+      throws PermissionBackendException {
     PatchSet targetPatchset = revisionResource.getPatchSet();
 
     List<HumanComment> allComments =

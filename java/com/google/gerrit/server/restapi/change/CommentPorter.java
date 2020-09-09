@@ -20,16 +20,20 @@ import static java.util.stream.Collectors.groupingBy;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
+import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment.Range;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
+import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
 import com.google.gerrit.server.patch.GitPositionTransformer.BestPositionOnConflict;
+import com.google.gerrit.server.patch.GitPositionTransformer.FileMapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Mapping;
 import com.google.gerrit.server.patch.GitPositionTransformer.Position;
 import com.google.gerrit.server.patch.GitPositionTransformer.PositionedEntity;
@@ -41,7 +45,9 @@ import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Optional;
+import org.eclipse.jgit.lib.ObjectId;
 
 /**
  * Container for all logic necessary to port comments to a target patchset.
@@ -53,6 +59,7 @@ import java.util.Optional;
  */
 @Singleton
 public class CommentPorter {
+  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final GitPositionTransformer positionTransformer =
       new GitPositionTransformer(BestPositionOnConflict.INSTANCE);
@@ -87,25 +94,21 @@ public class CommentPorter {
    * @return the ported comments, in no particular order
    */
   public ImmutableList<HumanComment> portComments(
-      ChangeNotes changeNotes, PatchSet targetPatchset, List<HumanComment> comments)
-      throws PatchListNotAvailableException {
+      ChangeNotes changeNotes, PatchSet targetPatchset, List<HumanComment> comments) {
 
     ImmutableList<HumanComment> relevantComments = filterToRelevant(comments, targetPatchset);
-    return portToTargetPatchset(changeNotes, targetPatchset, relevantComments);
+    return port(changeNotes, targetPatchset, relevantComments);
   }
 
   private ImmutableList<HumanComment> filterToRelevant(
       List<HumanComment> allComments, PatchSet targetPatchset) {
     return allComments.stream()
         .filter(comment -> comment.key.patchSetId < targetPatchset.number())
-        // TODO(aliceks): Also support comments on parent revisions.
-        .filter(comment -> comment.side > 0)
         .collect(toImmutableList());
   }
 
-  private ImmutableList<HumanComment> portToTargetPatchset(
-      ChangeNotes notes, PatchSet targetPatchset, List<HumanComment> comments)
-      throws PatchListNotAvailableException {
+  private ImmutableList<HumanComment> port(
+      ChangeNotes notes, PatchSet targetPatchset, List<HumanComment> comments) {
     Map<Integer, ImmutableList<HumanComment>> commentsPerPatchset =
         comments.stream().collect(groupingBy(comment -> comment.key.patchSetId, toImmutableList()));
 
@@ -116,20 +119,60 @@ public class CommentPorter {
       PatchSet originalPatchset =
           notes.getPatchSets().get(PatchSet.id(notes.getChangeId(), originalPatchsetId));
       portedComments.addAll(
-          portToTargetPatchset(
-              notes.getProjectName(), originalPatchset, targetPatchset, patchsetComments));
+          portSamePatchset(
+              notes.getProjectName(),
+              notes.getChange(),
+              originalPatchset,
+              targetPatchset,
+              patchsetComments));
     }
     return portedComments.build();
   }
 
-  private ImmutableList<HumanComment> portToTargetPatchset(
+  private ImmutableList<HumanComment> portSamePatchset(
       Project.NameKey project,
+      Change change,
       PatchSet originalPatchset,
       PatchSet targetPatchset,
-      ImmutableList<HumanComment> comments)
-      throws PatchListNotAvailableException {
-    ImmutableSet<Mapping> mappings =
-        loadPatchsetMappings(project, originalPatchset, targetPatchset);
+      ImmutableList<HumanComment> comments) {
+    Map<Short, List<HumanComment>> commentsPerSide =
+        comments.stream().collect(groupingBy(comment -> comment.side));
+    ImmutableList.Builder<HumanComment> portedComments = ImmutableList.builder();
+    for (Entry<Short, List<HumanComment>> sideAndComments : commentsPerSide.entrySet()) {
+      portedComments.addAll(
+          portSamePatchsetAndSide(
+              project,
+              change,
+              originalPatchset,
+              targetPatchset,
+              sideAndComments.getValue(),
+              sideAndComments.getKey()));
+    }
+    return portedComments.build();
+  }
+
+  private ImmutableList<HumanComment> portSamePatchsetAndSide(
+      Project.NameKey project,
+      Change change,
+      PatchSet originalPatchset,
+      PatchSet targetPatchset,
+      List<HumanComment> comments,
+      short side) {
+    ImmutableSet<Mapping> mappings;
+    try {
+      mappings = loadMappings(project, change, originalPatchset, targetPatchset, side);
+    } catch (Exception e) {
+      logger.atWarning().withCause(e).log(
+          "Could not determine some necessary diff mappings for porting comments on change %s from"
+              + " patchset %s to patchset %s. Mapping %d affected comments to the fallback"
+              + " destination.",
+          change.getChangeId(),
+          originalPatchset.id().getId(),
+          targetPatchset.id().getId(),
+          comments.size());
+      mappings = getFallbackMappings(comments);
+    }
+
     ImmutableList<PositionedEntity<HumanComment>> positionedComments =
         comments.stream().map(this::toPositionedEntity).collect(toImmutableList());
     return positionTransformer.transform(positionedComments, mappings).stream()
@@ -137,15 +180,39 @@ public class CommentPorter {
         .collect(toImmutableList());
   }
 
-  private ImmutableSet<Mapping> loadPatchsetMappings(
-      Project.NameKey project, PatchSet originalPatchset, PatchSet targetPatchset)
+  private ImmutableSet<Mapping> loadMappings(
+      Project.NameKey project,
+      Change change,
+      PatchSet originalPatchset,
+      PatchSet targetPatchset,
+      short side)
+      throws PatchListNotAvailableException {
+    ObjectId originalCommit =
+        CommentsUtil.determineCommitId(patchListCache, change, originalPatchset, side);
+    ObjectId targetCommit =
+        CommentsUtil.determineCommitId(patchListCache, change, targetPatchset, side);
+    return loadCommitMappings(project, originalCommit, targetCommit);
+  }
+
+  private ImmutableSet<Mapping> loadCommitMappings(
+      Project.NameKey project, ObjectId originalCommit, ObjectId targetCommit)
       throws PatchListNotAvailableException {
     PatchList patchList =
         patchListCache.get(
-            PatchListKey.againstCommit(
-                originalPatchset.commitId(), targetPatchset.commitId(), Whitespace.IGNORE_NONE),
+            PatchListKey.againstCommit(originalCommit, targetCommit, Whitespace.IGNORE_NONE),
             project);
     return patchList.getPatches().stream().map(DiffMappings::toMapping).collect(toImmutableSet());
+  }
+
+  private ImmutableSet<Mapping> getFallbackMappings(List<HumanComment> comments) {
+    // Consider all files as deleted. -> Comments will be ported to the fallback destination, which
+    // currently are patchset-level comments.
+    return comments.stream()
+        .map(comment -> comment.key.filename)
+        .distinct()
+        .map(FileMapping::forDeletedFile)
+        .map(fileMapping -> Mapping.create(fileMapping, ImmutableSet.of()))
+        .collect(toImmutableSet());
   }
 
   private PositionedEntity<HumanComment> toPositionedEntity(HumanComment comment) {

@@ -14,15 +14,18 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
-import com.google.gerrit.acceptance.testsuite.change.TestCommentCreation.CommentSide;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment.Status;
+import com.google.gerrit.entities.FixReplacement;
+import com.google.gerrit.entities.FixSuggestion;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.Comment.Range;
 import com.google.gerrit.extensions.restapi.RestApiException;
@@ -43,6 +46,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.stream.Collectors;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
@@ -101,6 +105,11 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     return TestCommentCreation.builder(this::createComment, Status.DRAFT);
   }
 
+  @Override
+  public TestRobotCommentCreation.Builder newRobotComment() {
+    return TestRobotCommentCreation.builder(this::createRobotComment);
+  }
+
   private String createComment(TestCommentCreation commentCreation)
       throws IOException, RestApiException, UpdateException {
     Project.NameKey project = changeNotes.getProjectName();
@@ -121,8 +130,8 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     }
   }
 
-  private IdentifiedUser getAuthor(TestCommentCreation commentCreation) {
-    Account.Id authorId = commentCreation.author().orElse(changeNotes.getChange().getOwner());
+  private IdentifiedUser getAuthor(TestRobotCommentCreation robotCommentCreation) {
+    Account.Id authorId = robotCommentCreation.author().orElse(changeNotes.getChange().getOwner());
     return userFactory.create(authorId);
   }
 
@@ -151,7 +160,11 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       String message = commentCreation.message().orElse("The text of a test comment.");
 
       String filePath = commentCreation.file().orElse(Patch.PATCHSET_LEVEL);
-      short side = commentCreation.side().orElse(CommentSide.PATCHSET_COMMIT).getNumericSide();
+      short side =
+          commentCreation
+              .side()
+              .orElse(TestCommentCreation.CommentSide.PATCHSET_COMMIT)
+              .getNumericSide();
       Boolean unresolved = commentCreation.unresolved().orElse(null);
       String parentUuid = commentCreation.parentUuid().orElse(null);
       HumanComment newComment =
@@ -173,7 +186,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       // Specification of range trumps explicit line specification.
       commentCreation
           .range()
-          .map(this::toCommentRange)
+          .map(PerPatchsetOperationsImpl::toCommentRange)
           .ifPresent(range -> newComment.setLineNbrAndRange(null, range));
 
       setCommentCommitId(
@@ -183,14 +196,138 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
           changeNotes.getPatchSets().get(patchsetId));
       return newComment;
     }
+  }
 
-    private Comment.Range toCommentRange(TestRange range) {
-      Comment.Range commentRange = new Range();
-      commentRange.startLine = range.start().line();
-      commentRange.startCharacter = range.start().charOffset();
-      commentRange.endLine = range.end().line();
-      commentRange.endCharacter = range.end().charOffset();
-      return commentRange;
+  private String createRobotComment(TestRobotCommentCreation robotCommentCreation)
+      throws IOException, RestApiException, UpdateException {
+    Project.NameKey project = changeNotes.getProjectName();
+
+    try (Repository repository = repositoryManager.openRepository(project);
+        ObjectInserter objectInserter = repository.newObjectInserter();
+        RevWalk revWalk = new RevWalk(objectInserter.newReader())) {
+      Timestamp now = TimeUtil.nowTs();
+
+      IdentifiedUser author = getAuthor(robotCommentCreation);
+      RobotCommentAdditionOp robotCommentAdditionOp =
+          new RobotCommentAdditionOp(robotCommentCreation);
+      try (BatchUpdate batchUpdate = batchUpdateFactory.create(project, author, now)) {
+        batchUpdate.setRepository(repository, revWalk, objectInserter);
+        batchUpdate.addOp(changeNotes.getChangeId(), robotCommentAdditionOp);
+        batchUpdate.execute();
+      }
+      return robotCommentAdditionOp.createdRobotCommentUuid;
     }
+  }
+
+  private IdentifiedUser getAuthor(TestCommentCreation commentCreation) {
+    Account.Id authorId = commentCreation.author().orElse(changeNotes.getChange().getOwner());
+    return userFactory.create(authorId);
+  }
+
+  private class RobotCommentAdditionOp implements BatchUpdateOp {
+    private String createdRobotCommentUuid;
+    private final TestRobotCommentCreation robotCommentCreation;
+
+    public RobotCommentAdditionOp(TestRobotCommentCreation robotCommentCreation) {
+      this.robotCommentCreation = robotCommentCreation;
+    }
+
+    @Override
+    public boolean updateChange(ChangeContext context) throws Exception {
+      RobotComment robotComment = toNewRobotComment(context, robotCommentCreation);
+      ChangeUpdate changeUpdate = context.getUpdate(patchsetId);
+      changeUpdate.putRobotComment(robotComment);
+      // For published comments, only the tag set on the ChangeUpdate (and not on the HumanComment)
+      // matters.
+      robotCommentCreation.tag().ifPresent(changeUpdate::setTag);
+      createdRobotCommentUuid = robotComment.key.uuid;
+      return true;
+    }
+
+    private RobotComment toNewRobotComment(
+        ChangeContext context, TestRobotCommentCreation robotCommentCreation)
+        throws PatchListNotAvailableException {
+      String message = robotCommentCreation.message().orElse("The text of a test robot comment.");
+
+      String filePath = robotCommentCreation.file().orElse(Patch.PATCHSET_LEVEL);
+      short side =
+          robotCommentCreation
+              .side()
+              .orElse(TestRobotCommentCreation.CommentSide.PATCHSET_COMMIT)
+              .getNumericSide();
+      String robotId = robotCommentCreation.robotId().orElse("robot");
+      String robotRunId = robotCommentCreation.robotId().orElse("1");
+      RobotComment newRobotComment =
+          commentsUtil.newRobotComment(
+              context, filePath, patchsetId, side, message, robotId, robotRunId);
+      // For draft comments, only the tag set on the HumanComment (and not on the ChangeUpdate)
+      // matters.
+      robotCommentCreation.tag().ifPresent(tag -> newRobotComment.tag = tag);
+
+      robotCommentCreation.line().ifPresent(line -> newRobotComment.setLineNbrAndRange(line, null));
+      // Specification of range trumps explicit line specification.
+      robotCommentCreation
+          .range()
+          .map(PerPatchsetOperationsImpl::toCommentRange)
+          .ifPresent(range -> newRobotComment.setLineNbrAndRange(null, range));
+
+      robotCommentCreation
+          .unresolved()
+          .ifPresent(unresolved -> newRobotComment.unresolved = unresolved);
+      robotCommentCreation
+          .parentUuid()
+          .ifPresent(parentUuid -> newRobotComment.parentUuid = parentUuid);
+      robotCommentCreation.url().ifPresent(url -> newRobotComment.url = url);
+      if (!robotCommentCreation.properties().isEmpty()) {
+        newRobotComment.properties = robotCommentCreation.properties();
+      }
+      if (!robotCommentCreation.fixSuggestions().isEmpty()) {
+        newRobotComment.fixSuggestions =
+            robotCommentCreation.fixSuggestions().stream()
+                .map(this::toFixSuggestion)
+                .collect(Collectors.toList());
+      }
+
+      setCommentCommitId(
+          newRobotComment,
+          patchListCache,
+          context.getChange(),
+          changeNotes.getPatchSets().get(patchsetId));
+      return newRobotComment;
+    }
+
+    private FixSuggestion toFixSuggestion(TestFixSuggestion testFixSuggestion) {
+      return new FixSuggestion(
+          testFixSuggestion.fixId().orElse("fixId"),
+          testFixSuggestion.description().orElse("fix description"),
+          testFixSuggestion.fixReplacements().stream()
+              .map(this::toFixReplacement)
+              .collect(toImmutableList()));
+    }
+
+    private FixReplacement toFixReplacement(
+        TestFixSuggestion.TestFixReplacement testFixReplacement) {
+      return new FixReplacement(
+          testFixReplacement.path().orElse("fix path"),
+          testFixReplacement.range().map(PerPatchsetOperationsImpl::toEntitiesCommentRange).get(),
+          testFixReplacement.replacement().orElse("replacement"));
+    }
+  }
+
+  private static Comment.Range toCommentRange(TestRange range) {
+    Comment.Range commentRange = new Range();
+    commentRange.startLine = range.start().line();
+    commentRange.startCharacter = range.start().charOffset();
+    commentRange.endLine = range.end().line();
+    commentRange.endCharacter = range.end().charOffset();
+    return commentRange;
+  }
+
+  private static com.google.gerrit.entities.Comment.Range toEntitiesCommentRange(TestRange range) {
+    return new com.google.gerrit.entities.Comment.Range(
+        range.start().line(),
+        range.start().charOffset(),
+        range.end().line(),
+        range.end().charOffset());
   }
 }

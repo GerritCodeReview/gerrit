@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fa9099e6_936696fe",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "Sorry for downgrading, but found a bunch of questions on the tests.",
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c5c8dc5e_b5cccb14",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "I\u0027m having a little trouble following this test code actually. Why do we need this and the PluginDefinedSimpleAttributeModule above? Looking at it, I think the \"Simple\" one above is broken and we should remove it and rename this class as PluginDefinedSimpleAttributeModule.",
+      "range": {
+        "startLine": 122,
+        "startChar": 25,
+        "endLine": 122,
+        "endChar": 57
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "178d2828_ccc4499e",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "This should include something about Option in its name",
+      "range": {
+        "startLine": 166,
+        "startChar": 22,
+        "endLine": 166,
+        "endChar": 42
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b53aa3b_726a03d2",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "Move this above PluginDefinedOptionAttributeModule?",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 179,
+        "endChar": 3
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20432963_db29ee6f",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 240,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "Do these need to be bulk-specific like BulkPluginInfoGetter?",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 240,
+        "endChar": 90
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f276a0f_ea88ac8d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "Why use a Set here when you return a List?",
+      "range": {
+        "startLine": 278,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 38
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d14e098_bb4eec5a",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 286,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "Move this below pluginInfoFromChangeInfo",
+      "range": {
+        "startLine": 277,
+        "startChar": 0,
+        "endLine": 286,
+        "endChar": 3
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1a451ad_bb694526",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 324,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "This doesn\u0027t look safe. Why are you only considering the first item in the returned list?",
+      "range": {
+        "startLine": 324,
+        "startChar": 59,
+        "endLine": 324,
+        "endChar": 65
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "259fdfde_c39139cf",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/PluginFieldsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "I\u0027m not sure these new tests should be using a non-bulk helper, but maybe this is ok if we\u0027re just checking that it at least works for the ChangeAttributeFactory use cases. If that\u0027s what we\u0027re doing, then I would *also* expect new bulk tests added for each of these use cases (bulk+null, bulk+simple, bulk+option). For those bulk-specific tests, we want to query more than one change.",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 41
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6cc22002_36fe2a41",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/PluginFieldsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 216,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T16:40:33Z",
+      "side": 1,
+      "message": "Doesn\u0027t this need to be a Map so you can correlate changes to infos?",
+      "range": {
+        "startLine": 216,
+        "startChar": 10,
+        "endLine": 216,
+        "endChar": 22
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

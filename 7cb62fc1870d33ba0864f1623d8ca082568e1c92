@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7c164162_7e1fff90",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-09T09:28:41Z",
+      "side": 1,
+      "message": "\"Merge branch \u0027stable-3.1\u0027 into \u0027stable-3.2\u0027 is IMHO broken",
+      "revId": "7cb62fc1870d33ba0864f1623d8ca082568e1c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

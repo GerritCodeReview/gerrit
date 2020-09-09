@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "2aa05693_2928b703",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "You are right. My implementation is\n  CommentJson --calls--\u003e CommentContextCache --calls--\u003e CommentContextLoader\n\nYour suggestion:\n  CommentJson --calls--\u003e CommentContextLoader --calls--\u003e CommentContextCache (while filling).\n\nMy approach is not optimal/performant because I call CommentContextCache multiple times (for each comment), where each call invokes the loader.fill() that opens the repo.\nThe subsequent change \"Add a cache getAll method to the comment context cache\" should resolve this: CommentJson will invoke a single call to the cache, which will use the getAll() and loadAll(), hence loading and filling all the comments at once, with a single open to the repo.\n\nAs per your suggestion on the next change, I squashed it with this change and added the getAll/loadAll here. I prefer keeping the hierarchy of commentJson -\u003e cache -\u003e loader with this hierarchy, unless there is another good reason for doing it the other way (?).",
+      "parentUuid": "3dd37e10_fea7ff41",
+      "range": {
+        "startLine": 90,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 46
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "765d4224_35e3eba8",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
         "patchSetId": 8
@@ -62,6 +86,30 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03306a62_f04ca888",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "765d4224_35e3eba8",
+      "range": {
+        "startLine": 30,
+        "startChar": 28,
+        "endLine": 30,
+        "endChar": 29
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -111,6 +159,54 @@
     },
     {
       "key": {
+        "uuid": "0eaa45bf_0d591f78",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b891623b_02e8e35d",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 38,
+        "endChar": 6
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66ee1f28_46986263",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1b34c2e_acf4eacf",
+      "range": {
+        "startLine": 38,
+        "startChar": 69,
+        "endLine": 38,
+        "endChar": 88
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9978a7e5_2ff2211a",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 8
@@ -131,6 +227,30 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "743104dc_f7d0b18e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Ah my bad. I got back to the documentation of caffeine [1]:\n\n\"When weight is zero, elements will be evicted immediately after being loaded into cache. This can be useful in testing, or to disable caching temporarily without a code change.\"\n\nI configured the max weight to 1 \u003c\u003c 20. This should be equivalent to 1MB, and I also added a weigher for the cache.\n\n[1] https://guava.dev/releases/19.0/api/docs/com/google/common/cache/CacheBuilder.html#maximumWeight(long)",
+      "parentUuid": "9978a7e5_2ff2211a",
+      "range": {
+        "startLine": 67,
+        "startChar": 11,
+        "endLine": 67,
+        "endChar": 29
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -157,6 +277,30 @@
     },
     {
       "key": {
+        "uuid": "fa7f2906_bad3e15a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "828c6350_948e41f1",
+      "range": {
+        "startLine": 68,
+        "startChar": 12,
+        "endLine": 68,
+        "endChar": 13
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7a4bf2ff_ee95ed16",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 8
@@ -171,6 +315,24 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a9e84c9_26d10a7a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7a4bf2ff_ee95ed16",
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -194,6 +356,30 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "746a273a_54ab7bf5",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 206,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Thanks Patrick for the explanation. Done.",
+      "parentUuid": "7c6f3d99_e2ba80fd",
+      "range": {
+        "startLine": 206,
+        "startChar": 15,
+        "endLine": 206,
+        "endChar": 28
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -241,6 +427,30 @@
       "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5bf4c6_3c4bab46",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 210,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T18:46:02Z",
+      "side": 1,
+      "message": "Yes I agree. This pattern is not needed anymore after introducing the cache. the get/fill pattern is now not used from CommentJson, because I introduced the getAll in the cache interface. The fill pattern is still use from the CommentContextCache though (in the loadAll method).",
+      "parentUuid": "58179f4d_a0c0a98c",
+      "range": {
+        "startLine": 208,
+        "startChar": 5,
+        "endLine": 210,
+        "endChar": 17
+      },
+      "revId": "fe04a07aee51e0cdc9f97b638cd6620002fc91d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

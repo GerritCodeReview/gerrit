@@ -29,7 +29,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {computeDisplayPath} from '../../../utils/path-list-util.js';
-import {KnownExperimentId} from '../../../services/flags/flags.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -192,8 +191,6 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
     this._getLoggedIn().then(loggedIn => {
       this._showActions = loggedIn;
     });
-    this._isChangeCommentsLinkExperimentEnabled = this.flagsService
-        .isEnabled(KnownExperimentId.PATCHSET_CHOICE_FOR_COMMENT_LINKS);
     this._setInitialExpandedState();
   }
 
@@ -228,8 +225,7 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _getDiffUrlForPath(path) {
-    if (!this._isChangeCommentsLinkExperimentEnabled ||
-      this.comments[0].__draft) {
+    if (this.comments[0].__draft) {
       return GerritNav.getUrlForDiffById(this.changeNum,
           this.projectName, path, this.patchNum);
     }
@@ -238,8 +234,7 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _getDiffUrlForComment(projectName, changeNum, path, patchNum) {
-    if (!this._isChangeCommentsLinkExperimentEnabled ||
-      (this.comments.length && this.comments[0].side === 'PARENT') ||
+    if ((this.comments.length && this.comments[0].side === 'PARENT') ||
       this.comments[0].__draft) {
       return GerritNav.getUrlForDiffById(changeNum,
           projectName, path, patchNum, null, this.lineNum);

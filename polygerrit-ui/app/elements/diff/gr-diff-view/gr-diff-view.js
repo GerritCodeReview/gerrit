@@ -52,7 +52,6 @@ import {
   isMagicPath, specialFilePathCompare,
 } from '../../../utils/path-list-util.js';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
-import {KnownExperimentId} from '../../../services/flags/flags.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -308,8 +307,6 @@ class GrDiffView extends KeyboardShortcutMixin(
   /** @override */
   attached() {
     super.attached();
-    this._isChangeCommentsLinkExperimentEnabled = this.flagsService
-        .isEnabled(KnownExperimentId.PATCHSET_CHOICE_FOR_COMMENT_LINKS);
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
     });
@@ -960,8 +957,7 @@ class GrDiffView extends KeyboardShortcutMixin(
                 this._change, this._path, this._patchRange.basePatchNum);
             return;
           }
-          if (this._isChangeCommentsLinkExperimentEnabled &&
-            !!value.commentLink) {
+          if (value.commentLink) {
             this._displayToasts();
           }
           // If the blame was loaded for a previous file and user navigates to

@@ -758,10 +758,11 @@ export const GerritNav = {
     change: ChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
-    basePatchNum?: PatchSetNum
+    basePatchNum?: PatchSetNum,
+    lineNum?: number
   ) {
     this._navigate(
-      this.getUrlForDiff(change, filePath, patchNum, basePatchNum)
+      this.getUrlForDiff(change, filePath, patchNum, basePatchNum, lineNum)
     );
   },
 

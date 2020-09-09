@@ -135,6 +135,7 @@ $_documentContainer.innerHTML = `<dom-module id="shared-styles">
 
       /* Stopgap solution until we remove hidden$ attributes. */
 
+      :host[hidden],
       [hidden] {
         display: none !important;
       }

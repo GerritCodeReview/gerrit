@@ -107,6 +107,24 @@
     },
     {
       "key": {
+        "uuid": "778fbddb_010f22b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-09T14:42:34Z",
+      "side": 1,
+      "message": "Then why is it my turn? 😄",
+      "parentUuid": "59f2e947_4e4e342e",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ff85db8_907c195c",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 8

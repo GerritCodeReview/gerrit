@@ -406,6 +406,24 @@
     },
     {
       "key": {
+        "uuid": "05dcaff5_7a890ce2",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 984,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-09T15:09:35Z",
+      "side": 1,
+      "message": "No, I think it\u0027s ok. The javadoc for ChangeAttributeFactory is probably sufficient.",
+      "parentUuid": "8ce6a3d0_39439b52",
+      "revId": "fd3e61ebf128d95bc9648e15da9444beb13d4423",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6b1bc697_d7cf18eb",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 1

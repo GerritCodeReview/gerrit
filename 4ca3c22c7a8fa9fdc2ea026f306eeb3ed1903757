@@ -282,6 +282,30 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a7286a1_864c5586",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-09-09T07:56:48Z",
+      "side": 1,
+      "message": "I understand it as a search because:\n- If we would use `filter`, then we would have provided a set of criterias in the UI that users can select to reduce the number of files presented\n- In this case, what we use is a `search` because we display a result based on user\u0027s input.",
+      "parentUuid": "01cdcef6_c0dd82f3",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

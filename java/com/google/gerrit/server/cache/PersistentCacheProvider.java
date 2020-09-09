@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.Weigher;
-import com.google.gerrit.common.Nullable;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.JavaCacheSerializer;
 import com.google.inject.Inject;
@@ -36,7 +36,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   private CacheSerializer<K> keySerializer;
   private CacheSerializer<V> valueSerializer;
 
-  private PersistentCacheFactory persistentCacheFactory;
+  private DynamicItem<PersistentCacheFactory> persistentCacheFactoryDynamicItem;
 
   PersistentCacheProvider(
       CacheModule module, String name, TypeLiteral<K> keyType, TypeLiteral<V> valType) {
@@ -56,8 +56,8 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
   }
 
   @Inject(optional = true)
-  void setPersistentCacheFactory(@Nullable PersistentCacheFactory factory) {
-    this.persistentCacheFactory = factory;
+  void setPersistentCacheFactory(DynamicItem<PersistentCacheFactory> factoryDynamicItem) {
+    this.persistentCacheFactoryDynamicItem = factoryDynamicItem;
   }
 
   @Override
@@ -132,7 +132,7 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
 
   @Override
   public Cache<K, V> get() {
-    if (persistentCacheFactory == null) {
+    if (persistentCacheFactoryDynamicItem.get() == null) {
       return super.get();
     }
     checkState(version >= 0, "version is required");
@@ -141,8 +141,8 @@ class PersistentCacheProvider<K, V> extends CacheProvider<K, V>
     freeze();
     CacheLoader<K, V> ldr = loader();
     return ldr != null
-        ? persistentCacheFactory.build(this, ldr, backend)
-        : persistentCacheFactory.build(this, backend);
+        ? persistentCacheFactoryDynamicItem.get().build(this, ldr, backend)
+        : persistentCacheFactoryDynamicItem.get().build(this, backend);
   }
 
   private static <T> void checkSerializer(

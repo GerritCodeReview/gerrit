@@ -28,6 +28,7 @@ import com.google.common.collect.SetMultimap;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.extensions.events.LifecycleListener;
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
 import com.google.gerrit.extensions.systemstatus.ServerInformation;
 import com.google.gerrit.server.PluginUser;
@@ -86,7 +87,7 @@ public class PluginLoader implements LifecycleListener {
   private final Provider<PluginCleanerTask> cleaner;
   private final PluginScannerThread scanner;
   private final Provider<String> urlProvider;
-  private final PersistentCacheFactory persistentCacheFactory;
+  private final DynamicItem<PersistentCacheFactory> persistentCacheFactoryDynamicItem;
   private final boolean remoteAdmin;
   private final MandatoryPluginsCollection mandatoryPlugins;
   private final UniversalServerPluginProvider serverPluginFactory;
@@ -101,7 +102,7 @@ public class PluginLoader implements LifecycleListener {
       Provider<PluginCleanerTask> pct,
       @GerritServerConfig Config cfg,
       @CanonicalWebUrl Provider<String> provider,
-      PersistentCacheFactory cacheFactory,
+      DynamicItem<PersistentCacheFactory> cacheFactoryDynamicItem,
       UniversalServerPluginProvider pluginFactory,
       MandatoryPluginsCollection mpc,
       GerritRuntime gerritRuntime) {
@@ -113,7 +114,7 @@ public class PluginLoader implements LifecycleListener {
     pluginUserFactory = puf;
     cleaner = pct;
     urlProvider = provider;
-    persistentCacheFactory = cacheFactory;
+    persistentCacheFactoryDynamicItem = cacheFactoryDynamicItem;
     serverPluginFactory = pluginFactory;
 
     remoteAdmin = cfg.getBoolean("plugins", null, "allowRemoteAdmin", false);
@@ -206,7 +207,7 @@ public class PluginLoader implements LifecycleListener {
   }
 
   private synchronized void unloadPlugin(Plugin plugin) {
-    persistentCacheFactory.onStop(plugin.getName());
+    persistentCacheFactoryDynamicItem.get().onStop(plugin.getName());
     String name = plugin.getName();
     logger.atInfo().log("Unloading plugin %s, version %s", name, plugin.getVersion());
     plugin.stop(env);

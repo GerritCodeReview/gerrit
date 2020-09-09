@@ -17,6 +17,7 @@ package com.google.gerrit.server.account;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.AccountsSection;
@@ -63,12 +64,31 @@ public class AccountControl {
       this.accountVisibility = accountVisibility;
     }
 
+    /**
+     * Creates a {@link AccountControl} instance that checks whether the current user can see other
+     * accounts.
+     */
     public AccountControl get() {
       return new AccountControl(
           permissionBackend,
           projectCache,
           groupControlFactory,
           user.get(),
+          userFactory,
+          accountVisibility);
+    }
+
+    /**
+     * Creates a {@link AccountControl} instance that checks whether the user of the given account
+     * can see other accounts.
+     */
+    @UsedAt(UsedAt.Project.PLUGIN_CODE_OWNERS)
+    public AccountControl get(Account.Id accountId) {
+      return new AccountControl(
+          permissionBackend,
+          projectCache,
+          groupControlFactory,
+          userFactory.create(accountId),
           userFactory,
           accountVisibility);
     }

@@ -21,7 +21,7 @@ import {isHidden} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-label-info');
 
-suite('gr-account-link tests', () => {
+suite('gr-label-info tests', () => {
   let element;
 
   setup(() => {

@@ -140,7 +140,7 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
  * The LabelInfo entity contains information about a label on a change, always corresponding to the current patch set.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#label-info
  */
-type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
+export type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
 
 interface LabelCommonInfo {
   optional?: boolean; // not set if false
@@ -159,6 +159,7 @@ export interface QuickLabelInfo extends LabelCommonInfo {
 export interface DetailedLabelInfo extends LabelCommonInfo {
   all?: ApprovalInfo[];
   values?: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
+  default_value?: number;
 }
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input

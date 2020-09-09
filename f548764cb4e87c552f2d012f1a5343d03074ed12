@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9aef48ca_01cbbf18",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-09T14:30:37Z",
+      "side": 1,
+      "message": "After this, we should not need the `:host[hidden]` for gr-image-diff-tool any more https://gerrit-review.googlesource.com/c/plugins/image-diff/+/281016",
+      "revId": "f548764cb4e87c552f2d012f1a5343d03074ed12",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -231,6 +231,9 @@ class GrDiffView extends KeyboardShortcutMixin(
         type: Object,
         value: () => new Set(),
       },
+      // line number of the comment which should be scrolled to upon loading
+      // the diff
+      _commentLineNum: Number,
     };
   }
 
@@ -744,14 +747,12 @@ class GrDiffView extends KeyboardShortcutMixin(
         .then(files => files.has(path));
   }
 
-  _initLineOfInterestAndCursor(lineNum, leftSide) {
+  _initLineOfInterestAndCursor(leftSide) {
     this.$.diffHost.lineOfInterest =
       this._getLineOfInterest({
-        lineNum,
         leftSide,
       });
     this._initCursor({
-      lineNum,
       leftSide,
     });
   }
@@ -818,7 +819,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _initPatchRange() {
-    let lineNum; let leftSide;
+    let leftSide;
     if (this.params.commentId) {
       const comment = this._changeComments.findCommentById(
           this.params.commentId);
@@ -849,7 +850,7 @@ class GrDiffView extends KeyboardShortcutMixin(
         // comment.patch_set vs latest
         leftSide = true;
       }
-      lineNum = comment.line;
+      this._commentLineNum = comment.line;
     } else {
       if (this.params.path) {
         this._path = this.params.path;
@@ -861,11 +862,11 @@ class GrDiffView extends KeyboardShortcutMixin(
         };
       }
       if (this.params.lineNum) {
-        lineNum = this.params.lineNum;
+        this._commentLineNum = this.params.lineNum;
         leftSide = this.params.leftSide;
       }
     }
-    this._initLineOfInterestAndCursor(lineNum, leftSide);
+    this._initLineOfInterestAndCursor(leftSide);
     this._commentMap = this._getPaths(this._patchRange);
 
     this._commentsForDiff = this._getCommentsForPath(this._path,
@@ -889,6 +890,7 @@ class GrDiffView extends KeyboardShortcutMixin(
     this._patchRange = undefined;
     this._commitRange = undefined;
     this._changeComments = undefined;
+    this._commentLineNum = undefined;
 
     if (value.changeNum && value.project) {
       this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
@@ -956,7 +958,8 @@ class GrDiffView extends KeyboardShortcutMixin(
               composed: true, bubbles: true,
             }));
             GerritNav.navigateToDiff(
-                this._change, this._path, this._patchRange.basePatchNum);
+                this._change, this._path, this._patchRange.basePatchNum,
+                'PARENT', this._commentLineNum);
             return;
           }
           if (value.commentLink) {
@@ -1010,20 +1013,20 @@ class GrDiffView extends KeyboardShortcutMixin(
    * If the params specify a diff address then configure the diff cursor.
    */
   _initCursor(params) {
-    if (params.lineNum === undefined) { return; }
+    if (this._commentLineNum === undefined) { return; }
     if (params.leftSide) {
       this.$.cursor.side = DiffSides.LEFT;
     } else {
       this.$.cursor.side = DiffSides.RIGHT;
     }
-    this.$.cursor.initialLineNumber = params.lineNum;
+    this.$.cursor.initialLineNumber = this._commentLineNum;
   }
 
   _getLineOfInterest(params) {
     // If there is a line number specified, pass it along to the diff so that
     // it will not get collapsed.
-    if (!params.lineNum) { return null; }
-    return {number: params.lineNum, leftSide: params.leftSide};
+    if (!this._commentLineNum) { return null; }
+    return {number: this._commentLineNum, leftSide: params.leftSide};
   }
 
   _pathChanged(path) {

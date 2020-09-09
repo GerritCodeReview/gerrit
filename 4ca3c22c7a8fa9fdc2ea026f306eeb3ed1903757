@@ -306,6 +306,30 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4862faa5_c4e9bc8b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-09T10:57:16Z",
+      "side": 1,
+      "message": "For me filtering means \"we already have all results, but we let you reduce them\". Searching means \"actively making server calls for finding a new list of matches\".",
+      "parentUuid": "3a7286a1_864c5586",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -125,6 +125,24 @@
     },
     {
       "key": {
+        "uuid": "9352465a_6744b973",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T14:46:19Z",
+      "side": 1,
+      "message": "Ahh sorry, I wanted to provide an update.\nGood to know I don\u0027t have to add you to the AS. 😄",
+      "parentUuid": "778fbddb_010f22b5",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ff85db8_907c195c",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 8

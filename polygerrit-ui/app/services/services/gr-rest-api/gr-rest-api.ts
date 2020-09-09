@@ -590,4 +590,9 @@ export interface RestApiService {
     patchNum: PatchSetNum,
     desc: string
   ): Promise<Response>;
+  deleteVote(
+    changeNum: ChangeNum,
+    account: AccountId,
+    label: string
+  ): Promise<Response>;
 }

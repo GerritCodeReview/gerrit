@@ -154,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "74eef8e9_6288de13",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-09T14:34:58Z",
+      "side": 1,
+      "message": "I think maybe Gal\u0027s concern is that people are unaware of the override and think it\u0027s a mistake, whereas if we report an explicit error that is less likely. I share that concern, and even though the docs explain it people may not read them. How about adding documentation to the RevertInput class? Or would that be redundant with this file? I\u0027m fine with it either way.",
+      "parentUuid": "e3a16325_d10a7bf8",
+      "range": {
+        "startLine": 7397,
+        "startChar": 52,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab083b0c_a66f7cd2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 4

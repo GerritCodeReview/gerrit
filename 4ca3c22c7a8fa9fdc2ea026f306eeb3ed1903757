@@ -89,6 +89,24 @@
     },
     {
       "key": {
+        "uuid": "59f2e947_4e4e342e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T13:54:46Z",
+      "side": 1,
+      "message": "No, it\u0027s a blocker since it stops processing the keyboard press(iron-menu-behaviour prevents the keyboard event from propagating currently).\nI will continue looking into a fix.",
+      "parentUuid": "0c3d9978_69c5b187",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ff85db8_907c195c",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 8

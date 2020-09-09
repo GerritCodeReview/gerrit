@@ -127,6 +127,24 @@
     },
     {
       "key": {
+        "uuid": "0ac400b7_5f5c56ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T21:20:05Z",
+      "side": 1,
+      "message": "\u003e Plugins can create persisted caches though, correct?\n\nThat\u0027s a valid point: existing plugins that create persistent cache should continue to work.\n\n\u003e I\u0027m just suggesting that tests be added to cover that functionality if they don\u0027t exist yet.\n\n+1",
+      "parentUuid": "6abd6085_bbe540c5",
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74e3cf2e_305e471e",
         "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
         "patchSetId": 1

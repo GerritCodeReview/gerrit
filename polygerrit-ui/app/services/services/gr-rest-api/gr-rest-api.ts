@@ -585,4 +585,10 @@ export interface RestApiService {
   ): Promise<void>;
   setAccountStatus(status: string, errFn?: ErrorCallback): Promise<void>;
   getAvatarChangeUrl(): Promise<string | undefined>;
+
+  deleteVote(
+    changeNum: ChangeNum,
+    account: AccountId,
+    label: string
+  ): Promise<Response>;
 }

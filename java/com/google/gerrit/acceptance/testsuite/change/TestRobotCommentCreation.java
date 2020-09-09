@@ -15,23 +15,24 @@
 package com.google.gerrit.acceptance.testsuite.change;
 
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
 import com.google.gerrit.acceptance.testsuite.change.TestRange.Position;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
+import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
 import java.util.function.IntFunction;
 
 /**
- * Attributes of the human comment. If not provided, arbitrary values will be used. This class is
- * very similar to {@link TestRobotCommentCreation} to allow separation between robot and human
- * comments.
+ * Attributes of the robot comment. If not provided, arbitrary values will be used. This class is
+ * very similar to {@link TestCommentCreation} to allow separation between robot and human comments.
  */
 @AutoValue
-public abstract class TestCommentCreation {
+public abstract class TestRobotCommentCreation {
 
   public abstract Optional<String> message();
 
@@ -51,15 +52,21 @@ public abstract class TestCommentCreation {
 
   public abstract Optional<Account.Id> author();
 
-  abstract Comment.Status status();
+  public abstract Optional<String> robotId();
 
-  abstract ThrowingFunction<TestCommentCreation, String> commentCreator();
+  public abstract Optional<String> robotRunId();
 
-  public static TestCommentCreation.Builder builder(
-      ThrowingFunction<TestCommentCreation, String> commentCreator, Comment.Status commentStatus) {
-    return new AutoValue_TestCommentCreation.Builder()
-        .commentCreator(commentCreator)
-        .status(commentStatus);
+  public abstract Optional<String> url();
+
+  public abstract ImmutableMap<String, String> properties();
+
+  public abstract ImmutableList<TestFixSuggestion> fixSuggestions();
+
+  abstract ThrowingFunction<TestRobotCommentCreation, String> commentCreator();
+
+  public static TestRobotCommentCreation.Builder builder(
+      ThrowingFunction<TestRobotCommentCreation, String> commentCreator) {
+    return new AutoValue_TestRobotCommentCreation.Builder().commentCreator(commentCreator);
   }
 
   @AutoValue.Builder
@@ -176,39 +183,60 @@ public abstract class TestCommentCreation {
     /** Author of the comment. Must be an existing user account. */
     public abstract Builder author(Account.Id accountId);
 
+    /** Id of the robot that created the comment. */
+    public abstract Builder robotId(String robotId);
+
+    /** Run-Id of the robot that created the comment. */
+    public abstract Builder robotRunId(String robotRunId);
+
+    /** Url for more information for the robot comment. */
+    public abstract Builder url(String url);
+
+    /** Robot specific properties as map that maps arbitrary keys to values. */
+    public abstract Builder properties(Map<String, String> properties);
+
+    abstract ImmutableMap.Builder<String, String> propertiesBuilder();
+
+    public Builder addProperty(String key, String value) {
+      propertiesBuilder().put(key, value);
+      return this;
+    }
+
+    /** Robot specific properties as map that maps arbitrary keys to values. */
+    public abstract Builder fixSuggestions(ImmutableList<TestFixSuggestion> fixSuggestions);
+
+    abstract ImmutableList.Builder<TestFixSuggestion> fixSuggestionsBuilder();
+
+    public Builder addFixSuggestion(TestFixSuggestion fixSuggestion) {
+      fixSuggestionsBuilder().add(fixSuggestion);
+      return this;
+    }
+
+    abstract TestRobotCommentCreation.Builder commentCreator(
+        ThrowingFunction<TestRobotCommentCreation, String> commentCreator);
+
+    abstract TestRobotCommentCreation autoBuild();
+
     /**
-     * Status of the comment. Hidden in the API surface. Use {@link
-     * PerPatchsetOperations#newComment()} or {@link PerPatchsetOperations#newDraftComment()}
-     * depending on which type of comment you want to create.
-     */
-    abstract Builder status(Comment.Status value);
-
-    abstract TestCommentCreation.Builder commentCreator(
-        ThrowingFunction<TestCommentCreation, String> commentCreator);
-
-    abstract TestCommentCreation autoBuild();
-
-    /**
-     * Creates the comment.
+     * Creates the robot comment.
      *
-     * @return the UUID of the created comment
+     * @return the UUID of the created robot comment
      */
     public String create() {
-      TestCommentCreation commentCreation = autoBuild();
+      TestRobotCommentCreation commentCreation = autoBuild();
       return commentCreation.commentCreator().applyAndThrowSilently(commentCreation);
     }
   }
-
   /** Builder for the file specification of line/range comments. */
   public static class FileBuilder {
-    private final Function<String, Builder> nextStepProvider;
+    private final Function<String, TestRobotCommentCreation.Builder> nextStepProvider;
 
-    private FileBuilder(Function<String, Builder> nextStepProvider) {
+    private FileBuilder(Function<String, TestRobotCommentCreation.Builder> nextStepProvider) {
       this.nextStepProvider = nextStepProvider;
     }
 
     /** File on which the comment should be added. */
-    public Builder ofFile(String file) {
+    public TestRobotCommentCreation.Builder ofFile(String file) {
       return nextStepProvider.apply(file);
     }
   }
@@ -229,11 +257,12 @@ public abstract class TestCommentCreation {
 
   /** Builder for the end position of a range. */
   public static class StartAwarePositionBuilder {
-    private final TestCommentCreation.Builder testCommentCreationBuilder;
+    private final TestRobotCommentCreation.Builder testCommentCreationBuilder;
     private final TestRange.Builder testRangeBuilder;
 
     private StartAwarePositionBuilder(
-        Builder testCommentCreationBuilder, TestRange.Builder testRangeBuilder) {
+        TestRobotCommentCreation.Builder testCommentCreationBuilder,
+        TestRange.Builder testRangeBuilder) {
       this.testCommentCreationBuilder = testCommentCreationBuilder;
       this.testRangeBuilder = testRangeBuilder;
     }
@@ -242,7 +271,8 @@ public abstract class TestCommentCreation {
     public PositionBuilder<FileBuilder> toLine(int endLine) {
       return new PositionBuilder<>(
           endCharOffset -> {
-            Position end = Position.builder().line(endLine).charOffset(endCharOffset).build();
+            TestRange.Position end =
+                TestRange.Position.builder().line(endLine).charOffset(endCharOffset).build();
             TestRange range = testRangeBuilder.setEnd(end).build();
             testCommentCreationBuilder.range(range);
             return new FileBuilder(testCommentCreationBuilder::file);

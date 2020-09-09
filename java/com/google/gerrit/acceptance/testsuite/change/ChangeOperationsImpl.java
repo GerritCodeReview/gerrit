@@ -82,6 +82,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
   private final PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory;
   private final PerCommentOperationsImpl.Factory perCommentOperationsFactory;
   private final PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory;
+  private final PerRobotCommentOperationsImpl.Factory perRobotCommentOperationsFactory;
 
   @Inject
   public ChangeOperationsImpl(
@@ -97,7 +98,8 @@ public class ChangeOperationsImpl implements ChangeOperations {
       ChangeFinder changeFinder,
       PerPatchsetOperationsImpl.Factory perPatchsetOperationsFactory,
       PerCommentOperationsImpl.Factory perCommentOperationsFactory,
-      PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory) {
+      PerDraftCommentOperationsImpl.Factory perDraftCommentOperationsFactory,
+      PerRobotCommentOperationsImpl.Factory perRobotCommentOperationsFactory) {
     this.seq = seq;
     this.changeInserterFactory = changeInserterFactory;
     this.patchsetInserterFactory = patchsetInserterFactory;
@@ -111,6 +113,7 @@ public class ChangeOperationsImpl implements ChangeOperations {
     this.perPatchsetOperationsFactory = perPatchsetOperationsFactory;
     this.perCommentOperationsFactory = perCommentOperationsFactory;
     this.perDraftCommentOperationsFactory = perDraftCommentOperationsFactory;
+    this.perRobotCommentOperationsFactory = perRobotCommentOperationsFactory;
   }
 
   @Override
@@ -441,6 +444,12 @@ public class ChangeOperationsImpl implements ChangeOperations {
     public PerDraftCommentOperations draftComment(String commentUuid) {
       ChangeNotes changeNotes = getChangeNotes();
       return perDraftCommentOperationsFactory.create(changeNotes, commentUuid);
+    }
+
+    @Override
+    public PerRobotCommentOperations robotComment(String commentUuid) {
+      ChangeNotes changeNotes = getChangeNotes();
+      return perRobotCommentOperationsFactory.create(changeNotes, commentUuid);
     }
   }
 }

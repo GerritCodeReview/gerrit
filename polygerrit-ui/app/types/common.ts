@@ -52,7 +52,7 @@ export type BrandType<T, BrandName extends string> = T &
  */
 export type ParsedJSON = BrandType<unknown, '_parsedJSON'>;
 
-export type PatchSetNum = BrandType<'edit' | number, '_patchSet'>;
+export type PatchSetNum = BrandType<'PARENT' | 'edit' | number, '_patchSet'>;
 
 export const EditPatchSetNum = 'edit' as PatchSetNum;
 // TODO(TS): This is not correct, it is better to have a separate ApiPatchSetNum
@@ -1146,7 +1146,7 @@ export interface DiffInfo {
   meta_b: DiffFileMetaInfo;
   change_type: string;
   intraline_status: string;
-  diff_header: string;
+  diff_header: string[];
   content: DiffContent[];
   web_links?: DiffWebLinkInfo[];
   binary: boolean;
@@ -1198,6 +1198,7 @@ export interface DiffPreferencesInfo {
   // Either remove or update doc
   theme?: string;
 }
+export type DiffPreferencesInfoKey = keyof DiffPreferencesInfo;
 
 /**
  * The RangeInfo entity stores the coordinates of a range.

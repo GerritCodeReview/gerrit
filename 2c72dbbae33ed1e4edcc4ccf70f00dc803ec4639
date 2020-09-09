@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "234aed5a_ab0fbf0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T16:46:59Z",
+      "side": 1,
+      "message": "\u003e Every existing integration test that starts the Gerrit Daemon should leverage this binding (falling back to in-memory cache rather than H2).\n\nSure, but so far we never had a test that replaces with another DynamicItem\u003c\u003e, right?\n\n\u003e Are you talking about an explicit test to prove the dynamicItem can be swapped with an overriding lib module?\n\nYep. That would demonstrate that it is actually swappable and it would work.",
+      "parentUuid": "20a4497b_fbc816c8",
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "74e3cf2e_305e471e",
         "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
         "patchSetId": 1

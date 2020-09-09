@@ -46,6 +46,12 @@ public class TreeCreator {
     return new TreeCreator(baseCommit.getTree(), ImmutableList.copyOf(baseCommit.getParents()));
   }
 
+  public static TreeCreator basedOnTree(
+      ObjectId baseTreeId, ImmutableList<? extends ObjectId> baseParents) {
+    requireNonNull(baseTreeId, "baseTreeId is required");
+    return new TreeCreator(baseTreeId, baseParents);
+  }
+
   public static TreeCreator basedOnEmptyTree() {
     return new TreeCreator(ObjectId.zeroId(), ImmutableList.of());
   }

@@ -207,7 +207,6 @@ suite('gr-diff-view tests', () => {
           sinon.spy(element, '_paramsChanged');
           sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
               generateChange({revisionsCount: 11})));
-          element._isChangeCommentsLinkExperimentEnabled = true;
           element.params = {
             view: GerritNav.View.DIFF,
             changeNum: '42',
@@ -269,7 +268,6 @@ suite('gr-diff-view tests', () => {
       sinon.spy(element, '_paramsChanged');
       sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
           generateChange({revisionsCount: 11})));
-      element._isChangeCommentsLinkExperimentEnabled = true;
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: '42',

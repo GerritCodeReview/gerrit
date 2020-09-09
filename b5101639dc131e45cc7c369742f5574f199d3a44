@@ -22,6 +22,30 @@
       "revId": "b5101639dc131e45cc7c369742f5574f199d3a44",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bad20671_1ca7c008",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 870,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T15:08:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d69cbd5_06a878c4",
+      "range": {
+        "startLine": 870,
+        "startChar": 21,
+        "endLine": 870,
+        "endChar": 46
+      },
+      "revId": "b5101639dc131e45cc7c369742f5574f199d3a44",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -18,6 +18,7 @@ import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.truth.ListSubject.elements;
 
 import com.google.common.truth.FailureMetadata;
+import com.google.common.truth.MapSubject;
 import com.google.common.truth.StringSubject;
 import com.google.common.truth.Subject;
 import com.google.gerrit.extensions.common.FixSuggestionInfo;
@@ -57,6 +58,26 @@ public class RobotCommentInfoSubject extends Subject {
   public StringSubject path() {
     isNotNull();
     return check("path").that(robotCommentInfo.path);
+  }
+
+  public StringSubject robotId() {
+    isNotNull();
+    return check("robotId").that(robotCommentInfo.robotId);
+  }
+
+  public StringSubject robotRunId() {
+    isNotNull();
+    return check("robotRunId").that(robotCommentInfo.robotRunId);
+  }
+
+  public StringSubject url() {
+    isNotNull();
+    return check("url").that(robotCommentInfo.url);
+  }
+
+  public MapSubject properties() {
+    isNotNull();
+    return check("property").that(robotCommentInfo.properties);
   }
 
   public FixSuggestionInfoSubject onlyFixSuggestion() {

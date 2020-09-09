@@ -70,6 +70,30 @@
       "revId": "4932dc50c82a1e35e125c6f11bf7379c6a7c51a6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ace23642_1cb72659",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-09T00:11:27Z",
+      "side": 1,
+      "message": "In this test framework context, that terminology comes from [1]\u0027s below. What is meant here by \u0027gitProtocol\u0027 is not related to git\u0027s actual protocols.\n\nIt is more about calling what [2] contributed as a Gatling (extension, plugin) protocol, namely git commands support. That extension comes beside Gatling\u0027s built-in http protocol support (here, an actual network protocol).\n\n[1] com.github.barbasa.gatling.git.protocol.GitProtocol\n[2] https://github.com/GerritForge/gatling-git",
+      "parentUuid": "d3ae09f6_bb20aa75",
+      "range": {
+        "startLine": 11,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 3
+      },
+      "revId": "4932dc50c82a1e35e125c6f11bf7379c6a7c51a6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

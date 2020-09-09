@@ -22,6 +22,30 @@
       "revId": "9af56d8779ba1ad18aaa0a1877f436ff906d995a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c73dfd80_8fbc1463",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T20:34:47Z",
+      "side": 1,
+      "message": "This remark belongs to the issue rather than the change.\nThe issue should have all elements to troubleshoot the problem.\n\nI\u0027ll add some numbers on Issue 10276.\n\nThe remark should be removed from here IMHO.",
+      "parentUuid": "a971debd_c7aea2e6",
+      "range": {
+        "startLine": 12,
+        "startChar": 38,
+        "endLine": 14,
+        "endChar": 9
+      },
+      "revId": "9af56d8779ba1ad18aaa0a1877f436ff906d995a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

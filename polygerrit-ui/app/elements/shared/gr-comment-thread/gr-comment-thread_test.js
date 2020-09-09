@@ -186,7 +186,6 @@ suite('gr-comment-thread tests', () => {
       element.lineNum = 5;
       element.comments = [{id: 'comment_id'}];
       element.showFilePath = true;
-      element._isChangeCommentsLinkExperimentEnabled = true;
       flushAsynchronousOperations();
       assert.isOk(element.shadowRoot
           .querySelector('.pathInfo'));

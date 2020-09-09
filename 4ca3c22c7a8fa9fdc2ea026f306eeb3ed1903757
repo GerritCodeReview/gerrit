@@ -53,6 +53,24 @@
     },
     {
       "key": {
+        "uuid": "a2ccdb37_85f54217",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "It\u0027s iron-menu-behaviour that is hijacking the keyboard event to focus on the matching element in the dropdown entry(_focusWithKeyboardEvent).\nLooking into a fix but seems a but tricky",
+      "parentUuid": "395c4207_68c87750",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "3ff85db8_907c195c",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
         "patchSetId": 8
@@ -67,6 +85,24 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "249786dd_d07bfb49",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ff85db8_907c195c",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -93,6 +129,30 @@
     },
     {
       "key": {
+        "uuid": "3763bf93_f03716b1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Nice.",
+      "parentUuid": "8d6ae987_c049bb71",
+      "range": {
+        "startLine": 120,
+        "startChar": 66,
+        "endLine": 120,
+        "endChar": 76
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "dffd96f9_3ba0fb33",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
         "patchSetId": 8
@@ -110,6 +170,24 @@
     },
     {
       "key": {
+        "uuid": "4bd30882_89fb58fb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dffd96f9_3ba0fb33",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1768f2c_4fe08a18",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
         "patchSetId": 8
@@ -124,6 +202,24 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42139e5f_cd0f8772",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f1768f2c_4fe08a18",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -197,6 +293,24 @@
     },
     {
       "key": {
+        "uuid": "1d54ded0_8c6fbef0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 153,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dee9ea1b_e2ba3a0a",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc4bd0af_fb66f034",
         "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
         "patchSetId": 8
@@ -211,6 +325,24 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "16f05e1f_6ca2cd4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bc4bd0af_fb66f034",
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -330,6 +462,30 @@
       "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e161dc09_d7395d83",
+        "filename": "polygerrit-ui/app/elements/shared/gr-dropdown-list/gr-dropdown-list_html.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-09T12:33:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "01cdcef6_c0dd82f3",
+      "range": {
+        "startLine": 162,
+        "startChar": 25,
+        "endLine": 162,
+        "endChar": 37
+      },
+      "revId": "4ca3c22c7a8fa9fdc2ea026f306eeb3ed1903757",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

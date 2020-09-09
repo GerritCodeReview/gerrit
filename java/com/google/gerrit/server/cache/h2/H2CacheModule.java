@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.cache.h2;
 
+import com.google.gerrit.extensions.registration.DynamicItem;
 import com.google.gerrit.lifecycle.LifecycleModule;
 import com.google.gerrit.server.ModuleImpl;
 import com.google.gerrit.server.cache.CacheModule;
@@ -23,7 +24,8 @@ import com.google.gerrit.server.cache.PersistentCacheFactory;
 public class H2CacheModule extends LifecycleModule {
   @Override
   protected void configure() {
-    bind(PersistentCacheFactory.class).to(H2CacheFactory.class);
+    DynamicItem.itemOf(binder(), PersistentCacheFactory.class);
+    DynamicItem.bind(binder(), PersistentCacheFactory.class).to(H2CacheFactory.class);
     listener().to(H2CacheFactory.class);
   }
 }

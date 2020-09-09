@@ -371,6 +371,30 @@
     },
     {
       "key": {
+        "uuid": "75521183_5825415c",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/PluginFieldsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-09T22:41:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "259fdfde_c39139cf",
+      "range": {
+        "startLine": 55,
+        "startChar": 14,
+        "endLine": 55,
+        "endChar": 41
+      },
+      "revId": "119c359220b9ed96e02f0cad678de27c435ea833",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6cc22002_36fe2a41",
         "filename": "javatests/com/google/gerrit/acceptance/rest/change/PluginFieldsIT.java",
         "patchSetId": 4

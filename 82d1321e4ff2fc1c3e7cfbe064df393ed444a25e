@@ -130,6 +130,30 @@
     },
     {
       "key": {
+        "uuid": "0c9ea071_a9baea57",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-09T09:52:52Z",
+      "side": 1,
+      "message": "I\u0027m fine with it if it\u0027s consistent with ReceiveCommits.",
+      "parentUuid": "25253e9d_7ea7696c",
+      "range": {
+        "startLine": 7398,
+        "startChar": 21,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab083b0c_a66f7cd2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 4

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b110fbd5_9b72ea4c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T16:16:03Z",
+      "side": 1,
+      "message": "Is there any way we can cover this with a test?",
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "74e3cf2e_305e471e",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T16:16:03Z",
+      "side": 1,
+      "message": "We typically do not add those suffixes for DynamicItem variables: just keep it as factory",
+      "range": {
+        "startLine": 59,
+        "startChar": 76,
+        "endLine": 59,
+        "endChar": 87
+      },
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c334d57_cb8d4c1b",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T16:16:03Z",
+      "side": 1,
+      "message": "persistentCacheFactory \u003d\u003d null || persistentCacheFactory.get() \u003d\u003d null",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 55
+      },
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c4927ce5_a106c2b8",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-09T16:16:03Z",
+      "side": 1,
+      "message": "We do not typically add those suffixes for DynamicItems",
+      "range": {
+        "startLine": 90,
+        "startChar": 74,
+        "endLine": 90,
+        "endChar": 85
+      },
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

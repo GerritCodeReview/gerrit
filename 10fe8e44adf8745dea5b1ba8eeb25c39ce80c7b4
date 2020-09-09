@@ -22,6 +22,30 @@
       "revId": "10fe8e44adf8745dea5b1ba8eeb25c39ce80c7b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "103992a8_26039a26",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-09T15:29:45Z",
+      "side": 1,
+      "message": "sure - why not :-)",
+      "parentUuid": "d862c501_87e49367",
+      "range": {
+        "startLine": 791,
+        "startChar": 0,
+        "endLine": 793,
+        "endChar": 75
+      },
+      "revId": "10fe8e44adf8745dea5b1ba8eeb25c39ce80c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

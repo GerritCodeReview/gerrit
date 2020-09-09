@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d862c501_87e49367",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 793,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-09T14:44:01Z",
+      "side": 1,
+      "message": "I\u0027m a bit concerned that the attention set logic will be hard to follow a few years from now when we have forgotten the details, so I think we should make it as easy to read as possible. Maybe I\u0027m exaggerating here, but WDYT about splitting this condition up in two descriptively named booleans? Like, reviewerRemoved\u003d...; ccRemoved\u003d...; if (reviewerRemoved || ccRemoved) {...}",
+      "range": {
+        "startLine": 791,
+        "startChar": 0,
+        "endLine": 793,
+        "endChar": 75
+      },
+      "revId": "10fe8e44adf8745dea5b1ba8eeb25c39ce80c7b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

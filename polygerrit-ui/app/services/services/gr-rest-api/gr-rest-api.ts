@@ -74,6 +74,7 @@ import {
   NameToProjectInfoMap,
   ProjectInput,
   AccountId,
+  ChangeMessageId,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -594,5 +595,10 @@ export interface RestApiService {
     changeNum: ChangeNum,
     account: AccountId,
     label: string
+  ): Promise<Response>;
+
+  deleteChangeCommitMessage(
+    changeNum: ChangeNum,
+    messageId: ChangeMessageId
   ): Promise<Response>;
 }

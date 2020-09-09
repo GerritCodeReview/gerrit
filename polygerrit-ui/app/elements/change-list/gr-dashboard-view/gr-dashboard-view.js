@@ -66,7 +66,7 @@ class GrDashboardView extends GestureEventListeners(
       createChangeTap: {
         type: Function,
         value() {
-          return this._createChangeTap.bind(this);
+          return e => this._createChangeTap(e);
         },
       },
 

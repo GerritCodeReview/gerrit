@@ -66,13 +66,13 @@ class GrGroupMembers extends GestureEventListeners(
       _queryMembers: {
         type: Function,
         value() {
-          return this._getAccountSuggestions.bind(this);
+          return input => this._getAccountSuggestions(input);
         },
       },
       _queryIncludedGroup: {
         type: Function,
         value() {
-          return this._getGroupSuggestions.bind(this);
+          return input => this._getGroupSuggestions(input);
         },
       },
       _groupOwner: {

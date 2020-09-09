@@ -365,10 +365,8 @@ export class GrErrorManager extends GestureEventListeners(
 
     this._alertElement = this._createToastAlert();
     this._alertElement.type = ErrorType.AUTH;
-    this._alertElement.show(
-      errorText,
-      actionText,
-      this._createLoginPopup.bind(this)
+    this._alertElement.show(errorText, actionText, () =>
+      this._createLoginPopup()
     );
     this.fire('iron-announce', {text: errorText}, {bubbles: true});
     this._refreshingCredentials = true;

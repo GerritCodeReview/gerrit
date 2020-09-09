@@ -103,7 +103,7 @@ class GrAccountList extends GestureEventListeners(
       _querySuggestions: {
         type: Function,
         value() {
-          return this._getSuggestions.bind(this);
+          return input => this._getSuggestions(input);
         },
       },
 

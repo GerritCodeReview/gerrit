@@ -93,7 +93,8 @@ export class GrLinkedText extends GestureEventListeners(
     output.textContent = '';
     const parser = new GrLinkTextParser(
       config,
-      this._handleParseResult.bind(this),
+      (text: string | null, href: string | null, fragment?: DocumentFragment) =>
+        this._handleParseResult(text, href, fragment),
       this.removeZeroWidthSpace
     );
     parser.parse(content);

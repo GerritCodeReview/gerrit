@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-export type EventValue = string | number | {error: Error};
+export type EventValue = string | number | {error?: Error};
 
 // TODO(dmfilippov): TS-fix-any use more specific type instead if possible
 export type EventDetails = any;

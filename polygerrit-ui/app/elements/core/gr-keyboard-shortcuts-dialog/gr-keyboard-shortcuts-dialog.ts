@@ -64,9 +64,9 @@ export class GrKeyboardShortcutsDialog extends KeyboardShortcutMixin(
 
   constructor() {
     super();
-    this.keyboardShortcutDirectoryListener = this._onDirectoryUpdated.bind(
-      this
-    );
+    this.keyboardShortcutDirectoryListener = (
+      d?: Map<ShortcutSection, SectionView>
+    ) => this._onDirectoryUpdated(d);
   }
 
   /** @override */

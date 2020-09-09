@@ -512,20 +512,20 @@ class GrChangeView extends KeyboardShortcutMixin(
         })
         .then(() => this._initActiveTabs(this.params));
 
-    this.addEventListener('comment-save', this._handleCommentSave.bind(this));
-    this.addEventListener('comment-refresh', this._reloadDrafts.bind(this));
+    this.addEventListener('comment-save', e => this._handleCommentSave(e));
+    this.addEventListener('comment-refresh', e => this._reloadDrafts(e));
     this.addEventListener('comment-discard',
-        this._handleCommentDiscard.bind(this));
+        e => this._handleCommentDiscard(e));
     this.addEventListener('change-message-deleted',
         () => this._reload());
     this.addEventListener('editable-content-save',
-        this._handleCommitMessageSave.bind(this));
+        e => this._handleCommitMessageSave(e));
     this.addEventListener('editable-content-cancel',
-        this._handleCommitMessageCancel.bind(this));
+        e => this._handleCommitMessageCancel(e));
     this.addEventListener('open-fix-preview',
-        this._onOpenFixPreview.bind(this));
+        e => this._onOpenFixPreview(e));
     this.addEventListener('close-fix-preview',
-        this._onCloseFixPreview.bind(this));
+        e => this._onCloseFixPreview(e));
     this.listen(window, 'scroll', '_handleScroll');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
 
@@ -1183,7 +1183,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   _maybeShowRevertDialog() {
     getPluginLoader().awaitPluginsLoaded()
-        .then(this._getLoggedIn.bind(this))
+        .then(() => this._getLoggedIn())
         .then(loggedIn => {
           if (!loggedIn || !this._change ||
               this._change.status !== ChangeStatus.MERGED) {
@@ -1663,7 +1663,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   _getChangeDetail() {
     const detailCompletes = this.$.restAPI.getChangeDetail(
-        this._changeNum, this._handleGetChangeDetailError.bind(this));
+        this._changeNum, r => this._handleGetChangeDetailError(r));
     const editCompletes = this._getEdit();
     const prefCompletes = this._getPreferences();
 

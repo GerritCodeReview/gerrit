@@ -274,8 +274,8 @@ class GrMainHeader extends GestureEventListeners(
       this._topMenus = result[1];
 
       return getAdminLinks(account,
-          this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-          this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI))
+          params => this.$.restAPI.getAccountCapabilities(params),
+          () => this.$.jsAPI.getAdminMenuLinks())
           .then(res => {
             this._adminLinks = res.links;
           });

@@ -1295,10 +1295,10 @@ class GrChangeActions extends GestureEventListeners(
     if (this._getActionOverflowIndex(type, buttonKey) !== -1) {
       this.push('_disabledMenuActions', buttonKey === '/' ? 'delete' :
         buttonKey);
-      return function() {
+      return () => {
         this._actionLoadingMessage = '';
         this._disabledMenuActions = [];
-      }.bind(this);
+      };
     }
 
     // Otherwise it's a top-level action.
@@ -1306,11 +1306,11 @@ class GrChangeActions extends GestureEventListeners(
         .querySelector(`[data-action-key="${buttonKey}"]`);
     buttonEl.setAttribute('loading', true);
     buttonEl.disabled = true;
-    return function() {
+    return () => {
       this._actionLoadingMessage = '';
       buttonEl.removeAttribute('loading');
       buttonEl.disabled = false;
-    }.bind(this);
+    };
   }
 
   /**
@@ -1324,7 +1324,7 @@ class GrChangeActions extends GestureEventListeners(
         this._setLoadingOnButtonWithKey(action.__type, action.__key);
 
     this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
-        action).then(this._handleResponse.bind(this, action));
+        action).then(res => this._handleResponse(action, res));
   }
 
   _showActionDialog(dialog) {
@@ -1570,7 +1570,7 @@ class GrChangeActions extends GestureEventListeners(
 
     return revisionActionValues
         .concat(changeActionValues)
-        .sort(this._actionComparator.bind(this))
+        .sort((a, b) => this._actionComparator(a, b))
         .map(action => {
           if (ACTIONS_WITH_ICONS.has(action.__key)) {
             action.icon = action.__key;

@@ -90,7 +90,7 @@ export class GrCreateChangeDialog extends GestureEventListeners(
 
   constructor() {
     super();
-    this._query = this._getRepoBranchesSuggestions.bind(this);
+    this._query = (input: string) => this._getRepoBranchesSuggestions(input);
   }
 
   /** @override */

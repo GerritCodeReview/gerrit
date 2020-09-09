@@ -117,11 +117,11 @@ export function initErrorReporter(appContext: AppContext) {
   // TODO(dmfilippo): TS-fix-any oldOnError - define correct type
   const onError = function (
     oldOnError: Function,
-    msg: string,
-    url: string,
-    line: number,
-    column: number,
-    error: Error
+    msg: Event | string,
+    url?: string,
+    line?: number,
+    column?: number,
+    error?: Error
   ) {
     if (oldOnError) {
       oldOnError(msg, url, line, column, error);
@@ -147,7 +147,7 @@ export function initErrorReporter(appContext: AppContext) {
     reportingService.reporter(
       ERROR.TYPE,
       ERROR.CATEGORY.EXCEPTION,
-      msg,
+      `${msg}`,
       payload
     );
     return true;
@@ -155,7 +155,15 @@ export function initErrorReporter(appContext: AppContext) {
   // TODO(dmfilippov): TS-fix-any unclear what is context
   const catchErrors = function (opt_context?: any) {
     const context = opt_context || window;
-    context.onerror = onError.bind(null, context.onerror);
+    context.onerror = (
+      event: Event | string,
+      source?: string,
+      lineno?: number,
+      colno?: number,
+      error?: Error
+    ) => {
+      return onError(context.onerror, event, source, lineno, colno, error);
+    };
     context.addEventListener(
       'unhandledrejection',
       (e: PromiseRejectionEvent) => {

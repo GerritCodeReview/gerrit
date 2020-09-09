@@ -82,6 +82,54 @@
     },
     {
       "key": {
+        "uuid": "25253e9d_7ea7696c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T09:50:08Z",
+      "side": 1,
+      "message": "For this specific case (marking the change as WIP), the notify will be set to OWNER. That\u0027s the same behaviour for WIP in ReceiveCommits.",
+      "parentUuid": "848cdffa_124fd950",
+      "range": {
+        "startLine": 7398,
+        "startChar": 21,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e3a16325_d10a7bf8",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T09:50:08Z",
+      "side": 1,
+      "message": "Marking a change as WIP should not notify anyone. This is how it behaves in ReceiveCommits and in the \"Set work in progress\" endpoint.\nWe can throw an exception, but I don\u0027t think it is really needed here. Even if the args are somehow contradicting, this doesn\u0027t prevent the server from proceeding. I would rather prefer to just highlight the override behavior in the documentation (as currently written).",
+      "parentUuid": "93cf11bd_8e46d6aa",
+      "range": {
+        "startLine": 7397,
+        "startChar": 52,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab083b0c_a66f7cd2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 4
@@ -102,6 +150,30 @@
       "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3f26d87_a70e4795",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 697,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T09:50:08Z",
+      "side": 1,
+      "message": "Good point. Done.",
+      "parentUuid": "ab083b0c_a66f7cd2",
+      "range": {
+        "startLine": 697,
+        "startChar": 30,
+        "endLine": 697,
+        "endChar": 50
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

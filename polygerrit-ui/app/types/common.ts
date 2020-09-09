@@ -410,6 +410,8 @@ export interface ReviewerUpdateInfo {
 export interface ChangeMessageInfo {
   id: ChangeMessageId;
   author?: AccountInfo;
+  reviewer?: AccountInfo;
+  updated_by?: AccountInfo;
   real_author?: AccountInfo;
   date: Timestamp;
   message: string;

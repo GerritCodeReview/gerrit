@@ -15,32 +15,71 @@
  * limitations under the License.
  */
 
-import '@polymer/iron-icon/iron-icon.js';
-import '../../shared/gr-account-label/gr-account-label.js';
-import '../../shared/gr-account-chip/gr-account-chip.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import '../../shared/gr-formatted-text/gr-formatted-text.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import '../../../styles/gr-voting-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-message_html.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
+import '@polymer/iron-icon/iron-icon';
+import '../../shared/gr-account-label/gr-account-label';
+import '../../shared/gr-account-chip/gr-account-chip';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-formatted-text/gr-formatted-text';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import '../../../styles/gr-voting-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-message_html';
+import {SpecialFilePath} from '../../../constants/constants';
+import {customElement, property, computed, observe} from '@polymer/decorators';
+import {
+  ChangeInfo,
+  ChangeMessageInfo,
+  ServerInfo,
+  ConfigInfo,
+  RepoName,
+  ReviewInputTag,
+  VotingRangeInfo,
+} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
+import {hasOwnProperty} from '../../../utils/common-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
 
-/**
- * @extends PolymerElement
- */
-class GrMessage extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-message': GrMessage;
+  }
+}
 
-  static get is() { return 'gr-message'; }
+export interface GrMessage {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
+
+interface ChangeMessage extends ChangeMessageInfo {
+  // TODO(TS): maybe should be an enum instead
+  type: string;
+  expanded: boolean;
+  commentThreads: CommentThread[];
+}
+
+export type LabelExtreme = {[labelName: string]: VotingRangeInfo};
+
+interface Score {
+  label?: string;
+  value?: string;
+}
+
+@customElement('gr-message')
+export class GrMessage extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when this message's reply link is tapped.
    *
@@ -59,117 +98,107 @@ class GrMessage extends GestureEventListeners(
    * @event change-message-deleted
    */
 
-  static get properties() {
-    return {
-      /** @type {?} */
-      change: Object,
-      changeNum: Number,
-      /** @type {?} */
-      message: Object,
-      author: {
-        type: Object,
-        computed: '_computeAuthor(message)',
-      },
-      /**
-       * TODO(taoalpha): remove once the change log experiment is launched
-       *
-       * @type {Object} - a map on file and comments on it
-       */
-      comments: {
-        type: Object,
-      },
-      config: Object,
-      hideAutomated: {
-        type: Boolean,
-        value: false,
-      },
-      hidden: {
-        type: Boolean,
-        computed: '_computeIsHidden(hideAutomated, isAutomated)',
-        reflectToAttribute: true,
-      },
-      isAutomated: {
-        type: Boolean,
-        computed: '_computeIsAutomated(message)',
-      },
-      showOnBehalfOf: {
-        type: Boolean,
-        computed: '_computeShowOnBehalfOf(message)',
-      },
-      showReplyButton: {
-        type: Boolean,
-        computed: '_computeShowReplyButton(message, _loggedIn)',
-      },
-      projectName: {
-        type: String,
-        observer: '_projectNameChanged',
-      },
+  @property({type: Object})
+  change?: ChangeInfo;
 
-      /**
-       * A mapping from label names to objects representing the minimum and
-       * maximum possible values for that label.
-       */
-      labelExtremes: Object,
+  @property({type: Number})
+  changeNum?: number;
 
-      /**
-       * @type {{ commentlinks: Array }}
-       */
-      _projectConfig: Object,
-      // Computed property needed to trigger Polymer value observing.
-      _expanded: {
-        type: Object,
-        computed: '_computeExpanded(message.expanded)',
-      },
-      _messageContentExpanded: {
-        type: String,
-        computed:
-            '_computeMessageContentExpanded(message.message, message.tag)',
-      },
-      _messageContentCollapsed: {
-        type: String,
-        computed:
-            '_computeMessageContentCollapsed(message.message, message.tag,' +
-            ' message.commentThreads)',
-      },
-      _commentCountText: {
-        type: Number,
-        computed: '_computeCommentCountText(message.commentThreads.length)',
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
-      _isDeletingChangeMsg: {
-        type: Boolean,
-        value: false,
-      },
-    };
+  @property({type: Object})
+  message: ChangeMessage | undefined;
+
+  @computed('message')
+  get author() {
+    // `!` here as computed method with single dependency,
+    // will be only executed when message is defined
+    return this.message!.author || this.message!.updated_by;
   }
 
-  static get observers() {
-    return [
-      '_updateExpandedClass(message.expanded)',
-    ];
+  @property({type: Object})
+  config?: ServerInfo;
+
+  @property({type: Boolean})
+  hideAutomated = false;
+
+  @property({
+    type: Boolean,
+    reflectToAttribute: true,
+    computed: '_computeIsHidden(hideAUtomated, isAutomated)',
+  })
+  hidden!: boolean; // always present as computed property
+
+  @computed('message')
+  get isAutomated() {
+    const message = this.message;
+    if (!message) return false;
+    return this._computeIsAutomated(message);
   }
 
-  constructor() {
-    super();
+  @computed('message')
+  get showOnBehalfOf() {
+    const message = this.message;
+    if (!message) return false;
+    return this._computeShowOnBehalfOf(message);
   }
 
-  /** @override */
+  @property({
+    type: Boolean,
+    computed: '_computeShowReplyButton(message, _loggedIn)',
+  })
+  showReplyButton!: boolean;
+
+  @property({type: String})
+  projectName?: string;
+
+  /**
+   * A mapping from label names to objects representing the minimum and
+   * maximum possible values for that label.
+   */
+  @property({type: Object})
+  labelExtremes?: LabelExtreme;
+
+  @property({type: Object})
+  _projectConfig?: ConfigInfo;
+
+  @property({type: Boolean})
+  _loggedIn = false;
+
+  @property({type: Boolean})
+  _isAdmin = false;
+
+  @property({type: Boolean})
+  _isDeletingChangeMsg = false;
+
+  @property({type: Boolean, computed: '_computeExpanded(message.expanded)'})
+  _expanded!: boolean;
+
+  @property({
+    type: String,
+    computed: '_computeMessageContentExpanded(message.message, message.tag)',
+  })
+  _messageContentExpanded!: string;
+
+  @property({
+    type: String,
+    computed:
+      '_computeMessageContentCollapsed(message.message, message.tag,' +
+      ' message.commentThreads)',
+  })
+  _messageContentCollapsed!: string;
+
+  @property({
+    type: String,
+    computed: '_computeCommentCountText(message.commentThreads.length)',
+  })
+  _commentCountText!: number;
+
   created() {
     super.created();
-    this.addEventListener('click',
-        e => this._handleClick(e));
+    this.addEventListener('click', e => this._handleClick(e));
   }
 
-  /** @override */
-  ready() {
-    super.ready();
+  attached() {
+    super.attached();
     this.$.restAPI.getConfig().then(config => {
       this.config = config;
     });
@@ -177,11 +206,12 @@ class GrMessage extends GestureEventListeners(
       this._loggedIn = loggedIn;
     });
     this.$.restAPI.getIsAdmin().then(isAdmin => {
-      this._isAdmin = isAdmin;
+      this._isAdmin = !!isAdmin;
     });
   }
 
-  _updateExpandedClass(expanded) {
+  @observe('message.expanded')
+  _updateExpandedClass(expanded: boolean) {
     if (expanded) {
       this.classList.add('expanded');
     } else {
@@ -189,7 +219,7 @@ class GrMessage extends GestureEventListeners(
     }
   }
 
-  _computeCommentCountText(threadsLength) {
+  _computeCommentCountText(threadsLength?: number) {
     if (threadsLength === 0) {
       return undefined;
     } else if (threadsLength === 1) {
@@ -205,20 +235,24 @@ class GrMessage extends GestureEventListeners(
     // or gerrit level events
 
     // emit the event so change-view can also get updated with latest changes
-    this.dispatchEvent(new CustomEvent('comment-refresh', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('comment-refresh', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
-  _computeMessageContentExpanded(content, tag) {
+  _computeMessageContentExpanded(content?: string, tag?: ReviewInputTag) {
     return this._computeMessageContent(content, tag, true);
   }
 
-  _patchsetCommentSummary(commentThreads) {
-    const id = this.message.id;
+  _patchsetCommentSummary(commentThreads: CommentThread[] = []) {
+    const id = this.message?.id;
     if (!id) return '';
-    const patchsetThreads = commentThreads.filter(thread =>
-      thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS);
+    const patchsetThreads = commentThreads.filter(
+      thread => thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+    );
     for (const thread of patchsetThreads) {
       // Find if there was a patchset level comment created through the reply
       // dialog and use it to determine the summary
@@ -229,24 +263,31 @@ class GrMessage extends GestureEventListeners(
     // Find if there is a reply to some patchset comment left
     for (const thread of patchsetThreads) {
       for (const comment of thread.comments) {
-        if (comment.change_message_id === id) { return comment.message; }
+        if (comment.change_message_id === id) {
+          return comment.message;
+        }
       }
     }
     return '';
   }
 
-  _computeMessageContentCollapsed(content, tag, commentThreads) {
-    const summary =
-      this._computeMessageContent(content, tag, false);
+  _computeMessageContentCollapsed(
+    content?: string,
+    tag?: ReviewInputTag,
+    commentThreads?: CommentThread[]
+  ) {
+    const summary = this._computeMessageContent(content, tag, false);
     if (summary || !commentThreads) return summary;
     return this._patchsetCommentSummary(commentThreads);
   }
 
-  _computeMessageContent(content, tag, isExpanded) {
-    content = content || '';
-    tag = tag || '';
-    const isNewPatchSet = tag.endsWith(':newPatchSet') ||
-        tag.endsWith(':newWipPatchSet');
+  _computeMessageContent(
+    content = '',
+    tag: ReviewInputTag = '' as ReviewInputTag,
+    isExpanded: boolean
+  ) {
+    const isNewPatchSet =
+      tag.endsWith(':newPatchSet') || tag.endsWith(':newWipPatchSet');
     const lines = content.split('\n');
     const filteredLines = lines.filter(line => {
       if (!isExpanded && line.startsWith('>')) {
@@ -279,52 +320,65 @@ class GrMessage extends GestureEventListeners(
     return mappedLines.join('\n').trim();
   }
 
-  _computeAuthor(message) {
+  _computeAuthor(message: ChangeMessage) {
     return message.author || message.updated_by;
   }
 
-  _computeShowOnBehalfOf(message) {
-    const author = message.author || message.updated_by;
-    return !!(author && message.real_author &&
-        author._account_id != message.real_author._account_id);
+  _computeShowOnBehalfOf(message: ChangeMessage) {
+    const author = this._computeAuthor(message);
+    return !!(
+      author &&
+      message.real_author &&
+      author._account_id !== message.real_author._account_id
+    );
   }
 
-  _computeShowReplyButton(message, loggedIn) {
-    return message && !!message.message && loggedIn &&
-        !this._computeIsAutomated(message);
+  _computeShowReplyButton(message?: ChangeMessage, loggedIn?: boolean) {
+    return (
+      message &&
+      !!message.message &&
+      loggedIn &&
+      !this._computeIsAutomated(message)
+    );
   }
 
-  _computeExpanded(expanded) {
+  _computeExpanded(expanded: boolean) {
     return expanded;
   }
 
-  _handleClick(e) {
-    if (this.message.expanded) { return; }
+  _handleClick(e: Event) {
+    if (this.message?.expanded) {
+      return;
+    }
     e.stopPropagation();
     this.set('message.expanded', true);
   }
 
-  _handleAuthorClick(e) {
-    if (!this.message.expanded) { return; }
+  _handleAuthorClick(e: Event) {
+    if (!this.message?.expanded) {
+      return;
+    }
     e.stopPropagation();
     this.set('message.expanded', false);
   }
 
-  _computeIsAutomated(message) {
-    return !!(message.reviewer ||
-        this._computeIsReviewerUpdate(message) ||
-        (message.tag && message.tag.startsWith('autogenerated')));
+  _computeIsAutomated(message: ChangeMessage) {
+    return !!(
+      message.reviewer ||
+      this._computeIsReviewerUpdate(message) ||
+      (message.tag && message.tag.startsWith('autogenerated'))
+    );
   }
 
-  _computeIsHidden(hideAutomated, isAutomated) {
+  _computeIsHidden(hideAutomated: boolean, isAutomated: boolean) {
     return hideAutomated && isAutomated;
   }
 
-  _computeIsReviewerUpdate(message) {
+  _computeIsReviewerUpdate(message: ChangeMessage) {
     return message.type === 'REVIEWER_UPDATE';
   }
 
-  _getScores(message, labelExtremes) {
+  _getScores(message?: ChangeMessage, labelExtremes?: LabelExtreme): Score[] {
     if (!message || !message.message || !labelExtremes) {
       return [];
     }
@@ -337,94 +391,109 @@ class GrMessage extends GestureEventListeners(
     if (!scoresRaw) {
       return [];
     }
-    return scoresRaw.split(' ')
-        .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
-        .filter(ms =>
-          ms && ms.length === 4 && labelExtremes.hasOwnProperty(ms[2]))
-        .map(ms => {
-          const label = ms[2];
-          const value = ms[1] === '-' ? 'removed' : ms[3];
-          return {label, value};
-        });
+    return scoresRaw
+      .split(' ')
+      .map(s => s.match(LABEL_TITLE_SCORE_PATTERN))
+      .filter(
+        ms => ms && ms.length === 4 && hasOwnProperty(labelExtremes, ms[2])
+      )
+      .map(ms => {
+        const label = ms?.[2];
+        const value = ms?.[1] === '-' ? 'removed' : ms?.[3];
+        return {label, value};
+      });
   }
 
-  _computeScoreClass(score, labelExtremes) {
+  _computeScoreClass(score?: Score, labelExtremes?: LabelExtreme) {
     // Polymer 2: check for undefined
-    if ([score, labelExtremes].includes(undefined)) {
+    if (score === undefined || labelExtremes === undefined) {
+      return '';
+    }
+    if (!score.value) {
       return '';
     }
     if (score.value === 'removed') {
       return 'removed';
     }
     const classes = [];
-    if (score.value > 0) {
+    if (parseInt(score.value) > 0) {
       classes.push('positive');
-    } else if (score.value < 0) {
+    } else if (parseInt(score.value) < 0) {
       classes.push('negative');
     }
-    const extremes = labelExtremes[score.label];
-    if (extremes) {
-      const intScore = parseInt(score.value, 10);
-      if (intScore === extremes.max) {
-        classes.push('max');
-      } else if (intScore === extremes.min) {
-        classes.push('min');
+    if (score.label) {
+      const extremes = labelExtremes[score.label];
+      if (extremes) {
+        const intScore = parseInt(score.value, 10);
+        if (intScore === extremes.max) {
+          classes.push('max');
+        } else if (intScore === extremes.min) {
+          classes.push('min');
+        }
       }
     }
     return classes.join(' ');
   }
 
-  _computeClass(expanded) {
+  _computeClass(expanded: boolean) {
     const classes = [];
     classes.push(expanded ? 'expanded' : 'collapsed');
     return classes.join(' ');
   }
 
-  _handleAnchorClick(e) {
+  _handleAnchorClick(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('message-anchor-tap', {
-      bubbles: true,
-      composed: true,
-      detail: {id: this.message.id},
-    }));
+    this.dispatchEvent(
+      new CustomEvent('message-anchor-tap', {
+        bubbles: true,
+        composed: true,
+        detail: {id: this.message?.id},
+      })
+    );
   }
 
-  _handleReplyTap(e) {
+  _handleReplyTap(e: Event) {
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('reply', {
-      detail: {message: this.message},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('reply', {
+        detail: {message: this.message},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
-  _handleDeleteMessage(e) {
+  _handleDeleteMessage(e: Event) {
     e.preventDefault();
-    if (!this.message || !this.message.id) return;
+    if (!this.message || !this.message.id || !this.changeNum) return;
     this._isDeletingChangeMsg = true;
-    this.$.restAPI.deleteChangeCommitMessage(this.changeNum, this.message.id)
-        .then(() => {
-          this._isDeletingChangeMsg = false;
-          this.dispatchEvent(new CustomEvent('change-message-deleted', {
+    this.$.restAPI
+      .deleteChangeCommitMessage(this.changeNum, this.message.id)
+      .then(() => {
+        this._isDeletingChangeMsg = false;
+        this.dispatchEvent(
+          new CustomEvent('change-message-deleted', {
             detail: {message: this.message},
-            composed: true, bubbles: true,
-          }));
-        });
+            composed: true,
+            bubbles: true,
+          })
+        );
+      });
   }
 
-  _projectNameChanged(name) {
-    this.$.restAPI.getProjectConfig(name).then(config => {
+  @observe('projectName')
+  _projectNameChanged(name: string) {
+    this.$.restAPI.getProjectConfig(name as RepoName).then(config => {
       this._projectConfig = config;
     });
   }
 
-  _computeExpandToggleIcon(expanded) {
+  _computeExpandToggleIcon(expanded: boolean) {
     return expanded ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
   }
 
-  _toggleExpanded(e) {
+  _toggleExpanded(e: Event) {
     e.stopPropagation();
-    this.set('message.expanded', !this.message.expanded);
+    this.set('message.expanded', !this.message?.expanded);
   }
 }
-
-customElements.define(GrMessage.is, GrMessage);

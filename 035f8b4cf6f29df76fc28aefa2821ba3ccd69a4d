@@ -16,6 +16,24 @@
       "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d8ed08c_ddc07ba2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-09T12:38:21Z",
+      "side": 1,
+      "message": "You are referring to the change [1] which is also preserved (applicable) in [2]. However, for this target stable-3.2 branch, that changed code is no longer there in that base: [3]. The reviewerId is no longer set in that send method. Starting from stable-3.2, it is used only in _mapReviewer. That is why the Auto Merge diff shows this automatic resolution ([3]).\n\nNow, there might be a need to redo this fix [1] again in a slightly different way, from this branch upwards. Meaning, maybe reviewerId needs to be a decoded one but from another line in that file. If so, that I think should be a follow-up change based on stable-3.2 and after these merge-ups. Unless it gets decided that another change is needed from downstream, say, if code that is common to all these branches gets amended rather (which would be another solution compared to the original one).\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/280956/-1..1/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js\n\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/280957\n\n[3] https://gerrit-review.googlesource.com/c/gerrit/+/280958/1/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+      "parentUuid": "316b1d7d_66935547",
+      "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

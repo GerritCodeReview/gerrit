@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "313b6c64_9a5b513a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-09T11:03:12Z",
+      "side": 1,
+      "message": "LGTM, only +1 for now so that Nasser has a chance to reply.",
+      "revId": "ce4e7c6609a6aaa51745350e2a6b0661793861b3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

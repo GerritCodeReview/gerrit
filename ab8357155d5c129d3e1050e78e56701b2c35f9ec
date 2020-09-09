@@ -164,6 +164,30 @@
     },
     {
       "key": {
+        "uuid": "5c922d0a_998785e5",
+        "filename": "java/com/google/gerrit/server/config/SendEmailExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-09T11:03:12Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "cb7032a8_7f00e623",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aee427d_ecb5e787",
         "filename": "java/com/google/gerrit/server/update/AsyncPostUpdateOp.java",
         "patchSetId": 10

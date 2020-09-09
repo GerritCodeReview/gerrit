@@ -178,6 +178,30 @@
     },
     {
       "key": {
+        "uuid": "3b083b0b_8bb28537",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 7398,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T21:03:48Z",
+      "side": 1,
+      "message": "Adding a documentation to RevertInput sounds good to me. Done.",
+      "parentUuid": "74eef8e9_6288de13",
+      "range": {
+        "startLine": 7397,
+        "startChar": 52,
+        "endLine": 7398,
+        "endChar": 26
+      },
+      "revId": "82d1321e4ff2fc1c3e7cfbe064df393ed444a25e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ab083b0c_a66f7cd2",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/RevertIT.java",
         "patchSetId": 4

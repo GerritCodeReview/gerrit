@@ -231,6 +231,9 @@ class GrDiffView extends KeyboardShortcutMixin(
         type: Object,
         value: () => new Set(),
       },
+      // when navigating to Base vs X when file is unchanged, store the line
+      // number of the comment, so we can scroll to it
+      _commentLineNum: Number,
     };
   }
 
@@ -863,6 +866,7 @@ class GrDiffView extends KeyboardShortcutMixin(
         leftSide = this.params.leftSide;
       }
     }
+    this._commentLineNum = lineNum;
     this._initLineOfInterestAndCursor(lineNum, leftSide);
     this._commentMap = this._getPaths(this._patchRange);
 
@@ -954,7 +958,8 @@ class GrDiffView extends KeyboardShortcutMixin(
               composed: true, bubbles: true,
             }));
             GerritNav.navigateToDiff(
-                this._change, this._path, this._patchRange.basePatchNum);
+                this._change, this._path, this._patchRange.basePatchNum,
+                'PARENT', this._commentLineNum);
             return;
           }
           if (value.commentLink) {

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "788b065b_13db33e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-09T13:46:42Z",
+      "side": 1,
+      "message": "thanks for implementing the test API, by the way, the tests are in fact much easier to read now.",
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

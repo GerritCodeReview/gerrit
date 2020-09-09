@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a25fe5ec_f4601fc7",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 343,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T11:11:59Z",
+      "side": 0,
+      "message": "Optional: Can probably keep as \"commentOnParentCommitIsNotIgnored\" or \"commentOnParentCommitIsPorted\". \nAlthough it\u0027s redundant given the new tests, but this test is shorter and more readable (also quickly signals to the reader that the feature is available).",
+      "range": {
+        "startLine": 343,
+        "startChar": 14,
+        "endLine": 343,
+        "endChar": 44
+      },
+      "revId": "1b519e5d6ff9e89d6df205e15d14c850a13d1a3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "fc1376b5_b1f81cff",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T11:11:59Z",
+      "side": 1,
+      "message": "CommentPorter was changed to evaluate the commit IDs of the original and target patchset, which now works when side \u003d PARENT. The remaining logic after that is exactly the same.\n\nLGTM.",
+      "revId": "1108497ad28561f9cdfb16e71350c7e3bfb58406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "af7d3da6_ed068911",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1569,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-09T11:11:59Z",
+      "side": 1,
+      "message": "Nice! Also for writing tests for the 2 parents and auto-merge case.",
+      "range": {
+        "startLine": 1569,
+        "startChar": 14,
+        "endLine": 1569,
+        "endChar": 50
+      },
+      "revId": "1108497ad28561f9cdfb16e71350c7e3bfb58406",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

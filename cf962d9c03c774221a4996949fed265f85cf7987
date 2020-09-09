@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "11d87662_0a270b4c",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-09T16:32:19Z",
+      "side": 0,
+      "message": "oh, I was under the impression that when the DynamicItem\u003cPersistentCacheFactory\u003e isn\u0027t injected, then an empty DynamicItem\u003cPersistentCacheFactory\u003e would be bound, so that its .get() value would be null.\n\nIs that not the case?",
+      "parentUuid": "69a61a9f_9865ac2d",
+      "range": {
+        "startLine": 59,
+        "startChar": 33,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "cf962d9c03c774221a4996949fed265f85cf7987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "179b8ca6_5d42a64f",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheModule.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-09-09T16:16:03Z",
       "side": 0,
       "message": "Why has the lifecycle listener been removed?",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 27,
+        "endChar": 40
+      },
+      "revId": "cf962d9c03c774221a4996949fed265f85cf7987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bbeb5fbe_d7f15fbd",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-09T16:32:19Z",
+      "side": 0,
+      "message": "Good catch, thanks luca",
+      "parentUuid": "179b8ca6_5d42a64f",
       "range": {
         "startLine": 27,
         "startChar": 4,

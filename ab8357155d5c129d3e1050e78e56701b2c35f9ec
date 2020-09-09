@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "44e6ca11_f7a8f99f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-09T10:56:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf879eb8_821e1c3b",
+      "range": {
+        "startLine": 53,
+        "startChar": 9,
+        "endLine": 53,
+        "endChar": 12
+      },
+      "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6018c323_c66aa731",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 10
@@ -116,6 +140,30 @@
     },
     {
       "key": {
+        "uuid": "cb7032a8_7f00e623",
+        "filename": "java/com/google/gerrit/server/config/SendEmailExecutor.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-09T10:56:52Z",
+      "side": 1,
+      "message": "oh, no I\u0027m renaming the file anyway so might as well update it.",
+      "parentUuid": "93fef932_a3d9ee4f",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9aee427d_ecb5e787",
         "filename": "java/com/google/gerrit/server/update/AsyncPostUpdateOp.java",
         "patchSetId": 10
@@ -127,6 +175,30 @@
       "writtenOn": "2020-09-03T14:44:19Z",
       "side": 1,
       "message": "Maybe add the postUpdate config now and deprecate the sendemail value? postUpdate would take precedence over sendemail if set? This seems like something we probably shouldn\u0027t put off for later. Ideally it would be introduced in the same change as this interface that uses it. It would require re-organizing your change a bit, but could you make this first change: 1) introduce asyncPostUpdate and the new config and 2) transition existing async emails to use it? And then in a second change, migrate all other email sending to use asyncPostUpdate?",
+      "range": {
+        "startLine": 34,
+        "startChar": 23,
+        "endLine": 35,
+        "endChar": 47
+      },
+      "revId": "ab8357155d5c129d3e1050e78e56701b2c35f9ec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb3b5fdc_6168ebff",
+        "filename": "java/com/google/gerrit/server/update/AsyncPostUpdateOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-09T10:56:52Z",
+      "side": 1,
+      "message": "I would really much rather not split this change at this point since it\u0027s just time-consuming and would confuse Edwin which will make him re-review an already reviewed change.\n\nAnyway, I added a new config, and then I also introduced a \"fallback\". The old config still works, but is deprecated. If the new config doesn\u0027t exist, the only one is used, and only if neither exist, the default is used.",
+      "parentUuid": "9aee427d_ecb5e787",
       "range": {
         "startLine": 34,
         "startChar": 23,

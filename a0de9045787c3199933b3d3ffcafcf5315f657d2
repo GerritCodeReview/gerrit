@@ -69,6 +69,24 @@
       "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fe62ba6e_7c51f064",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T16:40:09Z",
+      "side": 1,
+      "message": "\u003e Why is this not a core worthy concept?\n\u003e There are currently no existing mechanism to control the behavior I seek (how would you block a submission on a change without using a specific newly created label?).\n\nCan\u0027t you do it using https://gerrit-review.googlesource.com/Documentation/dev-plugins.html#pre-submit-evaluator ?",
+      "parentUuid": "1c4ece48_893c2406",
+      "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

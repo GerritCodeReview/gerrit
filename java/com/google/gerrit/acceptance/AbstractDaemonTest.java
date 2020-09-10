@@ -429,13 +429,16 @@ public abstract class AbstractDaemonTest {
 
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
+    Module auditModule = createAuditModule();
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
-        commonServer = GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, module);
+        commonServer =
+            GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, module, auditModule);
       }
       server = commonServer;
     } else {
-      server = GerritServer.initAndStart(temporaryFolder, methodDesc, baseConfig, module);
+      server =
+          GerritServer.initAndStart(temporaryFolder, methodDesc, baseConfig, module, auditModule);
     }
 
     server.getTestInjector().injectMembers(this);
@@ -525,6 +528,11 @@ public abstract class AbstractDaemonTest {
 
   /** Override to bind an additional Guice module */
   public Module createModule() {
+    return null;
+  }
+
+  /** Override to bind an alternative audit Guice module */
+  public Module createAuditModule() {
     return null;
   }
 

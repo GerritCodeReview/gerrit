@@ -123,6 +123,24 @@
       "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "085c257c_12334b92",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-09-10T19:51:59Z",
+      "side": 1,
+      "message": "Gal, this seem so obviously like feature bloat to me that I don\u0027t feel like I should have to dive into details about why that is a bad idea and how having too many ways to customize the same things impacts all users. And suggesting that you implement an undocumented hack for an internal google use case is way out of line. Maybe you can take this up with the community managers and they can help you understand what is appropriate or not?",
+      "parentUuid": "9940a91d_18cbfe35",
+      "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

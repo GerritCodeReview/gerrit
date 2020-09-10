@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "944a1748_eefd12a9",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T23:25:39Z",
+      "side": 1,
+      "message": "Why do we need to convert to a List? Could we change the signature of createPluginDefinedInfos to use Collection? (as in, are there any impacts of doing that?)",
+      "range": {
+        "startLine": 325,
+        "startChar": 78,
+        "endLine": 325,
+        "endChar": 97
+      },
+      "revId": "5f5db5b790e462c4a79b3910ac4dac798329aec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

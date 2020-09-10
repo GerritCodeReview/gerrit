@@ -48,6 +48,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.function.Function;
 import org.eclipse.jgit.junit.TestRepository;
@@ -97,7 +98,7 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
 
   protected static class FakeEmailSenderSubject extends Subject {
     private final FakeEmailSender fakeEmailSender;
-    private Message message;
+    private Optional<Message> message;
     private StagedUsers users;
     private Map<RecipientType, List<String>> recipients = new HashMap<>();
     private Set<String> accountedFor = new HashSet<>();
@@ -116,35 +117,29 @@ public abstract class AbstractNotificationTest extends AbstractDaemonTest {
     }
 
     public FakeEmailSenderSubject sent(String messageType, StagedUsers users) {
-      message = fakeEmailSender.nextMessage();
-      if (message == null) {
-        failWithoutActual(fact("expected message", "not sent"));
+      fakeEmailSender.readOneMessage();
+      message =
+          fakeEmailSender.getMessages().stream()
+              .filter(
+                  m ->
+                      m.headers()
+                          .get("X-Gerrit-MessageType")
+                          .equals(new EmailHeader.String(messageType)))
+              .findFirst();
+      if (!message.isPresent()) {
+        failWithoutActual(
+            fact(String.format("expected message of type %s", messageType), "not sent"));
       }
       recipients = new HashMap<>();
-      recipients.put(TO, parseAddresses(message, "To"));
-      recipients.put(CC, parseAddresses(message, "Cc"));
+      recipients.put(TO, parseAddresses(message.get(), "To"));
+      recipients.put(CC, parseAddresses(message.get(), "Cc"));
       recipients.put(
           BCC,
-          message.rcpt().stream()
+          message.get().rcpt().stream()
               .map(Address::email)
               .filter(e -> !recipients.get(TO).contains(e) && !recipients.get(CC).contains(e))
               .collect(toList()));
       this.users = users;
-      if (!message.headers().containsKey("X-Gerrit-MessageType")) {
-        failWithoutActual(
-            fact("expected to have message sent with", "X-Gerrit-MessageType header"));
-      }
-      EmailHeader header = message.headers().get("X-Gerrit-MessageType");
-      if (!header.equals(new EmailHeader.String(messageType))) {
-        failWithoutActual(
-            fact("expected message of type", messageType),
-            fact(
-                "actual",
-                header instanceof EmailHeader.String
-                    ? ((EmailHeader.String) header).getString()
-                    : header));
-      }
-
       return this;
     }
 

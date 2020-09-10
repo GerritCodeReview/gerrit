@@ -130,8 +130,8 @@ class GrAdminView extends GestureEventListeners(
       }
 
       return getAdminLinks(this._account,
-          this.$.restAPI.getAccountCapabilities.bind(this.$.restAPI),
-          this.$.jsAPI.getAdminMenuLinks.bind(this.$.jsAPI),
+          params => this.$.restAPI.getAccountCapabilities(params),
+          () => this.$.jsAPI.getAdminMenuLinks(),
           options)
           .then(res => {
             this._filteredLinks = res.links;

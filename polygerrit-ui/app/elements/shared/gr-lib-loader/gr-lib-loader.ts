@@ -73,7 +73,7 @@ export class GrLibLoader extends GestureEventListeners(
       if (!this._hljsState.loading) {
         this._hljsState.loading = true;
         this._loadScript(this._getHLJSUrl())
-          .then(this._onHLJSLibLoaded.bind(this))
+          .then(() => this._onHLJSLibLoaded())
           .catch(reject);
       }
 

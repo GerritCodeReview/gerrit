@@ -289,7 +289,7 @@ export class GrLinkTextParser {
   parse(text?: string | null) {
     if (text) {
       window.linkify(text, {
-        callback: this.parseChunk.bind(this),
+        callback: (text: string, href?: string) => this.parseChunk(text, href),
       });
     }
   }

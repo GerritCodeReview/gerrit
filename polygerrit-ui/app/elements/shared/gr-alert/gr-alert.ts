@@ -74,7 +74,7 @@ export class GrAlert extends GestureEventListeners(
   /** @override */
   attached() {
     super.attached();
-    this._boundTransitionEndHandler = this._handleTransitionEnd.bind(this);
+    this._boundTransitionEndHandler = () => this._handleTransitionEnd();
     this.addEventListener('transitionend', this._boundTransitionEndHandler);
   }
 

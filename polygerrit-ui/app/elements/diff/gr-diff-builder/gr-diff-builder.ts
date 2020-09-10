@@ -109,7 +109,11 @@ export abstract class GrDiffBuilder {
       throw Error('Invalid line length from preferences.');
     }
 
-    this._layerUpdateListener = this._handleLayerUpdate.bind(this);
+    this._layerUpdateListener = (
+      start: LineNumber,
+      end: LineNumber,
+      side: Side
+    ) => this._handleLayerUpdate(start, end, side);
     for (const layer of this.layers) {
       if (layer.addListener) {
         layer.addListener(this._layerUpdateListener);

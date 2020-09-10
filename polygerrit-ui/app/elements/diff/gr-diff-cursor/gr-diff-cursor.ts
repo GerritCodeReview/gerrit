@@ -169,7 +169,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.next(this._rowHasSide.bind(this));
+      this.$.cursorManager.next((row: Element) => this._rowHasSide(row));
     } else {
       this.$.cursorManager.next();
     }
@@ -177,7 +177,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.previous(this._rowHasSide.bind(this));
+      this.$.cursorManager.previous((row: Element) => this._rowHasSide(row));
     } else {
       this.$.cursorManager.previous();
     }
@@ -185,7 +185,9 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveToVisibleArea() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.moveToVisibleArea(this._rowHasSide.bind(this));
+      this.$.cursorManager.moveToVisibleArea((row: Element) =>
+        this._rowHasSide(row)
+      );
     } else {
       this.$.cursorManager.moveToVisibleArea();
     }
@@ -193,7 +195,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveToNextChunk(clipToTop?: boolean, navigateToNextFile?: boolean) {
     this.$.cursorManager.next(
-      this._isFirstRowOfChunk.bind(this),
+      (row: HTMLElement) => this._isFirstRowOfChunk(row),
       target => (target?.parentNode as HTMLElement)?.scrollHeight || 0,
       clipToTop,
       navigateToNextFile
@@ -202,17 +204,21 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveToPreviousChunk() {
-    this.$.cursorManager.previous(this._isFirstRowOfChunk.bind(this));
+    this.$.cursorManager.previous((row: HTMLElement) =>
+      this._isFirstRowOfChunk(row)
+    );
     this._fixSide();
   }
 
   moveToNextCommentThread() {
-    this.$.cursorManager.next(this._rowHasThread.bind(this));
+    this.$.cursorManager.next((row: HTMLElement) => this._rowHasThread(row));
     this._fixSide();
   }
 
   moveToPreviousCommentThread() {
-    this.$.cursorManager.previous(this._rowHasThread.bind(this));
+    this.$.cursorManager.previous((row: HTMLElement) =>
+      this._rowHasThread(row)
+    );
     this._fixSide();
   }
 

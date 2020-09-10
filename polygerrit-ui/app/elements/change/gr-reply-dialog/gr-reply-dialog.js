@@ -616,7 +616,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
 
     this.disabled = true;
 
-    const errFn = this._handle400Error.bind(this);
+    const errFn = r => this._handle400Error(r);
     return this._saveReview(reviewInput, errFn)
         .then(response => {
           if (!response) {

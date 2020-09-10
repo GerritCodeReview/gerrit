@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5692fce8_168eec16",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T19:24:17Z",
+      "side": 1,
+      "message": "This change is completely unnecessary: the swap of a persistent cache implementation was already done by Jacek with Change-Id: I7562b210fa",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb4df_426fd40e",
         "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
         "patchSetId": 3

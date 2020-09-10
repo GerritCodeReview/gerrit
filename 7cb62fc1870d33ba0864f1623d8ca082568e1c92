@@ -34,6 +34,24 @@
       "revId": "7cb62fc1870d33ba0864f1623d8ca082568e1c92",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "16d8d7b4_3ca8caa7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-10T12:29:17Z",
+      "side": 1,
+      "message": "If this makes sense enough, would you be able to reconsider your CR-1 here as well @Jacek?",
+      "parentUuid": "bb43de0e_4ac0865b",
+      "revId": "7cb62fc1870d33ba0864f1623d8ca082568e1c92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

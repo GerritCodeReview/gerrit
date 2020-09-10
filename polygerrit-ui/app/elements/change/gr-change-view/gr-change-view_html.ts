@@ -753,6 +753,7 @@ export const htmlTemplate = html`
     class="scrollable"
     no-cancel-on-outside-click=""
     no-cancel-on-esc-key=""
+    scroll-action="lock"
     with-backdrop=""
   >
     <gr-reply-dialog

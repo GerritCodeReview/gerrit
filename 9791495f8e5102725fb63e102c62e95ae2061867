@@ -275,6 +275,64 @@
       "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "513c547d_f1f0ff3c",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:23:07Z",
+      "side": 1,
+      "message": "\u003e This is incorrect and doesn\u0027t respect the expectations of the AbstractLoadingCache.\n\u003e \n\u003e It should be:\n\u003e \n\u003e   if (!cache.containsKey(k)) {\n\u003e     V v \u003d loader.load(k);\n\u003e     cache.put(v);\n\n      cache.put(k,v);\n\n\u003e     return v;\n\u003e   }",
+      "parentUuid": "8dfa91f0_fb2cdfe7",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 7
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be512598_32512be8",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 88,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:23:07Z",
+      "side": 1,
+      "message": "You should also implement:\n\n  public V get(K k, Callable\u003c? extends V\u003e valueLoader) throws ExecutionException",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f152c83_93d8cfee",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:23:07Z",
+      "side": 1,
+      "message": "loader should be passed to TestCache\u003c\u003e() as it will be needed to load the value",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

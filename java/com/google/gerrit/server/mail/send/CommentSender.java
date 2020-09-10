@@ -23,7 +23,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.KeyUtil;
 import com.google.gerrit.entities.NotifyConfig.NotifyType;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
@@ -73,20 +72,9 @@ public class CommentSender extends ReplyToChangeSender {
     public PatchFile fileData;
     public List<Comment> comments = new ArrayList<>();
 
-    /** @return a web link to the given patch set and file. */
-    public String getFileLink() {
-      return args.urlFormatter
-          .get()
-          .getPatchFileView(change, patchSetId, KeyUtil.encode(filename))
-          .orElse(null);
-    }
-
-    /** @return a web link to a comment within a given patch set and file. */
-    public String getCommentLink(short side, int startLine) {
-      return args.urlFormatter
-          .get()
-          .getInlineCommentView(change, patchSetId, KeyUtil.encode(filename), side, startLine)
-          .orElse(null);
+    /** @return a web link to a comment for a change. */
+    public String getCommentLink(String uuid) {
+      return args.urlFormatter.get().getInlineCommentView(change, uuid).orElse(null);
     }
 
     /** @return a web link to the comment tab view of a change. */
@@ -389,9 +377,6 @@ public class CommentSender extends ReplyToChangeSender {
 
     for (CommentSender.FileCommentGroup group : getGroupedInlineComments(repo)) {
       Map<String, Object> groupData = new HashMap<>();
-      if (!group.filename.equals(Patch.PATCHSET_LEVEL)) {
-        groupData.put("link", group.getFileLink());
-      }
       groupData.put("title", group.getTitle());
       groupData.put("patchSetId", group.patchSetId);
 
@@ -426,10 +411,8 @@ public class CommentSender extends ReplyToChangeSender {
           } else {
             commentData.put("link", group.getCommentsTabLink());
           }
-        } else if (comment.lineNbr == 0) {
-          commentData.put("link", group.getFileLink());
         } else {
-          commentData.put("link", group.getCommentLink(comment.side, startLine));
+          commentData.put("link", group.getCommentLink(comment.key.uuid));
         }
 
         // Set robot comment data.

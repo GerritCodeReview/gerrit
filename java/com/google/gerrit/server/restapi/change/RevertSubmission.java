@@ -204,6 +204,7 @@ public class RevertSubmission
 
     checkPermissionsForAllChanges(changeResource, changeDatas);
     input.topic = createTopic(input.topic, submissionId);
+
     return Response.ok(revertSubmission(changeDatas, input));
   }
 
@@ -259,6 +260,9 @@ public class RevertSubmission
       cherryPickInput.base = null;
       Project.NameKey project = projectAndBranch.project();
       cherryPickInput.destination = projectAndBranch.branch();
+      if (revertInput.workInProgress) {
+        cherryPickInput.notify = NotifyHandling.OWNER;
+      }
       Collection<ChangeData> changesInProjectAndBranch =
           changesPerProjectAndBranch.get(projectAndBranch);
 
@@ -333,7 +337,11 @@ public class RevertSubmission
       bu.addOp(
           changeNotes.getChange().getId(),
           new CreateCherryPickOp(
-              revCommitId, generatedChangeId, cherryPickRevertChangeId, timestamp));
+              revCommitId,
+              generatedChangeId,
+              cherryPickRevertChangeId,
+              timestamp,
+              revertInput.workInProgress));
       bu.addOp(changeNotes.getChange().getId(), new PostRevertedMessageOp(generatedChangeId));
       bu.addOp(
           cherryPickRevertChangeId,
@@ -550,16 +558,19 @@ public class RevertSubmission
     private final ObjectId computedChangeId;
     private final Change.Id cherryPickRevertChangeId;
     private final Timestamp timestamp;
+    private final boolean workInProgress;
 
     CreateCherryPickOp(
         ObjectId revCommitId,
         ObjectId computedChangeId,
         Change.Id cherryPickRevertChangeId,
-        Timestamp timestamp) {
+        Timestamp timestamp,
+        Boolean workInProgress) {
       this.revCommitId = revCommitId;
       this.computedChangeId = computedChangeId;
       this.cherryPickRevertChangeId = cherryPickRevertChangeId;
       this.timestamp = timestamp;
+      this.workInProgress = workInProgress;
     }
 
     @Override
@@ -576,7 +587,8 @@ public class RevertSubmission
               timestamp,
               change.getId(),
               computedChangeId,
-              cherryPickRevertChangeId);
+              cherryPickRevertChangeId,
+              workInProgress);
       // save the commit as base for next cherryPick of that branch
       cherryPickInput.base =
           changeNotesFactory

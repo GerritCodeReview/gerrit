@@ -177,6 +177,7 @@ public class CherryPickChange {
         TimeUtil.nowTs(),
         null,
         null,
+        null,
         null);
   }
 
@@ -208,7 +209,7 @@ public class CherryPickChange {
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
     return cherryPick(
-        sourceChange, project, sourceCommit, input, dest, TimeUtil.nowTs(), null, null, null);
+        sourceChange, project, sourceCommit, input, dest, TimeUtil.nowTs(), null, null, null, null);
   }
 
   /**
@@ -249,7 +250,8 @@ public class CherryPickChange {
       Timestamp timestamp,
       @Nullable Change.Id revertedChange,
       @Nullable ObjectId changeIdForNewChange,
-      @Nullable Change.Id idForNewChange)
+      @Nullable Change.Id idForNewChange,
+      @Nullable Boolean workInProgress)
       throws IOException, InvalidChangeOperationException, UpdateException, RestApiException,
           ConfigInvalidException, NoSuchProjectException {
 
@@ -370,7 +372,8 @@ public class CherryPickChange {
                     destChanges.get(0).notes(),
                     cherryPickCommit,
                     sourceChange.currentPatchSetId(),
-                    newTopic);
+                    newTopic,
+                    workInProgress);
           } else {
             // Change key not found on destination branch. We can create a new
             // change.
@@ -385,7 +388,8 @@ public class CherryPickChange {
                     sourceCommit,
                     input,
                     revertedChange,
-                    idForNewChange);
+                    idForNewChange,
+                    workInProgress);
           }
           bu.execute();
           return Result.create(changeId, cherryPickCommit.getFilesWithGitConflicts());
@@ -453,13 +457,17 @@ public class CherryPickChange {
       ChangeNotes destNotes,
       CodeReviewCommit cherryPickCommit,
       PatchSet.Id sourcePatchSetId,
-      String topic)
+      String topic,
+      @Nullable Boolean workInProgress)
       throws IOException {
     Change destChange = destNotes.getChange();
     PatchSet.Id psId = ChangeUtil.nextPatchSetId(git, destChange.currentPatchSetId());
     PatchSetInserter inserter = patchSetInserterFactory.create(destNotes, psId, cherryPickCommit);
     inserter.setMessage("Uploaded patch set " + inserter.getPatchSetId().get() + ".");
     inserter.setTopic(topic);
+    if (workInProgress != null) {
+      inserter.setWorkInProgress(workInProgress);
+    }
     bu.addOp(destChange.getId(), inserter);
     if (destChange.getCherryPickOf() == null
         || !destChange.getCherryPickOf().equals(sourcePatchSetId)) {
@@ -479,11 +487,19 @@ public class CherryPickChange {
       @Nullable ObjectId sourceCommit,
       CherryPickInput input,
       @Nullable Change.Id revertOf,
-      @Nullable Change.Id idForNewChange)
+      @Nullable Change.Id idForNewChange,
+      @Nullable Boolean workInProgress)
       throws IOException, InvalidChangeOperationException {
     Change.Id changeId = idForNewChange != null ? idForNewChange : Change.id(seq.nextChangeId());
     ChangeInserter ins = changeInserterFactory.create(changeId, cherryPickCommit, refName);
     ins.setRevertOf(revertOf);
+    if (workInProgress != null) {
+      ins.setWorkInProgress(workInProgress);
+    } else {
+      ins.setWorkInProgress(
+          (sourceChange != null && sourceChange.isWorkInProgress())
+              || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
+    }
     BranchNameKey sourceBranch = sourceChange == null ? null : sourceChange.getDest();
     PatchSet.Id sourcePatchSetId = sourceChange == null ? null : sourceChange.currentPatchSetId();
     ins.setMessage(
@@ -493,10 +509,7 @@ public class CherryPickChange {
                 : "Uploaded patch set 1.") // For revert commits, the message should not include
         // cherry-pick information.
         .setTopic(topic)
-        .setCherryPickOf(sourcePatchSetId)
-        .setWorkInProgress(
-            (sourceChange != null && sourceChange.isWorkInProgress())
-                || !cherryPickCommit.getFilesWithGitConflicts().isEmpty());
+        .setCherryPickOf(sourcePatchSetId);
     if (input.keepReviewers && sourceChange != null) {
       ReviewerSet reviewerSet =
           approvalsUtil.getReviewers(changeNotesFactory.createChecked(sourceChange));

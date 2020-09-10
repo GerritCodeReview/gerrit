@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0d2a623_b7de3116",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-10T13:59:01Z",
+      "side": 1,
+      "message": "we can hold the import until we have a proper fix, no need to a hotfix if proper fix is not far away :) ",
+      "revId": "29edfd953b6240cbd1f676f02a1daaa5b729b2bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

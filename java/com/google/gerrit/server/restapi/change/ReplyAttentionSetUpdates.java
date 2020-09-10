@@ -17,6 +17,8 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 
 import com.google.common.collect.ImmutableSet;
+import com.google.common.collect.Sets;
+import com.google.common.collect.Sets.SetView;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -32,6 +34,8 @@ import com.google.gerrit.server.account.AccountResolver;
 import com.google.gerrit.server.account.ServiceUserClassifier;
 import com.google.gerrit.server.change.AddToAttentionSetOp;
 import com.google.gerrit.server.change.AttentionSetUnchangedOp;
+import com.google.gerrit.server.change.CommentThread;
+import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.RemoveFromAttentionSetOp;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
@@ -44,6 +48,7 @@ import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -208,19 +213,22 @@ public class ReplyAttentionSetUpdates {
   /** Adds all authors of all comment threads that received a reply during this update */
   private void addAllAuthorsOfCommentThreads(
       BatchUpdate bu, ChangeNotes changeNotes, ImmutableSet<HumanComment> allNewComments) {
-    Set<HumanComment> allCommentsInCommentThreads =
-        commentsUtil.getAllHumanCommentsInCommentThreads(changeNotes, allNewComments);
-    // Copy the set to make it mutable, so that we can delete users that were already added.
-    Set<Account.Id> possibleUsersToAdd =
-        new HashSet<>(approvalsUtil.getReviewers(changeNotes).all());
+    List<HumanComment> publishedComments = commentsUtil.publishedHumanCommentsByChange(changeNotes);
+    ImmutableSet<CommentThread<HumanComment>> repliedToCommentThreads =
+        CommentThreads.forComments(publishedComments).getThreadsForChildren(allNewComments);
 
-    for (HumanComment comment : allCommentsInCommentThreads) {
-      Account.Id author = comment.author.getId();
-      if (possibleUsersToAdd.contains(author)) {
-        addToAttentionSet(
-            bu, changeNotes, author, "Someone else replied on a comment you posted", false);
-        possibleUsersToAdd.remove(author);
-      }
+    ImmutableSet<Account.Id> repliedToUsers =
+        repliedToCommentThreads.stream()
+            .map(CommentThread::comments)
+            .flatMap(Collection::stream)
+            .map(comment -> comment.author.getId())
+            .collect(toImmutableSet());
+    ImmutableSet<Account.Id> possibleUsersToAdd = approvalsUtil.getReviewers(changeNotes).all();
+    SetView<Account.Id> usersToAdd = Sets.intersection(possibleUsersToAdd, repliedToUsers);
+
+    for (Account.Id user : usersToAdd) {
+      addToAttentionSet(
+          bu, changeNotes, user, "Someone else replied on a comment you posted", false);
     }
   }
 

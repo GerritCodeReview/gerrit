@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed42a06c_004c3ec4",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6551,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-10T09:57:03Z",
+      "side": 1,
+      "message": "Can you please document this parameter for the REST endpoints that accept it (e.g similar to how the section for the Query Changes REST endpoints explains the parameters for GET /changes/).",
+      "range": {
+        "startLine": 6551,
+        "startChar": 23,
+        "endLine": 6551,
+        "endChar": 37
+      },
+      "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d59561a_5cfa687b",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6630,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-10T09:57:03Z",
+      "side": 1,
+      "message": "If none of the fields is optional, we usually make a table with only 2 columns:\n\n[options\u003d\"header\",cols\u003d\"1,6\"]\n|\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\n|Field Name          |Description\n|`line_number`       |The line number of the source line.\n|`context_line`      |String containing the line text.\n|\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d\u003d",
+      "range": {
+        "startLine": 6629,
+        "startChar": 0,
+        "endLine": 6630,
+        "endChar": 28
+      },
+      "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63698c2d_882bb936",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-10T09:57:03Z",
+      "side": 1,
+      "message": "These are incompatible changes of the API which we should avoid.\nE.g. this would break the external gerrit-rest-java-client which implements this interface [1].\n\nBasically all classes in the java/com/google/gerrit/extensions/api/ package can only be changed in backwards-compatible ways.\n\nInstead, you should add new methods. When you do this, please take care that they can be extended to support specifying the number of context lines that is envisioned in the commit message later without needing to add yet another set of methods.\n\n[1] https://github.com/uwolfer/gerrit-rest-java-client/blob/master/src/main/java/com/urswolfer/gerrit/client/rest/http/changes/ChangeApiRestClient.java#L353",
+      "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

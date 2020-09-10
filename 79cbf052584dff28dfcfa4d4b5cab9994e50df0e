@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "77f07021_c79e590e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:19:42Z",
+      "side": 1,
+      "message": "Nice debugging.",
+      "revId": "79cbf052584dff28dfcfa4d4b5cab9994e50df0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "45a4c790_671dc086",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:19:42Z",
+      "side": 1,
+      "message": "That is a new listener, so this call will not remove the listener that you have added above.\n\nEither you have to do assign the listener to a variable and remove that, see e.g. elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js.\n\nOr maybe removing the event listener is not required at all, because diffHost is destroyed anyway when diffView gets detached?",
+      "range": {
+        "startLine": 323,
+        "startChar": 49,
+        "endLine": 325,
+        "endChar": 5
+      },
+      "revId": "79cbf052584dff28dfcfa4d4b5cab9994e50df0e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

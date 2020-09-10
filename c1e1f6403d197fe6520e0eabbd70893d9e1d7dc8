@@ -22,6 +22,30 @@
       "revId": "c1e1f6403d197fe6520e0eabbd70893d9e1d7dc8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dd9eebe4_7c60839c",
+        "filename": "java/com/google/gerrit/server/config/UrlFormatter.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-10T08:01:53Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "51d752c1_eb50a31b",
+      "range": {
+        "startLine": 60,
+        "startChar": 54,
+        "endLine": 60,
+        "endChar": 57
+      },
+      "revId": "c1e1f6403d197fe6520e0eabbd70893d9e1d7dc8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

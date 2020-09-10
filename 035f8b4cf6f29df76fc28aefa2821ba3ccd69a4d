@@ -70,6 +70,24 @@
       "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "279a14cb_025f6fe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-10T14:42:16Z",
+      "side": 1,
+      "message": "\u003e Sorry I\u0027m not following :/ functionality was moved to \u0027_mapReviewer\u0027 method and I was under impression that fix will be applied there as a part of this merge commit.\n\nNot \u0027moved\u0027 as such. If you think a fix makes sense in _mapReviewer or elsewhere similar, then that is a new fix to do, not directly related to this merged one. That\u0027s why I mentioned the eventuality of having to rework this fix downstream then up again. That would be a second iteration.\n\n\u003e What\u0027s the point in merging stuff if some (one has no idea which) fixes have to be re-applied again as the follow ups? I mean if I was not reviewing it who would be responsible for capturing that the fix is not applied regardless of what is described in the commit message? IMHO that approach is prone to errors however if that is the way I can issue the follow-up fix for that... which will be later merged-up again to master...\n\nIndeed. As I mention above, we\u0027re now discussing a possible rework of the original fix, as we (now) discover that _mapReviewer might need amends -but starting from downstream.\n\nBasically, when working on fixes or other changes, we try to check how they will be mergeable up. We strive for the downstream-most change that can be merged upstream as smoothly as possible. Some fixes may require different implementations across branches, depending on a specific version code-base.",
+      "parentUuid": "1ec6ec70_df8604f3",
+      "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

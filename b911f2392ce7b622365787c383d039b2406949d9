@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "97b77cf5_47621806",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-10T12:32:27Z",
+      "side": 1,
+      "message": "Would you be able to score CR(s) so I know if I can get this series in soon? -Thanks.",
+      "revId": "b911f2392ce7b622365787c383d039b2406949d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

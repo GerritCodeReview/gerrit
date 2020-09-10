@@ -491,12 +491,13 @@ public class Daemon extends SiteProgram {
       modules.add(new AccountDeactivator.Module());
       modules.add(new ChangeCleanupRunner.Module());
     }
-    modules.addAll(testSysModules);
     modules.add(new LocalMergeSuperSetComputation.Module());
     modules.add(new DefaultProjectNameLockManager.Module());
-    return cfgInjector.createChildInjector(
-        ModuleOverloader.override(
-            modules, LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE)));
+
+    List<Module> libModules = LibModuleLoader.loadModules(cfgInjector, LibModuleType.SYS_MODULE);
+    libModules.addAll(testSysModules);
+
+    return cfgInjector.createChildInjector(ModuleOverloader.override(modules, libModules));
   }
 
   private Module createIndexModule() {

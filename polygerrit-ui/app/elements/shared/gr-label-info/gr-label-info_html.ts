@@ -23,7 +23,6 @@ export const htmlTemplate = html`
   <style include="shared-styles">
     .placeholder {
       color: var(--deemphasized-text-color);
-      padding-top: var(--spacing-xs);
     }
     .hidden {
       display: none;

@@ -115,6 +115,12 @@ export const htmlTemplate = html`
       </div>
     </gr-endpoint-decorator>
   </template>
+  <!-- Use this endpoint to provide more submit requirements from UI -->
+  <gr-endpoint-decorator
+    class='submit-requirement-endpoints'
+    name="submit-requirements">
+    <gr-endpoint-param name="change" value="[[change]]"></gr-endpoint-param>
+  </gr-endpoint-decorator>
   <template is="dom-repeat" items="[[_requiredLabels]]">
     <section>
       <div class="title">

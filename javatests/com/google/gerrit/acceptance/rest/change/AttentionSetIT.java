@@ -22,14 +22,19 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Iterables;
+import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
+import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AttentionSetUpdate;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.extensions.api.changes.AddReviewerInput;
 import com.google.gerrit.extensions.api.changes.AttentionSetInput;
@@ -39,12 +44,17 @@ import com.google.gerrit.extensions.api.changes.ReviewInput;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
+import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.query.change.InternalChangeQuery;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.TestCommentHelper;
+import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import java.time.Duration;
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.function.LongSupplier;
@@ -56,9 +66,13 @@ import org.junit.Test;
 @UseClockStep(clockStepUnit = TimeUnit.MINUTES)
 public class AttentionSetIT extends AbstractDaemonTest {
 
+  @Inject private ChangeOperations changeOperations;
+  @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
+
   @Inject private FakeEmailSender email;
   @Inject private TestCommentHelper testCommentHelper;
+  @Inject private Provider<InternalChangeQuery> changeQueryProvider;
 
   /** Simulates a fake clock. Uses second granularity. */
   private static class FakeClock implements LongSupplier {
@@ -165,7 +179,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(emailBody)
         .contains(
             user.fullName()
-                + " removed themselves from the attention set of this change.\n The reason is: removed.");
+                + " removed themselves from the attention set of this change.\n"
+                + " The reason is: removed.");
   }
 
   @Test
@@ -611,7 +626,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same time");
+            "user can not be added/removed twice, and can not be added and removed at the same"
+                + " time");
   }
 
   @Test
@@ -627,7 +643,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same time");
+            "user can not be added/removed twice, and can not be added and removed at the same"
+                + " time");
   }
 
   @Test
@@ -663,7 +680,8 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
     assertThat(exception.getMessage())
         .isEqualTo(
-            "user can not be added/removed twice, and can not be added and removed at the same time");
+            "user can not be added/removed twice, and can not be added and removed at the same"
+                + " time");
   }
 
   @Test
@@ -955,6 +973,64 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet)
         .hasReasonThat()
         .isEqualTo("Someone else replied on a comment you posted");
+  }
+
+  @Test
+  public void reviewAddsAllUsersInCommentThreadEvenOfDifferentChildBranch() throws Exception {
+    Account.Id changeOwner = accountOperations.newAccount().create();
+    Change.Id changeId = changeOperations.newChange().owner(changeOwner).create();
+    Account.Id user1 = accountOperations.newAccount().create();
+    Account.Id user2 = accountOperations.newAccount().create();
+    Account.Id user3 = accountOperations.newAccount().create();
+    Account.Id user4 = accountOperations.newAccount().create();
+    // Add users as reviewers.
+    gApi.changes().id(changeId.get()).addReviewer(user1.toString());
+    gApi.changes().id(changeId.get()).addReviewer(user2.toString());
+    gApi.changes().id(changeId.get()).addReviewer(user3.toString());
+    gApi.changes().id(changeId.get()).addReviewer(user4.toString());
+    // Add a comment thread with branches. Such threads occur if people reply in parallel without
+    // having seen/loaded the reply of another person.
+    String root =
+        changeOperations.change(changeId).currentPatchset().newComment().author(user1).create();
+    String sibling1 =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .author(user2)
+            .parentUuid(root)
+            .create();
+    String sibling2 =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .author(user3)
+            .parentUuid(root)
+            .create();
+    changeOperations
+        .change(changeId)
+        .currentPatchset()
+        .newComment()
+        .author(user4)
+        .parentUuid(sibling2)
+        .create();
+    // Clear the attention set. Necessary as we used Gerrit APIs above which affect the attention
+    // set.
+    AttentionSetInput clearAttention = new AttentionSetInput("clear attention set");
+    gApi.changes().id(changeId.get()).attention(user1.toString()).remove(clearAttention);
+    gApi.changes().id(changeId.get()).attention(user2.toString()).remove(clearAttention);
+    gApi.changes().id(changeId.get()).attention(user3.toString()).remove(clearAttention);
+    gApi.changes().id(changeId.get()).attention(user4.toString()).remove(clearAttention);
+
+    requestScopeOperations.setApiUser(changeOwner);
+    // Simulate that this reply also happened in parallel to other comments.
+    gApi.changes().id(changeId.get()).current().review(reviewInReplyToComment(sibling1));
+
+    List<AttentionSetUpdate> attentionSetUpdates = getAttentionSetUpdates(changeId);
+    assertThat(attentionSetUpdates)
+        .comparingElementsUsing(hasAccount())
+        .containsExactly(user1, user2, user3, user4);
   }
 
   @Test
@@ -1281,9 +1357,18 @@ public class AttentionSetIT extends AbstractDaemonTest {
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(
       PushOneCommit.Result r, TestAccount account) {
-    return r.getChange().attentionSet().stream()
-        .filter(a -> a.account().get() == account.id().get())
+    return getAttentionSetUpdates(r.getChange().getId()).stream()
+        .filter(a -> a.account().equals(account.id()))
         .collect(Collectors.toList());
+  }
+
+  private List<AttentionSetUpdate> getAttentionSetUpdates(Change.Id changeId) {
+    List<ChangeData> changeData = changeQueryProvider.get().byLegacyChangeId(changeId);
+    if (changeData.size() != 1) {
+      throw new IllegalStateException(
+          String.format("Not exactly one change found for ID %s.", changeId));
+    }
+    return new ArrayList<>(Iterables.getOnlyElement(changeData).attentionSet());
   }
 
   private ReviewInput reviewWithComment() {
@@ -1300,5 +1385,9 @@ public class AttentionSetIT extends AbstractDaemonTest {
     ReviewInput reviewInput = new ReviewInput();
     reviewInput.comments = ImmutableMap.of(Patch.COMMIT_MSG, ImmutableList.of(comment));
     return reviewInput;
+  }
+
+  private Correspondence<AttentionSetUpdate, Account.Id> hasAccount() {
+    return NullAwareCorrespondence.transforming(AttentionSetUpdate::account, "hasAccount");
   }
 }

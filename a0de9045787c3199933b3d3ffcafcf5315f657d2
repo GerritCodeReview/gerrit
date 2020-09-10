@@ -33,6 +33,42 @@
       "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "08318240_efbded0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-10T16:27:06Z",
+      "side": 1,
+      "message": "I wouldn\u0027t say contradictory, but rather going sideways.\nOnce the composable submit requirements are fully implemented, we could do the migration away from this SubmitRule. This will take awhile though, and I would rather unblock my plans with this change.",
+      "parentUuid": "f5b45211_93d99f2b",
+      "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c4ece48_893c2406",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-10T16:27:06Z",
+      "side": 1,
+      "message": "Why is this not a core worthy concept?\nThere are currently no existing mechanism to control the behavior I seek (how would you block a submission on a change without using a specific newly created label?).\n\nThe behavior is quite similar to the other default submit rules that we have:\nIgnoreSelfApprovalRule, and DefaultSubmitRule. Whenever those are removed, it\u0027s as easy to remove this newly added submit requirement.\n\nAnyway, does this change interrupt any of your flows in any way? This change is completely extendable if needed, and provides no downside if you don\u0027t want this to be relevant to you (just don\u0027t use this very specific hashtag, which I\u0027m open to renaming to make it even more specific, if you like).\n\nI\u0027m also open to purposely not documenting it, so that nobody uses it.",
+      "parentUuid": "efa369b0_a5cac9f5",
+      "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

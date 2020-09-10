@@ -36,6 +36,167 @@
     },
     {
       "key": {
+        "uuid": "244e593a_e210d8fa",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "Not needed",
+      "range": {
+        "startLine": 39,
+        "startChar": 10,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "153b6eef_1c5df43d",
+        "filename": "java/com/google/gerrit/server/cache/h2/H2CacheModule.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "Use of DynamicItem\u003c\u003e isn\u0027t needed here, because the @ModuleImpl() with the tagging would allow the sysInjector to replace it with another module.",
+      "range": {
+        "startLine": 27,
+        "startChar": 4,
+        "endLine": 28,
+        "endChar": 86
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e44b9d42_2d795f8f",
+        "filename": "java/com/google/gerrit/server/plugins/PluginLoader.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "Not needed",
+      "range": {
+        "startLine": 90,
+        "startChar": 16,
+        "endLine": 90,
+        "endChar": 28
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "daefd80c_47cdfb3a",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "This won\u0027t work: cache implementation cannot be replaced by a plugin.\n\nThe com.google.gerrit.server.cache.CacheFromPluginIT$Module instance needs to be returned as additional libModule for testing, overriding the createModule() method.\n\nExample:\n\n  @Override\n  public com.google.inject.Module createModule() {\n\treturn new com.google.gerrit.server.cache.CacheFromPluginIT$Module();\n  }",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 39,
+        "endChar": 74
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b927cdfc_d761f72e",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "No need to use the LightweightPluginDaemonTest: just extend AbstractDaemonTest",
+      "range": {
+        "startLine": 40,
+        "startChar": 39,
+        "endLine": 40,
+        "endChar": 66
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f6f44a54_c7c352a1",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "You should add here the binding of the test cache.\n\nExample:\n\n    @Override\n    protected void configure() {\n        bind(PersistentCacheFactory.class).to(TestCacheFactory.class);\n    }",
+      "range": {
+        "startLine": 46,
+        "startChar": 0,
+        "endLine": 46,
+        "endChar": 33
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78461c2e_6812fbf8",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "This method won\u0027t work, as you are overriding the cache implementation. Just get rid of the test method.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 3
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "127fb4df_426fd40e",
         "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
         "patchSetId": 3
@@ -47,6 +208,70 @@
       "writtenOn": "2020-09-10T17:30:48Z",
       "side": 1,
       "message": "I have a problem with this IT test: I can test the replacement of the PersistentCacheFactory, but I am failing to test the _usage_ of the new one.\n\nThe re-bind of the dynamicItem works, but little it matters because by the time this test runs the PersistentCacheProvider\nhas already provided instances of the cache using the H2CacheFactory, before it gets replaced[1].\n\nI believe this is a problem with the way I am trying to test this:\nIf the alternative PersistentCacheFactory was passed via libModule, this wouldn\u0027t happen because the H2CacheFactory binding would be overridden immediately[2].\n\nIn other words, I believe it is too late to swap the PersistentCacheFactory in the test.\n\n@luca (or anyone else): thoughts?\n\n[1]https://gerrit.googlesource.com/gerrit/+/9791495f8e5102725fb63e102c62e95ae2061867/java/com/google/gerrit/server/cache/PersistentCacheProvider.java#144\n[2]https://gerrit.googlesource.com/gerrit/+/9791495f8e5102725fb63e102c62e95ae2061867/java/com/google/gerrit/pgm/Daemon.java#498",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c734f56_31e0f70a",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "Just inject the persistent cache factory as a field of this class.\n\nExample:\n\n  @Inject\n  PersistentCacheFactory persistentCacheFactory;",
+      "parentUuid": "127fb4df_426fd40e",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e121aa4_b46fc0f6",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "persistentCacheFactory",
+      "range": {
+        "startLine": 60,
+        "startChar": 15,
+        "endLine": 60,
+        "endChar": 48
+      },
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8dfa91f0_fb2cdfe7",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:11:28Z",
+      "side": 1,
+      "message": "This is incorrect and doesn\u0027t respect the expectations of the AbstractLoadingCache.\n\nIt should be:\n\n  if (!cache.containsKey(k)) {\n    V v \u003d loader.load(k);\n    cache.put(v);\n    return v;\n  }",
+      "range": {
+        "startLine": 83,
+        "startChar": 0,
+        "endLine": 85,
+        "endChar": 7
+      },
       "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

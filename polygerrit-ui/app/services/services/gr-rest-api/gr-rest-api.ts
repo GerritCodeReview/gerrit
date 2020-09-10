@@ -595,4 +595,8 @@ export interface RestApiService {
     account: AccountId,
     label: string
   ): Promise<Response>;
+  removeChangeReviewer(
+    changeNum: ChangeNum,
+    reviewerID: AccountId | GroupId
+  ): Promise<Response | undefined>;
 }

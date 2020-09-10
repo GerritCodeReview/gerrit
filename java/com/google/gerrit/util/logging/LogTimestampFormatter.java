@@ -24,7 +24,7 @@ import java.time.format.DateTimeFormatter;
 
 /** Formatter for timestamps used in log entries. */
 public class LogTimestampFormatter {
-  public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSZ";
+  public static final String TIMESTAMP_FORMAT = "yyyy-MM-dd'T'HH:mm:ss.SSSXXX";
 
   private final DateTimeFormatter dateFormatter;
   private final ZoneOffset timeOffset;

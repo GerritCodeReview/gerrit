@@ -438,8 +438,10 @@ class GrAppElement extends KeyboardShortcutMixin(
       flush();
       const registrationOverlay =
         this.shadowRoot.querySelector('#registrationOverlay');
+      const registrationDialog =
+        this.shadowRoot.querySelector('#registrationDialog');
       registrationOverlay.open();
-      registrationOverlay.loadData().then(() => {
+      registrationDialog.loadData().then(() => {
         registrationOverlay.refit();
       });
     }

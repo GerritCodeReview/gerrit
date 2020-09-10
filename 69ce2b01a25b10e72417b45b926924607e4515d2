@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6474918f_8e2f4252",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-10T12:44:43Z",
+      "side": 1,
+      "message": "So. I continued looking at this. For a plugin to be able to add replacement commands for Receive/Upload it is necessary for the git commands never to have been registered.\n\nThis is because they exist in an immutable map afaik, and therefore I cannot add new sub-commands to \"git\" commands.\n\nTo then be able to use Receive, Upload \u0026 UploadArchive either through inheritance or as a member these have to be public, but at the moment only UploadArchive is public.\n\nTo be able to use this without further changes, the ssh download scheme needs to be turned off, and then a plugin must be loaded which has the name \"git\". Unfortunately there seems to be no way of defining new commands which do not match the plugin name.\n\nI\u0027m open to suggestions on further solving some of these issues, such as differentiating the plugin name from the plugin command top level name. Unless you know it can be done already by some other means?",
+      "revId": "69ce2b01a25b10e72417b45b926924607e4515d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

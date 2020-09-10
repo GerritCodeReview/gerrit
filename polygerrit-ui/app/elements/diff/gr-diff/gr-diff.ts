@@ -361,28 +361,31 @@ export class GrDiff extends GestureEventListeners(
     });
   }
 
+  // TODO(brohlfs): Rewrite gr-diff to be agnostic of GrCommentThread, because
+  // other users of gr-diff may use different comment widgets.
   _updateRanges(
     addedThreadEls: GrCommentThread[],
     removedThreadEls: GrCommentThread[]
   ) {
     function commentRangeFromThreadEl(
       threadEl: GrCommentThread
-    ): CommentRangeLayer {
+    ): CommentRangeLayer | undefined {
       const side = getSide(threadEl);
 
       const rangeAtt = threadEl.getAttribute('range');
-      if (!rangeAtt) throw Error('comment thread without range');
+      if (!rangeAtt) return undefined;
       const range = JSON.parse(rangeAtt) as CommentRange;
 
       return {side, range, hovering: false, rootId: threadEl.rootId};
     }
 
+    // TODO(brohlfs): Rewrite `.map().filter() as ...` with `.reduce()` instead.
     const addedCommentRanges = addedThreadEls
       .map(commentRangeFromThreadEl)
-      .filter(({range}) => range);
+      .filter(range => !!range) as CommentRangeLayer[];
     const removedCommentRanges = removedThreadEls
       .map(commentRangeFromThreadEl)
-      .filter(({range}) => range);
+      .filter(range => !!range) as CommentRangeLayer[];
     for (const removedCommentRange of removedCommentRanges) {
       const i = this._commentRanges.findIndex(
         cr =>

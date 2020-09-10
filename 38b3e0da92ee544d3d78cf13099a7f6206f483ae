@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6be8cc0a_1a5450f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T07:20:37Z",
+      "side": 1,
+      "message": "Fantastic! Can we have a lint rule prevent all bind() calls? :-)",
+      "revId": "38b3e0da92ee544d3d78cf13099a7f6206f483ae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

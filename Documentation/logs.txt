@@ -8,6 +8,12 @@ By default log files are link:config-gerrit.html#log.compress[compressed]
 at server startup and then daily at 11pm and
 link:config-gerrit.html#log.rotate[rotated] every midnight.
 
+== Time format
+
+For all timestamps the format `[yyyy-MM-dd'T'HH:mm:ss,SSSXXX]` is used.
+This format is both link:https://www.w3.org/TR/NOTE-datetime[ISO 8601] and
+link:https://tools.ietf.org/html/rfc3339[RFC3339] compatible.
+
 == Logs
 
 The following logs can be written.
@@ -32,10 +38,7 @@ if a log field is not present, a "-" is substituted:
 * `username`: the username used by the client for authentication. "-" for
   anonymous requests.
 * `[date:time]`: The date and time stamp of the HTTP request.
-  The time that the request was received. The format is until Gerrit 3.1
-  `[dd/MMM/yyyy:HH:mm:ss.SSS ZZZZ]`. For Gerrit 3.2 or newer
-  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
-  is used for all timestamps.
+  The time that the request was received.
 * `request`: The request line from the client is given in double quotes.
 ** the HTTP method used by the client.
 ** the resource the client requested.
@@ -63,10 +66,6 @@ via option link:config-gerrit.html#sshd.requestLog[sshd.requestLog].
 Log format:
 
 * `[date time]`: The time that the request was received.
-  The format is until Gerrit 3.1 `[yyyy-mm-dd HH:mm:ss.SSS ZZZZ]`.
-  For Gerrit 3.2 or newer
-  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
-  is used for all timestamps.
 * `sessionid`: hexadecimal session identifier, all requests of the
   same connection share the same sessionid. Gerrit does not support multiplexing multiple
   sessions on the same connection. Grep the log file using the sessionid as filter to
@@ -135,10 +134,6 @@ The error log tracks errors and stack traces and is written to
 Log format:
 
 * `[date time]`: The time that the request was received.
-  The format is until Gerrit 3.1 `[yyyy-mm-dd HH:mm:ss.SSS ZZZZ]`.
-  For Gerrit 3.2 or newer
-  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
-  is used for all timestamps.
 * `[thread name]`: : name of the Java thread executing the request.
 * `level`: log level (ERROR, WARN, INFO, DEBUG).
 * `logger`: name of the logger.
@@ -153,10 +148,6 @@ if enabled and is written to `$site_path/logs/gc_log`.
 Log format:
 
 * `[date time]`: The time that the request was received.
-  The format is until Gerrit 3.1 `[yyyy-mm-dd HH:mm:ss.SSS ZZZZ]`.
-  For Gerrit 3.2 or newer
-  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
-  is used for all timestamps.
 * `level`: log level (ERROR, WARN, INFO, DEBUG).
 * `message`: log message.
 

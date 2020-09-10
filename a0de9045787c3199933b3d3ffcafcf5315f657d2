@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "efa369b0_a5cac9f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-09-10T15:42:22Z",
+      "side": 1,
+      "message": "Not a core worthy concept, please use the existing mechanisms to control such behavior.",
+      "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

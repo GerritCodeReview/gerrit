@@ -314,12 +314,14 @@ class GrDiffView extends KeyboardShortcutMixin(
     this.addEventListener('open-fix-preview',
         e => this._onOpenFixPreview(e));
     this.$.cursor.push('diffs', this.$.diffHost);
-
-    const onRender = () => {
-      this.$.diffHost.removeEventListener('render', onRender);
+    this._onRenderHandler = () => {
       this.$.cursor.reInitCursor();
     };
-    this.$.diffHost.addEventListener('render', onRender);
+    this.$.diffHost.addEventListener('render', this._onRenderHandler);
+  }
+
+  detached() {
+    this.$.diffHost.removeEventListener('render', this._onRenderHandler);
   }
 
   _getLoggedIn() {

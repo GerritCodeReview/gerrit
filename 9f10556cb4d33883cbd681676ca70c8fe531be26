@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0bc7a941_3c85a2cb",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-09-10T12:03:40Z",
+      "side": 0,
+      "message": "The imagare plugin used the `commit()`-method of the VersionedMetaData base class to change the imagare.config in the All-Projects repository as a response to a REST call. Specifically, this is the way how the imagare plugin stores user preferences (IMO not the best way to do this, especially now with the notedb). However, is something like this still possible?\nIf not, is there a way for plugins to contribute to a user\u0027s preferences in the All-Users repo?",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 57
+      },
+      "revId": "9f10556cb4d33883cbd681676ca70c8fe531be26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

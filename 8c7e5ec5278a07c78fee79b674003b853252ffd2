@@ -1,0 +1,228 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b03de72_eaa7710b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 192,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "this only has one caller now? If yes, I would undo the refactor you did earlier to make it shareable or find a way to share it again. Sharing in test code is less important to me.",
+      "range": {
+        "startLine": 192,
+        "startChar": 17,
+        "endLine": 192,
+        "endChar": 43
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4194cfe9_fafd888b",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 237,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "Similar to my comment above, you don\u0027t need to create these intermediate layers if you don\u0027t need them.",
+      "range": {
+        "startLine": 237,
+        "startChar": 17,
+        "endLine": 237,
+        "endChar": 62
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e6b30d0d_a395b3a8",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 294,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "Should this be empty or null? Based on line 131, I would have assumed null.",
+      "range": {
+        "startLine": 294,
+        "startChar": 45,
+        "endLine": 294,
+        "endChar": 52
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "267c92b8_adcbd5bb",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "I think the pattern in here that we\u0027re trying to stick to is to add the new PluginDefinedInfoFactory methods below their equivalent ChangeAttributeFactory methods. Based on that, I think this goes below getChangeWithOption()?",
+      "range": {
+        "startLine": 303,
+        "startChar": 0,
+        "endLine": 322,
+        "endChar": 0
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc60e825_4f195929",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 388,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "Why use Double? I think it\u0027s Integer everywhere else in the code.",
+      "range": {
+        "startLine": 388,
+        "startChar": 10,
+        "endLine": 388,
+        "endChar": 16
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d1ba334_af8e4d5c",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 409,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "I\u0027m still confused about why we have bulk methods that take a single id?",
+      "range": {
+        "startLine": 409,
+        "startChar": 38,
+        "endLine": 409,
+        "endChar": 50
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35cabb34_560850d9",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 608,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "This is already being done on line 423, why are you doing it again?",
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d86e1dc_bb321f25",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PluginFieldsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "Why just the first one?",
+      "range": {
+        "startLine": 140,
+        "startChar": 22,
+        "endLine": 140,
+        "endChar": 28
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2d0d97d_cd4c18d5",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PluginFieldsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "We don\u0027t want this backwards compatibility.",
+      "range": {
+        "startLine": 159,
+        "startChar": 0,
+        "endLine": 161,
+        "endChar": 49
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6724252_859f2341",
+        "filename": "javatests/com/google/gerrit/acceptance/ssh/PluginChangeFieldsIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T00:21:14Z",
+      "side": 1,
+      "message": "I would still start this test name (and the ones below) with query*",
+      "range": {
+        "startLine": 74,
+        "startChar": 14,
+        "endLine": 74,
+        "endChar": 57
+      },
+      "revId": "8c7e5ec5278a07c78fee79b674003b853252ffd2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

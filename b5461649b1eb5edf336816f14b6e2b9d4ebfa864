@@ -46,6 +46,29 @@
       "revId": "b5461649b1eb5edf336816f14b6e2b9d4ebfa864",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3dc381f9_3389e8a1",
+        "filename": "polygerrit-ui/app/elements/gr-app-element.js",
+        "patchSetId": 14
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T09:43:05Z",
+      "side": 1,
+      "message": "This looks like a bug. The overlay does not have a function \"loadData\", only the dialog has.\n\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13390",
+      "range": {
+        "startLine": 441,
+        "startChar": 6,
+        "endLine": 441,
+        "endChar": 25
+      },
+      "revId": "b5461649b1eb5edf336816f14b6e2b9d4ebfa864",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

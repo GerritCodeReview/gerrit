@@ -16,6 +16,23 @@
       "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f5b45211_93d99f2b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-10T15:43:04Z",
+      "side": 1,
+      "message": "This also seems contradictory to the direction for submit being established in 279176: Design Doc: Composable Submit Requirements | https://gerrit-review.googlesource.com/c/homepage/+/279176",
+      "revId": "a0de9045787c3199933b3d3ffcafcf5315f657d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

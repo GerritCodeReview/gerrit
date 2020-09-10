@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "127fb4df_426fd40e",
+        "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-10T17:30:48Z",
+      "side": 1,
+      "message": "I have a problem with this IT test: I can test the replacement of the PersistentCacheFactory, but I am failing to test the _usage_ of the new one.\n\nThe re-bind of the dynamicItem works, but little it matters because by the time this test runs the PersistentCacheProvider\nhas already provided instances of the cache using the H2CacheFactory, before it gets replaced[1].\n\nI believe this is a problem with the way I am trying to test this:\nIf the alternative PersistentCacheFactory was passed via libModule, this wouldn\u0027t happen because the H2CacheFactory binding would be overridden immediately[2].\n\nIn other words, I believe it is too late to swap the PersistentCacheFactory in the test.\n\n@luca (or anyone else): thoughts?\n\n[1]https://gerrit.googlesource.com/gerrit/+/9791495f8e5102725fb63e102c62e95ae2061867/java/com/google/gerrit/server/cache/PersistentCacheProvider.java#144\n[2]https://gerrit.googlesource.com/gerrit/+/9791495f8e5102725fb63e102c62e95ae2061867/java/com/google/gerrit/pgm/Daemon.java#498",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

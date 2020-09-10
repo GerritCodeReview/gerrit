@@ -1,0 +1,119 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "105c1a75_cdbe3ad2",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:31:07Z",
+      "side": 1,
+      "message": "typo? capital U",
+      "range": {
+        "startLine": 126,
+        "startChar": 32,
+        "endLine": 126,
+        "endChar": 45
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1ee3451a_f9e5c2b8",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:31:07Z",
+      "side": 1,
+      "message": "But at what point in the lifecycle does this get computed the first time?\n\nWhy not just init with false instead?\n\nSame with showReplyButton and _expanded and 3 more.",
+      "range": {
+        "startLine": 128,
+        "startChar": 23,
+        "endLine": 128,
+        "endChar": 58
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2b99a968_3e9e189f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:31:07Z",
+      "side": 1,
+      "message": "return !!this.message \u0026\u0026 this._computeIsAutomated(this.message);\n\nsame below",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5c607759_31b47276",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:31:07Z",
+      "side": 1,
+      "message": "_computeCommentCountText produces a number? 😮",
+      "range": {
+        "startLine": 191,
+        "startChar": 15,
+        "endLine": 191,
+        "endChar": 39
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7216edb_ef40d73f",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:31:07Z",
+      "side": 1,
+      "message": "I remember Dmitrii saying that Number() is recommended by style guide.",
+      "range": {
+        "startLine": 419,
+        "startChar": 8,
+        "endLine": 419,
+        "endChar": 16
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

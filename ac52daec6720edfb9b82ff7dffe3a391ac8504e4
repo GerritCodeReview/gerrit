@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "355d7c74_5e72b5a0",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 112,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-10T20:31:07Z",
+      "side": 1,
+      "message": "I think the @computed decorator only helps with triggering template re-evaluation, i.e. \"author\" in the HTML template will be re-evaluated when \"message\" changes.\n\nBut nothing prevents code in this class to call \u0027this.author\u0027 before message is defined. So I think the reasoning for being able to use `this.message!` here is not correct.\n\nMaybe just use ? instead of ! in the return statement.",
+      "revId": "ac52daec6720edfb9b82ff7dffe3a391ac8504e4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

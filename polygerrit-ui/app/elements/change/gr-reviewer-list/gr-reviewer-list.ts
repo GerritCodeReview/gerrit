@@ -14,28 +14,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-account-chip/gr-account-chip.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-reviewer-list_html.js';
-import {
-  hasAttention,
-  isServiceUser,
-} from '../../../utils/account-util.js';
+import '../../shared/gr-account-chip/gr-account-chip';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-reviewer-list_html';
+import {hasAttention, isServiceUser} from '../../../utils/account-util';
 
 /**
  * @extends PolymerElement
  */
 class GrReviewerList extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-reviewer-list'; }
+  static get is() {
+    return 'gr-reviewer-list';
+  }
   /**
    * Fired when the "Add reviewer..." button is tapped.
    *
@@ -66,11 +68,15 @@ class GrReviewerList extends GestureEventListeners(
 
       _displayedReviewers: {
         type: Array,
-        value() { return []; },
+        value() {
+          return [];
+        },
       },
       _reviewers: {
         type: Array,
-        value() { return []; },
+        value() {
+          return [];
+        },
       },
       _showInput: {
         type: Boolean,
@@ -123,34 +129,38 @@ class GrReviewerList extends GestureEventListeners(
   /**
    * Returns hash of labels to max permitted score.
    *
-   * @param {!Object} change
-   * @returns {!Object} labels to max permitted scores hash
+   * @param change
+   * @returns labels to max permitted scores hash
    */
   _getMaxPermittedScores(change) {
     return this._permittedLabelsToNumericScores(change.permitted_labels)
-        .map(({label, scores}) => {
-          return {
-            [label]: scores
-                .map(v => parseInt(v, 10))
-                .reduce((a, b) => Math.max(a, b))};
-        })
-        .reduce((acc, i) => Object.assign(acc, i), {});
+      .map(({label, scores}) => {
+        return {
+          [label]: scores
+            .map(v => parseInt(v, 10))
+            .reduce((a, b) => Math.max(a, b)),
+        };
+      })
+      .reduce((acc, i) => Object.assign(acc, i), {});
   }
 
   /**
    * Returns max permitted score for reviewer.
    *
-   * @param {!Object} reviewer
-   * @param {!Object} change
-   * @param {string} label
-   * @return {number}
+   * @param reviewer
+   * @param change
+   * @param label
+   * @return
    */
   _getReviewerPermittedScore(reviewer, change, label) {
     // Note (issue 7874): sometimes the "all" list is not included in change
     // detail responses, even when DETAILED_LABELS is included in options.
-    if (!change.labels[label].all) { return NaN; }
-    const detailed = change.labels[label].all.filter(
-        ({_account_id}) => reviewer._account_id === _account_id).pop();
+    if (!change.labels[label].all) {
+      return NaN;
+    }
+    const detailed = change.labels[label].all
+      .filter(({_account_id}) => reviewer._account_id === _account_id)
+      .pop();
     if (!detailed) {
       return NaN;
     }
@@ -164,13 +174,16 @@ class GrReviewerList extends GestureEventListeners(
   }
 
   _computeVoteableText(reviewer, change) {
-    if (!change || !change.labels) { return ''; }
+    if (!change || !change.labels) {
+      return '';
+    }
     const maxScores = [];
     const maxPermitted = this._getMaxPermittedScores(change);
     for (const label of Object.keys(change.labels)) {
-      const maxScore =
-            this._getReviewerPermittedScore(reviewer, change, label);
-      if (isNaN(maxScore) || maxScore < 0) { continue; }
+      const maxScore = this._getReviewerPermittedScore(reviewer, change, label);
+      if (isNaN(maxScore) || maxScore < 0) {
+        continue;
+      }
       if (maxScore > 0 && maxScore === maxPermitted[label]) {
         maxScores.push(`${label}: +${maxScore}`);
       } else {
@@ -200,18 +213,18 @@ class GrReviewerList extends GestureEventListeners(
       }
     }
     this._reviewers = result
-        .filter(reviewer => reviewer._account_id != owner._account_id)
-        // Sort order:
-        // 1. Human users in the attention set.
-        // 2. Other human users.
-        // 3. Service users.
-        .sort((r1, r2) => {
-          const a1 = hasAttention(serverConfig, r1, this.change) ? 1 : 0;
-          const a2 = hasAttention(serverConfig, r2, this.change) ? 1 : 0;
-          const s1 = isServiceUser(r1) ? -2 : 0;
-          const s2 = isServiceUser(r2) ? -2 : 0;
-          return a2 - a1 + s2 - s1;
-        });
+      .filter(reviewer => reviewer._account_id != owner._account_id)
+      // Sort order:
+      // 1. Human users in the attention set.
+      // 2. Other human users.
+      // 3. Service users.
+      .sort((r1, r2) => {
+        const a1 = hasAttention(serverConfig, r1, this.change) ? 1 : 0;
+        const a2 = hasAttention(serverConfig, r2, this.change) ? 1 : 0;
+        const s1 = isServiceUser(r1) ? -2 : 0;
+        const s2 = isServiceUser(r2) ? -2 : 0;
+        return a2 - a1 + s2 - s1;
+      });
 
     if (this._reviewers.length > 8) {
       this._displayedReviewers = this._reviewers.slice(0, 6);
@@ -230,13 +243,17 @@ class GrReviewerList extends GestureEventListeners(
   }
 
   _computeCanRemoveReviewer(reviewer, mutable) {
-    if (!mutable) { return false; }
+    if (!mutable) {
+      return false;
+    }
 
     let current;
     for (let i = 0; i < this.change.removable_reviewers.length; i++) {
       current = this.change.removable_reviewers[i];
-      if (current._account_id === reviewer._account_id ||
-          (!reviewer._account_id && current.email === reviewer.email)) {
+      if (
+        current._account_id === reviewer._account_id ||
+        (!reviewer._account_id && current.email === reviewer.email)
+      ) {
         return true;
       }
     }
@@ -246,30 +263,37 @@ class GrReviewerList extends GestureEventListeners(
   _handleRemove(e) {
     e.preventDefault();
     const target = dom(e).rootTarget;
-    if (!target.account) { return; }
+    if (!target.account) {
+      return;
+    }
     const accountID = target.account._account_id || target.account.email;
     this.disabled = true;
-    this._xhrPromise = this._removeReviewer(accountID).then(response => {
-      this.disabled = false;
-      if (!response.ok) { return response; }
+    this._xhrPromise = this._removeReviewer(accountID)
+      .then(response => {
+        this.disabled = false;
+        if (!response.ok) {
+          return response;
+        }
 
-      const reviewers = this.change.reviewers;
+        const reviewers = this.change.reviewers;
 
-      for (const type of ['REVIEWER', 'CC']) {
-        reviewers[type] = reviewers[type] || [];
-        for (let i = 0; i < reviewers[type].length; i++) {
-          if (reviewers[type][i]._account_id == accountID ||
-          reviewers[type][i].email == accountID) {
-            this.splice('change.reviewers.' + type, i, 1);
-            break;
+        for (const type of ['REVIEWER', 'CC']) {
+          reviewers[type] = reviewers[type] || [];
+          for (let i = 0; i < reviewers[type].length; i++) {
+            if (
+              reviewers[type][i]._account_id == accountID ||
+              reviewers[type][i].email == accountID
+            ) {
+              this.splice('change.reviewers.' + type, i, 1);
+              break;
+            }
           }
         }
-      }
-    })
-        .catch(err => {
-          this.disabled = false;
-          throw err;
-        });
+      })
+      .catch(err => {
+        this.disabled = false;
+        throw err;
+      });
   }
 
   _handleAddTap(e) {
@@ -281,10 +305,13 @@ class GrReviewerList extends GestureEventListeners(
     if (this.ccsOnly) {
       value.ccsOnly = true;
     }
-    this.dispatchEvent(new CustomEvent('show-reply-dialog', {
-      detail: {value},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('show-reply-dialog', {
+        detail: {value},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _handleViewAll(e) {

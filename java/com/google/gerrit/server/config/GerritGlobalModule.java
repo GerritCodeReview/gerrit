@@ -181,6 +181,7 @@ import com.google.gerrit.server.query.change.ConflictsCacheImpl;
 import com.google.gerrit.server.quota.QuotaEnforcer;
 import com.google.gerrit.server.restapi.change.SuggestReviewers;
 import com.google.gerrit.server.restapi.group.GroupModule;
+import com.google.gerrit.server.rules.BlockSubmissionHashtagRule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.gerrit.server.rules.PrologModule;
@@ -260,6 +261,7 @@ public class GerritGlobalModule extends FactoryModule {
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());
+    install(new BlockSubmissionHashtagRule.Module());
     install(new ReceiveCommitsModule());
     install(new SshAddressesModule());
     install(ThreadLocalRequestContext.module());

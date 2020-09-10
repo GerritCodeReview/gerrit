@@ -79,6 +79,7 @@ import com.google.gerrit.server.project.SubmitRuleEvaluator;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeIsVisibleToPredicate;
 import com.google.gerrit.server.restapi.group.GroupModule;
+import com.google.gerrit.server.rules.BlockSubmissionHashtagRule;
 import com.google.gerrit.server.rules.DefaultSubmitRule;
 import com.google.gerrit.server.rules.IgnoreSelfApprovalRule;
 import com.google.gerrit.server.rules.PrologModule;
@@ -179,6 +180,7 @@ public class BatchProgramModule extends FactoryModule {
     install(new PrologModule());
     install(new DefaultSubmitRule.Module());
     install(new IgnoreSelfApprovalRule.Module());
+    install(new BlockSubmissionHashtagRule.Module());
 
     bind(ChangeJson.Factory.class).toProvider(Providers.of(null));
     bind(EventUtil.class).toProvider(Providers.of(null));

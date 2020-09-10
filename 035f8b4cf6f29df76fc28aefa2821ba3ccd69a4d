@@ -34,6 +34,24 @@
       "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f43dbe25_2dac9c54",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-10T12:28:04Z",
+      "side": 1,
+      "message": "@Jacek, does my explanation above make sense to you too? If so, would you be able to reconsider your CR-1 score? Thanks.",
+      "parentUuid": "3d8ed08c_ddc07ba2",
+      "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

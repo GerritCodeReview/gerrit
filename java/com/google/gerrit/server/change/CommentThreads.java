@@ -17,6 +17,7 @@ package com.google.gerrit.server.change;
 import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.stream.Collectors.groupingBy;
 
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Comment;
@@ -24,6 +25,7 @@ import java.util.Comparator;
 import java.util.Map;
 import java.util.PriorityQueue;
 import java.util.Queue;
+import java.util.function.Function;
 
 /**
  * Identifier of comment threads.
@@ -40,31 +42,74 @@ import java.util.Queue;
  */
 public class CommentThreads<T extends Comment> {
 
-  private final Iterable<T> comments;
+  private final ImmutableMap<String, T> commentPerUuid;
+  private final Map<String, ImmutableSet<T>> childrenPerParent;
 
-  private CommentThreads(Iterable<T> comments) {
-    this.comments = comments;
+  public CommentThreads(
+      ImmutableMap<String, T> commentPerUuid, Map<String, ImmutableSet<T>> childrenPerParent) {
+    this.commentPerUuid = commentPerUuid;
+    this.childrenPerParent = childrenPerParent;
   }
 
   public static <T extends Comment> CommentThreads<T> forComments(Iterable<T> comments) {
-    return new CommentThreads<>(comments);
-  }
-
-  public ImmutableSet<CommentThread<T>> getThreads() {
-    ImmutableSet<String> commentUuids =
-        Streams.stream(comments).map(comment -> comment.key.uuid).collect(toImmutableSet());
-
-    ImmutableSet<T> roots =
+    ImmutableMap<String, T> commentPerUuid =
         Streams.stream(comments)
-            .filter(
-                comment -> comment.parentUuid == null || !commentUuids.contains(comment.parentUuid))
-            .collect(toImmutableSet());
+            .distinct()
+            .collect(ImmutableMap.toImmutableMap(comment -> comment.key.uuid, Function.identity()));
 
     Map<String, ImmutableSet<T>> childrenPerParent =
-        Streams.stream(comments)
+        commentPerUuid.values().stream()
             .filter(comment -> comment.parentUuid != null)
             .collect(groupingBy(comment -> comment.parentUuid, toImmutableSet()));
+    return new CommentThreads<>(commentPerUuid, childrenPerParent);
+  }
 
+  /**
+   * Returns all comments organized into threads.
+   *
+   * <p>Comments appear only once.
+   */
+  public ImmutableSet<CommentThread<T>> getThreads() {
+    ImmutableSet<T> roots =
+        commentPerUuid.values().stream().filter(this::isRoot).collect(toImmutableSet());
+
+    return buildThreadsOf(roots);
+  }
+
+  /**
+   * Returns only the comment threads to which the specified comments are a reply.
+   *
+   * <p>If the specified child comments are part of the comments originally provided to {@link
+   * CommentThreads#forComments(Iterable)}, they will also appear in the returned comment threads.
+   * They don't need to be part of the originally provided comments, though, but should refer to one
+   * of these comments via their {@link Comment#parentUuid}. Child comments not referring to any
+   * known comments will be ignored.
+   *
+   * @param childComments comments for which the matching threads should be determined
+   * @return threads to which the provided child comments are a reply
+   */
+  public ImmutableSet<CommentThread<T>> getThreadsForChildren(Iterable<? extends T> childComments) {
+    ImmutableSet<T> relevantRoots =
+        Streams.stream(childComments)
+            .map(this::findRoot)
+            .filter(root -> commentPerUuid.containsKey(root.key.uuid))
+            .collect(toImmutableSet());
+    return buildThreadsOf(relevantRoots);
+  }
+
+  private T findRoot(T comment) {
+    T current = comment;
+    while (!isRoot(current)) {
+      current = commentPerUuid.get(current.parentUuid);
+    }
+    return current;
+  }
+
+  private boolean isRoot(T current) {
+    return current.parentUuid == null || !commentPerUuid.containsKey(current.parentUuid);
+  }
+
+  private ImmutableSet<CommentThread<T>> buildThreadsOf(ImmutableSet<T> roots) {
     return roots.stream()
         .map(root -> buildCommentThread(root, childrenPerParent))
         .collect(toImmutableSet());

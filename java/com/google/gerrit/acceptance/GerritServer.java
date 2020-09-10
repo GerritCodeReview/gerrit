@@ -329,14 +329,15 @@ public class GerritServer implements AutoCloseable {
       TemporaryFolder temporaryFolder,
       Description desc,
       Config baseConfig,
-      @Nullable Module testSysModule)
+      @Nullable Module testSysModule,
+      @Nullable Module testAuditModule)
       throws Exception {
     Path site = temporaryFolder.newFolder().toPath();
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, testSysModule, null);
+      return start(desc, baseConfig, site, testSysModule, testAuditModule, null);
     } catch (Exception e) {
       throw e;
     }
@@ -364,6 +365,7 @@ public class GerritServer implements AutoCloseable {
       Config baseConfig,
       Path site,
       @Nullable Module testSysModule,
+      @Nullable Module testAuditModule,
       @Nullable InMemoryRepositoryManager inMemoryRepoManager,
       String... additionalArgs)
       throws Exception {
@@ -382,7 +384,8 @@ public class GerritServer implements AutoCloseable {
             },
             site);
     daemon.setEmailModuleForTesting(new FakeEmailSender.Module());
-    daemon.setAuditEventModuleForTesting(new FakeGroupAuditService.Module());
+    daemon.setAuditEventModuleForTesting(
+        MoreObjects.firstNonNull(testAuditModule, new FakeGroupAuditService.Module()));
     if (testSysModule != null) {
       daemon.addAdditionalSysModuleForTesting(testSysModule);
     }
@@ -609,7 +612,7 @@ public class GerritServer implements AutoCloseable {
 
     server.close();
     server.daemon.stop();
-    return start(server.desc, cfg, site, null, inMemoryRepoManager);
+    return start(server.desc, cfg, site, null, null, inMemoryRepoManager);
   }
 
   private static boolean hasBinding(Injector injector, Class<?> clazz) {

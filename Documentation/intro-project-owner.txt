@@ -326,7 +326,8 @@ there was no code change] (e.g. only the commit message was edited).
 A link:prolog-cookbook.html#SubmitRule[submit rule] in Gerrit is logic
 that defines when a change is submittable. By default, a change is
 submittable when it gets at least one highest vote on each label and
-has no lowest vote (aka veto vote) on any label.
+has no lowest vote (aka veto vote) on any label. Also, a change must
+not have a hashtag "BLOCK_SUBMISSION".
 
 The submit rules in Gerrit are implemented in link:prolog-cookbook.html[
 Prolog] and projects that need more flexibility can define their own

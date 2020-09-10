@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d476ab6_c56aabc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T20:34:58Z",
+      "side": 1,
+      "message": "@Tony there was also a bug in the testing of libModules: the overriding wasn\u0027t done properly and that\u0027s why the test resulted in duplicate bindings.\n\nI\u0027ve fixed the problem and, if you apply my suggestions, this test would work :-)",
+      "revId": "62f44c66c56c07a671bcae667dcc44b5ebfd7d64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

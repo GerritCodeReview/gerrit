@@ -60,6 +60,8 @@ import com.google.gerrit.server.ReviewerSet;
 import com.google.gerrit.server.ReviewerStatusUpdate;
 import com.google.gerrit.server.StarredChangesUtil;
 import com.google.gerrit.server.StarredChangesUtil.StarRef;
+import com.google.gerrit.server.change.CommentThread;
+import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.change.MergeabilityCache;
 import com.google.gerrit.server.change.PureRevert;
 import com.google.gerrit.server.config.AllUsersName;
@@ -790,45 +792,13 @@ public class ChangeData {
       List<Comment> comments =
           Stream.concat(publishedComments().stream(), robotComments().stream()).collect(toList());
 
-      // Build a map of uuid to list of direct descendants.
-      Map<String, List<Comment>> forest = new HashMap<>();
-      for (Comment comment : comments) {
-        List<Comment> siblings = forest.get(comment.parentUuid);
-        if (siblings == null) {
-          siblings = new ArrayList<>();
-          forest.put(comment.parentUuid, siblings);
-        }
-        siblings.add(comment);
-      }
-
-      // Find latest comment in each thread and apply to unresolved counter.
-      int unresolved = 0;
-      if (forest.containsKey(null)) {
-        for (Comment root : forest.get(null)) {
-          if (getLatestComment(forest, root).unresolved) {
-            unresolved++;
-          }
-        }
-      }
-      unresolvedCommentCount = unresolved;
+      ImmutableSet<CommentThread<Comment>> commentThreads =
+          CommentThreads.forComments(comments).getThreads();
+      unresolvedCommentCount =
+          (int) commentThreads.stream().filter(CommentThread::unresolved).count();
     }
 
     return unresolvedCommentCount;
-  }
-
-  protected Comment getLatestComment(Map<String, List<Comment>> forest, Comment root) {
-    List<Comment> children = forest.get(root.key.uuid);
-    if (children == null) {
-      return root;
-    }
-    Comment latest = null;
-    for (Comment comment : children) {
-      Comment branchLatest = getLatestComment(forest, comment);
-      if (latest == null || branchLatest.writtenOn.after(latest.writtenOn)) {
-        latest = branchLatest;
-      }
-    }
-    return latest;
   }
 
   public void setUnresolvedCommentCount(Integer count) {

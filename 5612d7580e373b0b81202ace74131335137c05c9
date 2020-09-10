@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "050534d6_554f37cc",
+        "filename": "plugins/replication",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-10T07:52:33Z",
+      "side": 0,
+      "message": "forgot to git submodule update",
+      "revId": "5612d7580e373b0b81202ace74131335137c05c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

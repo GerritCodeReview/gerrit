@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "9f970796_e39b8f64",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-10T19:28:29Z",
+      "side": 1,
+      "message": "Reviewing my -2 as a -1, because the test was missing in the initial implementation Change-Id: I7562b210f.\n\nIt would be wonderful if you could cover the validation of what was initially implemented by Jacek.\n",
+      "revId": "9791495f8e5102725fb63e102c62e95ae2061867",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "127fb4df_426fd40e",
         "filename": "javatests/com/google/gerrit/server/cache/CacheFromPluginIT.java",
         "patchSetId": 3

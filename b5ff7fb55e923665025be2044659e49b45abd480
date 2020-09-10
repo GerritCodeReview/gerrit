@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d710fcc_f9d4f19e",
+        "filename": "java/com/google/gerrit/extensions/api/changes/RevertInput.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-10T10:49:20Z",
+      "side": 1,
+      "message": "nit: {@link #notify} to {@link NotifyHandling.OWNER}",
+      "range": {
+        "startLine": 34,
+        "startChar": 67,
+        "endLine": 34,
+        "endChar": 83
+      },
+      "revId": "b5ff7fb55e923665025be2044659e49b45abd480",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

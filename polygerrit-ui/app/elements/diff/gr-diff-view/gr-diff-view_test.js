@@ -23,7 +23,6 @@ import {generateChange, TestKeyboardShortcutBinder} from '../../../test/test-uti
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
-import {appContext} from '../../../services/app-context.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -84,7 +83,6 @@ suite('gr-diff-view tests', () => {
 
     setup(() => {
       clock = sinon.useFakeTimers();
-      sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
       stub('gr-rest-api-interface', {
         getConfig() {
           return Promise.resolve({change: {}});

@@ -57,6 +57,8 @@ public class CommentPorterTest {
 
   @Mock private PatchListCache patchListCache;
 
+  private int uuidCounter = 0;
+
   @Test
   public void commentsAreNotDroppedWhenDiffNotAvailable() throws Exception {
     Project.NameKey project = Project.nameKey("myProject");
@@ -206,13 +208,17 @@ public class CommentPorterTest {
 
   private HumanComment createComment(PatchSet.Id patchsetId, String filePath) {
     return new HumanComment(
-        new Comment.Key("commentUuid", filePath, patchsetId.get()),
+        new Comment.Key(getUniqueUuid(), filePath, patchsetId.get()),
         Account.id(100),
         new Timestamp(1234),
         (short) 1,
         "Comment text",
         "serverId",
         true);
+  }
+
+  private String getUniqueUuid() {
+    return "commentUuid" + uuidCounter++;
   }
 
   private Correspondence<HumanComment, String> hasFilePath() {

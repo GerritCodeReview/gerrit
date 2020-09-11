@@ -255,6 +255,11 @@ export const htmlTemplate = html`
           hide-status=""
         >
         </gr-account-label>
+        <template is="dom-if" if="[[comment.ported]]">
+          <a href="[[_getUrlForComment(comment)]]">
+            <span> Ported from patchset [[comment.patch_set]] </span>
+          </a>
+        </template>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

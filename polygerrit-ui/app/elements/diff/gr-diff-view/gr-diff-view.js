@@ -880,6 +880,37 @@ class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  _processPortedComments(comments) {
+    if (!comments[this._path]) return;
+    const portedComments = {
+      left: [],
+      right: [],
+    };
+    comments[this._path].forEach(c => {
+      c.ported = true;
+      c.path = this._path;
+      if (patchNumEquals(c.patch_set, this._patchRange.basePatchNum)
+          || patchNumEquals(c.patch_set, this._patchRange.patchNum)) {
+        // no need to port this comment as it will be rendered by default
+        return;
+      } else {
+        portedComments.right.push(c);
+      }
+    });
+    // attach drafts to these ported comments
+    (this._changeComments._drafts[this._path] || []).forEach(draft => {
+      if (portedComments.right.find(c => c.id === draft.in_reply_to)) {
+        portedComments.right.push(draft);
+      } else if (portedComments.left.find(c => c.id ===
+          draft.in_reply_to)) {
+        portedComments.left.push(draft);
+      }
+    });
+    this.$.diffHost.comments.left.push(...portedComments.left);
+    this.$.diffHost.comments.right.push(...portedComments.right);
+    this.$.diffHost.comments = {...this.$.diffHost.comments};
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -929,6 +960,10 @@ class GrDiffView extends KeyboardShortcutMixin(
           this._initPatchRange();
           this._initCommitRange();
           this.$.diffHost.comments = this._commentsForDiff;
+          this.$.restAPI.getPortedComments(this._changeNum,
+              this._patchRange.patchNum).then(comments => {
+            this._processPortedComments(comments);
+          });
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {

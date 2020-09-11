@@ -1221,6 +1221,7 @@ suite('gr-diff-host tests', () => {
           line: 1,
         }],
         patchNum: 5,
+        ported: undefined,
         rootId: 'betsys_confession',
         range: {
           start_line: 1,

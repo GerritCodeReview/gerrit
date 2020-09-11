@@ -141,6 +141,9 @@ suite('gr-diff-view tests', () => {
         basePatchNum: '1',
         path: '/COMMIT_MSG',
       };
+      sinon.stub(element.$.restAPI, 'getPortedComments').returns(
+          Promise.resolve([]));
+      element._patchRange = {patchNum: 4};
       return element._paramsChanged.returnValues[0].then(() => {
         assert.isTrue(element.reporting.diffViewDisplayed.calledOnce);
       });
@@ -192,6 +195,9 @@ suite('gr-diff-view tests', () => {
         basePatchNum: '1',
         path: '/COMMIT_MSG',
       };
+      sinon.stub(element.$.restAPI, 'getPortedComments').returns(
+          Promise.resolve([]));
+      element._patchRange = {patchNum: 4};
       return element._paramsChanged.returnValues[0].then(() => {
         assert.isTrue(element._isBlameLoaded);
         assert.isTrue(element._loadBlame.calledOnce);

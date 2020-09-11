@@ -41,6 +41,7 @@ import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {appContext} from '../../../services/app-context.js';
+
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -52,6 +53,7 @@ import {
   isMagicPath, specialFilePathCompare,
 } from '../../../utils/path-list-util.js';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
+import { createThreads } from '../gr-comment-api/gr-comment-api.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -880,6 +882,64 @@ class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  convertToFileThread(thread) {
+    delete thread.lineNum;
+    delete thread.range;
+    return thread;
+  }
+
+  _processPortedComments(comments) {
+    if (!comments[this._path]) return;
+    const portedCommentThreads = {
+      left: [],
+      right: [],
+    };
+
+    // when forming threads in diff view, we filter for current patchrange
+    // ported comments will involve comments that may not belong to the
+    // current patchrange, so we need to form threads for them using all
+    // comments
+    const allComments = this._changeComments.getAllCommentsForPath(this._path,
+        undefined, true);
+    const threads = createThreads(allComments);
+    threads.forEach(t => t.ported = true);
+    comments[this._path].forEach(c => {
+      c.ported = true;
+      c.path = this._path;
+      const thread = threads.find(t => t.comments.some(comment =>
+        comment.id === c.id));
+      if (c.side === 'PARENT') {
+        // comment left on Base when comparing Base vs X
+        if (this._patchRange.basePatchNum === 'PARENT' &&
+          c.patch_set === this._patchRange.patchNum) {
+          // user is comparing Base vs X so comment shows up by default
+        } else if (this._patchRange.basePatchNum === 'PARENT') {
+          // comparing Base vs Y
+          portedCommentThreads.left.push(this.convertToFileThread(thread));
+        } else if (this._patchRange.basePatchNum === c.patch_set) {
+          // comparing X vs Y
+          portedCommentThreads.left.push(this.convertToFileThread(thread));
+        } else {
+          // comparing Y vs Z
+          portedCommentThreads.left.push(this.convertToFileThread(thread));
+        }
+        thread.commentSide = 'left';
+        return;
+      }
+
+      if (patchNumEquals(c.patch_set, this._patchRange.basePatchNum)
+          || patchNumEquals(c.patch_set, this._patchRange.patchNum)) {
+        // no need to port this comment as it will be rendered by default
+        return;
+      } else {
+        thread.commentSide = 'right';
+        portedCommentThreads.right.push(thread);
+      }
+    });
+
+    this.$.diffHost.portedCommentThreads = portedCommentThreads;
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -929,6 +989,10 @@ class GrDiffView extends KeyboardShortcutMixin(
           this._initPatchRange();
           this._initCommitRange();
           this.$.diffHost.comments = this._commentsForDiff;
+          this.$.restAPI.getPortedComments(this._changeNum,
+              this._patchRange.patchNum).then(comments => {
+            this._processPortedComments(comments);
+          });
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {

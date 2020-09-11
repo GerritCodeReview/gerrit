@@ -28,7 +28,6 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {DiffSide, rangesEqual} from '../gr-diff/gr-diff-utils.js';
 import {appContext} from '../../../services/app-context.js';
 import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util.js';
-import {sortComments} from '../gr-comment-api/gr-comment-api.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -250,6 +249,13 @@ class GrDiffHost extends GestureEventListeners(
       _layers: {
         type: Array,
         value: [],
+      },
+
+      createThreads: Function,
+      portedCommentThreads: {
+        type: Object,
+        value: {},
+        observer: '_portedCommentThreadsChanged',
       },
     };
   }
@@ -671,6 +677,26 @@ class GrDiffHost extends GestureEventListeners(
     return isImageDiff(diff);
   }
 
+  _portedCommentThreadsChanged(portedCommentThreads) {
+    let threadAttached = false;
+    for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
+      for (const thread of (portedCommentThreads[side] || [])) {
+        for (const comment of thread.comments) {
+          comment.__commentSide = side;
+        }
+        thread.comments[0].ported = true;
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+        threadAttached = true;
+      }
+    }
+    // re-render is required so that gr-diff recalculates key positions and
+    // auto-expands the diff around the ported threads
+    if (threadAttached) {
+      this.$.diff.reRenderDiffTable();
+    }
+  }
+
   _commentsChanged(newComments) {
     const allComments = [];
     for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
@@ -685,48 +711,11 @@ class GrDiffHost extends GestureEventListeners(
     // and recreate them. If this changes in future, we might want to reuse
     // some DOM nodes here.
     this._clearThreads();
-    const threads = this._createThreads(allComments);
+    const threads = this.createThreads(allComments);
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
     }
-  }
-
-  /**
-   * @param {!Array<!Object>} comments
-   * @return {!Array<!Object>} Threads for the given comments.
-   */
-  _createThreads(comments) {
-    const sortedComments = sortComments(comments);
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to));
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      const newThread = {
-        start_datetime: comment.updated,
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        rootId: comment.id || comment.__draftID,
-        lineNum: comment.line,
-        isOnParent: comment.side === 'PARENT',
-      };
-      if (comment.range) {
-        newThread.range = {...comment.range};
-      }
-      threads.push(newThread);
-    }
-    return threads;
   }
 
   /**

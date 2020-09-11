@@ -81,9 +81,9 @@ export function isPatchSetFile(
   return !!(x as PatchSetFile).path;
 }
 
-export function sortComments<
-  T extends CommentInfoWithPath | CommentInfoWithTwoPaths
->(comments: T[]): T[] {
+function sortComments<T extends CommentInfoWithPath | CommentInfoWithTwoPaths>(
+  comments: T[]
+): T[] {
   return comments.slice(0).sort((c1, c2) => {
     const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
     const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
@@ -100,6 +100,41 @@ export function sortComments<
     }
     return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
   });
+}
+
+export function createThreads(comments) {
+  const sortedComments = sortComments(comments);
+  const threads = [];
+  for (const comment of sortedComments) {
+    // If the comment is in reply to another comment, find that comment's
+    // thread and append to it.
+    if (comment.in_reply_to) {
+      const thread = threads.find(thread =>
+        thread.comments.some(c => c.id === comment.in_reply_to)
+      );
+      if (thread) {
+        thread.comments.push(comment);
+        continue;
+      }
+    }
+
+    // Otherwise, this comment starts its own thread.
+    const newThread = {
+      start_datetime: comment.updated,
+      comments: [comment],
+      commentSide: comment.__commentSide,
+      patchNum: comment.patch_set,
+      rootId: comment.id || comment.__draftID,
+      lineNum: comment.line,
+      isOnParent: comment.side === 'PARENT',
+      ported: comment.ported,
+    };
+    if (comment.range) {
+      newThread.range = {...comment.range};
+    }
+    threads.push(newThread);
+  }
+  return threads;
 }
 
 export interface CommentThread {

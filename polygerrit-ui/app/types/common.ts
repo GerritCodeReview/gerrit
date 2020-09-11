@@ -1174,6 +1174,7 @@ export interface CommentInfo {
   unresolved?: boolean;
   change_message_id?: string;
   commit_id?: string;
+  ported?: boolean;
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};

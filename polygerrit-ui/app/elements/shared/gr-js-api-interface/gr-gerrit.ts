@@ -19,7 +19,11 @@
  * This defines the Gerrit instance. All methods directly attached to Gerrit
  * should be defined or linked here.
  */
-import {getPluginLoader, PluginOptionMap} from './gr-plugin-loader';
+import {
+  getPluginLoader,
+  PluginOptionMap,
+  PluginLoader,
+} from './gr-plugin-loader';
 import {getRestAPI, send} from './gr-api-utils';
 import {appContext} from '../../../services/app-context';
 import {PluginApi} from '../../plugins/gr-plugin-types';
@@ -29,8 +33,15 @@ import {
   EventCallback,
   EventEmitterService,
 } from '../../../services/gr-event-interface/gr-event-interface';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {getRootElement} from '../../../scripts/rootElement';
+import {GrPluginEndpoints} from './gr-plugin-endpoints';
+import {rangesEqual} from '../../diff/gr-diff/gr-diff-utils';
+import {SUGGESTIONS_PROVIDERS_USERS_TYPES} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {CoverageType} from '../../../types/types';
+import {RevisionInfo} from '../revision-info/revision-info';
 
-interface GerritGlobal extends EventEmitterService {
+export interface GerritGlobal extends EventEmitterService {
   flushPreinstalls?(): void;
   css(rule: string): string;
   install(
@@ -60,6 +71,18 @@ interface GerritGlobal extends EventEmitterService {
   _isPluginLoaded(pathOrUrl: string): boolean;
   _eventEmitter: EventEmitterService;
   _customStyleSheet: CSSStyleSheet;
+
+  // exposed methods
+  Nav: typeof GerritNav;
+  Auth: typeof appContext.authService;
+  getRootElement: typeof getRootElement;
+  _pluginLoader: PluginLoader;
+  _endpoints: GrPluginEndpoints;
+  slotToContent(slot: unknown): unknown;
+  rangesEqual: typeof rangesEqual;
+  SUGGESTIONS_PROVIDERS_USERS_TYPES: typeof SUGGESTIONS_PROVIDERS_USERS_TYPES;
+  CoverageType: typeof CoverageType;
+  RevisionInfo: typeof RevisionInfo;
 }
 
 /**
@@ -67,7 +90,7 @@ interface GerritGlobal extends EventEmitterService {
  * This needs to happen before Gerrit as plugin bundle overrides the Gerrit.
  */
 function flushPreinstalls() {
-  const Gerrit = window.Gerrit as GerritGlobal;
+  const Gerrit = window.Gerrit;
   if (Gerrit.flushPreinstalls) {
     Gerrit.flushPreinstalls();
   }
@@ -75,7 +98,7 @@ function flushPreinstalls() {
 export const _testOnly_flushPreinstalls = flushPreinstalls;
 
 export function initGerritPluginApi() {
-  window.Gerrit = window.Gerrit || {};
+  window.Gerrit = (window.Gerrit || {}) as GerritGlobal;
   flushPreinstalls();
   initGerritPluginsMethods(window.Gerrit as GerritGlobal);
   // Preloaded plugins should be installed after Gerrit.install() is set,

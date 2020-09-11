@@ -46,6 +46,30 @@
       "revId": "e19f574ad3ae395bfa4ef08033d4a892da4fc0e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "743ac28e_b255eeab",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T08:14:43Z",
+      "side": 1,
+      "message": "@Matthias are you planning to address the comment? Or do you believe it could be done in a follow-up change?",
+      "parentUuid": "e722c67e_e8394772",
+      "range": {
+        "startLine": 161,
+        "startChar": 13,
+        "endLine": 161,
+        "endChar": 22
+      },
+      "revId": "e19f574ad3ae395bfa4ef08033d4a892da4fc0e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

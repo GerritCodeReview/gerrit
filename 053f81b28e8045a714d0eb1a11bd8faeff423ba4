@@ -16,6 +16,24 @@
       "revId": "053f81b28e8045a714d0eb1a11bd8faeff423ba4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9f849edd_15f7f86e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T15:06:01Z",
+      "side": 1,
+      "message": "\u003e I think we should wait for a follow-up to verify that this change works as expected, prior to approving it. Should Ib4133eb89 (a WIP) be that follow-up?\n\u003e \n\u003e An alternative could be to include such a test (maybe a simpler one) in this very change, for that initial testing purpose.\n\nYes, I believe it would be best to include at least one test in this change. The follow-up is more specific to the PersistentCache module override.",
+      "parentUuid": "640bf182_c1e7e19b",
+      "revId": "053f81b28e8045a714d0eb1a11bd8faeff423ba4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

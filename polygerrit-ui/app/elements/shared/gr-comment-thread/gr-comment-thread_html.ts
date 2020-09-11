@@ -113,6 +113,7 @@ export const htmlTemplate = html`
         comments="{{comments}}"
         robot-button-disabled="[[_shouldDisableAction(_showActions, _lastComment)]]"
         change-num="[[changeNum]]"
+        project-name="[[projectName]]"
         patch-num="[[patchNum]]"
         draft="[[_isDraft(comment)]]"
         show-actions="[[_showActions]]"

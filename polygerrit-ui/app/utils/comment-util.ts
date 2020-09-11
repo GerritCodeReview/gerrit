@@ -113,6 +113,39 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   });
 }
 
+export function createThreads(comments: UIComment[]): CommentThread[] {
+  const sortedComments = sortComments(comments);
+  const threads = [];
+  for (const comment of sortedComments) {
+    // If the comment is in reply to another comment, find that comment's
+    // thread and append to it.
+    if (comment.in_reply_to) {
+      const thread = threads.find(thread =>
+        thread.comments.some(c => c.id === comment.in_reply_to)
+      );
+      if (thread) {
+        thread.comments.push(comment);
+        continue;
+      }
+    }
+
+    // Otherwise, this comment starts its own thread.
+    if (!comment.__commentSide) throw new Error('Missing "__commentSide".');
+    const newThread: CommentThread = {
+      comments: [comment],
+      commentSide: comment.__commentSide,
+      patchNum: comment.patch_set,
+      lineNum: comment.line,
+      isOnParent: comment.side === 'PARENT',
+    };
+    if (comment.range) {
+      newThread.range = {...comment.range};
+    }
+    threads.push(newThread);
+  }
+  return threads;
+}
+
 export interface CommentThread {
   comments: UIComment[];
   patchNum?: PatchSetNum;

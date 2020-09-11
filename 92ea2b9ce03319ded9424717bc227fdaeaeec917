@@ -34,6 +34,24 @@
       "revId": "92ea2b9ce03319ded9424717bc227fdaeaeec917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4395690c_3e41dac3",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-11T07:55:06Z",
+      "side": 1,
+      "message": "actually I am sure why you want to strictly avoid them if just want to use their types.",
+      "parentUuid": "ae3b2ec6_74250451",
+      "revId": "92ea2b9ce03319ded9424717bc227fdaeaeec917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -31,6 +31,7 @@ import {_testOnly_getShortcutManagerInstance} from '../mixins/keyboard-shortcut-
 import sinon from 'sinon/pkg/sinon-esm.js';
 import {safeTypesBridge} from '../utils/safe-types-util.js';
 import {_testOnly_initGerritPluginApi} from '../elements/shared/gr-js-api-interface/gr-gerrit.js';
+import {initGlobalVariables} from '../elements/gr-app-global-var-init.js';
 window.sinon = sinon;
 
 security.polymer_resin.install({
@@ -60,6 +61,9 @@ window.fixture = function(fixtureId, model) {
 };
 
 setup(() => {
+  window.Gerrit = {};
+  initGlobalVariables();
+
   // If the following asserts fails - then window.stub is
   // overwritten by some other code.
   assert.equal(cleanups.length, 0);

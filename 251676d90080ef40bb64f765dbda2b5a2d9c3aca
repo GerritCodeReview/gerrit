@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e548750f_72f63cfe",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5032,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b5e0bf9_ed81be91",
+      "range": {
+        "startLine": 5032,
+        "startChar": 105,
+        "endLine": 5032,
+        "endChar": 106
+      },
+      "revId": "251676d90080ef40bb64f765dbda2b5a2d9c3aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2676d7fd_44e6b09d",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "b6d73a2f_0b0ebf5f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5044,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "If you think its misleading, I can change the formulation. Done.",
+      "parentUuid": "2676d7fd_44e6b09d",
+      "range": {
+        "startLine": 5043,
+        "startChar": 87,
+        "endLine": 5044,
+        "endChar": 14
+      },
+      "revId": "251676d90080ef40bb64f765dbda2b5a2d9c3aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c921447d_c0a8dfd1",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 1
@@ -59,6 +107,30 @@
       "writtenOn": "2020-09-11T11:16:16Z",
       "side": 1,
       "message": "I prefer we move the output of the endpoint earlier in the description, e.g. after line 5035 (similar to the list change/revision comments endpoint).\n\n \u003e\u003e Returns a map of file paths to lists of link:#comment-info[CommentInfo] entries ...",
+      "range": {
+        "startLine": 5047,
+        "startChar": 0,
+        "endLine": 5047,
+        "endChar": 35
+      },
+      "revId": "251676d90080ef40bb64f765dbda2b5a2d9c3aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0c85fba_035ce22f",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5047,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "The list change/revision comment endpoints only mention the output so early as they don\u0027t have other descriptions. For other endpoints (e.g. [1]), we describe the output format also later and not as second paragraph. In my opinion, moving this paragraph up would require to also move up the next paragraph. As a result, we\u0027d need to move the description of what ported comments are further down. I don\u0027t think that\u0027s helpful. Let\u0027s see what the second reviewer thinks.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#put-edit-file",
+      "parentUuid": "c921447d_c0a8dfd1",
       "range": {
         "startLine": 5047,
         "startChar": 0,

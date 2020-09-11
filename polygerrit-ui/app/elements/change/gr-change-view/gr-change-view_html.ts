@@ -617,6 +617,7 @@ export const htmlTemplate = html`
           change-num="[[_changeNum]]"
           patch-range="{{_patchRange}}"
           change-comments="[[_changeComments]]"
+          ported-comments="[[_portedComments]]"
           drafts="[[_diffDrafts]]"
           revisions="[[_change.revisions]]"
           project-config="[[_projectConfig]]"

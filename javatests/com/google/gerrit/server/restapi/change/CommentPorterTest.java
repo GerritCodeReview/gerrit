@@ -154,13 +154,7 @@ public class CommentPorterTest {
     HumanComment comment1 = createComment(patchset1.id(), "myFile");
     HumanComment comment2 = createComment(patchset2.id(), "myFile");
     when(patchListCache.getOldId(any(), any(), any())).thenReturn(dummyObjectId);
-    PatchList emptyDiff =
-        new PatchList(
-            dummyObjectId,
-            dummyObjectId,
-            false,
-            ComparisonType.againstOtherPatchSet(),
-            new PatchListEntry[0]);
+    PatchList emptyDiff = getEmptyDiff();
     // Throw an exception on the first diff request but return an actual value on the second.
     when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
         .thenThrow(IllegalStateException.class)
@@ -171,6 +165,28 @@ public class CommentPorterTest {
     // One of the comments should still be ported as usual. -> Keeps its file name as the diff was
     // empty.
     assertThat(portedComments).comparingElementsUsing(hasFilePath()).contains("myFile");
+  }
+
+  @Test
+  public void commentsWithInvalidPatchsetsAreIgnored() throws Exception {
+    Project.NameKey project = Project.nameKey("myProject");
+    Change.Id changeId = Change.id(1);
+    Change change = createChange(project, changeId);
+    PatchSet patchset1 = createPatchset(PatchSet.id(changeId, 1));
+    PatchSet patchset2 = createPatchset(PatchSet.id(changeId, 2));
+    // Leave out patchset 1 (e.g. reserved for draft patchsets in the past).
+    ChangeNotes changeNotes = mockChangeNotes(project, change, patchset2);
+
+    CommentPorter commentPorter = new CommentPorter(patchListCache);
+    HumanComment comment = createComment(patchset1.id(), "myFile");
+    when(patchListCache.getOldId(any(), any(), any())).thenReturn(dummyObjectId);
+    PatchList emptyDiff = getEmptyDiff();
+    when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
+        .thenReturn(emptyDiff);
+    ImmutableList<HumanComment> portedComments =
+        commentPorter.portComments(changeNotes, patchset2, ImmutableList.of(comment));
+
+    assertThat(portedComments).isEmpty();
   }
 
   private Change createChange(Project.NameKey project, Change.Id changeId) {
@@ -223,5 +239,14 @@ public class CommentPorterTest {
 
   private Correspondence<HumanComment, String> hasFilePath() {
     return NullAwareCorrespondence.transforming(comment -> comment.key.filename, "hasFilePath");
+  }
+
+  private PatchList getEmptyDiff() {
+    return new PatchList(
+        dummyObjectId,
+        dummyObjectId,
+        false,
+        ComparisonType.againstOtherPatchSet(),
+        new PatchListEntry[0]);
   }
 }

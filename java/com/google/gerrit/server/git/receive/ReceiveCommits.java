@@ -3272,6 +3272,9 @@ class ReceiveCommits {
 
                       for (Ref ref :
                           receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
+                        if (!PatchSet.isChangeRef(ref.getName())) {
+                          continue;
+                        }
                         PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
                         Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
                         if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {

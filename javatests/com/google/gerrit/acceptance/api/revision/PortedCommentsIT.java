@@ -27,6 +27,7 @@ import com.google.common.truth.Correspondence;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
+import com.google.gerrit.acceptance.testsuite.change.TestCommentCreation;
 import com.google.gerrit.acceptance.testsuite.change.TestPatchset;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
 import com.google.gerrit.entities.Account;
@@ -40,7 +41,6 @@ import com.google.inject.Inject;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class PortedCommentsIT extends AbstractDaemonTest {
@@ -57,9 +57,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     PatchSet.Id patchset3Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String comment1Uuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
-    changeOps.change(changeId).patchset(patchset2Id).newComment().create();
-    changeOps.change(changeId).patchset(patchset3Id).newComment().create();
+    String comment1Uuid = newComment(patchset1Id).create();
+    newComment(patchset2Id).create();
+    newComment(patchset3Id).create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -75,8 +75,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset3Id = changeOps.change(changeId).newPatchset().create();
     PatchSet.Id patchset4Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String comment1Uuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
-    String comment3Uuid = changeOps.change(changeId).patchset(patchset3Id).newComment().create();
+    String comment1Uuid = newComment(patchset1Id).create();
+    String comment3Uuid = newComment(patchset3Id).create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset4Id));
 
@@ -92,8 +92,8 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String comment1Uuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
-    String comment2Uuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
+    String comment1Uuid = newComment(patchset1Id).create();
+    String comment2Uuid = newComment(patchset1Id).create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -109,21 +109,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String rootCommentUuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
-    String child1CommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .parentUuid(rootCommentUuid)
-            .create();
-    String child2CommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .parentUuid(child1CommentUuid)
-            .create();
+    String rootCommentUuid = newComment(patchset1Id).create();
+    String child1CommentUuid = newComment(patchset1Id).parentUuid(rootCommentUuid).create();
+    String child2CommentUuid = newComment(patchset1Id).parentUuid(child1CommentUuid).create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -133,17 +121,14 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Filter out unresolved comment threads.
-  @Ignore
-  public void onlyUnresolvedCommentsArePorted() throws Exception {
+  public void onlyUnresolvedPublishedCommentsArePorted() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().resolved().create();
-    String comment2Uuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().unresolved().create();
+    newComment(patchset1Id).resolved().create();
+    String comment2Uuid = newComment(patchset1Id).unresolved().create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -151,33 +136,34 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  // TODO(aliceks): Filter out unresolved comment threads.
-  @Ignore
+  public void onlyUnresolvedDraftCommentsArePorted() throws Exception {
+    Account.Id accountId = accountOps.newAccount().create();
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comments.
+    newDraftComment(patchset1Id).author(accountId).resolved().create();
+    String comment2Uuid = newDraftComment(patchset1Id).author(accountId).unresolved().create();
+
+    List<CommentInfo> portedComments =
+        flatten(getPortedDraftCommentsOfUser(patchset2Id, accountId));
+
+    assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(comment2Uuid);
+  }
+
+  @Test
   public void unresolvedStateOfLastCommentInThreadMatters() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String rootComment1Uuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().resolved().create();
+    String rootComment1Uuid = newComment(patchset1Id).resolved().create();
     String childComment1Uuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .parentUuid(rootComment1Uuid)
-            .unresolved()
-            .create();
-    String rootComment2Uuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().unresolved().create();
-    changeOps
-        .change(changeId)
-        .patchset(patchset1Id)
-        .newComment()
-        .parentUuid(rootComment2Uuid)
-        .resolved()
-        .create();
+        newComment(patchset1Id).parentUuid(rootComment1Uuid).unresolved().create();
+    String rootComment2Uuid = newComment(patchset1Id).unresolved().create();
+    newComment(patchset1Id).parentUuid(rootComment2Uuid).resolved().create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -193,30 +179,37 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String rootCommentUuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().resolved().create();
+    String rootCommentUuid = newComment(patchset1Id).resolved().create();
     String childComment1Uuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .parentUuid(rootCommentUuid)
-            .resolved()
-            .create();
+        newComment(patchset1Id).parentUuid(rootCommentUuid).resolved().create();
     String childComment2Uuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .parentUuid(rootCommentUuid)
-            .unresolved()
-            .create();
+        newComment(patchset1Id).parentUuid(rootCommentUuid).unresolved().create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments)
         .comparingElementsUsing(hasUuid())
         .containsExactly(rootCommentUuid, childComment1Uuid, childComment2Uuid);
+  }
+
+  @Test
+  public void unresolvedStateOfDraftCommentsIsIgnoredForPublishedComments() throws Exception {
+    Account.Id accountId = accountOps.newAccount().create();
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comments.
+    String rootComment1Uuid = newComment(patchset1Id).resolved().create();
+    newDraftComment(patchset1Id).author(accountId).parentUuid(rootComment1Uuid).unresolved().create();
+    String rootComment2Uuid = newComment(patchset1Id).unresolved().create();
+    newDraftComment(patchset1Id).author(accountId).parentUuid(rootComment2Uuid).resolved().create();
+
+    // Draft comments are only visible to their author.
+    requestScopeOps.setApiUser(accountId);
+    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+
+    assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(rootComment2Uuid);
   }
 
   @Test
@@ -227,7 +220,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add draft comment.
-    changeOps.change(changeId).patchset(patchset1Id).newDraftComment().author(accountId).create();
+    newDraftComment(patchset1Id).author(accountId).create();
 
     // Draft comments are only visible to their author.
     requestScopeOps.setApiUser(accountId);
@@ -244,7 +237,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().author(accountId).create();
+    newComment(patchset1Id).author(accountId).create();
 
     List<CommentInfo> portedComments =
         flatten(getPortedDraftCommentsOfUser(patchset2Id, accountId));
@@ -260,7 +253,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add draft comment.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().author(accountId).create();
+    newComment(patchset1Id).author(accountId).create();
 
     List<CommentInfo> portedComments =
         flatten(getPortedDraftCommentsOfUser(patchset2Id, accountId));
@@ -277,7 +270,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add draft comment.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().author(otherUserId).create();
+    newComment(patchset1Id).author(otherUserId).create();
 
     List<CommentInfo> portedComments = flatten(getPortedDraftCommentsOfUser(patchset2Id, userId));
 
@@ -292,10 +285,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
     String rangeCommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .message("Range comment")
             .fromLine(1)
             .charOffset(2)
@@ -304,30 +294,11 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .ofFile("myFile")
             .create();
     String lineCommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .message("Line comment")
-            .onLine(1)
-            .ofFile("myFile")
-            .create();
+        newComment(patchset1Id).message("Line comment").onLine(1).ofFile("myFile").create();
     String fileCommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .message("File comment")
-            .onFileLevelOf("myFile")
-            .create();
+        newComment(patchset1Id).message("File comment").onFileLevelOf("myFile").create();
     String patchsetLevelCommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .message("Patchset-level comment")
-            .onPatchsetLevel()
-            .create();
+        newComment(patchset1Id).message("Patchset-level comment").onPatchsetLevel().create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -344,8 +315,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String commentUuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().onParentCommit().create();
+    String commentUuid = newComment(patchset1Id).onParentCommit().create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -359,7 +329,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
+    String commentUuid = newComment(patchset1Id).create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
@@ -373,7 +343,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
+    String commentUuid = newComment(patchset1Id).create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -388,13 +358,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newDraftComment()
-            .author(authorId)
-            .create();
+    String commentUuid = newDraftComment(patchset1Id).author(authorId).create();
 
     Map<String, List<CommentInfo>> portedComments =
         getPortedDraftCommentsOfUser(patchset2Id, authorId);
@@ -413,8 +377,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps.change(changeId).patchset(patchset1.patchsetId()).newComment().create();
+    String commentUuid = newComment(patchset1.patchsetId()).create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -428,13 +391,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1.patchsetId())
-            .newComment()
-            .message("My comment text")
-            .create();
+    String commentUuid = newComment(patchset1.patchsetId()).message("My comment text").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -448,15 +405,9 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    String rootCommentUuid =
-        changeOps.change(changeId).patchset(patchset1.patchsetId()).newComment().create();
+    String rootCommentUuid = newComment(patchset1.patchsetId()).create();
     String childCommentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1.patchsetId())
-            .newComment()
-            .parentUuid(rootCommentUuid)
-            .create();
+        newComment(patchset1.patchsetId()).parentUuid(rootCommentUuid).create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, childCommentUuid);
 
@@ -471,8 +422,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().author(authorId).create();
+    String commentUuid = newComment(patchset1Id).author(authorId).create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -487,13 +437,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newDraftComment()
-            .author(authorId)
-            .create();
+    String commentUuid = newDraftComment(patchset1Id).author(authorId).create();
 
     Map<String, List<CommentInfo>> portedComments =
         getPortedDraftCommentsOfUser(patchset2Id, authorId);
@@ -510,13 +454,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     TestPatchset patchset1 = changeOps.change(changeId).currentPatchset().get();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1.patchsetId())
-            .newComment()
-            .tag("My comment tag")
-            .create();
+    String commentUuid = newComment(patchset1.patchsetId()).tag("My comment tag").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -530,7 +468,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
+    String commentUuid = newComment(patchset1Id).create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -544,7 +482,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid = changeOps.change(changeId).patchset(patchset1Id).newComment().create();
+    String commentUuid = newComment(patchset1Id).create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -561,13 +499,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onFileLevelOf("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onFileLevelOf("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -591,10 +523,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -625,10 +554,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -654,10 +580,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -692,10 +615,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -735,10 +655,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -778,10 +695,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -810,10 +724,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(2)
             .charOffset(2)
             .toLine(3)
@@ -844,10 +755,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(1)
             .charOffset(2)
             .toLine(2)
@@ -878,10 +786,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(1)
             .charOffset(2)
             .toLine(3)
@@ -912,10 +817,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(1)
             .charOffset(2)
             .toLine(3)
@@ -944,10 +846,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(3)
@@ -977,10 +876,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(2)
             .charOffset(2)
             .toLine(4)
@@ -1009,10 +905,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -1049,10 +942,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(2)
             .charOffset(2)
             .toLine(4)
@@ -1076,10 +966,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
         changeOps.change(changeId).newPatchset().file("myFile").delete().create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             .fromLine(3)
             .charOffset(2)
             .toLine(4)
@@ -1108,14 +995,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1136,14 +1016,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 2\nLine 3\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1159,14 +1032,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1190,14 +1056,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset3Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset3Id);
 
@@ -1227,14 +1086,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1261,14 +1113,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine two\nLine three\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(2)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(2).ofFile("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1291,14 +1136,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 2\nLine three\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(2)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(2).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1319,14 +1157,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 2\nSome completely\ndifferent\ncontent\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1347,14 +1178,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 2\nSome completely\ndifferent\ncontent\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(4)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(4).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1375,14 +1199,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 2\nLine three\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(4)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(4).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1398,14 +1215,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").delete().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onLine(3)
-            .ofFile("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
     assertThatMap(portedComments).keys().containsExactly(Patch.PATCHSET_LEVEL);
@@ -1428,13 +1238,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n")
             .create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onFileLevelOf("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onFileLevelOf("myFile").create();
 
     CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
 
@@ -1450,13 +1254,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onFileLevelOf("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onFileLevelOf("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1481,7 +1279,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 2\nLine 3\nLine 4\n")
             .create();
     // Add comment.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().onFileLevelOf("myFile").create();
+    newComment(patchset1Id).onFileLevelOf("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1499,13 +1297,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").delete().create();
     // Add comment.
-    String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
-            .onFileLevelOf("myFile")
-            .create();
+    String commentUuid = newComment(patchset1Id).onFileLevelOf("myFile").create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
     assertThatMap(portedComments).keys().containsExactly(Patch.PATCHSET_LEVEL);
@@ -1528,7 +1320,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .content("Line 1\nLine 1.1\nLine 1.2\nLine 2\nLine 3\nLine 4\n")
             .create();
     // Add comment.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().onPatchsetLevel().create();
+    newComment(patchset1Id).onPatchsetLevel().create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1544,7 +1336,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id =
         changeOps.change(changeId).newPatchset().file("myFile").renameTo("newFileName").create();
     // Add comment.
-    changeOps.change(changeId).patchset(patchset1Id).newComment().onPatchsetLevel().create();
+    newComment(patchset1Id).onPatchsetLevel().create();
 
     Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
 
@@ -1565,10 +1357,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(changeId)
-            .patchset(patchset1Id)
-            .newComment()
+        newComment(patchset1Id)
             // The /COMMIT_MSG file has a header of 6 lines, so the summary line is in line 7.
             // Place comment on 'Text 2' which is line 10.
             .onLine(10)
@@ -1605,14 +1394,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
         changeOps.change(childChangeId).newPatchset().parent().patchset(parentPatchset2Id).create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(childChangeId)
-            .patchset(childPatchset1Id)
-            .newComment()
-            .onParentCommit()
-            .onLine(1)
-            .ofFile("myFile")
-            .create();
+        newComment(childPatchset1Id).onParentCommit().onLine(1).ofFile("myFile").create();
 
     CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
 
@@ -1654,14 +1436,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(childChangeId)
-            .patchset(childPatchset1Id)
-            .newComment()
-            .onParentCommit()
-            .onLine(1)
-            .ofFile("file1")
-            .create();
+        newComment(childPatchset1Id).onParentCommit().onLine(1).ofFile("file1").create();
 
     CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
 
@@ -1703,14 +1478,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(childChangeId)
-            .patchset(childPatchset1Id)
-            .newComment()
-            .onSecondParentCommit()
-            .onLine(1)
-            .ofFile("file2")
-            .create();
+        newComment(childPatchset1Id).onSecondParentCommit().onLine(1).ofFile("file2").create();
 
     CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
 
@@ -1758,14 +1526,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .create();
     // Add comment.
     String commentUuid =
-        changeOps
-            .change(childChangeId)
-            .patchset(childPatchset1Id)
-            .newComment()
-            .onAutoMergeCommit()
-            .onLine(1)
-            .ofFile("file1")
-            .create();
+        newComment(childPatchset1Id).onAutoMergeCommit().onLine(1).ofFile("file1").create();
 
     CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
 
@@ -1774,6 +1535,22 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // the comment moved down several lines (instead of just one in each parent) and that the
     // porting logic hence used the auto-merge commit for its computation.
     assertThat(portedComment).line().isGreaterThan(2);
+  }
+
+  private TestCommentCreation.Builder newComment(PatchSet.Id patchsetId) {
+    // Create unresolved comments by default as only those are ported. Tests get override the
+    // unresolved state by explicitly setting it.
+    return changeOps.change(patchsetId.changeId()).patchset(patchsetId).newComment().unresolved();
+  }
+
+  private TestCommentCreation.Builder newDraftComment(PatchSet.Id patchsetId) {
+    // Create unresolved comments by default as only those are ported. Tests get override the
+    // unresolved state by explicitly setting it.
+    return changeOps
+        .change(patchsetId.changeId())
+        .patchset(patchsetId)
+        .newDraftComment()
+        .unresolved();
   }
 
   private CommentInfo getPortedComment(PatchSet.Id patchsetId, String commentUuid)

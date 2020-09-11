@@ -33,6 +33,24 @@
       "revId": "dde7696f22513ab7af0fcd0ceab9a7ed90a74dac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "54933f9c_c585d165",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-11T13:46:37Z",
+      "side": 1,
+      "message": "Replaced all usages with _commentLineNum.\nI did declare and document it before.\nWhat more needs to be done?",
+      "parentUuid": "17fb43d8_855c3a51",
+      "revId": "dde7696f22513ab7af0fcd0ceab9a7ed90a74dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a7189013_dd020fe9",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6551,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T10:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ed42a06c_004c3ec4",
+      "range": {
+        "startLine": 6551,
+        "startChar": 23,
+        "endLine": 6551,
+        "endChar": 37
+      },
+      "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5d59561a_5cfa687b",
         "filename": "Documentation/rest-api-changes.txt",
         "patchSetId": 11
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "bf524808_1eba392c",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 11
+      },
+      "lineNbr": 6630,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T10:50:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5d59561a_5cfa687b",
+      "range": {
+        "startLine": 6629,
+        "startChar": 0,
+        "endLine": 6630,
+        "endChar": 28
+      },
+      "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "63698c2d_882bb936",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 11
@@ -62,6 +110,24 @@
       "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf240eb9_f566a16a",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 11
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T10:50:19Z",
+      "side": 1,
+      "message": "I had it as a new method in the ChangeAPI in PS4, but then I changed it and modified the existing method [1].\nI reverted it back to a new method. Done.\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/275063/comment/5b39f963_832dab26/",
+      "parentUuid": "63698c2d_882bb936",
+      "revId": "d8ff8ef7e7db193fd98da28b53c1e83d4b1f63e3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

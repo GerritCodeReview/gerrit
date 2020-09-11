@@ -839,6 +839,11 @@ export class GrDiff extends GestureEventListeners(
     }
   }
 
+  reRenderDiffTable() {
+    if (!this.diff) return;
+    this._debounceRenderDiffTable();
+  }
+
   /**
    * When called multiple times from the same microtask, will call
    * _renderDiffTable only once, in the next microtask, unless it is cancelled

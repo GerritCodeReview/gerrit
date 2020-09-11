@@ -172,6 +172,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   showFileName = true;
 
   @property({type: Boolean})
+  showPortedComment = false;
+
+  @property({type: Boolean})
   showPatchset = true;
 
   get keyBindings() {
@@ -285,6 +288,11 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   _isPatchsetLevelComment(path: string) {
     return path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+  }
+
+  _computeShowPortedComment(comment: UIComment) {
+    if (this._orderedComments.length === 0) return false;
+    return this.showPortedComment && comment.id === this._orderedComments[0].id;
   }
 
   _computeDisplayPath(path: string) {

@@ -16,6 +16,24 @@
       "revId": "791aedb473a8da3375e9a0c33aef8a2175cf20fb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "52897b92_19efb710",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-11T08:23:07Z",
+      "side": 1,
+      "message": "Matthias excellent log documentation hasn\u0027t been merged into master yet:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/280961",
+      "parentUuid": "83f0ce55_da7998c1",
+      "revId": "791aedb473a8da3375e9a0c33aef8a2175cf20fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

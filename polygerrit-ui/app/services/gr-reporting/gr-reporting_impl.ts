@@ -155,6 +155,7 @@ export function initErrorReporter(appContext: AppContext) {
   // TODO(dmfilippov): TS-fix-any unclear what is context
   const catchErrors = function (opt_context?: any) {
     const context = opt_context || window;
+    const oldOnError = context.onerror;
     context.onerror = (
       event: Event | string,
       source?: string,
@@ -162,7 +163,7 @@ export function initErrorReporter(appContext: AppContext) {
       colno?: number,
       error?: Error
     ) => {
-      return onError(context.onerror, event, source, lineno, colno, error);
+      return onError(oldOnError, event, source, lineno, colno, error);
     };
     context.addEventListener(
       'unhandledrejection',

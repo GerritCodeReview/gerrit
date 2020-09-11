@@ -80,6 +80,7 @@ suite('gr-message tests', () => {
     });
 
     test('delete change message', done => {
+      element.changeNum = 314159;
       element.message = {
         id: '47c43261_55aa2c41',
         author: {

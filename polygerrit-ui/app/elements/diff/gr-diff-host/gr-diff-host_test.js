@@ -979,12 +979,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(element.$.diff.displayLine, value);
   });
 
-  test('passes in commitRange', () => {
-    const value = {};
-    element.commitRange = value;
-    assert.equal(element.$.diff.commitRange, value);
-  });
-
   test('passes in hidden', () => {
     const value = true;
     element.hidden = value;

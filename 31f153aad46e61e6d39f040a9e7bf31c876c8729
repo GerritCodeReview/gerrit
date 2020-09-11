@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "418fd620_cd0cf33e",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-11T06:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "105c1a75_cdbe3ad2",
+      "range": {
+        "startLine": 126,
+        "startChar": 32,
+        "endLine": 126,
+        "endChar": 45
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1ee3451a_f9e5c2b8",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c518a563_89b5c76b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-11T06:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1ee3451a_f9e5c2b8",
+      "range": {
+        "startLine": 128,
+        "startChar": 23,
+        "endLine": 128,
+        "endChar": 58
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "f62cd21d_27cf4132",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-11T06:49:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b99a968_3e9e189f",
+      "range": {
+        "startLine": 134,
+        "startChar": 4,
+        "endLine": 135,
+        "endChar": 3
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5c607759_31b47276",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "5a7dc513_8b6b8fb9",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-11T06:49:55Z",
+      "side": 1,
+      "message": "it was originally defined as `Number` type, forgot to change below when I update above",
+      "parentUuid": "5c607759_31b47276",
+      "range": {
+        "startLine": 191,
+        "startChar": 15,
+        "endLine": 191,
+        "endChar": 39
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7216edb_ef40d73f",
         "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
         "patchSetId": 3
@@ -114,6 +210,30 @@
       "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19496075_ebb5065b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 419,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-11T06:49:55Z",
+      "side": 1,
+      "message": "just to keep consistent with existing usage. Updated to number",
+      "parentUuid": "a7216edb_ef40d73f",
+      "range": {
+        "startLine": 419,
+        "startChar": 8,
+        "endLine": 419,
+        "endChar": 16
+      },
+      "revId": "31f153aad46e61e6d39f040a9e7bf31c876c8729",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

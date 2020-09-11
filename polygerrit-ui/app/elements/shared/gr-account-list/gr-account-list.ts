@@ -14,131 +14,187 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../gr-account-chip/gr-account-chip.js';
-import '../gr-account-entry/gr-account-entry.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-account-list_html.js';
-import {appContext} from '../../../services/app-context.js';
+import '../gr-account-chip/gr-account-chip';
+import '../gr-account-entry/gr-account-entry';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-account-list_html';
+import {appContext} from '../../../services/app-context';
+import {customElement, property} from '@polymer/decorators';
+import {
+  ChangeInfo,
+  Suggestion,
+  AccountInfo,
+  GroupInfo,
+} from '../../../types/common';
+import {
+  GrReviewerSuggestionsProvider,
+  SuggestionItem,
+} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
-/**
- * @extends PolymerElement
- */
-class GrAccountList extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-account-list': GrAccountList;
+  }
+}
 
-  static get is() { return 'gr-account-list'; }
+export interface GrAccountList {
+  $: {
+    entry: GrAccountEntry;
+  };
+}
+
+/**
+ * For item added with account info
+ */
+export interface AccountObjectInput {
+  account: AccountInfo;
+}
+
+/**
+ * For item added with group info
+ */
+export interface GroupObjectInput {
+  group: GroupInfo;
+  confirm: boolean;
+}
+
+/** Supported input to be added */
+export type RawAccountInput = string | AccountObjectInput | GroupObjectInput;
+
+// type guards for AccountObjectInput and GroupObjectInput
+function isAccountObject(x: RawAccountInput): x is AccountObjectInput {
+  return !!(x as AccountObjectInput).account;
+}
+
+function isGroupObjectInput(x: RawAccountInput): x is GroupObjectInput {
+  return !!(x as GroupObjectInput).group;
+}
+
+// Internal input type with account info
+interface AccountInfoInput extends AccountInfo {
+  _group?: boolean;
+  _account?: boolean;
+  _pendingAdd?: boolean;
+  confirmed?: boolean;
+}
+
+// Internal input type with group info
+interface GroupInfoInput extends GroupInfo {
+  _group?: boolean;
+  _account?: boolean;
+  _pendingAdd?: boolean;
+  confirmed?: boolean;
+}
+
+type AccountInput = AccountInfoInput | GroupInfoInput;
+
+@customElement('gr-account-list')
+export class GrAccountList extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when user inputs an invalid email address.
    *
    * @event show-alert
    */
 
-  static get properties() {
-    return {
-      accounts: {
-        type: Array,
-        value() { return []; },
-        notify: true,
-      },
-      change: Object,
-      filter: Function,
-      placeholder: String,
-      disabled: {
-        type: Function,
-        value: false,
-      },
+  @property({type: Array, notify: true})
+  accounts: AccountInput[] = [];
 
-      /**
-       * Returns suggestions and convert them to list item
-       *
-       * @type {Gerrit.GrSuggestionsProvider}
-       */
-      suggestionsProvider: {
-        type: Object,
-      },
+  @property({type: Object})
+  change?: ChangeInfo;
 
-      /**
-       * Needed for template checking since value is initially set to null.
-       *
-       * @type {?Object}
-       */
-      pendingConfirmation: {
-        type: Object,
-        value: null,
-        notify: true,
-      },
-      readonly: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * When true, allows for non-suggested inputs to be added.
-       */
-      allowAnyInput: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: Object})
+  filter?: (input: Suggestion) => boolean;
 
-      /**
-       * Array of values (groups/accounts) that are removable. When this prop is
-       * undefined, all values are removable.
-       */
-      removableValues: Array,
-      maxCount: {
-        type: Number,
-        value: 0,
-      },
+  @property({type: String})
+  placeholder = '';
 
-      /**
-       * Returns suggestion items
-       *
-       * @type {!function(string): Promise<Array<Gerrit.GrSuggestionItem>>}
-       */
-      _querySuggestions: {
-        type: Function,
-        value() {
-          return input => this._getSuggestions(input);
-        },
-      },
+  @property({type: Boolean})
+  disabled = false;
 
-      /**
-       * Set to true to disable suggestions on empty input.
-       */
-      skipSuggestOnEmpty: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+  /**
+   * Returns suggestions and convert them to list item
+   */
+  @property({type: Object})
+  suggestionsProvider?: GrReviewerSuggestionsProvider;
+
+  /**
+   * Needed for template checking since value is initially set to null.
+   */
+  @property({type: Object, notify: true})
+  pendingConfirmation: RawAccountInput | null = null;
+
+  @property({type: Boolean})
+  readonly = false;
+
+  /**
+   * When true, allows for non-suggested inputs to be added.
+   */
+  @property({type: Boolean})
+  allowAnyInput = false;
+
+  /**
+   * Array of values (groups/accounts) that are removable. When this prop is
+   * undefined, all values are removable.
+   */
+  @property({type: Array})
+  removableValues?: AccountInput[];
+
+  @property({type: Number})
+  maxCount = 0;
+
+  /**
+   * Returns suggestion items
+   */
+  @property({type: Object})
+  _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
+
+  /**
+   * Set to true to disable suggestions on empty input.
+   */
+  @property({type: Boolean})
+  skipSuggestOnEmpty = false;
+
+  reporting: ReportingService;
 
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+    this._querySuggestions = input => this._getSuggestions(input);
   }
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('remove',
-        e => this._handleRemove(e));
+    this.addEventListener('remove', e =>
+      this._handleRemove(e as CustomEvent<{account: AccountInput}>)
+    );
   }
 
   get accountChips() {
-    return Array.from(
-        this.root.querySelectorAll('gr-account-chip'));
+    return Array.from(this.root?.querySelectorAll('gr-account-chip') || []);
   }
 
   get focusStart() {
     return this.$.entry.focusStart;
   }
 
-  _getSuggestions(input) {
+  _getSuggestions(input: string) {
     if (this.skipSuggestOnEmpty && !input) {
       return Promise.resolve([]);
     }
@@ -147,36 +203,37 @@ class GrAccountList extends GestureEventListeners(
       return Promise.resolve([]);
     }
     return provider.getSuggestions(input).then(suggestions => {
-      if (!suggestions) { return []; }
+      if (!suggestions) {
+        return [];
+      }
       if (this.filter) {
         suggestions = suggestions.filter(this.filter);
       }
       return suggestions.map(suggestion =>
-        provider.makeSuggestionItem(suggestion));
+        provider.makeSuggestionItem(suggestion)
+      );
     });
   }
 
-  _handleAdd(e) {
+  _handleAdd(e: CustomEvent<{value: RawAccountInput}>) {
     this.addAccountItem(e.detail.value);
   }
 
-  addAccountItem(item) {
+  addAccountItem(item: RawAccountInput) {
     // Append new account or group to the accounts property. We add our own
     // internal properties to the account/group here, so we clone the object
     // to avoid cluttering up the shared change object.
     let itemTypeAdded = 'unknown';
-    if (item.account) {
-      const account =
-          {...item.account, _pendingAdd: true};
+    if (isAccountObject(item)) {
+      const account = {...item.account, _pendingAdd: true};
       this.push('accounts', account);
       itemTypeAdded = 'account';
-    } else if (item.group) {
+    } else if (isGroupObjectInput(item)) {
       if (item.confirm) {
         this.pendingConfirmation = item;
         return;
       }
-      const group = {...item.group,
-        _pendingAdd: true, _group: true};
+      const group = {...item.group, _pendingAdd: true, _group: true};
       this.push('accounts', group);
       itemTypeAdded = 'group';
     } else if (this.allowAnyInput) {
@@ -184,11 +241,13 @@ class GrAccountList extends GestureEventListeners(
         // Repopulate the input with what the user tried to enter and have
         // a toast tell them why they can't enter it.
         this.$.entry.setText(item);
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {message: VALID_EMAIL_ALERT},
-          bubbles: true,
-          composed: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: VALID_EMAIL_ALERT},
+            bubbles: true,
+            composed: true,
+          })
+        );
         return false;
       } else {
         const account = {email: item, _pendingAdd: true};
@@ -202,14 +261,17 @@ class GrAccountList extends GestureEventListeners(
     return true;
   }
 
-  confirmGroup(group) {
-    group = {
-      ...group, confirmed: true, _pendingAdd: true, _group: true};
-    this.push('accounts', group);
+  confirmGroup(group: GroupObjectInput) {
+    this.push('accounts', {
+      ...group,
+      confirmed: true,
+      _pendingAdd: true,
+      _group: true,
+    });
     this.pendingConfirmation = null;
   }
 
-  _computeChipClass(account) {
+  _computeChipClass(account: AccountInput) {
     const classes = [];
     if (account._group) {
       classes.push('group');
@@ -220,20 +282,29 @@ class GrAccountList extends GestureEventListeners(
     return classes.join(' ');
   }
 
-  _accountMatches(a, b) {
+  _accountMatches(a: AccountInput, b: AccountInput) {
+    // TODO(TS): seems a & b always exists ?
     if (a && b) {
-      if (a._account_id) {
-        return a._account_id === b._account_id;
+      // both conditions are checking against AccountInfo
+      // and only check a not b.. typeguard won't work very good without
+      // changing logic, so keep it as inline casting
+      if ((a as AccountInfoInput)._account_id) {
+        return (
+          (a as AccountInfoInput)._account_id ===
+          (b as AccountInfoInput)._account_id
+        );
       }
-      if (a.email) {
-        return a.email === b.email;
+      if ((a as AccountInfoInput).email) {
+        return (a as AccountInfoInput).email === (b as AccountInfoInput).email;
       }
     }
     return a === b;
   }
 
-  _computeRemovable(account, readonly) {
-    if (readonly) { return false; }
+  _computeRemovable(account: AccountInput, readonly: boolean) {
+    if (readonly) {
+      return false;
+    }
     if (this.removableValues) {
       for (let i = 0; i < this.removableValues.length; i++) {
         if (this._accountMatches(this.removableValues[i], account)) {
@@ -245,13 +316,13 @@ class GrAccountList extends GestureEventListeners(
     return true;
   }
 
-  _handleRemove(e) {
+  _handleRemove(e: CustomEvent<{account: AccountInput}>) {
     const toRemove = e.detail.account;
     this.removeAccount(toRemove);
     this.$.entry.focus();
   }
 
-  removeAccount(toRemove) {
+  removeAccount(toRemove?: AccountInput) {
     if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
       return;
     }
@@ -259,7 +330,8 @@ class GrAccountList extends GestureEventListeners(
       let matches;
       const account = this.accounts[i];
       if (toRemove._group) {
-        matches = toRemove.id === account.id;
+        matches =
+          (toRemove as GroupInfoInput).id === (account as GroupInfoInput).id;
       } else {
         matches = this._accountMatches(toRemove, account);
       }
@@ -272,15 +344,20 @@ class GrAccountList extends GestureEventListeners(
     console.warn('received remove event for missing account', toRemove);
   }
 
-  _getNativeInput(paperInput) {
+  _getNativeInput(paperInput: PaperInputElement) {
     // In Polymer 2 inputElement isn't nativeInput anymore
-    return paperInput.$.nativeInput || paperInput.inputElement;
+    return (paperInput.$.nativeInput ||
+      paperInput.inputElement) as HTMLTextAreaElement;
   }
 
-  _handleInputKeydown(e) {
+  _handleInputKeydown(
+    e: CustomEvent<{input: PaperInputElement; keyCode: number}>
+  ) {
     const input = this._getNativeInput(e.detail.input);
-    if (input.selectionStart !== input.selectionEnd ||
-        input.selectionStart !== 0) {
+    if (
+      input.selectionStart !== input.selectionEnd ||
+      input.selectionStart !== 0
+    ) {
       return;
     }
     switch (e.detail.keyCode) {
@@ -295,8 +372,8 @@ class GrAccountList extends GestureEventListeners(
     }
   }
 
-  _handleChipKeydown(e) {
-    const chip = e.target;
+  _handleChipKeydown(e: KeyboardEvent) {
+    const chip = e.target as GrAccountChip;
     const chips = this.accountChips;
     const index = chips.indexOf(chip);
     switch (e.keyCode) {
@@ -337,33 +414,39 @@ class GrAccountList extends GestureEventListeners(
    * Submit the text of the entry as a reviewer value, if it exists. If it is
    * a successful submit of the text, clear the entry value.
    *
-   * @return {boolean} If there is text in the entry, return true if the
-   *     submission was successful and false if not. If there is no text,
-   *     return true.
+   * @return If there is text in the entry, return true if the
+   * submission was successful and false if not. If there is no text,
+   * return true.
    */
   submitEntryText() {
     const text = this.$.entry.getText();
-    if (!text.length) { return true; }
+    if (!text.length) {
+      return true;
+    }
     const wasSubmitted = this.addAccountItem(text);
-    if (wasSubmitted) { this.$.entry.clear(); }
+    if (wasSubmitted) {
+      this.$.entry.clear();
+    }
     return wasSubmitted;
   }
 
   additions() {
     return this.accounts
-        .filter(account => account._pendingAdd)
-        .map(account => {
-          if (account._group) {
-            return {group: account};
-          } else {
-            return {account};
-          }
-        });
+      .filter(account => account._pendingAdd)
+      .map(account => {
+        if (account._group) {
+          return {group: account};
+        } else {
+          return {account};
+        }
+      });
   }
 
-  _computeEntryHidden(maxCount, accountsRecord, readonly) {
+  _computeEntryHidden(
+    maxCount: number,
+    accountsRecord: PolymerDeepPropertyChange<AccountInput[], AccountInput[]>,
+    readonly: boolean
+  ) {
     return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
   }
 }
-
-customElements.define(GrAccountList.is, GrAccountList);

@@ -5026,6 +5026,137 @@ returned that describes the robot comment.
   }
 ----
 
+[[get-ported-comments]]
+=== Get Ported Comments
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ported_comments'
+--
+
+Ports comments of other revisions to the requested revision.
+
+Only comments added on earlier patchsets are ported. That set of comments is filtered even further
+due to some additional rules. Callers of this endpoint shouldn't rely on the exact logic of which
+comments are ported as that logic might change in the future. Instead, callers must be able to
+handle any smaller/larger set of comments returned by this endpoint.
+
+Typically, a comment thread is returned fully or excluded fully. However, draft comments and
+robot comments are ignored and not returned via this endpoint. Hence, it's possible to get ported
+comments from this endpoint which are a reply to a non-ported robot comment. Callers must be
+able to deal with this situation.
+
+The returned comments are organized in a map of file path to link:#comment-info[CommentInfo] entries
+in the same fashion as for the link:#list-comments[List Revision Comments] endpoint.
+The map is filled with the original comment attributes except for these attributes: `path`, `line`,
+and `range` point to the computed position in the target revision. If the exactly correct position
+can't be determined, those fields will be filled with the next best position. That can also mean
+not filling the `line` or `range` attribute anymore and thus converting the comment to a file
+comment (or even moving the comment to a different file or the patchset level). Callers of this
+endpoint must be able to deal with this and not rely on the original comment position.
+
+It's possible that this endpoint returns different link:#comment-info[CommentInfo] entries with
+the same comment UUID. This is not a bug but a feature. If a comment appears on a file which Gerrit
+recognizes as copied between patchsets, the ported version of this comment consists of two ported
+instances having the same UUID but different `file`/`line`/`range` positions. Callers must be able
+to handle this situation.
+
+Repeated calls of this endpoint might produce different results. Internal errors during the
+position computation are mapped to fallback locations for affected comments. Those errors might
+have vanished on later calls, upon which this endpoint returns the actually mapped position. In
+addition, comments can be deleted and draft comments can be published, upon which the set of ported
+comments may change.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/4/ported_comments/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "id": "TvcXrmjM",
+        "patch_set": 2,
+        "line": 23,
+        "message": "[nit] trailing whitespace",
+        "updated": "2013-02-26 15:40:43.986000000",
+        "author": {
+          "_account_id": 1000096,
+          "name": "John Doe",
+          "email": "john.doe@example.com"
+        },
+        "unresolved": true
+      },
+      {
+        "id": "TveXwFiA",
+        "patch_set": 2,
+        "line": 23,
+        "in_reply_to": "TvcXrmjM",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000",
+        "author": {
+          "_account_id": 1000097,
+          "name": "Jane Roe",
+          "email": "jane.roe@example.com"
+        },
+        "unresolved": true
+      }
+    ]
+  }
+----
+
+[[get-ported-drafts]]
+=== Get Ported Drafts
+--
+'GET /changes/link:#change-id[\{change-id\}]/revisions/link:#revision-id[\{revision-id\}]/ported_drafts'
+--
+
+Ports draft comments of other revisions to the requested revision.
+
+This endpoint behaves similarly to the link:#get-ported-comments[Get Ported Comments] endpoint.
+With this endpoint, only draft comments of the calling user are ported, though. If a draft comment
+is a reply to a published comment, only the ported draft comment is returned.
+
+Depending on the filtering rules, it's possible that this endpoint returns a draft comment which is
+a reply to a comment thread which is not returned by the
+link:#get-ported-comments[Get Ported Comments] endpoint. That's intended behavior. Callers must be
+able to handle this situation. The same holds for drafts which are a reply to a robot comment.
+
+Different than the link:#get-ported-comments[Get Ported Comments] endpoint, the `author` of the
+returned comments is not filled for this endpoint as only comments of the calling user are returned.
+
+.Request
+----
+  GET /changes/myProject~master~I8473b95934b5732ac55d26311a706c9c2bde9940/revisions/674ac754f91e64a0efb8087e59a176484bd534d1/ported_drafts/ HTTP/1.0
+----
+
+.Response
+----
+  HTTP/1.1 200 OK
+  Content-Disposition: attachment
+  Content-Type: application/json; charset=UTF-8
+
+  )]}'
+  {
+    "gerrit-server/src/main/java/com/google/gerrit/server/project/RefControl.java": [
+      {
+        "id": "TveXwFiA",
+        "patch_set": 2,
+        "line": 23,
+        "in_reply_to": "TvcXrmjM",
+        "message": "Done",
+        "updated": "2013-02-26 15:40:45.328000000",
+        "unresolved": true
+      }
+    ]
+  }
+----
+
 [[apply-fix]]
 === Apply Fix
 --

@@ -96,6 +96,7 @@ import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 
+import {KnownExperimentId} from '../../../services/flags/flags';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -262,6 +263,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
   @property({type: Number})
   _focusLineNum?: number;
 
+  private _isPortingCommentsExperimentEnabled = false;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -341,6 +344,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this.$.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
   }
 
   /** @override */
@@ -1056,7 +1062,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
 
     promises.push(this._getChangeDetail(this._changeNum));
-    promises.push(this._loadComments());
+    promises.push(this._loadComments(value.patchNum));
 
     promises.push(this._getChangeEdit());
 
@@ -1068,12 +1074,18 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._loading = false;
         this._initPatchRange();
         this._initCommitRange();
-        if (this._changeComments && this._path && this._patchRange) {
-          this.$.diffHost.threads = this._changeComments.getThreadsBySideForPath(
-            this._path,
-            this._patchRange
-          );
-        }
+
+        if (!this._path) throw new Error('path must be defined');
+        if (!this._changeComments)
+          throw new Error('change comments must be defined');
+        if (!this._patchRange) throw new Error('patch range must be defined');
+
+        this.$.diffHost.threads = this._changeComments.getThreadsBySideForPath(
+          this._path,
+          this._patchRange,
+          this._isPortingCommentsExperimentEnabled
+        );
+
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {
@@ -1536,11 +1548,13 @@ export class GrDiffView extends KeyboardShortcutMixin(
     return url;
   }
 
-  _loadComments() {
+  _loadComments(patchSet?: PatchSetNum) {
     if (!this._changeNum) throw new Error('Missing this._changeNum');
-    return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
-      this._changeComments = comments;
-    });
+    return this.$.commentAPI
+      .loadAll(this._changeNum, patchSet)
+      .then(comments => {
+        this._changeComments = comments;
+      });
   }
 
   @observe('_files.changeFilesByPath', '_path', '_patchRange', '_projectConfig')

@@ -19,7 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
 import {CommentSide} from '../../../constants/constants.js';
-import {isInRevisionOfPatchRange, isInBaseOfPatchRange} from '../../../utils/comment-util.js';
+import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads} from '../../../utils/comment-util.js';
+import sinon from 'sinon/pkg/sinon-esm';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -147,7 +148,139 @@ suite('gr-comment-api tests', () => {
       });
     });
 
-    test('isInBaseOfPatchRange', () => {
+    suite('ported comments', () => {
+      let portedComments;
+      setup(() => {
+        portedComments = {
+          'karma.conf.js': [
+            {
+              unresolved: true,
+              patch_set: 4,
+              id: 'db977012_e1f13818',
+              line: 136,
+              range: {
+                start_line: 136,
+                start_character: 16,
+                end_line: 136,
+                end_character: 29,
+              },
+              updated: '2020-11-19 12:06:48.000000000',
+            },
+          ],
+        };
+
+        element._changeComments = new ChangeComments(
+            {
+              'karma.conf.js': [
+                {
+                  // resolved comment that will not be ported over
+                  patch_set: 2,
+                  id: 'ecf0b9fa_fe1a5f62',
+                  line: 5,
+                  updated: '2018-02-08 18:49:18.000000000',
+                  unresolved: false,
+                },
+                {
+                  unresolved: true,
+                  // original comment that will be ported over to patchset 4
+                  patch_set: 2,
+                  id: 'db977012_e1f13818',
+                  line: 136,
+                  range: {
+                    start_line: 1,
+                    start_character: 1,
+                    end_line: 1,
+                    end_character: 1,
+                  },
+                  updated: '2020-11-19 12:06:48.000000000',
+                },
+              ],
+            },
+            {},
+            {},
+            portedComments
+        );
+      });
+
+      test('threads containing ported comment are returned', () => {
+        assert.equal(element._changeComments.getAllThreadsForChange().length,
+            2);
+
+        const portedThreads = element._changeComments.getPortedCommentThreads(
+            'karma.conf.js', {patchNum: 4, basePatchNum: 'PARENT'});
+
+        assert.equal(portedThreads.length, 1);
+        // check range of thread is from the ported comment and not the original
+        assert.deepEqual(portedThreads[0].range, {
+          start_line: 136,
+          start_character: 16,
+          end_line: 136,
+          end_character: 29,
+        });
+
+        // thread ported over if comparing patchset 1 vs patchset 4
+        assert.equal(element._changeComments.getPortedCommentThreads(
+            'karma.conf.js', {patchNum: 4, basePatchNum: 1}
+        ).length, 1);
+
+        // verify ported thread is not returned if original thread will be
+        // shown
+        // original thread attached to right side
+        assert.equal(element._changeComments.getPortedCommentThreads(
+            'karma.conf.js', {patchNum: 2, basePatchNum: 'PARENT'}
+        ).length, 0);
+        assert.equal(element._changeComments.getPortedCommentThreads(
+            'karma.conf.js', {patchNum: 2, basePatchNum: 1}
+        ).length, 0);
+
+        // original thread attached to left side
+        assert.equal(element._changeComments.getPortedCommentThreads(
+            'karma.conf.js', {patchNum: 3, basePatchNum: 2}
+        ).length, 0);
+      });
+
+      test('threads without any ported comment are filtered out', () => {
+        element._changeComments = new ChangeComments(
+            {
+              // comment that is not ported over
+              'karma.conf.js': [
+                {
+                  patch_set: 2,
+                  id: 'ecf0b9fa_fe1a5f62',
+                  line: 5,
+                  updated: '2018-02-08 18:49:18.000000000',
+                  unresolved: false,
+                },
+              ],
+            },
+            {},
+            {
+              'karma.conf.js': [
+                {
+                  id: '503008e2_0ab203ee',
+                  path: 'karma.conf.js',
+                  line: 5,
+                  in_reply_to: 'ecf0b9fa_fe1a5f62',
+                  updated: '2018-02-13 22:48:48.018000000',
+                  unresolved: true,
+                  __draft: true,
+                  __draftID: '0.m683trwff68',
+                  patch_set: 2,
+                },
+              ],
+            },
+            portedComments
+        );
+
+        assert.equal(createCommentThreads(element._changeComments
+            .getAllCommentsForPath('karma.conf.js')).length, 1);
+        assert.equal(element._changeComments.getPortedCommentThreads(
+            'karma.conf.js', {patchNum: 4, basePatchNum: 'PARENT'}
+        ).length, 0);
+      });
+    });
+
+    test('_isInBaseOfPatchRange', () => {
       const comment = {patch_set: 1};
       const patchRange = {basePatchNum: 1, patchNum: 2};
       assert.isTrue(isInBaseOfPatchRange(comment,
@@ -296,7 +429,7 @@ suite('gr-comment-api tests', () => {
           ],
         };
         element._changeComments =
-            new ChangeComments(comments, robotComments, drafts, 1234);
+            new ChangeComments(comments, robotComments, drafts, {}, 1234);
       });
 
       test('getPaths', () => {

@@ -38,6 +38,7 @@ import {htmlTemplate} from './gr-comment_html.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {getRootElement} from '../../../scripts/rootElement.js';
 import {appContext} from '../../../services/app-context.js';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -121,6 +122,7 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
   static get properties() {
     return {
       changeNum: String,
+      projectName: String,
       /** @type {!Gerrit.Comment} */
       comment: {
         type: Object,
@@ -279,6 +281,11 @@ class GrComment extends KeyboardShortcutMixin(GestureEventListeners(
 
   _getAuthor(comment) {
     return comment.author || this._selfAccount;
+  }
+
+  _getUrlForComment(comment) {
+    return GerritNav.getUrlForComment(this.changeNum, this.projectName,
+        comment.id);
   }
 
   _onEditingChange(editing) {

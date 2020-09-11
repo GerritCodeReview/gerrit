@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5474b05c_8a65b828",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T10:55:42Z",
+      "side": 1,
+      "message": "Well, I am not sure I agree, but ultimately GrReviewerSuggestionsProvider will become a service, so we will have a refactoring for that anyway. So let\u0027s not worry too much during the ts conversion.",
+      "parentUuid": "188eb1bc_7047b993",
+      "range": {
+        "startLine": 134,
+        "startChar": 24,
+        "endLine": 134,
+        "endChar": 53
+      },
+      "revId": "50763365da94d67902bfcdf0b88312471eb6d842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4fa29f94_e78ad968",
         "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
         "patchSetId": 1
@@ -78,6 +102,24 @@
       "side": 1,
       "message": "SuggestionItem is used in GrReviewerSuggestionsProvider, will send a change to clean up on SuggestionItem vs AutocompleteSuggestion if possible in a separate change.",
       "parentUuid": "4fa29f94_e78ad968",
+      "revId": "50763365da94d67902bfcdf0b88312471eb6d842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "36c74b39_636a97b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T10:55:42Z",
+      "side": 1,
+      "message": "Ok. Separate change is fine.",
+      "parentUuid": "4c50db5a_b0bae2fe",
       "revId": "50763365da94d67902bfcdf0b88312471eb6d842",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false

@@ -317,7 +317,7 @@ suite('gr-comment-api tests', () => {
           ],
         };
         element._changeComments =
-            new ChangeComments(comments, robotComments, drafts, 1234);
+            new ChangeComments(comments, robotComments, drafts, {}, 1234);
       });
 
       test('getPaths', () => {

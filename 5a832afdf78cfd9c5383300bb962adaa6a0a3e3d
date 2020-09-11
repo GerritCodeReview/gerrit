@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "135c733b_3e4894af",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T22:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "46adc30a_efb0e625",
+      "range": {
+        "startLine": 336,
+        "startChar": 62,
+        "endLine": 336,
+        "endChar": 78
+      },
+      "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c5227ccb_266b2f25",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "9c0bb476_1314a171",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T22:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c5227ccb_266b2f25",
+      "range": {
+        "startLine": 635,
+        "startChar": 49,
+        "endLine": 635,
+        "endChar": 70
+      },
+      "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef0d0b93_ad7cc2a7",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 12
@@ -68,6 +116,30 @@
       "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "19719f2e_86f9638d",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T22:15:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ef0d0b93_ad7cc2a7",
+      "range": {
+        "startLine": 642,
+        "startChar": 8,
+        "endLine": 642,
+        "endChar": 30
+      },
+      "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

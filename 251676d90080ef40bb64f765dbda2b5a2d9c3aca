@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b5e0bf9_ed81be91",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5032,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T11:16:16Z",
+      "side": 1,
+      "message": "nit: remove the slash.",
+      "range": {
+        "startLine": 5032,
+        "startChar": 105,
+        "endLine": 5032,
+        "endChar": 106
+      },
+      "revId": "251676d90080ef40bb64f765dbda2b5a2d9c3aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2676d7fd_44e6b09d",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5044,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T11:16:16Z",
+      "side": 1,
+      "message": "should this be \"get a ported comment\" instead of \"get a ported comment thread\"?\n\nI am suggesting this because after 5 words there is \"which is a reply ...\". I assumed that a comment can be a reply to another comment, but a comment thread can\u0027t be a reply.",
+      "range": {
+        "startLine": 5043,
+        "startChar": 87,
+        "endLine": 5044,
+        "endChar": 14
+      },
+      "revId": "251676d90080ef40bb64f765dbda2b5a2d9c3aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c921447d_c0a8dfd1",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 5047,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T11:16:16Z",
+      "side": 1,
+      "message": "I prefer we move the output of the endpoint earlier in the description, e.g. after line 5035 (similar to the list change/revision comments endpoint).\n\n \u003e\u003e Returns a map of file paths to lists of link:#comment-info[CommentInfo] entries ...",
+      "range": {
+        "startLine": 5047,
+        "startChar": 0,
+        "endLine": 5047,
+        "endChar": 35
+      },
+      "revId": "251676d90080ef40bb64f765dbda2b5a2d9c3aca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bc2ecda_85e96234",
+        "filename": "polygerrit-ui/app/elements/core/gr-account-dropdown/gr-account-dropdown.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 115,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T10:37:43Z",
+      "side": 1,
+      "message": "The `account` property can be undefined. So here and in `_accountName()` I would suggest allowing undefined, too.",
+      "range": {
+        "startLine": 115,
+        "startChar": 2,
+        "endLine": 115,
+        "endChar": 16
+      },
+      "revId": "f4c662c6bd51db945547fcd14a2f6b724cbffbc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

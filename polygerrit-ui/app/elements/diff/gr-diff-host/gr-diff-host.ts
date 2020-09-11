@@ -35,7 +35,6 @@ import {
   Comment,
   isDraft,
   PatchSetFile,
-  sortComments,
   UIComment,
 } from '../../../utils/comment-util';
 import {TwoSidesComments} from '../gr-comment-api/gr-comment-api';
@@ -269,6 +268,9 @@ export class GrDiffHost extends GestureEventListeners(
 
   @property({type: Array})
   _layers: DiffLayer[] = [];
+
+  @property({type: Object})
+  portedCommentThreads: any = {};
 
   private readonly reporting = appContext.reportingService;
 
@@ -696,58 +698,25 @@ export class GrDiffHost extends GestureEventListeners(
     return isImageDiff(diff);
   }
 
-  _commentsChanged(newComments: TwoSidesComments) {
-    const allComments = [];
+  @observe('portedCommentThreads')
+  _portedCommentThreadsChanged(portedCommentThreads: any) {
+    let threadAttached = false;
     for (const side of [Side.LEFT, Side.RIGHT]) {
-      // This is needed by the threading.
-      for (const comment of newComments[side]) {
-        comment.__commentSide = side;
-      }
-      allComments.push(...newComments[side]);
-    }
-    // Currently, the only way this is ever changed here is when the initial
-    // comments are loaded, so it's okay performance wise to clear the threads
-    // and recreate them. If this changes in future, we might want to reuse
-    // some DOM nodes here.
-    this._clearThreads();
-    const threads = this._createThreads(allComments);
-    for (const thread of threads) {
-      const threadEl = this._createThreadElement(thread);
-      this._attachThreadElement(threadEl);
-    }
-  }
-
-  _createThreads(comments: UIComment[]): CommentThread[] {
-    const sortedComments = sortComments(comments);
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to)
-        );
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
+      for (const thread of portedCommentThreads[side] || []) {
+        for (const comment of thread.comments) {
+          comment.__commentSide = side;
         }
+        thread.comments[0].ported = true;
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+        threadAttached = true;
       }
-
-      // Otherwise, this comment starts its own thread.
-      if (!comment.__commentSide) throw new Error('Missing "__commentSide".');
-      const newThread: CommentThread = {
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        lineNum: comment.line,
-        isOnParent: comment.side === 'PARENT',
-      };
-      if (comment.range) {
-        newThread.range = {...comment.range};
-      }
-      threads.push(newThread);
     }
-    return threads;
+    // re-render is required so that gr-diff recalculates key positions and
+    // auto-expands the diff around the ported threads
+    if (threadAttached) {
+      this.$.diff.reRenderDiffTable();
+    }
   }
 
   _computeIsBlameLoaded(blame: BlameInfo[] | null) {

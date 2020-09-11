@@ -2090,9 +2090,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
 
-    return this.$.commentAPI.loadAll(this._changeNum).then(comments => {
-      this._recomputeComments(comments);
-    });
+    return this.$.commentAPI
+      .loadAll(this._changeNum, this._patchRange?.patchNum)
+      .then(comments => {
+        this._recomputeComments(comments);
+      });
   }
 
   /**

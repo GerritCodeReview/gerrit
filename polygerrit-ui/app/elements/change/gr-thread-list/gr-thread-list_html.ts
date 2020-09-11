@@ -127,6 +127,7 @@ export const htmlTemplate = html`
       </template>
       <gr-comment-thread
         show-file-path=""
+        show-ported-comment="[[thread.ported]]"
         change-num="[[changeNum]]"
         comments="[[thread.comments]]"
         diff-side="[[thread.diffSide]]"

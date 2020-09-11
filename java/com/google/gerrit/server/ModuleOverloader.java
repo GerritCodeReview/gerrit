@@ -42,7 +42,7 @@ public class ModuleOverloader {
       return modules;
     }
 
-    // swipe cache implementation with alternative provided in lib
+    // swap module implementations with the matching alternative ones provided in lib
     return modules.stream()
         .map(
             m -> {

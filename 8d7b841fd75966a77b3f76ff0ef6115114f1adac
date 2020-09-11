@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ee1becb_a0c449c6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T22:21:33Z",
+      "side": 1,
+      "message": "I don\u0027t think you have a test yet for confirming we don\u0027t call the bulk factory twice in a single code path, but everything else looks good.",
+      "revId": "8d7b841fd75966a77b3f76ff0ef6115114f1adac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "955d508f_e844a4f7",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T21:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66cefe04_a13af5d1",
+      "range": {
+        "startLine": 927,
+        "startChar": 6,
+        "endLine": 927,
+        "endChar": 10
+      },
+      "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6958348_0c824141",
         "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
         "patchSetId": 10
@@ -39,6 +63,24 @@
       "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c98fbbcb_26e44f8a",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 308,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T21:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6958348_0c824141",
+      "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -85,6 +127,30 @@
       "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40c937af_76e05b80",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T21:22:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c124140_85d31bff",
+      "range": {
+        "startLine": 629,
+        "startChar": 10,
+        "endLine": 629,
+        "endChar": 42
+      },
+      "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

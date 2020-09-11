@@ -106,6 +106,24 @@
       "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "80f5e1e0_2eee544f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-11T13:05:07Z",
+      "side": 1,
+      "message": "\u003e \u003e Basically, when working on fixes or other changes, we try to check how they will be mergeable up. We strive for the downstream-most change that can be merged upstream as smoothly as possible. Some fixes may require different implementations across branches, depending on a specific version code-base.\n\u003e \n\u003e That is nothing unusual. The approach to solve it is unusual to me. I would prefer to have this fix applied in this change rather than having another one describing the same. Otherwise what is the point in reviewing the merge commits as they are nothing but the automatic merge? To answer the other concern: indeed the fix for 3.2+ has to be applied in the _mapReviewer method (that is working since couple of weeks in our production) so I can apply it as a next PS to this change.\n\nSure, please do. You may amend this change or push a direct follow-up in this branch, at will. Let\u0027s wait for your upcoming patch and resume this review after.\n\nI will also abandon I83c183bbd so you have a chance to push an upstream merge based on this rework of yours. Thanks.",
+      "parentUuid": "be7fac14_6c6e9ef3",
+      "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

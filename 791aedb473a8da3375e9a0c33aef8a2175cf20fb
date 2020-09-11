@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "83f0ce55_da7998c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T08:08:15Z",
+      "side": 1,
+      "message": "Thanks, Sven. Can you also update the documentation?",
+      "revId": "791aedb473a8da3375e9a0c33aef8a2175cf20fb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

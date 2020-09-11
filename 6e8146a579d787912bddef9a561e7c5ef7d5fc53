@@ -46,6 +46,30 @@
       "revId": "6e8146a579d787912bddef9a561e7c5ef7d5fc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8a6cbd2e_98982de0",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-11T20:03:12Z",
+      "side": 0,
+      "message": "\u003e \u003e It\u0027s a smaller diff and less code to swap the equals:\n\u003e \u003e \n\u003e \u003e  return groupReferences().values().stream().filter(g -\u003e g.getName().equals(exactName)).findAny();\n\u003e \n\u003e This change doesn\u0027t change that specific code though. It is just meant do add the null check. Follow-up through another change?\n\nRead \u0027to\u0027, above.",
+      "parentUuid": "5a89f78b_ac8c6679",
+      "range": {
+        "startLine": 159,
+        "startChar": 59,
+        "endLine": 159,
+        "endChar": 88
+      },
+      "revId": "6e8146a579d787912bddef9a561e7c5ef7d5fc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

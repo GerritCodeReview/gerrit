@@ -33,6 +33,23 @@
       "revId": "9d749585d468567f4131b28a8b0137712fe7fad9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4cc9353a_fab3c1cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-11T21:35:52Z",
+      "side": 1,
+      "message": "@Martin are you happy to revisit your -1, based on the small impact for smaller repos?",
+      "revId": "9d749585d468567f4131b28a8b0137712fe7fad9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

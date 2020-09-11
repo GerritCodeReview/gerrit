@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ccc928a_a64b016a",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T07:50:19Z",
+      "side": 1,
+      "message": "I would like to strictly avoid any dep from types/ to elements/.",
+      "revId": "92ea2b9ce03319ded9424717bc227fdaeaeec917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

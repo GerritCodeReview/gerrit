@@ -22,6 +22,30 @@
       "revId": "5f5db5b790e462c4a79b3910ac4dac798329aec8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc1b2c66_31f68a67",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-09-11T01:58:29Z",
+      "side": 1,
+      "message": "We could change the signature.\n\nI guess we should also change ChangePluginDefinedInfoFactory.createPluginDefinedInfos(List\u003cChangeData\u003e cds, BeanProvider beanProvider, String plugin) to Collection\u003cChangeData\u003e ?",
+      "parentUuid": "944a1748_eefd12a9",
+      "range": {
+        "startLine": 325,
+        "startChar": 78,
+        "endLine": 325,
+        "endChar": 97
+      },
+      "revId": "5f5db5b790e462c4a79b3910ac4dac798329aec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

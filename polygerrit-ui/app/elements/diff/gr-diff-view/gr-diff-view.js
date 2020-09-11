@@ -878,6 +878,11 @@ class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  _processPortedComments(comments) {
+    this._changeComments.portedComments = comments;
+    this.$.diffHost.comments = this._changeComments;
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -926,6 +931,10 @@ class GrDiffView extends KeyboardShortcutMixin(
           this._initPatchRange();
           this._initCommitRange();
           this.$.diffHost.comments = this._commentsForDiff;
+          this.$.restAPI.getPortedComments(this._changeNum,
+              this._patchRange.patchNum).then(comments => {
+            this._processPortedComments(comments);
+          });
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {

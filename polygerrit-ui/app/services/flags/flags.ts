@@ -27,4 +27,5 @@ export enum KnownExperimentId {
   PATCHSET_COMMENTS = 'UiFeature__patchset_comments',
   NEW_CONTEXT_CONTROLS = 'UiFeature__new_context_controls',
   CI_REBOOT_CHECKS = 'UiFeature__ci_reboot_checks',
+  PORTING_COMMENTS = 'UiFeature__porting_comments',
 }

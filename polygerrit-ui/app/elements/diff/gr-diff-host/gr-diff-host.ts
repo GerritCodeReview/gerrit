@@ -259,6 +259,12 @@ export class GrDiffHost extends GestureEventListeners(
   @property({type: Array})
   _layers: DiffLayer[] = [];
 
+  @property({type: Object})
+  portedCommentThreads: {[key in Side]: CommentThread[]} = {
+    [Side.LEFT]: [],
+    [Side.RIGHT]: [],
+  };
+
   private readonly reporting = appContext.reportingService;
 
   private readonly flags = appContext.flagsService;
@@ -703,6 +709,22 @@ export class GrDiffHost extends GestureEventListeners(
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
+    }
+  }
+
+  @observe('portedCommentThreads')
+  _portedCommentThreadsChanged(
+    portedCommentThreads: {[key in Side]: CommentThread[]}
+  ) {
+    for (const side of [Side.LEFT, Side.RIGHT]) {
+      for (const thread of portedCommentThreads[side] || []) {
+        for (const comment of thread.comments) {
+          comment.__commentSide = side;
+        }
+        thread.comments[0].ported = true;
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+      }
     }
   }
 

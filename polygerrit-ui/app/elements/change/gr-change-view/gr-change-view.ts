@@ -106,6 +106,8 @@ import {
   QuickLabelInfo,
   ApprovalInfo,
   ElementPropertyDeepChange,
+  PortedCommentsAndDrafts,
+  PathToCommentsInfoMap,
 } from '../../../types/common';
 import {DiffPreferencesInfo} from '../../../types/diff';
 import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
@@ -331,6 +333,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
 
   @property({type: Object})
   _changeComments?: ChangeComments;
+
+  @property({type: Object})
+  _portedComments?: PathToCommentsInfoMap;
+
+  private _isPortingCommentsExperimentEnabled = false;
 
   @property({type: Boolean, computed: '_computeCanStartReview(_change)'})
   _canStartReview?: boolean;
@@ -611,6 +618,10 @@ export class GrChangeView extends KeyboardShortcutMixin(
       this._serverConfig = config;
       this._replyDisabled = false;
     });
+
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
 
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
@@ -2109,22 +2120,32 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this._diffDrafts = undefined;
     this._draftCommentThreads = undefined;
     this._robotCommentThreads = undefined;
+    this._portedComments = undefined;
     if (!this._changeNum)
       throw new Error('missing required changeNum property');
 
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
+    const portedCommentsPromise = this.$.commentAPI
+      .getPortedComments(
+        this._changeNum,
+        this._patchRange?.patchNum || 'current'
+      )
+      .then((result: PortedCommentsAndDrafts) => {
+        if (!result.portedComments) return;
+        if (this._isPortingCommentsExperimentEnabled)
+          this._portedComments = result.portedComments;
+      });
+    const commentsPromise: Promise<ChangeComments> = this.$.commentAPI.loadAll(
       this._changeNum
     );
-    const commentsPromise = this.$.commentAPI
-      .loadAll(this._changeNum)
-      .then(comments => {
-        this.reporting.time(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
-        this._recomputeComments(comments);
-      });
-    Promise.all([portedCommentsPromise, commentsPromise]).then(() => {
-      this.reporting.timeEnd(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
+    commentsPromise.then(() => {
+      this.reporting.time(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
     });
-    return commentsPromise;
+    return Promise.all([portedCommentsPromise, commentsPromise]).then(
+      result => {
+        this.reporting.timeEnd(PORTING_COMMENTS_CHANGE_LATENCY_LABEL);
+        this._recomputeComments(result[1]);
+      }
+    );
   }
 
   /**

@@ -75,7 +75,7 @@ function flushPreinstalls() {
 export const _testOnly_flushPreinstalls = flushPreinstalls;
 
 export function initGerritPluginApi() {
-  window.Gerrit = {};
+  window.Gerrit = window.Gerrit || {};
   flushPreinstalls();
   initGerritPluginsMethods(window.Gerrit as GerritGlobal);
   // Preloaded plugins should be installed after Gerrit.install() is set,

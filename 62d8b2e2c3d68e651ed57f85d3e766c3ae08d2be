@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d23a049d_65fa2816",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-09-11T07:20:58Z",
+      "side": 1,
+      "message": "I think supporting as many standards as possible is a worthy goal. Thinking ahead, I ask myself whether there may be some additional standards/formats that are required by yet other log parsers. This would then again require everybody scraping these logs to adapt their parser configuration. Would it make sense to make the timestamp format of logs configurable?\nI would suggest to provide some predefined templates (e.g. `ISO 8601` or `RFC3339`), one of which would be the default, and also free formats (e.g. `yyyy-MM-dd HH:mm:ss`).\nThis of course comes with the downside of yet another configuration option (complexity) and non-standardized logs (sharing default parser configurations will be more difficult). I am thus pretty much undecided about this.",
+      "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

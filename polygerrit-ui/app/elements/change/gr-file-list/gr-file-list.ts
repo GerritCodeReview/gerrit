@@ -67,6 +67,7 @@ import {
   PreferencesInfo,
   RevisionInfo,
   UrlEncodedCommentId,
+  PathToCommentsInfoMap,
 } from '../../../types/common';
 import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
 import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
@@ -75,7 +76,11 @@ import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {PatchSetFile, UIDraft} from '../../../utils/comment-util';
+import {
+  PatchSetFile,
+  UIDraft,
+  getPortedCommentThreads,
+} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
@@ -331,6 +336,9 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Array})
   _dynamicPrependedContentEndpoints?: string[];
 
+  @property({type: Object})
+  _portedComments?: PathToCommentsInfoMap;
+
   private readonly reporting = appContext.reportingService;
 
   get keyBindings() {
@@ -490,11 +498,25 @@ export class GrFileList extends KeyboardShortcutMixin(
       })
     );
 
+    this._getPortedComments();
+
     return Promise.all(promises).then(() => {
       this._loading = false;
       this._detectChromiteButler();
       this.reporting.fileListDisplayed();
     });
+  }
+
+  _getPortedComments() {
+    if (!this.patchRange || !this.changeNum) {
+      throw new Error('changeNum and patchRange expected');
+    }
+    this.$.restAPI
+      .getPortedComments(this.changeNum, this.patchRange.patchNum)
+      .then((portedComments: PathToCommentsInfoMap | undefined) => {
+        if (!portedComments) return;
+        this._portedComments = portedComments;
+      });
   }
 
   _detectChromiteButler() {
@@ -1561,6 +1583,20 @@ export class GrFileList extends KeyboardShortcutMixin(
           this.patchRange,
           this.projectConfig
         );
+        // what if this happens before 
+        if (
+          this._portedComments &&
+          this.changeComments &&
+          this.patchRange &&
+          path
+        ) {
+          diffElem.portedCommentThreads = getPortedCommentThreads(
+            this._portedComments,
+            path,
+            this.changeComments,
+            this.patchRange
+          );
+        }
         const promises: Array<Promise<unknown>> = [diffElem.reload()];
         if (this._loggedIn && !this.diffPrefs.manual_review) {
           promises.push(this._reviewFile(path, true));

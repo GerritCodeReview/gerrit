@@ -36,7 +36,7 @@ declare global {
     ): void;
     ASSETS_PATH?: string;
     // TODO(TS): define gerrit type
-    Gerrit?: unknown;
+    Gerrit?: any;
     // TODO(TS): define polymer type
     Polymer?: unknown;
     // TODO(TS): remove page when better workaround is found
@@ -51,6 +51,56 @@ declare global {
       dashboardPage?: string;
     };
     STATIC_RESOURCE_PATH?: string;
+
+    /** Enhancements on Gr elements or utils */
+    // TODO(TS): should clean up those and removing them may break certain plugin behaviors
+    // TODO(TS): as @brohlfs suggested, to avoid importing anything from elements/ to types/
+    // use any for them for now
+    GrDisplayNameUtils: any;
+    GrAnnotation: any;
+    GrAttributeHelper: any;
+    GrDiffLine: any;
+    GrDiffLineType: any;
+    GrDiffGroup: any;
+    GrDiffGroupType: any;
+    GrDiffBuilder: any;
+    GrDiffBuilderSideBySide: any;
+    GrDiffBuilderImage: any;
+    GrDiffBuilderUnified: any;
+    GrDiffBuilderBinary: any;
+    GrChangeActionsInterface: any;
+    GrChangeReplyInterface: any;
+    GrEditConstants: any;
+    GrDomHooksManager: any;
+    GrDomHook: any;
+    GrEtagDecorator: any;
+    GrThemeApi: any;
+    SiteBasedCache: any;
+    FetchPromisesCache: any;
+    GrRestApiHelper: any;
+    GrLinkTextParser: any;
+    GrPluginEndpoints: any;
+    GrReviewerUpdatesParser: any;
+    GrPopupInterface: any;
+    GrCountStringFormatter: any;
+    GrReviewerSuggestionsProvider: any;
+    util: any;
+    Auth: any;
+    EventEmitter: any;
+    GrAdminApi: any;
+    GrAnnotationActionsContext: any;
+    GrAnnotationActionsInterface: any;
+    GrChangeMetadataApi: any;
+    GrEmailSuggestionsProvider: any;
+    GrGroupSuggestionsProvider: any;
+    GrEventHelper: any;
+    GrPluginRestApi: any;
+    GrRepoApi: any;
+    GrSettingsApi: any;
+    GrStylesApi: any;
+    PluginLoader: any;
+    GrPluginActionContext: any;
+    _apiUtils: {};
   }
 
   interface Performance {

@@ -34,6 +34,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
@@ -336,6 +337,51 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
 
     assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
+  }
+
+  @Test
+  public void commentOnInvalidParentIsPorted() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comments.
+    String commentUuid = newComment(patchset1Id).onSecondParentCommit().create();
+
+    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+
+    assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
+  }
+
+  @Test
+  public void commentsOnInvalidPositionArePorted() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\n").create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comments.
+    String commentUuid1 = newComment(patchset1Id).onFileLevelOf("not-existing file").create();
+    String commentUuid2 = newComment(patchset1Id).onLine(3).ofFile("myFile").create();
+
+    List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));
+
+    assertThat(portedComments)
+        .comparingElementsUsing(hasUuid())
+        .containsExactly(commentUuid1, commentUuid2);
+  }
+
+  @Test
+  public void commentsOnInvalidPositionKeepTheirInvalidPosition() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
+    // Add comments.
+    newComment(patchset1Id).onFileLevelOf("not-existing file").create();
+
+    Map<String, List<CommentInfo>> portedComments = getPortedComments(patchset2Id);
+
+    assertThatMap(portedComments).keys().containsExactly("not-existing file");
   }
 
   @Test
@@ -998,6 +1044,42 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void overlappingRangeCommentsArePortedToNewPosition() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id =
+        changeOps
+            .change(changeId)
+            .newPatchset()
+            .file("myFile")
+            .content("Line 1\nLine 1.1\nLine 2\n")
+            .create();
+    // Add comment.
+    String commentUuid1 =
+        newComment(patchset1Id)
+            .fromLine(2)
+            .charOffset(0)
+            .toLine(2)
+            .charOffset(3)
+            .ofFile("myFile")
+            .create();
+    String commentUuid2 =
+        newComment(patchset1Id)
+            .fromLine(2)
+            .charOffset(1)
+            .toLine(2)
+            .charOffset(4)
+            .ofFile("myFile")
+            .create();
+
+    CommentInfo portedComment1 = getPortedComment(patchset2Id, commentUuid1);
+    assertThat(portedComment1).range().startLine().isEqualTo(3);
+    CommentInfo portedComment2 = getPortedComment(patchset2Id, commentUuid2);
+    assertThat(portedComment2).range().startLine().isEqualTo(3);
+  }
+
+  @Test
   public void portedLineCommentCanHandleAddedLines() throws Exception {
     // Set up change and patchsets.
     Change.Id changeId =
@@ -1238,6 +1320,28 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     CommentInfo portedComment = extractSpecificComment(portedComments, commentUuid);
     assertThat(portedComment).range().isNull();
     assertThat(portedComment).line().isNull();
+  }
+
+  @Test
+  public void overlappingLineCommentsArePortedToNewPosition() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\nLine 2\n").create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id =
+        changeOps
+            .change(changeId)
+            .newPatchset()
+            .file("myFile")
+            .content("Line 1\nLine 1.1\nLine 2\n")
+            .create();
+    // Add comment.
+    String commentUuid1 = newComment(patchset1Id).onLine(2).ofFile("myFile").create();
+    String commentUuid2 = newComment(patchset1Id).onLine(2).ofFile("myFile").create();
+
+    CommentInfo portedComment1 = getPortedComment(patchset2Id, commentUuid1);
+    assertThat(portedComment1).line().isEqualTo(3);
+    CommentInfo portedComment2 = getPortedComment(patchset2Id, commentUuid2);
+    assertThat(portedComment2).line().isEqualTo(3);
   }
 
   @Test
@@ -1551,6 +1655,64 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // the comment moved down several lines (instead of just one in each parent) and that the
     // porting logic hence used the auto-merge commit for its computation.
     assertThat(portedComment).line().isGreaterThan(2);
+  }
+
+  @Test
+  public void whitespaceOnlyModificationsAreAlsoConsideredWhenPorting() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().file("myFile").content("Line 1\n").create();
+    PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchset2Id =
+        changeOps.change(changeId).newPatchset().file("myFile").content("\nLine 1\n").create();
+    // Add comment.
+    String commentUuid = newComment(patchset1Id).onLine(1).ofFile("myFile").create();
+
+    CommentInfo portedComment = getPortedComment(patchset2Id, commentUuid);
+
+    assertThat(portedComment).line().isEqualTo(2);
+  }
+
+  @Test
+  public void deletedCommentContentIsNotCachedInPortedComments() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchsetId1 = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchsetId2 = changeOps.change(changeId).newPatchset().create();
+    // Add comment.
+    String commentUuid = newComment(patchsetId1).message("Confidential content").create();
+
+    getPortedComment(patchsetId2, commentUuid);
+    gApi.changes()
+        .id(changeId.get())
+        .revision(patchsetId1.get())
+        .comment(commentUuid)
+        .delete(new DeleteCommentInput());
+    CommentInfo portedComment = getPortedComment(patchsetId2, commentUuid);
+
+    assertThat(portedComment).message().doesNotContain("Confidential content");
+  }
+
+  @Test
+  public void setOfPortedCommentsCanChangeOnRepeatedCalls() throws Exception {
+    // Set up change and patchsets.
+    Change.Id changeId = changeOps.newChange().create();
+    PatchSet.Id patchsetId1 = changeOps.change(changeId).currentPatchset().get().patchsetId();
+    PatchSet.Id patchsetId2 = changeOps.change(changeId).newPatchset().create();
+    // Add comment.
+    String commentUuid1 = newComment(patchsetId1).unresolved().create();
+
+    ImmutableList<CommentInfo> pastPortedComments = flatten(getPortedComments(patchsetId2));
+    // Set the existing comment thread to resolved, so it won't be ported anymore.
+    newComment(patchsetId1).parentUuid(commentUuid1).resolved().create();
+    // Create a new comment which should show up as ported comment.
+    String commentUuid2 = newComment(patchsetId1).create();
+    ImmutableList<CommentInfo> portedComments = flatten(getPortedComments(patchsetId2));
+
+    // Ensure that results are not cached between calls. This should not be necessary as the diffs
+    // are already cached. If we need to also cache the ported comments in the future, we'll need to
+    // identify ALL situations when the set of ported comments changes.
+    assertThat(portedComments).isNotEqualTo(pastPortedComments);
+    assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid2);
   }
 
   private TestCommentCreation.Builder newComment(PatchSet.Id patchsetId) {

@@ -1,0 +1,504 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18d5c4de_fc64f68e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "+1",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 10,
+        "endChar": 63
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b3673e04_a72f5035",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Thanks for adding robot comments to the test API!",
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0c139e95_47303e16",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Typo: Robot",
+      "range": {
+        "startLine": 79,
+        "startChar": 19,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ddf486b_8aeada80",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "nit: Please adjust this comment for robot comments or remove it.",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 17
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4765fccc_94a2f97e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "nit: Do we need this for robot comments?",
+      "range": {
+        "startLine": 263,
+        "startChar": 6,
+        "endLine": 265,
+        "endChar": 77
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fe91ebc_8e1d218b",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "FixIds must be unique just like comment UUIDs must be unique. Hence, we need to generate a unique one here (as we do for changeIds and comment UUIDs).",
+      "range": {
+        "startLine": 301,
+        "startChar": 44,
+        "endLine": 301,
+        "endChar": 49
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "57887c26_aa876a32",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Tests should never explicitly set fixIds. That\u0027s just a source of errors as tests might not ensure that fixIds are unique. Hence, we should always generate the fixId on creation here (like we do for comment UUIDs which also can\u0027t be set from a test).",
+      "range": {
+        "startLine": 301,
+        "startChar": 10,
+        "endLine": 301,
+        "endChar": 35
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08394e29_8207ad72",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Could we use the path of the file on which the comment is added as default here?\n\nAfter some more thought, I\u0027m not even convinced anymore that we want to offer a default file path. What use is a replacement without a specific target path for a test? (That\u0027s comparable to specifying a line for a comment without specifying the file, which the test API doesn\u0027t allow as there are no reasonable tests which need this.) The same likely applies to the range and the replacement content but I haven\u0027t fully thought it through, yet.",
+      "range": {
+        "startLine": 311,
+        "startChar": 43,
+        "endLine": 311,
+        "endChar": 53
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fc68173e_5e3c9b8d",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Why not simply use (0, 0, 0, 0) which means a pure insertion at the beginning of the file? Such an insertion should be possible for any existing file whereas the range specified here is likely invalid for most files used in tests.",
+      "range": {
+        "startLine": 315,
+        "startChar": 67,
+        "endLine": 315,
+        "endChar": 81
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94e2bdea_487ebc9d",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "nit: Please move this method and the next one above the inner classes so that we have the contents of the outer class all in one place and not mixed in between.",
+      "range": {
+        "startLine": 325,
+        "startChar": 31,
+        "endLine": 325,
+        "endChar": 45
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38e455cf_3cc01f3b",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestFixSuggestion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "The name of TestFixSuggestion and TestFixReplacement without the \"Creation\" name part make me think that you might want to re-use these classes for the output of a \"getRobotComment\" request in the test API in the future. I don\u0027t think we should do so. The fields currently have optional attributes which are not optional for an existing robot comment (e.g. fixId is always set). Having Optional as type makes handling in tests more cumbersome. In addition, there are some attributes (e.g. fixId) which should never be set by a test but which should always be generated. Hence, we only have such a field in an output class but not in an input class.\n\nAs a result, I\u0027d recommend to rename the classes to TestFixSuggestionCreation and TestFixReplacementCreation and to create separate AutoValues for TestFixSuggestion and TestFixReplacement when we add the corresponding fields to TestRobotComment.",
+      "range": {
+        "startLine": 25,
+        "startChar": 22,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cccef91e_76109c82",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "The runId doesn\u0027t belong to the robot. The documentation [1] describes this attribute as \"An ID of the run of the robot.\".\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-info",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 189,
+        "endChar": 27
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "519c4036_05aef439",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Nit: Still contains description of copy-paste.",
+      "range": {
+        "startLine": 205,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 76
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0fa70ff8_f593455b",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "This is the most interesting and tricky part of this whole change: The design of a completely new part of the API. The approach you chose (simply creating input objects and passing them in) works but it doesn\u0027t follow the fluent style and underlying ideas of the test API. For instance, users of the test API aren\u0027t guided while they write a test. They have to look up what this TestFixSuggestion type is and then fill it appropriately without forgetting to set all reasonable attributes (e.g. if you have a replacement, you should specify a file like we enforce on compiler level to set a file path for comments when a line or range is specified). If you directly want to include the specification of fix suggestions and replacements within this change, we need to polish this part of the API much more. This might take some time depending on which mode you prefer (e.g. I could give you some pointers, you come up with a suggestion, and we\u0027ll have some rounds until we have a good enough state; or: We could meet and design this part together.). All in all, I\u0027d expect this to take a bit of time. Hence, I\u0027d suggest to move this part to a separate, follow-up change so that the other changes in this series are not blocked.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 5
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34e5e1f0_d1f3e222",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "If you generify this class as PositionBuilder is already generified, you don\u0027t need to copy this class. Afterwards, you can apply the same I wrote for PoistionBuilder in my other comment.",
+      "range": {
+        "startLine": 231,
+        "startChar": 22,
+        "endLine": 231,
+        "endChar": 33
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eef20cca_30f4c175",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "There\u0027s no need to copy this class. You can use the original version from TestCommentCreation also in TestRobotCommentCreation. Before you do that, consider whether you want to move PositionBuilder to class level instead of keeping it in TestCommentCreation.",
+      "range": {
+        "startLine": 245,
+        "startChar": 22,
+        "endLine": 245,
+        "endChar": 37
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56e3565c_c88e340b",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "It\u0027s possible to generalize this copied class too so that we can share it for human and robot comment creation. It\u0027s just a bit more complicated than the generification of FileBuilder. Without trying it, I think we\u0027d need to apply the following adjustments:\n- Add a generic type T.\n- Add Consumer\u003cTestRange\u003e (or Function\u003cTestRange, T\u003e if that\u0027s better) for passing in testCommentCreationBuilder::range.\n- Give the range to this in toLine().\n- Add Function\u003cString, T\u003e as field for testCommentCreationBuilder::file.",
+      "range": {
+        "startLine": 259,
+        "startChar": 22,
+        "endLine": 259,
+        "endChar": 47
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3ca2ef83_68ec60f6",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Same as for the other classes above.",
+      "range": {
+        "startLine": 283,
+        "startChar": 7,
+        "endLine": 283,
+        "endChar": 18
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcb36664_469a1f49",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Typo: Should start with a lower case letter.",
+      "range": {
+        "startLine": 787,
+        "startChar": 14,
+        "endLine": 787,
+        "endChar": 54
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3452897a_4d886ae1",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Here and for the next test: That\u0027s not true anymore. I added the creation of changes with merge commits in the meantime. Adjusting PatchsetOperationsImplTest is on my todo list. For this new test, we should already properly create merge commits.",
+      "range": {
+        "startLine": 823,
+        "startChar": 4,
+        "endLine": 826,
+        "endChar": 68
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1b2a879_cb63ecab",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 864,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "Just a comment for posterity: Adding this test and the next doesn\u0027t meant that we need to keep the unresolved state for robot comments in the future. We actually had plans to remove it as it is currently meaningless for robot comments.",
+      "range": {
+        "startLine": 864,
+        "startChar": 14,
+        "endLine": 864,
+        "endChar": 48
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ea1e9439_e277cd88",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T16:52:55Z",
+      "side": 1,
+      "message": "nit: Should say \"Robot comment\" to be helpful for diagnose.",
+      "range": {
+        "startLine": 1070,
+        "startChar": 35,
+        "endLine": 1070,
+        "endChar": 42
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

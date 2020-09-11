@@ -60,7 +60,7 @@ import {
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {GrDiffHost} from '../gr-diff-host/gr-diff-host';
+import {GrDiffHost, CommentThread} from '../gr-diff-host/gr-diff-host';
 import {
   DropdownItem,
   GrDropdownList,
@@ -89,6 +89,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  PathToCommentsInfoMap,
 } from '../../../types/common';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -100,9 +101,11 @@ import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap} from '../../../utils/comment-util';
+import {CommentMap, UIComment} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {FetchParams} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {createThreads} from '../gr-diff-host/gr-diff-host';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -274,6 +277,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
   @property({type: Number})
   _focusLineNum?: number;
 
+  @property({type: Boolean})
+  _isPortingCommentsExperimentEnabled = false;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -352,6 +358,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this.$.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
   }
 
   /** @override */
@@ -1037,6 +1046,89 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  convertToFileThread(thread: CommentThread): CommentThread {
+    delete thread.lineNum;
+    delete thread.range;
+    return thread;
+  }
+
+  _processPortedComments(comments: PathToCommentsInfoMap) {
+    if (!this._path || !this._changeComments || !this._patchRange) return;
+    if (!comments[this._path]) return;
+    const portedCommentThreads: {[key in Side]: CommentThread[]} = {
+      [Side.LEFT]: [],
+      [Side.RIGHT]: [],
+    };
+    const portedComments = comments[this._path];
+
+    // when forming threads in diff view, we filter for current patchrange but
+    // ported comments will involve comments that may not belong to the
+    // current patchrange, so we need to form threads for them using all
+    // comments
+    const allComments: UIComment[] = this._changeComments.getAllCommentsForPath(
+      this._path,
+      undefined,
+      true
+    );
+
+    // assign __commentSide to allComments so createThreads does not throw an
+    // error, proper __commentSide is assigned in gr-diff-host
+    allComments.forEach(comment => (comment.__commentSide = Side.RIGHT));
+
+    const threads: CommentThread[] = createThreads(allComments);
+
+    // remove any thread that does not have a ported comment associated with it
+    // assign range to threads based on ported comment
+    threads.filter(thread => {
+      const portedComment = portedComments.find(portedComment =>
+        thread.comments.some(c => portedComment.id === c.id)
+      );
+      if (!portedComment) return false;
+      thread.range = portedComment.range;
+      thread.lineNum = portedComment.line;
+      return true;
+    });
+
+    threads.forEach(thread => {
+      const c = thread.comments[0];
+      c.ported = true;
+      c.path = this._path;
+      if (c.side === CommentSide.PARENT) {
+        // comment left on Base when comparing Base vs X
+        if (
+          this._patchRange!.basePatchNum === 'PARENT' &&
+          c.patch_set === this._patchRange!.patchNum
+        ) {
+          // user is comparing Base vs X so comment shows up by default
+        } else if (this._patchRange!.basePatchNum === 'PARENT') {
+          // comparing Base vs Y
+          portedCommentThreads.left.push(this.convertToFileThread(thread));
+        } else if (this._patchRange!.basePatchNum === c.patch_set) {
+          // comparing X vs Y
+          portedCommentThreads.left.push(this.convertToFileThread(thread));
+        } else {
+          // comparing Y vs Z
+          portedCommentThreads.left.push(this.convertToFileThread(thread));
+        }
+        thread.commentSide = Side.LEFT;
+        return;
+      }
+
+      if (
+        patchNumEquals(c.patch_set, this._patchRange!.basePatchNum) ||
+        patchNumEquals(c.patch_set, this._patchRange!.patchNum)
+      ) {
+        // no need to port this thread as it will be rendered by default
+        return;
+      } else {
+        thread.commentSide = Side.RIGHT;
+        portedCommentThreads.right.push(thread);
+      }
+    });
+
+    this.$.diffHost.portedCommentThreads = portedCommentThreads;
+  }
+
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
@@ -1090,6 +1182,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
         this.$.diffHost.comments = this._commentsForDiff;
+        if (this._isPortingCommentsExperimentEnabled) {
+          // _initPatchRange() ensures _patchRange is set
+          // AppElementDiffViewParam ensures _changeNum is set
+          this.$.restAPI
+            .getPortedComments(this._changeNum!, this._patchRange!.patchNum)
+            .then((comments: PathToCommentsInfoMap | undefined) => {
+              if (!comments) return;
+              this._processPortedComments(comments);
+            });
+        }
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {

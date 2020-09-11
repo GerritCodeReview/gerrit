@@ -49,6 +49,7 @@ export interface UIStateCommentProps {
   // TODO(TS): Consider allowing this only for drafts.
   __editing?: boolean;
   __otherEditing?: boolean;
+  ported?: boolean;
 }
 
 export type UIDraft = DraftInfo & UIStateCommentProps;
@@ -112,7 +113,6 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
     return id1.localeCompare(id2);
   });
 }
-
 export interface CommentThread {
   comments: UIComment[];
   patchNum?: PatchSetNum;

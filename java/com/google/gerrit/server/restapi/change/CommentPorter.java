@@ -131,13 +131,15 @@ public class CommentPorter {
       ImmutableList<HumanComment> patchsetComments = commentsPerPatchset.get(originalPatchsetId);
       PatchSet originalPatchset =
           notes.getPatchSets().get(PatchSet.id(notes.getChangeId(), originalPatchsetId));
-      portedComments.addAll(
-          portSamePatchset(
-              notes.getProjectName(),
-              notes.getChange(),
-              originalPatchset,
-              targetPatchset,
-              patchsetComments));
+      if (originalPatchset != null) {
+        portedComments.addAll(
+            portSamePatchset(
+                notes.getProjectName(),
+                notes.getChange(),
+                originalPatchset,
+                targetPatchset,
+                patchsetComments));
+      }
     }
     return portedComments.build();
   }

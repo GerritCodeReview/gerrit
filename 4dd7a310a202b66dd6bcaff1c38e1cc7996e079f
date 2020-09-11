@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a3ba235_1ba1765f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T09:33:37Z",
+      "side": 1,
+      "message": "It is not so clear to me what this paragraph imply (I probably miss some context). Is the unresolved state a \"comment\" or a \"thread\" attribute?\nI think you meant that published comments could be in a resolved state, hence filtered from porting, while draft replies on them are unresolved. The result is porting the drafts only, while the better behaviour is to port the entire thread (?)\n\nAlso, in [1] it looks like the \"unresolved\" state is evaluated per thread. Wouldn\u0027t that mean all published/drafts of the same thread have the same state?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/281281/2/java/com/google/gerrit/server/restapi/change/CommentPorter.java#117",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d3affa1_98caad3f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T09:33:37Z",
+      "side": 1,
+      "message": "Does this happen when a resolved draft is added as a reply to an unresolved published comment? Are published comments marked resolved only when the later draft is published?",
+      "range": {
+        "startLine": 33,
+        "startChar": 63,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3fc8ab_763e4a11",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T09:33:37Z",
+      "side": 1,
+      "message": "Could we add another test for unresolved published comments?",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 3
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4ef34be_beb293b3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-11T09:33:37Z",
+      "side": 1,
+      "message": "The test name is a bit mismatching with the logic: the draft state is resolved inside the test (and unresolved in the name).\n\nMaybe unresolvedRootCommentIsIgnoredIfFollowedByAResolvedDraft(), or a better rename as this is too long.",
+      "range": {
+        "startLine": 196,
+        "startChar": 14,
+        "endLine": 196,
+        "endChar": 73
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

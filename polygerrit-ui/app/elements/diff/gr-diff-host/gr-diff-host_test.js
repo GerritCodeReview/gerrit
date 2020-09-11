@@ -22,6 +22,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {sortComments} from '../../../utils/comment-util.js';
 import {Side} from '../../../constants/constants.js';
+import {createThreads} from './gr-diff-host.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -252,7 +253,7 @@ suite('gr-diff-host tests', () => {
   });
 
   test('thread-discard handling', () => {
-    const threads = element._createThreads([
+    const threads = createThreads([
       {
         id: 4711,
         __commentSide: 'left',
@@ -1170,7 +1171,7 @@ suite('gr-diff-host tests', () => {
       },
     ];
 
-    const actualThreads = element._createThreads(comments);
+    const actualThreads = createThreads(comments);
 
     assert.equal(actualThreads.length, 2);
 
@@ -1234,7 +1235,7 @@ suite('gr-diff-host tests', () => {
     ];
 
     assert.deepEqual(
-        element._createThreads(comments),
+        createThreads(comments),
         expectedThreads);
   });
 
@@ -1253,7 +1254,7 @@ suite('gr-diff-host tests', () => {
             __commentSide: 'left',
           },
         ];
-        assert.equal(element._createThreads(comments).length, 2);
+        assert.equal(createThreads(comments).length, 2);
       });
 
   test('_createThreads derives isOnParent using  side from first comment',
@@ -1273,13 +1274,13 @@ suite('gr-diff-host tests', () => {
           },
         ];
 
-        assert.equal(element._createThreads(comments)[0].isOnParent, false);
+        assert.equal(createThreads(comments)[0].isOnParent, false);
 
         comments[0].side = 'REVISION';
-        assert.equal(element._createThreads(comments)[0].isOnParent, false);
+        assert.equal(createThreads(comments)[0].isOnParent, false);
 
         comments[0].side = 'PARENT';
-        assert.equal(element._createThreads(comments)[0].isOnParent, true);
+        assert.equal(createThreads(comments)[0].isOnParent, true);
       });
 
   test('_getOrCreateThread', () => {

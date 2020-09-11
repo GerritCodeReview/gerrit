@@ -82,6 +82,8 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  PortedCommentsAndDrafts,
+  PathToCommentsInfoMap,
 } from '../../../types/common';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/diff';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
@@ -93,12 +95,17 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap} from '../../../utils/comment-util';
+import {
+  CommentMap,
+  getPortedCommentThreads,
+  CommentThread,
+} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
 import {fireAlert, fireTitleChange} from '../../../utils/event-util';
 
+import {KnownExperimentId} from '../../../services/flags/flags';
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
 const MSG_LOADED_BLAME = 'Blame loaded';
@@ -266,6 +273,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
   @property({type: Number})
   _focusLineNum?: number;
 
+  private _isPortingCommentsExperimentEnabled = false;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -343,6 +352,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this.$.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
   }
 
   /** @override */
@@ -1045,11 +1057,6 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    const portedCommentsPromise = this.$.commentAPI.getPortedComments(
-      value.changeNum,
-      value.patchNum || 'current'
-    );
-
     const promises: Promise<unknown>[] = [];
 
     promises.push(this._getDiffPreferences());
@@ -1065,6 +1072,13 @@ export class GrDiffView extends KeyboardShortcutMixin(
 
     promises.push(this._getChangeEdit());
 
+    promises.push(
+      this.$.commentAPI.getPortedComments(
+        value.changeNum,
+        value.patchNum || 'current'
+      )
+    );
+
     this.$.diffHost.cancel();
     this.$.diffHost.clearDiffContent();
     this._loading = true;
@@ -1074,16 +1088,37 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._loading = false;
         this._initPatchRange();
         this._initCommitRange();
-        if (this._changeComments && this._path && this._patchRange) {
-          this.$.diffHost.threads = this._changeComments.getThreadsBySideForPath(
+
+        if (!this._path) throw new Error('path must be defined');
+        if (!this._changeComments)
+          throw new Error('change comments must be defined');
+        if (!this._patchRange) throw new Error('patch range must be defined');
+
+        const portedCommentsAndDrafts = r[5] as
+          | PortedCommentsAndDrafts
+          | undefined;
+        let portedThreads: CommentThread[] = [];
+        if (portedCommentsAndDrafts?.portedComments) {
+          this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
+          if (this._isPortingCommentsExperimentEnabled) {
+            portedThreads = getPortedCommentThreads(
+              portedCommentsAndDrafts?.portedComments,
+              this._path,
+              this._changeComments,
+              this._patchRange
+            );
+          }
+        }
+
+        this.$.diffHost.threads = [
+          ...this._changeComments.getThreadsBySideForPath(
             this._path,
             this._patchRange,
             this._projectConfig
-          );
-        }
-        portedCommentsPromise.then(() => {
-          this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
-        });
+          ),
+          ...portedThreads,
+        ];
+
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {

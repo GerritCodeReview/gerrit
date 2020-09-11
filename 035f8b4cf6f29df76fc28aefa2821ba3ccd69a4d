@@ -124,6 +124,29 @@
       "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "191fcb89_1cbce1d2",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-11T17:58:40Z",
+      "side": 1,
+      "message": "These adaptations were dropped while patching. We basically need to add [1] before each such closing square bracket.\n\n[1] ,role\u003dexternal,window\u003d_blank",
+      "range": {
+        "startLine": 187,
+        "startChar": 83,
+        "endLine": 189,
+        "endChar": 105
+      },
+      "revId": "035f8b4cf6f29df76fc28aefa2821ba3ccd69a4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

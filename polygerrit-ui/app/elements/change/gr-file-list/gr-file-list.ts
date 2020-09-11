@@ -74,10 +74,15 @@ import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
-import {UIDraft} from '../../../utils/comment-util';
+import {
+  UIDraft,
+  getPortedCommentThreads,
+  CommentThread,
+} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {PatchSetFile} from '../../../types/types';
 import {CustomKeyboardEvent} from '../../../types/events';
+import {PatchSetFile} from '../../../types/types';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 
@@ -332,7 +337,11 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Array})
   _dynamicPrependedContentEndpoints?: string[];
 
+  private _isPortingCommentsExperimentEnabled = false;
+
   private readonly reporting = appContext.reportingService;
+
+  private readonly flagsService = appContext.flagsService;
 
   get keyBindings() {
     return {
@@ -376,6 +385,9 @@ export class GrFileList extends KeyboardShortcutMixin(
   /** @override */
   attached() {
     super.attached();
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
     getPluginLoader()
       .awaitPluginsLoaded()
       .then(() => {
@@ -1558,11 +1570,28 @@ export class GrFileList extends KeyboardShortcutMixin(
             'changeComments, patchRange and diffPrefs must be set'
           );
         }
-        diffElem.threads = this.changeComments.getThreadsBySideForFile(
-          file,
-          this.patchRange,
-          this.projectConfig
-        );
+        let portedThreads: CommentThread[] = [];
+        if (
+          this.changeComments?.portedComments &&
+          path &&
+          this._isPortingCommentsExperimentEnabled
+        ) {
+          portedThreads = getPortedCommentThreads(
+            this.changeComments.portedComments,
+            path,
+            this.changeComments,
+            this.patchRange
+          );
+        }
+
+        diffElem.threads = [
+          ...this.changeComments.getThreadsBySideForFile(
+            file,
+            this.patchRange,
+            this.projectConfig
+          ),
+          ...portedThreads,
+        ];
         const promises: Array<Promise<unknown>> = [diffElem.reload()];
         if (this._loggedIn && !this.diffPrefs.manual_review) {
           promises.push(this._reviewFile(path, true));

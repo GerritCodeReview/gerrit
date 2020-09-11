@@ -22,11 +22,15 @@ import {
   Timestamp,
   UrlEncodedCommentId,
   CommentRange,
+  PathToCommentsInfoMap,
+  PatchRange,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
-import {LineNumber} from '../elements/diff/gr-diff/gr-diff-line';
+import {LineNumber, FILE} from '../elements/diff/gr-diff/gr-diff-line';
 import {CommentIdToCommentThreadMap} from '../elements/diff/gr-comment-api/gr-comment-api';
+import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
+import {patchNumEquals} from './patch-set-util';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -52,6 +56,7 @@ export interface UIStateCommentProps {
   // TODO(TS): Consider allowing this only for drafts.
   __editing?: boolean;
   __otherEditing?: boolean;
+  ported?: boolean; // is the comment ported over from a previous patchset
 }
 
 export type UIDraft = DraftInfo & UIStateCommentProps;
@@ -164,4 +169,93 @@ export function isUnresolved(thread?: CommentThread): boolean {
 
 export function isDraftThread(thread?: CommentThread): boolean {
   return isDraft(getLastComment(thread));
+}
+
+function convertToFileThread(thread: CommentThread): CommentThread {
+  // create a copy so that original object is not modified
+  const threadCopy = {...thread};
+  threadCopy.line = FILE;
+  delete threadCopy.range;
+  return threadCopy;
+}
+
+export function getPortedCommentThreads(
+  comments: PathToCommentsInfoMap,
+  path: string,
+  changeComments: ChangeComments,
+  patchRange: PatchRange
+): CommentThread[] {
+  if (!comments[path]) return [];
+  const portedComments = comments[path];
+
+  // when forming threads in diff view, we filter for current patchrange but
+  // ported comments will involve comments that may not belong to the
+  // current patchrange, so we need to form threads for them using all
+  // comments
+  const allComments: UIComment[] = changeComments.getAllCommentsForPath(
+    path,
+    undefined,
+    true
+  );
+
+  return createCommentThreads(allComments)
+    .filter(thread => {
+      const portedComment = portedComments.find(portedComment =>
+        thread.comments.some(c => portedComment.id === c.id)
+      );
+      if (!portedComment) return false;
+
+      const c = thread.comments[0];
+      if (
+        patchNumEquals(c.patch_set, patchRange!.basePatchNum) ||
+        patchNumEquals(c.patch_set, patchRange!.patchNum)
+      ) {
+        // no need to port this thread as it will be rendered by default
+        return false;
+      }
+
+      const isUnresolvedOrDraft = (comment: UIComment) => {
+        if ('__draft' in comment) return true;
+        return 'unresolved' in comment && !!comment.unresolved;
+      };
+
+      // remove thread if resolved unless last comment is a draft
+      if (!isUnresolvedOrDraft(thread.comments[thread.comments.length - 1]))
+        return false;
+
+      // assign range to threads based on ported comment
+      thread.range = portedComment.range;
+      thread.line = portedComment.line;
+      return true;
+    })
+    .map(thread => {
+      const c = thread.comments[0];
+      c.ported = true;
+      c.path = path;
+      if (c.side === CommentSide.PARENT) {
+        // comment left on Base when comparing Base vs X
+        if (
+          patchRange.basePatchNum === 'PARENT' &&
+          c.patch_set === patchRange!.patchNum
+        ) {
+          // user is comparing Base vs X so comment shows up by default
+        } else {
+          // comparing Base vs Y
+          // comparing X vs Y
+          // comparing Y vs Z
+          thread = convertToFileThread(thread);
+          thread.diffSide = Side.LEFT;
+          for (const comment of thread.comments) {
+            comment.__commentSide = Side.LEFT;
+          }
+        }
+        return thread;
+      }
+
+      thread.diffSide = Side.RIGHT;
+      for (const comment of thread.comments) {
+        comment.__commentSide = Side.RIGHT;
+      }
+      return thread;
+    });
 }

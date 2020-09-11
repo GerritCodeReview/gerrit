@@ -36,6 +36,8 @@ import {
   UrlEncodedCommentId,
   NumericChangeId,
   RevisionId,
+  PathToCommentsInfoMap,
+  PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide, Side} from '../../../constants/constants';
@@ -77,6 +79,8 @@ export class ChangeComments {
 
   private readonly _drafts: {[path: string]: UIDraft[]};
 
+  private readonly _portedComments: PathToCommentsInfoMap;
+
   private readonly _changeNum: NumericChangeId;
 
   /**
@@ -87,11 +91,13 @@ export class ChangeComments {
     comments: {[path: string]: UIHuman[]} | undefined,
     robotComments: {[path: string]: UIRobot[]} | undefined,
     drafts: {[path: string]: UIDraft[]} | undefined,
+    portedComments: PathToCommentsInfoMap | undefined,
     changeNum: NumericChangeId
   ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
     this._drafts = this._addPath(drafts);
+    this._portedComments = portedComments || {};
     // TODO(TS): remove changeNum param - it is not used anywhere
     this._changeNum = changeNum;
   }
@@ -128,6 +134,10 @@ export class ChangeComments {
 
   get robotComments() {
     return this._robotComments;
+  }
+
+  get portedComments() {
+    return this._portedComments;
   }
 
   findCommentById(commentId?: UrlEncodedCommentId): UIComment | undefined {
@@ -629,24 +639,31 @@ export class GrCommentApi extends GestureEventListeners(
    * number. The returned promise resolves when the comments have loaded, but
    * does not yield the comment data.
    */
-  loadAll(changeNum: NumericChangeId) {
-    const promises = [];
-    promises.push(this.$.restAPI.getDiffComments(changeNum));
-    promises.push(this.$.restAPI.getDiffRobotComments(changeNum));
-    promises.push(this.$.restAPI.getDiffDrafts(changeNum));
+  loadAll(changeNum: NumericChangeId, patchNum?: PatchSetNum) {
+    const commentsPromise: [
+      Promise<PathToCommentsInfoMap | undefined>,
+      Promise<PathToRobotCommentsInfoMap | undefined>,
+      Promise<PathToCommentsInfoMap | undefined>,
+      Promise<PortedCommentsAndDrafts | undefined>
+    ] = [
+      this.$.restAPI.getDiffComments(changeNum),
+      this.$.restAPI.getDiffRobotComments(changeNum),
+      this.$.restAPI.getDiffDrafts(changeNum),
+      this.getPortedComments(changeNum, patchNum || 'current'),
+    ];
 
-    return Promise.all(promises).then(([comments, robotComments, drafts]) => {
-      this._changeComments = new ChangeComments(
-        comments,
-        // TODO(TS): Promise.all somehow resolve all types to
-        // PathToCommentsInfoMap given its PathToRobotCommentsInfoMap
-        // returned from the second promise
-        robotComments as PathToRobotCommentsInfoMap,
-        drafts,
-        changeNum
-      );
-      return this._changeComments;
-    });
+    return Promise.all(commentsPromise).then(
+      ([comments, robotComments, drafts, portedCommentsAndDrafts]) => {
+        this._changeComments = new ChangeComments(
+          comments,
+          robotComments,
+          drafts,
+          portedCommentsAndDrafts?.portedComments,
+          changeNum
+        );
+        return this._changeComments;
+      }
+    );
   }
 
   /**
@@ -664,6 +681,7 @@ export class GrCommentApi extends GestureEventListeners(
         oldChangeComments.comments,
         (oldChangeComments.robotComments as unknown) as PathToRobotCommentsInfoMap,
         drafts,
+        oldChangeComments.portedComments,
         changeNum
       );
       return this._changeComments;

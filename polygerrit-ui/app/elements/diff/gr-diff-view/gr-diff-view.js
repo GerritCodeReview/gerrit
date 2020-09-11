@@ -41,6 +41,8 @@ import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {appContext} from '../../../services/app-context.js';
+import {parseDate} from '../../../utils/date-util.js';
+
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -880,6 +882,115 @@ class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  convertToFileComment(comment) {
+    delete comment.line;
+    delete comment.range;
+    return comment;
+  }
+
+  _sortComments(comments) {
+    return comments.slice(0).sort((a, b) => {
+      if (b.__draft && !a.__draft ) { return -1; }
+      if (a.__draft && !b.__draft ) { return 1; }
+      return parseDate(a.updated) - parseDate(b.updated);
+    });
+  }
+
+  /**
+   * @param {!Array<!Object>} comments
+   * @return {!Array<!Object>} Threads for the given comments.
+   */
+  _createThreads(comments) {
+    const sortedComments = this._sortComments(comments);
+    const threads = [];
+    for (const comment of sortedComments) {
+      // If the comment is in reply to another comment, find that comment's
+      // thread and append to it.
+      if (comment.in_reply_to) {
+        const thread = threads.find(thread =>
+          thread.comments.some(c => c.id === comment.in_reply_to));
+        if (thread) {
+          thread.comments.push(comment);
+          continue;
+        }
+      }
+
+      // Otherwise, this comment starts its own thread.
+      const newThread = {
+        start_datetime: comment.updated,
+        comments: [comment],
+        commentSide: comment.__commentSide,
+        patchNum: comment.patch_set,
+        rootId: comment.id || comment.__draftID,
+        lineNum: comment.line,
+        isOnParent: comment.side === 'PARENT',
+        ported: comment.ported,
+      };
+      if (comment.range) {
+        newThread.range = {...comment.range};
+      }
+      threads.push(newThread);
+    }
+    return threads;
+  }
+
+  _processPortedComments(comments) {
+    if (!comments[this._path]) return;
+    const portedComments = {
+      left: [],
+      right: [],
+    };
+    comments[this._path].forEach(c => {
+      c.ported = true;
+      c.path = this._path;
+
+      if (c.side === 'PARENT') {
+        // comment left on Base when comparing Base vs X
+        if (this._patchRange.basePatchNum === 'PARENT' &&
+          c.patch_set === this._patchRange.patchNum) {
+          // user is comparing Base vs X so comment shows up by default
+        } else if (this._patchRange.basePatchNum === 'PARENT') {
+          // comparing Base vs Y
+          portedComments.left.push(this.convertToFileComment(c));
+        } else if (this._patchRange.basePatchNum === c.patch_set) {
+          // comparing X vs Y
+          portedComments.left.push(this.convertToFileComment(c));
+        } else {
+          // comparing Y vs Z
+          portedComments.left.push(this.convertToFileComment(c));
+        }
+        return;
+      }
+
+      if (patchNumEquals(c.patch_set, this._patchRange.basePatchNum)
+          || patchNumEquals(c.patch_set, this._patchRange.patchNum)) {
+        // no need to port this comment as it will be rendered by default
+        return;
+      } else {
+        portedComments.right.push(c);
+      }
+    });
+
+    // attach drafts to these ported comments
+    (this._changeComments._drafts[this._path] || []).forEach(draft => {
+      if (portedComments.right.find(c => c.id === draft.in_reply_to)) {
+        portedComments.right.push(draft);
+      } else if (portedComments.left.find(c => c.id ===
+          draft.in_reply_to)) {
+        portedComments.left.push(draft);
+      }
+    });
+
+    // when forming threads in diff view, we filter for current patchrange
+    // ported comments will involve comments that may not belong to the
+    // current patchrange, so we need to form threads for them using all
+    // comments
+
+    this.$.diffHost.comments.left.push(...portedComments.left);
+    this.$.diffHost.comments.right.push(...portedComments.right);
+    this.$.diffHost.comments = {...this.$.diffHost.comments};
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -929,6 +1040,10 @@ class GrDiffView extends KeyboardShortcutMixin(
           this._initPatchRange();
           this._initCommitRange();
           this.$.diffHost.comments = this._commentsForDiff;
+          this.$.restAPI.getPortedComments(this._changeNum,
+              this._patchRange.patchNum).then(comments => {
+            this._processPortedComments(comments);
+          });
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {

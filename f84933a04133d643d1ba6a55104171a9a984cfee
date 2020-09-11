@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "66cefe04_a13af5d1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 10
+      },
+      "lineNbr": 927,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T15:52:25Z",
+      "side": 1,
+      "message": "Collection",
+      "range": {
+        "startLine": 927,
+        "startChar": 6,
+        "endLine": 927,
+        "endChar": 10
+      },
+      "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38b5a186_73177abb",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 391,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T15:52:25Z",
+      "side": 1,
+      "message": "I\u0027m still not sure we want to do all this. Martin?",
+      "range": {
+        "startLine": 384,
+        "startChar": 12,
+        "endLine": 391,
+        "endChar": 11
+      },
+      "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c124140_85d31bff",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 629,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T15:52:25Z",
+      "side": 1,
+      "message": "Do we have any tests that cover this case? i.e. both ChangeAttributeFactory and PluginDefinedInfosFactory are present?",
+      "range": {
+        "startLine": 629,
+        "startChar": 10,
+        "endLine": 629,
+        "endChar": 42
+      },
+      "revId": "f84933a04133d643d1ba6a55104171a9a984cfee",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

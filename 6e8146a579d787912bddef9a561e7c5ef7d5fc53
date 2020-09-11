@@ -70,6 +70,30 @@
       "revId": "6e8146a579d787912bddef9a561e7c5ef7d5fc53",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1c0540c2_47884a2d",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T20:47:09Z",
+      "side": 0,
+      "message": "I\u0027m just reversing the equals() to be on g.getName() since that will never be null. Then you don\u0027t need the null check 😊",
+      "parentUuid": "8a6cbd2e_98982de0",
+      "range": {
+        "startLine": 159,
+        "startChar": 59,
+        "endLine": 159,
+        "endChar": 88
+      },
+      "revId": "6e8146a579d787912bddef9a561e7c5ef7d5fc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

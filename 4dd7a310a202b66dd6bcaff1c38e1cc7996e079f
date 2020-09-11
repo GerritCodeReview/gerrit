@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "e74041bc_21688b7f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "Comments have an \u0027unresolved\u0027 field/flag. Comment threads are just a virtual concept derived from comments being able to refer to parent comments. There\u0027s no entity for a comment thread. We just build such threads whenever we need them using the parentUuid. With Ie2713ebdb, I bundled the logic for comment threads into one place in the backend (frontend is separate). That change also bundled the logic for when a comment thread is considered as resolved/unresolved. By contract/definition, the unresolved state of a comment thread is derived from the last comment in the thread. That\u0027s still a virtual concept and not persisted anywhere. Comments contained in the thread also do not change the value of their unresolved flag. One main reason for this is that published comments are immutable. If we need to change them (e.g. necessary for comment deletion), we need to rewrite NoteDb history, which is an expensive operation.\n\n\u003e I think you meant that published comments could be in a resolved state, hence filtered from porting, while draft replies on them are unresolved. The result is porting the drafts only, while the better behaviour is to port the entire thread (?)\n\nKind of. I\u0027m still undecided whether it would be the \"better behavior\". It has issues on its own (e.g. potentially different result for different calling users which we typically avoid for published comment endpoints) and hence isn\u0027t the perfect solution, either.",
+      "parentUuid": "9a3ba235_1ba1765f",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 69
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d3affa1_98caad3f",
         "filename": "/COMMIT_MSG",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13affbe6_a6167078",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "\u003e Does this happen when a resolved draft is added as a reply to an unresolved published comment?\n\nYes.\n\n\u003e Are published comments marked resolved only when the later draft is published?\n\nThe unresolved/resolved state of a comment thread is derived from the last comment. It\u0027s not an explicit flag which is set anywhere. In addition, the unresolved state of a published comment can\u0027t change.\n\nWhen choosing the color for a comment thread on the frontend, Gerrit also considers draft replies. That only happens for the user having the draft of course.",
+      "parentUuid": "7d3affa1_98caad3f",
+      "range": {
+        "startLine": 33,
+        "startChar": 63,
+        "endLine": 34,
+        "endChar": 16
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ca3b612d_4d536b4a",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "It\u0027s already there. See line 124. ;-)",
+      "parentUuid": "fb3fc8ab_763e4a11",
+      "range": {
+        "startLine": 139,
+        "startChar": 2,
+        "endLine": 139,
+        "endChar": 3
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f4ef34be_beb293b3",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
         "patchSetId": 2
@@ -91,6 +163,30 @@
       "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "578cdbee_2c4ed0f0",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-11T14:30:43Z",
+      "side": 1,
+      "message": "The test contains two comment threads. One ending with a resolved draft comment, the other one ending with an unresolved draft comment. In the test name, I wanted to express that the value of the unresolved flag of draft comments does not matter. The best I came up with was \"unresolved state of\" instead of saying something like \"unresolvedDraftComment\" which would have pointed only to unresolved draft comments in my opinion. The name you\u0027re suggesting would only cover one situation (resolved draft comments) and not be suitable for the opposite (unresolved draft comment). If you have a better suggestion to point out the field/flag instead of the value in the name, I\u0027m happy to hear it.",
+      "parentUuid": "f4ef34be_beb293b3",
+      "range": {
+        "startLine": 196,
+        "startChar": 14,
+        "endLine": 196,
+        "endChar": 73
+      },
+      "revId": "4dd7a310a202b66dd6bcaff1c38e1cc7996e079f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

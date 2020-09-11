@@ -38,6 +38,7 @@ import {htmlTemplate} from './gr-comment_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {getRootElement} from '../../../scripts/rootElement';
 import {appContext} from '../../../services/app-context';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
@@ -49,6 +50,8 @@ import {
   CommentInfo,
   ConfigInfo,
   AccountDetailInfo,
+  RepoName,
+  NumericChangeId,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -160,6 +163,9 @@ export class GrComment extends KeyboardShortcutMixin(
 
   @property({type: Number})
   changeNum?: number;
+
+  @property({type: String})
+  projectName?: RepoName;
 
   @property({type: Object, notify: true, observer: '_commentChanged'})
   comment?: Comment | RobotComment;
@@ -301,6 +307,15 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _getAuthor(comment: Comment) {
     return comment.author || this._selfAccount;
+  }
+
+  _getUrlForComment(comment: Comment) {
+    if (!this.changeNum || !this.projectName) return '';
+    return GerritNav.getUrlForComment(
+      this.changeNum as NumericChangeId,
+      this.projectName,
+      comment.id
+    );
   }
 
   @observe('editing')

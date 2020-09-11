@@ -37,6 +37,8 @@ import {
   UrlEncodedCommentId,
   NumericChangeId,
   RevisionId,
+  PathToCommentsInfoMap,
+  PortedCommentsAndDrafts,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide, Side} from '../../../constants/constants';
@@ -52,6 +54,7 @@ import {
   UIHuman,
   UIRobot,
   createCommentThreads,
+  isDraftThread,
 } from '../../../utils/comment-util';
 import {PatchSetFile, PatchNumOnly, isPatchSetFile} from '../../../types/types';
 
@@ -78,6 +81,8 @@ export class ChangeComments {
 
   private readonly _drafts: {[path: string]: UIDraft[]};
 
+  private readonly _portedComments: PathToCommentsInfoMap;
+
   private readonly _changeNum: NumericChangeId;
 
   /**
@@ -88,11 +93,13 @@ export class ChangeComments {
     comments: {[path: string]: UIHuman[]} | undefined,
     robotComments: {[path: string]: UIRobot[]} | undefined,
     drafts: {[path: string]: UIDraft[]} | undefined,
+    portedComments: PathToCommentsInfoMap | undefined,
     changeNum: NumericChangeId
   ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
     this._drafts = this._addPath(drafts);
+    this._portedComments = portedComments || {};
     // TODO(TS): remove changeNum param - it is not used anywhere
     this._changeNum = changeNum;
   }
@@ -129,6 +136,10 @@ export class ChangeComments {
 
   get robotComments() {
     return this._robotComments;
+  }
+
+  get portedComments() {
+    return this._portedComments;
   }
 
   findCommentById(commentId?: UrlEncodedCommentId): UIComment | undefined {
@@ -329,13 +340,18 @@ export class ChangeComments {
   getThreadsBySideForPath(
     path: string,
     patchRange: PatchRange,
-    projectConfig?: ConfigInfo
+    projectConfig?: ConfigInfo,
+    includePortedComments?: boolean
   ): CommentThread[] {
-    return createCommentThreads(
+    const threads = createCommentThreads(
       this._addCommentSide(
         this.getCommentsBySideForPath(path, patchRange, projectConfig)
       )
     );
+    if (includePortedComments) {
+      threads.push(...this.getPortedCommentThreads(path, patchRange));
+    }
+    return threads;
   }
 
   /**
@@ -396,16 +412,109 @@ export class ChangeComments {
     };
   }
 
+  /**
+   * Get the ported threads for given patch range.
+   * Ported threads are comment threads that were posted on an older patchset
+   * and are displayed on a later patchset.
+   * It is simply the original thread displayed on a newer patchset.
+   *
+   * Threads are ported over to all subsequent patchsets. So, a thread created
+   * on patchset 5 say will be ported over to patchsets 6,7,8 and beyond.
+   *
+   * Ported threads add a boolean property ported true to it's root comment
+   * to indicate to the user that this is a ported thread.
+   *
+   * Any interactions with ported threads are reflected on the original threads.
+   * Replying to a ported thread ported from Patchset 6 shown on Patchset 10
+   * say creates a draft reply associated with Patchset 6, since the user is
+   * interacting with the original thread.
+   *
+   * Only threads with unresolved comments or drafts are ported over.
+   * If the thread is associated with either the left patchset or the right
+   * patchset, then we filter that ported thread from the return value
+   * as it will be rendered by default.
+   *
+   * If there is no appropriate range for the ported comments, then the backend
+   * does not return the range of the ported thread and it becomes a file level
+   * thread.
+   *
+   * If a comment was created on the left side when comparing Base vs X, then
+   * we set thread.diffSide = left when comparing Base vs Y (Y > X), X vs Y
+   * or Y vs X (patchset Z > Y > X).
+   * In all other cases, we set thread.diffSide = right.
+   *
+   * @return only the ported threads for the specified file and patch range
+   */
+  getPortedCommentThreads(
+    path: string,
+    patchRange: PatchRange
+  ): CommentThread[] {
+    const portedComments = this._portedComments[path];
+    if (!portedComments) return [];
+
+    // when forming threads in diff view, we filter for current patchrange but
+    // ported comments will involve comments that may not belong to the
+    // current patchrange, so we need to form threads for them using all
+    // comments
+    const allComments: UIComment[] = this.getAllCommentsForPath(
+      path,
+      undefined,
+      true
+    );
+
+    return createCommentThreads(allComments)
+      .filter(thread => {
+        // Robot comments and drafts are not ported over. A human reply to
+        // the robot comment will be ported over, thefore it's possible to
+        // have the root comment of the thread not be ported, hence loop over
+        // entire thread
+        const portedComment = portedComments.find(portedComment =>
+          thread.comments.some(c => portedComment.id === c.id)
+        );
+        if (!portedComment) return false;
+
+        if (
+          this._isInBaseOfPatchRange(thread.comments[0], patchRange) ||
+          this._isInRevisionOfPatchRange(thread.comments[0], patchRange)
+        ) {
+          // no need to port this thread as it will be rendered by default
+          return false;
+        }
+
+        // TODO(dhruvsri): Add handling for thread.commentSide = PARENT
+        if (thread.commentSide === CommentSide.PARENT) return false;
+
+        if (!isUnresolved(thread) && isDraftThread(thread)) return false;
+
+        thread.range = portedComment.range;
+        thread.line = portedComment.line;
+        thread.ported = true;
+        return true;
+      })
+      .map(thread => {
+        thread.diffSide = Side.RIGHT;
+        for (const comment of thread.comments) {
+          comment.__commentSide = Side.RIGHT;
+        }
+        return thread;
+      });
+  }
+
   getThreadsBySideForFile(
     file: PatchSetFile,
     patchRange: PatchRange,
-    projectConfig?: ConfigInfo
+    projectConfig?: ConfigInfo,
+    includePortedComments?: boolean
   ): CommentThread[] {
-    return createCommentThreads(
+    const threads = createCommentThreads(
       this._addCommentSide(
         this.getCommentsBySideForFile(file, patchRange, projectConfig)
       )
     );
+    if (includePortedComments) {
+      threads.push(...this.getPortedCommentThreads(file.path, patchRange));
+    }
+    return threads;
   }
 
   /**
@@ -630,24 +739,31 @@ export class GrCommentApi extends GestureEventListeners(
    * number. The returned promise resolves when the comments have loaded, but
    * does not yield the comment data.
    */
-  loadAll(changeNum: NumericChangeId) {
-    const promises = [];
-    promises.push(this.$.restAPI.getDiffComments(changeNum));
-    promises.push(this.$.restAPI.getDiffRobotComments(changeNum));
-    promises.push(this.$.restAPI.getDiffDrafts(changeNum));
+  loadAll(changeNum: NumericChangeId, patchNum?: PatchSetNum) {
+    const commentsPromise: [
+      Promise<PathToCommentsInfoMap | undefined>,
+      Promise<PathToRobotCommentsInfoMap | undefined>,
+      Promise<PathToCommentsInfoMap | undefined>,
+      Promise<PortedCommentsAndDrafts | undefined>
+    ] = [
+      this.$.restAPI.getDiffComments(changeNum),
+      this.$.restAPI.getDiffRobotComments(changeNum),
+      this.$.restAPI.getDiffDrafts(changeNum),
+      this.getPortedComments(changeNum, patchNum || 'current'),
+    ];
 
-    return Promise.all(promises).then(([comments, robotComments, drafts]) => {
-      this._changeComments = new ChangeComments(
-        comments,
-        // TODO(TS): Promise.all somehow resolve all types to
-        // PathToCommentsInfoMap given its PathToRobotCommentsInfoMap
-        // returned from the second promise
-        robotComments as PathToRobotCommentsInfoMap,
-        drafts,
-        changeNum
-      );
-      return this._changeComments;
-    });
+    return Promise.all(commentsPromise).then(
+      ([comments, robotComments, drafts, portedCommentsAndDrafts]) => {
+        this._changeComments = new ChangeComments(
+          comments,
+          robotComments,
+          drafts,
+          portedCommentsAndDrafts?.portedComments,
+          changeNum
+        );
+        return this._changeComments;
+      }
+    );
   }
 
   /**
@@ -665,6 +781,7 @@ export class GrCommentApi extends GestureEventListeners(
         oldChangeComments.comments,
         (oldChangeComments.robotComments as unknown) as PathToRobotCommentsInfoMap,
         drafts,
+        oldChangeComments.portedComments,
         changeNum
       );
       return this._changeComments;

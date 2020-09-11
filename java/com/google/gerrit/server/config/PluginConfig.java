@@ -156,7 +156,14 @@ public abstract class PluginConfig {
 
   public Optional<GroupReference> getGroupReference(String name) {
     String exactName = GroupReference.extractGroupName(getString(name));
-    return groupReferences().values().stream().filter(g -> exactName.equals(g.getName())).findAny();
+    if (exactName != null) {
+      return groupReferences()
+          .values()
+          .stream()
+          .filter(g -> exactName.equals(g.getName()))
+          .findAny();
+    }
+    return Optional.empty();
   }
 
   /** Mutable representation of {@link PluginConfig}. Used for updates. */

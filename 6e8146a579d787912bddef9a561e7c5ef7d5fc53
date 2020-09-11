@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d073cac2_14afd2c1",
+        "filename": "java/com/google/gerrit/server/config/PluginConfig.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T19:30:27Z",
+      "side": 0,
+      "message": "It\u0027s a smaller diff and less code to swap the equals:\n\n return groupReferences().values().stream().filter(g -\u003e g.getName().equals(exactName)).findAny();",
+      "range": {
+        "startLine": 159,
+        "startChar": 59,
+        "endLine": 159,
+        "endChar": 88
+      },
+      "revId": "6e8146a579d787912bddef9a561e7c5ef7d5fc53",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

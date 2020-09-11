@@ -16,6 +16,23 @@
       "revId": "dde7696f22513ab7af0fcd0ceab9a7ed90a74dac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "17fb43d8_855c3a51",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T08:13:53Z",
+      "side": 1,
+      "message": "If `lineNum` is a field now, then there is no need to have a local var for it or pass it as a parameter to other methods.\n\nIt should also be declared and documented (will have to do this during ts conversion anyway).",
+      "revId": "dde7696f22513ab7af0fcd0ceab9a7ed90a74dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

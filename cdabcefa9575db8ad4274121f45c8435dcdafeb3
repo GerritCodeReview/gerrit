@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5ba790ec_cc212361",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-11T17:58:40Z",
+      "side": 1,
+      "message": "Should this additional fix (at this line) also be done downstream? -Back to my original comment about this.\n\nThat is why I was proposing a downstream amend first, to then merge up again. But it can also be done after this merge gets submitted.",
+      "range": {
+        "startLine": 473,
+        "startChar": 19,
+        "endLine": 473,
+        "endChar": 37
+      },
+      "revId": "cdabcefa9575db8ad4274121f45c8435dcdafeb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46adc30a_efb0e625",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 336,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T21:52:27Z",
+      "side": 1,
+      "message": "this can NPE",
+      "range": {
+        "startLine": 336,
+        "startChar": 62,
+        "endLine": 336,
+        "endChar": 78
+      },
+      "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5227ccb_266b2f25",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 635,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T21:52:27Z",
+      "side": 1,
+      "message": "This isn\u0027t correct. If we had the change in the bulk output, but didn\u0027t get any PDIs for it, you\u0027d re-check the plugins for PDIs here. You need to distinguish the cases of 1) Already did a bulk query or 2) Never did a query and need to now. Checking pdisForChange.isPresent() here tells you if we\u0027ve done a bulk query already or not. Since you\u0027re going to check that here, you can combine some of the code on the line above and make this all flow together.\n\n if (pdisForChange.isPresent()) {\n   pluginInfos \u003d pdisForChange.get();\n } else if (pluginDefinedInfosFactory.isPresent()) {\n   \u003clines 636-640\u003e\n }",
+      "range": {
+        "startLine": 635,
+        "startChar": 49,
+        "endLine": 635,
+        "endChar": 70
+      },
+      "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef0d0b93_ad7cc2a7",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 642,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T21:52:27Z",
+      "side": 1,
+      "message": "Because of my suggestion above, pluginInfos could be null here, so check that first.",
+      "range": {
+        "startLine": 642,
+        "startChar": 8,
+        "endLine": 642,
+        "endChar": 30
+      },
+      "revId": "5a832afdf78cfd9c5383300bb962adaa6a0a3e3d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

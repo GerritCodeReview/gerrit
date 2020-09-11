@@ -158,6 +158,7 @@ export interface CommentThread {
   rootId?: UrlEncodedCommentId;
   diffSide?: Side;
   range?: CommentRange;
+  ported?: boolean; // is the comment ported over from a previous patchset
 }
 
 export function getLastComment(thread?: CommentThread): UIComment | undefined {

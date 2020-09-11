@@ -38,6 +38,7 @@ import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/key
 import {getRootElement} from '../../../scripts/rootElement';
 import {appContext} from '../../../services/app-context';
 import {customElement, observe, property} from '@polymer/decorators';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
@@ -46,6 +47,7 @@ import {
   NumericChangeId,
   ConfigInfo,
   PatchSetNum,
+  RepoName,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -154,6 +156,9 @@ export class GrComment extends KeyboardShortcutMixin(
   @property({type: Number})
   changeNum?: NumericChangeId;
 
+  @property({type: String})
+  projectName?: RepoName;
+
   @property({type: Object, notify: true, observer: '_commentChanged'})
   comment?: UIComment;
 
@@ -256,6 +261,9 @@ export class GrComment extends KeyboardShortcutMixin(
   @property({type: Object})
   _selfAccount?: AccountDetailInfo;
 
+  @property({type: Boolean})
+  showPortedComment = false;
+
   get keyBindings() {
     return {
       'ctrl+enter meta+enter ctrl+s meta+s': '_handleSaveKey',
@@ -294,6 +302,16 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _getAuthor(comment: UIComment) {
     return comment.author || this._selfAccount;
+  }
+
+  _getUrlForComment(comment: UIComment) {
+    if (!this.changeNum || !this.projectName) return '';
+    if (!comment.id) throw new Error('comment must have an id');
+    return GerritNav.getUrlForComment(
+      this.changeNum as NumericChangeId,
+      this.projectName,
+      comment.id
+    );
   }
 
   @observe('editing')

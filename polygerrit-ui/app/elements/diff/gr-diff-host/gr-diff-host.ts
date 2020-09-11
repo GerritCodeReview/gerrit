@@ -270,6 +270,9 @@ export class GrDiffHost extends GestureEventListeners(
   @property({type: Array})
   _layers: DiffLayer[] = [];
 
+  @property({type: Object})
+  portedCommentThreads: any = {};
+
   private readonly reporting = appContext.reportingService;
 
   /** @override */
@@ -694,6 +697,26 @@ export class GrDiffHost extends GestureEventListeners(
 
   _computeIsImageDiff(diff?: DiffInfo) {
     return isImageDiff(diff);
+  }
+
+  _portedCommentThreadsChanged(portedCommentThreads: any) {
+    let threadAttached = false;
+    for (const side of [Side.LEFT, Side.RIGHT]) {
+      for (const thread of (portedCommentThreads[side] || [])) {
+        for (const comment of thread.comments) {
+          comment.__commentSide = side;
+        }
+        thread.comments[0].ported = true;
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+        threadAttached = true;
+      }
+    }
+    // re-render is required so that gr-diff recalculates key positions and
+    // auto-expands the diff around the ported threads
+    if (threadAttached) {
+      this.$.diff.reRenderDiffTable();
+    }
   }
 
   _commentsChanged(newComments: TwoSidesComments) {

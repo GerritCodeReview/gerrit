@@ -880,6 +880,25 @@ class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  _processPortedComments(comments) {
+    if (!comments[this._path]) return;
+    const portedComments = {
+      left: [],
+      right: [],
+    };
+    comments[this._path].forEach(c => {
+      c.ported = true;
+      if (c.patch_set === this._patchRange.basePatchNum) {
+        portedComments.left.push(c);
+      } else {
+        portedComments.right.push(c);
+      }
+    });
+    this.$.diffHost.comments.left.push(...portedComments.left);
+    this.$.diffHost.comments.right.push(...portedComments.right);
+    this.$.diffHost.comments = {...this.$.diffHost.comments};
+  }
+
   _paramsChanged(value) {
     if (value.view !== GerritNav.View.DIFF) { return; }
 
@@ -928,6 +947,10 @@ class GrDiffView extends KeyboardShortcutMixin(
           this._initPatchRange();
           this._initCommitRange();
           this.$.diffHost.comments = this._commentsForDiff;
+          this.$.restAPI.getPortedComments(this._changeNum,
+              this._patchRange.patchNum).then(comments => {
+            this._processPortedComments(comments);
+          });
           const edit = r[4];
           if (edit) {
             this.set('_change.revisions.' + edit.commit.commit, {

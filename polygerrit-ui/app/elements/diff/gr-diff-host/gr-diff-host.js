@@ -685,7 +685,8 @@ class GrDiffHost extends GestureEventListeners(
     // and recreate them. If this changes in future, we might want to reuse
     // some DOM nodes here.
     this._clearThreads();
-    const threads = this._createThreads(allComments);
+    const threads = this._createThreads(allComments).filter(t =>
+      !(t.ported && !t.comments[t.comments.length - 1].unresolved));
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
@@ -728,6 +729,7 @@ class GrDiffHost extends GestureEventListeners(
         rootId: comment.id || comment.__draftID,
         lineNum: comment.line,
         isOnParent: comment.side === 'PARENT',
+        ported: comment.ported,
       };
       if (comment.range) {
         newThread.range = {...comment.range};

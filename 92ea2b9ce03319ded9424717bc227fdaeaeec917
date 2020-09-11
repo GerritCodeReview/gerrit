@@ -70,6 +70,24 @@
       "revId": "92ea2b9ce03319ded9424717bc227fdaeaeec917",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8442bb34_37ce2ac6",
+        "filename": "polygerrit-ui/app/types/globals.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T07:58:56Z",
+      "side": 1,
+      "message": "I don\u0027t find \"typeof\" better than \"any\".\n\nMost of these global defs should be removed altogether, so this is just legacy to clean up.\n\nAnd if there is a good reason to expose something globally, then we should define proper types and interfaces (in the types/ dir).",
+      "parentUuid": "44059c5f_eec020bb",
+      "revId": "92ea2b9ce03319ded9424717bc227fdaeaeec917",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

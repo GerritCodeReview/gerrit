@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5d3293f_840c9561",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T10:34:04Z",
+      "side": 1,
+      "message": "It would be nicer to just depend on an interface here:\n  getSuggestions()\n  makeSuggestionItem()",
+      "range": {
+        "startLine": 134,
+        "startChar": 24,
+        "endLine": 134,
+        "endChar": 53
+      },
+      "revId": "50763365da94d67902bfcdf0b88312471eb6d842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fa29f94_e78ad968",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 165,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-11T10:34:04Z",
+      "side": 1,
+      "message": "Correct type is AutocompleteQuery.\n\nShould also be used as the type of `querySuggestions` in elements/shared/gr-account-entry/gr-account-entry.ts.\n\nMaybe remove the type SuggestionItem altogether in favor of AutocompleteSuggestion.",
+      "revId": "50763365da94d67902bfcdf0b88312471eb6d842",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

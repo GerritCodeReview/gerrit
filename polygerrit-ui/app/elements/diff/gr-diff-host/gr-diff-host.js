@@ -24,7 +24,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
 import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
-import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {DiffSide, rangesEqual} from '../gr-diff/gr-diff-utils.js';
 import {appContext} from '../../../services/app-context.js';
@@ -251,6 +250,8 @@ class GrDiffHost extends GestureEventListeners(
         type: Array,
         value: [],
       },
+
+      createThreads: Function,
     };
   }
 
@@ -685,56 +686,16 @@ class GrDiffHost extends GestureEventListeners(
     // and recreate them. If this changes in future, we might want to reuse
     // some DOM nodes here.
     this._clearThreads();
-    const threads = this._createThreads(allComments);
+    const threads = this.createThreads(allComments).filter(t => {
+      if (!t.ported) return true;
+      const lastComment = t.comments[t.comments.length - 1];
+      return lastComment.unresolved || lastComment.__draft;
+    });
+
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
     }
-  }
-
-  _sortComments(comments) {
-    return comments.slice(0).sort((a, b) => {
-      if (b.__draft && !a.__draft ) { return -1; }
-      if (a.__draft && !b.__draft ) { return 1; }
-      return parseDate(a.updated) - parseDate(b.updated);
-    });
-  }
-
-  /**
-   * @param {!Array<!Object>} comments
-   * @return {!Array<!Object>} Threads for the given comments.
-   */
-  _createThreads(comments) {
-    const sortedComments = this._sortComments(comments);
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to));
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
-        }
-      }
-
-      // Otherwise, this comment starts its own thread.
-      const newThread = {
-        start_datetime: comment.updated,
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        rootId: comment.id || comment.__draftID,
-        lineNum: comment.line,
-        isOnParent: comment.side === 'PARENT',
-      };
-      if (comment.range) {
-        newThread.range = {...comment.range};
-      }
-      threads.push(newThread);
-    }
-    return threads;
   }
 
   /**

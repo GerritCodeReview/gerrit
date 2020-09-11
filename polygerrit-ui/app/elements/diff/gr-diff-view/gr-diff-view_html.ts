@@ -402,6 +402,7 @@ export const htmlTemplate = html`
     project-name="[[_change.project]]"
     view-mode="[[_diffMode]]"
     is-blame-loaded="{{_isBlameLoaded}}"
+    create-threads="[[_createThreads]]"
     on-comment-anchor-tap="_onLineSelected"
     on-line-selected="_onLineSelected"
   >

@@ -52,6 +52,7 @@ export interface UIStateCommentProps {
   // TODO(TS): Consider allowing this only for drafts.
   __editing?: boolean;
   __otherEditing?: boolean;
+  ported?: boolean; // is the comment ported over from a previous patchset
 }
 
 export type UIDraft = DraftInfo & UIStateCommentProps;

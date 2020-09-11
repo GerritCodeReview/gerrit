@@ -89,6 +89,7 @@ import {
   PreferencesInfo,
   RepoName,
   RevisionInfo,
+  PathToCommentsInfoMap,
 } from '../../../types/common';
 import {ChangeViewState, CommitRange, FileRange} from '../../../types/types';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
@@ -100,9 +101,10 @@ import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap} from '../../../utils/comment-util';
+import {CommentMap, getPortedCommentThreads} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {FetchParams} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -274,6 +276,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
   @property({type: Number})
   _focusLineNum?: number;
 
+  @property({type: Boolean})
+  _isPortingCommentsExperimentEnabled = false;
+
   get keyBindings() {
     return {
       esc: '_handleEscKey',
@@ -352,6 +357,9 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this.$.cursor.reInitCursor();
     };
     this.$.diffHost.addEventListener('render', this._onRenderHandler);
+    this._isPortingCommentsExperimentEnabled = this.flagsService.isEnabled(
+      KnownExperimentId.PORTING_COMMENTS
+    );
   }
 
   /** @override */
@@ -1037,6 +1045,18 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
+  _processPortedComments(comments: PathToCommentsInfoMap) {
+    if (!this._path || !this._changeComments || !this._patchRange) {
+      throw new Error('undefined arguments for getting ported threads');
+    }
+    this.$.diffHost.portedCommentThreads = getPortedCommentThreads(
+      comments,
+      this._path,
+      this._changeComments,
+      this._patchRange
+    );
+  }
+
   _paramsChanged(value: AppElementParams) {
     if (value.view !== GerritView.DIFF) {
       return;
@@ -1090,6 +1110,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
         this._initPatchRange();
         this._initCommitRange();
         this.$.diffHost.comments = this._commentsForDiff;
+        if (this._isPortingCommentsExperimentEnabled) {
+          // _initPatchRange() ensures _patchRange is set
+          // AppElementDiffViewParam ensures _changeNum is set
+          this.$.restAPI
+            .getPortedComments(this._changeNum!, this._patchRange!.patchNum)
+            .then((comments: PathToCommentsInfoMap | undefined) => {
+              if (!comments) return;
+              this._processPortedComments(comments);
+            });
+        }
         const edit = r[4] as EditInfo | undefined;
         if (edit) {
           this.set(`_change.revisions.${edit.commit.commit}`, {

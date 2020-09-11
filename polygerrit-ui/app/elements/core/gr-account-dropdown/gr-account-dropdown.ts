@@ -14,49 +14,62 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-dropdown/gr-dropdown.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-avatar/gr-avatar.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-account-dropdown_html.js';
-import {getUserName} from '../../../utils/display-name-util.js';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/shared-styles';
+import '../../shared/gr-avatar/gr-avatar';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-account-dropdown_html';
+import {getUserName} from '../../../utils/display-name-util';
+import {customElement, property} from '@polymer/decorators';
+import {AccountInfo, ServerInfo} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 const INTERPOLATE_URL_PATTERN = /\${([\w]+)}/g;
 
-/**
- * @extends PolymerElement
- */
-class GrAccountDropdown extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-account-dropdown'; }
-
-  static get properties() {
-    return {
-      account: Object,
-      config: Object,
-      links: {
-        type: Array,
-        computed: '_getLinks(_switchAccountUrl, _path)',
-      },
-      topContent: {
-        type: Array,
-        computed: '_getTopContent(account)',
-      },
-      _path: {
-        type: String,
-        value: '/',
-      },
-      _hasAvatars: Boolean,
-      _switchAccountUrl: String,
-    };
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-account-dropdown': GrAccountDropdown;
   }
+}
+
+export interface GrAccountDropdown {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
+
+@customElement('gr-account-dropdown')
+export class GrAccountDropdown extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Object})
+  config?: ServerInfo;
+
+  @property({type: Array, computed: '_getLinks(_switchAccountUrl, _path)'})
+  links?: string[];
+
+  @property({type: Array, computed: '_getTopContent(account)'})
+  topContent?: string[];
+
+  @property({type: String})
+  _path = '/';
+
+  @property({type: Boolean})
+  _hasAvatars = false;
+
+  @property({type: String})
+  _switchAccountUrl = '';
 
   /** @override */
   attached() {
@@ -81,9 +94,9 @@ class GrAccountDropdown extends GestureEventListeners(
     this.unlisten(window, 'location-change', '_handleLocationChange');
   }
 
-  _getLinks(switchAccountUrl, path) {
+  _getLinks(switchAccountUrl: string, path: string) {
     // Polymer 2: check for undefined
-    if ([switchAccountUrl, path].includes(undefined)) {
+    if (switchAccountUrl === undefined || path === undefined) {
       return undefined;
     }
 
@@ -99,34 +112,35 @@ class GrAccountDropdown extends GestureEventListeners(
     return links;
   }
 
-  _getTopContent(account) {
+  _getTopContent(account: AccountInfo) {
     return [
       {text: this._accountName(account), bold: true},
       {text: account.email ? account.email : ''},
     ];
   }
 
-  _handleShortcutsTap(e) {
-    this.dispatchEvent(new CustomEvent('show-keyboard-shortcuts',
-        {bubbles: true, composed: true}));
+  _handleShortcutsTap() {
+    this.dispatchEvent(
+      new CustomEvent('show-keyboard-shortcuts', {
+        bubbles: true,
+        composed: true,
+      })
+    );
   }
 
   _handleLocationChange() {
     this._path =
-        window.location.pathname +
-        window.location.search +
-        window.location.hash;
+      window.location.pathname + window.location.search + window.location.hash;
   }
 
-  _interpolateUrl(url, replacements) {
+  _interpolateUrl(url: string, replacements: {[key: string]: string}) {
     return url.replace(
-        INTERPOLATE_URL_PATTERN,
-        (match, p1) => replacements[p1] || '');
+      INTERPOLATE_URL_PATTERN,
+      (_, p1) => replacements[p1] || ''
+    );
   }
 
-  _accountName(account) {
+  _accountName(account: AccountInfo) {
     return getUserName(this.config, account);
   }
 }
-
-customElements.define(GrAccountDropdown.is, GrAccountDropdown);

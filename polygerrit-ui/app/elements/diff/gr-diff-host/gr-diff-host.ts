@@ -34,8 +34,8 @@ import {
 import {
   Comment,
   isDraft,
-  sortComments,
   UIComment,
+  createThreads,
 } from '../../../utils/comment-util';
 import {TwoSidesComments} from '../gr-comment-api/gr-comment-api';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -44,6 +44,7 @@ import {
   CoverageRange,
   DiffLayer,
   DiffLayerListener,
+  PatchSetFile,
 } from '../../../types/types';
 import {
   Base64ImageFile,
@@ -69,7 +70,6 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
-import {PatchSetFile} from '../../../types/types';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -111,7 +111,7 @@ interface LineInfo {
 // What is being used here is just a local object for collecting all the data
 // that is needed to create a GrCommentThread component, see
 // _createThreadElement().
-interface CommentThread {
+export interface CommentThread {
   comments: UIComment[];
   // In the context of a diff each thread must have a side!
   commentSide: Side;
@@ -266,6 +266,12 @@ export class GrDiffHost extends GestureEventListeners(
 
   @property({type: Array})
   _layers: DiffLayer[] = [];
+
+  @property({type: Object})
+  portedCommentThreads: {[key in Side]: CommentThread[]} = {
+    [Side.LEFT]: [],
+    [Side.RIGHT]: [],
+  };
 
   private readonly reporting = appContext.reportingService;
 
@@ -706,44 +712,34 @@ export class GrDiffHost extends GestureEventListeners(
     // and recreate them. If this changes in future, we might want to reuse
     // some DOM nodes here.
     this._clearThreads();
-    const threads = this._createThreads(allComments);
+    const threads = createThreads(allComments);
     for (const thread of threads) {
       const threadEl = this._createThreadElement(thread);
       this._attachThreadElement(threadEl);
     }
   }
 
-  _createThreads(comments: UIComment[]): CommentThread[] {
-    const sortedComments = sortComments(comments);
-    const threads = [];
-    for (const comment of sortedComments) {
-      // If the comment is in reply to another comment, find that comment's
-      // thread and append to it.
-      if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to)
-        );
-        if (thread) {
-          thread.comments.push(comment);
-          continue;
+  @observe('portedCommentThreads')
+  _portedCommentThreadsChanged(
+    portedCommentThreads: {[key in Side]: CommentThread[]}
+  ) {
+    let threadAttached = false;
+    for (const side of [Side.LEFT, Side.RIGHT]) {
+      for (const thread of portedCommentThreads[side] || []) {
+        for (const comment of thread.comments) {
+          comment.__commentSide = side;
         }
+        thread.comments[0].ported = true;
+        const threadEl = this._createThreadElement(thread);
+        this._attachThreadElement(threadEl);
+        threadAttached = true;
       }
-
-      // Otherwise, this comment starts its own thread.
-      if (!comment.__commentSide) throw new Error('Missing "__commentSide".');
-      const newThread: CommentThread = {
-        comments: [comment],
-        commentSide: comment.__commentSide,
-        patchNum: comment.patch_set,
-        lineNum: comment.line,
-        isOnParent: comment.side === 'PARENT',
-      };
-      if (comment.range) {
-        newThread.range = {...comment.range};
-      }
-      threads.push(newThread);
     }
-    return threads;
+    // re-render is required so that gr-diff recalculates key positions and
+    // auto-expands the diff around the ported threads
+    if (threadAttached) {
+      this.$.diff.reRenderDiffTable();
+    }
   }
 
   _computeIsBlameLoaded(blame: BlameInfo[] | null) {

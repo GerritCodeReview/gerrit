@@ -46,6 +46,30 @@
       "revId": "5f5db5b790e462c4a79b3910ac4dac798329aec8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cca68c06_ada1bde1",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-11T14:23:20Z",
+      "side": 1,
+      "message": "Yeah, unless there\u0027s some reason we need it to be a List?",
+      "parentUuid": "fc1b2c66_31f68a67",
+      "range": {
+        "startLine": 325,
+        "startChar": 78,
+        "endLine": 325,
+        "endChar": 97
+      },
+      "revId": "5f5db5b790e462c4a79b3910ac4dac798329aec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

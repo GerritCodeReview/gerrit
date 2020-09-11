@@ -112,7 +112,6 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
     return id1.localeCompare(id2);
   });
 }
-
 export interface CommentThread {
   comments: UIComment[];
   patchNum?: PatchSetNum;

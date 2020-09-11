@@ -70,6 +70,24 @@
       "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef577f34_3c1d143a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-11T08:23:07Z",
+      "side": 1,
+      "message": "FWIW After this change you won\u0027t have to configure a custom format since you can use RFC3339.\nhttps://grafana.com/docs/loki/latest/clients/promtail/stages/timestamp/\nWe use the ELK stack and the beats doesn\u0027t offer an opportunity to configure timeformat, it simply fails the  parsing if it isn\u0027t RFC3339 (which the current timeformat isn\u0027t)",
+      "parentUuid": "289c3d1b_27a5bfcc",
+      "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

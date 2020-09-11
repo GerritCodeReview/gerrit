@@ -34,6 +34,24 @@
       "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d37ac9ed_f1fbc66e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1065256
+      },
+      "writtenOn": "2020-09-11T07:56:13Z",
+      "side": 1,
+      "message": "In our logging stack we currently use Promtail, where I have to configure the time format. This means that I would have to reconfigure it for this change. That is not a lot of trouble, if that does not happen to often. This is the second time this year, the format is changed. (I admit that the first time it was me). If this change now fits nearly 100% of usecases, I am totally fine with that. The question is anyway whether we would want to support tools that do not follow the ISO or RFC standard.\nSince 3.3 is already announced, I think it would indeed make sense to move this change, which is a breaking change for some users, to master and release it with 3.3.",
+      "parentUuid": "083a3095_5400bd05",
+      "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,452 @@
+/**
+ * @license
+ * Copyright (C) 2016 The Android Open Source Project
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+import '../gr-account-chip/gr-account-chip';
+import '../gr-account-entry/gr-account-entry';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-account-list_html';
+import {appContext} from '../../../services/app-context';
+import {customElement, property} from '@polymer/decorators';
+import {
+  ChangeInfo,
+  Suggestion,
+  AccountInfo,
+  GroupInfo,
+} from '../../../types/common';
+import {
+  GrReviewerSuggestionsProvider,
+  SuggestionItem,
+} from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
+import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+
+const VALID_EMAIL_ALERT = 'Please input a valid email.';
+
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-account-list': GrAccountList;
+  }
+}
+
+export interface GrAccountList {
+  $: {
+    entry: GrAccountEntry;
+  };
+}
+
+/**
+ * For item added with account info
+ */
+export interface AccountObjectInput {
+  account: AccountInfo;
+}
+
+/**
+ * For item added with group info
+ */
+export interface GroupObjectInput {
+  group: GroupInfo;
+  confirm: boolean;
+}
+
+/** Supported input to be added */
+export type RawAccountInput = string | AccountObjectInput | GroupObjectInput;
+
+// type guards for AccountObjectInput and GroupObjectInput
+function isAccountObject(x: RawAccountInput): x is AccountObjectInput {
+  return !!(x as AccountObjectInput).account;
+}
+
+function isGroupObjectInput(x: RawAccountInput): x is GroupObjectInput {
+  return !!(x as GroupObjectInput).group;
+}
+
+// Internal input type with account info
+interface AccountInfoInput extends AccountInfo {
+  _group?: boolean;
+  _account?: boolean;
+  _pendingAdd?: boolean;
+  confirmed?: boolean;
+}
+
+// Internal input type with group info
+interface GroupInfoInput extends GroupInfo {
+  _group?: boolean;
+  _account?: boolean;
+  _pendingAdd?: boolean;
+  confirmed?: boolean;
+}
+
+type AccountInput = AccountInfoInput | GroupInfoInput;
+
+@customElement('gr-account-list')
+export class GrAccountList extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
+  /**
+   * Fired when user inputs an invalid email address.
+   *
+   * @event show-alert
+   */
+
+  @property({type: Array, notify: true})
+  accounts: AccountInput[] = [];
+
+  @property({type: Object})
+  change?: ChangeInfo;
+
+  @property({type: Object})
+  filter?: (input: Suggestion) => boolean;
+
+  @property({type: String})
+  placeholder = '';
+
+  @property({type: Boolean})
+  disabled = false;
+
+  /**
+   * Returns suggestions and convert them to list item
+   */
+  @property({type: Object})
+  suggestionsProvider?: GrReviewerSuggestionsProvider;
+
+  /**
+   * Needed for template checking since value is initially set to null.
+   */
+  @property({type: Object, notify: true})
+  pendingConfirmation: RawAccountInput | null = null;
+
+  @property({type: Boolean})
+  readonly = false;
+
+  /**
+   * When true, allows for non-suggested inputs to be added.
+   */
+  @property({type: Boolean})
+  allowAnyInput = false;
+
+  /**
+   * Array of values (groups/accounts) that are removable. When this prop is
+   * undefined, all values are removable.
+   */
+  @property({type: Array})
+  removableValues?: AccountInput[];
+
+  @property({type: Number})
+  maxCount = 0;
+
+  /**
+   * Returns suggestion items
+   */
+  @property({type: Object})
+  _querySuggestions: (input: string) => Promise<SuggestionItem[]>;
+
+  /**
+   * Set to true to disable suggestions on empty input.
+   */
+  @property({type: Boolean})
+  skipSuggestOnEmpty = false;
+
+  reporting: ReportingService;
+
+  constructor() {
+    super();
+    this.reporting = appContext.reportingService;
+    this._querySuggestions = input => this._getSuggestions(input);
+  }
+
+  /** @override */
+  created() {
+    super.created();
+    this.addEventListener('remove', e =>
+      this._handleRemove(e as CustomEvent<{account: AccountInput}>)
+    );
+  }
+
+  get accountChips() {
+    return Array.from(this.root?.querySelectorAll('gr-account-chip') || []);
+  }
+
+  get focusStart() {
+    return this.$.entry.focusStart;
+  }
+
+  _getSuggestions(input: string) {
+    if (this.skipSuggestOnEmpty && !input) {
+      return Promise.resolve([]);
+    }
+    const provider = this.suggestionsProvider;
+    if (!provider) {
+      return Promise.resolve([]);
+    }
+    return provider.getSuggestions(input).then(suggestions => {
+      if (!suggestions) {
+        return [];
+      }
+      if (this.filter) {
+        suggestions = suggestions.filter(this.filter);
+      }
+      return suggestions.map(suggestion =>
+        provider.makeSuggestionItem(suggestion)
+      );
+    });
+  }
+
+  _handleAdd(e: CustomEvent<{value: RawAccountInput}>) {
+    this.addAccountItem(e.detail.value);
+  }
+
+  addAccountItem(item: RawAccountInput) {
+    // Append new account or group to the accounts property. We add our own
+    // internal properties to the account/group here, so we clone the object
+    // to avoid cluttering up the shared change object.
+    let itemTypeAdded = 'unknown';
+    if (isAccountObject(item)) {
+      const account = {...item.account, _pendingAdd: true};
+      this.push('accounts', account);
+      itemTypeAdded = 'account';
+    } else if (isGroupObjectInput(item)) {
+      if (item.confirm) {
+        this.pendingConfirmation = item;
+        return;
+      }
+      const group = {...item.group, _pendingAdd: true, _group: true};
+      this.push('accounts', group);
+      itemTypeAdded = 'group';
+    } else if (this.allowAnyInput) {
+      if (!item.includes('@')) {
+        // Repopulate the input with what the user tried to enter and have
+        // a toast tell them why they can't enter it.
+        this.$.entry.setText(item);
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {message: VALID_EMAIL_ALERT},
+            bubbles: true,
+            composed: true,
+          })
+        );
+        return false;
+      } else {
+        const account = {email: item, _pendingAdd: true};
+        this.push('accounts', account);
+        itemTypeAdded = 'email';
+      }
+    }
+
+    this.reporting.reportInteraction(`Add to ${this.id}`, {itemTypeAdded});
+    this.pendingConfirmation = null;
+    return true;
+  }
+
+  confirmGroup(group: GroupObjectInput) {
+    this.push('accounts', {
+      ...group,
+      confirmed: true,
+      _pendingAdd: true,
+      _group: true,
+    });
+    this.pendingConfirmation = null;
+  }
+
+  _computeChipClass(account: AccountInput) {
+    const classes = [];
+    if (account._group) {
+      classes.push('group');
+    }
+    if (account._pendingAdd) {
+      classes.push('pendingAdd');
+    }
+    return classes.join(' ');
+  }
+
+  _accountMatches(a: AccountInput, b: AccountInput) {
+    // TODO(TS): seems a & b always exists ?
+    if (a && b) {
+      // both conditions are checking against AccountInfo
+      // and only check a not b.. typeguard won't work very good without
+      // changing logic, so keep it as inline casting
+      if ((a as AccountInfoInput)._account_id) {
+        return (
+          (a as AccountInfoInput)._account_id ===
+          (b as AccountInfoInput)._account_id
+        );
+      }
+      if ((a as AccountInfoInput).email) {
+        return (a as AccountInfoInput).email === (b as AccountInfoInput).email;
+      }
+    }
+    return a === b;
+  }
+
+  _computeRemovable(account: AccountInput, readonly: boolean) {
+    if (readonly) {
+      return false;
+    }
+    if (this.removableValues) {
+      for (let i = 0; i < this.removableValues.length; i++) {
+        if (this._accountMatches(this.removableValues[i], account)) {
+          return true;
+        }
+      }
+      return !!account._pendingAdd;
+    }
+    return true;
+  }
+
+  _handleRemove(e: CustomEvent<{account: AccountInput}>) {
+    const toRemove = e.detail.account;
+    this.removeAccount(toRemove);
+    this.$.entry.focus();
+  }
+
+  removeAccount(toRemove?: AccountInput) {
+    if (!toRemove || !this._computeRemovable(toRemove, this.readonly)) {
+      return;
+    }
+    for (let i = 0; i < this.accounts.length; i++) {
+      let matches;
+      const account = this.accounts[i];
+      if (toRemove._group) {
+        matches =
+          (toRemove as GroupInfoInput).id === (account as GroupInfoInput).id;
+      } else {
+        matches = this._accountMatches(toRemove, account);
+      }
+      if (matches) {
+        this.splice('accounts', i, 1);
+        this.reporting.reportInteraction(`Remove from ${this.id}`);
+        return;
+      }
+    }
+    console.warn('received remove event for missing account', toRemove);
+  }
+
+  _getNativeInput(paperInput: PaperInputElement) {
+    // In Polymer 2 inputElement isn't nativeInput anymore
+    return (paperInput.$.nativeInput ||
+      paperInput.inputElement) as HTMLTextAreaElement;
+  }
+
+  _handleInputKeydown(
+    e: CustomEvent<{input: PaperInputElement; keyCode: number}>
+  ) {
+    const input = this._getNativeInput(e.detail.input);
+    if (
+      input.selectionStart !== input.selectionEnd ||
+      input.selectionStart !== 0
+    ) {
+      return;
+    }
+    switch (e.detail.keyCode) {
+      case 8: // Backspace
+        this.removeAccount(this.accounts[this.accounts.length - 1]);
+        break;
+      case 37: // Left arrow
+        if (this.accountChips[this.accountChips.length - 1]) {
+          this.accountChips[this.accountChips.length - 1].focus();
+        }
+        break;
+    }
+  }
+
+  _handleChipKeydown(e: KeyboardEvent) {
+    const chip = e.target as GrAccountChip;
+    const chips = this.accountChips;
+    const index = chips.indexOf(chip);
+    switch (e.keyCode) {
+      case 8: // Backspace
+      case 13: // Enter
+      case 32: // Spacebar
+      case 46: // Delete
+        this.removeAccount(chip.account);
+        // Splice from this array to avoid inconsistent ordering of
+        // event handling.
+        chips.splice(index, 1);
+        if (index < chips.length) {
+          chips[index].focus();
+        } else if (index > 0) {
+          chips[index - 1].focus();
+        } else {
+          this.$.entry.focus();
+        }
+        break;
+      case 37: // Left arrow
+        if (index > 0) {
+          chip.blur();
+          chips[index - 1].focus();
+        }
+        break;
+      case 39: // Right arrow
+        chip.blur();
+        if (index < chips.length - 1) {
+          chips[index + 1].focus();
+        } else {
+          this.$.entry.focus();
+        }
+        break;
+    }
+  }
+
+  /**
+   * Submit the text of the entry as a reviewer value, if it exists. If it is
+   * a successful submit of the text, clear the entry value.
+   *
+   * @return If there is text in the entry, return true if the
+   * submission was successful and false if not. If there is no text,
+   * return true.
+   */
+  submitEntryText() {
+    const text = this.$.entry.getText();
+    if (!text.length) {
+      return true;
+    }
+    const wasSubmitted = this.addAccountItem(text);
+    if (wasSubmitted) {
+      this.$.entry.clear();
+    }
+    return wasSubmitted;
+  }
+
+  additions() {
+    return this.accounts
+      .filter(account => account._pendingAdd)
+      .map(account => {
+        if (account._group) {
+          return {group: account};
+        } else {
+          return {account};
+        }
+      });
+  }
+
+  _computeEntryHidden(
+    maxCount: number,
+    accountsRecord: PolymerDeepPropertyChange<AccountInput[], AccountInput[]>,
+    readonly: boolean
+  ) {
+    return (maxCount && maxCount <= accountsRecord.base.length) || readonly;
+  }
+}

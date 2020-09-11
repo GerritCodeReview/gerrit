@@ -16,6 +16,24 @@
       "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "083a3095_5400bd05",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-11T07:38:19Z",
+      "side": 1,
+      "message": "I personally don\u0027t see a high ROI in supporting any time-format.\n\nThe two (somewhat competing) internationally accepted time-formats today are ISO8601 (which obviously is the only standardized time-format) and RFC3339 (which is an adaptation of ISO8601 but isn\u0027t quite a sub-set thereof).\n\nBy having a time-format that\u0027s in the intersection of those two standards we effectively support both which should cover 99.99% of the cases. Any semi-modern framework supports at least one of the two standards.\nI don\u0027t quite see how this would be a problem.\n\nMy reasoning for uploading to stable-3.2 is that we still fulfill the promise of being ISO8601 compatible. If you feel that this is still too big of a change I\u0027ll be happy to move it to master.",
+      "parentUuid": "d23a049d_65fa2816",
+      "revId": "62d8b2e2c3d68e651ed57f85d3e766c3ae08d2be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

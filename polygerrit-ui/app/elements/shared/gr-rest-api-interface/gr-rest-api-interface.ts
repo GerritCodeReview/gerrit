@@ -2736,6 +2736,14 @@ export class GrRestApiInterface
     return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
   }
 
+  getPortedComments(changeNum: ChangeNum, patchNum: PatchSetNum) {
+    return this._getChangeURLAndFetch({
+      changeNum,
+      endpoint: '/ported_comments/',
+      patchNum,
+    });
+  }
+
   saveDiffDraft(
     changeNum: ChangeNum,
     patchNum: PatchSetNum,

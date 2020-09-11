@@ -255,6 +255,9 @@ export const htmlTemplate = html`
           hide-status=""
         >
         </gr-account-label>
+        <template is="dom-if" if="[[comment.ported]]">
+          <span> Ported from patchset [[comment.patch_set]] </span>
+        </template>
         <gr-tooltip-content
           class="draftTooltip"
           has-tooltip=""

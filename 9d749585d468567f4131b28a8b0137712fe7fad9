@@ -50,6 +50,23 @@
       "revId": "9d749585d468567f4131b28a8b0137712fe7fad9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "1821b2ab_62e9b156",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-12T22:25:16Z",
+      "side": 1,
+      "message": "I did the following additional tests:\n1. using https://gerrit-review.googlesource.com/c/gerrit/+/278938/8\n2. using the same commit with change https://gerrit-review.googlesource.com/c/gerrit/+/2777560/8 reverted\n\non a staging copy of our site (4.5m changes in 24k repositories) which is still on reviewdb.\nThe results for the average migration speed were:\n1. 1525 changes/s\n2. 1701 changes/s\nthis means without triggering packing refs every 1000 changes the migration was faster by around 10%.\n\nI will remove this change from the series.\n",
+      "revId": "9d749585d468567f4131b28a8b0137712fe7fad9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

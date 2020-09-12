@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "5dbb9d96_096719d4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-12T11:07:21Z",
+      "side": 1,
+      "message": "Adding Jacek, who is the author of the persistent cache override",
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "259e848b_057cbf63",
         "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
         "patchSetId": 6

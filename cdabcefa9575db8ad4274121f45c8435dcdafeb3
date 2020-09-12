@@ -22,6 +22,30 @@
       "revId": "cdabcefa9575db8ad4274121f45c8435dcdafeb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6a378e3e_6f12409f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-12T05:53:48Z",
+      "side": 1,
+      "message": "AFAICT there is no additional fix. In 3.1 it is precisely the same change https://gerrit.googlesource.com/gerrit/+/refs/heads/stable-3.1/polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js#415 but it couldn\u0027t be cleanly applied. For master it is the same as for \u00273.2\u0027 hence it is applied by merge in the change that I have provided. Still not sure why would you like to add additional change for it...",
+      "parentUuid": "5ba790ec_cc212361",
+      "range": {
+        "startLine": 473,
+        "startChar": 19,
+        "endLine": 473,
+        "endChar": 37
+      },
+      "revId": "cdabcefa9575db8ad4274121f45c8435dcdafeb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

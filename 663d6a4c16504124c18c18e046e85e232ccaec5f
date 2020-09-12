@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9e49e368_65bc5056",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-12T05:55:16Z",
+      "side": 1,
+      "message": "Will re-do it once \u0027stable-3.2\u0027 fix is finalised...",
+      "revId": "663d6a4c16504124c18c18e046e85e232ccaec5f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

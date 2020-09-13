@@ -22,6 +22,30 @@
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38ca5539_9efb336d",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-13T22:15:33Z",
+      "side": 1,
+      "message": "We use MySQL and using connection pool on MySQL is not recommended.\n\nI don\u0027t understand how using a connection pool could fix the issue that the same single connection was used for all project slices concurrently which has the effect that only one slice can use the connection and the others wait to obtain the connection (observed by creating thread dumps during migration).",
+      "parentUuid": "a5b8739d_7a7f4465",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

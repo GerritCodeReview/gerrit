@@ -22,6 +22,30 @@
       "revId": "f62c8ea1f7ac9e1a553d50f4ed2994190999ba61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f5a1743b_3acf82d0",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-13T22:11:25Z",
+      "side": 1,
+      "message": "I don\u0027t know what would be a more optimal use of threads ?\n\nI introduced this to better mix migration of slices from larger and smaller repositories since the ones from larger repositories seem to allocate more memory reducing the number of slices we can run concurrently in an efficient way without java gc ratio going through the roof.",
+      "parentUuid": "f6f102e6_b555a54d",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "f62c8ea1f7ac9e1a553d50f4ed2994190999ba61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

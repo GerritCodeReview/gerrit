@@ -46,6 +46,30 @@
       "revId": "cdabcefa9575db8ad4274121f45c8435dcdafeb3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0cfab8d6_54d46628",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-13T19:06:17Z",
+      "side": 1,
+      "message": "Gah, I was mislead by the sibling send method and its own (duly removed) call to decodeURIComponent. Sorry about that. The only (nit) comment left would be my other one about the doc, then.",
+      "parentUuid": "6a378e3e_6f12409f",
+      "range": {
+        "startLine": 473,
+        "startChar": 19,
+        "endLine": 473,
+        "endChar": 37
+      },
+      "revId": "cdabcefa9575db8ad4274121f45c8435dcdafeb3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

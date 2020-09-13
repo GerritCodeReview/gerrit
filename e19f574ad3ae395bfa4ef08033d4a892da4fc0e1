@@ -70,6 +70,30 @@
       "revId": "e19f574ad3ae395bfa4ef08033d4a892da4fc0e1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43ff3aa5_e0937bf8",
+        "filename": "java/com/google/gerrit/pgm/MigrateToNoteDb.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 161,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-13T22:20:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "743ac28e_b255eeab",
+      "range": {
+        "startLine": 161,
+        "startChar": 13,
+        "endLine": 161,
+        "endChar": 22
+      },
+      "revId": "e19f574ad3ae395bfa4ef08033d4a892da4fc0e1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

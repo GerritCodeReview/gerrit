@@ -1,0 +1,118 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "276e88e1_9abbc3ec",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T06:58:35Z",
+      "side": 1,
+      "message": "Since this is not referenced from the html template anymore, there is no point if keeping this property. Just inline the string.",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e911c6c_84608803",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T06:58:35Z",
+      "side": 1,
+      "message": "The message reads\n\n  \u0027There are no inline comment threads on any diff for this change.\u0027\n\nIs the latter part true in this case? Are there no diffs just because there are no threads?\n\nAlso the party popper would still be shown, which we don\u0027t want, right?\n\nMaybe the text should just be \"No comments yet.\"?",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77682ce9_089dd917",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T06:58:35Z",
+      "side": 1,
+      "message": "My personal preference would be to just inline the string here instead of collecting strings in messages.ts. I think we should either do it 0% or 100%, and 100% is not an option at the moment.",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0f21ec57_fcb3a2c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T06:58:35Z",
+      "side": 1,
+      "message": "In this case you are showing a party popper without any string next to it?",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34c82ca9_806953d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T06:58:35Z",
+      "side": 1,
+      "message": "Maybe add \"resolved\"?",
+      "range": {
+        "startLine": 110,
+        "startChar": 37,
+        "endLine": 110,
+        "endChar": 45
+      },
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d99c76c_6b3ebba0",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T06:58:35Z",
+      "side": 1,
+      "message": "Can you loop in Delphine with regards to horizontal padding in this div?",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

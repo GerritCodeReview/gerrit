@@ -66,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "baef3c81_15984e52",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-14T12:52:41Z",
+      "side": 1,
+      "message": "Fair enough. Thanks a lot for the detailed explanation :)",
+      "parentUuid": "8b2c9caf_ecaa35b3",
+      "range": {
+        "startLine": 351,
+        "startChar": 26,
+        "endLine": 351,
+        "endChar": 93
+      },
+      "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f848b5ea_8a7d3a03",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
         "patchSetId": 1

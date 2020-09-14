@@ -46,6 +46,30 @@
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d2eea558_74e6ce84",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-14T15:17:50Z",
+      "side": 1,
+      "message": "Ah, I forgot that about MySQL.\n\nI meant to use a pool in addition to the refactor to use connections per-thread. i.e. try to get a connection for each rebuild thread from the pool. But maybe I just didn\u0027t look closely enough at the code. If I\u0027ve configured gerrit.config to use a pool, will the migrator honor those settings (from reading the code now, I think it will)?",
+      "parentUuid": "38ca5539_9efb336d",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

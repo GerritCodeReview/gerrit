@@ -601,4 +601,9 @@ export interface RestApiService {
     changeNum: ChangeNum,
     messageId: ChangeMessageId
   ): Promise<Response>;
+
+  runRepoGC(
+    repo: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<Response | undefined>;
 }

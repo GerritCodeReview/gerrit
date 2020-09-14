@@ -22,15 +22,12 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
-import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.validators.CommentForValidation;
 import com.google.gerrit.extensions.validators.CommentValidationContext;
 import com.google.gerrit.extensions.validators.CommentValidationFailure;
 import com.google.gerrit.extensions.validators.CommentValidator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.inject.Inject;
@@ -44,16 +41,13 @@ import java.util.Set;
 public class PublishCommentUtil {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
-  private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
   private final CommentsUtil commentsUtil;
 
   @Inject
-  PublishCommentUtil(
-      CommentsUtil commentsUtil, PatchListCache patchListCache, PatchSetUtil psUtil) {
+  PublishCommentUtil(CommentsUtil commentsUtil, PatchSetUtil psUtil) {
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
   }
 
   public void publish(
@@ -101,11 +95,7 @@ public class PublishCommentUtil {
       // Draft may have been created by a different real user; copy the current real user. (Only
       // applies to X-Gerrit-RunAs, since modifying drafts via on_behalf_of is not allowed.)
       ctx.getUser().updateRealAccountId(draftComment::setRealAuthor);
-      try {
-        CommentsUtil.setCommentCommitId(draftComment, patchListCache, notes.getChange(), ps);
-      } catch (PatchListNotAvailableException e) {
-        throw new StorageException(e);
-      }
+      commentsUtil.setCommentCommitId(draftComment, notes.getChange(), ps);
       commentsToPublish.add(draftComment);
     }
     commentsUtil.putHumanComments(changeUpdate, HumanComment.Status.PUBLISHED, commentsToPublish);

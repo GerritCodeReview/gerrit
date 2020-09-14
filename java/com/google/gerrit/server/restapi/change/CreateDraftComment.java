@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.common.base.Strings;
 import com.google.gerrit.entities.HumanComment;
@@ -32,8 +31,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -51,20 +48,17 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final PatchListCache patchListCache;
 
   @Inject
   CreateDraftComment(
       BatchUpdate.Factory updateFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache) {
+      PatchSetUtil psUtil) {
     this.updateFactory = updateFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
   }
 
   @Override
@@ -111,8 +105,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
 
     @Override
     public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, UnprocessableEntityException,
-            PatchListNotAvailableException {
+        throws ResourceNotFoundException, UnprocessableEntityException {
       PatchSet ps = psUtil.get(ctx.getNotes(), psId);
       if (ps == null) {
         throw new ResourceNotFoundException("patch set not found: " + psId);
@@ -133,7 +126,7 @@ public class CreateDraftComment implements RestModifyView<RevisionResource, Draf
       comment.setLineNbrAndRange(in.line, in.range);
       comment.tag = in.tag;
 
-      setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
+      commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);
 
       commentsUtil.putHumanComments(
           ctx.getUpdate(psId), HumanComment.Status.DRAFT, Collections.singleton(comment));

@@ -17,7 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-group-members.js';
-import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {dom, flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 
 const basicFixture = fixtureFromElement('gr-group-members');
@@ -210,6 +210,7 @@ suite('gr-group-members tests', () => {
 
   test('add included group 404 shows helpful error text', () => {
     element._groupOwner = true;
+    element._groupName = 'test';
 
     const memberName = 'bad-name';
     const alertStub = sinon.stub();
@@ -224,9 +225,9 @@ suite('gr-group-members tests', () => {
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;
 
-    return element._handleSavingIncludedGroups().then(() => {
+    return flush(element._handleSavingIncludedGroups().then(() => {
       assert.isTrue(alertStub.called);
-    });
+    }));
   });
 
   test('add included group network-error throws an exception', async () => {

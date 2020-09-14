@@ -102,6 +102,30 @@
     },
     {
       "key": {
+        "uuid": "45a0a042_87d9f64a",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T20:40:53Z",
+      "side": 1,
+      "message": "\u003e \u003e Can\u0027t the above generic createModule be used instead of introducing this specific case method?\n\u003e \n\u003e Unfortunately, not. The createModule() is for adding extra modules to Gerrit and not to provide an implementation for existing ones.\n\u003e \n\u003e In order to test the override mechanism, we need:\n\u003e 1. One existing module with a ModuleImpl annotation\n\u003e 2. One extra module (provided by the createModule()) with the alternate implementation\n\nAck.\n\n\u003e Do you have any other suggestions on how to provide an existing Gerrit module with the ModuleImpl annotation?\n\nNo.",
+      "parentUuid": "70b1fc72_d47bda1d",
+      "range": {
+        "startLine": 534,
+        "startChar": 2,
+        "endLine": 537,
+        "endChar": 3
+      },
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "19837982_eb3f4461",
         "filename": "javatests/com/google/gerrit/acceptance/DaemonOverridesTestLibModulesIT.java",
         "patchSetId": 7
@@ -184,6 +208,30 @@
       "side": 1,
       "message": "\u003e Is this instance ever used by this test?\n\nThe instance isn\u0027t needed by the test code directly, but the module created is used in Gerrit\u0027s Daemon during the composition of the sysInjector.",
       "parentUuid": "e8783805_be334248",
+      "range": {
+        "startLine": 52,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 30
+      },
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "6c056739_5d5b6542",
+        "filename": "javatests/com/google/gerrit/acceptance/DaemonOverridesTestLibModulesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T20:40:53Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "e4f3a768_4af5d094",
       "range": {
         "startLine": 52,
         "startChar": 11,

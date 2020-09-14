@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1005ba1e_1861b55a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T22:26:22Z",
+      "side": 1,
+      "message": "Downgrading to +1 as there are still unanswered comments.",
+      "revId": "81f3303ac3dba70b406d3e4770935e788c74ea43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

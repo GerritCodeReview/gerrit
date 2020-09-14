@@ -15,102 +15,99 @@
  * limitations under the License.
  */
 
-import '../../../styles/shared-styles.js';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
-import '../../shared/gr-avatar/gr-avatar.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../../styles/dashboard-header-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-user-header_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/shared-styles';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../shared/gr-avatar/gr-avatar';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../../styles/dashboard-header-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-user-header_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {AccountDetailInfo, AccountId} from '../../../types/common';
 
-/**
- * @extends PolymerElement
- */
-class GrUserHeader extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrUserHeader {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
 
-  static get is() { return 'gr-user-header'; }
-
-  static get properties() {
-    return {
-    /** @type {?string} */
-      userId: {
-        type: String,
-        observer: '_accountChanged',
-      },
-
-      showDashboardLink: {
-        type: Boolean,
-        value: false,
-      },
-
-      loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-
-      /**
-       * @type {?{name: ?, email: ?, registered_on: ?}}
-       */
-      _accountDetails: {
-        type: Object,
-        value: null,
-      },
-
-      /** @type {?string} */
-      _status: {
-        type: String,
-        value: null,
-      },
-    };
+@customElement('gr-user-header')
+export class GrUserHeader extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  _accountChanged(userId) {
+  @property({type: String, observer: '_accountChanged'})
+  userId?: AccountId;
+
+  @property({type: Boolean})
+  showDashboardLink = false;
+
+  @property({type: Boolean})
+  loggedIn = false;
+
+  @property({type: Object})
+  _accountDetails: AccountDetailInfo | null = null;
+
+  @property({type: String})
+  _status: string = '';
+
+  _accountChanged(userId?: AccountId) {
     if (!userId) {
       this._accountDetails = null;
-      this._status = null;
+      this._status = '';
       return;
     }
 
     this.$.restAPI.getAccountDetails(userId).then(details => {
-      this._accountDetails = details;
-    });
-    this.$.restAPI.getAccountStatus(userId).then(status => {
-      this._status = status;
+      this._accountDetails = details ?? null;
+      this._status = details?.status ?? '';
     });
   }
 
-  _computeDisplayClass(status) {
-    return status ? ' ' : 'hide';
-  }
-
-  _computeDetail(accountDetails, name) {
+  _computeDetail(
+    accountDetails: AccountDetailInfo | null,
+    name: keyof AccountDetailInfo
+  ) {
     return accountDetails ? accountDetails[name] : '';
   }
 
-  _computeStatusClass(accountDetails) {
-    return this._computeDetail(accountDetails, 'status') ? '' : 'hide';
+  _computeStatusClass(status: string) {
+    return status ? '' : 'hide';
   }
 
-  _computeDashboardUrl(accountDetails) {
-    if (!accountDetails) { return null; }
+  _computeDashboardUrl(accountDetails: AccountDetailInfo | null) {
+    if (!accountDetails) {
+      return null;
+    }
     const id = accountDetails._account_id;
+    if (id) {
+      return GerritNav.getUrlForUserDashboard(String(id));
+    }
     const email = accountDetails.email;
-    if (!id && !email ) { return null; }
-    return GerritNav.getUrlForUserDashboard(id ? id : email);
+    if (email) {
+      return GerritNav.getUrlForUserDashboard(email);
+    }
+    return null;
   }
 
-  _computeDashboardLinkClass(showDashboardLink, loggedIn) {
-    return showDashboardLink && loggedIn ?
-      'dashboardLink' : 'dashboardLink hide';
+  _computeDashboardLinkClass(showDashboardLink: boolean, loggedIn: boolean) {
+    return showDashboardLink && loggedIn
+      ? 'dashboardLink'
+      : 'dashboardLink hide';
   }
 }
 
-customElements.define(GrUserHeader.is, GrUserHeader);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-user-header': GrUserHeader;
+  }
+}

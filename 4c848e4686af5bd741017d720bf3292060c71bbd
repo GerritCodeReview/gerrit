@@ -70,6 +70,30 @@
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e68558ac_d17e4287",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-14T20:55:52Z",
+      "side": 1,
+      "message": "NoteDbMigrator.ContextHelper.getReviewDb() uses the gwtorm database abstraction hence I think it will use a connection pool if configured. I didn\u0027t try since we use MySQL.",
+      "parentUuid": "d2eea558_74e6ce84",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

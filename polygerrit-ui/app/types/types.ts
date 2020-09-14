@@ -126,6 +126,8 @@ export interface PolymerDomRepeatEventModel<T> {
    * The index of the element in the dom-repeat.
    */
   index: number;
+  get: (name: string) => T;
+  set: (name: string, val: T) => void;
 }
 
 /** https://highlightjs.readthedocs.io/en/latest/api.html */

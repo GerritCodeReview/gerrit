@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "2d13a9b3_77fe142a",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperations.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c139e95_47303e16",
+      "range": {
+        "startLine": 79,
+        "startChar": 19,
+        "endLine": 79,
+        "endChar": 24
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ddf486b_8aeada80",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
         "patchSetId": 3
@@ -88,6 +112,30 @@
     },
     {
       "key": {
+        "uuid": "828ff096_d6467a11",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ddf486b_8aeada80",
+      "range": {
+        "startLine": 240,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 17
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4765fccc_94a2f97e",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
         "patchSetId": 3
@@ -99,6 +147,30 @@
       "writtenOn": "2020-09-11T16:52:55Z",
       "side": 1,
       "message": "nit: Do we need this for robot comments?",
+      "range": {
+        "startLine": 263,
+        "startChar": 6,
+        "endLine": 265,
+        "endChar": 77
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4071930_b374765c",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 265,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "We shouldn\u0027t need this, but we do. That looks like a bug, I\u0027ll fix it in a follow-up.\nDocs here on \"tag\" at least look like they are trying to say it\u0027s a bug:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info\n\nThe fix would be before l109 in RobotCommentUpdate, to add a tag. Same as ChangeUpdate l489 for HumanComments.",
+      "parentUuid": "4765fccc_94a2f97e",
       "range": {
         "startLine": 263,
         "startChar": 6,
@@ -157,6 +229,54 @@
     },
     {
       "key": {
+        "uuid": "7124c872_66605d51",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fe91ebc_8e1d218b",
+      "range": {
+        "startLine": 301,
+        "startChar": 44,
+        "endLine": 301,
+        "endChar": 49
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b9f14c3e_ffee2d3a",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 301,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "57887c26_aa876a32",
+      "range": {
+        "startLine": 301,
+        "startChar": 10,
+        "endLine": 301,
+        "endChar": 35
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "08394e29_8207ad72",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
         "patchSetId": 3
@@ -177,6 +297,30 @@
       "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32156a93_f72c7be7",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Ack\nRemoving that part anyway between ps 4-\u003e5.",
+      "parentUuid": "08394e29_8207ad72",
+      "range": {
+        "startLine": 311,
+        "startChar": 43,
+        "endLine": 311,
+        "endChar": 53
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -203,6 +347,30 @@
     },
     {
       "key": {
+        "uuid": "1ad3be7c_2906c8d5",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Ack\nRemoving that part anyway between ps 4-\u003e5.",
+      "parentUuid": "fc68173e_5e3c9b8d",
+      "range": {
+        "startLine": 315,
+        "startChar": 67,
+        "endLine": 315,
+        "endChar": 81
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "94e2bdea_487ebc9d",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
         "patchSetId": 3
@@ -223,6 +391,30 @@
       "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7aa59a9c_82ced1ed",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/PerPatchsetOperationsImpl.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "94e2bdea_487ebc9d",
+      "range": {
+        "startLine": 325,
+        "startChar": 31,
+        "endLine": 325,
+        "endChar": 45
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -249,6 +441,30 @@
     },
     {
       "key": {
+        "uuid": "e5a44c29_a8044501",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestFixSuggestion.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "38e455cf_3cc01f3b",
+      "range": {
+        "startLine": 25,
+        "startChar": 22,
+        "endLine": 25,
+        "endChar": 39
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cccef91e_76109c82",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
         "patchSetId": 3
@@ -269,6 +485,30 @@
       "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5650413b_b46a415a",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cccef91e_76109c82",
+      "range": {
+        "startLine": 189,
+        "startChar": 8,
+        "endLine": 189,
+        "endChar": 27
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -295,6 +535,30 @@
     },
     {
       "key": {
+        "uuid": "cd52dedd_df4db7b8",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "519c4036_05aef439",
+      "range": {
+        "startLine": 205,
+        "startChar": 8,
+        "endLine": 205,
+        "endChar": 76
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0fa70ff8_f593455b",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
         "patchSetId": 3
@@ -306,6 +570,30 @@
       "writtenOn": "2020-09-11T16:52:55Z",
       "side": 1,
       "message": "This is the most interesting and tricky part of this whole change: The design of a completely new part of the API. The approach you chose (simply creating input objects and passing them in) works but it doesn\u0027t follow the fluent style and underlying ideas of the test API. For instance, users of the test API aren\u0027t guided while they write a test. They have to look up what this TestFixSuggestion type is and then fill it appropriately without forgetting to set all reasonable attributes (e.g. if you have a replacement, you should specify a file like we enforce on compiler level to set a file path for comments when a line or range is specified). If you directly want to include the specification of fix suggestions and replacements within this change, we need to polish this part of the API much more. This might take some time depending on which mode you prefer (e.g. I could give you some pointers, you come up with a suggestion, and we\u0027ll have some rounds until we have a good enough state; or: We could meet and design this part together.). All in all, I\u0027d expect this to take a bit of time. Hence, I\u0027d suggest to move this part to a separate, follow-up change so that the other changes in this series are not blocked.",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 5
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e75e89b_9005ae9c",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Ack\nWill revert changes that relate to fix suggestions, and add it back when needed.\nI\u0027ll do it on purpose between patchset 4 -\u003e patchset 5, just so that we can have in history of what we need to bring back for this change.",
+      "parentUuid": "0fa70ff8_f593455b",
       "range": {
         "startLine": 206,
         "startChar": 0,
@@ -341,6 +629,30 @@
     },
     {
       "key": {
+        "uuid": "66c4615a_24667e82",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34e5e1f0_d1f3e222",
+      "range": {
+        "startLine": 231,
+        "startChar": 22,
+        "endLine": 231,
+        "endChar": 33
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eef20cca_30f4c175",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
         "patchSetId": 3
@@ -361,6 +673,30 @@
       "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4317d2df_f93860f1",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 245,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eef20cca_30f4c175",
+      "range": {
+        "startLine": 245,
+        "startChar": 22,
+        "endLine": 245,
+        "endChar": 37
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -387,6 +723,30 @@
     },
     {
       "key": {
+        "uuid": "06092d72_9ea51e73",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Are you sure you didn\u0027t try? This all seems exactly correct ;)\n+ changing the signature of the callers.",
+      "parentUuid": "56e3565c_c88e340b",
+      "range": {
+        "startLine": 259,
+        "startChar": 22,
+        "endLine": 259,
+        "endChar": 47
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3ca2ef83_68ec60f6",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
         "patchSetId": 3
@@ -410,6 +770,30 @@
     },
     {
       "key": {
+        "uuid": "73d8be55_9315c193",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 283,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ca2ef83_68ec60f6",
+      "range": {
+        "startLine": 283,
+        "startChar": 7,
+        "endLine": 283,
+        "endChar": 18
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bcb36664_469a1f49",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
         "patchSetId": 3
@@ -430,6 +814,30 @@
       "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63564a4d_9972440f",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 787,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bcb36664_469a1f49",
+      "range": {
+        "startLine": 787,
+        "startChar": 14,
+        "endLine": 787,
+        "endChar": 54
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -480,6 +888,30 @@
     },
     {
       "key": {
+        "uuid": "264f562c_95082cce",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 826,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done, thanks for the human comment adjustment.",
+      "parentUuid": "b31a439e_25dd4211",
+      "range": {
+        "startLine": 823,
+        "startChar": 4,
+        "endLine": 826,
+        "endChar": 68
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f1b2a879_cb63ecab",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
         "patchSetId": 3
@@ -523,6 +955,30 @@
       "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c2ca077c_8bb69a36",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/PatchsetOperationsImplTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 1070,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T14:44:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ea1e9439_e277cd88",
+      "range": {
+        "startLine": 1070,
+        "startChar": 35,
+        "endLine": 1070,
+        "endChar": 42
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -28,10 +28,11 @@ suite('gr-repo-commands tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    repoStub = sinon.stub(
-        element.$.restAPI,
-        'getProjectConfig')
-        .callsFake(() => Promise.resolve({}));
+    // Note that this probably does not achieve what it is supposed to, because
+    // getProjectConfig() is called as soon as the element is attached, so
+    // stubbing it here has not effect anymore.
+    repoStub = sinon.stub(element.$.restAPI, 'getProjectConfig')
+        .returns(Promise.resolve({}));
   });
 
   suite('create new change dialog', () => {
@@ -72,6 +73,7 @@ suite('gr-repo-commands tests', () => {
       sinon.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sinon.spy(element, '_handleEditRepoConfig');
       alertStub = sinon.stub();
+      element.repo = 'test';
       element.addEventListener('show-alert', alertStub);
     });
 

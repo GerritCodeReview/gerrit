@@ -645,4 +645,9 @@ export interface RestApiService {
     groupName: GroupId,
     includedGroup: GroupId
   ): Promise<Response>;
+
+  runRepoGC(
+    repo: RepoName,
+    errFn?: ErrorCallback
+  ): Promise<Response | undefined>;
 }

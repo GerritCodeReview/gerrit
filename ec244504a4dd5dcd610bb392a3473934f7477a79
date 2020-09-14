@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "5a57d55d_e1459250",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T15:00:27Z",
+      "side": 1,
+      "message": "\u003e @Marco are we good to go? Do you believe is there anything missing?\n\n-Latest feedback just posted. Maybe the commit message would need some more explanatory sentences alongside. Thanks.",
+      "parentUuid": "bde75aff_5ffdae39",
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b1892d4_e8a7104d",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 7

@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.account;
 
 import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.common.base.CharMatcher;
 import com.google.common.base.Strings;
@@ -40,8 +39,6 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.account.AccountResource;
 import com.google.gerrit.server.change.ChangeJson;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
@@ -80,7 +77,6 @@ public class DeleteDraftComments
   private final Provider<CommentJson> commentJsonProvider;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final PatchListCache patchListCache;
 
   @Inject
   DeleteDraftComments(
@@ -92,8 +88,7 @@ public class DeleteDraftComments
       ChangeJson.Factory changeJsonFactory,
       Provider<CommentJson> commentJsonProvider,
       CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache) {
+      PatchSetUtil psUtil) {
     this.userProvider = userProvider;
     this.batchUpdateFactory = batchUpdateFactory;
     this.queryBuilderProvider = queryBuilderProvider;
@@ -103,7 +98,6 @@ public class DeleteDraftComments
     this.commentJsonProvider = commentJsonProvider;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
   }
 
   @Override
@@ -176,14 +170,13 @@ public class DeleteDraftComments
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws PatchListNotAvailableException, PermissionBackendException {
+    public boolean updateChange(ChangeContext ctx) throws PermissionBackendException {
       ImmutableList.Builder<CommentInfo> comments = ImmutableList.builder();
       boolean dirty = false;
       for (HumanComment c : commentsUtil.draftByChangeAuthor(ctx.getNotes(), accountId)) {
         dirty = true;
         PatchSet.Id psId = PatchSet.id(ctx.getChange().getId(), c.key.patchSetId);
-        setCommentCommitId(c, patchListCache, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
+        commentsUtil.setCommentCommitId(c, ctx.getChange(), psUtil.get(ctx.getNotes(), psId));
         commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
         comments.add(humanCommentFormatter.format(c));
       }

@@ -35,6 +35,7 @@ import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.api.changes.DeleteCommentInput;
+import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
@@ -44,6 +45,7 @@ import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class PortedCommentsIT extends AbstractDaemonTest {
@@ -1655,6 +1657,111 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     // the comment moved down several lines (instead of just one in each parent) and that the
     // porting logic hence used the auto-merge commit for its computation.
     assertThat(portedComment).line().isGreaterThan(2);
+  }
+
+  @Test
+  public void commentOnFirstParentIsPortedToSingleParentWhenPatchsetChangedToNonMergeCommit()
+      throws Exception {
+    // Set up change and patchsets.
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id parent1PatchsetId2 =
+        changeOps
+            .change(parent1ChangeId)
+            .newPatchset()
+            .file("file1")
+            .content("Line 0\nLine 1\n")
+            .create();
+    PatchSet.Id childPatchset2Id =
+        changeOps
+            .change(childChangeId)
+            .newPatchset()
+            .parent()
+            .patchset(parent1PatchsetId2)
+            .create();
+    // Add comment.
+    String commentUuid =
+        newComment(childPatchset1Id).onParentCommit().onLine(1).ofFile("file1").create();
+
+    CommentInfo portedComment = getPortedComment(childPatchset2Id, commentUuid);
+
+    assertThat(portedComment).line().isEqualTo(2);
+    assertThat(portedComment).side().isEqualTo(Side.PARENT);
+    assertThat(portedComment).parent().isEqualTo(1);
+  }
+
+  @Test
+  public void commentOnSecondParentBecomesPatchsetLevelCommentWhenPatchsetChangedToNonMergeCommit()
+      throws Exception {
+    // Set up change and patchsets.
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file2").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id childPatchset2Id =
+        changeOps.change(childChangeId).newPatchset().parent().change(parent1ChangeId).create();
+    // Add comment.
+    String commentUuid =
+        newComment(childPatchset1Id).onSecondParentCommit().onLine(1).ofFile("file2").create();
+
+    Map<String, List<CommentInfo>> portedComments = getPortedComments(childPatchset2Id);
+    assertThatMap(portedComments).keys().containsExactly(Patch.PATCHSET_LEVEL);
+    CommentInfo portedComment = extractSpecificComment(portedComments, commentUuid);
+    assertThat(portedComment).line().isNull();
+    assertThat(portedComment).side().isNull();
+    assertThat(portedComment).parent().isNull();
+  }
+
+  @Test
+  // TODO(ghareeb): Adjust implementation in CommentsUtil to use the new auto-merge code instead of
+  // PatchListCache#getOldId which returns the wrong result if a change isn't a merge commit.
+  @Ignore
+  public void
+      commentOnAutoMergeCommitBecomesPatchsetLevelCommentWhenPatchsetChangedToNonMergeCommit()
+          throws Exception {
+    // Set up change and patchsets.
+    Change.Id parent1ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id parent2ChangeId = changeOps.newChange().file("file1").content("Line 1\n").create();
+    Change.Id childChangeId =
+        changeOps
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
+    PatchSet.Id childPatchset1Id =
+        changeOps.change(childChangeId).currentPatchset().get().patchsetId();
+    PatchSet.Id childPatchset2Id =
+        changeOps.change(childChangeId).newPatchset().parent().change(parent1ChangeId).create();
+    // Add comment.
+    String commentUuid =
+        newComment(childPatchset1Id).onAutoMergeCommit().onLine(1).ofFile("file1").create();
+
+    Map<String, List<CommentInfo>> portedComments = getPortedComments(childPatchset2Id);
+    assertThatMap(portedComments).keys().containsExactly(Patch.PATCHSET_LEVEL);
+    CommentInfo portedComment = extractSpecificComment(portedComments, commentUuid);
+    assertThat(portedComment).line().isNull();
+    assertThat(portedComment).side().isNull();
+    assertThat(portedComment).parent().isNull();
   }
 
   @Test

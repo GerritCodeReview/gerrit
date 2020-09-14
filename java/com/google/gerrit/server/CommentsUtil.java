@@ -31,6 +31,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.exceptions.StorageException;
@@ -55,6 +56,7 @@ import java.util.Optional;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.revwalk.RevCommit;
 
 /** Utility functions to manipulate Comments. */
 @Singleton
@@ -109,13 +111,18 @@ public class CommentsUtil {
   private final GitRepositoryManager repoManager;
   private final AllUsersName allUsers;
   private final String serverId;
+  private final PatchListCache patchListCache;
 
   @Inject
   CommentsUtil(
-      GitRepositoryManager repoManager, AllUsersName allUsers, @GerritServerId String serverId) {
+      GitRepositoryManager repoManager,
+      AllUsersName allUsers,
+      @GerritServerId String serverId,
+      PatchListCache patchListCache) {
     this.repoManager = repoManager;
     this.allUsers = allUsers;
     this.serverId = serverId;
+    this.patchListCache = patchListCache;
   }
 
   public HumanComment newHumanComment(
@@ -372,41 +379,63 @@ public class CommentsUtil {
     return sort(result);
   }
 
-  public static void setCommentCommitId(Comment c, PatchListCache cache, Change change, PatchSet ps)
-      throws PatchListNotAvailableException {
+  public void setCommentCommitId(Comment c, Change change, PatchSet ps) {
     checkArgument(
         c.key.patchSetId == ps.id().get(),
         "cannot set commit ID for patch set %s on comment %s",
         ps.id(),
         c);
     if (c.getCommitId() == null) {
-      c.setCommitId(determineCommitId(cache, change, ps, c.side));
+      // This code is very much down into our stack and shouldn't be used for validation. Hence,
+      // don't throw an exception here if we can't find a commit for the indicated side but
+      // simply use the all-null ObjectId.
+      c.setCommitId(determineCommitId(change, ps, c.side).orElseGet(ObjectId::zeroId));
     }
   }
 
   /**
    * Determines the SHA-1 of the commit referenced by the (change, patchset, side) triple.
    *
-   * @param patchListCache the cache to use for SHA-1 lookups
    * @param change the change to which the commit belongs
    * @param patchset the patchset to which the commit belongs
    * @param side the side indicating which commit of the patchset to take. 1 is the patchset commit,
    *     0 the parent commit (or auto-merge for changes representing merge commits); -x the xth
    *     parent commit of a merge commit
-   * @return the commit SHA-1
-   * @throws PatchListNotAvailableException if the SHA-1 is unavailable for an unknown reason
+   * @return the commit SHA-1 or an empty {@link Optional} if the side isn't available for the given
+   *     change/patchset
+   * @throws StorageException if the SHA-1 is unavailable for an unknown reason
    */
-  public static ObjectId determineCommitId(
-      PatchListCache patchListCache, Change change, PatchSet patchset, short side)
-      throws PatchListNotAvailableException {
+  public Optional<ObjectId> determineCommitId(Change change, PatchSet patchset, short side) {
     if (Side.fromShort(side) == Side.PARENT) {
       if (side < 0) {
-        return patchListCache.getOldId(change, patchset, -side);
-      } else {
-        return patchListCache.getOldId(change, patchset, null);
+        int parentNumber = Math.abs(side);
+        return resolveParentCommit(change.getProject(), patchset, parentNumber);
       }
-    } else {
-      return patchset.commitId();
+      return Optional.of(resolveAutoMergeCommit(change, patchset));
+    }
+    return Optional.of(patchset.commitId());
+  }
+
+  private Optional<ObjectId> resolveParentCommit(
+      Project.NameKey project, PatchSet patchset, int parentNumber) {
+    try (Repository repository = repoManager.openRepository(project)) {
+      RevCommit commit = repository.parseCommit(patchset.commitId());
+      if (commit.getParentCount() < parentNumber) {
+        return Optional.empty();
+      }
+      return Optional.of(commit.getParent(parentNumber - 1));
+    } catch (IOException e) {
+      throw new StorageException(e);
+    }
+  }
+
+  private ObjectId resolveAutoMergeCommit(Change change, PatchSet patchset) {
+    try {
+      // TODO(ghareeb): Adjust after the auto-merge code was moved out of the diff caches. Also
+      // unignore the test in PortedCommentsIT.
+      return patchListCache.getOldId(change, patchset, null);
+    } catch (PatchListNotAvailableException e) {
+      throw new StorageException(e);
     }
   }
 

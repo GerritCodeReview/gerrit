@@ -16,6 +16,46 @@
       "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9c84332c_8f15fca9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T21:07:52Z",
+      "side": 1,
+      "message": "Thanks, Marco. I believe looks good, just see my suggestion on adding one note to the docs on the replication delay value. It can also be addressed as a follow-up IMHO.",
+      "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3d74c6dd_1a769957",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T21:07:52Z",
+      "side": 1,
+      "message": "You should put a note saying that the value should be *much lower* than the one configured in the replication.config, otherwise the test would fail for sure.",
+      "range": {
+        "startLine": 178,
+        "startChar": 62,
+        "endLine": 179,
+        "endChar": 32
+      },
+      "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

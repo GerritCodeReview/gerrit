@@ -72,6 +72,7 @@ suite('gr-repo-commands tests', () => {
       sinon.stub(GerritNav, 'navigateToRelativeUrl');
       handleSpy = sinon.spy(element, '_handleEditRepoConfig');
       alertStub = sinon.stub();
+      element.repo = 'test';
       element.addEventListener('show-alert', alertStub);
     });
 

@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "8b2c9caf_ecaa35b3",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T11:23:19Z",
+      "side": 1,
+      "message": "When I asked in the past about this, I remember somebody (Dave/Edwin?) telling me that we didn\u0027t check for non-existing files or invalid ranges as that would require opening the repository which could have performance implications. I\u0027m not sure how big the performance impact might be or whether it would occur at all as we might open the repository anyway in newer code. Doing more validation on comment addition would certainly be nice but I guess we\u0027d need to do some measurements when doing so.\n\nIn any case, we\u0027d still need to harden the ported comments endpoint for this situation. After all, older comments would still exist and not covered by the validation for new comments. It\u0027s good practice anyway to implement endpoints which just use existing comments such that they are resilient (\u003d don\u0027t just break with an internal server error) to invalid comments no matter how good the validation is (e.g. there could always be a bug and thus an invalid comment could be created unexpectedly.)\nThe API I\u0027m using here is the test API. The test API deliberately allows to create such invalid comments so that we can write such tests even when we add proper validation to Gerrit\u0027s public API.",
+      "parentUuid": "0639317f_93c281e6",
+      "range": {
+        "startLine": 351,
+        "startChar": 26,
+        "endLine": 351,
+        "endChar": 93
+      },
+      "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f848b5ea_8a7d3a03",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
         "patchSetId": 1
@@ -62,6 +86,30 @@
       "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7701a0f_5607a95c",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T11:23:19Z",
+      "side": 1,
+      "message": "I added some comments with explanations.",
+      "parentUuid": "f848b5ea_8a7d3a03",
+      "range": {
+        "startLine": 1684,
+        "startChar": 14,
+        "endLine": 1684,
+        "endChar": 57
+      },
+      "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

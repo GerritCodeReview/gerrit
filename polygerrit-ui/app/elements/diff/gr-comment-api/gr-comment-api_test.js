@@ -227,10 +227,12 @@ suite('gr-comment-api tests', () => {
             },
             {
               id: 12,
-              in_reply_to: 2,
+              in_reply_to: 4,
               patch_set: 2,
               line: 1,
-              updated: makeTime(3),
+              // Draft gets lower timestamp than published comment, because we
+              // want to test that the draft still gets sorted to the end.
+              updated: makeTime(2),
             },
           ],
           'file/two': [
@@ -262,7 +264,7 @@ suite('gr-comment-api tests', () => {
               patch_set: 2,
               unresolved: true,
               line: 1,
-              updated: makeTime(2),
+              updated: makeTime(3),
             },
           ],
         };
@@ -493,7 +495,7 @@ suite('gr-comment-api tests', () => {
         assert.equal(Object.keys(comments[['file/two']]).length, 1);
       });
 
-      test('computeAllThreads', () => {
+      test.only('computeAllThreads', () => {
         const expectedThreads = [
           {
             comments: [
@@ -549,16 +551,16 @@ suite('gr-comment-api tests', () => {
                 unresolved: true,
                 line: 1,
                 __path: 'file/one',
-                updated: '2013-02-26 15:02:43.986000000',
+                updated: '2013-02-26 15:03:43.986000000',
               },
               {
                 id: 12,
-                in_reply_to: 2,
+                in_reply_to: 4,
                 patch_set: 2,
                 line: 1,
                 __path: 'file/one',
                 __draft: true,
-                updated: '2013-02-26 15:03:43.986000000',
+                updated: '2013-02-26 15:02:43.986000000',
               },
             ],
             patchNum: 2,
@@ -708,16 +710,16 @@ suite('gr-comment-api tests', () => {
             patch_set: 2,
             unresolved: true,
             line: 1,
-            updated: '2013-02-26 15:02:43.986000000',
+            updated: '2013-02-26 15:03:43.986000000',
           },
           {
             __path: 'file/one',
             __draft: true,
             id: 12,
-            in_reply_to: 2,
+            in_reply_to: 4,
             patch_set: 2,
             line: 1,
-            updated: '2013-02-26 15:03:43.986000000',
+            updated: '2013-02-26 15:02:43.986000000',
           },
         ];
         assert.deepEqual(element._changeComments.getCommentsForThread(4),

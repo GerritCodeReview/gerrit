@@ -46,6 +46,30 @@
       "revId": "f62c8ea1f7ac9e1a553d50f4ed2994190999ba61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "05e7b0fb_56dc2ba9",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-14T15:08:55Z",
+      "side": 1,
+      "message": "I get that, I just hope we could do better than random to achieve that. Do we have a cheap way to know repo size before we start?",
+      "parentUuid": "f5a1743b_3acf82d0",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "f62c8ea1f7ac9e1a553d50f4ed2994190999ba61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

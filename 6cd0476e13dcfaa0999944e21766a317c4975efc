@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e3dd9968_a5bb7ad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-14T14:06:26Z",
+      "side": 1,
+      "message": "Sorry for the late reply, we have just upgraded to v3.2 so it\u0027s been a bit hectic.\n\nThis change is included in the big merge series by Marco Miller/Jacek Centowski [1]\n\nThis merge pre-dates that one, but that merge carries the merge from stable-3.1.\nShould we merge this or let [1] replace it?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/281300",
+      "revId": "6cd0476e13dcfaa0999944e21766a317c4975efc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

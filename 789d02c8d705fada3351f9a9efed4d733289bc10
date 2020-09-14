@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "47d264f0_8a591bd9",
+        "filename": "java/com/google/gerrit/server/change/CommentThreads.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T11:23:19Z",
+      "side": 1,
+      "message": "UUIDs of parent comments might be invalid or the set of comments passed to this class might be insufficient (e.g. only published comments are passed but one of the parents is a robot comment). Whenever we encounter a parent UUID which doesn\u0027t belong to one of the other comments known to this class, we assume that the child comment is a root instead.\n\nI added a test for it.",
+      "parentUuid": "d3f84086_0a116b0d",
+      "range": {
+        "startLine": 60,
+        "startChar": 57,
+        "endLine": 60,
+        "endChar": 98
+      },
+      "revId": "789d02c8d705fada3351f9a9efed4d733289bc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4efc9aaa_0270d839",
         "filename": "javatests/com/google/gerrit/server/change/CommentThreadsTest.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "789d02c8d705fada3351f9a9efed4d733289bc10",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dbac3cf5_00450bf8",
+        "filename": "javatests/com/google/gerrit/server/change/CommentThreadsTest.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T11:23:19Z",
+      "side": 1,
+      "message": "The test sets up the thread like this:\n  root\n   |\n child1\n   |\n child2\n   |\n child3\n\nIf you leave out child2 in this call, we indicate that child2 does not exist as the createComment() call above is just for the object creation. If you now think that we should adjust the name of the method, remember that this is a unit test and not an integration test. Without child2, the test situation would look like:\n  root\n   |\n child1\n\n\n   |\n child3\n\nThis means you have two comment threads. As the parent of child3 does not exist, child3 is considered to be the root of a thread.\n\nSo, what you described is working as intended. ;-)",
+      "parentUuid": "4efc9aaa_0270d839",
+      "range": {
+        "startLine": 46,
+        "startChar": 60,
+        "endLine": 46,
+        "endChar": 66
+      },
+      "revId": "789d02c8d705fada3351f9a9efed4d733289bc10",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

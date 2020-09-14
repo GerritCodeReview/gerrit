@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "95d49846_952e5dc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-14T10:15:32Z",
+      "side": 1,
+      "message": "That should have been done way earlier ;) thanks Tony and Luca for covering it :D",
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "259e848b_057cbf63",
         "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
         "patchSetId": 6

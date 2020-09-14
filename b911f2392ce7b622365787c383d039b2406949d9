@@ -19,6 +19,23 @@
     },
     {
       "key": {
+        "uuid": "ea9b4e60_f1bce564",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T15:34:48Z",
+      "side": 1,
+      "message": "Thanks for the second review! -Feedback below.",
+      "revId": "b911f2392ce7b622365787c383d039b2406949d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bee2ea04_dc9df48b",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
         "patchSetId": 8
@@ -39,6 +56,30 @@
       "revId": "b911f2392ce7b622365787c383d039b2406949d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9dd71234_dcef9f34",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T15:34:48Z",
+      "side": 1,
+      "message": "\u003e defaultName?\n\nI think this would be redundant with this very line\u0027s code. This \u0027name\u0027 is found elsewhere in other sibling files, too. If anything, I think we should improve the naming across all the involved files, consistently.",
+      "parentUuid": "bee2ea04_dc9df48b",
+      "range": {
+        "startLine": 25,
+        "startChar": 14,
+        "endLine": 25,
+        "endChar": 21
+      },
+      "revId": "b911f2392ce7b622365787c383d039b2406949d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -65,6 +106,30 @@
     },
     {
       "key": {
+        "uuid": "466a1f1c_22010734",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T15:34:48Z",
+      "side": 1,
+      "message": "Because this specific value is not a locally computed one, as opposed to the one below. That is a Scala coding standard I learned from @Ponch originally, IIRC. I also found it well documented somewhere.",
+      "parentUuid": "af88017a_7e0e3263",
+      "range": {
+        "startLine": 27,
+        "startChar": 19,
+        "endLine": 27,
+        "endChar": 37
+      },
+      "revId": "b911f2392ce7b622365787c383d039b2406949d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a9a89861_842305b6",
         "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
         "patchSetId": 8
@@ -85,6 +150,30 @@
       "revId": "b911f2392ce7b622365787c383d039b2406949d9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45c0d441_fc8c9cbb",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/CheckNewProjectReplica1.scala",
+        "patchSetId": 8
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T15:34:48Z",
+      "side": 1,
+      "message": "This value defaults to 15s in the GerritSimulation parent, but can be customized depending on such specific environments. See [1]\u0027s doc added in this change, about the replication_delay property that one can set otherwise. So, this value can be tuned based on that Gerrit replication set in the SUT:\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/277634/8/Documentation/dev-e2e-tests.txt\n\nThere is also the above ReplicationSeconds small buffer added. Beyond this and that more significant replication_delay property which can be set ([1]), one can also set the optional power_factor property [2]. But I\u0027d rather rely on [1] first in this specific case.\n\n[2] https://gerrit-documentation.storage.googleapis.com/Documentation/3.0.12/dev-e2e-tests.html#_environment_properties",
+      "parentUuid": "a9a89861_842305b6",
+      "range": {
+        "startLine": 28,
+        "startChar": 41,
+        "endLine": 28,
+        "endChar": 57
+      },
+      "revId": "b911f2392ce7b622365787c383d039b2406949d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

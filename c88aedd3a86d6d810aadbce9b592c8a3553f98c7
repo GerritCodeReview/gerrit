@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2802cf1_7bf8bd42",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 6555,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "Maybe make this a link to the section above where this parameter is documented?",
+      "range": {
+        "startLine": 6555,
+        "startChar": 22,
+        "endLine": 6555,
+        "endChar": 48
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc1d8552_db145485",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "I think we do not want to use CommentInput here. CommentInput contains the input data for creating a new comment, but here we are querying comments. Maybe you can follow the pattern with a Request object that we normally use in the API to query entities? \n\nSomething like this:\n\n   CommentsRequest comments() throws RestApiException;\n\n   abstract class CommentsRequest {\n     private boolean enableContext;\n\n     public abstract Map\u003cString, List\u003cCommentInfo\u003e\u003e get() throws RestApiException;\n\n     public abstract List\u003cCommentInfo\u003e getAsList() throws RestApiException;\n\n     public SuggestedReviewersRequest withContext(boolean enableContext) {\n       this.enableContext \u003d enableContext;\n       return this;\n     }\n   }\n\nThe caller would then do:\n\n  Map\u003cString, List\u003cCommentInfo\u003e\u003e comments \u003d changeApi.comments().enableContext(true).get();\n\nUsing this pattern allows you to add further methods to the CommentsRequest later without breaking the API, e.g. you could add a \u0027withContext(int numberOfLines)\u0027 method to CommentsRequest later if you want.",
+      "range": {
+        "startLine": 344,
+        "startChar": 42,
+        "endLine": 344,
+        "endChar": 67
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "179b0b0f_2b103011",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "If these are pairs, would a map representation (Map\u003cline_num, line_text\u003e) be better?\nOr is there any future extension planned that would make a Map not work?\n\nIf you would use a Map, you wouldn\u0027t need the ContextLineInfo object.",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 27,
+        "endChar": 89
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8e3e3fc0_711c5774",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "nit: an",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc8407d6_37867a4a",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "If the list is always empty, why would we return it? What is the caller supposed to do with it?",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 55
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "911cda56_93ae66b0",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "It seems that the returned list is only empty if there was no candidate yet?\nCan you please rephrase the javadoc to make the purpose of this method clearer?",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 19
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbd3ca3b_da6c8e3c",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "Should we skip this part when id \u003d ObjectId.zeroId?\nDoes repo.open(id, Constants.OBJ_BLOB) actually work for ObjectId.zeroId?",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 13
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e0cb913_0d18370b",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "This looks like an invalid range. Can you add some comments here and in the Range class to explain what \u0027-1\u0027 as end means and how callers should treat it?\n\nAlternatively if this represents \"no range\" rather change the return type of this method to Optional\u003cRange\u003e and return Optional.empty() here.",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e268806a_dc456f8f",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "Should this rather be ObjectId?",
+      "range": {
+        "startLine": 138,
+        "startChar": 13,
+        "endLine": 138,
+        "endChar": 19
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47df8738_7d233969",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-14T07:29:51Z",
+      "side": 1,
+      "message": "I think it would be better to inject CommentContextLoader.Factory into this class and change this method to\n\n  CommentJson setEnableContext(boolean enableContext)\n\nOtherwise all callers need to know how to instantiate CommentContextLoader, but we have Guice to do the instantiation for us.",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 0
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

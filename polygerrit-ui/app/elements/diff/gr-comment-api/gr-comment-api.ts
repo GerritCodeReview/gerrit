@@ -541,6 +541,9 @@ export class ChangeComments {
     comments: T[]
   ): T[] {
     return comments.slice(0).sort((c1, c2) => {
+      const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
+      const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
+      if (d1 !== d2) return d1 ? 1 : -1;
       const dateDiff =
         parseDate(c1.updated).valueOf() - parseDate(c2.updated).valueOf();
       if (dateDiff) {

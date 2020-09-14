@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "ddc8a255_a9a1192c",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestHumanComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T15:36:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2fc34e35_7b4aae1e",
+      "range": {
+        "startLine": 35,
+        "startChar": 18,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d34cf4a7_15d89f5b",
         "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
         "patchSetId": 4
@@ -62,6 +86,30 @@
       "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "31d4e974_f0c418da",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T15:36:13Z",
+      "side": 1,
+      "message": "ack, got rid of it by applying your other comment.",
+      "parentUuid": "d34cf4a7_15d89f5b",
+      "range": {
+        "startLine": 341,
+        "startChar": 11,
+        "endLine": 341,
+        "endChar": 23
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -88,6 +136,30 @@
     },
     {
       "key": {
+        "uuid": "700c9f6b_fc375438",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T15:36:13Z",
+      "side": 1,
+      "message": "Good point, done for comments and robot comments as well.",
+      "parentUuid": "614640a4_45fca189",
+      "range": {
+        "startLine": 670,
+        "startChar": 8,
+        "endLine": 670,
+        "endChar": 75
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7130120_68634965",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
         "patchSetId": 4
@@ -111,6 +183,30 @@
     },
     {
       "key": {
+        "uuid": "c1fc2f53_2e4676a2",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T15:36:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7130120_68634965",
+      "range": {
+        "startLine": 681,
+        "startChar": 73,
+        "endLine": 681,
+        "endChar": 89
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4d5e50cf_60cd3b20",
         "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
         "patchSetId": 4
@@ -131,6 +227,30 @@
       "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c21d5174_b43cb7b5",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T15:36:13Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d5e50cf_60cd3b20",
+      "range": {
+        "startLine": 692,
+        "startChar": 73,
+        "endLine": 692,
+        "endChar": 90
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

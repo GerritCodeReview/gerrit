@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f6a29fd1_3eeafad8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T21:03:16Z",
+      "side": 1,
+      "message": "Verified again locally using a replication_delay set to 10s. This is because our test SUT internally has such a lower replication delay configured. Our test system there happens to replicate within those time limits, lending a passing scenario execution. Other delays can be set based on one\u0027s own configuration.",
+      "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

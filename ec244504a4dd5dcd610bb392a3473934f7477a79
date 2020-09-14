@@ -37,6 +37,24 @@
     },
     {
       "key": {
+        "uuid": "34d16248_882b65f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 7
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T19:48:36Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "5a57d55d_e1459250",
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9b1892d4_e8a7104d",
         "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
         "patchSetId": 7
@@ -151,6 +169,30 @@
       "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e4f3a768_4af5d094",
+        "filename": "javatests/com/google/gerrit/acceptance/DaemonOverridesTestLibModulesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T19:48:36Z",
+      "side": 1,
+      "message": "\u003e Is this instance ever used by this test?\n\nThe instance isn\u0027t needed by the test code directly, but the module created is used in Gerrit\u0027s Daemon during the composition of the sysInjector.",
+      "parentUuid": "e8783805_be334248",
+      "range": {
+        "startLine": 52,
+        "startChar": 11,
+        "endLine": 52,
+        "endChar": 30
+      },
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

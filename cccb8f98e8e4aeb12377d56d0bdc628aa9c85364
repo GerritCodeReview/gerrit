@@ -16,6 +16,121 @@
       "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2fc34e35_7b4aae1e",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestHumanComment.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T09:52:21Z",
+      "side": 1,
+      "message": "nit: Should be boolean.",
+      "range": {
+        "startLine": 35,
+        "startChar": 18,
+        "endLine": 35,
+        "endChar": 35
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d34cf4a7_15d89f5b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RobotCommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 341,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T09:52:21Z",
+      "side": 1,
+      "message": "Nit: The string-based Change-Id is not exactly a SHA-1. For instance, it\u0027s prefixed with an \u0027I\u0027. It also never changes during the lifetime of a change even though the change gets updates. Hence, we don\u0027t call it SHA-1, which we typically only use for commits.",
+      "range": {
+        "startLine": 341,
+        "startChar": 11,
+        "endLine": 341,
+        "endChar": 23
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "614640a4_45fca189",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 670,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T09:52:21Z",
+      "side": 1,
+      "message": "Nit, here and in the other tests: You could simply inline the gAPI call here as that allows to use changeId.get() to refer to the change. Alternatively, introduce an addDraft() version which takes the numeric change id.",
+      "range": {
+        "startLine": 670,
+        "startChar": 8,
+        "endLine": 670,
+        "endChar": 75
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7130120_68634965",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 681,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T09:52:21Z",
+      "side": 1,
+      "message": "Nit: Should just be unresolved(). The unresolved(boolean) method is just intended for internal use of the AutoValue. Due to the class being an AutoValue, we can\u0027t reduce the visibility lower than package-private, though.",
+      "range": {
+        "startLine": 681,
+        "startChar": 73,
+        "endLine": 681,
+        "endChar": 89
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d5e50cf_60cd3b20",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/change/ChangeOperationsImplTest.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 692,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-14T09:52:21Z",
+      "side": 1,
+      "message": "Nit: Should be resolved().",
+      "range": {
+        "startLine": 692,
+        "startChar": 73,
+        "endLine": 692,
+        "endChar": 90
+      },
+      "revId": "cccb8f98e8e4aeb12377d56d0bdc628aa9c85364",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

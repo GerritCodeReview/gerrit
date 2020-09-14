@@ -51,6 +51,24 @@
       "revId": "dde7696f22513ab7af0fcd0ceab9a7ed90a74dac",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c8128a81_533b8234",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 869,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-14T07:15:16Z",
+      "side": 1,
+      "message": "Sorry. Overlooked the declaration. :-(",
+      "parentUuid": "54933f9c_c585d165",
+      "revId": "dde7696f22513ab7af0fcd0ceab9a7ed90a74dac",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

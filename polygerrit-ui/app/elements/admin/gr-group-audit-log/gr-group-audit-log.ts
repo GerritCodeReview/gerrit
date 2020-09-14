@@ -15,48 +15,58 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-table-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-account-link/gr-account-link.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-group-audit-log_html.js';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../../styles/gr-table-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-account-link/gr-account-link';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-group-audit-log_html';
+import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {
+  ErrorCallback,
+  RestApiService,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GroupInfo, AccountInfo, EncodedGroupId} from '../../../types/common';
 
 const GROUP_EVENTS = ['ADD_GROUP', 'REMOVE_GROUP'];
 
-/**
- * @extends PolymerElement
- */
-class GrGroupAuditLog extends ListViewMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-group-audit-log'; }
-
-  static get properties() {
-    return {
-      groupId: String,
-      _auditLog: Array,
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-    };
+export interface GrGroupAuditLog {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
+@customElement('gr-group-audit-log')
+export class GrGroupAuditLog extends ListViewMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: String})
+  groupId?: EncodedGroupId;
+
+  @property({type: Array})
+  _auditLog?: unknown;
+
+  @property({type: Boolean})
+  _loading = true;
 
   /** @override */
   attached() {
     super.attached();
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: 'Audit Log'},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title: 'Audit Log'},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   /** @override */
@@ -66,31 +76,33 @@ class GrGroupAuditLog extends ListViewMixin(GestureEventListeners(
   }
 
   _getAuditLogs() {
-    if (!this.groupId) { return ''; }
+    if (!this.groupId) {
+      return '';
+    }
 
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+    const errFn: ErrorCallback = response => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
-    return this.$.restAPI.getGroupAuditLog(this.groupId, errFn)
-        .then(auditLog => {
-          if (!auditLog) {
-            this._auditLog = [];
-            return;
-          }
-          this._auditLog = auditLog;
-          this._loading = false;
-        });
+    return this.$.restAPI
+      .getGroupAuditLog(this.groupId, errFn)
+      .then(auditLog => {
+        if (!auditLog) {
+          this._auditLog = [];
+          return;
+        }
+        this._auditLog = auditLog;
+        this._loading = false;
+      });
   }
 
-  _status(item) {
-    return item.disabled ? 'Disabled' : 'Enabled';
-  }
-
-  itemType(type) {
+  itemType(type: string) {
     let item;
     switch (type) {
       case 'ADD_GROUP':
@@ -107,11 +119,11 @@ class GrGroupAuditLog extends ListViewMixin(GestureEventListeners(
     return item;
   }
 
-  _isGroupEvent(type) {
+  _isGroupEvent(type: string) {
     return GROUP_EVENTS.indexOf(type) !== -1;
   }
 
-  _computeGroupUrl(group) {
+  _computeGroupUrl(group: GroupInfo) {
     if (group && group.url && group.id) {
       return GerritNav.getUrlForGroup(group.id);
     }
@@ -119,11 +131,11 @@ class GrGroupAuditLog extends ListViewMixin(GestureEventListeners(
     return '';
   }
 
-  _getIdForUser(account) {
-    return account._account_id ? ' (' + account._account_id + ')' : '';
+  _getIdForUser(account: AccountInfo) {
+    return account._account_id ? ` (${account._account_id})` : '';
   }
 
-  _getNameForGroup(group) {
+  _getNameForGroup(group: GroupInfo) {
     if (group && group.name) {
       return group.name;
     } else if (group && group.id) {
@@ -135,4 +147,8 @@ class GrGroupAuditLog extends ListViewMixin(GestureEventListeners(
   }
 }
 
-customElements.define(GrGroupAuditLog.is, GrGroupAuditLog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group-audit-log': GrGroupAuditLog;
+  }
+}

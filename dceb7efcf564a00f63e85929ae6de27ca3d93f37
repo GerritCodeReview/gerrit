@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "119e4f36_0251b310",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 12
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T21:39:48Z",
+      "side": 1,
+      "message": "I\u0027m approving now but other reviews are still welcome meanwhile of course.",
+      "revId": "dceb7efcf564a00f63e85929ae6de27ca3d93f37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

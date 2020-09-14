@@ -247,12 +247,12 @@ export class GrJsApiInterface
     return revertSubmissionMsg;
   }
 
-  getDiffLayers(path: string, changeNum: number, patchNum: number) {
+  getDiffLayers(path: string, changeNum: number) {
     const layers = [];
     for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
       const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
       try {
-        const layer = annotationApi.getLayer(path, changeNum, patchNum);
+        const layer = annotationApi.getLayer(path, changeNum);
         layers.push(layer);
       } catch (err) {
         console.error(err);

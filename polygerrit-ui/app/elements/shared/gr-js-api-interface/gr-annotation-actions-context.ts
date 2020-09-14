@@ -17,7 +17,6 @@
 
 import {GrAnnotation} from '../../diff/gr-diff-highlight/gr-annotation';
 import {GrStyleObject} from '../../plugins/gr-styles-api/gr-styles-api';
-import {PatchSetNum} from '../../../types/common';
 import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
 
 /**
@@ -43,15 +42,12 @@ export class GrAnnotationActionsContext {
 
   changeNum: number;
 
-  patchNum: number;
-
   constructor(
     contentEl: HTMLElement,
     lineNumberEl: HTMLElement,
     line: GrDiffLine,
     path: string,
-    changeNum: string | number,
-    patchNum: PatchSetNum
+    changeNum: string | number
   ) {
     this._contentEl = contentEl;
     this._lineNumberEl = lineNumberEl;
@@ -59,9 +55,10 @@ export class GrAnnotationActionsContext {
     this.line = line;
     this.path = path;
     this.changeNum = Number(changeNum);
-    this.patchNum = Number(patchNum);
-    if (isNaN(this.changeNum) || isNaN(this.patchNum)) {
-      console.error('invalid parameters');
+    if (isNaN(this.changeNum)) {
+      console.error(
+        `GrAnnotationActionsContext: Invalid changeNum: ${changeNum}`
+      );
     }
   }
 

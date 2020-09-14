@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "026df1bd_b4181be3",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T22:26:22Z",
+      "side": 0,
+      "message": "Comment is now obsolete.",
+      "parentUuid": "11d87662_0a270b4c",
+      "range": {
+        "startLine": 59,
+        "startChar": 33,
+        "endLine": 59,
+        "endChar": 43
+      },
+      "revId": "cf962d9c03c774221a4996949fed265f85cf7987",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "179b8ca6_5d42a64f",
         "filename": "java/com/google/gerrit/server/cache/h2/H2CacheModule.java",
         "patchSetId": 1

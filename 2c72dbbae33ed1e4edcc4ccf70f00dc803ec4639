@@ -145,6 +145,24 @@
     },
     {
       "key": {
+        "uuid": "3063ef20_d2da1355",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T22:26:22Z",
+      "side": 1,
+      "message": "The change is now only adding one test, this comment is now addressed then.",
+      "parentUuid": "0ac400b7_5f5c56ca",
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "74e3cf2e_305e471e",
         "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
         "patchSetId": 1
@@ -212,6 +230,30 @@
       "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3a30280e_964adb21",
+        "filename": "java/com/google/gerrit/server/cache/PersistentCacheProvider.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T22:26:22Z",
+      "side": 1,
+      "message": "Obsolete.",
+      "parentUuid": "1c334d57_cb8d4c1b",
+      "range": {
+        "startLine": 135,
+        "startChar": 8,
+        "endLine": 135,
+        "endChar": 55
+      },
+      "revId": "2c72dbbae33ed1e4edcc4ccf70f00dc803ec4639",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

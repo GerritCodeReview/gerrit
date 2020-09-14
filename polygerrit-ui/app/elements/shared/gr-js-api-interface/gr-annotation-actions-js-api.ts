@@ -18,7 +18,6 @@ import {GrAnnotationActionsContext} from './gr-annotation-actions-context';
 import {GrDiffLine, LineNumber} from '../../diff/gr-diff/gr-diff-line';
 import {CoverageRange} from '../../../types/types';
 import {Side} from '../../../constants/constants';
-import {PatchSetNum} from '../../../types/common';
 import {PluginApi} from '../../plugins/gr-plugin-types';
 
 type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
@@ -188,13 +187,11 @@ export class GrAnnotationActionsInterface {
    *
    * @param path The file path (eg: /COMMIT_MSG').
    * @param changeNum The Gerrit change number.
-   * @param patchNum The Gerrit patch number.
    */
-  getLayer(path: string, changeNum: number, patchNum: number) {
+  getLayer(path: string, changeNum: number) {
     const annotationLayer = new AnnotationLayer(
       path,
       changeNum,
-      patchNum,
       this.addLayerFunc
     );
     this.annotationLayers.push(annotationLayer);
@@ -216,14 +213,12 @@ export class AnnotationLayer {
    *
    * @param path The file path (eg: /COMMIT_MSG').
    * @param changeNum The Gerrit change number.
-   * @param patchNum The Gerrit patch number.
    * @param addLayerFunc The function
    * that will be called when the AnnotationLayer is ready to annotate.
    */
   constructor(
     readonly path: string,
     private readonly changeNum: number,
-    private readonly patchNum: number,
     private readonly addLayerFunc: AddLayerFunc
   ) {
     this.listeners = [];
@@ -264,8 +259,7 @@ export class AnnotationLayer {
       lineNumberEl,
       line,
       this.path,
-      this.changeNum,
-      this.patchNum as PatchSetNum
+      this.changeNum
     );
     this.addLayerFunc(annotationActionsContext);
   }

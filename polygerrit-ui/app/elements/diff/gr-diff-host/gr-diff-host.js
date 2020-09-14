@@ -331,7 +331,7 @@ class GrDiffHost extends GestureEventListeners(
     const layers = [this.$.syntaxLayer];
     // Get layers from plugins (if any).
     for (const pluginLayer of this.$.jsAPI.getDiffLayers(
-        this.path, this.changeNum, this.patchNum)) {
+        this.path, this.changeNum)) {
       layers.push(pluginLayer);
     }
     this._layers = layers;

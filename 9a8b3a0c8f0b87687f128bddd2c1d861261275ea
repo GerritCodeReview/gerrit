@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "18f8da4e_f23d3140",
+        "filename": "polygerrit-ui/app/elements/diff/gr-comment-api/gr-comment-api_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 498,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-14T11:27:54Z",
+      "side": 1,
+      "message": "oops",
+      "range": {
+        "startLine": 498,
+        "startChar": 11,
+        "endLine": 498,
+        "endChar": 15
+      },
+      "revId": "9a8b3a0c8f0b87687f128bddd2c1d861261275ea",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

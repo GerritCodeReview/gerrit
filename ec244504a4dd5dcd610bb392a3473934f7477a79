@@ -60,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "70b1fc72_d47bda1d",
+        "filename": "java/com/google/gerrit/acceptance/AbstractDaemonTest.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 537,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T19:47:00Z",
+      "side": 1,
+      "message": "\u003e Can\u0027t the above generic createModule be used instead of introducing this specific case method?\n\nUnfortunately, not. The createModule() is for adding extra modules to Gerrit and not to provide an implementation for existing ones.\n\nIn order to test the override mechanism, we need:\n1. One existing module with a ModuleImpl annotation\n2. One extra module (provided by the createModule()) with the alternate implementation\n\nDo you have any other suggestions on how to provide an existing Gerrit module with the ModuleImpl annotation?",
+      "parentUuid": "9b1892d4_e8a7104d",
+      "range": {
+        "startLine": 534,
+        "startChar": 2,
+        "endLine": 537,
+        "endChar": 3
+      },
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "19837982_eb3f4461",
         "filename": "javatests/com/google/gerrit/acceptance/DaemonOverridesTestLibModulesIT.java",
         "patchSetId": 7
@@ -80,6 +104,30 @@
       "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "63306f9d_b87c4f68",
+        "filename": "javatests/com/google/gerrit/acceptance/DaemonOverridesTestLibModulesIT.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T19:47:00Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "19837982_eb3f4461",
+      "range": {
+        "startLine": 40,
+        "startChar": 22,
+        "endLine": 40,
+        "endChar": 27
+      },
+      "revId": "ec244504a4dd5dcd610bb392a3473934f7477a79",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

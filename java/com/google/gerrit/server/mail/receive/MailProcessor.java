@@ -59,8 +59,6 @@ import com.google.gerrit.server.mail.MailFilter;
 import com.google.gerrit.server.mail.send.InboundEmailRejectionSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeNotes;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
@@ -107,7 +105,6 @@ public class MailProcessor {
   private final ChangeMessagesUtil changeMessagesUtil;
   private final CommentsUtil commentsUtil;
   private final OneOffRequestContext oneOffRequestContext;
-  private final PatchListCache patchListCache;
   private final PatchSetUtil psUtil;
   private final Provider<InternalChangeQuery> queryProvider;
   private final DynamicMap<MailFilter> mailFilters;
@@ -127,7 +124,6 @@ public class MailProcessor {
       ChangeMessagesUtil changeMessagesUtil,
       CommentsUtil commentsUtil,
       OneOffRequestContext oneOffRequestContext,
-      PatchListCache patchListCache,
       PatchSetUtil psUtil,
       Provider<InternalChangeQuery> queryProvider,
       DynamicMap<MailFilter> mailFilters,
@@ -144,7 +140,6 @@ public class MailProcessor {
     this.changeMessagesUtil = changeMessagesUtil;
     this.commentsUtil = commentsUtil;
     this.oneOffRequestContext = oneOffRequestContext;
-    this.patchListCache = patchListCache;
     this.psUtil = psUtil;
     this.queryProvider = queryProvider;
     this.mailFilters = mailFilters;
@@ -331,8 +326,7 @@ public class MailProcessor {
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws UnprocessableEntityException, PatchListNotAvailableException {
+    public boolean updateChange(ChangeContext ctx) throws UnprocessableEntityException {
       patchSet = psUtil.get(ctx.getNotes(), psId);
       notes = ctx.getNotes();
       if (patchSet == null) {
@@ -424,8 +418,7 @@ public class MailProcessor {
     }
 
     private HumanComment persistentCommentFromMailComment(
-        ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment)
-        throws PatchListNotAvailableException {
+        ChangeContext ctx, MailComment mailComment, PatchSet patchSetForComment) {
       String fileName;
       // The patch set that this comment is based on is different if this
       // comment was sent in reply to a comment on a previous patch set.
@@ -457,7 +450,7 @@ public class MailProcessor {
         comment.range = mailComment.getInReplyTo().range;
         comment.unresolved = mailComment.getInReplyTo().unresolved;
       }
-      CommentsUtil.setCommentCommitId(comment, patchListCache, ctx.getChange(), patchSetForComment);
+      commentsUtil.setCommentCommitId(comment, ctx.getChange(), patchSetForComment);
       return comment;
     }
   }

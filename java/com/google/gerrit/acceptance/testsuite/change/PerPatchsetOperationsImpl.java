@@ -14,8 +14,6 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
-
 import com.google.gerrit.acceptance.testsuite.change.TestCommentCreation.CommentSide;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment.Status;
@@ -32,8 +30,6 @@ import com.google.gerrit.server.IdentifiedUser.GenericFactory;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -58,7 +54,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
   private final IdentifiedUser.GenericFactory userFactory;
   private final BatchUpdate.Factory batchUpdateFactory;
   private final CommentsUtil commentsUtil;
-  private final PatchListCache patchListCache;
 
   private final ChangeNotes changeNotes;
   private final PatchSet.Id patchsetId;
@@ -73,14 +68,12 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       GenericFactory userFactory,
       BatchUpdate.Factory batchUpdateFactory,
       CommentsUtil commentsUtil,
-      PatchListCache patchListCache,
       @Assisted ChangeNotes changeNotes,
       @Assisted PatchSet.Id patchsetId) {
     this.repositoryManager = repositoryManager;
     this.userFactory = userFactory;
     this.batchUpdateFactory = batchUpdateFactory;
     this.commentsUtil = commentsUtil;
-    this.patchListCache = patchListCache;
     this.changeNotes = changeNotes;
     this.patchsetId = patchsetId;
   }
@@ -135,7 +128,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     }
 
     @Override
-    public boolean updateChange(ChangeContext context) throws Exception {
+    public boolean updateChange(ChangeContext context) {
       HumanComment comment = toNewComment(context, commentCreation);
       ChangeUpdate changeUpdate = context.getUpdate(patchsetId);
       changeUpdate.putComment(commentCreation.status(), comment);
@@ -146,8 +139,7 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       return true;
     }
 
-    private HumanComment toNewComment(ChangeContext context, TestCommentCreation commentCreation)
-        throws PatchListNotAvailableException {
+    private HumanComment toNewComment(ChangeContext context, TestCommentCreation commentCreation) {
       String message = commentCreation.message().orElse("The text of a test comment.");
 
       String filePath = commentCreation.file().orElse(Patch.PATCHSET_LEVEL);
@@ -178,11 +170,8 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
           .map(this::toCommentRange)
           .ifPresent(range -> newComment.setLineNbrAndRange(null, range));
 
-      setCommentCommitId(
-          newComment,
-          patchListCache,
-          context.getChange(),
-          changeNotes.getPatchSets().get(patchsetId));
+      commentsUtil.setCommentCommitId(
+          newComment, context.getChange(), changeNotes.getPatchSets().get(patchsetId));
       return newComment;
     }
 

@@ -14,133 +14,170 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/gr-subpage-styles.js';
-import '../../../styles/gr-table-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-account-link/gr-account-link.js';
-import '../../shared/gr-autocomplete/gr-autocomplete.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-group-members_html.js';
-import {getBaseUrl} from '../../../utils/url-util.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '../../../styles/gr-form-styles';
+import '../../../styles/gr-subpage-styles';
+import '../../../styles/gr-table-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-autocomplete/gr-autocomplete';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-group-members_html';
+import {getBaseUrl} from '../../../utils/url-util';
+import {customElement, property} from '@polymer/decorators';
+import {
+  RestApiService,
+  ErrorCallback,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GroupId, AccountId, AccountInfo} from '../../../types/common';
+import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
+import { PolymerDomRepeatEvent } from '../../../types/types';
 
 const SUGGESTIONS_LIMIT = 15;
-const SAVING_ERROR_TEXT = 'Group may not exist, or you may not have '+
-    'permission to add it';
+const SAVING_ERROR_TEXT =
+  'Group may not exist, or you may not have ' + 'permission to add it';
 
 const URL_REGEX = '^(?:[a-z]+:)?//';
 
-/**
- * @extends PolymerElement
- */
-class GrGroupMembers extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-group-members'; }
-
-  static get properties() {
-    return {
-      groupId: Number,
-      _groupMemberSearchId: String,
-      _groupMemberSearchName: String,
-      _includedGroupSearchId: String,
-      _includedGroupSearchName: String,
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _groupName: String,
-      _groupMembers: Object,
-      _includedGroups: Object,
-      _itemName: String,
-      _itemType: String,
-      _queryMembers: {
-        type: Function,
-        value() {
-          return input => this._getAccountSuggestions(input);
-        },
-      },
-      _queryIncludedGroup: {
-        type: Function,
-        value() {
-          return input => this._getGroupSuggestions(input);
-        },
-      },
-      _groupOwner: {
-        type: Boolean,
-        value: false,
-      },
-      _isAdmin: {
-        type: Boolean,
-        value: false,
-      },
-    };
+export interface GrGroupMembers {
+  $: {
+    restAPI: RestApiService & Element;
+    overlay: GrOverlay;
+  };
+}
+@customElement('gr-group-members')
+export class GrGroupMembers extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: Number})
+  groupId?: GroupId;
+
+  @property({type: Number})
+  _groupMemberSearchId?: number;
+
+  @property({type: String})
+  _groupMemberSearchName?: string;
+
+  @property({type: String})
+  _includedGroupSearchId?: string;
+
+  @property({type: String})
+  _includedGroupSearchName?: string;
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: String})
+  _groupName?: GroupId;
+
+  @property({type: Object})
+  _groupMembers?: unknown;
+
+  @property({type: Object})
+  _includedGroups?: unknown;
+
+  @property({type: String})
+  _itemName?: string;
+
+  @property({type: String})
+  _itemType?: string;
+
+  @property({type: Object})
+  _queryMembers: AutocompleteQuery = input =>
+    this._getAccountSuggestions(input);
+
+  @property({type: Object})
+  _queryIncludedGroup: AutocompleteQuery = input =>
+    this._getGroupSuggestions(input);
+
+  @property({type: Boolean})
+  _groupOwner = false;
+
+  @property({type: Boolean})
+  _isAdmin = false;
+
+  _itemId?: AccountId | GroupId;
 
   /** @override */
   attached() {
     super.attached();
     this._loadGroupDetails();
 
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: 'Members'},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title: 'Members'},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _loadGroupDetails() {
-    if (!this.groupId) { return; }
+    if (!this.groupId) {
+      return;
+    }
 
-    const promises = [];
+    const promises: Promise<unknown>[] = [];
 
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+    const errFn: ErrorCallback = response => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
-    return this.$.restAPI.getGroupConfig(this.groupId, errFn)
-        .then(config => {
-          if (!config || !config.name) { return Promise.resolve(); }
+    return this.$.restAPI.getGroupConfig(this.groupId, errFn).then(config => {
+      if (!config || !config.name) {
+        return Promise.resolve();
+      }
 
-          this._groupName = config.name;
+      this._groupName = config.name as GroupId;
 
-          promises.push(this.$.restAPI.getIsAdmin().then(isAdmin => {
-            this._isAdmin = !!isAdmin;
-          }));
+      promises.push(
+        this.$.restAPI.getIsAdmin().then(isAdmin => {
+          this._isAdmin = !!isAdmin;
+        })
+      );
 
-          promises.push(this.$.restAPI.getIsGroupOwner(config.name)
-              .then(isOwner => {
-                this._groupOwner = !!isOwner;
-              }));
+      promises.push(
+        this.$.restAPI.getIsGroupOwner(config.name as GroupId).then(isOwner => {
+          this._groupOwner = !!isOwner;
+        })
+      );
 
-          promises.push(this.$.restAPI.getGroupMembers(config.name).then(
-              members => {
-                this._groupMembers = members;
-              }));
+      promises.push(
+        this.$.restAPI.getGroupMembers(config.name as GroupId).then(members => {
+          this._groupMembers = members;
+        })
+      );
 
-          promises.push(this.$.restAPI.getIncludedGroup(config.name)
-              .then(includedGroup => {
-                this._includedGroups = includedGroup;
-              }));
+      promises.push(
+        this.$.restAPI.getIncludedGroup(config.name as GroupId).then(includedGroup => {
+          this._includedGroups = includedGroup;
+        })
+      );
 
-          return Promise.all(promises).then(() => {
-            this._loading = false;
-          });
-        });
+      return Promise.all(promises).then(() => {
+        this._loading = false;
+      });
+    });
   }
 
-  _computeLoadingClass(loading) {
+  _computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
 
@@ -148,8 +185,10 @@ class GrGroupMembers extends GestureEventListeners(
     return this._loading || this._loading === undefined;
   }
 
-  _computeGroupUrl(url) {
-    if (!url) { return; }
+  _computeGroupUrl(url: string) {
+    if (!url) {
+      return;
+    }
 
     const r = new RegExp(URL_REGEX, 'i');
     if (r.test(url)) {
@@ -164,43 +203,44 @@ class GrGroupMembers extends GestureEventListeners(
   }
 
   _handleSavingGroupMember() {
-    return this.$.restAPI.saveGroupMember(this._groupName,
-        this._groupMemberSearchId).then(config => {
-      if (!config) {
-        return;
-      }
-      this.$.restAPI.getGroupMembers(this._groupName).then(members => {
-        this._groupMembers = members;
+    return this.$.restAPI
+      .saveGroupMember(this._groupName!, this._groupMemberSearchId as AccountId)
+      .then(config => {
+        if (!config) {
+          return;
+        }
+        this.$.restAPI.getGroupMembers(this._groupName as GroupId).then(members => {
+          this._groupMembers = members;
+        });
+        this._groupMemberSearchName = '';
+        this._groupMemberSearchId = undefined;
       });
-      this._groupMemberSearchName = '';
-      this._groupMemberSearchId = '';
-    });
   }
 
   _handleDeleteConfirm() {
     this.$.overlay.close();
     if (this._itemType === 'member') {
-      return this.$.restAPI.deleteGroupMember(this._groupName,
-          this._itemId)
-          .then(itemDeleted => {
-            if (itemDeleted.status === 204) {
-              this.$.restAPI.getGroupMembers(this._groupName)
-                  .then(members => {
-                    this._groupMembers = members;
-                  });
-            }
-          });
+      return this.$.restAPI
+        .deleteGroupMember(this._groupName!, this._itemId! as AccountId)
+        .then(itemDeleted => {
+          if (itemDeleted.status === 204) {
+            this.$.restAPI.getGroupMembers(this._groupName!).then(members => {
+              this._groupMembers = members;
+            });
+          }
+        });
     } else if (this._itemType === 'includedGroup') {
-      return this.$.restAPI.deleteIncludedGroup(this._groupName,
-          this._itemId)
-          .then(itemDeleted => {
-            if (itemDeleted.status === 204 || itemDeleted.status === 205) {
-              this.$.restAPI.getIncludedGroup(this._groupName)
-                  .then(includedGroup => {
-                    this._includedGroups = includedGroup;
-                  });
-            }
-          });
+      return this.$.restAPI
+        .deleteIncludedGroup(this._groupName!, this._itemId! as GroupId)
+        .then(itemDeleted => {
+          if (itemDeleted.status === 204 || itemDeleted.status === 205) {
+            this.$.restAPI
+              .getIncludedGroup(this._groupName!)
+              .then(includedGroup => {
+                this._includedGroups = includedGroup;
+              });
+          }
+        });
     }
   }
 
@@ -208,7 +248,7 @@ class GrGroupMembers extends GestureEventListeners(
     this.$.overlay.close();
   }
 
-  _handleDeleteMember(e) {
+  _handleDeleteMember(e: PolymerDomRepeatEvent<AccountInfo>) {
     const id = e.model.get('item._account_id');
     const name = e.model.get('item.name');
     const username = e.model.get('item.username');
@@ -224,87 +264,106 @@ class GrGroupMembers extends GestureEventListeners(
   }
 
   _handleSavingIncludedGroups() {
-    return this.$.restAPI.saveIncludedGroup(this._groupName,
-        this._includedGroupSearchId.replace(/\+/g, ' '), (errResponse, err) => {
+    return this.$.restAPI
+      .saveIncludedGroup(
+        this._groupName!,
+        this._includedGroupSearchId!.replace(/\+/g, ' ') as GroupId,
+        (errResponse, err) => {
           if (errResponse) {
             if (errResponse.status === 404) {
-              this.dispatchEvent(new CustomEvent('show-alert', {
-                detail: {message: SAVING_ERROR_TEXT},
-                bubbles: true,
-                composed: true,
-              }));
+              this.dispatchEvent(
+                new CustomEvent('show-alert', {
+                  detail: {message: SAVING_ERROR_TEXT},
+                  bubbles: true,
+                  composed: true,
+                })
+              );
               return errResponse;
             }
-            throw Error(err.statusText);
+            throw Error(errResponse.statusText);
           }
           throw err;
-        })
-        .then(config => {
-          if (!config) {
-            return;
-          }
-          this.$.restAPI.getIncludedGroup(this._groupName)
-              .then(includedGroup => {
-                this._includedGroups = includedGroup;
-              });
-          this._includedGroupSearchName = '';
-          this._includedGroupSearchId = '';
+        }
+      )
+      .then(config => {
+        if (!config) {
+          return;
+        }
+        this.$.restAPI.getIncludedGroup(this._groupName!).then(includedGroup => {
+          this._includedGroups = includedGroup;
         });
+        this._includedGroupSearchName = '';
+        this._includedGroupSearchId = '';
+      });
   }
 
   _handleDeleteIncludedGroup(e) {
     const id = decodeURIComponent(e.model.get('item.id')).replace(/\+/g, ' ');
     const name = e.model.get('item.name');
     const item = name || id;
-    if (!item) { return ''; }
+    if (!item) {
+      return '';
+    }
     this._itemName = item;
     this._itemId = id;
     this._itemType = 'includedGroup';
     this.$.overlay.open();
   }
 
-  _getAccountSuggestions(input) {
-    if (input.length === 0) { return Promise.resolve([]); }
-    return this.$.restAPI.getSuggestedAccounts(
-        input, SUGGESTIONS_LIMIT).then(accounts => {
-      const accountSuggestions = [];
-      let nameAndEmail;
-      if (!accounts) { return []; }
-      for (const key in accounts) {
-        if (!accounts.hasOwnProperty(key)) { continue; }
-        if (accounts[key].email !== undefined) {
-          nameAndEmail = accounts[key].name +
-                ' <' + accounts[key].email + '>';
-        } else {
-          nameAndEmail = accounts[key].name;
+  _getAccountSuggestions(input: string) {
+    if (input.length === 0) {
+      return Promise.resolve([]);
+    }
+    return this.$.restAPI
+      .getSuggestedAccounts(input, SUGGESTIONS_LIMIT)
+      .then(accounts => {
+        const accountSuggestions = [];
+        let nameAndEmail;
+        if (!accounts) {
+          return [];
         }
-        accountSuggestions.push({
-          name: nameAndEmail,
-          value: accounts[key]._account_id,
+        for (const key in accounts) {
+          if (!accounts.hasOwnProperty(key)) {
+            continue;
+          }
+          if (accounts[key].email !== undefined) {
+            nameAndEmail =
+              accounts[key].name + ' <' + accounts[key].email + '>';
+          } else {
+            nameAndEmail = accounts[key].name;
+          }
+          accountSuggestions.push({
+            name: nameAndEmail,
+            value: accounts[key]._account_id,
+          });
+        }
+        return accountSuggestions;
+      });
+  }
+
+  _getGroupSuggestions(input: string) {
+    return this.$.restAPI.getSuggestedGroups(input).then(response => {
+      const groups = [];
+      for (const key in response) {
+        if (!response.hasOwnProperty(key)) {
+          continue;
+        }
+        groups.push({
+          name: key,
+          value: decodeURIComponent(response[key].id),
         });
       }
-      return accountSuggestions;
+      return groups;
     });
   }
 
-  _getGroupSuggestions(input) {
-    return this.$.restAPI.getSuggestedGroups(input)
-        .then(response => {
-          const groups = [];
-          for (const key in response) {
-            if (!response.hasOwnProperty(key)) { continue; }
-            groups.push({
-              name: key,
-              value: decodeURIComponent(response[key].id),
-            });
-          }
-          return groups;
-        });
-  }
-
-  _computeHideItemClass(owner, admin) {
+  _computeHideItemClass(owner: boolean, admin: boolean) {
     return admin || owner ? '' : 'canModify';
   }
 }
 
-customElements.define(GrGroupMembers.is, GrGroupMembers);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-group-members': GrGroupMembers;
+  }
+}

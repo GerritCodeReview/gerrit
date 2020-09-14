@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15067be2_30215c41",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-14T08:40:57Z",
+      "side": 1,
+      "message": "Change looks good to me overall. Left 2 comments.",
+      "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0639317f_93c281e6",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 351,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-14T08:40:57Z",
+      "side": 1,
+      "message": "Do we skip validating inputs (e.g. for non-existing files, invalid ranges) for performance reasons? I checked PutDraftComment and I don\u0027t think we validate it.\nIt\u0027d be nice if the API throws a FileNotFoundException for this request.",
+      "range": {
+        "startLine": 351,
+        "startChar": 26,
+        "endLine": 351,
+        "endChar": 93
+      },
+      "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f848b5ea_8a7d3a03",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1684,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-14T08:40:57Z",
+      "side": 1,
+      "message": "I have a 2 questions here:\n1) What is this test trying to prove? (e.g. that calls for the exact state can return different output, i.e. with different ordering)? Can we add few lines of description?\n\n2) line 1698 is showing that comment2 is ported (the resolved) and comment1 is not (the unresolved). I thought that unresolved comments are the one we port, no?\nUpdate: I see this is related to comment threads, where things can get a bit tricky/confusing. I think a clarifying comment above the last line would be nice for the reader to understand the intended behaviour.",
+      "range": {
+        "startLine": 1684,
+        "startChar": 14,
+        "endLine": 1684,
+        "endChar": 57
+      },
+      "revId": "fff470e259936ff5a20e5b7b807b90b1e087dde3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -16,6 +16,29 @@
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "42767eaa_055bdf03",
+        "filename": "WORKSPACE",
+        "patchSetId": 3
+      },
+      "lineNbr": 797,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-14T20:55:03Z",
+      "side": 1,
+      "message": "I may have missed the reason why httpcore remains behind :-( Can you point me to the explanation?",
+      "range": {
+        "startLine": 797,
+        "startChar": 51,
+        "endLine": 797,
+        "endChar": 57
+      },
+      "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -132,8 +132,10 @@ export class GrCreateChangeDialog extends GestureEventListeners(
     this.canCreate = !!branch && !!subject;
   }
 
-  handleCreateChange() {
-    if (!this.repoName || !this.branch || !this.subject) return;
+  handleCreateChange(): Promise<unknown> {
+    if (!this.repoName || !this.branch || !this.subject) {
+      return Promise.resolve();
+    }
     const isPrivate = this.$.privateChangeCheckBox.checked;
     const isWip = true;
     return this.$.restAPI

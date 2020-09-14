@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "1e5a1398_de9b46bf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T21:36:30Z",
+      "side": 1,
+      "message": "\u003e Thanks, Marco. I believe looks good, just see my suggestion on adding one note to the docs on the replication delay value. It can also be addressed as a follow-up IMHO.\n\nThanks. I will.",
+      "parentUuid": "9c84332c_8f15fca9",
+      "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d74c6dd_1a769957",
         "filename": "Documentation/dev-e2e-tests.txt",
         "patchSetId": 9
@@ -56,6 +74,30 @@
       "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa35991b_a4a2eda4",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 9
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-14T21:36:30Z",
+      "side": 1,
+      "message": "\u003e You should put a note saying that the value should be *much lower* than the one configured in the replication.config, otherwise the test would fail for sure.\n\nWould you mean the reverse, by any chance? This replication_delay might need to be set to a value *higher* than plugin\u0027s replicationDelay, I agree.\n\nThis change focused on the fact that this default matching applies for precisely (or so) replicating systems. For example, my internal test system for this change: it replicates within seconds once passed the delay. But again, I agree with your concern as this is not likely for every other SUT. -Hence replication_delay that can be set to better suiting values for those.",
+      "parentUuid": "3d74c6dd_1a769957",
+      "range": {
+        "startLine": 178,
+        "startChar": 62,
+        "endLine": 179,
+        "endChar": 32
+      },
+      "revId": "cc3d654f4a2203f8722abf03a724e05fe1010586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

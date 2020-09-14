@@ -14,25 +14,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-icon/iron-icon.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-confirm-submit-dialog_html.js';
+import '@polymer/iron-icon/iron-icon';
+import '../../shared/gr-icons/gr-icons';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-confirm-submit-dialog_html';
+import {customElement, property} from '@polymer/decorators';
+import {ChangeInfo, ActionInfo} from '../../../types/common';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
 
-/** @extends PolymerElement */
-class GrConfirmSubmitDialog extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrConfirmSubmitDialog {
+  $: {
+    dialog: GrDialog;
+  };
+}
+@customElement('gr-confirm-submit-dialog')
+export class GrConfirmSubmitDialog extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-confirm-submit-dialog'; }
   /**
    * Fired when the confirm button is pressed.
    *
@@ -45,48 +54,45 @@ class GrConfirmSubmitDialog extends GestureEventListeners(
    * @event cancel
    */
 
-  static get properties() {
-    return {
-      /**
-       * @type {Gerrit.Change}
-       */
-      change: Object,
+  @property({type: Object})
+  change?: ChangeInfo;
 
-      /**
-       * @type {{
-       *    label: string,
-       *  }}
-       */
-      action: Object,
-    };
-  }
+  @property({type: Object})
+  action?: ActionInfo;
 
-  resetFocus(e) {
+  resetFocus() {
     this.$.dialog.resetFocus();
   }
 
-  _computeHasChangeEdit(change) {
-    return !!change.revisions &&
-        Object.values(change.revisions).some(rev => rev._number == 'edit');
+  _computeHasChangeEdit(change?: ChangeInfo) {
+    return (
+      !!change &&
+      !!change.revisions &&
+      Object.values(change.revisions).some(rev => rev._number === 'edit')
+    );
   }
 
-  _computeUnresolvedCommentsWarning(change) {
+  _computeUnresolvedCommentsWarning(change: ChangeInfo) {
     const unresolvedCount = change.unresolved_comment_count;
-    const plural = unresolvedCount > 1 ? 's' : '';
+    const plural = unresolvedCount && unresolvedCount > 1 ? 's' : '';
     return `Heads Up! ${unresolvedCount} unresolved comment${plural}.`;
   }
 
-  _handleConfirmTap(e) {
+  _handleConfirmTap(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('confirm', {bubbles: false}));
   }
 
-  _handleCancelTap(e) {
+  _handleCancelTap(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
     this.dispatchEvent(new CustomEvent('cancel', {bubbles: false}));
   }
 }
 
-customElements.define(GrConfirmSubmitDialog.is, GrConfirmSubmitDialog);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-confirm-submit-dialog': GrConfirmSubmitDialog;
+  }
+}

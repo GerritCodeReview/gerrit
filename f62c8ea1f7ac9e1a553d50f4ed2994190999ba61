@@ -70,6 +70,30 @@
       "revId": "f62c8ea1f7ac9e1a553d50f4ed2994190999ba61",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b7c932e_c450f30e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-14T21:28:23Z",
+      "side": 1,
+      "message": "AFAIK gerrit doesn\u0027t determine repository sizes.\nWe could \n- walk each repository\u0027s directory to calculate its size\n- run JGit gc and get the size from the RepoStatistics it computes\n- spawn an external process and call du\nNone of these methods seems cheap.",
+      "parentUuid": "05e7b0fb_56dc2ba9",
+      "range": {
+        "startLine": 7,
+        "startChar": 16,
+        "endLine": 7,
+        "endChar": 23
+      },
+      "revId": "f62c8ea1f7ac9e1a553d50f4ed2994190999ba61",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

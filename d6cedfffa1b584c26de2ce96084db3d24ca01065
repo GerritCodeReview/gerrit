@@ -606,6 +606,30 @@
     },
     {
       "key": {
+        "uuid": "d2bb745d_0863630d",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 213,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-14T15:10:17Z",
+      "side": 1,
+      "message": "Done - ps4-\u003eps5 contains useful code for that change.",
+      "parentUuid": "9e75e89b_9005ae9c",
+      "range": {
+        "startLine": 206,
+        "startChar": 0,
+        "endLine": 213,
+        "endChar": 5
+      },
+      "revId": "d6cedfffa1b584c26de2ce96084db3d24ca01065",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "34e5e1f0_d1f3e222",
         "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestRobotCommentCreation.java",
         "patchSetId": 3

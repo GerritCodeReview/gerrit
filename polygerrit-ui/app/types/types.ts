@@ -18,6 +18,7 @@ import {Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
+import {PaperInputElement} from '@polymer/paper-input/paper-input';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -58,6 +59,14 @@ export enum ErrorType {
   NETWORK = 'NETWORK',
   GENERIC = 'GENERIC',
 }
+
+/**
+ * We would like to access the the typed `nativeInput` of PaperInputElement, so
+ * we are creating this wrapper.
+ */
+export type PaperInputElementExt = PaperInputElement & {
+  $: {nativeInput?: Element};
+};
 
 /**
  * If Polymer would have exported DomApiNative from its dom.js utility, then we

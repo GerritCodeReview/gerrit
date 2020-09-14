@@ -29,7 +29,7 @@ import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {PaperInputElementExt} from '../../../types/types';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -42,7 +42,7 @@ declare global {
 
 export interface GrEditableLabel {
   $: {
-    input: PaperInputElement;
+    input: PaperInputElementExt;
     dropdown: IronDropdownElement;
   };
 }
@@ -188,12 +188,9 @@ export class GrEditableLabel extends KeyboardShortcutMixin(
   }
 
   get _nativeInput(): HTMLInputElement {
-    // In Polymer 2, the namespace of nativeInput changed from input to
-    // nativeInput.
-    // `this.$.input` has type PaperInputElement, so this is beyond our control
-    // and we cannot force `this.$.input.$` to have a proper type.
-    return (this.$.input.$['nativeInput'] ||
-      this.$.input.$['input']) as HTMLInputElement;
+    // In Polymer 2 inputElement isn't nativeInput anymore
+    return (this.$.input.$.nativeInput ||
+      this.$.input.inputElement) as HTMLInputElement;
   }
 
   _handleEnter(e: CustomKeyboardEvent) {

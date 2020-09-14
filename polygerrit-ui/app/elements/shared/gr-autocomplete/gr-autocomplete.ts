@@ -29,17 +29,17 @@ import {
   CustomKeyboardEvent,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {property, customElement, observe} from '@polymer/decorators';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
 import {EventWithPath} from '../../plugins/gr-event-helper/gr-event-helper';
+import {PaperInputElementExt} from '../../../types/types';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
 
 export interface GrAutocomplete {
   $: {
-    input: PaperInputElement & {$: {nativeInput?: Element}};
+    input: PaperInputElementExt;
     suggestions: GrAutocompleteDropdown;
     cursor: GrCursorManager;
   };

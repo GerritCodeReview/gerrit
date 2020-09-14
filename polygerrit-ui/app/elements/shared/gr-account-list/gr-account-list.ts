@@ -35,9 +35,9 @@ import {
 } from '../../../scripts/gr-reviewer-suggestions-provider/gr-reviewer-suggestions-provider';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {GrAccountEntry} from '../gr-account-entry/gr-account-entry';
-import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {GrAccountChip} from '../gr-account-chip/gr-account-chip';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {PaperInputElementExt} from '../../../types/types';
 
 const VALID_EMAIL_ALERT = 'Please input a valid email.';
 
@@ -344,14 +344,14 @@ export class GrAccountList extends GestureEventListeners(
     console.warn('received remove event for missing account', toRemove);
   }
 
-  _getNativeInput(paperInput: PaperInputElement) {
+  _getNativeInput(paperInput: PaperInputElementExt) {
     // In Polymer 2 inputElement isn't nativeInput anymore
     return (paperInput.$.nativeInput ||
       paperInput.inputElement) as HTMLTextAreaElement;
   }
 
   _handleInputKeydown(
-    e: CustomEvent<{input: PaperInputElement; keyCode: number}>
+    e: CustomEvent<{input: PaperInputElementExt; keyCode: number}>
   ) {
     const input = this._getNativeInput(e.detail.input);
     if (

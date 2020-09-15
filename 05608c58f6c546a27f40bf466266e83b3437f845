@@ -1,0 +1,113 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a5f69188_71ce4117",
+        "filename": "polygerrit-ui/app/elements/admin/gr-create-change-dialog/gr-create-change-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T07:11:18Z",
+      "side": 1,
+      "message": "why `unknown` ? seems we are returning `undefined` always",
+      "range": {
+        "startLine": 135,
+        "startChar": 32,
+        "endLine": 135,
+        "endChar": 39
+      },
+      "revId": "05608c58f6c546a27f40bf466266e83b3437f845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d42b8a66_2792853c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T07:11:18Z",
+      "side": 1,
+      "message": "i realize that it may make more sense to always default all boolean properties to false instead of optional, unless we are checking for undefined on them explicitly.",
+      "range": {
+        "startLine": 80,
+        "startChar": 2,
+        "endLine": 80,
+        "endChar": 12
+      },
+      "revId": "05608c58f6c546a27f40bf466266e83b3437f845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3527306d_d550e8dd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 132,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T07:11:18Z",
+      "side": 1,
+      "message": "this one probably can be removed since you already init `_loading` as true ?",
+      "range": {
+        "startLine": 132,
+        "startChar": 28,
+        "endLine": 132,
+        "endChar": 55
+      },
+      "revId": "05608c58f6c546a27f40bf466266e83b3437f845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "84fa97cb_b4cdf09b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T07:11:18Z",
+      "side": 1,
+      "message": "i think this method should return a promise as well",
+      "range": {
+        "startLine": 173,
+        "startChar": 20,
+        "endLine": 173,
+        "endChar": 26
+      },
+      "revId": "05608c58f6c546a27f40bf466266e83b3437f845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6ba9395_d2f8dccc",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T07:11:18Z",
+      "side": 1,
+      "message": "what will happen if `repo` is empty ? is that a valid use case at all ?",
+      "revId": "05608c58f6c546a27f40bf466266e83b3437f845",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

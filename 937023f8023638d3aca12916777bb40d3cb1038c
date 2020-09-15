@@ -46,6 +46,30 @@
       "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c449db7_afd42dac",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-15T14:09:54Z",
+      "side": 1,
+      "message": "I think what confused me is the fact that you\u0027re replying to sibling1, but this comment hints that this reply is done parallel to sibling1. Maybe you want to reply to root?",
+      "parentUuid": "338ad664_9e37fd75",
+      "range": {
+        "startLine": 1027,
+        "startChar": 0,
+        "endLine": 1027,
+        "endChar": 76
+      },
+      "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

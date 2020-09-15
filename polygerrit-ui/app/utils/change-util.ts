@@ -16,16 +16,7 @@
  */
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
-import {LegacyChangeId, PatchSetNum} from '../types/common';
-
-// This can be wrong! See WARNING above
-interface Change {
-  status: string; // This can be wrong! See WARNING above
-  mergeable: boolean; // This can be wrong! See WARNING above
-  work_in_progress: boolean; // This can be wrong! See WARNING above
-  is_private: boolean; // This can be wrong! See WARNING above
-  submittable: boolean; // This can be wrong! See WARNING above
-}
+import {LegacyChangeId, PatchSetNum, ChangeInfo} from '../types/common';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -132,12 +123,12 @@ export function changePath(changeNum: LegacyChangeId) {
   return `${getBaseUrl()}/c/${changeNum}`;
 }
 
-export function changeIsOpen(change?: Change) {
+export function changeIsOpen(change?: ChangeInfo) {
   return change?.status === ChangeStatus.NEW;
 }
 
 export function changeStatuses(
-  change: Change,
+  change: ChangeInfo,
   opt_options?: ChangeStatusesOptions
 ) {
   const states = [];
@@ -175,6 +166,6 @@ export function changeStatuses(
   return states;
 }
 
-export function changeStatusString(change: Change) {
+export function changeStatusString(change: ChangeInfo) {
   return changeStatuses(change).join(', ');
 }

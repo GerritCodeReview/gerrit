@@ -37,6 +37,7 @@ import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
+import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -192,9 +193,17 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     Change.Id changeId = changeOps.newChange().create();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
-    // Add comments.
+    // Add comments. Comments should be more than 1 second apart as NoteDb only supports second
+    // precision.
+    LocalDateTime now = LocalDateTime.now();
     String rootCommentUuid =
-        changeOps.change(changeId).patchset(patchset1Id).newComment().resolved().create();
+        changeOps
+            .change(changeId)
+            .patchset(patchset1Id)
+            .newComment()
+            .resolved()
+            .createdOn(now)
+            .create();
     String childComment1Uuid =
         changeOps
             .change(changeId)
@@ -202,6 +211,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .newComment()
             .parentUuid(rootCommentUuid)
             .resolved()
+            .createdOn(now.plusSeconds(5))
             .create();
     String childComment2Uuid =
         changeOps
@@ -210,6 +220,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
             .newComment()
             .parentUuid(rootCommentUuid)
             .unresolved()
+            .createdOn(now.plusSeconds(10))
             .create();
 
     List<CommentInfo> portedComments = flatten(getPortedComments(patchset2Id));

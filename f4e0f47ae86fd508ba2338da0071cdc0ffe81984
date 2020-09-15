@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f7eee86c_5d51a96c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 120,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T14:16:49Z",
+      "side": 1,
+      "message": "can we document this a bit, i have to google it to know what `isConnected` is actually :)",
+      "range": {
+        "startLine": 120,
+        "startChar": 27,
+        "endLine": 120,
+        "endChar": 38
+      },
+      "revId": "f4e0f47ae86fd508ba2338da0071cdc0ffe81984",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

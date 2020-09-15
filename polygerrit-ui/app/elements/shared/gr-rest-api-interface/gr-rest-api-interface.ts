@@ -125,6 +125,7 @@ import {
   ProjectAccessInfo,
   CapabilityInfoMap,
   ProjectInfoWithName,
+  TagInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1799,7 +1800,7 @@ export class GrRestApiInterface
       url,
       errFn,
       anonymizedUrl: '/projects/*/tags',
-    });
+    }) as unknown as Promise<TagInfo[]>;
   }
 
   getPlugins(

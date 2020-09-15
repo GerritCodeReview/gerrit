@@ -793,16 +793,19 @@ export interface ConfigUpdateEntryInfo {
   new_value: string;
 }
 
+export type SchemesInfoMap = {[name: string]: DownloadSchemeInfo};
+
 /**
  * The DownloadInfo entity contains information about supported download
  * options.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
  */
 export interface DownloadInfo {
-  schemes: string;
+  schemes: SchemesInfoMap;
   archives: string;
 }
 
+export type CloneCommandMap = {[name: string]: string};
 /**
  * The DownloadSchemeInfo entity contains information about a supported download
  * scheme and its commands.
@@ -813,7 +816,7 @@ export interface DownloadSchemeInfo {
   is_auth_required: boolean;
   is_auth_supported: boolean;
   commands: string;
-  clone_commands: string;
+  clone_commands: CloneCommandMap;
 }
 
 /**
@@ -1451,7 +1454,6 @@ export interface ConfigInput {
   max_object_size_limit?: MaxObjectSizeLimitInfo;
   submit_type?: SubmitType;
   state?: ProjectState;
-  plugin_config_values?: PluginConfigValues;
   reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
   commentlinks?: ConfigInfoCommentLinks;
 }
@@ -1490,7 +1492,6 @@ export interface ProjectInput {
   enable_signed_push?: InheritedBooleanInfoConfiguredValue;
   require_signed_push?: InheritedBooleanInfoConfiguredValue;
   max_object_size_limit?: string;
-  plugin_config_values?: PluginConfigValues;
   reject_empty_commit?: InheritedBooleanInfoConfiguredValue;
 }
 

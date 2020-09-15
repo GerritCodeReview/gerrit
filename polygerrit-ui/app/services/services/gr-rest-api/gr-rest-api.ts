@@ -75,6 +75,7 @@ import {
   ProjectInput,
   AccountId,
   ChangeMessageId,
+  Base64FileContent,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -604,5 +605,17 @@ export interface RestApiService {
   deleteChangeCommitMessage(
     changeNum: ChangeNum,
     messageId: ChangeMessageId
+  ): Promise<Response>;
+
+  getFileContent(
+    changeNum: ChangeNum,
+    path: string,
+    patchNum: PatchSetNum
+  ): Promise<Response | Base64FileContent | undefined>;
+
+  saveChangeEdit(
+    changeNum: ChangeNum,
+    path: string,
+    contents: string
   ): Promise<Response>;
 }

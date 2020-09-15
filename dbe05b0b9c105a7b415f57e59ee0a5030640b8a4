@@ -59,6 +59,30 @@
     },
     {
       "key": {
+        "uuid": "2aa116cd_bfc3bd7d",
+        "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-15T06:33:51Z",
+      "side": 1,
+      "message": "Not anymore, I will remove it.",
+      "parentUuid": "259e848b_057cbf63",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 12
+      },
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ec167fcc_2a95691e",
         "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
         "patchSetId": 6
@@ -82,6 +106,30 @@
     },
     {
       "key": {
+        "uuid": "87d4e633_fddbf0fd",
+        "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-15T06:33:51Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "ec167fcc_2a95691e",
+      "range": {
+        "startLine": 48,
+        "startChar": 14,
+        "endLine": 48,
+        "endChar": 50
+      },
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9af0e1b7_69de7df3",
         "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
         "patchSetId": 6
@@ -93,6 +141,30 @@
       "writtenOn": "2020-09-11T21:22:53Z",
       "side": 1,
       "message": "Is this really relevant?",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 59
+      },
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dc5e596_06e6ce1d",
+        "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-15T06:33:51Z",
+      "side": 1,
+      "message": "I wanted to test the cache is not just replaced, but it is also functioning.\nDo you think is redundant?",
+      "parentUuid": "9af0e1b7_69de7df3",
       "range": {
         "startLine": 50,
         "startChar": 4,

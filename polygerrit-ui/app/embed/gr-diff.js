@@ -29,14 +29,14 @@ window.goog = window.goog || {declareModuleId(name) {}};
 import '../scripts/bundled-polymer.js';
 import '../elements/diff/gr-diff/gr-diff.js';
 import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';
-import {initDiffAppContext} from './gr-diff-app-context-init.js';
 import {GrDiffLine, GrDiffLineType} from '../elements/diff/gr-diff/gr-diff-line.js';
 import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation.js';
 
+import {initDiffAppContext} from './gr-diff-app-context-init.js';
 // Setup appContext for diff.
 // TODO (dmfilippov): find a better solution
 initDiffAppContext();
-// Setup global variables for existing usages of this component
 window.GrDiffLine = GrDiffLine;
 window.GrDiffLineType = GrDiffLineType;
+// A real added line.
 window.GrAnnotation = GrAnnotation;

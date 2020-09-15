@@ -79,6 +79,7 @@ import {
   EncodedGroupId,
   Base64FileContent,
   UrlEncodedCommentId,
+  ConfigInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -675,4 +676,5 @@ export interface RestApiService {
     path: string,
     contents: string
   ): Promise<Response>;
+  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
 }

@@ -77,6 +77,7 @@ import {
   ChangeMessageId,
   GroupAuditEventInfo,
   EncodedGroupId,
+  Base64FileContent,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -650,4 +651,15 @@ export interface RestApiService {
     repo: RepoName,
     errFn?: ErrorCallback
   ): Promise<Response | undefined>;
+  getFileContent(
+    changeNum: ChangeNum,
+    path: string,
+    patchNum: PatchSetNum
+  ): Promise<Response | Base64FileContent | undefined>;
+
+  saveChangeEdit(
+    changeNum: ChangeNum,
+    path: string,
+    contents: string
+  ): Promise<Response>;
 }

@@ -347,7 +347,7 @@ export class GrDiff extends GestureEventListeners(
     // document.getSelection() cannot reference the actual DOM elements making
     // up the diff, because they are in the shadow DOM of the gr-diff element.
     // This takes the shadow DOM selection if one exists.
-    return this.root instanceof ShadowRoot
+    return this.root instanceof ShadowRoot && this.root.getSelection
       ? this.root.getSelection()
       : document.getSelection();
   }

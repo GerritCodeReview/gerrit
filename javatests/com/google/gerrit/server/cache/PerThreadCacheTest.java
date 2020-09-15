@@ -21,12 +21,16 @@ import java.util.function.Supplier;
 import org.junit.Test;
 
 public class PerThreadCacheTest {
+
+  @SuppressWarnings("TruthIncompatibleType")
   @Test
   public void key_respectsClass() {
     assertThat(PerThreadCache.Key.create(String.class))
         .isEqualTo(PerThreadCache.Key.create(String.class));
     assertThat(PerThreadCache.Key.create(String.class))
-        .isNotEqualTo(PerThreadCache.Key.create(Integer.class));
+        .isNotEqualTo(
+            /* expected: Key<String>, actual: Key<Integer> */ PerThreadCache.Key.create(
+                Integer.class));
   }
 
   @Test

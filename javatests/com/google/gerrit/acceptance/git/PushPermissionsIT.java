@@ -82,14 +82,17 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .update();
   }
 
+  @SuppressWarnings("TruthIncompatibleType")
   @Test
   public void mixingMagicAndRegularPush() throws Exception {
     testRepo.branch("HEAD").commit().create();
     PushResult r = push("HEAD:refs/heads/master", "HEAD:refs/for/master");
 
     String msg = "cannot combine normal pushes and magic pushes";
-    assertThat(r.getRemoteUpdate("refs/heads/master")).isNotEqualTo(Status.OK);
-    assertThat(r.getRemoteUpdate("refs/for/master")).isNotEqualTo(Status.OK);
+    assertThat(r.getRemoteUpdate("refs/heads/master"))
+        .isNotEqualTo(/* expected: RemoteRefUpdate, actual: Status */ Status.OK);
+    assertThat(r.getRemoteUpdate("refs/for/master"))
+        .isNotEqualTo(/* expected: RemoteRefUpdate, actual: Status */ Status.OK);
     assertThat(r.getRemoteUpdate("refs/for/master").getMessage()).isEqualTo(msg);
   }
 

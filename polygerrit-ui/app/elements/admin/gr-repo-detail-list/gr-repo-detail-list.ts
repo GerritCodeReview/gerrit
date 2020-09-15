@@ -15,116 +15,119 @@
  * limitations under the License.
  */
 
-import '@polymer/iron-input/iron-input.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/gr-table-styles.js';
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-account-link/gr-account-link.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-list-view/gr-list-view.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-create-pointer-dialog/gr-create-pointer-dialog.js';
-import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-repo-detail-list_html.js';
-import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin.js';
-import {encodeURL} from '../../../utils/url-util.js';
+import '@polymer/iron-input/iron-input';
+import '../../../styles/gr-form-styles';
+import '../../../styles/gr-table-styles';
+import '../../../styles/shared-styles';
+import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-list-view/gr-list-view';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-create-pointer-dialog/gr-create-pointer-dialog';
+import '../gr-confirm-delete-item-dialog/gr-confirm-delete-item-dialog';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-repo-detail-list_html';
+import {ListViewMixin} from '../../../mixins/gr-list-view-mixin/gr-list-view-mixin';
+import {encodeURL} from '../../../utils/url-util';
+import {customElement, property} from '@polymer/decorators';
+import { ErrorCallback, RestApiService } from '../../../services/services/gr-rest-api/gr-rest-api';
+import { GrOverlay } from '../../shared/gr-overlay/gr-overlay';
+import { GrCreatePointerDialog } from '../gr-create-pointer-dialog/gr-create-pointer-dialog';
+import { RepoName, ProjectInfo } from '../../../types/common';
 
-const DETAIL_TYPES = {
-  BRANCHES: 'branches',
-  TAGS: 'tags',
+enum DETAIL_TYPES {
+  BRANCHES = 'branches',
+  TAGS = 'tags',
 };
 
 const PGP_START = '-----BEGIN PGP SIGNATURE-----';
 
-/**
- * @appliesMixin ListViewMixin
- * @extends PolymerElement
- */
-class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement))) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-repo-detail-list'; }
-
-  static get properties() {
-    return {
-    /**
-     * URL params passed from the router.
-     */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-      /**
-       * The kind of detail we are displaying, possibilities are determined by
-       * the const DETAIL_TYPES.
-       */
-      detailType: String,
-
-      _editing: {
-        type: Boolean,
-        value: false,
-      },
-      _isOwner: {
-        type: Boolean,
-        value: false,
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      /**
-       * Offset of currently visible query results.
-       */
-      _offset: Number,
-      _repo: Object,
-      _items: Array,
-      /**
-       * Because  we request one more than the projectsPerPage, _shownProjects
-       * maybe one less than _projects.
-       */
-      _shownItems: {
-        type: Array,
-        computed: 'computeShownItems(_items)',
-      },
-      _itemsPerPage: {
-        type: Number,
-        value: 25,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _filter: String,
-      _refName: String,
-      _hasNewItemName: Boolean,
-      _isEditing: Boolean,
-      _revisedRef: String,
-    };
+export interface GrRepoDetailList {
+  $: {
+    restAPI: RestApiService & Element;
+    overlay: GrOverlay;
+    createOverlay: GrOverlay;
+    createNewModal: GrCreatePointerDialog
+  };
+}
+@customElement('gr-repo-detail-list')
+export class GrRepoDetailList extends ListViewMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  _determineIfOwner(repo) {
-    return this.$.restAPI.getRepoAccess(repo)
-        .then(access =>
-          this._isOwner = access && !!access[repo].is_owner);
+  @property({type: Object, observer: '_paramsChanged'})
+  params?: unknown;
+
+  @property({type: String})
+  detailType?: string;
+
+  @property({type: Boolean})
+  _editing = false;
+
+  @property({type: Boolean})
+  _isOwner = false;
+
+  @property({type: Boolean})
+  _loggedIn = false;
+
+  @property({type: Number})
+  _offset?: number;
+
+  @property({type: Object})
+  _repo?: RepoName;
+
+  @property({type: Array})
+  _items?: unknown;
+
+  @property({type: Array, computed: 'computeShownItems(_items)'})
+  _shownItems?: unknown;
+
+  @property({type: Number})
+  _itemsPerPage = 25;
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: String})
+  _filter?: string;
+
+  @property({type: String})
+  _refName?: string;
+
+  @property({type: Boolean})
+  _hasNewItemName?: boolean;
+
+  @property({type: Boolean})
+  _isEditing?: boolean;
+
+  @property({type: String})
+  _revisedRef?: string;
+
+  _determineIfOwner(repo: RepoName) {
+    return this.$.restAPI
+      .getRepoAccess(repo)
+      .then(access => (this._isOwner = !!access && !!access[repo].is_owner));
   }
 
   _paramsChanged(params) {
-    if (!params || !params.repo) { return; }
+    if (!params || !params.repo) {
+      return;
+    }
 
     this._repo = params.repo;
 
     this._getLoggedIn().then(loggedIn => {
       this._loggedIn = loggedIn;
-      if (loggedIn) {
+      if (loggedIn && this._repo) {
         this._determineIfOwner(this._repo);
       }
     });
@@ -134,55 +137,72 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
     this._filter = this.getFilterValue(params);
     this._offset = this.getOffsetValue(params);
 
-    return this._getItems(this._filter, this._repo,
-        this._itemsPerPage, this._offset, this.detailType);
+    return this._getItems(
+      this._filter,
+      this._repo,
+      this._itemsPerPage,
+      this._offset,
+      this.detailType
+    );
   }
 
-  _getItems(filter, repo, itemsPerPage, offset, detailType) {
+  _getItems(filter: string, repo: RepoName | undefined, itemsPerPage: number, offset: number, detailType: string) {
     this._loading = true;
     this._items = [];
     flush();
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+    const errFn: ErrorCallback = response => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
     if (detailType === DETAIL_TYPES.BRANCHES) {
-      return this.$.restAPI.getRepoBranches(
-          filter, repo, itemsPerPage, offset, errFn).then(items => {
-        if (!items) { return; }
-        this._items = items;
-        this._loading = false;
-      });
+      return this.$.restAPI
+        .getRepoBranches(filter, repo, itemsPerPage, offset, errFn)
+        .then(items => {
+          if (!items) {
+            return;
+          }
+          this._items = items;
+          this._loading = false;
+        });
     } else if (detailType === DETAIL_TYPES.TAGS) {
-      return this.$.restAPI.getRepoTags(
-          filter, repo, itemsPerPage, offset, errFn).then(items => {
-        if (!items) { return; }
-        this._items = items;
-        this._loading = false;
-      });
+      return this.$.restAPI
+        .getRepoTags(filter, repo, itemsPerPage, offset, errFn)
+        .then(items => {
+          if (!items) {
+            return;
+          }
+          this._items = items;
+          this._loading = false;
+        });
     }
   }
 
   _getPath(repo) {
-    return `/admin/repos/${encodeURL(repo, false)},` +
-        `${this.detailType}`;
+    return `/admin/repos/${encodeURL(repo, false)},` + `${this.detailType}`;
   }
 
-  _computeWeblink(repo) {
-    if (!repo.web_links) { return ''; }
+  _computeWeblink(repo: ProjectInfo) {
+    if (!repo.web_links) {
+      return '';
+    }
     const webLinks = repo.web_links;
     return webLinks.length ? webLinks : null;
   }
 
-  _computeMessage(message) {
-    if (!message) { return; }
+  _computeMessage(message?: string) {
+    if (!message) {
+      return;
+    }
     // Strip PGP info.
     return message.split(PGP_START)[0];
   }
 
-  _stripRefs(item, detailType) {
+  _stripRefs(item: string, detailType: string) {
     if (detailType === DETAIL_TYPES.BRANCHES) {
       return item.replace('refs/heads/', '');
     } else if (detailType === DETAIL_TYPES.TAGS) {
@@ -194,13 +214,14 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
     return this.$.restAPI.getLoggedIn();
   }
 
-  _computeEditingClass(isEditing) {
+  _computeEditingClass(isEditing: boolean) {
     return isEditing ? 'editing' : '';
   }
 
   _computeCanEditClass(ref, detailType, isOwner) {
-    return isOwner && this._stripRefs(ref, detailType) === 'HEAD' ?
-      'canEdit' : '';
+    return isOwner && this._stripRefs(ref, detailType) === 'HEAD'
+      ? 'canEdit'
+      : '';
   }
 
   _handleEditRevision(e) {
@@ -224,13 +245,17 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
         // This is needed to refresh _items property with fresh data,
         // specifically can_delete from the json response.
         this._getItems(
-            this._filter, this._repo, this._itemsPerPage,
-            this._offset, this.detailType);
+          this._filter,
+          this._repo,
+          this._itemsPerPage,
+          this._offset,
+          this.detailType
+        );
       }
     });
   }
 
-  _computeItemName(detailType) {
+  _computeItemName(detailType: string) {
     if (detailType === DETAIL_TYPES.BRANCHES) {
       return 'Branch';
     } else if (detailType === DETAIL_TYPES.TAGS) {
@@ -241,23 +266,33 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
   _handleDeleteItemConfirm() {
     this.$.overlay.close();
     if (this.detailType === DETAIL_TYPES.BRANCHES) {
-      return this.$.restAPI.deleteRepoBranches(this._repo, this._refName)
-          .then(itemDeleted => {
-            if (itemDeleted.status === 204) {
-              this._getItems(
-                  this._filter, this._repo, this._itemsPerPage,
-                  this._offset, this.detailType);
-            }
-          });
+      return this.$.restAPI
+        .deleteRepoBranches(this._repo, this._refName)
+        .then(itemDeleted => {
+          if (itemDeleted.status === 204) {
+            this._getItems(
+              this._filter,
+              this._repo,
+              this._itemsPerPage,
+              this._offset,
+              this.detailType
+            );
+          }
+        });
     } else if (this.detailType === DETAIL_TYPES.TAGS) {
-      return this.$.restAPI.deleteRepoTags(this._repo, this._refName)
-          .then(itemDeleted => {
-            if (itemDeleted.status === 204) {
-              this._getItems(
-                  this._filter, this._repo, this._itemsPerPage,
-                  this._offset, this.detailType);
-            }
-          });
+      return this.$.restAPI
+        .deleteRepoTags(this._repo, this._refName)
+        .then(itemDeleted => {
+          if (itemDeleted.status === 204) {
+            this._getItems(
+              this._filter,
+              this._repo,
+              this._itemsPerPage,
+              this._offset,
+              this.detailType
+            );
+          }
+        });
     }
   }
 
@@ -267,12 +302,14 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
 
   _handleDeleteItem(e) {
     const name = this._stripRefs(e.model.get('item.ref'), this.detailType);
-    if (!name) { return; }
+    if (!name) {
+      return;
+    }
     this._refName = name;
     this.$.overlay.open();
   }
 
-  _computeHideDeleteClass(owner, canDelete) {
+  _computeHideDeleteClass(owner: boolean, canDelete: boolean) {
     if (canDelete || owner) {
       return 'show';
     }
@@ -293,7 +330,7 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
     this.$.createOverlay.open();
   }
 
-  _hideIfBranch(type) {
+  _hideIfBranch(type: string) {
     if (type === DETAIL_TYPES.BRANCHES) {
       return 'hideItem';
     }
@@ -306,4 +343,8 @@ class GrRepoDetailList extends ListViewMixin(GestureEventListeners(
   }
 }
 
-customElements.define(GrRepoDetailList.is, GrRepoDetailList);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-repo-detail-list': GrRepoDetailList;
+  }
+}

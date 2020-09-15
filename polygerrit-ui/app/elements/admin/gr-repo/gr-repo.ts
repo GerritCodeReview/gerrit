@@ -14,27 +14,45 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea.js';
-import '@polymer/iron-input/iron-input.js';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
-import '../../shared/gr-download-commands/gr-download-commands.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import '../../../styles/gr-form-styles.js';
-import '../../../styles/gr-subpage-styles.js';
-import '../../../styles/shared-styles.js';
-import '../gr-repo-plugin-config/gr-repo-plugin-config.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-repo_html.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '@polymer/iron-autogrow-textarea/iron-autogrow-textarea';
+import '@polymer/iron-input/iron-input';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../shared/gr-download-commands/gr-download-commands';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import '../../../styles/gr-form-styles';
+import '../../../styles/gr-subpage-styles';
+import '../../../styles/shared-styles';
+import '../gr-repo-plugin-config/gr-repo-plugin-config';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-repo_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property, observe} from '@polymer/decorators';
+import {
+  RestApiService,
+  ErrorCallback,
+} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {
+  ConfigInfo,
+  RepoName,
+  InheritedBooleanInfo,
+  SchemesInfoMap,
+  ConfigInput,
+  PluginParameterToConfigParameterInfoMap,
+  PluginNameToPluginParametersMap,
+} from '../../../types/common';
+import {PluginData} from '../gr-repo-plugin-config/gr-repo-plugin-config';
+import {ProjectState} from '../../../constants/constants';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {hasOwnProperty} from '../../../utils/common-util';
 
 const STATES = {
-  active: {value: 'ACTIVE', label: 'Active'},
-  readOnly: {value: 'READ_ONLY', label: 'Read Only'},
-  hidden: {value: 'HIDDEN', label: 'Hidden'},
+  active: {value: ProjectState.ACTIVE, label: 'Active'},
+  readOnly: {value: ProjectState.READ_ONLY, label: 'Read Only'},
+  hidden: {value: ProjectState.HIDDEN, label: 'Hidden'},
 };
 
 const SUBMIT_TYPES = {
@@ -65,174 +83,191 @@ const SUBMIT_TYPES = {
   },
 };
 
-/**
- * @extends PolymerElement
- */
-class GrRepo extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  // Notes for future TS conversion:
-  // _repoConfig: ConfigInfo
-  // _pluginData: PluginData[], can't be null, PluginData from gr-repo-plugin-config.ts
-
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-repo'; }
-
-  static get properties() {
-    return {
-      params: Object,
-      repo: String,
-
-      _configChanged: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-        observer: '_loggedInChanged',
-      },
-      /** @type {?} */
-      _repoConfig: Object,
-      /** @type {?} */
-      _pluginData: {
-        type: Array,
-        computed: '_computePluginData(_repoConfig.plugin_config.*)',
-      },
-      _readOnly: {
-        type: Boolean,
-        value: true,
-      },
-      _states: {
-        type: Array,
-        value() {
-          return Object.values(STATES);
-        },
-      },
-      _submitTypes: {
-        type: Array,
-        value() {
-          return Object.values(SUBMIT_TYPES);
-        },
-      },
-      _schemes: {
-        type: Array,
-        value() { return []; },
-        computed: '_computeSchemes(_schemesObj)',
-        observer: '_schemesChanged',
-      },
-      _selectedCommand: {
-        type: String,
-        value: 'Clone',
-      },
-      _selectedScheme: String,
-      _schemesObj: Object,
-    };
+export interface GrRepo {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
+@customElement('gr-repo')
+export class GrRepo extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_handleConfigChanged(_repoConfig.*)',
-    ];
-  }
+  @property({type: String})
+  repo?: RepoName;
+
+  @property({type: Boolean})
+  _configChanged = false;
+
+  @property({type: Boolean})
+  _loading = true;
+
+  @property({type: Boolean, observer: '_loggedInChanged'})
+  _loggedIn = false;
+
+  @property({type: Object})
+  _repoConfig?: ConfigInfo;
+
+  @property({
+    type: Array,
+    computed: '_computePluginData(_repoConfig.plugin_config.*)',
+  })
+  _pluginData?: PluginData[];
+
+  @property({type: Boolean})
+  _readOnly = true;
+
+  @property({type: Array})
+  _states = Object.values(STATES);
+
+  @property({
+    type: Array,
+    computed: '_computeSchemes(_schemesDefault, _schemesObj)',
+    observer: '_schemesChanged',
+  })
+  _schemes: string[] = [];
+
+  // This is workaround to have _schemes with default value [],
+  // because assignment doesn't work when property has a computed attribute.
+  @property({type: Array})
+  _schemesDefault: string[] = [];
+
+  @property({type: String})
+  _selectedCommand = 'Clone';
+
+  @property({type: String})
+  _selectedScheme?: string;
+
+  @property({type: Object})
+  _schemesObj?: SchemesInfoMap;
 
   /** @override */
   attached() {
     super.attached();
     this._loadRepo();
 
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: this.repo},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title: this.repo},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
-  _computePluginData(configRecord) {
-    if (!configRecord ||
-        !configRecord.base) { return []; }
+  _computePluginData(
+    configRecord: PolymerDeepPropertyChange<
+      PluginNameToPluginParametersMap,
+      PluginNameToPluginParametersMap
+    >
+  ) {
+    if (!configRecord || !configRecord.base) {
+      return [];
+    }
 
     const pluginConfig = configRecord.base;
-    return Object.keys(pluginConfig)
-        .map(name => { return {name, config: pluginConfig[name]}; });
+    return Object.keys(pluginConfig).map(name => {
+      return {name, config: pluginConfig[name]};
+    });
   }
 
   _loadRepo() {
-    if (!this.repo) { return Promise.resolve(); }
+    if (!this.repo) {
+      return Promise.resolve();
+    }
 
     const promises = [];
 
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+    const errFn: ErrorCallback = response => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
 
-    promises.push(this._getLoggedIn().then(loggedIn => {
-      this._loggedIn = loggedIn;
-      if (loggedIn) {
-        this.$.restAPI.getRepoAccess(this.repo).then(access => {
-          if (!access) { return Promise.resolve(); }
+    promises.push(
+      this._getLoggedIn().then(loggedIn => {
+        this._loggedIn = loggedIn;
+        if (loggedIn) {
+          const repo = this.repo;
+          if (!repo) throw new Error('undefined repo');
+          this.$.restAPI.getRepoAccess(repo).then(access => {
+            if (!access || this.repo !== repo) {
+              return;
+            }
 
-          // If the user is not an owner, is_owner is not a property.
-          this._readOnly = !access[this.repo].is_owner;
-        });
-      }
-    }));
+            // If the user is not an owner, is_owner is not a property.
+            this._readOnly = !access[repo].is_owner;
+          });
+        }
+      })
+    );
 
-    promises.push(this.$.restAPI.getProjectConfig(this.repo, errFn)
-        .then(config => {
-          if (!config) { return Promise.resolve(); }
+    promises.push(
+      this.$.restAPI.getProjectConfig(this.repo, errFn).then(config => {
+        if (!config) {
+          return;
+        }
 
-          if (config.default_submit_type) {
-            // The gr-select is bound to submit_type, which needs to be the
-            // *configured* submit type. When default_submit_type is
-            // present, the server reports the *effective* submit type in
-            // submit_type, so we need to overwrite it before storing the
-            // config in this.
-            config.submit_type =
-                config.default_submit_type.configured_value;
-          }
-          if (!config.state) {
-            config.state = STATES.active.value;
-          }
-          this._repoConfig = config;
-          this._loading = false;
-        }));
+        if (config.default_submit_type) {
+          // The gr-select is bound to submit_type, which needs to be the
+          // *configured* submit type. When default_submit_type is
+          // present, the server reports the *effective* submit type in
+          // submit_type, so we need to overwrite it before storing the
+          // config in this.
+          config.submit_type = config.default_submit_type.configured_value;
+        }
+        if (!config.state) {
+          config.state = STATES.active.value;
+        }
+        this._repoConfig = config;
+        this._loading = false;
+      })
+    );
 
-    promises.push(this.$.restAPI.getConfig().then(config => {
-      if (!config) { return Promise.resolve(); }
+    promises.push(
+      this.$.restAPI.getConfig().then(config => {
+        if (!config) {
+          return;
+        }
 
-      this._schemesObj = config.download.schemes;
-    }));
+        this._schemesObj = config.download.schemes;
+      })
+    );
 
     return Promise.all(promises);
   }
 
-  _computeLoadingClass(loading) {
+  _computeLoadingClass(loading: boolean) {
     return loading ? 'loading' : '';
   }
 
-  _computeHideClass(arr) {
+  _computeHideClass(arr?: PluginData[] | string[]) {
     return !arr || !arr.length ? 'hide' : '';
   }
 
-  _loggedInChanged(_loggedIn) {
-    if (!_loggedIn) { return; }
+  _loggedInChanged(_loggedIn?: boolean) {
+    if (!_loggedIn) {
+      return;
+    }
     this.$.restAPI.getPreferences().then(prefs => {
-      if (prefs.download_scheme) {
+      if (prefs?.download_scheme) {
         // Note (issue 5180): normalize the download scheme with lower-case.
         this._selectedScheme = prefs.download_scheme.toLowerCase();
       }
     });
   }
 
-  _formatBooleanSelect(item) {
-    if (!item) { return; }
+  _formatBooleanSelect(item: InheritedBooleanInfo) {
+    if (!item) {
+      return;
+    }
     let inheritLabel = 'Inherit';
     if (!(item.inherited_value === undefined)) {
       inheritLabel = `Inherit (${item.inherited_value})`;
@@ -245,15 +280,18 @@ class GrRepo extends GestureEventListeners(
       {
         label: 'True',
         value: 'TRUE',
-      }, {
+      },
+      {
         label: 'False',
         value: 'FALSE',
       },
     ];
   }
 
-  _formatSubmitTypeSelect(projectConfig) {
-    if (!projectConfig) { return; }
+  _formatSubmitTypeSelect(projectConfig: ConfigInfo) {
+    if (!projectConfig) {
+      return;
+    }
     const allValues = Object.values(SUBMIT_TYPES);
     const type = projectConfig.default_submit_type;
     if (!type) {
@@ -264,14 +302,13 @@ class GrRepo extends GestureEventListeners(
 
     let inheritLabel = 'Inherit';
     if (type.inherited_value) {
-      let inherited = type.inherited_value;
+      inheritLabel = `Inherit (${type.inherited_value})`;
       for (const val of allValues) {
         if (val.value === type.inherited_value) {
-          inherited = val.label;
+          inheritLabel = `Inherit (${val.label})`;
           break;
         }
       }
-      inheritLabel = `Inherit (${inherited})`;
     }
     return [
       {
@@ -290,93 +327,129 @@ class GrRepo extends GestureEventListeners(
     return this.$.restAPI.getLoggedIn();
   }
 
-  _formatRepoConfigForSave(repoConfig) {
-    const configInputObj = {};
-    for (const key in repoConfig) {
-      if (repoConfig.hasOwnProperty(key)) {
-        if (key === 'default_submit_type') {
-          // default_submit_type is not in the input type, and the
-          // configured value was already copied to submit_type by
-          // _loadProject. Omit this property when saving.
-          continue;
+  _formatRepoConfigForSave(repoConfig: ConfigInfo): ConfigInput {
+    const configInputObj: ConfigInput = {};
+    for (const configKey of Object.keys(repoConfig)) {
+      const key = configKey as keyof ConfigInfo;
+      if (key === 'default_submit_type') {
+        // default_submit_type is not in the input type, and the
+        // configured value was already copied to submit_type by
+        // _loadProject. Omit this property when saving.
+        continue;
+      }
+      if (key === 'plugin_config') {
+        configInputObj.plugin_config_values = repoConfig.plugin_config;
+      } else if (typeof repoConfig[key] === 'object') {
+        const repoConfigObj: any = repoConfig[key];
+        if (repoConfigObj.configured_value) {
+          configInputObj[key as keyof ConfigInput] =
+            repoConfigObj.configured_value;
         }
-        if (key === 'plugin_config') {
-          configInputObj.plugin_config_values = repoConfig[key];
-        } else if (typeof repoConfig[key] === 'object') {
-          configInputObj[key] = repoConfig[key].configured_value;
-        } else {
-          configInputObj[key] = repoConfig[key];
-        }
+      } else {
+        configInputObj[key as keyof ConfigInput] = repoConfig[key] as any;
       }
     }
     return configInputObj;
   }
 
   _handleSaveRepoConfig() {
-    return this.$.restAPI.saveRepoConfig(this.repo,
-        this._formatRepoConfigForSave(this._repoConfig)).then(() => {
-      this._configChanged = false;
-    });
+    if (!this._repoConfig || !this.repo)
+      return Promise.reject(new Error('undefined repoConfig or repo'));
+    return this.$.restAPI
+      .saveRepoConfig(
+        this.repo,
+        this._formatRepoConfigForSave(this._repoConfig)
+      )
+      .then(() => {
+        this._configChanged = false;
+      });
   }
 
+  @observe('_repoConfig.*')
   _handleConfigChanged() {
-    if (this._isLoading()) { return; }
+    if (this._isLoading()) {
+      return;
+    }
     this._configChanged = true;
   }
 
-  _computeButtonDisabled(readOnly, configChanged) {
+  _computeButtonDisabled(readOnly: boolean, configChanged: boolean) {
     return readOnly || !configChanged;
   }
 
-  _computeHeaderClass(configChanged) {
+  _computeHeaderClass(configChanged: boolean) {
     return configChanged ? 'edited' : '';
   }
 
-  _computeSchemes(schemesObj) {
-    return Object.keys(schemesObj);
+  _computeSchemes(schemesDefault: string[], schemesObj?: SchemesInfoMap) {
+    return !schemesObj ? schemesDefault : Object.keys(schemesObj);
   }
 
-  _schemesChanged(schemes) {
-    if (schemes.length === 0) { return; }
-    if (!schemes.includes(this._selectedScheme)) {
+  _schemesChanged(schemes: string[]) {
+    if (schemes.length === 0) {
+      return;
+    }
+    if (!this._selectedScheme || !schemes.includes(this._selectedScheme)) {
       this._selectedScheme = schemes.sort()[0];
     }
   }
 
-  _computeCommands(repo, schemesObj, _selectedScheme) {
+  _computeCommands(
+    repo?: RepoName,
+    schemesObj?: SchemesInfoMap,
+    _selectedScheme?: string
+  ) {
     if (!schemesObj || !repo || !_selectedScheme) {
       return [];
     }
     const commands = [];
-    let commandObj;
-    if (schemesObj.hasOwnProperty(_selectedScheme)) {
+    let commandObj: {[title: string]: string} = {};
+    if (hasOwnProperty(schemesObj, _selectedScheme)) {
       commandObj = schemesObj[_selectedScheme].clone_commands;
     }
     for (const title in commandObj) {
-      if (!commandObj.hasOwnProperty(title)) { continue; }
+      if (!hasOwnProperty(commandObj, title)) {
+        continue;
+      }
       commands.push({
         title,
         command: commandObj[title]
-            .replace(/\${project}/gi, encodeURI(repo))
-            .replace(/\${project-base-name}/gi,
-                encodeURI(repo.substring(repo.lastIndexOf('/') + 1))),
+          .replace(/\${project}/gi, encodeURI(repo))
+          .replace(
+            /\${project-base-name}/gi,
+            encodeURI(repo.substring(repo.lastIndexOf('/') + 1))
+          ),
       });
     }
     return commands;
   }
 
-  _computeRepositoriesClass(config) {
-    return config ? 'showConfig': '';
+  _computeRepositoriesClass(config: InheritedBooleanInfo) {
+    return config ? 'showConfig' : '';
   }
 
-  _computeChangesUrl(name) {
+  _computeChangesUrl(name: RepoName) {
     return GerritNav.getUrlForProjectChanges(name);
   }
 
-  _handlePluginConfigChanged({detail: {name, config, notifyPath}}) {
-    this._repoConfig.plugin_config[name] = config;
-    this.notifyPath('_repoConfig.plugin_config.' + notifyPath);
+  _handlePluginConfigChanged({
+    detail: {name, config, notifyPath},
+  }: {
+    detail: {
+      name: string;
+      config: PluginParameterToConfigParameterInfoMap;
+      notifyPath: string;
+    };
+  }) {
+    if (this._repoConfig?.plugin_config) {
+      this._repoConfig.plugin_config[name] = config;
+      this.notifyPath('_repoConfig.plugin_config.' + notifyPath);
+    }
   }
 }
 
-customElements.define(GrRepo.is, GrRepo);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-repo': GrRepo;
+  }
+}

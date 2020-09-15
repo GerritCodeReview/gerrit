@@ -125,6 +125,7 @@ import {
   ProjectAccessInfo,
   CapabilityInfoMap,
   ProjectInfoWithName,
+  TagInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1795,11 +1796,11 @@ export class GrRestApiInterface
       `/projects/${encodedRepo}/tags` + `?n=${n}&S=${offset}` + encodedFilter;
     // TODO(kaspern): Rename rest api from /projects/ to /repos/ once backend
     // supports it.
-    return this._restApiHelper.fetchJSON({
+    return (this._restApiHelper.fetchJSON({
       url,
       errFn,
       anonymizedUrl: '/projects/*/tags',
-    });
+    }) as unknown) as Promise<TagInfo[]>;
   }
 
   getPlugins(

@@ -2008,3 +2008,18 @@ export interface DocResult {
   title: string;
   url: string;
 }
+
+/** 
+ * The TagInfo entity contains information about a tag.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#tag-info
+ **/
+export interface TagInfo {  
+  ref: GitRef;
+  revision: string;
+  object?: string;
+  message?: string;
+  tagger?: GitPersonInfo;
+  created?: string;
+  can_delete: boolean;
+  web_links?: WebLinkInfo[];
+}

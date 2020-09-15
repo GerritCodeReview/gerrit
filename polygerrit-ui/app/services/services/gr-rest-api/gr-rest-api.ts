@@ -78,6 +78,7 @@ import {
   GroupAuditEventInfo,
   EncodedGroupId,
   Base64FileContent,
+  TagInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -662,4 +663,11 @@ export interface RestApiService {
     path: string,
     contents: string
   ): Promise<Response>;
+  getRepoTags(
+    filter: string,
+    repo: RepoName,
+    reposTagsPerPage: number,
+    offset?: number,
+    errFn?: ErrorCallback
+  ): Promise<TagInfo[]>;
 }

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "663b2c62_fceb25f7",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/change/TestHumanComment.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T11:47:55Z",
+      "side": 1,
+      "message": "I meant the primitive type boolean and not the object type Boolean with my other comment. If we stay with Boolean, the use of Optional\u003cBoolean\u003e is better as it doesn\u0027t implicitly hide null values. I would guess that most tests don\u0027t want to distinguish between a null and false value here and that those tests only care whether the comment is resolved (\u003d\u003d null \u003d\u003d false) or not. Hence, can\u0027t we use the primitive type here and map nulls to false when we map from the internal Comment type to TestHumanComment?",
+      "range": {
+        "startLine": 35,
+        "startChar": 18,
+        "endLine": 35,
+        "endChar": 25
+      },
+      "revId": "70f97ac54693f8d7bf648c78368a04c594e1eefb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

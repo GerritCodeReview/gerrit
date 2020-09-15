@@ -278,7 +278,7 @@ suite('gr-change-list-item tests', () => {
     assert.deepEqual(GerritNav.getUrlForProjectChanges.lastCall.args,
         [change.project, true, change.internalHost]);
     assert.deepEqual(GerritNav.getUrlForBranch.lastCall.args,
-        [change.branch, change.project, null, change.internalHost]);
+        [change.branch, change.project, undefined, change.internalHost]);
     assert.deepEqual(GerritNav.getUrlForTopic.lastCall.args,
         [change.topic, change.internalHost]);
   });

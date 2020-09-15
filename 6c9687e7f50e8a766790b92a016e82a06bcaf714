@@ -16,6 +16,24 @@
       "revId": "6c9687e7f50e8a766790b92a016e82a06bcaf714",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0e10cabc_2ec9e40b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-commands/gr-repo-commands.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-15T09:56:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6e4df630_ef684799",
+      "revId": "6c9687e7f50e8a766790b92a016e82a06bcaf714",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

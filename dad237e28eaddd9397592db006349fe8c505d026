@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "047052ed_1bd3b03c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-15T11:57:42Z",
+      "side": 1,
+      "message": "Should this be documented in f.i.:\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/Documentation/config-robot-comments.txt\n",
+      "revId": "dad237e28eaddd9397592db006349fe8c505d026",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

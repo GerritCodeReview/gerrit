@@ -70,6 +70,30 @@
       "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5878596_afc02dc0",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T14:31:10Z",
+      "side": 1,
+      "message": "No, the reply to sibling1 is intended. The parallel refers to sibling2 and childOfSibling2. See:\n\n        root\n       /    \\\n  sibling1  sibling2\n     |         |\n  newReply  childOfSibling2\n\nWith this test, I wanted to make sure that we\u0027re not just going up to the root or down from it but also into other branches if we\u0027re already in a branch.\n\nWould it help if I explicitly mentioned sibling2 and its child in this comment?",
+      "parentUuid": "1c449db7_afd42dac",
+      "range": {
+        "startLine": 1027,
+        "startChar": 0,
+        "endLine": 1027,
+        "endChar": 76
+      },
+      "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

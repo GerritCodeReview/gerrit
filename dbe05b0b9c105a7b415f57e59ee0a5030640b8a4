@@ -174,6 +174,30 @@
       "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eea3f561_8456b4f1",
+        "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-15T20:30:06Z",
+      "side": 1,
+      "message": "I believe so: the purpose of this test is to demonstrate that the cache can be overridden. Testing if the cache is working, would be like testing the test code, which isn\u0027t really the purpose isn\u0027t it?",
+      "parentUuid": "2dc5e596_06e6ce1d",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 59
+      },
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

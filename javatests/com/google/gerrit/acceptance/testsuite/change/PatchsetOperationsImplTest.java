@@ -14,6 +14,7 @@
 
 package com.google.gerrit.acceptance.testsuite.change;
 
+import static com.google.common.truth.Truth.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThat;
 import static com.google.gerrit.extensions.common.testing.CommentInfoSubject.assertThatList;
 import static com.google.gerrit.extensions.common.testing.RobotCommentInfoSubject.assertThat;
@@ -33,6 +34,12 @@ import com.google.gerrit.extensions.common.RobotCommentInfo;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
+import java.sql.Timestamp;
+import java.time.Duration;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.Month;
+import java.time.ZoneOffset;
 import java.util.List;
 import org.junit.Test;
 
@@ -312,6 +319,59 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
     CommentInfo comment = getCommentFromServer(changeId, commentUuid);
     assertThat(comment).author().id().isEqualTo(accountId.get());
+  }
+
+  @Test
+  public void commentIsCreatedWithSpecifiedCreationTime() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    // Don't use nanos. NoteDb supports only second precision.
+    Instant creationTime =
+        LocalDateTime.of(2020, Month.SEPTEMBER, 15, 12, 10, 43).atZone(ZoneOffset.UTC).toInstant();
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .createdOn(creationTime)
+            .create();
+
+    Timestamp creationTimestamp = Timestamp.from(creationTime);
+    CommentInfo comment = getCommentFromServer(changeId, commentUuid);
+    assertThat(comment).updated().isEqualTo(creationTimestamp);
+  }
+
+  @Test
+  public void zoneOfCreationDateCanBeOmitted() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    // As we don't care about the exact time zone internally used as a default, do a relative test
+    // so that we don't need to assert on exact instants in time. For a relative test, we need two
+    // comments whose creation date should be exactly the specified amount apart.
+    // Don't use nanos or millis. NoteDb supports only second precision.
+    LocalDateTime creationTime1 = LocalDateTime.of(2020, Month.SEPTEMBER, 15, 12, 10, 43);
+    LocalDateTime creationTime2 = creationTime1.plusMinutes(10);
+    String commentUuid1 =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .createdOn(creationTime1)
+            .create();
+    String commentUuid2 =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .createdOn(creationTime2)
+            .create();
+
+    CommentInfo comment1 = getCommentFromServer(changeId, commentUuid1);
+    Instant comment1Creation = comment1.updated.toInstant();
+    CommentInfo comment2 = getCommentFromServer(changeId, commentUuid2);
+    Instant comment2Creation = comment2.updated.toInstant();
+    Duration commentCreationDifference = Duration.between(comment1Creation, comment2Creation);
+    assertThat(commentCreationDifference).isEqualTo(Duration.ofMinutes(10));
   }
 
   @Test
@@ -623,6 +683,59 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
     // comments, we implicitly know that the author was correctly set when we find the created
     // comment in the draft comments of that user.
     assertThatList(comments).comparingElementsUsing(hasUuid()).containsExactly(commentUuid);
+  }
+
+  @Test
+  public void draftCommentIsCreatedWithSpecifiedCreationTime() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    // Don't use nanos. NoteDb supports only second precision.
+    Instant creationTime =
+        LocalDateTime.of(2020, Month.SEPTEMBER, 15, 12, 10, 43).atZone(ZoneOffset.UTC).toInstant();
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .createdOn(creationTime)
+            .create();
+
+    Timestamp creationTimestamp = Timestamp.from(creationTime);
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).updated().isEqualTo(creationTimestamp);
+  }
+
+  @Test
+  public void zoneOfCreationDateOfDraftCommentCanBeOmitted() throws Exception {
+    Change.Id changeId = changeOperations.newChange().create();
+
+    // As we don't care about the exact time zone internally used as a default, do a relative test
+    // so that we don't need to assert on exact instants in time. For a relative test, we need two
+    // comments whose creation date should be exactly the specified amount apart.
+    // Don't use nanos or millis. NoteDb supports only second precision.
+    LocalDateTime creationTime1 = LocalDateTime.of(2020, Month.SEPTEMBER, 15, 12, 10, 43);
+    LocalDateTime creationTime2 = creationTime1.plusMinutes(10);
+    String commentUuid1 =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .createdOn(creationTime1)
+            .create();
+    String commentUuid2 =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .createdOn(creationTime2)
+            .create();
+
+    CommentInfo comment1 = getDraftCommentFromServer(changeId, commentUuid1);
+    Instant comment1Creation = comment1.updated.toInstant();
+    CommentInfo comment2 = getDraftCommentFromServer(changeId, commentUuid2);
+    Instant comment2Creation = comment2.updated.toInstant();
+    Duration commentCreationDifference = Duration.between(comment1Creation, comment2Creation);
+    assertThat(commentCreationDifference).isEqualTo(Duration.ofMinutes(10));
   }
 
   @Test

@@ -21,6 +21,9 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.Patch;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Optional;
 
 /**
@@ -48,6 +51,8 @@ public abstract class TestCommentCreation {
   public abstract Optional<String> tag();
 
   public abstract Optional<Account.Id> author();
+
+  public abstract Optional<Instant> createdOn();
 
   abstract Comment.Status status();
 
@@ -173,6 +178,22 @@ public abstract class TestCommentCreation {
 
     /** Author of the comment. Must be an existing user account. */
     public abstract Builder author(Account.Id accountId);
+
+    /**
+     * Creation time of the comment. Like {@link #createdOn(Instant)} but with an arbitrary, fixed
+     * time zone (-> deterministic test execution).
+     */
+    public Builder createdOn(LocalDateTime createdOn) {
+      // We don't care about the exact time zone in most tests, just that it's fixed so that tests
+      // are deterministic.
+      return createdOn(createdOn.atZone(ZoneOffset.UTC).toInstant());
+    }
+
+    /**
+     * Creation time of the comment. This may also lie in the past or future. Comments stored in
+     * NoteDb support only second precision.
+     */
+    public abstract Builder createdOn(Instant createdOn);
 
     /**
      * Status of the comment. Hidden in the API surface. Use {@link

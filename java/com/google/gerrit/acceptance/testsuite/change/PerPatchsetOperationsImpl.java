@@ -186,11 +186,13 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       short side = commentCreation.side().orElse(CommentSide.PATCHSET_COMMIT).getNumericSide();
       Boolean unresolved = commentCreation.unresolved().orElse(null);
       String parentUuid = commentCreation.parentUuid().orElse(null);
+      Timestamp createdOn =
+          commentCreation.createdOn().map(Timestamp::from).orElse(context.getWhen());
       HumanComment newComment =
           commentsUtil.newHumanComment(
               context.getNotes(),
               context.getUser(),
-              context.getWhen(),
+              createdOn,
               filePath,
               patchsetId,
               side,

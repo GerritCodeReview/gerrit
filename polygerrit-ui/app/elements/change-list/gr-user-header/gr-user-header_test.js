@@ -32,10 +32,9 @@ suite('gr-user-header tests', () => {
         .returns(Promise.resolve({
           name: 'foo',
           email: 'bar',
+          status: 'OOO',
           registered_on: '2015-03-12 18:32:08.000000000',
         }));
-    sinon.stub(element.$.restAPI, 'getAccountStatus')
-        .returns(Promise.resolve('baz'));
 
     element.userId = 'foo.bar@baz';
     flush(() => {
@@ -46,7 +45,7 @@ suite('gr-user-header tests', () => {
       flush(() => {
         flushAsynchronousOperations();
         assert.isNull(element._accountDetails);
-        assert.isNull(element._status);
+        assert.equal(element._status, '');
 
         done();
       });

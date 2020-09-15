@@ -37,7 +37,7 @@ export const htmlTemplate = html`
       [[_computeDetail(_accountDetails, 'name')]]
     </h1>
     <hr />
-    <div class$="status [[_computeStatusClass(_accountDetails)]]">
+    <div class$="status [[_computeStatusClass(_status)]]">
       <span>Status:</span> [[_status]]
     </div>
     <div>

@@ -534,6 +534,10 @@ export interface RestApiService {
 
   getAccountGroups(): Promise<GroupInfo[] | undefined>;
 
+  getAccountDetails(userId: AccountId): Promise<AccountDetailInfo | undefined>;
+
+  getAccountStatus(userId: AccountId): Promise<string | undefined>;
+
   saveAccountAgreement(name: ContributorAgreementInput): Promise<Response>;
 
   generateAccountHttpPassword(): Promise<Password>;

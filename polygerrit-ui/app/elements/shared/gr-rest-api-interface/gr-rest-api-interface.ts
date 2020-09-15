@@ -1125,7 +1125,7 @@ export class GrRestApiInterface
     return this._restApiHelper.fetchJSON({
       url: `/accounts/${encodeURIComponent(userId)}/status`,
       anonymizedUrl: '/accounts/*/status',
-    });
+    }) as Promise<string | undefined>;
   }
 
   // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#list-groups

@@ -1,0 +1,1280 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "019146a1_d45e5956",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "There\u0027s an additional aspect to the ModifiedFilesCache. Its cache entries also mention the magic files /COMMIT_MSG and /MERGE_LIST which aren\u0027t present in the GitModifiedFilesCache.",
+      "range": {
+        "startLine": 16,
+        "startChar": 3,
+        "endLine": 19,
+        "endChar": 16
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d6462b5_4b4523c8",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "I know it\u0027s tempting to introduce xxxUtil classes as they are an easy catch-all for everything you might want to share among classes. However, xxxUtil classes tend to end up as a collection class for everything (\u003d for any non-related stuff which just doesn\u0027t fit into other classes). Best practices discourage that. It\u0027s rather recommended to introduce targeted classes which only contain very specific methods. This should also be reflected in the name (e.g. the Sets class of Guava). Right now, I see multiple \"themes\" in this class which I think we can split up. Before I suggest anything more concrete, I\u0027d like to wait how this class looks after my other comments as I expect it to lose some of its methods.\n\nNote for myself: Review this class completely again (also regarding method signatures and their implementation) after my review comments were addressed.",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 21
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3167b023_7c9568d3",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "All of the auto-merge code should be outside of the diff caches. We should make a clear separation.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 42,
+        "endChar": 52
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55e2a98c_71f9ccad",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Unused in this change.",
+      "range": {
+        "startLine": 43,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 29
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3081176b_9b84f207",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit, here and below: If you don\u0027t describe a @throws or @return and you don\u0027t intend to do so in the future, it\u0027s better to leave it out entirely.",
+      "range": {
+        "startLine": 60,
+        "startChar": 5,
+        "endLine": 60,
+        "endChar": 24
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b46ea24a_739bc138",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "With the new diff caches, there shouldn\u0027t be a need for this method anymore. The cache keys specify against which other commit a diff happens. If we need a parent commit (e.g. for edits due to rebase), we always need the single existing parent.",
+      "range": {
+        "startLine": 91,
+        "startChar": 19,
+        "endLine": 91,
+        "endChar": 34
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07890e9_44bdaa26",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "You wrote that you introduced DiffUtil for re-use but I don\u0027t see how this method can be re-used with GitModifiefFilesCache.Key as input. My suggestion would be to just return the constructed DiffFormatter from this method and to call the scan() method inside the calling code. If you do so, you\u0027ll also want to add the try-with-resources statement (see my other comment) in the calling code instead of here.",
+      "range": {
+        "startLine": 154,
+        "startChar": 44,
+        "endLine": 154,
+        "endChar": 73
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80766846_2ad1a1db",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Should be created within a try-with-resources statement.",
+      "range": {
+        "startLine": 155,
+        "startChar": 4,
+        "endLine": 155,
+        "endChar": 72
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2fa6cd9_0b358afd",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Other caches in Gerrit use an interface combined with such an implementation class. Did you deliberately omit the interface?",
+      "range": {
+        "startLine": 40,
+        "startChar": 13,
+        "endLine": 40,
+        "endChar": 34
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484b5a61_5eb24c39",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Can this be private?",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 40
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eec79954_57343426",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Can this field be private?",
+      "range": {
+        "startLine": 43,
+        "startChar": 42,
+        "endLine": 43,
+        "endChar": 47
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee14203b_3081fbd1",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Without specifying a weigher, a default unit weight of 1 will be used. As the number of included files can differ, a weight of 1 per list doesn\u0027t seem appropriate.",
+      "range": {
+        "startLine": 52,
+        "startChar": 12,
+        "endLine": 52,
+        "endChar": 36
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8861b76b_0f624729",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "There\u0027s no use for callers of this method to get the wrapper type. Instead, we can just return the unwrapped ImmutableList of GitModifiedFiles and thus save one step for callers.",
+      "range": {
+        "startLine": 64,
+        "startChar": 9,
+        "endLine": 64,
+        "endChar": 29
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "360f74b2_c3b69665",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "We shouldn\u0027t let the ExecutionException outside of the cache implementation. This ties into another consideration: What\u0027s the cache\u0027s behavior regarding errors?",
+      "range": {
+        "startLine": 64,
+        "startChar": 43,
+        "endLine": 64,
+        "endChar": 68
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2d3297dd_000e59f1",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "As discussed, this should be a getAll(Iterable\u003cKey) method.",
+      "range": {
+        "startLine": 64,
+        "startChar": 30,
+        "endLine": 64,
+        "endChar": 42
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "045c95dd_282806bc",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Static methods should be called with a static call (DiffUtil.getGitTreeDiff()) and not on an instance.",
+      "range": {
+        "startLine": 83,
+        "startChar": 34,
+        "endLine": 83,
+        "endChar": 57
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3699721_f6f79353",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Could be a method reference (which is similarly short).",
+      "range": {
+        "startLine": 86,
+        "startChar": 33,
+        "endLine": 86,
+        "endChar": 44
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c47f1a2b_ff663afc",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: We try to avoid Collectors.toList() in new code and instead use ImmutableList.toImmutableList(). Benefit: You get an explicitly immutable type whose use is recommended.",
+      "range": {
+        "startLine": 86,
+        "startChar": 54,
+        "endLine": 86,
+        "endChar": 73
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "78af8fd8_178753c9",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Could be a static method.",
+      "range": {
+        "startLine": 92,
+        "startChar": 4,
+        "endLine": 92,
+        "endChar": 11
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df94a387_70ab3c44",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "I\u0027d recommend to use a builder instead. See my other comment for it.",
+      "range": {
+        "startLine": 104,
+        "startChar": 22,
+        "endLine": 104,
+        "endChar": 28
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a3e05ef_5334f24c",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "The expressions aTree and bTree seem very familiar after you\u0027re used to them. I still remember when I stumbled upon them when I started on Gerrit and was very confused first. If you can\u0027t think of a better name, please add clarifying Javadoc descriptions.",
+      "range": {
+        "startLine": 117,
+        "startChar": 4,
+        "endLine": 119,
+        "endChar": 37
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b36af1a2_3c4d4b1f",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "It feels tremendously strange to me to use a type which is part of an output type of the REST API as key in our internal caches.\n\nApart from that: Do we really need the whitespace setting for the modified files caches? I thought I once checked JGit\u0027s diff code and the setting was only relevant when you requested file diffs. Can you please double-check? If the setting doesn\u0027t influence the result for modified files, we should not have it as key parameter.",
+      "range": {
+        "startLine": 121,
+        "startChar": 20,
+        "endLine": 121,
+        "endChar": 50
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7abdd10_cdcf2d0e",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "We always want these fields to be set together. Right now, this is enforced by AutoValue requiring all fields to be set. We can do a bit better on the API design, though. Instead of two fields, we can use just one. One possibility would be to directly track the score and interpret a value such as -1 as disabled rename detection. To make the API nicer, I would introduce a method disableRenameDetection() which sets the value to -1.",
+      "range": {
+        "startLine": 123,
+        "startChar": 4,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c371ab89_7216b99e",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 125,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "We\u0027ll need some validation for this method. Values above 100 and below 0 are not allowed (except for the magic value mentioned in my other comment).\n\nWe\u0027ll also need a Javadoc description as the range 0-100 might not be immediately clear.",
+      "range": {
+        "startLine": 125,
+        "startChar": 24,
+        "endLine": 125,
+        "endChar": 38
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0ed1c77e_fdce7ea3",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Should be private.",
+      "range": {
+        "startLine": 39,
+        "startChar": 2,
+        "endLine": 39,
+        "endChar": 36
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6441f5bf_870bd4f5",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Have you considered whether it will be sufficient if the ModifiedFilesCache will always use the same output type as the GitModifiedFilesCache? Could it be that we introduce an additional field for the ModifiedFilesCache in the future which we don\u0027t want to have in the GitModifiedFilesCache? I\u0027m asking as I haven\u0027t thought this fully through and I\u0027m hoping you have. :-)",
+      "range": {
+        "startLine": 41,
+        "startChar": 34,
+        "endLine": 41,
+        "endChar": 54
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6809fc90_43dbc338",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "See my other comment about a weigher.",
+      "range": {
+        "startLine": 50,
+        "startChar": 12,
+        "endLine": 50,
+        "endChar": 36
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc483b3e_da154f3b",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "See my other comment on this exception and the error handling in GitModifiedFilesCache.",
+      "range": {
+        "startLine": 62,
+        "startChar": 43,
+        "endLine": 62,
+        "endChar": 68
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f4931065_897e6d51",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "How is this working both for diffs against the base and diffs against other patchsets? For diffs against base, we\u0027ll have an addition for the COMMIT_MSG and MERGE_LIST files. For diffs between patchsets, we\u0027ll have a modification of these files. Hence, I\u0027d expected different cache output (e.g. regarding ChangeType and also oldPath) for these two cases.\n\nIn addition, can we always be sure to have these entries for diffs between patchsets? I guess there\u0027s always a modification for the commit message (which I\u0027m not sure right now we should really rely on) but I\u0027ve no idea whether the MERGE_LIST always changes and then shows up. Please double check and adjust this code accordingly.",
+      "range": {
+        "startLine": 86,
+        "startChar": 8,
+        "endLine": 89,
+        "endChar": 9
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e73be2d9_7a3c04f2",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "This method sounds very innocuous but it does a lot of things including reaching out to another cache. I\u0027d like to see this represented in the method name, especially as the other getXxx methods do nothing of these additional things.",
+      "range": {
+        "startLine": 90,
+        "startChar": 22,
+        "endLine": 90,
+        "endChar": 30
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "88762982_33db98d1",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "I was very confused by this method until I saw it\u0027s implementation. The name getCommit() didn\u0027t indicate to me that this method is for the \"commit message\" entry.\n\nWhen you think about a better name, can you please also find a more descriptive one for getMergeList()? (After all, you don\u0027t get a merge list, do you?)",
+      "range": {
+        "startLine": 95,
+        "startChar": 28,
+        "endLine": 95,
+        "endChar": 39
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "66d8122f_7d045f89",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Seeing this and line 102, it would be helpful to have a meaningful shortcut for creating GitModifiedFile instances for simple file creations/modifications (e.g. avoids null inputs and properly sets types like ChangeType).",
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1454211d_7e4c02e4",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "It seems wrong to me that the ChangeType is null.",
+      "range": {
+        "startLine": 97,
+        "startChar": 33,
+        "endLine": 97,
+        "endChar": 37
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b51a8ee_a261a13e",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit, here and below: Non-static call of static method.",
+      "range": {
+        "startLine": 108,
+        "startChar": 23,
+        "endLine": 108,
+        "endChar": 41
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2bfc9511_c7c39abb",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "This method is much more complicated than it needs to be and could easily lead to unintended behavior. If we entered getTouchedFilesWithParents(), we already parsed both commits within the DiffUtils#areRelated check. We parse them againstDefaultBase() again and then even try to locate the default base (which could even be the auto-merge commit) even though we definitely only want the only existing parent of the commits of which we know that they are non-merge commits (otherwise areRelated() would have returned false).\n\nMy suggestions is to rewrite the DiffUtils#areRelated method. Instead of a method returning a boolean, we\u0027d need a method which returns two tuples: (parentA, commitA) and (parentB, commitB). If the return value is empty (or Optional.empty()), we\u0027d have the same situation as when DiffUtils#areRelated was false.\n\nThere are various ways to represent the tuples. Try to find a good one. ;-)\n\nWith the tuples, it should be simple to create the necessary GitModifiedFilesCache.Key. From the RevCommit instances, we can even get the treeIds without an additional parse call.",
+      "range": {
+        "startLine": 144,
+        "startChar": 10,
+        "endLine": 144,
+        "endChar": 64
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "240ceff4_aa0526c0",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "As you wanted to get hints regarding which calls you can combine:\nThis call can be combined with the call in line 145. If you write this class a bit differently, you can also combine these two calls with the one in line 118 as none of the calls requires the input of the other calls.",
+      "range": {
+        "startLine": 149,
+        "startChar": 40,
+        "endLine": 149,
+        "endChar": 85
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d929a7af_56be8cbe",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "FYI: If you switch to Optional for oldPath() and newPath(), this method could be changed to:\n\n  files.stream()\n          .flatMap(\n              file -\u003e Stream.concat(Streams.stream(file.oldPath()), Streams.stream(file.newPath())))\n          .collect(toImmutableList());",
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da297db5_246c7ba3",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "If we return an ImmutableSet here, we can use Sets#union in line 151 for the combined touched file paths.",
+      "range": {
+        "startLine": 158,
+        "startChar": 12,
+        "endLine": 158,
+        "endChar": 33
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "425b5eac_efa3a6d9",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 160,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Unnecessary call to stream().",
+      "range": {
+        "startLine": 160,
+        "startChar": 12,
+        "endLine": 160,
+        "endChar": 20
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a92278f3_6d4cda34",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "I\u0027m pretty sure that this is not working at the moment. Please see my other comment about this and the newPath() field. If there\u0027s no existing test which caught this when you hook up the caches in Gerrit\u0027s code base in follow-up changes, please add tests for it.",
+      "range": {
+        "startLine": 163,
+        "startChar": 20,
+        "endLine": 163,
+        "endChar": 39
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e9fad2d_102d654a",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 173,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Nit: Old method parameter name from PatchListLoader?",
+      "range": {
+        "startLine": 173,
+        "startChar": 83,
+        "endLine": 173,
+        "endChar": 92
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9292499_294a345d",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "See my other comments on this. After you addressed them, we shouldn\u0027t need this comment anymore.",
+      "range": {
+        "startLine": 176,
+        "startChar": 6,
+        "endLine": 177,
+        "endChar": 61
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12892252_dda3c637",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "As for the other AutoValues, it would be nicer to use a Builder here.",
+      "range": {
+        "startLine": 208,
+        "startChar": 22,
+        "endLine": 208,
+        "endChar": 28
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae2cde71_8a2cd2a7",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Needs Javadoc descriptions as aCommit() and bCommit().",
+      "range": {
+        "startLine": 221,
+        "startChar": 4,
+        "endLine": 223,
+        "endChar": 39
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d63eca9a_eee35670",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 225,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Same as for this type in GitModifiedFilesCache.Key.",
+      "range": {
+        "startLine": 225,
+        "startChar": 20,
+        "endLine": 225,
+        "endChar": 50
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfcc43b1_4bf9792e",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 229,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Same as for these two fields in GitModifiedFilesCache.Key.",
+      "range": {
+        "startLine": 227,
+        "startChar": 4,
+        "endLine": 229,
+        "endChar": 38
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4a148459_200e61cb",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "I saw that you placed the cache values in a sub-package. It\u0027s a good idea to split up the \u0027patch\u0027 package. My suggestion would be to introduce a sub-package for every diff cache we have and to place its interface, its implementation, and its key/value classes inside those sub-packages.\n\nThis also allows to restrict the visibility of the classes. The interface and the key/value classes should be public. The implementation class should be package-private if Guice allows that.",
+      "range": {
+        "startLine": 16,
+        "startChar": 33,
+        "endLine": 16,
+        "endChar": 47
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f0b41032_67a2671f",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "As discussed in the meeting last week, the new caches should directly use Protobuf serialization. I would prefer to directly see it in this change as new caches shouldn\u0027t use the old approach (which we want to remove completely from Gerrit). If you prefer a follow-up change, you\u0027ll need to use a topic to ensure that both changes go in at the same time.",
+      "range": {
+        "startLine": 25,
+        "startChar": 38,
+        "endLine": 25,
+        "endChar": 61
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "172160cc_c9f045d2",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "If we use this class for both caches, don\u0027t we want to drop the \u0027Git\u0027 part and just go with ModifiedFile?",
+      "range": {
+        "startLine": 25,
+        "startChar": 22,
+        "endLine": 25,
+        "endChar": 37
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a6e4533_e9587d18",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "With so many and similar fields (oldPath \u003c-\u003e newPath, oldMode \u003c-\u003e newMode), it would be better to use an AutoValue.Builder instead.\n\n(FYI: For AutoValue.Builders, we decided to use method names without \u0027set\u0027 in the past. It might still not be consistent within Gerrit but I\u0027m trying to stick to that naming scheme.)\n\n(Another FYI: You can generate an AutoValue.Builder with Alt+Enter in IntelliJ. It will need some adjustments like the \u0027set\u0027 prefix removal but it saves some manual work. Afterwards, you can transform this method to a builder() method.)",
+      "range": {
+        "startLine": 28,
+        "startChar": 6,
+        "endLine": 31,
+        "endChar": 32
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2798d127_811d116e",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Here and below: It\u0027s recommended to use Optional instead of nullable fields as thus callers need to explicitly think about what to do with non-existent values.\n\nAfter some further thought, I\u0027m wondering how these values can be null. Shouldn\u0027t the type and mode always be defined?",
+      "range": {
+        "startLine": 35,
+        "startChar": 2,
+        "endLine": 35,
+        "endChar": 11
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7109cf8f_d7e5cbb3",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "This is a JGit type. We should only use Gerrit types as output of the diff caches to have the full control over them. For instance, types used in AutoValues must be immutable and we can\u0027t guarantee this (even in the future) for types we don\u0027t own. I would be especially worried about the FileMode (see below) as that\u0027s not even an enum.\n\nBy the way, we also have a ChangeType as a Gerrit type. Did you maybe just use the wrong class here?",
+      "range": {
+        "startLine": 36,
+        "startChar": 18,
+        "endLine": 36,
+        "endChar": 28
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5359f3ff_9cdc35d0",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "These fields are not optional or annotated as being @Nullable. How can this be possible if a file deletion doesn\u0027t have an oldPath() and a file creation doesn\u0027t have a newPath()? If you\u0027re going to tell me that we\u0027ll re-use the \"/dev/null\" path JGit is using for these cases, we should reconsider that approach. Such a magic string can be overlooked too easily. A file deletion and addition should be much more explicit.",
+      "range": {
+        "startLine": 38,
+        "startChar": 2,
+        "endLine": 40,
+        "endChar": 35
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12900228_c2ff6970",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "This is also a JGit type. See my comment above. I\u0027d guess that we can use an enum when we introduce our own type for this.",
+      "range": {
+        "startLine": 43,
+        "startChar": 18,
+        "endLine": 43,
+        "endChar": 26
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2988a75_ebe61422",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFilesList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "When you switch to Protobuf serialization, please see whether we even need this class. In the Protobuf definition, we\u0027ll of course need a type for the cache value but we might just map it to an ImmutableList afterwards. What I\u0027m not sure about is whether the cache declaration in the Module allows to pass in the right type if we switch to ImmutableList.\n\nIf we still need this AutoValue type, please try to find a name which does not involve a type like \u0027list\u0027 as that\u0027s an implementation detail (e.g. GitModifiedFiles or ModifiedFiles).",
+      "range": {
+        "startLine": 8,
+        "startChar": 22,
+        "endLine": 8,
+        "endChar": 42
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68227f5c_7967756f",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFilesList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T18:43:03Z",
+      "side": 1,
+      "message": "Should be ImmutableList.",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

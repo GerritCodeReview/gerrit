@@ -164,25 +164,30 @@ export class GrAccountInfo extends GestureEventListeners(
   }
 
   _maybeSetName() {
+    // Note that we are intentionally not acting on this._account.name being the
+    // empty string (which is falsy).
     return this._hasNameChange && this.nameMutable && this._account?.name
       ? this.$.restAPI.setAccountName(this._account.name)
       : Promise.resolve();
   }
 
   _maybeSetUsername() {
+    // Note that we are intentionally not acting on this._username being the
+    // empty string (which is falsy).
     return this._hasUsernameChange && this.usernameMutable && this._username
       ? this.$.restAPI.setAccountUsername(this._username)
       : Promise.resolve();
   }
 
   _maybeSetDisplayName() {
-    return this._hasDisplayNameChange && this._account?.display_name
+    return this._hasDisplayNameChange &&
+      this._account?.display_name !== undefined
       ? this.$.restAPI.setAccountDisplayName(this._account.display_name)
       : Promise.resolve();
   }
 
   _maybeSetStatus() {
-    return this._hasStatusChange && this._account?.status
+    return this._hasStatusChange && this._account?.status !== undefined
       ? this.$.restAPI.setAccountStatus(this._account.status)
       : Promise.resolve();
   }

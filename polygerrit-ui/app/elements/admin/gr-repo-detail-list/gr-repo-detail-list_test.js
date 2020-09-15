@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-repo-detail-list.js';
+import 'lodash/lodash.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 

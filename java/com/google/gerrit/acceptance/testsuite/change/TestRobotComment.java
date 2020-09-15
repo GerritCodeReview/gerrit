@@ -18,9 +18,9 @@ import com.google.auto.value.AutoValue;
 import com.google.gerrit.common.Nullable;
 import java.util.Optional;
 
-/** Representation of a human comment used for testing purposes. */
+/** Representation of a robot comment used for testing purposes. */
 @AutoValue
-public abstract class TestHumanComment {
+public abstract class TestRobotComment {
 
   /** The UUID of the comment. Should be unique. */
   public abstract String uuid();
@@ -28,14 +28,8 @@ public abstract class TestHumanComment {
   /** UUID of another comment to which this comment is a reply. */
   public abstract Optional<String> parentUuid();
 
-  /** Tag of a comment. */
-  public abstract Optional<String> tag();
-
-  /** Unresolved state of a comment. */
-  public abstract boolean unresolved();
-
   static Builder builder() {
-    return new AutoValue_TestHumanComment.Builder();
+    return new AutoValue_TestRobotComment.Builder();
   }
 
   @AutoValue.Builder
@@ -44,10 +38,6 @@ public abstract class TestHumanComment {
 
     abstract Builder parentUuid(@Nullable String parentUuid);
 
-    abstract Builder tag(@Nullable String tag);
-
-    abstract Builder unresolved(boolean unresolved);
-
-    abstract TestHumanComment build();
+    abstract TestRobotComment build();
   }
 }

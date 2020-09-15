@@ -16,30 +16,30 @@ package com.google.gerrit.acceptance.testsuite.change;
 
 import static com.google.common.collect.MoreCollectors.onlyElement;
 
-import com.google.gerrit.entities.HumanComment;
+import com.google.gerrit.entities.RobotComment;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
 /**
- * The implementation of {@link PerCommentOperations}.
+ * The implementation of {@link PerRobotCommentOperations}.
  *
- * <p>There is only one implementation of {@link PerCommentOperations}. Nevertheless, we keep the
- * separation between interface and implementation to enhance clarity.
+ * <p>There is only one implementation of {@link PerRobotCommentOperations}. Nevertheless, we keep
+ * the separation between interface and implementation to enhance clarity.
  */
-public class PerCommentOperationsImpl implements PerCommentOperations {
+public class PerRobotCommentOperationsImpl implements PerRobotCommentOperations {
   private final CommentsUtil commentsUtil;
 
   private final ChangeNotes changeNotes;
   private final String commentUuid;
 
   public interface Factory {
-    PerCommentOperationsImpl create(ChangeNotes changeNotes, String commentUuid);
+    PerRobotCommentOperationsImpl create(ChangeNotes changeNotes, String commentUuid);
   }
 
   @Inject
-  public PerCommentOperationsImpl(
+  public PerRobotCommentOperationsImpl(
       CommentsUtil commentsUtil, @Assisted ChangeNotes changeNotes, @Assisted String commentUuid) {
     this.commentsUtil = commentsUtil;
     this.changeNotes = changeNotes;
@@ -47,20 +47,18 @@ public class PerCommentOperationsImpl implements PerCommentOperations {
   }
 
   @Override
-  public TestHumanComment get() {
-    HumanComment comment =
-        commentsUtil.publishedHumanCommentsByChange(changeNotes).stream()
+  public TestRobotComment get() {
+    RobotComment comment =
+        commentsUtil.robotCommentsByChange(changeNotes).stream()
             .filter(foundComment -> foundComment.key.uuid.equals(commentUuid))
             .collect(onlyElement());
-    return toTestComment(comment);
+    return toTestRobotComment(comment);
   }
 
-  static TestHumanComment toTestComment(HumanComment comment) {
-    return TestHumanComment.builder()
-        .uuid(comment.key.uuid)
-        .parentUuid(comment.parentUuid)
-        .tag(comment.tag)
-        .unresolved(comment.unresolved)
+  static TestRobotComment toTestRobotComment(RobotComment robotComment) {
+    return TestRobotComment.builder()
+        .uuid(robotComment.key.uuid)
+        .parentUuid(robotComment.parentUuid)
         .build();
   }
 }

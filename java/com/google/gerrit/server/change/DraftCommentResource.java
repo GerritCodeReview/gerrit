@@ -20,6 +20,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.restapi.RestResource;
 import com.google.gerrit.extensions.restapi.RestView;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.inject.TypeLiteral;
 
 public class DraftCommentResource implements RestResource {
@@ -48,6 +49,10 @@ public class DraftCommentResource implements RestResource {
 
   public HumanComment getComment() {
     return comment;
+  }
+
+  public ChangeNotes getNotes() {
+    return rev.getNotes();
   }
 
   public String getId() {

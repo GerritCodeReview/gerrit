@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f613b64e_f5dfdad6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-15T17:11:09Z",
+      "side": 1,
+      "message": "the issue is introduced in https://gerrit-review.googlesource.com/c/gerrit/+/280781/2/polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts#523",
+      "revId": "df9d018fb74ea3f679708decc3575b010bf75e83",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

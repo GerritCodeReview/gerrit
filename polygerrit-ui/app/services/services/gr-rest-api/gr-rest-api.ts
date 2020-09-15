@@ -75,6 +75,7 @@ import {
   ProjectInput,
   AccountId,
   ChangeMessageId,
+  ConfigInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -605,4 +606,6 @@ export interface RestApiService {
     changeNum: ChangeNum,
     messageId: ChangeMessageId
   ): Promise<Response>;
+
+  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
 }

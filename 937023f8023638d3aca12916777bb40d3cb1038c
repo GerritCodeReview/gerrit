@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "34eee359_336cf046",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-15T13:33:48Z",
+      "side": 1,
+      "message": "This comment is unclear to me - how did this reply happen in parallel to other comments?",
+      "range": {
+        "startLine": 1027,
+        "startChar": 0,
+        "endLine": 1027,
+        "endChar": 76
+      },
+      "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

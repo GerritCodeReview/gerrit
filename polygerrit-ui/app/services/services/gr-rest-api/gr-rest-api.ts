@@ -78,7 +78,11 @@ import {
   GroupAuditEventInfo,
   EncodedGroupId,
   Base64FileContent,
+<<<<<<< HEAD
   UrlEncodedCommentId,
+=======
+  ConfigInput,
+>>>>>>> 49fe3a8d34 (Convert gr-repo to typescript)
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -675,4 +679,5 @@ export interface RestApiService {
     path: string,
     contents: string
   ): Promise<Response>;
+  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
 }

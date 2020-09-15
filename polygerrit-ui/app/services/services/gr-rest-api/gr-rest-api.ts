@@ -81,6 +81,7 @@ import {
   UrlEncodedCommentId,
   TagInfo,
   GitRef,
+  ConfigInput,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -688,4 +689,5 @@ export interface RestApiService {
   setRepoHead(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
+  saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
 }

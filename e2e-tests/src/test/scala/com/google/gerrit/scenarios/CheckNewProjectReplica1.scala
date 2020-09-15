@@ -20,13 +20,18 @@ import io.gatling.core.structure.ScenarioBuilder
 
 import scala.concurrent.duration._
 
-class CloneUsingBothProtocols extends GitSimulation {
+class CheckNewProjectReplica1 extends GitSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
   private val default: String = name
-  private val duration: Int = 2
+
+  private lazy val replicationDuration = replicationDelay + SecondsPerWeightUnit
+
+  override def relativeRuntimeWeight: Int = replicationDuration / SecondsPerWeightUnit + 2
 
   override def replaceOverride(in: String): String = {
-    replaceKeyWith("_project", default, in)
+    var next = replaceProperty("http_port1", 8081, in)
+    next = replaceKeyWith("_project", default, next)
+    super.replaceOverride(next)
   }
 
   private val test: ScenarioBuilder = scenario(unique)
@@ -42,11 +47,11 @@ class CloneUsingBothProtocols extends GitSimulation {
       atOnceUsers(single)
     ),
     test.inject(
-      nothingFor(stepWaitTime(this) seconds),
-      constantUsersPerSec(single) during (duration seconds)
+      nothingFor(stepWaitTime(this) + replicationDuration seconds),
+      atOnceUsers(single)
     ).protocols(gitProtocol),
     deleteProject.test.inject(
-      nothingFor(stepWaitTime(deleteProject) + duration seconds),
+      nothingFor(stepWaitTime(deleteProject) seconds),
       atOnceUsers(single)
     ),
   ).protocols(httpProtocol)

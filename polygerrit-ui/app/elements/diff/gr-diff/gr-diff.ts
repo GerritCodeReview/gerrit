@@ -561,7 +561,7 @@ export class GrDiff extends GestureEventListeners(
       );
       return;
     }
-    this._createComment(el, lineNum);
+    this._createComment(el, lineNum === FILE ? undefined : lineNum);
   }
 
   createRangeComment() {
@@ -644,7 +644,7 @@ export class GrDiff extends GestureEventListeners(
 
   _createComment(
     lineEl: Element,
-    lineNum: LineNumber,
+    lineNum?: LineNumber,
     side?: Side,
     range?: CommentRange
   ) {

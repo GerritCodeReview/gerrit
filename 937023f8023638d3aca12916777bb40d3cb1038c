@@ -22,6 +22,30 @@
       "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "338ad664_9e37fd75",
+        "filename": "javatests/com/google/gerrit/acceptance/rest/change/AttentionSetIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 1027,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-15T13:59:23Z",
+      "side": 1,
+      "message": "With the comment in line 991/992 I explain what I mean with \"parallel\". This comment is a continuation of the situation above. I can add more words if you think that would be helpful.",
+      "parentUuid": "34eee359_336cf046",
+      "range": {
+        "startLine": 1027,
+        "startChar": 0,
+        "endLine": 1027,
+        "endChar": 76
+      },
+      "revId": "937023f8023638d3aca12916777bb40d3cb1038c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

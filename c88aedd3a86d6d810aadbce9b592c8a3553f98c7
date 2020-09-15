@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "007e2477_76177e71",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 12
+      },
+      "lineNbr": 6555,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2802cf1_7bf8bd42",
+      "range": {
+        "startLine": 6555,
+        "startChar": 22,
+        "endLine": 6555,
+        "endChar": 48
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc1d8552_db145485",
         "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
         "patchSetId": 12
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "02a80823_48271abe",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Thanks for the tip. Yes, this is a better implementation.\n\nDone. Now the API has a single method:\n  * CommentsRequest comments()\n\nI changed all references to the API in the tests as well.",
+      "parentUuid": "bc1d8552_db145485",
+      "range": {
+        "startLine": 344,
+        "startChar": 42,
+        "endLine": 344,
+        "endChar": 67
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "179b0b0f_2b103011",
         "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
         "patchSetId": 12
@@ -68,6 +116,30 @@
       "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c3d4af3_a727d9cd",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "I think it is unlikely that this representation will change, but I prefer to keep it as a separate entity for now.\nI can change it in the future though if we ended up not needing it.",
+      "parentUuid": "179b0b0f_2b103011",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 27,
+        "endChar": 89
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +189,54 @@
     },
     {
       "key": {
+        "uuid": "2f9f9e7c_94215f16",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "This pattern is similar to how CommentJson fills accounts: CommentJson converts Comment{s} to CommentInfo{s} and needs to assign a ContextLine object during this conversion.\nHowever we want to load all the context lines at once for all comments for better performance, that\u0027s why we use this pattern. During entity conversions, we assign an empty ContextLine list to the CommentInfo and keep a reference for the empty list in CommentContextLoader (the candidates). At the end of the conversion we call the CommentContextLoader#fill method once to populate all context lines.",
+      "parentUuid": "bc8407d6_37867a4a",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 55
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4652ecf9_58baf6ef",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e3e3fc0_711c5774",
+      "range": {
+        "startLine": 61,
+        "startChar": 13,
+        "endLine": 61,
+        "endChar": 16
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "911cda56_93ae66b0",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 12
@@ -137,6 +257,30 @@
       "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b7db2e7_5b0cdf6a",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "The expected usage pattern is:\n  * getContext(comment1)\n  * getContext(comment2)\n  * ..\n  * fill()\n\nUntil fill is called, if getContext() was called twice with the same Comment entity, it would still return an empty list.\n\nI rephrased the javadoc to make the intended behaviour more clear. Please let me know if this needs more clarification.",
+      "parentUuid": "911cda56_93ae66b0",
+      "range": {
+        "startLine": 72,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 19
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "eb396dab_d9639d48",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Thanks for pointing this out. I think you are right. I re-used some code at [1] for opening and reading a file using a TreeWalk and I think [1] didn\u0027t perform this check, although it makes sense.\n\nI had a second look again at it and the documentation, TreeWalk.forPath() returns null if no path was found (e.g. invalid path). I think we can throw a FileNotFoundException in this case or fail silently with a warning message. I added a warning message for this case.\n\n[1] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/patch/PatchScriptBuilder.java#350",
+      "parentUuid": "fbd3ca3b_da6c8e3c",
+      "range": {
+        "startLine": 97,
+        "startChar": 12,
+        "endLine": 101,
+        "endChar": 13
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7e0cb913_0d18370b",
         "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
         "patchSetId": 12
@@ -183,6 +351,30 @@
       "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "532318bf_7ff492dd",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Yes, this means we could not compute a range.\n\nI like to use the Optional and it sounds better here. Done.",
+      "parentUuid": "7e0cb913_0d18370b",
+      "range": {
+        "startLine": 116,
+        "startChar": 11,
+        "endLine": 116,
+        "endChar": 30
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "7878a970_626f6980",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "e268806a_dc456f8f",
+      "range": {
+        "startLine": 138,
+        "startChar": 13,
+        "endLine": 138,
+        "endChar": 19
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47df8738_7d233969",
         "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
         "patchSetId": 12
@@ -229,6 +445,30 @@
       "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5154c9de_65a5f4f6",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentJson.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 73,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-15T14:27:47Z",
+      "side": 1,
+      "message": "Yes, that\u0027s a better idea. Thanks for the tip.\nDone.",
+      "parentUuid": "47df8738_7d233969",
+      "range": {
+        "startLine": 69,
+        "startChar": 2,
+        "endLine": 73,
+        "endChar": 0
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

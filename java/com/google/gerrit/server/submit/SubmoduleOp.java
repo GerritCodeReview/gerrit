@@ -26,10 +26,11 @@ import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 import java.io.IOException;
 import java.util.LinkedHashSet;
-import java.util.Set;
+import java.util.Map;
 
 public class SubmoduleOp {
 
@@ -46,11 +47,12 @@ public class SubmoduleOp {
       this.submoduleCommitsFactory = submoduleCommitsFactory;
     }
 
-    public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
+    public SubmoduleOp create(
+        Map<BranchNameKey, ReceiveCommand> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
           orm,
-          subscriptionGraphFactory.compute(updatedBranches, orm),
+          subscriptionGraphFactory.compute(updatedBranches.keySet(), orm),
           submoduleCommitsFactory.create(orm));
     }
   }

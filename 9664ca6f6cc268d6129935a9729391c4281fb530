@@ -33,6 +33,24 @@
       "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "12a59765_0b708643",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-16T11:29:21Z",
+      "side": 1,
+      "message": "We experienced a bug, but only because we have a plugin that writes refs in the change-ref namespace. I wouldn\u0027t know how to express that in a valid issue on the Gerrit issue-tracker.\n\nBasically we shouldn\u0027t try to create Patchset.Ids from refs that we don\u0027t know are actual pathset refs, all we currently know is that they start with refs/changes/\\d{2}/\\d+ and doesn\u0027t end with \"meta\".",
+      "parentUuid": "4a1b5aa2_10f98ff2",
+      "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

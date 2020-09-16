@@ -31,7 +31,6 @@ import com.google.gerrit.extensions.restapi.Url;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
-import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchListCache;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
@@ -56,7 +55,6 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final PatchSetUtil psUtil;
   private final Provider<CommentJson> commentJson;
   private final PatchListCache patchListCache;
-  private final ChangeNotes.Factory changeNotesFactory;
 
   @Inject
   PutDraftComment(
@@ -65,15 +63,13 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
       Provider<CommentJson> commentJson,
-      PatchListCache patchListCache,
-      ChangeNotes.Factory changeNotesFactory) {
+      PatchListCache patchListCache) {
     this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.commentJson = commentJson;
     this.patchListCache = patchListCache;
-    this.changeNotesFactory = changeNotesFactory;
   }
 
   @Override

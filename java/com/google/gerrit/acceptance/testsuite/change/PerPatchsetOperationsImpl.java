@@ -131,11 +131,11 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     return userFactory.create(authorId);
   }
 
-  /**
-   * Both this and {@code toEntitiesCommentRange} is needed since there are two Comment.Range
-   * entities, in different packages: {@code com.google.gerrit.entities.Comment.Range}, and {@code
-   * com.google.gerrit.extensions.Comment.Range}
-   */
+  private IdentifiedUser getAuthor(TestRobotCommentCreation robotCommentCreation) {
+    Account.Id authorId = robotCommentCreation.author().orElse(changeNotes.getChange().getOwner());
+    return userFactory.create(authorId);
+  }
+
   private static Comment.Range toCommentRange(TestRange range) {
     Comment.Range commentRange = new Range();
     commentRange.startLine = range.start().line();
@@ -143,19 +143,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
     commentRange.endLine = range.end().line();
     commentRange.endCharacter = range.end().charOffset();
     return commentRange;
-  }
-
-  /**
-   * Both this and {@code toCommentRange} is needed since there are two Comment.Range entities, in
-   * different packages: {@code com.google.gerrit.entities.Comment.Range}, and {@code
-   * com.google.gerrit.extensions.Comment.Range}
-   */
-  private static com.google.gerrit.entities.Comment.Range toEntitiesCommentRange(TestRange range) {
-    return new com.google.gerrit.entities.Comment.Range(
-        range.start().line(),
-        range.start().charOffset(),
-        range.end().line(),
-        range.end().charOffset());
   }
 
   private class CommentAdditionOp implements BatchUpdateOp {
@@ -236,11 +223,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
       }
       return robotCommentAdditionOp.createdRobotCommentUuid;
     }
-  }
-
-  private IdentifiedUser getAuthor(TestRobotCommentCreation robotCommentCreation) {
-    Account.Id authorId = robotCommentCreation.author().orElse(changeNotes.getChange().getOwner());
-    return userFactory.create(authorId);
   }
 
   private class RobotCommentAdditionOp implements BatchUpdateOp {

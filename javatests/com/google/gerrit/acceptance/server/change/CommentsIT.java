@@ -58,7 +58,6 @@ import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.IdString;
 import com.google.gerrit.extensions.restapi.ResourceNotFoundException;
 import com.google.gerrit.extensions.restapi.TopLevelResource;
-import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.notedb.ChangeNoteUtil;
@@ -67,7 +66,6 @@ import com.google.gerrit.server.restapi.change.ChangesCollection;
 import com.google.gerrit.server.restapi.change.PostReview;
 import com.google.gerrit.testing.FakeEmailSender;
 import com.google.gerrit.testing.FakeEmailSender.Message;
-import com.google.gerrit.testing.TestCommentHelper;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import java.sql.Timestamp;
@@ -99,8 +97,6 @@ public class CommentsIT extends AbstractDaemonTest {
   @Inject private ChangeOperations changeOperations;
   @Inject private AccountOperations accountOperations;
   @Inject private RequestScopeOperations requestScopeOperations;
-  @Inject private CommentsUtil commentsUtil;
-  @Inject private TestCommentHelper testCommentHelper;
 
   private final Integer[] lines = {0, 1};
 
@@ -1649,12 +1645,6 @@ public class CommentsIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).revision(revision).review(input);
   }
 
-  private void addComments(String changeId, CommentInput... commentInputs) throws Exception {
-    ReviewInput input = new ReviewInput();
-    input.comments = Arrays.stream(commentInputs).collect(groupingBy(c -> c.path));
-    gApi.changes().id(changeId).current().review(input);
-  }
-
   /**
    * All the commits, which contain the target comment before, should still contain the comment with
    * the updated message. All the other metas of the commits should be exactly the same.
@@ -1748,14 +1738,6 @@ public class CommentsIT extends AbstractDaemonTest {
     return gApi.changes().id(changeId).revision(revId).createDraft(in).get();
   }
 
-  private CommentInfo addDraft(Change.Id changeId, String revId, DraftInput in) throws Exception {
-    return gApi.changes().id(changeId.get()).revision(revId).createDraft(in).get();
-  }
-
-  private CommentInfo addDraft(String changeId, DraftInput in) throws Exception {
-    return gApi.changes().id(changeId).current().createDraft(in).get();
-  }
-
   private CommentInfo addDraft(Change.Id changeId, DraftInput in) throws Exception {
     return gApi.changes().id(changeId.get()).current().createDraft(in).get();
   }
@@ -1763,10 +1745,6 @@ public class CommentsIT extends AbstractDaemonTest {
   private void updateDraft(String changeId, String revId, DraftInput in, String uuid)
       throws Exception {
     gApi.changes().id(changeId).revision(revId).draft(uuid).update(in);
-  }
-
-  private void updateDraft(String changeId, DraftInput in, String uuid) throws Exception {
-    gApi.changes().id(changeId).current().draft(uuid).update(in);
   }
 
   private void updateDraft(Change.Id changeId, DraftInput in, String uuid) throws Exception {

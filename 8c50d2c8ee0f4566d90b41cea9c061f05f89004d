@@ -1,0 +1,153 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2d940bff_2a312e6c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "move to an enum ?",
+      "range": {
+        "startLine": 52,
+        "startChar": 6,
+        "endLine": 52,
+        "endChar": 17
+      },
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6d0deb90_cb186a6a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "nit: better add a note for every `!`",
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ccbcfe1f_8c8d15a5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "nit: i think its safe to default to false if we are not checking against null or undefined explicitly.",
+      "range": {
+        "startLine": 98,
+        "startChar": 2,
+        "endLine": 98,
+        "endChar": 12
+      },
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51f2151e_26c05b07",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "this can be init at here directly and you can remove whole constructor without changing any code logic",
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ff4200a_0261a9f4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 135,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "nit: `change.labels?.[labelName]`, ditto on other similar cases",
+      "range": {
+        "startLine": 135,
+        "startChar": 6,
+        "endLine": 135,
+        "endChar": 48
+      },
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "213e625c_edb1ab32",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "nit: maybe add a note to replace them with `u_green` in the future to remove the quotes and brackets",
+      "range": {
+        "startLine": 154,
+        "startChar": 6,
+        "endLine": 154,
+        "endChar": 17
+      },
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68f236a2_d53062f4",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T07:02:49Z",
+      "side": 1,
+      "message": "if change always exists, then no need to check for it. If we do check its existence, then we might want to keep it as `?`, you can take advantage of the optional chaining, so it doesn\u0027t really hurt that much i think.",
+      "range": {
+        "startLine": 235,
+        "startChar": 8,
+        "endLine": 235,
+        "endChar": 15
+      },
+      "revId": "8c50d2c8ee0f4566d90b41cea9c061f05f89004d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

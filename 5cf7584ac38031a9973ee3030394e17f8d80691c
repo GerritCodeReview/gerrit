@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d1d312c0_2da6cc85",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-16T16:04:06Z",
+      "side": 1,
+      "message": "I think shortening this would make it easier to read and \"find\" the note about replication_delay.\nSomething like:\n\n    These properties can be set with values matching specific deployment topologies under test. The\n    example values shown above are the currently coded default ones.\n    \n    NOTE: the `replication_delay` property should be set to a value that is higher than the\n    `replication_delay` configured for the plugin, otherwise test scenarios using that property may\n    expect a completed replication too early and fail.",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 20
+      },
+      "revId": "5cf7584ac38031a9973ee3030394e17f8d80691c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

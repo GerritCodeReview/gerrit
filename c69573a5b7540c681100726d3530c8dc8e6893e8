@@ -1,0 +1,1165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8ebeafa_6484c10f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "I\u0027m not done with the review yet. I\u0027ll continue tomorrow. Just posting my comments already so that you can factor them in while you\u0027re working on the caches.",
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "54d8f0bc_cfb0324d",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 44,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "This is still unused as in the previous changes. If this is about the auto-merge commit, I think it should be in another class, which is outside/separate of the diff caches.",
+      "range": {
+        "startLine": 44,
+        "startChar": 2,
+        "endLine": 44,
+        "endChar": 88
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1c462f0e_dbf7486c",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 176,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "I don\u0027t see how this method will be used by other classes than GitFileDiffCache. Do we need to have it in DiffUtil?",
+      "range": {
+        "startLine": 176,
+        "startChar": 36,
+        "endLine": 176,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c11d4550_50403782",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Where\u0027s the diff algorithm set?",
+      "range": {
+        "startLine": 179,
+        "startChar": 4,
+        "endLine": 179,
+        "endChar": 6
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2e877788_0bc5b623",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "What about the similarity threshold? What if you want to switch rename detection off?",
+      "range": {
+        "startLine": 182,
+        "startChar": 4,
+        "endLine": 182,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5adf2d82_c578a622",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 187,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "I would have expected this path filer to be sufficient. For which situation do we need the FollowFilter?",
+      "range": {
+        "startLine": 187,
+        "startChar": 28,
+        "endLine": 187,
+        "endChar": 65
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e791a2c6_af95a02b",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "We typically don\u0027t submit commented code. Is this path filer not working yet?",
+      "range": {
+        "startLine": 184,
+        "startChar": 0,
+        "endLine": 190,
+        "endChar": 34
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f5d59fa_925f4d20",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: Should be private.",
+      "range": {
+        "startLine": 75,
+        "startChar": 2,
+        "endLine": 75,
+        "endChar": 26
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f9ad5d2c_6a11d20a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: What about calling this \"gerrit_file_diff\" to avoid confusion among all the diff caches?",
+      "range": {
+        "startLine": 75,
+        "startChar": 30,
+        "endLine": 75,
+        "endChar": 41
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "55fc148f_8ebf03c7",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "As discussed, this shouldn\u0027t use the old PatchListEntry. Instead, we should design a new AutoValue + Protobuf which is structured in a reasonable way with a good choice of fields. This output value needs to be separate from the one returned by the GitFileDiffCache as we\u0027ll have additional fields like size and a flag for edits due to rebase.",
+      "range": {
+        "startLine": 83,
+        "startChar": 33,
+        "endLine": 83,
+        "endChar": 47
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afda234e_27f3b505",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "See my other comments about the need for a weigher.",
+      "range": {
+        "startLine": 84,
+        "startChar": 13,
+        "endLine": 84,
+        "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d23c06dd_b394d769",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: Should be private.",
+      "range": {
+        "startLine": 79,
+        "startChar": 2,
+        "endLine": 79,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71a86b19_a70b93f4",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: What about calling this \"git_file_diff\"?",
+      "range": {
+        "startLine": 79,
+        "startChar": 34,
+        "endLine": 79,
+        "endChar": 42
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d277c3e3_66c4b750",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "See my comment about the need of a weigher on the previous changes.",
+      "range": {
+        "startLine": 86,
+        "startChar": 12,
+        "endLine": 86,
+        "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c47b1372_d89f8422",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Do we still need this method if we have getAll()?",
+      "range": {
+        "startLine": 102,
+        "startChar": 21,
+        "endLine": 102,
+        "endChar": 24
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c141842c_7c56c94c",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Is there a reason to not use Iterable like LoadingCache#getAll does?",
+      "range": {
+        "startLine": 106,
+        "startChar": 47,
+        "endLine": 106,
+        "endChar": 57
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ee89bf6_a5d5b695",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "We shouldn\u0027t let the ExecutionException bubble up. Please add proper error handling. (Also for get() if we keep the method.)",
+      "range": {
+        "startLine": 106,
+        "startChar": 69,
+        "endLine": 106,
+        "endChar": 94
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "519ea3f9_450d7646",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit, here and in loadAll(): Unnecessary simicolon.",
+      "range": {
+        "startLine": 134,
+        "startChar": 77,
+        "endLine": 134,
+        "endChar": 78
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "62117e8e_ae7f736a",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Here and in loadAll(): I\u0027m a bit confused now. You claimed to introduce DiffUtils to share some code and here the DiffFormatter is not re-used from DiffUtils. I\u0027m not totally sold on sharing the DiffFormatter via DiffUtils as I\u0027m pretty sure that we need slightly different configurations of it for the two caches (e.g. whitespace setting including the formatter only for file diffs and not for modified fiels). The rest of the settings is simple enough that we can duplicate their configuration. I saw that some of the configurations of the DiffFormatter are in DiffUtils#getOneGitTreeDiff. That seems pretty far away from this code. I\u0027d have expected that we properly set up the DiffFormatter and later just call scan() on it. For the setup, I\u0027d have introduced a method which takes the Repository and ObjectReader (and anything it needs for config) and called that method in a try-with-resources statement, potentially close to the call of scan().\n\nAddendum: For loadAll(), I would be tempted to create a new DiffFormatter for each key. I\u0027m not entirely sure that re-using the DiffFormatter is safe. In addition, I don\u0027t see much disadvantages if we created a DiffFormatter each time if we pass in the ObjectReader to it.",
+      "range": {
+        "startLine": 134,
+        "startChar": 10,
+        "endLine": 134,
+        "endChar": 77
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7874a20_7e8fc081",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 141,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Should we ensure inside of loadAll() that this Iterable doesn\u0027t contain duplicate entries. I followed the calling hierarchy up a bit and LocalCache#getAll seems to feed a set into this method but I\u0027m not convinced that we should rely on this. Why don\u0027t we simply ignore duplicate keys inside loadAll() if they happen to occur?",
+      "range": {
+        "startLine": 141,
+        "startChar": 41,
+        "endLine": 141,
+        "endChar": 49
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b54c157_12eef836",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "What it be a lot of effort to create an ImmutableMap via a builder instead?",
+      "range": {
+        "startLine": 142,
+        "startChar": 6,
+        "endLine": 142,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d308ebcd_4878b038",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 143,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "The creation of this list is unnecessary if you just want to create a stream from it in line 145. You can simply use Streams#stream from Guava directly on the Iterable.",
+      "range": {
+        "startLine": 143,
+        "startChar": 6,
+        "endLine": 143,
+        "endChar": 51
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "715064c7_3bd027ab",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Good idea to open the repository only once per project!",
+      "range": {
+        "startLine": 148,
+        "startChar": 13,
+        "endLine": 148,
+        "endChar": 66
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "79eea5dd_4a67d7c7",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: Non-static call of static method.",
+      "range": {
+        "startLine": 168,
+        "startChar": 38,
+        "endLine": 168,
+        "endChar": 64
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b8bd4fe4_07a3dba0",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "The implementation of loadAll() is nearly meaningless if we don\u0027t combine several files for the same diff between commits into one call on DiffFormatter. Do you intend to still adjust this within this change? If not, can you add a todo?",
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3f1132_2d02489e",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "It\u0027s an interesting idea to not set the old/new file paths if there\u0027s no diff. Was that a deliberate choice? Do you think that it won\u0027t have negative side-effects for files which exist in the repository but are unchanged? (By the way, checking whether the file exists in the repository might involve a TreeWalk which we want to avoid in the GitFileDiffCache due to performance reasons.)\n\nIs it also intended that we\u0027d pile up such empty diffs if Gerrit gets calls on the diff endpoint for non-existing files? (I\u0027m not sure we can or want to avoid that but we should at least have thought about it.)\n\nOne general alternative would be to throw an exception and thus not cache any value for non-existent diffs. I haven\u0027t thought through whether that would be better.\n\nWhat are your thoughts?",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c31c253a_a39c96a1",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: Please strive to find descriptive names. I\u0027m used to abbreviations like \u0027rw\u0027 and \u0027df\u0027 by now (which are also not ideal) but I honestly stumbled upon \u0027de\u0027 as those two letters weren\u0027t even an abbreviation of the type. I only realized after some moments that you likely use \u0027de\u0027 as an abbreviation for @DiffExecutor. In new code, we should try to use descriptive and pronounceable names.",
+      "range": {
+        "startLine": 219,
+        "startChar": 40,
+        "endLine": 219,
+        "endChar": 42
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c50a0f90_90eab987",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "What do you mean by this?",
+      "range": {
+        "startLine": 226,
+        "startChar": 11,
+        "endLine": 226,
+        "endChar": 52
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8a7b756_b88eab83",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit: Does this comment need an update now that the code isn\u0027t in PatchListCacheImpl anymore?",
+      "range": {
+        "startLine": 231,
+        "startChar": 23,
+        "endLine": 231,
+        "endChar": 55
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "656cfd71_b55e62af",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "I had been curious what you\u0027d do with this timeout mechanism especially now that the cache key explicitly sets an algorithm and the fallback here simply switches to another diff algorithm. I\u0027m a bit surprised that you just copied the code. Did you consider to move the timeout to the FileDiffCache or even the Diffs facade? (The executor would need to move along of course.) In that situation, we could use a special value for the diff algorithm enum to map to this special fallback algorithm.\n\nBefore you now suggest that we simply remove the diff algorithm from the key, I would like to note that I introduced it on purpose. My intention is that the GitFileDiffCache stays as stable as possible and that all parameters influencing the diff calculation are part of the key. If we want to make adjustments to Gerrit\u0027s behavior, we can tune the code and settings in the Diffs facade and the FileDiffCache later. The timeout mechanism here is one of the things we should get rid off in the future. It has quite some issues. We likely don\u0027t need it anymore but we don\u0027t know for sure yet. I\u0027d like to give us the possibility that we can easily remove it in the future without touching the GitFileDiffCache.",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 260,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1f8dbf53_cccab68e",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Adjusting the DiffFormatter which is shared among ALL keys means that we change the used algorithm for all further evaluated keys even the ones of different changes/patchsets. Is this intended?",
+      "range": {
+        "startLine": 273,
+        "startChar": 8,
+        "endLine": 273,
+        "endChar": 54
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb821c07_8efe5df4",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Couldn\u0027t this be just a normal class instead of an assisted factory? All parameters are directly passed into it.",
+      "range": {
+        "startLine": 282,
+        "startChar": 6,
+        "endLine": 291,
+        "endChar": 0
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c58054e7_6bfb986d",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 322,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Nit, here and below: The formatting of the comments is a bit strange.",
+      "range": {
+        "startLine": 317,
+        "startChar": 10,
+        "endLine": 322,
+        "endChar": 26
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e242f0a8_03fac08a",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Did you write Myers here as you saw that from some code? I\u0027m actually pretty sure that we currently use the histogram algorithm, which only uses Myers as fallback by default when it runs into special, problematic cases.",
+      "range": {
+        "startLine": 350,
+        "startChar": 6,
+        "endLine": 350,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8a2c8ce5_35c40dc7",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 353,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "As written in other comments, I\u0027d recommend an AutoValue.Builder here.",
+      "range": {
+        "startLine": 353,
+        "startChar": 22,
+        "endLine": 353,
+        "endChar": 28
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2943755_d73a9e41",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Should this behave just like the rename threshold on the GitModifiedFilesCache? If so, we should use the same format and restrictions (e.g. 0-100). We should also apply the same approach to switching rename detection off (e.g. with a magic value as I suggested for the GitModifiedFilesCache which is powered by an additional convenience method). This also means we need a Javadoc description which explains what this value here is and what the allowed values are.",
+      "range": {
+        "startLine": 374,
+        "startChar": 28,
+        "endLine": 374,
+        "endChar": 45
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4b46cf_8208eeb3",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 374,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "The similarity threshold should always be set from outside. There shouldn\u0027t be a default inside this cache.",
+      "range": {
+        "startLine": 373,
+        "startChar": 4,
+        "endLine": 374,
+        "endChar": 46
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17e2d867_5bb80c8d",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 377,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Like the similarity threshold, the diff algorithm should always be specified and has no default value inside the cache.",
+      "range": {
+        "startLine": 376,
+        "startChar": 4,
+        "endLine": 377,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9fbce65e_8e458ae7",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Please use a proper name for such a public field/method.",
+      "range": {
+        "startLine": 379,
+        "startChar": 51,
+        "endLine": 379,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e7c4074f_bf1d1b31",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 379,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Please see my other comment about this type on the previous change.",
+      "range": {
+        "startLine": 379,
+        "startChar": 20,
+        "endLine": 379,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3117239d_abf5ea58",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "We shouldn\u0027t have this class which encapsulates JGit\u0027s FileHeader class. Apart from JGit\u0027s FileHeader class not being safe to use in an AutoValue, we really don\u0027t want to serialize this class as a cache value. Knowing the old diff caches and the diff_header field of DiffInfo [1], I\u0027d expect that we only need to store the string-based header lines in the cache value. That version is something we can generate inside of the GitFileDiffCache.\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-info",
+      "range": {
+        "startLine": 23,
+        "startChar": 22,
+        "endLine": 23,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1096038_0375e437",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "This is still the old code which leads to the same weird behavior of oldPath and newPath in PatchListEntry. We don\u0027t want that for the new caches. In the new caches, the oldPath should really contain the old path (-\u003e should be set for a deletion) and the newPath should be empty.",
+      "range": {
+        "startLine": 30,
+        "startChar": 2,
+        "endLine": 63,
+        "endChar": 0
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4240cc92_fea293d4",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileHeader.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "As this method shows, the value REWRITE is never generated. That value and all its handling in Gerrit\u0027s code seems to be dead code to me. Please remove it (-\u003e separate change?).",
+      "range": {
+        "startLine": 64,
+        "startChar": 20,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "48990d2d_153eeb3c",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "As discussed, please directly use Protobuf serialization.",
+      "range": {
+        "startLine": 26,
+        "startChar": 34,
+        "endLine": 26,
+        "endChar": 57
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "59dc64c5_77cb101b",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Given the amount of the fields and that oldXxx and newXxx can be easily switched erroneously, I\u0027d recommend the use of an AutoValue.Builder.",
+      "range": {
+        "startLine": 27,
+        "startChar": 28,
+        "endLine": 27,
+        "endChar": 34
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77cc4ea3_0a931cc6",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Why are the edits marked as nullable? Can\u0027t we simply use an empty list?",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f031e6fc_c058d75e",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "We need to use an immutable type here. -\u003e ImmutableList or ImmutableSet.",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 22
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a1c0f72c_0000cc17",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 47,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "As mentioned in other comments, please use Optional instead of @Nullable in AutoValues.",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 47,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f3ec6cf_66736938",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Doesn\u0027t the GitModifiedFilesCache use oldPath() and newPath() for the file paths? If so, shouldn\u0027t we also use oldPath() and newPath() here for consistency?",
+      "range": {
+        "startLine": 48,
+        "startChar": 25,
+        "endLine": 48,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c42c6466_0ee0a5f8",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "Is there a reason to use Long + nullable instead of the primitive type long? In the old caches, we used long and simply put any value (even fallbacks like 0 for non-blobs) into the mandatory field \u0027size\u0027 of FileInfo [1]. Do you intend to use a different approach?\n\n[1] https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#file-info",
+      "range": {
+        "startLine": 54,
+        "startChar": 18,
+        "endLine": 54,
+        "endChar": 22
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94f363d5_c5d6ec79",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitFileDiff.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T17:28:08Z",
+      "side": 1,
+      "message": "According to the design, the size computation is in the FileDiffCache and not the GitFileDiffCache. That\u0027s crucial as we don\u0027t want to waste time on the size computation in the GitFileDiffCache even though not all callers of the GitFileDiffCache need the size. Please move it to the FileDiffCache.",
+      "range": {
+        "startLine": 54,
+        "startChar": 23,
+        "endLine": 54,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

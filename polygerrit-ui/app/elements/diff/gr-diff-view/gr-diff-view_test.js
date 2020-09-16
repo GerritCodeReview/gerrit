@@ -1266,18 +1266,16 @@ suite('gr-diff-view tests', () => {
       assert.isTrue(getUrlStub.called);
     });
 
-    test('_onLineSelected w/o line address', () => {
+    test('_onLineSelected', () => {
       const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
       sinon.stub(history, 'replaceState');
-      sinon.stub(element.$.cursor, 'moveToLineNumber');
-      sinon.stub(element.$.cursor, 'getAddress').returns(null);
       element._changeNum = 321;
       element._change = {_number: 321, project: 'foo/bar'};
       element._patchRange = {basePatchNum: '3', patchNum: '5'};
       element._onLineSelected({}, {number: 123, side: 'right'});
       assert.isTrue(getUrlStub.calledOnce);
-      assert.isUndefined(getUrlStub.lastCall.args[5]);
-      assert.isUndefined(getUrlStub.lastCall.args[6]);
+      assert.equal(getUrlStub.lastCall.args[5], 123);
+      assert.isFalse(getUrlStub.lastCall.args[6]);
     });
 
     test('_getDiffViewMode', () => {

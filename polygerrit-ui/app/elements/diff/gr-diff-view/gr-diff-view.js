@@ -1208,9 +1208,10 @@ class GrDiffView extends KeyboardShortcutMixin(
 
   _onLineSelected(e, detail) {
     if (!this._change) { return; }
-    const cursorAddress = this.$.cursor.getAddress();
-    const number = cursorAddress ? cursorAddress.number : undefined;
-    const leftSide = cursorAddress ? cursorAddress.leftSide : undefined;
+    const number = detail.number;
+    // for on-comment-anchor-tap side can be PARENT/REVISIONS
+    // for on-line-selected side can be LEFT/RIGHT
+    const leftSide = detail.side === 'LEFT' || detail.side === 'PARENT';
     const url = GerritNav.getUrlForDiffById(this._changeNum,
         this._change.project, this._path, this._patchRange.patchNum,
         this._patchRange.basePatchNum, number, leftSide);

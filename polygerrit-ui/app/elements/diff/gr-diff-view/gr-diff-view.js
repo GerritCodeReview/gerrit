@@ -1209,7 +1209,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   _onLineSelected(e, detail) {
     if (!this._change) { return; }
     const cursorAddress = this.$.cursor.getAddress();
-    const number = cursorAddress ? cursorAddress.number : undefined;
+    const number = detail.number;
     const leftSide = cursorAddress ? cursorAddress.leftSide : undefined;
     const url = GerritNav.getUrlForDiffById(this._changeNum,
         this._change.project, this._path, this._patchRange.patchNum,

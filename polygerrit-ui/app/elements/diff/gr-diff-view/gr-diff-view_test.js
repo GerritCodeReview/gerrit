@@ -1276,7 +1276,7 @@ suite('gr-diff-view tests', () => {
       element._patchRange = {basePatchNum: '3', patchNum: '5'};
       element._onLineSelected({}, {number: 123, side: 'right'});
       assert.isTrue(getUrlStub.calledOnce);
-      assert.isUndefined(getUrlStub.lastCall.args[5]);
+      assert.equal(getUrlStub.lastCall.args[5], 123);
       assert.isUndefined(getUrlStub.lastCall.args[6]);
     });
 

@@ -16,6 +16,23 @@
       "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4a1b5aa2_10f98ff2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-16T11:02:35Z",
+      "side": 1,
+      "message": "Did you actually experience the NPE in any test or production environments?\nIf yes, can you raise a bug with https://bugs.chromium.org/p/gerrit/issues/entry and add the Bug: Issue NNN footer?",
+      "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

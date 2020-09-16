@@ -22,7 +22,6 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.SubmoduleSubscription;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
@@ -30,7 +29,6 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
@@ -38,7 +36,6 @@ import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 public class SubmoduleOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -46,16 +43,16 @@ public class SubmoduleOp {
   @Singleton
   public static class Factory {
     private final SubscriptionGraph.Factory subscriptionGraphFactory;
-    private final Provider<PersonIdent> serverIdent;
     private final Config cfg;
+    private final SubmoduleCommits.Factory submoduleCommitsFactory;
 
     @Inject
     Factory(
         SubscriptionGraph.Factory subscriptionGraphFactory,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent,
+        SubmoduleCommits.Factory submoduleCommitsFactory,
         @GerritServerConfig Config cfg) {
       this.subscriptionGraphFactory = subscriptionGraphFactory;
-      this.serverIdent = serverIdent;
+      this.submoduleCommitsFactory = submoduleCommitsFactory;
       this.cfg = cfg;
     }
 
@@ -69,7 +66,7 @@ public class SubmoduleOp {
         subscriptionGraph =
             SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
       }
-      return new SubmoduleOp(serverIdent.get(), cfg, orm, subscriptionGraph);
+      return new SubmoduleOp(orm, subscriptionGraph, submoduleCommitsFactory.create(orm));
     }
   }
 
@@ -78,13 +75,12 @@ public class SubmoduleOp {
   private final SubmoduleCommits submoduleCommits;
 
   private SubmoduleOp(
-      PersonIdent myIdent,
-      Config cfg,
       MergeOpRepoManager orm,
-      SubscriptionGraph subscriptionGraph) {
+      SubscriptionGraph subscriptionGraph,
+      SubmoduleCommits submoduleCommits) {
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
-    this.submoduleCommits = new SubmoduleCommits(orm, myIdent, cfg);
+    this.submoduleCommits = submoduleCommits;
   }
 
   // TODO(ifrade): subscription graph should be instantiated somewhere else and passed to

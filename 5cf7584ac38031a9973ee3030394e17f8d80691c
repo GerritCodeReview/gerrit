@@ -22,6 +22,30 @@
       "revId": "5cf7584ac38031a9973ee3030394e17f8d80691c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db1aa8e1_e727261c",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-16T21:17:21Z",
+      "side": 1,
+      "message": "\u003e I think shortening this would make it easier to read and \"find\" the note about replication_delay.\n\u003e Something like:\n\u003e \n\u003e     These properties can be set with values matching specific deployment topologies under test. The\n\u003e     example values shown above are the currently coded default ones.\n\u003e     \n\u003e     NOTE: the `replication_delay` property should be set to a value that is higher than the\n\u003e     `replication_delay` configured for the plugin, otherwise test scenarios using that property may\n\u003e     expect a completed replication too early and fail.\n\nI restructured the sub-sections to improve the finding issue; thanks. I also simplified the writing of the text added by this change. I didn\u0027t touch the text that this change only moves around, though. (Beside that needful adaptation mentioned in the patched commit message.) -The other text may still be amended through dedicated follow-ups.",
+      "parentUuid": "d1d312c0_2da6cc85",
+      "range": {
+        "startLine": 176,
+        "startChar": 0,
+        "endLine": 184,
+        "endChar": 20
+      },
+      "revId": "5cf7584ac38031a9973ee3030394e17f8d80691c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -197,6 +197,7 @@ suite('gr-router tests', () => {
       '_handleImproperlyEncodedPlusRoute',
       '_handlePassThroughRoute',
       '_handleProjectDashboardRoute',
+      '_handleLegacyProjectDashboardRoute',
       '_handleProjectsOldRoute',
       '_handleRepoAccessRoute',
       '_handleRepoDashboardsRoute',
@@ -615,6 +616,14 @@ suite('gr-router tests', () => {
       redirectStub = sinon.stub(element, '_redirect');
       setParamsStub = sinon.stub(element, '_setParams');
       handlePassThroughRoute = sinon.stub(element, '_handlePassThroughRoute');
+    });
+
+    test('_handleLegacyProjectDashboardRoute', () => {
+      const params = {0: 'gerrit/project', 1: 'dashboard:main'};
+      element._handleLegacyProjectDashboardRoute({params});
+      assert.isTrue(redirectStub.calledOnce);
+      assert.equal(redirectStub.lastCall.args[0],
+          '/p/gerrit/project/+/dashboard/dashboard:main');
     });
 
     test('_handleAgreementsRoute', () => {

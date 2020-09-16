@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "422ab692_33227f6e",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-16T20:22:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f98e514c_9127ed6f",
+      "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2400707e_b76a51e2",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "cf57123f_91732427",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-16T20:22:26Z",
+      "side": 1,
+      "message": "I made it optional because this.patchNum is optional. This.patchNum is optional because _paramsChanged needs to be call to fill it. \n\nI don\u0027t think we can expect in future that patchnum will be required.",
+      "parentUuid": "2400707e_b76a51e2",
+      "range": {
+        "startLine": 234,
+        "startChar": 5,
+        "endLine": 234,
+        "endChar": 61
+      },
+      "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bc01ab03_b04a5b71",
         "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
         "patchSetId": 3
@@ -62,6 +104,30 @@
       "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90646d5d_4d771d9c",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-16T20:22:26Z",
+      "side": 1,
+      "message": "currently if patchnum is undefined, we send request with undefined, and I think server will send back some kind of error.\n\nIt\u0027s not good idea to call this with undefined.",
+      "parentUuid": "bc01ab03_b04a5b71",
+      "range": {
+        "startLine": 241,
+        "startChar": 7,
+        "endLine": 241,
+        "endChar": 21
+      },
+      "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

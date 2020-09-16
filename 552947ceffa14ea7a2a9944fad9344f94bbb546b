@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "80dcf1d4_aac7ab8f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T12:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "276e88e1_9abbc3ec",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e911c6c_84608803",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 7
@@ -33,6 +51,24 @@
       "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "196644e4_322e41a2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T12:05:57Z",
+      "side": 1,
+      "message": "```Are there no diffs just because there are no threads```\nNo diffs because no threads? Not sure this is what the message implies. I think it says no comments on any diff.\n\nAnyway, updated to use \"No comments yet.\". Shorter and more clear,",
+      "parentUuid": "6e911c6c_84608803",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -59,6 +95,30 @@
     },
     {
       "key": {
+        "uuid": "335b5a43_ee69eef6",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 102,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T12:05:57Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "77682ce9_089dd917",
+      "range": {
+        "startLine": 102,
+        "startChar": 13,
+        "endLine": 102,
+        "endChar": 35
+      },
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0f21ec57_fcb3a2c2",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 7
@@ -73,6 +133,24 @@
       "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e02cd413_a0c01f36",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T12:05:57Z",
+      "side": 1,
+      "message": "This is just to make TS happy. This should ideally never be executed. _showEmptyThreadsMessage ensures one of the above two code paths will always be executed. \nI guess I can update to directly return \u0027No unresolved comments\u0027 but I thought it might be less clear.\nUpdated now.",
+      "parentUuid": "0f21ec57_fcb3a2c2",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -99,6 +177,30 @@
     },
     {
       "key": {
+        "uuid": "9b6d3949_cab456b9",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 7
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T12:05:57Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "34c82ca9_806953d9",
+      "range": {
+        "startLine": 110,
+        "startChar": 37,
+        "endLine": 110,
+        "endChar": 45
+      },
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1d99c76c_6b3ebba0",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
         "patchSetId": 7
@@ -113,6 +215,24 @@
       "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a53eca4e_a11fff2c",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T12:05:57Z",
+      "side": 1,
+      "message": "Yeah, checked the mocks. added 8px.",
+      "parentUuid": "1d99c76c_6b3ebba0",
+      "revId": "552947ceffa14ea7a2a9944fad9344f94bbb546b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

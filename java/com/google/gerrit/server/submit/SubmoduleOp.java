@@ -20,6 +20,7 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
+import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -51,21 +52,25 @@ public class SubmoduleOp {
         Map<BranchNameKey, ReceiveCommand> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
       return new SubmoduleOp(
+          updatedBranches,
           orm,
           subscriptionGraphFactory.compute(updatedBranches.keySet(), orm),
           submoduleCommitsFactory.create(orm));
     }
   }
 
+  private final Map<BranchNameKey, ReceiveCommand> updatedBranches;
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
   private final SubmoduleCommits submoduleCommits;
   private final UpdateOrderCalculator updateOrderCalculator;
 
   private SubmoduleOp(
+      Map<BranchNameKey, ReceiveCommand> updatedBranches,
       MergeOpRepoManager orm,
       SubscriptionGraph subscriptionGraph,
       SubmoduleCommits submoduleCommits) {
+    this.updatedBranches = updatedBranches;
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
     this.submoduleCommits = submoduleCommits;
@@ -77,10 +82,16 @@ public class SubmoduleOp {
     return subscriptionGraph.hasSuperproject(branch);
   }
 
-  public void updateSuperProjects() throws RestApiException {
+  public void updateSuperProjects(boolean dryrun) throws RestApiException {
     ImmutableSet<Project.NameKey> projects = updateOrderCalculator.getProjectsInOrder();
     if (projects == null) {
       return;
+    }
+
+    if (dryrun) {
+      // On dryrun, the refs hasn't been updated.
+      // force the new tips on submoduleCommits
+      forceRefTips(updatedBranches, submoduleCommits);
     }
 
     LinkedHashSet<Project.NameKey> superProjects = new LinkedHashSet<>();
@@ -98,9 +109,29 @@ public class SubmoduleOp {
           }
         }
       }
-      BatchUpdate.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, false);
+      BatchUpdate.execute(orm.batchUpdates(superProjects), BatchUpdateListener.NONE, dryrun);
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
+    }
+  }
+
+  private void forceRefTips(
+      Map<BranchNameKey, ReceiveCommand> updatedBranches, SubmoduleCommits submoduleCommits) {
+    for (Map.Entry<BranchNameKey, ReceiveCommand> updateBranch : updatedBranches.entrySet()) {
+      try {
+        ReceiveCommand command = updateBranch.getValue();
+        // This is dryrun, all commands succeeded
+        if (command.getType() == ReceiveCommand.Type.DELETE) {
+          continue;
+        }
+
+        BranchNameKey branchNameKey = updateBranch.getKey();
+        OpenRepo openRepo = orm.getRepo(branchNameKey.project());
+        CodeReviewCommit fakeTip = openRepo.rw.parseCommit(command.getNewId());
+        submoduleCommits.addBranchTip(branchNameKey, fakeTip);
+      } catch (NoSuchProjectException | IOException e) {
+        throw new StorageException("Cannot update gitlinks", e);
+      }
     }
   }
 }

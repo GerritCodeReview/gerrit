@@ -198,6 +198,30 @@
       "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6e07137_027e1c1d",
+        "filename": "javatests/com/google/gerrit/server/cache/PersistentCacheFactoryIT.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-16T07:52:20Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "eea3f561_8456b4f1",
+      "range": {
+        "startLine": 50,
+        "startChar": 4,
+        "endLine": 50,
+        "endChar": 59
+      },
+      "revId": "dbe05b0b9c105a7b415f57e59ee0a5030640b8a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

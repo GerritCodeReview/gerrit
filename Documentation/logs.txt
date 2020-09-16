@@ -1,0 +1,174 @@
+= Gerrit Code Review - Logs
+
+Gerrit writes log files in the `$site_path/logs/` folder tracking requests,
+background and plugin activity and errors. By default logs are written in
+link:config-gerrit.html#log.textLogging[text format], optionally in
+link:config-gerrit.html#log.jsonLogging[JSON format].
+By default log files are link:config-gerrit.html#log.compress[compressed]
+at server startup and then daily at 11pm and
+link:config-gerrit.html#log.rotate[rotated] every midnight.
+
+== Logs
+
+The following logs can be written.
+
+=== HTTPD Log
+
+The httpd log tracks HTTP requests processed by Gerrit's http daemon
+and is written to `$site_path/logs/httpd_log`. Enabled or disabled via the
+link:config-gerrit.html#httpd.requestLog[httpd.requestLog] option.
+
+Format is an enhanced
+link:https://httpd.apache.org/docs/2.4/logs.html#combined[NCSA combined log],
+if a log field is not present, a "-" is substituted:
+
+* `host`: The IP address of the HTTP client that made the HTTP resource request.
+  If you are using a reverse proxy it depends on the proxy configuration if the
+  proxy IP address or the client IP address is logged.
+* `[thread name]`: name of the Java thread executing the request.
+* `remote logname`:  the identifier used to
+  link: https://tools.ietf.org/html/rfc1413[identify the client making the HTTP request],
+  Gerrit always logs a dash `-`.
+* `username`: the username used by the client for authentication. "-" for
+  anonymous requests.
+* `[date:time]`: The date and time stamp of the HTTP request.
+  The time that the request was received. The format is until Gerrit 3.1
+  `[dd/MMM/yyyy:HH:mm:ss.SSS ZZZZ]`. For Gerrit 3.2 or newer
+  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
+  is used for all timestamps.
+* `request`: The request line from the client is given in double quotes.
+** the HTTP method used by the client.
+** the resource the client requested.
+** the protocol/version used by the client.
+* `statuscode`: the link:https://tools.ietf.org/html/rfc2616#section-10[HTTP status code]
+  that the server sent back to the client.
+* `response size`: the number of bytes of data transferred as part of the HTTP
+  response, not including the HTTP header.
+* `latency`: response time in milliseconds.
+* `referer`: the `Referer` HTTP request header. This gives the site that
+  the client reports having been referred from.
+* `client agent`: the client agent which sent the request.
+
+Example:
+```
+12.34.56.78 [HTTP-4136374] - johndoe [28/Aug/2020:10:02:20 +0200] "GET /a/plugins/metrics-reporter-prometheus/metrics HTTP/1.1" 200 1247498 1900 - "Prometheus/2.13.1"
+```
+
+=== SSHD Log
+
+The sshd log tracks ssh requests processed by Gerrit's ssh daemon
+and is written to `$site_path/logs/sshd_log`. Enabled or disabled
+via option link:config-gerrit.html#sshd.requestLog[sshd.requestLog].
+
+Log format:
+
+* `[date time]`: The time that the request was received.
+  The format is until Gerrit 3.1 `[yyyy-mm-dd HH:mm:ss.SSS ZZZZ]`.
+  For Gerrit 3.2 or newer
+  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
+  is used for all timestamps.
+* `sessionid`: hexadecimal session identifier, all requests of the
+  same connection share the same sessionid. Gerrit does not support multiplexing multiple
+  sessions on the same connection. Grep the log file using the sessionid as filter to
+  get all requests from that session.
+* `[thread name]`: name of the Java thread executing the request.
+* `username`: the username used by the client for authentication.
+* `a/accountid`: identifier of the Gerrit account which is logged on.
+* `operation`: the operation being executed via ssh.
+** `LOGIN FROM <host>`: login and start new SSH session from the given host.
+** `AUTH FAILURE FROM <host> <message>`: failed authentication from given host and cause of failure.
+** `LOGOUT`: logout and terminate SSH session.
+** `git-upload-pack.<projectname>`: git fetch or clone command for given project.
+** `git-receive-pack.<projectname>`: git push command for given project.
+** Gerrit ssh commands which may be logged in this field are documented
+   link:cmd-index.html#_server[here].
+* `wait`: command wait time, time in milliseconds the command waited for an execution thread.
+* `exec`: command execution time, time in milliseconds to execute the command.
+* `status`: status code. 0 means success, any other value is an error.
+
+The `git-upload-pack` command provides the following additional fields after the `exec`
+and before the `status` field. All times are in milliseconds. Fields are -1 if not available
+when the upload-pack request returns an empty result since the client's repository was up to date:
+
+* `time negotiating`: time for negotiating which objects need to be transferred.
+* `time searching for reuse`: time jgit searched for deltas which can be reused.
+  That is the time spent matching existing representations against objects that
+  will be transmitted, or that the client can be assumed to already have.
+* `time searching for sizes`: time jgit was searching for sizes of all objects that
+  will enter the delta compression search window. The sizes need to
+  be known to better match similar objects together and improve
+  delta compression ratios.
+* `time counting`: time jgit spent enumerating the objects that need to
+  be included in the output. This time includes any restarts that
+  occur when a cached pack is selected for reuse.
+* `time compressing`: time jgit was compressing objects.  This is observed
+  wall-clock time and does not accurately track CPU time used when
+  multiple threads were used to perform the delta compression.
+* `time writing`: time jgit needed to write packfile, from start of
+  header until end of trailer. The transfer speed can be
+  approximated by dividing `total bytes` by this value.
+* `total time in UploadPack`: total time jgit spent in upload-pack.
+* `bitmap index misses`: number of misses when trying to use bitmap index,
+  -1 means no bitmap index available. This is the count of objects that
+  needed to be discovered through an object walk because they were not found
+  in bitmap indices.
+* `total deltas`: total number of deltas transferred. This may be lower than the actual
+  number of deltas if a cached pack was reused.
+* `total objects`: total number of objects transferred. This total includes
+  the value of `total deltas`.
+* `total bytes`: total number of bytes transferred. This size includes the pack
+  header, trailer, thin pack, and reused cached packs.
+* `client agent`: the client agent and version which sent the request.
+
+Example: a CI system established a SSH connection, sent an upload-pack command (git fetch) and closed the connection:
+```
+[2020-08-28 11:00:01,391 +0200] 8a154cae [sshd-SshServer[570fc452]-nio2-thread-299] voter a/1000023 LOGIN FROM 12.34.56.78
+[2020-08-28 11:00:01,556 +0200] 8a154cae [SSH git-upload-pack /AP/ajs/jpaas-msg-svc.git (voter)] voter a/1000056 git-upload-pack./demo/project.git 0ms 115ms 92ms 1ms 0ms 6ms 0ms 0ms 7ms 3 10 26 2615 0 git/2.26.2
+[2020-08-28 11:00:01,583 +0200] 8a154cae [sshd-SshServer[570fc452]-nio2-thread-168] voter a/1000023 LOGOUT
+```
+
+=== Error Log
+
+The error log tracks errors and stack traces and is written to
+`$site_path/logs/error_log`.
+
+Log format:
+
+* `[date time]`: The time that the request was received.
+  The format is until Gerrit 3.1 `[yyyy-mm-dd HH:mm:ss.SSS ZZZZ]`.
+  For Gerrit 3.2 or newer
+  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
+  is used for all timestamps.
+* `[thread name]`: : name of the Java thread executing the request.
+* `level`: log level (ERROR, WARN, INFO, DEBUG).
+* `logger`: name of the logger.
+* `message`: log message.
+* `stacktrace`: Java stacktrace when an execption was caught, usually spans multiple lines.
+
+=== GC Log
+
+The gc log tracks git garbage collection running in a background thread
+if enabled and is written to `$site_path/logs/gc_log`.
+
+Log format:
+
+* `[date time]`: The time that the request was received.
+  The format is until Gerrit 3.1 `[yyyy-mm-dd HH:mm:ss.SSS ZZZZ]`.
+  For Gerrit 3.2 or newer
+  link:https://www.w3.org/TR/NOTE-datetime[ISO 8601 format] `[yyyy-MM-dd'T'HH:mm:ss,SSSZ]`
+  is used for all timestamps.
+* `level`: log level (ERROR, WARN, INFO, DEBUG).
+* `message`: log message.
+
+=== Plugin Logs
+
+Some plugins write their own log file.
+E.g. the replication plugin writes its log to `$site_path/logs/replication_log`.
+Refer to each plugin's documentation for more details on their logs.
+
+GERRIT
+------
+Part of link:index.html[Gerrit Code Review]
+
+SEARCHBOX
+---------

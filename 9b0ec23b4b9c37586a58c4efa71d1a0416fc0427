@@ -140,6 +140,29 @@
     },
     {
       "key": {
+        "uuid": "6dfa2c64_acd4e35a",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 140,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T07:32:11Z",
+      "side": 1,
+      "message": "With the current design of the cache key, aId can never be null as the aTree() has to be set. Which makes me wonder: Do the (Git)ModifiedFiles caches still support root commits? (We might not have a test for them yet.)",
+      "range": {
+        "startLine": 138,
+        "startChar": 4,
+        "endLine": 140,
+        "endChar": 5
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c07890e9_44bdaa26",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
         "patchSetId": 3
@@ -335,6 +358,30 @@
       "writtenOn": "2020-09-15T18:43:03Z",
       "side": 1,
       "message": "As discussed, this should be a getAll(Iterable\u003cKey) method.",
+      "range": {
+        "startLine": 64,
+        "startChar": 30,
+        "endLine": 64,
+        "endChar": 42
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a61c34d5_8a6db71e",
+        "filename": "java/com/google/gerrit/server/patch/GitModifiedFilesCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T07:32:11Z",
+      "side": 1,
+      "message": "I just remembered that the getAll() for the (Git)ModifiedFiles caches are not necessary for the design. We can of course add the possibility to do several lookups in one go but that\u0027s just a nice to have. It might make sense for the three calls from the ModifiedFilesCache to the GitModifiedFilesCache to be sent together to just have one lookup in the persistent storage but I\u0027m not sure whether that brings us a lot of benefits. For the implementation of the loadAll() method in the Loader, I wouldn\u0027t expect much synergies. So, it\u0027s up to you whether you want to offer the getAll() on this cache.",
+      "parentUuid": "2d3297dd_000e59f1",
       "range": {
         "startLine": 64,
         "startChar": 30,
@@ -1266,6 +1313,30 @@
       "writtenOn": "2020-09-15T18:43:03Z",
       "side": 1,
       "message": "Should be ImmutableList.",
+      "range": {
+        "startLine": 13,
+        "startChar": 18,
+        "endLine": 13,
+        "endChar": 22
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "89a55ab6_22346cec",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFilesList.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T07:32:11Z",
+      "side": 1,
+      "message": "Or rather, why don\u0027t we use an ImmutableSet? We don\u0027t care about a special order, do we? And we don\u0027t expect (or need) duplicates, do we? Hence, can we switch to an ImmutableSet?",
+      "parentUuid": "68227f5c_7967756f",
       "range": {
         "startLine": 13,
         "startChar": 18,

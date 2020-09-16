@@ -125,7 +125,7 @@ public class IndexHtmlUtil {
 
     Set<String> enabledExperiments = experimentData(urlParameterMap);
     if (!enabledExperiments.isEmpty()) {
-      data.put("enabledExperiments", serializeObject(GSON, enabledExperiments));
+      data.put("enabledExperiments", serializeObject(GSON, enabledExperiments).toString());
     }
     return data.build();
   }

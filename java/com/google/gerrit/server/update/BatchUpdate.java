@@ -20,6 +20,7 @@ import static com.google.common.collect.ImmutableMultiset.toImmutableMultiset;
 import static com.google.common.flogger.LazyArgs.lazy;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
+import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 import com.google.common.base.Throwables;
@@ -33,6 +34,7 @@ import com.google.common.flogger.FluentLogger;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.PatchSet.Id;
@@ -82,6 +84,7 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
+import org.eclipse.jgit.transport.ReceiveCommand.Result;
 
 /**
  * Helper for a set of change updates that should be applied to the NoteDb database.
@@ -460,6 +463,17 @@ public class BatchUpdate implements AutoCloseable {
 
   public Map<String, ReceiveCommand> getRefUpdates() {
     return repoView != null ? repoView.getCommands().getCommands() : ImmutableMap.of();
+  }
+
+  /**
+   * Return the references successfully updated by this BatchUpdate with their command. In dryrun,
+   * we assume all updates were successful.
+   */
+  public Map<BranchNameKey, ReceiveCommand> getSuccessfullyUpdatedBranches(boolean dryrun) {
+    return getRefUpdates().entrySet().stream()
+        .filter(entry -> dryrun || entry.getValue().getResult() == Result.OK)
+        .collect(
+            toMap(entry -> BranchNameKey.create(project, entry.getKey()), Map.Entry::getValue));
   }
 
   public BatchUpdate addOp(Change.Id id, BatchUpdateOp op) {

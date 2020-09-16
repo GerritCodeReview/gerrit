@@ -29,6 +29,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.CommentsUtil;
+import com.google.gerrit.server.change.CommentThread;
+import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
@@ -43,6 +45,7 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -102,8 +105,18 @@ public class CommentPorter {
 
   private ImmutableList<HumanComment> filterToRelevant(
       List<HumanComment> allComments, PatchSet targetPatchset) {
-    return allComments.stream()
-        .filter(comment -> comment.key.patchSetId < targetPatchset.number())
+    ImmutableList<HumanComment> previousPatchsetsComments =
+        allComments.stream()
+            .filter(comment -> comment.key.patchSetId < targetPatchset.number())
+            .collect(toImmutableList());
+
+    ImmutableSet<CommentThread<HumanComment>> commentThreads =
+        CommentThreads.forComments(previousPatchsetsComments).getThreads();
+
+    return commentThreads.stream()
+        .filter(CommentThread::unresolved)
+        .map(CommentThread::comments)
+        .flatMap(Collection::stream)
         .collect(toImmutableList());
   }
 

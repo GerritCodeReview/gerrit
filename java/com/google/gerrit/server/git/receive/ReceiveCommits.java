@@ -719,6 +719,7 @@ class ReceiveCommits {
         parseRegularCommand(cmd);
       }
 
+      Map<BranchNameKey, ReceiveCommand> branches;
       try (BatchUpdate bu =
               batchUpdateFactory.create(
                   project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
@@ -737,11 +738,11 @@ class ReceiveCommits {
         }
         logger.atFine().log("Added %d additional ref updates", added);
         bu.execute();
+        branches = bu.getSuccessfullyUpdatedBranches(/* dryrun=*/ false);
       } catch (UpdateException | RestApiException e) {
         throw new StorageException(e);
       }
 
-      Set<BranchNameKey> branches = new HashSet<>();
       for (ReceiveCommand c : cmds) {
         // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
         // should happen in this loops are things that can't happen within one BatchUpdate because
@@ -757,7 +758,6 @@ class ReceiveCommits {
               Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
               autoCloseChanges(c, closeProgress);
               closeProgress.end();
-              branches.add(BranchNameKey.create(project.getNameKey(), c.getRefName()));
               break;
 
             case DELETE:
@@ -3462,8 +3462,16 @@ class ReceiveCommits {
     return cmd.getRefName().startsWith(Constants.R_HEADS);
   }
 
+  private static boolean isHead(BranchNameKey branchNameKey) {
+    return branchNameKey.branch().startsWith(Constants.R_HEADS);
+  }
+
   private static boolean isConfig(ReceiveCommand cmd) {
     return cmd.getRefName().equals(RefNames.REFS_CONFIG);
+  }
+
+  private static boolean isConfig(BranchNameKey branchNameKey) {
+    return branchNameKey.branch().equals(RefNames.REFS_CONFIG);
   }
 
   private static String commandToString(ReceiveCommand cmd) {

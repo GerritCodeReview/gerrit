@@ -37,4 +37,11 @@ export class GrReporintJsApi {
       details
     );
   }
+
+  reportLifeCycle(eventName: string, details?: EventDetails) {
+    return this.reporting.reportLifeCycle(
+      `${this.plugin.getPluginName()}-${eventName}`,
+      details
+    );
+  }
 }

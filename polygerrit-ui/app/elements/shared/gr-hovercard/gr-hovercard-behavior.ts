@@ -24,6 +24,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property, observe} from '@polymer/decorators';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {
+  pushScrollLock,
+  removeScrollLock,
+} from '@polymer/iron-overlay-behavior/iron-scroll-manager';
 
 const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
@@ -219,6 +223,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
        *
        */
       hide(e?: MouseEvent) {
+        removeScrollLock(this);
         this.cancelHideDebouncer();
         this.cancelShowDebouncer();
         if (!this._isShowing) {
@@ -291,6 +296,7 @@ export const hovercardBehaviorMixin = dedupingMixin(
        * `mousenter` event on the hovercard's `target` element.
        */
       show() {
+        pushScrollLock(this);
         this.cancelHideDebouncer();
         this.cancelShowDebouncer();
         if (this._isShowing || !this.container) {

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d4f69368_a8e21160",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T10:11:17Z",
+      "side": 1,
+      "message": "_permittedLabelsToNumericScores is mapping the scores[] into an int already.\nOne of the many reasons to love TS. :D",
+      "parentUuid": "d21e3183_d46ea4b0",
+      "range": {
+        "startLine": 142,
+        "startChar": 37,
+        "endLine": 142,
+        "endChar": 38
+      },
+      "revId": "656966f728cb870d711e24190277eda7ca9971c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "eb65fdaa_37aafcf9",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "3b85e792_bb04cc5e",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T10:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb65fdaa_37aafcf9",
+      "range": {
+        "startLine": 158,
+        "startChar": 23,
+        "endLine": 158,
+        "endChar": 58
+      },
+      "revId": "656966f728cb870d711e24190277eda7ca9971c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3d6cc4a5_1fdd525a",
         "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
         "patchSetId": 4
@@ -62,6 +110,24 @@
       "revId": "656966f728cb870d711e24190277eda7ca9971c8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b94be1bf_2030c936",
+        "filename": "polygerrit-ui/app/elements/change/gr-reviewer-list/gr-reviewer-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 221,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T10:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "3d6cc4a5_1fdd525a",
+      "revId": "656966f728cb870d711e24190277eda7ca9971c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

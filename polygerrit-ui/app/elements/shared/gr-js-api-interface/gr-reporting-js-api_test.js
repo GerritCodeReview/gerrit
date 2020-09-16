@@ -57,5 +57,19 @@ suite('gr-reporting-js-api tests', () => {
           {}
       );
     });
+
+    test('redirect reportLifeCycle call to reportingService', () => {
+      sinon.spy(appContext.reportingService, 'reportLifeCycle');
+      reporting.reportLifeCycle('test', {});
+      assert.isTrue(appContext.reportingService.reportLifeCycle.called);
+      assert.equal(
+          appContext.reportingService.reportLifeCycle.lastCall.args[0],
+          'testplugin-test'
+      );
+      assert.deepEqual(
+          appContext.reportingService.reportLifeCycle.lastCall.args[1],
+          {}
+      );
+    });
   });
 });

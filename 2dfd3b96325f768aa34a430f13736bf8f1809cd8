@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9ce96534_c02c9db4",
+        "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-16T10:14:26Z",
+      "side": 1,
+      "message": "maybe log a warning in case this is null, or at least a log on fine level?",
+      "revId": "2dfd3b96325f768aa34a430f13736bf8f1809cd8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

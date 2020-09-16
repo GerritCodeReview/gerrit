@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d593733a_633aad2a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T13:20:45Z",
+      "side": 1,
+      "message": "I cannot figure out why we would use cursor.getAddress().lineNumber instead of using the number in the detail directly.\nThe cursor is updated after the _onLineSelected function is called hence we have the incorrect line number in the url.\nThe test however explicitly sets the scenario of having a lineNum in the detail but cursor returning null which doesn\u0027t make sense to me.",
+      "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

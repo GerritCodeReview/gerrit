@@ -91,6 +91,8 @@ public class SubmoduleOp {
           superProjects.add(project);
           // get a new BatchUpdate for the super project
           OpenRepo or = orm.getRepo(project);
+          or.resetUpdate();
+
           for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
             or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
           }

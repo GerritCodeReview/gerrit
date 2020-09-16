@@ -119,6 +119,14 @@ public class MergeOpRepoManager implements AutoCloseable {
       return update;
     }
 
+    // We want to reuse the open repo BUT not the BatchUpdate (because they are already executed)
+    public void resetUpdate() {
+      if (update != null) {
+        update.close();
+        update = null;
+      }
+    }
+
     private void close() {
       if (update != null) {
         update.close();

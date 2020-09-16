@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "de3c4f0c_059e61de",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T09:16:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3d010845_6fe46fa1",
+      "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "8e05bbfc_23efd23b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3
@@ -42,6 +60,30 @@
     },
     {
       "key": {
+        "uuid": "44ed99f1_0506400f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T09:16:22Z",
+      "side": 1,
+      "message": "Agreed, it can be made more general.\nUpdated.",
+      "parentUuid": "8e05bbfc_23efd23b",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 21
+      },
+      "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "73df9351_947b2121",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3
@@ -59,6 +101,24 @@
     },
     {
       "key": {
+        "uuid": "7b2018a5_99aca522",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 820,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T09:16:22Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "73df9351_947b2121",
+      "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f9659722_8c8b20a4",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3
@@ -73,6 +133,24 @@
       "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a80b9f9_6c365773",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 887,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-16T09:16:22Z",
+      "side": 1,
+      "message": "It\u0027s being set in all cases once params are changed, but yeah for consistency should be reset here.\nAdded.",
+      "parentUuid": "f9659722_8c8b20a4",
+      "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

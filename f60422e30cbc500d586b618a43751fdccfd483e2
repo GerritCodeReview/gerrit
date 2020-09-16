@@ -132,6 +132,30 @@
     },
     {
       "key": {
+        "uuid": "db2b6e9c_564b9342",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-16T12:39:32Z",
+      "side": 1,
+      "message": "Yeah, just _lineNum or _focusLineNum should do.",
+      "parentUuid": "38be8a39_2e15b248",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 21
+      },
+      "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73df9351_947b2121",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3

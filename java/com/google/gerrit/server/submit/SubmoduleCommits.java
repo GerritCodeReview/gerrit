@@ -21,10 +21,15 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.SubmoduleSubscription;
 import com.google.gerrit.exceptions.StorageException;
+import com.google.gerrit.server.GerritPersonIdent;
+import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.VerboseSuperprojectUpdate;
 import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
+import com.google.inject.Inject;
+import com.google.inject.Provider;
+import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.Iterator;
@@ -57,6 +62,22 @@ class SubmoduleCommits {
   private final long maxCombinedCommitMessageSize;
   private final long maxCommitMessages;
   private final BranchTips branchTips = new BranchTips();
+
+  @Singleton
+  public static class Factory {
+    private final Provider<PersonIdent> serverIdent;
+    private final Config cfg;
+
+    @Inject
+    Factory(@GerritPersonIdent Provider<PersonIdent> serverIdent, @GerritServerConfig Config cfg) {
+      this.serverIdent = serverIdent;
+      this.cfg = cfg;
+    }
+
+    public SubmoduleCommits create(MergeOpRepoManager orm) {
+      return new SubmoduleCommits(orm, serverIdent.get(), cfg);
+    }
+  }
 
   SubmoduleCommits(MergeOpRepoManager orm, PersonIdent myIdent, Config cfg) {
     this.orm = orm;

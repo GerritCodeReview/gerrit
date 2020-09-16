@@ -84,6 +84,30 @@
     },
     {
       "key": {
+        "uuid": "044849a8_4fcc26fe",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 236,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-16T11:10:42Z",
+      "side": 1,
+      "message": "What I meant is when using this URL:\n\nhttps://gerrit-review.googlesource.com/c/gerrit/+/281089/3..4/polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js#229\n\nThen you would also be setting `_commentLineNum` to 229, although 229 does not have to do anything with a comment.",
+      "parentUuid": "44ed99f1_0506400f",
+      "range": {
+        "startLine": 236,
+        "startChar": 6,
+        "endLine": 236,
+        "endChar": 21
+      },
+      "revId": "f60422e30cbc500d586b618a43751fdccfd483e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "73df9351_947b2121",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
         "patchSetId": 3

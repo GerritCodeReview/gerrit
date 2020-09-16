@@ -771,7 +771,7 @@ class ReceiveCommits {
         try (MergeOpRepoManager orm = ormProvider.get()) {
           orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
           SubmoduleOp op = subOpFactory.create(branches, orm);
-          op.updateSuperProjects();
+          op.updateSuperProjects(false);
         } catch (RestApiException e) {
           logger.atWarning().withCause(e).log("Can't update the superprojects");
         }

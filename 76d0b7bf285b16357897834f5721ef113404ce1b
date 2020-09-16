@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f98e514c_9127ed6f",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T13:42:37Z",
+      "side": 1,
+      "message": "this should not happen right ?\nmaybe add a note if I understand this correctly: This should never happen, added for type requirements, should clean up in the future to get rid of them.",
+      "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2400707e_b76a51e2",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T13:42:37Z",
+      "side": 1,
+      "message": "if so, maybe add a note above to mark patchNum as required in future",
+      "range": {
+        "startLine": 234,
+        "startChar": 5,
+        "endLine": 234,
+        "endChar": 61
+      },
+      "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bc01ab03_b04a5b71",
+        "filename": "polygerrit-ui/app/elements/edit/gr-editor-view/gr-editor-view.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-16T13:42:37Z",
+      "side": 1,
+      "message": "what is the existing behavior when patchNum is undefined ? will it throw error ? or it also will never called with undefined pathcNum ?",
+      "range": {
+        "startLine": 241,
+        "startChar": 7,
+        "endLine": 241,
+        "endChar": 21
+      },
+      "revId": "76d0b7bf285b16357897834f5721ef113404ce1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

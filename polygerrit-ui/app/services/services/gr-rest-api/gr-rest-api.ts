@@ -605,4 +605,8 @@ export interface RestApiService {
     changeNum: ChangeNum,
     messageId: ChangeMessageId
   ): Promise<Response>;
+  removeChangeReviewer(
+    changeNum: ChangeNum,
+    reviewerID: AccountId | GroupId
+  ): Promise<Response | undefined>;
 }

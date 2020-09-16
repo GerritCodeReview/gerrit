@@ -142,6 +142,10 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
  */
 export type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
 
+export type Reviewers = {
+  REVIEWER?: AccountInfo[];
+  CC?: AccountInfo[];
+};
 interface LabelCommonInfo {
   optional?: boolean; // not set if false
 }
@@ -211,10 +215,7 @@ export interface ChangeInfo {
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValueMap;
   removable_reviewers?: AccountInfo[];
-  reviewers?: {
-    REVIEWER?: AccountInfo[];
-    CC?: AccountInfo[];
-  };
+  reviewers?: Reviewers;
   pending_reviewers?: AccountInfo[];
   reviewer_updates?: ReviewerUpdateInfo[];
   messages?: ChangeMessageInfo[];

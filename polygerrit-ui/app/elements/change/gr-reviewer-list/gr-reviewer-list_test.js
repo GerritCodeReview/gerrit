@@ -163,21 +163,24 @@ suite('gr-reviewer-list tests', () => {
     element.reviewersOnly = false;
     element._handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
-    assert.deepEqual(fireStub.lastCall.args[0].detail, {value: {}});
+    assert.deepEqual(fireStub.lastCall.args[0].detail, {value: {
+      reviewersOnly: false,
+      ccsOnly: false,
+    }});
 
     element.reviewersOnly = true;
     element._handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
     assert.deepEqual(
         fireStub.lastCall.args[0].detail,
-        {value: {reviewersOnly: true}});
+        {value: {reviewersOnly: true, ccsOnly: false}});
 
     element.ccsOnly = true;
     element.reviewersOnly = false;
     element._handleAddTap(e);
     assert.equal(fireStub.lastCall.args[0].type, 'show-reply-dialog');
     assert.deepEqual(fireStub.lastCall.args[0].detail,
-        {value: {ccsOnly: true}});
+        {value: {ccsOnly: true, reviewersOnly: false}});
   });
 
   test('dont show all reviewers button with 4 reviewers', () => {

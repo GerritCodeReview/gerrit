@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ad983deb_a4a20459",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-revert-dialog/gr-confirm-revert-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-16T07:23:49Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "4e0132f42fcc5afdbded5b2e70bb5398a5814a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2f784518_2e82551f",
+        "filename": "polygerrit-ui/app/elements/change/gr-confirm-submit-dialog/gr-confirm-submit-dialog.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-16T07:23:49Z",
+      "side": 1,
+      "message": "The parameter type should always match the property type, so either change `change` to `change!` or deal with undefined here.",
+      "range": {
+        "startLine": 67,
+        "startChar": 24,
+        "endLine": 67,
+        "endChar": 30
+      },
+      "revId": "4e0132f42fcc5afdbded5b2e70bb5398a5814a60",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

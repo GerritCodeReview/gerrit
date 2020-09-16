@@ -1,0 +1,303 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "43c121a2_16820ff2",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "These two fields can be null but they are passed to a method whose parameters are not marked as being nullable. That\u0027s dangerous. As written in another comment, we should switch to Optional values instead, which would have directly shown you this issue. Of course, such Optional values might feel like more effort at first because they make you think about how to handle them (which might require additional code) but that\u0027s actually a good thing. ;-)",
+      "range": {
+        "startLine": 41,
+        "startChar": 61,
+        "endLine": 41,
+        "endChar": 87
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80770ad6_ffaab319",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "Are you opening up visibility because FileEdits links to this file in a Javadoc comment? If so, please don\u0027t do this. By adding \u0027public\u0027 here, you make this class a public API which it is not.\n\nIf you follow my other comment of introducing sub-packages on the previous change, you might think that we need the \u0027public\u0027 modifier as the calling cache would be in a sub-package. Ideally, we should just move EditTransformer and PatchListLoader into the corresponding sub-package, too.",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e06ecd5_f37f42b7",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "FYI: If the new AutoValue type (e.g. FileEdit or something different) is capable of representing renames/copies, we don\u0027t need the ContextAwareEdit type anymore. We could adjust EditTransformer to just work on top of that new type. You don\u0027t need to do it within this change but please don\u0027t forget to clean this up in the future (e.g. at least add a todo for you in this change).",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 27
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "661ee975_bdd6cb6e",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "Unused method. -\u003e Remove.",
+      "range": {
+        "startLine": 103,
+        "startChar": 48,
+        "endLine": 103,
+        "endChar": 57
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2409811_98ffd72e",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "Good idea to do the mapping here in the code which will go away in the future.",
+      "range": {
+        "startLine": 310,
+        "startChar": 4,
+        "endLine": 312,
+        "endChar": 76
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc8dc1a_3099d41f",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "PatchListEntry has some weird rules how it fills oldName and newName. For instance, a file deletion will have the deleted file name in newName with oldName being null. The new AutoValue type used as input to EditTransform should have different rules (-\u003e oldName representing the name of the deleted file and newName being empty). Could you adjust EditTransformer to not have the special logic for the previous case anymore (e.g. the MoreObjects#firstNonNull in ContextAwareEdit should become obsolete) and to move the logic to this mapping code here?",
+      "range": {
+        "startLine": 323,
+        "startChar": 24,
+        "endLine": 323,
+        "endChar": 58
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4315cc2f_7c7e672b",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "Could we do the mapping here, too, so that we can completely switch EditTransformer to the new type?",
+      "range": {
+        "startLine": 418,
+        "startChar": 8,
+        "endLine": 418,
+        "endChar": 47
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca625623_3dfef040",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "Nit: paths of the paths? ;-)",
+      "range": {
+        "startLine": 25,
+        "startChar": 78,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e911964_9f718310",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "My original mental model was that we introduce new AutoValue types as cache value for the GitFileDiffCache and that we could use one of these AutoValue types as input to EditTransformer. That would save us unnecessary type mappings as inputs to EditTransformer would always come from the GitFileDiffCache. Did you try that approach?",
+      "range": {
+        "startLine": 26,
+        "startChar": 37,
+        "endLine": 27,
+        "endChar": 79
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ce69976_4b2d2d8a",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "This is a JGit class which is mutable. -\u003e Introduce your own AutoValue representing an edit.",
+      "range": {
+        "startLine": 39,
+        "startChar": 23,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "be881c06_44297457",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "AutoValues may only use immutable types. -\u003e ImmutableList or ImmutableSet.",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "42cd97e6_b7f222f1",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "As written in another comment on the previous change, we should rather use Optional.",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9fa3a80_afc756e1",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-16T08:28:01Z",
+      "side": 1,
+      "message": "If this class stays in addition to an AutoValue output from the GitFileDiffCache: Why do we need the ChangeType as input? All necessary information for creating a FileMapping can be derived form oldPath() and newPath(). When I added the code for mapping from PatchListEntry to FileMapping/RangeMapping, I only used the ChangeType as the file paths in PatchListEntry are weirdly filled. With the new AutoValue classes, we can do better and have a clear filling of oldPath() and newPath(). Hence, we hopefully shouldn\u0027t need to make any decisions on the ChangeType.\n\nIf you think that we need ChangeType because of the factory methods of FileMapping, we can adjust them. I just introduced dedicated factory methods like FileMapping#forAddedFile to make the calling code read nicer (instead of passing in Optional.empty and Optional.of(path)). We can simply add a factory method which accepts two Optionals (or even switch to an AutoValue.Builder which might seem preferable).",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

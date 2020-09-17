@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c1cb73ce_2c782314",
+        "filename": "java/com/google/gerrit/server/submit/GitlinkOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-17T23:43:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af6bfafd_95b2a1ff",
+      "range": {
+        "startLine": 32,
+        "startChar": 15,
+        "endLine": 32,
+        "endChar": 22
+      },
+      "revId": "8b7bbd9eb056bb9a3eaf675ef0deaa85e27d1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "28e6139e_d62079fe",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 2

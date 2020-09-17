@@ -40,15 +40,32 @@ public class OAuthTokenCache {
 
   private final DynamicItem<OAuthTokenEncrypter> encrypter;
 
+  public enum AccountIdSerializer implements CacheSerializer<Account.Id> {
+    INSTANCE;
+
+    private final Converter<Account.Id, Integer> converter =
+        Converter.from(Account.Id::get, Account::id);
+
+    private final Converter<Integer, Account.Id> reverse = converter.reverse();
+
+    @Override
+    public byte[] serialize(Account.Id object) {
+      return IntegerCacheSerializer.INSTANCE.serialize(converter.convert(object));
+    }
+
+    @Override
+    public Account.Id deserialize(byte[] in) {
+      return reverse.convert(IntegerCacheSerializer.INSTANCE.deserialize(in));
+    }
+  }
+
   public static Module module() {
     return new CacheModule() {
       @Override
       protected void configure() {
         persist(OAUTH_TOKENS, Account.Id.class, OAuthToken.class)
             .version(1)
-            .keySerializer(
-                CacheSerializer.convert(
-                    IntegerCacheSerializer.INSTANCE, Converter.from(Account.Id::get, Account::id)))
+            .keySerializer(AccountIdSerializer.INSTANCE)
             .valueSerializer(new Serializer());
       }
     };

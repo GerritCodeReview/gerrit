@@ -789,6 +789,9 @@ suite('gr-change-view tests', () => {
 
   suite('_recomputeComments', () => {
     setup(() => {
+      element._changeNum = '1';
+      element._change = {_number: '1'};
+      flushAsynchronousOperations();
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
       sinon.stub(element.$.commentAPI, 'reloadDrafts')
@@ -927,7 +930,9 @@ suite('gr-change-view tests', () => {
           rev4: {_number: 4, commit: {parents: []}},
         },
         current_revision: 'rev4',
+        _number: '1',
       };
+      element._changeNum = '1';
       element._commentThreads = THREADS;
       const paperTabs = element.shadowRoot.querySelector('#primaryTabs');
       MockInteractions.tap(paperTabs.querySelectorAll('paper-tab')[3]);

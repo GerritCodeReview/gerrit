@@ -875,6 +875,16 @@ suite('gr-diff-processor tests', () => {
             }
           });
 
+      test('_breakdownChunk keeps due_to_move for broken down additions',
+      () => {
+        sinon.spy(element, '_breakdown');
+        const chunk = {b: ['blah', 'blah', 'blah'], due_to_move: true};
+        const result = element._breakdownChunk(chunk);
+        for (const subResult of result) {
+          assert.isTrue(subResult.due_to_move);
+        }
+      });
+
       test('_breakdown common case', () => {
         const array = 'Lorem ipsum dolor sit amet, suspendisse inceptos'
             .split(' ');

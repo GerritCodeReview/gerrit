@@ -1123,6 +1123,7 @@ export interface DiffContent {
   edit_a?: number[][];
   edit_b?: number[][];
   due_to_rebase?: boolean;
+  due_to_move?: boolean;
   skip?: string;
   common?: string;
   keyLocation?: boolean;

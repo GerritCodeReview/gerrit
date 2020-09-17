@@ -14,7 +14,7 @@ provides the following information for each change:
 
 * Current and previous patch sets
 * <<Change properties>>, such as owner, project, and target branch
-* link:CONCEPT-comments.html[Comments]
+* Comments
 * Votes on link:config-labels.html[Review Labels]
 * The <<change-id>>
 

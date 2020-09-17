@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "75690447_278e1b61",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-17T20:20:29Z",
+      "side": 1,
+      "message": "It\u0027s a java convention used to make singletons [1].\nIt is widely used in Gerrit, also to provide cache serializers.\nSome examples [2],[3]\n\n[1] https://dzone.com/articles/java-singletons-using-enum\n[2] https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/cache/serialize/BooleanCacheSerializer.java#23\n[3]https://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/cache/serialize/ObjectIdCacheSerializer.java#21",
+      "parentUuid": "99d72111_3dec7e23",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 13
+      },
+      "revId": "e1f15eb0b50a0fd8d5fb71ff112794284b3be1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df654ff_e7d179cd",
         "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
         "patchSetId": 1
@@ -42,6 +66,24 @@
     },
     {
       "key": {
+        "uuid": "32cbd8be_65fe46bd",
+        "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-17T20:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5df654ff_e7d179cd",
+      "revId": "e1f15eb0b50a0fd8d5fb71ff112794284b3be1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a7bf4048_0e631916",
         "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
         "patchSetId": 1
@@ -56,6 +98,24 @@
       "revId": "e1f15eb0b50a0fd8d5fb71ff112794284b3be1e0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5e986f1e_94c06169",
+        "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-17T20:20:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a7bf4048_0e631916",
+      "revId": "e1f15eb0b50a0fd8d5fb71ff112794284b3be1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

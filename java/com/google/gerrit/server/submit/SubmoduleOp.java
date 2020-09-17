@@ -19,7 +19,6 @@ import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.SubmoduleSubscription;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.config.GerritServerConfig;
@@ -31,8 +30,6 @@ import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.Set;
 import org.eclipse.jgit.lib.Config;
@@ -73,6 +70,7 @@ public class SubmoduleOp {
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
   private final SubmoduleCommits submoduleCommits;
+  private final UpdateOrderCalculator updateOrderCalculator;
 
   private SubmoduleOp(
       MergeOpRepoManager orm,
@@ -81,6 +79,7 @@ public class SubmoduleOp {
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
     this.submoduleCommits = submoduleCommits;
+    this.updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
   }
 
   // TODO(ifrade): subscription graph should be instantiated somewhere else and passed to
@@ -93,13 +92,17 @@ public class SubmoduleOp {
     return submoduleCommits;
   }
 
+  UpdateOrderCalculator getUpdateOrderCalculator() {
+    return updateOrderCalculator;
+  }
+
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
   public boolean hasSuperproject(BranchNameKey branch) {
     return subscriptionGraph.hasSuperproject(branch);
   }
 
   public void updateSuperProjects() throws RestApiException {
-    ImmutableSet<Project.NameKey> projects = getProjectsInOrder();
+    ImmutableSet<Project.NameKey> projects = updateOrderCalculator.getProjectsInOrder();
     if (projects == null) {
       return;
     }
@@ -123,56 +126,5 @@ public class SubmoduleOp {
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
     }
-  }
-
-  ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleConflictException {
-    LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
-    for (Project.NameKey project : subscriptionGraph.getAffectedSuperProjects()) {
-      addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
-    }
-
-    for (BranchNameKey branch : subscriptionGraph.getUpdatedBranches()) {
-      projects.add(branch.project());
-    }
-    return ImmutableSet.copyOf(projects);
-  }
-
-  private void addAllSubmoduleProjects(
-      Project.NameKey project,
-      LinkedHashSet<Project.NameKey> current,
-      LinkedHashSet<Project.NameKey> projects)
-      throws SubmoduleConflictException {
-    if (current.contains(project)) {
-      throw new SubmoduleConflictException(
-          "Project level circular subscriptions detected:  "
-              + CircularPathFinder.printCircularPath(current, project));
-    }
-
-    if (projects.contains(project)) {
-      return;
-    }
-
-    current.add(project);
-    Set<Project.NameKey> subprojects = new HashSet<>();
-    for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
-      Collection<SubmoduleSubscription> subscriptions = subscriptionGraph.getSubscriptions(branch);
-      for (SubmoduleSubscription s : subscriptions) {
-        subprojects.add(s.getSubmodule().project());
-      }
-    }
-
-    for (Project.NameKey p : subprojects) {
-      addAllSubmoduleProjects(p, current, projects);
-    }
-
-    current.remove(project);
-    projects.add(project);
-  }
-
-  ImmutableSet<BranchNameKey> getBranchesInOrder() {
-    LinkedHashSet<BranchNameKey> branches = new LinkedHashSet<>();
-    branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
-    branches.addAll(subscriptionGraph.getUpdatedBranches());
-    return ImmutableSet.copyOf(branches);
   }
 }

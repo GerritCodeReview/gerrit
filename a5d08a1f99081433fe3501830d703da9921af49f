@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "402b0eb9_64cab4f0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T12:04:21Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused by this change. The threaded feedback design is already implemented. During the implementation, we decided to use the name \"patchset-level\" as it turned out that change messages are always associated with a patchset. Hence, the natural mapping was \"change messages\" -\u003e \"patchset-level\" comments. Patchset-level comments are fully implemented and supported in Gerrit. I\u0027m in fact even using such a patchset-level comment for writing this comment right now.\n\nJacek, can you please elaborate what the intention of this change is given that we already have patchset-level comments?",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d60d1d40_77800154",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/PortedCommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T08:31:09Z",
+      "side": 1,
+      "message": "It\u0027s better to use ZoneOffset.UTC.",
+      "range": {
+        "startLine": 185,
+        "startChar": 42,
+        "endLine": 185,
+        "endChar": 58
+      },
+      "revId": "61b0e815e1634e9fc239f1c0f4695376d75f3c75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

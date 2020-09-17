@@ -177,6 +177,14 @@ export const htmlTemplate = html`
       background-color: var(--light-remove-add-highlight-color);
     }
 
+    /* dueToMove */
+    .dueToMove .content.add .contentText {
+      background-color: var(--light-moved-add-highlight-color);
+    }
+    .dueToMove .content.remove .contentText {
+      background-color: var(--light-remove-add-highlight-color);
+    }
+
     /* ignoredWhitespaceOnly */
     .ignoredWhitespaceOnly .content.add .contentText .intraline,
     .delta.total.ignoredWhitespaceOnly .content.add .contentText,

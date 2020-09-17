@@ -607,7 +607,7 @@ public class MergeOp implements AutoCloseable {
     try {
       SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
       List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
-      this.allProjects = submoduleOp.getProjectsInOrder();
+      this.allProjects = submoduleOp.getUpdateOrderCalculator().getProjectsInOrder();
       try {
         BatchUpdate.execute(
             orm.batchUpdates(allProjects),
@@ -661,7 +661,7 @@ public class MergeOp implements AutoCloseable {
       Map<BranchNameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
       throws IntegrationConflictException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
-    Set<BranchNameKey> allBranches = submoduleOp.getBranchesInOrder();
+    Set<BranchNameKey> allBranches = submoduleOp.getUpdateOrderCalculator().getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
 

@@ -87,6 +87,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8387224e_b2e3dc5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T12:56:21Z",
+      "side": 1,
+      "message": "\u0027UiFeature__patchset_comments\u0027 is a feature flag we introduced for gradual rollout of the feature. We still need it as some tool owners haven\u0027t switched fully from change messages to patchset-level comments. The flag just influences whether the \"Reply\" dialog posts change messages or patchset-level comments. The rest of the handling of patchset-level comments (such as replies to them even via the UI) is not guarded by this flag.\n\nI\u0027d expect that we can remove the feature flag at the beginning of November which should be right in time for Gerrit 3.4.",
+      "parentUuid": "55e00828_614b47c4",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

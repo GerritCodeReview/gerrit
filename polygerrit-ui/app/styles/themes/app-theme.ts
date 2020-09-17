@@ -167,6 +167,7 @@ $_documentContainer.innerHTML = `
     --diff-trailing-whitespace-indicator: #ff9ad2;
     --light-add-highlight-color: #d8fed8;
     --light-rebased-add-highlight-color: #eef;
+    --light-moved-add-highlight-color: #eef;
     --light-remove-add-highlight-color: #fff8dc;
     --light-remove-highlight-color: #ffebee;
     --coverage-covered: #e0f2f1;

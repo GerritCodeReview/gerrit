@@ -70,20 +70,6 @@ public class SubmoduleOp {
     this.updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
   }
 
-  // TODO(ifrade): subscription graph should be instantiated somewhere else and passed to
-  // SubmoduleOp
-  SubscriptionGraph getSubscriptionGraph() {
-    return subscriptionGraph;
-  }
-
-  SubmoduleCommits getSubmoduleCommits() {
-    return submoduleCommits;
-  }
-
-  UpdateOrderCalculator getUpdateOrderCalculator() {
-    return updateOrderCalculator;
-  }
-
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
   public boolean hasSuperproject(BranchNameKey branch) {
     return subscriptionGraph.hasSuperproject(branch);

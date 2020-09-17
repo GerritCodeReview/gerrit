@@ -39,6 +39,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.truth.NullAwareCorrespondence;
 import com.google.inject.Inject;
 import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -181,7 +182,7 @@ public class PortedCommentsIT extends AbstractDaemonTest {
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments. Comments should be more than 1 second apart as NoteDb only supports second
     // precision.
-    LocalDateTime now = LocalDateTime.now();
+    LocalDateTime now = LocalDateTime.now(ZoneOffset.UTC);
     String rootCommentUuid = newComment(patchset1Id).resolved().createdOn(now).create();
     String childComment1Uuid =
         newComment(patchset1Id)

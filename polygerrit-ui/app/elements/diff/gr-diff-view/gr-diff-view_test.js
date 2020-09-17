@@ -169,7 +169,8 @@ suite('gr-diff-view tests', () => {
       element._change = generateChange({revisionsCount: 11});
       return element._paramsChanged.returnValues[0].then(() => {
         assert.isTrue(initLineOfInterestAndCursorStub.
-            calledWithExactly(10, true));
+            calledWithExactly(true));
+        assert.equal(element._focusLineNum, 10);
         assert.equal(element._patchRange.patchNum, 11);
         assert.equal(element._patchRange.basePatchNum, 2);
       });
@@ -226,7 +227,7 @@ suite('gr-diff-view tests', () => {
           element._change = generateChange({revisionsCount: 11});
           return element._paramsChanged.returnValues[0].then(() => {
             assert.isTrue(diffNavStub.lastCall.calledWithExactly(
-                element._change, '/COMMIT_MSG', 2));
+                element._change, '/COMMIT_MSG', 2, 'PARENT', 10));
           });
         });
 
@@ -1218,17 +1219,21 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
       // Revision hash: specifies lineNum but not side.
-      element._initCursor({lineNum: 234});
+
+      element._focusLineNum = 234;
+      element._initCursor({});
       assert.equal(element.$.cursor.initialLineNumber, 234);
       assert.equal(element.$.cursor.side, 'right');
 
       // Base hash: specifies lineNum and side.
-      element._initCursor({leftSide: true, lineNum: 345});
+      element._focusLineNum = 345;
+      element._initCursor({leftSide: true});
       assert.equal(element.$.cursor.initialLineNumber, 345);
       assert.equal(element.$.cursor.side, 'left');
 
       // Specifies right side:
-      element._initCursor({leftSide: false, lineNum: 123});
+      element._focusLineNum = 123;
+      element._initCursor({leftSide: false});
       assert.equal(element.$.cursor.initialLineNumber, 123);
       assert.equal(element.$.cursor.side, 'right');
     });
@@ -1236,11 +1241,12 @@ suite('gr-diff-view tests', () => {
     test('_getLineOfInterest', () => {
       assert.isNull(element._getLineOfInterest({}));
 
-      let result = element._getLineOfInterest({lineNum: 12});
+      element._focusLineNum = 12;
+      let result = element._getLineOfInterest({});
       assert.equal(result.number, 12);
       assert.isNotOk(result.leftSide);
 
-      result = element._getLineOfInterest({lineNum: 12, leftSide: true});
+      result = element._getLineOfInterest({leftSide: true});
       assert.equal(result.number, 12);
       assert.isOk(result.leftSide);
     });

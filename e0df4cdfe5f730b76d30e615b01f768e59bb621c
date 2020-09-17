@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "e980471f_f107c149",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 182,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-17T21:18:51Z",
+      "side": 1,
+      "message": "I pushed new base changes to 1. clarify this and 2. split this change better.",
+      "parentUuid": "94db2cb1_77a4ecef",
+      "range": {
+        "startLine": 180,
+        "startChar": 0,
+        "endLine": 182,
+        "endChar": 85
+      },
+      "revId": "e0df4cdfe5f730b76d30e615b01f768e59bb621c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a1db6dec_ccfc3609",
         "filename": "Documentation/dev-e2e-tests.txt",
         "patchSetId": 3
@@ -65,6 +89,30 @@
     },
     {
       "key": {
+        "uuid": "8e7bf209_d6e73d16",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 186,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-17T21:18:51Z",
+      "side": 1,
+      "message": "Reworked; good point.",
+      "parentUuid": "a1db6dec_ccfc3609",
+      "range": {
+        "startLine": 186,
+        "startChar": 0,
+        "endLine": 186,
+        "endChar": 94
+      },
+      "revId": "e0df4cdfe5f730b76d30e615b01f768e59bb621c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "f8facefc_34f7f6d9",
         "filename": "Documentation/dev-e2e-tests.txt",
         "patchSetId": 3
@@ -85,6 +133,30 @@
       "revId": "e0df4cdfe5f730b76d30e615b01f768e59bb621c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0341ec95_9eaff694",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-17T21:18:51Z",
+      "side": 1,
+      "message": "This property is more about having the test wait for this replication_delay +short buffer, before expecting a done replication. I rephrased this all to clarify that further.",
+      "parentUuid": "f8facefc_34f7f6d9",
+      "range": {
+        "startLine": 190,
+        "startChar": 0,
+        "endLine": 191,
+        "endChar": 81
+      },
+      "revId": "e0df4cdfe5f730b76d30e615b01f768e59bb621c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

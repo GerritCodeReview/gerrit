@@ -97,6 +97,8 @@ public class CommentSender extends ReplyToChangeSender {
         return "Merge List";
       } else if (Patch.PATCHSET_LEVEL.equals(filename)) {
         return "Patchset";
+      } else if (Change.CHANGE_LEVEL.equals(filename)) {
+        return "Change";
       } else {
         return "File " + filename;
       }
@@ -411,6 +413,8 @@ public class CommentSender extends ReplyToChangeSender {
           } else {
             commentData.put("link", group.getCommentsTabLink());
           }
+        } else if (comment.key.filename.equals(Change.CHANGE_LEVEL)) {
+          commentData.put("link", group.getCommentsTabLink());
         } else {
           commentData.put("link", group.getCommentLink(comment.key.uuid));
         }

@@ -326,6 +326,12 @@ public final class Change {
   public static final String CHANGE_ID_PATTERN = "^[iI][0-9a-f]{4,}.*$";
 
   /**
+   * Magical file name which doesn't represent a file. Used specifically for threading the change
+   * level messages.
+   */
+  public static final String CHANGE_LEVEL = "/CHANGE_LEVEL";
+
+  /**
    * Current state within the basic workflow of the change.
    *
    * <p>Within the database, lower case codes ('a'..'z') indicate a change that is still open, and

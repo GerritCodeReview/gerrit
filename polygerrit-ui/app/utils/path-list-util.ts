@@ -61,7 +61,10 @@ export function specialFilePathCompare(a: string, b: string) {
 }
 
 export function shouldHideFile(file: string) {
-  return file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
+  return (
+    file === SpecialFilePath.CHANGE_LEVEL_COMMENTS ||
+    file === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
+  );
 }
 
 export function addUnmodifiedFiles(

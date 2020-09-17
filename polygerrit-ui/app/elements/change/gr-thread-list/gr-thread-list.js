@@ -85,12 +85,12 @@ class GrThreadList extends GestureEventListeners(
 
   _compareThreads(c1, c2) {
     if (c1.thread.path !== c2.thread.path) {
-      // '/PATCHSET' will not come before '/COMMIT' when sorting
+      // '/CHANGE' or '/PATCHSET' will not come before '/COMMIT' when sorting
       // alphabetically so move it to the front explicitly
-      if (c1.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      if ((c1.thread.path === SpecialFilePath.CHANGE_LEVEL_COMMENTS) || (c1.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS)) {
         return -1;
       }
-      if (c2.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+      if ((c2.thread.path === SpecialFilePath.CHANGE_LEVEL_COMMENTS) || (c2.thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS)) {
         return 1;
       }
       return c1.thread.path.localeCompare(c2.thread.path);

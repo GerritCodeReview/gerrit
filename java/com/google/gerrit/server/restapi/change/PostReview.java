@@ -17,6 +17,7 @@ package com.google.gerrit.server.restapi.change;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.gerrit.entities.Change.CHANGE_LEVEL;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
@@ -615,7 +616,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
         ensureLineIsNonNegative(comment.line, path);
         ensureCommentNotOnMagicFilesOfAutoMerge(path, comment);
         ensureRangeIsValid(path, comment.range);
-        ensureValidPatchsetLevelComment(path, comment);
+        ensureValidPatchsetOrChangeLevelComment(path, comment);
         ensureValidInReplyTo(revision.getNotes(), comment.inReplyTo);
       }
     }
@@ -655,11 +656,12 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private static <T extends CommentInput> void ensureValidPatchsetLevelComment(
+  private static <T extends CommentInput> void ensureValidPatchsetOrChangeLevelComment(
       String path, T comment) throws BadRequestException {
-    if (path.equals(PATCHSET_LEVEL)
+    if ((path.equals(PATCHSET_LEVEL) || path.equals(CHANGE_LEVEL))
         && (comment.side != null || comment.range != null || comment.line != null)) {
-      throw new BadRequestException("Patchset-level comments can't have side, range, or line");
+      throw new BadRequestException(
+          "[Patchset|Change]-level comments can't have side, range, or line");
     }
   }
 
@@ -732,7 +734,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     ensureReplacementsArePresent(commentPath, fixReplacementInfos);
 
     for (FixReplacementInfo fixReplacementInfo : fixReplacementInfos) {
-      ensureReplacementPathIsSetAndNotPatchsetLevel(commentPath, fixReplacementInfo.path);
+      ensureReplacementPathIsSetAndNotPatchsetOrChangeLevel(commentPath, fixReplacementInfo.path);
       ensureRangeIsSet(commentPath, fixReplacementInfo.range);
       ensureRangeIsValid(commentPath, fixReplacementInfo.range);
       ensureReplacementStringIsSet(commentPath, fixReplacementInfo.replacement);
@@ -756,7 +758,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private static void ensureReplacementPathIsSetAndNotPatchsetLevel(
+  private static void ensureReplacementPathIsSetAndNotPatchsetOrChangeLevel(
       String commentPath, String replacementPath) throws BadRequestException {
     if (replacementPath == null) {
       throw new BadRequestException(
@@ -764,11 +766,11 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
               "A file path must be given for the replacement of the robot comment on %s",
               commentPath));
     }
-    if (replacementPath.equals(PATCHSET_LEVEL)) {
+    if (replacementPath.equals(PATCHSET_LEVEL) || replacementPath.equals(CHANGE_LEVEL)) {
       throw new BadRequestException(
           String.format(
               "A file path must not be %s for the replacement of the robot comment on %s",
-              PATCHSET_LEVEL, commentPath));
+              replacementPath, commentPath));
     }
   }
 

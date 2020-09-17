@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.gerrit.entities.Change.CHANGE_LEVEL;
 
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Splitter;
@@ -49,7 +50,10 @@ public final class Patch {
    * @return {@code true} if the path represents a magic file, otherwise {@code false}.
    */
   public static boolean isMagic(String path) {
-    return COMMIT_MSG.equals(path) || MERGE_LIST.equals(path) || PATCHSET_LEVEL.equals(path);
+    return COMMIT_MSG.equals(path)
+        || MERGE_LIST.equals(path)
+        || PATCHSET_LEVEL.equals(path)
+        || CHANGE_LEVEL.equals(path);
   }
 
   public static Key key(PatchSet.Id patchSetId, String fileName) {

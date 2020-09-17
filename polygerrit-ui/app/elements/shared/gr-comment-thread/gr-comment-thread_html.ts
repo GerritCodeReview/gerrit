@@ -82,7 +82,10 @@ export const htmlTemplate = html`
         <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
           <span> [[_computeDisplayPath(path)]] </span>
         </template>
-        <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
+        <template is="dom-if" if="[[_isChangeLevelComment(path)]]">
+          <span> [[_computeDisplayPath(path)]] </span>
+        </template>
+        <template is="dom-if" if="[[_isFileComment(path)]]">
           <a href$="[[_getDiffUrlForPath(path)]]">
             [[_computeDisplayPath(path)]]
           </a>
@@ -90,7 +93,7 @@ export const htmlTemplate = html`
       </div>
     </template>
     <div class="pathInfo">
-      <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
+      <template is="dom-if" if="[[_isFileComment(path)]]">
         <a
           href$="[[_getDiffUrlForComment(projectName, changeNum, path, patchNum)]]"
           >[[_computeDisplayLine()]]</a
@@ -116,7 +119,7 @@ export const htmlTemplate = html`
         patch-num="[[patchNum]]"
         draft="[[_isDraft(comment)]]"
         show-actions="[[_showActions]]"
-        show-patchset="[[showPatchset]]"
+        show-patchset="[[_shouldShowPatchset(showPatchset)]]"
         comment-side="[[comment.__commentSide]]"
         side="[[comment.side]]"
         project-config="[[_projectConfig]]"

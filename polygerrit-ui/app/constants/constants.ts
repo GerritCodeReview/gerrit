@@ -74,6 +74,7 @@ export enum ChangeStatus {
  * @desc Special file paths
  */
 export enum SpecialFilePath {
+  CHANGE_LEVEL_COMMENTS = '/CHANGE_LEVEL',
   PATCHSET_LEVEL_COMMENTS = '/PATCHSET_LEVEL',
   COMMIT_MESSAGE = '/COMMIT_MSG',
   MERGE_LIST = '/MERGE_LIST',

@@ -360,6 +360,8 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
   /** @override */
   ready() {
     super.ready();
+    this._isChangeCommentsExperimentEnabled = this.flagsService
+        .isEnabled(KnownExperimentId.CHANGE_COMMENTS);
     this._isPatchsetCommentsExperimentEnabled = this.flagsService
         .isEnabled(KnownExperimentId.PATCHSET_COMMENTS);
     this.$.jsAPI.addElement(TargetElement.REPLY_DIALOG, this);
@@ -582,7 +584,15 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
     }
 
     if (this.draft != null) {
-      if (this._isPatchsetCommentsExperimentEnabled) {
+      if (this._isChangeCommentsExperimentEnabled) {
+        const comment = {
+          message: this.draft,
+          unresolved: !this._isResolvedPatchsetLevelComment,
+        };
+        reviewInput.comments = {
+          [SpecialFilePath.CHANGE_LEVEL_COMMENTS]: [comment],
+        };
+      } else if (this._isPatchsetCommentsExperimentEnabled) {
         const comment = {
           message: this.draft,
           unresolved: !this._isResolvedPatchsetLevelComment,

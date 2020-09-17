@@ -243,13 +243,24 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
         this.comments[0].id);
   }
 
+  _isChangeLevelComment(path) {
+    return path === SpecialFilePath.CHANGE_LEVEL_COMMENTS;
+  }
+
   _isPatchsetLevelComment(path) {
     return path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS;
   }
 
+  _isFileComment(path) {
+    return !this._isChangeLevelComment(path) && !this._isPatchsetLevelComment(path);
+  }
+
   _computeDisplayPath(path) {
     const displayPath = computeDisplayPath(path);
-    if (displayPath === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
+    if (this._isChangeLevelComment(displayPath)) {
+      return `Change`;
+    }
+    if (this._isPatchsetLevelComment(displayPath)) {
       return `Patchset`;
     }
     return displayPath;
@@ -259,10 +270,10 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
     if (this.lineNum) return `#${this.lineNum}`;
     // If range is set, then lineNum equals the end line of the range.
     if (!this.lineNum && !this.range) {
-      if (this.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS) {
-        return '';
+      if (this._isFileComment(this.path)) {
+        return 'FILE';
       }
-      return 'FILE';
+      return '';
     }
     if (this.range) return `#${this.range.end_line}`;
     return '';
@@ -288,6 +299,10 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
 
   _shouldDisableAction(_showActions, _lastComment) {
     return !_showActions || !_lastComment || !!_lastComment.__draft;
+  }
+
+  _shouldShowPatchset(_showPatchset) {
+    return _showPatchset && !this._isChangeLevelComment(this.path);
   }
 
   _hideActions(_showActions, _lastComment) {

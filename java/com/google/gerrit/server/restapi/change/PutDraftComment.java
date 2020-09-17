@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.restapi.change;
 
+import static com.google.gerrit.entities.Change.CHANGE_LEVEL;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
 import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
@@ -81,9 +82,10 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       throw new BadRequestException("id must match URL");
     } else if (in.line != null && in.line < 0) {
       throw new BadRequestException("line must be >= 0");
-    } else if (in.path.equals(PATCHSET_LEVEL)
+    } else if ((in.path.equals(PATCHSET_LEVEL) || in.path.equals(CHANGE_LEVEL))
         && (in.side != null || in.range != null || in.line != null)) {
-      throw new BadRequestException("patchset-level comments can't have side, range, or line");
+      throw new BadRequestException(
+          "[patchset|change]-level comments can't have side, range, or line");
     } else if (in.line != null && in.range != null && in.line != in.range.endLine) {
       throw new BadRequestException("range endLine must be on the same line as the comment");
     } else if (in.inReplyTo != null

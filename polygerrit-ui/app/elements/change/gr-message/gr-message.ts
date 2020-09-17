@@ -241,21 +241,22 @@ export class GrMessage extends GestureEventListeners(
     return this._computeMessageContent(content, tag, true);
   }
 
-  _patchsetCommentSummary(commentThreads: CommentThread[] = []) {
+  _specialPathCommentSummary(
+    path: SpecialFilePath,
+    commentThreads: CommentThread[] = []
+  ) {
     const id = this.message?.id;
     if (!id) return '';
-    const patchsetThreads = commentThreads.filter(
-      thread => thread.path === SpecialFilePath.PATCHSET_LEVEL_COMMENTS
-    );
-    for (const thread of patchsetThreads) {
-      // Find if there was a patchset level comment created through the reply
+    const pathThreads = commentThreads.filter(thread => thread.path === path);
+    for (const thread of pathThreads) {
+      // Find if there was a special path level comment created through the reply
       // dialog and use it to determine the summary
       if (thread.comments[0].change_message_id === id) {
         return thread.comments[0].message;
       }
     }
-    // Find if there is a reply to some patchset comment left
-    for (const thread of patchsetThreads) {
+    // Find if there is a reply to some special path comment left
+    for (const thread of pathThreads) {
       for (const comment of thread.comments) {
         if (comment.change_message_id === id) {
           return comment.message;
@@ -272,7 +273,16 @@ export class GrMessage extends GestureEventListeners(
   ) {
     const summary = this._computeMessageContent(content, tag, false);
     if (summary || !commentThreads) return summary;
-    return this._patchsetCommentSummary(commentThreads);
+    return (
+      this._specialPathCommentSummary(
+        SpecialFilePath.CHANGE_LEVEL_COMMENTS,
+        commentThreads
+      ) ||
+      this._specialPathCommentSummary(
+        SpecialFilePath.PATCHSET_LEVEL_COMMENTS,
+        commentThreads
+      )
+    );
   }
 
   _computeMessageContent(

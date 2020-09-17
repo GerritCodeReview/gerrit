@@ -606,8 +606,13 @@ public class MergeOp implements AutoCloseable {
 
     try {
       SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
-      List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
-      this.allProjects = submoduleOp.getUpdateOrderCalculator().getProjectsInOrder();
+      UpdateOrderCalculator updateOrderCalculator = submoduleOp.getUpdateOrderCalculator();
+      SubscriptionGraph subscriptionGraph = submoduleOp.getSubscriptionGraph();
+      SubmoduleCommits submoduleCommits = submoduleOp.getSubmoduleCommits();
+      List<SubmitStrategy> strategies =
+          getSubmitStrategies(
+              toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
+      this.allProjects = updateOrderCalculator.getProjectsInOrder();
       try {
         BatchUpdate.execute(
             orm.batchUpdates(allProjects),
@@ -658,16 +663,17 @@ public class MergeOp implements AutoCloseable {
   }
 
   private List<SubmitStrategy> getSubmitStrategies(
-      Map<BranchNameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
+      Map<BranchNameKey, BranchBatch> toSubmit,
+      UpdateOrderCalculator updateOrderCalculator,
+      SubmoduleCommits submoduleCommits,
+      SubscriptionGraph subscriptionGraph,
+      boolean dryrun)
       throws IntegrationConflictException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
-    Set<BranchNameKey> allBranches = submoduleOp.getUpdateOrderCalculator().getBranchesInOrder();
+    Set<BranchNameKey> allBranches = updateOrderCalculator.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
 
-    // TODO(ifrade): injection for these classes
-    SubmoduleCommits submoduleCommits = submoduleOp.getSubmoduleCommits();
-    SubscriptionGraph subscriptionGraph = submoduleOp.getSubscriptionGraph();
     GitlinkOp.Factory gitlinkOpFactory = new GitlinkOp.Factory(submoduleCommits, subscriptionGraph);
 
     for (BranchNameKey branch : allBranches) {
@@ -694,8 +700,8 @@ public class MergeOp implements AutoCloseable {
                 commitStatus,
                 submissionId,
                 submitInput,
-                submoduleOp.getSubmoduleCommits(),
-                submoduleOp.getSubscriptionGraph(),
+                submoduleCommits,
+                subscriptionGraph,
                 dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);

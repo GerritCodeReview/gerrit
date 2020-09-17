@@ -51,6 +51,24 @@
       "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "2c8dfa8c_aa84d08f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-17T06:23:45Z",
+      "side": 1,
+      "message": "I\u0027m not sure I understand your concerns. psId can be null here, why would we want to allow a potential NPE?\n\nWould you prefer if I did an actual null-check?\n\n    if (psId \u003d\u003d null) {\n      continue;\n    }",
+      "parentUuid": "12a59765_0b708643",
+      "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -173,17 +173,19 @@ currently be set with either one or many of these supported properties, from the
 * `-Dcom.google.gerrit.scenarios.ssh_port=29418`
 * `-Dcom.google.gerrit.scenarios.http_port=8080`
 * `-Dcom.google.gerrit.scenarios.http_scheme=http`
+* `-Dcom.google.gerrit.scenarios.replication_delay=15`
 
 Above, the properties can be set with values matching specific deployment topologies under test.
 The example values shown above are the currently coded default ones. For example, the `http` scheme
-above could be replaced with `https`. The framework could support differing or more properties over
-time.
+above could be replaced with `https`. The `replication_delay` property matches replication plugin's
+configuration with the same name. The framework may support differing or more properties over time.
 
 Plugin or otherwise non-core scenarios may do so just as well. The core java package
 `com.google.gerrit.scenarios` from the example above has to be replaced with the one under which
 those scenario classes are. Such extending scenarios can also add extension-specific properties.
 Examples of this can be found in these Gerrit plugins test code:
 
+* `link:https://gerrit.googlesource.com/plugins/gc-conductor[gc-conductor,role=external,window=_blank]`
 * `link:https://gerrit.googlesource.com/plugins/high-availability[high-availability,role=external,window=_blank]`
 * `link:https://gerrit.googlesource.com/plugins/multi-site[multi-site,role=external,window=_blank]`
 * `link:https://gerrit.googlesource.com/plugins/rename-project[rename-project,role=external,window=_blank]`

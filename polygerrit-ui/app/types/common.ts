@@ -1039,7 +1039,7 @@ export interface UserConfigInfo {
  * The CommentInfo entity contains information about an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
  */
-export interface CommentInfo {
+export interface CommentInfo extends CommentInput {
   patch_set?: PatchSetNum;
   id: UrlEncodedCommentId;
   path?: string;
@@ -1047,9 +1047,9 @@ export interface CommentInfo {
   parent?: number;
   line?: number;
   range?: CommentRange;
-  in_reply_to?: string;
+  in_reply_to?: UrlEncodedCommentId;
   message?: string;
-  updated: string;
+  updated: Timestamp;
   author?: AccountInfo;
   tag?: string;
   unresolved?: boolean;

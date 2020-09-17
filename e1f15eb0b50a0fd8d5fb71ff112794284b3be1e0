@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "5903d5e5_0deca43f",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-17T20:40:48Z",
+      "side": 1,
+      "message": "I read the [1], very interesting. However, here we do not have neither the need of serialising the OAuthTokenCache class nor the problem of using reflection, do we?\n\nAnyway, I acknowledge that is used in the other serialisers so LGTM +1",
+      "parentUuid": "75690447_278e1b61",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 13
+      },
+      "revId": "e1f15eb0b50a0fd8d5fb71ff112794284b3be1e0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5df654ff_e7d179cd",
         "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
         "patchSetId": 1

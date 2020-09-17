@@ -1,0 +1,78 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60c482e5_57791e7f",
+        "filename": "polygerrit-ui/app/constants/messages.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T10:38:34Z",
+      "side": 1,
+      "message": "Also remove this constant and inline the string.",
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a81e3a15_37f3fff3",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T10:38:34Z",
+      "side": 1,
+      "message": "Maybe replace this check by\n\n  if (this._showEmptyThreadsMessage(...",
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e870af1_ee87c888",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T10:38:34Z",
+      "side": 1,
+      "message": "Maybe replace this check by\n\n  if (this._showEmptyThreadsMessage(...\n\nOr just remove it?",
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a96ca9d_cb937727",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T10:38:34Z",
+      "side": 1,
+      "message": "You are showing the party popper regardless of the computed message?\n\nI don\u0027t think \"No comments yet.\" should be accompanied by a party popper.",
+      "range": {
+        "startLine": 95,
+        "startChar": 10,
+        "endLine": 95,
+        "endChar": 19
+      },
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

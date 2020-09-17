@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "69f4d759_ed2bec2e",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-17T07:14:24Z",
+      "side": 1,
+      "message": "hmmm probably out of the scope, i thought we replaced all `fire` with dispatchEvent... `this.fire` should no longer work and might just throw an error, if that\u0027s the case, it may just prevent the reporting from ever being executed",
+      "range": {
+        "startLine": 337,
+        "startChar": 9,
+        "endLine": 337,
+        "endChar": 13
+      },
+      "revId": "a20e4cbea9c4352f679f01f260cece372ebcb064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

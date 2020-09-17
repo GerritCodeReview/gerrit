@@ -1279,6 +1279,29 @@
     },
     {
       "key": {
+        "uuid": "fdcb9193_5e174380",
+        "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFile.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:59:52Z",
+      "side": 1,
+      "message": "After looking at I5a8c19ba7, I\u0027m wondering whether we even need the oldMode/newMode as part of the returned modified files. Is this something callers really need? Do these callers also query the FileDiffCache, in which case they can get the same information from the FileDiffCache?\n\nThe FileMode should be quick to determine so it wouldn\u0027t slow us down in the GitModifiedFilesCache but I\u0027d like to keep the API of the cache as clean as possible. So, if we don\u0027t really need the field here, I\u0027d leave it out.",
+      "range": {
+        "startLine": 43,
+        "startChar": 27,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "9b0ec23b4b9c37586a58c4efa71d1a0416fc0427",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "b2988a75_ebe61422",
         "filename": "java/com/google/gerrit/server/patch/entities/GitModifiedFilesList.java",
         "patchSetId": 3

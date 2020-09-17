@@ -2138,7 +2138,8 @@ class GrChangeView extends KeyboardShortcutMixin(
     }
 
     this._updateCheckTimerHandle = this.async(() => {
-      fetchChangeUpdates(this._change, this.$.restAPI).then(result => {
+      const change = this._change;
+      fetchChangeUpdates(change, this.$.restAPI).then(result => {
         let toastMessage = null;
         if (!result.isLatest) {
           toastMessage = ReloadToastMessage.NEWER_REVISION;
@@ -2152,7 +2153,11 @@ class GrChangeView extends KeyboardShortcutMixin(
           toastMessage = ReloadToastMessage.NEW_MESSAGE;
         }
 
-        if (!toastMessage) {
+        // We have to make sure that the update is still relevant for the user.
+        // Since starting to fetch the change update the user may have sent a
+        // reply, or the change might have been reloaded, or it could be in the
+        // process of being reloaded.
+        if (!toastMessage || this._loading || change !== this._change) {
           this._startUpdateCheckTimer();
           return;
         }

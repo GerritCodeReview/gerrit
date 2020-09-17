@@ -50,7 +50,7 @@ export interface JsApiService {
   addElement(key: TargetElement, el: HTMLElement): void;
   getDiffLayers(path: string, changeNum: number): DiffLayer[];
   disposeDiffLayers(path: string): void;
-  getCoverageAnnotationApi(): Promise<GrAnnotationActionsInterface | undefined>;
+  getCoverageAnnotationApis(): Promise<GrAnnotationActionsInterface[]>;
   getAdminMenuLinks(): MenuLink[];
   // TODO(TS): Add more methods when needed for the TS conversion.
 }

@@ -420,50 +420,51 @@ export class GrDiffHost extends GestureEventListeners(
     const basePatchNum = toNumberOnly(this.patchRange.basePatchNum);
     const patchNum = toNumberOnly(this.patchRange.patchNum);
     this.$.jsAPI
-      .getCoverageAnnotationApi()
-      .then(coverageAnnotationApi => {
-        if (!coverageAnnotationApi) return;
-        const provider = coverageAnnotationApi.getCoverageProvider();
-        if (!provider) return;
-        return provider(changeNum, path, basePatchNum, patchNum, change).then(
-          coverageRanges => {
-            if (!this.patchRange) throw new Error('Missing "patchRange".');
-            if (
-              !coverageRanges ||
-              changeNum !== this.changeNum ||
-              change !== this.change ||
-              path !== this.path ||
-              basePatchNum !== toNumberOnly(this.patchRange.basePatchNum) ||
-              patchNum !== toNumberOnly(this.patchRange.patchNum)
-            ) {
-              return;
+      .getCoverageAnnotationApis()
+      .then(coverageAnnotationApis => {
+        coverageAnnotationApis.forEach(coverageAnnotationApi => {
+          const provider = coverageAnnotationApi.getCoverageProvider();
+          if (!provider) return;
+          return provider(changeNum, path, basePatchNum, patchNum, change).then(
+            coverageRanges => {
+              if (!this.patchRange) throw new Error('Missing "patchRange".');
+              if (
+                !coverageRanges ||
+                changeNum !== this.changeNum ||
+                change !== this.change ||
+                path !== this.path ||
+                basePatchNum !== toNumberOnly(this.patchRange.basePatchNum) ||
+                patchNum !== toNumberOnly(this.patchRange.patchNum)
+              ) {
+                return;
+              }
+
+              const existingCoverageRanges = this._coverageRanges;
+              this._coverageRanges = coverageRanges;
+
+              // Notify with existing coverage ranges
+              // in case there is some existing coverage data that needs to be removed
+              existingCoverageRanges.forEach(range => {
+                coverageAnnotationApi.notify(
+                  path,
+                  range.code_range.start_line,
+                  range.code_range.end_line,
+                  range.side
+                );
+              });
+
+              // Notify with new coverage data
+              coverageRanges.forEach(range => {
+                coverageAnnotationApi.notify(
+                  path,
+                  range.code_range.start_line,
+                  range.code_range.end_line,
+                  range.side
+                );
+              });
             }
-
-            const existingCoverageRanges = this._coverageRanges;
-            this._coverageRanges = coverageRanges;
-
-            // Notify with existing coverage ranges
-            // in case there is some existing coverage data that needs to be removed
-            existingCoverageRanges.forEach(range => {
-              coverageAnnotationApi.notify(
-                path,
-                range.code_range.start_line,
-                range.code_range.end_line,
-                range.side
-              );
-            });
-
-            // Notify with new coverage data
-            coverageRanges.forEach(range => {
-              coverageAnnotationApi.notify(
-                path,
-                range.code_range.start_line,
-                range.code_range.end_line,
-                range.side
-              );
-            });
-          }
-        );
+          );
+        });
       })
       .catch(err => {
         console.warn('Loading coverage ranges failed: ', err);

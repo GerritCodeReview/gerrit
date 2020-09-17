@@ -105,6 +105,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74e2043_55ac7285",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-17T13:02:22Z",
+      "side": 1,
+      "message": "So the experiment has 100% rollout on canary(gerrit-review). The flag allows you to enable the experiment on hosts which do not have the experiment enabled.",
+      "parentUuid": "33b6feca_c3a5b8df",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

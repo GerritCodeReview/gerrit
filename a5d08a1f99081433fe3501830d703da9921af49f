@@ -141,6 +141,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92e54ebd_c83cea8f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T13:32:24Z",
+      "side": 1,
+      "message": "\u003e Regardless ;) Do you think that making it visually less related to the PS would be closer to what \u0027change message\u0027 currently delivers (which is PS agnostic change feedback) obviously offering also the possibility to thread it?\n\nChange messages are not agnostic to patchsets. They are always associated with one. On larger screens, the \"Patchset X\" indicator just moves further to the right.\n\nThat\u0027s comparable to the \"Patchset X\" indicator of a comment, which is just a bit closer to the message on large screens.\n\nHence, adding messages/comments to Gerrit which aren\u0027t associated with patchsets would be a completely new feature, also UX wise. Before we think about this or about hiding the patchset-relation of patchset-level comments, what\u0027s the use case you\u0027re thinking of? When would users not want to have a patchset-association? When would it be harmful?",
+      "parentUuid": "7def451c_dcb5924a",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

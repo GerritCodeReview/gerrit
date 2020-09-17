@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1e26a5a3_4f96a071",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-17T21:37:29Z",
+      "side": 1,
+      "message": "This whole series (resulting page with all amended sections) renders well locally for me.",
+      "revId": "dc09d51b229d8678f4ab502d815dcecdf8270b06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

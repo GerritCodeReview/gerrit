@@ -16,6 +16,40 @@
       "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02aff5e8_d3b49b16",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T07:58:56Z",
+      "side": 1,
+      "message": "There is the same problem for `leftSide`. It is also not accurate to extract that from the cursorAddress. But both events (line-selected and comment-anchor-tap) also have a `side` property, so you can use that here, I think.",
+      "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d84c605_e0409ef7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T07:58:56Z",
+      "side": 1,
+      "message": "Does this test still make sense?",
+      "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

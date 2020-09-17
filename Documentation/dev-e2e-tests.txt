@@ -172,15 +172,25 @@ with either one or many of these supported properties, from the core framework:
 * `-Dcom.google.gerrit.scenarios.ssh_port=29418`
 * `-Dcom.google.gerrit.scenarios.http_port=8080`
 * `-Dcom.google.gerrit.scenarios.http_scheme=http`
-* `-Dcom.google.gerrit.scenarios.replication_delay=15`
 
 Above, the properties can be set with values matching specific deployment topologies under test.
 The name of the property corresponds to the uppercase keyword found in the json file. For example,
 `hostname` above will set the value of `HOSTNAME` in the link:#_input_file[aforementioned example].
 
 The example values shown above are the currently coded default ones. For example, the `http` scheme
-above could be replaced with `https`. The `replication_delay` property matches replication plugin's
-configuration with the same name. The framework may support differing or more properties over time.
+above could be replaced with `https`. The framework may support differing or more properties over time.
+
+==== Replication delay
+
+The `replication_delay` property allows test scenario steps to wait for that many seconds, prior to
+expecting a done replication. Its default is `15` seconds and can be set using another value:
+
+* `-Dcom.google.gerrit.scenarios.replication_delay=15`
+
+There is a short time buffer added to this property. Now, the replication starts after replication
+plugin's own `replicationDelay`, in seconds, and typically takes some more seconds to complete.
+That whole replication time depends on the system under test. Therefore, this property here should
+be set to a value high enough, so that the test checks for a done replication at the right time.
 
 ==== Automatic properties
 

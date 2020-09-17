@@ -24,6 +24,10 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property, observe} from '@polymer/decorators';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {
+  pushScrollLock,
+  removeScrollLock,
+} from '@polymer/iron-overlay-behavior/iron-scroll-manager';
 
 const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
@@ -127,8 +131,10 @@ export const hovercardBehaviorMixin = dedupingMixin(
         // show the hovercard if mouse moves to hovercard
         // this will cancel pending hide as well
         this.listen(this, 'mouseenter', 'show');
+        this.listen(this, 'mouseenter', 'lock');
         // when leave hovercard, hide it immediately
         this.listen(this, 'mouseleave', 'hide');
+        this.listen(this, 'mouseleave', 'unlock');
       }
 
       /** @override */
@@ -213,6 +219,13 @@ export const hovercardBehaviorMixin = dedupingMixin(
       }
 
       /**
+       * unlock scroll, this will resume the scroll outside of the hovercard.
+       */
+      unlock() {
+        removeScrollLock(this);
+      }
+
+      /**
        * Hides/closes the hovercard. This occurs when the user triggers the
        * `mouseleave` event on the hovercard's `target` element (as long as the
        * user is not hovering over the hovercard).
@@ -284,6 +297,13 @@ export const hovercardBehaviorMixin = dedupingMixin(
           this._showDebouncer.cancel();
           this._isScheduledToShow = false;
         }
+      }
+
+      /**
+       * Lock background scroll but enable scroll inside of current hovercard.
+       */
+      lock() {
+        pushScrollLock(this);
       }
 
       /**

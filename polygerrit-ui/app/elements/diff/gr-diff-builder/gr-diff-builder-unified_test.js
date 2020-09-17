@@ -133,6 +133,12 @@ suite('GrDiffBuilderUnified tests', () => {
       assert.isTrue(sectionEl.classList.contains('dueToRebase'));
     });
 
+    test('creates the section with class if dueToMove', () => {
+      group.dueToMove = true;
+      const sectionEl = diffBuilder.buildSectionElement(group);
+      assert.isTrue(sectionEl.classList.contains('dueToMove'));
+    });
+
     test('creates first the removed and then the added rows', () => {
       const sectionEl = diffBuilder.buildSectionElement(group);
       const rowEls = sectionEl.querySelectorAll('.diff-row');

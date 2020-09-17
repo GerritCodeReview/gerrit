@@ -16,6 +16,41 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d769f6b6_436df35a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-17T12:45:03Z",
+      "side": 1,
+      "message": "Ups... it seems that I have missed it somehow ;)\nAnyway I was under impression that patchset comments are not exactly the same as they are VISUALLY bound to the particular ps (in my proposal \u0027/CHANGE_LEVEL\u0027 comments are not ;)) not necessarily relating to the whole change.\nIn addition when one replies (through the main \u0027Reply\u0027 button not through any \u0027reply\u0027 link) feedback is posted as regular message which is not thread\u0027able unless feature flag \u0027UiFeature__patchset_comments\u0027 is used (at least this is what see in my locally built master). To sum it up: have noticed patchset comments but was rather under impression that they are exactly what the feature is about...",
+      "parentUuid": "402b0eb9_64cab4f0",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b05e88c_0435da85",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-17T12:45:03Z",
+      "side": 1,
+      "message": "Wondering if that comment will be visible in patchset level...",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

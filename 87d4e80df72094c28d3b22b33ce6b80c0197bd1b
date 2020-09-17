@@ -22,6 +22,30 @@
       "revId": "87d4e80df72094c28d3b22b33ce6b80c0197bd1b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aefd1522_7901cc35",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-17T23:41:58Z",
+      "side": 1,
+      "message": "It takes a while, but eventually this (and other getters) disappear all together in https://gerrit-review.googlesource.com/c/gerrit/+/281879/1/java/com/google/gerrit/server/submit/MergeOp.java",
+      "parentUuid": "76ef581c_e319ba93",
+      "range": {
+        "startLine": 125,
+        "startChar": 2,
+        "endLine": 126,
+        "endChar": 16
+      },
+      "revId": "87d4e80df72094c28d3b22b33ce6b80c0197bd1b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

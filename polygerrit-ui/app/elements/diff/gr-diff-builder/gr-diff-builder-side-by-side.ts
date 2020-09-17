@@ -41,6 +41,9 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     if (group.dueToRebase) {
       sectionEl.classList.add('dueToRebase');
     }
+    if (group.dueToMove) {
+      sectionEl.classList.add('dueToMove');
+    }
     if (group.ignoredWhitespaceOnly) {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }

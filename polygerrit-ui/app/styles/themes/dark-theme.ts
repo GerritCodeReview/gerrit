@@ -117,6 +117,7 @@ function getStyleEl() {
       --diff-trailing-whitespace-indicator: #ff9ad2;
       --light-add-highlight-color: #0f401f;
       --light-rebased-add-highlight-color: #487165;
+      --light-moved-add-highlight-color: #487165;
       --light-remove-add-highlight-color: #2f3f2f;
       --light-remove-highlight-color: #320404;
       --coverage-covered: #112826;

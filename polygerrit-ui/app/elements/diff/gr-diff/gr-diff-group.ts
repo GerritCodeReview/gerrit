@@ -189,6 +189,8 @@ export class GrDiffGroup {
 
   dueToRebase = false;
 
+  dueToMove = false;
+
   /**
    * True means all changes in this line are whitespace changes that should
    * not be highlighted as changed as per the user settings.

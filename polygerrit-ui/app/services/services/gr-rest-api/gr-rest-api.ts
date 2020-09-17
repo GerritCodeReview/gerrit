@@ -75,6 +75,8 @@ import {
   ProjectInput,
   AccountId,
   ChangeMessageId,
+  GroupAuditEventInfo,
+  EncodedGroupId,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -605,8 +607,42 @@ export interface RestApiService {
     changeNum: ChangeNum,
     messageId: ChangeMessageId
   ): Promise<Response>;
+
   removeChangeReviewer(
     changeNum: ChangeNum,
     reviewerID: AccountId | GroupId
   ): Promise<Response | undefined>;
+
+  getGroupAuditLog(
+    group: EncodedGroupId,
+    errFn?: ErrorCallback
+  ): Promise<GroupAuditEventInfo[] | undefined>;
+
+  getGroupMembers(
+    groupName: GroupId,
+    errFn?: ErrorCallback
+  ): Promise<AccountInfo[] | undefined>;
+
+  getIncludedGroup(groupName: GroupId): Promise<GroupInfo[] | undefined>;
+
+  saveGroupMember(
+    groupName: GroupId,
+    groupMember: AccountId
+  ): Promise<AccountInfo>;
+
+  saveIncludedGroup(
+    groupName: GroupId,
+    includedGroup: GroupId,
+    errFn?: ErrorCallback
+  ): Promise<GroupInfo | undefined>;
+
+  deleteGroupMember(
+    groupName: GroupId,
+    groupMember: AccountId
+  ): Promise<Response>;
+
+  deleteIncludedGroup(
+    groupName: GroupId,
+    includedGroup: GroupId
+  ): Promise<Response>;
 }

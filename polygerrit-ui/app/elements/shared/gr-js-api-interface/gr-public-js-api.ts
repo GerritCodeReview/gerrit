@@ -31,7 +31,6 @@ import {GrPluginRestApi} from './gr-plugin-rest-api';
 import {GrRepoApi} from '../../plugins/gr-repo-api/gr-repo-api';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api';
 import {GrStylesApi} from '../../plugins/gr-styles-api/gr-styles-api';
-import {GrPluginActionContext} from './gr-plugin-action-context';
 import {getPluginEndpoints} from './gr-plugin-endpoints';
 
 import {PRELOADED_PROTOCOL, getPluginNameFromUrl, send} from './gr-api-utils';
@@ -39,22 +38,14 @@ import {GrReporintJsApi} from './gr-reporting-js-api';
 import {
   EventType,
   HookApi,
-  PanelInfo,
   PluginApi,
-  PluginDeprecatedApi,
   RegisterOptions,
-  SettingsInfo,
   TargetElement,
 } from '../../plugins/gr-plugin-types';
-import {ActionInfo, RequestPayload} from '../../../types/common';
+import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
 import {JsApiService} from './gr-js-api-types';
 import {GrChangeActions} from '../../../services/services/gr-rest-api/gr-rest-api';
-
-const PANEL_ENDPOINTS_MAPPING = {
-  CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK: 'change-view-integration',
-  CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK: 'change-metadata-item',
-};
 
 /**
  * Plugin-provided custom components can affect content in extension
@@ -77,8 +68,6 @@ const PLUGIN_NAME_NOT_SET = 'NULL';
 export type SendCallback = (response: unknown) => void;
 
 export class Plugin implements PluginApi {
-  readonly deprecated: PluginDeprecatedApi;
-
   readonly _url?: URL;
 
   private _domHooks: GrDomHooksManager;
@@ -89,25 +78,6 @@ export class Plugin implements PluginApi {
   private readonly sharedApiElement: JsApiService;
 
   constructor(url?: string) {
-    this.deprecated = {
-      _loadedGwt: () => {},
-      install: () => this.deprecatedInstall(),
-      onAction: (
-        type: string,
-        action: string,
-        callback: (ctx: GrPluginActionContext) => void
-      ) => this.deprecatedOnAction(type, action, callback),
-      panel: (extensionpoint: string, callback: (panel: PanelInfo) => void) =>
-        this.deprecatedPanel(extensionpoint, callback),
-      popup: (el: Element) => this.deprecatedPopup(el),
-      screen: (pattern: string, callback: (settings: SettingsInfo) => void) =>
-        this.deprecatedScreen(pattern, callback),
-      settingsScreen: (
-        path: string,
-        menu: string,
-        callback: (settings: SettingsInfo) => void
-      ) => this.deprecatedSettingsScreen(path, menu, callback),
-    };
     this.sharedApiElement = getSharedApiEl();
     this._domHooks = new GrDomHooksManager(this);
 
@@ -327,25 +297,16 @@ export class Plugin implements PluginApi {
     return new GrEventHelper(element);
   }
 
-  popup(moduleName: string) {
-    if (typeof moduleName !== 'string') {
+  popup(): Promise<GrPopupInterface>;
+
+  popup(moduleName: string): Promise<GrPopupInterface>;
+
+  popup(moduleName?: string): Promise<GrPopupInterface | null> {
+    if (moduleName !== undefined && typeof moduleName !== 'string') {
       console.error('.popup(element) deprecated, use .popup(moduleName)!');
-      return;
+      return Promise.resolve(null);
     }
-    const api = new GrPopupInterface(this, moduleName);
-    return api.open();
-  }
-
-  panel() {
-    console.error(
-      '.panel() is deprecated! ' + 'Use registerCustomComponent() instead.'
-    );
-  }
-
-  settingsScreen() {
-    console.error(
-      '.settingsScreen() is deprecated! ' + 'Use .settings() instead.'
-    );
+    return new GrPopupInterface(this, moduleName).open();
   }
 
   screen(screenName: string, moduleName?: string) {
@@ -364,143 +325,5 @@ export class Plugin implements PluginApi {
 
   _getScreenName(screenName: string) {
     return `${this.getPluginName()}-screen-${screenName}`;
-  }
-
-  // !!! DEPRECATED !!!
-  // All methods below are deprecated!
-  // TODO: should be removed soon after all core plugins moved away from it.
-
-  deprecatedInstall() {
-    console.info('Installing deprecated APIs is deprecated!');
-    const deprecatedThis = (this as unknown) as PluginDeprecatedApi;
-    deprecatedThis._loadedGwt = this.deprecated._loadedGwt;
-    deprecatedThis.onAction = this.deprecated.onAction;
-    deprecatedThis.panel = this.deprecated.panel;
-    deprecatedThis.popup = this.deprecated.popup;
-    deprecatedThis.screen = this.deprecated.screen;
-    deprecatedThis.settingsScreen = this.deprecated.settingsScreen;
-  }
-
-  deprecatedPopup(el: Element): GrPopupInterface {
-    console.warn(
-      'plugin.deprecated.popup() is deprecated, ' + 'use plugin.popup() insted!'
-    );
-    if (!el) {
-      throw new Error('Popup contents not found');
-    }
-    const api = new GrPopupInterface(this);
-    api.open().then(api => {
-      const popupEl = api._getElement();
-      if (!popupEl) {
-        throw new Error('Popup element not found');
-      }
-      popupEl.appendChild(el);
-    });
-    return api;
-  }
-
-  deprecatedOnAction(
-    type: string,
-    action: string,
-    callback: (ctx: GrPluginActionContext) => void
-  ) {
-    console.warn(
-      'plugin.deprecated.onAction() is deprecated,' +
-        ' use plugin.changeActions() instead!'
-    );
-    if (type !== 'change' && type !== 'revision') {
-      console.warn(`${type} actions are not supported.`);
-      return;
-    }
-    this.on(EventType.SHOW_CHANGE, (change, revision) => {
-      const details: ActionInfo = this.changeActions().getActionDetails(action);
-      if (!details) {
-        console.warn(
-          `${this.getPluginName()} onAction error: ${action} not found!`
-        );
-        return;
-      }
-      if (!details.__key) {
-        console.warn(
-          `${this.getPluginName()} onAction error: ${action} has no key!`
-        );
-        return;
-      }
-      this.changeActions().addTapListener(details.__key, () => {
-        callback(new GrPluginActionContext(this, details, change, revision));
-      });
-    });
-  }
-
-  deprecatedScreen(
-    pattern: string,
-    callback: (settings: SettingsInfo) => void
-  ) {
-    console.warn(
-      'plugin.deprecated.screen is deprecated,' + ' use plugin.screen instead!'
-    );
-    this.hook(this._getScreenName(pattern)).onAttached(el => {
-      el.style.display = 'none';
-      callback({
-        body: el,
-        token: el.token,
-        onUnload: () => {},
-        setTitle: () => {},
-        setWindowTitle: () => {},
-        show: () => {
-          el.style.display = 'initial';
-        },
-      });
-    });
-  }
-
-  deprecatedSettingsScreen(
-    path: string,
-    menu: string,
-    callback: (settings: SettingsInfo) => void
-  ) {
-    console.warn('.settingsScreen() is deprecated! Use .settings() instead.');
-    const hook = this.settings().title(menu).token(path).module('div').build();
-    hook.onAttached(el => {
-      el.style.display = 'none';
-      const body = el.querySelector('div');
-      if (!body) return;
-      callback({
-        body,
-        onUnload: () => {},
-        setTitle: () => {},
-        setWindowTitle: () => {},
-        show: () => {
-          el.style.display = 'initial';
-        },
-      });
-    });
-  }
-
-  deprecatedPanel(
-    extensionpoint: string,
-    callback: (panel: PanelInfo) => void
-  ) {
-    console.warn(
-      '.panel() is deprecated! ' + 'Use registerCustomComponent() instead.'
-    );
-    let endpoint;
-    for (const [key, value] of Object.entries(PANEL_ENDPOINTS_MAPPING)) {
-      if (key === extensionpoint) endpoint = value;
-    }
-    if (!endpoint) {
-      console.warn(`.panel ${extensionpoint} not supported!`);
-      return;
-    }
-    this.hook(endpoint).onAttached(el =>
-      callback({
-        body: el,
-        p: {
-          CHANGE_INFO: el.change,
-          REVISION_INFO: el.revision,
-        },
-        onUnload: () => {},
-      })
-    );
   }
 }

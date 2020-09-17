@@ -20,7 +20,6 @@ import './gr-js-api-interface.js';
 import {GrPopupInterface} from '../../plugins/gr-popup-interface/gr-popup-interface.js';
 import {GrSettingsApi} from '../../plugins/gr-settings-api/gr-settings-api.js';
 import {EventType} from '../../plugins/gr-plugin-types.js';
-import {GrPluginActionContext} from './gr-plugin-action-context.js';
 import {PLUGIN_LOADING_TIMEOUT_MS} from './gr-api-utils.js';
 import {getPluginLoader} from './gr-plugin-loader.js';
 import {_testOnly_initGerritPluginApi} from './gr-gerrit.js';
@@ -353,15 +352,6 @@ suite('gr-js-api-interface tests', () => {
     assert.isOk(plugin.attributeHelper());
   });
 
-  test('deprecated.install', () => {
-    assert.notStrictEqual(plugin.popup, plugin.deprecated.popup);
-    assert.notStrictEqual(plugin.onAction, plugin.deprecated.onAction);
-    plugin.deprecated.install();
-    assert.strictEqual(plugin.popup, plugin.deprecated.popup);
-    assert.strictEqual(plugin.onAction, plugin.deprecated.onAction);
-    assert.notStrictEqual(plugin.install, plugin.deprecated.install);
-  });
-
   test('getAdminMenuLinks', () => {
     const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
     const getCallbacksStub = sinon.stub(element, '_getEventCallbacks')
@@ -415,56 +405,6 @@ suite('gr-js-api-interface tests', () => {
       plugin.popup('some-name');
       assert.isTrue(openStub.calledOnce);
     });
-
-    test('deprecated.popup(element) creates popup with element', () => {
-      const el = document.createElement('div');
-      el.textContent = 'some text here';
-      const openStub = sinon.stub(GrPopupInterface.prototype, 'open');
-      openStub.returns(Promise.resolve({
-        _getElement() {
-          return document.createElement('div');
-        }}));
-      plugin.deprecated.popup(el);
-      assert.isTrue(openStub.calledOnce);
-    });
-  });
-
-  suite('onAction', () => {
-    let change;
-    let revision;
-    let actionDetails;
-
-    setup(() => {
-      change = {};
-      revision = {};
-      actionDetails = {__key: 'some'};
-      sinon.stub(plugin, 'on').callsArgWith(1, change, revision);
-      sinon.stub(plugin, 'changeActions').returns({
-        addTapListener: sinon.stub().callsArg(1),
-        getActionDetails: () => actionDetails,
-      });
-    });
-
-    test('returns GrPluginActionContext', () => {
-      const stub = sinon.stub();
-      plugin.deprecated.onAction('change', 'foo', ctx => {
-        assert.isTrue(ctx instanceof GrPluginActionContext);
-        assert.strictEqual(ctx.change, change);
-        assert.strictEqual(ctx.revision, revision);
-        assert.strictEqual(ctx.action, actionDetails);
-        assert.strictEqual(ctx.plugin, plugin);
-        stub();
-      });
-      assert.isTrue(stub.called);
-    });
-
-    test('other actions', () => {
-      const stub = sinon.stub();
-      plugin.deprecated.onAction('project', 'foo', stub);
-      plugin.deprecated.onAction('edit', 'foo', stub);
-      plugin.deprecated.onAction('branch', 'foo', stub);
-      assert.isFalse(stub.called);
-    });
   });
 
   suite('screen', () => {
@@ -480,18 +420,6 @@ suite('gr-js-api-interface tests', () => {
       );
     });
 
-    test('deprecated works', () => {
-      const stub = sinon.stub();
-      const hookStub = {onAttached: sinon.stub()};
-      sinon.stub(plugin, 'hook').returns(hookStub);
-      plugin.deprecated.screen('foo', stub);
-      assert.isTrue(plugin.hook.calledWith('testplugin-screen-foo'));
-      const fakeEl = {style: {display: ''}};
-      hookStub.onAttached.callArgWith(0, fakeEl);
-      assert.isTrue(stub.called);
-      assert.equal(fakeEl.style.display, 'none');
-    });
-
     test('works', () => {
       sinon.stub(plugin, 'registerCustomComponent');
       plugin.screen('foo', 'some-module');
@@ -500,81 +428,10 @@ suite('gr-js-api-interface tests', () => {
     });
   });
 
-  suite('panel', () => {
-    let fakeEl;
-    let emulateAttached;
-
-    setup(()=> {
-      fakeEl = {change: {}, revision: {}};
-      const hookStub = {onAttached: sinon.stub()};
-      sinon.stub(plugin, 'hook').returns(hookStub);
-      emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
-    });
-
-    test('plugin.panel is deprecated', () => {
-      plugin.panel('rubbish');
-      assert.isTrue(console.error.called);
-    });
-
-    [
-      ['CHANGE_SCREEN_BELOW_COMMIT_INFO_BLOCK', 'change-view-integration'],
-      ['CHANGE_SCREEN_BELOW_CHANGE_INFO_BLOCK', 'change-metadata-item'],
-    ].forEach(([panelName, endpointName]) => {
-      test(`deprecated.panel works for ${panelName}`, () => {
-        const callback = sinon.stub();
-        plugin.deprecated.panel(panelName, callback);
-        assert.isTrue(plugin.hook.calledWith(endpointName));
-        emulateAttached();
-        assert.isTrue(callback.called);
-        const args = callback.args[0][0];
-        assert.strictEqual(args.body, fakeEl);
-        assert.strictEqual(args.p.CHANGE_INFO, fakeEl.change);
-        assert.strictEqual(args.p.REVISION_INFO, fakeEl.revision);
-      });
-    });
-  });
-
   suite('settingsScreen', () => {
-    test('plugin.settingsScreen is deprecated', () => {
-      plugin.settingsScreen('rubbish');
-      assert.isTrue(console.error.called);
-    });
-
     test('plugin.settings() returns GrSettingsApi', () => {
       assert.isOk(plugin.settings());
       assert.isTrue(plugin.settings() instanceof GrSettingsApi);
-    });
-
-    test('plugin.deprecated.settingsScreen() works', () => {
-      const hookStub = {onAttached: sinon.stub()};
-      sinon.stub(plugin, 'hook').returns(hookStub);
-      const fakeSettings = {};
-      fakeSettings.title = sinon.stub().returns(fakeSettings);
-      fakeSettings.token = sinon.stub().returns(fakeSettings);
-      fakeSettings.module = sinon.stub().returns(fakeSettings);
-      fakeSettings.build = sinon.stub().returns(hookStub);
-      sinon.stub(plugin, 'settings').returns(fakeSettings);
-      const callback = sinon.stub();
-
-      plugin.deprecated.settingsScreen('path', 'menu', callback);
-      assert.isTrue(fakeSettings.title.calledWith('menu'));
-      assert.isTrue(fakeSettings.token.calledWith('path'));
-      assert.isTrue(fakeSettings.module.calledWith('div'));
-      assert.equal(fakeSettings.build.callCount, 1);
-
-      const fakeBody = {};
-      const fakeEl = {
-        style: {
-          display: '',
-        },
-        querySelector: sinon.stub().returns(fakeBody),
-      };
-      // Emulate settings screen attached
-      hookStub.onAttached.callArgWith(0, fakeEl);
-      assert.isTrue(callback.called);
-      const args = callback.args[0][0];
-      assert.strictEqual(args.body, fakeBody);
-      assert.equal(fakeEl.style.display, 'none');
     });
   });
 });

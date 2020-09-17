@@ -42,7 +42,14 @@ export class GrPluginActionContext {
   ) {}
 
   popup(element: Node) {
-    this._popups.push(this.plugin.deprecated.popup(element));
+    this.plugin.popup().then(popApi => {
+      const popupEl = popApi._getElement();
+      if (!popupEl) {
+        throw new Error('Popup element not found');
+      }
+      popupEl.appendChild(element);
+      this._popups.push(popApi);
+    });
   }
 
   hide() {

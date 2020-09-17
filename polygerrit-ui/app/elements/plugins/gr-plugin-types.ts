@@ -18,7 +18,6 @@ import {GrAttributeHelper} from './gr-attribute-helper/gr-attribute-helper';
 import {GrPluginRestApi} from '../shared/gr-js-api-interface/gr-plugin-rest-api';
 import {GrEventHelper} from './gr-event-helper/gr-event-helper';
 import {GrPopupInterface} from './gr-popup-interface/gr-popup-interface';
-import {GrPluginActionContext} from '../shared/gr-js-api-interface/gr-plugin-action-context';
 import {ConfigInfo} from '../../types/common';
 
 interface GerritElementExtensions {
@@ -85,29 +84,13 @@ export interface SettingsInfo {
 
 export interface PluginApi {
   _url?: URL;
-  deprecated: PluginDeprecatedApi;
+  popup(): Promise<GrPopupInterface>;
+  popup(moduleName: string): Promise<GrPopupInterface>;
+  popup(moduleName?: string): Promise<GrPopupInterface | null>;
   hook(endpointName: string, opt_options?: RegisterOptions): HookApi;
   getPluginName(): string;
   on(eventName: string, target: any): void;
   attributeHelper(element: Element): GrAttributeHelper;
   restApi(): GrPluginRestApi;
   eventHelper(element: Node): GrEventHelper;
-}
-
-export interface PluginDeprecatedApi {
-  _loadedGwt(): void;
-  install: () => void;
-  popup(element: Node): GrPopupInterface;
-  onAction(
-    type: string,
-    action: string,
-    callback: (ctx: GrPluginActionContext) => void
-  ): void;
-  panel(extensionpoint: string, callback: (panel: PanelInfo) => void): void;
-  screen(pattern: string, callback: (settings: SettingsInfo) => void): void;
-  settingsScreen(
-    path: string,
-    menu: string,
-    callback: (settings: SettingsInfo) => void
-  ): void;
 }

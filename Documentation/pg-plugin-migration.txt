@@ -79,9 +79,6 @@ NOTE: By specification, the `id` attribute of `dom-module` *must* contain a dash
   <script>
     Gerrit.install(plugin => {
         // Setup block, is executed before sampleplugin.js
-
-        // Install deprecated JS APIs (onAction, popup, etc)
-        plugin.deprecated.install();
     });
   </script>
 
@@ -105,8 +102,6 @@ callbacks
 - `sampleplugin.js` is loaded since it's referenced in `sampleplugin.html`
 - setup script tag code is executed before `sampleplugin.js`
 - cleanup script tag code is executed after `sampleplugin.js`
-- `plugin.deprecated.install()` enables deprecated APIs (onAction(), popup(),
-etc) before `sampleplugin.js` is loaded
 
 This means the plugin instance is shared between .html-based and .js-based
 code. This allows to gradually and incrementally transfer code to the new API.

@@ -1523,8 +1523,8 @@ suite('gr-diff-host tests', () => {
     setup(() => {
       notifyStub = sinon.stub();
       stub('gr-js-api-interface', {
-        getCoverageAnnotationApi() {
-          return Promise.resolve({
+        getCoverageAnnotationApis() {
+          return Promise.resolve([{
             notify: notifyStub,
             getCoverageProvider() {
               return () => Promise.resolve([
@@ -1546,7 +1546,7 @@ suite('gr-diff-host tests', () => {
                 },
               ]);
             },
-          });
+          }]);
         },
       });
       element = basicFixture.instantiate();
@@ -1565,10 +1565,10 @@ suite('gr-diff-host tests', () => {
       element.prefs = prefs;
     });
 
-    test('getCoverageAnnotationApi should be called', done => {
+    test('getCoverageAnnotationApis should be called', done => {
       element.reload();
       flush(() => {
-        assert.isTrue(element.$.jsAPI.getCoverageAnnotationApi.calledOnce);
+        assert.isTrue(element.$.jsAPI.getCoverageAnnotationApis.calledOnce);
         done();
       });
     });

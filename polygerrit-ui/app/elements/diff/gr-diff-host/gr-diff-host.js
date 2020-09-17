@@ -409,42 +409,43 @@ class GrDiffHost extends GestureEventListeners(
 
   _getCoverageData() {
     const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-    this.$.jsAPI.getCoverageAnnotationApi().
-        then(coverageAnnotationApi => {
-          if (!coverageAnnotationApi) return;
-          const provider = coverageAnnotationApi.getCoverageProvider();
-          return provider(changeNum, path, basePatchNum, patchNum)
-              .then(coverageRanges => {
-                if (!coverageRanges ||
-                  changeNum !== this.changeNum ||
-                  path !== this.path ||
-                  basePatchNum !== this.patchRange.basePatchNum ||
-                  patchNum !== this.patchRange.patchNum) {
-                  return;
-                }
+    this.$.jsAPI.getCoverageAnnotationApis().
+        then(coverageAnnotationApis => {
+          coverageAnnotationApis.forEach(coverageAnnotationApi => {
+            const provider = coverageAnnotationApi.getCoverageProvider();
+            return provider(changeNum, path, basePatchNum, patchNum)
+                .then(coverageRanges => {
+                  if (!coverageRanges ||
+                    changeNum !== this.changeNum ||
+                    path !== this.path ||
+                    basePatchNum !== this.patchRange.basePatchNum ||
+                    patchNum !== this.patchRange.patchNum) {
+                    return;
+                  }
 
-                const existingCoverageRanges = this._coverageRanges;
-                this._coverageRanges = coverageRanges;
+                  const existingCoverageRanges = this._coverageRanges;
+                  this._coverageRanges = coverageRanges;
 
-                // Notify with existing coverage ranges
-                // in case there is some existing coverage data that needs to be removed
-                existingCoverageRanges.forEach(range => {
-                  coverageAnnotationApi.notify(
-                      path,
-                      range.code_range.start_line,
-                      range.code_range.end_line,
-                      range.side);
+                  // Notify with existing coverage ranges in case there is some
+                  // existing coverage data that needs to be removed.
+                  existingCoverageRanges.forEach(range => {
+                    coverageAnnotationApi.notify(
+                        path,
+                        range.code_range.start_line,
+                        range.code_range.end_line,
+                        range.side);
+                  });
+
+                  // Notify with new coverage data
+                  coverageRanges.forEach(range => {
+                    coverageAnnotationApi.notify(
+                        path,
+                        range.code_range.start_line,
+                        range.code_range.end_line,
+                        range.side);
+                  });
                 });
-
-                // Notify with new coverage data
-                coverageRanges.forEach(range => {
-                  coverageAnnotationApi.notify(
-                      path,
-                      range.code_range.start_line,
-                      range.code_range.end_line,
-                      range.side);
-                });
-              });
+          });
         })
         .catch(err => {
           console.warn('Loading coverage ranges failed: ', err);

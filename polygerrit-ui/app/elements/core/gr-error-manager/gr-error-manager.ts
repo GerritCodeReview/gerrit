@@ -335,6 +335,7 @@ export class GrErrorManager extends GestureEventListeners(
     el.show(text, actionText, actionCallback);
     this._alertElement = el;
     this.fire('iron-announce', {text}, {bubbles: true});
+    this.reporting.reportInteraction('show-alert', {text});
   }
 
   _hideAlert() {

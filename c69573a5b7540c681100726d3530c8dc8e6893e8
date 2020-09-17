@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "22c59a4c_83bb164d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Finished it. It took some time to go through and understand the rest of the code.",
+      "parentUuid": "a8ebeafa_6484c10f",
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "54d8f0bc_cfb0324d",
         "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
         "patchSetId": 6
@@ -242,6 +260,874 @@
         "startChar": 13,
         "endLine": 84,
         "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b2f016fe_3c0e6a6b",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: Should be Iterable.",
+      "range": {
+        "startLine": 99,
+        "startChar": 50,
+        "endLine": 99,
+        "endChar": 60
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3be9d0c7_be37b6f5",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "See my other comments about having the need for proper error handling.",
+      "range": {
+        "startLine": 99,
+        "startChar": 72,
+        "endLine": 99,
+        "endChar": 97
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f8c5dbc_cdd6102a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 117,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "I like this approach of delegating to the loadAll() method. Can we use it for the GitFileDiffCache, too?",
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b596276f_3bacd167",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "With the current implementation, an error for one diff computation means that the successful computations for all previous keys are thrown away. Do we really want that?\n\nAccording to the Javadoc description of CacheLoader#loadAll, returning a map which doesn\u0027t contain all keys will automatically produce an error for the getAll() call but still cache the returned values. We could use that mechanism.\n\nIf you adjust this approach, please also do so for the GitFileDiffCache.",
+      "range": {
+        "startLine": 121,
+        "startChar": 36,
+        "endLine": 121,
+        "endChar": 43
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d3c922c_695a1dc4",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "As for GitFileDiffCache, we should probably sort out duplicate keys just in case. -\u003e Could use distinct() on the stream.",
+      "range": {
+        "startLine": 121,
+        "startChar": 44,
+        "endLine": 121,
+        "endChar": 72
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "749b969d_2d5371c1",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 127,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: No need to materialize another list if you just need a stream. -\u003e Streams#stream from Guava does the trick.",
+      "range": {
+        "startLine": 124,
+        "startChar": 6,
+        "endLine": 127,
+        "endChar": 17
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b8d4f48_1a5bd800",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: Like in GitFileDiffCache, I find this name a bit confusing as it talks about the commit and not the commit message.",
+      "range": {
+        "startLine": 152,
+        "startChar": 27,
+        "endLine": 152,
+        "endChar": 36
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5f327399_ae7dd73a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit, here and below: Non-static call of static method.",
+      "range": {
+        "startLine": 157,
+        "startChar": 16,
+        "endLine": 157,
+        "endChar": 37
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d154f03c_a3c91b57",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 164,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "This method is mostly the same as forCommit() except for the file path and the Text#forMergeList / Text#forCommit call. Can you extract the common code into a method?",
+      "range": {
+        "startLine": 164,
+        "startChar": 27,
+        "endLine": 164,
+        "endChar": 39
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "40ffd1ac_4de2730c",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "It\u0027s interesting that you chose to step through the keys per file instead of per (key.oldCommit(), key.newCommit()) pair. Both approaches work. Maybe, the file-based approach is even better as I can\u0027t think of any disadvantages and it even saves us the separation into files later for EditTransformer.\n\nSeeing this file-based approach, I now understand why you wanted to adjust EditTransformer to work on single files (in the earlier patchsets of I3d31180b4). However, we wouldn\u0027t need to add additional methods to EditTransformer for single-file support. It\u0027s rather the contrary. If EditTransformer only works on single files, we could remove some of the logic in it. The old diff caches need the multi-file support, though. So, either we move the multi-file handling from EditTransformer to PatchListLoader or we wait with the cleanup until the old diff caches are gone. We shouldn\u0027t forget about the cleanup. So, please add a todo for whichever cleanup approach you choose.",
+      "range": {
+        "startLine": 183,
+        "startChar": 6,
+        "endLine": 183,
+        "endChar": 79
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e04c67ac_0bf36d58",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "When designing the new AutoValue output type, make sure to not have two separate lists for the regular edits and the edits due to rebase. Those separate lists were just necessary as we couldn\u0027t change PatchListEntry and the contained Edit type in the necessary ways in the past. For a new type, we should just have an indicator per edit (e.g. flag, enum, ...) whether it\u0027s a regular one or whether it\u0027s coming from a rebase.\n\nThat approach is generally cleaner, requires much less data to save, and is also easier for callers (e.g. we wouldn\u0027t need to derive the edits_due_to_rebase in a totally different part of the code when we generate the DiffInfo objects). In addition, it allows us to add some improvements for edits due to rebase. For instance, we could split up edits for which some lines are part of a rebase and have one part represent a regular edit and the other part an edit due to rebase. That split up wasn\u0027t possible in the past with the separate lists.",
+      "range": {
+        "startLine": 204,
+        "startChar": 16,
+        "endLine": 205,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6320c3ec_068cf502",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 211,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "With the new diff caches, we decided to use a different approach. The FileDiffCache should always return the requested file diffs, even if all of the edits are due to rebase. The filtering of such files will need to happen in the implementation of the GetFiles endpoint. That filtering should be very simple if you act on my suggestion above about introducing an indicator marking edits due to rebase.\n\nThis has a major advantage: Users had been complaining that they couldn\u0027t see such files if they opened them in the diff view (e.g. after clicking on a \u0027U\u0027 file which had a comment). With this move, that bug will go away.",
+      "range": {
+        "startLine": 209,
+        "startChar": 8,
+        "endLine": 211,
+        "endChar": 9
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1b8b6d7f_f7a62baf",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 219,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Would it be possible to stay just with the type FileEdit? I only introduced ContextAwareEdit in the past as JGit\u0027s Edit type couldn\u0027t represent pure renames/copies (\u003d without edits). That limitation should be gone now with our own AutoValue types.",
+      "range": {
+        "startLine": 219,
+        "startChar": 16,
+        "endLine": 219,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f73a7779_dd501bee",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 226,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "I\u0027m a bit confused why you create a list of the four parameters outside of getRebaseEdits() and then retrieve the four parameters inside the method from the list again. Isn\u0027t this a bit brittle? Why don\u0027t you simply pass the four parameters or the AllFileGitDiffs object?",
+      "range": {
+        "startLine": 220,
+        "startChar": 6,
+        "endLine": 226,
+        "endChar": 46
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "23e5847b_e5fbbed0",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Here and below: Why don\u0027t we use the parVsParDiff.oldName() and parVsParDiff.newName()?",
+      "range": {
+        "startLine": 233,
+        "startChar": 22,
+        "endLine": 234,
+        "endChar": 61
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f556fee6_47885f35",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 259,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Why do we need this method considering that we only pass the edits of one file to EditTransformer? Can\u0027t we just take all values of the return value?",
+      "range": {
+        "startLine": 259,
+        "startChar": 13,
+        "endLine": 259,
+        "endChar": 32
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0a49726b_fcc46600",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 263,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: This method is placed a bit out of context. It\u0027s only used 200 lines later and doesn\u0027t have any special relation to the surrounding code lines here.",
+      "range": {
+        "startLine": 263,
+        "startChar": 33,
+        "endLine": 263,
+        "endChar": 45
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5fd1cc37_aea832b9",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 310,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this use the indicated diff algorithm?",
+      "range": {
+        "startLine": 310,
+        "startChar": 23,
+        "endLine": 310,
+        "endChar": 42
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f684046b_49d7878a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 335,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "This comparator is only used for the /COMMIT_MSG and /MERGE_LIST entry even though the comparator would be equally relevant for all other diffs. Isn\u0027t it inconsistent that we don\u0027t use this comparator for all files?",
+      "range": {
+        "startLine": 335,
+        "startChar": 37,
+        "endLine": 335,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d425fa8f_525bc852",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 367,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "You wanted to have some hints about which calls we can patch together.\nTL;DR:\nFirst batch: \"old commit vs. new commit\" and \"new parent vs. new commit\"\nSecond batch: \"old parent vs. old commit\" and \"old parent vs. new parent\"\n\nWe talked about this in the past. This has some further explanations.\n\nSituation described by you:\n\u003e In this case, a diff between ps_1 and ps_2 is requested. All commits have the same file but with different names (FN, RN1, RN2, RN3) and a slightly modified content between {FN, RN1} and {RN2, RN3} \n\u003e FN and RN1 are same.\n\u003e RN2 and RN3 are same.\n\nMy answer was:\nWe can send the {ps2 vs. ps1, newPath \u003d RN2} and the {ps2 vs. par2, newPath \u003d RN2} lookups to the GitFileDiffCache without additional consideration (-\u003e could batch them together). We would inspect the results of these lookups. The former lookup would tell us that we need to ask for RN1 instead RN2 and the latter lookup would tell us about RN3. Using that, we can then send the {ps1 vs. par1, newPath \u003d RN1} and the {par2 vs. par1, newPath \u003d RN3} lookups to the GitFileDiffCache.",
+      "range": {
+        "startLine": 367,
+        "startChar": 18,
+        "endLine": 367,
+        "endChar": 35
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "690c6e91_a2821004",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 378,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: Please use a more descriptive method name.",
+      "range": {
+        "startLine": 378,
+        "startChar": 40,
+        "endLine": 378,
+        "endChar": 44
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71d660c4_4b8e2b6b",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 387,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "As for the ModifiedFilesCache, the use of DiffUtil#areRelated and DiffUtil#getParentCommit is not ideal here. We always want to get the single parent of the two commits key.oldCommit() and key.newCommit() (and never the auto-merge commit or a second parent as the use of the DiffUtil#getParentCommit method might suggest). Those two commits can be easily retrieved from the calculations already done in DiffUtil#areRelated without further lookups/parsing. Hence, we should have a method which combines DiffUtil#areRelated and DiffUtil#getParentCommit for what we need here.",
+      "range": {
+        "startLine": 387,
+        "startChar": 33,
+        "endLine": 387,
+        "endChar": 93
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "321fccd0_b1405837",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 397,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Combined with line 272, this resolves to key.newFilePath(). Why don\u0027t we simply use key.newfilePath directly here?",
+      "range": {
+        "startLine": 397,
+        "startChar": 12,
+        "endLine": 397,
+        "endChar": 30
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a4103ba5_0c69a4a8",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 405,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Here and below: Why don\u0027t we use the oldParent/newParent SHA-1s which was deliberately extracted in lines 387/388?",
+      "range": {
+        "startLine": 405,
+        "startChar": 25,
+        "endLine": 405,
+        "endChar": 60
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "784bdb0d_e7628b9e",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 407,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Same as for the comment in line 428.\n\nIn addition, are file additions implicitly handled by line 272, which silently maps null values to key.newFilePath()? If so, that\u0027s very confusing and hidden behavior. Can we make this more explicit (including comments if the variables/methods don\u0027t make it clear by themselves)?",
+      "range": {
+        "startLine": 407,
+        "startChar": 25,
+        "endLine": 407,
+        "endChar": 69
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6e2e8740_48cb288c",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 417,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Same as for the comment in line 428.\n\nHonestly, I don\u0027t think that we need this dependency on a previous output value. According to my thoughts, this should just be key.newFileName(). Or is there a case for which key.newFileName() is not the same as this newName()?",
+      "range": {
+        "startLine": 417,
+        "startChar": 25,
+        "endLine": 417,
+        "endChar": 70
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72b4d53c_c53d42d5",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 428,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "It\u0027s very subtle that this line uses the computation output of the call in line 412. Can you change the whole structure so that this becomes more apparent?",
+      "range": {
+        "startLine": 428,
+        "startChar": 14,
+        "endLine": 428,
+        "endChar": 80
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db0da017_61a8440a",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "It\u0027s a bit puzzling at first that key.newFilePath shows up here as fallback. If the file was added between newParent and newCommit, we actually wouldn\u0027t need to have to determine the oldParent vs. newParent diff as nothing in that file could be an edit due to rebase anymore, right? Only if the returned diff is empty (or did I miss a case?), the oldParent vs. newParent diff becomes relevant again (e.g. to identify a file deletion which was due to rebase). Can you try to improve the code/structure to make this clearer? Could we maybe even skip the diff in the first situation I described?",
+      "range": {
+        "startLine": 429,
+        "startChar": 79,
+        "endLine": 429,
+        "endChar": 96
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90056ea2_3d8fce97",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 445,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Printing the error to std.out is not proper error handling. The empty finally is also a bit puzzling to me. Can we get rid of this complete method if you follow my other suggestions on this change?",
+      "range": {
+        "startLine": 441,
+        "startChar": 9,
+        "endLine": 445,
+        "endChar": 20
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8ca33af_bf0cb0b7",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 448,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "This method uses output parameters, which is discouraged. Having a clear return value would have spared me quite some understanding how this method works and returns results to the caller. Please convert this method to one which uses a return value.",
+      "range": {
+        "startLine": 448,
+        "startChar": 19,
+        "endLine": 448,
+        "endChar": 41
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5638552a_b9ecf2b7",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 461,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "This condition is very confusing. I only understood what it\u0027s used for after I completely mapped the logic of all surrounding and calling code in my mind. Can you use a different code structure which doesn\u0027t require this condition? (Example: When constructing the keys as a pre-step, we could only create and add those keys to the batch-key collection for which we really want to compute the diffs in the current context.)\n\nMy understanding (for future readers):\nfileToAllDiffs.get(key).hasRebaseEdits is the condition which controls whether we compute the three additional diffs for edits due to rebase. getGitDiffsForManyKeys() is always called for these three diffs but this condition determines whether we really execute the diff.\noldVsNewDiff is necessary as we always want to compute the diff between the two specified commits.",
+      "range": {
+        "startLine": 461,
+        "startChar": 10,
+        "endLine": 461,
+        "endChar": 69
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1b48682_2e54bbdb",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Constructing the key for the GitFileDiffCache inside of getGitDiffsForManyKeys() makes this whole method more complicated than it needs to be. I think one step to simplification could be to construct the keys one step earlier (outside of this method). Then, we\u0027d have the logical steps of \"construct keys\" -\u003e \"call the cache\". For the first step, we can use custom methods for each different parent/commit combination to avoid all these extractor functions. The second step would be the same for all calls (-\u003e same code).",
+      "range": {
+        "startLine": 463,
+        "startChar": 16,
+        "endLine": 463,
+        "endChar": 28
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1bb03314_f4d6b353",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 487,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Do we have proper handling of such null values for the diff later in the code? After all, the wrapper value including its key will still be present, won\u0027t it?",
+      "range": {
+        "startLine": 485,
+        "startChar": 10,
+        "endLine": 487,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b5d77037_94955210",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: We typically use AutoValue for such value objects.",
+      "range": {
+        "startLine": 492,
+        "startChar": 25,
+        "endLine": 492,
+        "endChar": 40
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "71146007_87e7049f",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 503,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit: Seems to be unused. Intended?",
+      "range": {
+        "startLine": 503,
+        "startChar": 8,
+        "endLine": 503,
+        "endChar": 41
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f77c4744_3f3abc2c",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 536,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "See my other comments on this (e.g. should always be set; similarity threshold 0-100 + magic value for disabling rename detection).",
+      "range": {
+        "startLine": 532,
+        "startChar": 4,
+        "endLine": 536,
+        "endChar": 50
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9e713e62_253fb0f9",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Nit, here and for cmp(): Please use descriptive names for API fields and not abbreviations.",
+      "range": {
+        "startLine": 538,
+        "startChar": 51,
+        "endLine": 538,
+        "endChar": 53
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "277597c6_887a3035",
+        "filename": "java/com/google/gerrit/server/patch/FileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 540,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "I had hoped that we could get rid of these legacy artifacts in the new diff cache API and I\u0027m still convinced we can. The new API should be a clean \"I want the diff between these two commits for this file given these diff settings.\" There shouldn\u0027t be an additional \"oh, by the way, the oldCommit I gave you is parent X and you can trust me on that\". For instance, what happens if this latter information is wrong? We would return the wrong result, wouldn\u0027t we? That\u0027s not ideal and also inconvenient for callers.\n\nLooking at the usages of cmp() in this change, we only seem to need it for the /COMMIT_MSG and /MERGE_LIST files. There are two different case:\n1) For the generation of the /MERGE_LIST, we need to know which parent oldCommit() is. If it\u0027s not a specific parent (\u003d auto-merge), we fall back to parent 1. This case is easy to replace. From the RevCommit of newCommit(), we can determine whether oldCommit() represents a parent and which one.\n2) We need to determine whether the requested diff is between patchsets or against a parent/auto-merge so that we know whether to generate a diff between /COMMIT_MSG and /MERGE_LIST or just simulate a file addition. Checking for a parent is easy (see 1)). Auto-merge is a bit trickier regarding the involved considerations. When the auto-merge commit is created, we set all parents which are merged as parents of that auto-merge commit. Hence, we can at least rule out some non-auto-merge situations by comparing the parents of newCommit() with the parents of oldCommit(). If they are not the same (or the commits aren\u0027t merge commits), we haven\u0027t encountered the auto-merge situations. There\u0027s still the possibility that another patchset commit was given which has the same parents. It\u0027s unlikely but possible. To distinguish that situation, we could look at the commit message. If it contains the message we set in AutoMerge (I mean the \"Auto-merge of \" + merge.name() + \u0027\\n\u0027 part), we could be fairly sure that we\u0027ve encountered the auto-merge commit. I would have preferred an even cleaner approach but that\u0027s the best I can come up with when just reviewing the code. You might argue that we won\u0027t hand out a perfect result for each corner case (e.g. a patchset is  called \"Auto-merge of ...\") but I really wouldn\u0027t pollute the public diff cache API just because of such a rare corner case if we can\u0027t find a better solution.\n\nThere\u0027s a complete alternative approach for 2). We could decide to always compute the diff for /COMMIT_MSG and /MERGE_LIST. The simulation of the file addition could happen outside of the diff cache for relevant calls and the /COMMIT_MSG and /MERGE_LIST simply wouldn\u0027t be requested from the diff caches.\nOr an even further going alternative: We could generate the entries for /COMMIT_MSG and /MERGE_LIST on the fly instead of having them cached and generated as part of the diff caches. If the Diffs facade offers different methods for betweenPatchset() and againstParent()/againstAutoMerge(), we\u0027d have all the information to generate the correct version.\nAnother variant: Go with 2) except for the auto-merge part and correct the auto-merge case outside of the diff caches.\nYou see, I\u0027m brainstorming wildly. ;-)\n\nWe seem to check for parent-child relationship or even look up the parents at various parts of the FileDiffCache. When you adjust the code, make sure to not do the same calculations several times in one code path.",
+      "range": {
+        "startLine": 540,
+        "startChar": 20,
+        "endLine": 540,
+        "endChar": 38
       },
       "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
@@ -576,6 +1462,30 @@
       "writtenOn": "2020-09-16T17:28:08Z",
       "side": 1,
       "message": "It\u0027s an interesting idea to not set the old/new file paths if there\u0027s no diff. Was that a deliberate choice? Do you think that it won\u0027t have negative side-effects for files which exist in the repository but are unchanged? (By the way, checking whether the file exists in the repository might involve a TreeWalk which we want to avoid in the GitFileDiffCache due to performance reasons.)\n\nIs it also intended that we\u0027d pile up such empty diffs if Gerrit gets calls on the diff endpoint for non-existing files? (I\u0027m not sure we can or want to avoid that but we should at least have thought about it.)\n\nOne general alternative would be to throw an exception and thus not cache any value for non-existent diffs. I haven\u0027t thought through whether that would be better.\n\nWhat are your thoughts?",
+      "range": {
+        "startLine": 171,
+        "startChar": 8,
+        "endLine": 171,
+        "endChar": 35
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e0d0537d_ba0bbc0d",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-17T16:45:46Z",
+      "side": 1,
+      "message": "Addendum: In FileDiffCache, I saw that we\u0027ll sometimes request such empty diffs for edits due to rebase, which is necessary for the algorithm. Combined with getAll() throwing an exception if not all keys are evaluated, I guess that\u0027s why you decided to go for these empty-diff objects. Is this right?\n\nI\u0027m still wondering whether we can\u0027t improve the situation a bit. If we go for an empty-diff object, we should try to make this empty state as apparent for callers as possible.",
+      "parentUuid": "ef3f1132_2d02489e",
       "range": {
         "startLine": 171,
         "startChar": 8,

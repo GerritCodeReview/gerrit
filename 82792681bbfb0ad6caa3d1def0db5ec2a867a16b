@@ -86,6 +86,24 @@
       "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9bf47047_7d13456a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T10:17:55Z",
+      "side": 1,
+      "message": "What is the difference between this test and the one before? Maybe remove the test altogether?",
+      "parentUuid": "0302b7a2_5462452f",
+      "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

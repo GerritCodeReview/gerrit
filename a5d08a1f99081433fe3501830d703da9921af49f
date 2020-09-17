@@ -159,6 +159,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4085aae0_54d7c0a3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-17T14:30:02Z",
+      "side": 1,
+      "message": "\u003e Change messages are not agnostic to patchsets. They are always associated with one.\n\nThey are for sure recorded with one. But I believe that it is a matter of perception. Imagine the scenario when feedback is given to PS#1, owner rebases the change 2 times so it is in PS#3 now. Does that change anything in the feedback that change received? Not really (obviously there will be cases when it does but \u0027copyAllScoresOnTrivialRebase\u0027 is there for a reason) so in this case feedback is not related to the PS.\n\nIMHO good example is in [1]. AFAICT people debated on the rationality behind the change regardless of the PS# their feedback was recorded with. There is a relation between a PS and feedback. Typically new PS is a result of the feedback (specific in particular line or general when reply button is used) and that is nicely captured by the \u0027Change Log\u0027. However, fundamental questions (like the one that you raised against this very change ;)) are IMHO independent from PS. My assumption was/is that it forms a discussion that happens in parallel to what is done in the code (hence no file, line, side or PS ;)) hence grouping it by PS seems to be suboptimal to me. Is this harmful? I don\u0027t know, a bit unexpected to me for sure. Could/Should we improve it? That is the question that I wanted to ask :)\n\n[1] https://gerrit-review.googlesource.com/c/plugins/replication/+/267812",
+      "parentUuid": "92e54ebd_c83cea8f",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

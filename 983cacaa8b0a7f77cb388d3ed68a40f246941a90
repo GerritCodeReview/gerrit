@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a829c9c7_d7bf5716",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-17T20:41:02Z",
+      "side": 1,
+      "message": "@Tony can you rebase on master?",
+      "revId": "983cacaa8b0a7f77cb388d3ed68a40f246941a90",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

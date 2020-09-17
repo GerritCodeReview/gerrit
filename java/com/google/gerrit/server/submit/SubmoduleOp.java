@@ -15,13 +15,11 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
@@ -32,38 +30,28 @@ import com.google.inject.Singleton;
 import java.io.IOException;
 import java.util.LinkedHashSet;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
 
 public class SubmoduleOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   @Singleton
   public static class Factory {
     private final SubscriptionGraph.Factory subscriptionGraphFactory;
-    private final Config cfg;
     private final SubmoduleCommits.Factory submoduleCommitsFactory;
 
     @Inject
     Factory(
-        SubscriptionGraph.Factory subscriptionGraphFactory,
-        SubmoduleCommits.Factory submoduleCommitsFactory,
-        @GerritServerConfig Config cfg) {
+        @ConfiguredSubscriptionGraph SubscriptionGraph.Factory subscriptionGraphFactory,
+        SubmoduleCommits.Factory submoduleCommitsFactory) {
       this.subscriptionGraphFactory = subscriptionGraphFactory;
       this.submoduleCommitsFactory = submoduleCommitsFactory;
-      this.cfg = cfg;
     }
 
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
-      SubscriptionGraph subscriptionGraph;
-      if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
-        subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches, orm);
-      } else {
-        logger.atFine().log("Updating superprojects disabled");
-        subscriptionGraph =
-            SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
-      }
-      return new SubmoduleOp(orm, subscriptionGraph, submoduleCommitsFactory.create(orm));
+      return new SubmoduleOp(
+          orm,
+          subscriptionGraphFactory.compute(updatedBranches, orm),
+          submoduleCommitsFactory.create(orm));
     }
   }
 

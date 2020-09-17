@@ -187,9 +187,12 @@ import com.google.gerrit.server.rules.PrologModule;
 import com.google.gerrit.server.rules.RulesCache;
 import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.ssh.SshAddressesModule;
+import com.google.gerrit.server.submit.ConfiguredSubscriptionGraph;
+import com.google.gerrit.server.submit.ConfiguredSubscriptionGraphFactory;
 import com.google.gerrit.server.submit.GitModules;
 import com.google.gerrit.server.submit.MergeSuperSetComputation;
 import com.google.gerrit.server.submit.SubmitStrategy;
+import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.util.IdGenerator;
@@ -453,6 +456,9 @@ public class GerritGlobalModule extends FactoryModule {
     factory(VersionedAuthorizedKeys.Factory.class);
 
     bind(AccountManager.class);
+    bind(SubscriptionGraph.Factory.class)
+        .annotatedWith(ConfiguredSubscriptionGraph.class)
+        .to(ConfiguredSubscriptionGraphFactory.class);
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {}).toProvider(CommentLinkProvider.class);
     DynamicSet.bind(binder(), GerritConfigListener.class).to(CommentLinkProvider.class);

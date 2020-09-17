@@ -1971,7 +1971,7 @@ suite('gr-change-view tests', () => {
         assert.isFalse(getChangeDetailStub.called);
       });
 
-      test('_startUpdateCheckTimer up-to-date', () => {
+      test('_startUpdateCheckTimer up-to-date', async () => {
         const getChangeDetailStub =
             sinon.stub(element.$.restAPI, 'getChangeDetail')
                 .callsFake(() => Promise.resolve(generateChange({
@@ -1981,8 +1981,9 @@ suite('gr-change-view tests', () => {
                 })));
 
         element._serverConfig = {change: {update_delay: 12345}};
+        await flush();
 
-        assert.isTrue(element._startUpdateCheckTimer.called);
+        assert.equal(element._startUpdateCheckTimer.callCount, 2);
         assert.isTrue(getChangeDetailStub.called);
         assert.equal(element.async.lastCall.args[1], 12345 * 1000);
       });
@@ -2001,6 +2002,24 @@ suite('gr-change-view tests', () => {
           done();
         });
         element._serverConfig = {change: {update_delay: 12345}};
+
+        assert.equal(element._startUpdateCheckTimer.callCount, 1);
+      });
+
+      test('_startUpdateCheckTimer respects _loading', async () => {
+        sinon.stub(element.$.restAPI, 'getChangeDetail')
+            .callsFake(() => Promise.resolve(generateChange({
+              // new patchset was uploaded
+              revisionsCount: 2,
+              messagesCount: 1,
+            })));
+
+        element._loading = true;
+        element._serverConfig = {change: {update_delay: 12345}};
+        await flush();
+
+        // No toast, instead a second call to _startUpdateCheckTimer().
+        assert.equal(element._startUpdateCheckTimer.callCount, 2);
       });
 
       test('_startUpdateCheckTimer new status shows an alert', done => {

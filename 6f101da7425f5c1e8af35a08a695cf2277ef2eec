@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ebed88cb_bcaf1d24",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-17T22:25:59Z",
+      "side": 1,
+      "message": "Thanks, Marco, for the follow-up.",
+      "revId": "6f101da7425f5c1e8af35a08a695cf2277ef2eec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

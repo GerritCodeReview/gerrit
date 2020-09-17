@@ -19,6 +19,7 @@ import static com.google.common.truth.extensions.proto.ProtoTruth.assertThat;
 import static com.google.gerrit.proto.testing.SerializedClassSubject.assertThatSerializedClass;
 
 import com.google.common.collect.ImmutableMap;
+import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.auth.oauth.OAuthToken;
 import com.google.gerrit.proto.testing.SerializedClassSubject;
 import com.google.gerrit.server.cache.proto.Cache.OAuthTokenProto;
@@ -69,6 +70,23 @@ public final class OAuthTokenCacheTest {
     byte[] serializedWithEmptyString = s.serialize(tokenWithEmptyString);
     assertThat(OAuthTokenProto.parseFrom(serializedWithEmptyString)).isEqualTo(expectedProto);
     assertThat(s.deserialize(serializedWithEmptyString)).isEqualTo(tokenWithNull);
+  }
+
+  @Test
+  public void serializeAndDeserializeBackAccountId() {
+    OAuthTokenCache.AccountIdSerializer serializer = OAuthTokenCache.AccountIdSerializer.INSTANCE;
+
+    Account.Id id = Account.id(1234);
+    assertThat(serializer.deserialize(serializer.serialize(id))).isEqualTo(id);
+  }
+
+  // Anonymous classes can break some cache implementations that try to parse the
+  // serializer class name and expect a well-defined class name: test that
+  // OAuthTokenCache.AccountIdSerializer is not an anonymous class.s
+  @Test
+  public void accountIdSerializerIsNotAnAnonymousClass() {
+    assertThat(OAuthTokenCache.AccountIdSerializer.INSTANCE.getDeclaringClass().getSimpleName())
+        .isNotEmpty();
   }
 
   /** See {@link SerializedClassSubject} for background and what to do if this test fails. */

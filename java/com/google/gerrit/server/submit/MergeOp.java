@@ -226,7 +226,9 @@ public class MergeOp implements AutoCloseable {
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final SubmitStrategyFactory submitStrategyFactory;
+  private final ConfigSubscriptionGraphFactory subscriptionGraphFactory;
   private final SubmoduleOp.Factory subOpFactory;
+  private final SubmoduleCommits.Factory submoduleCommitsFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
@@ -256,6 +258,8 @@ public class MergeOp implements AutoCloseable {
       MergeValidators.Factory mergeValidatorsFactory,
       Provider<InternalChangeQuery> queryProvider,
       SubmitStrategyFactory submitStrategyFactory,
+      SubmoduleCommits.Factory submoduleCommitsFactory,
+      ConfigSubscriptionGraphFactory subscriptionGraphFactory,
       SubmoduleOp.Factory subOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
@@ -269,6 +273,8 @@ public class MergeOp implements AutoCloseable {
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.queryProvider = queryProvider;
     this.submitStrategyFactory = submitStrategyFactory;
+    this.submoduleCommitsFactory = submoduleCommitsFactory;
+    this.subscriptionGraphFactory = subscriptionGraphFactory;
     this.subOpFactory = subOpFactory;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
@@ -605,10 +611,9 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
 
     try {
-      SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
-      UpdateOrderCalculator updateOrderCalculator = submoduleOp.getUpdateOrderCalculator();
-      SubscriptionGraph subscriptionGraph = submoduleOp.getSubscriptionGraph();
-      SubmoduleCommits submoduleCommits = submoduleOp.getSubmoduleCommits();
+      SubscriptionGraph subscriptionGraph = subscriptionGraphFactory.create(branches, orm);
+      SubmoduleCommits submoduleCommits = submoduleCommitsFactory.create(orm);
+      UpdateOrderCalculator updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
       List<SubmitStrategy> strategies =
           getSubmitStrategies(
               toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);

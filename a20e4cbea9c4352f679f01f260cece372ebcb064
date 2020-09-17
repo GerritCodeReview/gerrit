@@ -22,6 +22,30 @@
       "revId": "a20e4cbea9c4352f679f01f260cece372ebcb064",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb9ff754_85fbe876",
+        "filename": "polygerrit-ui/app/elements/core/gr-error-manager/gr-error-manager.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 337,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T13:06:52Z",
+      "side": 1,
+      "message": "fire() is part of LegacyElement. It should be there. Even TypeScript thinks so.\n\nYeah, would be nice to clean this up, but indeed unrelated to this change.",
+      "parentUuid": "69f4d759_ed2bec2e",
+      "range": {
+        "startLine": 337,
+        "startChar": 9,
+        "endLine": 337,
+        "endChar": 13
+      },
+      "revId": "a20e4cbea9c4352f679f01f260cece372ebcb064",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

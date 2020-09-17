@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3573c917_1892e50a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1108915
+      },
+      "writtenOn": "2020-09-17T14:24:42Z",
+      "side": 1,
+      "message": "I\u0027ve recently had a small hitch while developing plugin due to documentation being outdated.\nHope I\u0027ve picked reviewers correctly - please correct me if You\u0027re wrong guys to ask for review ;-)",
+      "revId": "87c5bfc45b2f5321ab33d031f7097092d6843739",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

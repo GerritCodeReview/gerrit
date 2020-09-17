@@ -16,6 +16,29 @@
       "revId": "bb073861351ca599ba699357ee44f1fa96bbfd22",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecb4c489_3a922581",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 2160,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-17T07:35:43Z",
+      "side": 1,
+      "message": "It took me a few minutes to understand reason for change !\u003d\u003d this._change\n\nNIT: \n```\nconst changeViewReloaded \u003d change !\u003d\u003d this_change;\nif (!toastMessage || this._loading || changeViewReloaded) {\n}\n```",
+      "range": {
+        "startLine": 2160,
+        "startChar": 46,
+        "endLine": 2160,
+        "endChar": 52
+      },
+      "revId": "bb073861351ca599ba699357ee44f1fa96bbfd22",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

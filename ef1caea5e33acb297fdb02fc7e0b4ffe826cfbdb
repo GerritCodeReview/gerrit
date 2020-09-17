@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "717b2867_2666c157",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-17T13:18:50Z",
+      "side": 1,
+      "message": "In Gerrit all lines in the commit message must be 72 chars max.\n\nAlso the first line must not end with a full stop. And a blank line must follow the first line.",
+      "revId": "ef1caea5e33acb297fdb02fc7e0b4ffe826cfbdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

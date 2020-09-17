@@ -1,12 +1,10 @@
-:linkattrs:
 = Gerrit Code Review - Contributing
 
 [[cla]]
 == Contributor License Agreement
 
 In order to contribute to Gerrit a link:dev-cla.html[Contributor
-License Agreement,role=external,window=_blank] must be completed before
-contributions are accepted.
+License Agreement] must be completed before contributions are accepted.
 
 [[contribution-processes]]
 == Contribution Processes
@@ -21,28 +19,26 @@ The Gerrit project offers two contribution processes:
 The lightweight contribution process has little overhead and is best
 suited for small contributions (documentation updates, bug fixes, small
 features). Contributions are pushed as changes and
-link:dev-roles.html#maintainer[maintainers,role=external,window=_blank]
-review them adhoc.
+link:dev-roles.html#maintainer[maintainers] review them adhoc.
 
 For large/complex features, it is required to follow the
 link:#design-driven-contribution-process[design-driven contribution
 process] and specify the feature in a link:dev-design-docs.html[design
-doc,role=external,window=_blank] before starting with the implementation.
+doc] before starting with the implementation.
 
-If link:dev-roles.html#contributor[contributors,role=external,window=_blank]
-choose the lightweight contribution process and during the review it turns out
-that the feature is too large or complex,
-link:dev-roles.html#maintainer[maintainers,role=external,window=_blank] can
+If link:dev-roles.html#contributor[contributors] choose the lightweight
+contribution process and during the review it turns out that the feature
+is too large or complex, link:dev-roles.html#maintainer[maintainers] can
 require to follow the design-driven contribution process instead.
 
 If you are in doubt which process is right for you, consult the
-link:https://groups.google.com/d/forum/repo-discuss[repo-discuss,role=external,window=_blank]
+link:https://groups.google.com/d/forum/repo-discuss[repo-discuss]
 mailing list.
 
 These contribution processes apply to everyone who contributes code to
-the Gerrit project, including link:dev-roles.html#maintainer[
-maintainers,role=external,window=_blank]. When reading this document, keep in
-mind that maintainers are also contributors when they contribute code.
+the Gerrit project, including link:dev-roles.html#maintainer[maintainers].
+When reading this document, keep in mind that maintainers are also
+contributors when they contribute code.
 
 If a new feature is large or complex, it is often difficult to find a
 maintainer who can take the time that is needed for a thorough review,
@@ -59,8 +55,7 @@ implementation is still the responsibility of the contributor.
 |======================
 |        |Lightweight Contribution Process|Design-Driven Contribution Process
 |Overhead|low (write good commit message, address review comments)|
-high (write link:dev-design-docs.html[design doc,role=external,window=_blank]
-and get it approved)
+high (write link:dev-design-docs.html[design doc] and get it approved)
 |Technical Guidance|by reviewer|during the design review and by
 reviewer/mentor
 |Review  |adhoc (when reviewer is available)|by a dedicated mentor (if
@@ -87,16 +82,16 @@ As Gerrit is a code review tool, naturally contributions will
 be reviewed before they will get submitted to the code base.  To
 start your contribution, please make a git commit and upload it
 for review to the link:https://gerrit-review.googlesource.com/[
-gerrit-review.googlesource.com,role=external,window=_blank] Gerrit server.  To
-help speed up the review of your change, review these link:dev-crafting-changes.html[
-guidelines,role=external,window=_blank] before submitting your change.  You can
-view the pending Gerrit contributions and their statuses
-link:https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit[here,role=external,window=_blank].
+gerrit-review.googlesource.com] Gerrit server.  To help speed up the
+review of your change, review these link:dev-crafting-changes.html[
+guidelines] before submitting your change.  You can view the pending
+Gerrit contributions and their statuses
+link:https://gerrit-review.googlesource.com/#/q/status:open+project:gerrit[here].
 
 Depending on the size of that list it might take a while for
 your change to get reviewed.  Naturally there are fewer
-link:dev-roles.html#maintainer[maintainers,role=external,window=_blank], that
-can approve changes, than link:dev-roles.html#contributor[contributors,role=external,window=_blank];
+link:dev-roles.html#maintainer[maintainers], that can approve changes,
+than link:dev-roles.html#contributor[contributors];
 so anything that you can do to ensure that your contribution will undergo fewer
 revisions will speed up the contribution process.  This includes
 helping out reviewing other people's changes to relieve the load from
@@ -128,28 +123,26 @@ For large/complex features it is important to:
 * think about possibilities how the feature could be evolved over time
 
 This is why for large/complex features it is required to describe the
-feature in a link:dev-design-docs.html[design doc,role=external,window=_blank]
-and get it approved by the
-link:dev-processes.html#steering-committee[steering committee,role=external,window=_blank],
+feature in a link:dev-design-docs.html[design doc] and get it approved
+by the link:dev-processes.html#steering-committee[steering committee],
 before starting the implementation.
 
 The design-driven contribution process has the following steps:
 
-* A link:dev-roles.html#contributor[contributor,role=external,window=_blank]
-  link:dev-design-docs.html#propose[proposes,role=external,window=_blank] a new
-  feature by uploading a change with a
-  link:dev-design-docs.html[design doc,role=external,window=_blank].
-* The design doc is link:dev-design-docs.html#review[reviewed,role=external,window=_blank]
+* A link:dev-roles.html#contributor[contributor]
+  link:dev-design-docs.html#propose[proposes] a new feature by uploading
+  a change with a link:dev-design-docs.html[design doc].
+* The design doc is link:dev-design-docs.html#review[reviewed]
   by interested parties from the community. The design review is public
   and everyone can comment and raise concerns.
 * Design docs should stay open for a minimum of 10 calendar days so
   that everyone has a fair chance to join the review.
 * Within 14 calendar days the contributor should hear back from the
-  link:dev-processes.html#steering-committee[steering committee,role=external,window=_blank]
+  link:dev-processes.html#steering-committee[steering committee]
   whether the proposed feature is in scope of the project and if it can
   be accepted.
 * To be submitted, the design doc needs to be approved by the
-  link:dev-processes.html#steering-committee[steering committee,role=external,window=_blank].
+  link:dev-processes.html#steering-committee[steering committee].
 * After the design was approved, the implementation is done by pushing
   changes for review, see link:#lightweight-contribution-process[
   lightweight contribution process]. Changes that are associated with
@@ -175,7 +168,7 @@ By approving a design, the steering committee commits to:
 
 * Accepting the feature when it is implemented.
 * Supporting the feature by assigning a link:dev-roles.html#mentor[
-  mentor,role=external,window=_blank] (if requested, see link:#mentorship[mentorship]).
+  mentor] (if requested, see link:#mentorship[mentorship]).
 
 If the implementation of a feature gets stuck and it's unclear whether
 the feature gets fully done, it should be discussed with the steering
@@ -191,7 +184,7 @@ following advantages:
   design review, feedback from various sides can be collected, which
   likely leads to improvements of the feature.
 * Once a design was approved by the
-  link:dev-processes.html#steering-committee[steering committee,role=external,window=_blank],
+  link:dev-processes.html#steering-committee[steering committee],
   the contributor can be almost certain that the feature will be accepted.
   Hence, there is only a low risk to invest into implementing a feature
   and see it being rejected later during the code review, as it can
@@ -203,12 +196,12 @@ following advantages:
 [[mentorship]]
 == Mentorship
 
-For features for which a link:dev-design-docs.html[design,role=external,window=_blank]
+For features for which a link:dev-design-docs.html[design]
 has been approved (see link:#design-driven-contribution-process[design-driven
 contribution process]), contributors can gain the support of a mentor
 if they are committed to implement the feature.
 
-A link:dev-roles.html#mentor[mentor,role=external,window=_blank] helps with:
+A link:dev-roles.html#mentor[mentor] helps with:
 
 * doing timely reviews
 * providing technical guidance during code reviews
@@ -218,12 +211,12 @@ A link:dev-roles.html#mentor[mentor,role=external,window=_blank] helps with:
 
 A feature can have more than one mentor. To be able to deliver the
 promised support, at least one of the mentors must be a
-link:dev-roles.html#maintainer[maintainer,role=external,window=_blank].
+link:dev-roles.html#maintainer[maintainer].
 
 Mentors are assigned by the link:dev-processes.html#steering-committee[
-steering committee,role=external,window=_blank]. To gain a mentor, ask for a
+steering committee]. To gain a mentor, ask for a
 mentor in the link:dev-design-doc-template.html#implementation-plan[Implementation
-Plan,role=external,window=_blank] section of the design doc or ask the steering
+Plan] section of the design doc or ask the steering
 committee after the design has been approved.
 
 Mentors may not be available immediately. In this case, the steering

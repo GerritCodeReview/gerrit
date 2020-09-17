@@ -69,6 +69,24 @@
       "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0fc61c4e_49082a23",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-17T08:20:54Z",
+      "side": 1,
+      "message": "\u003e I\u0027m not sure I understand your concerns. psId can be null here, why would we want to allow a potential NPE?\n\nI have possibly not expressed myself clearly: it isn\u0027t a concern but rather a thinking on how to re-create a situation where that psId can be null in a test.\n\nBecause you guys had the issue, hence we are grateful for the fix :-)\nIf you believe you can reproduce the problem and verify that this fix actually resolves it, it would be useful for other people to have the problem documented somewhere and knowing that it is fixed.\n\nHope that clarify the feedback, which isn\u0027t negative at all. I\u0027ll express that also with a +1.",
+      "parentUuid": "2c8dfa8c_aa84d08f",
+      "revId": "9664ca6f6cc268d6129935a9729391c4281fb530",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

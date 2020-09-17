@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20e747a3_6198622a",
+        "filename": "Documentation/dev-contributing.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-17T22:07:26Z",
+      "side": 1,
+      "message": "In this branch and up, this file has to keep its linkattrs, hence this manual override of the default auto-merge. I basically forced the original file onto this merge, resulting in no change, for this file.",
+      "range": {
+        "startLine": 1,
+        "startChar": 0,
+        "endLine": 1,
+        "endChar": 11
+      },
+      "revId": "95fc71ffb7a2603f976d86625513d53bb3d95267",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

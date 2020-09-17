@@ -123,6 +123,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "7def451c_dcb5924a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-17T13:20:28Z",
+      "side": 1,
+      "message": "I wonder how it works for you as it was IMHO broken until I have fixed it in [1] but I guess you have some other means to enforce it ;)\n\nSorry for not reviewing it earlier but initial commit message on [2] led me to build the impression that this is sth not related which resulted in me not seeing it at all (totally my fault all I can say for my defend is that I was busy elsewhere hence had to prioritise :/). \n\nRegardless ;) Do you think that making it visually less related to the PS would be closer to what \u0027change message\u0027 currently delivers (which is PS agnostic change feedback) obviously offering also the possibility to thread it?\n\n[1] https://gerrit-review.googlesource.com/c/gerrit/+/281661\n[2] https://gerrit-review.googlesource.com/c/gerrit/+/259613",
+      "parentUuid": "8387224e_b2e3dc5e",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

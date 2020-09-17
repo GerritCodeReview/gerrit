@@ -36,6 +36,24 @@
     },
     {
       "key": {
+        "uuid": "dc83eb53_d4d9905a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1213,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-17T09:37:52Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "02aff5e8_d3b49b16",
+      "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d84c605_e0409ef7",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
         "patchSetId": 1
@@ -50,6 +68,24 @@
       "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0302b7a2_5462452f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1269,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-17T09:37:52Z",
+      "side": 1,
+      "message": "I guess we can remove the w/o line address part although I\u0027m not sure why this was ever added in the first place.",
+      "parentUuid": "7d84c605_e0409ef7",
+      "revId": "82792681bbfb0ad6caa3d1def0db5ec2a867a16b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

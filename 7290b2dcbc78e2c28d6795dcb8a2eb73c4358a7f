@@ -1,0 +1,406 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3f66ed22_c3925e56",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "As commented on previous changes, creating the auto-merge commit should happen outside of the new diff caches. So, this method should hopefully go away.\n\nHandling auto-merges properly might be worth a change on its own. In order to use the new caches as quickly as possible for REST endpoints, I\u0027d suggest that you split the calls before the Diffs facade. For instance, you could delegate to the Diffs facade (and hence use the new diff caches) for most calls but still go to the old diff caches for auto-merge requests. As soon as you have the auto-merge handling in place in the Diffs facade, you can remove the temporary split.",
+      "range": {
+        "startLine": 297,
+        "startChar": 17,
+        "endLine": 297,
+        "endChar": 28
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b987450_24ca11e3",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Nit: Ideally, this Javadoc description includes a note saying that the diff caches should not be used directly and that any callers should only refer to the Diffs facade.\n\n(This of course also means that we\u0027ll have to add all necessary methods to the Diffs interface, e.g. also for the diff summary, but that\u0027s the plan. :-) )",
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72c8167a_000e5530",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Nit: Not accurate anymore.",
+      "range": {
+        "startLine": 32,
+        "startChar": 5,
+        "endLine": 32,
+        "endChar": 31
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "da7af4ea_eada9da3",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "The diffs facade should be an abstraction on top of the diff caches. Hence, it should not directly take any cache keys as input parameters. In addition, PatchListKey is one of the classes we want to remove together with the old diff caches.\n\nI would have expected to find several getModifiedFiles() methods on the Diffs facade. One for diffs between patchsets (e.g. taking two Patchset.Ids as argument), one for diffs against parent(s), and possibly a special one for diffs against auto-merge.\n\nWhen you switch to a different type, please also consider to not use a map anymore (which you probably just did because of the special output format of the REST endpoint). From an API point of view, I\u0027d have expected to find an ImmutableList or ImmutableSet as return type here.",
+      "range": {
+        "startLine": 34,
+        "startChar": 68,
+        "endLine": 34,
+        "endChar": 84
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2a0940ea_32a6a162",
+        "filename": "java/com/google/gerrit/server/patch/Diffs.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "The Diffs facade is meant to be an internal class for various purposes. If we use FileInfo here, we optimize it for direct use by REST endpoints, which is one use case but not flexible enough for other use cases. In addition, using FileInfo here also means that we need to do the mapping from internal classes to FileInfo inside Diffs, which should be free of REST-API specific code if we follow the separation of concerns principle.",
+      "range": {
+        "startLine": 34,
+        "startChar": 14,
+        "endLine": 34,
+        "endChar": 22
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c07fdf7b_508f85fa",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "We should have a clear separation between the code used by the diff caches and the code used outside of them e.g. in DiffsImpl. The new code added to DiffUtil is especially confusing as it only works with the design of the PatchListKey, which is filled and set up differently than the keys of the new caches. Hence, please move that code out of DiffUtil.",
+      "range": {
+        "startLine": 79,
+        "startChar": 6,
+        "endLine": 81,
+        "endChar": 77
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "08b73503_274accc9",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "The plan was to define the diff settings as constant in this class. It\u0027s something which should be minimal work within this change.",
+      "range": {
+        "startLine": 83,
+        "startChar": 24,
+        "endLine": 83,
+        "endChar": 78
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ed21c7ef_ac18a088",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 89,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Here and below: It would be good to have a comment explaining that we need this specific whitespace setting (regardless of what the user configured) as the list of files should include all modified files, even the ones which only contain whitespace changes.",
+      "range": {
+        "startLine": 89,
+        "startChar": 14,
+        "endLine": 89,
+        "endChar": 36
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7ac3b6d_7f2d85ee",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Nit: It\u0027s unnecessary to have both a map which contains the keys as well as this list. Having both has the risk that they can\u0027t be inconsistent. Please remove one of them.",
+      "range": {
+        "startLine": 95,
+        "startChar": 30,
+        "endLine": 95,
+        "endChar": 34
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6427a29f_286db405",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Nit: This variable name is very confusing. Please choose a more descriptive name.",
+      "range": {
+        "startLine": 96,
+        "startChar": 46,
+        "endLine": 96,
+        "endChar": 47
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33d20902_6d83d602",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "After removing the temporary code to handle root commits, this loop can be a simple stream.",
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "eb65b53d_a1ab697e",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "For deleted files, doesn\u0027t this need to be the oldPath()?",
+      "range": {
+        "startLine": 107,
+        "startChar": 14,
+        "endLine": 107,
+        "endChar": 30
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "315c3339_e7b14dc5",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 109,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Same as above: These values should be easy to set and define as constants in this class. The current similarity threshold is 60 and the current diff algorithm (for all diffs which are not intraline diffs) is histogram.",
+      "range": {
+        "startLine": 108,
+        "startChar": 14,
+        "endLine": 109,
+        "endChar": 19
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fb2d55c_27b0c74e",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Is this necessary to filter out files which contain only edits due to rebase? If so, please remove this part after following my other comment for this.",
+      "range": {
+        "startLine": 129,
+        "startChar": 8,
+        "endLine": 131,
+        "endChar": 9
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f13dda17_10b30ea5",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 142,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "FYI: Whichever error handling we\u0027ll have in the future, it shouldn\u0027t use PatchListNotAvailableException anymore. PatchListNotAvailableException is too close to the old caches and should be removed with them.",
+      "range": {
+        "startLine": 142,
+        "startChar": 16,
+        "endLine": 142,
+        "endChar": 46
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "91a9d6d5_aef97bec",
+        "filename": "java/com/google/gerrit/server/patch/DiffsImpl.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 147,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Nit: Unused.",
+      "range": {
+        "startLine": 147,
+        "startChar": 19,
+        "endLine": 147,
+        "endChar": 30
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aeadb32d_9f017960",
+        "filename": "java/com/google/gerrit/server/patch/ModifiedFilesCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "Did you include this flag as you ran into issues with root commits in bare repositories (guessing from the \"(aCommit instanceof RevCommit) ? true : false)\" input in DiffsImpl)? If so, the (Git)ModifiedFilesCache should properly handle such root commits without the need of this flag.\n\nI remember commenting on the handling of root commits on the previous changes, so these issues might be gone after you adjusted the previous changes.",
+      "range": {
+        "startLine": 234,
+        "startChar": 20,
+        "endLine": 234,
+        "endChar": 43
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "603a2bfd_7673a3fc",
+        "filename": "java/com/google/gerrit/server/patch/PatchListEntry.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T11:53:49Z",
+      "side": 1,
+      "message": "This class is used as cache key by existing caches. Changing it could mean that we involuntarily flush existing caches. In addition, PatchListEntry has custom methods for serialization and deserialization, which we use for the old caches. That\u0027s the reason PatchListEntry wasn\u0027t annotated as Serializable in the past.\n\nAs commented on previous changes, we shouldn\u0027t use PatchListEntry for the new caches. Hence, this adjustment (and the one in line 69-77) should become unnecessary.",
+      "range": {
+        "startLine": 50,
+        "startChar": 13,
+        "endLine": 50,
+        "endChar": 51
+      },
+      "revId": "7290b2dcbc78e2c28d6795dcb8a2eb73c4358a7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

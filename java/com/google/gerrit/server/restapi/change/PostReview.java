@@ -18,7 +18,6 @@ import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.common.collect.ImmutableList.toImmutableList;
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
 import static com.google.gerrit.server.permissions.LabelPermission.ForUser.ON_BEHALF_OF;
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
@@ -893,7 +892,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     @Override
     public boolean updateChange(ChangeContext ctx)
         throws ResourceConflictException, UnprocessableEntityException, IOException,
-            PatchListNotAvailableException, CommentsRejectedException {
+            CommentsRejectedException {
       user = ctx.getIdentifiedUser();
       notes = ctx.getNotes();
       ps = psUtil.get(ctx.getNotes(), psId);
@@ -951,7 +950,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private boolean insertComments(ChangeContext ctx, List<RobotComment> newRobotComments)
-        throws PatchListNotAvailableException, CommentsRejectedException {
+        throws CommentsRejectedException {
       Map<String, List<CommentInput>> inputComments = in.comments;
       if (inputComments == null) {
         inputComments = Collections.emptyMap();
@@ -1003,7 +1002,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
             comment.message = inputComment.message;
           }
 
-          setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
+          commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);
           comment.setLineNbrAndRange(inputComment.line, inputComment.range);
           comment.tag = in.tag;
 
@@ -1082,8 +1081,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       return !newRobotComments.isEmpty();
     }
 
-    private List<RobotComment> getNewRobotComments(ChangeContext ctx)
-        throws PatchListNotAvailableException {
+    private List<RobotComment> getNewRobotComments(ChangeContext ctx) {
       List<RobotComment> toAdd = new ArrayList<>(in.robotComments.size());
 
       Set<CommentSetEntry> existingIds =
@@ -1103,8 +1101,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
 
     private RobotComment createRobotCommentFromInput(
-        ChangeContext ctx, String path, RobotCommentInput robotCommentInput)
-        throws PatchListNotAvailableException {
+        ChangeContext ctx, String path, RobotCommentInput robotCommentInput) {
       RobotComment robotComment =
           commentsUtil.newRobotComment(
               ctx,
@@ -1119,7 +1116,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
       robotComment.properties = robotCommentInput.properties;
       robotComment.setLineNbrAndRange(robotCommentInput.line, robotCommentInput.range);
       robotComment.tag = in.tag;
-      setCommentCommitId(robotComment, patchListCache, ctx.getChange(), ps);
+      commentsUtil.setCommentCommitId(robotComment, ctx.getChange(), ps);
       robotComment.fixSuggestions = createFixSuggestionsFromInput(robotCommentInput.fixSuggestions);
       return robotComment;
     }

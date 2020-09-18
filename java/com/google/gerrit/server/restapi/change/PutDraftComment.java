@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.entities.Patch.PATCHSET_LEVEL;
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
 
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
@@ -32,8 +31,6 @@ import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
@@ -54,7 +51,6 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
   private final Provider<CommentJson> commentJson;
-  private final PatchListCache patchListCache;
 
   @Inject
   PutDraftComment(
@@ -62,14 +58,12 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
       DeleteDraftComment delete,
       CommentsUtil commentsUtil,
       PatchSetUtil psUtil,
-      Provider<CommentJson> commentJson,
-      PatchListCache patchListCache) {
+      Provider<CommentJson> commentJson) {
     this.updateFactory = updateFactory;
     this.delete = delete;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
     this.commentJson = commentJson;
-    this.patchListCache = patchListCache;
   }
 
   @Override
@@ -114,8 +108,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, PatchListNotAvailableException {
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException {
       Optional<HumanComment> maybeComment =
           commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
@@ -143,7 +136,7 @@ public class PutDraftComment implements RestModifyView<DraftCommentResource, Dra
         commentsUtil.deleteHumanComments(update, Collections.singleton(origComment));
         comment.key.filename = in.path;
       }
-      setCommentCommitId(comment, patchListCache, ctx.getChange(), ps);
+      commentsUtil.setCommentCommitId(comment, ctx.getChange(), ps);
       commentsUtil.putHumanComments(
           update,
           HumanComment.Status.DRAFT,

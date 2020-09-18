@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.restapi.change;
 
-import static com.google.gerrit.server.CommentsUtil.setCommentCommitId;
-
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.HumanComment;
 import com.google.gerrit.entities.PatchSet;
@@ -28,8 +26,6 @@ import com.google.gerrit.extensions.restapi.RestModifyView;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.DraftCommentResource;
-import com.google.gerrit.server.patch.PatchListCache;
-import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -45,18 +41,13 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
   private final BatchUpdate.Factory updateFactory;
   private final CommentsUtil commentsUtil;
   private final PatchSetUtil psUtil;
-  private final PatchListCache patchListCache;
 
   @Inject
   DeleteDraftComment(
-      BatchUpdate.Factory updateFactory,
-      CommentsUtil commentsUtil,
-      PatchSetUtil psUtil,
-      PatchListCache patchListCache) {
+      BatchUpdate.Factory updateFactory, CommentsUtil commentsUtil, PatchSetUtil psUtil) {
     this.updateFactory = updateFactory;
     this.commentsUtil = commentsUtil;
     this.psUtil = psUtil;
-    this.patchListCache = patchListCache;
   }
 
   @Override
@@ -79,8 +70,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
     }
 
     @Override
-    public boolean updateChange(ChangeContext ctx)
-        throws ResourceNotFoundException, PatchListNotAvailableException {
+    public boolean updateChange(ChangeContext ctx) throws ResourceNotFoundException {
       Optional<HumanComment> maybeComment =
           commentsUtil.getDraft(ctx.getNotes(), ctx.getIdentifiedUser(), key);
       if (!maybeComment.isPresent()) {
@@ -92,7 +82,7 @@ public class DeleteDraftComment implements RestModifyView<DraftCommentResource, 
         throw new ResourceNotFoundException("patch set not found: " + psId);
       }
       HumanComment c = maybeComment.get();
-      setCommentCommitId(c, patchListCache, ctx.getChange(), ps);
+      commentsUtil.setCommentCommitId(c, ctx.getChange(), ps);
       commentsUtil.deleteHumanComments(ctx.getUpdate(psId), Collections.singleton(c));
       return true;
     }

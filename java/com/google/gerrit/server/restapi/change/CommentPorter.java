@@ -67,10 +67,12 @@ public class CommentPorter {
   private final GitPositionTransformer positionTransformer =
       new GitPositionTransformer(BestPositionOnConflict.INSTANCE);
   private final PatchListCache patchListCache;
+  private final CommentsUtil commentsUtil;
 
   @Inject
-  public CommentPorter(PatchListCache patchListCache) {
+  public CommentPorter(PatchListCache patchListCache, CommentsUtil commentsUtil) {
     this.patchListCache = patchListCache;
+    this.commentsUtil = commentsUtil;
   }
 
   /**
@@ -131,13 +133,21 @@ public class CommentPorter {
       ImmutableList<HumanComment> patchsetComments = commentsPerPatchset.get(originalPatchsetId);
       PatchSet originalPatchset =
           notes.getPatchSets().get(PatchSet.id(notes.getChangeId(), originalPatchsetId));
-      portedComments.addAll(
-          portSamePatchset(
-              notes.getProjectName(),
-              notes.getChange(),
-              originalPatchset,
-              targetPatchset,
-              patchsetComments));
+      if (originalPatchset != null) {
+        portedComments.addAll(
+            portSamePatchset(
+                notes.getProjectName(),
+                notes.getChange(),
+                originalPatchset,
+                targetPatchset,
+                patchsetComments));
+      } else {
+        logger.atWarning().log(
+            String.format(
+                "Some comments which should be ported refer to the non-existent patchset %s of"
+                    + " change %d. Omitting %d affected comments.",
+                originalPatchsetId, notes.getChangeId().get(), patchsetComments.size()));
+      }
     }
     return portedComments.build();
   }
@@ -200,11 +210,20 @@ public class CommentPorter {
       PatchSet targetPatchset,
       short side)
       throws PatchListNotAvailableException {
-    ObjectId originalCommit =
-        CommentsUtil.determineCommitId(patchListCache, change, originalPatchset, side);
-    ObjectId targetCommit =
-        CommentsUtil.determineCommitId(patchListCache, change, targetPatchset, side);
+    ObjectId originalCommit = determineCommitId(change, originalPatchset, side);
+    ObjectId targetCommit = determineCommitId(change, targetPatchset, side);
     return loadCommitMappings(project, originalCommit, targetCommit);
+  }
+
+  private ObjectId determineCommitId(Change change, PatchSet patchset, short side) {
+    return commentsUtil
+        .determineCommitId(change, patchset, side)
+        .orElseThrow(
+            () ->
+                new IllegalStateException(
+                    String.format(
+                        "Commit indicated by change %d, patchset %d, side %d doesn't exist.",
+                        change.getId().get(), patchset.id().get(), side)));
   }
 
   private ImmutableSet<Mapping> loadCommitMappings(
@@ -276,6 +295,11 @@ public class CommentPorter {
       portedComment.range = null;
       // No line -> use 0 = file comment or any other comment type without an explicit line.
       portedComment.lineNbr = newPosition.lineRange().map(range -> range.start() + 1).orElse(0);
+    }
+    if (Patch.PATCHSET_LEVEL.equals(portedComment.key.filename)) {
+      // Correct the side of the comment to Side.REVISION (= 1) if the comment was changed to
+      // patchset level.
+      portedComment.side = 1;
     }
     return portedComment;
   }

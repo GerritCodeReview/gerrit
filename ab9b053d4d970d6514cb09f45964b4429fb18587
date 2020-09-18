@@ -51,6 +51,24 @@
       "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac78294_16850285",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-18T22:52:26Z",
+      "side": 1,
+      "message": "//javatests/com/google/gerrit/acceptance/config:config might have a failure?\n\n INFO  com.google.gerrit.server.config.ScheduleConfig : No schedule configuration for \"accountDeactivation\".\n .Initialized /Users/nasserg/.cache/bazel/60643c8736542bd7302f52749e82aa97/sandbox/darwin-sandbox/1222/execroot/gerrit/_tmp/e7b222c99403145bb71cf995746e8428/junit8007754939383190538/junit3586311131433725751\n Reindexed 0 documents in accounts index in 0.0s (0.0/s)\n Index accounts in version 11 is ready\n Warning: InterruptedException\n java.lang.InterruptedException\n \tat java.base/java.lang.Object.wait(Native Method)\n \tat java.base/java.lang.Thread.join(Thread.java:1313)\n \tat org.h2.util.MathUtils.getSecureRandom(MathUtils.java:105)\n \tat org.h2.util.MathUtils.secureRandomBytes(MathUtils.java:307)\n \tat org.h2.store.FileLock.setUniqueId(FileLock.java:315)\n \tat org.h2.store.FileLock.lockFile(FileLock.java:345)\n \tat org.h2.store.FileLock.lock(FileLock.java:136)\n \tat org.h2.engine.Database.open(Database.java:622)\n \tat org.h2.engine.Database.openDatabase(Database.java:260)\n \tat org.h2.engine.Database.\u003cinit\u003e(Database.java:254)\n \tat org.h2.engine.Engine.openSession(Engine.java:57)\n \tat org.h2.engine.Engine.openSession(Engine.java:164)\n \tat org.h2.engine.Engine.createSessionAndValidate(Engine.java:142)\n \tat org.h2.engine.Engine.createSession(Engine.java:125)\n \tat org.h2.engine.Engine.createSession(Engine.java:27)\n \tat org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:331)\n \tat org.h2.jdbc.JdbcConnection.\u003cinit\u003e(JdbcConnection.java:107)\n \tat org.h2.jdbc.JdbcConnection.\u003cinit\u003e(JdbcConnection.java:91)\n \tat org.h2.Driver.connect(Driver.java:74)\n \tat com.google.gerrit.server.cache.h2.H2CacheImpl$SqlHandle.\u003cinit\u003e(H2CacheImpl.java:679)\n \tat com.google.gerrit.server.cache.h2.H2CacheImpl$SqlStore.acquire(H2CacheImpl.java:647)\n \tat com.google.gerrit.server.cache.h2.H2CacheImpl$SqlStore.buildBloomFilter(H2CacheImpl.java:365)\n \tat com.google.gerrit.server.cache.h2.H2CacheImpl$SqlStore.open(H2CacheImpl.java:337)\n \tat com.google.gerrit.server.cache.h2.H2CacheImpl.start(H2CacheImpl.java:197)\n \tat com.google.gerrit.server.logging.LoggingContextAwareRunnable.run(LoggingContextAwareRunnable.java:110)\n \tat java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)\n \tat java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)\n \tat java.base/java.lang.Thread.run(Thread.java:834)\n Collecting projects:    2",
+      "parentUuid": "38ba4654_aff8c9e2",
+      "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ed3cba13_eada7922",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-18T13:01:33Z",
+      "side": 1,
+      "message": "This was cherry-picked to stable-3.2.\nWouldn\u0027t it make more sense to fix it there?\n",
+      "revId": "4bd4e41300391396f25e66cd8cda1e79146310c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

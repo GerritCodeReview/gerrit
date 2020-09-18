@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5aa2d898_5319ff5e",
+        "filename": "java/com/google/gerrit/server/submit/UpdateOrderCalculator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T12:57:23Z",
+      "side": 1,
+      "message": "Typo: Unnecessary \u0027to\u0027.",
+      "range": {
+        "startLine": 15,
+        "startChar": 66,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "cc5e987cccf8080ac23cbac31f8b5bd90de2d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

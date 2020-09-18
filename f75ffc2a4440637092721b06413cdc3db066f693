@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f7ab8f6_9bc4cbc2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T13:03:10Z",
+      "side": 1,
+      "message": "@Sven can you re-check? P.S. Good catch, yes, we need to fix stable-3.2 first :-)",
+      "revId": "f75ffc2a4440637092721b06413cdc3db066f693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

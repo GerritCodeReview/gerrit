@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d9214462_5c1d8064",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-18T09:56:21Z",
+      "side": 1,
+      "message": "Should we also mention that the new code will not throw exceptions if it fails to determine the parent commit and will return an empty ObjectId instead?",
+      "revId": "f39d28f8b0f5de34b3e680ab4c97ab02494855fd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

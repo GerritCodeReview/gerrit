@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7688fb7b_3e231980",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-09-18T15:24:23Z",
+      "side": 1,
+      "message": "This is good info to know, thanks!\n\nIf concurrency on the same repo is indeed the problem, then it would likely be better to use an approach which grabs a single slice per repo, ordered starting with the largest repos first.",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

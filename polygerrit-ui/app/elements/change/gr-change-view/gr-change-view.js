@@ -434,7 +434,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       [Shortcut.OPEN_DOWNLOAD_DIALOG]:
           '_handleOpenDownloadDialogShortcut',
       [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [Shortcut.TOGGLE_CHANGE_STAR]: '_handleToggleChangeStar',
+      [Shortcut.TOGGLE_CHANGE_STAR]: '_throttledToggleChangeStar',
       [Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
       [Shortcut.EXPAND_ALL_MESSAGES]: '_handleExpandAllMessages',
       [Shortcut.COLLAPSE_ALL_MESSAGES]: '_handleCollapseAllMessages',
@@ -454,6 +454,12 @@ class GrChangeView extends KeyboardShortcutMixin(
   constructor() {
     super();
     this.reporting = appContext.reportingService;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this._throttledToggleChangeStar = this._throttleWrap(
+        this._handleToggleChangeStar).bind(this);
   }
 
   /** @override */
@@ -1512,7 +1518,6 @@ class GrChangeView extends KeyboardShortcutMixin(
   _handleToggleChangeStar(e) {
     if (this.shouldSuppressKeyboardShortcut(e) ||
         this.modifierPressed(e)) { return; }
-
     e.preventDefault();
     this.$.changeStar.toggleStar();
   }

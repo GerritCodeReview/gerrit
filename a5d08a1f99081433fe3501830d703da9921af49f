@@ -195,6 +195,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ee29335c_8474db7c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-18T22:08:33Z",
+      "side": 1,
+      "message": "\u003e My gut feeling is that the additional complexity in the code and on the UI would not be worth it.\n\u003e We would also need to come up with different UX workflows to both support change- and patchset-level comments...\n\nIntention behind the \u0027/PATCHSET_LEVEL\u0027 wasn\u0027t clear (and visible in local dev) to me hence I have proposed the \u0027/CHANGE_LEVEL\u0027. Now I don\u0027t believe that we need these two (this change is going to be abandoned).\n\nI would propose the following:\n1. keep the \u0027Pathset X\u0027 indicator of a comment (so that relation is clear - I can see the value in knowing when the discussion started)\n2. get rid of \u0027Patchset\u0027 grouping header (IMHO that anchors unnecessarily general discussion to the specific PS) - having none would cleanly indicate that change as a whole is being discussed (groups could be still ordered by patchset number so that one could easily understand of when particular thread started).",
+      "parentUuid": "6205caee_bb70cb82",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

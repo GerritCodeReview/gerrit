@@ -62,6 +62,24 @@
       "revId": "5ab9372fa27a89661bfe3e23767bbfc164a31fd9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33873887_4184ba3a",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-18T14:40:35Z",
+      "side": 1,
+      "message": "like for `r` -\u003e toggle reviewed, you will need to do this all over again for it, i think it also appears in both change page and diff page :)  it would be nice to abstract that away from the handlers",
+      "parentUuid": "988a2acc_2e61f8c8",
+      "revId": "5ab9372fa27a89661bfe3e23767bbfc164a31fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

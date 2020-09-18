@@ -9,11 +9,11 @@
       "updated": "2020-09-18T02:02:38Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SCHEDULED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/93095/console",
-      "started": "2020-09-17T23:46:49Z",
+      "state": "RUNNING",
+      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-pipeline/job/57%252F281757%252F2/2/console",
+      "started": "2020-09-18T02:02:41Z",
       "created": "2020-09-17T23:45:38Z",
-      "updated": "2020-09-18T02:02:21Z"
+      "updated": "2020-09-18T02:02:41Z"
     }
   }
 }

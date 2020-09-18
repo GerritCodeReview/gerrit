@@ -86,6 +86,24 @@
       "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "80c4aa1e_708b08d8",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T12:41:16Z",
+      "side": 1,
+      "message": "Fixed with Change-Id: I267fea4",
+      "parentUuid": "73eafe78_ddd9a7b8",
+      "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

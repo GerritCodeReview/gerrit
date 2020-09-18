@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4bf80611_5c0958ca",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-18T14:49:38Z",
+      "side": 1,
+      "message": "If you want to reintroduce this in a smaller/safer way, you could look at doing the #1 I suggested in https://gerrit-review.googlesource.com/c/gerrit/+/279957/comment/9aee427d_ecb5e787/",
+      "revId": "da0559e065058c33a090c53302c564c2d872f06f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

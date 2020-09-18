@@ -100,6 +100,8 @@ const SMALL_RELATED_HEIGHT = 400;
 
 const REPLY_REFIT_DEBOUNCE_INTERVAL_MS = 500;
 
+const TOGGLE_STAR_THROTTLE_INTERVAL_MS = 1000;
+
 const TRAILING_WHITESPACE_REGEX = /[ \t]+$/gm;
 
 const MSG_PREFIX = '#message-';
@@ -1510,9 +1512,13 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleToggleChangeStar(e) {
+    if (this._lastToggleChangeStarCall && Date.now() -
+        this._lastToggleChangeStarCall < TOGGLE_STAR_THROTTLE_INTERVAL_MS) {
+      return;
+    }
+    this._lastToggleChangeStarCall = Date.now();
     if (this.shouldSuppressKeyboardShortcut(e) ||
         this.modifierPressed(e)) { return; }
-
     e.preventDefault();
     this.$.changeStar.toggleStar();
   }

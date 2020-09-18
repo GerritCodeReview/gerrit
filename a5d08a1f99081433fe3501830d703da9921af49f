@@ -177,6 +177,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6205caee_bb70cb82",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T13:46:27Z",
+      "side": 1,
+      "message": "My gut feeling is that the additional complexity in the code and on the UI would not be worth it. We would also need to come up with different UX workflows to both support change- and patchset-level comments, which would be very confusing for users if not done right.",
+      "parentUuid": "4085aae0_54d7c0a3",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

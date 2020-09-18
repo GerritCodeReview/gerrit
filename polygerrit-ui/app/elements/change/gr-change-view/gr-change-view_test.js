@@ -493,6 +493,15 @@ suite('gr-change-view tests', () => {
   });
 
   suite('keyboard shortcuts', () => {
+    setup(() => {
+      window.clock = sinon.useFakeTimers();
+    });
+
+    teardown(() => {
+      window.clock.restore();
+      sinon.restore();
+    });
+
     test('t to add topic', () => {
       const editStub = sinon.stub(element.$.metadata, 'editTopic');
       MockInteractions.pressAndReleaseKeyOn(element, 83, null, 't');
@@ -503,6 +512,17 @@ suite('gr-change-view tests', () => {
       const starStub = sinon.stub(element.$.changeStar, 'toggleStar');
       MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
       assert(starStub.called);
+    });
+
+    test('toggle star is throttled', () => {
+      const starStub = sinon.stub(element.$.changeStar, 'toggleStar');
+      MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+      assert(starStub.called);
+      MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+      assert.equal(starStub.callCount, 1);
+      window.clock.tick(1000);
+      MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+      assert.equal(starStub.callCount, 2);
     });
 
     test('U should navigate to root if no backPage set', () => {

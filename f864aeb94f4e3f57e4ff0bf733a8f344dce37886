@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4134cae4_f38b5e2b",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-18T06:47:02Z",
+      "side": 1,
+      "message": "suggestion:\n\n    The uppercase keywords are set through link:#_environment_properties[environment properties].",
+      "range": {
+        "startLine": 127,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 44
+      },
+      "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c1035bc9_e8167aee",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-18T06:47:02Z",
+      "side": 1,
+      "message": "IMO this whole section is redundant.\nIt\u0027s more or less a repetition of the section below.",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "60a8f79f_35d2834a",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-18T06:47:02Z",
+      "side": 1,
+      "message": "I think that it would make more sense to document the reserved properties \"_[A-Z]+ in the \"input file\" section.\nHere you could inform about the general case that it has no effect to set properties that starts with an underscore in JAVA_OPTS since they are automatically set.",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 99
+      },
+      "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

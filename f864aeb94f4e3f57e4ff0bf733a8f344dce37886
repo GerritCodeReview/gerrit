@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4fc54ca0_e9b6cd10",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-18T12:16:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4134cae4_f38b5e2b",
+      "range": {
+        "startLine": 127,
+        "startChar": 39,
+        "endLine": 128,
+        "endChar": 44
+      },
+      "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c1035bc9_e8167aee",
         "filename": "Documentation/dev-e2e-tests.txt",
         "patchSetId": 2
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "60e454a2_75b4b2fa",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-18T12:16:33Z",
+      "side": 1,
+      "message": "I thought it would help the understanding. Removed.",
+      "parentUuid": "c1035bc9_e8167aee",
+      "range": {
+        "startLine": 166,
+        "startChar": 0,
+        "endLine": 170,
+        "endChar": 0
+      },
+      "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "60a8f79f_35d2834a",
         "filename": "Documentation/dev-e2e-tests.txt",
         "patchSetId": 2
@@ -68,6 +116,30 @@
       "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f6dca85_415aea51",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-18T12:16:33Z",
+      "side": 1,
+      "message": "\u003e I think that it would make more sense to document the reserved properties \"_[A-Z]+ in the \"input file\" section.\n\u003e Here you could inform about the general case that it has no effect to set properties that starts with an underscore in JAVA_OPTS since they are automatically set.\n\nI thought about this alternative, but figured that it is clearer to have this topic here instead. This is because one needs to first read about properties in general (the above content), prior to understanding what automatic ones are about.\n\nAlso, this text includes adding the \u0027project\u0027 property on top of the previously listed ones. And I wanted to keep this and the above explanations (all about \u0027project\u0027) together, in their surrounding context information.",
+      "parentUuid": "60a8f79f_35d2834a",
+      "range": {
+        "startLine": 192,
+        "startChar": 0,
+        "endLine": 199,
+        "endChar": 99
+      },
+      "revId": "f864aeb94f4e3f57e4ff0bf733a8f344dce37886",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

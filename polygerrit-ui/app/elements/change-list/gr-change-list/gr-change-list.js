@@ -39,6 +39,8 @@ const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
+const TOGGLE_STAR_DEBOUNCE_INTERVAL_MS = 1000;
+
 /**
  * @extends PolymerElement
  */
@@ -390,9 +392,10 @@ class GrChangeList extends ChangeTableMixin(
   _toggleChangeStar(e) {
     if (this.shouldSuppressKeyboardShortcut(e) ||
         this.modifierPressed(e)) { return; }
-
     e.preventDefault();
-    this._toggleStarForIndex(this.selectedIndex);
+    this.debounce('toggle-star', () => {
+      this._toggleStarForIndex(this.selectedIndex);
+    }, TOGGLE_STAR_DEBOUNCE_INTERVAL_MS);
   }
 
   _toggleStarForIndex(index) {

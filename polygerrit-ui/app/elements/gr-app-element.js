@@ -278,7 +278,7 @@ class GrAppElement extends KeyboardShortcutMixin(
     this.bindShortcut(
         Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
     this.bindShortcut(
-        Shortcut.TOGGLE_CHANGE_STAR, 's:keyup');
+        Shortcut.TOGGLE_CHANGE_STAR, 's:keydown');
     this.bindShortcut(
         Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
     this.bindShortcut(

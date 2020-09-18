@@ -51,6 +51,23 @@
       "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a896f609_d2777cc3",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1113292
+      },
+      "writtenOn": "2020-09-18T03:55:28Z",
+      "side": 1,
+      "message": "This change accidentally disabled `test-submit` when ssh download is disabled.",
+      "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

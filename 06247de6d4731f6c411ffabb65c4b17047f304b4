@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba6c9ef9_1d20ca54",
+        "filename": "java/com/google/gerrit/server/submit/ConfigSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T14:01:41Z",
+      "side": 1,
+      "message": "I very much like that this code is extracted from SubmoduleOp. It feels a bit strange, though, that callers need to inject an ConfigSubscriptionGraphFactory instead of SubscriptionGraph.Factory, which can easily go wrong. As this class is just a wrapper around SubscriptionGraph.Factory, I\u0027m wondering if we can\u0027t use Guice-capabilities to make the setup nicer. Here\u0027s a suggestion which seemed to work in a quick local test:\n1) Have ConfigSubscriptionGraphFactory implement SubscriptionGraph.Factory.\n2) Introduce a new binding annotation. (See https://github.com/google/guice/wiki/BindingAnnotations for binding annotations.)\n3) Adjust the binding in SubscriptionGraph.Module to\n  bind(Factory.class).annotatedWith(NewBindingAnnotation.class).to(DefaultFactory.class);\n\n4) Annotate the injection of SubscriptionGraph.Factory in the constructor of ConfigSubscriptionGraphFactory with the new binding annotation.\n5) Inject SubscriptionGraph.Factory instead of ConfigSubscriptionGraphFactory wherever it\u0027s injected right now (e.g. in SubmoduleOp).\n6) Add the new binding of ConfigSubscriptionGraphFactory to GerritGlobalModule.\n  bind(SubscriptionGraph.Factory.class).to(ConfigSubscriptionGraphFactory.class);\n\n7) Optional: Rename ConfigSubscriptionGraphFactory to ConfigedSubscriptionGraphFactory as that seems more accurate to me.\n8) Internally, adjust the binding of DefaultFactory when you do the import.",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "06247de6d4731f6c411ffabb65c4b17047f304b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95a32c3e_c40de943",
+        "filename": "java/com/google/gerrit/server/submit/ConfigSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T14:01:41Z",
+      "side": 1,
+      "message": "Nit: If you inlined the \u0027return\u0027, this method would get even simpler.",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "06247de6d4731f6c411ffabb65c4b17047f304b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

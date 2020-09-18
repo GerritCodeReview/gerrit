@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "2ee4189d_81a872a0",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-18T13:47:01Z",
+      "side": 1,
+      "message": "Np :) \n\nThanks Edwin. OK I re-added the previous methods so that we don\u0027t break the API and marked them as deprecated.\n\nYes I think commentsRequest is a good name. I also added a small note to the JavaDoc of the deprecated methods to encourage callers to use the new method.\n\nI also reverted the tests so that they use the old API (to make sure it is not broken). I can later on add a follow-up change to convert them to use the new API.",
+      "parentUuid": "b42fa0c9_26c9b598",
+      "range": {
+        "startLine": 344,
+        "startChar": 42,
+        "endLine": 344,
+        "endChar": 67
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "179b0b0f_2b103011",
         "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
         "patchSetId": 12

@@ -16,6 +16,23 @@
       "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0050e263_76ec75f8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T20:53:54Z",
+      "side": 1,
+      "message": "I\u0027m in favour of it, but we should also double-check that is Java 11 ready. It looks like is using JavaPoet for on-the-fly code generation, which I have no idea if supports already Java 11 or not.\n\n@Nasser did you make any Java 11 test with it?\n\nP.S. We currently verify on Java 8 only, we\u0027ll switch the verification to Java 11 in a couple of weeks\u0027 time.",
+      "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

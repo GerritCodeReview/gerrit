@@ -69,6 +69,30 @@
       "revId": "8b7bbd9eb056bb9a3eaf675ef0deaa85e27d1a43",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e16486ad_c0ac399d",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 668,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-18T13:00:00Z",
+      "side": 1,
+      "message": "Happens in Ib623ce651 and Ie5d1b547f.",
+      "parentUuid": "28e6139e_d62079fe",
+      "range": {
+        "startLine": 668,
+        "startChar": 4,
+        "endLine": 668,
+        "endChar": 48
+      },
+      "revId": "8b7bbd9eb056bb9a3eaf675ef0deaa85e27d1a43",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

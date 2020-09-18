@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "b42fa0c9_26c9b598",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 344,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-18T12:53:12Z",
+      "side": 1,
+      "message": "Thanks, it looks much better now 😊\n\nUnfortunately we cannot drop the old comments methods that existed before, as this would breaks the API. I\u0027m afraid we have to keep them, but you may annotate them with @Deprecated.\n\nSorry that I suggested comments() as name for the new method. I missed that this name collides with the pre-existing comments() method. Since we have to keep the old comments() method, we must use another name for the new method, maybe commentsRequest()?",
+      "parentUuid": "02a80823_48271abe",
+      "range": {
+        "startLine": 344,
+        "startChar": 42,
+        "endLine": 344,
+        "endChar": 67
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "179b0b0f_2b103011",
         "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
         "patchSetId": 12
@@ -131,6 +155,30 @@
       "side": 1,
       "message": "I think it is unlikely that this representation will change, but I prefer to keep it as a separate entity for now.\nI can change it in the future though if we ended up not needing it.",
       "parentUuid": "179b0b0f_2b103011",
+      "range": {
+        "startLine": 27,
+        "startChar": 59,
+        "endLine": 27,
+        "endChar": 89
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0f185ac4_ce6ff1cb",
+        "filename": "java/com/google/gerrit/extensions/common/CommentInfo.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-18T12:53:12Z",
+      "side": 1,
+      "message": "OK, but be aware that changing this in the future is not possible since this is part of the REST API and it would be an incompatible change that we cannot do.",
+      "parentUuid": "7c3d4af3_a727d9cd",
       "range": {
         "startLine": 27,
         "startChar": 59,
@@ -230,6 +278,30 @@
         "startChar": 13,
         "endLine": 61,
         "endChar": 16
+      },
+      "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e685f8da_75611742",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-18T12:53:12Z",
+      "side": 1,
+      "message": "Thanks, the javadoc is much clearer now.",
+      "parentUuid": "2f9f9e7c_94215f16",
+      "range": {
+        "startLine": 61,
+        "startChar": 5,
+        "endLine": 61,
+        "endChar": 55
       },
       "revId": "c88aedd3a86d6d810aadbce9b592c8a3553f98c7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

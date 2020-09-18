@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "97788d3b_b1df0756",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T08:03:28Z",
+      "side": 1,
+      "message": "Ack.",
+      "parentUuid": "3a523bcb_1f7b0808",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 100
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef2d880f_14011116",
         "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
         "patchSetId": 3
@@ -93,6 +117,30 @@
       "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "93d2e05b_7488370b",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-18T08:03:28Z",
+      "side": 1,
+      "message": "I would expect therefore you create a reverse() only once, as you did with converter. So that you don\u0027t create a new reverse converter every time.",
+      "parentUuid": "c74768be_d4e05a73",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 100
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

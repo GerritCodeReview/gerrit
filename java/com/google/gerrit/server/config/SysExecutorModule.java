@@ -51,20 +51,14 @@ public class SysExecutorModule extends AbstractModule {
 
   @Provides
   @Singleton
-  @AsyncPostUpdateExecutor
+  @SendEmailExecutor
   public ExecutorService provideSendEmailExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
-    // sendemail.threadPoolSize is deprecated and overridden by asyncPostUpdate.threadPoolSize.
-    int poolSize =
-        config.getInt(
-            "asyncPostUpdate",
-            null,
-            "threadPoolSize",
-            config.getInt("sendemail", null, "threadPoolSize", 1));
+    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
     if (poolSize == 0) {
       return newDirectExecutorService();
     }
-    return queues.createQueue(poolSize, "AsyncPostUpdate", true);
+    return queues.createQueue(poolSize, "SendEmail", true);
   }
 
   @Provides

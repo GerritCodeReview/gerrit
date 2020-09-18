@@ -50,7 +50,6 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.project.RemoveReviewerControl;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -147,7 +146,7 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
     return Response.none();
   }
 
-  private class Op implements BatchUpdateOp, AsyncPostUpdateOp {
+  private class Op implements BatchUpdateOp {
     private final ProjectState projectState;
     private final AccountState accountState;
     private final String label;
@@ -222,30 +221,17 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
 
     @Override
     public void postUpdate(Context ctx) {
-      voteDeleted.fire(
-          change,
-          ps,
-          accountState,
-          newApprovals,
-          oldApprovals,
-          input.notify,
-          changeMessage.getMessage(),
-          ctx.getIdentifiedUser().state(),
-          ctx.getWhen());
-    }
-
-    @Override
-    public void asyncPostUpdate(Context ctx) {
       if (changeMessage == null) {
         return;
       }
 
+      IdentifiedUser user = ctx.getIdentifiedUser();
       try {
         NotifyResolver.Result notify = ctx.getNotify(change.getId());
         if (notify.shouldNotify()) {
           ReplyToChangeSender emailSender =
               deleteVoteSenderFactory.create(ctx.getProject(), change.getId());
-          emailSender.setFrom(ctx.getIdentifiedUser().getAccountId());
+          emailSender.setFrom(user.getAccountId());
           emailSender.setChangeMessage(changeMessage.getMessage(), ctx.getWhen());
           emailSender.setNotify(notify);
           emailSender.setMessageId(
@@ -255,6 +241,17 @@ public class DeleteVote implements RestModifyView<VoteResource, DeleteVoteInput>
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
+
+      voteDeleted.fire(
+          change,
+          ps,
+          accountState,
+          newApprovals,
+          oldApprovals,
+          input.notify,
+          changeMessage.getMessage(),
+          user.state(),
+          ctx.getWhen());
     }
   }
 }

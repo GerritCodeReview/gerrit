@@ -64,7 +64,6 @@ import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -315,7 +314,7 @@ public class MailProcessor {
     }
   }
 
-  private class Op implements BatchUpdateOp, AsyncPostUpdateOp {
+  private class Op implements BatchUpdateOp {
     private final PatchSet.Id psId;
     private final List<MailComment> parsedComments;
     private final String tag;
@@ -360,26 +359,6 @@ public class MailProcessor {
 
     @Override
     public void postUpdate(Context ctx) throws Exception {
-      // Get previous approvals from this user
-      Map<String, Short> approvals = new HashMap<>();
-      approvalsUtil
-          .byPatchSetUser(
-              notes, psId, ctx.getAccountId(), ctx.getRevWalk(), ctx.getRepoView().getConfig())
-          .forEach(a -> approvals.put(a.label(), a.value()));
-      // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
-      // are always the same here.
-      commentAdded.fire(
-          notes.getChange(),
-          patchSet,
-          ctx.getAccount(),
-          changeMessage.getMessage(),
-          approvals,
-          approvals,
-          ctx.getWhen());
-    }
-
-    @Override
-    public void asyncPostUpdate(Context ctx) throws Exception {
       String patchSetComment = null;
       if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
         patchSetComment = parsedComments.get(0).getMessage();
@@ -396,7 +375,23 @@ public class MailProcessor {
               patchSetComment,
               ImmutableList.of(),
               ctx.getRepoView())
-          .send();
+          .sendAsync();
+      // Get previous approvals from this user
+      Map<String, Short> approvals = new HashMap<>();
+      approvalsUtil
+          .byPatchSetUser(
+              notes, psId, ctx.getAccountId(), ctx.getRevWalk(), ctx.getRepoView().getConfig())
+          .forEach(a -> approvals.put(a.label(), a.value()));
+      // Fire Gerrit event. Note that approvals can't be granted via email, so old and new approvals
+      // are always the same here.
+      commentAdded.fire(
+          notes.getChange(),
+          patchSet,
+          ctx.getAccount(),
+          changeMessage.getMessage(),
+          approvals,
+          approvals,
+          ctx.getWhen());
     }
 
     private ChangeMessage generateChangeMessage(ChangeContext ctx) {

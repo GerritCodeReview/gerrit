@@ -28,7 +28,6 @@ import static javax.servlet.http.HttpServletResponse.SC_OK;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
 import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.RestResponse;
@@ -399,13 +398,13 @@ public class ChangeReviewersIT extends AbstractDaemonTest {
     List<Message> messages = sender.getMessages();
     assertThat(messages).hasSize(2);
 
-    Message m = Iterables.getOnlyElement(sender.getMessages(r.getChangeId(), "comment"));
+    Message m = messages.get(0);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail(), observer.getNameEmail());
     assertThat(m.body()).contains(admin.fullName() + " has posted comments on this change.");
     assertThat(m.body()).contains("Change subject: " + PushOneCommit.SUBJECT + "\n");
     assertThat(m.body()).contains("Patch Set 1: Code-Review+2");
 
-    m = Iterables.getOnlyElement(sender.getMessages(r.getChangeId(), "newchange"));
+    m = messages.get(1);
     assertThat(m.rcpt()).containsExactly(user.getNameEmail(), observer.getNameEmail());
     assertThat(m.body()).contains("Hello " + user.fullName() + ",\n");
     assertThat(m.body()).contains("I'd like you to do a code review.");

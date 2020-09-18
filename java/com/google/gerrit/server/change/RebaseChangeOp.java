@@ -34,7 +34,6 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -49,7 +48,7 @@ import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 
-public class RebaseChangeOp implements BatchUpdateOp, AsyncPostUpdateOp {
+public class RebaseChangeOp implements BatchUpdateOp {
   public interface Factory {
     RebaseChangeOp create(ChangeNotes notes, PatchSet originalPatchSet, ObjectId baseCommitId);
   }
@@ -220,11 +219,6 @@ public class RebaseChangeOp implements BatchUpdateOp, AsyncPostUpdateOp {
   @Override
   public void postUpdate(Context ctx) {
     patchSetInserter.postUpdate(ctx);
-  }
-
-  @Override
-  public void asyncPostUpdate(Context ctx) {
-    patchSetInserter.asyncPostUpdate(ctx);
   }
 
   public RevCommit getRebasedCommit() {

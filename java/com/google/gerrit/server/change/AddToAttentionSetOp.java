@@ -25,7 +25,6 @@ import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -35,7 +34,7 @@ import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
 
 /** Add a specified user to the attention set. */
-public class AddToAttentionSetOp implements BatchUpdateOp, AsyncPostUpdateOp {
+public class AddToAttentionSetOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -102,7 +101,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp, AsyncPostUpdateOp {
   }
 
   @Override
-  public void asyncPostUpdate(Context ctx) {
+  public void postUpdate(Context ctx) {
     if (!notify) {
       return;
     }
@@ -115,7 +114,7 @@ public class AddToAttentionSetOp implements BatchUpdateOp, AsyncPostUpdateOp {
               reason,
               messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()),
               attentionUserId)
-          .send();
+          .sendAsync();
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
     }

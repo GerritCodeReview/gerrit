@@ -22,7 +22,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.ChangeUtil;
 import com.google.gerrit.server.mail.send.DeleteReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -30,7 +29,7 @@ import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.Collections;
 
-public class DeleteReviewerByEmailOp implements BatchUpdateOp, AsyncPostUpdateOp {
+public class DeleteReviewerByEmailOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -74,7 +73,7 @@ public class DeleteReviewerByEmailOp implements BatchUpdateOp, AsyncPostUpdateOp
   }
 
   @Override
-  public void asyncPostUpdate(Context ctx) {
+  public void postUpdate(Context ctx) {
     try {
       NotifyResolver.Result notify = ctx.getNotify(change.getId());
       if (!notify.shouldNotify()) {

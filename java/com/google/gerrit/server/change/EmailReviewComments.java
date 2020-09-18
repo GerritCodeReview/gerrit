@@ -21,18 +21,24 @@ import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
 import com.google.gerrit.server.update.RepoView;
 import com.google.gerrit.server.util.LabelVote;
+import com.google.gerrit.server.util.RequestContext;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
-public class EmailReviewComments {
+public class EmailReviewComments implements Runnable, RequestContext {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -65,8 +71,10 @@ public class EmailReviewComments {
         RepoView repoView);
   }
 
+  private final ExecutorService sendEmailsExecutor;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommentSender.Factory commentSenderFactory;
+  private final ThreadLocalRequestContext requestContext;
   private final MessageIdGenerator messageIdGenerator;
 
   private final NotifyResolver.Result notify;
@@ -81,8 +89,10 @@ public class EmailReviewComments {
 
   @Inject
   EmailReviewComments(
+      @SendEmailExecutor ExecutorService executor,
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
+      ThreadLocalRequestContext requestContext,
       MessageIdGenerator messageIdGenerator,
       @Assisted NotifyResolver.Result notify,
       @Assisted ChangeNotes notes,
@@ -93,8 +103,10 @@ public class EmailReviewComments {
       @Nullable @Assisted String patchSetComment,
       @Assisted List<LabelVote> labels,
       @Assisted RepoView repoView) {
+    this.sendEmailsExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
+    this.requestContext = requestContext;
     this.messageIdGenerator = messageIdGenerator;
     this.notify = notify;
     this.notes = notes;
@@ -107,7 +119,14 @@ public class EmailReviewComments {
     this.repoView = repoView;
   }
 
-  public void send() {
+  public void sendAsync() {
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+  }
+
+  @Override
+  public void run() {
+    RequestContext old = requestContext.setContext(this);
     try {
       CommentSender emailSender =
           commentSenderFactory.create(notes.getProjectName(), notes.getChangeId());
@@ -124,6 +143,18 @@ public class EmailReviewComments {
       emailSender.send();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email comments for %s", patchSet.id());
+    } finally {
+      requestContext.setContext(old);
     }
+  }
+
+  @Override
+  public String toString() {
+    return "send-email comments";
+  }
+
+  @Override
+  public CurrentUser getUser() {
+    return user.getRealUser();
   }
 }

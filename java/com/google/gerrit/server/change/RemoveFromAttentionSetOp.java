@@ -26,7 +26,6 @@ import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -37,7 +36,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 /** Remove a specified user from the attention set. */
-public class RemoveFromAttentionSetOp implements BatchUpdateOp, AsyncPostUpdateOp {
+public class RemoveFromAttentionSetOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -102,7 +101,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp, AsyncPostUpdateO
   }
 
   @Override
-  public void asyncPostUpdate(Context ctx) {
+  public void postUpdate(Context ctx) {
     if (!notify) {
       return;
     }
@@ -115,7 +114,7 @@ public class RemoveFromAttentionSetOp implements BatchUpdateOp, AsyncPostUpdateO
               reason,
               messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), change.currentPatchSetId()),
               attentionUserId)
-          .send();
+          .sendAsync();
     } catch (IOException e) {
       logger.atSevere().withCause(e).log(e.getMessage(), change.getId());
     }

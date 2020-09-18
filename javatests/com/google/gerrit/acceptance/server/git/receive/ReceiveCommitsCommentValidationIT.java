@@ -124,14 +124,12 @@ public class ReceiveCommitsCommentValidationIT extends AbstractDaemonTest {
     List<FakeEmailSender.Message> messages = sender.getMessages();
     assertThat(messages).hasSize(2);
 
-    FakeEmailSender.Message newPatchsetMessage =
-        Iterables.getOnlyElement(sender.getMessages(changeId, "newpatchset"));
+    FakeEmailSender.Message newPatchsetMessage = messages.get(0);
     assertThat(newPatchsetMessage.body()).contains("new patch set");
     assertThat(newPatchsetMessage.headers().get("Message-ID").toString())
         .doesNotContain("EmailReviewComments");
 
-    FakeEmailSender.Message newCommentsMessage =
-        Iterables.getOnlyElement(sender.getMessages(changeId, "comment"));
+    FakeEmailSender.Message newCommentsMessage = messages.get(1);
     assertThat(newCommentsMessage.body()).contains("has posted comments on this change");
     assertThat(newCommentsMessage.headers().get("Message-ID").toString())
         .contains("EmailReviewComments");

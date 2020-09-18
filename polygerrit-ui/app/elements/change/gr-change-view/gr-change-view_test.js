@@ -505,6 +505,19 @@ suite('gr-change-view tests', () => {
       assert(starStub.called);
     });
 
+    test('toggle star is throttled', done => {
+      const starStub = sinon.stub(element.$.changeStar, 'toggleStar');
+      MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+      assert(starStub.called);
+      MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+      assert.equal(starStub.callCount, 1);
+      setTimeout(() => {
+        MockInteractions.pressAndReleaseKeyOn(element, 83, null, 's');
+        assert.equal(starStub.callCount, 2);
+        done();
+      }, 1000);
+    });
+
     test('U should navigate to root if no backPage set', () => {
       const relativeNavStub = sinon.stub(GerritNav,
           'navigateToRelativeUrl');

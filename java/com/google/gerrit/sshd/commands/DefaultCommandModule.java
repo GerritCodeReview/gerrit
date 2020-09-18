@@ -90,8 +90,11 @@ public class DefaultCommandModule extends CommandModule {
         command("git-receive-pack").to(Commands.key(git, "receive-pack"));
         command("gerrit-receive-pack").to(Commands.key(git, "receive-pack"));
         command(git, "receive-pack").to(Commands.key(gerrit, "receive-pack"));
-        command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
       }
+    }
+
+    if (!slaveMode) {
+      command(gerrit, "test-submit").toProvider(new DispatchCommandProvider(testSubmit));
     }
     command("suexec").to(SuExec.class);
     listener().to(ShowCaches.StartupListener.class);

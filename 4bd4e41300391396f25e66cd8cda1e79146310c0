@@ -16,6 +16,23 @@
       "revId": "4bd4e41300391396f25e66cd8cda1e79146310c0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "bfdbf2c2_ff3959c8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-18T13:02:03Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/280496",
+      "revId": "4bd4e41300391396f25e66cd8cda1e79146310c0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

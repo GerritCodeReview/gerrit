@@ -16,6 +16,23 @@
       "revId": "f75ffc2a4440637092721b06413cdc3db066f693",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "444594de_1ff88658",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1071916
+      },
+      "writtenOn": "2020-09-18T14:13:29Z",
+      "side": 1,
+      "message": "The tracking issue goes to https://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13412",
+      "revId": "f75ffc2a4440637092721b06413cdc3db066f693",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -104,6 +104,24 @@
       "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ba89eba_9843eb7a",
+        "filename": "java/com/google/gerrit/sshd/commands/DefaultCommandModule.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 93,
+      "author": {
+        "id": 1022657
+      },
+      "writtenOn": "2020-09-18T13:03:18Z",
+      "side": 1,
+      "message": "Thank you Luca. It was unfortunate that the original review didn\u0027t see that test-submit is a separate issue.",
+      "parentUuid": "80c4aa1e_708b08d8",
+      "revId": "bce59ad5b01e0ab1f595c176d97a27d7b96fce18",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

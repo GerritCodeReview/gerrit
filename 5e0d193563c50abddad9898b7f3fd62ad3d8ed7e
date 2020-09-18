@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "3a523bcb_1f7b0808",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-18T06:25:32Z",
+      "side": 1,
+      "message": "true,\nActually there\u0027s no reason to create a new converter every time a new (de)serialization happens.\nthis can be a private shared variable.",
+      "parentUuid": "e830497e_06b2d026",
+      "range": {
+        "startLine": 48,
+        "startChar": 0,
+        "endLine": 48,
+        "endChar": 100
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ef2d880f_14011116",
         "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
         "patchSetId": 3
@@ -45,6 +69,30 @@
       "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c74768be_d4e05a73",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-18T06:25:32Z",
+      "side": 1,
+      "message": "see above.",
+      "parentUuid": "ef2d880f_14011116",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 100
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "9e0612ae_f56d4c9a",
+        "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-18T06:25:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "80d32092_c13bd699",
+      "range": {
+        "startLine": 77,
+        "startChar": 4,
+        "endLine": 77,
+        "endChar": 9
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c613f2d1_722834de",
         "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
         "patchSetId": 3
@@ -94,6 +166,30 @@
     },
     {
       "key": {
+        "uuid": "27a3ab19_f96dcb0a",
+        "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-18T06:25:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "c613f2d1_722834de",
+      "range": {
+        "startLine": 80,
+        "startChar": 4,
+        "endLine": 80,
+        "endChar": 9
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0c2de5a9_8691c2c5",
         "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
         "patchSetId": 3
@@ -108,6 +204,24 @@
       "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f543c7c3_7c3365aa",
+        "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 85,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-18T06:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0c2de5a9_8691c2c5",
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

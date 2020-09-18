@@ -175,6 +175,7 @@ import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
+import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.gerrit.util.cli.CmdLineParser;
@@ -338,6 +339,7 @@ class ReceiveCommits {
   private final PluginSetContext<RequestListener> requestListeners;
   private final PublishCommentsOp.Factory publishCommentsOp;
   private final RetryHelper retryHelper;
+  private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
   private final SubmoduleOp.Factory subOpFactory;
@@ -419,6 +421,7 @@ class ReceiveCommits {
       ReplaceOp.Factory replaceOpFactory,
       PluginSetContext<RequestListener> requestListeners,
       RetryHelper retryHelper,
+      RequestScopePropagator requestScopePropagator,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
       SubmoduleOp.Factory subOpFactory,
@@ -467,6 +470,7 @@ class ReceiveCommits {
     this.replaceOpFactory = replaceOpFactory;
     this.requestListeners = requestListeners;
     this.retryHelper = retryHelper;
+    this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
     this.subOpFactory = subOpFactory;
     this.tagCache = tagCache;
@@ -2582,6 +2586,7 @@ class ReceiveCommits {
                       magicBranch.getCombinedCcs(fromFooters))
                   .setApprovals(approvals)
                   .setMessage(msg.toString())
+                  .setRequestScopePropagator(requestScopePropagator)
                   .setSendMail(true)
                   .setPatchSetDescription(magicBranch.message));
           if (!magicBranch.hashtags.isEmpty()) {
@@ -3008,20 +3013,22 @@ class ReceiveCommits {
 
         RevCommit priorCommit = revisions.inverse().get(priorPatchSet);
         replaceOp =
-            replaceOpFactory.create(
-                projectState,
-                notes.getChange().getDest(),
-                checkMergedInto,
-                checkMergedInto ? inputCommand.getNewId().name() : null,
-                priorPatchSet,
-                priorCommit,
-                psId,
-                newCommit,
-                info,
-                groups,
-                magicBranch,
-                receivePack.getPushCertificate(),
-                notes.getChange());
+            replaceOpFactory
+                .create(
+                    projectState,
+                    notes.getChange().getDest(),
+                    checkMergedInto,
+                    checkMergedInto ? inputCommand.getNewId().name() : null,
+                    priorPatchSet,
+                    priorCommit,
+                    psId,
+                    newCommit,
+                    info,
+                    groups,
+                    magicBranch,
+                    receivePack.getPushCertificate(),
+                    notes.getChange())
+                .setRequestScopePropagator(requestScopePropagator);
         bu.addOp(notes.getChangeId(), replaceOp);
         if (progress != null) {
           bu.addOp(notes.getChangeId(), new ChangeProgressOp(progress));
@@ -3302,7 +3309,11 @@ class ReceiveCommits {
                           bu.addOp(
                               psId.changeId(),
                               mergedByPushOpFactory.create(
-                                  psId, submissionId, refName, newTip.getId().getName()));
+                                  requestScopePropagator,
+                                  psId,
+                                  submissionId,
+                                  refName,
+                                  newTip.getId().getName()));
                           continue COMMIT;
                         }
                       }
@@ -3346,7 +3357,12 @@ class ReceiveCommits {
                       bu.addOp(
                           id,
                           mergedByPushOpFactory
-                              .create(req.psId, submissionId, refName, newTip.getId().getName())
+                              .create(
+                                  requestScopePropagator,
+                                  req.psId,
+                                  submissionId,
+                                  refName,
+                                  newTip.getId().getName())
                               .setPatchSetProvider(req.replaceOp::getPatchSet));
                       bu.addOp(id, new ChangeProgressOp(progress));
                       ids.add(id);

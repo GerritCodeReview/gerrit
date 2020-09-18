@@ -30,14 +30,13 @@ import com.google.gerrit.server.mail.send.AbandonedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.ReplyToChangeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-public class AbandonOp implements BatchUpdateOp, AsyncPostUpdateOp {
+public class AbandonOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AbandonedSender.Factory abandonedSenderFactory;
@@ -52,7 +51,6 @@ public class AbandonOp implements BatchUpdateOp, AsyncPostUpdateOp {
   private Change change;
   private PatchSet patchSet;
   private ChangeMessage message;
-  private NotifyResolver.Result notify;
 
   public interface Factory {
     AbandonOp create(
@@ -98,7 +96,6 @@ public class AbandonOp implements BatchUpdateOp, AsyncPostUpdateOp {
     update.setStatus(change.getStatus());
     message = newMessage(ctx);
     cmUtil.addChangeMessage(update, message);
-    notify = ctx.getNotify(change.getId());
     return true;
   }
 
@@ -115,11 +112,7 @@ public class AbandonOp implements BatchUpdateOp, AsyncPostUpdateOp {
 
   @Override
   public void postUpdate(Context ctx) {
-    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notify.handling());
-  }
-
-  @Override
-  public void asyncPostUpdate(Context ctx) {
+    NotifyResolver.Result notify = ctx.getNotify(change.getId());
     try {
       ReplyToChangeSender emailSender =
           abandonedSenderFactory.create(ctx.getProject(), change.getId());
@@ -134,5 +127,6 @@ public class AbandonOp implements BatchUpdateOp, AsyncPostUpdateOp {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
+    changeAbandoned.fire(change, patchSet, accountState, msgTxt, ctx.getWhen(), notify.handling());
   }
 }

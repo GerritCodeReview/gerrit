@@ -43,7 +43,6 @@ import com.google.gerrit.server.git.MergeUtil;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.project.ProjectConfig;
 import com.google.gerrit.server.project.ProjectState;
-import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -61,7 +60,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
+abstract class SubmitStrategyOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   protected final SubmitStrategy.Arguments args;
@@ -484,22 +483,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
       }
     }
 
-    if (mergeResultRev != null && !args.dryrun) {
-      args.changeMerged.fire(
-          updatedChange,
-          mergedPatchSet,
-          args.accountCache.get(submitter.accountId()).orElse(null),
-          args.mergeTip.getCurrentTip().name(),
-          ctx.getWhen());
-    }
-  }
-
-  /**
-   * Assume the change must have been merged at this point, otherwise we would have failed in one of
-   * the other steps in postUpdate (which is done prior to this method).
-   */
-  @Override
-  public final void asyncPostUpdate(Context ctx) {
+    // Assume the change must have been merged at this point, otherwise we would
+    // have failed fast in one of the other steps.
     try {
       args.mergedSenderFactory
           .create(
@@ -508,11 +493,18 @@ abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
               submitter.accountId(),
               ctx.getNotify(getId()),
               ctx.getRepoView())
-          .send();
+          .sendAsync();
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());
     }
-    asyncPostUpdateImpl(ctx);
+    if (mergeResultRev != null && !args.dryrun) {
+      args.changeMerged.fire(
+          updatedChange,
+          mergedPatchSet,
+          args.accountCache.get(submitter.accountId()).orElse(null),
+          args.mergeTip.getCurrentTip().name(),
+          ctx.getWhen());
+    }
   }
 
   /**
@@ -535,12 +527,6 @@ abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
    * @param ctx
    */
   protected void postUpdateImpl(Context ctx) throws Exception {}
-
-  /**
-   * @see #asyncPostUpdate(Context)
-   * @param ctx
-   */
-  protected void asyncPostUpdateImpl(Context ctx) {}
 
   /**
    * Amend the commit with gitlink update

@@ -17,7 +17,9 @@ package com.google.gerrit.server.util;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -25,8 +27,10 @@ import com.google.gerrit.server.mail.send.RemoveFromAttentionSetSender;
 import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
 
-public class AttentionSetEmail {
+public class AttentionSetEmail implements Runnable, RequestContext {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -51,6 +55,7 @@ public class AttentionSetEmail {
         Account.Id attentionUserId);
   }
 
+  private ExecutorService sendEmailsExecutor;
   private AttentionSetSender sender;
   private Context ctx;
   private Change change;
@@ -61,12 +66,14 @@ public class AttentionSetEmail {
 
   @Inject
   AttentionSetEmail(
+      @SendEmailExecutor ExecutorService executor,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
       @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
+    this.sendEmailsExecutor = executor;
     this.sender = sender;
     this.ctx = ctx;
     this.change = change;
@@ -75,7 +82,13 @@ public class AttentionSetEmail {
     this.attentionUserId = attentionUserId;
   }
 
-  public void send() {
+  public void sendAsync() {
+    @SuppressWarnings("unused")
+    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+  }
+
+  @Override
+  public void run() {
     try {
       AccountState accountState =
           ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
@@ -90,5 +103,15 @@ public class AttentionSetEmail {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
+  }
+
+  @Override
+  public String toString() {
+    return "send-email comments";
+  }
+
+  @Override
+  public CurrentUser getUser() {
+    return ctx.getUser();
   }
 }

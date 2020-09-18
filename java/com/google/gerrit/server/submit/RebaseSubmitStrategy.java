@@ -275,13 +275,6 @@ public class RebaseSubmitStrategy extends SubmitStrategy {
         rebaseOp.postUpdate(ctx);
       }
     }
-
-    @Override
-    public void asyncPostUpdateImpl(Context ctx) {
-      if (rebaseOp != null) {
-        rebaseOp.asyncPostUpdate(ctx);
-      }
-    }
   }
 
   private class MergeIfNecessaryOp extends SubmitStrategyOp {

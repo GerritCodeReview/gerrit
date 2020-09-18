@@ -47,7 +47,6 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
-import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
@@ -59,6 +58,7 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
+import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
@@ -279,7 +279,7 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  @AsyncPostUpdateExecutor
+  @SendEmailExecutor
   public ExecutorService createSendEmailExecutor() {
     return newDirectExecutorService();
   }

@@ -587,18 +587,10 @@ public class ReviewerAdder {
       }
     }
 
-    public void postUpdate(Context ctx) {
+    public void postUpdate(Context ctx) throws Exception {
       for (ReviewerAddition addition : additions()) {
         if (addition.op != null) {
           addition.op.postUpdate(ctx);
-        }
-      }
-    }
-
-    public void asyncPostUpdate(Context ctx) {
-      for (ReviewerAddition addition : additions()) {
-        if (addition.op != null) {
-          addition.op.asyncPostUpdate(ctx);
         }
       }
     }

@@ -177,6 +177,13 @@ class GrChangeListItem extends ChangeTableMixin(
     return Object.keys(classes).sort().join(' ');
   }
 
+  _computeUpdated(change) {
+    if (this.sectionName === 'Your Turn' && this._hasAttention(this.account)) {
+      return change.attention_set[this.account._account_id].last_update;
+    }
+    return change.updated;
+  }
+
   _computeLabelValue(change: ChangeInfo | undefined, labelName: string) {
     const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
     if (!label) {
@@ -254,8 +261,8 @@ class GrChangeListItem extends ChangeTableMixin(
     }
   }
 
-  _hasAttention(account: AccountInfo) {
-    if (!this.change || !this.change.attention_set) return false;
+  _hasAttention(account: AccountInfo | null) {
+    if (!account || !this.change || !this.change.attention_set) return false;
     return hasOwnProperty(this.change.attention_set, account._account_id);
   }
 

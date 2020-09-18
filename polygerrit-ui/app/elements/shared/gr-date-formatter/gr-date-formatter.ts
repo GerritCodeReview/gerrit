@@ -197,7 +197,7 @@ export class GrDateFormatter extends TooltipMixin(
   _loadRelative() {
     return this._getPreferences().then(prefs => {
       // prefs.relative_date_in_change_table is not set when false.
-      this._relative = !!(prefs && prefs.relative_date_in_change_table);
+      this._relative = true;
     });
   }
 

@@ -257,7 +257,7 @@ export const htmlTemplate = html`
   >
     <gr-date-formatter
       has-tooltip=""
-      date-str="[[change.updated]]"
+      date-str="[[_computeUpdated(change)]]"
     ></gr-date-formatter>
   </td>
   <td

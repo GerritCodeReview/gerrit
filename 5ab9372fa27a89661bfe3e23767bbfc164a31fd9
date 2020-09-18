@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "632fc201_59e221b7",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-18T14:18:09Z",
+      "side": 1,
+      "message": "1s is pretty long, i think there is an article about 500ms as recommended time used in auto suggestions and other human computer interactions. I can imagine people to have a 200ms difference when release `cmd` and `s`, but I don\u0027t think its common to spent 1s to finish the `cmd + s`",
+      "range": {
+        "startLine": 42,
+        "startChar": 41,
+        "endLine": 42,
+        "endChar": 45
+      },
+      "revId": "5ab9372fa27a89661bfe3e23767bbfc164a31fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9f0491be_b7de4cf3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-18T14:18:09Z",
+      "side": 1,
+      "message": "throttle time",
+      "range": {
+        "startLine": 42,
+        "startChar": 18,
+        "endLine": 42,
+        "endChar": 26
+      },
+      "revId": "5ab9372fa27a89661bfe3e23767bbfc164a31fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "988a2acc_2e61f8c8",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 393,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-18T14:18:09Z",
+      "side": 1,
+      "message": "i was thinking of a more generic set up on keyboard-mixin actually, since I can certainly this being used on all shortcuts (we usually don\u0027t want to execute more than once if shortcuts pressed in such a short period of time)",
+      "revId": "5ab9372fa27a89661bfe3e23767bbfc164a31fd9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

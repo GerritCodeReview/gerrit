@@ -33,17 +33,20 @@ suite('gr-plugin-action-context tests', () => {
     instance = new GrPluginActionContext(plugin);
   });
 
-  test('popup() and hide()', () => {
+  test('popup() and hide()', done => {
     const popupApiStub = {
+      _getElement: sinon.stub().returns(document.createElement('div')),
       close: sinon.stub(),
     };
-    sinon.stub(plugin.deprecated, 'popup').returns(popupApiStub);
-    const el = {};
+    sinon.stub(plugin, 'popup').returns(Promise.resolve(popupApiStub));
+    const el = document.createElement('span');
     instance.popup(el);
-    assert.isTrue(instance.plugin.deprecated.popup.calledWith(el));
-
-    instance.hide();
-    assert.isTrue(popupApiStub.close.called);
+    flush(() => {
+      assert.isTrue(popupApiStub._getElement.called);
+      instance.hide();
+      assert.isTrue(popupApiStub.close.called);
+      done();
+    });
   });
 
   test('textfield', () => {

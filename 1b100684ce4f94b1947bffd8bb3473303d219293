@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "71284eb4_8ea09a29",
+        "filename": "Documentation/dev-e2e-tests.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-21T15:40:20Z",
+      "side": 1,
+      "message": "These diffs on top of the auto-merge are only to adapt these new links to 3.2\u0027s linkattrs.",
+      "range": {
+        "startLine": 130,
+        "startChar": 52,
+        "endLine": 130,
+        "endChar": 80
+      },
+      "revId": "1b100684ce4f94b1947bffd8bb3473303d219293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

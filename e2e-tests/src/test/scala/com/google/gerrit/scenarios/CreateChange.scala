@@ -28,9 +28,9 @@ class CreateChange extends ProjectSimulation {
 
   override def relativeRuntimeWeight = 2
 
-  def this(default: String) {
+  def this(projectName: String) {
     this()
-    this.default = default
+    this.projectName = projectName
   }
 
   val test: ScenarioBuilder = scenario(uniqueName)
@@ -43,8 +43,8 @@ class CreateChange extends ProjectSimulation {
         session
       })
 
-  private val createProject = new CreateProject(default)
-  private val deleteProject = new DeleteProject(default)
+  private val createProject = new CreateProject(projectName)
+  private val deleteProject = new DeleteProject(projectName)
   private val deleteChange = new DeleteChange(this)
 
   setUp(

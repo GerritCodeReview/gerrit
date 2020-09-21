@@ -22,12 +22,12 @@ import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends GitSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val default = className
+  private val projectName = className
 
   override def relativeRuntimeWeight = 30
 
   override def replaceOverride(in: String): String = {
-    replaceKeyWith("_project", default, in)
+    replaceKeyWith("_project", projectName, in)
   }
 
   private val test: ScenarioBuilder = scenario(uniqueName)
@@ -36,8 +36,8 @@ class ReplayRecordsFromFeeder extends GitSimulation {
             .exec(gitRequest)
       }
 
-  private val createProject = new CreateProject(default)
-  private val deleteProject = new DeleteProject(default)
+  private val createProject = new CreateProject(projectName)
+  private val deleteProject = new DeleteProject(projectName)
   private val maxBeforeDelete: Int = maxExecutionTime - deleteProject.maxExecutionTime
 
   setUp(

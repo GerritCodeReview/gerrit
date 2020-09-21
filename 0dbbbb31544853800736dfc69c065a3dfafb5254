@@ -22,6 +22,30 @@
       "revId": "0dbbbb31544853800736dfc69c065a3dfafb5254",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd879fd3_3722d71f",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-21T10:05:15Z",
+      "side": 1,
+      "message": "Yes, that makes more sense. The existing Implementations of the interface can still override the default implementation.\n\nDone.",
+      "parentUuid": "7cab325e_12570ef5",
+      "range": {
+        "startLine": 601,
+        "startChar": 2,
+        "endLine": 609,
+        "endChar": 3
+      },
+      "revId": "0dbbbb31544853800736dfc69c065a3dfafb5254",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

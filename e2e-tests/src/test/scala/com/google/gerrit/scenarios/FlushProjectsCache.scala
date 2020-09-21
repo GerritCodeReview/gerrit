@@ -26,7 +26,7 @@ class FlushProjectsCache extends CacheFlushSimulation {
 
   override def relativeRuntimeWeight = 2
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(httpRequest)
 

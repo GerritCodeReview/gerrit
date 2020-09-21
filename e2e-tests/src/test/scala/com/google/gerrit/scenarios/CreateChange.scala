@@ -33,7 +33,7 @@ class CreateChange extends ProjectSimulation {
     this.default = default
   }
 
-  val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(httpRequest
           .body(ElFileBody(body)).asJson

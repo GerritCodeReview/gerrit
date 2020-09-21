@@ -39,12 +39,12 @@ class CheckMasterBranchReplica1 extends ProjectSimulation {
   private val submitChange = new SubmitChange(createChange)
   private val getBranch = new GetMasterBranchRevision
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
         session.set(getBranch.revisionKey, getBranch.revision.get)
       })
-      .exec(http(unique).get("${url}")
+      .exec(http(uniqueName).get("${url}")
           .check(regex(getBranch.revisionPattern)
               .is(session => session(getBranch.revisionKey).as[String])))
 

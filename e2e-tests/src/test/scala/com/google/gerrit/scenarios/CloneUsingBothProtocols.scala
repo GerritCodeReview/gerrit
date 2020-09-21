@@ -22,8 +22,8 @@ import scala.concurrent.duration._
 
 class CloneUsingBothProtocols extends GitSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val default: String = name
-  private val duration: Int = 2
+  private val default = name
+  private val duration = 2
 
   override def replaceOverride(in: String): String = {
     replaceKeyWith("_project", default, in)

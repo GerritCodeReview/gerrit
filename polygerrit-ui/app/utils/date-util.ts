@@ -1,3 +1,5 @@
+import {Timestamp} from '../types/common';
+
 /**
  * @license
  * Copyright (C) 2020 The Android Open Source Project
@@ -20,7 +22,8 @@ const Duration = {
   DAY: 1000 * 60 * 60 * 24,
 };
 
-export function parseDate(dateStr: string) {
+export function parseDate(dateStr?: string | Timestamp) {
+  if (!dateStr) return new Date();
   // Timestamps are given in UTC and have the format
   // "'yyyy-mm-dd hh:mm:ss.fffffffff'" where "'ffffffffff'" represents
   // nanoseconds.

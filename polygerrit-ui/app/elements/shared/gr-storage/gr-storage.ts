@@ -23,8 +23,8 @@ import {CommentRange, PatchSetNum} from '../../../types/common';
 export interface StorageLocation {
   changeNum: number;
   patchNum: PatchSetNum;
-  path: string;
-  line: number;
+  path?: string;
+  line?: number;
   range?: CommentRange;
 }
 

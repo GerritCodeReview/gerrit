@@ -213,11 +213,16 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void commentCanBeCreatedOnSecondParentCommit() throws Exception {
-    // Second parents only exist for merge commits. The test API currently doesn't support the
-    // creation of changes with merge commits yet, though. As there's no explicit validation keeping
-    // us from adding comments on the non-existing second parent of a regular commit, just use the
-    // latter. That's still better than not having this test at all.
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
 
     String commentUuid =
         changeOperations
@@ -233,12 +238,38 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void commentCanBeCreatedOnNonExistingSecondParentCommit() throws Exception {
+    Change.Id parentChangeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().childOf().change(parentChangeId).create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newComment()
+            .onSecondParentCommit()
+            .create();
+
+    // We want to be able to create such invalid comments for testing purposes (e.g. testing error
+    // handling or resilience of an endpoint) and hence we need to allow such invalid comments in
+    // the test API.
+    CommentInfo comment = getCommentFromServer(changeId, commentUuid);
+    assertThat(comment).side().isEqualTo(Side.PARENT);
+    assertThat(comment).parent().isEqualTo(2);
+  }
+
+  @Test
   public void commentCanBeCreatedOnAutoMergeCommit() throws Exception {
-    // Second parents only exist for merge commits. The test API currently doesn't support the
-    // creation of changes with merge commits yet, though. As there's no explicit validation keeping
-    // us from adding comments on the non-existing second parent of a regular commit, just use the
-    // latter. That's still better than not having this test at all.
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
 
     String commentUuid =
         changeOperations
@@ -550,11 +581,16 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
 
   @Test
   public void draftCommentCanBeCreatedOnSecondParentCommit() throws Exception {
-    // Second parents only exist for merge commits. The test API currently doesn't support the
-    // creation of changes with merge commits yet, though. As there's no explicit validation keeping
-    // us from adding comments on the non-existing second parent of a regular commit, just use the
-    // latter. That's still better than not having this test at all.
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
 
     String commentUuid =
         changeOperations
@@ -570,12 +606,38 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
+  public void draftCommentCanBeCreatedOnNonExistingSecondParentCommit() throws Exception {
+    Change.Id parentChangeId = changeOperations.newChange().create();
+    Change.Id changeId = changeOperations.newChange().childOf().change(parentChangeId).create();
+
+    String commentUuid =
+        changeOperations
+            .change(changeId)
+            .currentPatchset()
+            .newDraftComment()
+            .onSecondParentCommit()
+            .create();
+
+    // We want to be able to create such invalid comments for testing purposes (e.g. testing error
+    // handling or resilience of an endpoint) and hence we need to allow such invalid comments in
+    // the test API.
+    CommentInfo comment = getDraftCommentFromServer(changeId, commentUuid);
+    assertThat(comment).side().isEqualTo(Side.PARENT);
+    assertThat(comment).parent().isEqualTo(2);
+  }
+
+  @Test
   public void draftCommentCanBeCreatedOnAutoMergeCommit() throws Exception {
-    // Second parents only exist for merge commits. The test API currently doesn't support the
-    // creation of changes with merge commits yet, though. As there's no explicit validation keeping
-    // us from adding comments on the non-existing second parent of a regular commit, just use the
-    // latter. That's still better than not having this test at all.
-    Change.Id changeId = changeOperations.newChange().create();
+    Change.Id parent1ChangeId = changeOperations.newChange().create();
+    Change.Id parent2ChangeId = changeOperations.newChange().create();
+    Change.Id changeId =
+        changeOperations
+            .newChange()
+            .mergeOf()
+            .change(parent1ChangeId)
+            .and()
+            .change(parent2ChangeId)
+            .create();
 
     String commentUuid =
         changeOperations

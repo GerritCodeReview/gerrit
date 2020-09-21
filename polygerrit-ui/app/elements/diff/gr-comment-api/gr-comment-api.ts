@@ -544,12 +544,16 @@ export class ChangeComments {
       const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
       const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
       if (d1 !== d2) return d1 ? 1 : -1;
-      const dateDiff =
-        parseDate(c1.updated).valueOf() - parseDate(c2.updated).valueOf();
-      if (dateDiff) {
-        return dateDiff;
+      if (c1.updated !== c2.updated) {
+        if (!c1.updated) return 1;
+        if (!c2.updated) return -1;
+        return (
+          parseDate(c1.updated).valueOf() - parseDate(c2.updated).valueOf()
+        );
       }
-      return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
+      const id1 = c1.id ?? '';
+      const id2 = c2.id ?? '';
+      return id1.localeCompare(id2);
     });
   }
 
@@ -562,6 +566,7 @@ export class ChangeComments {
     const threads: CommentThread[] = [];
     const idThreadMap: CommentIdToCommentThreadMap = {};
     for (const comment of comments) {
+      if (!comment.id) continue;
       // If the comment is in reply to another comment, find that comment's
       // thread and append to it.
       if (comment.in_reply_to) {

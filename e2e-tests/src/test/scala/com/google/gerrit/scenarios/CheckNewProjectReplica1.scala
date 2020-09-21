@@ -22,7 +22,7 @@ import scala.concurrent.duration._
 
 class CheckNewProjectReplica1 extends GitSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val default = name
+  private val default = className
 
   private lazy val replicationDuration = replicationDelay + SecondsPerWeightUnit
 

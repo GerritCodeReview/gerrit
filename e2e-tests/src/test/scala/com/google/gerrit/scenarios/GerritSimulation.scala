@@ -25,11 +25,12 @@ class GerritSimulation extends Simulation {
 
   private val packageName = getClass.getPackage.getName
   private val path = packageName.replaceAllLiterally(".", "/")
-  protected val name: String = getClass.getSimpleName
-  private val pathName = s"data/$path/$name"
+
+  protected val className: String = getClass.getSimpleName
+  private val pathName = s"data/$path/$className"
   protected val resource = s"$pathName.json"
   protected val body = s"$pathName-body.json"
-  protected val unique: String = name + "-" + hashCode()
+  protected val unique: String = className + "-" + hashCode()
   protected val single = 1
 
   val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt
@@ -67,7 +68,7 @@ class GerritSimulation extends Simulation {
     case ("parent", parent) =>
       replaceProperty("parent", "All-Projects", parent.toString)
     case ("project", project) =>
-      var precedes = replaceKeyWith("_project", name, project.toString)
+      var precedes = replaceKeyWith("_project", className, project.toString)
       precedes = replaceOverride(precedes)
       replaceProperty("project", precedes)
     case ("url", url) =>

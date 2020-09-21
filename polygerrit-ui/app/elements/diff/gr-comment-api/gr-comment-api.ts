@@ -549,7 +549,9 @@ export class ChangeComments {
       if (dateDiff) {
         return dateDiff;
       }
-      return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
+      const id1 = c1.id ?? '';
+      const id2 = c2.id ?? '';
+      return id1.localeCompare(id2);
     });
   }
 
@@ -562,6 +564,7 @@ export class ChangeComments {
     const threads: CommentThread[] = [];
     const idThreadMap: CommentIdToCommentThreadMap = {};
     for (const comment of comments) {
+      if (!comment.id) continue;
       // If the comment is in reply to another comment, find that comment's
       // thread and append to it.
       if (comment.in_reply_to) {

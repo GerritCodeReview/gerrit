@@ -237,13 +237,13 @@ suite('gr-related-changes-list tests', () => {
     };
     element.mergeable = true;
     element.addEventListener('new-section-loaded', loadedStub);
-    sinon.stub(element, '_getRelatedChanges')
+    sinon.stub(element.$.restAPI, 'getRelatedChanges')
         .returns(Promise.resolve({changes: []}));
-    sinon.stub(element, '_getSubmittedTogether')
+    sinon.stub(element.$.restAPI, 'getChangesSubmittedTogether')
         .returns(Promise.resolve());
-    sinon.stub(element, '_getCherryPicks')
+    sinon.stub(element.$.restAPI, 'getChangeCherryPicks')
         .returns(Promise.resolve());
-    sinon.stub(element, '_getConflicts')
+    sinon.stub(element.$.restAPI, 'getChangeConflicts')
         .returns(Promise.resolve());
 
     return element.reload().then(() => {
@@ -251,19 +251,19 @@ suite('gr-related-changes-list tests', () => {
     });
   });
 
-  suite('_getConflicts resolves undefined', () => {
+  suite('getChangeConflicts resolves undefined', () => {
     let element;
 
     setup(() => {
       element = basicFixture.instantiate();
 
-      sinon.stub(element, '_getRelatedChanges')
+      sinon.stub(element.$.restAPI, 'getRelatedChanges')
           .returns(Promise.resolve({changes: []}));
-      sinon.stub(element, '_getSubmittedTogether')
+      sinon.stub(element.$.restAPI, 'getChangesSubmittedTogether')
           .returns(Promise.resolve());
-      sinon.stub(element, '_getCherryPicks')
+      sinon.stub(element.$.restAPI, 'getChangeCherryPicks')
           .returns(Promise.resolve());
-      sinon.stub(element, '_getConflicts')
+      sinon.stub(element.$.restAPI, 'getChangeConflicts')
           .returns(Promise.resolve());
     });
 
@@ -286,13 +286,13 @@ suite('gr-related-changes-list tests', () => {
     setup(() => {
       element = basicFixture.instantiate();
 
-      sinon.stub(element, '_getRelatedChanges')
+      sinon.stub(element.$.restAPI, 'getRelatedChanges')
           .returns(Promise.resolve({changes: []}));
-      sinon.stub(element, '_getSubmittedTogether')
+      sinon.stub(element.$.restAPI, 'getChangesSubmittedTogether')
           .returns(Promise.resolve());
-      sinon.stub(element, '_getCherryPicks')
+      sinon.stub(element.$.restAPI, 'getChangeCherryPicks')
           .returns(Promise.resolve());
-      conflictsStub = sinon.stub(element, '_getConflicts')
+      conflictsStub = sinon.stub(element.$.restAPI, 'getChangeConflicts')
           .returns(Promise.resolve());
     });
 

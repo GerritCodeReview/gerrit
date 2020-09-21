@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7cab325e_12570ef5",
+        "filename": "java/com/google/gerrit/server/api/changes/ChangeApiImpl.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-21T07:52:17Z",
+      "side": 1,
+      "message": "[optional] can these be default implementations in ChangeApi?",
+      "range": {
+        "startLine": 601,
+        "startChar": 2,
+        "endLine": 609,
+        "endChar": 3
+      },
+      "revId": "0dbbbb31544853800736dfc69c065a3dfafb5254",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

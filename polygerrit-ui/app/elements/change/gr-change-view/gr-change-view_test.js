@@ -797,6 +797,8 @@ suite('gr-change-view tests', () => {
             getAllThreadsForChange: () => THREADS,
             computeDraftCount: () => 0,
           }));
+      element._change = generateChange();
+      element._changeNum = element._change._number;
     });
 
     test('draft threads should be a new copy with correct states', done => {
@@ -917,8 +919,11 @@ suite('gr-change-view tests', () => {
 
   suite('Findings comment tab', () => {
     setup(done => {
+      element._changeNum = '42';
       element._change = {
         change_id: 'Iad9dc96274af6946f3632be53b106ef80f7ba6ca',
+        _number: 42,
+        project: 'testRepo',
         revisions: {
           rev2: {_number: 2, commit: {parents: []}},
           rev1: {_number: 1, commit: {parents: []}},

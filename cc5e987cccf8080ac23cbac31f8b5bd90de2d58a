@@ -22,6 +22,30 @@
       "revId": "cc5e987cccf8080ac23cbac31f8b5bd90de2d58a",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef4904f6_8952323e",
+        "filename": "java/com/google/gerrit/server/submit/UpdateOrderCalculator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 15,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T08:53:53Z",
+      "side": 1,
+      "message": "Marking as resolved in patchset 2.",
+      "parentUuid": "5aa2d898_5319ff5e",
+      "range": {
+        "startLine": 15,
+        "startChar": 66,
+        "endLine": 15,
+        "endChar": 68
+      },
+      "revId": "cc5e987cccf8080ac23cbac31f8b5bd90de2d58a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

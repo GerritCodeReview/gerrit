@@ -32,6 +32,36 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
+/**
+ * Type safe version of hasOwnProperty method for union type.
+ * You can use it to detect type based on the own property existence.
+ *
+ * Example:
+ * interface A { a: number; }
+ * interface B { b: number; }
+ * interface C { c: number; }
+ * type AorBorC = A | B | C;
+ *
+ * function getNumber(abc: AorBorC) {
+ *   if (hasOwnTypeProperty<A>(abc, 'a')) {
+ *     // abc is A
+ *     return abc.a;
+ *   }
+ *   if (hasOwnTypeProperty<B>(abc, 'b')) {
+ *     // abc is B
+ *     return abc.b;
+ *   }
+ *   // abc is C
+ *   return abc.c;
+ * }
+ */
+export function hasOwnTypeProperty<T1>(
+  obj: T1 | unknown,
+  prop: keyof T1
+): obj is T1 {
+  return hasOwnProperty(obj, prop);
+}
+
 // TODO(TS): move to common types once we have type utils
 // tslint:disable-next-line:no-any Required for constructor signature.
 export type Constructor<T> = new (...args: any[]) => T;

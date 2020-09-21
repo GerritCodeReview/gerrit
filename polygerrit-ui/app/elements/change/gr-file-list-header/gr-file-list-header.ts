@@ -48,12 +48,12 @@ import {
   ServerInfo,
   DiffPreferencesInfo,
   RevisionInfo,
+  ChangeNum,
 } from '../../../types/common';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
 import {DiffViewMode} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {GrButton} from '../../shared/gr-button/gr-button';
 
 // Maximum length for patch set descriptions.

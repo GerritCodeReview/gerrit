@@ -36,8 +36,8 @@ import {
   PathToRobotCommentsInfoMap,
   RobotCommentInfo,
   UrlEncodedCommentId,
+  ChangeNum,
 } from '../../../types/common';
-import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';

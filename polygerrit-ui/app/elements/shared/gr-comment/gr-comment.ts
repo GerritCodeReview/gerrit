@@ -88,8 +88,9 @@ interface Draft {
   __editing?: boolean;
   __otherEditing?: boolean;
   __draft?: boolean;
-  __draftID?: number;
+  __draftID?: string;
   __commentSide?: string;
+  __date?: Date;
 }
 
 export type Comment = Draft & CommentInfo;
@@ -473,8 +474,7 @@ export class GrComment extends KeyboardShortcutMixin(
     if (
       undefined === this.changeNum ||
       !this.comment.path ||
-      undefined === this.comment.line ||
-      !this.comment.range
+      undefined === this.comment.line
     )
       throw new Error('Cannot erase Draft Comment');
     this.$.storage.eraseDraftComment({
@@ -625,8 +625,8 @@ export class GrComment extends KeyboardShortcutMixin(
       'store',
       () => {
         const message = this._messageText;
-        if (!this.comment.path || !this.comment.line || !this.comment.range)
-          throw new Error('missing path or line or range in comment');
+        if (!this.comment.path || !this.comment.line)
+          throw new Error('missing path or line in comment');
         const commentLocation: StorageLocation = {
           changeNum: this.changeNum,
           patchNum: this._getPatchNum(),
@@ -887,8 +887,9 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _deleteDraft(draft: Comment) {
     this._showStartRequest();
+    if (!draft.id) throw new Error('Missing id in comment draft.');
     return this.$.restAPI
-      .deleteDiffDraft(this.changeNum, this.patchNum, draft)
+      .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
       .then(result => {
         if (result.ok) {
           this._showEndRequest();
@@ -1000,6 +1001,7 @@ export class GrComment extends KeyboardShortcutMixin(
     if (!dialog || !dialog.message) {
       throw new Error('missing confirm delete dialog');
     }
+    if (!this.comment.id) throw new Error('missing comment id');
     this.$.restAPI
       .deleteComment(
         this.changeNum,

@@ -265,7 +265,7 @@ suite('comment action tests with unresolved thread', () => {
       updated: '2015-12-08 19:48:33.843000000',
       path: '/path/to/file.txt',
       unresolved: true,
-      patchNum: 3,
+      patch_set: 3,
       __commentSide: 'left',
     }];
     flushAsynchronousOperations();
@@ -707,7 +707,7 @@ suite('comment action tests with unresolved thread', () => {
   test('_newDraft with root', () => {
     const draft = element._newDraft();
     assert.equal(draft.__commentSide, 'left');
-    assert.equal(draft.patchNum, 3);
+    assert.equal(draft.patch_set, 3);
   });
 
   test('_newDraft with no root', () => {
@@ -716,7 +716,7 @@ suite('comment action tests with unresolved thread', () => {
     element.patchNum = 2;
     const draft = element._newDraft();
     assert.equal(draft.__commentSide, 'right');
-    assert.equal(draft.patchNum, 2);
+    assert.equal(draft.patch_set, 2);
   });
 
   test('new comment gets created', () => {

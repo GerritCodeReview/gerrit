@@ -1,0 +1,61 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "474ad55e_2ccf6608",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T08:54:22Z",
+      "side": 1,
+      "message": "Missing copyright header. Make sure to use 2020 as date.",
+      "revId": "cc6016aeda401c1ec9ad27e959be731a6558db35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "02ecbd23_cf30a6ff",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraph.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T08:54:22Z",
+      "side": 1,
+      "message": "Please use google-java-format on this file. For instance, this line is too long, which is likely the reason that the \"Code-Style\" check failed.",
+      "revId": "cc6016aeda401c1ec9ad27e959be731a6558db35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f394b8c2_879e6002",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T08:54:22Z",
+      "side": 1,
+      "message": "In my other comment, I described the alternative of marking the unconfigured SubscriptionGraph.Factory with an annotation as I thought that would lead to less unintended errors. For instance, I thought it better that new callers wouldn\u0027t need to know that they have to apply this annotation. If the annotation was forgotten in ConfiguredSubscriptionGraphFactory, we\u0027d immediately notice through any tests (which even just use one of these classes) as we\u0027d likely get a Guice error about missing dependencies (or circular ones).\nThe @ConfiguredSubscriptionGraph annotation doesn\u0027t have any of these advantages. If it\u0027s forgotten, we won\u0027t notice it as the unconfigured SubscriptionGraph.Factory would automatically be injected.\n\nThe only downside I see with the former approach is that the initial hook-up is slightly more work as we also need to adjust our internal Guice bindings. That doesn\u0027t sound too bad to me, though.\n\nDo you maybe have a specific reason why you prefer the approach with using the annotation on the configured instance?",
+      "range": {
+        "startLine": 43,
+        "startChar": 8,
+        "endLine": 43,
+        "endChar": 36
+      },
+      "revId": "cc6016aeda401c1ec9ad27e959be731a6558db35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

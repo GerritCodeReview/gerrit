@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "8f55f424_b5b05c43",
+        "filename": "java/com/google/gerrit/server/submit/ConfigSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-21T21:31:48Z",
+      "side": 1,
+      "message": "I misunderstood what was annotated and not. Now code should follow this.",
+      "parentUuid": "ba6c9ef9_1d20ca54",
+      "range": {
+        "startLine": 11,
+        "startChar": 6,
+        "endLine": 11,
+        "endChar": 36
+      },
+      "revId": "06247de6d4731f6c411ffabb65c4b17047f304b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "95a32c3e_c40de943",
         "filename": "java/com/google/gerrit/server/submit/ConfigSubscriptionGraphFactory.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "06247de6d4731f6c411ffabb65c4b17047f304b4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c5b5ce4e_2682ffa4",
+        "filename": "java/com/google/gerrit/server/submit/ConfigSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-21T21:31:48Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "95a32c3e_c40de943",
+      "range": {
+        "startLine": 33,
+        "startChar": 4,
+        "endLine": 33,
+        "endChar": 29
+      },
+      "revId": "06247de6d4731f6c411ffabb65c4b17047f304b4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

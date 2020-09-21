@@ -34,6 +34,7 @@ import {
 import {TimeFormat, DateFormat} from '../../../constants/constants';
 import {assertNever} from '../../../utils/common-util';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {Timestamp} from '../../../types/common';
 
 const TimeFormats = {
   TIME_12: 'h:mm A', // 2:14 PM
@@ -210,7 +211,7 @@ export class GrDateFormatter extends TooltipMixin(
   }
 
   _computeDateStr(
-    dateStr?: string,
+    dateStr?: Timestamp,
     timeFormat?: string,
     dateFormat?: DateFormatPair,
     relative?: boolean,
@@ -248,7 +249,7 @@ export class GrDateFormatter extends TooltipMixin(
   }
 
   _computeFullDateStr(
-    dateStr?: string,
+    dateStr?: Timestamp,
     timeFormat?: string,
     dateFormat?: DateFormatPair
   ) {

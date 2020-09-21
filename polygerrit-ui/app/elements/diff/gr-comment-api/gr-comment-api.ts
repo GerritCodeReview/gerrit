@@ -35,6 +35,7 @@ import {
   PathToCommentsInfoMap,
   PathToRobotCommentsInfoMap,
   RobotCommentInfo,
+  Timestamp,
   UrlEncodedCommentId,
 } from '../../../types/common';
 import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
@@ -81,24 +82,27 @@ export function isPatchSetFile(
   return !!(x as PatchSetFile).path;
 }
 
-export function sortComments<
-  T extends CommentInfoWithPath | CommentInfoWithTwoPaths
->(comments: T[]): T[] {
+interface SortableComment {
+  __draft?: boolean;
+  __date?: Date;
+  updated?: Timestamp;
+  id?: UrlEncodedCommentId;
+}
+
+export function sortComments<T extends SortableComment>(comments: T[]): T[] {
   return comments.slice(0).sort((c1, c2) => {
-    const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
-    const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
+    const d1 = !!c1.__draft;
+    const d2 = !!c2.__draft;
     if (d1 !== d2) return d1 ? 1 : -1;
-    const date1 =
-      (c1.updated && parseDate(c1.updated)) ||
-      (c1 as HumanCommentInfoWithPath).__date;
-    const date2 =
-      (c2.updated && parseDate(c2.updated)) ||
-      (c2 as HumanCommentInfoWithPath).__date;
-    const dateDiff = date1.valueOf() - date2.valueOf();
-    if (dateDiff) {
-      return dateDiff;
-    }
-    return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
+
+    const date1 = (c1.updated && parseDate(c1.updated)) || c1.__date;
+    const date2 = (c2.updated && parseDate(c2.updated)) || c2.__date;
+    const dateDiff = date1!.valueOf() - date2!.valueOf();
+    if (dateDiff !== 0) return dateDiff;
+
+    const id1 = c1.id ?? '';
+    const id2 = c2.id ?? '';
+    return id1.localeCompare(id2);
   });
 }
 
@@ -568,6 +572,7 @@ export class ChangeComments {
     const threads: CommentThread[] = [];
     const idThreadMap: CommentIdToCommentThreadMap = {};
     for (const comment of comments) {
+      if (!comment.id) continue;
       // If the comment is in reply to another comment, find that comment's
       // thread and append to it.
       if (comment.in_reply_to) {

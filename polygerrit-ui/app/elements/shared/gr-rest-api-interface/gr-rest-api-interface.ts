@@ -2607,9 +2607,11 @@ export class GrRestApiInterface
 
   _setRanges(comments?: CommentInfo[]) {
     comments = comments || [];
-    comments.sort(
-      (a, b) => parseDate(a.updated).valueOf() - parseDate(b.updated).valueOf()
-    );
+    comments.sort((a, b) => {
+      if (!a.updated) return 1;
+      if (!b.updated) return -1;
+      return parseDate(a.updated).valueOf() - parseDate(b.updated).valueOf();
+    });
     for (const comment of comments) {
       this._setRange(comments, comment);
     }

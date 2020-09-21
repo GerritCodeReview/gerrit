@@ -70,6 +70,23 @@
     },
     {
       "key": {
+        "uuid": "79f99bed_1195cb07",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-21T19:43:02Z",
+      "side": 1,
+      "message": "Same problem with as below: The range may well be undefined. You cannot assert it to be set.",
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "5982270b_33c8e082",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 3

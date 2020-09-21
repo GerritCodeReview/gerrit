@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "508d6050_7af794cc",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-21T06:22:46Z",
+      "side": 1,
+      "message": "LG, just some nits.\n\nThanks for tackling one of the bigger files!",
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "47968b6c_5c4b3582",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-21T06:22:46Z",
+      "side": 1,
+      "message": "Can you try a new pattern of checking all properties that have a ! to be defined in the ready() lifecycle hook?",
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "10656ba6_aa43d90a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-21T06:22:46Z",
+      "side": 1,
+      "message": "changeNum has a !, so it must be defined.",
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12adad26_ff7687f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 476,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-21T06:22:46Z",
+      "side": 1,
+      "message": "For consistency, move `this.comment.line` to the front. Also, can you use ! as above and below?",
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

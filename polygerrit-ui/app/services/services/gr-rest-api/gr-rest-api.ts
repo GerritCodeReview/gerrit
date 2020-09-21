@@ -82,6 +82,8 @@ import {
   TagInfo,
   GitRef,
   ConfigInput,
+  RelatedChangesInfo,
+  SubmittedTogetherInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -690,4 +692,26 @@ export interface RestApiService {
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
+
+  getRelatedChanges(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum
+  ): Promise<RelatedChangesInfo | undefined>;
+
+  getChangesSubmittedTogether(
+    changeNum: ChangeNum
+  ): Promise<SubmittedTogetherInfo | undefined>;
+
+  getChangeConflicts(changeNum: ChangeNum): Promise<ChangeInfo[] | undefined>;
+
+  getChangeCherryPicks(
+    project: RepoName,
+    changeID: ChangeId,
+    changeNum: ChangeNum
+  ): Promise<ChangeInfo[] | undefined>;
+
+  getChangesWithSameTopic(
+    topic: string,
+    changeNum: ChangeNum
+  ): Promise<ChangeInfo[] | undefined>;
 }

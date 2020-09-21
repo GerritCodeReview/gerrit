@@ -43,6 +43,7 @@ import {
   DraftsAction,
   NotifyType,
 } from '../constants/constants';
+import {ChangeNum} from '../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
@@ -524,6 +525,10 @@ export interface CommitInfo {
   subject: string;
   message: string;
   web_links?: WebLinkInfo[];
+}
+
+export interface CommitInfoWithRequiredCommit extends CommitInfo {
+  commit: CommitId;
 }
 
 /**
@@ -2007,4 +2012,35 @@ export interface PluginInput {
 export interface DocResult {
   title: string;
   url: string;
+}
+
+/**
+ * The RelatedChangesInfo entity contains information about related changes.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#related-changes-info
+ */
+export interface RelatedChangesInfo {
+  changes: RelatedChangeAndCommitInfo[];
+}
+
+/**
+ * The RelatedChangeAndCommitInfo entity contains information about a related change and commit.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#related-change-and-commit-info
+ */
+export interface RelatedChangeAndCommitInfo {
+  project: RepoName;
+  change_id?: ChangeId;
+  commit: CommitInfoWithRequiredCommit;
+  _change_number?: ChangeNum;
+  _revision_number?: number;
+  _current_revision_number?: number;
+  status?: ChangeStatus;
+}
+
+/**
+ * The SubmittedTogetherInfo entity contains information about a collection of changes that would be submitted together.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submitted-together-info
+ */
+export interface SubmittedTogetherInfo {
+  changes: ChangeInfo[];
+  non_visible_changes: number;
 }

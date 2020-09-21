@@ -32,6 +32,14 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
+export function hasType<T1>(
+  obj: T1 | unknown,
+  prop: keyof T1
+): obj is T1 {
+  return hasOwnProperty(obj, prop);
+
+}
+
 // TODO(TS): move to common types once we have type utils
 // tslint:disable-next-line:no-any Required for constructor signature.
 export type Constructor<T> = new (...args: any[]) => T;

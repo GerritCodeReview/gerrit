@@ -77,7 +77,7 @@ import {
   ChangeMessageId,
   GroupAuditEventInfo,
   EncodedGroupId,
-  Base64FileContent,
+  Base64FileContent, RelatedChangesInfo, SubmittedTogetherInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -662,4 +662,26 @@ export interface RestApiService {
     path: string,
     contents: string
   ): Promise<Response>;
+
+  getRelatedChanges(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum
+  ): Promise<RelatedChangesInfo | undefined>;
+
+  getChangesSubmittedTogether(
+    changeNum: ChangeNum
+  ): Promise<SubmittedTogetherInfo | undefined>;
+
+  getChangeConflicts(changeNum: ChangeNum): Promise<ChangeInfo[] | undefined>;
+
+  getChangeCherryPicks(
+    project: RepoName,
+    changeID: ChangeId,
+    changeNum: ChangeNum
+  ): Promise<ChangeInfo[] | undefined>;
+
+  getChangesWithSameTopic(
+    topic: string,
+    changeNum: ChangeNum
+  ): Promise<ChangeInfo[] | undefined>;
 }

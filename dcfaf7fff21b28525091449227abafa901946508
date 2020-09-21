@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9b4ad760_df5fb76e",
+        "filename": "java/com/google/gerrit/server/submit/UpdateOrderCalculator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T08:53:53Z",
+      "side": 1,
+      "message": "Should be 2020.\n\nBy the way, thanks for adding the missing copyright header. I hadn\u0027t noticed it but we indeed need it.",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "dcfaf7fff21b28525091449227abafa901946508",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

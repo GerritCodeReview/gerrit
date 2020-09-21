@@ -1044,7 +1044,7 @@ export interface UserConfigInfo {
  */
 export interface CommentInfo extends CommentInput {
   patch_set?: PatchSetNum;
-  id: UrlEncodedCommentId;
+  id?: UrlEncodedCommentId;
   path?: string;
   side?: CommentSide;
   parent?: number;
@@ -1052,7 +1052,7 @@ export interface CommentInfo extends CommentInput {
   range?: CommentRange;
   in_reply_to?: UrlEncodedCommentId;
   message?: string;
-  updated: Timestamp;
+  updated?: Timestamp;
   author?: AccountInfo;
   tag?: string;
   unresolved?: boolean;
@@ -1609,7 +1609,7 @@ export interface CommentInput {
   line?: number;
   range?: CommentRange;
   in_reply_to?: UrlEncodedCommentId;
-  updated: Timestamp;
+  updated?: Timestamp;
   message?: string;
   tag?: string;
   unresolved?: boolean;

@@ -88,8 +88,9 @@ interface Draft {
   __editing?: boolean;
   __otherEditing?: boolean;
   __draft?: boolean;
-  __draftID?: number;
+  __draftID?: string;
   __commentSide?: string;
+  __date?: Date;
 }
 
 export type Comment = Draft & CommentInfo;
@@ -900,8 +901,9 @@ export class GrComment extends KeyboardShortcutMixin(
       throw new Error('undefined changeNum or patchNum');
     }
     this._showStartRequest();
+    if (!draft.id) throw new Error('Missing id in comment draft.');
     return this.$.restAPI
-      .deleteDiffDraft(this.changeNum, this.patchNum, draft)
+      .deleteDiffDraft(this.changeNum, this.patchNum, {id: draft.id})
       .then(result => {
         if (result.ok) {
           this._showEndRequest();
@@ -1020,10 +1022,11 @@ export class GrComment extends KeyboardShortcutMixin(
     }
     if (
       !this.comment ||
+      !this.comment.id ||
       this.changeNum === undefined ||
       this.patchNum === undefined
     ) {
-      throw new Error('undefined comment or changeNum or patchNum');
+      throw new Error('undefined comment or id or changeNum or patchNum');
     }
     this.$.restAPI
       .deleteComment(

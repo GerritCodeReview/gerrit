@@ -90,13 +90,14 @@ export function stubBaseUrl(newUrl) {
 export function generateChange(options) {
   const change = {
     _number: 42,
+    project: 'testRepo',
   };
   const revisionIdStart = 1;
   const messageIdStart = 1000;
   // We want to distinguish between empty arrays/objects and undefined
   // If an option is not set - the appropriate property is not set
   // If an options is set - the property always set
-  if (typeof options.revisionsCount !== 'undefined') {
+  if (options && typeof options.revisionsCount !== 'undefined') {
     const revisions = {};
     for (let i = 0; i < options.revisionsCount; i++) {
       const revisionId = (i + revisionIdStart).toString(16);
@@ -107,7 +108,7 @@ export function generateChange(options) {
     }
     change.revisions = revisions;
   }
-  if (typeof options.messagesCount !== 'undefined') {
+  if (options && typeof options.messagesCount !== 'undefined') {
     const messages = [];
     for (let i = 0; i < options.messagesCount; i++) {
       messages.push({
@@ -118,7 +119,7 @@ export function generateChange(options) {
     }
     change.messages = messages;
   }
-  if (options.status) {
+  if (options && options.status) {
     change.status = options.status;
   }
   return change;

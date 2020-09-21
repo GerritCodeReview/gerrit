@@ -67,6 +67,29 @@
       "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5982270b_33c8e082",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-21T19:40:23Z",
+      "side": 1,
+      "message": "It is possible that the range is not set, e.g. if you click on the line number to create a comment. So you cannot assert the range here.\n\nNote that I have found this error when trying to use this change with the Dev Helper. Maybe you can also play around a little with the UI and comments on top of running and fixing the unit tests. I also tend to forget that, but for essential components I think it helps making the TS migration less bumpy.",
+      "range": {
+        "startLine": 628,
+        "startChar": 52,
+        "endLine": 628,
+        "endChar": 75
+      },
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

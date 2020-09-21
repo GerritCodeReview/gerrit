@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7e86ba49_ecf31848",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-21T07:54:13Z",
+      "side": 1,
+      "message": "can we default it to 0 or null/undefined instead of using `!` here ? the same for all below `_xxx`, since `_xx` can not be passed from parent element, it should not have `!` if no value provided when initialization (either here or in constructor).",
+      "revId": "8862e37aa5921a8dfba4071a336163d23ed52ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "53bc4b60_2e1b6692",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-21T07:54:13Z",
+      "side": 1,
+      "message": "RepoName is a string type right ? should we switch to `String` above ?",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 18
+      },
+      "revId": "8862e37aa5921a8dfba4071a336163d23ed52ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7a7960_85b8160f",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-21T07:54:13Z",
+      "side": 1,
+      "message": "maybe just `!params?.repo`",
+      "range": {
+        "startLine": 130,
+        "startChar": 8,
+        "endLine": 130,
+        "endChar": 31
+      },
+      "revId": "8862e37aa5921a8dfba4071a336163d23ed52ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7b599037_df65744b",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 138,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-21T07:54:13Z",
+      "side": 1,
+      "message": "if you need to check for it, then it seems fine to be optional :)",
+      "range": {
+        "startLine": 138,
+        "startChar": 27,
+        "endLine": 138,
+        "endChar": 32
+      },
+      "revId": "8862e37aa5921a8dfba4071a336163d23ed52ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e801438_3fb71694",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-21T07:54:13Z",
+      "side": 1,
+      "message": "nit: out of this change\u0027s scope, we might want to rewrite it to accept an object instead, its easier to type and also easier to read and understand, and better error prone.. since no need to worry about incorrect order of params",
+      "revId": "8862e37aa5921a8dfba4071a336163d23ed52ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c08f802b_8544cb10",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo-detail-list/gr-repo-detail-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-21T07:54:13Z",
+      "side": 1,
+      "message": "can you remove it ? just concat them",
+      "range": {
+        "startLine": 202,
+        "startChar": 51,
+        "endLine": 202,
+        "endChar": 56
+      },
+      "revId": "8862e37aa5921a8dfba4071a336163d23ed52ef4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8a67616_42b9bf3b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-21T10:05:15Z",
+      "side": 1,
+      "message": "Done. I also added a new method ",
+      "revId": "5c4fffb18e70a1929e2449194ec2c6f35f073f13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e4cd53ca_891440c9",
+        "filename": "java/com/google/gerrit/extensions/api/changes/ChangeApi.java",
+        "patchSetId": 16
+      },
+      "lineNbr": 441,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-21T10:05:15Z",
+      "side": 1,
+      "message": "Added this shorter version for withContext()",
+      "range": {
+        "startLine": 441,
+        "startChar": 27,
+        "endLine": 441,
+        "endChar": 38
+      },
+      "revId": "5c4fffb18e70a1929e2449194ec2c6f35f073f13",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

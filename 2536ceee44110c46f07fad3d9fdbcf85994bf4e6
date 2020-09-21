@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c18969b5_879f9a83",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-21T13:04:39Z",
+      "side": 1,
+      "message": "Carrying Luca\u0027s previous approval over, as that simple comment was applied. Thanks.",
+      "revId": "2536ceee44110c46f07fad3d9fdbcf85994bf4e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

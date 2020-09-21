@@ -1319,6 +1319,30 @@
     },
     {
       "key": {
+        "uuid": "70f8a795_170ed080",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T13:16:24Z",
+      "side": 1,
+      "message": "Correction of the addendum: I had forgotten that we wanted to benefit from calling #scan only once per (oldCommitId, newCommitId) pair to not add too much overhead compared to the old variant of calling #scan only once for a complete diff. Could we create a DiffFormatter per (oldCommitId, newCommitId) pair?",
+      "parentUuid": "62117e8e_ae7f736a",
+      "range": {
+        "startLine": 134,
+        "startChar": 10,
+        "endLine": 134,
+        "endChar": 77
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c7874a20_7e8fc081",
         "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
         "patchSetId": 6
@@ -1578,6 +1602,30 @@
       "writtenOn": "2020-09-16T17:28:08Z",
       "side": 1,
       "message": "I had been curious what you\u0027d do with this timeout mechanism especially now that the cache key explicitly sets an algorithm and the fallback here simply switches to another diff algorithm. I\u0027m a bit surprised that you just copied the code. Did you consider to move the timeout to the FileDiffCache or even the Diffs facade? (The executor would need to move along of course.) In that situation, we could use a special value for the diff algorithm enum to map to this special fallback algorithm.\n\nBefore you now suggest that we simply remove the diff algorithm from the key, I would like to note that I introduced it on purpose. My intention is that the GitFileDiffCache stays as stable as possible and that all parameters influencing the diff calculation are part of the key. If we want to make adjustments to Gerrit\u0027s behavior, we can tune the code and settings in the Diffs facade and the FileDiffCache later. The timeout mechanism here is one of the things we should get rid off in the future. It has quite some issues. We likely don\u0027t need it anymore but we don\u0027t know for sure yet. I\u0027d like to give us the possibility that we can easily remove it in the future without touching the GitFileDiffCache.",
+      "range": {
+        "startLine": 247,
+        "startChar": 28,
+        "endLine": 260,
+        "endChar": 11
+      },
+      "revId": "c69573a5b7540c681100726d3530c8dc8e6893e8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a46f1c29_102f2031",
+        "filename": "java/com/google/gerrit/server/patch/GitFileDiffCache.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-21T13:16:24Z",
+      "side": 1,
+      "message": "An additional note: This code is using the same DiffFormatter and DiffEntry instance on different threads. DiffFormatter/DiffEntry doesn\u0027t contain any comments saying that it\u0027s thread-safe and the implementation also doesn\u0027t explicitly contain concurrency constructs. The synchronized blocks on diffEntry ensured in the past that we didn\u0027t see threading bugs (though I\u0027m not sure whether we were just lucky to not run into or notice an uncovered case) but we\u0027d need to carefully check all new code paths. Ideally, we\u0027d avoid using DiffFormatter and DiffEntry on different threads.\n\nTL;DR: Please take concurrency considerations into account when deciding where to place this timeout mechanism.",
+      "parentUuid": "656cfd71_b55e62af",
       "range": {
         "startLine": 247,
         "startChar": 28,

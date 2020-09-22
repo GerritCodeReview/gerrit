@@ -52,6 +52,24 @@
       "revId": "fc981dc7a1f85614baa4d5781b75137ea62a5df1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "00c684b8_3a47ffc6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-22T18:50:26Z",
+      "side": 1,
+      "message": "Ok, sorry for changing my mind. I reverted my latest patch, hopefully fixed tests and return check in ready.",
+      "parentUuid": "693bc911_e5a4d879",
+      "revId": "fc981dc7a1f85614baa4d5781b75137ea62a5df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

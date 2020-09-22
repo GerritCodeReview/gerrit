@@ -42,6 +42,7 @@ import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.extensions.events.ReviewerAdded;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.project.ProjectCache;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -52,7 +53,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-public class AddReviewersOp implements BatchUpdateOp {
+public class AddReviewersOp implements BatchUpdateOp, AsyncPostUpdateOp {
   public interface Factory {
 
     /**
@@ -238,7 +239,7 @@ public class AddReviewersOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(Context ctx) {
     opResult =
         Result.builder()
             .setAddedReviewers(addedReviewers)
@@ -246,16 +247,6 @@ public class AddReviewersOp implements BatchUpdateOp {
             .setAddedCCs(addedCCs)
             .setAddedCCsByEmail(addedCCsByEmail)
             .build();
-    if (sendEmail) {
-      addReviewersEmail.emailReviewersAsync(
-          ctx.getUser().asIdentifiedUser(),
-          change,
-          Lists.transform(addedReviewers, PatchSetApproval::accountId),
-          addedCCs,
-          addedReviewersByEmail,
-          addedCCsByEmail,
-          ctx.getNotify(change.getId()));
-    }
     if (!addedReviewers.isEmpty()) {
       List<AccountState> reviewers =
           addedReviewers.stream()
@@ -263,6 +254,20 @@ public class AddReviewersOp implements BatchUpdateOp {
               .flatMap(Streams::stream)
               .collect(toList());
       reviewerAdded.fire(change, patchSet, reviewers, ctx.getAccount(), ctx.getWhen());
+    }
+  }
+
+  @Override
+  public void asyncPostUpdate(Context ctx) {
+    if (sendEmail) {
+      addReviewersEmail.emailReviewers(
+          ctx.getUser().asIdentifiedUser(),
+          change,
+          Lists.transform(addedReviewers, PatchSetApproval::accountId),
+          addedCCs,
+          addedReviewersByEmail,
+          addedCCsByEmail,
+          ctx.getNotify(change.getId()));
     }
   }
 

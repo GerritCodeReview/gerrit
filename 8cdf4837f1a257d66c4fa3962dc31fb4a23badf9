@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "0e22c797_aa9750e4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T21:22:22Z",
+      "side": 1,
+      "message": "Nope, I am fine with it.",
+      "parentUuid": "d8ad60bd_9950f2b9",
+      "range": {
+        "startLine": 4430,
+        "startChar": 4,
+        "endLine": 4430,
+        "endChar": 9
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "202f17b4_98920f63",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -125,6 +149,24 @@
       "side": 1,
       "message": "I was wondering about that, and would normally agree when renaming in such way. I then went with not mentioning them since the point is to get rid of those terms at least in public domain. I think it\u0027s fine; even if someone reads the documentation they can probably connect the dots, right?\n\nI was also thinking to say \"other deprecated terms are still accepted\" without mentioning which terms. Do you think that would be better?",
       "parentUuid": "33608c93_75dfecfa",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c51f7b06_e9a9eda7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4436,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T21:22:22Z",
+      "side": 1,
+      "message": "Sure, I would still mention this configuration change in the release notes under the breaking changes though.",
+      "parentUuid": "fa34fb0c_1cf4d7fd",
       "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

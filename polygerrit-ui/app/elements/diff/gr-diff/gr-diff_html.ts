@@ -178,10 +178,12 @@ export const htmlTemplate = html`
     }
 
     /* dueToMove */
-    .dueToMove .content.add .contentText {
+    .dueToMove .content.add .contentText,
+    .delta.total.dueToMove .content.add .contentText {
       background-color: var(--light-moved-add-highlight-color);
     }
-    .dueToMove .content.remove .contentText {
+    .dueToMove .content.remove .contentText,
+    .delta.total.dueToMove .content.remove .contentText {
       background-color: var(--light-remove-add-highlight-color);
     }
 

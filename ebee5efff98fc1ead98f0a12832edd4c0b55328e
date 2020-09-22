@@ -203,6 +203,30 @@
       "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ef3df5ea_429a0776",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 628,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-22T10:46:18Z",
+      "side": 1,
+      "message": "I tested it little bit with dev helper.",
+      "parentUuid": "b246c2c6_66227f4a",
+      "range": {
+        "startLine": 628,
+        "startChar": 52,
+        "endLine": 628,
+        "endChar": 75
+      },
+      "revId": "ebee5efff98fc1ead98f0a12832edd4c0b55328e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

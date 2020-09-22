@@ -49,6 +49,7 @@ import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.ssh.NoSshInfo;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -62,7 +63,7 @@ import java.util.List;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-public class PatchSetInserter implements BatchUpdateOp {
+public class PatchSetInserter implements BatchUpdateOp, AsyncPostUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -109,6 +110,7 @@ public class PatchSetInserter implements BatchUpdateOp {
   private ChangeMessage changeMessage;
   private ReviewerSet oldReviewers;
   private boolean oldWorkInProgressState;
+  private NotifyResolver.Result notify;
 
   @Inject
   public PatchSetInserter(
@@ -279,12 +281,12 @@ public class PatchSetInserter implements BatchUpdateOp {
         throw new BadRequestException(ex.getMessage());
       }
     }
+    notify = ctx.getNotify(change.getId());
     return true;
   }
 
   @Override
-  public void postUpdate(Context ctx) {
-    NotifyResolver.Result notify = ctx.getNotify(change.getId());
+  public void asyncPostUpdate(Context ctx) {
     if (notify.shouldNotify() && sendEmail) {
       requireNonNull(changeMessage);
       try {
@@ -304,7 +306,10 @@ public class PatchSetInserter implements BatchUpdateOp {
             "Cannot send email for new patch set on change %s", change.getId());
       }
     }
+  }
 
+  @Override
+  public void postUpdate(Context ctx) {
     if (fireRevisionCreated) {
       revisionCreated.fire(change, patchSet, ctx.getAccount(), ctx.getWhen(), notify);
     }

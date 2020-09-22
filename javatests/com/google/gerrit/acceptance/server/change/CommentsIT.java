@@ -1775,7 +1775,7 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private void addComment(PushOneCommit.Result r, String message) throws Exception {
-    addComment(r, message, false, false, null, 1, null);
+    addComment(r, message, false, false, null, null, null);
   }
 
   private void addCommentOnLine(PushOneCommit.Result r, String message, int line) throws Exception {
@@ -1801,7 +1801,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Boolean unresolved,
       String inReplyTo)
       throws Exception {
-    addComment(r, message, omitDuplicateComments, unresolved, inReplyTo, 1, null);
+    addComment(r, message, omitDuplicateComments, unresolved, inReplyTo, null, null);
   }
 
   private void addComment(
@@ -1814,7 +1814,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Comment.Range range)
       throws Exception {
     CommentInput c = new CommentInput();
-    c.line = 1;
+    c.line = line == null ? 1 : line;
     c.message = message;
     c.path = FILE_NAME;
     c.unresolved = unresolved;

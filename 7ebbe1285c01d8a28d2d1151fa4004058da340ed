@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "5177c66f_aa2161d0",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-22T09:35:35Z",
+      "side": 1,
+      "message": "Sorry I was confused about it. I just applied the suggested fix in google3, but now figured out the tag should appear once.\nDone.",
+      "parentUuid": "69df79ab_4a6b959b",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13f8fd05_1004f151",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -157,6 +181,30 @@
       "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "14ec2bc8_98006589",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-22T09:35:35Z",
+      "side": 1,
+      "message": "I see. I removed it.\nThanks for the explanation.",
+      "parentUuid": "4bf191cd_5ecb7e67",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 22
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -126,6 +126,7 @@ import {
   CapabilityInfoMap,
   ProjectInfoWithName,
   TagInfo,
+  EmailAddress,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1918,7 +1919,10 @@ export class GrRestApiInterface
     }) as Promise<AccountInfo[] | undefined>;
   }
 
-  addChangeReviewer(changeNum: ChangeNum, reviewerID: AccountId | GroupId) {
+  addChangeReviewer(
+    changeNum: ChangeNum,
+    reviewerID: AccountId | EmailAddress | GroupId
+  ) {
     return this._sendChangeReviewerRequest(
       HttpMethod.POST,
       changeNum,
@@ -1926,7 +1930,10 @@ export class GrRestApiInterface
     );
   }
 
-  removeChangeReviewer(changeNum: ChangeNum, reviewerID: AccountId | GroupId) {
+  removeChangeReviewer(
+    changeNum: ChangeNum,
+    reviewerID: AccountId | EmailAddress | GroupId
+  ) {
     return this._sendChangeReviewerRequest(
       HttpMethod.DELETE,
       changeNum,
@@ -1937,7 +1944,7 @@ export class GrRestApiInterface
   _sendChangeReviewerRequest(
     method: HttpMethod.POST | HttpMethod.DELETE,
     changeNum: ChangeNum,
-    reviewerID: AccountId | GroupId
+    reviewerID: AccountId | EmailAddress | GroupId
   ) {
     return this.getChangeActionURL(changeNum, undefined, '/reviewers').then(
       url => {

@@ -22,6 +22,30 @@
       "revId": "8c05f6380930484601984d8ee72813bafdfcff0c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c448006e_5b12d803",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T10:03:14Z",
+      "side": 1,
+      "message": "Fixed in I04e66fc6e.",
+      "parentUuid": "0d920163_639ec9d5",
+      "range": {
+        "startLine": 26,
+        "startChar": 17,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "8c05f6380930484601984d8ee72813bafdfcff0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -130,6 +130,8 @@ import {
   SubmittedTogetherInfo,
   ChangeNum,
   EmailAddress,
+  FixId,
+  FilePathToDiffInfoMap,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -2329,21 +2331,21 @@ export class GrRestApiInterface
   getRobotCommentFixPreview(
     changeNum: ChangeNum,
     patchNum: PatchSetNum,
-    fixId: string
-  ) {
+    fixId: FixId
+  ): Promise<FilePathToDiffInfoMap | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
       patchNum,
       endpoint: `/fixes/${encodeURIComponent(fixId)}/preview`,
       reportEndpointAsId: true,
-    });
+    }) as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
   applyFixSuggestion(
     changeNum: ChangeNum,
     patchNum: PatchSetNum,
     fixId: string
-  ) {
+  ): Promise<Response> {
     return this._getChangeURLAndSend({
       method: HttpMethod.POST,
       changeNum,

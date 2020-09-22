@@ -179,19 +179,19 @@ suite('gr-apply-fix-dialog tests', () => {
       comment: ROBOT_COMMENT_WITH_TWO_FIXES}});
     flush(() => {
       assert.isTrue(errorStub.called);
-      assert.deepEqual(element._currentFix, {});
+      assert.equal(element._currentFix, undefined);
       done();
     });
   });
 
   test('apply fix button should call apply ' +
-  'and navigate to change view', done => {
+  'and navigate to change view', () => {
     sinon.stub(element.$.restAPI, 'applyFixSuggestion')
         .returns(Promise.resolve({ok: true}));
     sinon.stub(GerritNav, 'navigateToChange');
     element._currentFix = {fix_id: '123'};
 
-    element._handleApplyFix().then(() => {
+    return element._handleApplyFix().then(() => {
       assert.isTrue(element.$.restAPI.applyFixSuggestion
           .calledWithExactly('1', 2, '123'));
       assert.isTrue(GerritNav.navigateToChange.calledWithExactly({
@@ -205,9 +205,8 @@ suite('gr-apply-fix-dialog tests', () => {
       }, 'edit', 2));
 
       // reset gr-apply-fix-dialog and close
-      assert.deepEqual(element._currentFix, {});
+      assert.equal(element._currentFix, undefined);
       assert.equal(element._currentPreviews.length, 0);
-      done();
     });
   });
 

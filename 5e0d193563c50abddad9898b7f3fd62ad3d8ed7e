@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "d32a3935_d9ed5e26",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 54,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-22T07:47:56Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "93d2e05b_7488370b",
+      "range": {
+        "startLine": 54,
+        "startChar": 0,
+        "endLine": 54,
+        "endChar": 100
+      },
+      "revId": "5e0d193563c50abddad9898b7f3fd62ad3d8ed7e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80d32092_c13bd699",
         "filename": "javatests/com/google/gerrit/server/auth/oauth/OAuthTokenCacheTest.java",
         "patchSetId": 3

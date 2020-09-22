@@ -25,6 +25,7 @@ import {
   Timestamp,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {accountKey} from '../../../utils/account-util';
 
 const MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
 const REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
@@ -156,7 +157,7 @@ export class GrReviewerUpdatesParser {
       }
       const updateDate = parseDate(update.updated).getTime();
       const batchUpdateDate = parseDate(this._batch.date).getTime();
-      const reviewerId = update.reviewer._account_id.toString();
+      const reviewerId = accountKey(update.reviewer);
       if (
         updateDate - batchUpdateDate > REVIEWER_UPDATE_THRESHOLD_MILLIS ||
         update.updated_by._account_id !== this._batch.author._account_id

@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.submit;
 
+import static java.util.Comparator.comparing;
+import static java.util.stream.Collectors.toList;
+
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.SubmoduleSubscription;
@@ -23,6 +26,7 @@ import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Objects;
@@ -83,7 +87,7 @@ class SubmoduleCommits {
    *     (defaulting to the mergeOpRepoManager).
    */
   Optional<CodeReviewCommit> composeGitlinksCommit(
-      BranchNameKey subscriber, List<SubmoduleSubscription> subscriptions)
+      BranchNameKey subscriber, Collection<SubmoduleSubscription> subscriptions)
       throws IOException, SubmoduleConflictException {
     OpenRepo or;
     try {
@@ -106,7 +110,7 @@ class SubmoduleCommits {
     DirCacheEditor ed = dc.editor();
     int count = 0;
 
-    for (SubmoduleSubscription s : subscriptions) {
+    for (SubmoduleSubscription s : sortByPath(subscriptions)) {
       if (count > 0) {
         msgbuf.append("\n\n");
       }
@@ -147,7 +151,7 @@ class SubmoduleCommits {
   CodeReviewCommit amendGitlinksCommit(
       BranchNameKey subscriber,
       CodeReviewCommit currentCommit,
-      List<SubmoduleSubscription> subscriptions)
+      Collection<SubmoduleSubscription> subscriptions)
       throws IOException, SubmoduleConflictException {
     OpenRepo or;
     try {
@@ -159,7 +163,7 @@ class SubmoduleCommits {
     StringBuilder msgbuf = new StringBuilder();
     DirCache dc = readTree(or.rw, currentCommit);
     DirCacheEditor ed = dc.editor();
-    for (SubmoduleSubscription s : subscriptions) {
+    for (SubmoduleSubscription s : sortByPath(subscriptions)) {
       updateSubmodule(dc, ed, msgbuf, s);
     }
     ed.finish();
@@ -320,5 +324,12 @@ class SubmoduleCommits {
         rw.parseTree(base));
     b.finish();
     return dc;
+  }
+
+  private static List<SubmoduleSubscription> sortByPath(
+      Collection<SubmoduleSubscription> subscriptions) {
+    return subscriptions.stream()
+        .sorted(comparing(SubmoduleSubscription::getPath))
+        .collect(toList());
   }
 }

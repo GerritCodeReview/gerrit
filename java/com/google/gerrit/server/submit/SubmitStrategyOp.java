@@ -133,7 +133,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         new ReceiveCommand(
             firstNonNull(tipBefore, ObjectId.zeroId()), tipAfter, getDest().branch());
     ctx.addRefUpdate(command);
-    args.submoduleOp.addBranchTip(getDest(), tipAfter);
+    args.submoduleCommits.addBranchTip(getDest(), tipAfter);
   }
 
   private void checkProjectConfig(RepoContext ctx, CodeReviewCommit commit) {
@@ -541,7 +541,8 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
 
     // Modify the commit with gitlink update
     try {
-      return args.submoduleOp.amendGitlinksCommit(args.destBranch, commit);
+      return args.submoduleCommits.amendGitlinksCommit(
+          args.destBranch, commit, args.subscriptionGraph.getSubscriptions(args.destBranch));
     } catch (IOException e) {
       throw new StorageException(
           String.format("cannot update gitlink for the commit at branch %s", args.destBranch), e);

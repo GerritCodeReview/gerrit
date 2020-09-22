@@ -213,6 +213,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b1248f25_8f4f5b58",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T15:58:12Z",
+      "side": 1,
+      "message": "I remember that we discussed the \"Patchset\" grouping header during the implementation. At that time, we needed it as comments were shuffled on the \"Comments\" tab and a section without header could have been interpreted as belonging to the previous section. For the other representations (e.g. emails; change log), we wanted to apply a consistent style.\n\nNow that we have a fixed ordering (patchset-level comments first, then comments ordered by file path), we could leave out the \"Patchset\" header as you suggested. I thought we even discussed it during the implementation and I thought we wanted to remove it once the fixed ordering was in place but I\u0027m not sure anymore. Dhruv, do you still remember what we agreed on?\n\nIn any case, if we decide to remove the \"Patchset\" grouping, we should do so in all views we show such comments. Out of the top of my head, these are at least:\n- \"Comments\" tab\n- Entry in \"Change Log\"\n- Emails",
+      "parentUuid": "ee29335c_8474db7c",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

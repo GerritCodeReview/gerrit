@@ -16,6 +16,7 @@ package com.google.gerrit.server.submit;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static java.util.Comparator.comparing;
 import static java.util.Objects.requireNonNull;
 import static java.util.stream.Collectors.toSet;
@@ -227,7 +228,6 @@ public class MergeOp implements AutoCloseable {
   private final Provider<InternalChangeQuery> queryProvider;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubscriptionGraph.Factory subscriptionGraphFactory;
-  private final SubmoduleOp.Factory subOpFactory;
   private final SubmoduleCommits.Factory submoduleCommitsFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
@@ -260,7 +260,6 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleCommits.Factory submoduleCommitsFactory,
       SubscriptionGraph.Factory subscriptionGraphFactory,
-      SubmoduleOp.Factory subOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
@@ -275,7 +274,6 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.submoduleCommitsFactory = submoduleCommitsFactory;
     this.subscriptionGraphFactory = subscriptionGraphFactory;
-    this.subOpFactory = subOpFactory;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
     this.retryHelper = retryHelper;
@@ -754,7 +752,7 @@ public class MergeOp implements AutoCloseable {
     @Nullable
     abstract SubmitType submitType();
 
-    abstract Set<CodeReviewCommit> commits();
+    abstract ImmutableSet<CodeReviewCommit> commits();
   }
 
   private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted) {
@@ -869,7 +867,8 @@ public class MergeOp implements AutoCloseable {
       toSubmit.add(commit);
     }
     logger.atFine().log("Submitting on this run: %s", toSubmit);
-    return new AutoValue_MergeOp_BranchBatch(submitType, toSubmit);
+    return new AutoValue_MergeOp_BranchBatch(
+        submitType, toSubmit.stream().collect(toImmutableSet()));
   }
 
   private SetMultimap<ObjectId, PatchSet.Id> getRevisions(OpenRepo or, Collection<ChangeData> cds) {

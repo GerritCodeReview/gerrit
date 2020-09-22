@@ -23,7 +23,7 @@ import java.util.Set;
 import org.eclipse.jgit.lib.Config;
 
 /**
- * Wrap a (@link {@link SubscriptionGraph.Factory} to honor the gerrit configuration.
+ * Wrap a {@link SubscriptionGraph.Factory} to honor the gerrit configuration.
  *
  * <p>If superproject subscriptions are disabled in the conf, return an empty graph.
  */

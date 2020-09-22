@@ -4423,15 +4423,15 @@ Defaults to false.
 
 [[receiveemail.filter.mode]]receiveemail.filter.mode::
 +
-A black- and whitelist filter to filter incoming emails.
+An allow and block filter to filter incoming emails.
 +
-If `OFF`, emails are not filtered by the list filter.
+If `OFF`, emails are not filtered by the list filter
 +
-If `WHITELIST`, only emails where a pattern from
+If `ALLOW`, only emails where a pattern from
 <<receiveemail.filter.patterns,receiveemail.filter.patterns>>
 matches 'From' will be processed.
 +
-If `BLACKLIST`, only emails where no pattern from
+If `BLOCK`, only emails where no pattern from
 <<receiveemail.filter.patterns,receiveemail.filter.patterns>>
 matches 'From' will be processed.
 +
@@ -4566,9 +4566,9 @@ Password for the account named by sendemail.smtpUser.
 
 [[sendemail.allowrcpt]]sendemail.allowrcpt::
 +
-If present, each value adds one entry to the whitelist of email
+If present, each value adds one entry to the allowlist of email
 addresses that Gerrit can send email to.  If set to a complete
-email address, that one address is added to the white list.
+email address, that one address is added to the allowlist.
 If set to a domain name, any address at that domain can receive
 email from Gerrit.
 +
@@ -4579,9 +4579,9 @@ By default, unset, permitting delivery to any email address.
 
 [[sendemail.denyrcpt]]sendemail.denyrcpt::
 +
-If present, each value adds one entry to the blacklist of email
+If present, each value adds one entry to the blocklist of email
 addresses that Gerrit can send email to.  If set to a complete
-email address, that one address is added to the blacklist.
+email address, that one address is added to the blocklist.
 If set to a domain name, any address at that domain can *not* receive
 email from Gerrit.
 +

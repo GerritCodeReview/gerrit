@@ -81,7 +81,7 @@ function isGroupObjectInput(x: RawAccountInput): x is GroupObjectInput {
 }
 
 // Internal input type with account info
-interface AccountInfoInput extends AccountInfo {
+export interface AccountInfoInput extends AccountInfo {
   _group?: boolean;
   _account?: boolean;
   _pendingAdd?: boolean;
@@ -89,14 +89,29 @@ interface AccountInfoInput extends AccountInfo {
 }
 
 // Internal input type with group info
-interface GroupInfoInput extends GroupInfo {
+export interface GroupInfoInput extends GroupInfo {
   _group?: boolean;
   _account?: boolean;
   _pendingAdd?: boolean;
   confirmed?: boolean;
 }
 
+function isAccountInfoInput(x: AccountInput): x is AccountInfoInput {
+  const input = x as AccountInfoInput;
+  return !!input._account || !!input._account_id;
+}
+
+function isGroupInfoInput(x: AccountInput): x is GroupInfoInput {
+  const input = x as GroupInfoInput;
+  return !!input._group || !!input.id;
+}
+
 type AccountInput = AccountInfoInput | GroupInfoInput;
+
+export interface AccountAddition {
+  account?: AccountInfoInput;
+  group?: GroupInfoInput;
+}
 
 @customElement('gr-account-list')
 export class GrAccountList extends GestureEventListeners(
@@ -137,7 +152,7 @@ export class GrAccountList extends GestureEventListeners(
    * Needed for template checking since value is initially set to null.
    */
   @property({type: Object, notify: true})
-  pendingConfirmation: RawAccountInput | null = null;
+  pendingConfirmation: GroupObjectInput | null = null;
 
   @property({type: Boolean})
   readonly = false;
@@ -261,7 +276,7 @@ export class GrAccountList extends GestureEventListeners(
     return true;
   }
 
-  confirmGroup(group: GroupObjectInput) {
+  confirmGroup(group: GroupInfo) {
     this.push('accounts', {
       ...group,
       confirmed: true,
@@ -430,14 +445,16 @@ export class GrAccountList extends GestureEventListeners(
     return wasSubmitted;
   }
 
-  additions() {
+  additions(): AccountAddition[] {
     return this.accounts
       .filter(account => account._pendingAdd)
       .map(account => {
-        if (account._group) {
+        if (isGroupInfoInput(account)) {
           return {group: account};
-        } else {
+        } else if (isAccountInfoInput(account)) {
           return {account};
+        } else {
+          throw new Error('AccountInput must be either Account or Group.');
         }
       });
   }

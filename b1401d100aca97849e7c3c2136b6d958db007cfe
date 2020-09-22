@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5c33896b_fb82ea2d",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 46,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T09:26:49Z",
+      "side": 1,
+      "message": "No need to be static, as this is a singleton",
+      "range": {
+        "startLine": 46,
+        "startChar": 12,
+        "endLine": 46,
+        "endChar": 19
+      },
+      "revId": "b1401d100aca97849e7c3c2136b6d958db007cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8c48884e_f23495b4",
+        "filename": "java/com/google/gerrit/server/auth/oauth/OAuthTokenCache.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T09:26:49Z",
+      "side": 1,
+      "message": "No need to be static, as this is a singleton",
+      "range": {
+        "startLine": 49,
+        "startChar": 12,
+        "endLine": 49,
+        "endChar": 18
+      },
+      "revId": "b1401d100aca97849e7c3c2136b6d958db007cfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

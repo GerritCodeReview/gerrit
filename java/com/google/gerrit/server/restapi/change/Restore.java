@@ -44,6 +44,7 @@ import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -108,7 +109,7 @@ public class Restore
     return Response.ok(json.noOptions().format(op.change));
   }
 
-  private class Op implements BatchUpdateOp {
+  private class Op implements BatchUpdateOp, AsyncPostUpdateOp {
     private final RestoreInput input;
 
     private Change change;
@@ -149,6 +150,12 @@ public class Restore
 
     @Override
     public void postUpdate(Context ctx) {
+      changeRestored.fire(
+          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
+    }
+
+    @Override
+    public void asyncPostUpdate(Context ctx) {
       try {
         ReplyToChangeSender emailSender =
             restoredSenderFactory.create(ctx.getProject(), change.getId());
@@ -160,8 +167,6 @@ public class Restore
       } catch (Exception e) {
         logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
       }
-      changeRestored.fire(
-          change, patchSet, ctx.getAccount(), Strings.emptyToNull(input.message), ctx.getWhen());
     }
   }
 

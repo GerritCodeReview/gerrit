@@ -62,6 +62,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.InternalChangeQuery;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -309,7 +310,7 @@ public class MailProcessor {
     }
   }
 
-  private class Op implements BatchUpdateOp {
+  private class Op implements BatchUpdateOp, AsyncPostUpdateOp {
     private final PatchSet.Id psId;
     private final List<MailComment> parsedComments;
     private final String tag;
@@ -353,23 +354,6 @@ public class MailProcessor {
 
     @Override
     public void postUpdate(Context ctx) throws Exception {
-      String patchSetComment = null;
-      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
-        patchSetComment = parsedComments.get(0).getMessage();
-      }
-      // Send email notifications
-      outgoingMailFactory
-          .create(
-              ctx.getNotify(notes.getChangeId()),
-              notes,
-              patchSet,
-              ctx.getUser().asIdentifiedUser(),
-              changeMessage,
-              comments,
-              patchSetComment,
-              ImmutableList.of(),
-              ctx.getRepoView())
-          .sendAsync();
       // Get previous approvals from this user
       Map<String, Short> approvals = new HashMap<>();
       approvalsUtil
@@ -386,6 +370,27 @@ public class MailProcessor {
           approvals,
           approvals,
           ctx.getWhen());
+    }
+
+    @Override
+    public void asyncPostUpdate(Context ctx) throws Exception {
+      String patchSetComment = null;
+      if (parsedComments.get(0).getType() == MailComment.CommentType.CHANGE_MESSAGE) {
+        patchSetComment = parsedComments.get(0).getMessage();
+      }
+      // Send email notifications
+      outgoingMailFactory
+          .create(
+              ctx.getNotify(notes.getChangeId()),
+              notes,
+              patchSet,
+              ctx.getUser().asIdentifiedUser(),
+              changeMessage,
+              comments,
+              patchSetComment,
+              ImmutableList.of(),
+              ctx.getRepoView())
+          .send();
     }
 
     private ChangeMessage generateChangeMessage(ChangeContext ctx) {

@@ -23,34 +23,27 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
 import java.util.Collection;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 
 @Singleton
 public class AddReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
-  private final ExecutorService asyncPostUpdateExecutor;
   private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   AddReviewersEmail(
-      AddReviewerSender.Factory addReviewerSenderFactory,
-      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
-      MessageIdGenerator messageIdGenerator) {
+      AddReviewerSender.Factory addReviewerSenderFactory, MessageIdGenerator messageIdGenerator) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
-    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.messageIdGenerator = messageIdGenerator;
   }
 
-  public void emailReviewersAsync(
+  public void emailReviewers(
       IdentifiedUser user,
       Change change,
       Collection<Account.Id> added,
@@ -78,27 +71,20 @@ public class AddReviewersEmail {
     ImmutableList<Address> immutableAddedByEmail = ImmutableList.copyOf(addedByEmail);
     ImmutableList<Address> immutableCopiedByEmail = ImmutableList.copyOf(copiedByEmail);
 
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError =
-        asyncPostUpdateExecutor.submit(
-            () -> {
-              try {
-                AddReviewerSender emailSender =
-                    addReviewerSenderFactory.create(projectNameKey, cId);
-                emailSender.setNotify(notify);
-                emailSender.setFrom(userId);
-                emailSender.addReviewers(immutableToMail);
-                emailSender.addReviewersByEmail(immutableAddedByEmail);
-                emailSender.addExtraCC(immutableToCopy);
-                emailSender.addExtraCCByEmail(immutableCopiedByEmail);
-                emailSender.setMessageId(
-                    messageIdGenerator.fromChangeUpdate(
-                        change.getProject(), change.currentPatchSetId()));
-                emailSender.send();
-              } catch (Exception err) {
-                logger.atSevere().withCause(err).log(
-                    "Cannot send email to new reviewers of change %s", change.getId());
-              }
-            });
+    try {
+      AddReviewerSender emailSender = addReviewerSenderFactory.create(projectNameKey, cId);
+      emailSender.setNotify(notify);
+      emailSender.setFrom(userId);
+      emailSender.addReviewers(immutableToMail);
+      emailSender.addReviewersByEmail(immutableAddedByEmail);
+      emailSender.addExtraCC(immutableToCopy);
+      emailSender.addExtraCCByEmail(immutableCopiedByEmail);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(change.getProject(), change.currentPatchSetId()));
+      emailSender.send();
+    } catch (Exception err) {
+      logger.atSevere().withCause(err).log(
+          "Cannot send email to new reviewers of change %s", change.getId());
+    }
   }
 }

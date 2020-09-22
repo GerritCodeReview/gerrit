@@ -227,10 +227,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       },
       _reviewersPendingRemove: {
         type: Object,
-        value: {
-          CC: [],
-          REVIEWER: [],
-        },
+        value: null,
       },
       _sendButtonLabel: {
         type: String,
@@ -247,7 +244,7 @@ class GrReplyDialog extends KeyboardShortcutMixin(GestureEventListeners(
       },
       _saveTooltip: {
         type: String,
-        value: ButtonTooltips.SAVE,
+        value: null,
         readOnly: true,
       },
       _pluginMessage: {

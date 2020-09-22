@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "231cd640_a131674e",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-22T08:54:14Z",
+      "side": 1,
+      "message": "Should \"{@link\" appear only once?",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13f8fd05_1004f151",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1781,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-09-22T08:54:14Z",
+      "side": 1,
+      "message": "Looks like this parameter is now unused? Should this whole method be dropped then (as it is the same as the one above)?",
+      "range": {
+        "startLine": 1781,
+        "startChar": 72,
+        "endLine": 1781,
+        "endChar": 80
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

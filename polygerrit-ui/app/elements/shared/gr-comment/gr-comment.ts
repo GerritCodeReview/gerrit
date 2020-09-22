@@ -83,7 +83,7 @@ const RESPECTFUL_REVIEW_TIPS = [
   'When disagreeing, explain the advantage of your approach.',
 ];
 
-interface Draft {
+export interface Draft {
   collapsed?: boolean;
   __editing?: boolean;
   __otherEditing?: boolean;

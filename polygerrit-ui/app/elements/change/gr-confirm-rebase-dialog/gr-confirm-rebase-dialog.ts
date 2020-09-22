@@ -25,7 +25,7 @@ import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {LegacyChangeId, BranchName} from '../../../types/common';
+import {NumericChangeId, BranchName} from '../../../types/common';
 import {
   GrAutocomplete,
   AutocompleteQuery,
@@ -35,7 +35,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 
 interface RebaseChange {
   name: string;
-  value: LegacyChangeId;
+  value: NumericChangeId;
 }
 
 export interface GrConfirmRebaseDialog {

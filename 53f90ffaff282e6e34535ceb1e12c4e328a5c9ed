@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9f2c19e7_c8e10bf2",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-22T19:23:25Z",
+      "side": 1,
+      "message": "Remove?",
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2107022c_1b16ed28",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-22T19:23:25Z",
+      "side": 1,
+      "message": "Optional: I have grown to like type guards more than hasOwnProperty checks. Something like this.\n\n  function isChangeInfo(x: ChangeInfo | RelatedChangeAndCommitInfo)\n      : x is ChangeInfo {\n    return (x as ChangeInfo)._number !\u003d\u003d undefined;\n  }",
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

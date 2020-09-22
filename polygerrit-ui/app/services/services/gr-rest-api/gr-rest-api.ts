@@ -84,6 +84,8 @@ import {
   ConfigInput,
   RelatedChangesInfo,
   SubmittedTogetherInfo,
+  FixId,
+  FilePathToDiffInfoMap,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -714,4 +716,16 @@ export interface RestApiService {
     topic: string,
     changeNum: ChangeNum
   ): Promise<ChangeInfo[] | undefined>;
+
+  getRobotCommentFixPreview(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    fixId: FixId
+  ): Promise<FilePathToDiffInfoMap | undefined>;
+
+  applyFixSuggestion(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    fixId: string
+  ): Promise<Response>;
 }

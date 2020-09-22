@@ -597,7 +597,7 @@ export const GerritNav = {
    * @param basePatchNum The string 'PARENT' can be used for none.
    */
   getUrlForChange(
-    change: ChangeInfo,
+    change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     patchNum?: PatchSetNum,
     basePatchNum?: PatchSetNum,
     isEdit?: boolean,
@@ -641,7 +641,7 @@ export const GerritNav = {
    *
    */
   navigateToChange(
-    change: ChangeInfo,
+    change: Pick<ChangeInfo, '_number' | 'project' | 'internalHost'>,
     patchNum?: PatchSetNum,
     basePatchNum?: PatchSetNum,
     isEdit?: boolean,

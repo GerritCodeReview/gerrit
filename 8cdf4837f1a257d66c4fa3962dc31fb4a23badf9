@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "9a8c01c4_1b86d17a",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4430,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T20:39:37Z",
+      "side": 1,
+      "message": "Why not ALLOWLIST?",
+      "range": {
+        "startLine": 4430,
+        "startChar": 4,
+        "endLine": 4430,
+        "endChar": 9
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "202f17b4_98920f63",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4434,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T20:39:37Z",
+      "side": 1,
+      "message": "Why not BLOCKLIST?",
+      "range": {
+        "startLine": 4434,
+        "startChar": 4,
+        "endLine": 4434,
+        "endChar": 9
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "33608c93_75dfecfa",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4436,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-22T20:39:37Z",
+      "side": 1,
+      "message": "Optional: should we mention that the WHITELIST and BLACKLIST terms are still supported but deprecated and they will be removed in the next version?",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

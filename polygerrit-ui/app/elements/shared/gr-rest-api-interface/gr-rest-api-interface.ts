@@ -130,6 +130,9 @@ import {
   SubmittedTogetherInfo,
   ChangeNum,
   EmailAddress,
+  FixId,
+  FilePathToDiffInfoMap,
+  ChangeViewChangeInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1388,7 +1391,11 @@ export class GrRestApiInterface
         optionsHex,
         errFn,
         cancelCondition
-      ).then(GrReviewerUpdatesParser.parse);
+      ).then(detail =>
+        // detail has ChangeViewChangeInfo type because the optionsHex always
+        // includes ALL_REVISIONS flag.
+        GrReviewerUpdatesParser.parse(detail as ChangeViewChangeInfo)
+      );
     });
   }
 
@@ -2329,21 +2336,21 @@ export class GrRestApiInterface
   getRobotCommentFixPreview(
     changeNum: ChangeNum,
     patchNum: PatchSetNum,
-    fixId: string
-  ) {
+    fixId: FixId
+  ): Promise<FilePathToDiffInfoMap | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
       patchNum,
       endpoint: `/fixes/${encodeURIComponent(fixId)}/preview`,
       reportEndpointAsId: true,
-    });
+    }) as Promise<FilePathToDiffInfoMap | undefined>;
   }
 
   applyFixSuggestion(
     changeNum: ChangeNum,
     patchNum: PatchSetNum,
     fixId: string
-  ) {
+  ): Promise<Response> {
     return this._getChangeURLAndSend({
       method: HttpMethod.POST,
       changeNum,

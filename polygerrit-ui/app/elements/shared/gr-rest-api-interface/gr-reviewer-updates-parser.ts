@@ -21,6 +21,7 @@ import {
   AccountInfo,
   ChangeInfo,
   ChangeMessageInfo,
+  ChangeViewChangeInfo,
   ReviewerUpdateInfo,
   Timestamp,
 } from '../../../types/common';
@@ -30,7 +31,7 @@ import {accountKey} from '../../../utils/account-util';
 const MESSAGE_REVIEWERS_THRESHOLD_MILLIS = 500;
 const REVIEWER_UPDATE_THRESHOLD_MILLIS = 6000;
 
-interface ChangeInfoParserInput extends ChangeInfo {
+interface ChangeInfoParserInput extends ChangeViewChangeInfo {
   messages: ChangeMessageInfo[];
   reviewer_updates: ReviewerUpdateInfo[]; // Always has at least 1 item
 }
@@ -77,7 +78,8 @@ interface UpdateItem {
   prev_state?: ReviewerState;
 }
 
-export interface ParsedChangeInfo extends Omit<ChangeInfo, 'reviewer_updates'> {
+export interface ParsedChangeInfo
+  extends Omit<ChangeViewChangeInfo, 'reviewer_updates'> {
   reviewer_updates?: ReviewerUpdateInfo[] | FormattedReviewerUpdateInfo[];
 }
 
@@ -291,7 +293,7 @@ export class GrReviewerUpdatesParser {
   }
 
   static parse(
-    change: ChangeInfo | undefined | null
+    change: ChangeViewChangeInfo | undefined | null
   ): ParsedChangeInfo | undefined | null {
     // TODO(TS): The !change condition should be removed when all files are converted to TS
     if (!change || !isChangeInfoParserInput(change)) {

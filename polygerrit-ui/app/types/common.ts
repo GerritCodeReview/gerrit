@@ -47,6 +47,12 @@ import {
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
 
+/*
+ * In T, make a set of properties whose keys are in the union K required
+ */
+export type RequireProperties<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
+
 /**
  * Type alias for parsed json object to make code cleaner
  */
@@ -62,7 +68,7 @@ export const ParentPatchSetNum = 'PARENT' as PatchSetNum;
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
-export type ChangeNum = number; // !!!TODO: define correct types
+export type ChangeNum = NumericChangeId; // This type is removed in the following change
 export type RepoName = BrandType<string, '_repoName'>;
 export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
 export type TopicName = BrandType<string, '_topicName'>;
@@ -74,6 +80,8 @@ export type TrackingId = BrandType<string, '_trackingId'>;
 export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
 export type RobotId = BrandType<string, '_robotId'>;
 export type RobotRunId = BrandType<string, '_robotRunId'>;
+
+// The UUID of the suggested fix.
 export type FixId = BrandType<string, '_fixId'>;
 export type EmailAddress = BrandType<string, '_emailAddress'>;
 
@@ -237,6 +245,14 @@ export interface ChangeInfo {
   internalHost?: string; // TODO(TS): provide an explanation what is its
 }
 
+/**
+ * ChangeView request change detail with ALL_REVISIONS option set.
+ * The response always contains current_revision and revisions.
+ */
+export type ChangeViewChangeInfo = RequireProperties<
+  ChangeInfo,
+  'current_revision' | 'revisions'
+>;
 /**
  * The AccountInfo entity contains information about an account.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-info
@@ -1178,6 +1194,8 @@ export interface DiffInfo {
   binary: boolean;
 }
 
+export type FilePathToDiffInfoMap = {[path: string]: DiffInfo};
+
 /**
  * The DiffWebLinkInfo entity describes a link on a diff screen to an external site.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#diff-web-link-info
@@ -1876,8 +1894,13 @@ export type PathToRobotCommentsInfoMap = {[path: string]: RobotCommentInfo[]};
  * The FixSuggestionInfo entity represents a suggested fix
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#fix-suggestion-info
  */
-export interface FixSuggestionInfo {
-  fix_id?: FixId;
+export interface FixSuggestionInfoInput {
+  description: string;
+  replacements: FixReplacementInfo[];
+}
+
+export interface FixSuggestionInfo extends FixSuggestionInfoInput {
+  fix_id: FixId;
   description: string;
   replacements: FixReplacementInfo[];
 }

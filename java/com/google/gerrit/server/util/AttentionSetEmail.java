@@ -17,9 +17,7 @@ package com.google.gerrit.server.util;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -28,10 +26,7 @@ import com.google.gerrit.server.update.Context;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-
-public class AttentionSetEmail implements Runnable, RequestContext {
+public class AttentionSetEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -56,7 +51,6 @@ public class AttentionSetEmail implements Runnable, RequestContext {
         Account.Id attentionUserId);
   }
 
-  private ExecutorService asyncPostUpdateExecutor;
   private AttentionSetSender sender;
   private Context ctx;
   private Change change;
@@ -67,14 +61,12 @@ public class AttentionSetEmail implements Runnable, RequestContext {
 
   @Inject
   AttentionSetEmail(
-      @AsyncPostUpdateExecutor ExecutorService executor,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
       @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
-    this.asyncPostUpdateExecutor = executor;
     this.sender = sender;
     this.ctx = ctx;
     this.change = change;
@@ -83,13 +75,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
     this.attentionUserId = attentionUserId;
   }
 
-  public void sendAsync() {
-    @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = asyncPostUpdateExecutor.submit(this);
-  }
-
-  @Override
-  public void run() {
+  public void send() {
     try {
       AccountState accountState =
           ctx.getUser().isIdentifiedUser() ? ctx.getUser().asIdentifiedUser().state() : null;
@@ -104,15 +90,5 @@ public class AttentionSetEmail implements Runnable, RequestContext {
     } catch (Exception e) {
       logger.atSevere().withCause(e).log("Cannot email update for change %s", change.getId());
     }
-  }
-
-  @Override
-  public String toString() {
-    return "send-email comments";
-  }
-
-  @Override
-  public CurrentUser getUser() {
-    return ctx.getUser();
   }
 }

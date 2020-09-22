@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.config;
 
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.CacheRefreshExecutor;
@@ -22,11 +24,8 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import org.eclipse.jgit.lib.Config;
-
 import java.util.concurrent.ExecutorService;
-
-import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import org.eclipse.jgit.lib.Config;
 
 /**
  * Module providing different executors.

@@ -28,6 +28,7 @@ import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.mail.send.SetAssigneeSender;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.plugincontext.PluginSetContext;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
@@ -37,7 +38,7 @@ import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 
-public class SetAssigneeOp implements BatchUpdateOp {
+public class SetAssigneeOp implements BatchUpdateOp, AsyncPostUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -120,7 +121,7 @@ public class SetAssigneeOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) {
+  public void asyncPostUpdate(Context ctx) {
     try {
       SetAssigneeSender emailSender =
           setAssigneeSenderFactory.create(
@@ -133,6 +134,10 @@ public class SetAssigneeOp implements BatchUpdateOp {
       logger.atSevere().withCause(err).log(
           "Cannot send email to new assignee of change %s", change.getId());
     }
+  }
+
+  @Override
+  public void postUpdate(Context ctx) {
     assigneeChanged.fire(
         change, ctx.getAccount(), oldAssignee != null ? oldAssignee.state() : null, ctx.getWhen());
   }

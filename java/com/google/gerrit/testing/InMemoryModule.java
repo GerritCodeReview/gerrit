@@ -14,6 +14,10 @@
 
 package com.google.gerrit.testing;
 
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.inject.Scopes.SINGLETON;
+
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -95,9 +99,6 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
-
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -105,10 +106,8 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
-import static com.google.inject.Scopes.SINGLETON;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
 
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {

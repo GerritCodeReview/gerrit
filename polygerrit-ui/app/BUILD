@@ -61,6 +61,13 @@ polygerrit_bundle(
     entry_point = "_pg_ts_out/elements/gr-app.js",
 )
 
+polygerrit_bundle(
+    name = "polygerrit_components",
+    srcs = compiled_pg_srcs,
+    outs = ["polygerrit_components.zip"],
+    entry_point = "_pg_ts_out/elements/gr-components.js",
+)
+
 filegroup(
     name = "eslint_src_code",
     srcs = glob(

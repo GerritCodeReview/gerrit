@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "6a20558e_63580bbf",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-22T09:24:18Z",
+      "side": 1,
+      "message": "It was OK for \"{\" to appear twice, I just missed the closing brace.\nThanks for catching this. Done.",
+      "parentUuid": "231cd640_a131674e",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "13f8fd05_1004f151",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -45,6 +69,30 @@
       "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fbf1acf8_cf9866ce",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1781,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-22T09:24:18Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right.\n\nI checked the callers again and the line parameter is used. I was missing assigning it at the method @1807 and fixed it.",
+      "parentUuid": "13f8fd05_1004f151",
+      "range": {
+        "startLine": 1781,
+        "startChar": 72,
+        "endLine": 1781,
+        "endChar": 80
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

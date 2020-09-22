@@ -159,7 +159,7 @@ public class SubscriptionGraph {
   public static class Module extends AbstractModule {
     @Override
     protected void configure() {
-      bind(Factory.class).to(DefaultFactory.class);
+      bind(Factory.class).annotatedWith(VanillaSubscriptionGraph.class).to(DefaultFactory.class);
     }
   }
 

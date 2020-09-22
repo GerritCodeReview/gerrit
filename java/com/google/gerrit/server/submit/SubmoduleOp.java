@@ -15,116 +15,59 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.SubmoduleSubscription;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.restapi.RestApiException;
-import com.google.gerrit.server.GerritPersonIdent;
-import com.google.gerrit.server.config.GerritServerConfig;
-import com.google.gerrit.server.git.CodeReviewCommit;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.submit.MergeOpRepoManager.OpenRepo;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateListener;
-import com.google.gerrit.server.update.RepoContext;
-import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.inject.Inject;
-import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.io.IOException;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedHashSet;
-import java.util.Optional;
 import java.util.Set;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
 
 public class SubmoduleOp {
-  private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  /** Only used for branches without code review changes */
-  public static class GitlinkOp implements RepoOnlyOp {
-    private final BranchNameKey branch;
-    private final SubmoduleCommits commitHelper;
-    private final Collection<SubmoduleSubscription> branchTargets;
-
-    GitlinkOp(
-        BranchNameKey branch,
-        SubmoduleCommits commitHelper,
-        Collection<SubmoduleSubscription> branchTargets) {
-      this.branch = branch;
-      this.commitHelper = commitHelper;
-      this.branchTargets = branchTargets;
-    }
-
-    @Override
-    public void updateRepo(RepoContext ctx) throws Exception {
-      Optional<CodeReviewCommit> commit = commitHelper.composeGitlinksCommit(branch, branchTargets);
-      if (commit.isPresent()) {
-        CodeReviewCommit c = commit.get();
-        ctx.addRefUpdate(c.getParent(0), c, branch.branch());
-        commitHelper.addBranchTip(branch, c);
-      }
-    }
-  }
 
   @Singleton
   public static class Factory {
     private final SubscriptionGraph.Factory subscriptionGraphFactory;
-    private final Provider<PersonIdent> serverIdent;
-    private final Config cfg;
+    private final SubmoduleCommits.Factory submoduleCommitsFactory;
 
     @Inject
     Factory(
         SubscriptionGraph.Factory subscriptionGraphFactory,
-        @GerritPersonIdent Provider<PersonIdent> serverIdent,
-        @GerritServerConfig Config cfg) {
+        SubmoduleCommits.Factory submoduleCommitsFactory) {
       this.subscriptionGraphFactory = subscriptionGraphFactory;
-      this.serverIdent = serverIdent;
-      this.cfg = cfg;
+      this.submoduleCommitsFactory = submoduleCommitsFactory;
     }
 
     public SubmoduleOp create(Set<BranchNameKey> updatedBranches, MergeOpRepoManager orm)
         throws SubmoduleConflictException {
-      SubscriptionGraph subscriptionGraph;
-      if (cfg.getBoolean("submodule", "enableSuperProjectSubscriptions", true)) {
-        subscriptionGraph = subscriptionGraphFactory.compute(updatedBranches, orm);
-      } else {
-        logger.atFine().log("Updating superprojects disabled");
-        subscriptionGraph =
-            SubscriptionGraph.createEmptyGraph(ImmutableSet.copyOf(updatedBranches));
-      }
-      return new SubmoduleOp(serverIdent.get(), cfg, orm, subscriptionGraph);
+      return new SubmoduleOp(
+          orm,
+          subscriptionGraphFactory.compute(updatedBranches, orm),
+          submoduleCommitsFactory.create(orm));
     }
   }
 
   private final MergeOpRepoManager orm;
   private final SubscriptionGraph subscriptionGraph;
   private final SubmoduleCommits submoduleCommits;
+  private final UpdateOrderCalculator updateOrderCalculator;
 
   private SubmoduleOp(
-      PersonIdent myIdent,
-      Config cfg,
       MergeOpRepoManager orm,
-      SubscriptionGraph subscriptionGraph) {
+      SubscriptionGraph subscriptionGraph,
+      SubmoduleCommits submoduleCommits) {
     this.orm = orm;
     this.subscriptionGraph = subscriptionGraph;
-    this.submoduleCommits = new SubmoduleCommits(orm, myIdent, cfg);
-  }
-
-  // TODO(ifrade): subscription graph should be instantiated somewhere else and passed to
-  // SubmoduleOp
-  SubscriptionGraph getSubscriptionGraph() {
-    return subscriptionGraph;
-  }
-
-  SubmoduleCommits getSubmoduleCommits() {
-    return submoduleCommits;
+    this.submoduleCommits = submoduleCommits;
+    this.updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
   }
 
   @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
@@ -133,13 +76,15 @@ public class SubmoduleOp {
   }
 
   public void updateSuperProjects() throws RestApiException {
-    ImmutableSet<Project.NameKey> projects = getProjectsInOrder();
+    ImmutableSet<Project.NameKey> projects = updateOrderCalculator.getProjectsInOrder();
     if (projects == null) {
       return;
     }
 
     LinkedHashSet<Project.NameKey> superProjects = new LinkedHashSet<>();
     try {
+      GitlinkOp.Factory gitlinkOpFactory =
+          new GitlinkOp.Factory(submoduleCommits, subscriptionGraph);
       for (Project.NameKey project : projects) {
         // only need superprojects
         if (subscriptionGraph.isAffectedSuperProject(project)) {
@@ -147,7 +92,7 @@ public class SubmoduleOp {
           // get a new BatchUpdate for the super project
           OpenRepo or = orm.getRepo(project);
           for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
-            addOp(or.getUpdate(), branch);
+            or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
           }
         }
       }
@@ -155,61 +100,5 @@ public class SubmoduleOp {
     } catch (UpdateException | IOException | NoSuchProjectException e) {
       throw new StorageException("Cannot update gitlinks", e);
     }
-  }
-
-  ImmutableSet<Project.NameKey> getProjectsInOrder() throws SubmoduleConflictException {
-    LinkedHashSet<Project.NameKey> projects = new LinkedHashSet<>();
-    for (Project.NameKey project : subscriptionGraph.getAffectedSuperProjects()) {
-      addAllSubmoduleProjects(project, new LinkedHashSet<>(), projects);
-    }
-
-    for (BranchNameKey branch : subscriptionGraph.getUpdatedBranches()) {
-      projects.add(branch.project());
-    }
-    return ImmutableSet.copyOf(projects);
-  }
-
-  private void addAllSubmoduleProjects(
-      Project.NameKey project,
-      LinkedHashSet<Project.NameKey> current,
-      LinkedHashSet<Project.NameKey> projects)
-      throws SubmoduleConflictException {
-    if (current.contains(project)) {
-      throw new SubmoduleConflictException(
-          "Project level circular subscriptions detected:  "
-              + CircularPathFinder.printCircularPath(current, project));
-    }
-
-    if (projects.contains(project)) {
-      return;
-    }
-
-    current.add(project);
-    Set<Project.NameKey> subprojects = new HashSet<>();
-    for (BranchNameKey branch : subscriptionGraph.getAffectedSuperBranches(project)) {
-      Collection<SubmoduleSubscription> subscriptions = subscriptionGraph.getSubscriptions(branch);
-      for (SubmoduleSubscription s : subscriptions) {
-        subprojects.add(s.getSubmodule().project());
-      }
-    }
-
-    for (Project.NameKey p : subprojects) {
-      addAllSubmoduleProjects(p, current, projects);
-    }
-
-    current.remove(project);
-    projects.add(project);
-  }
-
-  ImmutableSet<BranchNameKey> getBranchesInOrder() {
-    LinkedHashSet<BranchNameKey> branches = new LinkedHashSet<>();
-    branches.addAll(subscriptionGraph.getSortedSuperprojectAndSubmoduleBranches());
-    branches.addAll(subscriptionGraph.getUpdatedBranches());
-    return ImmutableSet.copyOf(branches);
-  }
-
-  void addOp(BatchUpdate bu, BranchNameKey branch) {
-    bu.addRepoOnlyOp(
-        new GitlinkOp(branch, submoduleCommits, subscriptionGraph.getSubscriptions(branch)));
   }
 }

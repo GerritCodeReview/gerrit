@@ -226,7 +226,9 @@ public class MergeOp implements AutoCloseable {
   private final MergeValidators.Factory mergeValidatorsFactory;
   private final Provider<InternalChangeQuery> queryProvider;
   private final SubmitStrategyFactory submitStrategyFactory;
+  private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubmoduleOp.Factory subOpFactory;
+  private final SubmoduleCommits.Factory submoduleCommitsFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
@@ -256,6 +258,8 @@ public class MergeOp implements AutoCloseable {
       MergeValidators.Factory mergeValidatorsFactory,
       Provider<InternalChangeQuery> queryProvider,
       SubmitStrategyFactory submitStrategyFactory,
+      SubmoduleCommits.Factory submoduleCommitsFactory,
+      SubscriptionGraph.Factory subscriptionGraphFactory,
       SubmoduleOp.Factory subOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
@@ -269,6 +273,8 @@ public class MergeOp implements AutoCloseable {
     this.mergeValidatorsFactory = mergeValidatorsFactory;
     this.queryProvider = queryProvider;
     this.submitStrategyFactory = submitStrategyFactory;
+    this.submoduleCommitsFactory = submoduleCommitsFactory;
+    this.subscriptionGraphFactory = subscriptionGraphFactory;
     this.subOpFactory = subOpFactory;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
@@ -605,9 +611,13 @@ public class MergeOp implements AutoCloseable {
     commitStatus.maybeFailVerbose();
 
     try {
-      SubmoduleOp submoduleOp = subOpFactory.create(branches, orm);
-      List<SubmitStrategy> strategies = getSubmitStrategies(toSubmit, submoduleOp, dryrun);
-      this.allProjects = submoduleOp.getProjectsInOrder();
+      SubscriptionGraph subscriptionGraph = subscriptionGraphFactory.compute(branches, orm);
+      SubmoduleCommits submoduleCommits = submoduleCommitsFactory.create(orm);
+      UpdateOrderCalculator updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
+      List<SubmitStrategy> strategies =
+          getSubmitStrategies(
+              toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
+      this.allProjects = updateOrderCalculator.getProjectsInOrder();
       try {
         BatchUpdate.execute(
             orm.batchUpdates(allProjects),
@@ -658,12 +668,19 @@ public class MergeOp implements AutoCloseable {
   }
 
   private List<SubmitStrategy> getSubmitStrategies(
-      Map<BranchNameKey, BranchBatch> toSubmit, SubmoduleOp submoduleOp, boolean dryrun)
+      Map<BranchNameKey, BranchBatch> toSubmit,
+      UpdateOrderCalculator updateOrderCalculator,
+      SubmoduleCommits submoduleCommits,
+      SubscriptionGraph subscriptionGraph,
+      boolean dryrun)
       throws IntegrationConflictException, NoSuchProjectException, IOException {
     List<SubmitStrategy> strategies = new ArrayList<>();
-    Set<BranchNameKey> allBranches = submoduleOp.getBranchesInOrder();
+    Set<BranchNameKey> allBranches = updateOrderCalculator.getBranchesInOrder();
     Set<CodeReviewCommit> allCommits =
         toSubmit.values().stream().map(BranchBatch::commits).flatMap(Set::stream).collect(toSet());
+
+    GitlinkOp.Factory gitlinkOpFactory = new GitlinkOp.Factory(submoduleCommits, subscriptionGraph);
+
     for (BranchNameKey branch : allBranches) {
       OpenRepo or = orm.getRepo(branch.project());
       if (toSubmit.containsKey(branch)) {
@@ -688,19 +705,19 @@ public class MergeOp implements AutoCloseable {
                 commitStatus,
                 submissionId,
                 submitInput,
-                submoduleOp.getSubmoduleCommits(),
-                submoduleOp.getSubscriptionGraph(),
+                submoduleCommits,
+                subscriptionGraph,
                 dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
         if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
-            && submoduleOp.getSubscriptionGraph().hasSubscription(branch)) {
-          submoduleOp.addOp(or.getUpdate(), branch);
+            && subscriptionGraph.hasSubscription(branch)) {
+          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
         }
       } else {
         // no open change for this branch
         // add submodule triggered op into BatchUpdate
-        submoduleOp.addOp(or.getUpdate(), branch);
+        or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
       }
     }
     return strategies;

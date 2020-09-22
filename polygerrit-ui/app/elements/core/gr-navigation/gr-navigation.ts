@@ -23,7 +23,6 @@ import {
   GroupId,
   DashboardId,
   NumericChangeId,
-  LegacyChangeId,
   EditPatchSetNum,
   ChangeConfigInfo,
   CommitId,
@@ -240,7 +239,7 @@ export interface GenerateUrlSearchViewParameters {
 export interface GenerateUrlChangeViewParameters {
   view: GerritView.CHANGE;
   // TODO(TS): NumericChangeId - not sure about it, may be it can be removeds
-  changeNum: NumericChangeId | LegacyChangeId;
+  changeNum: NumericChangeId;
   project: RepoName;
   patchNum?: PatchSetNum;
   basePatchNum?: PatchSetNum;
@@ -279,7 +278,7 @@ export interface GenerateUrlGroupViewParameters {
 
 export interface GenerateUrlEditViewParameters {
   view: GerritView.EDIT;
-  changeNum: NumericChangeId | LegacyChangeId;
+  changeNum: NumericChangeId;
   project: RepoName;
   path: string;
   patchNum: PatchSetNum;
@@ -296,7 +295,7 @@ export interface GenerateUrlSettingsViewParameters {
 
 export interface GenerateUrlDiffViewParameters {
   view: GerritView.DIFF;
-  changeNum: NumericChangeId | LegacyChangeId;
+  changeNum: NumericChangeId;
   project: RepoName;
   path?: string;
   patchNum?: PatchSetNum | null;
@@ -673,7 +672,7 @@ export const GerritNav = {
   },
 
   getUrlForComment(
-    changeNum: NumericChangeId | LegacyChangeId,
+    changeNum: NumericChangeId,
     project: RepoName,
     commentId: UrlEncodedCommentId
   ) {
@@ -689,7 +688,7 @@ export const GerritNav = {
    * @param basePatchNum The string 'PARENT' can be used for none.
    */
   getUrlForDiffById(
-    changeNum: NumericChangeId | LegacyChangeId,
+    changeNum: NumericChangeId,
     project: RepoName,
     filePath: string,
     patchNum?: PatchSetNum,
@@ -735,7 +734,7 @@ export const GerritNav = {
    * @param lineNum The line number to pass to the inline editor.
    */
   getEditUrlForDiffById(
-    changeNum: NumericChangeId | LegacyChangeId,
+    changeNum: NumericChangeId,
     project: RepoName,
     filePath: string,
     patchNum?: PatchSetNum,

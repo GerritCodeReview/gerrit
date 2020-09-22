@@ -18,11 +18,15 @@
 import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
 import {AccountTag} from '../constants/constants';
 
-export function isServiceUser(account?: AccountInfo): boolean {
+interface HasTag {
+  tags?: AccountTag[];
+}
+
+export function isServiceUser<T extends HasTag>(account?: T): boolean {
   return !!account?.tags?.includes(AccountTag.SERVICE_USER);
 }
 
-export function removeServiceUsers(accounts?: AccountInfo[]): AccountInfo[] {
+export function removeServiceUsers<T extends HasTag>(accounts?: T[]): T[] {
   return accounts?.filter(a => !isServiceUser(a)) || [];
 }
 

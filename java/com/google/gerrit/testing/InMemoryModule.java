@@ -14,10 +14,6 @@
 
 package com.google.gerrit.testing;
 
-import static com.google.common.base.Preconditions.checkState;
-import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
-import static com.google.inject.Scopes.SINGLETON;
-
 import com.google.common.base.Strings;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.gerrit.acceptance.testsuite.project.ProjectOperations;
@@ -47,6 +43,7 @@ import com.google.gerrit.server.config.AllUsersName;
 import com.google.gerrit.server.config.AllUsersNameProvider;
 import com.google.gerrit.server.config.AnonymousCowardName;
 import com.google.gerrit.server.config.AnonymousCowardNameProvider;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.config.CanonicalWebUrlModule;
 import com.google.gerrit.server.config.CanonicalWebUrlProvider;
 import com.google.gerrit.server.config.DefaultUrlFormatter;
@@ -58,7 +55,6 @@ import com.google.gerrit.server.config.GerritRuntime;
 import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.GerritServerId;
 import com.google.gerrit.server.config.GerritServerIdProvider;
-import com.google.gerrit.server.config.SendEmailExecutor;
 import com.google.gerrit.server.config.SitePath;
 import com.google.gerrit.server.config.TrackingFooters;
 import com.google.gerrit.server.config.TrackingFootersProvider;
@@ -99,6 +95,9 @@ import com.google.inject.ProvisionException;
 import com.google.inject.Singleton;
 import com.google.inject.servlet.RequestScoped;
 import com.google.inject.util.Providers;
+import org.eclipse.jgit.lib.Config;
+import org.eclipse.jgit.lib.PersonIdent;
+
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.nio.file.Path;
@@ -106,8 +105,10 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
-import org.eclipse.jgit.lib.Config;
-import org.eclipse.jgit.lib.PersonIdent;
+
+import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
+import static com.google.inject.Scopes.SINGLETON;
 
 public class InMemoryModule extends FactoryModule {
   public static Config newDefaultConfig() {
@@ -279,8 +280,8 @@ public class InMemoryModule extends FactoryModule {
 
   @Provides
   @Singleton
-  @SendEmailExecutor
-  public ExecutorService createSendEmailExecutor() {
+  @AsyncPostUpdateExecutor
+  public ExecutorService createAsyncPostUpdateExecutor() {
     return newDirectExecutorService();
   }
 

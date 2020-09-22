@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.config;
 
-import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
-
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 import com.google.gerrit.server.CacheRefreshExecutor;
@@ -24,8 +22,11 @@ import com.google.gerrit.server.git.WorkQueue;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
-import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.Config;
+
+import java.util.concurrent.ExecutorService;
+
+import static com.google.common.util.concurrent.MoreExecutors.newDirectExecutorService;
 
 /**
  * Module providing different executors.
@@ -51,14 +52,20 @@ public class SysExecutorModule extends AbstractModule {
 
   @Provides
   @Singleton
-  @SendEmailExecutor
-  public ExecutorService provideSendEmailExecutor(
+  @AsyncPostUpdateExecutor
+  public ExecutorService provideAsyncPostUpdateExecutor(
       @GerritServerConfig Config config, WorkQueue queues) {
-    int poolSize = config.getInt("sendemail", null, "threadPoolSize", 1);
+    // sendemail.threadPoolSize is deprecated and overridden by asyncPostUpdate.threadPoolSize.
+    int poolSize =
+        config.getInt(
+            "asyncPostUpdate",
+            null,
+            "threadPoolSize",
+            config.getInt("sendemail", null, "threadPoolSize", 1));
     if (poolSize == 0) {
       return newDirectExecutorService();
     }
-    return queues.createQueue(poolSize, "SendEmail", true);
+    return queues.createQueue(poolSize, "AsyncPostUpdate", true);
   }
 
   @Provides

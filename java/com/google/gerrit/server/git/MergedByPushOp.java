@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.git;
 
-import static java.util.Objects.requireNonNull;
-
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.ChangeMessage;
@@ -25,7 +23,7 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -38,13 +36,16 @@ import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
-import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+
+import java.io.IOException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Future;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * Operation to close a change on push.
@@ -69,7 +70,7 @@ public class MergedByPushOp implements BatchUpdateOp {
   private final ChangeMessagesUtil cmUtil;
   private final MergedSender.Factory mergedSenderFactory;
   private final PatchSetUtil psUtil;
-  private final ExecutorService sendEmailExecutor;
+  private final ExecutorService asyncPostUpdateExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
 
@@ -90,7 +91,7 @@ public class MergedByPushOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       MergedSender.Factory mergedSenderFactory,
       PatchSetUtil psUtil,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
       @Assisted RequestScopePropagator requestScopePropagator,
@@ -102,7 +103,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.cmUtil = cmUtil;
     this.mergedSenderFactory = mergedSenderFactory;
     this.psUtil = psUtil;
-    this.sendEmailExecutor = sendEmailExecutor;
+    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
     this.requestScopePropagator = requestScopePropagator;
@@ -183,7 +184,7 @@ public class MergedByPushOp implements BatchUpdateOp {
     }
     @SuppressWarnings("unused") // Runnable already handles errors
     Future<?> possiblyIgnoredError =
-        sendEmailExecutor.submit(
+        asyncPostUpdateExecutor.submit(
             requestScopePropagator.wrap(
                 new Runnable() {
                   @Override

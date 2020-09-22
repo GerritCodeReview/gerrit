@@ -29,6 +29,7 @@ import {
   AccountInfo,
   DetailedLabelInfo,
   LabelNameToInfoMap,
+  LabelNameToValuesMap,
 } from '../../../types/common';
 import {
   GrLabelScoreRow,
@@ -38,7 +39,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
 type Labels = {[label: string]: number};
 @customElement('gr-label-scores')
-class GrLabelScores extends GestureEventListeners(
+export class GrLabelScores extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {
@@ -60,8 +61,8 @@ class GrLabelScores extends GestureEventListeners(
   @property({type: Object})
   _labelValues?: LabelValuesMap;
 
-  getLabelValues() {
-    const labels: Labels = {};
+  getLabelValues(): LabelNameToValuesMap {
+    const labels: LabelNameToValuesMap = {};
     if (this.shadowRoot === null || !this.change) {
       return labels;
     }

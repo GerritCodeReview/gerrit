@@ -55,7 +55,7 @@ public class CommentContextLoader {
   }
 
   @Inject
-  public CommentContextLoader(GitRepositoryManager repoManager, @Assisted Project.NameKey project) {
+  CommentContextLoader(GitRepositoryManager repoManager, @Assisted Project.NameKey project) {
     this.repoManager = repoManager;
     this.project = project;
     this.candidates = new HashMap<>();

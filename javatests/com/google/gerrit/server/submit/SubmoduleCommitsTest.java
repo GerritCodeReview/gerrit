@@ -18,7 +18,6 @@ import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
 import static com.google.common.truth.Truth8.assertThat;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import com.google.common.collect.ImmutableList;
@@ -53,8 +52,11 @@ import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
+import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
 public class SubmoduleCommitsTest {
 
@@ -67,8 +69,9 @@ public class SubmoduleCommitsTest {
   private InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
   private MergeOpRepoManager mergeOpRepoManager;
 
-  @Mock ProjectCache mockProjectCache = mock(ProjectCache.class);
-  @Mock ProjectState mockProjectState = mock(ProjectState.class);
+  @Rule public final MockitoRule mockito = MockitoJUnit.rule();
+  @Mock private ProjectCache mockProjectCache;
+  @Mock private ProjectState mockProjectState;
 
   @Test
   public void createGitlinksCommit_subprojectMoved() throws Exception {

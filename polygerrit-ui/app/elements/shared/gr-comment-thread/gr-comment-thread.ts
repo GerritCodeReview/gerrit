@@ -398,8 +398,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   _sortedComments(comments: Comment[]) {
     return comments.slice().sort((c1, c2) => {
-      const c1Date = c1.__date || parseDate(c1.updated);
-      const c2Date = c2.__date || parseDate(c2.updated);
+      // Comments are either drafts (then __date is set), or they are published.
+      // Then `updated` is set. So we can assert `updated` to be set here.
+      const c1Date = c1.__date || parseDate(c1.updated!);
+      const c2Date = c2.__date || parseDate(c2.updated!);
       const dateCompare = c1Date.getTime() - c2Date.getTime();
       // Ensure drafts are at the end. There should only be one but in edge
       // cases could be more. In the unlikely event two drafts are being

@@ -178,6 +178,7 @@ export class GrAccountLabel extends GestureEventListeners(
     return (
       this._isAttentionSetEnabled(config, highlight, account, change) &&
       change.attention_set &&
+      !!account._account_id &&
       hasOwnProperty(change.attention_set, account._account_id)
     );
   }
@@ -193,6 +194,7 @@ export class GrAccountLabel extends GestureEventListeners(
   _handleRemoveAttentionClick(e: MouseEvent) {
     e.preventDefault();
     e.stopPropagation();
+    if (!this.account._account_id) return;
 
     this.dispatchEvent(
       new CustomEvent('show-alert', {

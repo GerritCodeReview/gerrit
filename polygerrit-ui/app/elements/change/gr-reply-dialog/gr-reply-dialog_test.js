@@ -883,8 +883,8 @@ suite('gr-reply-dialog tests', () => {
     const removeStub = sinon.stub(element, '_removeAccount');
     const mock = function() {
       element._reviewersPendingRemove = {
-        test: [makeAccount()],
-        test2: [makeAccount(), makeAccount()],
+        CC: [makeAccount()],
+        REVIEWER: [makeAccount(), makeAccount()],
       };
     };
     const checkObjEmpty = function(obj) {
@@ -1031,7 +1031,7 @@ suite('gr-reply-dialog tests', () => {
         [reviewer1, reviewer3, reviewer2]);
   });
 
-  test('migrate reviewers between states', done => {
+  test('migrate reviewers between states', async () => {
     element._reviewersPendingRemove = {
       CC: [],
       REVIEWER: [],
@@ -1096,7 +1096,7 @@ suite('gr-reply-dialog tests', () => {
           composed: true, bubbles: true,
         }));
     const mapReviewer = function(reviewer, opt_state) {
-      const result = {reviewer: reviewer._account_id, confirmed: undefined};
+      const result = {reviewer: reviewer._account_id};
       if (opt_state) {
         result.state = opt_state;
       }
@@ -1104,20 +1104,15 @@ suite('gr-reply-dialog tests', () => {
     };
 
     // Send and purge and verify moves, delete cc3.
-    element.send()
+    await element.send()
         .then(keepReviewers =>
-          element._purgeReviewersPendingRemove(false, keepReviewers))
-        .then(() => {
-          assert.deepEqual(
-              mutations, [
-                mapReviewer(cc1),
-                mapReviewer(cc2),
-                mapReviewer(reviewer1, 'CC'),
-                mapReviewer(reviewer2, 'CC'),
-                {account: cc3, state: 'REMOVED'},
-              ]);
-          done();
-        });
+          element._purgeReviewersPendingRemove(false, keepReviewers));
+    expect(mutations).to.have.lengthOf(5);
+    expect(mutations[0]).to.deep.equal(mapReviewer(cc1));
+    expect(mutations[1]).to.deep.equal(mapReviewer(cc2));
+    expect(mutations[2]).to.deep.equal(mapReviewer(reviewer1, 'CC'));
+    expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2, 'CC'));
+    expect(mutations[4]).to.deep.equal({account: cc3, state: 'REMOVED'});
   });
 
   test('emits cancel on esc key', () => {

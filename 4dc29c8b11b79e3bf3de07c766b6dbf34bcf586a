@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6cde4906_3d69d9e9",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 70,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T09:24:20Z",
+      "side": 0,
+      "message": "Instead of removing the @Mock, the better fix would be to remove the \"\u003d mock(xxx.class)\" and to additionally add this line:\n\n  @Rule public final MockitoRule mockito \u003d MockitoJUnit.rule();\n\nWe should also have a \"private\" visibility scope for these fields.",
+      "range": {
+        "startLine": 70,
+        "startChar": 2,
+        "endLine": 70,
+        "endChar": 65
+      },
+      "revId": "4dc29c8b11b79e3bf3de07c766b6dbf34bcf586a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

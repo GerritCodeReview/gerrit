@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "58186ae2_ceb9eae1",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 871,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T09:40:03Z",
+      "side": 1,
+      "message": "Nit: It\u0027s better to use ImmutableSet#copyOf instead. Ideally, we would make the constructor take Set and do the conversion inside of the constructor.",
+      "range": {
+        "startLine": 871,
+        "startChar": 20,
+        "endLine": 871,
+        "endChar": 63
+      },
+      "revId": "aedb17b63d4704a02d2bc203ed721a5923de311d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -87,6 +87,24 @@
       "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "06db58f1_46684dc4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-09-22T20:29:29Z",
+      "side": 1,
+      "message": "Hmm, given that https://github.com/MichalStehlikCz/javapoet exists specifically with the message \"Forked from JavaPoet to gain compatibility with Java 11 / standard javac compiler; project seems hibernated\", I\u0027m not hopeful JavaPoet has (well tested) Java 11 support. Pretty low activity looking project.\n\nAny thoughts on what I should do with this change? I made this to fix Dave\u0027s old TODO and to provide a path for https://gerrit-review.googlesource.com/c/plugins/replication/+/281816",
+      "parentUuid": "f44a9c25_f1af29a6",
+      "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

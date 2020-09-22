@@ -14,6 +14,15 @@
 
 package com.google.gerrit.server.git.receive;
 
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
+
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
@@ -47,7 +56,6 @@ import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
-import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -62,15 +70,22 @@ import com.google.gerrit.server.permissions.PermissionBackendException;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
-import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Stream;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -78,26 +93,7 @@ import org.eclipse.jgit.revwalk.RevWalk;
 import org.eclipse.jgit.transport.PushCertificate;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
-import java.util.stream.Stream;
-
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
-import static org.eclipse.jgit.lib.Constants.R_HEADS;
-
-public class ReplaceOp implements BatchUpdateOp {
+public class ReplaceOp implements BatchUpdateOp, AsyncPostUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
@@ -124,7 +120,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final ExecutorService asyncPostUpdateExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -158,7 +153,6 @@ public class ReplaceOp implements BatchUpdateOp {
   private ChangeMessage msg;
   private String rejectMessage;
   private MergedByPushOp mergedByPushOp;
-  private RequestScopePropagator requestScopePropagator;
   private ReviewerAdditionList reviewerAdditions;
   private MailRecipients oldRecipients;
 
@@ -175,7 +169,6 @@ public class ReplaceOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
-      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       ReviewerAdder reviewerAdder,
       Change change,
       MessageIdGenerator messageIdGenerator,
@@ -203,7 +196,6 @@ public class ReplaceOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.projectCache = projectCache;
-    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.reviewerAdder = reviewerAdder;
     this.change = change;
     this.messageIdGenerator = messageIdGenerator;
@@ -240,11 +232,7 @@ public class ReplaceOp implements BatchUpdateOp {
       if (mergedInto != null) {
         mergedByPushOp =
             mergedByPushOpFactory.create(
-                requestScopePropagator,
-                patchSetId,
-                new SubmissionId(change),
-                mergedInto,
-                mergeResultRevId);
+                patchSetId, new SubmissionId(change), mergedInto, mergeResultRevId);
       }
     }
 
@@ -494,18 +482,8 @@ public class ReplaceOp implements BatchUpdateOp {
   }
 
   @Override
-  public void postUpdate(Context ctx) throws Exception {
+  public void postUpdate(Context ctx) {
     reviewerAdditions.postUpdate(ctx);
-    if (changeKind != ChangeKind.TRIVIAL_REBASE) {
-      // TODO(dborowitz): Merge email templates so we only have to send one.
-      Runnable e = new ReplaceEmailTask(ctx);
-      if (requestScopePropagator != null) {
-        @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = asyncPostUpdateExecutor.submit(requestScopePropagator.wrap(e));
-      } else {
-        e.run();
-      }
-    }
     NotifyResolver.Result notify = ctx.getNotify(notes.getChangeId());
     revisionCreated.fire(notes.getChange(), newPatchSet, ctx.getAccount(), ctx.getWhen(), notify);
     try {
@@ -518,15 +496,11 @@ public class ReplaceOp implements BatchUpdateOp {
     }
   }
 
-  private class ReplaceEmailTask implements Runnable {
-    private final Context ctx;
-
-    private ReplaceEmailTask(Context ctx) {
-      this.ctx = ctx;
-    }
-
-    @Override
-    public void run() {
+  @Override
+  public void asyncPostUpdate(Context ctx) {
+    reviewerAdditions.asyncPostUpdate(ctx);
+    if (changeKind != ChangeKind.TRIVIAL_REBASE) {
+      // TODO(dborowitz): Merge email templates so we only have to send one.
       try {
         ReplacePatchSetSender emailSender =
             replacePatchSetFactory.create(projectState.getNameKey(), notes.getChangeId());
@@ -554,10 +528,8 @@ public class ReplaceOp implements BatchUpdateOp {
             "Cannot send email for new patch set %s", newPatchSet.id());
       }
     }
-
-    @Override
-    public String toString() {
-      return "send-email newpatchset";
+    if (mergedByPushOp != null) {
+      mergedByPushOp.asyncPostUpdate(ctx);
     }
   }
 
@@ -612,11 +584,6 @@ public class ReplaceOp implements BatchUpdateOp {
 
   public ReceiveCommand getCommand() {
     return cmd;
-  }
-
-  public ReplaceOp setRequestScopePropagator(RequestScopePropagator requestScopePropagator) {
-    this.requestScopePropagator = requestScopePropagator;
-    return this;
   }
 
   private static String findMergedInto(Context ctx, String first, RevCommit commit) {

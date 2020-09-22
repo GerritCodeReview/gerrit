@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b1444e84_12d956ca",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4571,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "Below at line 4584, there is no space between the corresponding two words.",
+      "range": {
+        "startLine": 4571,
+        "startChar": 48,
+        "endLine": 4571,
+        "endChar": 58
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "359c73af_8ac70bfb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4582,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "blocklist?",
+      "range": {
+        "startLine": 4582,
+        "startChar": 45,
+        "endLine": 4582,
+        "endChar": 53
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d901056d_3a6a887f",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 3
+      },
+      "lineNbr": 4584,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "Same.",
+      "range": {
+        "startLine": 4584,
+        "startChar": 48,
+        "endLine": 4584,
+        "endChar": 56
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db0f9e68_235befcb",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "Considering my other comments below, this comment could become method java-doc instead.",
+      "range": {
+        "startLine": 62,
+        "startChar": 8,
+        "endLine": 62,
+        "endChar": 78
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b14a7752_ccc7dfc6",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "Move this below line 59 above?",
+      "range": {
+        "startLine": 63,
+        "startChar": 6,
+        "endLine": 63,
+        "endChar": 23
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "86e415c7_64ac234c",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "Would also move this line, to below line 56.",
+      "range": {
+        "startLine": 66,
+        "startChar": 6,
+        "endLine": 66,
+        "endChar": 23
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5dd5eadb_e5d4e053",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-22T19:35:49Z",
+      "side": 1,
+      "message": "Unnecessary I think.",
+      "range": {
+        "startLine": 71,
+        "startChar": 8,
+        "endLine": 71,
+        "endChar": 14
+      },
+      "revId": "dc619ad3592b223333ee0e515d8b44c71e4d3633",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

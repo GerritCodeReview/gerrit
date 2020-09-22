@@ -255,7 +255,9 @@ class GrChangeListItem extends ChangeTableMixin(
   }
 
   _hasAttention(account: AccountInfo) {
-    if (!this.change || !this.change.attention_set) return false;
+    if (!this.change || !this.change.attention_set || !account._account_id) {
+      return false;
+    }
     return hasOwnProperty(this.change.attention_set, account._account_id);
   }
 

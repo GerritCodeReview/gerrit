@@ -114,20 +114,28 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   get hasAttention() {
-    if (!this.isAttentionSetEnabled || !this.change?.attention_set)
+    if (
+      !this.isAttentionSetEnabled ||
+      !this.change?.attention_set ||
+      !this.account._account_id
+    )
       return false;
     return hasOwnProperty(this.change.attention_set, this.account._account_id);
   }
 
   _computeReason(change?: ChangeInfo) {
-    if (!change || !change.attention_set) return '';
+    if (!change || !change.attention_set || !this.account._account_id) {
+      return '';
+    }
     const entry = change.attention_set[this.account._account_id];
     if (!entry || !entry.reason) return '';
     return entry.reason;
   }
 
   _computeLastUpdate(change?: ChangeInfo) {
-    if (!change || !change.attention_set) return '';
+    if (!change || !change.attention_set || !this.account._account_id) {
+      return '';
+    }
     const entry = change.attention_set[this.account._account_id];
     if (!entry || !entry.last_update) return '';
     return entry.last_update;
@@ -146,7 +154,7 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   _handleClickAddToAttentionSet() {
-    if (!this.change) return;
+    if (!this.change || !this.account._account_id) return;
     this.dispatchEvent(
       new CustomEvent('show-alert', {
         detail: {
@@ -182,7 +190,7 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   _handleClickRemoveFromAttentionSet() {
-    if (!this.change) return;
+    if (!this.change || !this.account._account_id) return;
     this.dispatchEvent(
       new CustomEvent('show-alert', {
         detail: {

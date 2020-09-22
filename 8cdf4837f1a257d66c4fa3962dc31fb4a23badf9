@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "d8ad60bd_9950f2b9",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4430,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-22T20:52:21Z",
+      "side": 1,
+      "message": "Sven said `In this instance there\u0027s no need for a \"list\" postfix` on the bug - I was just agreeing with that :-) I think it\u0027s a matter of taste.\nDo you a strong opinion here?",
+      "parentUuid": "9a8c01c4_1b86d17a",
+      "range": {
+        "startLine": 4430,
+        "startChar": 4,
+        "endLine": 4430,
+        "endChar": 9
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "202f17b4_98920f63",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "e1f37f31_91f081cb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4434,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-22T20:52:21Z",
+      "side": 1,
+      "message": "same as above, resolving to track in the other comment.",
+      "parentUuid": "202f17b4_98920f63",
+      "range": {
+        "startLine": 4434,
+        "startChar": 4,
+        "endLine": 4434,
+        "endChar": 9
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "33608c93_75dfecfa",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -59,6 +107,24 @@
       "writtenOn": "2020-09-22T20:39:37Z",
       "side": 1,
       "message": "Optional: should we mention that the WHITELIST and BLACKLIST terms are still supported but deprecated and they will be removed in the next version?",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fa34fb0c_1cf4d7fd",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4436,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-22T20:52:21Z",
+      "side": 1,
+      "message": "I was wondering about that, and would normally agree when renaming in such way. I then went with not mentioning them since the point is to get rid of those terms at least in public domain. I think it\u0027s fine; even if someone reads the documentation they can probably connect the dots, right?\n\nI was also thinking to say \"other deprecated terms are still accepted\" without mentioning which terms. Do you think that would be better?",
+      "parentUuid": "33608c93_75dfecfa",
       "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

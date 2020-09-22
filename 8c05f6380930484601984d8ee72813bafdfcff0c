@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0d920163_639ec9d5",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T07:50:42Z",
+      "side": 1,
+      "message": "Typo: Duplicate {@link.\n\nLet\u0027s fix this in a follow-up change so that we can already submit most of this series.",
+      "range": {
+        "startLine": 26,
+        "startChar": 17,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "8c05f6380930484601984d8ee72813bafdfcff0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

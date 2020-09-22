@@ -22,7 +22,7 @@ import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.change.NotifyResolver;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.update.RepoView;
@@ -31,6 +31,7 @@ import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.OutOfScopeException;
 import com.google.inject.assistedinject.Assisted;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -46,7 +47,7 @@ class EmailMerge implements Runnable, RequestContext {
         RepoView repoView);
   }
 
-  private final ExecutorService sendEmailsExecutor;
+  private final ExecutorService asyncPostExecutorService;
   private final MergedSender.Factory mergedSenderFactory;
   private final ThreadLocalRequestContext requestContext;
   private final IdentifiedUser.GenericFactory identifiedUserFactory;
@@ -60,7 +61,7 @@ class EmailMerge implements Runnable, RequestContext {
 
   @Inject
   EmailMerge(
-      @SendEmailExecutor ExecutorService executor,
+      @AsyncPostUpdateExecutor ExecutorService executor,
       MergedSender.Factory mergedSenderFactory,
       ThreadLocalRequestContext requestContext,
       IdentifiedUser.GenericFactory identifiedUserFactory,
@@ -70,7 +71,7 @@ class EmailMerge implements Runnable, RequestContext {
       @Assisted @Nullable Account.Id submitter,
       @Assisted NotifyResolver.Result notify,
       @Assisted RepoView repoView) {
-    this.sendEmailsExecutor = executor;
+    this.asyncPostExecutorService = executor;
     this.mergedSenderFactory = mergedSenderFactory;
     this.requestContext = requestContext;
     this.identifiedUserFactory = identifiedUserFactory;
@@ -84,7 +85,7 @@ class EmailMerge implements Runnable, RequestContext {
 
   void sendAsync() {
     @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+    Future<?> possiblyIgnoredError = asyncPostExecutorService.submit(this);
   }
 
   @Override

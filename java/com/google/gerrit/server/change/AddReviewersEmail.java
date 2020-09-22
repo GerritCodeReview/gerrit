@@ -14,8 +14,6 @@
 
 package com.google.gerrit.server.change;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Account;
@@ -23,30 +21,33 @@ import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.mail.send.AddReviewerSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
+
 import java.util.Collection;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
 
 @Singleton
 public class AddReviewersEmail {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final AddReviewerSender.Factory addReviewerSenderFactory;
-  private final ExecutorService sendEmailsExecutor;
+  private final ExecutorService asyncPostUpdateExecutor;
   private final MessageIdGenerator messageIdGenerator;
 
   @Inject
   AddReviewersEmail(
       AddReviewerSender.Factory addReviewerSenderFactory,
-      @SendEmailExecutor ExecutorService sendEmailsExecutor,
+      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       MessageIdGenerator messageIdGenerator) {
     this.addReviewerSenderFactory = addReviewerSenderFactory;
-    this.sendEmailsExecutor = sendEmailsExecutor;
+    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.messageIdGenerator = messageIdGenerator;
   }
 
@@ -80,7 +81,7 @@ public class AddReviewersEmail {
 
     @SuppressWarnings("unused")
     Future<?> possiblyIgnoredError =
-        sendEmailsExecutor.submit(
+        asyncPostUpdateExecutor.submit(
             () -> {
               try {
                 AddReviewerSender emailSender =

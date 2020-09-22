@@ -14,15 +14,6 @@
 
 package com.google.gerrit.server.git.receive;
 
-import static com.google.common.collect.ImmutableList.toImmutableList;
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
-import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
-import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
-import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
-import static com.google.gerrit.server.project.ProjectCache.illegalState;
-import static org.eclipse.jgit.lib.Constants.R_HEADS;
-
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Streams;
@@ -56,7 +47,7 @@ import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -80,6 +71,13 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import com.google.inject.util.Providers;
+import org.eclipse.jgit.errors.ConfigInvalidException;
+import org.eclipse.jgit.lib.ObjectId;
+import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.revwalk.RevWalk;
+import org.eclipse.jgit.transport.PushCertificate;
+import org.eclipse.jgit.transport.ReceiveCommand;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -89,12 +87,15 @@ import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 import java.util.stream.Stream;
-import org.eclipse.jgit.errors.ConfigInvalidException;
-import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.revwalk.RevCommit;
-import org.eclipse.jgit.revwalk.RevWalk;
-import org.eclipse.jgit.transport.PushCertificate;
-import org.eclipse.jgit.transport.ReceiveCommand;
+
+import static com.google.common.collect.ImmutableList.toImmutableList;
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.change.ReviewerAdder.newAddReviewerInputFromCommitIdentity;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromFooters;
+import static com.google.gerrit.server.mail.MailUtil.getRecipientsFromReviewers;
+import static com.google.gerrit.server.notedb.ReviewerStateInternal.REVIEWER;
+import static com.google.gerrit.server.project.ProjectCache.illegalState;
+import static org.eclipse.jgit.lib.Constants.R_HEADS;
 
 public class ReplaceOp implements BatchUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
@@ -123,7 +124,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final ExecutorService sendEmailExecutor;
+  private final ExecutorService asyncPostUpdateExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -174,7 +175,7 @@ public class ReplaceOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       ReviewerAdder reviewerAdder,
       Change change,
       MessageIdGenerator messageIdGenerator,
@@ -202,7 +203,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.projectCache = projectCache;
-    this.sendEmailExecutor = sendEmailExecutor;
+    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.reviewerAdder = reviewerAdder;
     this.change = change;
     this.messageIdGenerator = messageIdGenerator;
@@ -500,7 +501,7 @@ public class ReplaceOp implements BatchUpdateOp {
       Runnable e = new ReplaceEmailTask(ctx);
       if (requestScopePropagator != null) {
         @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
+        Future<?> possiblyIgnoredError = asyncPostUpdateExecutor.submit(requestScopePropagator.wrap(e));
       } else {
         e.run();
       }

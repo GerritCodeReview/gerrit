@@ -15,39 +15,66 @@
  * limitations under the License.
  */
 
-import '../../../styles/gr-change-list-styles.js';
-import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-change-list-item/gr-change-list-item.js';
-import '../../../styles/shared-styles.js';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-list_html.js';
-import {appContext} from '../../../services/app-context.js';
-import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin.js';
-import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {changeIsOpen} from '../../../utils/change-util.js';
+import '../../../styles/gr-change-list-styles';
+import '../../shared/gr-cursor-manager/gr-cursor-manager';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-change-list-item/gr-change-list-item';
+import '../../../styles/shared-styles';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-list_html';
+import {appContext} from '../../../services/app-context';
+import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-table-mixin';
+import {
+  KeyboardShortcutMixin,
+  Shortcut,
+  CustomKeyboardEvent,
+  Modifier,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {
+  GerritNav,
+  DashboardSection,
+} from '../../core/gr-navigation/gr-navigation';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {changeIsOpen} from '../../../utils/change-util';
+import {customElement, property, observe} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {
+  AccountInfo,
+  ChangeInfo,
+  ServerInfo,
+  PreferencesInput,
+} from '../../../types/common';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
 const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
-/**
- * @extends PolymerElement
- */
-class GrChangeList extends ChangeTableMixin(
-    KeyboardShortcutMixin(GestureEventListeners(
-        LegacyElementMixin(PolymerElement)))) {
-  static get template() { return htmlTemplate; }
+export interface ChangeListSection {
+  results: ChangeInfo[];
+}
+export interface GrChangeList {
+  $: {
+    restAPI: RestApiService & Element;
+    cursor: GrCursorManager;
+  };
+}
+@customElement('gr-change-list')
+export class GrChangeList extends ChangeTableMixin(
+  KeyboardShortcutMixin(
+    GestureEventListeners(LegacyElementMixin(PolymerElement))
+  )
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-change-list'; }
   /**
    * Fired when next page key shortcut was pressed.
    *
@@ -60,75 +87,49 @@ class GrChangeList extends ChangeTableMixin(
    * @event previous-page
    */
 
-  static get properties() {
-    return {
-    /**
-     * The logged-in user's account, or an empty object if no user is logged
-     * in.
-     */
-      account: {
-        type: Object,
-        value: null,
-      },
-      /**
-       * An array of ChangeInfo objects to render.
-       * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#change-info
-       */
-      changes: {
-        type: Array,
-        observer: '_changesChanged',
-      },
-      /**
-       * ChangeInfo objects grouped into arrays. The sections and changes
-       * properties should not be used together.
-       *
-       * @type {!Array<{
-       *   name: string,
-       *   query: string,
-       *   results: !Array<!Object>
-       * }>}
-       */
-      sections: {
-        type: Array,
-        value() { return []; },
-      },
-      labelNames: {
-        type: Array,
-        computed: '_computeLabelNames(sections)',
-      },
-      _dynamicHeaderEndpoints: {
-        type: Array,
-      },
-      selectedIndex: {
-        type: Number,
-        notify: true,
-      },
-      showNumber: Boolean, // No default value to prevent flickering.
-      showStar: {
-        type: Boolean,
-        value: false,
-      },
-      showReviewedState: {
-        type: Boolean,
-        value: false,
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      changeTableColumns: Array,
-      visibleChangeTableColumns: Array,
-      preferences: Object,
-      _config: Object,
-    };
-  }
+  @property({type: Object})
+  account: AccountInfo | undefined = undefined;
 
-  static get observers() {
-    return [
-      '_sectionsChanged(sections.*)',
-      '_computePreferences(account, preferences, _config)',
-    ];
-  }
+  @property({type: Array, observer: '_changesChanged'})
+  changes?: ChangeInfo[];
+
+  @property({type: Array})
+  sections: ChangeListSection[] = [];
+
+  @property({type: Array, computed: '_computeLabelNames(sections)'})
+  labelNames?: string[];
+
+  @property({type: Array})
+  _dynamicHeaderEndpoints?: string[];
+
+  @property({type: Number, notify: true})
+  selectedIndex?: number;
+
+  @property({type: Boolean})
+  showNumber?: boolean;
+
+  @property({type: Boolean})
+  showStar = false;
+
+  @property({type: Boolean})
+  showReviewedState = false;
+
+  @property({type: Object})
+  keyEventTarget: HTMLElement = document.body;
+
+  @property({type: Array})
+  changeTableColumns?: string[];
+
+  @property({type: Array})
+  visibleChangeTableColumns?: string[];
+
+  @property({type: Object})
+  preferences?: PreferencesInput;
+
+  @property({type: Object})
+  _config?: ServerInfo;
+
+  flagsService = appContext.flagsService;
 
   keyboardShortcuts() {
     return {
@@ -143,16 +144,10 @@ class GrChangeList extends ChangeTableMixin(
     };
   }
 
-  constructor() {
-    super();
-    this.flagsService = appContext.flagsService;
-  }
-
   /** @override */
   created() {
     super.created();
-    this.addEventListener('keydown',
-        e => this._scopedKeydownHandler(e));
+    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
   }
 
   /** @override */
@@ -166,11 +161,13 @@ class GrChangeList extends ChangeTableMixin(
   /** @override */
   attached() {
     super.attached();
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => {
-          this._dynamicHeaderEndpoints = getPluginEndpoints().
-              getDynamicEndpoints('change-list-header');
-        });
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this._dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-list-header'
+        );
+      });
   }
 
   /**
@@ -180,56 +177,71 @@ class GrChangeList extends ChangeTableMixin(
    *
    * Context: Issue 7294
    */
-  _scopedKeydownHandler(e) {
+  _scopedKeydownHandler(e: KeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter.
-      this._openChange(e);
+      this._openChange((e as unknown) as CustomKeyboardEvent);
     }
   }
 
-  _lowerCase(column) {
+  _lowerCase(column: string) {
     return column.toLowerCase();
   }
 
-  _computePreferences(account, preferences, config) {
-    // Polymer 2: check for undefined
-    if ([account, preferences, config].includes(undefined)) {
+  @observe('account', 'preferences', '_config')
+  _computePreferences(
+    account?: AccountInfo,
+    preferences?: PreferencesInput,
+    config?: ServerInfo
+  ) {
+    if (!account || !preferences || !config) {
       return;
     }
 
     this.changeTableColumns = this.columnNames;
     this.showNumber = false;
-    this.visibleChangeTableColumns = this.getEnabledColumns(this.columnNames,
-        config, this.flagsService.enabledExperiments);
+    this.visibleChangeTableColumns = this.getEnabledColumns(
+      this.columnNames,
+      config,
+      this.flagsService.enabledExperiments
+    );
 
     if (account) {
-      this.showNumber = !!(preferences &&
-          preferences.legacycid_in_change_table);
-      if (preferences.change_table &&
-          preferences.change_table.length > 0) {
+      this.showNumber = !!(
+        preferences && preferences.legacycid_in_change_table
+      );
+      if (preferences.change_table && preferences.change_table.length > 0) {
         const prefColumns = this.getVisibleColumns(preferences.change_table);
-        this.visibleChangeTableColumns = this.getEnabledColumns(prefColumns,
-            config, this.flagsService.enabledExperiments);
+        this.visibleChangeTableColumns = this.getEnabledColumns(
+          prefColumns,
+          config,
+          this.flagsService.enabledExperiments
+        );
       }
     }
   }
 
-  _computeColspan(changeTableColumns, labelNames) {
+  _computeColspan(changeTableColumns: string[], labelNames: string[]) {
     if (!changeTableColumns || !labelNames) return;
-    return changeTableColumns.length + labelNames.length +
-        NUMBER_FIXED_COLUMNS;
+    return changeTableColumns.length + labelNames.length + NUMBER_FIXED_COLUMNS;
   }
 
-  _computeLabelNames(sections) {
-    if (!sections) { return []; }
-    let labels = [];
-    const nonExistingLabel = function(item) {
+  _computeLabelNames(sections: ChangeListSection[]) {
+    if (!sections) {
+      return [];
+    }
+    let labels: string[] = [];
+    const nonExistingLabel = function (item: string) {
       return !labels.includes(item);
     };
     for (const section of sections) {
-      if (!section.results) { continue; }
+      if (!section.results) {
+        continue;
+      }
       for (const change of section.results) {
-        if (!change.labels) { continue; }
+        if (!change.labels) {
+          continue;
+        }
         const currentLabels = Object.keys(change.labels);
         labels = labels.concat(currentLabels.filter(nonExistingLabel));
       }
@@ -237,31 +249,36 @@ class GrChangeList extends ChangeTableMixin(
     return labels.sort();
   }
 
-  _computeLabelShortcut(labelName) {
+  _computeLabelShortcut(labelName: string) {
     if (labelName.startsWith(LABEL_PREFIX_INVALID_PROLOG)) {
       labelName = labelName.slice(LABEL_PREFIX_INVALID_PROLOG.length);
     }
-    return labelName.split('-')
-        .reduce((a, i) => {
-          if (!i) { return a; }
-          return a + i[0].toUpperCase();
-        }, '')
-        .slice(0, MAX_SHORTCUT_CHARS);
+    return labelName
+      .split('-')
+      .reduce((a, i) => {
+        if (!i) {
+          return a;
+        }
+        return a + i[0].toUpperCase();
+      }, '')
+      .slice(0, MAX_SHORTCUT_CHARS);
   }
 
-  _changesChanged(changes) {
+  _changesChanged(changes: ChangeInfo[]) {
     this.sections = changes ? [{results: changes}] : [];
   }
 
-  _processQuery(query) {
+  _processQuery(query: string) {
     let tokens = query.split(' ');
     const invalidTokens = ['limit:', 'age:', '-age:'];
-    tokens = tokens.filter(token => !invalidTokens
-        .some(invalidToken => token.startsWith(invalidToken)));
+    tokens = tokens.filter(
+      token =>
+        !invalidTokens.some(invalidToken => token.startsWith(invalidToken))
+    );
     return tokens.join(' ');
   }
 
-  _sectionHref(query) {
+  _sectionHref(query: string) {
     return GerritNav.getUrlForSearchQuery(this._processQuery(query));
   }
 
@@ -269,11 +286,11 @@ class GrChangeList extends ChangeTableMixin(
    * Maps an index local to a particular section to the absolute index
    * across all the changes on the page.
    *
-   * @param {number} sectionIndex index of section
-   * @param {number} localIndex index of row within section
-   * @return {number} absolute index of row in the aggregate dashboard
+   * @param sectionIndex index of section
+   * @param localIndex index of row within section
+   * @return absolute index of row in the aggregate dashboard
    */
-  _computeItemAbsoluteIndex(sectionIndex, localIndex) {
+  _computeItemAbsoluteIndex(sectionIndex: number, localIndex: number) {
     let idx = 0;
     for (let i = 0; i < sectionIndex; i++) {
       idx += this.sections[i].results.length;
@@ -281,94 +298,128 @@ class GrChangeList extends ChangeTableMixin(
     return idx + localIndex;
   }
 
-  _computeItemSelected(sectionIndex, index, selectedIndex) {
+  _computeItemSelected(
+    sectionIndex: number,
+    index: number,
+    selectedIndex: number
+  ) {
     const idx = this._computeItemAbsoluteIndex(sectionIndex, index);
-    return idx == selectedIndex;
+    return idx === selectedIndex;
   }
 
-  _computeTabIndex(sectionIndex, index, selectedIndex) {
+  _computeTabIndex(sectionIndex: number, index: number, selectedIndex: number) {
     return this._computeItemSelected(sectionIndex, index, selectedIndex)
-      ? 0 : undefined;
+      ? 0
+      : undefined;
   }
 
-  _computeItemNeedsReview(account, change, showReviewedState, config) {
+  _computeItemNeedsReview(
+    account: AccountInfo | undefined,
+    change: ChangeInfo,
+    showReviewedState: boolean,
+    config?: ServerInfo
+  ) {
     const isAttentionSetEnabled =
-        !!config && !!config.change && config.change.enable_attention_set;
-    return !isAttentionSetEnabled && showReviewedState && !change.reviewed &&
-        !change.work_in_progress &&
-        changeIsOpen(change) &&
-        (!account || account._account_id != change.owner._account_id);
+      !!config && !!config.change && config.change.enable_attention_set;
+    return (
+      !isAttentionSetEnabled &&
+      showReviewedState &&
+      !change.reviewed &&
+      !change.work_in_progress &&
+      changeIsOpen(change) &&
+      (!account || account._account_id !== change.owner._account_id)
+    );
   }
 
-  _computeItemHighlight(account, change) {
+  _computeItemHighlight(account?: AccountInfo, change?: ChangeInfo) {
     // Do not show the assignee highlight if the change is not open.
-    if (!change ||!change.assignee ||
-        !account ||
-        CLOSED_STATUS.indexOf(change.status) !== -1) {
+    if (
+      !change ||
+      !change.assignee ||
+      !account ||
+      CLOSED_STATUS.indexOf(change.status) !== -1
+    ) {
       return false;
     }
     return account._account_id === change.assignee._account_id;
   }
 
-  _nextChange(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _nextChange(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this.$.cursor.next();
   }
 
-  _prevChange(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _prevChange(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this.$.cursor.previous();
   }
 
-  _openChange(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
-
-    e.preventDefault();
-    GerritNav.navigateToChange(this._changeForIndex(this.selectedIndex));
-  }
-
-  _nextPage(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+  _openChange(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
       return;
     }
 
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('next-page', {
-      composed: true, bubbles: true,
-    }));
+    const change = this._changeForIndex(this.selectedIndex);
+    if (change) GerritNav.navigateToChange(change);
   }
 
-  _prevPage(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) {
+  _nextPage(e: CustomKeyboardEvent) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      (this.modifierPressed(e) &&
+        !this.isModifierPressed(e, Modifier.SHIFT_KEY))
+    ) {
       return;
     }
 
     e.preventDefault();
-    this.dispatchEvent(new CustomEvent('previous-page', {
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('next-page', {
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
-  _toggleChangeReviewed(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _prevPage(e: CustomKeyboardEvent) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      (this.modifierPressed(e) &&
+        !this.isModifierPressed(e, Modifier.SHIFT_KEY))
+    ) {
+      return;
+    }
+
+    e.preventDefault();
+    this.dispatchEvent(
+      new CustomEvent('previous-page', {
+        composed: true,
+        bubbles: true,
+      })
+    );
+  }
+
+  _toggleChangeReviewed(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._toggleReviewedForIndex(this.selectedIndex);
   }
 
-  _toggleReviewedForIndex(index) {
+  _toggleReviewedForIndex(index?: number) {
     const changeEls = this._getListItems();
-    if (index >= changeEls.length || !changeEls[index]) {
+    if (index === undefined || index >= changeEls.length || !changeEls[index]) {
       return;
     }
 
@@ -376,8 +427,10 @@ class GrChangeList extends ChangeTableMixin(
     changeEl.toggleReviewed();
   }
 
-  _refreshChangeList(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+  _refreshChangeList(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._reloadWindow();
@@ -387,38 +440,40 @@ class GrChangeList extends ChangeTableMixin(
     window.location.reload();
   }
 
-  _toggleChangeStar(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _toggleChangeStar(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._toggleStarForIndex(this.selectedIndex);
   }
 
-  _toggleStarForIndex(index) {
+  _toggleStarForIndex(index?: number) {
     const changeEls = this._getListItems();
-    if (index >= changeEls.length || !changeEls[index]) {
+    if (index === undefined || index >= changeEls.length || !changeEls[index]) {
       return;
     }
 
     const changeEl = changeEls[index];
-    changeEl.shadowRoot
-        .querySelector('gr-change-star').toggleStar();
+    const grChangeStar = changeEl?.shadowRoot?.querySelector('gr-change-star');
+    if (grChangeStar) grChangeStar.toggleStar();
   }
 
-  _changeForIndex(index) {
+  _changeForIndex(index?: number) {
     const changeEls = this._getListItems();
-    if (index < changeEls.length && changeEls[index]) {
+    if (index !== undefined && index < changeEls.length && changeEls[index]) {
       return changeEls[index].change;
     }
     return null;
   }
 
   _getListItems() {
-    return Array.from(
-        this.root.querySelectorAll('gr-change-list-item'));
+    const items = this.root?.querySelectorAll('gr-change-list-item');
+    return !items ? [] : Array.from(items);
   }
 
+  @observe('sections.*')
   _sectionsChanged() {
     // Flush DOM operations so that the list item elements will be loaded.
     afterNextRender(this, () => {
@@ -427,15 +482,19 @@ class GrChangeList extends ChangeTableMixin(
     });
   }
 
-  _getSpecialEmptySlot(section) {
+  _getSpecialEmptySlot(section: DashboardSection) {
     if (section.isOutgoing) return 'empty-outgoing';
     if (section.name === 'Your Turn') return 'empty-your-turn';
     return '';
   }
 
-  _isEmpty(section) {
-    return !section.results.length;
+  _isEmpty(section: DashboardSection) {
+    return !section.results?.length;
   }
 }
 
-customElements.define(GrChangeList.is, GrChangeList);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-list': GrChangeList;
+  }
+}

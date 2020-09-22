@@ -133,6 +133,7 @@ export interface DashboardSection {
   hideIfEmpty?: boolean;
   assigneeOnly?: boolean;
   isOutgoing?: boolean;
+  results?: ChangeInfo[];
 }
 
 export interface UserDashboardConfig {

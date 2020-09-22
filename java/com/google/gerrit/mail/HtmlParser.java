@@ -35,7 +35,7 @@ public class HtmlParser {
           "gmail_quote" // Used for quoting original content
           );
 
-  private static final ImmutableSet<String> WHITELISTED_HTML_TAGS =
+  private static final ImmutableSet<String> ALLOWED_HTML_TAGS =
       ImmutableSet.of(
           "div", // Most user-typed comments are contained in a <div> tag
           "a", // We allow links to be contained in a comment
@@ -120,7 +120,7 @@ public class HtmlParser {
         // There is no user-input in quoted text
         continue;
       }
-      if (!WHITELISTED_HTML_TAGS.contains(elementName)) {
+      if (!ALLOWED_HTML_TAGS.contains(elementName)) {
         // We only accept a set of whitelisted tags that can contain user input
         continue;
       }

@@ -31,8 +31,8 @@ public class ListMailFilter implements MailFilter {
 
   public enum ListFilterMode {
     OFF,
-    WHITELIST,
-    BLACKLIST
+    ALLOW,
+    BLOCK
   }
 
   private final ListFilterMode mode;
@@ -53,8 +53,7 @@ public class ListMailFilter implements MailFilter {
     }
 
     boolean match = mailPattern.matcher(message.from().email()).find();
-    if ((mode == ListFilterMode.WHITELIST && !match)
-        || (mode == ListFilterMode.BLACKLIST && match)) {
+    if ((mode == ListFilterMode.ALLOW && !match) || (mode == ListFilterMode.BLOCK && match)) {
       logger.atInfo().log("Mail message from %s rejected by list filter", message.from());
       return false;
     }

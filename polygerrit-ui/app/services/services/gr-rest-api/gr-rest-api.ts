@@ -675,4 +675,8 @@ export interface RestApiService {
     path: string,
     contents: string
   ): Promise<Response>;
+
+  hasPendingDiffDrafts(): number;
+
+  awaitPendingDiffDrafts(): Promise<void>;
 }

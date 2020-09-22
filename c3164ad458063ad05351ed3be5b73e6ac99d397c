@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6bd09bb1_75a13e85",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-22T19:23:25Z",
+      "side": 0,
+      "message": "This feature is definitely gone? We should work on bringing it back!\n\nIf you remove this, then do you also have to remove a css rule?\n\nSame below.",
+      "revId": "c3164ad458063ad05351ed3be5b73e6ac99d397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

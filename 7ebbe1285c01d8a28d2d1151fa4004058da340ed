@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "fbd98892_76fd190e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T09:24:20Z",
+      "side": 1,
+      "message": "Thanks for the fixes!",
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "231cd640_a131674e",
         "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
         "patchSetId": 1
@@ -49,6 +66,30 @@
     },
     {
       "key": {
+        "uuid": "69df79ab_4a6b959b",
+        "filename": "java/com/google/gerrit/server/submit/ConfiguredSubscriptionGraphFactory.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T09:24:20Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "231cd640_a131674e",
+      "range": {
+        "startLine": 26,
+        "startChar": 10,
+        "endLine": 26,
+        "endChar": 23
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "13f8fd05_1004f151",
         "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
         "patchSetId": 1
@@ -93,6 +134,29 @@
       "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "4bf191cd_5ecb7e67",
+        "filename": "javatests/com/google/gerrit/server/submit/SubmoduleCommitsTest.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-22T09:24:20Z",
+      "side": 1,
+      "message": "That should not be necessary. We have a special Bazel rule which adds this \"@RunWith\" silently. Not all static analyzers correctly detect the presence of that Bazel rule and hence complain about a missing \"@RunWith\" annotation even though the tests are run correctly.",
+      "range": {
+        "startLine": 60,
+        "startChar": 0,
+        "endLine": 60,
+        "endChar": 22
+      },
+      "revId": "7ebbe1285c01d8a28d2d1151fa4004058da340ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

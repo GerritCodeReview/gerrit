@@ -44,5 +44,6 @@ export interface JsApiService {
     revertMsg: string,
     origMsg: string
   ): string;
+  addElement(key: TargetElement, el: HTMLElement): void;
   // TODO(TS): Add more methods when needed for the TS conversion.
 }

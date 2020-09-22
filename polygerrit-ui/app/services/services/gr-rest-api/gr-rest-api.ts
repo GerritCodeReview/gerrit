@@ -84,6 +84,7 @@ import {
   ConfigInput,
   RelatedChangesInfo,
   SubmittedTogetherInfo,
+  EmailAddress,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
@@ -629,7 +630,7 @@ export interface RestApiService {
 
   removeChangeReviewer(
     changeNum: ChangeNum,
-    reviewerID: AccountId | GroupId
+    reviewerID: AccountId | EmailAddress | GroupId
   ): Promise<Response | undefined>;
 
   getGroupAuditLog(
@@ -714,4 +715,7 @@ export interface RestApiService {
     topic: string,
     changeNum: ChangeNum
   ): Promise<ChangeInfo[] | undefined>;
+
+  hasPendingDiffDrafts(): number;
+  awaitPendingDiffDrafts(): Promise<void>;
 }

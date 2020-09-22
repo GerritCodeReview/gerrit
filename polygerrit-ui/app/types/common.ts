@@ -61,7 +61,6 @@ export const ParentPatchSetNum = 'PARENT' as PatchSetNum;
 
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
-export type LegacyChangeId = BrandType<number, '_legacyChangeId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
 export type ChangeNum = number; // !!!TODO: define correct types
 export type RepoName = BrandType<string, '_repoName'>;
@@ -76,6 +75,7 @@ export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
 export type RobotId = BrandType<string, '_robotId'>;
 export type RobotRunId = BrandType<string, '_robotRunId'>;
 export type FixId = BrandType<string, '_fixId'>;
+export type EmailAddress = BrandType<string, '_emailAddress'>;
 
 // The URL encoded UUID of the comment
 export type UrlEncodedCommentId = BrandType<string, '_urlEncodedCommentId'>;
@@ -209,14 +209,15 @@ export interface ChangeInfo {
   deletions: number; // Number of deleted lines
   total_comment_count?: number;
   unresolved_comment_count?: number;
-  _number: LegacyChangeId;
+  _number: NumericChangeId;
   owner: AccountInfo;
   actions?: ActionInfo[];
   requirements?: Requirement[];
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValueMap;
   removable_reviewers?: AccountInfo[];
-  reviewers?: Reviewers;
+  // This is documented as optional, but actually always set.
+  reviewers: Reviewers;
   pending_reviewers?: AccountInfo[];
   reviewer_updates?: ReviewerUpdateInfo[];
   messages?: ChangeMessageInfo[];
@@ -241,10 +242,14 @@ export interface ChangeInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#account-info
  */
 export interface AccountInfo {
-  _account_id: AccountId;
+  // Normally _account_id is defined (for known Gerrit users), but users can
+  // also be CCed just with their email address. So you have to be prepared that
+  // _account_id is undefined, but then email must be set.
+  _account_id?: AccountId;
   name?: string;
   display_name?: string;
-  email?: string;
+  // Must be set, if _account_id is undefined.
+  email?: EmailAddress;
   secondary_emails?: string[];
   username?: string;
   avatars?: AvatarInfo[];
@@ -252,6 +257,15 @@ export interface AccountInfo {
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
   tags?: AccountTag[];
+}
+
+export function isAccount(x: AccountInfo | GroupInfo): x is AccountInfo {
+  const account = x as AccountInfo;
+  return account._account_id !== undefined || account.email !== undefined;
+}
+
+export function isGroup(x: AccountInfo | GroupInfo): x is GroupInfo {
+  return (x as GroupInfo).id !== undefined;
 }
 
 /**
@@ -393,7 +407,7 @@ export interface Requirement {
 }
 
 /**
- * The ReviewerUpdateInfo entity contains information about updates tochange’s
+ * The ReviewerUpdateInfo entity contains information about updates to change’s
  * reviewers set.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-update-info
  */
@@ -1796,10 +1810,10 @@ export interface ReviewInput {
   robot_comments?: PathToRobotCommentsMap;
   drafts: DraftsAction;
   notify?: NotifyType;
-  notify_details: RecipientTypeToNotifyInfoMap;
+  notify_details?: RecipientTypeToNotifyInfoMap;
   omit_duplicate_comments?: boolean;
   on_behalf_of?: AccountId;
-  reviewers: ReviewerInput[];
+  reviewers?: ReviewerInput[];
   ready?: boolean;
   work_in_progress?: boolean;
   add_to_attention_set?: AttentionSetInput[];
@@ -1807,9 +1821,34 @@ export interface ReviewInput {
   ignore_automatic_attention_set_rules?: boolean;
 }
 
-export type LabelNameToValuesMap = {[labelName: string]: string};
-export type PathToCommentsInputMap = {[path: string]: CommentInput};
-export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput};
+/**
+ * The ReviewResult entity contains information regarding the updates that were
+ * made to a review.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-result
+ */
+export interface ReviewResult {
+  labels?: unknown;
+  // type of key is (AccountId | GroupId | EmailAddress)
+  reviewers?: {[key: string]: AddReviewerResult};
+  ready?: boolean;
+}
+
+/**
+ * The AddReviewerResult entity describes the result of adding a reviewer to a
+ * change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#add-reviewer-result
+ */
+export interface AddReviewerResult {
+  input: AccountId | GroupId | EmailAddress;
+  reviewers?: AccountInfo[];
+  ccs?: AccountInfo[];
+  error?: string;
+  confirm?: boolean;
+}
+
+export type LabelNameToValuesMap = {[labelName: string]: number};
+export type PathToCommentsInputMap = {[path: string]: CommentInput[]};
+export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput[]};
 export type RecipientTypeToNotifyInfoMap = {
   [recepientType: string]: NotifyInfo;
 };
@@ -1866,7 +1905,7 @@ export interface NotifyInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#reviewer-input
  */
 export interface ReviewerInput {
-  reviewer: AccountId | GroupId;
+  reviewer: AccountId | GroupId | EmailAddress;
   state?: ReviewerState;
   confirmed?: boolean;
   notify?: NotifyType;
@@ -1878,9 +1917,9 @@ export interface ReviewerInput {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#attention-set-input
  */
 export interface AttentionSetInput {
-  user?: AccountId;
+  user: AccountId;
   reason: string;
-  notify: NotifyType;
+  notify?: NotifyType;
   notify_details?: RecipientTypeToNotifyInfoMap;
 }
 

@@ -31,8 +31,8 @@ public class ListMailFilter implements MailFilter {
 
   public enum ListFilterMode {
     OFF,
-    WHITELIST,
-    BLACKLIST
+    ALLOW,
+    BLOCK
   }
 
   private final ListFilterMode mode;
@@ -40,10 +40,37 @@ public class ListMailFilter implements MailFilter {
 
   @Inject
   ListMailFilter(@GerritServerConfig Config cfg) {
-    this.mode = cfg.getEnum("receiveemail", "filter", "mode", ListFilterMode.OFF);
+    mode = getListFilterMode(cfg);
     String[] addresses = cfg.getStringList("receiveemail", "filter", "patterns");
     String concat = Arrays.asList(addresses).stream().collect(joining("|"));
     this.mailPattern = Pattern.compile(concat);
+  }
+
+  private ListFilterMode getListFilterMode(Config cfg) {
+    ListFilterMode mode;
+    String modeString = cfg.getString("receiveemail", "filter", "mode");
+    if (modeString == null) {
+      modeString = "";
+    }
+    switch (modeString) {
+      case "ALLOW":
+        mode = ListFilterMode.ALLOW;
+        break;
+      case "BLOCK":
+        mode = ListFilterMode.BLOCK;
+        break;
+        // Legacy names are supported, but should be deprecated in the future.
+      case "BLACKLIST":
+        mode = ListFilterMode.BLOCK;
+        break;
+      case "WHITELIST":
+        mode = ListFilterMode.ALLOW;
+        break;
+      default:
+        mode = ListFilterMode.OFF;
+        break;
+    }
+    return mode;
   }
 
   @Override
@@ -53,8 +80,7 @@ public class ListMailFilter implements MailFilter {
     }
 
     boolean match = mailPattern.matcher(message.from().email()).find();
-    if ((mode == ListFilterMode.WHITELIST && !match)
-        || (mode == ListFilterMode.BLACKLIST && match)) {
+    if ((mode == ListFilterMode.ALLOW && !match) || (mode == ListFilterMode.BLOCK && match)) {
       logger.atInfo().log("Mail message from %s rejected by list filter", message.from());
       return false;
     }

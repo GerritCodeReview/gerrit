@@ -45,11 +45,11 @@ public class ListMailFilterIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "receiveemail.filter.mode", value = "WHITELIST")
+  @GerritConfig(name = "receiveemail.filter.mode", value = "ALLOW")
   @GerritConfig(
       name = "receiveemail.filter.patterns",
       values = {".+ser@example\\.com", "a@b\\.com"})
-  public void listFilterWhitelistDoesNotFilterListedUser() throws Exception {
+  public void listFilterAllowlistDoesNotFilterListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeInfo.id).get().messages;
@@ -57,11 +57,11 @@ public class ListMailFilterIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "receiveemail.filter.mode", value = "WHITELIST")
+  @GerritConfig(name = "receiveemail.filter.mode", value = "ALLOW")
   @GerritConfig(
       name = "receiveemail.filter.patterns",
       values = {".+@gerritcodereview\\.com", "a@b\\.com"})
-  public void listFilterWhitelistFiltersNotListedUser() throws Exception {
+  public void listFilterAllowlistFiltersNotListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have NOT been persisted
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeInfo.id).get().messages;
@@ -72,11 +72,11 @@ public class ListMailFilterIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "receiveemail.filter.mode", value = "BLACKLIST")
+  @GerritConfig(name = "receiveemail.filter.mode", value = "BLOCK")
   @GerritConfig(
       name = "receiveemail.filter.patterns",
       values = {".+@gerritcodereview\\.com", "a@b\\.com"})
-  public void listFilterBlacklistDoesNotFilterNotListedUser() throws Exception {
+  public void listFilterBlocklistDoesNotFilterNotListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeInfo.id).get().messages;
@@ -84,11 +84,11 @@ public class ListMailFilterIT extends AbstractMailIT {
   }
 
   @Test
-  @GerritConfig(name = "receiveemail.filter.mode", value = "BLACKLIST")
+  @GerritConfig(name = "receiveemail.filter.mode", value = "BLOCK")
   @GerritConfig(
       name = "receiveemail.filter.patterns",
       values = {".+@example\\.com", "a@b\\.com"})
-  public void listFilterBlacklistFiltersListedUser() throws Exception {
+  public void listFilterBlocklistFiltersListedUser() throws Exception {
     ChangeInfo changeInfo = createChangeAndReplyByEmail();
     // Check that the comments from the email have been persisted
     Collection<ChangeMessageInfo> messages = gApi.changes().id(changeInfo.id).get().messages;

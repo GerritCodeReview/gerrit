@@ -16,6 +16,42 @@
       "revId": "fc981dc7a1f85614baa4d5781b75137ea62a5df1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "43263dae_7f3ca249",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-22T14:43:11Z",
+      "side": 1,
+      "message": "Test failed, because those required properties were not defined in ready every time. Actually I found a lot of traces in code where comment or other properties were checked, so in the end I rewrote code so we have checks for all 3 properties.",
+      "parentUuid": "dcb6233d_7843df91",
+      "revId": "fc981dc7a1f85614baa4d5781b75137ea62a5df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "693bc911_e5a4d879",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-22T14:43:11Z",
+      "side": 1,
+      "message": "Test failed, because those required properties were not defined in ready every time. Actually I found a lot of traces in code where comment or other properties were checked, so in the end I rewrote code so we have checks for all 3 properties.",
+      "parentUuid": "dcb6233d_7843df91",
+      "revId": "fc981dc7a1f85614baa4d5781b75137ea62a5df1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

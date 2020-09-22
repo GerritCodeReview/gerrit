@@ -54,8 +54,10 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.revwalk.RevWalk;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
+@RunWith(JUnit4.class)
 public class SubmoduleCommitsTest {
 
   private static final String MASTER = "refs/heads/master";
@@ -67,8 +69,8 @@ public class SubmoduleCommitsTest {
   private InMemoryRepositoryManager repoManager = new InMemoryRepositoryManager();
   private MergeOpRepoManager mergeOpRepoManager;
 
-  @Mock ProjectCache mockProjectCache = mock(ProjectCache.class);
-  @Mock ProjectState mockProjectState = mock(ProjectState.class);
+  ProjectCache mockProjectCache = mock(ProjectCache.class);
+  ProjectState mockProjectState = mock(ProjectState.class);
 
   @Test
   public void createGitlinksCommit_subprojectMoved() throws Exception {

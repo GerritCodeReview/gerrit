@@ -227,7 +227,6 @@ public class MergeOp implements AutoCloseable {
   private final Provider<InternalChangeQuery> queryProvider;
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubscriptionGraph.Factory subscriptionGraphFactory;
-  private final SubmoduleOp.Factory subOpFactory;
   private final SubmoduleCommits.Factory submoduleCommitsFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
@@ -260,7 +259,6 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleCommits.Factory submoduleCommitsFactory,
       SubscriptionGraph.Factory subscriptionGraphFactory,
-      SubmoduleOp.Factory subOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
@@ -275,7 +273,6 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.submoduleCommitsFactory = submoduleCommitsFactory;
     this.subscriptionGraphFactory = subscriptionGraphFactory;
-    this.subOpFactory = subOpFactory;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
     this.retryHelper = retryHelper;
@@ -754,7 +751,7 @@ public class MergeOp implements AutoCloseable {
     @Nullable
     abstract SubmitType submitType();
 
-    abstract Set<CodeReviewCommit> commits();
+    abstract ImmutableSet<CodeReviewCommit> commits();
   }
 
   private BranchBatch validateChangeList(OpenRepo or, Collection<ChangeData> submitted) {

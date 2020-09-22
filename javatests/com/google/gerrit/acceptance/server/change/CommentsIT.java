@@ -1775,16 +1775,16 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private void addComment(PushOneCommit.Result r, String message) throws Exception {
-    addComment(r, message, false, false, null, 1, null);
+    addComment(r, message, false, false, null, null);
   }
 
   private void addCommentOnLine(PushOneCommit.Result r, String message, int line) throws Exception {
-    addComment(r, message, false, false, null, line, null);
+    addComment(r, message, false, false, null, null);
   }
 
   private void addCommentOnRange(PushOneCommit.Result r, String message, Comment.Range range)
       throws Exception {
-    addComment(r, message, false, false, null, null, range);
+    addComment(r, message, false, false, null, range);
   }
 
   private Comment.Range commentRangeInLines(int startLine, int endLine) {
@@ -1801,7 +1801,7 @@ public class CommentsIT extends AbstractDaemonTest {
       Boolean unresolved,
       String inReplyTo)
       throws Exception {
-    addComment(r, message, omitDuplicateComments, unresolved, inReplyTo, 1, null);
+    addComment(r, message, omitDuplicateComments, unresolved, inReplyTo, null);
   }
 
   private void addComment(
@@ -1810,7 +1810,6 @@ public class CommentsIT extends AbstractDaemonTest {
       boolean omitDuplicateComments,
       Boolean unresolved,
       String inReplyTo,
-      Integer line,
       Comment.Range range)
       throws Exception {
     CommentInput c = new CommentInput();

@@ -26,7 +26,6 @@ import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.Response;
 import com.google.gerrit.extensions.restapi.RestReadView;
 import com.google.gerrit.server.ChangeMessagesUtil;
-import com.google.gerrit.server.CommentContextLoader;
 import com.google.gerrit.server.CommentsUtil;
 import com.google.gerrit.server.change.ChangeResource;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -42,7 +41,6 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
   private final ChangeData.Factory changeDataFactory;
   private final Provider<CommentJson> commentJson;
   private final CommentsUtil commentsUtil;
-  private final CommentContextLoader.Factory commentContextFactory;
 
   private boolean includeContext;
 
@@ -62,13 +60,11 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
       ChangeData.Factory changeDataFactory,
       Provider<CommentJson> commentJson,
       CommentsUtil commentsUtil,
-      ChangeMessagesUtil changeMessagesUtil,
-      CommentContextLoader.Factory commentContextFactory) {
+      ChangeMessagesUtil changeMessagesUtil) {
     this.changeDataFactory = changeDataFactory;
     this.commentJson = commentJson;
     this.commentsUtil = commentsUtil;
     this.changeMessagesUtil = changeMessagesUtil;
-    this.commentContextFactory = commentContextFactory;
   }
 
   @Override

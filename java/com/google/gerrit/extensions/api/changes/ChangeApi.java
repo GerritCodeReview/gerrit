@@ -339,7 +339,7 @@ public interface ChangeApi {
    * @return comments as a list; comments have the {@code revision} field set to indicate their
    *     patch set.
    * @throws RestApiException
-   * @deprecate Callers should use {@link #commentsRequest()} instead
+   * @deprecated Callers should use {@link #commentsRequest()} instead
    */
   @Deprecated
   default List<CommentInfo> commentsAsList() throws RestApiException {
@@ -351,7 +351,6 @@ public interface ChangeApi {
    *
    * @return A {@link CommentsRequest} entity that can be used to retrieve the comments using the
    *     {@link CommentsRequest#get()} or {@link CommentsRequest#getAsList()}.
-   * @throws RestApiException
    */
   CommentsRequest commentsRequest() throws RestApiException;
 
@@ -429,7 +428,6 @@ public interface ChangeApi {
      *
      * @return comments as a list; comments have the {@code revision} field set to indicate their
      *     patch set.
-     * @throws RestApiException
      */
     public abstract List<CommentInfo> getAsList() throws RestApiException;
 

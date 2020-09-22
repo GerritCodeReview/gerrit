@@ -688,4 +688,7 @@ export interface RestApiService {
   setRepoHead(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoTags(repo: RepoName, ref: GitRef): Promise<Response>;
   deleteRepoBranches(repo: RepoName, ref: GitRef): Promise<Response>;
+
+  hasPendingDiffDrafts(): number;
+  awaitPendingDiffDrafts(): Promise<void>;
 }

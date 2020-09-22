@@ -61,7 +61,6 @@ export const ParentPatchSetNum = 'PARENT' as PatchSetNum;
 
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
-export type LegacyChangeId = BrandType<number, '_legacyChangeId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
 export type RepoName = BrandType<string, '_repoName'>;
 export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
@@ -208,14 +207,14 @@ export interface ChangeInfo {
   deletions: number; // Number of deleted lines
   total_comment_count?: number;
   unresolved_comment_count?: number;
-  _number: LegacyChangeId;
+  _number: NumericChangeId;
   owner: AccountInfo;
   actions?: ActionInfo[];
   requirements?: Requirement[];
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValueMap;
   removable_reviewers?: AccountInfo[];
-  reviewers?: Reviewers;
+  reviewers: Reviewers;
   pending_reviewers?: AccountInfo[];
   reviewer_updates?: ReviewerUpdateInfo[];
   messages?: ChangeMessageInfo[];
@@ -251,6 +250,14 @@ export interface AccountInfo {
   status?: string; // status message of the account
   inactive?: boolean; // not set if false
   tags?: AccountTag[];
+}
+
+export function isAccount(x: AccountInfo | GroupInfo): x is AccountInfo {
+  return (x as AccountInfo)._account_id !== undefined;
+}
+
+export function isGroup(x: AccountInfo | GroupInfo): x is GroupInfo {
+  return (x as GroupInfo).id !== undefined;
 }
 
 /**
@@ -1789,10 +1796,10 @@ export interface ReviewInput {
   robot_comments?: PathToRobotCommentsMap;
   drafts: DraftsAction;
   notify?: NotifyType;
-  notify_details: RecipientTypeToNotifyInfoMap;
+  notify_details?: RecipientTypeToNotifyInfoMap;
   omit_duplicate_comments?: boolean;
   on_behalf_of?: AccountId;
-  reviewers: ReviewerInput[];
+  reviewers?: ReviewerInput[];
   ready?: boolean;
   work_in_progress?: boolean;
   add_to_attention_set?: AttentionSetInput[];
@@ -1800,9 +1807,31 @@ export interface ReviewInput {
   ignore_automatic_attention_set_rules?: boolean;
 }
 
-export type LabelNameToValuesMap = {[labelName: string]: string};
-export type PathToCommentsInputMap = {[path: string]: CommentInput};
-export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput};
+/**
+ * The ReviewResult entity contains information regarding the updates that were
+ * made to a review.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#review-result
+ */
+export interface ReviewResult {
+  labels?: unknown;
+  // key is account id or group id
+  reviewers?: {[key: string]: AddReviewerResult};
+  ccs?: {[key: string]: AddReviewerResult};
+  ready?: boolean;
+}
+
+/**
+ * The AddReviewerResult entity describes the result of adding a reviewer to a
+ * change.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#add-reviewer-result
+ */
+export interface AddReviewerResult {
+  error?: string;
+}
+
+export type LabelNameToValuesMap = {[labelName: string]: number};
+export type PathToCommentsInputMap = {[path: string]: CommentInput[]};
+export type PathToRobotCommentsMap = {[path: string]: RobotCommentInput[]};
 export type RecipientTypeToNotifyInfoMap = {
   [recepientType: string]: NotifyInfo;
 };
@@ -1872,8 +1901,8 @@ export interface ReviewerInput {
  */
 export interface AttentionSetInput {
   user?: AccountId;
-  reason: string;
-  notify: NotifyType;
+  reason?: string;
+  notify?: NotifyType;
   notify_details?: RecipientTypeToNotifyInfoMap;
 }
 

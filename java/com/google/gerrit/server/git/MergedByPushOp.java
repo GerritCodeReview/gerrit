@@ -25,22 +25,19 @@ import com.google.gerrit.entities.PatchSetInfo;
 import com.google.gerrit.entities.SubmissionId;
 import com.google.gerrit.server.ChangeMessagesUtil;
 import com.google.gerrit.server.PatchSetUtil;
-import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.extensions.events.ChangeMerged;
 import com.google.gerrit.server.mail.send.MergedSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeUpdate;
 import com.google.gerrit.server.patch.PatchSetInfoFactory;
+import com.google.gerrit.server.update.AsyncPostUpdateOp;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.Context;
-import com.google.gerrit.server.util.RequestScopePropagator;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Future;
 import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -52,24 +49,21 @@ import org.eclipse.jgit.revwalk.RevWalk;
  * <p>When we find a change corresponding to a commit that is pushed to a branch directly, we close
  * the change. This class marks the change as merged, and sends out the email notification.
  */
-public class MergedByPushOp implements BatchUpdateOp {
+public class MergedByPushOp implements BatchUpdateOp, AsyncPostUpdateOp {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   public interface Factory {
     MergedByPushOp create(
-        RequestScopePropagator requestScopePropagator,
         PatchSet.Id psId,
         @Assisted SubmissionId submissionId,
         @Assisted("refName") String refName,
         @Assisted("mergeResultRevId") String mergeResultRevId);
   }
 
-  private final RequestScopePropagator requestScopePropagator;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final ChangeMessagesUtil cmUtil;
   private final MergedSender.Factory mergedSenderFactory;
   private final PatchSetUtil psUtil;
-  private final ExecutorService asyncPostUpdateExecutor;
   private final ChangeMerged changeMerged;
   private final MessageIdGenerator messageIdGenerator;
 
@@ -90,10 +84,8 @@ public class MergedByPushOp implements BatchUpdateOp {
       ChangeMessagesUtil cmUtil,
       MergedSender.Factory mergedSenderFactory,
       PatchSetUtil psUtil,
-      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       ChangeMerged changeMerged,
       MessageIdGenerator messageIdGenerator,
-      @Assisted RequestScopePropagator requestScopePropagator,
       @Assisted PatchSet.Id psId,
       @Assisted SubmissionId submissionId,
       @Assisted("refName") String refName,
@@ -102,10 +94,8 @@ public class MergedByPushOp implements BatchUpdateOp {
     this.cmUtil = cmUtil;
     this.mergedSenderFactory = mergedSenderFactory;
     this.psUtil = psUtil;
-    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.changeMerged = changeMerged;
     this.messageIdGenerator = messageIdGenerator;
-    this.requestScopePropagator = requestScopePropagator;
     this.submissionId = submissionId;
     this.psId = psId;
     this.refName = refName;
@@ -181,34 +171,25 @@ public class MergedByPushOp implements BatchUpdateOp {
     if (!correctBranch) {
       return;
     }
-    @SuppressWarnings("unused") // Runnable already handles errors
-    Future<?> possiblyIgnoredError =
-        asyncPostUpdateExecutor.submit(
-            requestScopePropagator.wrap(
-                new Runnable() {
-                  @Override
-                  public void run() {
-                    try {
-                      MergedSender emailSender =
-                          mergedSenderFactory.create(ctx.getProject(), psId.changeId());
-                      emailSender.setFrom(ctx.getAccountId());
-                      emailSender.setPatchSet(patchSet, info);
-                      emailSender.setMessageId(
-                          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
-                      emailSender.send();
-                    } catch (Exception e) {
-                      logger.atSevere().withCause(e).log(
-                          "Cannot send email for submitted patch set %s", psId);
-                    }
-                  }
-
-                  @Override
-                  public String toString() {
-                    return "send-email merged";
-                  }
-                }));
-
     changeMerged.fire(change, patchSet, ctx.getAccount(), mergeResultRevId, ctx.getWhen());
+  }
+
+  @Override
+  public void asyncPostUpdate(Context ctx) {
+    if (!correctBranch) {
+      return;
+    }
+
+    try {
+      MergedSender emailSender = mergedSenderFactory.create(ctx.getProject(), psId.changeId());
+      emailSender.setFrom(ctx.getAccountId());
+      emailSender.setPatchSet(patchSet, info);
+      emailSender.setMessageId(
+          messageIdGenerator.fromChangeUpdate(ctx.getRepoView(), patchSet.id()));
+      emailSender.send();
+    } catch (Exception e) {
+      logger.atSevere().withCause(e).log("Cannot send email for submitted patch set %s", psId);
+    }
   }
 
   private PatchSetInfo getPatchSetInfo(ChangeContext ctx) throws IOException {

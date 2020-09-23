@@ -14,102 +14,126 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../../shared/gr-label/gr-label.js';
-import '../../shared/gr-label-info/gr-label-info.js';
-import '../../shared/gr-limited-text/gr-limited-text.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-requirements_html.js';
+import '../../../styles/shared-styles';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icons/gr-icons';
+import '../../shared/gr-label/gr-label';
+import '../../shared/gr-label-info/gr-label-info';
+import '../../shared/gr-limited-text/gr-limited-text';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-requirements_html';
+import {customElement, property, observe} from '@polymer/decorators';
+import {
+  ChangeInfo,
+  AccountInfo,
+  QuickLabelInfo,
+  Requirement,
+  RequirementType,
+  LabelNameToInfoMap,
+  LabelInfo,
+} from '../../../types/common';
+import {hasOwnProperty} from '../../../utils/common-util';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
-/**
- * @extends PolymerElement
- */
+interface ChangeRequirement extends Requirement {
+  satisfied: boolean;
+  style: string;
+}
+
+interface ChangeWIP {
+  type: RequirementType;
+  fallback_text: string;
+  tooltip: string;
+}
+
+interface Label {
+  labelInfo: LabelInfo;
+  icon: string;
+  style: string;
+}
+
+@customElement('gr-change-requirements')
 class GrChangeRequirements extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-change-requirements'; }
-
-  static get properties() {
-    return {
-    /** @type {?} */
-      change: Object,
-      account: Object,
-      mutable: Boolean,
-      _requirements: {
-        type: Array,
-        computed: '_computeRequirements(change)',
-      },
-      _requiredLabels: {
-        type: Array,
-        value: () => [],
-      },
-      _optionalLabels: {
-        type: Array,
-        value: () => [],
-      },
-      _showWip: {
-        type: Boolean,
-        computed: '_computeShowWip(change)',
-      },
-      _showOptionalLabels: {
-        type: Boolean,
-        value: true,
-      },
-    };
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_computeLabels(change.labels.*)',
-    ];
-  }
+  @property({type: Object})
+  change?: ChangeInfo;
 
-  _computeShowWip(change) {
+  @property({type: Object})
+  account?: AccountInfo;
+
+  @property({type: Boolean})
+  mutable?: boolean;
+
+  @property({type: Array, computed: '_computeRequirements(change)'})
+  _requirements?: (ChangeRequirement | ChangeWIP)[];
+
+  @property({type: Array})
+  _requiredLabels: Label[] = [];
+
+  @property({type: Array})
+  _optionalLabels: Label[] = [];
+
+  @property({type: Boolean, computed: '_computeShowWip(change)'})
+  _showWip?: boolean;
+
+  @property({type: Boolean})
+  _showOptionalLabels = true;
+
+  _computeShowWip(change: ChangeInfo) {
     return change.work_in_progress;
   }
 
-  _computeRequirements(change) {
-    const _requirements = [];
+  _computeRequirements(change: ChangeInfo) {
+    const _requirements: (ChangeRequirement | ChangeWIP)[] = [];
 
     if (change.requirements) {
       for (const requirement of change.requirements) {
-        requirement.satisfied = requirement.status === 'OK';
-        requirement.style =
-            this._computeRequirementClass(requirement.satisfied);
-        _requirements.push(requirement);
+        const satisfied = requirement.status === 'OK';
+        const style = this._computeRequirementClass(satisfied);
+        _requirements.push({...requirement, satisfied, style});
       }
     }
     if (change.work_in_progress) {
       _requirements.push({
-        type: 'wip',
+        type: 'wip' as RequirementType,
         fallback_text: 'Work-in-progress',
-        tooltip: 'Change must not be in \'Work in Progress\' state.',
+        tooltip: "Change must not be in 'Work in Progress' state.",
       });
     }
 
     return _requirements;
   }
 
-  _computeRequirementClass(requirementStatus) {
+  _computeRequirementClass(requirementStatus: boolean) {
     return requirementStatus ? 'approved' : '';
   }
 
-  _computeRequirementIcon(requirementStatus) {
+  _computeRequirementIcon(requirementStatus: boolean) {
     return requirementStatus ? 'gr-icons:check' : 'gr-icons:schedule';
   }
 
-  _computeLabels(labelsRecord) {
+  @observe('change.labels.*')
+  _computeLabels(
+    labelsRecord: PolymerDeepPropertyChange<
+      LabelNameToInfoMap,
+      LabelNameToInfoMap
+    >
+  ) {
     const labels = labelsRecord.base;
     this._optionalLabels = [];
     this._requiredLabels = [];
 
     for (const label in labels) {
-      if (!labels.hasOwnProperty(label)) { continue; }
+      if (!hasOwnProperty(labels, label)) {
+        continue;
+      }
 
       const labelInfo = labels[label];
       const icon = this._computeLabelIcon(labelInfo);
@@ -121,50 +145,58 @@ class GrChangeRequirements extends GestureEventListeners(
   }
 
   /**
-   * @param {Object} labelInfo
-   * @return {string} The icon name, or undefined if no icon should
-   *     be used.
+   * @return The icon name, or undefined if no icon should
+   * be used.
    */
-  _computeLabelIcon(labelInfo) {
-    if (labelInfo.approved) { return 'gr-icons:check'; }
-    if (labelInfo.rejected) { return 'gr-icons:close'; }
+  _computeLabelIcon(labelInfo: QuickLabelInfo) {
+    if (labelInfo.approved) {
+      return 'gr-icons:check';
+    }
+    if (labelInfo.rejected) {
+      return 'gr-icons:close';
+    }
     return 'gr-icons:schedule';
   }
 
-  /**
-   * @param {Object} labelInfo
-   */
-  _computeLabelClass(labelInfo) {
-    if (labelInfo.approved) { return 'approved'; }
-    if (labelInfo.rejected) { return 'rejected'; }
+  _computeLabelClass(labelInfo: QuickLabelInfo) {
+    if (labelInfo.approved) {
+      return 'approved';
+    }
+    if (labelInfo.rejected) {
+      return 'rejected';
+    }
     return '';
   }
 
-  _computeShowOptional(optionalFieldsRecord) {
+  _computeShowOptional(
+    optionalFieldsRecord: PolymerDeepPropertyChange<Label[], Label[]>
+  ) {
     return optionalFieldsRecord.base.length ? '' : 'hidden';
   }
 
-  _computeLabelValue(value) {
-    return (value > 0 ? '+' : '') + value;
+  _computeLabelValue(value: number) {
+    return `${value > 0 ? '+' : ''}${value}`;
   }
 
-  _computeShowHideIcon(showOptionalLabels) {
-    return showOptionalLabels ?
-      'gr-icons:expand-less' :
-      'gr-icons:expand-more';
+  _computeShowHideIcon(showOptionalLabels: boolean) {
+    return showOptionalLabels ? 'gr-icons:expand-less' : 'gr-icons:expand-more';
   }
 
-  _computeSectionClass(show) {
+  _computeSectionClass(show: boolean) {
     return show ? '' : 'hidden';
   }
 
-  _handleShowHide(e) {
+  _handleShowHide() {
     this._showOptionalLabels = !this._showOptionalLabels;
   }
 
-  _computeSubmitRequirementEndpoint(item) {
+  _computeSubmitRequirementEndpoint(item: ChangeRequirement | ChangeWIP) {
     return `submit-requirement-item-${item.type}`;
   }
 }
 
-customElements.define(GrChangeRequirements.is, GrChangeRequirements);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-requirements': GrChangeRequirements;
+  }
+}

@@ -137,6 +137,11 @@ export const hovercardBehaviorMixin = dedupingMixin(
         this.listen(this, 'mouseleave', 'unlock');
       }
 
+      detached() {
+        super.detached();
+        this.unlock();
+      }
+
       /** @override */
       ready() {
         super.ready();

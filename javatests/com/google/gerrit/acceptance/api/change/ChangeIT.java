@@ -284,6 +284,11 @@ public class ChangeIT extends AbstractDaemonTest {
     String fileName = "a_new_file.txt";
     String fileContent = "First line\nSecond line\n";
     PushOneCommit.Result result = createChange("Add a file", fileName, fileContent);
+
+    // Emails are sent here async which triggers cache hits, so we must wait until those email are
+    // actually sent.
+    sender.clear();
+
     String triplet = project.get() + "~master~" + result.getChangeId();
     CacheStats startPatch = cloneStats(fileCache.stats());
     CacheStats startIntra = cloneStats(intraCache.stats());

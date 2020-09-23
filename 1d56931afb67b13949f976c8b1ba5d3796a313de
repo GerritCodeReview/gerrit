@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cd25da32_ef5203f5",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-23T11:56:00Z",
+      "side": 1,
+      "message": "Is there a reason why the catch makes sense here, but not for attention set?",
+      "revId": "1d56931afb67b13949f976c8b1ba5d3796a313de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

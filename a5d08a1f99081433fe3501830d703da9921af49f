@@ -231,6 +231,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "51548fb9_4e5742a5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-23T11:05:22Z",
+      "side": 1,
+      "message": "I took a look at the mocks and it looks like the Patchset header is supposed to be there.\nWe can let Delphine decide once she comes back from vacation. I assigned a bug to keep track of this.",
+      "parentUuid": "b1248f25_8f4f5b58",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

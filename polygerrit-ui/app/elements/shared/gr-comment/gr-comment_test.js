@@ -149,6 +149,7 @@ suite('gr-comment tests', () => {
           email: 'tenn1sballchaser@aol.com',
         },
         line: 5,
+        path: 'test',
       };
       flush(() => {
         assert.isTrue(loadSpy.called);
@@ -368,11 +369,13 @@ suite('gr-comment tests', () => {
 
     test('failed save draft request', done => {
       element.draft = true;
+      element.changeNum = 1;
+      element.patchNum = 1;
       const updateRequestStub = sinon.stub(element, '_updateRequestToast');
       const diffDraftStub =
         sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
             Promise.resolve({ok: false}));
-      element._saveDraft();
+      element._saveDraft({id: 'abc_123'});
       flush(() => {
         let args = updateRequestStub.lastCall.args;
         assert.deepEqual(args, [0, true]);
@@ -384,7 +387,7 @@ suite('gr-comment tests', () => {
             .querySelector('.save')), 'save is visible');
         diffDraftStub.returns(
             Promise.resolve({ok: true}));
-        element._saveDraft();
+        element._saveDraft({id: 'abc_123'});
         flush(() => {
           args = updateRequestStub.lastCall.args;
           assert.deepEqual(args, [0]);
@@ -402,11 +405,13 @@ suite('gr-comment tests', () => {
 
     test('failed save draft request with promise failure', done => {
       element.draft = true;
+      element.changeNum = 1;
+      element.patchNum = 1;
       const updateRequestStub = sinon.stub(element, '_updateRequestToast');
       const diffDraftStub =
         sinon.stub(element.$.restAPI, 'saveDiffDraft').returns(
             Promise.reject(new Error()));
-      element._saveDraft();
+      element._saveDraft({id: 'abc_123'});
       flush(() => {
         let args = updateRequestStub.lastCall.args;
         assert.deepEqual(args, [0, true]);
@@ -418,7 +423,7 @@ suite('gr-comment tests', () => {
             .querySelector('.save')), 'save is visible');
         diffDraftStub.returns(
             Promise.resolve({ok: true}));
-        element._saveDraft();
+        element._saveDraft({id: 'abc_123'});
         flush(() => {
           args = updateRequestStub.lastCall.args;
           assert.deepEqual(args, [0]);

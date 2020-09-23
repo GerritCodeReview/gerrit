@@ -14,6 +14,9 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
+import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
+
 import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
@@ -484,6 +487,9 @@ public abstract class ChangeEmail extends NotificationEmail {
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
       footers.add(MailHeader.CC.withDelimiter() + reviewer);
     }
+    for (String attentionSet : getAttentionSet()) {
+      footers.add(MailHeader.ATTENTION.withDelimiter() + attentionSet);
+    }
   }
 
   /**
@@ -507,6 +513,19 @@ public abstract class ChangeEmail extends NotificationEmail {
       logger.atWarning().withCause(e).log("Cannot get change reviewers");
     }
     return reviewers;
+  }
+
+  private Set<String> getAttentionSet() {
+    Set<String> attentionSet = new HashSet<>();
+    try {
+      attentionSet =
+          additionsOnly(changeData.attentionSet()).stream()
+              .map(a -> getNameEmailFor(a.account()))
+              .collect(toImmutableSet());
+    } catch (StorageException e) {
+      logger.atWarning().withCause(e).log("Cannot get change attention set");
+    }
+    return attentionSet;
   }
 
   public boolean getIncludeDiff() {

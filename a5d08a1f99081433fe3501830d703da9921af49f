@@ -249,6 +249,24 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a2c39edf_7dd6259e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-23T12:38:10Z",
+      "side": 1,
+      "message": "Fully agree, I have noticed the ordering priority that favours patchset comments to be displayed first hence I believe that the header is no longer necessary there. Let\u0027s see what others have to say 😊 But sure let hear from Delphine 😊\n\nIf she is positive I could use this change to submit a change that removes it so that we have a track of this discussion that lead us here ;)",
+      "parentUuid": "b1248f25_8f4f5b58",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

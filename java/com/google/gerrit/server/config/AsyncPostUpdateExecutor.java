@@ -1,4 +1,4 @@
-// Copyright (C) 2014 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -23,4 +23,4 @@ import java.util.concurrent.ScheduledThreadPoolExecutor;
 /** Marker on the global {@link ScheduledThreadPoolExecutor} used to send email. */
 @Retention(RUNTIME)
 @BindingAnnotation
-public @interface SendEmailExecutor {}
+public @interface AsyncPostUpdateExecutor {}

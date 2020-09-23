@@ -18,6 +18,7 @@ package com.google.gerrit.mail;
 public enum MailHeader {
   // Gerrit metadata holders
   ASSIGNEE("Gerrit-Assignee"),
+  ATTENTION("Gerrit-Attention"),
   BRANCH("Gerrit-Branch"),
   CC("Gerrit-CC"),
   COMMENT_IN_REPLY_TO("Comment-In-Reply-To"),

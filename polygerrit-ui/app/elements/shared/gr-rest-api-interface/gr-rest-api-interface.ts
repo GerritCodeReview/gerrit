@@ -3226,7 +3226,7 @@ export class GrRestApiInterface
     commentID: UrlEncodedCommentId,
     reason: string
   ) {
-    return (this._getChangeURLAndSend({
+    return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
       patchNum,
@@ -3234,7 +3234,7 @@ export class GrRestApiInterface
       body: {reason},
       parseResponse: true,
       anonymizedEndpoint: '/comments/*/delete',
-    }) as unknown) as Promise<CommentInfo>;
+    });
   }
 
   /**

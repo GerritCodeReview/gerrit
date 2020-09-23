@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server.mail.send;
 
-import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 
 import com.google.common.base.Splitter;
@@ -59,6 +58,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
+import java.util.stream.Collectors;
 import org.apache.james.mime4j.dom.field.FieldName;
 import org.eclipse.jgit.diff.DiffFormatter;
 import org.eclipse.jgit.internal.JGitText;
@@ -487,8 +487,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
       footers.add(MailHeader.CC.withDelimiter() + reviewer);
     }
-    for (String attentionSet : getAttentionSet()) {
-      footers.add(MailHeader.ATTENTION.withDelimiter() + attentionSet);
+    for (String attentionUser : getAttentionSet()) {
+      footers.add(MailHeader.ATTENTION.withDelimiter() + attentionUser);
     }
   }
 
@@ -521,7 +521,7 @@ public abstract class ChangeEmail extends NotificationEmail {
       attentionSet =
           additionsOnly(changeData.attentionSet()).stream()
               .map(a -> getNameEmailFor(a.account()))
-              .collect(toImmutableSet());
+              .collect(Collectors.toSet());
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change attention set");
     }

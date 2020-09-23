@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "363e7145_8fae8b30",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T15:36:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6a7debf_47818a57",
+      "range": {
+        "startLine": 490,
+        "startChar": 16,
+        "endLine": 490,
+        "endChar": 28
+      },
+      "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "32498341_38294a08",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 4
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "ebee8512_4b3195ef",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T15:36:34Z",
+      "side": 1,
+      "message": "I think this is fine.\n\nWe\u0027ll have to tag it in a different way (since otherwise the filtering is useless for people who just want to track emails that relate to them being in the attention set). So, anyway the \"Abandoned\" email should not be a part of the filtering.\n\nWe could create another filtering for \"removed from attention set\" but it has a few complexities since we need to distinguish between \"removed now\" and \"removed previously\". So I\u0027d rather just not do it. This is too complicated and not worth it imo.",
+      "parentUuid": "32498341_38294a08",
+      "range": {
+        "startLine": 522,
+        "startChar": 24,
+        "endLine": 522,
+        "endChar": 49
+      },
+      "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b900063f_cb4cab03",
         "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
         "patchSetId": 4
@@ -68,6 +116,30 @@
       "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4547a486_ab0f2ad1",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T15:36:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b900063f_cb4cab03",
+      "range": {
+        "startLine": 524,
+        "startChar": 23,
+        "endLine": 524,
+        "endChar": 39
+      },
+      "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a7debf_47818a57",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:24:22Z",
+      "side": 1,
+      "message": "This is the \"attentionee\", right? :-) So maybe \"attentionUser\" or just \"user\"?",
+      "range": {
+        "startLine": 490,
+        "startChar": 16,
+        "endLine": 490,
+        "endChar": 28
+      },
+      "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "32498341_38294a08",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 522,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:24:22Z",
+      "side": 1,
+      "message": "This means that the footer will be present when I\u0027m added to the attention set, but not when I\u0027m removed, even though I\u0027d probably want to know about both of these events.\n\nLike, I\u0027d get an email indicating that this change now requires my attention. Then e.g. it\u0027s abandoned, but that email isn\u0027t tagged even though it\u0027s the exact counterpart to the first one.\n\nWe have the removals in the attention set, would it make sense to evaluate that?",
+      "range": {
+        "startLine": 522,
+        "startChar": 24,
+        "endLine": 522,
+        "endChar": 49
+      },
+      "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b900063f_cb4cab03",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 524,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:24:22Z",
+      "side": 1,
+      "message": "This should match the return type (I\u0027d also be finde with just toSet() here).",
+      "range": {
+        "startLine": 524,
+        "startChar": 23,
+        "endLine": 524,
+        "endChar": 39
+      },
+      "revId": "4c6c1a5b44f1f955bddc6c4f80016290db168057",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

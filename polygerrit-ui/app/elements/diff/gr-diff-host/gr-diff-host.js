@@ -24,11 +24,11 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-diff-host_html.js';
 import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
-import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {DiffSide, rangesEqual} from '../gr-diff/gr-diff-utils.js';
 import {appContext} from '../../../services/app-context.js';
 import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util.js';
+import {sortComments} from '../gr-comment-api/gr-comment-api.js';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -692,20 +692,12 @@ class GrDiffHost extends GestureEventListeners(
     }
   }
 
-  _sortComments(comments) {
-    return comments.slice(0).sort((a, b) => {
-      if (b.__draft && !a.__draft ) { return -1; }
-      if (a.__draft && !b.__draft ) { return 1; }
-      return parseDate(a.updated) - parseDate(b.updated);
-    });
-  }
-
   /**
    * @param {!Array<!Object>} comments
    * @return {!Array<!Object>} Threads for the given comments.
    */
   _createThreads(comments) {
-    const sortedComments = this._sortComments(comments);
+    const sortedComments = sortComments(comments);
     const threads = [];
     for (const comment of sortedComments) {
       // If the comment is in reply to another comment, find that comment's

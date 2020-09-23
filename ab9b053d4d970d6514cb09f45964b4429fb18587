@@ -105,6 +105,24 @@
       "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "beb35012_0c046be4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-23T07:36:57Z",
+      "side": 1,
+      "message": "Sorry, I\u0027ve too much on my plate right now for a detailed review. I just quickly checked our internal version of auto-value-gson. It\u0027s older than the one proposed in this change, so we\u0027d need an internal update first. We\u0027d also need to check the other transitive libraries.",
+      "parentUuid": "5a87a16d_c069f73f",
+      "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

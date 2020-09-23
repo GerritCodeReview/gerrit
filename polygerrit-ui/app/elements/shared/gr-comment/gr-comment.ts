@@ -627,33 +627,37 @@ export class GrComment extends KeyboardShortcutMixin(
     const patchNum = this.comment.patch_set
       ? this.comment.patch_set
       : this._getPatchNum();
-    this.debounce(
-      'store',
-      () => {
-        const message = this._messageText;
-        if (!this.comment?.path || this.comment.line === undefined)
-          throw new Error('missing path or line in comment');
-        if (this.changeNum === undefined) {
-          throw new Error('undefined changeNum');
-        }
-        const commentLocation: StorageLocation = {
-          changeNum: this.changeNum,
-          patchNum,
-          path: this.comment.path,
-          line: this.comment.line,
-          range: this.comment.range,
-        };
 
-        if ((!this._messageText || !this._messageText.length) && oldValue) {
-          // If the draft has been modified to be empty, then erase the storage
-          // entry.
-          this.$.storage.eraseDraftComment(commentLocation);
-        } else {
-          this.$.storage.setDraftComment(commentLocation, message);
-        }
-      },
-      STORAGE_DEBOUNCE_INTERVAL
-    );
+    if (this.comment.path && this.comment.line !== undefined) {
+      const path = this.comment.path;
+      const line = this.comment.line;
+      const range = this.comment.range;
+      this.debounce(
+        'store',
+        () => {
+          const message = this._messageText;
+          if (this.changeNum === undefined) {
+            throw new Error('undefined changeNum');
+          }
+          const commentLocation: StorageLocation = {
+            changeNum: this.changeNum,
+            patchNum,
+            path,
+            line,
+            range,
+          };
+
+          if ((!this._messageText || !this._messageText.length) && oldValue) {
+            // If the draft has been modified to be empty, then erase the storage
+            // entry.
+            this.$.storage.eraseDraftComment(commentLocation);
+          } else {
+            this.$.storage.setDraftComment(commentLocation, message);
+          }
+        },
+        STORAGE_DEBOUNCE_INTERVAL
+      );
+    }
   }
 
   _handleAnchorClick(e: Event) {

@@ -65,6 +65,30 @@
     },
     {
       "key": {
+        "uuid": "4c32b661_162811e4",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4428,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "16aa9e3b_17c300ed",
+      "range": {
+        "startLine": 4428,
+        "startChar": 46,
+        "endLine": 4428,
+        "endChar": 52
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9a8c01c4_1b86d17a",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -272,6 +296,24 @@
     },
     {
       "key": {
+        "uuid": "caf09e65_08feeee7",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4436,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "+1 to \"Oh, maybe we should change those terms in our application as well!\".\nMentioning in the release notes is also helpful, thanks.\nDone.",
+      "parentUuid": "dba727b6_d97494fb",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92b602c7_50eec021",
         "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
         "patchSetId": 4
@@ -283,6 +325,30 @@
       "writtenOn": "2020-09-23T05:59:14Z",
       "side": 1,
       "message": "removed?",
+      "range": {
+        "startLine": 50,
+        "startChar": 77,
+        "endLine": 50,
+        "endChar": 87
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "30b5404a_6d073965",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "92b602c7_50eec021",
       "range": {
         "startLine": 50,
         "startChar": 77,
@@ -318,6 +384,30 @@
     },
     {
       "key": {
+        "uuid": "19943cf2_5e0a5cc8",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "done.",
+      "parentUuid": "33faf973_f00b54da",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 22
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "876432e6_bc56beda",
         "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
         "patchSetId": 4
@@ -338,6 +428,30 @@
       "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cc271069_d18030c4",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "876432e6_bc56beda",
+      "range": {
+        "startLine": 52,
+        "startChar": 24,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -364,6 +478,30 @@
     },
     {
       "key": {
+        "uuid": "e9472341_1868d9fb",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b7c68f03_ff9c466f",
+      "range": {
+        "startLine": 64,
+        "startChar": 24,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "025d30ae_dcb4c112",
         "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
         "patchSetId": 4
@@ -387,6 +525,30 @@
     },
     {
       "key": {
+        "uuid": "db8628c2_417d38de",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "025d30ae_dcb4c112",
+      "range": {
+        "startLine": 79,
+        "startChar": 24,
+        "endLine": 79,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce5042a5_f8546173",
         "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
         "patchSetId": 4
@@ -407,6 +569,30 @@
       "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8d4d4ee_096c6cfc",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T08:41:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce5042a5_f8546173",
+      "range": {
+        "startLine": 91,
+        "startChar": 24,
+        "endLine": 91,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

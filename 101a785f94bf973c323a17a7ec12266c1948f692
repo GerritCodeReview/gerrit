@@ -1,0 +1,519 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c9531a7_3c55d65a",
+        "filename": "java/com/google/gerrit/entities/ContextLine.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "That seems very specific. Shouldn\u0027t this be configurable?\n\nHmm, I may have missed something, but don\u0027t you always use this in a list? Should it then just be a list? Or a Map\u003cInteger, String\u003e?",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bb2151bd_976c2586",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "nit: lines",
+      "range": {
+        "startLine": 43,
+        "startChar": 25,
+        "endLine": 43,
+        "endChar": 29
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "41008bf3_4439a6d6",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "I find this name confusing because it doesn\u0027t get all ContextLine-s for the change, but only the specified ones. How about getMultiple()? (Or use varargs?)",
+      "range": {
+        "startLine": 51,
+        "startChar": 62,
+        "endLine": 51,
+        "endChar": 68
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "47f3cfdc_8ce2b42b",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "This comment duplicates the one on the interface itself.",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "61bd7e6a_d7f571ce",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Could you document the reasoning behind these values?",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d07bcc70_b9fc37f8",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "I think this would be more readable as \"keys\" (or rather commentContextKeys to not clash with Key below).",
+      "range": {
+        "startLine": 97,
+        "startChar": 81,
+        "endLine": 97,
+        "endChar": 89
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "655f7acb_3115fde1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Isn\u0027t this just keysToCacheKeys.values()?",
+      "range": {
+        "startLine": 98,
+        "startChar": 32,
+        "endLine": 98,
+        "endChar": 40
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ca84365b_a6bbdad7",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "WDYT about moving this logic into the CommentContextKey class? Maybe along with the Key type. I feel that those two are closely related and are easier understood if the code to generate one from the other is in the same class.",
+      "range": {
+        "startLine": 101,
+        "startChar": 5,
+        "endLine": 103,
+        "endChar": 100
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edd8a859_d0f11c56",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Please add javadoc. The accessors are obvious, but what the class is used for, why it has these fields, why we need a second key type etc. would be helpful.",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "87dbceec_f731a37e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "rename",
+      "range": {
+        "startLine": 179,
+        "startChar": 55,
+        "endLine": 179,
+        "endChar": 61
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3cba944a_99e08596",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "I think you can omit this.",
+      "range": {
+        "startLine": 189,
+        "startChar": 26,
+        "endLine": 189,
+        "endChar": 34
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "29d30b5d_bb2f2d17",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Gerrit?",
+      "range": {
+        "startLine": 249,
+        "startChar": 24,
+        "endLine": 249,
+        "endChar": 27
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c508e95b_eff008e9",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "loader",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 30
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d4060e37_5c82cb36",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "I wonder if it wouldn\u0027t be more efficient to cache all humanComments. Isn\u0027t it expected that we\u0027ll likely need them all?",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a6109732_53ecfbc7",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "contextLinesByKey?",
+      "range": {
+        "startLine": 274,
+        "startChar": 37,
+        "endLine": 274,
+        "endChar": 38
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa72d1d1_78ba3089",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Would this work?\nin.entrySet().stream().map(e -\u003e e.getKey(), e -\u003e ImmutableList.copyOf(e.getValue())).collect(...)?",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d07143aa_10feba9e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Don\u0027t we normally use {@code ...}?",
+      "range": {
+        "startLine": 284,
+        "startChar": 42,
+        "endLine": 284,
+        "endChar": 66
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "82a15464_c96c1690",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Does this help for a simple operation like this? We\u0027re normally dealing with just a handful of comments, and this incurs splitting/synchronization/merging overhead.",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0413c0d_886abb46",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Could you document why you chose this hash?",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f8f3eaa1_8a20bb2e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Why do we convert the int to a String? (I assume the weigher applies to the inmemory representation?)",
+      "range": {
+        "startLine": 315,
+        "startChar": 28,
+        "endLine": 315,
+        "endChar": 39
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "25373879_f78ab07a",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "forEach()?",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "37846a4d_b4c0f53d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Please add javadoc. (E.g. a reference to the corresponding proto.)",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8489c9c_ac13f67d",
+        "filename": "proto/cache.proto",
+        "patchSetId": 18
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "This comment should be mirrored there.",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "903bde69_32f672f7",
+        "filename": "proto/cache.proto",
+        "patchSetId": 18
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "Shouldn\u0027t this be project_key?",
+      "range": {
+        "startLine": 507,
+        "startChar": 9,
+        "endLine": 507,
+        "endChar": 16
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ceed80b7_51e41ce7",
+        "filename": "proto/cache.proto",
+        "patchSetId": 18
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-23T15:05:20Z",
+      "side": 1,
+      "message": "I think we typically put proto comments before the field.",
+      "range": {
+        "startLine": 511,
+        "startChar": 24,
+        "endLine": 511,
+        "endChar": 68
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

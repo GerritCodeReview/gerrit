@@ -494,6 +494,15 @@ export const htmlTemplate = html`
               </td>
             </tr>
             <tr>
+              <td>Changes requesting my attention</td>
+              <td>
+                <code class="queryExample">
+                  "Gerrit-Attention: <em>Your Name</em>
+                  &lt;<em>your.email@example.com</em>&gt;"
+                </code>
+              </td>
+            </tr>
+            <tr>
               <td>Changes from a specific owner</td>
               <td>
                 <code class="queryExample">

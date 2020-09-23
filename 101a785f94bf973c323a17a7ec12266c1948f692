@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "948243fd_3ff831c5",
+        "filename": "java/com/google/gerrit/entities/ContextLine.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "mmm we can use a Map\u003cInteger, String\u003e for this representation. However I preferred to use this class to make it more verbose.\n\nFor example: The CommentContextCache#getAll signature would then become:\n\n`ImmutableMap\u003cCommentContextKey, ImmutableMap\u003cInteger, String\u003e\u003e getAll(...)`\n\ninstead of\n\n`ImmutableMap\u003cCommentContextKey, ImmutableList\u003cContextLine\u003e\u003e`\n\nand would require us to add comments in different places to explain the purpose of this map.\n\nWDYT?\n\nNote: I can also introduce a ContextLineList (or ContextLines) class which will be a wrapper for List\u003cContextLine\u003e, but not sure if this representation is also better.",
+      "parentUuid": "6c9531a7_3c55d65a",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb2151bd_976c2586",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
         "patchSetId": 18
@@ -45,6 +69,30 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8c7ced7_473225df",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bb2151bd_976c2586",
+      "range": {
+        "startLine": 43,
+        "startChar": 25,
+        "endLine": 43,
+        "endChar": 29
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "6682ff43_df4541e3",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "the getAll here is consistent with the cache#getAll notion, which computes the values for many keys at once.\n\nI prefer keeping the name, but I did slightly modified the javadoc to make the behaviour clear to the reader.",
+      "parentUuid": "41008bf3_4439a6d6",
+      "range": {
+        "startLine": 51,
+        "startChar": 62,
+        "endLine": 51,
+        "endChar": 68
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "47f3cfdc_8ce2b42b",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "5a757ad5_0a53854f",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "OK, I removed the javadoc from here, leaving the one in the interface.",
+      "parentUuid": "47f3cfdc_8ce2b42b",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61bd7e6a_d7f571ce",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -102,6 +192,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b9244c8b_8db26cc4",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "61bd7e6a_d7f571ce",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "26413d4e_667653b2",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d07bcc70_b9fc37f8",
+      "range": {
+        "startLine": 97,
+        "startChar": 81,
+        "endLine": 97,
+        "endChar": 89
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "655f7acb_3115fde1",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -148,6 +280,30 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45242790_e310df69",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes. Done.\n\nThe getAll is now much smaller and more readabe.",
+      "parentUuid": "655f7acb_3115fde1",
+      "range": {
+        "startLine": 98,
+        "startChar": 32,
+        "endLine": 98,
+        "endChar": 40
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -174,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "c24dc5d0_cf9f9fa1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "I think this is a nice suggestion. Thanks.\n\nDone.",
+      "parentUuid": "ca84365b_a6bbdad7",
+      "range": {
+        "startLine": 101,
+        "startChar": 5,
+        "endLine": 103,
+        "endChar": 100
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "edd8a859_d0f11c56",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -188,6 +368,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dae0ed54_58658a0d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "edd8a859_d0f11c56",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -214,6 +412,30 @@
     },
     {
       "key": {
+        "uuid": "468ed914_d1e2c3dc",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 179,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87dbceec_f731a37e",
+      "range": {
+        "startLine": 179,
+        "startChar": 55,
+        "endLine": 179,
+        "endChar": 61
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3cba944a_99e08596",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -234,6 +456,30 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6f25dbef_3365c1ea",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes. Done.",
+      "parentUuid": "3cba944a_99e08596",
+      "range": {
+        "startLine": 189,
+        "startChar": 26,
+        "endLine": 189,
+        "endChar": 34
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -260,6 +506,30 @@
     },
     {
       "key": {
+        "uuid": "a605dbaa_1ee14c59",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "29d30b5d_bb2f2d17",
+      "range": {
+        "startLine": 249,
+        "startChar": 24,
+        "endLine": 249,
+        "endChar": 27
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c508e95b_eff008e9",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -283,6 +553,30 @@
     },
     {
       "key": {
+        "uuid": "c3c8d239_05ce66f7",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c508e95b_eff008e9",
+      "range": {
+        "startLine": 261,
+        "startChar": 27,
+        "endLine": 261,
+        "endChar": 30
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d4060e37_5c82cb36",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -297,6 +591,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f7446977_d185be59",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 262,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "humanComments is different for each call of #loadForSameChange (depending on the {project, changeId} at line 258). \nIn Addition, CommentsUtil does not have a method that computes all published comments. We need to pass in a change ID anyway.\n\nDid I misunderstand something here?",
+      "parentUuid": "d4060e37_5c82cb36",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -323,6 +635,30 @@
     },
     {
       "key": {
+        "uuid": "1fabac61_75a57579",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "I inlined the method after your next comment.",
+      "parentUuid": "a6109732_53ecfbc7",
+      "range": {
+        "startLine": 274,
+        "startChar": 37,
+        "endLine": 274,
+        "endChar": 38
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "aa72d1d1_78ba3089",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -337,6 +673,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "856f9eb9_4709ab28",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 275,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes, although slightly different.\n\nin.entrySet.stream().collect(Collectors.toMap(Map.Entry::getKey, e-\u003e ImmutableList.copyOf(e.getValue())));\n\nI also inlined it and removed the method.",
+      "parentUuid": "aa72d1d1_78ba3089",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -363,6 +717,30 @@
     },
     {
       "key": {
+        "uuid": "f150a9b6_c6355c71",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 284,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes, I think it\u0027s better, also as per https://stackoverflow.com/a/1671106.\n\nDone.",
+      "parentUuid": "d07143aa_10feba9e",
+      "range": {
+        "startLine": 284,
+        "startChar": 42,
+        "endLine": 284,
+        "endChar": 66
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "82a15464_c96c1690",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -380,6 +758,24 @@
     },
     {
       "key": {
+        "uuid": "bbd8194e_0a39e889",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 293,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes, the operation here is simple and doesn\u0027t require a parallelStream.\n\nThanks for catching this.\n\nDone.",
+      "parentUuid": "82a15464_c96c1690",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a0413c0d_886abb46",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -394,6 +790,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4dfc8b43_229fa361",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 304,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "There is no specific reason. the murmur3_128 hash function is used in different places in the Gerrit\u0027s codebase.\n\nI added a JavaDoc to this method though.",
+      "parentUuid": "a0413c0d_886abb46",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -420,6 +834,30 @@
     },
     {
       "key": {
+        "uuid": "70c7863a_efb0e40d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 315,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes. key.patchset() is an integer. I replaced this statement with \n  size +\u003d 4; // (size of an integer)\n\nDone.",
+      "parentUuid": "f8f3eaa1_8a20bb2e",
+      "range": {
+        "startLine": 315,
+        "startChar": 28,
+        "endLine": 315,
+        "endChar": 39
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "25373879_f78ab07a",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -431,6 +869,24 @@
       "writtenOn": "2020-09-23T15:05:20Z",
       "side": 1,
       "message": "forEach()?",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d84c57c4_94e5ad63",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 316,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "I tried it but I couldn\u0027t increment size (a non final variable) inside a forEach statement.",
+      "parentUuid": "25373879_f78ab07a",
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
@@ -454,6 +910,24 @@
     },
     {
       "key": {
+        "uuid": "2df6a90f_aef2adf9",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done.\n\nNote: This class does not have a corresponding proto.",
+      "parentUuid": "37846a4d_b4c0f53d",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d8489c9c_ac13f67d",
         "filename": "proto/cache.proto",
         "patchSetId": 18
@@ -468,6 +942,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fdc22f01_8e509089",
+        "filename": "proto/cache.proto",
+        "patchSetId": 18
+      },
+      "lineNbr": 504,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d8489c9c_ac13f67d",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -494,6 +986,30 @@
     },
     {
       "key": {
+        "uuid": "bc52aa60_409dea1b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 18
+      },
+      "lineNbr": 507,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "I think it\u0027s OK. some protos use \"project\", others use \"project_name\" to refer to the project name string.\n\nI left it as is.",
+      "parentUuid": "903bde69_32f672f7",
+      "range": {
+        "startLine": 507,
+        "startChar": 9,
+        "endLine": 507,
+        "endChar": 16
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ceed80b7_51e41ce7",
         "filename": "proto/cache.proto",
         "patchSetId": 18
@@ -514,6 +1030,30 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f3f9470_4218a29b",
+        "filename": "proto/cache.proto",
+        "patchSetId": 18
+      },
+      "lineNbr": 511,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-23T17:42:28Z",
+      "side": 1,
+      "message": "Yes, you\u0027re right. Done.",
+      "parentUuid": "ceed80b7_51e41ce7",
+      "range": {
+        "startLine": 511,
+        "startChar": 24,
+        "endLine": 511,
+        "endChar": 68
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

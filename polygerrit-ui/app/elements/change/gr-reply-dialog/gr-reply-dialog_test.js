@@ -1508,7 +1508,9 @@ suite('gr-reply-dialog tests', () => {
         .querySelector('gr-button.send'));
     assert.isFalse(sendStub.called);
 
-    element.draftCommentThreads = [{comments: [{__draft: true}]}];
+    element.draftCommentThreads = [{comments: [
+      {__draft: true, path: 'test', line: 1, patch_set: 1},
+    ]}];
     flushAsynchronousOperations();
 
     MockInteractions.tap(element.shadowRoot
@@ -1521,7 +1523,9 @@ suite('gr-reply-dialog tests', () => {
     // computed to false.
     element.draftCommentThreads = [];
     assert.equal(element.getFocusStops().end, element.$.cancelButton);
-    element.draftCommentThreads = [{comments: [{__draft: true}]}];
+    element.draftCommentThreads = [{comments: [
+      {__draft: true, path: 'test', line: 1, patch_set: 1},
+    ]}];
     assert.equal(element.getFocusStops().end, element.$.sendButton);
   });
 

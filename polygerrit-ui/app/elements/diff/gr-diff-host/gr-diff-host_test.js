@@ -21,6 +21,7 @@ import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {DiffSide} from '../gr-diff/gr-diff-utils.js';
+import {sortComments} from '../gr-comment-api/gr-comment-api.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -1131,7 +1132,7 @@ suite('gr-diff-host tests', () => {
         in_reply_to: 'sallys_confession',
       },
     ];
-    const sortedComments = element._sortComments(comments);
+    const sortedComments = sortComments(comments);
     assert.equal(sortedComments[0], comments[1]);
     assert.equal(sortedComments[1], comments[2]);
     assert.equal(sortedComments[2], comments[0]);

@@ -22,6 +22,30 @@
       "revId": "dea4c4b096752e1f1c894e1b1a74db6edcd566af",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e175295b_7ffa2050",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T13:02:45Z",
+      "side": 1,
+      "message": "Sure, done.",
+      "parentUuid": "ba8e4e6e_f3875881",
+      "range": {
+        "startLine": 519,
+        "startChar": 35,
+        "endLine": 519,
+        "endChar": 42
+      },
+      "revId": "dea4c4b096752e1f1c894e1b1a74db6edcd566af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

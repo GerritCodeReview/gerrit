@@ -159,10 +159,10 @@ export class GrComment extends KeyboardShortcutMixin(
    */
 
   @property({type: Number})
-  changeNum!: number;
+  changeNum?: number;
 
   @property({type: Object, notify: true, observer: '_commentChanged'})
-  comment!: Comment | RobotComment;
+  comment?: Comment | RobotComment;
 
   @property({type: Array})
   comments?: (Comment | RobotComment)[];
@@ -186,7 +186,7 @@ export class GrComment extends KeyboardShortcutMixin(
   hasChildren?: boolean;
 
   @property({type: String})
-  patchNum!: PatchSetNum;
+  patchNum?: PatchSetNum;
 
   @property({type: Boolean})
   showActions?: boolean;
@@ -273,18 +273,6 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   reporting = appContext.reportingService;
-
-  /** @override */
-  ready() {
-    super.ready();
-    if (
-      this.changeNum === undefined ||
-      this.patchNum === undefined ||
-      this.comment === undefined
-    ) {
-      throw new Error('Not all required properties are defined.');
-    }
-  }
 
   /** @override */
   attached() {
@@ -460,7 +448,7 @@ export class GrComment extends KeyboardShortcutMixin(
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
-          if (this.comment.__draftID) {
+          if (this.comment?.__draftID) {
             resComment.__draftID = this.comment.__draftID;
           }
           resComment.__commentSide = this.commentSide;
@@ -482,8 +470,11 @@ export class GrComment extends KeyboardShortcutMixin(
     // prior to it being saved.
     this.cancelDebouncer('store');
 
-    if (!this.comment.path || this.comment.line === undefined)
+    if (!this.comment?.path || this.comment.line === undefined)
       throw new Error('Cannot erase Draft Comment');
+    if (this.changeNum === undefined) {
+      throw new Error('undefined changeNum');
+    }
     this.$.storage.eraseDraftComment({
       changeNum: this.changeNum,
       patchNum: this._getPatchNum(),
@@ -504,12 +495,13 @@ export class GrComment extends KeyboardShortcutMixin(
 
   @observe('comment', 'comments.*')
   _computeHasHumanReply() {
-    if (!this.comment || !this.comments) return;
+    const comment = this.comment;
+    if (!comment || !this.comments) return;
     // hide please fix button for robot comment that has human reply
     this._hasHumanReply = this.comments.some(
       c =>
         c.in_reply_to &&
-        c.in_reply_to === this.comment.id &&
+        c.in_reply_to === comment.id &&
         !(c as RobotComment).robot_id
     );
   }
@@ -582,7 +574,11 @@ export class GrComment extends KeyboardShortcutMixin(
     return isAdmin && !draft ? 'showDeleteButtons' : '';
   }
 
-  _computeSaveDisabled(draft: string, comment: Comment, resolved?: boolean) {
+  _computeSaveDisabled(
+    draft: string,
+    comment: Comment | undefined,
+    resolved?: boolean
+  ) {
     // If resolved state has changed and a msg exists, save should be enabled.
     if (!comment || (comment.unresolved === resolved && draft)) {
       return false;
@@ -632,8 +628,11 @@ export class GrComment extends KeyboardShortcutMixin(
       'store',
       () => {
         const message = this._messageText;
-        if (!this.comment.path || this.comment.line === undefined)
+        if (!this.comment?.path || this.comment.line === undefined)
           throw new Error('missing path or line in comment');
+        if (this.changeNum === undefined) {
+          throw new Error('undefined changeNum');
+        }
         const commentLocation: StorageLocation = {
           changeNum: this.changeNum,
           patchNum: this._getPatchNum(),
@@ -656,7 +655,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _handleAnchorClick(e: Event) {
     e.preventDefault();
-    if (!this.comment.line) {
+    if (!this.comment?.line) {
       return;
     }
     this.dispatchEvent(
@@ -673,7 +672,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _handleEdit(e: Event) {
     e.preventDefault();
-    if (!this.comment.message) throw new Error('message undefined');
+    if (!this.comment?.message) throw new Error('message undefined');
     this._messageText = this.comment.message;
     this.editing = true;
     this.reporting.recordDraftInteraction();
@@ -686,7 +685,7 @@ export class GrComment extends KeyboardShortcutMixin(
     if (this.disabled) {
       return;
     }
-    const timingLabel = this.comment.id
+    const timingLabel = this.comment?.id
       ? REPORT_UPDATE_DRAFT
       : REPORT_CREATE_DRAFT;
     const timer = this.reporting.getTimer(timingLabel);
@@ -700,7 +699,7 @@ export class GrComment extends KeyboardShortcutMixin(
     e.preventDefault();
 
     if (
-      !this.comment.message ||
+      !this.comment?.message ||
       this.comment.message.trim().length === 0 ||
       !this.comment.id
     ) {
@@ -773,6 +772,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _discardDraft() {
+    if (!this.comment) return Promise.reject(new Error('undefined comment'));
     if (!this.comment.__draft) {
       return Promise.reject(new Error('Cannot discard a non-draft comment.'));
     }
@@ -871,7 +871,10 @@ export class GrComment extends KeyboardShortcutMixin(
     this._handleFailedDraftRequest();
   }
 
-  _saveDraft(draft: Comment) {
+  _saveDraft(draft?: Comment) {
+    if (!draft || this.changeNum === undefined || this.patchNum === undefined) {
+      throw new Error('undefined draft or changeNum or patchNum');
+    }
     this._showStartRequest();
     return this.$.restAPI
       .saveDiffDraft(this.changeNum, this.patchNum, draft)
@@ -893,6 +896,9 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _deleteDraft(draft: Comment) {
+    if (this.changeNum === undefined || this.patchNum === undefined) {
+      throw new Error('undefined changeNum or patchNum');
+    }
     this._showStartRequest();
     return this.$.restAPI
       .deleteDiffDraft(this.changeNum, this.patchNum, draft)
@@ -907,7 +913,11 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   _getPatchNum(): PatchSetNum {
-    return this.isOnParent() ? ('PARENT' as PatchSetNum) : this.patchNum;
+    const patchNum = this.isOnParent()
+      ? ('PARENT' as PatchSetNum)
+      : this.patchNum;
+    if (patchNum === undefined) throw new Error('patchNum undefined');
+    return patchNum;
   }
 
   @observe('changeNum', 'patchNum', 'comment')
@@ -958,6 +968,9 @@ export class GrComment extends KeyboardShortcutMixin(
     // Modify payload instead of this.comment, as this.comment is passed from
     // the parent by ref.
     const payload = this._getEventPayload();
+    if (!payload.comment) {
+      throw new Error('comment not defined in payload');
+    }
     payload.comment.unresolved = !this.$.resolvedCheckbox.checked;
     this.dispatchEvent(
       new CustomEvent('comment-update', {
@@ -1006,6 +1019,13 @@ export class GrComment extends KeyboardShortcutMixin(
     ) as GrConfirmDeleteCommentDialog | null;
     if (!dialog || !dialog.message) {
       throw new Error('missing confirm delete dialog');
+    }
+    if (
+      !this.comment ||
+      this.changeNum === undefined ||
+      this.patchNum === undefined
+    ) {
+      throw new Error('undefined comment or changeNum or patchNum');
     }
     this.$.restAPI
       .deleteComment(

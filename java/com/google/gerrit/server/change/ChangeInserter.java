@@ -52,7 +52,7 @@ import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.events.CommitReceivedEvent;
 import com.google.gerrit.server.extensions.events.CommentAdded;
@@ -106,7 +106,7 @@ public class ChangeInserter implements InsertChangeOp {
   private final ApprovalsUtil approvalsUtil;
   private final ChangeMessagesUtil cmUtil;
   private final CreateChangeSender.Factory createChangeSenderFactory;
-  private final ExecutorService sendEmailExecutor;
+  private final ExecutorService asyncPostUpdateExecutor;
   private final CommitValidators.Factory commitValidatorsFactory;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
@@ -156,7 +156,7 @@ public class ChangeInserter implements InsertChangeOp {
       ApprovalsUtil approvalsUtil,
       ChangeMessagesUtil cmUtil,
       CreateChangeSender.Factory createChangeSenderFactory,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       CommitValidators.Factory commitValidatorsFactory,
       CommentAdded commentAdded,
       RevisionCreated revisionCreated,
@@ -173,7 +173,7 @@ public class ChangeInserter implements InsertChangeOp {
     this.approvalsUtil = approvalsUtil;
     this.cmUtil = cmUtil;
     this.createChangeSenderFactory = createChangeSenderFactory;
-    this.sendEmailExecutor = sendEmailExecutor;
+    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.commitValidatorsFactory = commitValidatorsFactory;
     this.revisionCreated = revisionCreated;
     this.commentAdded = commentAdded;
@@ -502,7 +502,7 @@ public class ChangeInserter implements InsertChangeOp {
       if (requestScopePropagator != null) {
         @SuppressWarnings("unused")
         Future<?> possiblyIgnoredError =
-            sendEmailExecutor.submit(requestScopePropagator.wrap(sender));
+            asyncPostUpdateExecutor.submit(requestScopePropagator.wrap(sender));
       } else {
         sender.run();
       }

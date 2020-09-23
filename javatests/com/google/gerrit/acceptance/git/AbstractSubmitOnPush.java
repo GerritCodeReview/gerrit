@@ -412,17 +412,17 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.OWNER_REVIEWERS);
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user, null);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(result.getChangeId(), user, null);
 
     sender.clear();
     result = pushTo(pushSpec + ",submit,notify=" + NotifyHandling.ALL);
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user, null);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(result.getChangeId(), user, null);
 
     sender.clear();
     result = pushTo(pushSpec + ",submit"); // default is notify = ALL
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user, null);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(result.getChangeId(), user, null);
   }
 
   @Test
@@ -442,19 +442,22 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
     PushOneCommit.Result result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-to=" + user2.email());
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user2, RecipientType.TO);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        result.getChangeId(), user2, RecipientType.TO);
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-cc=" + user2.email());
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user2, RecipientType.CC);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        result.getChangeId(), user2, RecipientType.CC);
 
     sender.clear();
     result =
         pushTo(pushSpec + ",submit,notify=" + NotifyHandling.NONE + ",notify-bcc=" + user2.email());
     result.assertOkStatus();
-    assertThatEmailsForChangeCreationAndSubmitWereSent(user2, RecipientType.BCC);
+    assertThatEmailsForChangeCreationAndSubmitWereSent(
+        result.getChangeId(), user2, RecipientType.BCC);
   }
 
   private PatchSetApproval getSubmitter(PatchSet.Id patchSetId) throws Exception {
@@ -515,15 +518,15 @@ public abstract class AbstractSubmitOnPush extends AbstractDaemonTest {
    *     sent as "To" and sometimes can be sent as "Cc".
    */
   private void assertThatEmailsForChangeCreationAndSubmitWereSent(
-      TestAccount expected, @Nullable RecipientType expectedRecipientType) {
+      String changeId, TestAccount expected, @Nullable RecipientType expectedRecipientType) {
     String expectedEmail = expected.email();
     String expectedFullName = expected.fullName();
     Address expectedAddress = Address.create(expectedFullName, expectedEmail);
     assertThat(sender.getMessages()).hasSize(2);
-    Message message = sender.getMessages().get(0);
+    Message message = Iterables.getOnlyElement(sender.getMessages(changeId, "newchange"));
     assertThat(message.body().contains("review")).isTrue();
     assertAddress(message, expectedAddress, expectedRecipientType);
-    message = sender.getMessages().get(1);
+    message = Iterables.getOnlyElement(sender.getMessages(changeId, "merged"));
     assertThat(message.rcpt()).containsExactly(expectedAddress);
     assertAddress(message, expectedAddress, expectedRecipientType);
     assertThat(message.body().contains("submitted")).isTrue();

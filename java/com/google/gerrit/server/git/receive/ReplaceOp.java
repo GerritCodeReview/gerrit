@@ -56,7 +56,7 @@ import com.google.gerrit.server.change.ReviewerAdder;
 import com.google.gerrit.server.change.ReviewerAdder.InternalAddReviewerInput;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAddition;
 import com.google.gerrit.server.change.ReviewerAdder.ReviewerAdditionList;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.config.UrlFormatter;
 import com.google.gerrit.server.extensions.events.CommentAdded;
 import com.google.gerrit.server.extensions.events.RevisionCreated;
@@ -123,7 +123,7 @@ public class ReplaceOp implements BatchUpdateOp {
   private final ChangeData.Factory changeDataFactory;
   private final ChangeKindCache changeKindCache;
   private final ChangeMessagesUtil cmUtil;
-  private final ExecutorService sendEmailExecutor;
+  private final ExecutorService asyncPostUpdateExecutor;
   private final RevisionCreated revisionCreated;
   private final CommentAdded commentAdded;
   private final MergedByPushOp.Factory mergedByPushOpFactory;
@@ -174,7 +174,7 @@ public class ReplaceOp implements BatchUpdateOp {
       PatchSetUtil psUtil,
       ReplacePatchSetSender.Factory replacePatchSetFactory,
       ProjectCache projectCache,
-      @SendEmailExecutor ExecutorService sendEmailExecutor,
+      @AsyncPostUpdateExecutor ExecutorService asyncPostUpdateExecutor,
       ReviewerAdder reviewerAdder,
       Change change,
       MessageIdGenerator messageIdGenerator,
@@ -202,7 +202,7 @@ public class ReplaceOp implements BatchUpdateOp {
     this.psUtil = psUtil;
     this.replacePatchSetFactory = replacePatchSetFactory;
     this.projectCache = projectCache;
-    this.sendEmailExecutor = sendEmailExecutor;
+    this.asyncPostUpdateExecutor = asyncPostUpdateExecutor;
     this.reviewerAdder = reviewerAdder;
     this.change = change;
     this.messageIdGenerator = messageIdGenerator;
@@ -500,7 +500,8 @@ public class ReplaceOp implements BatchUpdateOp {
       Runnable e = new ReplaceEmailTask(ctx);
       if (requestScopePropagator != null) {
         @SuppressWarnings("unused")
-        Future<?> possiblyIgnoredError = sendEmailExecutor.submit(requestScopePropagator.wrap(e));
+        Future<?> possiblyIgnoredError =
+            asyncPostUpdateExecutor.submit(requestScopePropagator.wrap(e));
       } else {
         e.run();
       }

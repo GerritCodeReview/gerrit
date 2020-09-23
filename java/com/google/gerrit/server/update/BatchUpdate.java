@@ -49,6 +49,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.GerritPersonIdent;
 import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.change.NotifyResolver;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.extensions.events.GitReferenceUpdated;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.validators.OnSubmitValidators;
@@ -64,6 +65,7 @@ import com.google.gerrit.server.project.InvalidChangeOperationException;
 import com.google.gerrit.server.project.NoSuchChangeException;
 import com.google.gerrit.server.project.NoSuchProjectException;
 import com.google.gerrit.server.project.NoSuchRefException;
+import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.inject.Inject;
 import com.google.inject.Module;
 import com.google.inject.assistedinject.Assisted;
@@ -77,6 +79,7 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.TimeZone;
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
@@ -353,6 +356,8 @@ public class BatchUpdate implements AutoCloseable {
   private final NoteDbUpdateManager.Factory updateManagerFactory;
   private final ChangeIndexer indexer;
   private final GitReferenceUpdated gitRefUpdated;
+  private final ThreadLocalRequestContext requestContext;
+  private final ExecutorService executorService;
 
   private final Project.NameKey project;
   private final CurrentUser user;
@@ -382,6 +387,8 @@ public class BatchUpdate implements AutoCloseable {
       NoteDbUpdateManager.Factory updateManagerFactory,
       ChangeIndexer indexer,
       GitReferenceUpdated gitRefUpdated,
+      ThreadLocalRequestContext requestContext,
+      @AsyncPostUpdateExecutor ExecutorService executorService,
       @Assisted Project.NameKey project,
       @Assisted CurrentUser user,
       @Assisted Timestamp when) {
@@ -391,6 +398,8 @@ public class BatchUpdate implements AutoCloseable {
     this.updateManagerFactory = updateManagerFactory;
     this.indexer = indexer;
     this.gitRefUpdated = gitRefUpdated;
+    this.requestContext = requestContext;
+    this.executorService = executorService;
     this.project = project;
     this.user = user;
     this.when = when;
@@ -687,21 +696,38 @@ public class BatchUpdate implements AutoCloseable {
     return new ChangeContextImpl(notes);
   }
 
-  private void executePostOps() throws Exception {
+  private void executePostOps() {
     ContextImpl ctx = new ContextImpl();
     for (BatchUpdateOp op : ops.values()) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
+      postUpdate(ctx, op);
+      if (op instanceof AsyncPostUpdateOp) {
+        asyncPostUpdate(ctx, ((AsyncPostUpdateOp) op));
       }
     }
 
     for (RepoOnlyOp op : repoOnlyOps) {
-      try (TraceContext.TraceTimer ignored =
-          TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
-        op.postUpdate(ctx);
+      postUpdate(ctx, op);
+      if (op instanceof AsyncPostUpdateOp) {
+        asyncPostUpdate(ctx, ((AsyncPostUpdateOp) op));
       }
     }
+  }
+
+  /** Invoke the postUpdate methods synchronously. */
+  private void postUpdate(ContextImpl ctx, RepoOnlyOp op) {
+    try (TraceContext.TraceTimer ignored =
+        TraceContext.newTimer(op.getClass().getSimpleName() + "#postUpdate", Metadata.empty())) {
+      op.postUpdate(ctx);
+    } catch (Exception ex) {
+      logDebug(
+          String.format(
+              "postUpdate for project %s failed for user %s", ctx.getProject(), ctx.getUser()));
+    }
+  }
+
+  /** Invoke the asyncPostUpdate methods asynchronously. */
+  private void asyncPostUpdate(ContextImpl ctx, AsyncPostUpdateOp op) {
+    executorService.execute(new ExecuteAsyncPostUpdate(op, ctx, user, requestContext));
   }
 
   private static void logDebug(String msg) {

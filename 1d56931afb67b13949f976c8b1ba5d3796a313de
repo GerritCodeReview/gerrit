@@ -16,6 +16,24 @@
       "revId": "1d56931afb67b13949f976c8b1ba5d3796a313de",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db33ddf3_459f78ce",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 512,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T12:17:21Z",
+      "side": 1,
+      "message": "At first I thought it doesn\u0027t make sense there as well, so I decided not to be consistent with it.\nI\u0027m looking at it again, and maybe it\u0027s best to have it here just in case; maybe it does make sense to send the email even when can\u0027t read from NoteDB?",
+      "parentUuid": "cd25da32_ef5203f5",
+      "revId": "1d56931afb67b13949f976c8b1ba5d3796a313de",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

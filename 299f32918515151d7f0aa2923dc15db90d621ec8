@@ -42,6 +42,30 @@
     },
     {
       "key": {
+        "uuid": "2bb3a3a6_3f9849bb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T09:59:20Z",
+      "side": 1,
+      "message": "It was suggested \"are\" infers intent of being disrespectful, while nobody had such intent; keep as is?",
+      "parentUuid": "e575b008_79a5fe54",
+      "range": {
+        "startLine": 4441,
+        "startChar": 11,
+        "endLine": 4441,
+        "endChar": 17
+      },
+      "revId": "299f32918515151d7f0aa2923dc15db90d621ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2c86960_86d68927",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5
@@ -53,6 +77,30 @@
       "writtenOn": "2020-09-23T09:53:22Z",
       "side": 1,
       "message": "allow",
+      "range": {
+        "startLine": 4575,
+        "startChar": 45,
+        "endLine": 4575,
+        "endChar": 54
+      },
+      "revId": "299f32918515151d7f0aa2923dc15db90d621ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "583278d3_48f747ae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4575,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-09-23T09:59:20Z",
+      "side": 1,
+      "message": "I think here and below \"allowlist\" and \"blocklist\" make more sense\n\"add one entry to the allow of email addresses\" vs \"add one entry to the allowlist of email addresses\".\nKeep as is?",
+      "parentUuid": "a2c86960_86d68927",
       "range": {
         "startLine": 4575,
         "startChar": 45,

@@ -104,6 +104,12 @@ export const htmlTemplate = html`
       display: flex;
       width: 100%;
     }
+    gr-endpoint-decorator[name='reply-text'] {
+      flex-direction: column;
+    }
+    #textarea {
+      flex: 1;
+    }
     .previewContainer gr-formatted-text {
       background: var(--table-header-background-color);
       padding: var(--spacing-l);

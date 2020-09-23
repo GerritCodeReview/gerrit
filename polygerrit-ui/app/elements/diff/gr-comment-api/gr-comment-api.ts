@@ -80,6 +80,22 @@ export function isPatchSetFile(
   return !!(x as PatchSetFile).path;
 }
 
+export function sortComments<
+  T extends CommentInfoWithPath | CommentInfoWithTwoPaths
+>(comments: T[]): T[] {
+  return comments.slice(0).sort((c1, c2) => {
+    const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
+    const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
+    if (d1 !== d2) return d1 ? 1 : -1;
+    const dateDiff =
+      parseDate(c1.updated).valueOf() - parseDate(c2.updated).valueOf();
+    if (dateDiff) {
+      return dateDiff;
+    }
+    return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
+  });
+}
+
 export interface CommentThread {
   comments: CommentInfoWithTwoPaths[];
   patchNum?: PatchSetNum;
@@ -519,7 +535,7 @@ export class ChangeComments {
     // However, this doesn't affect the final result of computeUnresolvedNum
     // This should be fixed by removing CommentInfoWithTwoPaths later
     const threads = this.getCommentThreads(
-      this._sortComments(comments) as CommentInfoWithTwoPaths[]
+      sortComments(comments) as CommentInfoWithTwoPaths[]
     );
 
     const unresolvedThreads = threads.filter(
@@ -533,24 +549,8 @@ export class ChangeComments {
 
   getAllThreadsForChange() {
     const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
-    const sortedComments = this._sortComments(comments);
+    const sortedComments = sortComments(comments);
     return this.getCommentThreads(sortedComments);
-  }
-
-  _sortComments<T extends CommentInfoWithPath | CommentInfoWithTwoPaths>(
-    comments: T[]
-  ): T[] {
-    return comments.slice(0).sort((c1, c2) => {
-      const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
-      const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
-      if (d1 !== d2) return d1 ? 1 : -1;
-      const dateDiff =
-        parseDate(c1.updated).valueOf() - parseDate(c2.updated).valueOf();
-      if (dateDiff) {
-        return dateDiff;
-      }
-      return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
-    });
   }
 
   /**

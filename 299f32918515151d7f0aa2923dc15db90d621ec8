@@ -90,6 +90,30 @@
     },
     {
       "key": {
+        "uuid": "e6d71a01_39c79d8c",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 4441,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T10:41:19Z",
+      "side": 1,
+      "message": "I think \"may be considered disrespectful\" is reason enough to remove them.\nSomeone feeling that the terms aren\u0027t disrespectful is irrelevant since it\u0027s not a justification to keep the terms if someone else feels disrespected by them.",
+      "parentUuid": "82e4645c_7c3ffe16",
+      "range": {
+        "startLine": 4441,
+        "startChar": 11,
+        "endLine": 4441,
+        "endChar": 17
+      },
+      "revId": "299f32918515151d7f0aa2923dc15db90d621ec8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a2c86960_86d68927",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 5

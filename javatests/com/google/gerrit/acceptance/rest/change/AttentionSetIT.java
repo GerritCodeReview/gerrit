@@ -1355,6 +1355,30 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(attentionSet).hasReasonThat().isEqualTo("Reviewer was added");
   }
 
+  @Test
+  public void attentionSetEmailFooter() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add user to attention set. They receive an email with that footer.
+    change(r).addReviewer(user.id().toString());
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains("Gerrit-Assignee: " + user.fullName());
+    sender.clear();
+
+    // Irrelevant reply, User is still in the attention set.
+    change(r).current().review(ReviewInput.approve());
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains("Gerrit-Assignee: " + user.fullName());
+    sender.clear();
+
+    // Abandon the change which removes user from attention set; there is an email but without that
+    // footer.
+    change(r).abandon();
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .doesNotContain("Gerrit-Assignee: " + user.fullName());
+    sender.clear();
+  }
+
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(
       PushOneCommit.Result r, TestAccount account) {
     return getAttentionSetUpdates(r.getChange().getId()).stream()

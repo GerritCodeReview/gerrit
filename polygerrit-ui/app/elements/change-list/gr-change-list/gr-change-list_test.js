@@ -50,8 +50,8 @@ suite('gr-change-list basic tests', () => {
   suite('test show change number not logged in', () => {
     setup(() => {
       element = basicFixture.instantiate();
-      element.account = null;
-      element.preferences = null;
+      element.account = undefined;
+      element.preferences = undefined;
       element._config = {};
     });
 

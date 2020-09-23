@@ -24,11 +24,11 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element.js';
 import {htmlTemplate} from './gr-comment-thread_html.js';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {parseDate} from '../../../utils/date-util.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {appContext} from '../../../services/app-context.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
 import {computeDisplayPath} from '../../../utils/path-list-util.js';
+import {sortComments} from '../../diff/gr-comment-api/gr-comment-api.js';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;
@@ -273,7 +273,7 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
   }
 
   _commentsChanged() {
-    this._orderedComments = this._sortedComments(this.comments);
+    this._orderedComments = sortComments(this.comments);
     this.updateThreadProperties();
   }
 
@@ -340,22 +340,6 @@ class GrCommentThread extends KeyboardShortcutMixin(GestureEventListeners(
         }
       }
     }
-  }
-
-  _sortedComments(comments) {
-    return comments.slice().sort((c1, c2) => {
-      const c1Date = c1.__date || parseDate(c1.updated);
-      const c2Date = c2.__date || parseDate(c2.updated);
-      const dateCompare = c1Date - c2Date;
-      // Ensure drafts are at the end. There should only be one but in edge
-      // cases could be more. In the unlikely event two drafts are being
-      // compared, use the typical date compare.
-      if (c2.__draft && !c1.__draft ) { return -1; }
-      if (c1.__draft && !c2.__draft ) { return 1; }
-      if (dateCompare === 0 && (!c1.id || !c1.id.localeCompare)) { return 0; }
-      // If same date, fall back to sorting by id.
-      return dateCompare ? dateCompare : c1.id.localeCompare(c2.id);
-    });
   }
 
   _createReplyComment(content, opt_isEditing,

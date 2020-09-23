@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ba8e4e6e_f3875881",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 519,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-23T12:41:37Z",
+      "side": 1,
+      "message": "Above a TreeSet is being used, which I think is more predictable with regards to tests, because it is sorted.",
+      "range": {
+        "startLine": 519,
+        "startChar": 35,
+        "endLine": 519,
+        "endChar": 42
+      },
+      "revId": "dea4c4b096752e1f1c894e1b1a74db6edcd566af",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

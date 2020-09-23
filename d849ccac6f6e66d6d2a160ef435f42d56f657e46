@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "15bbc7c4_704f57d2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-23T08:03:09Z",
+      "side": 1,
+      "message": "@Dmitrii there must be some problem with karma tests: I checked the logs and I clearly see the failures BUT at the end this is what the Bazel test command repots.\n\n  //polygerrit-ui:karma_test                                               PASSED in 148.0s\n\nLet me create an issue with that, because it is very worrying that Karka reports an exit status of zero when there are failures.",
+      "revId": "d849ccac6f6e66d6d2a160ef435f42d56f657e46",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

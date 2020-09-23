@@ -267,6 +267,42 @@
       "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "381334b7_28a0cbe2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-23T12:41:06Z",
+      "side": 1,
+      "message": "Talked to Ben and he is also in favour of removing the header. Feel free to go ahead then, since everyone seems to be in favour of the change.",
+      "parentUuid": "a2c39edf_7dd6259e",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "58974b22_5ee42df6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-23T12:41:06Z",
+      "side": 1,
+      "message": "Looks like Ben is also in favour of removing the header. Feel free to go ahead then, since everyone seems to be in favour of the change.",
+      "parentUuid": "a2c39edf_7dd6259e",
+      "revId": "a5d08a1f99081433fe3501830d703da9921af49f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

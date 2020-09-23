@@ -2,6 +2,46 @@
   "comments": [
     {
       "key": {
+        "uuid": "a9f75652_8c573cde",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "may be considered disrespectful?\n\n\"are disrespectful\" infers intent.\nI may be a poor judge of character but I cant imagine that the reason for choosing these terms in the first place was to be disrespectful.",
+      "range": {
+        "startLine": 13,
+        "startChar": 21,
+        "endLine": 13,
+        "endChar": 38
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e994f761_2ffc8c1e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "CR-1 only for the test-names in ListMailFilterIT not for the questions and tool-shedding 😊",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "16aa9e3b_17c300ed",
         "filename": "Documentation/config-gerrit.txt",
         "patchSetId": 4
@@ -208,6 +248,162 @@
       "side": 1,
       "message": "\u003e Sure, I would still mention this configuration change in the release notes under the breaking changes though.\n\n+1 to this proposal. Mentioning it as a \"breaking change\" should foster people into replacing their former values with these cleaner ones. Deprecating them later on should then be of a lesser impact.",
       "parentUuid": "c51f7b06_e9a9eda7",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dba727b6_d97494fb",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 4436,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "Documenting it as a breaking change in the release-notes should be enough but I don\u0027t really see the point of not being open about it in the documentation also.\nThe point here is to attempt not making anyone feel disrespected, I don\u0027t think anyone would feel disrespected if we openly admitted:\n\n    The previous filter-names \u0027BLACKLIST\u0027 and \u0027WHITELIST\u0027 have been deprecated\n    since they may be considered disrespectful and there\u0027s no technical or\n    practical reason to use these exact terms for the filters.\n    For backwards compatibility they are still supported but support for these\n    deprecated terms will be removed in future releases.\n\nWhats the point of pretending that the terms were never were there?\nOn the contrary, by being open about it there\u0027s a higher chance of somebody noticing it and going \"Oh, maybe we should change those terms in our application as well!\".\n\nTo me it\u0027s just like any other deprecation:\n\n    \"$THIS has been deemed to have no place in future versions of Gerrit because $REASONS.\n    Make sure to use $NEW_THING instead as $THIS will be removed in future versions.\"",
+      "parentUuid": "022100ab_de2c47d4",
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92b602c7_50eec021",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "removed?",
+      "range": {
+        "startLine": 50,
+        "startChar": 77,
+        "endLine": 50,
+        "endChar": 87
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "33faf973_f00b54da",
+        "filename": "java/com/google/gerrit/server/mail/ListMailFilter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "Would there be a benefit to having these names as constants to make it crystal clear that what they are and that they should be removed?\n\n    private static string LEGACY_ALLOW \u003d \"WHITELIST\";",
+      "range": {
+        "startLine": 60,
+        "startChar": 11,
+        "endLine": 60,
+        "endChar": 22
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "876432e6_bc56beda",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "Allow",
+      "range": {
+        "startLine": 52,
+        "startChar": 24,
+        "endLine": 52,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b7c68f03_ff9c466f",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "Allow",
+      "range": {
+        "startLine": 64,
+        "startChar": 24,
+        "endLine": 64,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "025d30ae_dcb4c112",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "Block",
+      "range": {
+        "startLine": 79,
+        "startChar": 24,
+        "endLine": 79,
+        "endChar": 33
+      },
+      "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce5042a5_f8546173",
+        "filename": "javatests/com/google/gerrit/acceptance/server/mail/ListMailFilterIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 91,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-09-23T05:59:14Z",
+      "side": 1,
+      "message": "Block",
+      "range": {
+        "startLine": 91,
+        "startChar": 24,
+        "endLine": 91,
+        "endChar": 33
+      },
       "revId": "8cdf4837f1a257d66c4fa3962dc31fb4a23badf9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

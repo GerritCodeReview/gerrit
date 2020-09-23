@@ -182,6 +182,20 @@ be ordered as ranked by the plugins (if there are any).
 +
 By default 1.
 
+[[asyncPostUpdate]]
+=== Section asyncPostUpdate
+
+[[asyncPostUpdate.threadPoolSize]]asyncPostUpdate.threadPoolSize::
++
+Maximum size of thread pool in which async post updates are sent out.
++
+When set to 0, a direct executor is used.
++
+When unset, use link:#sendemail[sendemail.threadPoolSize] threadPoolSize. When both
+are unset, use the default.
++
+By default, 1.
+
 [[auth]]
 === Section auth
 
@@ -869,6 +883,8 @@ Refreshes will only be scheduled on this executor if the values are
 out of sync.
 The check if they are is cheap and always happens on the thread that
 inquires for a cached value.
++
+When set to 0, a direct executor is used.
 +
 Defaults to 2.
 
@@ -4480,11 +4496,7 @@ timeout. The connection will then block until established or
 an error occurs.
 
 [[sendemail.threadPoolSize]]sendemail.threadPoolSize::
-+
-Maximum size of thread pool in which the review comments
-notifications are sent out asynchronously.
-+
-By default, 1.
+Deprecated. Replaced with link:#asyncPostUpdate.threadPoolSize[asyncPostUpdate.threadPoolSize]
 
 [[sendemail.from]]sendemail.from::
 +

@@ -19,7 +19,7 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AccountState;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.mail.send.AddToAttentionSetSender;
 import com.google.gerrit.server.mail.send.AttentionSetSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
@@ -55,7 +55,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
         Account.Id attentionUserId);
   }
 
-  private ExecutorService sendEmailsExecutor;
+  private ExecutorService asyncPostUpdateExecutor;
   private AttentionSetSender sender;
   private Context ctx;
   private Change change;
@@ -66,14 +66,14 @@ public class AttentionSetEmail implements Runnable, RequestContext {
 
   @Inject
   AttentionSetEmail(
-      @SendEmailExecutor ExecutorService executor,
+      @AsyncPostUpdateExecutor ExecutorService executor,
       @Assisted AttentionSetSender sender,
       @Assisted Context ctx,
       @Assisted Change change,
       @Assisted String reason,
       @Assisted MessageIdGenerator.MessageId messageId,
       @Assisted Account.Id attentionUserId) {
-    this.sendEmailsExecutor = executor;
+    this.asyncPostUpdateExecutor = executor;
     this.sender = sender;
     this.ctx = ctx;
     this.change = change;
@@ -84,7 +84,7 @@ public class AttentionSetEmail implements Runnable, RequestContext {
 
   public void sendAsync() {
     @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+    Future<?> possiblyIgnoredError = asyncPostUpdateExecutor.submit(this);
   }
 
   @Override

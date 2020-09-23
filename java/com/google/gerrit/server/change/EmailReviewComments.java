@@ -23,7 +23,7 @@ import com.google.gerrit.entities.Comment;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
-import com.google.gerrit.server.config.SendEmailExecutor;
+import com.google.gerrit.server.config.AsyncPostUpdateExecutor;
 import com.google.gerrit.server.mail.send.CommentSender;
 import com.google.gerrit.server.mail.send.MessageIdGenerator;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -53,6 +53,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
      *     database. The contents of this message typically include the "Patch set N" header and "(M
      *     comments)".
      * @param comments inline comments.
+     * @param comments inline comments.
      * @param patchSetComment used by HTML template only: some quasi-human-generated text. The
      *     contents should *not* include a "Patch set N" header or "(M comments)" footer, as these
      *     will be added automatically in soy in a structured way.
@@ -71,7 +72,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
         RepoView repoView);
   }
 
-  private final ExecutorService sendEmailsExecutor;
+  private final ExecutorService asyncPostUpdateExecutor;
   private final PatchSetInfoFactory patchSetInfoFactory;
   private final CommentSender.Factory commentSenderFactory;
   private final ThreadLocalRequestContext requestContext;
@@ -89,7 +90,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   @Inject
   EmailReviewComments(
-      @SendEmailExecutor ExecutorService executor,
+      @AsyncPostUpdateExecutor ExecutorService executor,
       PatchSetInfoFactory patchSetInfoFactory,
       CommentSender.Factory commentSenderFactory,
       ThreadLocalRequestContext requestContext,
@@ -103,7 +104,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
       @Nullable @Assisted String patchSetComment,
       @Assisted List<LabelVote> labels,
       @Assisted RepoView repoView) {
-    this.sendEmailsExecutor = executor;
+    this.asyncPostUpdateExecutor = executor;
     this.patchSetInfoFactory = patchSetInfoFactory;
     this.commentSenderFactory = commentSenderFactory;
     this.requestContext = requestContext;
@@ -121,7 +122,7 @@ public class EmailReviewComments implements Runnable, RequestContext {
 
   public void sendAsync() {
     @SuppressWarnings("unused")
-    Future<?> possiblyIgnoredError = sendEmailsExecutor.submit(this);
+    Future<?> possiblyIgnoredError = asyncPostUpdateExecutor.submit(this);
   }
 
   @Override

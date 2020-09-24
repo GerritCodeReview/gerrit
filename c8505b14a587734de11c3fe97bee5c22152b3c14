@@ -16,6 +16,230 @@
       "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e6ebdd6b_2ab495a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 15
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "Some nits.",
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b670f026_17edb031",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 874,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "with the (Was there before but fixable here too.)",
+      "range": {
+        "startLine": 874,
+        "startChar": 43,
+        "endLine": 874,
+        "endChar": 56
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "115bd026_b9813471",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "there is also (Impersonal.)",
+      "range": {
+        "startLine": 980,
+        "startChar": 15,
+        "endLine": 980,
+        "endChar": 27
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "826a043d_096c616b",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "one single",
+      "range": {
+        "startLine": 980,
+        "startChar": 68,
+        "endLine": 980,
+        "endChar": 74
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "975c3075_3abf8166",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 15
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "interfaces",
+      "range": {
+        "startLine": 986,
+        "startChar": 0,
+        "endLine": 986,
+        "endChar": 9
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8acb7310_289b6bea",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "Factory",
+      "range": {
+        "startLine": 146,
+        "startChar": 39,
+        "endLine": 146,
+        "endChar": 45
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3d13e1bb_45b12624",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "Usually goes on its own line.",
+      "range": {
+        "startLine": 285,
+        "startChar": 31,
+        "endLine": 285,
+        "endChar": 49
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "097d1dfe_94ff38ec",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 410,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "This and other code in this file lend warnings in Eclipse.",
+      "range": {
+        "startLine": 410,
+        "startChar": 39,
+        "endLine": 410,
+        "endChar": 52
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7abd922d_b6b518d5",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 414,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "These semicolon and curly braces can be removed.",
+      "range": {
+        "startLine": 413,
+        "startChar": 70,
+        "endLine": 414,
+        "endChar": 9
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "09385ae5_7c1845db",
+        "filename": "java/com/google/gerrit/server/change/ChangePluginDefinedInfoFactory.java",
+        "patchSetId": 15
+      },
+      "lineNbr": 35,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T16:26:26Z",
+      "side": 1,
+      "message": "Wrap here instead?",
+      "range": {
+        "startLine": 35,
+        "startChar": 97,
+        "endLine": 35,
+        "endChar": 103
+      },
+      "revId": "c8505b14a587734de11c3fe97bee5c22152b3c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

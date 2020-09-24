@@ -1174,6 +1174,76 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void twoFixesOnCommitMessageCanBeAppliedOneAfterTheOther() throws Exception {
+    // Set a dedicated commit message.
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+    FixSuggestionInfo fixSuggestionInfo1 = createFixSuggestionInfo(fixReplacementInfo1);
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = Patch.COMMIT_MSG;
+    fixReplacementInfo2.range = createRange(9, 0, 10, 0);
+    fixReplacementInfo2.replacement = "Modified line 3\n";
+    FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
+
+    RobotCommentInput robotCommentInput1 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo1);
+    RobotCommentInput robotCommentInput2 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo2);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput1);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput2);
+    List<String> fixIds = getFixIds(getRobotComments());
+
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(1));
+
+    String commitMessage = gApi.changes().id(changeId).edit().getCommitMessage();
+    assertThat(commitMessage)
+        .isEqualTo("Modified line 1\nLine 2 of commit message\nModified line 3\n");
+  }
+
+  @Test
+  public void twoConflictingFixesOnCommitMessageCanNotBeAppliedOneAfterTheOther() throws Exception {
+    // Set a dedicated commit message.
+    String originalCommitMessage =
+        "Line 1 of commit message\nLine 2 of commit message\nLine 3 of commit message\n";
+    gApi.changes().id(changeId).edit().modifyCommitMessage(originalCommitMessage);
+    gApi.changes().id(changeId).edit().publish();
+
+    FixReplacementInfo fixReplacementInfo1 = new FixReplacementInfo();
+    fixReplacementInfo1.path = Patch.COMMIT_MSG;
+    fixReplacementInfo1.range = createRange(7, 0, 8, 0);
+    fixReplacementInfo1.replacement = "Modified line 1\n";
+    FixSuggestionInfo fixSuggestionInfo1 = createFixSuggestionInfo(fixReplacementInfo1);
+
+    FixReplacementInfo fixReplacementInfo2 = new FixReplacementInfo();
+    fixReplacementInfo2.path = Patch.COMMIT_MSG;
+    fixReplacementInfo2.range = createRange(7, 0, 10, 0);
+    fixReplacementInfo2.replacement = "Differently modified line 1\n";
+    FixSuggestionInfo fixSuggestionInfo2 = createFixSuggestionInfo(fixReplacementInfo2);
+
+    RobotCommentInput robotCommentInput1 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo1);
+    RobotCommentInput robotCommentInput2 =
+        TestCommentHelper.createRobotCommentInput(FILE_NAME, fixSuggestionInfo2);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput1);
+    testCommentHelper.addRobotComment(changeId, robotCommentInput2);
+    List<String> fixIds = getFixIds(getRobotComments());
+
+    gApi.changes().id(changeId).current().applyFix(fixIds.get(0));
+    assertThrows(
+        ResourceConflictException.class,
+        () -> gApi.changes().id(changeId).current().applyFix(fixIds.get(1)));
+  }
+
+  @Test
   public void applyingFixTwiceIsIdempotent() throws Exception {
     fixReplacementInfo.path = FILE_NAME;
     fixReplacementInfo.replacement = "Modified content";

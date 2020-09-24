@@ -19,6 +19,98 @@
     },
     {
       "key": {
+        "uuid": "09c415c5_66a36eb5",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 122,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T15:31:59Z",
+      "side": 1,
+      "message": "NIT: Maybe this could be \n```\nDEFAULT_VAL_SUBMIT_TOGETHER \u003d {\n    changes: [],\n    non_visible_changes: 0,\n  };\n_submittedTogether?: SubmittedTogetherInfo \u003d DEFAULT_VAL_SUBMIT_TOGETHER\n\nclear() {\n this._submittedTogether \u003d DEFAULT_VAL_SUBMIT_TOGETHER;\n}",
+      "range": {
+        "startLine": 122,
+        "startChar": 44,
+        "endLine": 122,
+        "endChar": 63
+      },
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cdf592f7_61599c22",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T15:31:59Z",
+      "side": 1,
+      "message": "this can be change._number",
+      "range": {
+        "startLine": 136,
+        "startChar": 32,
+        "endLine": 136,
+        "endChar": 38
+      },
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5adf34e1_0af6507f",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 139,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T15:31:59Z",
+      "side": 1,
+      "message": "Maybe good place to check if this.change \u003d\u003d\u003d change",
+      "range": {
+        "startLine": 139,
+        "startChar": 18,
+        "endLine": 139,
+        "endChar": 21
+      },
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "50945b16_c2953715",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T15:31:59Z",
+      "side": 1,
+      "message": "I think this can be as well `change._number`",
+      "range": {
+        "startLine": 149,
+        "startChar": 48,
+        "endLine": 149,
+        "endChar": 49
+      },
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "2107022c_1b16ed28",
         "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
         "patchSetId": 2
@@ -30,6 +122,29 @@
       "writtenOn": "2020-09-22T19:23:25Z",
       "side": 1,
       "message": "Optional: I have grown to like type guards more than hasOwnProperty checks. Something like this.\n\n  function isChangeInfo(x: ChangeInfo | RelatedChangeAndCommitInfo)\n      : x is ChangeInfo {\n    return (x as ChangeInfo)._number !\u003d\u003d undefined;\n  }",
+      "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "869fed8c_a1c48978",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 342,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T15:31:59Z",
+      "side": 1,
+      "message": "Nit: Isn\u0027t enought to do !submittedTogether || !sameTopic",
+      "range": {
+        "startLine": 342,
+        "startChar": 43,
+        "endLine": 342,
+        "endChar": 52
+      },
       "revId": "53f90ffaff282e6e34535ceb1e12c4e328a5c9ed",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

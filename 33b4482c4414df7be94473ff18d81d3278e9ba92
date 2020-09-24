@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "724c7c73_dcef29e6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1114982
+      },
+      "writtenOn": "2020-09-24T13:00:54Z",
+      "side": 1,
+      "message": "Thanks!\n\nI was about to do it myself. You were too fast for me;-)\nHere is a bug issue.\nhttps://bugs.chromium.org/p/gerrit/issues/detail?id\u003d13440",
+      "parentUuid": "52ad2907_e0b72c7d",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "33b4482c4414df7be94473ff18d81d3278e9ba92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41db3225_640a92e2",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
         "patchSetId": 3

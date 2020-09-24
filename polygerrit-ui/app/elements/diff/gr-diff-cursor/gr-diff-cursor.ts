@@ -458,8 +458,8 @@ export class GrDiffCursor extends GestureEventListeners(
     );
   }
 
-  _rowHasThread(row: HTMLElement) {
-    return row.querySelector('.thread-group');
+  _rowHasThread(row: HTMLElement): boolean {
+    return !!row.querySelector('.thread-group');
   }
 
   /**

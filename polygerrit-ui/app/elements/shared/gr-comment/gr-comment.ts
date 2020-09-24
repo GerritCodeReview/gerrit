@@ -470,8 +470,8 @@ export class GrComment extends KeyboardShortcutMixin(
     // prior to it being saved.
     this.cancelDebouncer('store');
 
-    if (!this.comment?.path || this.comment.line === undefined)
-      throw new Error('Cannot erase Draft Comment');
+    // this.comment.line can be undefined for patchset level comments
+    if (!this.comment?.path) throw new Error('Cannot erase Draft Comment');
     if (this.changeNum === undefined) {
       throw new Error('undefined changeNum');
     }

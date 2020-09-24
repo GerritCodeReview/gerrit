@@ -24,7 +24,7 @@ export interface StorageLocation {
   changeNum: number;
   patchNum: PatchSetNum;
   path: string;
-  line: number;
+  line: number | undefined;
   range?: CommentRange;
 }
 

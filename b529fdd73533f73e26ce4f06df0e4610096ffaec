@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "20ec0e2c_cbba62b5",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e98dd8a0_da936e76",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 8
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3c2a492e_d3e21178",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aa15ea69_8d69b487",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c2a492e_d3e21178",
+      "range": {
+        "startLine": 114,
+        "startChar": 5,
+        "endLine": 114,
+        "endChar": 31
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "c646de9d_3971b8ab",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9b950527_fd37860d",
+      "range": {
+        "startLine": 134,
+        "startChar": 72,
+        "endLine": 134,
+        "endChar": 83
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9518ba43_62dc6a0e",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 10
@@ -88,6 +160,24 @@
     },
     {
       "key": {
+        "uuid": "a6d46e3f_1cc3ad18",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "good idea, thx",
+      "parentUuid": "9518ba43_62dc6a0e",
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "5cd5ad79_95bd507d",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 10
@@ -102,6 +192,24 @@
       "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0ea9b0a_9b7e36f6",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5cd5ad79_95bd507d",
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -128,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "81dbfc29_d6f13025",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "done",
+      "parentUuid": "db8f8bbc_9980a70c",
+      "range": {
+        "startLine": 331,
+        "startChar": 52,
+        "endLine": 331,
+        "endChar": 63
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e40c1d8b_f4da514e",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 10
@@ -151,6 +283,30 @@
     },
     {
       "key": {
+        "uuid": "c9e8ba7f_2007a0b3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "ConfigInput is using InheritedBooleanInfoConfiguredValue\nand ConfingInfo is using InheritedBooleanInfo. \n\nconfigInfo cannot extend configinput",
+      "parentUuid": "e40c1d8b_f4da514e",
+      "range": {
+        "startLine": 332,
+        "startChar": 10,
+        "endLine": 332,
+        "endChar": 24
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bf177c40_691489fd",
         "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
         "patchSetId": 10
@@ -165,6 +321,24 @@
       "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4fd8275b_bb13a72e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T13:15:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "bf177c40_691489fd",
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

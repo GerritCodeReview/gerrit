@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e8de11b8_a34c722e",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 634,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T07:50:51Z",
+      "side": 1,
+      "message": "nit: you still can have these out of the if to save a few keystrokes :)",
+      "range": {
+        "startLine": 632,
+        "startChar": 6,
+        "endLine": 634,
+        "endChar": 39
+      },
+      "revId": "4a771653570b28ece5572061d4d0c1f0bb77b4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6c646da7_727ab259",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 650,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T07:50:51Z",
+      "side": 1,
+      "message": "maybe just use `message` you defined above ?",
+      "range": {
+        "startLine": 650,
+        "startChar": 16,
+        "endLine": 650,
+        "endChar": 55
+      },
+      "revId": "4a771653570b28ece5572061d4d0c1f0bb77b4c8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

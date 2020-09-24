@@ -37,6 +37,29 @@
     },
     {
       "key": {
+        "uuid": "43fc085c_91a4d5b6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T20:53:11Z",
+      "side": 1,
+      "message": "I would write this comment to gr-storage",
+      "range": {
+        "startLine": 473,
+        "startChar": 46,
+        "endLine": 473,
+        "endChar": 54
+      },
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "f35efae2_f7471df5",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 1
@@ -48,6 +71,75 @@
       "writtenOn": "2020-09-24T19:47:11Z",
       "side": 1,
       "message": "add a test plz",
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a692e367_5b507dfc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 631,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T20:53:11Z",
+      "side": 1,
+      "message": "Should we also remove this check?",
+      "range": {
+        "startLine": 631,
+        "startChar": 25,
+        "endLine": 631,
+        "endChar": 34
+      },
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5adba0f9_e5e6c188",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 662,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T20:53:11Z",
+      "side": 1,
+      "message": "And this check?",
+      "range": {
+        "startLine": 662,
+        "startChar": 14,
+        "endLine": 662,
+        "endChar": 21
+      },
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5851acdf_41489689",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 948,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-09-24T20:53:11Z",
+      "side": 1,
+      "message": "Should this be removed as well?",
+      "range": {
+        "startLine": 948,
+        "startChar": 15,
+        "endLine": 948,
+        "endChar": 19
+      },
       "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

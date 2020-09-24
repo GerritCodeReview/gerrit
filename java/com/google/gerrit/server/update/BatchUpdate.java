@@ -142,7 +142,7 @@ public class BatchUpdate implements AutoCloseable {
         }
         listener.afterUpdateRepos();
         for (BatchUpdate u : updates) {
-          changesHandles.add(u.executeChangeOps(dryrun));
+          changesHandles.add(u.executeChangeOps(listener, dryrun));
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
@@ -583,7 +583,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private ChangesHandle executeChangeOps(boolean dryrun) throws Exception {
+  private ChangesHandle executeChangeOps(BatchUpdateListener batchUpdateListener, boolean dryrun)
+      throws Exception {
     logDebug("Executing change ops");
     initRepository();
     Repository repo = repoView.getRepository();
@@ -596,6 +597,7 @@ public class BatchUpdate implements AutoCloseable {
         new ChangesHandle(
             updateManagerFactory
                 .create(project)
+                .setBatchUpdateListener(batchUpdateListener)
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);

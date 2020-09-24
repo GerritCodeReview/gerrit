@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f35efae2_f7471df5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T19:47:11Z",
+      "side": 1,
+      "message": "add a test plz",
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c3e69910_ef0011fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-storage/gr-storage.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T19:47:11Z",
+      "side": 1,
+      "message": "why not just `line?` instead ?",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 6
+      },
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

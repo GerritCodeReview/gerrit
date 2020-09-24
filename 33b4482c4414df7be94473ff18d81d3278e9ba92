@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "52ad2907_e0b72c7d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T12:58:21Z",
+      "side": 1,
+      "message": "ofc, https://gerrit-review.googlesource.com/c/gerrit/+/282316",
+      "parentUuid": "f649e479_c4b5dc69",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "33b4482c4414df7be94473ff18d81d3278e9ba92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "41db3225_640a92e2",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
         "patchSetId": 3

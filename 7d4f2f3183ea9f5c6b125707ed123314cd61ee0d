@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "8e6dafe7_0ef36d4a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-24T15:16:30Z",
+      "side": 1,
+      "message": "Measurements:\nBefore test improvements (commit 4e5f3cf67158d0cadad72f2868db5222381e6deb):\n//polygerrit-ui/app:wct_test - PASSED in 738.0s\n\nAfter this change:\n//polygerrit-ui:karma_test - PASSED in 74.4s",
+      "revId": "7d4f2f3183ea9f5c6b125707ed123314cd61ee0d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

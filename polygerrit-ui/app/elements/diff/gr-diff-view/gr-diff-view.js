@@ -412,6 +412,15 @@ class GrDiffView extends KeyboardShortcutMixin(
     this._setReviewed(dom(e).rootTarget.checked);
   }
 
+  _handleReviewedMouseDown(e) {
+    // This prevents the checkbox from getting browser focus. Otherwise the
+    // focused checkbox would swallow all keyboard events and thus prevent the
+    // user from using shortcuts after clicking the checkbox, e.g. the user
+    // would not be able to use ] to go to the next file after marking the
+    // current file as reviewed.
+    e.preventDefault();
+  }
+
   _setReviewed(reviewed) {
     if (this._editMode) { return; }
     this.$.reviewed.checked = reviewed;

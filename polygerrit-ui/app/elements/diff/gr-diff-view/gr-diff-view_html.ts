@@ -222,6 +222,7 @@ export const htmlTemplate = html`
           id="reviewed"
           class="reviewed hideOnEdit"
           type="checkbox"
+          on-mousedown="_handleReviewedMouseDown"
           on-change="_handleReviewedChange"
           hidden$="[[!_loggedIn]]"
           hidden=""

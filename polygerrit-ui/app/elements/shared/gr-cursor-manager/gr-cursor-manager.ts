@@ -113,14 +113,14 @@ export class GrCursorManager extends GestureEventListeners(
    * @private
    */
   next(
-    condition?: Function,
+    condition?: (stop: HTMLElement) => boolean,
     getTargetHeight?: (target: HTMLElement) => number,
     clipToTop?: boolean
   ): CursorMoveResult {
     return this._moveCursor(1, condition, getTargetHeight, clipToTop);
   }
 
-  previous(condition?: Function): CursorMoveResult {
+  previous(condition?: (stop: HTMLElement) => boolean): CursorMoveResult {
     return this._moveCursor(-1, condition);
   }
 
@@ -270,7 +270,7 @@ export class GrCursorManager extends GestureEventListeners(
    */
   _moveCursor(
     delta: number,
-    condition?: Function,
+    condition?: (stop: HTMLElement) => boolean,
     getTargetHeight?: (target: HTMLElement) => number,
     clipToTop?: boolean
   ): CursorMoveResult {
@@ -330,7 +330,11 @@ export class GrCursorManager extends GestureEventListeners(
    * @return the new index.
    * @private
    */
-  _getNextindex(delta: number, condition?: Function, clipToTop?: boolean) {
+  _getNextindex(
+    delta: number,
+    condition?: (stop: HTMLElement) => boolean,
+    clipToTop?: boolean
+  ) {
     if (!this.stops.length) {
       return -1;
     }

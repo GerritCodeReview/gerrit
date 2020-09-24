@@ -70,6 +70,24 @@
     },
     {
       "key": {
+        "uuid": "892e6c42_e6e4ef55",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T13:16:00Z",
+      "side": 1,
+      "message": "\u003e scheduled an internal upgrade.\n\nThanks Gal. Is there a tentative date for this to be done?",
+      "parentUuid": "4bdada48_493e57cf",
+      "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "42767eaa_055bdf03",
         "filename": "WORKSPACE",
         "patchSetId": 3

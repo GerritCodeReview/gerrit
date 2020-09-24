@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment-thread.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
+import {sortComments} from '../../diff/gr-comment-api/gr-comment-api.js';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 
@@ -69,7 +70,7 @@ suite('gr-comment-thread tests', () => {
           updated: '2015-12-24 15:00:20.396000000',
         },
       ];
-      const results = element._sortedComments(comments);
+      const results = sortComments(comments);
       assert.deepEqual(results, [
         {
           id: 'sally_to_dr_finklestein',

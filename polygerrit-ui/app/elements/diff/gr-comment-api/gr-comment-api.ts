@@ -45,6 +45,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 export interface HumanCommentInfoWithPath extends CommentInfo {
   path: string;
   __draft?: boolean;
+  __date?: Date;
 }
 
 export interface RobotCommentInfoWithPath extends RobotCommentInfo {
@@ -78,6 +79,27 @@ export function isPatchSetFile(
   x: PatchSetFile | PatchNumOnly
 ): x is PatchSetFile {
   return !!(x as PatchSetFile).path;
+}
+
+export function sortComments<
+  T extends CommentInfoWithPath | CommentInfoWithTwoPaths
+>(comments: T[]): T[] {
+  return comments.slice(0).sort((c1, c2) => {
+    const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
+    const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
+    if (d1 !== d2) return d1 ? 1 : -1;
+    const date1 =
+      (c1.updated && parseDate(c1.updated)) ||
+      (c1 as HumanCommentInfoWithPath).__date;
+    const date2 =
+      (c2.updated && parseDate(c2.updated)) ||
+      (c2 as HumanCommentInfoWithPath).__date;
+    const dateDiff = date1.valueOf() - date2.valueOf();
+    if (dateDiff) {
+      return dateDiff;
+    }
+    return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
+  });
 }
 
 export interface CommentThread {
@@ -519,7 +541,7 @@ export class ChangeComments {
     // However, this doesn't affect the final result of computeUnresolvedNum
     // This should be fixed by removing CommentInfoWithTwoPaths later
     const threads = this.getCommentThreads(
-      this._sortComments(comments) as CommentInfoWithTwoPaths[]
+      sortComments(comments) as CommentInfoWithTwoPaths[]
     );
 
     const unresolvedThreads = threads.filter(
@@ -533,24 +555,8 @@ export class ChangeComments {
 
   getAllThreadsForChange() {
     const comments = this._commentObjToArrayWithFile(this.getAllComments(true));
-    const sortedComments = this._sortComments(comments);
+    const sortedComments = sortComments(comments);
     return this.getCommentThreads(sortedComments);
-  }
-
-  _sortComments<T extends CommentInfoWithPath | CommentInfoWithTwoPaths>(
-    comments: T[]
-  ): T[] {
-    return comments.slice(0).sort((c1, c2) => {
-      const d1 = !!(c1 as HumanCommentInfoWithPath).__draft;
-      const d2 = !!(c2 as HumanCommentInfoWithPath).__draft;
-      if (d1 !== d2) return d1 ? 1 : -1;
-      const dateDiff =
-        parseDate(c1.updated).valueOf() - parseDate(c2.updated).valueOf();
-      if (dateDiff) {
-        return dateDiff;
-      }
-      return c1.id < c2.id ? -1 : c1.id > c2.id ? 1 : 0;
-    });
   }
 
   /**

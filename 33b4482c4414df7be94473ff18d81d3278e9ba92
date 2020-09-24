@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "f649e479_c4b5dc69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.html",
+        "patchSetId": 3
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1114982
+      },
+      "writtenOn": "2020-09-24T12:53:21Z",
+      "side": 1,
+      "message": "Thanks!\nCould we use a monospaced font for this?\n\nExample:\n```\n┌─────┐       ┌───┐\n│Alice│       │Bob│\n└──┬──┘       └─┬─┘\n   │            │  \n   │ Hello Bob! │  \n   │───────────\u003e│  \n   │            │  \n   │Hello Alice!│  \n   │\u003c───────────│  \n┌──┴──┐       ┌─┴─┐\n│Alice│       │Bob│\n└─────┘       └───┘\n\n```",
+      "range": {
+        "startLine": 52,
+        "startChar": 0,
+        "endLine": 57,
+        "endChar": 0
+      },
+      "revId": "33b4482c4414df7be94473ff18d81d3278e9ba92",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "41db3225_640a92e2",
         "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text.js",
         "patchSetId": 3

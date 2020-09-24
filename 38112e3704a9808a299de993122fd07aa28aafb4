@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "780cf54a_f1238645",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-24T07:57:43Z",
+      "side": 1,
+      "message": "I should have asked this first: Why don\u0027t we include the project and changeId in the key?",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 72
+      },
+      "revId": "38112e3704a9808a299de993122fd07aa28aafb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92783e83_132ad219",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-24T07:57:43Z",
+      "side": 1,
+      "message": "Isn\u0027t this called UUID in the proto?",
+      "revId": "38112e3704a9808a299de993122fd07aa28aafb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

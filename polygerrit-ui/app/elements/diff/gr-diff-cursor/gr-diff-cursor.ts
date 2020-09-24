@@ -177,7 +177,9 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.next((row: Element) => this._rowHasSide(row));
+      this.$.cursorManager.next({
+        filter: (row: Element) => this._rowHasSide(row),
+      });
     } else {
       this.$.cursorManager.next();
     }
@@ -185,7 +187,9 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.previous((row: Element) => this._rowHasSide(row));
+      this.$.cursorManager.previous({
+        filter: (row: Element) => this._rowHasSide(row),
+      });
     } else {
       this.$.cursorManager.previous();
     }
@@ -202,11 +206,12 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveToNextChunk(clipToTop?: boolean, navigateToNextFile?: boolean) {
-    const result = this.$.cursorManager.next(
-      (row: HTMLElement) => this._isFirstRowOfChunk(row),
-      target => (target?.parentNode as HTMLElement)?.scrollHeight || 0,
-      clipToTop
-    );
+    const result = this.$.cursorManager.next({
+      filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
+      getTargetHeight: target =>
+        (target?.parentNode as HTMLElement)?.scrollHeight || 0,
+      clipToTop,
+    });
     /*
      * If user presses n on the last diff chunk, show a toast informing user
      * that pressing n again will navigate them to next unreviewed file.
@@ -247,21 +252,23 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveToPreviousChunk() {
-    this.$.cursorManager.previous((row: HTMLElement) =>
-      this._isFirstRowOfChunk(row)
-    );
+    this.$.cursorManager.previous({
+      filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
+    });
     this._fixSide();
   }
 
   moveToNextCommentThread() {
-    this.$.cursorManager.next((row: HTMLElement) => this._rowHasThread(row));
+    this.$.cursorManager.next({
+      filter: (row: HTMLElement) => this._rowHasThread(row),
+    });
     this._fixSide();
   }
 
   moveToPreviousCommentThread() {
-    this.$.cursorManager.previous((row: HTMLElement) =>
-      this._rowHasThread(row)
-    );
+    this.$.cursorManager.previous({
+      filter: (row: HTMLElement) => this._rowHasThread(row),
+    });
     this._fixSide();
   }
 
@@ -530,15 +537,11 @@ export class GrDiffCursor extends GestureEventListeners(
     return actions;
   }
 
-  _getStops() {
-    return this.diffs.reduce(
+  _updateStops() {
+    this.$.cursorManager.stops = this.diffs.reduce(
       (stops: HTMLElement[], diff) => stops.concat(diff.getCursorStops()),
       []
     );
-  }
-
-  _updateStops() {
-    this.$.cursorManager.stops = this._getStops();
   }
 
   /**

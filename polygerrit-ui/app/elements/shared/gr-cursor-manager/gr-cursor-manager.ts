@@ -34,6 +34,18 @@ declare global {
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
+/**
+ * Return type for cursor moves, that indicate whether a move was possible.
+ */
+export enum CursorMoveResult {
+  /** The cursor was successfully moved. */
+  MOVED,
+  /** There were no stops - the cursor was reset. */
+  NO_STOPS,
+  /** There was no more stop to move to - the cursor was clipped to the end. */
+  CLIPPED,
+}
+
 @customElement('gr-cursor-manager')
 export class GrCursorManager extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
@@ -104,16 +116,16 @@ export class GrCursorManager extends GestureEventListeners(
    *     back to first instead of to last.
    * @param navigateToNextFile Navigate to next unreviewed file
    *     if user presses next on the last diff chunk
+   * @return If a move was performed or why not.
    * @private
    */
-
   next(
     condition?: Function,
     getTargetHeight?: (target: HTMLElement) => number,
     clipToTop?: boolean,
     navigateToNextFile?: boolean
-  ) {
-    this._moveCursor(
+  ): CursorMoveResult {
+    return this._moveCursor(
       1,
       condition,
       getTargetHeight,
@@ -122,8 +134,8 @@ export class GrCursorManager extends GestureEventListeners(
     );
   }
 
-  previous(condition?: Function) {
-    this._moveCursor(-1, condition);
+  previous(condition?: Function): CursorMoveResult {
+    return this._moveCursor(-1, condition);
   }
 
   /**
@@ -269,6 +281,7 @@ export class GrCursorManager extends GestureEventListeners(
    * back to first instead of to last.
    * @param navigateToNextFile Navigate to next unreviewed file
    * if user presses next on the last diff chunk
+   * @return  If a move was performed or why not.
    * @private
    */
   _moveCursor(
@@ -277,27 +290,25 @@ export class GrCursorManager extends GestureEventListeners(
     getTargetHeight?: (target: HTMLElement) => number,
     clipToTop?: boolean,
     navigateToNextFile?: boolean
-  ) {
+  ): CursorMoveResult {
     if (!this.stops.length) {
       this.unsetCursor();
-      return;
+      return CursorMoveResult.NO_STOPS;
     }
 
     this._unDecorateTarget();
 
     const newIndex = this._getNextindex(delta, condition, clipToTop);
+    const newTarget = newIndex !== -1 ? this.stops[newIndex] : null;
 
-    let newTarget = null;
-    if (newIndex !== -1) {
-      newTarget = this.stops[newIndex];
-    }
+    const clipped = this.index === newIndex;
 
     /*
      * If user presses n on the last diff chunk, show a toast informing user
      * that pressing n again will navigate them to next unreviewed file.
      * If click happens within the time limit, then navigate to next file
      */
-    if (navigateToNextFile && this.index === newIndex && this.isAtEnd()) {
+    if (navigateToNextFile && clipped && this.isAtEnd()) {
       if (
         this._lastDisplayedNavigateToNextFileToast &&
         Date.now() - this._lastDisplayedNavigateToNextFileToast <=
@@ -311,7 +322,7 @@ export class GrCursorManager extends GestureEventListeners(
             bubbles: true,
           })
         );
-        return;
+        return CursorMoveResult.CLIPPED;
       }
       this._lastDisplayedNavigateToNextFileToast = Date.now();
       this.dispatchEvent(
@@ -323,14 +334,14 @@ export class GrCursorManager extends GestureEventListeners(
           bubbles: true,
         })
       );
-      return;
+      return CursorMoveResult.CLIPPED;
     }
 
     this.index = newIndex;
     this.target = newTarget as HTMLElement;
 
     if (!newTarget) {
-      return;
+      return CursorMoveResult.NO_STOPS;
     }
 
     if (getTargetHeight) {
@@ -344,6 +355,8 @@ export class GrCursorManager extends GestureEventListeners(
     }
 
     this._decorateTarget();
+
+    return clipped ? CursorMoveResult.CLIPPED : CursorMoveResult.MOVED;
   }
 
   _decorateTarget() {

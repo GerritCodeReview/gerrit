@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-cursor-manager.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {CursorMoveResult} from './gr-cursor-manager.js';
 
 const basicTestFixutre = fixtureFromTemplate(html`
     <gr-cursor-manager cursor-target-class="targeted"></gr-cursor-manager>
@@ -66,10 +67,11 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(element.isAtEnd());
 
     // Progress the cursor.
-    element.next();
+    let result = element.next();
 
     // Confirm that the next stop is selected and that the previous stop is
     // unselected.
+    assert.equal(result, CursorMoveResult.MOVED);
     assert.equal(element.index, 3);
     assert.equal(element.target, list.children[3]);
     assert.isTrue(element.isAtEnd());
@@ -77,19 +79,23 @@ suite('gr-cursor-manager tests', () => {
     assert.isTrue(list.children[3].classList.contains('targeted'));
 
     // Progress the cursor.
-    element.next();
+    result = element.next();
 
     // We should still be at the end.
+    assert.equal(result, CursorMoveResult.CLIPPED);
     assert.equal(element.index, 3);
     assert.equal(element.target, list.children[3]);
     assert.isTrue(element.isAtEnd());
 
     // Wind the cursor all the way back to the first stop.
-    element.previous();
-    element.previous();
-    element.previous();
+    result = element.previous();
+    assert.equal(result, CursorMoveResult.MOVED);
+    result = element.previous();
+    assert.equal(result, CursorMoveResult.MOVED);
+    result = element.previous();
+    assert.equal(result, CursorMoveResult.MOVED);
 
-    // The element state should reflect the end of the list.
+    // The element state should reflect the start of the list.
     assert.equal(element.index, 0);
     assert.equal(element.target, list.children[0]);
     assert.isTrue(element.isAtStart());
@@ -113,8 +119,9 @@ suite('gr-cursor-manager tests', () => {
 
   test('next() goes to first element when no cursor is set', () => {
     element.stops = list.querySelectorAll('li');
-    element.next();
+    const result = element.next();
 
+    assert.equal(result, CursorMoveResult.MOVED);
     assert.equal(element.index, 0);
     assert.equal(element.target, list.children[0]);
     assert.isTrue(list.children[0].classList.contains('targeted'));
@@ -122,16 +129,41 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(element.isAtEnd());
   });
 
-  test('next() goes to first element when no cursor is set', () => {
-    element.stops = list.querySelectorAll('li');
-    element.previous();
+  test('next() resets the cursor when there are no stops', () => {
+    element.stops = [];
+    const result = element.next();
 
+    assert.equal(result, CursorMoveResult.NO_STOPS);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
+    assert.isFalse(list.children[1].classList.contains('targeted'));
+    assert.isFalse(element.isAtStart());
+    assert.isFalse(element.isAtEnd());
+  });
+
+  test('previous() goes to last element when no cursor is set', () => {
+    element.stops = list.querySelectorAll('li');
+    const result = element.previous();
+
+    assert.equal(result, CursorMoveResult.MOVED);
     const lastIndex = list.children.length - 1;
     assert.equal(element.index, lastIndex);
     assert.equal(element.target, list.children[lastIndex]);
     assert.isTrue(list.children[lastIndex].classList.contains('targeted'));
     assert.isFalse(element.isAtStart());
     assert.isTrue(element.isAtEnd());
+  });
+
+  test('previous() resets the cursor when there are no stops', () => {
+    element.stops = [];
+    const result = element.previous();
+
+    assert.equal(result, CursorMoveResult.NO_STOPS);
+    assert.equal(element.index, -1);
+    assert.isNotOk(element.target);
+    assert.isFalse(list.children[1].classList.contains('targeted'));
+    assert.isFalse(element.isAtStart());
+    assert.isFalse(element.isAtEnd());
   });
 
   test('_moveCursor', () => {

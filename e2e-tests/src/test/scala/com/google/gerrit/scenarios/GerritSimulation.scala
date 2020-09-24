@@ -59,12 +59,8 @@ class GerritSimulation extends Simulation {
     conf.httpConfiguration.password)
 
   protected val keys: PartialFunction[(String, Any), Any] = {
-    case ("url", url) =>
-      var in = replaceOverride(url.toString)
-      in = replaceProperty("hostname", "localhost", in)
-      in = replaceProperty("http_port", 8080, in)
-      in = replaceProperty("http_scheme", "http", in)
-      replaceProperty("ssh_port", 29418, in)
+    case ("entries", entries) =>
+      replaceProperty("projects_entries", "1", entries.toString)
     case ("number", number) =>
       val precedes = replaceKeyWith("_number", 0, number.toString)
       replaceProperty("number", 1, precedes)
@@ -74,8 +70,12 @@ class GerritSimulation extends Simulation {
       var precedes = replaceKeyWith("_project", name, project.toString)
       precedes = replaceOverride(precedes)
       replaceProperty("project", precedes)
-    case ("entries", entries) =>
-      replaceProperty("projects_entries", "1", entries.toString)
+    case ("url", url) =>
+      var in = replaceOverride(url.toString)
+      in = replaceProperty("hostname", "localhost", in)
+      in = replaceProperty("http_port", 8080, in)
+      in = replaceProperty("http_scheme", "http", in)
+      replaceProperty("ssh_port", 29418, in)
   }
 
   private def replaceProperty(term: String, in: String): String = {

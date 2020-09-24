@@ -16,6 +16,24 @@
       "revId": "ee28fb0f8109ec2e3be1040be2bcc29ef55c2ca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "85121cd5_3c24e21b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-24T07:53:37Z",
+      "side": 1,
+      "message": "I\u0027ll reinforce your power with a +2 :-)",
+      "parentUuid": "a98bdd98_6311d2a4",
+      "revId": "ee28fb0f8109ec2e3be1040be2bcc29ef55c2ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

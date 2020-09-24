@@ -50,6 +50,7 @@ export const htmlTemplate = html`
       display: block;
       white-space: pre-wrap;
       color: var(--deemphasized-text-color);
+      font-family: var(--monospace-font-family);
     }
     li {
       list-style-type: disc;

@@ -829,13 +829,18 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       shouldSuppressKeyboardShortcut(event: CustomKeyboardEvent) {
         const e = getKeyboardEvent(event);
         // TODO(TS): maybe override the EventApi, narrow it down to Element always
-        const tagName = ((dom(e) as EventApi).rootTarget as Element).tagName;
+        const target = (dom(e) as EventApi).rootTarget as Element;
+        const tagName = target.tagName;
+        const type = target.getAttribute('type');
         if (
-          tagName === 'INPUT' ||
+          // Suppress shortcuts on <input> and <textarea>, but not on
+          // checkboxes, because we want to enable workflows like 'click
+          // mark-reviewed and then press ] to go to the next file'.
+          (tagName === 'INPUT' && type !== 'checkbox') ||
           tagName === 'TEXTAREA' ||
+          // Suppress shortcuts if the key is 'enter' and target is an anchor.
           (e.keyCode === 13 && tagName === 'A')
         ) {
-          // Suppress shortcuts if the key is 'enter' and target is an anchor.
           return true;
         }
         for (let i = 0; e.path && i < e.path.length; i++) {

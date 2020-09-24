@@ -311,6 +311,17 @@ suite('keyboard-shortcut-mixin tests', () => {
     MockInteractions.keyDownOn(inputEl, 75, null, 'k');
   });
 
+  test('doesn’t block kb shortcuts for checkboxes', done => {
+    const inputEl = document.createElement('input');
+    inputEl.setAttribute('type', 'checkbox');
+    element.appendChild(inputEl);
+    element._handleKey = e => {
+      assert.isFalse(element.shouldSuppressKeyboardShortcut(e));
+      done();
+    };
+    MockInteractions.keyDownOn(inputEl, 75, null, 'k');
+  });
+
   test('blocks kb shortcuts for textarea els', done => {
     const textareaEl = document.createElement('textarea');
     element.appendChild(textareaEl);

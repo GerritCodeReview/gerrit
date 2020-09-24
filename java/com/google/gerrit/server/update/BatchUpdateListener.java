@@ -14,6 +14,8 @@
 
 package com.google.gerrit.server.update;
 
+import org.eclipse.jgit.lib.BatchRefUpdate;
+
 /**
  * Interface for listening during batch update execution.
  *
@@ -21,10 +23,24 @@ package com.google.gerrit.server.update;
  * after that phase has been completed for <em>all</em> updates.
  */
 public interface BatchUpdateListener {
-  public static final BatchUpdateListener NONE = new BatchUpdateListener() {};
+  BatchUpdateListener NONE = new BatchUpdateListener() {};
 
   /** Called after updating all repositories and flushing objects but before updating any refs. */
   default void afterUpdateRepos() throws Exception {}
+
+  /**
+   * Optional setup of the {@link BatchRefUpdate} that is going to be executed.
+   *
+   * <p>Called after {@link #afterUpdateRepos()}, before {@link #afterUpdateRefs()} and {@link
+   * #afterUpdateChanges()}
+   *
+   * @param bru a batch ref update, ready but not executed yet
+   * @return a new {@link BatchRefUpdate}. Implementations can decide to modify and return the
+   *     incoming instance, but callers must not rely on that.
+   */
+  default BatchRefUpdate beforeUpdateRefs(BatchRefUpdate bru) {
+    return bru;
+  }
 
   /** Called after updating all refs. */
   default void afterUpdateRefs() throws Exception {}

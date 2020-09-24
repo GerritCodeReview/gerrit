@@ -511,6 +511,7 @@ public class BatchUpdate implements AutoCloseable {
         new ChangesHandle(
             updateManagerFactory
                 .create(project)
+                .setBatchUpdateListener(batchUpdateListener)
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);

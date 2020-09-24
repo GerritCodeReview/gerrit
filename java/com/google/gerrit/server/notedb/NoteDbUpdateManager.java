@@ -34,6 +34,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -94,6 +95,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
+  private BatchUpdateListener batchUpdateListener;
 
   @Inject
   NoteDbUpdateManager(
@@ -169,6 +171,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
    */
   public NoteDbUpdateManager setPushCertificate(PushCertificate pushCert) {
     this.pushCert = pushCert;
+    return this;
+  }
+
+  public NoteDbUpdateManager setBatchUpdateListener(BatchUpdateListener batchUpdateListener) {
+    this.batchUpdateListener = batchUpdateListener;
     return this;
   }
 
@@ -313,11 +320,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
       BatchRefUpdate result;
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateRepo", Metadata.empty())) {
-        result = execute(changeRepo, dryrun, pushCert);
+        result = execute(changeRepo, dryrun, pushCert, batchUpdateListener);
       }
       try (TraceContext.TraceTimer ignored =
           newTimer("NoteDbUpdateManager#updateAllUsersSync", Metadata.empty())) {
-        execute(allUsersRepo, dryrun, null);
+        execute(allUsersRepo, dryrun, null, batchUpdateListener);
       }
       if (!dryrun) {
         // Only execute the asynchronous operation if we are not in dry-run mode: The dry run would
@@ -333,7 +340,11 @@ public class NoteDbUpdateManager implements AutoCloseable {
     }
   }
 
-  private BatchRefUpdate execute(OpenRepo or, boolean dryrun, @Nullable PushCertificate pushCert)
+  private BatchRefUpdate execute(
+      OpenRepo or,
+      boolean dryrun,
+      @Nullable PushCertificate pushCert,
+      @Nullable BatchUpdateListener batchUpdateListener)
       throws IOException {
     if (or == null || or.cmds.isEmpty()) {
       return null;
@@ -359,6 +370,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
 
+    if (this.batchUpdateListener != null) {
+      bru = this.batchUpdateListener.beforeUpdateRefs(bru);
+    }
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);
     }

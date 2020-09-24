@@ -73,6 +73,30 @@
     },
     {
       "key": {
+        "uuid": "b1049309_6ea4149c",
+        "filename": "java/com/google/gerrit/entities/ContextLine.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-24T16:23:05Z",
+      "side": 1,
+      "message": "Done.\n\nSorry, that required a lot of modifications.",
+      "parentUuid": "c9c63690_ad860bfb",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bb2151bd_976c2586",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
         "patchSetId": 18
@@ -220,6 +244,24 @@
     },
     {
       "key": {
+        "uuid": "11dbc6e3_9d8844ec",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-24T16:23:05Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ea5f064_e4ec24ff",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "61bd7e6a_d7f571ce",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -267,6 +309,24 @@
       "side": 1,
       "message": "The comments explain the numerals, but I\u0027d also find it interesting how you came up with exactly 1 GB and 1 MB.",
       "parentUuid": "b9244c8b_8db26cc4",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38272cca_775b2fa9",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-24T16:23:05Z",
+      "side": 1,
+      "message": "I don\u0027t have much knowledge how these values should be calculated accurately. I looked at other places in the codebase but that didn\u0027t help much.\n\nI\u0027m limiting the entry size to 1MB. This is roughly 12500 lines of 80 characters each. This limit is just high to avoid explosion of value sizes (excluding the cache key size since it is negligible). I think we can practically even reduce that limit lower.\n\nRegarding the total size of the cache, I\u0027m also not sure how to set it reasonably. I found that the Diff summary cache, and the ProjectCacheImpl are setting their limits to that same value.\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/patch/PatchListCacheImpl.java#64\n\nhttps://gerrit.googlesource.com/gerrit/+/refs/heads/master/java/com/google/gerrit/server/project/ProjectCacheImpl.java#127\n\nI think in google3, these disk limits are not used though, but I\u0027m not sure.",
+      "parentUuid": "aeda5e53_40b0e890",
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "cac192e4_3b56d704",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-24T16:23:05Z",
+      "side": 1,
+      "message": "We can, although there should be no use case where we need to load context from comments in different project, changes. \n\nDoing it anyway will make the API surface more neat.\n\nDone.",
+      "parentUuid": "780cf54a_f1238645",
+      "range": {
+        "startLine": 40,
+        "startChar": 6,
+        "endLine": 40,
+        "endChar": 72
+      },
+      "revId": "38112e3704a9808a299de993122fd07aa28aafb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92783e83_132ad219",
         "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
         "patchSetId": 19
@@ -39,6 +63,24 @@
       "revId": "38112e3704a9808a299de993122fd07aa28aafb4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "734341e2_8f671c69",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 19
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-24T16:23:05Z",
+      "side": 1,
+      "message": "I renamed the field in the proto to \"commentId\".\n\nSide note: the proto is the representation of CommentContextCacheImpl#Key, and not this class.",
+      "parentUuid": "92783e83_132ad219",
+      "revId": "38112e3704a9808a299de993122fd07aa28aafb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

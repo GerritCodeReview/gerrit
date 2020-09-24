@@ -34,6 +34,9 @@ suite('gr-comment-thread tests', () => {
       });
 
       element = basicFixture.instantiate();
+      element.patchNum = '3';
+      element.changeNum = '1';
+      flushAsynchronousOperations();
     });
 
     test('comments are sorted correctly', () => {
@@ -248,6 +251,8 @@ suite('comment action tests with unresolved thread', () => {
       deleteDiffDraft() { return Promise.resolve({ok: true}); },
     });
     element = withCommentFixture.instantiate();
+    element.patchNum = '1';
+    element.changeNum = '1';
     element.comments = [{
       author: {
         name: 'Mr. Peanutbutter',
@@ -310,6 +315,7 @@ suite('comment action tests with unresolved thread', () => {
         email: 'tenn1sballchaser@aol.com',
       },
       id: 'baf0414d_60047215',
+      path: 'test',
       line: 5,
       message: 'is this a crossover episode!?\nIt might be!',
       updated: '2015-12-08 19:48:33.843000000',
@@ -495,6 +501,7 @@ suite('comment action tests with unresolved thread', () => {
       },
       id: 'baf0414d_60047215',
       line: 5,
+      path: 'test',
       message: 'is this a crossover episode!?',
       updated: '2015-12-08 19:48:33.843000000',
       __draft: true,
@@ -519,6 +526,7 @@ suite('comment action tests with unresolved thread', () => {
         email: 'tenn1sballchaser@aol.com',
       },
       id: 'baf0414d_60047215',
+      path: 'test',
       line: 5,
       message: 'is this a crossover episode!?',
       updated: '2015-12-08 19:48:31.843000000',
@@ -530,6 +538,7 @@ suite('comment action tests with unresolved thread', () => {
       },
       __draftID: '1',
       in_reply_to: 'baf0414d_60047215',
+      path: 'test',
       line: 5,
       message: 'yes',
       updated: '2015-12-08 19:48:32.843000000',
@@ -543,6 +552,7 @@ suite('comment action tests with unresolved thread', () => {
       },
       __draftID: '2',
       in_reply_to: 'baf0414d_60047215',
+      path: 'test',
       line: 5,
       message: 'no',
       updated: '2015-12-08 19:48:33.843000000',
@@ -823,6 +833,8 @@ suite('comment action tests on resolved comments', () => {
       deleteDiffDraft() { return Promise.resolve({ok: true}); },
     });
     element = withCommentFixture.instantiate();
+    element.patchNum = '1';
+    element.changeNum = '1';
     element.comments = [{
       author: {
         name: 'Mr. Peanutbutter',

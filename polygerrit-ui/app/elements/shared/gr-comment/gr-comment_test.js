@@ -316,6 +316,7 @@ suite('gr-comment tests', () => {
       });
 
       test('create', () => {
+        element.patchNum = 1;
         element.comment = {};
         return element._handleSave(mockEvent).then(() => {
           assert.equal(element.shadowRoot.querySelector('gr-account-label').

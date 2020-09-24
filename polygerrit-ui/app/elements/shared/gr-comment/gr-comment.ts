@@ -627,33 +627,34 @@ export class GrComment extends KeyboardShortcutMixin(
     const patchNum = this.comment.patch_set
       ? this.comment.patch_set
       : this._getPatchNum();
-    this.debounce(
-      'store',
-      () => {
-        const message = this._messageText;
-        if (!this.comment?.path || this.comment.line === undefined)
-          throw new Error('missing path or line in comment');
-        if (this.changeNum === undefined) {
-          throw new Error('undefined changeNum');
-        }
-        const commentLocation: StorageLocation = {
-          changeNum: this.changeNum,
-          patchNum,
-          path: this.comment.path,
-          line: this.comment.line,
-          range: this.comment.range,
-        };
+    const {path, line, range} = this.comment;
+    if (path && line !== undefined) {
+      this.debounce(
+        'store',
+        () => {
+          const message = this._messageText;
+          if (this.changeNum === undefined) {
+            throw new Error('undefined changeNum');
+          }
+          const commentLocation: StorageLocation = {
+            changeNum: this.changeNum,
+            patchNum,
+            path,
+            line,
+            range,
+          };
 
-        if ((!this._messageText || !this._messageText.length) && oldValue) {
-          // If the draft has been modified to be empty, then erase the storage
-          // entry.
-          this.$.storage.eraseDraftComment(commentLocation);
-        } else {
-          this.$.storage.setDraftComment(commentLocation, message);
-        }
-      },
-      STORAGE_DEBOUNCE_INTERVAL
-    );
+          if ((!message || !message.length) && oldValue) {
+            // If the draft has been modified to be empty, then erase the storage
+            // entry.
+            this.$.storage.eraseDraftComment(commentLocation);
+          } else {
+            this.$.storage.setDraftComment(commentLocation, message);
+          }
+        },
+        STORAGE_DEBOUNCE_INTERVAL
+      );
+    }
   }
 
   _handleAnchorClick(e: Event) {
@@ -675,8 +676,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _handleEdit(e: Event) {
     e.preventDefault();
-    if (!this.comment?.message) throw new Error('message undefined');
-    this._messageText = this.comment.message;
+    if (this.comment?.message) this._messageText = this.comment.message;
     this.editing = true;
     this.reporting.recordDraftInteraction();
   }

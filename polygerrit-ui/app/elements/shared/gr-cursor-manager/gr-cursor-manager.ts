@@ -31,9 +31,6 @@ declare global {
   }
 }
 
-// Time in which pressing n key again after the toast navigates to next file
-const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
-
 /**
  * Return type for cursor moves, that indicate whether a move was possible.
  */
@@ -92,8 +89,6 @@ export class GrCursorManager extends GestureEventListeners(
   @property({type: Boolean})
   focusOnMove = false;
 
-  private _lastDisplayedNavigateToNextFileToast: number | null = null;
-
   @property({type: Array})
   stops: HTMLElement[] = [];
 
@@ -114,24 +109,15 @@ export class GrCursorManager extends GestureEventListeners(
    *    sometimes different, used by the diff cursor.
    * @param clipToTop When none of the next indices match, move
    *     back to first instead of to last.
-   * @param navigateToNextFile Navigate to next unreviewed file
-   *     if user presses next on the last diff chunk
    * @return If a move was performed or why not.
    * @private
    */
   next(
     condition?: Function,
     getTargetHeight?: (target: HTMLElement) => number,
-    clipToTop?: boolean,
-    navigateToNextFile?: boolean
+    clipToTop?: boolean
   ): CursorMoveResult {
-    return this._moveCursor(
-      1,
-      condition,
-      getTargetHeight,
-      clipToTop,
-      navigateToNextFile
-    );
+    return this._moveCursor(1, condition, getTargetHeight, clipToTop);
   }
 
   previous(condition?: Function): CursorMoveResult {
@@ -279,8 +265,6 @@ export class GrCursorManager extends GestureEventListeners(
    * sometimes different, used by the diff cursor.
    * @param clipToTop When none of the next indices match, move
    * back to first instead of to last.
-   * @param navigateToNextFile Navigate to next unreviewed file
-   * if user presses next on the last diff chunk
    * @return  If a move was performed or why not.
    * @private
    */
@@ -288,8 +272,7 @@ export class GrCursorManager extends GestureEventListeners(
     delta: number,
     condition?: Function,
     getTargetHeight?: (target: HTMLElement) => number,
-    clipToTop?: boolean,
-    navigateToNextFile?: boolean
+    clipToTop?: boolean
   ): CursorMoveResult {
     if (!this.stops.length) {
       this.unsetCursor();
@@ -302,40 +285,6 @@ export class GrCursorManager extends GestureEventListeners(
     const newTarget = newIndex !== -1 ? this.stops[newIndex] : null;
 
     const clipped = this.index === newIndex;
-
-    /*
-     * If user presses n on the last diff chunk, show a toast informing user
-     * that pressing n again will navigate them to next unreviewed file.
-     * If click happens within the time limit, then navigate to next file
-     */
-    if (navigateToNextFile && clipped && this.isAtEnd()) {
-      if (
-        this._lastDisplayedNavigateToNextFileToast &&
-        Date.now() - this._lastDisplayedNavigateToNextFileToast <=
-          NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
-      ) {
-        // reset for next file
-        this._lastDisplayedNavigateToNextFileToast = null;
-        this.dispatchEvent(
-          new CustomEvent('navigate-to-next-unreviewed-file', {
-            composed: true,
-            bubbles: true,
-          })
-        );
-        return CursorMoveResult.CLIPPED;
-      }
-      this._lastDisplayedNavigateToNextFileToast = Date.now();
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Press n again to navigate to next unreviewed file',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
-      return CursorMoveResult.CLIPPED;
-    }
 
     this.index = newIndex;
     this.target = newTarget as HTMLElement;

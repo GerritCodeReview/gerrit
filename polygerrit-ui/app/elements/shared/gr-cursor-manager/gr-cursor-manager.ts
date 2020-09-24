@@ -39,8 +39,13 @@ export enum CursorMoveResult {
   MOVED,
   /** There were no stops - the cursor was reset. */
   NO_STOPS,
-  /** There was no more stop to move to - the cursor was clipped to the end. */
+  /**
+   * There was no more matching stop to move to - the cursor was clipped to the
+   * end.
+   */
   CLIPPED,
+  /** The abort condition would have been fulfilled for the new target. */
+  ABORTED,
 }
 
 @customElement('gr-cursor-manager')
@@ -101,9 +106,11 @@ export class GrCursorManager extends GestureEventListeners(
   /**
    * Move the cursor forward. Clipped to the ends of the stop list.
    *
-   * @param options.filter Optional stop condition. If a condition
-   *    is passed the cursor will continue to move in the specified direction
-   *    until the condition is met.
+   * @param options.abort Will abort moving the cursor when encountering a
+   *    stop for which this condition is met. Will abort even if the stop
+   *    would have been filtered
+   * @param options.filter Will keep going and skip any stops for which this
+   *    condition is not met.
    * @param options.getTargetHeight Optional function to calculate the
    *    height of the target's 'section'. The height of the target itself is
    *    sometimes different, used by the diff cursor.
@@ -115,6 +122,7 @@ export class GrCursorManager extends GestureEventListeners(
   next(
     options: {
       filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
     } = {}
@@ -125,6 +133,7 @@ export class GrCursorManager extends GestureEventListeners(
   previous(
     options: {
       filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
     } = {}
   ): CursorMoveResult {
     return this._moveCursor(-1, options);
@@ -263,9 +272,11 @@ export class GrCursorManager extends GestureEventListeners(
    * end of stop list.
    *
    * @param delta either -1 or 1.
-   * @param options.condition Optional stop condition. If a condition
-   * is passed the cursor will continue to move in the specified direction
-   * until the condition is met.
+   * @param options.abort Will abort moving the cursor when encountering a
+   *    stop for which this condition is met. Will abort even if the stop
+   *    would have been filtered
+   * @param options.filter Will keep going and skip any stops for which this
+   *    condition is not met.
    * @param options.getTargetHeight Optional function to calculate the
    * height of the target's 'section'. The height of the target itself is
    * sometimes different, used by the diff cursor.
@@ -278,10 +289,12 @@ export class GrCursorManager extends GestureEventListeners(
     delta: number,
     {
       filter,
+      abort,
       getTargetHeight,
       clipToTop,
     }: {
       filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
     } = {}
@@ -291,28 +304,44 @@ export class GrCursorManager extends GestureEventListeners(
       return CursorMoveResult.NO_STOPS;
     }
 
-    this._unDecorateTarget();
-
-    const newIndex = this._getNextIndex(delta, {filter, clipToTop});
-    const newTarget = newIndex !== -1 ? this.stops[newIndex] : null;
-
-    const clipped = this.index === newIndex;
-
-    this.index = newIndex;
-    this.target = newTarget as HTMLElement;
-
-    if (!newTarget) {
-      return CursorMoveResult.NO_STOPS;
+    let newIndex = this.index;
+    // If the cursor is not yet set and we are going backwards, start at the
+    // back.
+    if (this.index === -1 && delta < 0) {
+      newIndex = this.stops.length;
     }
 
+    let clipped = false;
+
+    do {
+      newIndex += delta;
+      if (
+        (delta > 0 && newIndex >= this.stops.length) ||
+        (delta < 0 && newIndex < 0)
+      ) {
+        newIndex = delta < 0 || clipToTop ? 0 : this.stops.length - 1;
+        clipped = true;
+        break;
+      }
+      if (abort && abort(this.stops[newIndex])) {
+        newIndex = this.index;
+        return CursorMoveResult.ABORTED;
+      }
+    } while (filter && !filter(this.stops[newIndex]));
+
+    this._unDecorateTarget();
+
+    this.index = newIndex;
+    this.target = this.stops[newIndex];
+
     if (getTargetHeight) {
-      this._targetHeight = getTargetHeight(newTarget);
+      this._targetHeight = getTargetHeight(this.target);
     } else {
-      this._targetHeight = newTarget.scrollHeight;
+      this._targetHeight = this.target.scrollHeight;
     }
 
     if (this.focusOnMove) {
-      newTarget.focus();
+      this.target.focus();
     }
 
     this._decorateTarget();
@@ -330,56 +359,6 @@ export class GrCursorManager extends GestureEventListeners(
     if (this.target && this.cursorTargetClass) {
       this.target.classList.remove(this.cursorTargetClass);
     }
-  }
-
-  /**
-   * Get the next stop index indicated by the delta direction.
-   *
-   * @param delta either -1 or 1.
-   * @param options.filter Optional stop condition.
-   * @param options.clipToTop When none of the next indices match, move
-   * back to first instead of to last.
-   * @return the new index.
-   * @private
-   */
-  _getNextIndex(
-    delta: number,
-    {
-      filter,
-      clipToTop,
-    }: {filter?: (stop: HTMLElement) => boolean; clipToTop?: boolean} = {}
-  ) {
-    if (!this.stops.length) {
-      return -1;
-    }
-    let newIndex = this.index;
-    // If the cursor is not yet set and we are going backwards, start at the
-    // back.
-    if (this.index === -1 && delta < 0) {
-      newIndex = this.stops.length;
-    }
-    do {
-      newIndex = newIndex + delta;
-    } while (
-      (delta > 0 || newIndex > 0) &&
-      (delta < 0 || newIndex < this.stops.length - 1) &&
-      filter &&
-      !filter(this.stops[newIndex])
-    );
-
-    newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
-
-    // If we failed to satisfy the filter condition:
-    if (filter && !filter(this.stops[newIndex])) {
-      if (delta < 0 || clipToTop) {
-        return 0;
-      } else if (delta > 0) {
-        return this.stops.length - 1;
-      }
-      return this.index;
-    }
-
-    return newIndex;
   }
 
   @observe('stops')

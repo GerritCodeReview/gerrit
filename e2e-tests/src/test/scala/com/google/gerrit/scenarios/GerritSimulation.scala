@@ -23,13 +23,13 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
-  private val pack = this.getClass.getPackage.getName
+  private val pack = getClass.getPackage.getName
   private val path = pack.replaceAllLiterally(".", "/")
-  protected val name: String = this.getClass.getSimpleName
+  protected val name: String = getClass.getSimpleName
   private val pathName = s"data/$path/$name"
   protected val resource = s"$pathName.json"
   protected val body = s"$pathName-body.json"
-  protected val unique: String = name + "-" + this.hashCode()
+  protected val unique: String = name + "-" + hashCode()
   protected val single = 1
 
   val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt

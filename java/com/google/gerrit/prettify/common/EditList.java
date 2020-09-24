@@ -31,10 +31,6 @@ public class EditList {
     this.bSize = bSize;
   }
 
-  public List<Edit> getEdits() {
-    return edits;
-  }
-
   public Iterable<Hunk> getHunks() {
     return () ->
         new Iterator<Hunk>() {
@@ -86,7 +82,6 @@ public class EditList {
     private int curIdx;
     private Edit curEdit;
     private final int endIdx;
-    private final Edit endEdit;
 
     private int aCur;
     private int bCur;
@@ -97,7 +92,7 @@ public class EditList {
       curIdx = ci;
       endIdx = ei;
       curEdit = edits.get(curIdx);
-      endEdit = edits.get(endIdx);
+      Edit endEdit = edits.get(endIdx);
 
       aCur = Math.max(0, curEdit.getBeginA() - context);
       bCur = Math.max(0, curEdit.getBeginB() - context);
@@ -113,18 +108,6 @@ public class EditList {
       return bCur;
     }
 
-    public Edit getCurEdit() {
-      return curEdit;
-    }
-
-    public int getEndA() {
-      return aEnd;
-    }
-
-    public int getEndB() {
-      return bEnd;
-    }
-
     public void incA() {
       aCur++;
     }
@@ -138,12 +121,8 @@ public class EditList {
       incB();
     }
 
-    public boolean isStartOfFile() {
-      return aCur == 0 && bCur == 0;
-    }
-
     public boolean isContextLine() {
-      return !isModifiedLine();
+      return !isDeletedA() && !isInsertedB();
     }
 
     public boolean isDeletedA() {
@@ -152,10 +131,6 @@ public class EditList {
 
     public boolean isInsertedB() {
       return curEdit.getBeginB() <= bCur && bCur < curEdit.getEndB();
-    }
-
-    public boolean isModifiedLine() {
-      return isDeletedA() || isInsertedB();
     }
 
     public boolean next() {

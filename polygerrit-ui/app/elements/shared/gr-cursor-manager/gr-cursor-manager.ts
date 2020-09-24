@@ -41,6 +41,8 @@ export enum CursorMoveResult {
   NO_STOPS,
   /** There was no more stop to move to - the cursor was clipped to the end. */
   CLIPPED,
+  /** The abort condition would have been fulfilled for the new target. */
+  ABORTED,
 }
 
 @customElement('gr-cursor-manager')
@@ -101,9 +103,10 @@ export class GrCursorManager extends GestureEventListeners(
   /**
    * Move the cursor forward. Clipped to the ends of the stop list.
    *
-   * @param options.filter Optional stop condition. If a condition
-   *    is passed the cursor will continue to move in the specified direction
-   *    until the condition is met.
+   * @param options.filter Will keep going and skip any stops for which this
+   *    condition is not met.
+   * @param options.abort Will abort moving the cursor when it would land on a
+   *    stop for which this condition is not met.
    * @param options.getTargetHeight Optional function to calculate the
    *    height of the target's 'section'. The height of the target itself is
    *    sometimes different, used by the diff cursor.
@@ -114,6 +117,7 @@ export class GrCursorManager extends GestureEventListeners(
    */
   next(options?: {
     filter?: (stop: HTMLElement) => boolean;
+    abort?: (stop: HTMLElement) => boolean;
     getTargetHeight?: (target: HTMLElement) => number;
     clipToTop?: boolean;
   }): CursorMoveResult {
@@ -122,6 +126,7 @@ export class GrCursorManager extends GestureEventListeners(
 
   previous(options?: {
     filter?: (stop: HTMLElement) => boolean;
+    abort?: (stop: HTMLElement) => boolean;
   }): CursorMoveResult {
     return this._moveCursor(-1, options || {});
   }
@@ -259,9 +264,10 @@ export class GrCursorManager extends GestureEventListeners(
    * end of stop list.
    *
    * @param delta either -1 or 1.
-   * @param options.condition Optional stop condition. If a condition
-   * is passed the cursor will continue to move in the specified direction
-   * until the condition is met.
+   * @param options.filter Will keep going and skip any stops for which this
+   *    condition is not met.
+   * @param options.abort Will abort moving the cursor when it would land on a
+   *    stop for which this condition is not met.
    * @param options.getTargetHeight Optional function to calculate the
    * height of the target's 'section'. The height of the target itself is
    * sometimes different, used by the diff cursor.
@@ -274,10 +280,12 @@ export class GrCursorManager extends GestureEventListeners(
     delta: number,
     {
       filter,
+      abort,
       getTargetHeight,
       clipToTop,
     }: {
       filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
       getTargetHeight?: (target: HTMLElement) => number;
       clipToTop?: boolean;
     }
@@ -287,19 +295,20 @@ export class GrCursorManager extends GestureEventListeners(
       return CursorMoveResult.NO_STOPS;
     }
 
-    this._unDecorateTarget();
-
     const newIndex = this._getNextindex(delta, {filter, clipToTop});
-    const newTarget = newIndex !== -1 ? this.stops[newIndex] : null;
 
-    const clipped = this.index === newIndex;
+    if (this.index === newIndex) return CursorMoveResult.CLIPPED;
+
+    if (newIndex === -1) return CursorMoveResult.NO_STOPS;
+
+    const newTarget = this.stops[newIndex];
+
+    if (abort && abort(newTarget)) return CursorMoveResult.ABORTED;
+
+    this._unDecorateTarget();
 
     this.index = newIndex;
     this.target = newTarget as HTMLElement;
-
-    if (!newTarget) {
-      return CursorMoveResult.NO_STOPS;
-    }
 
     if (getTargetHeight) {
       this._targetHeight = getTargetHeight(newTarget);
@@ -313,7 +322,7 @@ export class GrCursorManager extends GestureEventListeners(
 
     this._decorateTarget();
 
-    return clipped ? CursorMoveResult.CLIPPED : CursorMoveResult.MOVED;
+    return CursorMoveResult.MOVED;
   }
 
   _decorateTarget() {

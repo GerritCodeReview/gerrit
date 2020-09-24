@@ -14,7 +14,7 @@
 
 package com.google.gerrit.elasticsearch;
 
-import static com.google.gerrit.elasticsearch.ElasticVersion.V6_7;
+import static com.google.gerrit.elasticsearch.ElasticVersion.V6_8;
 
 public class ElasticQueryAdapter {
   static final String V6_TYPE = "_doc";
@@ -41,13 +41,15 @@ public class ElasticQueryAdapter {
     this.defaultNumberOfShards = version.isV7OrLater() ? 1 : 5;
     this.versionDiscoveryUrl = version.isV6OrLater() ? "/%s*" : "/%s*/_aliases";
     this.searchFilteringName = "_source";
-    this.indicesExistParams =
-        version.isAtLeastMinorVersion(V6_7) ? INDICES + "&" + INCLUDE_TYPE : INDICES;
     this.exactFieldType = "keyword";
     this.stringFieldType = "text";
     this.indexProperty = "true";
     this.rawFieldsKey = "_source";
-    this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_7) ? "?" + INCLUDE_TYPE : "";
+
+    // Since v6.7 (end-of-life), in fact, for these two parameters:
+    this.indicesExistParams =
+        version.isAtLeastMinorVersion(V6_8) ? INDICES + "&" + INCLUDE_TYPE : INDICES;
+    this.includeTypeNameParam = version.isAtLeastMinorVersion(V6_8) ? "?" + INCLUDE_TYPE : "";
   }
 
   public String searchFilteringName() {

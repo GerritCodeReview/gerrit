@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "eb3df1a4_2e59e2a6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 20
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-24T16:23:05Z",
+      "side": 1,
+      "message": "The large diff is mainly because of adding the new ContextLines class.",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

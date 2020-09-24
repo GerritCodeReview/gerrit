@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a98bdd98_6311d2a4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1072905
+      },
+      "writtenOn": "2020-09-24T07:52:36Z",
+      "side": 1,
+      "message": "LGTM, but unfortunately I don\u0027t have +2 magic powers, so someone else needs to approve these.",
+      "revId": "ee28fb0f8109ec2e3be1040be2bcc29ef55c2ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

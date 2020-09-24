@@ -7127,9 +7127,7 @@ that magic file can be modified. References to the header lines will result in
 errors when the fix is applied.
 |`range`         |A <<comment-range,CommentRange>> indicating which content
 of the file should be replaced. Lines in the file are assumed to be separated
-by the line feed character, the carriage return character, the carriage return
-followed by the line feed character, or one of the other Unicode linebreak
-sequences supported by Java.
+by the line feed character.
 |`replacement`   |The content which should be used instead of the current one.
 |==========================
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1edcd972_5e26f36c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-09-24T14:38:38Z",
+      "side": 1,
+      "message": "Look \u0026 feel of comment section in email.\nHTML:\n\n  3 comments:\n\n    Patch Set #3:\n    | And some global feedback\n    some thread continued\n\n    Patch Set #3:\n    And another to be started\n\n  File README.md:\n  Patch Set #3, Line 1: content\n  and some more comments to be added\n\nPlain text:\n  Patch Set 3:\n  (3 comments)\n\n  PS3:\n  \u003e And some global feedback\n  some thread continued\n\n  PS3:\n  And another to be started\n\n  File README.md:\n\n  http://localhost:8080/c/test-repo/+/1/comment/70dc83d1_07a9a0e6 \n  PS3, Line 1: content\n  and some more comments to be added",
+      "revId": "65bc8e34aa56b7df5bbcae0ee78bec31a6d5a1d9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

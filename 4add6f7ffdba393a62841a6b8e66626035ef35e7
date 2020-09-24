@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6dc7b7ea_d52b22ec",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 834,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T07:51:43Z",
+      "side": 1,
+      "message": "personally i would prefer to be able to expand it beyond INPUT and have a more meaningful attribute explicitly for that, like a shortcut to trigger emoji panel in textarea, but for existing use case and issues, this is good enough i guess.",
+      "revId": "4add6f7ffdba393a62841a6b8e66626035ef35e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

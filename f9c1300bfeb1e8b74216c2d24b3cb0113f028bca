@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6c887e23_f019d00f",
+        "filename": "e2e-tests/src/test/scala/com/google/gerrit/scenarios/GerritSimulation.scala",
+        "patchSetId": 3
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-24T21:41:58Z",
+      "side": 1,
+      "message": "Unrelated to this change, but you should use lazy when you make method calls in initialised fields, otherwise you may risk to use a partially initialised instance and potentially cause NPEs.\n\nThe same doesn\u0027t happen in Java, it is a Scala-thing.\n\nIf you use lazy, then the problem is gone because their evaluation is delayed until their first use, when the instance will be fully initialised.",
+      "range": {
+        "startLine": 29,
+        "startChar": 1,
+        "endLine": 29,
+        "endChar": 15
+      },
+      "revId": "f9c1300bfeb1e8b74216c2d24b3cb0113f028bca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

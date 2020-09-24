@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "c9c63690_ad860bfb",
+        "filename": "java/com/google/gerrit/entities/ContextLine.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-24T07:57:43Z",
+      "side": 1,
+      "message": "I meant the second option, ContextLineList or maybe ContextLines. I\u0027d find that more compact and readable. It also clarifies that ContextLine isn\u0027t actually the API surface, but a list of context lines is.",
+      "parentUuid": "948243fd_3ff831c5",
+      "range": {
+        "startLine": 20,
+        "startChar": 32,
+        "endLine": 20,
+        "endChar": 39
+      },
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "bb2151bd_976c2586",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
         "patchSetId": 18
@@ -178,6 +202,24 @@
     },
     {
       "key": {
+        "uuid": "2ea5f064_e4ec24ff",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 57,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-24T07:57:43Z",
+      "side": 1,
+      "message": "I realize there\u0027s really nothing much to document here, but just to avoid instances of public classes without javadoc, could you just put something like \"Implementation of {@link ...}\"?",
+      "parentUuid": "5a757ad5_0a53854f",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "61bd7e6a_d7f571ce",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18
@@ -210,6 +252,24 @@
       "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "aeda5e53_40b0e890",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-24T07:57:43Z",
+      "side": 1,
+      "message": "The comments explain the numerals, but I\u0027d also find it interesting how you came up with exactly 1 GB and 1 MB.",
+      "parentUuid": "b9244c8b_8db26cc4",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
       "key": {

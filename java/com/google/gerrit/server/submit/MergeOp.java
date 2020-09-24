@@ -77,6 +77,9 @@ import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.SubmissionExecutor;
+import com.google.gerrit.server.update.SubmissionListener;
+import com.google.gerrit.server.update.SuperprojectUpdateSubmission;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
 import com.google.inject.Inject;
@@ -498,6 +501,10 @@ public class MergeOp implements AutoCloseable {
           topicMetrics.topicSubmissions.increment();
         }
 
+        SubmissionListener updateSuperprojectsAfterSubmission =
+            new SuperprojectUpdateSubmission(ormProvider, caller, submoduleOpFactory);
+        SubmissionExecutor submissionExecutor =
+            new SubmissionExecutor(ImmutableList.of(updateSuperprojectsAfterSubmission));
         RetryTracker retryTracker = new RetryTracker();
         retryHelper
             .changeUpdate(
@@ -518,7 +525,7 @@ public class MergeOp implements AutoCloseable {
                     logger.atFine().log("Bypassing submit rules");
                     bypassSubmitRules(cs, isRetry);
                   }
-                  integrateIntoHistory(cs);
+                  integrateIntoHistory(cs, submissionExecutor);
                   return null;
                 })
             .listener(retryTracker)
@@ -527,9 +534,7 @@ public class MergeOp implements AutoCloseable {
             // submit.
             .defaultTimeoutMultiplier(cs.projects().size())
             .call();
-
-        SubmoduleOp submoduleOp = submoduleOpFactory.create(updatedRefs, orm);
-        submoduleOp.updateSuperProjects(dryrun);
+        submissionExecutor.afterExecutions();
 
         if (projects > 1) {
           topicMetrics.topicSubmissionsCompleted.increment();
@@ -595,7 +600,8 @@ public class MergeOp implements AutoCloseable {
     }
   }
 
-  private void integrateIntoHistory(ChangeSet cs) throws RestApiException, UpdateException {
+  private void integrateIntoHistory(ChangeSet cs, SubmissionExecutor submissionExecutor)
+      throws RestApiException, UpdateException {
     checkArgument(!cs.furtherHiddenChanges(), "cannot integrate hidden changes into history");
     logger.atFine().log("Beginning merge attempt on %s", cs);
     Map<BranchNameKey, BranchBatch> toSubmit = new HashMap<>();
@@ -628,13 +634,12 @@ public class MergeOp implements AutoCloseable {
       this.allProjects = updateOrderCalculator.getProjectsInOrder();
       List<BatchUpdate> batchUpdates = orm.batchUpdates(allProjects);
       try {
-        BatchUpdate.execute(
-            batchUpdates,
-            ImmutableList.of(new SubmitStrategyListener(submitInput, strategies, commitStatus)),
-            dryrun);
+        submissionExecutor.setAdditionalBatchUpdateListeners(
+            ImmutableList.of(new SubmitStrategyListener(submitInput, strategies, commitStatus)));
+        submissionExecutor.execute(batchUpdates, dryrun);
       } finally {
         // If the BatchUpdate fails it can be that merging some of the changes was actually
-        // successful. This is why we must to collect the updated changes and refs also when an
+        // successful. This is why we must to collect the updated changes also when an
         // exception was thrown.
         strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
         batchUpdates.forEach(bu -> updatedRefs.putAll(bu.getSuccessfullyUpdatedBranches(dryrun)));

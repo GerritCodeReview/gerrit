@@ -1,0 +1,170 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e98dd8a0_da936e76",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "Maybe change to `repo?`",
+      "range": {
+        "startLine": 100,
+        "startChar": 2,
+        "endLine": 100,
+        "endChar": 8
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3c2a492e_d3e21178",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 114,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "This is based on `_repoConfig?`, which is optional. Maybe also mark this optional?",
+      "range": {
+        "startLine": 114,
+        "startChar": 5,
+        "endLine": 114,
+        "endChar": 31
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9b950527_fd37860d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 134,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "80 chars",
+      "range": {
+        "startLine": 134,
+        "startChar": 72,
+        "endLine": 134,
+        "endChar": 83
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9518ba43_62dc6a0e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 311,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "Move this to before the for statement. Then you can drop the if.",
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cd5ad79_95bd507d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 330,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "I would prefer to clean this up now.",
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "db8f8bbc_9980a70c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "Can you make sure that the common.ts def of ConfigInput matches the java impl?\n\n  public String description;\n  public InheritableBoolean useContributorAgreements;\n  public InheritableBoolean useContentMerge;\n  public InheritableBoolean useSignedOffBy;\n  public InheritableBoolean createNewChangeForAllNotInTarget;\n  public InheritableBoolean requireChangeId;\n  public InheritableBoolean enableSignedPush;\n  public InheritableBoolean requireSignedPush;\n  public InheritableBoolean rejectImplicitMerges;\n  public InheritableBoolean privateByDefault;\n  public InheritableBoolean workInProgressByDefault;\n  public InheritableBoolean enableReviewerByEmail;\n  public InheritableBoolean matchAuthorToCommitterDate;\n  public InheritableBoolean rejectEmptyCommit;\n  public String maxObjectSizeLimit;\n  public SubmitType submitType;\n  public ProjectState state;\n  public Map\u003cString, Map\u003cString, ConfigValue\u003e\u003e pluginConfigValues;\n  public Map\u003cString, CommentLinkInput\u003e commentLinks;",
+      "range": {
+        "startLine": 331,
+        "startChar": 52,
+        "endLine": 331,
+        "endChar": 63
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e40c1d8b_f4da514e",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 332,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "Try making this a ConfigInput from the beginning. Maybe ConfigInfo can extend ConfigInput?",
+      "range": {
+        "startLine": 332,
+        "startChar": 10,
+        "endLine": 332,
+        "endChar": 24
+      },
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bf177c40_691489fd",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-24T07:18:11Z",
+      "side": 1,
+      "message": "Maybe\n\n  for (const key of Object.keys(repoConfig)) {\n\nThen you can drop the `hasOwnProperty` check.\n\nAnd then maybe cast the key as keyof ConfigInput.",
+      "revId": "b529fdd73533f73e26ce4f06df0e4610096ffaec",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

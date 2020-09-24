@@ -172,6 +172,9 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.SubmissionExecutor;
+import com.google.gerrit.server.update.SubmissionListener;
+import com.google.gerrit.server.update.SuperprojectUpdateSubmission;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -737,8 +740,11 @@ class ReceiveCommits {
           }
         }
         logger.atFine().log("Added %d additional ref updates", added);
-        bu.execute();
-        branches = bu.getSuccessfullyUpdatedBranches(/* dryrun=*/ false);
+
+        SubmissionListener submission =
+            new SuperprojectUpdateSubmission(ormProvider, user, subOpFactory);
+        SubmissionExecutor.execute(ImmutableList.of(bu), submission, false);
+        branches = bu.getSuccessfullyUpdatedBranches(false);
       } catch (UpdateException | RestApiException e) {
         throw new StorageException(e);
       }
@@ -765,17 +771,6 @@ class ReceiveCommits {
                     break;
                 }
               });
-
-      // Update superproject gitlinks if required.
-      if (!branches.isEmpty()) {
-        try (MergeOpRepoManager orm = ormProvider.get()) {
-          orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
-          SubmoduleOp op = subOpFactory.create(branches, orm);
-          op.updateSuperProjects(false);
-        } catch (RestApiException e) {
-          logger.atWarning().withCause(e).log("Can't update the superprojects");
-        }
-      }
     }
   }
 

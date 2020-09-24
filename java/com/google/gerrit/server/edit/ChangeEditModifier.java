@@ -16,6 +16,7 @@ package com.google.gerrit.server.edit;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
 
+import com.google.common.base.Charsets;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
@@ -55,6 +56,10 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.TimeZone;
+import org.eclipse.jgit.diff.DiffAlgorithm;
+import org.eclipse.jgit.diff.DiffAlgorithm.SupportedAlgorithm;
+import org.eclipse.jgit.diff.RawText;
+import org.eclipse.jgit.diff.RawTextComparator;
 import org.eclipse.jgit.dircache.InvalidPathException;
 import org.eclipse.jgit.lib.BatchRefUpdate;
 import org.eclipse.jgit.lib.CommitBuilder;
@@ -64,6 +69,9 @@ import org.eclipse.jgit.lib.ObjectInserter;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.lib.RefUpdate;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.merge.MergeAlgorithm;
+import org.eclipse.jgit.merge.MergeChunk;
+import org.eclipse.jgit.merge.MergeResult;
 import org.eclipse.jgit.merge.MergeStrategy;
 import org.eclipse.jgit.merge.ThreeWayMerger;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -523,7 +531,8 @@ public class ChangeEditModifier {
 
     String getUnmodifiedCommitMessage(RevCommit commitToModify);
 
-    String mergeCommitMessageIfNecessary(String newCommitMessage, ObjectId commitToModify);
+    String mergeCommitMessageIfNecessary(String newCommitMessage, RevCommit commitToModify)
+        throws MergeConflictException;
 
     Optional<ChangeEdit> getEditIfNoModification(ObjectId newTreeId, String newCommitMessage);
 
@@ -573,7 +582,8 @@ public class ChangeEditModifier {
     }
 
     @Override
-    public String mergeCommitMessageIfNecessary(String newCommitMessage, ObjectId commitToModify) {
+    public String mergeCommitMessageIfNecessary(String newCommitMessage, RevCommit commitToModify)
+        throws MergeConflictException {
       if (ObjectId.isEqual(changeEdit.getEditCommit(), commitToModify)) {
         return newCommitMessage;
       }
@@ -581,9 +591,35 @@ public class ChangeEditModifier {
       if (editCommitMessage.equals(newCommitMessage)) {
         return editCommitMessage;
       }
-      // Adjusted in follow-up change.
-      throw new UnsupportedOperationException(
-          "Merging different commit messages is not supported.");
+      return mergeCommitMessage(newCommitMessage, commitToModify, editCommitMessage);
+    }
+
+    private String mergeCommitMessage(
+        String newCommitMessage, RevCommit commitToModify, String editCommitMessage)
+        throws MergeConflictException {
+      MergeAlgorithm mergeAlgorithm =
+          new MergeAlgorithm(DiffAlgorithm.getAlgorithm(SupportedAlgorithm.MYERS));
+      RawText baseMessage = new RawText(commitToModify.getFullMessage().getBytes(Charsets.UTF_8));
+      RawText oldMessage = new RawText(editCommitMessage.getBytes(Charsets.UTF_8));
+      RawText newMessage = new RawText(newCommitMessage.getBytes(Charsets.UTF_8));
+      RawTextComparator textComparator = RawTextComparator.DEFAULT;
+      MergeResult<RawText> mergeResult =
+          mergeAlgorithm.merge(textComparator, baseMessage, oldMessage, newMessage);
+      if (mergeResult.containsConflicts()) {
+        throw new MergeConflictException(
+            "The chosen modification adjusted the commit message. However, the new commit message"
+                + " could not be merged with the commit message of the existing change edit."
+                + " Please manually apply the desired changes to the commit message of the change"
+                + " edit.");
+      }
+
+      StringBuilder resultingCommitMessage = new StringBuilder();
+      for (MergeChunk mergeChunk : mergeResult) {
+        RawText mergedMessagePart = mergeResult.getSequences().get(mergeChunk.getSequenceIndex());
+        resultingCommitMessage.append(
+            mergedMessagePart.getString(mergeChunk.getBegin(), mergeChunk.getEnd(), false));
+      }
+      return resultingCommitMessage.toString();
     }
 
     @Override
@@ -643,7 +679,7 @@ public class ChangeEditModifier {
     }
 
     @Override
-    public String mergeCommitMessageIfNecessary(String newCommitMessage, ObjectId commitToModify) {
+    public String mergeCommitMessageIfNecessary(String newCommitMessage, RevCommit commitToModify) {
       return newCommitMessage;
     }
 

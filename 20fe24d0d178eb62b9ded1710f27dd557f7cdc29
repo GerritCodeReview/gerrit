@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "6d4a8db5_c2018138",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 421,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-24T07:13:46Z",
+      "side": 1,
+      "message": "is this caused by `shouldSuppressKeyboardShortcut` always return true when target is on `input` etc ?\n\ni think this may work fine for this checkbox without any potential issues, but what if similar problems show up for another input or textarea.\n\nPersonally I think it might be better to just define a allowlist in `shouldSuppressKeyboardShortcut` to override suppress behavior on those elements or just allow override with attribute like `no-suppress`, then we can just check for `elemenent.getAttribute(\u0027noSuppress\u0027)`",
+      "revId": "20fe24d0d178eb62b9ded1710f27dd557f7cdc29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

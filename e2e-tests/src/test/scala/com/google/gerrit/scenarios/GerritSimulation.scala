@@ -23,8 +23,8 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
-  private val pack = getClass.getPackage.getName
-  private val path = pack.replaceAllLiterally(".", "/")
+  private val packageName = getClass.getPackage.getName
+  private val path = packageName.replaceAllLiterally(".", "/")
   protected val name: String = getClass.getSimpleName
   private val pathName = s"data/$path/$name"
   protected val resource = s"$pathName.json"
@@ -87,7 +87,7 @@ class GerritSimulation extends Simulation {
   }
 
   protected def replaceProperty(term: String, default: Any, in: String): String = {
-    val property = pack + "." + term
+    val property = packageName + "." + term
     var value = default
     default match {
       case _: String | _: Double =>

@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "da139437_8712c35b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-24T22:13:03Z",
+      "side": 1,
+      "message": "\u003e After this left-over nit, I\u0027d propose that a reviewer from Google approves or reviews otherwise, at will.\n\n(Nit fixed.)",
+      "parentUuid": "daa2fc59_fc90ddbc",
+      "revId": "cfa25c3e683e5cf15005211fb0ba7d3c7e20da88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a99c0c7e_6cdde1dc",
         "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
         "patchSetId": 16

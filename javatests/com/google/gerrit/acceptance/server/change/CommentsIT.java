@@ -232,7 +232,7 @@ public class CommentsIT extends AbstractDaemonTest {
     addComments(changeId, ps1, comment);
 
     String emailBody = Iterables.getOnlyElement(email.getMessages()).body();
-    assertThat(emailBody).contains("Patchset");
+    assertThat(emailBody).contains("PS1:");
     assertThat(emailBody).doesNotContain("/PATCHSET_LEVEL");
   }
 

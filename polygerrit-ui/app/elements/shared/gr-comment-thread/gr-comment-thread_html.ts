@@ -79,9 +79,6 @@ export const htmlTemplate = html`
   <template is="dom-if" if="[[showFilePath]]">
     <template is="dom-if" if="[[showFileName]]">
       <div class="fileName">
-        <template is="dom-if" if="[[_isPatchsetLevelComment(path)]]">
-          <span> [[_computeDisplayPath(path)]] </span>
-        </template>
         <template is="dom-if" if="[[!_isPatchsetLevelComment(path)]]">
           <a href$="[[_getDiffUrlForPath(path)]]">
             [[_computeDisplayPath(path)]]

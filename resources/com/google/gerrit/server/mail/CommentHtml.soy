@@ -110,9 +110,11 @@
   <ul style="{$ulStyle}">
     {for $group in $commentFiles}
       <li style="{$fileLiStyle}">
-        <p>
-          {$group.title}:
-        </p>
+        {if $group.title}
+          <p>
+            {$group.title}:
+          </p>
+        {/if}
 
         <ul style="{$ulStyle}">
           {for $comment in $group.comments}

@@ -172,6 +172,8 @@ import com.google.gerrit.server.update.Context;
 import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
+import com.google.gerrit.server.update.SubmissionExecutor;
+import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
 import com.google.gerrit.server.util.MagicBranch;
@@ -725,7 +727,8 @@ class ReceiveCommits {
                   project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
           ObjectInserter ins = repo.newObjectInserter();
           ObjectReader reader = ins.newReader();
-          RevWalk rw = new RevWalk(reader)) {
+          RevWalk rw = new RevWalk(reader);
+          MergeOpRepoManager orm = ormProvider.get()) {
         bu.setRepository(repo, rw, ins);
         bu.setRefLogMessage("push");
 
@@ -737,12 +740,21 @@ class ReceiveCommits {
           }
         }
         logger.atFine().log("Added %d additional ref updates", added);
-        bu.execute();
-        branches = bu.getSuccessfullyUpdatedBranches(/* dryrun=*/ false);
+
+        SubmissionExecutor submissionExecutor =
+            new SubmissionExecutor(false, new SuperprojectUpdateSubmissionListener(subOpFactory));
+
+        submissionExecutor.execute(ImmutableList.of(bu));
+
+        orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
+        submissionExecutor.afterExecutions(orm);
+
+        branches = bu.getSuccessfullyUpdatedBranches(false);
       } catch (UpdateException | RestApiException e) {
         throw new StorageException(e);
       }
 
+      // TODO(ifrade): Move this to a submission listener
       branches.values().stream()
           .filter(c -> isHead(c) || isConfig(c))
           .forEach(
@@ -765,17 +777,6 @@ class ReceiveCommits {
                     break;
                 }
               });
-
-      // Update superproject gitlinks if required.
-      if (!branches.isEmpty()) {
-        try (MergeOpRepoManager orm = ormProvider.get()) {
-          orm.setContext(TimeUtil.nowTs(), user, NotifyResolver.Result.none());
-          SubmoduleOp op = subOpFactory.create(branches, orm);
-          op.updateSuperProjects(false);
-        } catch (RestApiException e) {
-          logger.atWarning().withCause(e).log("Can't update the superprojects");
-        }
-      }
     }
   }
 

@@ -233,7 +233,9 @@ export class GrCursorManager extends GestureEventListeners(
   }
 
   isAtEnd() {
-    return this.index === this.stops.length - 1;
+    // Unset cursor should not be considered "at end", even when there are no
+    // cursor stops.
+    return this.index !== -1 && this.index === this.stops.length - 1;
   }
 
   moveToStart() {
@@ -295,35 +297,33 @@ export class GrCursorManager extends GestureEventListeners(
      * that pressing n again will navigate them to next unreviewed file.
      * If click happens within the time limit, then navigate to next file
      */
-    if (navigateToNextFile && this.index === newIndex) {
-      if (newIndex === this.stops.length - 1) {
-        if (
-          this._lastDisplayedNavigateToNextFileToast &&
-          Date.now() - this._lastDisplayedNavigateToNextFileToast <=
-            NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
-        ) {
-          // reset for next file
-          this._lastDisplayedNavigateToNextFileToast = null;
-          this.dispatchEvent(
-            new CustomEvent('navigate-to-next-unreviewed-file', {
-              composed: true,
-              bubbles: true,
-            })
-          );
-          return;
-        }
-        this._lastDisplayedNavigateToNextFileToast = Date.now();
+    if (navigateToNextFile && this.index === newIndex && this.isAtEnd()) {
+      if (
+        this._lastDisplayedNavigateToNextFileToast &&
+        Date.now() - this._lastDisplayedNavigateToNextFileToast <=
+          NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
+      ) {
+        // reset for next file
+        this._lastDisplayedNavigateToNextFileToast = null;
         this.dispatchEvent(
-          new CustomEvent('show-alert', {
-            detail: {
-              message: 'Press n again to navigate to next unreviewed file',
-            },
+          new CustomEvent('navigate-to-next-unreviewed-file', {
             composed: true,
             bubbles: true,
           })
         );
         return;
       }
+      this._lastDisplayedNavigateToNextFileToast = Date.now();
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Press n again to navigate to next unreviewed file',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+      return;
     }
 
     this.index = newIndex;

@@ -124,7 +124,6 @@ public class ChangeEditModifier {
    * @param notes the {@link ChangeNotes} of the change for which the change edit should be created
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if a change edit already existed for the change
-   * @throws PermissionBackendException
    */
   public void createEdit(Repository repository, ChangeNotes notes)
       throws AuthException, IOException, InvalidChangeOperationException,
@@ -151,11 +150,9 @@ public class ChangeEditModifier {
    * @throws InvalidChangeOperationException if a change edit doesn't exist for the specified
    *     change, the change edit is already based on the latest patch set, or the change represents
    *     the root commit
-   * @throws MergeConflictException if rebase fails due to merge conflicts
-   * @throws PermissionBackendException
    */
   public void rebaseEdit(Repository repository, ChangeNotes notes)
-      throws AuthException, InvalidChangeOperationException, IOException, MergeConflictException,
+      throws AuthException, InvalidChangeOperationException, IOException,
           PermissionBackendException, ResourceConflictException {
     assertCanEdit(notes);
 
@@ -208,7 +205,6 @@ public class ChangeEditModifier {
    * @param newCommitMessage the new commit message
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the commit message is the same as before
-   * @throws PermissionBackendException
    * @throws BadRequestException if the commit message is malformed
    */
   public void modifyMessage(Repository repository, ChangeNotes notes, String newCommitMessage)
@@ -232,7 +228,6 @@ public class ChangeEditModifier {
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file already had the specified content
-   * @throws PermissionBackendException
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void modifyFile(
@@ -258,7 +253,6 @@ public class ChangeEditModifier {
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file does not exist
-   * @throws PermissionBackendException
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void deleteFile(Repository repository, ChangeNotes notes, String file)
@@ -283,7 +277,6 @@ public class ChangeEditModifier {
    * @throws BadRequestException if the user provided bad input (e.g. invalid file paths)
    * @throws InvalidChangeOperationException if the file was already renamed to the specified new
    *     name
-   * @throws PermissionBackendException
    * @throws ResourceConflictException if the project state does not permit the operation
    */
   public void renameFile(
@@ -309,7 +302,6 @@ public class ChangeEditModifier {
    * @param file the path of the file which should be restored
    * @throws AuthException if the user isn't authenticated or not allowed to use change edits
    * @throws InvalidChangeOperationException if the file was already restored
-   * @throws PermissionBackendException
    */
   public void restoreFile(Repository repository, ChangeNotes notes, String file)
       throws AuthException, BadRequestException, InvalidChangeOperationException, IOException,

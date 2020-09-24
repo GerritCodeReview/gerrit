@@ -22,7 +22,7 @@ import scala.concurrent.duration._
 
 class ReplayRecordsFromFeeder extends GitSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).circular
-  private val default: String = name
+  private val default = name
 
   override def relativeRuntimeWeight = 30
 

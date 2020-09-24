@@ -22,7 +22,7 @@ import scala.concurrent.duration._
 
 class FlushProjectsCache extends CacheFlushSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val default: String = name
+  private val default = name
 
   override def relativeRuntimeWeight = 2
 

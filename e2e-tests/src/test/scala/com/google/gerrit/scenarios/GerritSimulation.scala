@@ -23,20 +23,20 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
-  private val pack: String = this.getClass.getPackage.getName
-  private val path: String = pack.replaceAllLiterally(".", "/")
+  private val pack = this.getClass.getPackage.getName
+  private val path = pack.replaceAllLiterally(".", "/")
   protected val name: String = this.getClass.getSimpleName
-  private val pathName: String = s"data/$path/$name"
-  protected val resource: String = s"$pathName.json"
-  protected val body: String = s"$pathName-body.json"
+  private val pathName = s"data/$path/$name"
+  protected val resource = s"$pathName.json"
+  protected val body = s"$pathName-body.json"
   protected val unique: String = name + "-" + this.hashCode()
   protected val single = 1
 
   val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt
-  private val powerFactor: Double = replaceProperty("power_factor", 1.0).toDouble
-  protected val SecondsPerWeightUnit: Int = 2
+  private val powerFactor = replaceProperty("power_factor", 1.0).toDouble
+  protected val SecondsPerWeightUnit = 2
   val maxExecutionTime: Int = (SecondsPerWeightUnit * relativeRuntimeWeight * powerFactor).toInt
-  private var cumulativeWaitTime: Int = 0
+  private var cumulativeWaitTime = 0
 
   /**
    * How long a scenario step should wait before starting to execute.

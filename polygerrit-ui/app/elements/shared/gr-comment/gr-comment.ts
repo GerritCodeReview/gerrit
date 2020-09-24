@@ -470,8 +470,7 @@ export class GrComment extends KeyboardShortcutMixin(
     // prior to it being saved.
     this.cancelDebouncer('store');
 
-    if (!this.comment?.path || this.comment.line === undefined)
-      throw new Error('Cannot erase Draft Comment');
+    if (!this.comment?.path) throw new Error('Cannot erase Draft Comment');
     if (this.changeNum === undefined) {
       throw new Error('undefined changeNum');
     }
@@ -628,7 +627,7 @@ export class GrComment extends KeyboardShortcutMixin(
       ? this.comment.patch_set
       : this._getPatchNum();
     const {path, line, range} = this.comment;
-    if (path && line !== undefined) {
+    if (path) {
       this.debounce(
         'store',
         () => {
@@ -659,9 +658,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _handleAnchorClick(e: Event) {
     e.preventDefault();
-    if (!this.comment?.line) {
-      return;
-    }
+    if (!this.comment) return;
     this.dispatchEvent(
       new CustomEvent('comment-anchor-tap', {
         bubbles: true,
@@ -944,8 +941,7 @@ export class GrComment extends KeyboardShortcutMixin(
       comment.id ||
       comment.message ||
       comment.__otherEditing ||
-      !comment.path ||
-      !comment.line
+      !comment.path
     ) {
       if (comment) delete comment.__otherEditing;
       return;

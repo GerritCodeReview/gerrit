@@ -141,6 +141,29 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(element.isAtEnd());
   });
 
+  test('next() with abort', () => {
+    element.stops = list.querySelectorAll('li');
+    element.setCursor(list.children[0]);
+
+    const result = element.next({abort: row => row.textContent === 'B'});
+
+    assert.equal(result, CursorMoveResult.ABORTED);
+    assert.equal(element.index, 0);
+  });
+
+  test('next() aborts even when stop would be filtered', () => {
+    element.stops = list.querySelectorAll('li');
+    element.setCursor(list.children[0]);
+
+    const result = element.next({
+      abort: row => row.textContent === 'B',
+      filter: row => row.textContent === 'C',
+    });
+
+    assert.equal(result, CursorMoveResult.ABORTED);
+    assert.equal(element.index, 0);
+  });
+
   test('previous() goes to last element when no cursor is set', () => {
     element.stops = list.querySelectorAll('li');
     const result = element.previous();
@@ -189,7 +212,7 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(getTargetHeight.called);
   });
 
-  test('opt_noScroll', () => {
+  test('setCursorAtIndex with noScroll', () => {
     sinon.stub(element, '_targetIsVisible').callsFake(() => false);
     const scrollStub = sinon.stub(window, 'scrollTo');
     element.stops = list.querySelectorAll('li');

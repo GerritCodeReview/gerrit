@@ -55,6 +55,7 @@ export const htmlTemplate = html`
       list-style-type: disc;
       margin-left: var(--spacing-xl);
     }
+    code,
     gr-linked-text.pre {
       font-family: var(--monospace-font-family);
       font-size: var(--font-size-code);

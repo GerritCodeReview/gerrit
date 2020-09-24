@@ -96,7 +96,7 @@ public class CommentSender extends ReplyToChangeSender {
       } else if (Patch.MERGE_LIST.equals(filename)) {
         return "Merge List";
       } else if (Patch.PATCHSET_LEVEL.equals(filename)) {
-        return "Patchset";
+        return null;
       } else {
         return "File " + filename;
       }

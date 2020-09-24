@@ -39,8 +39,10 @@
   {/if}
 
   {for $group in $commentFiles}
-    {$group.title}:{\n}
-    {\n}
+    {if $group.title}
+      {$group.title}:{\n}
+      {\n}
+    {/if}
 
     {for $comment in $group.comments}
       {if $comment.isRobotComment}

@@ -22,9 +22,9 @@ import io.gatling.http.Predef.http
 class ListProjects extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
 
-  val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
-      .exec(http(unique).get("${url}"))
+      .exec(http(uniqueName).get("${url}"))
 
   setUp(
     test.inject(

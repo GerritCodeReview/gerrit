@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "62171903_4429acbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-25T19:32:42Z",
+      "side": 1,
+      "message": "Thanks to @Sven for the CR. Running out of timely approvals. Trivial change(s), also +1\u0027ed in Topic\u0027s plugins.",
+      "revId": "b314e7b64ae519655a7b85beb334a459f4b8de4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

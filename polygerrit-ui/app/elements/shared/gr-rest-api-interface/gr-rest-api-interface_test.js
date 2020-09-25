@@ -54,7 +54,7 @@ suite('gr-rest-api-interface tests', () => {
     window.CANONICAL_PATH = originalCanonicalPath;
   });
 
-  test('parent diff comments are properly grouped', done => {
+  test('parent diff comments are properly grouped', () => {
     sinon.stub(element._restApiHelper, 'fetchJSON')
         .callsFake(() => Promise.resolve({
           '/COMMIT_MSG': [],
@@ -70,7 +70,7 @@ suite('gr-rest-api-interface tests', () => {
             },
           ],
         }));
-    element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
+    return element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {
@@ -85,7 +85,6 @@ suite('gr-rest-api-interface tests', () => {
             path: 'sieve.go',
             updated: '2017-02-03 22:32:28.000000000',
           });
-          done();
         });
   });
 
@@ -194,10 +193,10 @@ suite('gr-rest-api-interface tests', () => {
     assert.deepEqual(element._setRanges(comments), expectedResult);
   });
 
-  test('differing patch diff comments are properly grouped', done => {
+  test('differing patch diff comments are properly grouped', () => {
     sinon.stub(element, 'getFromProjectLookup')
         .returns(Promise.resolve('test'));
-    sinon.stub(element._restApiHelper, 'fetchJSON').callsFake( request => {
+    sinon.stub(element._restApiHelper, 'fetchJSON').callsFake(request => {
       const url = request.url;
       if (url === '/changes/test~42/revisions/1') {
         return Promise.resolve({
@@ -235,7 +234,7 @@ suite('gr-rest-api-interface tests', () => {
         });
       }
     });
-    element._getDiffComments('42', '', 1, 2, 'sieve.go').then(
+    return element._getDiffComments('42', '', 1, 2, 'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
           assert.deepEqual(obj.baseComments[0], {
@@ -254,26 +253,26 @@ suite('gr-rest-api-interface tests', () => {
             path: 'sieve.go',
             updated: '2017-02-04 22:33:28.000000000',
           });
-          done();
         });
   });
 
-  test('server error', done => {
+  test('server error', () => {
     const getResponseObjectStub = sinon.stub(element, 'getResponseObject');
     window.fetch.returns(Promise.resolve({ok: false}));
     const serverErrorEventPromise = new Promise(resolve => {
       element.addEventListener('server-error', resolve);
     });
 
-    element._restApiHelper.fetchJSON({}).then(response => {
+    return Promise.all([element._restApiHelper.fetchJSON({}).then(response => {
       assert.isUndefined(response);
       assert.isTrue(getResponseObjectStub.notCalled);
-      serverErrorEventPromise.then(() => done());
-    });
+    }), serverErrorEventPromise]);
   });
 
   test('legacy n,z key in change url is replaced', async () => {
-    sinon.stub(element, 'getConfig').callsFake( async () => { return {}; });
+    sinon.stub(element, 'getConfig').callsFake(async () => {
+      return {};
+    });
     const stub = sinon.stub(element._restApiHelper, 'fetchJSON')
         .returns(Promise.resolve([]));
     await element.getChanges(1, null, 'n,z');
@@ -290,15 +289,14 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('getAccount when resp is null does not add anything to the cache',
-      done => {
+      async () => {
         const cacheKey = '/accounts/self/detail';
         const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL')
             .callsFake(() => Promise.resolve());
 
-        element.getAccount().then(() => {
+        await element.getAccount().then(() => {
           assert.isTrue(stub.called);
           assert.isFalse(element._restApiHelper._cache.has(cacheKey));
-          done();
         });
 
         element._restApiHelper._cache.set(cacheKey, 'fake cache');
@@ -306,32 +304,29 @@ suite('gr-rest-api-interface tests', () => {
       });
 
   test('getAccount does not add to the cache when resp.status is 403',
-      done => {
+      async () => {
         const cacheKey = '/accounts/self/detail';
         const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL')
             .callsFake(() => Promise.resolve());
 
-        element.getAccount().then(() => {
+        await element.getAccount().then(() => {
           assert.isTrue(stub.called);
           assert.isFalse(element._restApiHelper._cache.has(cacheKey));
-          done();
         });
         element._cache.set(cacheKey, 'fake cache');
         stub.lastCall.args[0].errFn({status: 403});
       });
 
-  test('getAccount when resp is successful', done => {
+  test('getAccount when resp is successful', async () => {
     const cacheKey = '/accounts/self/detail';
     const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL').callsFake(
         () => Promise.resolve());
 
-    element.getAccount().then(response => {
+    element._restApiHelper._cache.set(cacheKey, 'fake cache');
+    await element.getAccount().then(response => {
       assert.isTrue(stub.called);
       assert.equal(element._restApiHelper._cache.get(cacheKey), 'fake cache');
-      done();
     });
-    element._restApiHelper._cache.set(cacheKey, 'fake cache');
-
     stub.lastCall.args[0].errFn({});
   });
 
@@ -346,61 +341,57 @@ suite('gr-rest-api-interface tests', () => {
   };
 
   test('getPreferences returns correctly on small screens logged in',
-      done => {
+      () => {
         const testJSON = {diff_view: 'SIDE_BY_SIDE'};
         const loggedIn = true;
         const smallScreen = true;
 
         preferenceSetup(testJSON, loggedIn, smallScreen);
 
-        element.getPreferences().then(obj => {
+        return element.getPreferences().then(obj => {
           assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
           assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-          done();
         });
       });
 
   test('getPreferences returns correctly on small screens not logged in',
-      done => {
+      () => {
         const testJSON = {diff_view: 'SIDE_BY_SIDE'};
         const loggedIn = false;
         const smallScreen = true;
 
         preferenceSetup(testJSON, loggedIn, smallScreen);
-        element.getPreferences().then(obj => {
+        return element.getPreferences().then(obj => {
           assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
           assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-          done();
         });
       });
 
   test('getPreferences returns correctly on larger screens logged in',
-      done => {
+      () => {
         const testJSON = {diff_view: 'UNIFIED_DIFF'};
         const loggedIn = true;
         const smallScreen = false;
 
         preferenceSetup(testJSON, loggedIn, smallScreen);
 
-        element.getPreferences().then(obj => {
+        return element.getPreferences().then(obj => {
           assert.equal(obj.default_diff_view, 'UNIFIED_DIFF');
           assert.equal(obj.diff_view, 'UNIFIED_DIFF');
-          done();
         });
       });
 
   test('getPreferences returns correctly on larger screens not logged in',
-      done => {
+      () => {
         const testJSON = {diff_view: 'UNIFIED_DIFF'};
         const loggedIn = false;
         const smallScreen = false;
 
         preferenceSetup(testJSON, loggedIn, smallScreen);
 
-        element.getPreferences().then(obj => {
+        return element.getPreferences().then(obj => {
           assert.equal(obj.default_diff_view, 'SIDE_BY_SIDE');
           assert.equal(obj.diff_view, 'SIDE_BY_SIDE');
-          done();
         });
       });
 
@@ -411,10 +402,10 @@ suite('gr-rest-api-interface tests', () => {
     assert.equal(sendStub.lastCall.args[0].body.download_scheme, 'http');
   });
 
-  test('getDiffPreferences returns correct defaults', done => {
+  test('getDiffPreferences returns correct defaults', () => {
     sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
 
-    element.getDiffPreferences().then(obj => {
+    return element.getDiffPreferences().then(obj => {
       assert.equal(obj.auto_hide_diff_table_header, true);
       assert.equal(obj.context, 10);
       assert.equal(obj.cursor_blink_rate, 0);
@@ -429,7 +420,6 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(obj.syntax_highlighting, true);
       assert.equal(obj.tab_size, 8);
       assert.equal(obj.theme, 'DEFAULT');
-      done();
     });
   });
 
@@ -440,10 +430,10 @@ suite('gr-rest-api-interface tests', () => {
     assert.equal(sendStub.lastCall.args[0].body.show_tabs, false);
   });
 
-  test('getEditPreferences returns correct defaults', done => {
+  test('getEditPreferences returns correct defaults', () => {
     sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
 
-    element.getEditPreferences().then(obj => {
+    return element.getEditPreferences().then(obj => {
       assert.equal(obj.auto_close_brackets, false);
       assert.equal(obj.cursor_blink_rate, 0);
       assert.equal(obj.hide_line_numbers, false);
@@ -460,7 +450,6 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(obj.syntax_highlighting, true);
       assert.equal(obj.tab_size, 8);
       assert.equal(obj.theme, 'DEFAULT');
-      done();
     });
   });
 
@@ -492,9 +481,9 @@ suite('gr-rest-api-interface tests', () => {
           '/accounts/self/status');
       assert.deepEqual(sendStub.lastCall.args[0].body,
           {status: 'OOO'});
-      assert.deepEqual(element._restApiHelper
-          ._cache.get('/accounts/self/detail'),
-      {status: 'OOO'});
+      assert.deepEqual(
+          element._restApiHelper._cache.get('/accounts/self/detail'),
+          {status: 'OOO'});
     });
   });
 
@@ -513,7 +502,9 @@ suite('gr-rest-api-interface tests', () => {
       assert.equal(obj.sendDiffDraft.length, 2);
       assert.isTrue(!!element.hasPendingDiffDrafts());
 
-      for (const promise of obj.sendDiffDraft) { promise.resolve(); }
+      for (const promise of obj.sendDiffDraft) {
+        promise.resolve();
+      }
 
       return element.awaitPendingDiffDrafts().then(() => {
         assert.equal(obj.sendDiffDraft.length, 0);
@@ -544,41 +535,36 @@ suite('gr-rest-api-interface tests', () => {
             });
       });
 
-      test('_failForCreate200 fails on 200', done => {
+      test('_failForCreate200 fails on 200', () => {
         const result = {
           ok: true,
           status: 200,
-          headers: {entries: () => [
-            ['Set-CoOkiE', 'secret'],
-            ['Innocuous', 'hello'],
-          ]},
+          headers: {
+            entries: () => [
+              ['Set-CoOkiE', 'secret'],
+              ['Innocuous', 'hello'],
+            ],
+          },
         };
-        element._failForCreate200(Promise.resolve(result))
+        return element._failForCreate200(Promise.resolve(result))
             .then(() => {
-              assert.isTrue(false, 'Promise should not resolve');
+              assert.fail('Error expected.');
             })
             .catch(e => {
               assert.isOk(e);
               assert.include(e.message, 'Saving draft resulted in HTTP 200');
               assert.include(e.message, 'hello');
               assert.notInclude(e.message, 'secret');
-              done();
             });
       });
 
-      test('_failForCreate200 does not fail on 201', done => {
+      test('_failForCreate200 does not fail on 201', () => {
         const result = {
           ok: true,
           status: 201,
           headers: {entries: () => []},
         };
-        element._failForCreate200(Promise.resolve(result))
-            .then(() => {
-              done();
-            })
-            .catch(e => {
-              assert.isTrue(false, 'Promise should not fail');
-            });
+        return element._failForCreate200(Promise.resolve(result));
       });
     });
   });
@@ -900,11 +886,15 @@ suite('gr-rest-api-interface tests', () => {
     suite('change detail options', () => {
       setup(() => {
         sinon.stub(element, '_getChangeDetail').callsFake(
-            async (changeNum, options) => { return {changeNum, options}; });
+            async (changeNum, options) => {
+              return {changeNum, options};
+            });
       });
 
       test('signed pushes disabled', async () => {
-        sinon.stub(element, 'getConfig').callsFake( async () => { return {}; });
+        sinon.stub(element, 'getConfig').callsFake(async () => {
+          return {};
+        });
         const {changeNum, options} = await element.getChangeDetail(123);
         assert.strictEqual(123, changeNum);
         assert.isNotOk(
@@ -912,7 +902,7 @@ suite('gr-rest-api-interface tests', () => {
       });
 
       test('signed pushes enabled', async () => {
-        sinon.stub(element, 'getConfig').callsFake( async () => {
+        sinon.stub(element, 'getConfig').callsFake(async () => {
           return {receive: {enable_signed_push: true}};
         });
         const {changeNum, options} = await element.getChangeDetail(123);
@@ -1289,21 +1279,24 @@ suite('gr-rest-api-interface tests', () => {
     return Promise.all([edit, normal]);
   });
 
-  test('getFileContent suppresses 404s', done => {
+  test('getFileContent suppresses 404s', () => {
     const res = {status: 404};
-    const handler = e => {
-      assert.isFalse(e.detail.res.status === 404);
-      done();
-    };
-    element.addEventListener('server-error', handler);
+    const spy = sinon.spy();
+    element.addEventListener('server-error', spy);
     sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve(res));
     sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
-    element.getFileContent('1', 'tst/path', '1').then(() => {
-      flush();
+    return element.getFileContent('1', 'tst/path', '1')
+        .then(() => {
+          flush();
+          assert.isFalse(spy.called);
 
-      res.status = 500;
-      element.getFileContent('1', 'tst/path', '1');
-    });
+          res.status = 500;
+          return element.getFileContent('1', 'tst/path', '1');
+        })
+        .then(() => {
+          assert.isTrue(spy.called);
+          assert.notEqual(spy.lastCall.args[0].detail.res.status, 404);
+        });
   });
 
   test('getChangeFilesOrEditFiles is edit-sensitive', () => {

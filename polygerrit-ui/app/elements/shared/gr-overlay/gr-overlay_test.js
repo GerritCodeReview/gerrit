@@ -47,14 +47,14 @@ suite('gr-overlay tests', () => {
         element._boundHandleClose);
   });
 
-  test('events are fired on fullscreen view', done => {
+  test('events are fired on fullscreen view', () => {
     sinon.stub(element, '_isMobile').returns(true);
     const openHandler = sinon.stub();
     const closeHandler = sinon.stub();
     element.addEventListener('fullscreen-overlay-opened', openHandler);
     element.addEventListener('fullscreen-overlay-closed', closeHandler);
 
-    element.open().then(() => {
+    return element.open().then(() => {
       assert.isTrue(element._isMobile.called);
       assert.isTrue(element._fullScreenOpen);
       assert.isTrue(openHandler.called);
@@ -62,18 +62,17 @@ suite('gr-overlay tests', () => {
       element._overlayClosed();
       assert.isFalse(element._fullScreenOpen);
       assert.isTrue(closeHandler.called);
-      done();
     });
   });
 
-  test('events are not fired on desktop view', done => {
+  test('events are not fired on desktop view', () => {
     sinon.stub(element, '_isMobile').returns(false);
     const openHandler = sinon.stub();
     const closeHandler = sinon.stub();
     element.addEventListener('fullscreen-overlay-opened', openHandler);
     element.addEventListener('fullscreen-overlay-closed', closeHandler);
 
-    element.open().then(() => {
+    return element.open().then(() => {
       assert.isTrue(element._isMobile.called);
       assert.isFalse(element._fullScreenOpen);
       assert.isFalse(openHandler.called);
@@ -81,7 +80,6 @@ suite('gr-overlay tests', () => {
       element._overlayClosed();
       assert.isFalse(element._fullScreenOpen);
       assert.isFalse(closeHandler.called);
-      done();
     });
   });
 });

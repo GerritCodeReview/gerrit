@@ -49,13 +49,12 @@ suite('gr-download-commands', () => {
   });
 
   suite('unauthenticated', () => {
-    setup(done => {
+    setup(async () => {
       element = basicFixture.instantiate();
       element.schemes = SCHEMES;
       element.commands = COMMANDS;
       element.selectedScheme = SELECTED_SCHEME;
-      flush();
-      flush(done);
+      await flush();
     });
 
     test('focusOnCopy', () => {
@@ -79,17 +78,16 @@ suite('gr-download-commands', () => {
           .querySelector('.commands')));
     });
 
-    test('tab selection', done => {
+    test('tab selection', () => {
       assert.equal(element.$.downloadTabs.selected, '0');
       MockInteractions.tap(element.shadowRoot
           .querySelector('[data-scheme="ssh"]'));
       flush();
       assert.equal(element.selectedScheme, 'ssh');
       assert.equal(element.$.downloadTabs.selected, '2');
-      done();
     });
 
-    test('loads scheme from preferences', done => {
+    test('loads scheme from preferences', () => {
       stub('gr-rest-api-interface', {
         getPreferences() {
           return Promise.resolve({download_scheme: 'repo'});
@@ -97,22 +95,20 @@ suite('gr-download-commands', () => {
       });
       element._loggedIn = true;
       assert.isTrue(element.$.restAPI.getPreferences.called);
-      element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
+      return element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
         assert.equal(element.selectedScheme, 'repo');
-        done();
       });
     });
 
-    test('normalize scheme from preferences', done => {
+    test('normalize scheme from preferences', () => {
       stub('gr-rest-api-interface', {
         getPreferences() {
           return Promise.resolve({download_scheme: 'REPO'});
         },
       });
       element._loggedIn = true;
-      element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
+      return element.$.restAPI.getPreferences.lastCall.returnValue.then(() => {
         assert.equal(element.selectedScheme, 'repo');
-        done();
       });
     });
 

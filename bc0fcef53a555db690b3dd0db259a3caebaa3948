@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "4243cc6f_cbed93aa",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T13:55:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8fd46f16_ef0fade8",
+      "range": {
+        "startLine": 13,
+        "startChar": 20,
+        "endLine": 13,
+        "endChar": 25
+      },
+      "revId": "bc0fcef53a555db690b3dd0db259a3caebaa3948",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "80627ac3_a97bc8e6",
         "filename": "java/com/google/gerrit/server/restapi/change/CommentPorter.java",
         "patchSetId": 1

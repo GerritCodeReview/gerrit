@@ -16,6 +16,137 @@
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e31641de_be6da26b",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "How many lines?\n\nSilly question: What happens when someone selects a huge file and adds a comment for lines 1-1,000,000. Would that cause an issue somewhere?",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7a32129e_0b77b209",
+        "filename": "java/com/google/gerrit/entities/ContextLines.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "Is it possible that we\u0027re going to have more context data in the future than just the lines? I wonder if simply \"CommentContext\" would be more forward compatible. (Sorry for re-questioning this...)",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e67e6a7d_0166f58c",
+        "filename": "java/com/google/gerrit/entities/ContextLines.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "Should this be an ImmutableMap, given that it\u0027s cached?",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "008353cf_a9c69d72",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "As a caller I\u0027d wonder if it\u0027s allowed to request contexts for different projects/changes, and if there are any implications (performance) of that.",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4c9d8539_1463da94",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "What about an  inmemory limit?",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d8661f57_1813e80d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 90,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "It\u0027s a bit confusing that a CommentContextKey is called \"key\" when there\u0027s also a type \"Key\".",
+      "range": {
+        "startLine": 90,
+        "startChar": 92,
+        "endLine": 90,
+        "endChar": 96
+      },
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "04f79b25_503aed93",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 106,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "I\u0027m having a hard time accepting the necessity of this transformation and the existence of two different key types. The only thing that happens here is the hashing of the path, right? Would it be easier if the CommentContextKey AutoValue implements a getter for the hashed path that is lazily computed?",
+      "range": {
+        "startLine": 91,
+        "startChar": 0,
+        "endLine": 106,
+        "endChar": 5
+      },
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

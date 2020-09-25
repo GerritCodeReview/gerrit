@@ -333,6 +333,24 @@
     },
     {
       "key": {
+        "uuid": "066b9dce_5d2ae196",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-09-25T10:47:37Z",
+      "side": 1,
+      "message": "Sorry for going on about this, but I find it important to document \"magic values\" clearly. When someone is investigating some performance issue a few years from now they\u0027ll be very thankful for that.\n\nOne entry is for one comment, right? Then shouldn\u0027t sth like 100 lines be plenty?\n\nAbout the disk size, I have no idea what is good. Copying the value sounds reasonable, but I\u0027d still like to get a better understanding. Can you talk to the owners of those other caches and ask them? Ideally we\u0027d have documentation in the code for all caches, at least for those we learn about, or maybe a pointer to some doc would be even better.",
+      "parentUuid": "38272cca_775b2fa9",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "d07bcc70_b9fc37f8",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18

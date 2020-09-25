@@ -110,6 +110,7 @@ class GrDiffHost extends GestureEventListeners(
   static get properties() {
     return {
       changeNum: String,
+      change: Object,
       noAutoRender: {
         type: Boolean,
         value: false,
@@ -408,12 +409,12 @@ class GrDiffHost extends GestureEventListeners(
   }
 
   _getCoverageData() {
-    const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
+    const {changeNum, path, patchRange: {basePatchNum, patchNum}, change} = this;
     this.$.jsAPI.getCoverageAnnotationApi().
         then(coverageAnnotationApi => {
           if (!coverageAnnotationApi) return;
           const provider = coverageAnnotationApi.getCoverageProvider();
-          return provider(changeNum, path, basePatchNum, patchNum)
+          return provider(changeNum, path, basePatchNum, patchNum, change)
               .then(coverageRanges => {
                 if (!coverageRanges ||
                   changeNum !== this.changeNum ||

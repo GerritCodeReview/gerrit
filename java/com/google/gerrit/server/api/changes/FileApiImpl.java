@@ -123,9 +123,6 @@ class FileApiImpl implements FileApi {
     if (r.getBase() != null) {
       getDiff.setBase(r.getBase());
     }
-    if (r.getContext() != null) {
-      getDiff.setContext(r.getContext());
-    }
     if (r.getIntraline() != null) {
       getDiff.setIntraline(r.getIntraline());
     }

@@ -36,16 +36,12 @@ import com.google.gerrit.acceptance.PushOneCommit.Result;
 import com.google.gerrit.common.RawInputUtil;
 import com.google.gerrit.extensions.api.changes.FileApi;
 import com.google.gerrit.extensions.api.changes.RebaseInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput;
-import com.google.gerrit.extensions.api.changes.ReviewInput.CommentInput;
-import com.google.gerrit.extensions.client.Comment;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.common.ChangeType;
 import com.google.gerrit.extensions.common.DiffInfo;
 import com.google.gerrit.extensions.common.FileInfo;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.BinaryResult;
-import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.testing.ConfigSuite;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
@@ -64,6 +60,7 @@ import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.PersonIdent;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 public class RevisionDiffIT extends AbstractDaemonTest {
@@ -676,12 +673,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String baseFileContent = FILE_CONTENT.concat("Line 101");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, baseFileContent);
     rebaseChangeOn(changeId, commit2);
-    // Add a comment so that file contents are not 'skipped'. To be able to add a comment, touch
-    // (= modify) the file in the change.
-    addModifiedPatchSet(
-        changeId, FILE_NAME, fileContent -> fileContent.replace("Line 2\n", "Line two\n"));
-    CommentInput comment = createCommentInput(3, 0, 4, 0, "Comment to not skip file content.");
-    addCommentTo(changeId, CURRENT, FILE_NAME, comment);
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     String newBaseFileContent = baseFileContent.concat("\n");
     ObjectId commit3 = addCommit(commit2, FILE_NAME, newBaseFileContent);
@@ -2517,17 +2508,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void diffOfUnmodifiedFileWithWholeFileContextReturnsFileContents() throws Exception {
+  public void diffOfUnmodifiedFileReturnsAllFileContents() throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     addModifiedPatchSet(
         changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
 
     DiffInfo diffInfo =
-        getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withBase(previousPatchSetId)
-            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
-            .get();
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     // We don't list the full file contents here as that is not the focus of this test.
     assertThat(diffInfo)
         .content()
@@ -2538,40 +2526,16 @@ public class RevisionDiffIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void diffOfUnmodifiedFileWithCommentAndWholeFileContextReturnsFileContents()
+  // TODO(ghareeb): Don't exclude diffs which only contain rebase hunks within the diff caches. Only
+  // filter such files in the GetFiles REST endpoint.
+  @Ignore
+  public void diffOfFileWithOnlyRebaseHunksConsideringWhitespaceReturnsFileContents()
       throws Exception {
-    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
-    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
-    addModifiedPatchSet(
-        changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
-
-    DiffInfo diffInfo =
-        getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withBase(previousPatchSetId)
-            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
-            .get();
-    // We don't list the full file contents here as that is not the focus of this test.
-    assertThat(diffInfo)
-        .content()
-        .element(0)
-        .commonLines()
-        .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
-        .inOrder();
-  }
-
-  @Test
-  public void
-      diffOfFileWithOnlyRebaseHunksAndWithCommentAndConsideringWhitespaceReturnsFileContents()
-          throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit2);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
@@ -2585,18 +2549,23 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .commonLines()
         .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
         .inOrder();
+    // It's crucial that the line changed in the rebase is reported correctly.
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 70");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line seventy");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
   }
 
   @Test
-  public void diffOfFileWithOnlyRebaseHunksAndWithCommentAndIgnoringWhitespaceReturnsFileContents()
+  // TODO(ghareeb): Don't exclude diffs which only contain rebase hunks within the diff caches. Only
+  // filter such files in the GetFiles REST endpoint.
+  @Ignore
+  public void diffOfFileWithOnlyRebaseHunksAndIgnoringWhitespaceReturnsFileContents()
       throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
     String newBaseFileContent = FILE_CONTENT.replace("Line 70\n", "Line seventy\n");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit2);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
@@ -2610,12 +2579,18 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .commonLines()
         .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
         .inOrder();
+    // It's crucial that the line changed in the rebase is reported correctly.
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 70");
+    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line seventy");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
   }
 
   @Test
-  public void
-      diffOfFileWithMultilineRebaseHunkAddingNewlineAtEndOfFileAndWithCommentReturnsFileContents()
-          throws Exception {
+  // TODO(ghareeb): Don't exclude diffs which only contain rebase hunks within the diff caches. Only
+  // filter such files in the GetFiles REST endpoint.
+  @Ignore
+  public void diffOfFileWithMultilineRebaseHunkAddingNewlineAtEndOfFileReturnsFileContents()
+      throws Exception {
     String baseFileContent = FILE_CONTENT.concat("Line 101");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, baseFileContent);
     rebaseChangeOn(changeId, commit2);
@@ -2624,8 +2599,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     String newBaseFileContent = baseFileContent.concat("\nLine 102\nLine 103\n");
     ObjectId commit3 = addCommit(commit2, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit3);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
@@ -2639,19 +2612,27 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .commonLines()
         .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
         .inOrder();
+    // It's crucial that the lines changed in the rebase are reported correctly.
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 101");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line 101", "Line 102", "Line 103", "");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
   }
 
   @Test
-  public void
-      diffOfFileWithMultilineRebaseHunkRemovingNewlineAtEndOfFileAndWithCommentReturnsFileContents()
-          throws Exception {
+  // TODO(ghareeb): Don't exclude diffs which only contain rebase hunks within the diff caches. Only
+  // filter such files in the GetFiles REST endpoint.
+  @Ignore
+  public void diffOfFileWithMultilineRebaseHunkRemovingNewlineAtEndOfFileReturnsFileContents()
+      throws Exception {
     addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
     String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    String newBaseFileContent = FILE_CONTENT.concat("Line 101\nLine 103\nLine 104");
+    String newBaseFileContent = FILE_CONTENT.concat("Line 101\nLine 102\nLine 103");
     ObjectId commit2 = addCommit(commit1, FILE_NAME, newBaseFileContent);
     rebaseChangeOn(changeId, commit2);
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
 
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, FILE_NAME)
@@ -2665,6 +2646,14 @@ public class RevisionDiffIT extends AbstractDaemonTest {
         .commonLines()
         .containsAtLeast("Line 1", "Line two", "Line 3", "Line 4", "Line 5")
         .inOrder();
+    // It's crucial that the lines changed in the rebase are reported correctly.
+    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 100", "");
+    assertThat(diffInfo)
+        .content()
+        .element(1)
+        .linesOfB()
+        .containsExactly("Line 100", "Line 101", "Line 102", "Line 103");
+    assertThat(diffInfo).content().element(1).isDueToRebase();
   }
 
   @Test
@@ -2674,47 +2663,8 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     DiffInfo diffInfo =
         getDiffRequest(changeId, CURRENT, "a_non-existent_file.txt")
             .withBase(initialPatchSetId)
-            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
             .get();
     assertThat(diffInfo).content().isEmpty();
-  }
-
-  // This behavior is likely a bug. A fix might not be easy as it might break syntax highlighting.
-  // TODO: Fix this issue or remove the broken parameter (at least in the documentation).
-  @Test
-  public void contextParameterIsIgnored() throws Exception {
-    addModifiedPatchSet(
-        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
-
-    DiffInfo diffInfo =
-        getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withBase(initialPatchSetId)
-            .withContext(5)
-            .get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(19);
-    assertThat(diffInfo).content().element(1).linesOfA().containsExactly("Line 20");
-    assertThat(diffInfo).content().element(1).linesOfB().containsExactly("Line twenty");
-    assertThat(diffInfo).content().element(2).commonLines().hasSize(81);
-  }
-
-  // This behavior is likely a bug. A fix might not be easy as it might break syntax highlighting.
-  // TODO: Fix this issue or remove the broken parameter (at least in the documentation).
-  @Test
-  public void contextParameterIsIgnoredForUnmodifiedFileWithComment() throws Exception {
-    addModifiedPatchSet(
-        changeId, FILE_NAME, content -> content.replace("Line 20\n", "Line twenty\n"));
-    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    CommentInput comment = createCommentInput(20, 0, 21, 0, "Should be 'Line 20'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
-    addModifiedPatchSet(
-        changeId, FILE_NAME2, content -> content.replace("2nd line\n", "Second line\n"));
-
-    DiffInfo diffInfo =
-        getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withBase(previousPatchSetId)
-            .withContext(5)
-            .get();
-    assertThat(diffInfo).content().element(0).commonLines().hasSize(101);
   }
 
   @Test
@@ -2726,40 +2676,13 @@ public class RevisionDiffIT extends AbstractDaemonTest {
     gApi.changes().id(changeId).edit().publish();
 
     DiffInfo diffInfo =
-        getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withBase(previousPatchSetId)
-            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
-            .get();
+        getDiffRequest(changeId, CURRENT, FILE_NAME).withBase(previousPatchSetId).get();
     // This behavior has been present in Gerrit for quite some time. It differs from the results
-    // returned for other cases (e.g. requesting the diff with whole file context for an unmodified
-    // file; requesting the diff with whole file context for a non-existent file). However, it's not
-    // completely clear what should be returned. The closest would be the result of a file deletion
-    // but that might also be misleading for users as actually a file rename occurred. In fact,
-    // requesting the diff result for the old file name of a renamed file is not a reasonable use
-    // case at all. We at least guarantee that we don't run into an internal error.
-    assertThat(diffInfo).content().element(0).commonLines().isNull();
-    assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
-  }
-
-  @Test
-  public void requestingDiffForOldFileNameOfRenamedFileWithCommentOnOldFileYieldsReasonableResult()
-      throws Exception {
-    addModifiedPatchSet(changeId, FILE_NAME, content -> content.replace("Line 2\n", "Line two\n"));
-    String previousPatchSetId = gApi.changes().id(changeId).get().currentRevision;
-    CommentInput comment = createCommentInput(2, 0, 3, 0, "Should be 'Line 2'.");
-    addCommentTo(changeId, previousPatchSetId, FILE_NAME, comment);
-    String newFilePath = "a_new_file.txt";
-    gApi.changes().id(changeId).edit().renameFile(FILE_NAME, newFilePath);
-    gApi.changes().id(changeId).edit().publish();
-
-    DiffInfo diffInfo =
-        getDiffRequest(changeId, CURRENT, FILE_NAME)
-            .withBase(previousPatchSetId)
-            .withContext(DiffPreferencesInfo.WHOLE_FILE_CONTEXT)
-            .get();
-    // See comment for requestingDiffForOldFileNameOfRenamedFileYieldsReasonableResult().
-    // This test should additionally ensure that we also don't run into an internal error when
-    // a comment is present.
+    // returned for other cases (e.g. requesting the diff for an unmodified file; requesting the
+    // diff for a non-existent file). After a rename, the original file doesn't exist anymore.
+    // Hence, the most reasonable thing would be to match the behavior of requesting the diff for a
+    // non-existent file, which returns an empty diff.
+    // This test at least guarantees that we don't run into an internal error.
     assertThat(diffInfo).content().element(0).commonLines().isNull();
     assertThat(diffInfo).content().element(0).numberOfSkippedLines().isGreaterThan(0);
   }
@@ -2779,26 +2702,6 @@ public class RevisionDiffIT extends AbstractDaemonTest {
             BadRequestException.class,
             () -> getDiffRequest(changeId, CURRENT, FILE_NAME).withBase("0").get());
     assertThat(e).hasMessageThat().isEqualTo("edit not allowed as base");
-  }
-
-  private static CommentInput createCommentInput(
-      int startLine, int startCharacter, int endLine, int endCharacter, String message) {
-    CommentInput comment = new CommentInput();
-    comment.range = new Comment.Range();
-    comment.range.startLine = startLine;
-    comment.range.startCharacter = startCharacter;
-    comment.range.endLine = endLine;
-    comment.range.endCharacter = endCharacter;
-    comment.message = message;
-    return comment;
-  }
-
-  private void addCommentTo(
-      String changeId, String previousPatchSetId, String fileName, CommentInput comment)
-      throws RestApiException {
-    ReviewInput reviewInput = new ReviewInput();
-    reviewInput.comments = ImmutableMap.of(fileName, ImmutableList.of(comment));
-    gApi.changes().id(changeId).revision(previousPatchSetId).review(reviewInput);
   }
 
   private void assertDiffForNewFile(

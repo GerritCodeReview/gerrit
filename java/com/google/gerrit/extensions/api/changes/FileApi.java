@@ -52,7 +52,6 @@ public interface FileApi {
 
   abstract class DiffRequest {
     private String base;
-    private Integer context;
     private Boolean intraline;
     private Whitespace whitespace;
     private OptionalInt parent = OptionalInt.empty();
@@ -61,11 +60,6 @@ public interface FileApi {
 
     public DiffRequest withBase(String base) {
       this.base = base;
-      return this;
-    }
-
-    public DiffRequest withContext(int context) {
-      this.context = context;
       return this;
     }
 
@@ -86,10 +80,6 @@ public interface FileApi {
 
     public String getBase() {
       return base;
-    }
-
-    public Integer getContext() {
-      return context;
     }
 
     public Boolean getIntraline() {

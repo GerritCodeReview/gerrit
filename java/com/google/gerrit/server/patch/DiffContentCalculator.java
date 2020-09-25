@@ -14,28 +14,19 @@
 
 package com.google.gerrit.server.patch;
 
-import static java.util.Comparator.comparing;
-
 import com.google.common.collect.ImmutableList;
-import com.google.gerrit.common.data.CommentDetail;
-import com.google.gerrit.entities.Comment;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.jgit.diff.ReplaceEdit;
-import com.google.gerrit.prettify.common.EditList;
+import com.google.gerrit.prettify.common.EditHunk;
 import com.google.gerrit.prettify.common.SparseFileContent;
 import com.google.gerrit.prettify.common.SparseFileContentBuilder;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import org.eclipse.jgit.diff.Edit;
 
 /** Collects all lines and their content to be displayed in diff view. */
 class DiffContentCalculator {
-  private static final int MAX_CONTEXT = 5000000;
-
-  private static final Comparator<Edit> EDIT_SORT = comparing(Edit::getBeginA);
-
   private final DiffPreferencesInfo diffPrefs;
 
   DiffContentCalculator(DiffPreferencesInfo diffPrefs) {
@@ -60,13 +51,11 @@ class DiffContentCalculator {
    * @param srcA Original text content
    * @param srcB New text content
    * @param edits List of edits which was applied to srcA to produce srcB
-   * @param comments Existing comments for srcA and srcB
    * @return an instance of {@link DiffCalculatorResult}.
    */
   DiffCalculatorResult calculateDiffContent(
-      TextSource srcA, TextSource srcB, ImmutableList<Edit> edits, CommentDetail comments) {
-    int context = getContext();
-    if (srcA.src == srcB.src && srcA.size() <= context && edits.isEmpty()) {
+      TextSource srcA, TextSource srcB, ImmutableList<Edit> edits) {
+    if (srcA.src == srcB.src && edits.isEmpty()) {
       // Odd special case; the files are identical (100% rename or copy)
       // and the user has asked for context that is larger than the file.
       // Send them the entire file, with an empty edit after the last line.
@@ -80,41 +69,11 @@ class DiffContentCalculator {
       Edit emptyEdit = new Edit(srcA.size(), srcA.size());
       return new DiffCalculatorResult(diffContent, ImmutableList.of(emptyEdit));
     }
-    ImmutableList.Builder<Edit> builder = ImmutableList.builder();
+    ImmutableList<Edit> sortedEdits = correctForDifferencesInNewlineAtEnd(srcA, srcB, edits);
 
-    builder.addAll(correctForDifferencesInNewlineAtEnd(srcA, srcB, edits));
-
-    boolean nonsortedEdits = false;
-    if (comments != null) {
-      ImmutableList<Edit> commentEdits = ensureCommentsVisible(comments, edits);
-      builder.addAll(commentEdits);
-      nonsortedEdits = !commentEdits.isEmpty();
-    }
-
-    ImmutableList<Edit> sortedEdits = builder.build();
-    if (nonsortedEdits) {
-      sortedEdits = ImmutableList.sortedCopyOf(EDIT_SORT, sortedEdits);
-    }
-
-    // In order to expand the skipped common lines or syntax highlight the
-    // file properly we need to give the client the complete file contents.
-    // So force our context temporarily to the complete file size.
-    //
     DiffContent diffContent =
-        packContent(
-            srcA,
-            srcB,
-            diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE,
-            sortedEdits,
-            MAX_CONTEXT);
+        packContent(srcA, srcB, diffPrefs.ignoreWhitespace != Whitespace.IGNORE_NONE, sortedEdits);
     return new DiffCalculatorResult(diffContent, sortedEdits);
-  }
-
-  private int getContext() {
-    if (diffPrefs.context == DiffPreferencesInfo.WHOLE_FILE_CONTEXT) {
-      return MAX_CONTEXT;
-    }
-    return Math.min(diffPrefs.context, MAX_CONTEXT);
   }
 
   private ImmutableList<Edit> correctForDifferencesInNewlineAtEnd(
@@ -205,128 +164,14 @@ class DiffContentCalculator {
     return a.src.isMissingNewlineAtEnd() && !b.src.isMissingNewlineAtEnd();
   }
 
-  private ImmutableList<Edit> ensureCommentsVisible(
-      CommentDetail comments, ImmutableList<Edit> edits) {
-    if (comments.getCommentsA().isEmpty() && comments.getCommentsB().isEmpty()) {
-      // No comments, no additional dummy edits are required.
-      //
-      return ImmutableList.of();
-    }
-
-    // Construct empty Edit blocks around each location where a comment is.
-    // This will force the later packContent method to include the regions
-    // containing comments, potentially combining those regions together if
-    // they have overlapping contexts. UI renders will also be able to make
-    // correct hunks from this, but because the Edit is empty they will not
-    // style it specially.
-    //
-    final ImmutableList.Builder<Edit> commmentEdits = ImmutableList.builder();
-    int lastLine;
-
-    lastLine = -1;
-    for (Comment c : comments.getCommentsA()) {
-      final int a = c.lineNbr;
-      if (lastLine != a) {
-        final int b = mapA2B(a - 1, edits);
-        if (0 <= b) {
-          getNewEditForComment(edits, new Edit(a - 1, b)).ifPresent(commmentEdits::add);
-        }
-        lastLine = a;
-      }
-    }
-
-    lastLine = -1;
-    for (Comment c : comments.getCommentsB()) {
-      int b = c.lineNbr;
-      if (lastLine != b) {
-        final int a = mapB2A(b - 1, edits);
-        if (0 <= a) {
-          getNewEditForComment(edits, new Edit(a, b - 1)).ifPresent(commmentEdits::add);
-        }
-        lastLine = b;
-      }
-    }
-    return commmentEdits.build();
-  }
-
-  private Optional<Edit> getNewEditForComment(ImmutableList<Edit> edits, Edit toAdd) {
-    final int a = toAdd.getBeginA();
-    final int b = toAdd.getBeginB();
-    for (Edit e : edits) {
-      if (e.getBeginA() <= a && a <= e.getEndA()) {
-        return Optional.empty();
-      }
-      if (e.getBeginB() <= b && b <= e.getEndB()) {
-        return Optional.empty();
-      }
-    }
-    return Optional.of(toAdd);
-  }
-
-  private int mapA2B(int a, ImmutableList<Edit> edits) {
-    if (edits.isEmpty()) {
-      // Magic special case of an unmodified file.
-      //
-      return a;
-    }
-
-    for (int i = 0; i < edits.size(); i++) {
-      final Edit e = edits.get(i);
-      if (a < e.getBeginA()) {
-        if (i == 0) {
-          // Special case of context at start of file.
-          //
-          return a;
-        }
-        return e.getBeginB() - (e.getBeginA() - a);
-      }
-      if (e.getBeginA() <= a && a <= e.getEndA()) {
-        return -1;
-      }
-    }
-
-    final Edit last = edits.get(edits.size() - 1);
-    return last.getEndB() + (a - last.getEndA());
-  }
-
-  private int mapB2A(int b, ImmutableList<Edit> edits) {
-    if (edits.isEmpty()) {
-      // Magic special case of an unmodified file.
-      //
-      return b;
-    }
-
-    for (int i = 0; i < edits.size(); i++) {
-      final Edit e = edits.get(i);
-      if (b < e.getBeginB()) {
-        if (i == 0) {
-          // Special case of context at start of file.
-          //
-          return b;
-        }
-        return e.getBeginA() - (e.getBeginB() - b);
-      }
-      if (e.getBeginB() <= b && b <= e.getEndB()) {
-        return -1;
-      }
-    }
-
-    final Edit last = edits.get(edits.size() - 1);
-    return last.getEndA() + (b - last.getEndB());
-  }
-
   private DiffContent packContent(
-      TextSource a,
-      TextSource b,
-      boolean ignoredWhitespace,
-      ImmutableList<Edit> edits,
-      int context) {
+      TextSource a, TextSource b, boolean ignoredWhitespace, ImmutableList<Edit> edits) {
     SparseFileContentBuilder diffA = new SparseFileContentBuilder(a.size());
     SparseFileContentBuilder diffB = new SparseFileContentBuilder(b.size());
-    EditList list = new EditList(edits, context, a.size(), b.size());
-    for (EditList.Hunk hunk : list.getHunks()) {
+    if (!edits.isEmpty()) {
+      EditHunk hunk = new EditHunk(edits, a.size(), b.size());
       while (hunk.next()) {
-        if (hunk.isContextLine()) {
+        if (hunk.isUnmodifiedLine()) {
           String lineA = a.getSourceLine(hunk.getCurA());
           diffA.addLine(hunk.getCurA(), lineA);
 

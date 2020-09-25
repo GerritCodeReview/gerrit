@@ -1,0 +1,55 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3c03ad37_2c0a73c3",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T07:44:25Z",
+      "side": 1,
+      "message": "remove comment",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b6705033_d1620f52",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T07:44:25Z",
+      "side": 1,
+      "message": "remove?",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "196b1abe_fea8bb4f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T07:44:25Z",
+      "side": 1,
+      "message": "Do you need flush() here?\n\nCan you instead use flushAsynchronousOperations()?\n\nThe problem is that calling assert in async callbacks does not really work.",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

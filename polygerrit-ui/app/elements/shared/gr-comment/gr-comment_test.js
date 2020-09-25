@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {__testOnly_UNSAVED_MESSAGE} from './gr-comment.js';
+import {SpecialFilePath} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-comment');
 
@@ -723,6 +724,27 @@ suite('gr-comment tests', () => {
             .querySelector('gr-account-label')
             .shadowRoot.querySelector('span.name');
         assert.equal(authorName.innerText.trim(), 'test@test.com');
+        done();
+      });
+    });
+
+    test('patchset level comment', done => {
+      const comment = {...element.comment,
+        path: SpecialFilePath.PATCHSET_LEVEL_COMMENTS, line: undefined,
+        range: undefined};
+      element.comment = comment;
+      flushAsynchronousOperations();
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('.edit'));
+      assert.isTrue(element.editing);
+
+      element._messageText = 'hello world';
+      const eraseMessageDraftSpy = sinon.spy(element.$.storage,
+          'eraseDraftComment');
+      const mockEvent = {preventDefault: sinon.stub()};
+      element._handleSave(mockEvent);
+      flush(() => {
+        assert.isTrue(eraseMessageDraftSpy.called);
         done();
       });
     });

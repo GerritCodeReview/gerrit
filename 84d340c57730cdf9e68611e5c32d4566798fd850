@@ -104,6 +104,24 @@
       "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8d9c501f_3032866c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T08:18:05Z",
+      "side": 1,
+      "message": "Ok, so this works from the flush callback. Feel free to submit as is.\n\nThe difference is:\n\nfrom flush() callback:\n\nError: Uncaught AssertionError: expected \u0027test@test.com\u0027 to equal \u0027teast@test.com\u0027 (polygerrit-ui/node_modules/chai/chai.js:239)\n\ndesired:\n\nAssertionError: expected \u0027test@test.com\u0027 to equal \u0027teast@test.com\u0027\n          at Context.\u003canonymous\u003e (.ts-out/polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js:598:20)\n\n\nMy advice, but need to validate with Dmitrii: Use just `flush()`. If that does not work, then use `await flush()`.",
+      "parentUuid": "df8a7930_55ddfd79",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

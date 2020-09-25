@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "ecc1e9c3_71399a46",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:32:38Z",
+      "side": 1,
+      "message": "Nit: toImmutableSet() would be preferable.",
+      "range": {
+        "startLine": 744,
+        "startChar": 25,
+        "endLine": 744,
+        "endChar": 43
+      },
+      "revId": "909b3a8c9c6d5b21e2db75321ab12f5934a90f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "150c9066_82006f9b",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:32:38Z",
+      "side": 1,
+      "message": "Nit: If we returned the successfully executed commands instead of the branches, we could also use the return value for the other handling in ReceiveCommits in lines 749-770. Thus, we would have a more unified handling (e.g. not once using this method and the other time using a differently gathered list of commands.) Of course, it would mean that we have to do the mapping from commands to branches both in ReceiveCommits and MergeOp but that wouldn\u0027t be a lot of effort I think. What do you think?",
+      "range": {
+        "startLine": 473,
+        "startChar": 11,
+        "endLine": 474,
+        "endChar": 77
+      },
+      "revId": "909b3a8c9c6d5b21e2db75321ab12f5934a90f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -37,6 +37,23 @@
     },
     {
       "key": {
+        "uuid": "9fc8aa86_da52a5e1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T06:30:48Z",
+      "side": 1,
+      "message": "I would like to fix the release and cherrypick this change. So maybe push back on most comments. :-)",
+      "revId": "f617d3dc23a93c0dd0469a06f8c46f3fb0fd4a03",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "43fc085c_91a4d5b6",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
         "patchSetId": 1

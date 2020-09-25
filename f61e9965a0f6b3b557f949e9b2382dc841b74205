@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b37afa21_8168cd14",
+        "filename": "polygerrit-ui/app/elements/shared/gr-formatted-text/gr-formatted-text_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T06:58:27Z",
+      "side": 1,
+      "message": "As below this should always go along with\n\n  font-size: var(--font-size-code);\n  line-height: var(--line-height-code);",
+      "revId": "f61e9965a0f6b3b557f949e9b2382dc841b74205",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

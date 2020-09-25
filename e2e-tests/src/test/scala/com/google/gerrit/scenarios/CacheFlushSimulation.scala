@@ -20,7 +20,7 @@ class CacheFlushSimulation extends GerritSimulation {
   protected var producer: Option[CacheFlushSimulation] = None
   protected var consumer: Option[CacheFlushSimulation] = None
 
-  private var cacheEntriesBeforeFlush: Int = 0
+  private var cacheEntriesBeforeFlush = 0
 
   def entriesBeforeFlush(entries: Int): Unit = {
     cacheEntriesBeforeFlush = entries

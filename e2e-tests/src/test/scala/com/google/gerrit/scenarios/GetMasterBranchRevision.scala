@@ -25,9 +25,9 @@ class GetMasterBranchRevision extends ProjectSimulation {
   val revisionKey = "revision"
   val revisionPattern: String = "\"" + revisionKey + "\": \"(.+)\""
 
-  val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
-      .exec(http(unique).get("${url}")
+      .exec(http(uniqueName).get("${url}")
           .check(regex(revisionPattern).saveAs(revisionKey)))
       .exec(session => {
         revision = Some(session(revisionKey).as[String])

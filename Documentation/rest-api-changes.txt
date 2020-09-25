@@ -6915,6 +6915,8 @@ Text sections inserted in side B as a
 link:#diff-intraline-info[DiffIntralineInfo] entity.
 |`due_to_rebase`|not set if `false`|Indicates whether this entry was introduced by a
 rebase.
+|`due_to_move`|not set if `false`|Indicates whether this entry was introduced by a
+move operation.
 |`skip`         |optional|count of lines skipped on both sides when the file is
 too large to include all common lines.
 |`common`       |optional|Set to `true` if the region is common according

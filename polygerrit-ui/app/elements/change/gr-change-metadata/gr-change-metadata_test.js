@@ -87,7 +87,7 @@ suite('gr-change-metadata tests', () => {
 
   test('show strategy for open change', () => {
     element.change = {status: 'NEW', submit_type: 'CHERRY_PICK', labels: {}};
-    flushAsynchronousOperations();
+    flush();
     const strategy = element.shadowRoot
         .querySelector('.strategy');
     assert.ok(strategy);
@@ -97,7 +97,7 @@ suite('gr-change-metadata tests', () => {
 
   test('hide strategy for closed change', () => {
     element.change = {status: 'MERGED', labels: {}};
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.shadowRoot
         .querySelector('.strategy').hasAttribute('hidden'));
   });
@@ -107,7 +107,7 @@ suite('gr-change-metadata tests', () => {
         .returns([{name: 'stubb', url: '#s'}]);
     element.commitInfo = {};
     element.serverConfig = {};
-    flushAsynchronousOperations();
+    flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(weblinksStub.called);
     assert.isFalse(webLinks.hasAttribute('hidden'));
@@ -117,7 +117,7 @@ suite('gr-change-metadata tests', () => {
   test('weblinks hidden when no weblinks', () => {
     element.commitInfo = {};
     element.serverConfig = {};
-    flushAsynchronousOperations();
+    flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(webLinks.hasAttribute('hidden'));
   });
@@ -125,7 +125,7 @@ suite('gr-change-metadata tests', () => {
   test('weblinks hidden when only gitiles weblink', () => {
     element.commitInfo = {web_links: [{name: 'gitiles', url: '#'}]};
     element.serverConfig = {};
-    flushAsynchronousOperations();
+    flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(webLinks.hasAttribute('hidden'));
     assert.equal(element._computeWebLinks(element.commitInfo), null);
@@ -139,7 +139,7 @@ suite('gr-change-metadata tests', () => {
         primary_weblink_name: browser,
       },
     };
-    flushAsynchronousOperations();
+    flush();
     const webLinks = element.$.webLinks;
     assert.isTrue(webLinks.hasAttribute('hidden'));
   });
@@ -150,7 +150,7 @@ suite('gr-change-metadata tests', () => {
         router._generateWeblinks.bind(router));
 
     element.commitInfo = {web_links: [{name: 'test', url: '#'}]};
-    flushAsynchronousOperations();
+    flush();
     const webLinks = element.$.webLinks;
     assert.isFalse(webLinks.hasAttribute('hidden'));
     assert.equal(element._computeWebLinks(element.commitInfo).length, 1);
@@ -167,7 +167,7 @@ suite('gr-change-metadata tests', () => {
 
     element.commitInfo = {
       web_links: [{name: 'test', url: '#'}, {name: 'gitiles', url: '#'}]};
-    flushAsynchronousOperations();
+    flush();
     const webLinks = element.$.webLinks;
     assert.isFalse(webLinks.hasAttribute('hidden'));
     // Only the non-gitiles weblink is returned.
@@ -524,7 +524,7 @@ suite('gr-change-metadata tests', () => {
     test('topic read only hides delete button', () => {
       element.account = {};
       element.change = change;
-      flushAsynchronousOperations();
+      flush();
       const button = element.shadowRoot
           .querySelector('gr-linked-chip').shadowRoot
           .querySelector('gr-button');
@@ -535,7 +535,7 @@ suite('gr-change-metadata tests', () => {
       element.account = {test: true};
       change.actions.topic.enabled = true;
       element.change = change;
-      flushAsynchronousOperations();
+      flush();
       const button = element.shadowRoot
           .querySelector('gr-linked-chip').shadowRoot
           .querySelector('gr-button');
@@ -567,7 +567,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('_computeHashtagReadOnly', () => {
-      flushAsynchronousOperations();
+      flush();
       let mutable = false;
       assert.isTrue(element._computeHashtagReadOnly(mutable, change));
       mutable = true;
@@ -579,10 +579,10 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('hashtag read only hides delete button', () => {
-      flushAsynchronousOperations();
+      flush();
       element.account = {};
       element.change = change;
-      flushAsynchronousOperations();
+      flush();
       const button = element.shadowRoot
           .querySelector('gr-linked-chip').shadowRoot
           .querySelector('gr-button');
@@ -590,11 +590,11 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('hashtag not read only does not hide delete button', () => {
-      flushAsynchronousOperations();
+      flush();
       element.account = {test: true};
       change.actions.hashtags.enabled = true;
       element.change = change;
-      flushAsynchronousOperations();
+      flush();
       const button = element.shadowRoot
           .querySelector('gr-linked-chip').shadowRoot
           .querySelector('gr-button');
@@ -621,7 +621,7 @@ suite('gr-change-metadata tests', () => {
         },
         removable_reviewers: [],
       };
-      flushAsynchronousOperations();
+      flush();
     });
 
     suite('assignee field', () => {
@@ -719,7 +719,7 @@ suite('gr-change-metadata tests', () => {
     });
 
     test('changing hashtag', () => {
-      flushAsynchronousOperations();
+      flush();
       element._newHashtag = 'new hashtag';
       const newHashtag = ['new hashtag'];
       sinon.stub(element.$.restAPI, 'setChangeHashtag').returns(
@@ -737,14 +737,14 @@ suite('gr-change-metadata tests', () => {
   test('editTopic', () => {
     element.account = {test: true};
     element.change = {actions: {topic: {enabled: true}}};
-    flushAsynchronousOperations();
+    flush();
 
     const label = element.shadowRoot
         .querySelector('.topicEditableLabel');
     assert.ok(label);
     sinon.stub(label, 'open');
     element.editTopic();
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(label.open.called);
   });

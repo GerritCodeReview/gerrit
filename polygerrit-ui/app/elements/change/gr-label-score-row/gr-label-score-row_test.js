@@ -104,7 +104,7 @@ suite('gr-label-row-score tests', () => {
     MockInteractions.tap(element.shadowRoot
         .querySelector(
             'gr-button[data-value="-1"]'));
-    flushAsynchronousOperations();
+    flush();
     assert.strictEqual(element.selectedValue, '-1');
     assert.strictEqual(element.selectedItem
         .textContent.trim(), '-1');
@@ -234,7 +234,7 @@ suite('gr-label-row-score tests', () => {
     };
     const selector = element.$.labelSelector;
     element.set('label', {name: 'Verified', value: ' 0'});
-    flushAsynchronousOperations();
+    flush();
     assert.strictEqual(selector.selected, ' 0');
     assert.strictEqual(
         element.$.selectedValueLabel.textContent.trim(), 'No score');
@@ -249,17 +249,17 @@ suite('gr-label-row-score tests', () => {
         '+1',
       ],
     };
-    flushAsynchronousOperations();
+    flush();
     assert.isOk(element.$.labelSelector);
     assert.isFalse(element.$.labelSelector.hidden);
 
     element.permittedLabels = {};
-    flushAsynchronousOperations();
+    flush();
     assert.isOk(element.$.labelSelector);
     assert.isTrue(element.$.labelSelector.hidden);
 
     element.permittedLabels = {Verified: []};
-    flushAsynchronousOperations();
+    flush();
     assert.isOk(element.$.labelSelector);
     assert.isTrue(element.$.labelSelector.hidden);
   });
@@ -333,7 +333,7 @@ suite('gr-label-row-score tests', () => {
       name: 'Verified',
       value: null,
     };
-    flushAsynchronousOperations();
+    flush();
     assert.strictEqual(element.selectedValue, '-1');
     checkAriaCheckedValid();
   });
@@ -362,7 +362,7 @@ suite('gr-label-row-score tests', () => {
       name: 'Code-Review',
       value: null,
     };
-    flushAsynchronousOperations();
+    flush();
     assert.isNull(element.selectedValue);
   });
 });

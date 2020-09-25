@@ -115,7 +115,7 @@ suite('gr-change-list-item tests', () => {
       'Size',
     ];
 
-    flushAsynchronousOperations();
+    flush();
 
     for (const column of element.columnNames) {
       const elementClass = '.' + column.toLowerCase();
@@ -140,7 +140,7 @@ suite('gr-change-list-item tests', () => {
       'Size',
     ];
 
-    flushAsynchronousOperations();
+    flush();
 
     for (const column of element.columnNames) {
       const elementClass = '.' + column.toLowerCase();
@@ -197,7 +197,7 @@ suite('gr-change-list-item tests', () => {
       'Bad',
     ];
 
-    flushAsynchronousOperations();
+    flush();
     const elementClass = '.bad';
     assert.isNotOk(element.shadowRoot
         .querySelector(elementClass));
@@ -205,7 +205,7 @@ suite('gr-change-list-item tests', () => {
 
   test('assignee only displayed if there is one', () => {
     element.change = {};
-    flushAsynchronousOperations();
+    flush();
     assert.isNotOk(element.shadowRoot
         .querySelector('.assignee gr-account-link'));
     assert.equal(element.shadowRoot
@@ -216,7 +216,7 @@ suite('gr-change-list-item tests', () => {
         status: 'test',
       },
     };
-    flushAsynchronousOperations();
+    flush();
     assert.isOk(element.shadowRoot
         .querySelector('.assignee gr-account-link'));
   });
@@ -272,7 +272,7 @@ suite('gr-change-list-item tests', () => {
       branch: 'test-branch',
     };
     element.change = change;
-    flushAsynchronousOperations();
+    flush();
 
     assert.deepEqual(GerritNav.getUrlForChange.lastCall.args, [change]);
     assert.deepEqual(GerritNav.getUrlForProjectChanges.lastCall.args,

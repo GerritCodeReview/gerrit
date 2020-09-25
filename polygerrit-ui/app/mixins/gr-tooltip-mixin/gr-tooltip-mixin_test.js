@@ -117,7 +117,7 @@ suite('gr-tooltip-mixin tests', () => {
   test('hides tooltip when detached', () => {
     sinon.stub(element, '_handleHideTooltip');
     element.remove();
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element._handleHideTooltip.called);
   });
 

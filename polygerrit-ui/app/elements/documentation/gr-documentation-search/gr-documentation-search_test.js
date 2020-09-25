@@ -94,7 +94,7 @@ suite('gr-documentation-search tests', () => {
       element._loading = false;
       element._repos = _.times(25, documentationGenerator);
 
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.computeLoadingClass(element._loading), '');
       assert.equal(getComputedStyle(element.$.loading).display, 'none');
     });

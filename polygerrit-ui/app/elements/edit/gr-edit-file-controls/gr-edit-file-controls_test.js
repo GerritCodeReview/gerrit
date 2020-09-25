@@ -37,7 +37,7 @@ suite('gr-edit-file-controls tests', () => {
     const actions = element.$.actions;
     element.filePath = 'foo';
     actions._open();
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(actions.shadowRoot
         .querySelector('li [data-id="open"]'));
@@ -50,7 +50,7 @@ suite('gr-edit-file-controls tests', () => {
     const actions = element.$.actions;
     element.filePath = 'foo';
     actions._open();
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(actions.shadowRoot
         .querySelector('li [data-id="delete"]'));
@@ -63,7 +63,7 @@ suite('gr-edit-file-controls tests', () => {
     const actions = element.$.actions;
     element.filePath = 'foo';
     actions._open();
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(actions.shadowRoot
         .querySelector('li [data-id="restore"]'));
@@ -76,7 +76,7 @@ suite('gr-edit-file-controls tests', () => {
     const actions = element.$.actions;
     element.filePath = 'foo';
     actions._open();
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(actions.shadowRoot
         .querySelector('li [data-id="rename"]'));

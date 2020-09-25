@@ -94,7 +94,7 @@ suite('gr-dropdown tests', () => {
 
   test('Top text exists and is bolded correctly', () => {
     element.topContent = [{text: 'User', bold: true}, {text: 'email'}];
-    flushAsynchronousOperations();
+    flush();
     const topItems = element.root.querySelectorAll('.top-item');
     assert.equal(topItems.length, 2);
     assert.isTrue(topItems[0].classList.contains('bold-text'));
@@ -108,7 +108,7 @@ suite('gr-dropdown tests', () => {
     const tapped = sinon.stub();
     element.addEventListener('tap-item-foo', fooTapped);
     element.addEventListener('tap-item', tapped);
-    flushAsynchronousOperations();
+    flush();
     MockInteractions.tap(element.shadowRoot
         .querySelector('.itemAction'));
     assert.isTrue(fooTapped.called);
@@ -124,7 +124,7 @@ suite('gr-dropdown tests', () => {
     const tapped = sinon.stub();
     element.addEventListener('tap-item-foo', stub);
     element.addEventListener('tap-item', tapped);
-    flushAsynchronousOperations();
+    flush();
     MockInteractions.tap(element.shadowRoot
         .querySelector('.itemAction'));
     assert.isFalse(stub.called);
@@ -137,7 +137,7 @@ suite('gr-dropdown tests', () => {
       {name: 'item two', id: 'bar'},
     ];
     element.disabledIds = [];
-    flushAsynchronousOperations();
+    flush();
     const tooltipContents = dom(element.root)
         .querySelectorAll('iron-dropdown li gr-tooltip-content');
     assert.equal(tooltipContents.length, 2);
@@ -152,7 +152,7 @@ suite('gr-dropdown tests', () => {
         {name: 'item one', id: 'foo'},
         {name: 'item two', id: 'bar'},
       ];
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('down', () => {

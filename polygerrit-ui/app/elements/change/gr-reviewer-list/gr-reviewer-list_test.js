@@ -96,7 +96,7 @@ suite('gr-reviewer-list tests', () => {
         },
       ],
     };
-    flushAsynchronousOperations();
+    flush();
     const chips =
         element.root.querySelectorAll('gr-account-chip');
     assert.equal(chips.length, 4);

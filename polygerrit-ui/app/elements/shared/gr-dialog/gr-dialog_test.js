@@ -48,7 +48,7 @@ suite('gr-dialog tests', () => {
     MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
         .querySelector('main'),
     13, null, 'enter');
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(handleKeydownSpy.called);
     assert.isFalse(handleConfirmStub.called);
@@ -57,7 +57,7 @@ suite('gr-dialog tests', () => {
     MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
         .querySelector('main'),
     13, null, 'enter');
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(handleConfirmStub.called);
   });
@@ -85,7 +85,7 @@ suite('gr-dialog tests', () => {
   test('empty cancel label hides cancel btn', () => {
     assert.isFalse(isHidden(element.$.cancel));
     element.cancelLabel = '';
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(isHidden(element.$.cancel));
   });

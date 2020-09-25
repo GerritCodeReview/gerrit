@@ -185,7 +185,7 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.patchNum = 2;
     element.basePatchNum = 'PARENT';
-    flushAsynchronousOperations();
+    flush();
 
     sinon.stub(element, '_computeBaseDropdownContent');
 
@@ -211,7 +211,7 @@ suite('gr-patch-range-select tests', () => {
         ];
         element.patchNum = 2;
         element.basePatchNum = 'PARENT';
-        flushAsynchronousOperations();
+        flush();
 
         // Should be recomputed for each available patch
         sinon.stub(element, '_computeBaseDropdownContent');
@@ -239,7 +239,7 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.patchNum = 2;
     element.basePatchNum = 'PARENT';
-    flushAsynchronousOperations();
+    flush();
 
     // Should be recomputed for each available patch
     sinon.stub(element, '_computePatchDropdownContent');
@@ -263,7 +263,7 @@ suite('gr-patch-range-select tests', () => {
     ];
     element.patchNum = 2;
     element.basePatchNum = 'PARENT';
-    flushAsynchronousOperations();
+    flush();
 
     // Should be recomputed for each available patch
     sinon.stub(element, '_computePatchDropdownContent');
@@ -345,7 +345,7 @@ suite('gr-patch-range-select tests', () => {
         },
       ],
     };
-    flushAsynchronousOperations();
+    flush();
     const domApi = dom(element.root);
     assert.equal(
         domApi.querySelector('a[href="f.oo"]').textContent, 'foo');

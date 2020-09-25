@@ -229,6 +229,9 @@ module.exports = {
     // Custom rule from the //tools/js/eslint-rules directory.
     // See //tools/js/eslint-rules/README.md for details
     "goog-module-id": 2,
+    // Prevents certain identifiers being used.
+    // Prefer flush() over flushAsynchronousOperations().
+    "id-blacklist": ["error", "flushAsynchronousOperations"],
   },
 
   // List of allowed globals in all files

@@ -47,7 +47,7 @@ suite('gr-confirm-move-dialog tests', () => {
     element.branch = 'master';
     const myNewMessage = 'updated commit message';
     element.message = myNewMessage;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.message, myNewMessage);
   });
 

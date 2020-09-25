@@ -77,7 +77,7 @@ suite('gr-account-list tests', () => {
   });
 
   test('addition and removal of account/group chips', () => {
-    flushAsynchronousOperations();
+    flush();
     sinon.stub(element, '_computeRemovable').returns(true);
     // Existing accounts are listed.
     let chips = getChips();
@@ -94,7 +94,7 @@ suite('gr-account-list tests', () => {
         },
       },
     });
-    flushAsynchronousOperations();
+    flush();
     chips = getChips();
     assert.equal(chips.length, 3);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -107,7 +107,7 @@ suite('gr-account-list tests', () => {
           detail: {account: existingAccount1},
           composed: true, bubbles: true,
         }));
-    flushAsynchronousOperations();
+    flush();
     chips = getChips();
     assert.equal(chips.length, 2);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -124,7 +124,7 @@ suite('gr-account-list tests', () => {
           detail: {account: newAccount},
           composed: true, bubbles: true,
         }));
-    flushAsynchronousOperations();
+    flush();
     chips = getChips();
     assert.equal(chips.length, 1);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -138,7 +138,7 @@ suite('gr-account-list tests', () => {
         },
       },
     });
-    flushAsynchronousOperations();
+    flush();
     chips = getChips();
     assert.equal(chips.length, 2);
     assert.isTrue(chips[1].classList.contains('group'));
@@ -150,7 +150,7 @@ suite('gr-account-list tests', () => {
           detail: {account: newGroup},
           composed: true, bubbles: true,
         }));
-    flushAsynchronousOperations();
+    flush();
     chips = getChips();
     assert.equal(chips.length, 1);
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
@@ -235,7 +235,7 @@ suite('gr-account-list tests', () => {
 
   test('submitEntryText', () => {
     element.allowAnyInput = true;
-    flushAsynchronousOperations();
+    flush();
 
     const getTextStub = sinon.stub(element.$.entry, 'getText');
     getTextStub.onFirstCall().returns('');
@@ -345,7 +345,7 @@ suite('gr-account-list tests', () => {
         },
       },
     });
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.entry.hasAttribute('hidden'));
   });
 
@@ -373,7 +373,7 @@ suite('gr-account-list tests', () => {
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    flushAsynchronousOperations();
+    flush();
     flush(() => {
       assert.isTrue(getSuggestionsStub.calledOnce);
       assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
@@ -407,7 +407,7 @@ suite('gr-account-list tests', () => {
     input.text = '';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    flushAsynchronousOperations();
+    flush();
     flush(() => {
       assert.isTrue(getSuggestionsStub.calledOnce);
       assert.equal(getSuggestionsStub.lastCall.args[0], '');
@@ -427,7 +427,7 @@ suite('gr-account-list tests', () => {
     input.text = '';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    flushAsynchronousOperations();
+    flush();
     flush(() => {
       assert.isTrue(getSuggestionsStub.notCalled);
       done();
@@ -479,7 +479,7 @@ suite('gr-account-list tests', () => {
             element._getNativeInput(input.$.input).selectionStart, 0);
         input.text = 'test';
         MockInteractions.focus(input.$.input);
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.accounts.length, 2);
         MockInteractions.pressAndReleaseKeyOn(
             element._getNativeInput(input.$.input), 8); // Backspace
@@ -487,7 +487,7 @@ suite('gr-account-list tests', () => {
         input.text = '';
         MockInteractions.pressAndReleaseKeyOn(
             element._getNativeInput(input.$.input), 8); // Backspace
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.accounts.length, 1);
         done();
       });
@@ -499,7 +499,7 @@ suite('gr-account-list tests', () => {
       element.accounts = [makeAccount(), makeAccount()];
       flush(() => {
         MockInteractions.focus(input.$.input);
-        flushAsynchronousOperations();
+        flush();
         const chips = element.accountChips;
         const chipsOneSpy = sinon.spy(chips[1], 'focus');
         MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left

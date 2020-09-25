@@ -37,7 +37,7 @@ suite('gr-comment-thread tests', () => {
       element = basicFixture.instantiate();
       element.patchNum = '3';
       element.changeNum = '1';
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('comments are sorted correctly', () => {
@@ -190,7 +190,7 @@ suite('gr-comment-thread tests', () => {
       element.lineNum = 5;
       element.comments = [{id: 'comment_id'}];
       element.showFilePath = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isOk(element.shadowRoot
           .querySelector('.pathInfo'));
       assert.notEqual(getComputedStyle(element.shadowRoot
@@ -268,7 +268,7 @@ suite('comment action tests with unresolved thread', () => {
       patchNum: 3,
       __commentSide: 'left',
     }];
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('reply', () => {
@@ -280,7 +280,7 @@ suite('comment action tests with unresolved thread', () => {
 
     const replyBtn = element.$.replyBtn;
     MockInteractions.tap(replyBtn);
-    flushAsynchronousOperations();
+    flush();
 
     const drafts = element._orderedComments.filter(c => c.__draft == true);
     assert.equal(drafts.length, 1);
@@ -298,7 +298,7 @@ suite('comment action tests with unresolved thread', () => {
 
     const quoteBtn = element.$.quoteBtn;
     MockInteractions.tap(quoteBtn);
-    flushAsynchronousOperations();
+    flush();
 
     const drafts = element._orderedComments.filter(c => c.__draft == true);
     assert.equal(drafts.length, 1);
@@ -321,7 +321,7 @@ suite('comment action tests with unresolved thread', () => {
       message: 'is this a crossover episode!?\nIt might be!',
       updated: '2015-12-08 19:48:33.843000000',
     }];
-    flushAsynchronousOperations();
+    flush();
 
     const commentEl = element.shadowRoot
         .querySelector('gr-comment');
@@ -329,7 +329,7 @@ suite('comment action tests with unresolved thread', () => {
 
     const quoteBtn = element.$.quoteBtn;
     MockInteractions.tap(quoteBtn);
-    flushAsynchronousOperations();
+    flush();
 
     const drafts = element._orderedComments.filter(c => c.__draft == true);
     assert.equal(drafts.length, 1);
@@ -438,7 +438,7 @@ suite('comment action tests with unresolved thread', () => {
         element.comments[0].id,
         element.comments[0].path,
         'it’s pronouced jiff, not giff'));
-    flushAsynchronousOperations();
+    flush();
 
     const saveOrDiscardStub = sinon.stub();
     element.addEventListener('thread-changed', saveOrDiscardStub);
@@ -469,7 +469,7 @@ suite('comment action tests with unresolved thread', () => {
         element.path = '/path/to/file.txt';
         element.comments = [];
         element.addOrEditDraft('1');
-        flushAsynchronousOperations();
+        flush();
         const rootId = element.rootId;
         assert.isOk(rootId);
 
@@ -510,7 +510,7 @@ suite('comment action tests with unresolved thread', () => {
 
     const replyBtn = element.$.replyBtn;
     MockInteractions.tap(replyBtn);
-    flushAsynchronousOperations();
+    flush();
 
     const editing = element._orderedComments.filter(c => c.__editing == true);
     assert.equal(editing.length, 1);
@@ -560,7 +560,7 @@ suite('comment action tests with unresolved thread', () => {
       __draft: true,
     }];
     const storageStub = sinon.stub(element.$.storage, 'setDraftComment');
-    flushAsynchronousOperations();
+    flush();
 
     const draftEl =
     element.root.querySelectorAll('gr-comment')[1];
@@ -634,7 +634,7 @@ suite('comment action tests with unresolved thread', () => {
 
     test('comment in_reply_to is either null or most recent comment', () => {
       element._createReplyComment('dummy', true);
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._orderedComments.length, 5);
       assert.equal(element._orderedComments[4].in_reply_to, 'jacks_reply');
     });
@@ -642,7 +642,7 @@ suite('comment action tests with unresolved thread', () => {
     test('resolvable comments', () => {
       assert.isFalse(element.unresolved);
       element._createReplyComment('dummy', true, true);
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.unresolved);
     });
 
@@ -848,7 +848,7 @@ suite('comment action tests on resolved comments', () => {
       path: '/path/to/file.txt',
       unresolved: false,
     }];
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('ack and done should be hidden', () => {

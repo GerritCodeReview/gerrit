@@ -110,7 +110,7 @@ suite('gr-list-view tests', () => {
         .querySelector('#createNewContainer').classList
         .contains('show'));
     element.createNew = true;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.shadowRoot
         .querySelector('#createNewContainer').classList
         .contains('show'));
@@ -120,7 +120,7 @@ suite('gr-list-view tests', () => {
     const clickHandler = sinon.stub();
     element.addEventListener('create-clicked', clickHandler);
     element.createNew = true;
-    flushAsynchronousOperations();
+    flush();
     MockInteractions.tap(element.shadowRoot.querySelector('#createNew'));
     assert.isTrue(clickHandler.called);
   });

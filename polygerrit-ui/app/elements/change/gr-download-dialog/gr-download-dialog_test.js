@@ -114,7 +114,7 @@ suite('gr-download-dialog', () => {
       archives: ['tgz', 'tar', 'tbz2', 'txz'],
     };
 
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('anchors use download attribute', () => {
@@ -126,7 +126,7 @@ suite('gr-download-dialog', () => {
   suite('gr-download-dialog tests with no fetch options', () => {
     setup(() => {
       element.change = getChangeObjectNoFetch();
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('focuses on first download link if no copy links', () => {
@@ -140,13 +140,13 @@ suite('gr-download-dialog', () => {
   suite('gr-download-dialog with fetch options', () => {
     setup(() => {
       element.change = getChangeObject();
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('focuses on first copy link', () => {
       const focusStub = sinon.stub(element.$.downloadCommands, 'focusOnCopy');
       element.focus();
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(focusStub.called);
       focusStub.restore();
     });

@@ -259,7 +259,7 @@ suite('gr-autocomplete tests', () => {
     focusOnInput(element);
     element.text = 'bla';
     assert.equal(element._focused, true);
-    flushAsynchronousOperations();
+    flush();
     promise.then(() => {
       assert.equal(element._suggestions.length, 1);
       assert.equal(queryStub.notCalled, false);
@@ -277,7 +277,7 @@ suite('gr-autocomplete tests', () => {
     element.suggestOnlyWhenFocus = true;
     element.text = 'bla';
     assert.equal(element._focused, false);
-    flushAsynchronousOperations();
+    flush();
     promise.then(() => {
       assert.equal(element._suggestions.length, 0);
       done();
@@ -293,7 +293,7 @@ suite('gr-autocomplete tests', () => {
     element.query = queryStub;
     focusOnInput(element);
     element.text = 'bla';
-    flushAsynchronousOperations();
+    flush();
     promise.then(() => {
       assert.equal(element._suggestions.length, 1);
       element._updateSuggestions('', 0, false);
@@ -458,7 +458,7 @@ suite('gr-autocomplete tests', () => {
       focusSpy = sinon.spy(element, 'focus');
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13, null,
           'enter');
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(commitSpy.called);
       assert.isFalse(focusSpy.called);
@@ -472,7 +472,7 @@ suite('gr-autocomplete tests', () => {
       element.tabComplete = true;
       element._suggestions = ['tunnel snakes drool'];
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(commitSpy.called);
       assert.isTrue(focusSpy.called);
@@ -484,7 +484,7 @@ suite('gr-autocomplete tests', () => {
       element._suggestions = ['sugar bombs'];
       focusSpy = sinon.spy(element, 'focus');
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(commitSpy.called);
       assert.isFalse(focusSpy.called);
@@ -503,7 +503,7 @@ suite('gr-autocomplete tests', () => {
       MockInteractions.pressAndReleaseKeyOn(
           element.$.suggestions.shadowRoot
               .querySelector('li:first-child'), 9, null, 'tab');
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(commitSpy.called);
       assert.isFalse(element._focused);
     });
@@ -520,7 +520,7 @@ suite('gr-autocomplete tests', () => {
       MockInteractions.pressAndReleaseKeyOn(
           element.$.suggestions.shadowRoot
               .querySelector('li:first-child'), 9, null, 'tab');
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(commitSpy.called);
       assert.isTrue(element._focused);
@@ -534,7 +534,7 @@ suite('gr-autocomplete tests', () => {
       assert.isFalse(element.$.suggestions.isHidden);
       MockInteractions.tap(element.$.suggestions.shadowRoot
           .querySelector('li:first-child'));
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(focusSpy.called);
       assert.isTrue(commitSpy.called);
@@ -546,7 +546,7 @@ suite('gr-autocomplete tests', () => {
     const listener = sinon.spy();
     element.addEventListener('input-keydown', listener);
     MockInteractions.pressAndReleaseKeyOn(element.$.input, 9, null, 'tab');
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(listener.called);
   });
 

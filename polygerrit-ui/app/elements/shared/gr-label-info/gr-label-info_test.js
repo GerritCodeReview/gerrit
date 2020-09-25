@@ -57,7 +57,7 @@ suite('gr-label-info tests', () => {
       element.labelInfo = test;
       element.label = 'test';
 
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('_computeCanDeleteVote', () => {
@@ -92,14 +92,14 @@ suite('gr-label-info tests', () => {
   suite('label color and order', () => {
     test('valueless label rejected', () => {
       element.labelInfo = {rejected: {name: 'someone'}};
-      flushAsynchronousOperations();
+      flush();
       const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('negative'));
     });
 
     test('valueless label approved', () => {
       element.labelInfo = {approved: {name: 'someone'}};
-      flushAsynchronousOperations();
+      flush();
       const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('positive'));
     });
@@ -120,7 +120,7 @@ suite('gr-label-info tests', () => {
           '+2': 'Ready to submit',
         },
       };
-      flushAsynchronousOperations();
+      flush();
       const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
@@ -140,7 +140,7 @@ suite('gr-label-info tests', () => {
           '+1': 'Looks good to me',
         },
       };
-      flushAsynchronousOperations();
+      flush();
       const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('min'));
@@ -158,7 +158,7 @@ suite('gr-label-info tests', () => {
           '+2': 'Looks good to me',
         },
       };
-      flushAsynchronousOperations();
+      flush();
       const labels = element.root.querySelectorAll('gr-label');
       assert.isTrue(labels[0].classList.contains('max'));
       assert.isTrue(labels[1].classList.contains('positive'));
@@ -180,7 +180,7 @@ suite('gr-label-info tests', () => {
           '+1': 'Looks good to me',
         },
       };
-      flushAsynchronousOperations();
+      flush();
       const chips =
           element.root.querySelectorAll('gr-account-link');
       assert.equal(chips[0].account._account_id, element.account._account_id);

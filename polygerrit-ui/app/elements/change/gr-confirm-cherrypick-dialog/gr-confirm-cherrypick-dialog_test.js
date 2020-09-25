@@ -52,7 +52,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element.commitMessage = 'message\n';
     element.commitNum = '123';
     element.branch = 'master';
-    flushAsynchronousOperations();
+    flush();
     const expectedMessage = 'message\n(cherry picked from commit 123)';
     assert.equal(element.message, expectedMessage);
   });
@@ -62,7 +62,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element.commitMessage = 'message\n';
     element.commitNum = '123';
     element.branch = 'master';
-    flushAsynchronousOperations();
+    flush();
     const expectedMessage = 'message\n';
     assert.equal(element.message, expectedMessage);
   });
@@ -74,7 +74,7 @@ suite('gr-confirm-cherrypick-dialog tests', () => {
     element.branch = 'master';
     const myNewMessage = 'updated commit message';
     element.message = myNewMessage;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.message, myNewMessage);
   });
 

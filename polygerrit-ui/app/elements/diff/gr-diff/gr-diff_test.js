@@ -77,14 +77,14 @@ suite('gr-diff tests', () => {
   test('line limit with line_wrapping', () => {
     element = basicFixture.instantiate();
     element.prefs = {...MINIMAL_PREFS, line_wrapping: true};
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getComputedStyleValue('--line-limit', element), '80ch');
   });
 
   test('line limit without line_wrapping', () => {
     element = basicFixture.instantiate();
     element.prefs = {...MINIMAL_PREFS, line_wrapping: false};
-    flushAsynchronousOperations();
+    flush();
     assert.isNotOk(getComputedStyleValue('--line-limit', element));
   });
 
@@ -605,7 +605,7 @@ suite('gr-diff tests', () => {
         };
 
         element._renderDiffTable();
-        flushAsynchronousOperations();
+        flush();
       };
 
       test('getCursorStops returns [] when hidden and noAutoRender', () => {
@@ -753,7 +753,7 @@ suite('gr-diff tests', () => {
       assert.equal(element._diffHeaderItems.length, 0);
       element.push('diff.diff_header', 'test');
       assert.equal(element._diffHeaderItems.length, 1);
-      flushAsynchronousOperations();
+      flush();
 
       assert.equal(element.$.diffHeader.textContent.trim(), 'test');
     });
@@ -1012,7 +1012,7 @@ suite('gr-diff tests', () => {
       binary,
     };
     element._renderDiffTable();
-    flushAsynchronousOperations();
+    flush();
   };
 
   test('clear diff table content as soon as diff changes', () => {
@@ -1032,7 +1032,7 @@ suite('gr-diff tests', () => {
     // immediately cleaned up
     assert.equal(element.$.diffTable.innerHTML, '');
     element._renderDiffTable();
-    flushAsynchronousOperations();
+    flush();
     // rendered again
     assertDiffTableWithContent();
   });
@@ -1049,7 +1049,7 @@ suite('gr-diff tests', () => {
         ],
       }];
       setupSampleDiff({content});
-      flushAsynchronousOperations();
+      flush();
       const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
       // click to mark it as selected
@@ -1069,7 +1069,7 @@ suite('gr-diff tests', () => {
       }];
       setupSampleDiff({content});
       element.viewMode = 'UNIFIED_DIFF';
-      flushAsynchronousOperations();
+      flush();
       const diffLine = element.shadowRoot.querySelectorAll('.contentText')[2];
       assert.equal(getComputedStyle(diffLine).userSelect, 'none');
       MockInteractions.tap(diffLine);

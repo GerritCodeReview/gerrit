@@ -43,7 +43,7 @@ suite('gr-user-header tests', () => {
 
       element.userId = null;
       flush(() => {
-        flushAsynchronousOperations();
+        flush();
         assert.isNull(element._accountDetails);
         assert.equal(element._status, '');
 

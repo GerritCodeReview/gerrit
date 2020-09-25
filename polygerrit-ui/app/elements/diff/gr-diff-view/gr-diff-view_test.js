@@ -397,7 +397,7 @@ suite('gr-diff-view tests', () => {
     test('shift+x shortcut expands all diff context', () => {
       const expandStub = sinon.stub(element.$.diffHost, 'expandAllContext');
       MockInteractions.pressAndReleaseKeyOn(element, 88, 'shift', 'x');
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(expandStub.called);
     });
 
@@ -738,20 +738,20 @@ suite('gr-diff-view tests', () => {
       test('when no prefs or logged out', () => {
         element.disableDiffPrefs = false;
         element._loggedIn = false;
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(element.$.diffPrefsContainer.hidden);
 
         element._loggedIn = true;
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(element.$.diffPrefsContainer.hidden);
 
         element._loggedIn = false;
         element._prefs = {font_size: '12'};
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(element.$.diffPrefsContainer.hidden);
 
         element._loggedIn = true;
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element.$.diffPrefsContainer.hidden);
       });
 
@@ -759,11 +759,11 @@ suite('gr-diff-view tests', () => {
         element._loggedIn = true;
         element._prefs = {font_size: '12'};
         element.disableDiffPrefs = false;
-        flushAsynchronousOperations();
+        flush();
 
         assert.isFalse(element.$.diffPrefsContainer.hidden);
         element.disableDiffPrefs = true;
-        flushAsynchronousOperations();
+        flush();
 
         assert.isTrue(element.$.diffPrefsContainer.hidden);
       });
@@ -897,7 +897,7 @@ suite('gr-diff-view tests', () => {
         element._files = getFilesFromFileList(
             ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
-        flushAsynchronousOperations();
+        flush();
         const linkEls = element.root.querySelectorAll('.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-PARENT');
@@ -905,19 +905,19 @@ suite('gr-diff-view tests', () => {
         assert.equal(linkEls[2].getAttribute('href'),
             '42-wheatley.md-10-PARENT');
         element._path = 'wheatley.md';
-        flushAsynchronousOperations();
+        flush();
         assert.equal(linkEls[0].getAttribute('href'),
             '42-glados.txt-10-PARENT');
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
         assert.isFalse(linkEls[2].hasAttribute('href'));
         element._path = 'chell.go';
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(linkEls[0].hasAttribute('href'));
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
         assert.equal(linkEls[2].getAttribute('href'),
             '42-glados.txt-10-PARENT');
         element._path = 'not_a_real_file';
-        flushAsynchronousOperations();
+        flush();
         assert.equal(linkEls[0].getAttribute('href'),
             '42-wheatley.md-10-PARENT');
         assert.equal(linkEls[1].getAttribute('href'), '42-undefined-undefined');
@@ -940,19 +940,19 @@ suite('gr-diff-view tests', () => {
         element._files = getFilesFromFileList(
             ['chell.go', 'glados.txt', 'wheatley.md']);
         element._path = 'glados.txt';
-        flushAsynchronousOperations();
+        flush();
         const linkEls = element.root.querySelectorAll('.navLink');
         assert.equal(linkEls.length, 3);
         assert.equal(linkEls[0].getAttribute('href'), '42-chell.go-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[2].getAttribute('href'), '42-wheatley.md-10-5');
         element._path = 'wheatley.md';
-        flushAsynchronousOperations();
+        flush();
         assert.equal(linkEls[0].getAttribute('href'), '42-glados.txt-10-5');
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.isFalse(linkEls[2].hasAttribute('href'));
         element._path = 'chell.go';
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(linkEls[0].hasAttribute('href'));
         assert.equal(linkEls[1].getAttribute('href'), '42-10-5');
         assert.equal(linkEls[2].getAttribute('href'), '42-glados.txt-10-5');
@@ -1001,13 +1001,13 @@ suite('gr-diff-view tests', () => {
         basePatchNum: '1',
       };
       element._prefs = {manual_review: true};
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(saveReviewedStub.called);
       assert.isTrue(getReviewedStub.called);
 
       element._prefs = {};
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(saveReviewedStub.called);
       assert.isTrue(getReviewedStub.calledOnce);
@@ -1031,7 +1031,7 @@ suite('gr-diff-view tests', () => {
         basePatchNum: '1',
       };
       element._prefs = {};
-      flushAsynchronousOperations();
+      flush();
 
       const commitMsg = element.root.querySelector(
           'input[type="checkbox"]');
@@ -1047,7 +1047,7 @@ suite('gr-diff-view tests', () => {
       const callCount = saveReviewedStub.callCount;
 
       element.set('params.view', GerritNav.View.CHANGE);
-      flushAsynchronousOperations();
+      flush();
 
       // saveReviewedState observer observes params, but should not fire when
       // view !== GerritNav.View.DIFF.
@@ -1058,7 +1058,7 @@ suite('gr-diff-view tests', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState');
 
       element._patchRange = {patchNum: SPECIAL_PATCH_SET_NUM.EDIT};
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(element._editMode);
       element._setReviewed();
@@ -1120,14 +1120,14 @@ suite('gr-diff-view tests', () => {
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
       const view = document.createElement('gr-diff-view');
       blankFixture.instantiate().appendChild(view);
-      flushAsynchronousOperations();
+      flush();
 
       // At this point the diff mode doesn't yet have the user's preference.
       assert.equal(view._getDiffViewMode(), 'SIDE_BY_SIDE');
 
       // Receive the overriding preference.
       resolvePrefs({default_diff_view: 'UNIFIED'});
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._getDiffViewMode(), 'SIDE_BY_SIDE');
     });
 
@@ -1525,7 +1525,7 @@ suite('gr-diff-view tests', () => {
         // Reviewed checkbox should be shown.
         assert.isTrue(isVisible(element.$.reviewed));
         element.set('_patchRange.patchNum', SPECIAL_PATCH_SET_NUM.EDIT);
-        flushAsynchronousOperations();
+        flush();
 
         assert.isFalse(isVisible(element.$.reviewed));
       });
@@ -1551,7 +1551,7 @@ suite('gr-diff-view tests', () => {
       const reviewedStub = sinon.stub(element, '_setReviewed');
       const navStub = sinon.stub(element, '_navToFile');
       MockInteractions.pressAndReleaseKeyOn(element, 77, 'shift', 'm');
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(reviewedStub.lastCall.args[0]);
       assert.deepEqual(navStub.lastCall.args, [
@@ -1578,7 +1578,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 1,
         basePatchNum: 'PARENT',
       };
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(GerritNav.navigateToDiff.notCalled);
 
       // Switch to file2

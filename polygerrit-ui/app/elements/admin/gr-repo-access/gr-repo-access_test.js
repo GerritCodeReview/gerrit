@@ -209,7 +209,7 @@ suite('gr-repo-access tests', () => {
       name: 'another-repo',
     };
     // When there is a parent project, the link should be displayed.
-    flushAsynchronousOperations();
+    flush();
     assert.notEqual(getComputedStyle(element.$.inheritsFrom).display, 'none');
     assert.notEqual(getComputedStyle(element.$.inheritFromName).display,
         'none');
@@ -266,13 +266,13 @@ suite('gr-repo-access tests', () => {
       element._inheritsFrom = {
         id: 'test-project',
       };
-      flushAsynchronousOperations();
+      flush();
       assert.equal(getComputedStyle(element.shadowRoot
           .querySelector('#editInheritFromInput'))
           .display, 'none');
 
       MockInteractions.tap(element.$.editBtn);
-      flushAsynchronousOperations();
+      flush();
 
       // Edit button changes to Cancel button, and Save button is visible but
       // disabled.
@@ -312,7 +312,7 @@ suite('gr-repo-access tests', () => {
       element._groups = JSON.parse(JSON.stringify(accessRes.groups));
       element._capabilities = JSON.parse(JSON.stringify(capabilitiesRes));
       element._labels = JSON.parse(JSON.stringify(repoRes.labels));
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('removing an added section', () => {
@@ -323,7 +323,7 @@ suite('gr-repo-access tests', () => {
               new CustomEvent('added-section-removed', {
                 composed: true, bubbles: true,
               }));
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._sections.length, 0);
     });
 
@@ -361,7 +361,7 @@ suite('gr-repo-access tests', () => {
       element._inheritsFrom = {
         id: 'test-project',
       };
-      flushAsynchronousOperations();
+      flush();
       element.shadowRoot.querySelector('#editInheritFromInput').dispatchEvent(
           new CustomEvent('commit', {
             detail: {},
@@ -588,7 +588,7 @@ suite('gr-repo-access tests', () => {
           ._handleAddRuleItem(
               {detail: {value: 'Maintainers'}});
 
-      flushAsynchronousOperations();
+      flush();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Remove the added rule.
@@ -656,7 +656,7 @@ suite('gr-repo-access tests', () => {
       };
       element.shadowRoot
           .querySelector('gr-access-section')._handleAddPermission();
-      flushAsynchronousOperations();
+      flush();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add a new rule to the new permission.
@@ -777,7 +777,7 @@ suite('gr-repo-access tests', () => {
       const newSection = dom(element.root)
           .querySelectorAll('gr-access-section')[1];
       newSection._handleAddPermission();
-      flushAsynchronousOperations();
+      flush();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Add rule to the new permission.
@@ -808,7 +808,7 @@ suite('gr-repo-access tests', () => {
           .querySelector('gr-permission')._handleAddRuleItem(
               {detail: {value: 'Maintainers'}});
 
-      flushAsynchronousOperations();
+      flush();
       assert.deepEqual(element._computeAddAndRemove(), expectedInput);
 
       // Modify a the reference from the default value.
@@ -994,7 +994,7 @@ suite('gr-repo-access tests', () => {
       let newSection = dom(element.root)
           .querySelectorAll('gr-access-section')[1];
       newSection._handleAddPermission();
-      flushAsynchronousOperations();
+      flush();
       newSection.shadowRoot
           .querySelector('gr-permission')._handleAddRuleItem(
               {detail: {value: 'Maintainers'}});
@@ -1068,7 +1068,7 @@ suite('gr-repo-access tests', () => {
       newSection = dom(element.root)
           .querySelectorAll('gr-access-section')[2];
       newSection._handleAddPermission();
-      flushAsynchronousOperations();
+      flush();
       newSection.shadowRoot
           .querySelector('gr-permission')._handleAddRuleItem(
               {detail: {value: 'Maintainers'}});

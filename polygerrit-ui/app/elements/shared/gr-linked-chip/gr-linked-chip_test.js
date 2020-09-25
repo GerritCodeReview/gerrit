@@ -30,7 +30,7 @@ suite('gr-linked-chip tests', () => {
   test('remove fired', () => {
     const spy = sinon.spy();
     element.addEventListener('remove', spy);
-    flushAsynchronousOperations();
+    flush();
     MockInteractions.tap(element.$.remove);
     assert.isTrue(spy.called);
   });

@@ -505,13 +505,13 @@ suite('gr-related-changes-list tests', () => {
     });
 
     test('no submitted together changes', () => {
-      flushAsynchronousOperations();
+      flush();
       assert.include(element.$.submittedTogether.className, 'hidden');
     });
 
     test('no non-visible submitted together changes', () => {
       element._submittedTogether = {changes: [change]};
-      flushAsynchronousOperations();
+      flush();
       assert.notInclude(element.$.submittedTogether.className, 'hidden');
       assert.isNull(element.shadowRoot
           .querySelector('.note'));
@@ -520,7 +520,7 @@ suite('gr-related-changes-list tests', () => {
     test('no visible submitted together changes', () => {
       // Technically this should never happen, but worth asserting the logic.
       element._submittedTogether = {changes: [], non_visible_changes: 1};
-      flushAsynchronousOperations();
+      flush();
       assert.notInclude(element.$.submittedTogether.className, 'hidden');
       assert.isNotNull(element.shadowRoot
           .querySelector('.note'));
@@ -532,7 +532,7 @@ suite('gr-related-changes-list tests', () => {
 
     test('visible and non-visible submitted together changes', () => {
       element._submittedTogether = {changes: [change], non_visible_changes: 2};
-      flushAsynchronousOperations();
+      flush();
       assert.notInclude(element.$.submittedTogether.className, 'hidden');
       assert.isNotNull(element.shadowRoot
           .querySelector('.note'));

@@ -30,31 +30,31 @@ suite('gr-limited-text tests', () => {
   test('tooltip without title input', () => {
     const updateSpy = sinon.spy(element, '_updateTitle');
     element.text = 'abc 123';
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(updateSpy.calledOnce);
     assert.isNotOk(element.getAttribute('title'));
     assert.isFalse(element.hasTooltip);
 
     element.limit = 10;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(updateSpy.calledTwice);
     assert.isNotOk(element.getAttribute('title'));
     assert.isFalse(element.hasTooltip);
 
     element.limit = 3;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(updateSpy.callCount, 3);
     assert.equal(element.getAttribute('title'), 'abc 123');
     assert.equal(element.title, 'abc 123');
     assert.isTrue(element.hasTooltip);
 
     element.limit = 100;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(updateSpy.callCount, 4);
     assert.isFalse(element.hasTooltip);
 
     element.limit = null;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(updateSpy.callCount, 5);
     assert.isNotOk(element.getAttribute('title'));
     assert.isFalse(element.hasTooltip);
@@ -63,20 +63,20 @@ suite('gr-limited-text tests', () => {
   test('with tooltip input', () => {
     const updateSpy = sinon.spy(element, '_updateTitle');
     element.tooltip = 'abc 123';
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(updateSpy.calledOnce);
     assert.isTrue(element.hasTooltip);
     assert.equal(element.getAttribute('title'), 'abc 123');
     assert.equal(element.title, 'abc 123');
 
     element.text = 'abc';
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.getAttribute('title'), 'abc 123');
     assert.isTrue(element.hasTooltip);
 
     element.text = 'abcdef';
     element.limit = 3;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.getAttribute('title'), 'abcdef (abc 123)');
     assert.isTrue(element.hasTooltip);
   });
@@ -92,7 +92,7 @@ suite('gr-limited-text tests', () => {
     element.text = 'abcdefghijklmn';
     element.disableTooltip = true;
     element.limit = 10;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.getAttribute('title'), '');
   });
 });

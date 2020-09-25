@@ -30,7 +30,7 @@ suite('gr-keyboard-shortcuts-dialog tests', () => {
 
   function update(directory) {
     element._onDirectoryUpdated(directory);
-    flushAsynchronousOperations();
+    flush();
   }
 
   suite('_left and _right contents', () => {

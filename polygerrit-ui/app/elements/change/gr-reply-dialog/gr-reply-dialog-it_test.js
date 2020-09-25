@@ -81,7 +81,7 @@ suite('gr-reply-dialog-it tests', () => {
     element = basicFixture.instantiate();
     setupElement(element);
     // Allow the elements created by dom-repeat to be stamped.
-    flushAsynchronousOperations();
+    flush();
   });
 
   teardown(() => {
@@ -98,7 +98,7 @@ suite('gr-reply-dialog-it tests', () => {
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button.send'));
     assert.isFalse(sendStub.called);
-    flushAsynchronousOperations();
+    flush();
 
     element.$.ccs.$.entry.setText('test@test.test');
     MockInteractions.tap(element.shadowRoot

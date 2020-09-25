@@ -29,7 +29,7 @@ suite('gr-autocomplete-dropdown', () => {
     element.suggestions = [
       {dataValue: 'test value 1', name: 'test name 1', text: 1, label: 'hi'},
       {dataValue: 'test value 2', name: 'test name 2', text: 2}];
-    flushAsynchronousOperations();
+    flush();
   });
 
   teardown(() => {
@@ -45,7 +45,7 @@ suite('gr-autocomplete-dropdown', () => {
   test('escape key', done => {
     const closeSpy = sinon.spy(element, 'close');
     MockInteractions.pressAndReleaseKeyOn(element, 27);
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(closeSpy.called);
     done();
   });
@@ -108,7 +108,7 @@ suite('gr-autocomplete-dropdown', () => {
     element.addEventListener('item-selected', itemSelectedStub);
 
     MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[1]);
-    flushAsynchronousOperations();
+    flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
       selected: element.$.suggestions.querySelectorAll('li')[1],
@@ -121,7 +121,7 @@ suite('gr-autocomplete-dropdown', () => {
 
     MockInteractions.tap(element.$.suggestions.querySelectorAll('li')[0]
         .lastElementChild);
-    flushAsynchronousOperations();
+    flush();
     assert.deepEqual(itemSelectedStub.lastCall.args[0].detail, {
       trigger: 'click',
       selected: element.$.suggestions.querySelectorAll('li')[0],

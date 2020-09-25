@@ -33,7 +33,7 @@ suite('gr-file-list-header tests', () => {
       subject: 'my-subject',
       revisions: {},
     };
-    flushAsynchronousOperations();
+    flush();
     const header = element.shadowRoot
         .querySelector('.header');
     assert.equal(header.textContent.trim(), 'my-label');

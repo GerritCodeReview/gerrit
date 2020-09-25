@@ -295,7 +295,7 @@ suite('gr-thread-list tests', () => {
 
   test('onlyShowRobotCommentsWithHumanReply ', () => {
     element.onlyShowRobotCommentsWithHumanReply = true;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(
         getVisibleThreads().length,
         element.threads.length - 1);
@@ -457,7 +457,7 @@ suite('gr-thread-list tests', () => {
           detail: {rootId: 'rc2'},
           composed: true, bubbles: true,
         }));
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element._sortedThreads.length, 8);
     const expectedSortedRootIds = [
       'patchset_level_2',
@@ -538,13 +538,13 @@ suite('gr-thread-list tests', () => {
   test('toggle unresolved only shows unresolved comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getVisibleThreads().length, 4);
   });
 
   test('toggle drafts only shows threads with draft comments', () => {
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getVisibleThreads().length, 2);
   });
 
@@ -560,7 +560,7 @@ suite('gr-thread-list tests', () => {
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getVisibleThreads().length, 2);
   });
 
@@ -569,7 +569,7 @@ suite('gr-thread-list tests', () => {
     MockInteractions.tap(element.shadowRoot.querySelector('#draftToggle'));
     MockInteractions.tap(element.shadowRoot.querySelector(
         '#unresolvedToggle'));
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getVisibleThreads().length, 1);
   });
 

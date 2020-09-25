@@ -55,7 +55,7 @@ suite('gr-date-formatter tests', () => {
       assert.equal(span.textContent.trim(), expected);
       assert.equal(element.title, expectedTooltip);
       element.showDateAndTime = true;
-      flushAsynchronousOperations();
+      flush();
       assert.equal(span.textContent.trim(), expectedWithDateAndTime);
       done();
     });

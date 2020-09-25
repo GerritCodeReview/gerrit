@@ -44,20 +44,20 @@ suite('gr-file-list-header tests', () => {
 
   test('Diff preferences hidden when no prefs or diffPrefsDisabled', () => {
     element.diffPrefsDisabled = true;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.diffPrefsContainer.hidden);
 
     element.diffPrefsDisabled = false;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.diffPrefsContainer.hidden);
 
     element.diffPrefsDisabled = true;
     element.diffPrefs = {font_size: '12'};
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.diffPrefsContainer.hidden);
 
     element.diffPrefsDisabled = false;
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(element.$.diffPrefsContainer.hidden);
   });
 
@@ -108,7 +108,7 @@ suite('gr-file-list-header tests', () => {
     element.owner = {_account_id: 1};
     element.loggedIn = true;
 
-    flushAsynchronousOperations();
+    flush();
 
     // The element has a description, so the account chip should be visible
     element.owner = {_account_id: 1};
@@ -128,7 +128,7 @@ suite('gr-file-list-header tests', () => {
           assert.equal(putDescStub.lastCall.args[2], '');
           assert.equal(element.change.revisions.rev1.description, '');
 
-          flushAsynchronousOperations();
+          flush();
           // The editable label should now be visible and the chip hidden.
           label = element.root.querySelector('#descriptionLabel');
           assert.isOk(label);
@@ -139,14 +139,14 @@ suite('gr-file-list-header tests', () => {
           label.editing = true;
           label._inputText = 'test2';
           label._save();
-          flushAsynchronousOperations();
+          flush();
           // The API stub should be called with an `test2` for the new
           // description.
           assert.equal(putDescStub.callCount, 2);
           assert.equal(putDescStub.lastCall.args[2], 'test2');
         })
         .then(() => {
-          flushAsynchronousOperations();
+          flush();
           // The chip should be visible again, and the label hidden.
           assert.equal(element.change.revisions.rev1.description, 'test2');
           assert.equal(getComputedStyle(label).display, 'none');
@@ -156,7 +156,7 @@ suite('gr-file-list-header tests', () => {
 
   test('expandAllDiffs called when expand button clicked', () => {
     element.shownFileCount = 1;
-    flushAsynchronousOperations();
+    flush();
     sinon.stub(element, '_expandAllDiffs');
     MockInteractions.tap(element.root.querySelector(
         '#expandBtn'));
@@ -165,7 +165,7 @@ suite('gr-file-list-header tests', () => {
 
   test('collapseAllDiffs called when expand button clicked', () => {
     element.shownFileCount = 1;
-    flushAsynchronousOperations();
+    flush();
     sinon.stub(element, '_collapseAllDiffs');
     MockInteractions.tap(element.root.querySelector(
         '#collapseBtn'));
@@ -194,33 +194,33 @@ suite('gr-file-list-header tests', () => {
         .querySelector('.fileViewActions');
     assert.equal(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.SOME;
-    flushAsynchronousOperations();
+    flush();
     assert.notEqual(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.ALL;
-    flushAsynchronousOperations();
+    flush();
     assert.notEqual(getComputedStyle(actions).display, 'none');
     element.filesExpanded = FilesExpandedState.NONE;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getComputedStyle(actions).display, 'none');
   });
 
   test('expand/collapse buttons are toggled correctly', () => {
     element.shownFileCount = 10;
-    flushAsynchronousOperations();
+    flush();
     const expandBtn = element.shadowRoot.querySelector('#expandBtn');
     const collapseBtn = element.shadowRoot.querySelector('#collapseBtn');
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
     element.filesExpanded = FilesExpandedState.SOME;
-    flushAsynchronousOperations();
+    flush();
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
     element.filesExpanded = FilesExpandedState.ALL;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getComputedStyle(expandBtn).display, 'none');
     assert.notEqual(getComputedStyle(collapseBtn).display, 'none');
     element.filesExpanded = FilesExpandedState.NONE;
-    flushAsynchronousOperations();
+    flush();
     assert.notEqual(getComputedStyle(expandBtn).display, 'none');
     assert.equal(getComputedStyle(collapseBtn).display, 'none');
   });
@@ -270,14 +270,14 @@ suite('gr-file-list-header tests', () => {
     test('patch specific elements', () => {
       element.editMode = true;
       element.allPatchSets = generateChange({revisionsCount: 2}).revisions;
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(isVisible(element.$.diffPrefsContainer));
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('.descriptionContainer')));
 
       element.editMode = false;
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('.descriptionContainer')));
@@ -286,19 +286,19 @@ suite('gr-file-list-header tests', () => {
 
     test('edit-controls visibility', () => {
       element.editMode = false;
-      flushAsynchronousOperations();
+      flush();
       // on the first render, when editMode is false, editControls are not
       // in the DOM to reduce size of DOM and make first render faster.
       assert.isNull(element.shadowRoot
           .querySelector('#editControls'));
 
       element.editMode = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('#editControls').parentElement));
 
       element.editMode = false;
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('#editControls').parentElement));
     });

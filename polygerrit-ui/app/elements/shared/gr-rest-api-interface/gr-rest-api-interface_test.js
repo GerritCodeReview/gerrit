@@ -1299,7 +1299,7 @@ suite('gr-rest-api-interface tests', () => {
     sinon.stub(appContext.authService, 'fetch').returns(Promise.resolve(res));
     sinon.stub(element, '_changeBaseURL').returns(Promise.resolve(''));
     element.getFileContent('1', 'tst/path', '1').then(() => {
-      flushAsynchronousOperations();
+      flush();
 
       res.status = 500;
       element.getFileContent('1', 'tst/path', '1');
@@ -1349,7 +1349,7 @@ suite('gr-rest-api-interface tests', () => {
 
     element._restApiHelper
         ._logCall({url: 'url', anonymizedUrl: 'not url'}, 100, 200);
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(handler.calledOnce);
   });
 

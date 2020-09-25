@@ -66,7 +66,7 @@ suite('gr-editor-view tests', () => {
       const promises = element._paramsChanged(
           {...mockParams, view: GerritNav.View.EDIT});
 
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._changeNum, mockParams.changeNum);
       assert.equal(element._path, mockParams.path);
       assert.deepEqual(changeDetailStub.lastCall.args[0],
@@ -112,7 +112,7 @@ suite('gr-editor-view tests', () => {
       detail: {value: 'new content value'},
     }));
     element.flushDebouncer('store');
-    flushAsynchronousOperations();
+    flush();
 
     assert.equal(element._newContent, 'new content value');
     assert.isTrue(storeStub.called);
@@ -128,7 +128,7 @@ suite('gr-editor-view tests', () => {
       element._path = mockParams.path;
       element._content = originalText;
       element._newContent = originalText;
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('initial load', () => {
@@ -143,7 +143,7 @@ suite('gr-editor-view tests', () => {
       const alertStub = sinon.stub(element, '_showAlert');
       saveFileStub.returns(Promise.resolve({ok: false}));
       element._newContent = newText;
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(element.$.save.hasAttribute('disabled'));
       assert.isFalse(element._saving);
@@ -172,7 +172,7 @@ suite('gr-editor-view tests', () => {
       const alertStub = sinon.stub(element, '_showAlert');
       saveFileStub.returns(Promise.resolve({ok: true}));
       element._newContent = newText;
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(element._saving);
       assert.isFalse(element.$.save.hasAttribute('disabled'));
@@ -197,7 +197,7 @@ suite('gr-editor-view tests', () => {
     test('file modification and close', () => {
       const closeSpy = sinon.spy(element, '_handleCloseTap');
       element._newContent = newText;
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(element.$.save.hasAttribute('disabled'));
 
@@ -312,13 +312,13 @@ suite('gr-editor-view tests', () => {
         element._content = '';
         element._newContent = '_test';
         MockInteractions.pressAndReleaseKeyOn(element, 83, 'ctrl', 's');
-        flushAsynchronousOperations();
+        flush();
 
         assert.isTrue(handleSpy.calledOnce);
         assert.isTrue(saveStub.calledOnce);
 
         MockInteractions.pressAndReleaseKeyOn(element, 83, 'meta', 's');
-        flushAsynchronousOperations();
+        flush();
 
         assert.equal(handleSpy.callCount, 2);
         assert.equal(saveStub.callCount, 2);
@@ -326,13 +326,13 @@ suite('gr-editor-view tests', () => {
 
       test('save disabled', () => {
         MockInteractions.pressAndReleaseKeyOn(element, 83, 'ctrl', 's');
-        flushAsynchronousOperations();
+        flush();
 
         assert.isTrue(handleSpy.calledOnce);
         assert.isFalse(saveStub.called);
 
         MockInteractions.pressAndReleaseKeyOn(element, 83, 'meta', 's');
-        flushAsynchronousOperations();
+        flush();
 
         assert.equal(handleSpy.callCount, 2);
         assert.isFalse(saveStub.called);
@@ -355,7 +355,7 @@ suite('gr-editor-view tests', () => {
       element.addEventListener('show-alert', alertStub);
 
       return element._getFileData(1, 'test', 1).then(() => {
-        flushAsynchronousOperations();
+        flush();
 
         assert.isTrue(alertStub.called);
         assert.equal(element._newContent, 'pending edit');
@@ -378,7 +378,7 @@ suite('gr-editor-view tests', () => {
       element.addEventListener('show-alert', alertStub);
 
       return element._getFileData(1, 'test', 1).then(() => {
-        flushAsynchronousOperations();
+        flush();
 
         assert.isFalse(alertStub.called);
         assert.equal(element._newContent, 'pending edit');

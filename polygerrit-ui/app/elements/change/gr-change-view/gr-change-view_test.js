@@ -727,7 +727,7 @@ suite('gr-change-view tests', () => {
       const setModeStub = sinon.stub(element.$.fileListHeader,
           'setDiffViewMode');
       const e = {preventDefault: () => {}};
-      flushAsynchronousOperations();
+      flush();
 
       element.viewState.diffMode = 'SIDE_BY_SIDE';
       element._handleToggleDiffMode(e);
@@ -791,7 +791,7 @@ suite('gr-change-view tests', () => {
     setup(() => {
       element._changeNum = '1';
       element._change = {_number: '1'};
-      flushAsynchronousOperations();
+      flush();
       // Fake computeDraftCount as its required for ChangeComments,
       // see gr-comment-api#reloadDrafts.
       sinon.stub(element.$.commentAPI, 'reloadDrafts')
@@ -854,7 +854,7 @@ suite('gr-change-view tests', () => {
   test('thread list modified', () => {
     sinon.spy(element, '_handleReloadDiffComments');
     element._activeTabs = [PrimaryTab.COMMENT_THREADS, SecondaryTab.CHANGE_LOG];
-    flushAsynchronousOperations();
+    flush();
 
     return element._reloadComments().then(() => {
       element.threadList.dispatchEvent(
@@ -1054,7 +1054,7 @@ suite('gr-change-view tests', () => {
     const expectedStatuses = ['Merged', 'WIP'];
     assert.deepEqual(element._changeStatuses, expectedStatuses);
     assert.equal(element._changeStatus, expectedStatuses.join(', '));
-    flushAsynchronousOperations();
+    flush();
     const statusChips = dom(element.root)
         .querySelectorAll('gr-change-status');
     assert.equal(statusChips.length, 2);
@@ -1118,14 +1118,14 @@ suite('gr-change-view tests', () => {
         },
       },
     };
-    flushAsynchronousOperations();
+    flush();
     const reloadStub = sinon.stub(element, '_reload');
     element.splice('_change.labels.test.all', 0, 1);
     assert.isFalse(reloadStub.called);
     element._change.labels.test.all.push(vote);
     element._change.labels.test.all.push(vote);
     element._change.labels.test.approved = vote;
-    flushAsynchronousOperations();
+    flush();
     element.splice('_change.labels.test.all', 0, 2);
     assert.isTrue(reloadStub.called);
     assert.isTrue(reloadStub.calledOnce);
@@ -1202,21 +1202,21 @@ suite('gr-change-view tests', () => {
     assert.equal(element.viewState.numFilesShown, 200);
     assert.equal(element._numFilesShown, 200);
     element._numFilesShown = 150;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.viewState.diffMode, 'UNIFIED');
     assert.equal(element.viewState.numFilesShown, 150);
 
     element._changeNum = '1';
     element.params = {changeNum: '1'};
     element._change.newProp = '1';
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.viewState.diffMode, 'UNIFIED');
     assert.equal(element.viewState.changeNum, '1');
 
     element._changeNum = '2';
     element.params = {changeNum: '2'};
     element._change.newProp = '2';
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.viewState.diffMode, 'UNIFIED');
     assert.equal(element.viewState.changeNum, '2');
     assert.equal(element.viewState.numFilesShown, 200);
@@ -2167,7 +2167,7 @@ suite('gr-change-view tests', () => {
     const fileList = element.$.fileList;
     const Actions = GrEditConstants.Actions;
     element.$.fileListHeader.editMode = true;
-    flushAsynchronousOperations();
+    flush();
     const controls = element.$.fileListHeader
         .shadowRoot.querySelector('#editControls');
     sinon.stub(controls, 'openDeleteDialog');
@@ -2182,7 +2182,7 @@ suite('gr-change-view tests', () => {
       bubbles: true,
       composed: true,
     }));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(controls.openDeleteDialog.called);
     assert.equal(controls.openDeleteDialog.lastCall.args[0], 'foo');
@@ -2193,7 +2193,7 @@ suite('gr-change-view tests', () => {
       bubbles: true,
       composed: true,
     }));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(controls.openRestoreDialog.called);
     assert.equal(controls.openRestoreDialog.lastCall.args[0], 'foo');
@@ -2204,7 +2204,7 @@ suite('gr-change-view tests', () => {
       bubbles: true,
       composed: true,
     }));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(controls.openRenameDialog.called);
     assert.equal(controls.openRenameDialog.lastCall.args[0], 'foo');
@@ -2215,7 +2215,7 @@ suite('gr-change-view tests', () => {
       bubbles: true,
       composed: true,
     }));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(GerritNav.getEditUrlForDiff.called);
     assert.equal(GerritNav.getEditUrlForDiff.lastCall.args[1], 'foo');
@@ -2308,7 +2308,7 @@ suite('gr-change-view tests', () => {
 
       element.set('_change.revisions.rev2',
           {_number: SPECIAL_PATCH_SET_NUM.EDIT});
-      flushAsynchronousOperations();
+      flush();
 
       fireEdit();
     });
@@ -2323,7 +2323,7 @@ suite('gr-change-view tests', () => {
 
       element.set('_change.revisions.rev2', {_number: 2});
       element._patchRange = {patchNum: 1};
-      flushAsynchronousOperations();
+      flush();
 
       fireEdit();
     });
@@ -2339,7 +2339,7 @@ suite('gr-change-view tests', () => {
 
       element.set('_change.revisions.rev2', {_number: 2});
       element._patchRange = {patchNum: 2};
-      flushAsynchronousOperations();
+      flush();
 
       fireEdit();
     });
@@ -2439,7 +2439,7 @@ suite('gr-change-view tests', () => {
     };
     element._loggedIn = true;
     const stub = sinon.stub(element, '_handleToggleStar');
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(element.$.changeStar.shadowRoot
         .querySelector('button'));

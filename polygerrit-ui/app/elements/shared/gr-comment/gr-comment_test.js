@@ -106,7 +106,7 @@ suite('gr-comment tests', () => {
       element.side = 'PARENT';
       const stub = sinon.stub();
       element.addEventListener('comment-anchor-tap', stub);
-      flushAsynchronousOperations();
+      flush();
       const dateEl = element.shadowRoot
           .querySelector('.date');
       assert.ok(dateEl);
@@ -200,7 +200,7 @@ suite('gr-comment tests', () => {
         element._messageText = 'test';
         sinon.stub(element, '_handleCancel');
         sinon.stub(element, '_handleSave');
-        flushAsynchronousOperations();
+        flush();
       });
 
       suite('when text is empty', () => {
@@ -353,7 +353,7 @@ suite('gr-comment tests', () => {
       const reportStub = sinon.stub(element.reporting,
           'recordDraftInteraction');
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(reportStub.calledOnce);
@@ -363,7 +363,7 @@ suite('gr-comment tests', () => {
       const reportStub = sinon.stub(element.reporting,
           'recordDraftInteraction');
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.discard'));
       assert.isTrue(reportStub.calledOnce);
@@ -500,7 +500,7 @@ suite('gr-comment tests', () => {
           .querySelector('.robotActions').hasAttribute('hidden'));
 
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('.edit')), 'edit is visible');
       assert.isTrue(isVisible(element.shadowRoot
@@ -517,7 +517,7 @@ suite('gr-comment tests', () => {
           .querySelector('.robotActions').hasAttribute('hidden'));
 
       element.editing = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('.edit')), 'edit is not visible');
       assert.isFalse(isVisible(element.shadowRoot
@@ -535,7 +535,7 @@ suite('gr-comment tests', () => {
 
       element.draft = false;
       element.editing = false;
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('.edit')), 'edit is not visible');
       assert.isFalse(isVisible(element.shadowRoot
@@ -553,7 +553,7 @@ suite('gr-comment tests', () => {
       element.comment.id = 'foo';
       element.draft = true;
       element.editing = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(isVisible(element.shadowRoot
           .querySelector('.cancel')), 'cancel is visible');
       assert.isFalse(element.shadowRoot
@@ -583,13 +583,13 @@ suite('gr-comment tests', () => {
       element.set(['comment', 'robot_run_id'], 'text');
       element.editing = false;
       element.collapsed = false;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.shadowRoot
           .querySelector('.robotRun.link').textContent === 'Run Details');
 
       // A robot comment with run ID and url should display a link.
       element.set(['comment', 'url'], '/path/to/run');
-      flushAsynchronousOperations();
+      flush();
       assert.notEqual(getComputedStyle(element.shadowRoot
           .querySelector('.robotRun.link')).display,
       'none');
@@ -627,10 +627,10 @@ suite('gr-comment tests', () => {
       // When the edit button is pressed, should still see the actions
       // and also textarea
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(element.collapsed);
       assert.isFalse(isVisible(element.shadowRoot
           .querySelector('gr-formatted-text')),
@@ -704,7 +704,7 @@ suite('gr-comment tests', () => {
         assert.isTrue(authorName.innerText === 'Happy Robot');
 
         element.collapsed = true;
-        flushAsynchronousOperations();
+        flush();
         runIdMessage = element.shadowRoot
             .querySelector('.runIdMessage');
         assert.isTrue(runIdMessage.hidden);
@@ -752,7 +752,7 @@ suite('gr-comment tests', () => {
     test('draft creation/cancellation', done => {
       assert.isFalse(element.editing);
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       assert.isTrue(element.editing);
@@ -785,7 +785,7 @@ suite('gr-comment tests', () => {
           .querySelector('.cancel'));
       element.flushDebouncer('fire-update');
       element._messageText = '';
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.pressAndReleaseKeyOn(element.textarea, 27); // esc
     });
 
@@ -874,7 +874,7 @@ suite('gr-comment tests', () => {
       });
       element._messageText = 'is that the horse from horsing around??';
       element.editing = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.pressAndReleaseKeyOn(
           element.textarea.$.textarea.textarea,
           83, 'ctrl'); // 'ctrl + s'
@@ -885,7 +885,7 @@ suite('gr-comment tests', () => {
       const cancelDebounce = sinon.stub(element, 'cancelDebouncer');
 
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
       element._messageText = 'good news, everyone!';
@@ -951,7 +951,7 @@ suite('gr-comment tests', () => {
       const saveStub = sinon.stub(element, 'save').returns(Promise.resolve());
       element.showActions = true;
       element.draft = true;
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.$.header);
       MockInteractions.tap(element.shadowRoot
           .querySelector('.edit'));
@@ -1042,7 +1042,7 @@ suite('gr-comment tests', () => {
       const storeStub = sinon.stub(element.$.storage, 'setDraftComment');
       const eraseStub = sinon.stub(element.$.storage, 'eraseDraftComment');
       element._messageText = 'test text';
-      flushAsynchronousOperations();
+      flush();
       element.flushDebouncer('store');
 
       assert.isTrue(storeStub.called);
@@ -1057,7 +1057,7 @@ suite('gr-comment tests', () => {
       const discardSpy = sinon.spy(element, '_fireDiscard');
       const storeStub = sinon.stub(element.$.storage, 'setDraftComment');
       element._messageText = 'test text';
-      flushAsynchronousOperations();
+      flush();
       element.flushDebouncer('store');
 
       assert.isFalse(storeStub.called);
@@ -1081,7 +1081,7 @@ suite('gr-comment tests', () => {
       });
       element.isRobotComment = true;
       element.comments = [element.comment];
-      flushAsynchronousOperations();
+      flush();
 
       MockInteractions.tap(element.shadowRoot
           .querySelector('.fix'));
@@ -1157,7 +1157,7 @@ suite('gr-comment tests', () => {
         },
       ];
       element.comment = element.comments[0];
-      flushAsynchronousOperations();
+      flush();
       assert.isNull(element.shadowRoot
           .querySelector('robotActions gr-button'));
     });
@@ -1219,7 +1219,7 @@ suite('gr-comment tests', () => {
         },
       ];
       element.comment = element.comments[0];
-      flushAsynchronousOperations();
+      flush();
       assert.isNotNull(element.shadowRoot
           .querySelector('.robotActions gr-button'));
     });
@@ -1231,7 +1231,7 @@ suite('gr-comment tests', () => {
       });
       element.comment = {fix_suggestions: [{}]};
       element.isRobotComment = true;
-      flushAsynchronousOperations();
+      flush();
 
       MockInteractions.tap(element.shadowRoot
           .querySelector('.show-fix'));
@@ -1300,7 +1300,7 @@ suite('gr-comment tests', () => {
 
         MockInteractions.tap(element.shadowRoot
             .querySelector('.respectfulReviewTip .close'));
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(respectfulSetStub.lastCall.args[0] === 14);
         done();
       });

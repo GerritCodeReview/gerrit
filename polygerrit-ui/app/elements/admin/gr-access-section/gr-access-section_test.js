@@ -71,7 +71,7 @@ suite('gr-access-section tests', () => {
         },
       };
       element._updateSection(element.section);
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('_updateSection', () => {
@@ -327,7 +327,7 @@ suite('gr-access-section tests', () => {
           },
         };
         element._updateSection(element.section);
-        flushAsynchronousOperations();
+        flush();
       });
 
       test('classes are assigned correctly', () => {
@@ -355,7 +355,7 @@ suite('gr-access-section tests', () => {
         };
         element.capabilities = {};
         element._updateSection(element.section);
-        flushAsynchronousOperations();
+        flush();
       });
 
       test('classes are assigned correctly', () => {
@@ -365,7 +365,7 @@ suite('gr-access-section tests', () => {
         element.editing = true;
         element.canUpload = true;
         element.ownerOf = [];
-        flushAsynchronousOperations();
+        flush();
         assert.notEqual(getComputedStyle(element.$.editBtn).display, 'none');
       });
 
@@ -376,7 +376,7 @@ suite('gr-access-section tests', () => {
         assert.equal(Object.keys(element.section.value.permissions).length,
             1);
         MockInteractions.tap(element.$.addBtn);
-        flushAsynchronousOperations();
+        flush();
 
         // The permission is added to both the permissions array and also
         // the section's permission object.
@@ -399,7 +399,7 @@ suite('gr-access-section tests', () => {
 
         element.$.permissionSelect.value = 'abandon';
         MockInteractions.tap(element.$.addBtn);
-        flushAsynchronousOperations();
+        flush();
 
         permission = {
           id: 'abandon',
@@ -479,14 +479,14 @@ suite('gr-access-section tests', () => {
         assert.isFalse(element._deleted);
         assert.isNotOk(element.section.value.deleted);
         MockInteractions.tap(element.$.deleteBtn);
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(element._deleted);
         assert.isTrue(element.section.value.deleted);
         assert.isTrue(element.$.section.classList.contains('deleted'));
         assert.isTrue(element.section.value.deleted);
 
         MockInteractions.tap(element.$.undoRemoveBtn);
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element._deleted);
         assert.isNotOk(element.section.value.deleted);
 
@@ -506,7 +506,7 @@ suite('gr-access-section tests', () => {
                 new CustomEvent('added-permission-removed', {
                   composed: true, bubbles: true,
                 }));
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element._permissions.length, 0);
       });
 

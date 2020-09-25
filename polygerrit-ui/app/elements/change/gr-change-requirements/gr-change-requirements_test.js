@@ -83,13 +83,13 @@ suite('gr-change-metadata tests', () => {
 
   test('optional show/hide', () => {
     element._optionalLabels = [{label: 'test'}];
-    flushAsynchronousOperations();
+    flush();
 
     assert.ok(element.shadowRoot
         .querySelector('section.optional'));
     MockInteractions.tap(element.shadowRoot
         .querySelector('.showHide'));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isFalse(element._showOptionalLabels);
     assert.isTrue(isHidden(element.shadowRoot
@@ -106,7 +106,7 @@ suite('gr-change-metadata tests', () => {
       },
       requirements: [],
     };
-    flushAsynchronousOperations();
+    flush();
 
     assert.ok(element.shadowRoot
         .querySelector('.approved'));
@@ -125,7 +125,7 @@ suite('gr-change-metadata tests', () => {
         },
       },
     };
-    flushAsynchronousOperations();
+    flush();
 
     const name = element.shadowRoot
         .querySelector('.name');
@@ -141,7 +141,7 @@ suite('gr-change-metadata tests', () => {
       requirements: [],
       work_in_progress: true,
     };
-    flushAsynchronousOperations();
+    flush();
 
     const changeIsWip = element.shadowRoot
         .querySelector('.title');
@@ -157,7 +157,7 @@ suite('gr-change-metadata tests', () => {
         status: 'OK',
       }],
     };
-    flushAsynchronousOperations();
+    flush();
 
     const requirement = element.shadowRoot
         .querySelector('.requirement');
@@ -177,7 +177,7 @@ suite('gr-change-metadata tests', () => {
         status: 'OK',
       }],
     };
-    flushAsynchronousOperations();
+    flush();
 
     const requirement = element.shadowRoot
         .querySelector('.requirement');
@@ -194,7 +194,7 @@ suite('gr-change-metadata tests', () => {
         status: 'NOT_READY',
       }],
     };
-    flushAsynchronousOperations();
+    flush();
 
     const requirement = element.shadowRoot
         .querySelector('.requirement');
@@ -211,7 +211,7 @@ suite('gr-change-metadata tests', () => {
         status: 'RULE_ERROR',
       }],
     };
-    flushAsynchronousOperations();
+    flush();
 
     const requirement = element.shadowRoot
         .querySelector('.requirement');

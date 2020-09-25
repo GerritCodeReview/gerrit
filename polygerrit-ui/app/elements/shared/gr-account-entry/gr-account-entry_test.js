@@ -81,7 +81,7 @@ suite('gr-account-entry tests', () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
     const suggestSpy = sinon.spy(element.$.input, 'query');
     element.setText('test text');
-    flushAsynchronousOperations();
+    flush();
 
     assert.equal(element.$.input.$.input.value, 'test text');
     assert.isFalse(suggestSpy.called);

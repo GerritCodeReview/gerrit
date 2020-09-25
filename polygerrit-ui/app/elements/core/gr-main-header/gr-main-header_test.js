@@ -51,7 +51,7 @@ suite('gr-main-header tests', () => {
         .querySelector('.registerButton')).display,
     'none');
     element._account = {};
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getComputedStyle(element.shadowRoot
         .querySelector('gr-account-dropdown')).display,
     'none');

@@ -73,7 +73,7 @@ suite('gr-admin-view tests', () => {
       adminView: 'gr-repo-list',
     };
 
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.root.querySelectorAll(
         '.selected').length, 1);
     assert.ok(element.shadowRoot
@@ -183,7 +183,7 @@ suite('gr-admin-view tests', () => {
           viewPlugins: true,
         }));
     element.reload().then(() => {
-      flushAsynchronousOperations();
+      flush();
       assert.equal(dom(element.root)
           .querySelectorAll('.sectionTitle').length, 3);
       assert.equal(element.shadowRoot
@@ -214,7 +214,7 @@ suite('gr-admin-view tests', () => {
           viewPlugins: true,
         }));
     element.reload().then(() => {
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._filteredLinks.length, 3);
 
       // Repos
@@ -280,7 +280,7 @@ suite('gr-admin-view tests', () => {
     });
     element.params = {group: 1, view: GerritNav.View.GROUP};
     element._groupName = 'oldName';
-    flushAsynchronousOperations();
+    flush();
     element.shadowRoot
         .querySelector('gr-group').dispatchEvent(
             new CustomEvent('name-changed', {
@@ -302,11 +302,11 @@ suite('gr-admin-view tests', () => {
         detailType: undefined,
       },
     ];
-    flushAsynchronousOperations();
+    flush();
     assert.isOk(element.shadowRoot
         .querySelector('.mainHeader'));
     element._subsectionLinks = undefined;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(
         getComputedStyle(element.shadowRoot
             .querySelector('.mainHeader')).display,
@@ -332,7 +332,7 @@ suite('gr-admin-view tests', () => {
         element.$.restAPI,
         'getAccount')
         .callsFake(() => Promise.resolve({_id: 1}));
-    flushAsynchronousOperations();
+    flush();
     const expectedFilteredLinks = [
       {
         name: 'Repositories',
@@ -512,7 +512,7 @@ suite('gr-admin-view tests', () => {
           adminView: 'gr-repo-list',
           openCreateModal: false,
         };
-        flushAsynchronousOperations();
+        flush();
         const selected = element.shadowRoot
             .querySelector('gr-page-nav .selected');
         assert.isOk(selected);
@@ -526,7 +526,7 @@ suite('gr-admin-view tests', () => {
         };
         element._repoName = 'foo';
         return element.reload().then(() => {
-          flushAsynchronousOperations();
+          flush();
           const selected = element.shadowRoot
               .querySelector('gr-page-nav .selected');
           assert.isOk(selected);
@@ -542,7 +542,7 @@ suite('gr-admin-view tests', () => {
         };
         element._repoName = 'foo';
         return element.reload().then(() => {
-          flushAsynchronousOperations();
+          flush();
           const selected = element.shadowRoot
               .querySelector('gr-page-nav .selected');
           assert.isOk(selected);
@@ -558,7 +558,7 @@ suite('gr-admin-view tests', () => {
         };
         element._repoName = 'foo';
         return element.reload().then(() => {
-          flushAsynchronousOperations();
+          flush();
           const selected = element.shadowRoot
               .querySelector('gr-page-nav .selected');
           assert.isOk(selected);
@@ -592,7 +592,7 @@ suite('gr-admin-view tests', () => {
           adminView: 'gr-admin-group-list',
           openCreateModal: false,
         };
-        flushAsynchronousOperations();
+        flush();
         const selected = element.shadowRoot
             .querySelector('gr-page-nav .selected');
         assert.isOk(selected);
@@ -606,7 +606,7 @@ suite('gr-admin-view tests', () => {
         };
         element._groupName = 'foo';
         return element.reload().then(() => {
-          flushAsynchronousOperations();
+          flush();
           const subsectionItems = dom(element.root)
               .querySelectorAll('.subsectionItem');
           assert.equal(subsectionItems.length, 2);
@@ -631,7 +631,7 @@ suite('gr-admin-view tests', () => {
         };
         element._groupName = 'foo';
         return element.reload().then(() => {
-          flushAsynchronousOperations();
+          flush();
           const subsectionItems = dom(element.root)
               .querySelectorAll('.subsectionItem');
           assert.equal(subsectionItems.length, 0);
@@ -651,7 +651,7 @@ suite('gr-admin-view tests', () => {
         };
         element._groupName = 'foo';
         return element.reload().then(() => {
-          flushAsynchronousOperations();
+          flush();
           const selected = element.shadowRoot
               .querySelector('gr-page-nav .selected');
           assert.isOk(selected);

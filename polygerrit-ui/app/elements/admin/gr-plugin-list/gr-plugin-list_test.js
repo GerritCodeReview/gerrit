@@ -158,7 +158,7 @@ suite('gr-plugin-list tests', () => {
       element._loading = false;
       element._plugins = _.times(25, pluginGenerator);
 
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.computeLoadingClass(element._loading), '');
       assert.equal(getComputedStyle(element.$.loading).display, 'none');
     });

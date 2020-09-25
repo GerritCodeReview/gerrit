@@ -236,7 +236,7 @@ suite('gr-change-list-view tests', () => {
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(stub.called);
     });
@@ -247,7 +247,7 @@ suite('gr-change-list-view tests', () => {
       const stub = sinon.stub(GerritNav, 'navigateToChange');
 
       element.params = {view: GerritNav.View.SEARCH, query: CHANGE_ID};
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(stub.called);
     });

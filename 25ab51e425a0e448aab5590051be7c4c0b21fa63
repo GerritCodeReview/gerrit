@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5912fc5b_b49a62f0",
+        "filename": "java/com/google/gerrit/server/submit/MergeOpRepoManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:32:13Z",
+      "side": 1,
+      "message": "If we call this method before executing the BatchUpdate, we simply lose all added commands. I\u0027m wondering whether we shouldn\u0027t be more careful. Inside of BatchUpdate, the field \u0027batchRefUpdate\u0027 seems to be only filled if BatchUpdate#execute was called. Hence, we could add a wasExecuted() method to BatchUpdate and only create a new instance here if wasExecuted() is true.\n\nJust a thought. I haven\u0027t thought this completely through so I\u0027m not sure it\u0027s a good one. ;-)",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "25ab51e425a0e448aab5590051be7c4c0b21fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4f765ee6_1df2948c",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:32:13Z",
+      "side": 1,
+      "message": "I think it could be unexpected that the BatchUpdate of OpenRepo is reset within a call to updateSuperProjects(). What if the BatchUpdate hasn\u0027t been executed yet? Only the callers have this additional context. Hence, could we instead do the reset in the callers of updateSuperProjects() (e.g. in ReceiveCommits and MergeOp)?",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "25ab51e425a0e448aab5590051be7c4c0b21fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

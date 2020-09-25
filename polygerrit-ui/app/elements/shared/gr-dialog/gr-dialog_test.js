@@ -28,35 +28,35 @@ suite('gr-dialog tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('events', done => {
-    let numEvents = 0;
-    function handler() { if (++numEvents == 2) { done(); } }
+  test('events', () => {
+    const confirm = sinon.stub();
+    const cancel = sinon.stub();
+    element.addEventListener('confirm', confirm);
+    element.addEventListener('cancel', cancel);
 
-    element.addEventListener('confirm', handler);
-    element.addEventListener('cancel', handler);
+    MockInteractions.tap(
+        element.shadowRoot.querySelector('gr-button[primary]'));
+    assert.equal(confirm.callCount, 1);
 
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button[primary]'));
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('gr-button:not([primary])'));
+    MockInteractions.tap(
+        element.shadowRoot.querySelector('gr-button:not([primary])'));
+    assert.equal(cancel.callCount, 1);
   });
 
   test('confirmOnEnter', () => {
     element.confirmOnEnter = false;
     const handleConfirmStub = sinon.stub(element, '_handleConfirm');
     const handleKeydownSpy = sinon.spy(element, '_handleKeydown');
-    MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
-        .querySelector('main'),
-    13, null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+        element.shadowRoot.querySelector('main'), 13, null, 'enter');
     flush();
 
     assert.isTrue(handleKeydownSpy.called);
     assert.isFalse(handleConfirmStub.called);
 
     element.confirmOnEnter = true;
-    MockInteractions.pressAndReleaseKeyOn(element.shadowRoot
-        .querySelector('main'),
-    13, null, 'enter');
+    MockInteractions.pressAndReleaseKeyOn(
+        element.shadowRoot.querySelector('main'), 13, null, 'enter');
     flush();
 
     assert.isTrue(handleConfirmStub.called);

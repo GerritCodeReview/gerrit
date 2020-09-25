@@ -41,7 +41,7 @@ suite('gr-date-formatter tests', () => {
   }
 
   function testDates(nowStr, dateStr, expected, expectedWithDateAndTime,
-      expectedTooltip, done) {
+      expectedTooltip) {
     // Normalize and convert the date to mimic server response.
     dateStr = normalizedDate(dateStr)
         .toJSON()
@@ -49,16 +49,14 @@ suite('gr-date-formatter tests', () => {
         .slice(0, -1);
     sinon.useFakeTimers(normalizedDate(nowStr).getTime());
     element.dateStr = dateStr;
-    flush(() => {
-      const span = element.shadowRoot
-          .querySelector('span');
-      assert.equal(span.textContent.trim(), expected);
-      assert.equal(element.title, expectedTooltip);
-      element.showDateAndTime = true;
-      flush();
-      assert.equal(span.textContent.trim(), expectedWithDateAndTime);
-      done();
-    });
+    flush();
+    const span = element.shadowRoot
+        .querySelector('span');
+    assert.equal(span.textContent.trim(), expected);
+    assert.equal(element.title, expectedTooltip);
+    element.showDateAndTime = true;
+    flush();
+    assert.equal(span.textContent.trim(), expectedWithDateAndTime);
   }
 
   function stubRestAPI(preferences) {
@@ -87,36 +85,36 @@ suite('gr-date-formatter tests', () => {
       assert.equal(element._computeDateStr('foo', 'h:mm A'), '');
     });
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '15:34',
           '15:34',
-          'Jul 29, 2015, 15:34:14', done);
+          'Jul 29, 2015, 15:34:14');
     });
 
-    test('Within 24 hours on different days', done => {
+    test('Within 24 hours on different days', () => {
       testDates('2015-07-29 03:34:14.985000000',
           '2015-07-28 20:25:14.985000000',
           'Jul 28',
           'Jul 28 20:25',
-          'Jul 28, 2015, 20:25:14', done);
+          'Jul 28, 2015, 20:25:14');
     });
 
-    test('More than 24 hours but less than six months', done => {
+    test('More than 24 hours but less than six months', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-06-15 03:25:14.985000000',
           'Jun 15',
           'Jun 15 03:25',
-          'Jun 15, 2015, 03:25:14', done);
+          'Jun 15, 2015, 03:25:14');
     });
 
-    test('More than six months', done => {
+    test('More than six months', () => {
       testDates('2015-09-15 20:34:00.000000000',
           '2015-01-15 03:25:00.000000000',
           'Jan 15, 2015',
           'Jan 15, 2015 03:25',
-          'Jan 15, 2015, 03:25:00', done);
+          'Jan 15, 2015, 03:25:00');
     });
   });
 
@@ -131,28 +129,28 @@ suite('gr-date-formatter tests', () => {
       return element._loadPreferences();
     }));
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '15:34',
           '15:34',
-          '07/29/15, 15:34:14', done);
+          '07/29/15, 15:34:14');
     });
 
-    test('Within 24 hours on different days', done => {
+    test('Within 24 hours on different days', () => {
       testDates('2015-07-29 03:34:14.985000000',
           '2015-07-28 20:25:14.985000000',
           '07/28',
           '07/28 20:25',
-          '07/28/15, 20:25:14', done);
+          '07/28/15, 20:25:14');
     });
 
-    test('More than 24 hours but less than six months', done => {
+    test('More than 24 hours but less than six months', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-06-15 03:25:14.985000000',
           '06/15',
           '06/15 03:25',
-          '06/15/15, 03:25:14', done);
+          '06/15/15, 03:25:14');
     });
   });
 
@@ -167,28 +165,28 @@ suite('gr-date-formatter tests', () => {
       return element._loadPreferences();
     }));
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '15:34',
           '15:34',
-          '2015-07-29, 15:34:14', done);
+          '2015-07-29, 15:34:14');
     });
 
-    test('Within 24 hours on different days', done => {
+    test('Within 24 hours on different days', () => {
       testDates('2015-07-29 03:34:14.985000000',
           '2015-07-28 20:25:14.985000000',
           '07-28',
           '07-28 20:25',
-          '2015-07-28, 20:25:14', done);
+          '2015-07-28, 20:25:14');
     });
 
-    test('More than 24 hours but less than six months', done => {
+    test('More than 24 hours but less than six months', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-06-15 03:25:14.985000000',
           '06-15',
           '06-15 03:25',
-          '2015-06-15, 03:25:14', done);
+          '2015-06-15, 03:25:14');
     });
   });
 
@@ -203,28 +201,28 @@ suite('gr-date-formatter tests', () => {
       return element._loadPreferences();
     }));
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '15:34',
           '15:34',
-          '29.07.2015, 15:34:14', done);
+          '29.07.2015, 15:34:14');
     });
 
-    test('Within 24 hours on different days', done => {
+    test('Within 24 hours on different days', () => {
       testDates('2015-07-29 03:34:14.985000000',
           '2015-07-28 20:25:14.985000000',
           '28. Jul',
           '28. Jul 20:25',
-          '28.07.2015, 20:25:14', done);
+          '28.07.2015, 20:25:14');
     });
 
-    test('More than 24 hours but less than six months', done => {
+    test('More than 24 hours but less than six months', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-06-15 03:25:14.985000000',
           '15. Jun',
           '15. Jun 03:25',
-          '15.06.2015, 03:25:14', done);
+          '15.06.2015, 03:25:14');
     });
   });
 
@@ -239,28 +237,28 @@ suite('gr-date-formatter tests', () => {
       return element._loadPreferences();
     }));
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '15:34',
           '15:34',
-          '29/07/2015, 15:34:14', done);
+          '29/07/2015, 15:34:14');
     });
 
-    test('Within 24 hours on different days', done => {
+    test('Within 24 hours on different days', () => {
       testDates('2015-07-29 03:34:14.985000000',
           '2015-07-28 20:25:14.985000000',
           '28/07',
           '28/07 20:25',
-          '28/07/2015, 20:25:14', done);
+          '28/07/2015, 20:25:14');
     });
 
-    test('More than 24 hours but less than six months', done => {
+    test('More than 24 hours but less than six months', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-06-15 03:25:14.985000000',
           '15/06',
           '15/06 03:25',
-          '15/06/2015, 03:25:14', done);
+          '15/06/2015, 03:25:14');
     });
   });
 
@@ -276,12 +274,12 @@ suite('gr-date-formatter tests', () => {
       })
     );
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '3:34 PM',
           '3:34 PM',
-          'Jul 29, 2015, 3:34:14 PM', done);
+          'Jul 29, 2015, 3:34:14 PM');
     });
   });
 
@@ -297,12 +295,12 @@ suite('gr-date-formatter tests', () => {
       })
     );
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '3:34 PM',
           '3:34 PM',
-          '07/29/15, 3:34:14 PM', done);
+          '07/29/15, 3:34:14 PM');
     });
   });
 
@@ -318,12 +316,12 @@ suite('gr-date-formatter tests', () => {
       })
     );
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '3:34 PM',
           '3:34 PM',
-          '2015-07-29, 3:34:14 PM', done);
+          '2015-07-29, 3:34:14 PM');
     });
   });
 
@@ -339,12 +337,12 @@ suite('gr-date-formatter tests', () => {
       })
     );
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '3:34 PM',
           '3:34 PM',
-          '29.07.2015, 3:34:14 PM', done);
+          '29.07.2015, 3:34:14 PM');
     });
   });
 
@@ -360,12 +358,12 @@ suite('gr-date-formatter tests', () => {
       })
     );
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '3:34 PM',
           '3:34 PM',
-          '29/07/2015, 3:34:14 PM', done);
+          '29/07/2015, 3:34:14 PM');
     });
   });
 
@@ -380,20 +378,20 @@ suite('gr-date-formatter tests', () => {
       return element._loadPreferences();
     }));
 
-    test('Within 24 hours on same day', done => {
+    test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
           '5 hours ago',
           '5 hours ago',
-          'Jul 29, 2015, 3:34:14 PM', done);
+          'Jul 29, 2015, 3:34:14 PM');
     });
 
-    test('More than six months', done => {
+    test('More than six months', () => {
       testDates('2015-09-15 20:34:00.000000000',
           '2015-01-15 03:25:00.000000000',
           '8 months ago',
           '8 months ago',
-          'Jan 15, 2015, 3:25:00 AM', done);
+          'Jan 15, 2015, 3:25:00 AM');
     });
   });
 

@@ -38,10 +38,8 @@ suite('gr-account-entry tests', () => {
     some_other_property: 'other value',
   };
 
-  setup(done => {
+  setup(() => {
     element = basicFixture.instantiate();
-
-    return flush(done);
   });
 
   suite('stubbed values for querySuggestions', () => {

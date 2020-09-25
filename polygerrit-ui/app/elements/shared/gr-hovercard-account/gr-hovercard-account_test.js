@@ -112,7 +112,7 @@ suite('gr-hovercard-account tests', () => {
         element.voteableText);
   });
 
-  test('add to attention set', done => {
+  test('add to attention set', async () => {
     let apiResolve;
     const apiPromise = new Promise(r => {
       apiResolve = r;
@@ -140,13 +140,12 @@ suite('gr-hovercard-account tests', () => {
     assert.isFalse(element._isShowing, 'hovercard is hidden');
 
     apiResolve({});
-    flush(() => {
-      assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
-      done();
-    });
+    await flush();
+
+    assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
   });
 
-  test('remove from attention set', done => {
+  test('remove from attention set', async () => {
     let apiResolve;
     const apiPromise = new Promise(r => {
       apiResolve = r;
@@ -175,10 +174,9 @@ suite('gr-hovercard-account tests', () => {
     assert.isFalse(element._isShowing, 'hovercard is hidden');
 
     apiResolve({});
-    flush(() => {
-      assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
-      done();
-    });
+    await flush();
+
+    assert.isTrue(hideAlertListener.called, 'hideAlertListener was called');
   });
 });
 

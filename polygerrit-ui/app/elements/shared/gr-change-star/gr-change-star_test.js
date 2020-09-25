@@ -45,24 +45,28 @@ suite('gr-change-star tests', () => {
     assert.equal(icon.icon, 'gr-icons:star-border');
   });
 
-  test('starring', done => {
-    element.addEventListener('toggle-star', () => {
-      assert.equal(element.change.starred, true);
-      done();
-    });
+  test('starring', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
+    element.addEventListener('toggle-star', resolve);
     element.set('change.starred', false);
     MockInteractions.tap(element.shadowRoot
         .querySelector('button'));
+
+    await promise;
+    assert.equal(element.change.starred, true);
   });
 
-  test('unstarring', done => {
-    element.addEventListener('toggle-star', () => {
-      assert.equal(element.change.starred, false);
-      done();
-    });
+  test('unstarring', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
+    element.addEventListener('toggle-star', resolve);
     element.set('change.starred', true);
     MockInteractions.tap(element.shadowRoot
         .querySelector('button'));
+
+    await promise;
+    assert.equal(element.change.starred, false);
   });
 });
 

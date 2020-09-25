@@ -68,19 +68,17 @@ suite('gr-autocomplete tests', () => {
     });
   });
 
-  test('selectAll', done => {
-    flush(() => {
-      const nativeInput = element._nativeInput;
-      const selectionStub = sinon.stub(nativeInput, 'setSelectionRange');
+  test('selectAll', async () => {
+    await flush();
+    const nativeInput = element._nativeInput;
+    const selectionStub = sinon.stub(nativeInput, 'setSelectionRange');
 
-      element.selectAll();
-      assert.isFalse(selectionStub.called);
+    element.selectAll();
+    assert.isFalse(selectionStub.called);
 
-      element.$.input.value = 'test';
-      element.selectAll();
-      assert.isTrue(selectionStub.called);
-      done();
-    });
+    element.$.input.value = 'test';
+    element.selectAll();
+    assert.isTrue(selectionStub.called);
   });
 
   test('esc key behavior', done => {
@@ -349,28 +347,24 @@ suite('gr-autocomplete tests', () => {
     assert.isTrue(element._focused);
   });
 
-  test('_focused flag properly triggered', done => {
-    flush(() => {
-      assert.isFalse(element._focused);
-      const input = element.shadowRoot
-          .querySelector('paper-input').inputElement;
-      MockInteractions.focus(input);
-      assert.isTrue(element._focused);
-      done();
-    });
+  test('_focused flag properly triggered', () => {
+    flush();
+    assert.isFalse(element._focused);
+    const input = element.shadowRoot
+        .querySelector('paper-input').inputElement;
+    MockInteractions.focus(input);
+    assert.isTrue(element._focused);
   });
 
-  test('search icon shows with showSearchIcon property', done => {
-    flush(() => {
-      assert.equal(getComputedStyle(element.shadowRoot
-          .querySelector('iron-icon')).display,
-      'none');
-      element.showSearchIcon = true;
-      assert.notEqual(getComputedStyle(element.shadowRoot
-          .querySelector('iron-icon')).display,
-      'none');
-      done();
-    });
+  test('search icon shows with showSearchIcon property', () => {
+    flush();
+    assert.equal(getComputedStyle(element.shadowRoot
+        .querySelector('iron-icon')).display,
+    'none');
+    element.showSearchIcon = true;
+    assert.notEqual(getComputedStyle(element.shadowRoot
+        .querySelector('iron-icon')).display,
+    'none');
   });
 
   test('vertical offset overridden by param if it exists', () => {

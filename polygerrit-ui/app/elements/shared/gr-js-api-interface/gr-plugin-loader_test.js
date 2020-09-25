@@ -83,18 +83,16 @@ suite('gr-plugin-loader tests', () => {
     assert(callback.notCalled);
   });
 
-  test('report pluginsLoaded', done => {
+  test('report pluginsLoaded', async () => {
     const pluginsLoadedStub = sinon.stub(pluginLoader._getReporting(),
         'pluginsLoaded');
     pluginsLoadedStub.reset();
     window.Gerrit._loadPlugins([]);
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.called);
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.called);
   });
 
-  test('arePluginsLoaded', done => {
+  test('arePluginsLoaded', () => {
     assert.isFalse(pluginLoader.arePluginsLoaded());
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
@@ -106,13 +104,11 @@ suite('gr-plugin-loader tests', () => {
     // Timeout on loading plugins
     window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
-    flush(() => {
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      done();
-    });
+    flush();
+    assert.isTrue(pluginLoader.arePluginsLoaded());
   });
 
-  test('plugins installed successfully', done => {
+  test('plugins installed successfully', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => void 0, undefined, url);
     });
@@ -125,14 +121,12 @@ suite('gr-plugin-loader tests', () => {
     ];
     pluginLoader.loadPlugins(plugins);
 
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
+    assert.isTrue(pluginLoader.arePluginsLoaded());
   });
 
-  test('isPluginEnabled and isPluginLoaded', done => {
+  test('isPluginEnabled and isPluginLoaded', () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => void 0, undefined, url);
     });
@@ -147,17 +141,14 @@ suite('gr-plugin-loader tests', () => {
         plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
     );
 
-    flush(() => {
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      assert.isTrue(
-          plugins.every(plugin => pluginLoader.isPluginLoaded(plugin))
-      );
-
-      done();
-    });
+    flush();
+    assert.isTrue(pluginLoader.arePluginsLoaded());
+    assert.isTrue(
+        plugins.every(plugin => pluginLoader.isPluginLoaded(plugin))
+    );
   });
 
-  test('plugins installed mixed result, 1 fail 1 succeed', done => {
+  test('plugins installed mixed result, 1 fail 1 succeed', async () => {
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
       'http://test.com/plugins/bar/static/test.js',
@@ -179,15 +170,13 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      assert.isTrue(alertStub.calledOnce);
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
+    assert.isTrue(pluginLoader.arePluginsLoaded());
+    assert.isTrue(alertStub.calledOnce);
   });
 
-  test('isPluginEnabled and isPluginLoaded for mixed results', done => {
+  test('isPluginEnabled and isPluginLoaded for mixed results', async () => {
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
       'http://test.com/plugins/bar/static/test.js',
@@ -212,17 +201,15 @@ suite('gr-plugin-loader tests', () => {
         plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
     );
 
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      assert.isTrue(alertStub.calledOnce);
-      assert.isTrue(pluginLoader.isPluginLoaded(plugins[1]));
-      assert.isFalse(pluginLoader.isPluginLoaded(plugins[0]));
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.calledWithExactly(['bar']));
+    assert.isTrue(pluginLoader.arePluginsLoaded());
+    assert.isTrue(alertStub.calledOnce);
+    assert.isTrue(pluginLoader.isPluginLoaded(plugins[1]));
+    assert.isFalse(pluginLoader.isPluginLoaded(plugins[0]));
   });
 
-  test('plugins installed all failed', done => {
+  test('plugins installed all failed', async () => {
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
       'http://test.com/plugins/bar/static/test.js',
@@ -242,15 +229,13 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledWithExactly([]));
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      assert.isTrue(alertStub.calledTwice);
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.calledWithExactly([]));
+    assert.isTrue(pluginLoader.arePluginsLoaded());
+    assert.isTrue(alertStub.calledTwice);
   });
 
-  test('plugins installed failed becasue of wrong version', done => {
+  test('plugins installed failed becasue of wrong version', async () => {
     const plugins = [
       'http://test.com/plugins/foo/static/test.js',
       'http://test.com/plugins/bar/static/test.js',
@@ -269,15 +254,13 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo']));
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      assert.isTrue(alertStub.calledOnce);
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo']));
+    assert.isTrue(pluginLoader.arePluginsLoaded());
+    assert.isTrue(alertStub.calledOnce);
   });
 
-  test('multiple assets for same plugin installed successfully', done => {
+  test('multiple assets for same plugin installed successfully', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
       pluginApi.install(() => void 0, undefined, url);
     });
@@ -291,11 +274,9 @@ suite('gr-plugin-loader tests', () => {
     ];
     pluginLoader.loadPlugins(plugins);
 
-    flush(() => {
-      assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
-      assert.isTrue(pluginLoader.arePluginsLoaded());
-      done();
-    });
+    await flush();
+    assert.isTrue(pluginsLoadedStub.calledWithExactly(['foo', 'bar']));
+    assert.isTrue(pluginLoader.arePluginsLoaded());
   });
 
   suite('plugin path and url', () => {

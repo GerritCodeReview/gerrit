@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "99016456_3cc523ff",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 75,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-25T05:52:35Z",
+      "side": 1,
+      "message": "Typescript style guide recommends Array\u003c...\u003e instead of [] for complex types: Array\u003cChangeRequirement | ChangeWIP\u003e",
+      "range": {
+        "startLine": 75,
+        "startChar": 17,
+        "endLine": 75,
+        "endChar": 52
+      },
+      "revId": "dee8ff810edaf35c6dffb65624a7fa212f8e9cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8f3bc573_fc3a8257",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-requirements/gr-change-requirements.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-25T05:52:35Z",
+      "side": 1,
+      "message": "Array\u003c...\u003e",
+      "range": {
+        "startLine": 94,
+        "startChar": 25,
+        "endLine": 94,
+        "endChar": 58
+      },
+      "revId": "dee8ff810edaf35c6dffb65624a7fa212f8e9cf6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

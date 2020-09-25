@@ -54,7 +54,7 @@ suite('gr-message tests', () => {
         assert.deepEqual(e.detail.message, element.message);
         done();
       });
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(
           element.shadowRoot.querySelector('.replyActionContainer').hidden
       );
@@ -75,7 +75,7 @@ suite('gr-message tests', () => {
         expanded: true,
       };
 
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(element.shadowRoot.querySelector('.deleteBtn').hidden);
     });
 
@@ -99,7 +99,7 @@ suite('gr-message tests', () => {
         assert.isFalse(element.shadowRoot.querySelector('.deleteBtn').disabled);
         done();
       });
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.tap(element.shadowRoot.querySelector('.deleteBtn'));
       assert.isTrue(element.shadowRoot.querySelector('.deleteBtn').disabled);
     });
@@ -216,7 +216,7 @@ suite('gr-message tests', () => {
         id: '47c43261_55aa2c41',
         expanded: false,
       };
-      flushAsynchronousOperations();
+      flush();
       const stub = sinon.stub();
       element.addEventListener('message-anchor-tap', stub);
       const dateEl = element.shadowRoot
@@ -301,7 +301,7 @@ suite('gr-message tests', () => {
         'Code-Review': {max: 2, min: -2},
         'Trybot-Label3': {max: 3, min: 0},
       };
-      flushAsynchronousOperations();
+      flush();
       const scoreChips = element.root.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
@@ -326,7 +326,7 @@ suite('gr-message tests', () => {
         'Code-Review': {max: 2, min: -2},
         'Commit-Queue': {max: 3, min: 0},
       };
-      flushAsynchronousOperations();
+      flush();
       const scoreChips = element.root.querySelectorAll('.score');
       assert.equal(scoreChips.length, 3);
 
@@ -373,7 +373,7 @@ suite('gr-message tests', () => {
         expanded: true,
       };
 
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(
           element.shadowRoot.querySelector('.replyActionContainer').hidden
       );
@@ -471,7 +471,7 @@ suite('gr-message tests', () => {
         expanded: true,
       };
 
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(
           element.shadowRoot.querySelector('.replyActionContainer').hidden
       );
@@ -482,7 +482,7 @@ suite('gr-message tests', () => {
 
     test('reply button shown when message is updated', () => {
       element.message = undefined;
-      flushAsynchronousOperations();
+      flush();
       let replyEl = element.shadowRoot.querySelector('.replyActionContainer');
       // We don't even expect the button to show up in the DOM when the message
       // is undefined.
@@ -500,7 +500,7 @@ suite('gr-message tests', () => {
         _revision_number: 1,
         expanded: true,
       };
-      flushAsynchronousOperations();
+      flush();
       replyEl = element.shadowRoot.querySelector('.replyActionContainer');
       assert.isOk(replyEl);
       assert.isFalse(replyEl.hidden);

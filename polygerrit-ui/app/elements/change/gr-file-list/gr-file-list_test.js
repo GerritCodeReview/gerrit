@@ -127,7 +127,7 @@ suite('gr-file-list tests', () => {
             return _filesByPath;
           }, {});
 
-      flushAsynchronousOperations();
+      flush();
       assert.equal(
           element.root.querySelectorAll('.file-row').length,
           element.numFilesShown);
@@ -140,7 +140,7 @@ suite('gr-file-list tests', () => {
           'Show all 500 files');
 
       MockInteractions.tap(element.$.showAllButton);
-      flushAsynchronousOperations();
+      flush();
 
       assert.equal(element.numFilesShown, 500);
       assert.equal(element._shownFiles.length, 500);
@@ -154,7 +154,7 @@ suite('gr-file-list tests', () => {
             _filesByPath['/file' + idx] = {lines_inserted: 9};
             return _filesByPath;
           }, {});
-      flushAsynchronousOperations();
+      flush();
       assert.equal(
           element.root.querySelectorAll('.file-row').length, 10);
       assert.equal(renderedStub.callCount, 10);
@@ -609,7 +609,7 @@ suite('gr-file-list tests', () => {
       });
 
       test('keyboard shortcuts', () => {
-        flushAsynchronousOperations();
+        flush();
 
         const items = element.root.querySelectorAll('.file-row');
         element.$.fileCursor.stops = items;
@@ -666,7 +666,7 @@ suite('gr-file-list tests', () => {
       test('i key shows/hides selected inline diff', () => {
         const paths = Object.keys(element._filesByPath);
         sinon.stub(element, '_expandedFilesChanged');
-        flushAsynchronousOperations();
+        flush();
         const files = element.root.querySelectorAll('.file-row');
         element.$.fileCursor.stops = files;
         element.$.fileCursor.setCursorAtIndex(0);
@@ -674,27 +674,27 @@ suite('gr-file-list tests', () => {
         assert.equal(element._expandedFiles.length, 0);
 
         MockInteractions.keyUpOn(element, 73, null, 'i');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[0]);
         assert.equal(element._expandedFiles.length, 1);
         assert.equal(element._expandedFiles[0].path, paths[0]);
 
         MockInteractions.keyUpOn(element, 73, null, 'i');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
 
         element.$.fileCursor.setCursorAtIndex(1);
         MockInteractions.keyUpOn(element, 73, null, 'i');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.diffs.length, 1);
         assert.equal(element.diffs[0].path, paths[1]);
         assert.equal(element._expandedFiles.length, 1);
         assert.equal(element._expandedFiles[0].path, paths[1]);
 
         MockInteractions.keyUpOn(element, 73, 'shift', 'i');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.diffs.length, paths.length);
         assert.equal(element._expandedFiles.length, paths.length);
         for (const index in element.diffs) {
@@ -706,7 +706,7 @@ suite('gr-file-list tests', () => {
         }
 
         MockInteractions.keyUpOn(element, 73, 'shift', 'i');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(element.diffs.length, 0);
         assert.equal(element._expandedFiles.length, 0);
       });
@@ -714,14 +714,14 @@ suite('gr-file-list tests', () => {
       test('r key toggles reviewed flag', () => {
         const reducer = (accum, file) => (file.isReviewed ? ++accum : accum);
         const getNumReviewed = () => element._files.reduce(reducer, 0);
-        flushAsynchronousOperations();
+        flush();
 
         // Default state should be unreviewed.
         assert.equal(getNumReviewed(), 0);
 
         // Press the review key to toggle it (set the flag).
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(getNumReviewed(), 1);
 
         // Press the review key to toggle it (clear the flag).
@@ -830,7 +830,7 @@ suite('gr-file-list tests', () => {
       const reviewSpy = sinon.spy(element, '_reviewFile');
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
-      flushAsynchronousOperations();
+      flush();
       const fileRows =
           element.root.querySelectorAll('.row:not(.header-row)');
       const checkSelector = 'span.reviewedSwitch[role="switch"]';
@@ -917,7 +917,7 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       element.editMode = true;
-      flushAsynchronousOperations();
+      flush();
       const clickSpy = sinon.spy(element, '_handleFileListClick');
       const toggleExpandSpy = sinon.spy(element, '_toggleFileExpanded');
 
@@ -939,7 +939,7 @@ suite('gr-file-list tests', () => {
       };
       element.$.fileCursor.setCursorAtIndex(0);
       sinon.stub(element, '_expandedFilesChanged');
-      flushAsynchronousOperations();
+      flush();
       const fileRows =
           element.root.querySelectorAll('.row:not(.header-row)');
       // Because the label surrounds the input, the tap event is triggered
@@ -966,14 +966,14 @@ suite('gr-file-list tests', () => {
       };
       sinon.spy(element, '_updateDiffPreferences');
       element.$.fileCursor.setCursorAtIndex(0);
-      flushAsynchronousOperations();
+      flush();
 
       // Tap on a file to generate the diff.
       const row = dom(element.root)
           .querySelectorAll('.row:not(.header-row) span.show-hide')[0];
 
       MockInteractions.tap(row);
-      flushAsynchronousOperations();
+      flush();
       const diffDisplay = element.diffs[0];
       element._userPrefs = {default_diff_view: 'SIDE_BY_SIDE'};
       element.set('diffViewMode', 'UNIFIED_DIFF');
@@ -999,7 +999,7 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       sinon.stub(element, '_expandedFilesChanged');
-      flushAsynchronousOperations();
+      flush();
       const commitMsgFile = dom(element.root)
           .querySelectorAll('.row:not(.header-row) a.pathLink')[0];
 
@@ -1008,7 +1008,7 @@ suite('gr-file-list tests', () => {
       const togglePathSpy = sinon.spy(element, '_toggleFileExpanded');
 
       MockInteractions.tap(commitMsgFile);
-      flushAsynchronousOperations();
+      flush();
       assert(togglePathSpy.notCalled, 'file is opened as diff view');
       assert.isNotOk(element.shadowRoot
           .querySelector('.expanded'));
@@ -1027,7 +1027,7 @@ suite('gr-file-list tests', () => {
           .querySelector('iron-icon').icon, 'gr-icons:expand-more');
       assert.equal(element._expandedFiles.length, 0);
       element._toggleFileExpanded({path});
-      flushAsynchronousOperations();
+      flush();
       assert.equal(collapseStub.lastCall.args[0].length, 0);
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-less');
@@ -1035,7 +1035,7 @@ suite('gr-file-list tests', () => {
       assert.equal(renderSpy.callCount, 1);
       assert.isTrue(element._expandedFiles.some(f => f.path === path));
       element._toggleFileExpanded({path});
-      flushAsynchronousOperations();
+      flush();
 
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-more');
@@ -1054,13 +1054,13 @@ suite('gr-file-list tests', () => {
       const path = 'path/to/my/file.txt';
       element._filesByPath = {[path]: {}};
       element.expandAllDiffs();
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element._showInlineDiffs);
       assert.isTrue(reInitStub.calledOnce);
       assert.equal(collapseStub.lastCall.args[0].length, 0);
 
       element.collapseAllDiffs();
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._expandedFiles.length, 0);
       assert.isFalse(element._showInlineDiffs);
       assert.isTrue(cursorUpdateStub.calledOnce);
@@ -1105,23 +1105,23 @@ suite('gr-file-list tests', () => {
         'foo.bar': {},
         'baz.bar': {},
       };
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.filesExpanded,
           FilesExpandedState.NONE);
       element.push('_expandedFiles', {path: 'baz.bar'});
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.filesExpanded,
           FilesExpandedState.SOME);
       element.push('_expandedFiles', {path: 'foo.bar'});
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.filesExpanded,
           FilesExpandedState.ALL);
       element.collapseAllDiffs();
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.filesExpanded,
           FilesExpandedState.NONE);
       element.expandAllDiffs();
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.filesExpanded,
           FilesExpandedState.ALL);
     });
@@ -1585,12 +1585,12 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('cursor with individually opened files', () => {
       MockInteractions.keyUpOn(element, 73, null, 'i');
-      flushAsynchronousOperations();
+      flush();
       let diffs = renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
 
@@ -1603,20 +1603,20 @@ suite('gr-file-list tests', () => {
       // Tapping content on a line selects the line number.
       MockInteractions.tap(dom(
           diffStops[10]).querySelectorAll('.contentText')[0]);
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
       assert.isFalse(diffStops[11].classList.contains('target-row'));
 
       // The file cursor is now at 1.
       assert.equal(element.$.fileCursor.index, 1);
       MockInteractions.keyUpOn(element, 73, null, 'i');
-      flushAsynchronousOperations();
+      flush();
 
       diffs = renderAndGetNewDiffs(1);
       // Two diffs should be rendered.
@@ -1631,7 +1631,7 @@ suite('gr-file-list tests', () => {
 
     test('cursor with toggle all files', () => {
       MockInteractions.keyUpOn(element, 73, 'shift', 'i');
-      flushAsynchronousOperations();
+      flush();
 
       const diffs = renderAndGetNewDiffs(0);
       const diffStops = diffs[0].getCursorStops();
@@ -1645,13 +1645,13 @@ suite('gr-file-list tests', () => {
       // Tapping content on a line selects the line number.
       MockInteractions.tap(dom(
           diffStops[10]).querySelectorAll('.contentText')[0]);
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(diffStops[10].classList.contains('target-row'));
 
       // Keyboard shortcuts are still moving the file cursor, not the diff
       // cursor.
       MockInteractions.pressAndReleaseKeyOn(element, 74, null, 'j');
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(diffStops[10].classList.contains('target-row'));
       assert.isTrue(diffStops[11].classList.contains('target-row'));
 
@@ -1678,7 +1678,7 @@ suite('gr-file-list tests', () => {
 
       test('n key with some files expanded and no shift key', () => {
         MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
-        flushAsynchronousOperations();
+        flush();
 
         // Handle N key should return before calling diff cursor functions.
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
@@ -1692,7 +1692,7 @@ suite('gr-file-list tests', () => {
 
       test('n key with some files expanded and shift key', () => {
         MockInteractions.keyUpOn(fileRows[0], 73, null, 'i');
-        flushAsynchronousOperations();
+        flush();
         assert.equal(nextChunkStub.callCount, 0);
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
@@ -1706,7 +1706,7 @@ suite('gr-file-list tests', () => {
 
       test('n key without all files expanded and shift key', () => {
         MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
-        flushAsynchronousOperations();
+        flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, null, 'n');
         assert.isTrue(nKeySpy.called);
@@ -1719,7 +1719,7 @@ suite('gr-file-list tests', () => {
 
       test('n key without all files expanded and no shift key', () => {
         MockInteractions.keyUpOn(fileRows[0], 73, 'shift', 'i');
-        flushAsynchronousOperations();
+        flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 78, 'shift', 'n');
         assert.isTrue(nKeySpy.called);
@@ -1740,7 +1740,7 @@ suite('gr-file-list tests', () => {
       assert.isFalse(navStub.called);
 
       element.set('_filesByPath', _filesByPath);
-      flushAsynchronousOperations();
+      flush();
       // Navigates when a file is selected.
       element._openSelectedFile();
       assert.isTrue(navStub.called);
@@ -1777,7 +1777,7 @@ suite('gr-file-list tests', () => {
         assert.isTrue(saveReviewStub.calledOnce);
 
         element.editMode = true;
-        flushAsynchronousOperations();
+        flush();
 
         MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
         assert.isTrue(saveReviewStub.calledOnce);
@@ -1799,7 +1799,7 @@ suite('gr-file-list tests', () => {
           .querySelector('gr-edit-file-controls'));
 
       element.editMode = true;
-      flushAsynchronousOperations();
+      flush();
 
       // Commit message should not have edit controls.
       const editControls =
@@ -1814,7 +1814,7 @@ suite('gr-file-list tests', () => {
       // Expand the commit message diff
       MockInteractions.keyUpOn(element, 73, 'shift', 'i');
       const diffs = renderAndGetNewDiffs(0);
-      flushAsynchronousOperations();
+      flush();
 
       // Two comment threads should be generated by renderAndGetNewDiffs
       const threadEls = diffs[0].getThreadEls();

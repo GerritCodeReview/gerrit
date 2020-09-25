@@ -88,7 +88,7 @@ suite('gr-create-change-dialog tests', () => {
     };
     sinon.stub(element, '_formatBooleanString')
         .callsFake(() => Promise.resolve(true));
-    flushAsynchronousOperations();
+    flush();
 
     const configInputObj = {
       branch: 'test-branch',

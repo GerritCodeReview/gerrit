@@ -70,7 +70,7 @@ suite('gr-change-list basic tests', () => {
       };
       element.account = {_account_id: 1001};
       element._config = {};
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('show number enabled', () => {
@@ -88,7 +88,7 @@ suite('gr-change-list basic tests', () => {
       };
       element.account = {_account_id: 1001};
       element._config = {};
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('show number disabled', () => {
@@ -138,7 +138,7 @@ suite('gr-change-list basic tests', () => {
     element.sections = [
       {results: [{}]},
     ];
-    flushAsynchronousOperations();
+    flush();
     const tdItemCount = element.root.querySelectorAll(
         'td').length;
 
@@ -160,7 +160,7 @@ suite('gr-change-list basic tests', () => {
       {_number: 1},
       {_number: 2},
     ];
-    flushAsynchronousOperations();
+    flush();
     afterNextRender(element, () => {
       const elementItems = element.root.querySelectorAll(
           'gr-change-list-item');
@@ -229,7 +229,7 @@ suite('gr-change-list basic tests', () => {
         owner: {_account_id: 0},
       },
     ];
-    flushAsynchronousOperations();
+    flush();
     let elementItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(elementItems.length, 5);
@@ -269,7 +269,7 @@ suite('gr-change-list basic tests', () => {
 
   test('no changes', () => {
     element.changes = [];
-    flushAsynchronousOperations();
+    flush();
     const listItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(listItems.length, 0);
@@ -280,7 +280,7 @@ suite('gr-change-list basic tests', () => {
 
   test('empty sections', () => {
     element.sections = [{results: []}, {results: []}];
-    flushAsynchronousOperations();
+    flush();
     const listItems = element.root.querySelectorAll(
         'gr-change-list-item');
     assert.equal(listItems.length, 0);
@@ -330,7 +330,7 @@ suite('gr-change-list basic tests', () => {
         change_table: [],
       };
       element._config = {};
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('show number enabled', () => {
@@ -372,7 +372,7 @@ suite('gr-change-list basic tests', () => {
         ],
       };
       element._config = {};
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('all columns visible', () => {
@@ -409,7 +409,7 @@ suite('gr-change-list basic tests', () => {
         ],
       };
       element._config = {};
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('all columns except repo visible', () => {
@@ -441,7 +441,7 @@ suite('gr-change-list basic tests', () => {
           'Bad',
         ],
       };
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('bad column does not exist', () => {
@@ -534,7 +534,7 @@ suite('gr-change-list basic tests', () => {
           ],
         },
       ];
-      flushAsynchronousOperations();
+      flush();
       afterNextRender(element, () => {
         const elementItems = element.root.querySelectorAll(
             'gr-change-list-item');
@@ -590,7 +590,7 @@ suite('gr-change-list basic tests', () => {
         },
       ];
       element.account = {_account_id: 42};
-      flushAsynchronousOperations();
+      flush();
       let items = element._getListItems();
       assert.equal(items.length, 2);
       assert.isFalse(items[0].hasAttribute('highlight'));
@@ -601,7 +601,7 @@ suite('gr-change-list basic tests', () => {
       element.set(['changes', 0, 'assignee'], {_account_id: 12});
       element.set(['changes', 1, 'assignee'], {_account_id: 12});
       element.account = {_account_id: 12};
-      flushAsynchronousOperations();
+      flush();
       items = element._getListItems();
       assert.isTrue(items[0].hasAttribute('highlight'));
       assert.isFalse(items[1].hasAttribute('highlight'));

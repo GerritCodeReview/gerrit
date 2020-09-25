@@ -170,7 +170,7 @@ suite('gr-repo-detail-list', () => {
           }
 
           MockInteractions.tap(editBtn);
-          flushAsynchronousOperations();
+          flush();
           // The revision and edit button are not visible.
           assert.equal(getComputedStyle(revisionWithEditing).display, 'none');
           assert.equal(getComputedStyle(editBtn).display, 'none');
@@ -201,7 +201,7 @@ suite('gr-repo-detail-list', () => {
 
           // When cancel is tapped, the edit secion closes.
           MockInteractions.tap(cancelBtn);
-          flushAsynchronousOperations();
+          flush();
 
           // The revision and edit button are visible.
           assert.notEqual(getComputedStyle(revisionWithEditing).display,

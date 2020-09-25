@@ -60,12 +60,12 @@ suite('gr-plugin-config-array-editor tests', () => {
     test('with enter', () => {
       element._newValue = '';
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(dispatchStub.called);
       element._newValue = 'test';
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 13); // Enter
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(dispatchStub.called);
       assert.equal(dispatchStub.lastCall.args[0], 'test');
@@ -75,12 +75,12 @@ suite('gr-plugin-config-array-editor tests', () => {
     test('with add btn', () => {
       element._newValue = '';
       MockInteractions.tap(element.$.addButton);
-      flushAsynchronousOperations();
+      flush();
 
       assert.isFalse(dispatchStub.called);
       element._newValue = 'test';
       MockInteractions.tap(element.$.addButton);
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(dispatchStub.called);
       assert.equal(dispatchStub.lastCall.args[0], 'test');
@@ -91,22 +91,22 @@ suite('gr-plugin-config-array-editor tests', () => {
   test('deleting', () => {
     dispatchStub = sinon.stub(element, '_dispatchChanged');
     element.pluginOption = {info: {values: ['test', 'test2']}};
-    flushAsynchronousOperations();
+    flush();
 
     const rows = getAll('.existingItems .row');
     assert.equal(rows.length, 2);
     const button = rows[0].querySelector('gr-button');
 
     MockInteractions.tap(button);
-    flushAsynchronousOperations();
+    flush();
 
     assert.isFalse(dispatchStub.called);
     element.pluginOption.info.editable = true;
     element.notifyPath('pluginOption.info.editable');
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(button);
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(dispatchStub.called);
     assert.deepEqual(dispatchStub.lastCall.args[0], ['test2']);

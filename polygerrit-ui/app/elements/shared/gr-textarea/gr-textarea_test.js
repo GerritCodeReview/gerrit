@@ -68,7 +68,7 @@ suite('gr-textarea tests', () => {
         element.$.textarea.selectionStart = 1;
         element.$.textarea.selectionEnd = 1;
         element.text = ':';
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 0);
         assert.isFalse(element._hideAutocomplete);
@@ -83,7 +83,7 @@ suite('gr-textarea tests', () => {
         element.$.textarea.selectionStart = 2;
         element.$.textarea.selectionEnd = 2;
         element.text = ' :';
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 1);
         assert.isFalse(element._hideAutocomplete);
@@ -98,7 +98,7 @@ suite('gr-textarea tests', () => {
         element.$.textarea.selectionStart = 5;
         element.$.textarea.selectionEnd = 5;
         element.text = 'test:';
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(element.$.emojiSuggestions.isHidden);
         assert.isTrue(element._hideAutocomplete);
       });
@@ -114,7 +114,7 @@ suite('gr-textarea tests', () => {
         element.$.textarea.selectionStart = 2;
         element.$.textarea.selectionEnd = 2;
         element.text = ':t';
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 0);
         assert.isFalse(element._hideAutocomplete);
@@ -139,7 +139,7 @@ suite('gr-textarea tests', () => {
           },
         });
         element.text = text;
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element.$.emojiSuggestions.isHidden);
         assert.equal(element._colonIndex, 0);
         assert.isFalse(element._hideAutocomplete);
@@ -148,7 +148,7 @@ suite('gr-textarea tests', () => {
   test('emoji selector closes when text changes before the colon', () => {
     const resetStub = sinon.stub(element, '_resetEmojiDropdown');
     MockInteractions.focus(element.$.textarea);
-    flushAsynchronousOperations();
+    flush();
     element.$.textarea.selectionStart = 10;
     element.$.textarea.selectionEnd = 10;
     element.text = 'test test ';
@@ -173,7 +173,7 @@ suite('gr-textarea tests', () => {
     assert.equal(element._colonIndex, null);
 
     element.$.emojiSuggestions.open();
-    flushAsynchronousOperations();
+    flush();
     element._resetEmojiDropdown();
     assert.isTrue(closeSpy.called);
   });
@@ -246,7 +246,7 @@ suite('gr-textarea tests', () => {
       element.$.textarea.selectionStart = 1;
       element.$.textarea.selectionEnd = 2;
       element.text = ':1';
-      flushAsynchronousOperations();
+      flush();
     }
 
     test('escape key', () => {
@@ -285,7 +285,7 @@ suite('gr-textarea tests', () => {
       setupDropdown();
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
       assert.isTrue(enterSpy.called);
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.text, '💯');
     });
 
@@ -298,7 +298,7 @@ suite('gr-textarea tests', () => {
       element.$.textarea.selectionStart = 1;
       element.$.textarea.selectionEnd = 1;
       element.text = ':';
-      flushAsynchronousOperations();
+      flush();
       MockInteractions.pressAndReleaseKeyOn(element.$.textarea, 13);
       assert.isFalse(enterSpy.called);
     });

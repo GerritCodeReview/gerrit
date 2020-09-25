@@ -382,7 +382,7 @@ suite('gr-diff-selection', () => {
   test('cache is reset when diff changes', () => {
     element._linesCache = {left: 'test', right: 'test'};
     element.diff = {};
-    flushAsynchronousOperations();
+    flush();
     assert.deepEqual(element._linesCache, {left: null, right: null});
   });
 });

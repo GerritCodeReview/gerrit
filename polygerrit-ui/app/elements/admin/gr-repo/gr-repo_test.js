@@ -127,7 +127,7 @@ suite('gr-repo tests', () => {
       config: 'data',
       notifyPath: 'path',
     }});
-    flushAsynchronousOperations();
+    flush();
 
     assert.equal(element._repoConfig.plugin_config.test, 'data');
     assert.equal(notifyStub.lastCall.args[0],
@@ -144,12 +144,12 @@ suite('gr-repo tests', () => {
 
   test('download commands visibility', () => {
     element._loading = false;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.downloadContent.classList.contains('hide'));
     assert.isTrue(getComputedStyle(element.$.downloadContent)
         .display == 'none');
     element._schemesObj = SCHEMES;
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(element.$.downloadContent.classList.contains('hide'));
     assert.isFalse(getComputedStyle(element.$.downloadContent)
         .display == 'none');
@@ -183,7 +183,7 @@ suite('gr-repo tests', () => {
   test('all form elements are disabled when not admin', done => {
     element.repo = REPO;
     element._loadRepo().then(() => {
-      flushAsynchronousOperations();
+      flush();
       const formFields = getFormFields();
       for (const field of formFields) {
         assert.isTrue(field.hasAttribute('disabled'));
@@ -271,7 +271,7 @@ suite('gr-repo tests', () => {
 
     test('all form elements are enabled', done => {
       element._loadRepo().then(() => {
-        flushAsynchronousOperations();
+        flush();
         const formFields = getFormFields();
         for (const field of formFields) {
           assert.isFalse(field.hasAttribute('disabled'));

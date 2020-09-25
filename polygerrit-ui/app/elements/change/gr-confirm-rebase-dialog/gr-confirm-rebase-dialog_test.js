@@ -30,7 +30,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
   test('controls with parent and rebase on current available', () => {
     element.rebaseOnCurrent = true;
     element.hasParent = true;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.rebaseOnParentInput.checked);
     assert.isFalse(element.$.rebaseOnParent.hasAttribute('hidden'));
     assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
@@ -41,7 +41,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
   test('controls with parent rebase on current not available', () => {
     element.rebaseOnCurrent = false;
     element.hasParent = true;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.rebaseOnTipInput.checked);
     assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
     assert.isFalse(element.$.parentUpToDateMsg.hasAttribute('hidden'));
@@ -52,7 +52,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
   test('controls without parent and rebase on current available', () => {
     element.rebaseOnCurrent = true;
     element.hasParent = false;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.rebaseOnTipInput.checked);
     assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
     assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));
@@ -63,7 +63,7 @@ suite('gr-confirm-rebase-dialog tests', () => {
   test('controls without parent rebase on current not available', () => {
     element.rebaseOnCurrent = false;
     element.hasParent = false;
-    flushAsynchronousOperations();
+    flush();
     assert.isTrue(element.$.rebaseOnOtherInput.checked);
     assert.isTrue(element.$.rebaseOnParent.hasAttribute('hidden'));
     assert.isTrue(element.$.parentUpToDateMsg.hasAttribute('hidden'));

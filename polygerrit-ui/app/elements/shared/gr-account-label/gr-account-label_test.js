@@ -91,7 +91,7 @@ suite('gr-account-label tests', () => {
       element._selfAccount = createAccount('kermit', 31);
       element.account = createAccount('ernie', 42);
       element.change = {attention_set: {42: {}}};
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('show attention button', () => {

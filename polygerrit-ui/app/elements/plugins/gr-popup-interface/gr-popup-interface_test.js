@@ -70,7 +70,7 @@ suite('gr-popup-interface tests', () => {
         manual.id = 'foobar';
         manual.innerHTML = 'manual content';
         api._getElement().appendChild(manual);
-        flushAsynchronousOperations();
+        flush();
         assert.equal(
             container.querySelector('#foobar').textContent, 'manual content');
         done();

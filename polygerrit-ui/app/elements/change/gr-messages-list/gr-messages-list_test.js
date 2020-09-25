@@ -231,7 +231,7 @@ suite('gr-messages-list tests', () => {
       const scrollToStub = sinon.stub(window, 'scrollTo');
       const highlightStub = sinon.stub(element, '_highlightEl');
       element.messages = generateRandomMessages(25);
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(scrollToStub.called);
       assert.isFalse(highlightStub.called);
 
@@ -266,7 +266,7 @@ suite('gr-messages-list tests', () => {
           }
       );
       element.messages = messages;
-      flushAsynchronousOperations();
+      flush();
       const messageElements = getMessages();
       assert.equal(messageElements.length, messages.length);
       assert.deepEqual(messageElements[1].message, messages[1]);
@@ -285,7 +285,7 @@ suite('gr-messages-list tests', () => {
         },
       ];
       element.messages = messages;
-      flushAsynchronousOperations();
+      flush();
       const messageElements = getMessages();
       // threads
       assert.equal(
@@ -413,7 +413,7 @@ suite('gr-messages-list tests', () => {
       const m2 = randomMessage(
           {tag: MessageTag.TAG_NEW_WIP_PATCHSET, _revision_number: 2});
       element.messages = [m1, m2];
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(m1.isImportant);
       assert.isTrue(m2.isImportant);
     });
@@ -427,7 +427,7 @@ suite('gr-messages-list tests', () => {
         id: '8c19ccc949c6d482b061be6a28e10782abf0e7af',
       }];
       element.messages = messages;
-      flushAsynchronousOperations();
+      flush();
       const messageEls = getMessages();
       assert.equal(messageEls.length, 1);
       assert.equal(messageEls[0].message.message, messages[0].message);
@@ -482,7 +482,7 @@ suite('gr-messages-list tests', () => {
       const toggle = element.root.querySelector('.showAllActivityToggle');
       assert.isOk(toggle);
       MockInteractions.tap(toggle);
-      flushAsynchronousOperations();
+      flush();
       const displayedMsgs = element.root.querySelectorAll('gr-message');
       assert.equal(displayedMsgs.length, 2);
     });
@@ -492,7 +492,7 @@ suite('gr-messages-list tests', () => {
       const toggle = element.root.querySelector('.showAllActivityToggle');
       assert.isOk(toggle);
       MockInteractions.tap(toggle);
-      flushAsynchronousOperations();
+      flush();
       const displayedMsgs = element.root.querySelectorAll('gr-message');
       assert.equal(displayedMsgs.length, 3);
     });

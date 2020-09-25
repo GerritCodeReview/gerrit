@@ -83,7 +83,7 @@ suite('gr-repo-commands tests', () => {
       MockInteractions.tap(element.$.editRepoConfig);
       assert.isTrue(element.$.editRepoConfig.loading);
       return handleSpy.lastCall.returnValue.then(() => {
-        flushAsynchronousOperations();
+        flush();
 
         assert.isTrue(alertStub.called);
         assert.equal(alertStub.lastCall.args[0].detail.message,
@@ -100,7 +100,7 @@ suite('gr-repo-commands tests', () => {
       MockInteractions.tap(element.$.editRepoConfig);
       assert.isTrue(element.$.editRepoConfig.loading);
       return handleSpy.lastCall.returnValue.then(() => {
-        flushAsynchronousOperations();
+        flush();
 
         assert.isTrue(alertStub.called);
         assert.equal(alertStub.lastCall.args[0].detail.message,

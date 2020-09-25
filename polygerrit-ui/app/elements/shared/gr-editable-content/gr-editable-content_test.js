@@ -121,7 +121,7 @@ suite('gr-editable-content tests', () => {
       element.editing = true;
 
       element._newContent = 'new content';
-      flushAsynchronousOperations();
+      flush();
       element.flushDebouncer('store');
 
       assert.isTrue(storeStub.called);
@@ -130,7 +130,7 @@ suite('gr-editable-content tests', () => {
           storeStub.lastCall.args);
 
       element._newContent = '';
-      flushAsynchronousOperations();
+      flush();
       element.flushDebouncer('store');
 
       assert.isTrue(eraseStub.called);

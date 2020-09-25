@@ -283,7 +283,7 @@ suite('gr-permission tests', () => {
         },
       };
       element._setupValues();
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('adding a rule', () => {
@@ -300,7 +300,7 @@ suite('gr-permission tests', () => {
       assert.equal(element._rules.length, 2);
       assert.equal(Object.keys(element._groupsWithRules).length, 2);
       element._handleAddRuleItem(e);
-      flushAsynchronousOperations();
+      flush();
       assert.deepEqual(element.groups, {'ldap:CN=test te.st': {
         name: 'ldap/tests te.st'}});
       assert.equal(element._rules.length, 3);
@@ -324,7 +324,7 @@ suite('gr-permission tests', () => {
               new CustomEvent('added-rule-removed', {
                 composed: true, bubbles: true,
               }));
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element._rules.length, 1);
     });
 
@@ -367,7 +367,7 @@ suite('gr-permission tests', () => {
       assert.isNotOk(element.permission.value.modified);
       MockInteractions.tap(element.shadowRoot
           .querySelector('#exclusiveToggle'));
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.permission.value.exclusive);
       assert.isTrue(element.permission.value.modified);
       assert.isFalse(element._originalExclusiveValue);
@@ -390,7 +390,7 @@ suite('gr-permission tests', () => {
           .querySelector('#exclusiveToggle')).display,
       'flex');
       element.set(['permission', 'id'], 'owner');
-      flushAsynchronousOperations();
+      flush();
       assert.equal(getComputedStyle(element.shadowRoot
           .querySelector('#exclusiveToggle')).display,
       'none');
@@ -401,7 +401,7 @@ suite('gr-permission tests', () => {
           .querySelector('#exclusiveToggle')).display,
       'flex');
       element.section = 'GLOBAL_CAPABILITIES';
-      flushAsynchronousOperations();
+      flush();
       assert.equal(getComputedStyle(element.shadowRoot
           .querySelector('#exclusiveToggle')).display,
       'none');

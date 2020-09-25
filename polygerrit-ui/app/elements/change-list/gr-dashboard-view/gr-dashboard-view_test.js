@@ -86,12 +86,12 @@ suite('gr-dashboard-view tests', () => {
 
     test('_showDraftsBanner', () => {
       element._showDraftsBanner = false;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(isHidden(element.shadowRoot
           .querySelector('.banner')));
 
       element._showDraftsBanner = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isFalse(isHidden(element.shadowRoot
           .querySelector('.banner')));
     });
@@ -99,7 +99,7 @@ suite('gr-dashboard-view tests', () => {
     test('delete tap opens dialog', () => {
       sinon.stub(element, '_handleOpenDeleteDialog');
       element._showDraftsBanner = true;
-      flushAsynchronousOperations();
+      flush();
 
       MockInteractions.tap(element.shadowRoot
           .querySelector('.banner .delete'));
@@ -121,7 +121,7 @@ suite('gr-dashboard-view tests', () => {
       // Open confirmation dialog and tap confirm button.
       await element.$.confirmDeleteOverlay.open();
       MockInteractions.tap(element.$.confirmDeleteDialog.$.confirm);
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.$.restAPI.deleteDraftComments
           .calledWithExactly('-is:open'));
       assert.isTrue(element.$.confirmDeleteDialog.disabled);
@@ -163,11 +163,11 @@ suite('gr-dashboard-view tests', () => {
   suite('_isViewActive', () => {
     test('nothing happens when user param is falsy', () => {
       element.params = {};
-      flushAsynchronousOperations();
+      flush();
       assert.equal(getChangesStub.callCount, 0);
 
       element.params = {user: ''};
-      flushAsynchronousOperations();
+      flush();
       assert.equal(getChangesStub.callCount, 0);
     });
 
@@ -312,13 +312,13 @@ suite('gr-dashboard-view tests', () => {
   test('_showNewUserHelp', () => {
     element._loading = false;
     element._showNewUserHelp = false;
-    flushAsynchronousOperations();
+    flush();
 
     assert.equal(element.$.emptyOutgoing.textContent.trim(), 'No changes');
     assert.isNotOk(element.shadowRoot
         .querySelector('gr-create-change-help'));
     element._showNewUserHelp = true;
-    flushAsynchronousOperations();
+    flush();
 
     assert.notEqual(element.$.emptyOutgoing.textContent.trim(), 'No changes');
     assert.isOk(element.shadowRoot

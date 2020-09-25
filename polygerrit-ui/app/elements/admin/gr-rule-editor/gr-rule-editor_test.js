@@ -195,7 +195,7 @@ suite('gr-rule-editor tests', () => {
       // Typically called on ready since elements will have properies defined
       // by the parent element.
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       flush(() => {
         element.attached();
         done();
@@ -229,7 +229,7 @@ suite('gr-rule-editor tests', () => {
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
       element.$.action.bindValue = 'DENY';
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.
@@ -303,7 +303,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       element.rule.value.added = true;
       flush(() => {
         element.attached();
@@ -330,7 +330,7 @@ suite('gr-rule-editor tests', () => {
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
       element.$.force.bindValue = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.
@@ -342,7 +342,7 @@ suite('gr-rule-editor tests', () => {
       const removeStub = sinon.stub();
       element.addEventListener('added-rule-removed', removeStub);
       MockInteractions.tap(element.$.removeBtn);
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(removeStub.called);
     });
   });
@@ -369,7 +369,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       flush(() => {
         element.attached();
         done();
@@ -396,7 +396,7 @@ suite('gr-rule-editor tests', () => {
       element.addEventListener('added-rule-removed', removeStub);
       assert.isNotOk(element.rule.value.modified);
       element.root.querySelector('#labelMin').bindValue = 1;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
       assert.isFalse(removeStub.called);
 
@@ -422,7 +422,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       element.rule.value.added = true;
       flush(() => {
         element.attached();
@@ -459,7 +459,7 @@ suite('gr-rule-editor tests', () => {
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
       element.root.querySelector('#labelMin').bindValue = 1;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.
@@ -480,7 +480,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       flush(() => {
         element.attached();
         done();
@@ -504,7 +504,7 @@ suite('gr-rule-editor tests', () => {
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
       element.$.action.bindValue = false;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.
@@ -521,7 +521,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       element.rule.value.added = true;
       flush(() => {
         element.attached();
@@ -548,7 +548,7 @@ suite('gr-rule-editor tests', () => {
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
       element.$.force.bindValue = true;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.
@@ -569,7 +569,7 @@ suite('gr-rule-editor tests', () => {
       };
       element.section = 'refs/*';
       element._setupValues(element.rule);
-      flushAsynchronousOperations();
+      flush();
       flush(() => {
         element.attached();
         done();
@@ -593,7 +593,7 @@ suite('gr-rule-editor tests', () => {
     test('modify value', () => {
       assert.isNotOk(element.rule.value.modified);
       element.$.action.bindValue = false;
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(element.rule.value.modified);
 
       // The original value should now differ from the rule values.

@@ -54,7 +54,7 @@ suite('gr-event-helper tests', () => {
     addListener(element.parentElement, 'tap', tapStub);
     instance.onTap(() => false);
     MockInteractions.tap(element);
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(tapStub.called);
   });
 
@@ -63,7 +63,7 @@ suite('gr-event-helper tests', () => {
     element.parentElement.addEventListener('click', tapStub);
     instance.onTap(() => false);
     MockInteractions.tap(element);
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(tapStub.called);
   });
 
@@ -86,7 +86,7 @@ suite('gr-event-helper tests', () => {
     addListener(element.parentElement, 'tap', tapStub);
     instance.captureTap(() => false);
     MockInteractions.tap(element);
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(tapStub.called);
   });
 
@@ -95,7 +95,7 @@ suite('gr-event-helper tests', () => {
     element.addEventListener('click', tapStub);
     instance.captureTap(() => false);
     MockInteractions.tap(element);
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(tapStub.called);
   });
 

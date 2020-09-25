@@ -287,7 +287,7 @@ suite('gr-change-actions tests', () => {
       assert.ok(submitButton);
       MockInteractions.tap(submitButton);
 
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(showSpy.calledWith(element.$.confirmSubmitDialog));
     });
 
@@ -434,7 +434,7 @@ suite('gr-change-actions tests', () => {
             .querySelector('gr-button[data-action-key="rebase"]');
         assert.ok(rebaseButton);
         MockInteractions.tap(rebaseButton);
-        flushAsynchronousOperations();
+        flush();
         assert.isFalse(element.$.confirmRebase.hidden);
         sinon.stub(element.$.restAPI, 'getChanges')
             .returns(Promise.resolve([]));
@@ -486,7 +486,7 @@ suite('gr-change-actions tests', () => {
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
         element.set('disableEdit', true);
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="publishEdit"]'));
@@ -512,7 +512,7 @@ suite('gr-change-actions tests', () => {
                 .querySelector('#confirmDeleteEditDialog')
                 .shadowRoot
                 .querySelector('gr-button[primary]'));
-        flushAsynchronousOperations();
+        flush();
 
         assert.equal(fireActionStub.lastCall.args[0], '/edit');
       });
@@ -521,7 +521,7 @@ suite('gr-change-actions tests', () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'MERGED'};
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="publishEdit"]'));
@@ -538,7 +538,7 @@ suite('gr-change-actions tests', () => {
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'NEW'};
         element.editBasedOnCurrentPatchSet = false;
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="publishEdit"]'));
@@ -557,7 +557,7 @@ suite('gr-change-actions tests', () => {
         element.set('editPatchsetLoaded', true);
         element.change = {status: 'NEW'};
         element.editBasedOnCurrentPatchSet = true;
-        flushAsynchronousOperations();
+        flush();
 
         assert.isOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="publishEdit"]'));
@@ -575,7 +575,7 @@ suite('gr-change-actions tests', () => {
         element.set('editMode', true);
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="publishEdit"]'));
@@ -593,7 +593,7 @@ suite('gr-change-actions tests', () => {
         element.set('editMode', false);
         element.set('editPatchsetLoaded', false);
         element.change = {status: 'NEW'};
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="publishEdit"]'));
@@ -611,20 +611,20 @@ suite('gr-change-actions tests', () => {
         element.addEventListener('edit-tap', () => { done(); });
         element.set('editMode', true);
         element.change = {status: 'NEW'};
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="edit"]'));
         assert.isOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="stopEdit"]'));
         element.change = {status: 'MERGED'};
-        flushAsynchronousOperations();
+        flush();
 
         assert.isNotOk(element.shadowRoot
             .querySelector('gr-button[data-action-key="edit"]'));
         element.change = {status: 'NEW'};
         element.set('editMode', false);
-        flushAsynchronousOperations();
+        flush();
 
         const editButton = element.shadowRoot
             .querySelector('gr-button[data-action-key="edit"]');
@@ -1214,7 +1214,7 @@ suite('gr-change-actions tests', () => {
               element.$.moreActions.shadowRoot
                   .querySelector('span[data-id="private-change"]'));
           element.setActionOverflow('change', 'private', false);
-          flushAsynchronousOperations();
+          flush();
           assert.isOk(element.shadowRoot
               .querySelector('[data-action-key="private"]'));
           assert.isNotOk(
@@ -1265,7 +1265,7 @@ suite('gr-change-actions tests', () => {
                   .querySelector('span[data-id="private.delete-change"]')
           );
           element.setActionOverflow('change', 'private.delete', false);
-          flushAsynchronousOperations();
+          flush();
           assert.isOk(element.shadowRoot
               .querySelector('[data-action-key="private.delete"]'));
           assert.isNotOk(
@@ -1311,7 +1311,7 @@ suite('gr-change-actions tests', () => {
                 .querySelector('#confirmDeleteDialog')
                 .shadowRoot
                 .querySelector('gr-button[primary]'));
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(fireActionStub.calledWith('/', deleteAction, false));
       });
 
@@ -1322,7 +1322,7 @@ suite('gr-change-actions tests', () => {
                 .querySelector('#confirmDeleteDialog')
                 .shadowRoot
                 .querySelector('gr-button:not([primary])'));
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(element.shadowRoot
             .querySelector('#confirmDeleteDialog').hidden);
         assert.isFalse(fireActionStub.called);
@@ -1363,7 +1363,7 @@ suite('gr-change-actions tests', () => {
         assert.isOk(element.$.moreActions.shadowRoot
             .querySelector('span[data-id="ignore-change"]'));
         element.setActionOverflow('change', 'ignore', false);
-        flushAsynchronousOperations();
+        flush();
         assert.isOk(element.shadowRoot
             .querySelector('[data-action-key="ignore"]'));
         assert.isNotOk(
@@ -1406,7 +1406,7 @@ suite('gr-change-actions tests', () => {
             element.$.moreActions.shadowRoot
                 .querySelector('span[data-id="unignore-change"]'));
         element.setActionOverflow('change', 'unignore', false);
-        flushAsynchronousOperations();
+        flush();
         assert.isOk(element.shadowRoot
             .querySelector('[data-action-key="unignore"]'));
         assert.isNotOk(
@@ -1463,7 +1463,7 @@ suite('gr-change-actions tests', () => {
             element.$.moreActions.shadowRoot
                 .querySelector('span[data-id="reviewed-change"]'));
         element.setActionOverflow('change', 'reviewed', false);
-        flushAsynchronousOperations();
+        flush();
         assert.isOk(element.shadowRoot
             .querySelector('[data-action-key="reviewed"]'));
         assert.isNotOk(
@@ -1506,7 +1506,7 @@ suite('gr-change-actions tests', () => {
             element.$.moreActions.shadowRoot
                 .querySelector('span[data-id="unreviewed-change"]'));
         element.setActionOverflow('change', 'unreviewed', false);
-        flushAsynchronousOperations();
+        flush();
         assert.isOk(element.shadowRoot
             .querySelector('[data-action-key="unreviewed"]'));
         assert.isNotOk(
@@ -1535,7 +1535,7 @@ suite('gr-change-actions tests', () => {
             foo: ['-1', ' 0', '+1'],
           },
         };
-        flushAsynchronousOperations();
+        flush();
       });
 
       test('added when can approve', () => {
@@ -1554,7 +1554,7 @@ suite('gr-change-actions tests', () => {
 
         // Assert approve button gets removed from list of buttons.
         element.hideQuickApproveAction();
-        flushAsynchronousOperations();
+        flush();
         const approveButtonUpdated =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1581,7 +1581,7 @@ suite('gr-change-actions tests', () => {
             foo: [' 0', '+1'],
           },
         };
-        flushAsynchronousOperations();
+        flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1598,7 +1598,7 @@ suite('gr-change-actions tests', () => {
             bar: [],
           },
         };
-        flushAsynchronousOperations();
+        flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1610,7 +1610,7 @@ suite('gr-change-actions tests', () => {
         MockInteractions.tap(
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']'));
-        flushAsynchronousOperations();
+        flush();
         assert.isTrue(fireActionStub.called);
         assert.isTrue(fireActionStub.calledWith('/review'));
         const payload = fireActionStub.lastCall.args[3];
@@ -1629,7 +1629,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1', '+2'],
           },
         };
-        flushAsynchronousOperations();
+        flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1653,7 +1653,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1', '+2'],
           },
         };
-        flushAsynchronousOperations();
+        flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1677,7 +1677,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1'],
           },
         };
-        flushAsynchronousOperations();
+        flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1701,7 +1701,7 @@ suite('gr-change-actions tests', () => {
             bar: [' 0', '+1', '+2'],
           },
         };
-        flushAsynchronousOperations();
+        flush();
         const approveButton =
             element.shadowRoot
                 .querySelector('gr-button[data-action-key=\'review\']');
@@ -1714,7 +1714,7 @@ suite('gr-change-actions tests', () => {
       element.addEventListener('download-tap', handler);
       assert.ok(element.revisionActions.download);
       element._handleDownloadTap();
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(handler.called);
     });
@@ -1742,7 +1742,7 @@ suite('gr-change-actions tests', () => {
         assert.strictEqual(
             element.$.moreActions.items[0].id, 'cherrypick-revision');
         element.setActionOverflow('revision', 'cherrypick', false);
-        flushAsynchronousOperations();
+        flush();
         assert.isOk(element.shadowRoot
             .querySelector('[data-action-key="cherrypick"]'));
         assert.notEqual(
@@ -1753,7 +1753,7 @@ suite('gr-change-actions tests', () => {
         assert.isOk(element.shadowRoot
             .querySelector('[data-action-key="submit"]'));
         element.setActionOverflow('revision', 'submit', true);
-        flushAsynchronousOperations();
+        flush();
         assert.isNotOk(element.shadowRoot
             .querySelector('[data-action-key="submit"]'));
         assert.strictEqual(

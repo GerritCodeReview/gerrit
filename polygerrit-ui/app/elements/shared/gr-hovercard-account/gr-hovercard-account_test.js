@@ -47,7 +47,7 @@ suite('gr-hovercard-account tests', () => {
       attention_set: {},
     };
     element.show({});
-    flushAsynchronousOperations();
+    flush();
   });
 
   teardown(() => {
@@ -96,7 +96,7 @@ suite('gr-hovercard-account tests', () => {
 
   test('account status is displayed', () => {
     element.account = {status: 'OOO', ...ACCOUNT};
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.shadowRoot.querySelector('.status .value').innerText,
         'OOO');
   });
@@ -107,7 +107,7 @@ suite('gr-hovercard-account tests', () => {
 
   test('voteable div is displayed', () => {
     element.voteableText = 'CodeReview: +2';
-    flushAsynchronousOperations();
+    flush();
     assert.equal(element.shadowRoot.querySelector('.voteable .value').innerText,
         element.voteableText);
   });
@@ -121,7 +121,7 @@ suite('gr-hovercard-account tests', () => {
         .callsFake(() => apiPromise);
     element.highlightAttention = true;
     element._target = document.createElement('div');
-    flushAsynchronousOperations();
+    flush();
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
@@ -156,7 +156,7 @@ suite('gr-hovercard-account tests', () => {
     element.highlightAttention = true;
     element.change = {attention_set: {31415926535: {}}};
     element._target = document.createElement('div');
-    flushAsynchronousOperations();
+    flush();
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();

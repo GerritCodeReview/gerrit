@@ -54,7 +54,7 @@ suite('gr-download-commands', () => {
       element.schemes = SCHEMES;
       element.commands = COMMANDS;
       element.selectedScheme = SELECTED_SCHEME;
-      flushAsynchronousOperations();
+      flush();
       flush(done);
     });
 
@@ -83,7 +83,7 @@ suite('gr-download-commands', () => {
       assert.equal(element.$.downloadTabs.selected, '0');
       MockInteractions.tap(element.shadowRoot
           .querySelector('[data-scheme="ssh"]'));
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.selectedScheme, 'ssh');
       assert.equal(element.$.downloadTabs.selected, '2');
       done();
@@ -121,7 +121,7 @@ suite('gr-download-commands', () => {
       const savePrefsStub = sinon.stub(element.$.restAPI, 'savePreferences')
           .callsFake(() => Promise.resolve());
 
-      flushAsynchronousOperations();
+      flush();
 
       const repoTab = element.shadowRoot
           .querySelector('paper-tab[data-scheme="repo"]');

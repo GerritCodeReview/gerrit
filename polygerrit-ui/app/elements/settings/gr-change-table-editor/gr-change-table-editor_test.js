@@ -41,7 +41,7 @@ suite('gr-change-table-editor tests', () => {
 
     element.set('displayedColumns', columns);
     element.showNumber = false;
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('renders', () => {
@@ -66,7 +66,7 @@ suite('gr-change-table-editor tests', () => {
     assert.isTrue(isChecked);
 
     MockInteractions.tap(checkbox);
-    flushAsynchronousOperations();
+    flush();
 
     assert.equal(element.displayedColumns.length, displayedLength - 1);
   });
@@ -80,7 +80,7 @@ suite('gr-change-table-editor tests', () => {
       'Branch',
       'Updated',
     ]);
-    flushAsynchronousOperations();
+    flush();
     const checkbox = element.shadowRoot
         .querySelector('table tr:nth-child(2) input');
     const isChecked = checkbox.checked;
@@ -90,7 +90,7 @@ suite('gr-change-table-editor tests', () => {
         .querySelector('table').style.display, '');
 
     MockInteractions.tap(checkbox);
-    flushAsynchronousOperations();
+    flush();
 
     assert.equal(element.displayedColumns.length,
         displayedLength + 1);

@@ -32,7 +32,7 @@ suite('gr-page-nav tests', () => {
 
   setup(() => {
     element = basicFixture.instantiate();
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('header is not pinned just below top', () => {

@@ -302,12 +302,12 @@ suite('gr-account-info tests', () => {
     // _usernameChanged is an observer, but call it here after setting
     // _hasUsernameChange in the test to force recomputation.
     element._usernameChanged();
-    flushAsynchronousOperations();
+    flush();
 
     assert.isFalse(element._hasUsernameChange);
 
     element.set('_username', 'test');
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(element._hasUsernameChange);
   });

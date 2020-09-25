@@ -77,7 +77,7 @@ suite('gr-repo-plugin-config tests', () => {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'ARRAY'}},
       };
-      flushAsynchronousOperations();
+      flush();
 
       const editor = element.shadowRoot
           .querySelector('gr-plugin-config-array-editor');
@@ -92,13 +92,13 @@ suite('gr-repo-plugin-config tests', () => {
         name: 'testName',
         config: {plugin: {value: 'true', type: 'BOOLEAN'}},
       };
-      flushAsynchronousOperations();
+      flush();
 
       const toggle = element.shadowRoot
           .querySelector('paper-toggle-button');
       assert.ok(toggle);
       toggle.click();
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['false', 'plugin']);
@@ -111,14 +111,14 @@ suite('gr-repo-plugin-config tests', () => {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'STRING'}},
       };
-      flushAsynchronousOperations();
+      flush();
 
       const input = element.shadowRoot
           .querySelector('input');
       assert.ok(input);
       input.value = 'newTest';
       input.dispatchEvent(new Event('input'));
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);
@@ -132,7 +132,7 @@ suite('gr-repo-plugin-config tests', () => {
         name: 'testName',
         config: {plugin: {value: 'test', type: 'LIST', permitted_values}},
       };
-      flushAsynchronousOperations();
+      flush();
 
       const select = element.shadowRoot
           .querySelector('select');
@@ -140,7 +140,7 @@ suite('gr-repo-plugin-config tests', () => {
       select.value = 'newTest';
       select.dispatchEvent(new Event(
           'change', {bubbles: true, composed: true}));
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(buildStub.called);
       assert.deepEqual(buildStub.lastCall.args, ['newTest', 'plugin']);

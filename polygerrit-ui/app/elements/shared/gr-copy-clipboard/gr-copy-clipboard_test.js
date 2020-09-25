@@ -28,7 +28,7 @@ suite('gr-copy-clipboard tests', () => {
     element = basicFixture.instantiate();
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
-    flushAsynchronousOperations();
+    flush();
     flush(done);
   });
 
@@ -67,7 +67,7 @@ suite('gr-copy-clipboard tests', () => {
 
     assert.notEqual(getComputedStyle(element.$.input).display, 'none');
     element.hideInput = true;
-    flushAsynchronousOperations();
+    flush();
     assert.equal(getComputedStyle(element.$.input).display, 'none');
   });
 

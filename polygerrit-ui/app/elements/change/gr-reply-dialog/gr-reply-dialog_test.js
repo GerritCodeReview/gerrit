@@ -120,7 +120,7 @@ suite('gr-reply-dialog tests', () => {
     //     .returns(Promise.resolve({isLatest: true}));
 
     // Allow the elements created by dom-repeat to be stamped.
-    flushAsynchronousOperations();
+    flush();
   });
 
   function stubSaveReview(jsonResponseProducer) {
@@ -188,7 +188,7 @@ suite('gr-reply-dialog tests', () => {
     element._newAttentionSet = new Set([314]);
     const buttonEl = element.shadowRoot.querySelector('.edit-attention-button');
     MockInteractions.tap(buttonEl);
-    flushAsynchronousOperations();
+    flush();
 
     stubSaveReview(review => {
       assert.isTrue(review.ignore_automatic_attention_set_rules);
@@ -229,7 +229,7 @@ suite('gr-reply-dialog tests', () => {
     }
     element.change = change;
     element._reviewers = reviewers.base;
-    flushAsynchronousOperations();
+    flush();
     element._computeNewAttention(user, reviewers, [], change, draftThreads);
     assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
@@ -511,7 +511,7 @@ suite('gr-reply-dialog tests', () => {
 
     element._ccPendingConfirmation = null;
     element._reviewerPendingConfirmation = null;
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(isVisible(element.$.reviewerConfirmationOverlay));
 
     // Cause the confirmation dialog to display.
@@ -531,7 +531,7 @@ suite('gr-reply-dialog tests', () => {
         count: 10,
       };
     }
-    flushAsynchronousOperations();
+    flush();
 
     if (cc) {
       assert.deepEqual(
@@ -642,7 +642,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_reviewersMutated when account-text-change is fired from ccs', () => {
-    flushAsynchronousOperations();
+    flush();
     assert.isFalse(element._reviewersMutated);
     assert.isTrue(element.$.ccs.allowAnyInput);
     assert.isFalse(element.shadowRoot
@@ -777,7 +777,7 @@ suite('gr-reply-dialog tests', () => {
 
   test('_focusOn', () => {
     sinon.spy(element, '_chooseFocusTarget');
-    flushAsynchronousOperations();
+    flush();
     const textareaStub = sinon.stub(element.$.textarea, 'async');
     const reviewerEntryStub = sinon.stub(element.$.reviewers.focusStart,
         'async');
@@ -924,7 +924,7 @@ suite('gr-reply-dialog tests', () => {
       CC: [],
       REVIEWER: [],
     };
-    flushAsynchronousOperations();
+    flush();
 
     const reviewer1 = makeAccount();
     const reviewer2 = makeAccount();
@@ -936,7 +936,7 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2, reviewer3];
     element._ccs = [cc1, cc2, cc3, cc4];
     element.push('_reviewers', cc1);
-    flushAsynchronousOperations();
+    flush();
 
     assert.deepEqual(element._reviewers,
         [reviewer1, reviewer2, reviewer3, cc1]);
@@ -944,7 +944,7 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element._reviewersPendingRemove.CC, [cc1]);
 
     element.push('_reviewers', cc4, cc3);
-    flushAsynchronousOperations();
+    flush();
 
     assert.deepEqual(element._reviewers,
         [reviewer1, reviewer2, reviewer3, cc1, cc4, cc3]);
@@ -959,7 +959,7 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [];
     MockInteractions.tap(
         element.shadowRoot.querySelector('.edit-attention-button'));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(element._attentionModified);
     let accountLabels = Array.from(element.shadowRoot.querySelectorAll(
@@ -968,7 +968,7 @@ suite('gr-reply-dialog tests', () => {
 
     element.push('_reviewers', makeAccount());
     element.push('_ccs', makeAccount());
-    flushAsynchronousOperations();
+    flush();
 
     // The 'attention modified' section collapses and resets when reviewers or
     // ccs change.
@@ -976,7 +976,7 @@ suite('gr-reply-dialog tests', () => {
 
     MockInteractions.tap(
         element.shadowRoot.querySelector('.edit-attention-button'));
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(element._attentionModified);
     accountLabels = Array.from(element.shadowRoot.querySelectorAll(
@@ -990,7 +990,7 @@ suite('gr-reply-dialog tests', () => {
 
     MockInteractions.tap(
         element.shadowRoot.querySelector('.edit-attention-button'));
-    flushAsynchronousOperations();
+    flush();
 
     accountLabels = Array.from(element.shadowRoot.querySelectorAll(
         '.attention-detail gr-account-label'));
@@ -1002,7 +1002,7 @@ suite('gr-reply-dialog tests', () => {
       CC: [],
       REVIEWER: [],
     };
-    flushAsynchronousOperations();
+    flush();
 
     const reviewer1 = makeAccount();
     const reviewer2 = makeAccount();
@@ -1014,7 +1014,7 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [reviewer1, reviewer2, reviewer3];
     element._ccs = [cc1, cc2, cc3, cc4];
     element.push('_ccs', reviewer1);
-    flushAsynchronousOperations();
+    flush();
 
     assert.deepEqual(element._reviewers,
         [reviewer2, reviewer3]);
@@ -1022,7 +1022,7 @@ suite('gr-reply-dialog tests', () => {
     assert.deepEqual(element._reviewersPendingRemove.REVIEWER, [reviewer1]);
 
     element.push('_ccs', reviewer3, reviewer2);
-    flushAsynchronousOperations();
+    flush();
 
     assert.deepEqual(element._reviewers, []);
     assert.deepEqual(element._ccs,
@@ -1036,7 +1036,7 @@ suite('gr-reply-dialog tests', () => {
       CC: [],
       REVIEWER: [],
     };
-    flushAsynchronousOperations();
+    flush();
     const reviewers = element.$.reviewers;
     const ccs = element.$.ccs;
     const reviewer1 = makeAccount();
@@ -1124,7 +1124,7 @@ suite('gr-reply-dialog tests', () => {
     const cancelHandler = sinon.spy();
     element.addEventListener('cancel', cancelHandler);
     MockInteractions.pressAndReleaseKeyOn(element, 27, null, 'esc');
-    flushAsynchronousOperations();
+    flush();
 
     assert.isTrue(cancelHandler.called);
   });
@@ -1133,14 +1133,14 @@ suite('gr-reply-dialog tests', () => {
     stubSaveReview(() => undefined);
     element.addEventListener('send', () => assert.fail('wrongly called'));
     MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('emit send on ctrl+enter key', done => {
     stubSaveReview(() => undefined);
     element.addEventListener('send', () => done());
     MockInteractions.pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
-    flushAsynchronousOperations();
+    flush();
   });
 
   test('_computeMessagePlaceholder', () => {
@@ -1262,20 +1262,20 @@ suite('gr-reply-dialog tests', () => {
       sendStub = sinon.stub(element, 'send').callsFake(() => Promise.resolve());
       element.canBeStarted = true;
       // Flush to make both Start/Save buttons appear in DOM.
-      flushAsynchronousOperations();
+      flush();
     });
 
     test('start review sets ready', () => {
       MockInteractions.tap(element.shadowRoot
           .querySelector('.send'));
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(sendStub.calledWith(true, true));
     });
 
     test('save review doesn\'t set ready', () => {
       MockInteractions.tap(element.shadowRoot
           .querySelector('.save'));
-      flushAsynchronousOperations();
+      flush();
       assert.isTrue(sendStub.calledWith(true, false));
     });
   });
@@ -1502,7 +1502,7 @@ suite('gr-reply-dialog tests', () => {
     // resolving.
     sinon.stub(element, '_purgeReviewersPendingRemove');
     element.draftCommentThreads = [];
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button.send'));
@@ -1511,7 +1511,7 @@ suite('gr-reply-dialog tests', () => {
     element.draftCommentThreads = [{comments: [
       {__draft: true, path: 'test', line: 1, patch_set: 1},
     ]}];
-    flushAsynchronousOperations();
+    flush();
 
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button.send'));

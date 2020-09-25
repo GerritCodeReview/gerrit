@@ -187,7 +187,7 @@ suite('gr-watched-projects-editor tests', () => {
         .querySelector('table tbody tr:nth-child(2) gr-button');
     MockInteractions.tap(button);
 
-    flushAsynchronousOperations();
+    flush();
 
     const rows = element.shadowRoot
         .querySelector('table tbody').querySelectorAll('tr');

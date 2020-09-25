@@ -496,7 +496,7 @@ suite('gr-error-manager tests', () => {
             detail: {message},
             composed: true, bubbles: true,
           }));
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(openStub.called);
       assert.isTrue(reportStub.called);
@@ -506,7 +506,7 @@ suite('gr-error-manager tests', () => {
           new CustomEvent('dismiss', {
             composed: true, bubbles: true,
           }));
-      flushAsynchronousOperations();
+      flush();
 
       assert.isTrue(closeStub.called);
     });

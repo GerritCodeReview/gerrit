@@ -156,7 +156,7 @@ suite('gr-dropdown-list tests', () => {
 
       // Select a new item.
       MockInteractions.tap(items[0]);
-      flushAsynchronousOperations();
+      flush();
       assert.equal(element.value, 1);
       assert.isTrue(items[0].classList.contains('iron-selected'));
       assert.isTrue(mobileItems[0].selected);

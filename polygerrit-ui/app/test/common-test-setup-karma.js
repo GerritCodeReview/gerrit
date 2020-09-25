@@ -20,10 +20,15 @@ import 'chai/chai.js';
 self.assert = window.chai.assert;
 self.expect = window.chai.expect;
 
+// Workaround for https://github.com/karma-runner/karma-mocha/issues/227
+let unhandledError = null;
+
 window.addEventListener('error', e => {
   // For uncaught error mochajs doesn't print the full stack trace.
   // We should print it ourselves.
+  console.error('Uncaught error:');
   console.error(e.error.stack.toString());
+  unhandledError = e;
 });
 
 let originalOnBeforeUnload;
@@ -50,6 +55,9 @@ suiteSetup(() => {
 suiteTeardown(() => {
   // This suiteTeardown() method is called only once after all tests
   window.onbeforeunload = originalOnBeforeUnload;
+  if (unhandledError) {
+    throw unhandledError;
+  }
 });
 
 // Tests can use fake timers (sandbox.useFakeTimers)

@@ -141,20 +141,22 @@ public class PortedCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void onlyUnresolvedDraftCommentsArePorted() throws Exception {
+  public void resolvedAndUnresolvedDraftCommentsArePorted() throws Exception {
     Account.Id accountId = accountOps.newAccount().create();
     // Set up change and patchsets.
     Change.Id changeId = changeOps.newChange().create();
     PatchSet.Id patchset1Id = changeOps.change(changeId).currentPatchset().get().patchsetId();
     PatchSet.Id patchset2Id = changeOps.change(changeId).newPatchset().create();
     // Add comments.
-    newDraftComment(patchset1Id).author(accountId).resolved().create();
+    String comment1Uuid = newDraftComment(patchset1Id).author(accountId).resolved().create();
     String comment2Uuid = newDraftComment(patchset1Id).author(accountId).unresolved().create();
 
     List<CommentInfo> portedComments =
         flatten(getPortedDraftCommentsOfUser(patchset2Id, accountId));
 
-    assertThat(portedComments).comparingElementsUsing(hasUuid()).containsExactly(comment2Uuid);
+    assertThat(portedComments)
+        .comparingElementsUsing(hasUuid())
+        .containsExactly(comment1Uuid, comment2Uuid);
   }
 
   @Test

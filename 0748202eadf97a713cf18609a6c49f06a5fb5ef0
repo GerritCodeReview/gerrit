@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "962d0b34_95719d2d",
+        "filename": "polygerrit-ui/app/elements/admin/gr-repo/gr-repo.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 331,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-25T06:52:46Z",
+      "side": 1,
+      "message": "Nit: I find the naming confusing of `repoConfig` and `configInputObj`, because it is not consistent. Why `repo` prefix only for the first? Why `Obj` postfix only for the second? Maybe\n\n  configInfo and configInput\n\nor\n\n  repoConfig and repoConfigInput",
+      "range": {
+        "startLine": 331,
+        "startChar": 10,
+        "endLine": 331,
+        "endChar": 24
+      },
+      "revId": "0748202eadf97a713cf18609a6c49f06a5fb5ef0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -108,19 +108,16 @@ suite('gr-repo-branch-picker tests', () => {
           });
     });
 
-    test('does not query when repo is unset', done => {
-      element
-          ._getRepoBranchesSuggestions('')
-          .then(() => {
-            assert.isFalse(element.$.restAPI.getRepoBranches.called);
-            element.repo = 'gerrit';
-            return element._getRepoBranchesSuggestions('');
-          })
-          .then(() => {
-            assert.isTrue(element.$.restAPI.getRepoBranches.called);
-            done();
-          });
-    });
+    test('does not query when repo is unset', () => element
+        ._getRepoBranchesSuggestions('')
+        .then(() => {
+          assert.isFalse(element.$.restAPI.getRepoBranches.called);
+          element.repo = 'gerrit';
+          return element._getRepoBranchesSuggestions('');
+        })
+        .then(() => {
+          assert.isTrue(element.$.restAPI.getRepoBranches.called);
+        }));
   });
 });
 

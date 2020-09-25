@@ -107,106 +107,91 @@ suite('gr-change-actions-js-api-interface tests', () => {
       assertArraysEqual(element.primaryActionKeys, []);
     });
 
-    test('action buttons', done => {
+    test('action buttons', () => {
       const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
       const handler = sinon.spy();
       changeActions.addTapListener(key, handler);
-      flush(() => {
-        MockInteractions.tap(element.shadowRoot
-            .querySelector('[data-action-key="' + key + '"]'));
-        assert(handler.calledOnce);
-        changeActions.removeTapListener(key, handler);
-        MockInteractions.tap(element.shadowRoot
-            .querySelector('[data-action-key="' + key + '"]'));
-        assert(handler.calledOnce);
-        changeActions.remove(key);
-        flush(() => {
-          assert.isNull(element.shadowRoot
-              .querySelector('[data-action-key="' + key + '"]'));
-          done();
-        });
-      });
+      flush();
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]'));
+      assert(handler.calledOnce);
+      changeActions.removeTapListener(key, handler);
+      MockInteractions.tap(element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]'));
+      assert(handler.calledOnce);
+      changeActions.remove(key);
+      flush();
+      assert.isNull(element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]'));
     });
 
-    test('action button properties', done => {
+    test('action button properties', () => {
       const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      flush(() => {
-        const button = element.shadowRoot
-            .querySelector('[data-action-key="' + key + '"]');
-        assert.isOk(button);
-        assert.equal(button.getAttribute('data-label'), 'Bork!');
-        assert.isNotOk(button.disabled);
-        changeActions.setLabel(key, 'Yo');
-        changeActions.setTitle(key, 'Yo hint');
-        changeActions.setEnabled(key, false);
-        changeActions.setIcon(key, 'pupper');
-        flush(() => {
-          assert.equal(button.getAttribute('data-label'), 'Yo');
-          assert.equal(button.getAttribute('title'), 'Yo hint');
-          assert.isTrue(button.disabled);
-          assert.equal(button.querySelector('iron-icon').icon,
-              'gr-icons:pupper');
-          done();
-        });
-      });
+      flush();
+      const button = element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]');
+      assert.isOk(button);
+      assert.equal(button.getAttribute('data-label'), 'Bork!');
+      assert.isNotOk(button.disabled);
+      changeActions.setLabel(key, 'Yo');
+      changeActions.setTitle(key, 'Yo hint');
+      changeActions.setEnabled(key, false);
+      changeActions.setIcon(key, 'pupper');
+      flush();
+      assert.equal(button.getAttribute('data-label'), 'Yo');
+      assert.equal(button.getAttribute('title'), 'Yo hint');
+      assert.isTrue(button.disabled);
+      assert.equal(button.querySelector('iron-icon').icon,
+          'gr-icons:pupper');
     });
 
-    test('hide action buttons', done => {
+    test('hide action buttons', () => {
       const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      flush(() => {
-        const button = element.shadowRoot
-            .querySelector('[data-action-key="' + key + '"]');
-        assert.isOk(button);
-        assert.isFalse(button.hasAttribute('hidden'));
-        changeActions.setActionHidden(
-            changeActions.ActionType.REVISION, key, true);
-        flush(() => {
-          const button = element.shadowRoot
-              .querySelector('[data-action-key="' + key + '"]');
-          assert.isNotOk(button);
-          done();
-        });
-      });
+      flush();
+      let button = element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]');
+      assert.isOk(button);
+      assert.isFalse(button.hasAttribute('hidden'));
+      changeActions.setActionHidden(
+          changeActions.ActionType.REVISION, key, true);
+      flush();
+      button = element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]');
+      assert.isNotOk(button);
     });
 
-    test('move action button to overflow', done => {
+    test('move action button to overflow', async () => {
       const key = changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
-      flush(() => {
-        assert.isTrue(element.$.moreActions.hidden);
-        assert.isOk(element.shadowRoot
-            .querySelector('[data-action-key="' + key + '"]'));
-        changeActions.setActionOverflow(
-            changeActions.ActionType.REVISION, key, true);
-        flush(() => {
-          assert.isNotOk(element.shadowRoot
-              .querySelector('[data-action-key="' + key + '"]'));
-          assert.isFalse(element.$.moreActions.hidden);
-          assert.strictEqual(element.$.moreActions.items[0].name, 'Bork!');
-          done();
-        });
-      });
+      await flush();
+      assert.isTrue(element.$.moreActions.hidden);
+      assert.isOk(element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]'));
+      changeActions.setActionOverflow(
+          changeActions.ActionType.REVISION, key, true);
+      flush();
+      assert.isNotOk(element.shadowRoot
+          .querySelector('[data-action-key="' + key + '"]'));
+      assert.isFalse(element.$.moreActions.hidden);
+      assert.strictEqual(element.$.moreActions.items[0].name, 'Bork!');
     });
 
-    test('change actions priority', done => {
+    test('change actions priority', () => {
       const key1 =
         changeActions.add(changeActions.ActionType.REVISION, 'Bork!');
       const key2 =
         changeActions.add(changeActions.ActionType.CHANGE, 'Squanch?');
-      flush(() => {
-        let buttons =
-          element.root.querySelectorAll('[data-action-key]');
-        assert.equal(buttons[0].getAttribute('data-action-key'), key1);
-        assert.equal(buttons[1].getAttribute('data-action-key'), key2);
-        changeActions.setActionPriority(
-            changeActions.ActionType.REVISION, key1, 10);
-        flush(() => {
-          buttons =
-            element.root.querySelectorAll('[data-action-key]');
-          assert.equal(buttons[0].getAttribute('data-action-key'), key2);
-          assert.equal(buttons[1].getAttribute('data-action-key'), key1);
-          done();
-        });
-      });
+      flush();
+      let buttons =
+        element.root.querySelectorAll('[data-action-key]');
+      assert.equal(buttons[0].getAttribute('data-action-key'), key1);
+      assert.equal(buttons[1].getAttribute('data-action-key'), key2);
+      changeActions.setActionPriority(
+          changeActions.ActionType.REVISION, key1, 10);
+      flush();
+      buttons =
+        element.root.querySelectorAll('[data-action-key]');
+      assert.equal(buttons[0].getAttribute('data-action-key'), key2);
+      assert.equal(buttons[1].getAttribute('data-action-key'), key1);
     });
   });
 });

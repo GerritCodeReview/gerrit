@@ -59,7 +59,7 @@ suite('gr-button tests', () => {
     assert.isFalse(paperBtn.disabled);
   });
 
-  test('loading set from listener', done => {
+  test('loading set from listener', () => {
     let resolve;
     element.addEventListener('click', e => {
       e.target.loading = true;
@@ -71,11 +71,9 @@ suite('gr-button tests', () => {
     assert.isTrue(paperBtn.disabled);
     assert.isTrue(element.hasAttribute('loading'));
     resolve();
-    flush(() => {
-      assert.isFalse(paperBtn.disabled);
-      assert.isFalse(element.hasAttribute('loading'));
-      done();
-    });
+    flush();
+    assert.isFalse(paperBtn.disabled);
+    assert.isFalse(element.hasAttribute('loading'));
   });
 
   test('tabindex should be -1 if disabled', () => {

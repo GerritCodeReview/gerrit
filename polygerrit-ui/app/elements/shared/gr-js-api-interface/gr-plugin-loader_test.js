@@ -438,7 +438,7 @@ suite('gr-plugin-loader tests', () => {
     assert.isTrue(document.body.appendChild.calledTwice);
   });
 
-  test('can call awaitPluginsLoaded multiple times', done => {
+  test('can call awaitPluginsLoaded multiple times', async () => {
     const plugins = [
       'http://e.com/foo/bar.js',
       'http://e.com/bar/foo.js',
@@ -456,13 +456,9 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
 
-    pluginLoader.awaitPluginsLoaded().then(() => {
-      assert.isTrue(installed);
-
-      pluginLoader.awaitPluginsLoaded().then(() => {
-        done();
-      });
-    });
+    await pluginLoader.awaitPluginsLoaded();
+    assert.isTrue(installed);
+    await pluginLoader.awaitPluginsLoaded();
   });
 
   suite('preloaded plugins', () => {

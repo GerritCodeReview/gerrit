@@ -6823,7 +6823,7 @@ The `Requirement` entity contains information about a requirement relative to a 
 |===========================
 |Field Name      | |Description
 |`status`        | | Status of the requirement. Can be either `OK`, `NOT_READY` or `RULE_ERROR`.
-|`fallbackText`  | | A human readable reason
+|`fallback_text` | | A human readable reason
 |`type`          | |
 Alphanumerical (plus hyphens or underscores) string to identify what the requirement is and why it
 was triggered. Can be seen as a class: requirements sharing the same type were created for a similar

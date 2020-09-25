@@ -47,7 +47,7 @@ suite('gr-lib-loader tests', () => {
     element._hljsState.callbacks = [];
   });
 
-  test('only load once', done => {
+  test('only load once', async () => {
     sinon.stub(element, '_getHLJSUrl').returns('');
     const firstCallHandler = sinon.stub();
     element.getHLJS().then(firstCallHandler);
@@ -67,13 +67,11 @@ suite('gr-lib-loader tests', () => {
 
     // Now load the library.
     resolveLoad();
-    flush(() => {
-      // The state should be loaded and both handlers called.
-      assert.isFalse(element._hljsState.loading);
-      assert.isTrue(firstCallHandler.called);
-      assert.isTrue(secondCallHandler.called);
-      done();
-    });
+    await flush();
+    // The state should be loaded and both handlers called.
+    assert.isFalse(element._hljsState.loading);
+    assert.isTrue(firstCallHandler.called);
+    assert.isTrue(secondCallHandler.called);
   });
 
   suite('preloaded', () => {
@@ -90,22 +88,17 @@ suite('gr-lib-loader tests', () => {
       delete window.hljs;
     });
 
-    test('returns hljs', done => {
+    test('returns hljs', async () => {
       const firstCallHandler = sinon.stub();
       element.getHLJS().then(firstCallHandler);
-      flush(() => {
-        assert.isTrue(firstCallHandler.called);
-        assert.isTrue(firstCallHandler.calledWith(hljsStub));
-        done();
-      });
+      await flush();
+      assert.isTrue(firstCallHandler.called);
+      assert.isTrue(firstCallHandler.calledWith(hljsStub));
     });
 
-    test('configures hljs', done => {
-      element.getHLJS().then(() => {
-        assert.isTrue(window.hljs.configure.calledOnce);
-        done();
-      });
-    });
+    test('configures hljs', () => element.getHLJS().then(() => {
+      assert.isTrue(window.hljs.configure.calledOnce);
+    }));
   });
 
   suite('_getHLJSUrl', () => {

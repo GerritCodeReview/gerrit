@@ -37,15 +37,13 @@ suite('gr-dropdown-list tests', () => {
     assert.isTrue(copyEl.hidden);
   });
 
-  test('show copy if enabled', done => {
+  test('show copy if enabled', () => {
     element.showCopyForTriggerText = true;
-    flush(() => {
-      const copyEl = element.shadowRoot
-          .querySelector('#triggerText + gr-copy-clipboard');
-      assert.isTrue(!!copyEl);
-      assert.isFalse(copyEl.hidden);
-      done();
-    });
+    flush();
+    const copyEl = element.shadowRoot.querySelector(
+        '#triggerText + gr-copy-clipboard');
+    assert.isTrue(!!copyEl);
+    assert.isFalse(copyEl.hidden);
   });
 
   test('tap on trigger opens menu', () => {
@@ -66,7 +64,7 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(element._computeMobileText(item), item.mobileText);
   });
 
-  test('options are selected and laid out correctly', done => {
+  test('options are selected and laid out correctly', async () => {
     element.value = 2;
     element.items = [
       {
@@ -93,78 +91,77 @@ suite('gr-dropdown-list tests', () => {
     assert.equal(element.shadowRoot
         .querySelector('paper-listbox').selected, element.value);
     assert.equal(element.text, 'Button Text 2');
-    flush(() => {
-      const items = element.root.querySelectorAll('paper-item');
-      const mobileItems = element.root.querySelectorAll('option');
-      assert.equal(items.length, 3);
-      assert.equal(mobileItems.length, 3);
+    await flush();
 
-      // First Item
-      // The first item should be disabled, has no bottom text, and no date.
-      assert.isFalse(!!items[0].disabled);
-      assert.isFalse(mobileItems[0].disabled);
-      assert.isFalse(items[0].classList.contains('iron-selected'));
-      assert.isFalse(mobileItems[0].selected);
+    const items = element.root.querySelectorAll('paper-item');
+    const mobileItems = element.root.querySelectorAll('option');
+    assert.equal(items.length, 3);
+    assert.equal(mobileItems.length, 3);
 
-      assert.isNotOk(items[0].querySelector('gr-date-formatter'));
-      assert.isNotOk(items[0].querySelector('.bottomContent'));
-      assert.equal(items[0].dataset.value, element.items[0].value);
-      assert.equal(mobileItems[0].value, element.items[0].value);
-      assert.equal(items[0].querySelector('.topContent div')
-          .innerText, element.items[0].text);
+    // First Item
+    // The first item should be disabled, has no bottom text, and no date.
+    assert.isFalse(!!items[0].disabled);
+    assert.isFalse(mobileItems[0].disabled);
+    assert.isFalse(items[0].classList.contains('iron-selected'));
+    assert.isFalse(mobileItems[0].selected);
 
-      // Since no mobile specific text, it should fall back to text.
-      assert.equal(mobileItems[0].text, element.items[0].text);
+    assert.isNotOk(items[0].querySelector('gr-date-formatter'));
+    assert.isNotOk(items[0].querySelector('.bottomContent'));
+    assert.equal(items[0].dataset.value, element.items[0].value);
+    assert.equal(mobileItems[0].value, element.items[0].value);
+    assert.equal(items[0].querySelector('.topContent div')
+        .innerText, element.items[0].text);
 
-      // Second Item
-      // The second item should have top text, bottom text, and no date.
-      assert.isFalse(!!items[1].disabled);
-      assert.isFalse(mobileItems[1].disabled);
-      assert.isTrue(items[1].classList.contains('iron-selected'));
-      assert.isTrue(mobileItems[1].selected);
+    // Since no mobile specific text, it should fall back to text.
+    assert.equal(mobileItems[0].text, element.items[0].text);
 
-      assert.isNotOk(items[1].querySelector('gr-date-formatter'));
-      assert.isOk(items[1].querySelector('.bottomContent'));
-      assert.equal(items[1].dataset.value, element.items[1].value);
-      assert.equal(mobileItems[1].value, element.items[1].value);
-      assert.equal(items[1].querySelector('.topContent div')
-          .innerText, element.items[1].text);
+    // Second Item
+    // The second item should have top text, bottom text, and no date.
+    assert.isFalse(!!items[1].disabled);
+    assert.isFalse(mobileItems[1].disabled);
+    assert.isTrue(items[1].classList.contains('iron-selected'));
+    assert.isTrue(mobileItems[1].selected);
 
-      // Since there is mobile specific text, it should that.
-      assert.equal(mobileItems[1].text, element.items[1].mobileText);
+    assert.isNotOk(items[1].querySelector('gr-date-formatter'));
+    assert.isOk(items[1].querySelector('.bottomContent'));
+    assert.equal(items[1].dataset.value, element.items[1].value);
+    assert.equal(mobileItems[1].value, element.items[1].value);
+    assert.equal(items[1].querySelector('.topContent div')
+        .innerText, element.items[1].text);
 
-      // Since this item is selected, and it has triggerText defined, that
-      // should be used.
-      assert.equal(element.text, element.items[1].triggerText);
+    // Since there is mobile specific text, it should that.
+    assert.equal(mobileItems[1].text, element.items[1].mobileText);
 
-      // Third item
-      // The third item should be disabled, and have a date, and bottom content.
-      assert.isTrue(!!items[2].disabled);
-      assert.isTrue(mobileItems[2].disabled);
-      assert.isFalse(items[2].classList.contains('iron-selected'));
-      assert.isFalse(mobileItems[2].selected);
+    // Since this item is selected, and it has triggerText defined, that
+    // should be used.
+    assert.equal(element.text, element.items[1].triggerText);
 
-      assert.isOk(items[2].querySelector('gr-date-formatter'));
-      assert.isOk(items[2].querySelector('.bottomContent'));
-      assert.equal(items[2].dataset.value, element.items[2].value);
-      assert.equal(mobileItems[2].value, element.items[2].value);
-      assert.equal(items[2].querySelector('.topContent div')
-          .innerText, element.items[2].text);
+    // Third item
+    // The third item should be disabled, and have a date, and bottom content.
+    assert.isTrue(!!items[2].disabled);
+    assert.isTrue(mobileItems[2].disabled);
+    assert.isFalse(items[2].classList.contains('iron-selected'));
+    assert.isFalse(mobileItems[2].selected);
 
-      // Since there is mobile specific text, it should that.
-      assert.equal(mobileItems[2].text, element.items[2].mobileText);
+    assert.isOk(items[2].querySelector('gr-date-formatter'));
+    assert.isOk(items[2].querySelector('.bottomContent'));
+    assert.equal(items[2].dataset.value, element.items[2].value);
+    assert.equal(mobileItems[2].value, element.items[2].value);
+    assert.equal(items[2].querySelector('.topContent div')
+        .innerText, element.items[2].text);
 
-      // Select a new item.
-      MockInteractions.tap(items[0]);
-      flush();
-      assert.equal(element.value, 1);
-      assert.isTrue(items[0].classList.contains('iron-selected'));
-      assert.isTrue(mobileItems[0].selected);
+    // Since there is mobile specific text, it should that.
+    assert.equal(mobileItems[2].text, element.items[2].mobileText);
 
-      // Since no triggerText, the fallback is used.
-      assert.equal(element.text, element.items[0].text);
-      done();
-    });
+    // Select a new item.
+    MockInteractions.tap(items[0]);
+    flush();
+    assert.equal(element.value, 1);
+    assert.isTrue(items[0].classList.contains('iron-selected'));
+    assert.isTrue(mobileItems[0].selected);
+
+    // Since no triggerText, the fallback is used.
+    assert.equal(element.text, element.items[0].text);
   });
 });
 

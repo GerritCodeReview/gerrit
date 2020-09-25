@@ -77,14 +77,13 @@ suite('gr-rest-api-helper tests', () => {
     });
   });
 
-  test('JSON prefix is properly removed', done => {
-    helper.fetchJSON({url: '/dummy/url'}).then(obj => {
-      assert.deepEqual(obj, {hello: 'bonjour'});
-      done();
-    });
-  });
+  test('JSON prefix is properly removed',
+      () => helper.fetchJSON({url: '/dummy/url'}).then(obj => {
+        assert.deepEqual(obj, {hello: 'bonjour'});
+      })
+  );
 
-  test('cached results', done => {
+  test('cached results', () => {
     let n = 0;
     sinon.stub(helper, 'fetchJSON').callsFake(() => Promise.resolve(++n));
     const promises = [];
@@ -92,21 +91,19 @@ suite('gr-rest-api-helper tests', () => {
     promises.push(helper.fetchCacheURL('/foo'));
     promises.push(helper.fetchCacheURL('/foo'));
 
-    Promise.all(promises).then(results => {
+    return Promise.all(promises).then(results => {
       assert.deepEqual(results, [1, 1, 1]);
-      helper.fetchCacheURL('/foo').then(foo => {
+      return helper.fetchCacheURL('/foo').then(foo => {
         assert.equal(foo, 1);
-        done();
       });
     });
   });
 
-  test('cached promise', done => {
+  test('cached promise', () => {
     const promise = Promise.reject(new Error('foo'));
     cache.set('/foo', promise);
-    helper.fetchCacheURL({url: '/foo'}).catch(p => {
+    return helper.fetchCacheURL({url: '/foo'}).catch(p => {
       assert.equal(p.message, 'foo');
-      done();
     });
   });
 
@@ -144,7 +141,7 @@ suite('gr-rest-api-helper tests', () => {
     assert.equal(url, window.CANONICAL_PATH + '/path/?l=c&l=b&l=a');
   });
 
-  test('request callbacks can be canceled', done => {
+  test('request callbacks can be canceled', () => {
     let cancelCalled = false;
     window.fetch.returns(Promise.resolve({
       body: {
@@ -152,12 +149,10 @@ suite('gr-rest-api-helper tests', () => {
       },
     }));
     const cancelCondition = () => true;
-    helper.fetchJSON({url: '/dummy/url', cancelCondition}).then(
-        obj => {
-          assert.isUndefined(obj);
-          assert.isTrue(cancelCalled);
-          done();
-        });
+    return helper.fetchJSON({url: '/dummy/url', cancelCondition}).then(obj => {
+      assert.isUndefined(obj);
+      assert.isTrue(cancelCalled);
+    });
   });
 });
 

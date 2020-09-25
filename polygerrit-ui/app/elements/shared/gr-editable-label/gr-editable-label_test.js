@@ -17,7 +17,6 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-editable-label.js';
-import {flush as flush$0} from '@polymer/polymer/lib/legacy/polymer.dom.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 
 const basicFixture = fixtureFromTemplate(html`
@@ -71,126 +70,106 @@ suite('gr-editable-label tests', () => {
     });
   });
 
-  test('title with placeholder', done => {
+  test('title with placeholder', () => {
     assert.equal(element.title, 'value text');
     element.value = '';
 
-    element.async(() => {
-      assert.equal(element.title, 'label text');
-      done();
-    });
+    flush();
+    assert.equal(element.title, 'label text');
   });
 
-  test('title without placeholder', done => {
+  test('title without placeholder', () => {
     assert.equal(elementNoPlaceholder.title, '');
     element.value = 'value text';
 
-    element.async(() => {
-      assert.equal(element.title, 'value text');
-      done();
-    });
+    flush();
+    assert.equal(element.title, 'value text');
   });
 
-  test('edit value', done => {
-    const editedStub = sinon.stub();
-    element.addEventListener('changed', editedStub);
+  test('edit value', async () => {
+    const editedSpy = sinon.spy();
+    element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-
-    flush$0();
+    flush();
 
     assert.isTrue(element.editing);
+    assert.isFalse(editedSpy.called);
+
     element._inputText = 'new text';
-
-    assert.isFalse(editedStub.called);
-
-    element.async(() => {
-      assert.isTrue(editedStub.called);
-      assert.equal(input.value, 'new text');
-      assert.isFalse(element.editing);
-      done();
-    });
-
     // Press enter:
     MockInteractions.keyDownOn(input, 13);
+    flush();
+
+    assert.isTrue(editedSpy.called);
+    assert.equal(input.value, 'new text');
+    assert.isFalse(element.editing);
   });
 
-  test('save button', done => {
-    const editedStub = sinon.stub();
-    element.addEventListener('changed', editedStub);
+  test('save button', () => {
+    const editedSpy = sinon.spy();
+    element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-
-    flush$0();
+    flush();
 
     assert.isTrue(element.editing);
+    assert.isFalse(editedSpy.called);
+
     element._inputText = 'new text';
-
-    assert.isFalse(editedStub.called);
-
-    element.async(() => {
-      assert.isTrue(editedStub.called);
-      assert.equal(input.value, 'new text');
-      assert.isFalse(element.editing);
-      done();
-    });
-
     // Press enter:
     MockInteractions.tap(element.$.saveBtn, 13);
+    flush();
+
+    assert.isTrue(editedSpy.called);
+    assert.equal(input.value, 'new text');
+    assert.isFalse(element.editing);
   });
 
-  test('edit and then escape key', done => {
-    const editedStub = sinon.stub();
-    element.addEventListener('changed', editedStub);
+  test('edit and then escape key', () => {
+    const editedSpy = sinon.spy();
+    element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-
-    flush$0();
+    flush();
 
     assert.isTrue(element.editing);
+    assert.isFalse(editedSpy.called);
+
     element._inputText = 'new text';
-
-    assert.isFalse(editedStub.called);
-
-    element.async(() => {
-      assert.isFalse(editedStub.called);
-      // Text changes should be discarded.
-      assert.equal(input.value, 'value text');
-      assert.isFalse(element.editing);
-      done();
-    });
-
     // Press escape:
     MockInteractions.keyDownOn(input, 27);
+    flush();
+
+    assert.isFalse(editedSpy.called);
+    // Text changes should be discarded.
+    assert.equal(input.value, 'value text');
+    assert.isFalse(element.editing);
   });
 
-  test('cancel button', done => {
-    const editedStub = sinon.stub();
-    element.addEventListener('changed', editedStub);
+  test('cancel button', () => {
+    const editedSpy = sinon.spy();
+    element.addEventListener('changed', editedSpy);
     assert.isFalse(element.editing);
 
     MockInteractions.tap(label);
-
-    flush$0();
+    flush();
 
     assert.isTrue(element.editing);
+    assert.isFalse(editedSpy.called);
+
     element._inputText = 'new text';
-
-    assert.isFalse(editedStub.called);
-
-    element.async(() => {
-      assert.isFalse(editedStub.called);
-      // Text changes should be discarded.
-      assert.equal(input.value, 'value text');
-      assert.isFalse(element.editing);
-      done();
-    });
-
     // Press escape:
     MockInteractions.tap(element.$.cancelBtn);
+    flush();
+
+    assert.isFalse(editedSpy.called);
+    // Text changes should be discarded.
+    assert.equal(input.value, 'value text');
+    assert.isFalse(element.editing);
   });
 
   suite('gr-editable-label read-only tests', () => {
@@ -208,7 +187,7 @@ suite('gr-editable-label tests', () => {
       assert.isFalse(element.$.dropdown.opened);
       MockInteractions.tap(label);
 
-      flush$0();
+      flush();
 
       // The dropdown is still closed.
       assert.isFalse(element.$.dropdown.opened);

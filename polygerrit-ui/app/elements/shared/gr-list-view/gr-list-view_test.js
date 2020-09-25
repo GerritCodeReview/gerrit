@@ -59,13 +59,16 @@ suite('gr-list-view tests', () => {
         '/admin/projects/q/filter:plugins%252F,50');
   });
 
-  test('_onValueChange', done => {
+  test('_onValueChange', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     element.path = '/admin/projects';
-    sinon.stub(page, 'show').callsFake( url => {
-      assert.equal(url, '/admin/projects/q/filter:test');
-      done();
-    });
+    sinon.stub(page, 'show').callsFake(resolve);
+
     element.filter = 'test';
+
+    const url = await promise;
+    assert.equal(url, '/admin/projects/q/filter:test');
   });
 
   test('_filterChanged not reload when swap between falsy values', () => {
@@ -76,23 +79,21 @@ suite('gr-list-view tests', () => {
     assert.isFalse(element._debounceReload.called);
   });
 
-  test('next button', done => {
+  test('next button', () => {
     element.itemsPerPage = 25;
     let projects = new Array(26);
+    flush();
 
-    flush(() => {
-      let loading;
-      assert.isFalse(element._hideNextArrow(loading, projects));
-      loading = true;
-      assert.isTrue(element._hideNextArrow(loading, projects));
-      loading = false;
-      assert.isFalse(element._hideNextArrow(loading, projects));
-      element._projects = [];
-      assert.isTrue(element._hideNextArrow(loading, element._projects));
-      projects = new Array(4);
-      assert.isTrue(element._hideNextArrow(loading, projects));
-      done();
-    });
+    let loading;
+    assert.isFalse(element._hideNextArrow(loading, projects));
+    loading = true;
+    assert.isTrue(element._hideNextArrow(loading, projects));
+    loading = false;
+    assert.isFalse(element._hideNextArrow(loading, projects));
+    element._projects = [];
+    assert.isTrue(element._hideNextArrow(loading, element._projects));
+    projects = new Array(4);
+    assert.isTrue(element._hideNextArrow(loading, projects));
   });
 
   test('prev button', () => {

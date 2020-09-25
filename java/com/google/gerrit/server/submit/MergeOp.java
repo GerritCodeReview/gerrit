@@ -615,9 +615,10 @@ public class MergeOp implements AutoCloseable {
           getSubmitStrategies(
               toSubmit, updateOrderCalculator, submoduleCommits, subscriptionGraph, dryrun);
       this.allProjects = updateOrderCalculator.getProjectsInOrder();
+      List<BatchUpdate> batchUpdates = orm.batchUpdates(allProjects);
       try {
         BatchUpdate.execute(
-            orm.batchUpdates(allProjects),
+            batchUpdates,
             new SubmitStrategyListener(submitInput, strategies, commitStatus),
             dryrun);
       } finally {
@@ -625,6 +626,11 @@ public class MergeOp implements AutoCloseable {
         // successful. This is why we must to collect the updated changes also when an exception was
         // thrown.
         strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
+
+        // Do not leave executed BatchUpdates in the OpenRepos
+        if (!dryrun) {
+          orm.resetUpdates(ImmutableSet.copyOf(this.allProjects));
+        }
       }
     } catch (NoSuchProjectException e) {
       throw new ResourceNotFoundException(e.getMessage());

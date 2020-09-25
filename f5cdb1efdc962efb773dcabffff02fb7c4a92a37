@@ -1,0 +1,142 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f2ed374e_8c61dac1",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:33:23Z",
+      "side": 1,
+      "message": "I don\u0027t understand how dryrun adding it\u0027s own operations uses different branch tips. Can you point me to the code?",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 69
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1e3b2d0f_870f69c4",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:33:23Z",
+      "side": 1,
+      "message": "This means that we ignore the superproject updates for a dry-run and hence don\u0027t report them via the PreviewSubmit endpoint. What if we:\n- follow my other suggestion of moving the reset to callers (-\u003e reset() call would be in MergeOp)\n- add a dryrun parameter to updateSuperProjects, which we pass on to the BatchUpdate#execute call within it\n- and call only reset() if we don\u0027t have a dryrun.\nThus, we would also include the superproject updates for a dry-run without losing the original ref updates.\n\nUpdate: I just saw that the superproject updates are manually added for dry-runs much further down in the code. That manual addition should not be necessary with my suggestions above. (-\u003e less confusing code or source of errors)",
+      "range": {
+        "startLine": 526,
+        "startChar": 8,
+        "endLine": 526,
+        "endChar": 22
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb45c59d_b29db8f4",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:33:23Z",
+      "side": 1,
+      "message": "Nit: Do we need the \"2\" at the end?",
+      "range": {
+        "startLine": 531,
+        "startChar": 22,
+        "endLine": 531,
+        "endChar": 34
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c9551f1_41ea9819",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:33:23Z",
+      "side": 1,
+      "message": "Nit: Needs to be injected so that this change compiles.",
+      "range": {
+        "startLine": 531,
+        "startChar": 37,
+        "endLine": 531,
+        "endChar": 49
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3e8a3c42_3e73a782",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:33:23Z",
+      "side": 1,
+      "message": "The superproject updates are now outside of the retry-mechanism. Is it possible that they also run into lock failures? Would we want to retry those?",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 532,
+        "endChar": 45
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ce44eb90_b51cb0c8",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-25T15:33:23Z",
+      "side": 1,
+      "message": "Does the test also cover fast-forwards?",
+      "range": {
+        "startLine": 728,
+        "startChar": 25,
+        "endLine": 728,
+        "endChar": 70
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

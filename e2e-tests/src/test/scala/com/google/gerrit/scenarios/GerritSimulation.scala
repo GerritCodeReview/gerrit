@@ -31,7 +31,7 @@ class GerritSimulation extends Simulation {
   protected val resource = s"$pathName.json"
   protected val body = s"$pathName-body.json"
 
-  protected val unique: String = className + "-" + hashCode()
+  protected val uniqueName: String = className + "-" + hashCode()
   protected val single = 1
 
   val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt
@@ -55,7 +55,7 @@ class GerritSimulation extends Simulation {
     currentWaitTime
   }
 
-  protected val httpRequest: HttpRequestBuilder = http(unique).post("${url}")
+  protected val httpRequest: HttpRequestBuilder = http(uniqueName).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(
     conf.httpConfiguration.userName,
     conf.httpConfiguration.password)

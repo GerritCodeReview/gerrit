@@ -33,12 +33,12 @@ class SubmitChange extends GerritSimulation {
     this.createChange = createChange
   }
 
-  val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
         session.set("number", createChange.number)
       })
-      .exec(http(unique).post("${url}${number}/submit"))
+      .exec(http(uniqueName).post("${url}${number}/submit"))
 
   private val createProject = new CreateProject(default)
   private val approveChange = new ApproveChange(createChange)

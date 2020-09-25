@@ -34,7 +34,7 @@ class CheckNewProjectReplica1 extends GitSimulation {
     super.replaceOverride(next)
   }
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(gitRequest)
 

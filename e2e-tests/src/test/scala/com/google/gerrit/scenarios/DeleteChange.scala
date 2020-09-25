@@ -30,7 +30,7 @@ class DeleteChange extends GerritSimulation {
     this.createChange = Some(createChange)
   }
 
-  val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
         if (createChange.nonEmpty) {
@@ -39,7 +39,7 @@ class DeleteChange extends GerritSimulation {
           session
         }
       })
-      .exec(http(unique).delete("${url}${number}"))
+      .exec(http(uniqueName).delete("${url}${number}"))
 
   setUp(
     test.inject(

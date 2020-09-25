@@ -29,7 +29,7 @@ class CloneUsingBothProtocols extends GitSimulation {
     replaceKeyWith("_project", default, in)
   }
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(gitRequest)
 

@@ -23,7 +23,7 @@ import scala.concurrent.duration._
 class FlushProjectsCacheThenRebuild extends GerritSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(httpRequest)
 

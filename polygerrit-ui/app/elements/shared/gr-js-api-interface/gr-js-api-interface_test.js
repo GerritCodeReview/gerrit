@@ -182,15 +182,15 @@ suite('gr-js-api-interface tests', () => {
     });
   });
 
-  test('history event', done => {
+  test('history event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     plugin.on(EventType.HISTORY, throwErrFn);
-    plugin.on(EventType.HISTORY, path => {
-      assert.equal(path, '/path/to/awesomesauce');
-      assert.isTrue(errorStub.calledOnce);
-      done();
-    });
-    element.handleEvent(EventType.HISTORY,
-        {path: '/path/to/awesomesauce'});
+    plugin.on(EventType.HISTORY, path => resolve(path));
+    element.handleEvent(EventType.HISTORY, {path: '/path/to/awesomesauce'});
+    const path = await promise;
+    assert.equal(path, '/path/to/awesomesauce');
+    assert.isTrue(errorStub.calledOnce);
   });
 
   test('showchange event', done => {

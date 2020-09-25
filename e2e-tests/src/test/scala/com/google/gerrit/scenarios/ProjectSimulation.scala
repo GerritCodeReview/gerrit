@@ -15,9 +15,9 @@
 package com.google.gerrit.scenarios
 
 class ProjectSimulation extends GerritSimulation {
-  protected var default: String = "project"
+  protected var projectName: String = "defaultTestProject"
 
   override def replaceOverride(in: String): String = {
-    replaceProperty("project", default, in)
+    replaceProperty("project", projectName, in)
   }
 }

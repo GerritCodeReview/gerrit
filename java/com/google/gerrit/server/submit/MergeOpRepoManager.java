@@ -18,6 +18,7 @@ import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.project.ProjectCache.noSuchProject;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Maps;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
@@ -119,6 +120,14 @@ public class MergeOpRepoManager implements AutoCloseable {
       return update;
     }
 
+    // We want to reuse the open repo BUT not the BatchUpdate (because they are already executed)
+    public void resetUpdate() {
+      if (update != null) {
+        update.close();
+        update = null;
+      }
+    }
+
     private void close() {
       if (update != null) {
         update.close();
@@ -204,6 +213,13 @@ public class MergeOpRepoManager implements AutoCloseable {
       updates.add(getRepo(project).getUpdate().setNotify(notify).setRefLogMessage("merged"));
     }
     return updates;
+  }
+
+  public void resetUpdates(ImmutableSet<Project.NameKey> projects)
+      throws NoSuchProjectException, IOException {
+    for (Project.NameKey project : projects) {
+      getRepo(project).resetUpdate();
+    }
   }
 
   @Override

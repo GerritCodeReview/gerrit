@@ -18,7 +18,6 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
 import com.google.gerrit.common.data.PatchScript.DisplayMethod;
 import com.google.gerrit.entities.FixReplacement;
@@ -69,8 +68,7 @@ class PatchScriptBuilder {
     intralineDiffCalculator = calculator;
   }
 
-  PatchScript toPatchScript(
-      Repository git, PatchList list, PatchListEntry content, CommentDetail comments)
+  PatchScript toPatchScript(Repository git, PatchList list, PatchListEntry content)
       throws IOException {
 
     PatchFileChange change =
@@ -86,7 +84,7 @@ class PatchScriptBuilder {
     ResolvedSides sides =
         resolveSides(
             git, sidesResolver, oldName(change), newName(change), list.getOldId(), list.getNewId());
-    return build(sides.a, sides.b, change, comments);
+    return build(sides.a, sides.b, change);
   }
 
   private ResolvedSides resolveSides(
@@ -136,7 +134,7 @@ class PatchScriptBuilder {
             ChangeType.MODIFIED,
             PatchType.UNIFIED);
 
-    return build(a, b, change, null);
+    return build(a, b, change);
   }
 
   private PatchSide resolveSideA(
@@ -147,9 +145,7 @@ class PatchScriptBuilder {
     }
   }
 
-  private PatchScript build(
-      PatchSide a, PatchSide b, PatchFileChange content, CommentDetail comments) {
-
+  private PatchScript build(PatchSide a, PatchSide b, PatchFileChange content) {
     ImmutableList<Edit> contentEdits = content.getEdits();
     ImmutableSet<Edit> editsDueToRebase = content.getEditsDueToRebase();
 
@@ -163,8 +159,7 @@ class PatchScriptBuilder {
     ImmutableList<Edit> finalEdits = intralineResult.edits.orElse(contentEdits);
     DiffContentCalculator calculator = new DiffContentCalculator(diffPrefs);
     DiffCalculatorResult diffCalculatorResult =
-        calculator.calculateDiffContent(
-            new TextSource(a.src), new TextSource(b.src), finalEdits, comments);
+        calculator.calculateDiffContent(new TextSource(a.src), new TextSource(b.src), finalEdits);
 
     return new PatchScript(
         content.getChangeType(),

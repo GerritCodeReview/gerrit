@@ -15,7 +15,6 @@
 package com.google.gerrit.server.restapi.change;
 
 import static com.google.gerrit.server.project.ProjectCache.illegalState;
-import static com.google.gerrit.util.cli.Localizable.localizable;
 
 import com.google.common.base.MoreObjects;
 import com.google.common.collect.ImmutableList;
@@ -54,9 +53,7 @@ import com.google.gerrit.server.project.ProjectState;
 import com.google.inject.Inject;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
-import org.kohsuke.args4j.CmdLineException;
 import org.kohsuke.args4j.CmdLineParser;
-import org.kohsuke.args4j.NamedOptionDef;
 import org.kohsuke.args4j.Option;
 import org.kohsuke.args4j.OptionDef;
 import org.kohsuke.args4j.spi.OptionHandler;
@@ -84,8 +81,9 @@ public class GetDiff implements RestReadView<FileResource> {
   @Option(name = "--whitespace")
   Whitespace whitespace;
 
+  // TODO(hiesel): Remove parameter when not used by callers (e.g. frontend) anymore.
   @Option(name = "--context", handler = ContextOptionHandler.class)
-  int context = DiffPreferencesInfo.DEFAULT_CONTEXT;
+  int context;
 
   @Option(name = "--intraline")
   boolean intraline;
@@ -114,11 +112,10 @@ public class GetDiff implements RestReadView<FileResource> {
     } else {
       prefs.ignoreWhitespace = Whitespace.IGNORE_LEADING_AND_TRAILING;
     }
-    prefs.context = context;
     prefs.intralineDifference = intraline;
     logger.atFine().log(
-        "diff preferences: ignoreWhitespace = %s, context = %s, intralineDifference = %s",
-        prefs.ignoreWhitespace, prefs.context, prefs.intralineDifference);
+        "diff preferences: ignoreWhitespace = %s, intralineDifference = %s",
+        prefs.ignoreWhitespace, prefs.intralineDifference);
 
     PatchScriptFactory psf;
     PatchSet basePatchSet = null;
@@ -143,7 +140,6 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     try {
-      psf.setLoadComments(context != DiffPreferencesInfo.WHOLE_FILE_CONTEXT);
       PatchScript ps = psf.call();
       Project.NameKey projectName = resource.getRevision().getChange().getProject();
       ProjectState state = projectCache.get(projectName).orElseThrow(illegalState(projectName));
@@ -245,11 +241,6 @@ public class GetDiff implements RestReadView<FileResource> {
     return this;
   }
 
-  public GetDiff setContext(int context) {
-    this.context = context;
-    return this;
-  }
-
   public GetDiff setIntraline(boolean intraline) {
     this.intraline = intraline;
     return this;
@@ -281,33 +272,14 @@ public class GetDiff implements RestReadView<FileResource> {
     }
 
     @Override
-    public final int parseArguments(Parameters params) throws CmdLineException {
-      final String value = params.getParameter(0);
-      short context;
-      if ("all".equalsIgnoreCase(value)) {
-        context = DiffPreferencesInfo.WHOLE_FILE_CONTEXT;
-      } else {
-        try {
-          context = Short.parseShort(value, 10);
-          if (context < 0) {
-            throw new NumberFormatException();
-          }
-        } catch (NumberFormatException e) {
-          logger.atFine().withCause(e).log("invalid numeric value");
-          throw new CmdLineException(
-              owner,
-              localizable("\"%s\" is not a valid value for \"%s\""),
-              value,
-              ((NamedOptionDef) option).name());
-        }
-      }
-      setter.addValue(context);
+    public final int parseArguments(Parameters params) {
+      // Return 1 to consume the context parameter.
       return 1;
     }
 
     @Override
     public final String getDefaultMetaVariable() {
-      return "ALL|# LINES";
+      return "ignored";
     }
   }
 }

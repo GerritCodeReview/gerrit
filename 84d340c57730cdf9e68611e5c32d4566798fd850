@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "ac8b6a08_fd8cb6f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-25T07:47:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3c03ad37_2c0a73c3",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b6705033_d1620f52",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
         "patchSetId": 2
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "f8b5bf7f_a4952e5f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 745,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-25T07:47:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b6705033_d1620f52",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "196b1abe_fea8bb4f",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
         "patchSetId": 2
@@ -47,6 +83,24 @@
       "writtenOn": "2020-09-25T07:44:25Z",
       "side": 1,
       "message": "Do you need flush() here?\n\nCan you instead use flushAsynchronousOperations()?\n\nThe problem is that calling assert in async callbacks does not really work.",
+      "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "df8a7930_55ddfd79",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 747,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-25T07:47:47Z",
+      "side": 1,
+      "message": "Using flushAsynchronousOperations was not working. The API call was resolving after the assert check.\n\"The problem is that calling assert in async callbacks does not really work.\"\nWDYM? I ran it through the debugger and the assert looked to be working.",
+      "parentUuid": "196b1abe_fea8bb4f",
       "revId": "84d340c57730cdf9e68611e5c32d4566798fd850",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true

@@ -349,7 +349,7 @@ suite('gr-account-list tests', () => {
     assert.isTrue(element.$.entry.hasAttribute('hidden'));
   });
 
-  test('enter text calls suggestions provider', done => {
+  test('enter text calls suggestions provider', async () => {
     const suggestions = [
       {
         email: 'abc@example.com',
@@ -373,16 +373,13 @@ suite('gr-account-list tests', () => {
     input.text = 'newTest';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    flush();
-    flush(() => {
-      assert.isTrue(getSuggestionsStub.calledOnce);
-      assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
-      assert.equal(makeSuggestionItemStub.getCalls().length, 2);
-      done();
-    });
+    await flush();
+    assert.isTrue(getSuggestionsStub.calledOnce);
+    assert.equal(getSuggestionsStub.lastCall.args[0], 'newTest');
+    assert.equal(makeSuggestionItemStub.getCalls().length, 2);
   });
 
-  test('suggestion on empty', done => {
+  test('suggestion on empty', async () => {
     element.skipSuggestOnEmpty = false;
     const suggestions = [
       {
@@ -407,16 +404,13 @@ suite('gr-account-list tests', () => {
     input.text = '';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    flush();
-    flush(() => {
-      assert.isTrue(getSuggestionsStub.calledOnce);
-      assert.equal(getSuggestionsStub.lastCall.args[0], '');
-      assert.equal(makeSuggestionItemStub.getCalls().length, 2);
-      done();
-    });
+    await flush();
+    assert.isTrue(getSuggestionsStub.calledOnce);
+    assert.equal(getSuggestionsStub.lastCall.args[0], '');
+    assert.equal(makeSuggestionItemStub.getCalls().length, 2);
   });
 
-  test('skip suggestion on empty', done => {
+  test('skip suggestion on empty', async () => {
     element.skipSuggestOnEmpty = true;
     const getSuggestionsStub =
         sinon.stub(suggestionsProvider, 'getSuggestions')
@@ -427,11 +421,8 @@ suite('gr-account-list tests', () => {
     input.text = '';
     MockInteractions.focus(input.$.input);
     input.noDebounce = true;
-    flush();
-    flush(() => {
-      assert.isTrue(getSuggestionsStub.notCalled);
-      done();
-    });
+    await flush();
+    assert.isTrue(getSuggestionsStub.notCalled);
   });
 
   suite('allowAnyInput', () => {
@@ -468,68 +459,62 @@ suite('gr-account-list tests', () => {
   });
 
   suite('keyboard interactions', () => {
-    test('backspace at text input start removes last account', done => {
+    test('backspace at text input start removes last account', async () => {
       const input = element.$.entry.$.input;
       sinon.stub(input, '_updateSuggestions');
       sinon.stub(element, '_computeRemovable').returns(true);
-      flush(() => {
-        // Next line is a workaround for Firefox not moving cursor
-        // on input field update
-        assert.equal(
-            element._getNativeInput(input.$.input).selectionStart, 0);
-        input.text = 'test';
-        MockInteractions.focus(input.$.input);
-        flush();
-        assert.equal(element.accounts.length, 2);
-        MockInteractions.pressAndReleaseKeyOn(
-            element._getNativeInput(input.$.input), 8); // Backspace
-        assert.equal(element.accounts.length, 2);
-        input.text = '';
-        MockInteractions.pressAndReleaseKeyOn(
-            element._getNativeInput(input.$.input), 8); // Backspace
-        flush();
-        assert.equal(element.accounts.length, 1);
-        done();
-      });
+      await flush();
+      // Next line is a workaround for Firefox not moving cursor
+      // on input field update
+      assert.equal(
+          element._getNativeInput(input.$.input).selectionStart, 0);
+      input.text = 'test';
+      MockInteractions.focus(input.$.input);
+      flush();
+      assert.equal(element.accounts.length, 2);
+      MockInteractions.pressAndReleaseKeyOn(
+          element._getNativeInput(input.$.input), 8); // Backspace
+      assert.equal(element.accounts.length, 2);
+      input.text = '';
+      MockInteractions.pressAndReleaseKeyOn(
+          element._getNativeInput(input.$.input), 8); // Backspace
+      flush();
+      assert.equal(element.accounts.length, 1);
     });
 
-    test('arrow key navigation', done => {
+    test('arrow key navigation', async () => {
       const input = element.$.entry.$.input;
       input.text = '';
       element.accounts = [makeAccount(), makeAccount()];
-      flush(() => {
-        MockInteractions.focus(input.$.input);
-        flush();
-        const chips = element.accountChips;
-        const chipsOneSpy = sinon.spy(chips[1], 'focus');
-        MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
-        assert.isTrue(chipsOneSpy.called);
-        const chipsZeroSpy = sinon.spy(chips[0], 'focus');
-        MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
-        assert.isTrue(chipsZeroSpy.called);
-        MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
-        assert.isTrue(chipsZeroSpy.calledOnce);
-        MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
-        assert.isTrue(chipsOneSpy.calledTwice);
-        done();
-      });
+      flush();
+      MockInteractions.focus(input.$.input);
+      await flush();
+      const chips = element.accountChips;
+      const chipsOneSpy = sinon.spy(chips[1], 'focus');
+      MockInteractions.pressAndReleaseKeyOn(input.$.input, 37); // Left
+      assert.isTrue(chipsOneSpy.called);
+      const chipsZeroSpy = sinon.spy(chips[0], 'focus');
+      MockInteractions.pressAndReleaseKeyOn(chips[1], 37); // Left
+      assert.isTrue(chipsZeroSpy.called);
+      MockInteractions.pressAndReleaseKeyOn(chips[0], 37); // Left
+      assert.isTrue(chipsZeroSpy.calledOnce);
+      MockInteractions.pressAndReleaseKeyOn(chips[0], 39); // Right
+      assert.isTrue(chipsOneSpy.calledTwice);
     });
 
-    test('delete', done => {
+    test('delete', () => {
       element.accounts = [makeAccount(), makeAccount()];
-      flush(() => {
-        const focusSpy = sinon.spy(element.accountChips[1], 'focus');
-        const removeSpy = sinon.spy(element, 'removeAccount');
-        MockInteractions.pressAndReleaseKeyOn(
-            element.accountChips[0], 8); // Backspace
-        assert.isTrue(focusSpy.called);
-        assert.isTrue(removeSpy.calledOnce);
+      flush();
+      const focusSpy = sinon.spy(element.accountChips[1], 'focus');
+      const removeSpy = sinon.spy(element, 'removeAccount');
+      MockInteractions.pressAndReleaseKeyOn(
+          element.accountChips[0], 8); // Backspace
+      assert.isTrue(focusSpy.called);
+      assert.isTrue(removeSpy.calledOnce);
 
-        MockInteractions.pressAndReleaseKeyOn(
-            element.accountChips[1], 46); // Delete
-        assert.isTrue(removeSpy.calledTwice);
-        done();
-      });
+      MockInteractions.pressAndReleaseKeyOn(
+          element.accountChips[1], 46); // Delete
+      assert.isTrue(removeSpy.calledTwice);
     });
   });
 });

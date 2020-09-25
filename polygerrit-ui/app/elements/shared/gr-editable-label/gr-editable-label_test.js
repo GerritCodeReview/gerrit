@@ -43,18 +43,14 @@ suite('gr-editable-label tests', () => {
   let input;
   let label;
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
     elementNoPlaceholder = noPlaceholderFixture.instantiate();
+    label = element.shadowRoot.querySelector('label');
 
-    label = element.shadowRoot
-        .querySelector('label');
-
-    flush(() => {
-      // In Polymer 2 inputElement isn't nativeInput anymore
-      input = element.$.input.$.nativeInput || element.$.input.inputElement;
-      done();
-    });
+    await flush();
+    // In Polymer 2 inputElement isn't nativeInput anymore
+    input = element.$.input.$.nativeInput || element.$.input.inputElement;
   });
 
   test('element render', () => {

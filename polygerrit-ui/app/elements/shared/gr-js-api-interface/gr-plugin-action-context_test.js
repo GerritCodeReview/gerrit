@@ -33,7 +33,7 @@ suite('gr-plugin-action-context tests', () => {
     instance = new GrPluginActionContext(plugin);
   });
 
-  test('popup() and hide()', done => {
+  test('popup() and hide()', async () => {
     const popupApiStub = {
       _getElement: sinon.stub().returns(document.createElement('div')),
       close: sinon.stub(),
@@ -41,12 +41,10 @@ suite('gr-plugin-action-context tests', () => {
     sinon.stub(plugin, 'popup').returns(Promise.resolve(popupApiStub));
     const el = document.createElement('span');
     instance.popup(el);
-    flush(() => {
-      assert.isTrue(popupApiStub._getElement.called);
-      instance.hide();
-      assert.isTrue(popupApiStub.close.called);
-      done();
-    });
+    await flush();
+    assert.isTrue(popupApiStub._getElement.called);
+    instance.hide();
+    assert.isTrue(popupApiStub.close.called);
   });
 
   test('textfield', () => {
@@ -84,13 +82,11 @@ suite('gr-plugin-action-context tests', () => {
       document.body.appendChild(button);
     });
 
-    test('click', done => {
+    test('click', () => {
       MockInteractions.tap(button);
-      flush(() => {
-        assert.isTrue(clickStub.called);
-        assert.equal(button.textContent, 'foo');
-        done();
-      });
+      flush();
+      assert.isTrue(clickStub.called);
+      assert.equal(button.textContent, 'foo');
     });
 
     teardown(() => {
@@ -130,7 +126,7 @@ suite('gr-plugin-action-context tests', () => {
         'METHOD', '/changes/1/revisions/2/foo~bar', payload));
   });
 
-  test('call error', done => {
+  test('call error', async () => {
     instance.action = {
       method: 'METHOD',
       __key: 'key',
@@ -143,12 +139,10 @@ suite('gr-plugin-action-context tests', () => {
     const errorStub = sinon.stub();
     document.addEventListener('show-alert', errorStub);
     instance.call();
-    flush(() => {
-      assert.isTrue(errorStub.calledOnce);
-      assert.equal(errorStub.args[0][0].detail.message,
-          'Plugin network error: Error: boom');
-      done();
-    });
+    await flush();
+    assert.isTrue(errorStub.calledOnce);
+    assert.equal(errorStub.args[0][0].detail.message,
+        'Plugin network error: Error: boom');
   });
 });
 

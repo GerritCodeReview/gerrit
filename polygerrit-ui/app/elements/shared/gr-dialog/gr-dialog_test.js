@@ -73,12 +73,10 @@ suite('gr-dialog tests', () => {
       assert.isNull(element.$.confirm.getAttribute('has-tooltip'));
     });
 
-    test('tooltip added if confirm tooltip is passed', done => {
+    test('tooltip added if confirm tooltip is passed', () => {
       element.confirmTooltip = 'confirm tooltip';
-      flush(() => {
-        assert(element.$.confirm.getAttribute('has-tooltip'));
-        done();
-      });
+      flush();
+      assert(element.$.confirm.getAttribute('has-tooltip'));
     });
   });
 

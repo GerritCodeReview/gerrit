@@ -52,7 +52,11 @@ public class ListPortedComments implements RestReadView<RevisionResource> {
     List<HumanComment> allComments =
         commentsUtil.publishedHumanCommentsByChange(revisionResource.getNotes());
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(revisionResource.getNotes(), targetPatchset, allComments);
+        commentPorter.portComments(
+            revisionResource.getNotes(),
+            targetPatchset,
+            allComments,
+            ImmutableList.of(new UnresolvedCommentFilter()));
     return Response.ok(format(portedComments));
   }
 

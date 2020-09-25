@@ -79,7 +79,8 @@ public class CommentPorterTest {
     when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
         .thenThrow(PatchListNotAvailableException.class);
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(changeNotes, patchset2, ImmutableList.of(comment));
+        commentPorter.portComments(
+            changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
 
     assertThat(portedComments).isNotEmpty();
   }
@@ -100,7 +101,8 @@ public class CommentPorterTest {
     when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(changeNotes, patchset2, ImmutableList.of(comment));
+        commentPorter.portComments(
+            changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
 
     assertThat(portedComments).isNotEmpty();
   }
@@ -119,7 +121,8 @@ public class CommentPorterTest {
     when(commentsUtil.determineCommitId(any(), any(), anyShort()))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(changeNotes, patchset2, ImmutableList.of(comment));
+        commentPorter.portComments(
+            changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
 
     assertThat(portedComments).isNotEmpty();
   }
@@ -140,7 +143,8 @@ public class CommentPorterTest {
     when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
         .thenThrow(IllegalStateException.class);
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(changeNotes, patchset2, ImmutableList.of(comment));
+        commentPorter.portComments(
+            changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
 
     assertThat(portedComments)
         .comparingElementsUsing(hasFilePath())
@@ -169,7 +173,8 @@ public class CommentPorterTest {
         .thenThrow(IllegalStateException.class)
         .thenReturn(emptyDiff);
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(changeNotes, patchset3, ImmutableList.of(comment1, comment2));
+        commentPorter.portComments(
+            changeNotes, patchset3, ImmutableList.of(comment1, comment2), ImmutableList.of());
 
     // One of the comments should still be ported as usual. -> Keeps its file name as the diff was
     // empty.
@@ -194,7 +199,8 @@ public class CommentPorterTest {
     when(patchListCache.get(any(PatchListKey.class), any(Project.NameKey.class)))
         .thenReturn(emptyDiff);
     ImmutableList<HumanComment> portedComments =
-        commentPorter.portComments(changeNotes, patchset2, ImmutableList.of(comment));
+        commentPorter.portComments(
+            changeNotes, patchset2, ImmutableList.of(comment), ImmutableList.of());
 
     assertThat(portedComments).isEmpty();
   }

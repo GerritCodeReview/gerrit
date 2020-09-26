@@ -160,7 +160,7 @@ class GrDiffHost extends GestureEventListeners(
       },
       viewMode: {
         type: String,
-        value: DiffViewMode.SIDE_BY_SIDE,
+        value: '',
       },
 
       /**
@@ -249,7 +249,7 @@ class GrDiffHost extends GestureEventListeners(
 
       _layers: {
         type: Array,
-        value: [],
+        value: () => [],
       },
     };
   }

@@ -27,10 +27,17 @@ import {
   CustomKeyboardEvent,
   KeyboardShortcutMixin,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
-import {sortComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {
+  isDraft,
+  isRobot,
+  sortComments,
+  UIComment,
+  UIDraft,
+  UIRobot,
+} from '../../diff/gr-comment-api/gr-comment-api';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
-import {CommentSide, SpecialFilePath} from '../../../constants/constants';
+import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';
 import {computeDisplayPath} from '../../../utils/path-list-util';
 import {customElement, observe, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
@@ -42,7 +49,7 @@ import {
   RepoName,
   UrlEncodedCommentId,
 } from '../../../types/common';
-import {Comment, GrComment, RobotComment} from '../gr-comment/gr-comment';
+import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 
@@ -102,7 +109,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   changeNum?: NumericChangeId;
 
   @property({type: Array})
-  comments: Comment[] = [];
+  comments: UIComment[] = [];
 
   @property({type: Object, reflectToAttribute: true})
   range?: CommentRange;
@@ -111,7 +118,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   keyEventTarget: HTMLElement = document.body;
 
   @property({type: String, reflectToAttribute: true})
-  commentSide?: string;
+  commentSide?: Side;
 
   @property({type: String})
   patchNum?: PatchSetNum;
@@ -151,10 +158,10 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   _showActions?: boolean;
 
   @property({type: Object})
-  _lastComment?: Comment;
+  _lastComment?: UIComment;
 
   @property({type: Array})
-  _orderedComments: Comment[] = [];
+  _orderedComments: UIComment[] = [];
 
   @property({type: Object})
   _projectConfig?: ConfigInfo;
@@ -197,7 +204,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
 
   addOrEditDraft(lineNum?: number, rangeParam?: CommentRange) {
     const lastComment = this.comments[this.comments.length - 1] || {};
-    if (lastComment.__draft) {
+    if (isDraft(lastComment)) {
       const commentEl = this._commentElWithDraftID(
         lastComment.id || lastComment.__draftID
       );
@@ -237,7 +244,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   _getDiffUrlForPath(path: string) {
     if (!this.changeNum) throw new Error('changeNum is missing');
     if (!this.projectName) throw new Error('projectName is missing');
-    if (this.comments[0].__draft) {
+    if (isDraft(this.comments[0])) {
       return GerritNav.getUrlForDiffById(
         this.changeNum,
         this.projectName,
@@ -251,14 +258,15 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _getDiffUrlForComment(
-    projectName: RepoName,
-    changeNum: NumericChangeId,
-    path: string,
-    patchNum: PatchSetNum
+    projectName?: RepoName,
+    changeNum?: NumericChangeId,
+    path?: string,
+    patchNum?: PatchSetNum
   ) {
+    if (!projectName || !changeNum || !path) return undefined;
     if (
       (this.comments.length && this.comments[0].side === 'PARENT') ||
-      this.comments[0].__draft
+      isDraft(this.comments[0])
     ) {
       return GerritNav.getUrlForDiffById(
         changeNum,
@@ -271,9 +279,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     }
     const id = this.comments[0].id;
     if (!id) throw new Error('A published comment is missing the id.');
-    if (!this.changeNum) throw new Error('changeNum is missing');
-    if (!this.projectName) throw new Error('projectName is missing');
-    return GerritNav.getUrlForComment(this.changeNum, this.projectName, id);
+    return GerritNav.getUrlForComment(changeNum, projectName, id);
   }
 
   _isPatchsetLevelComment(path: string) {
@@ -315,19 +321,19 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     if (this._orderedComments.length) {
       this._lastComment = this._getLastComment();
       this.unresolved = this._lastComment.unresolved;
-      this.hasDraft = this._lastComment.__draft;
-      this.isRobotComment = !!(this._lastComment as RobotComment).robot_id;
+      this.hasDraft = isDraft(this._lastComment);
+      this.isRobotComment = isRobot(this._lastComment);
     }
   }
 
-  _shouldDisableAction(_showActions?: boolean, _lastComment?: Comment) {
-    return !_showActions || !_lastComment || !!_lastComment.__draft;
+  _shouldDisableAction(_showActions?: boolean, _lastComment?: UIComment) {
+    return !_showActions || !_lastComment || isDraft(_lastComment);
   }
 
-  _hideActions(_showActions?: boolean, _lastComment?: Comment) {
+  _hideActions(_showActions?: boolean, _lastComment?: UIComment) {
     return (
       this._shouldDisableAction(_showActions, _lastComment) ||
-      !!(_lastComment as RobotComment).robot_id
+      isRobot(_lastComment)
     );
   }
 
@@ -371,7 +377,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     if (this._orderedComments) {
       for (let i = 0; i < this._orderedComments.length; i++) {
         const comment = this._orderedComments[i];
-        const isRobotComment = !!(comment as RobotComment).robot_id;
+        const isRobotComment = !!(comment as UIRobot).robot_id;
         // False if it's an unresolved comment under UNRESOLVED_EXPAND_COUNT.
         const resolvedThread =
           !this.unresolved ||
@@ -417,8 +423,8 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     }
   }
 
-  _isDraft(comment: Comment) {
-    return !!comment.__draft;
+  _isDraft(comment: UIComment) {
+    return isDraft(comment);
   }
 
   _processCommentReply(quote?: boolean) {
@@ -463,9 +469,9 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     const els = this.root?.querySelectorAll('gr-comment');
     if (!els) return null;
     for (const el of els) {
-      if (el.comment?.id === id || el.comment?.__draftID === id) {
-        return el;
-      }
+      const c = el.comment;
+      if (isRobot(c)) continue;
+      if (c?.id === id || (isDraft(c) && c?.__draftID === id)) return el;
     }
     return null;
   }
@@ -487,7 +493,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
   }
 
   _newDraft(lineNum?: number, range?: CommentRange) {
-    const d: Comment = {
+    const d: UIDraft = {
       __draft: true,
       __draftID: Math.random().toString(36),
       __date: new Date(),
@@ -529,14 +535,16 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     return isOnParent ? CommentSide.PARENT : CommentSide.REVISION;
   }
 
-  _computeRootId(comments: PolymerDeepPropertyChange<Comment[], unknown>) {
+  _computeRootId(comments: PolymerDeepPropertyChange<UIComment[], unknown>) {
     // Keep the root ID even if the comment was removed, so that notification
     // to sync will know which thread to remove.
     if (!comments.base.length) {
       return this.rootId;
     }
     const rootComment = comments.base[0];
-    return rootComment.id || rootComment.__draftID;
+    if (rootComment.id) return rootComment.id;
+    if (isDraft(rootComment)) return rootComment.__draftID;
+    throw new Error('Missing id in root comment.');
   }
 
   _handleCommentDiscard(e: Event) {
@@ -599,12 +607,12 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     this.updateThreadProperties();
   }
 
-  _indexOf(comment: Comment | undefined, arr: Comment[]) {
+  _indexOf(comment: UIComment | undefined, arr: UIComment[]) {
     if (!comment) return -1;
     for (let i = 0; i < arr.length; i++) {
       const c = arr[i];
       if (
-        (c.__draftID && c.__draftID === comment.__draftID) ||
+        (isDraft(c) && isDraft(comment) && c.__draftID === comment.__draftID) ||
         (c.id && c.id === comment.id)
       ) {
         return i;

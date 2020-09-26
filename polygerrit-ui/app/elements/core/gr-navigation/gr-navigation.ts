@@ -377,8 +377,8 @@ export type MapCommentLinksCallback = (patterns: CommentLinks) => CommentLinks;
 
 export interface WebLink {
   name?: string;
-  label: string;
-  url: string;
+  label?: string;
+  url?: string;
 }
 
 export interface GeneratedWebLink {

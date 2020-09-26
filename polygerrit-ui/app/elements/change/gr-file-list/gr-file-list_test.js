@@ -27,6 +27,7 @@ import {runA11yAudit} from '../../../test/a11y-test-utils.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api.js';
 
 const commentApiMock = createCommentApiMockWithTemplateElement(
     'gr-file-list-comment-api-mock', html`
@@ -351,7 +352,7 @@ suite('gr-file-list tests', () => {
     });
 
     test('comment filtering', () => {
-      element.changeComments._comments = {
+      const comments = {
         '/COMMIT_MSG': [
           {patch_set: 1, message: 'Done', updated: '2017-02-08 16:40:49'},
           {patch_set: 1, message: 'oh hay', updated: '2017-02-09 16:40:49'},
@@ -387,7 +388,7 @@ suite('gr-file-list tests', () => {
           },
         ],
       };
-      element.changeComments._drafts = {
+      const drafts = {
         '/COMMIT_MSG': [
           {
             patch_set: 1,
@@ -414,6 +415,7 @@ suite('gr-file-list tests', () => {
           },
         ],
       };
+      element.changeComments = new ChangeComments(comments, {}, drafts, 123);
 
       const parentTo1 = {
         basePatchNum: 'PARENT',

@@ -42,6 +42,7 @@ import {
   DiffViewMode,
   DraftsAction,
   NotifyType,
+  Side,
 } from '../constants/constants';
 
 export type BrandType<T, BrandName extends string> = T &
@@ -1071,6 +1072,21 @@ export interface CommentInfo extends CommentInput {
   unresolved?: boolean;
   change_message_id?: string;
   commit_id?: string;
+
+  // The following properties are client-side only.
+
+  // TODO(TS): Properly distinguish drafts and published comments.
+  // These three properties are set for newly created (unsaved) drafts.
+  __draft?: boolean;
+  __draftID?: string;
+  __date?: Date;
+
+  // The `side` of the comment is PARENT or REVISION, but this is LEFT or RIGHT.
+  // TODO(TS): Remove the naming confusion of commentSide being of type of Side,
+  // but side being of type CommentSide. :-)
+  __commentSide?: Side;
+  // TODO(TS): Remove this. Seems to be exactly the same as `path`??
+  __path?: string;
 }
 
 export type PathToCommentsInfoMap = {[path: string]: CommentInfo[]};

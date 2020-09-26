@@ -14,21 +14,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-comment-thread/gr-comment-thread.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import '../gr-diff/gr-diff.js';
-import '../gr-syntax-layer/gr-syntax-layer.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-diff-host_html.js';
-import {GrDiffBuilder} from '../gr-diff-builder/gr-diff-builder.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {DiffSide, rangesEqual} from '../gr-diff/gr-diff-utils.js';
-import {appContext} from '../../../services/app-context.js';
-import {getParentIndex, isMergeParent} from '../../../utils/patch-set-util.js';
-import {sortComments} from '../gr-comment-api/gr-comment-api.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-comment-thread/gr-comment-thread';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import '../gr-diff/gr-diff';
+import '../gr-syntax-layer/gr-syntax-layer';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-diff-host_html';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {rangesEqual} from '../gr-diff/gr-diff-utils';
+import {appContext} from '../../../services/app-context';
+import {
+  getParentIndex,
+  isMergeParent,
+  isNumber,
+} from '../../../utils/patch-set-util';
+import {
+  Comment,
+  PatchSetFile,
+  sortComments,
+  TwoSidesComments,
+} from '../gr-comment-api/gr-comment-api';
+import {customElement, observe, property} from '@polymer/decorators';
+import {
+  CommitRange,
+  CoverageRange,
+  DiffLayer,
+  DiffLayerListener,
+} from '../../../types/types';
+import {
+  BlameInfo,
+  CommentRange,
+  DiffInfo,
+  DiffPreferencesInfo,
+  NumericChangeId,
+  PatchRange,
+  PatchSetNum,
+  RepoName,
+} from '../../../types/common';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
+import {GrDiff} from '../gr-diff/gr-diff';
+import {GrSyntaxLayer} from '../gr-syntax-layer/gr-syntax-layer';
+import {IgnoreWhitespaceType, Side} from '../../../constants/constants';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
+import {LineNumber} from '../gr-diff/gr-diff-line';
+import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -36,17 +70,16 @@ const EVENT_AGAINST_PARENT = 'diff-against-parent';
 const EVENT_ZERO_REBASE = 'rebase-percent-zero';
 const EVENT_NONZERO_REBASE = 'rebase-percent-nonzero';
 
-const DiffViewMode = {
-  SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-  UNIFIED: 'UNIFIED_DIFF',
-};
+enum DiffViewMode {
+  SIDE_BY_SIDE = 'SIDE_BY_SIDE',
+  UNIFIED = 'UNIFIED_DIFF',
+}
 
-/** @enum {string} */
-const TimingLabel = {
-  TOTAL: 'Diff Total Render',
-  CONTENT: 'Diff Content Render',
-  SYNTAX: 'Diff Syntax Render',
-};
+enum TimingLabel {
+  TOTAL = 'Diff Total Render',
+  CONTENT = 'Diff Content Render',
+  SYNTAX = 'Diff Syntax Render',
+}
 
 // Disable syntax highlighting if the overall diff is too large.
 const SYNTAX_MAX_DIFF_LENGTH = 20000;
@@ -58,37 +91,58 @@ const SYNTAX_MAX_LINE_LENGTH = 500;
 // 120 lines is good enough threshold for full-sized window viewport
 const NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT = 120;
 
-const WHITESPACE_IGNORE_NONE = 'IGNORE_NONE';
+function isImageDiff(diff?: DiffInfo) {
+  if (!diff) return false;
 
-/**
- * @param {Object} diff
- * @return {boolean}
- */
-function isImageDiff(diff) {
-  if (!diff) { return false; }
-
-  const isA = diff.meta_a &&
-      diff.meta_a.content_type.startsWith('image/');
-  const isB = diff.meta_b &&
-      diff.meta_b.content_type.startsWith('image/');
+  const isA = diff.meta_a && diff.meta_a.content_type.startsWith('image/');
+  const isB = diff.meta_b && diff.meta_b.content_type.startsWith('image/');
 
   return !!(diff.binary && (isA || isB));
+}
+
+interface LineInfo {
+  beforeNumber?: LineNumber;
+  afterNumber?: LineNumber;
+}
+
+// TODO(TS): Consolidate this with the CommentThread interface of comment-api.
+// What is being used here is just a local object for collecting all the data
+// that is needed to create a GrCommentThread component, see
+// _createThreadElement().
+interface CommentThread {
+  comments: Comment[];
+  commentSide?: Side;
+  patchNum?: PatchSetNum;
+  rootId?: string;
+  lineNum?: LineNumber;
+  isOnParent?: boolean;
+  range?: CommentRange;
+}
+
+export interface GrDiffHost {
+  $: {
+    restAPI: RestApiService & Element;
+    jsAPI: JsApiService & Element;
+    syntaxLayer: GrSyntaxLayer & Element;
+    diff: GrDiff;
+  };
 }
 
 /**
  * Wrapper around gr-diff.
  *
  * Webcomponent fetching diffs and related data from restAPI and passing them
- * to the presentational gr-diff for rendering.
- *
- * @extends PolymerElement
+ * to the presentational gr-diff for rendering. <gr-diff-host> is a Gerrit
+ * specific component, while <gr-diff> is a re-usable component.
  */
-class GrDiffHost extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+@customElement('gr-diff-host')
+export class GrDiffHost extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-diff-host'; }
   /**
    * Fired when the user selects a line.
    *
@@ -107,192 +161,141 @@ class GrDiffHost extends GestureEventListeners(
    * @event diff-comments-modified
    */
 
-  static get properties() {
-    return {
-      changeNum: String,
-      noAutoRender: {
-        type: Boolean,
-        value: false,
-      },
-      /** @type {?} */
-      patchRange: Object,
-      /** @type {!Gerrit.FileRange} */
-      file: Object,
-      // TODO: deprecate path since that info is included in file
-      path: String,
-      prefs: {
-        type: Object,
-      },
-      projectName: String,
-      displayLine: {
-        type: Boolean,
-        value: false,
-      },
-      isImageDiff: {
-        type: Boolean,
-        computed: '_computeIsImageDiff(diff)',
-        notify: true,
-      },
-      commitRange: Object,
-      // The return type is FilesWebLinks from gr-patch-range-select.
-      filesWeblinks: {
-        type: Object,
-        value() {
-          return {};
-        },
-        notify: true,
-      },
-      hidden: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
-      noRenderOnPrefsChange: {
-        type: Boolean,
-        value: false,
-      },
-      comments: {
-        type: Object,
-        observer: '_commentsChanged',
-      },
-      lineWrapping: {
-        type: Boolean,
-        value: false,
-      },
-      viewMode: {
-        type: String,
-        value: '',
-      },
+  @property({type: Number})
+  changeNum?: NumericChangeId;
 
-      /**
-       * Special line number which should not be collapsed into a shared region.
-       *
-       * @type {{
-       *  number: number,
-       *  leftSide: {boolean}
-       * }|null}
-       */
-      lineOfInterest: Object,
+  @property({type: Boolean})
+  noAutoRender = false;
 
-      /**
-       * If the diff fails to load, show the failure message in the diff rather
-       * than bubbling the error up to the whole page. This is useful for when
-       * loading inline diffs because one diff failing need not mark the whole
-       * page with a failure.
-       */
-      showLoadFailure: Boolean,
+  @property({type: Object})
+  patchRange?: PatchRange;
 
-      isBlameLoaded: {
-        type: Boolean,
-        notify: true,
-        computed: '_computeIsBlameLoaded(_blame)',
-      },
+  @property({type: Object})
+  file?: PatchSetFile;
 
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: String})
+  path?: string;
 
-      _loading: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: Object})
+  prefs?: DiffPreferencesInfo;
 
-      /** @type {?string} */
-      _errorMessage: {
-        type: String,
-        value: null,
-      },
+  @property({type: String})
+  projectName?: RepoName;
 
-      /** @type {?Object} */
-      _baseImage: Object,
-      /** @type {?Object} */
-      _revisionImage: Object,
-      /**
-       * This is a DiffInfo object.
-       */
-      diff: {
-        type: Object,
-        notify: true,
-      },
+  @property({type: Boolean})
+  displayLine = false;
 
-      _fetchDiffPromise: {
-        type: Object,
-        value: null,
-      },
+  @property({
+    type: Boolean,
+    computed: '_computeIsImageDiff(diff)',
+    notify: true,
+  })
+  isImageDiff?: boolean;
 
-      /** @type {?Object} */
-      _blame: {
-        type: Object,
-        value: null,
-      },
+  @property({type: Object})
+  commitRange?: CommitRange;
 
-      /**
-       * @type {!Array<!Gerrit.CoverageRange>}
-       */
-      _coverageRanges: {
-        type: Array,
-        value: () => [],
-      },
+  @property({type: Object, notify: true})
+  filesWeblinks: FilesWebLinks = {};
 
-      _loadedWhitespaceLevel: String,
+  @property({type: Boolean, reflectToAttribute: true})
+  hidden = false;
 
-      _parentIndex: {
-        type: Number,
-        computed: '_computeParentIndex(patchRange.*)',
-      },
+  @property({type: Boolean})
+  noRenderOnPrefsChange = false;
 
-      _syntaxHighlightingEnabled: {
-        type: Boolean,
-        computed:
-        '_isSyntaxHighlightingEnabled(prefs.*, diff)',
-      },
+  @property({type: Object, observer: '_commentsChanged'})
+  comments?: TwoSidesComments;
 
-      _layers: {
-        type: Array,
-        value: () => [],
-      },
-    };
-  }
+  @property({type: Boolean})
+  lineWrapping = false;
 
-  static get observers() {
-    return [
-      '_whitespaceChanged(prefs.ignore_whitespace, _loadedWhitespaceLevel,' +
-        ' noRenderOnPrefsChange)',
-      '_syntaxHighlightingChanged(noRenderOnPrefsChange, prefs.*)',
-    ];
-  }
+  @property({type: String})
+  viewMode = DiffViewMode.SIDE_BY_SIDE;
 
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
+  @property({type: Object})
+  lineOfInterest?: unknown;
+
+  @property({type: Boolean})
+  showLoadFailure?: boolean;
+
+  @property({
+    type: Boolean,
+    notify: true,
+    computed: '_computeIsBlameLoaded(_blame)',
+  })
+  isBlameLoaded?: boolean;
+
+  @property({type: Boolean})
+  _loggedIn = false;
+
+  @property({type: Boolean})
+  _loading = false;
+
+  @property({type: String})
+  _errorMessage: string | null = null;
+
+  @property({type: Object})
+  _baseImage?: unknown;
+
+  @property({type: Object})
+  _revisionImage?: unknown;
+
+  @property({type: Object, notify: true})
+  diff?: DiffInfo;
+
+  @property({type: Object})
+  _fetchDiffPromise: Promise<DiffInfo> | null = null;
+
+  @property({type: Object})
+  _blame: BlameInfo[] | null = null;
+
+  @property({type: Array})
+  _coverageRanges: CoverageRange[] = [];
+
+  @property({type: String})
+  _loadedWhitespaceLevel?: IgnoreWhitespaceType;
+
+  @property({type: Number, computed: '_computeParentIndex(patchRange.*)'})
+  _parentIndex: number | null = null;
+
+  @property({
+    type: Boolean,
+    computed: '_isSyntaxHighlightingEnabled(prefs.*, diff)',
+  })
+  _syntaxHighlightingEnabled?: boolean;
+
+  @property({type: Array})
+  _layers: DiffLayer[] = [];
+
+  private readonly reporting = appContext.reportingService;
 
   /** @override */
   created() {
     super.created();
     this.addEventListener(
-        // These are named inconsistently for a reason:
-        // The create-comment event is fired to indicate that we should
-        // create a comment.
-        // The comment-* events are just notifying that the comments did already
-        // change in some way, and that we should update any models we may want
-        // to keep in sync.
-        'create-comment',
-        e => this._handleCreateComment(e));
-    this.addEventListener('comment-discard',
-        e => this._handleCommentDiscard(e));
-    this.addEventListener('comment-update',
-        e => this._handleCommentUpdate(e));
-    this.addEventListener('comment-save',
-        e => this._handleCommentSave(e));
-    this.addEventListener('render-start',
-        () => this._handleRenderStart());
-    this.addEventListener('render-content',
-        () => this._handleRenderContent());
-    this.addEventListener('normalize-range',
-        event => this._handleNormalizeRange(event));
-    this.addEventListener('diff-context-expanded',
-        event => this._handleDiffContextExpanded(event));
+      // These are named inconsistently for a reason:
+      // The create-comment event is fired to indicate that we should
+      // create a comment.
+      // The comment-* events are just notifying that the comments did already
+      // change in some way, and that we should update any models we may want
+      // to keep in sync.
+      'create-comment',
+      e => this._handleCreateComment(e)
+    );
+    this.addEventListener('comment-discard', e =>
+      this._handleCommentDiscard(e)
+    );
+    this.addEventListener('comment-update', e => this._handleCommentUpdate(e));
+    this.addEventListener('comment-save', e => this._handleCommentSave(e));
+    this.addEventListener('render-start', () => this._handleRenderStart());
+    this.addEventListener('render-content', () => this._handleRenderContent());
+    this.addEventListener('normalize-range', event =>
+      this._handleNormalizeRange(event)
+    );
+    this.addEventListener('diff-context-expanded', event =>
+      this._handleDiffContextExpanded(event)
+    );
   }
 
   /** @override */
@@ -318,20 +321,24 @@ class GrDiffHost extends GestureEventListeners(
   }
 
   /**
-   * @param {boolean=} shouldReportMetric indicate a new Diff Page. This is a
+   * @param shouldReportMetric indicate a new Diff Page. This is a
    * signal to report metrics event that started on location change.
-   * @return {!Promise}
-   **/
-  reload(shouldReportMetric) {
+   * @return
+   */
+  reload(shouldReportMetric?: boolean) {
     this.clear();
+    if (!this.path) throw new Error('Missing required "path" property.');
+    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
     this._loading = true;
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
 
-    const layers = [this.$.syntaxLayer];
+    const layers: DiffLayer[] = [this.$.syntaxLayer];
     // Get layers from plugins (if any).
     for (const pluginLayer of this.$.jsAPI.getDiffLayers(
-        this.path, this.changeNum)) {
+      this.path,
+      this.changeNum
+    )) {
       layers.push(pluginLayer);
     }
     this._layers = layers;
@@ -344,19 +351,21 @@ class GrDiffHost extends GestureEventListeners(
     this._coverageRanges = [];
     this._getCoverageData();
     const diffRequest = this._getDiff()
-        .then(diff => {
-          this._loadedWhitespaceLevel = whitespaceLevel;
-          this._reportDiff(diff);
-          return diff;
-        })
-        .catch(e => {
-          this._handleGetDiffError(e);
-          return null;
-        });
+      .then(diff => {
+        this._loadedWhitespaceLevel = whitespaceLevel;
+        this._reportDiff(diff);
+        return diff;
+      })
+      .catch(e => {
+        this._handleGetDiffError(e);
+        return null;
+      });
 
     const assetRequest = diffRequest.then(diff => {
       // If the diff is null, then it's failed to load.
-      if (!diff) { return null; }
+      if (!diff) {
+        return null;
+      }
 
       return this._loadDiffAssets(diff);
     });
@@ -364,105 +373,129 @@ class GrDiffHost extends GestureEventListeners(
     // Not waiting for coverage ranges intentionally as
     // plugin loading should not block the content rendering
     return Promise.all([diffRequest, assetRequest])
-        .then(results => {
-          const diff = results[0];
-          if (!diff) {
-            return Promise.resolve();
-          }
-          this.filesWeblinks = this._getFilesWeblinks(diff);
-          return new Promise(resolve => {
-            const callback = event => {
-              const needsSyntaxHighlighting = event.detail &&
-                    event.detail.contentRendered;
-              if (needsSyntaxHighlighting) {
-                this.reporting.time(TimingLabel.SYNTAX);
-                this.$.syntaxLayer.process().finally(() => {
-                  this.reporting.timeEnd(TimingLabel.SYNTAX);
-                  this.reporting.timeEnd(TimingLabel.TOTAL);
-                  resolve();
-                });
-              } else {
+      .then(results => {
+        const diff = results[0];
+        if (!diff) {
+          return Promise.resolve();
+        }
+        this.filesWeblinks = this._getFilesWeblinks(diff);
+        return new Promise(resolve => {
+          const callback = (event: CustomEvent) => {
+            const needsSyntaxHighlighting =
+              event.detail && event.detail.contentRendered;
+            if (needsSyntaxHighlighting) {
+              this.reporting.time(TimingLabel.SYNTAX);
+              this.$.syntaxLayer.process().finally(() => {
+                this.reporting.timeEnd(TimingLabel.SYNTAX);
                 this.reporting.timeEnd(TimingLabel.TOTAL);
                 resolve();
-              }
-              this.removeEventListener('render', callback);
-              if (shouldReportMetric) {
-                // We report diffViewContentDisplayed only on reload caused
-                // by params changed - expected only on Diff Page.
-                this.reporting.diffViewContentDisplayed();
-              }
-            };
-            this.addEventListener('render', callback);
-            this.diff = diff;
-          });
-        })
-        .catch(err => {
-          console.warn('Error encountered loading diff:', err);
-        })
-        .then(() => { this._loading = false; });
+              });
+            } else {
+              this.reporting.timeEnd(TimingLabel.TOTAL);
+              resolve();
+            }
+            this.removeEventListener('render', callback);
+            if (shouldReportMetric) {
+              // We report diffViewContentDisplayed only on reload caused
+              // by params changed - expected only on Diff Page.
+              this.reporting.diffViewContentDisplayed();
+            }
+          };
+          this.addEventListener('render', callback);
+          this.diff = diff;
+        });
+      })
+      .catch(err => {
+        console.warn('Error encountered loading diff:', err);
+      })
+      .then(() => {
+        this._loading = false;
+      });
   }
 
   clear() {
-    this.$.jsAPI.disposeDiffLayers(this.path);
+    if (this.path) this.$.jsAPI.disposeDiffLayers(this.path);
     this._layers = [];
   }
 
   _getCoverageData() {
-    const {changeNum, path, patchRange: {basePatchNum, patchNum}} = this;
-    this.$.jsAPI.getCoverageAnnotationApi().
-        then(coverageAnnotationApi => {
-          if (!coverageAnnotationApi) return;
-          const provider = coverageAnnotationApi.getCoverageProvider();
-          return provider(changeNum, path, basePatchNum, patchNum)
-              .then(coverageRanges => {
-                if (!coverageRanges ||
-                  changeNum !== this.changeNum ||
-                  path !== this.path ||
-                  basePatchNum !== this.patchRange.basePatchNum ||
-                  patchNum !== this.patchRange.patchNum) {
-                  return;
-                }
+    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
+    if (!this.path) throw new Error('Missing required "path" prop.');
+    if (!this.patchRange) throw new Error('Missing required "patchRange".');
+    const changeNum = this.changeNum;
+    const path = this.path;
+    // Coverage providers do not provide data for EDIT and PARENT patch sets.
+    const basePatchNum = isNumber(this.patchRange.basePatchNum)
+      ? this.patchRange.basePatchNum
+      : undefined;
+    const patchNum = isNumber(this.patchRange.patchNum)
+      ? this.patchRange.patchNum
+      : undefined;
+    this.$.jsAPI
+      .getCoverageAnnotationApi()
+      .then(coverageAnnotationApi => {
+        if (!coverageAnnotationApi) return;
+        const provider = coverageAnnotationApi.getCoverageProvider();
+        if (!provider) return;
+        return provider(changeNum, path, basePatchNum, patchNum).then(
+          coverageRanges => {
+            if (!this.patchRange) throw new Error('Missing "patchRange".');
+            if (
+              !coverageRanges ||
+              changeNum !== this.changeNum ||
+              path !== this.path ||
+              basePatchNum !== this.patchRange.basePatchNum ||
+              patchNum !== this.patchRange.patchNum
+            ) {
+              return;
+            }
 
-                const existingCoverageRanges = this._coverageRanges;
-                this._coverageRanges = coverageRanges;
+            const existingCoverageRanges = this._coverageRanges;
+            this._coverageRanges = coverageRanges;
 
-                // Notify with existing coverage ranges
-                // in case there is some existing coverage data that needs to be removed
-                existingCoverageRanges.forEach(range => {
-                  coverageAnnotationApi.notify(
-                      path,
-                      range.code_range.start_line,
-                      range.code_range.end_line,
-                      range.side);
-                });
+            // Notify with existing coverage ranges
+            // in case there is some existing coverage data that needs to be removed
+            existingCoverageRanges.forEach(range => {
+              coverageAnnotationApi.notify(
+                path,
+                range.code_range.start_line,
+                range.code_range.end_line,
+                range.side
+              );
+            });
 
-                // Notify with new coverage data
-                coverageRanges.forEach(range => {
-                  coverageAnnotationApi.notify(
-                      path,
-                      range.code_range.start_line,
-                      range.code_range.end_line,
-                      range.side);
-                });
-              });
-        })
-        .catch(err => {
-          console.warn('Loading coverage ranges failed: ', err);
-        });
+            // Notify with new coverage data
+            coverageRanges.forEach(range => {
+              coverageAnnotationApi.notify(
+                path,
+                range.code_range.start_line,
+                range.code_range.end_line,
+                range.side
+              );
+            });
+          }
+        );
+      })
+      .catch(err => {
+        console.warn('Loading coverage ranges failed: ', err);
+      });
   }
 
-  _getFilesWeblinks(diff) {
-    // The return type is FilesWebLinks from gr-patch-range-select.
-    if (!this.commitRange) {
-      return {};
-    }
+  _getFilesWeblinks(diff: DiffInfo) {
+    if (!this.projectName || !this.commitRange || !this.path) return {};
     return {
       meta_a: GerritNav.getFileWebLinks(
-          this.projectName, this.commitRange.baseCommit, this.path,
-          {weblinks: diff && diff.meta_a && diff.meta_a.web_links}),
+        this.projectName,
+        this.commitRange.baseCommit,
+        this.path,
+        {weblinks: diff && diff.meta_a && diff.meta_a.web_links}
+      ),
       meta_b: GerritNav.getFileWebLinks(
-          this.projectName, this.commitRange.commit, this.path,
-          {weblinks: diff && diff.meta_b && diff.meta_b.web_links}),
+        this.projectName,
+        this.commitRange.commit,
+        this.path,
+        {weblinks: diff && diff.meta_b && diff.meta_b.web_links}
+      ),
     };
   }
 
@@ -472,12 +505,16 @@ class GrDiffHost extends GestureEventListeners(
     this.$.syntaxLayer.cancel();
   }
 
-  /** @return {!Array<!HTMLElement>} */
+  /**
+   * @return
+   */
   getCursorStops() {
     return this.$.diff.getCursorStops();
   }
 
-  /** @return {boolean} */
+  /**
+   * @return
+   */
   isRangeSelected() {
     return this.$.diff.isRangeSelected();
   }
@@ -492,42 +529,39 @@ class GrDiffHost extends GestureEventListeners(
 
   /**
    * Load and display blame information for the base of the diff.
-   *
-   * @return {Promise} A promise that resolves when blame finishes rendering.
    */
-  loadBlame() {
-    return this.$.restAPI.getBlame(this.changeNum, this.patchRange.patchNum,
-        this.path, true)
-        .then(blame => {
-          if (!blame.length) {
-            this.dispatchEvent(new CustomEvent('show-alert', {
+  loadBlame(): Promise<BlameInfo[]> {
+    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
+    if (!this.patchRange) throw new Error('Missing required "patchRange".');
+    if (!this.path) throw new Error('Missing required "path" property.');
+    return this.$.restAPI
+      .getBlame(this.changeNum, this.patchRange.patchNum, this.path, true)
+      .then(blame => {
+        if (!blame || !blame.length) {
+          this.dispatchEvent(
+            new CustomEvent('show-alert', {
               detail: {message: MSG_EMPTY_BLAME},
-              composed: true, bubbles: true,
-            }));
-            return Promise.reject(MSG_EMPTY_BLAME);
-          }
+              composed: true,
+              bubbles: true,
+            })
+          );
+          return Promise.reject(MSG_EMPTY_BLAME);
+        }
 
-          this._blame = blame;
-        });
+        this._blame = blame;
+        return blame;
+      });
   }
 
-  /** Unload blame information for the diff. */
   clearBlame() {
     this._blame = null;
   }
 
-  /**
-   * The thread elements in this diff, in no particular order.
-   *
-   * @return {!Array<!HTMLElement>}
-   */
-  getThreadEls() {
-    return Array.from(
-        this.$.diff.querySelectorAll('.comment-thread'));
+  getThreadEls(): GrCommentThread[] {
+    return Array.from(this.$.diff.querySelectorAll('.comment-thread'));
   }
 
-  /** @param {HTMLElement} el */
-  addDraftAtLine(el) {
+  addDraftAtLine(el: Element) {
     this.$.diff.addDraftAtLine(el);
   }
 
@@ -539,27 +573,29 @@ class GrDiffHost extends GestureEventListeners(
     this.$.diff.expandAllContext();
   }
 
-  /** @return {!Promise} */
   _getLoggedIn() {
     return this.$.restAPI.getLoggedIn();
   }
 
-  /** @return {boolean}} */
   _canReload() {
-    return !!this.changeNum && !!this.patchRange && !!this.path &&
-        !this.noAutoRender;
+    return (
+      !!this.changeNum && !!this.patchRange && !!this.path && !this.noAutoRender
+    );
   }
 
   // TODO(milutin): Use rest-api with fetchCacheURL instead of this.
   prefetchDiff() {
-    if (!!this.changeNum && !!this.patchRange && !!this.path
-        && this._fetchDiffPromise === null) {
+    if (
+      !!this.changeNum &&
+      !!this.patchRange &&
+      !!this.path &&
+      this._fetchDiffPromise === null
+    ) {
       this._fetchDiffPromise = this._getDiff();
     }
   }
 
-  /** @return {!Promise<!Object>} */
-  _getDiff() {
+  _getDiff(): Promise<DiffInfo> {
     if (this._fetchDiffPromise !== null) {
       const fetchDiffPromise = this._fetchDiffPromise;
       this._fetchDiffPromise = null;
@@ -568,25 +604,33 @@ class GrDiffHost extends GestureEventListeners(
     // Wrap the diff request in a new promise so that the error handler
     // rejects the promise, allowing the error to be handled in the .catch.
     return new Promise((resolve, reject) => {
-      this.$.restAPI.getDiff(
+      if (!this.changeNum) throw new Error('Missing required "changeNum".');
+      if (!this.patchRange) throw new Error('Missing required "patchRange".');
+      if (!this.path) throw new Error('Missing required "path" property.');
+      this.$.restAPI
+        .getDiff(
           this.changeNum,
           this.patchRange.basePatchNum,
           this.patchRange.patchNum,
           this.path,
           this._getIgnoreWhitespace(),
-          reject)
-          .then(resolve);
+          reject
+        )
+        .then(resolve);
     });
   }
 
-  _handleGetDiffError(response) {
+  _handleGetDiffError(response: Response) {
     // Loading the diff may respond with 409 if the file is too large. In this
     // case, use a toast error..
     if (response.status === 409) {
-      this.dispatchEvent(new CustomEvent('server-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('server-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
 
@@ -599,28 +643,33 @@ class GrDiffHost extends GestureEventListeners(
       return;
     }
 
-    this.dispatchEvent(new CustomEvent('page-error', {
-      detail: {response},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('page-error', {
+        detail: {response},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   /**
    * Report info about the diff response.
    */
-  _reportDiff(diff) {
-    if (!diff || !diff.content) {
-      return;
-    }
+  _reportDiff(diff?: DiffInfo) {
+    if (!diff || !diff.content) return;
 
     // Count the delta lines stemming from normal deltas, and from
     // due_to_rebase deltas.
     let nonRebaseDelta = 0;
     let rebaseDelta = 0;
     diff.content.forEach(chunk => {
-      if (chunk.ab) { return; }
+      if (chunk.ab) {
+        return;
+      }
       const deltaSize = Math.max(
-          chunk.a ? chunk.a.length : 0, chunk.b ? chunk.b.length : 0);
+        chunk.a ? chunk.a.length : 0,
+        chunk.b ? chunk.b.length : 0
+      );
       if (chunk.due_to_rebase) {
         rebaseDelta += deltaSize;
       } else {
@@ -631,28 +680,28 @@ class GrDiffHost extends GestureEventListeners(
     // Find the percent of the delta from due_to_rebase chunks rounded to two
     // digits. Diffs with no delta are considered 0%.
     const totalDelta = rebaseDelta + nonRebaseDelta;
-    const percentRebaseDelta = !totalDelta ? 0 :
-      Math.round(100 * rebaseDelta / totalDelta);
+    const percentRebaseDelta = !totalDelta
+      ? 0
+      : Math.round((100 * rebaseDelta) / totalDelta);
 
     // Report the due_to_rebase percentage in the "diff" category when
     // applicable.
+    if (!this.patchRange) throw new Error('Missing required "patchRange".');
     if (this.patchRange.basePatchNum === 'PARENT') {
       this.reporting.reportInteraction(EVENT_AGAINST_PARENT);
     } else if (percentRebaseDelta === 0) {
       this.reporting.reportInteraction(EVENT_ZERO_REBASE);
     } else {
-      this.reporting.reportInteraction(EVENT_NONZERO_REBASE,
-          {percentRebaseDelta});
+      this.reporting.reportInteraction(EVENT_NONZERO_REBASE, {
+        percentRebaseDelta,
+      });
     }
   }
 
-  /**
-   * @param {Object} diff
-   * @return {!Promise}
-   */
-  _loadDiffAssets(diff) {
+  _loadDiffAssets(diff?: DiffInfo) {
     if (isImageDiff(diff)) {
-      return this._getImages(diff).then(images => {
+      // diff! is justified, because isImageDiff() returns false otherwise
+      return this._getImages(diff!).then(images => {
         this._baseImage = images.baseImage;
         this._revisionImage = images.revisionImage;
       });
@@ -663,17 +712,13 @@ class GrDiffHost extends GestureEventListeners(
     }
   }
 
-  /**
-   * @param {Object} diff
-   * @return {boolean}
-   */
-  _computeIsImageDiff(diff) {
+  _computeIsImageDiff(diff?: DiffInfo) {
     return isImageDiff(diff);
   }
 
-  _commentsChanged(newComments) {
+  _commentsChanged(newComments: TwoSidesComments) {
     const allComments = [];
-    for (const side of [GrDiffBuilder.Side.LEFT, GrDiffBuilder.Side.RIGHT]) {
+    for (const side of [Side.LEFT, Side.RIGHT]) {
       // This is needed by the threading.
       for (const comment of newComments[side]) {
         comment.__commentSide = side;
@@ -692,11 +737,7 @@ class GrDiffHost extends GestureEventListeners(
     }
   }
 
-  /**
-   * @param {!Array<!Object>} comments
-   * @return {!Array<!Object>} Threads for the given comments.
-   */
-  _createThreads(comments) {
+  _createThreads(comments: Comment[]): CommentThread[] {
     const sortedComments = sortComments(comments);
     const threads = [];
     for (const comment of sortedComments) {
@@ -704,7 +745,8 @@ class GrDiffHost extends GestureEventListeners(
       // thread and append to it.
       if (comment.in_reply_to) {
         const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to));
+          thread.comments.some(c => c.id === comment.in_reply_to)
+        );
         if (thread) {
           thread.comments.push(comment);
           continue;
@@ -712,8 +754,7 @@ class GrDiffHost extends GestureEventListeners(
       }
 
       // Otherwise, this comment starts its own thread.
-      const newThread = {
-        start_datetime: comment.updated,
+      const newThread: CommentThread = {
         comments: [comment],
         commentSide: comment.__commentSide,
         patchNum: comment.patch_set,
@@ -729,28 +770,29 @@ class GrDiffHost extends GestureEventListeners(
     return threads;
   }
 
-  /**
-   * @param {Object} blame
-   * @return {boolean}
-   */
-  _computeIsBlameLoaded(blame) {
+  _computeIsBlameLoaded(blame: BlameInfo[] | null) {
     return !!blame;
   }
 
-  /**
-   * @param {Object} diff
-   * @return {!Promise}
-   */
-  _getImages(diff) {
-    return this.$.restAPI.getImagesForDiff(this.changeNum, diff,
-        this.patchRange);
+  _getImages(diff: DiffInfo) {
+    if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
+    if (!this.patchRange) throw new Error('Missing required "patchRange".');
+    return this.$.restAPI.getImagesForDiff(
+      this.changeNum,
+      diff,
+      this.patchRange
+    );
   }
 
-  /** @param {CustomEvent} e */
-  _handleCreateComment(e) {
+  _handleCreateComment(e: CustomEvent) {
     const {lineNum, side, patchNum, isOnParent, range} = e.detail;
-    const threadEl = this._getOrCreateThread(patchNum, lineNum, side, range,
-        isOnParent);
+    const threadEl = this._getOrCreateThread(
+      patchNum,
+      lineNum,
+      side,
+      range,
+      isOnParent
+    );
     threadEl.addOrEditDraft(lineNum, range);
 
     this.reporting.recordDraftInteraction();
@@ -759,15 +801,14 @@ class GrDiffHost extends GestureEventListeners(
   /**
    * Gets or creates a comment thread at a given location.
    * May provide a range, to get/create a range comment.
-   *
-   * @param {string} patchNum
-   * @param {?number} lineNum
-   * @param {string} commentSide
-   * @param {Gerrit.Range|undefined} range
-   * @param {boolean} isOnParent
-   * @return {!Object}
    */
-  _getOrCreateThread(patchNum, lineNum, commentSide, range, isOnParent) {
+  _getOrCreateThread(
+    patchNum: PatchSetNum,
+    lineNum: LineNumber | undefined,
+    commentSide: Side,
+    range?: CommentRange,
+    isOnParent?: boolean
+  ): GrCommentThread {
     let threadEl = this._getThreadEl(lineNum, commentSide, range);
     if (!threadEl) {
       threadEl = this._createThreadElement({
@@ -783,18 +824,18 @@ class GrDiffHost extends GestureEventListeners(
     return threadEl;
   }
 
-  _attachThreadElement(threadEl) {
+  _attachThreadElement(threadEl: Element) {
     this.$.diff.appendChild(threadEl);
   }
 
   _clearThreads() {
     for (const threadEl of this.getThreadEls()) {
       const parent = threadEl.parentNode;
-      parent.removeChild(threadEl);
+      if (parent) parent.removeChild(threadEl);
     }
   }
 
-  _createThreadElement(thread) {
+  _createThreadElement(thread: CommentThread) {
     const threadEl = document.createElement('gr-comment-thread');
     threadEl.className = 'comment-thread';
     threadEl.setAttribute('slot', `${thread.commentSide}-${thread.lineNum}`);
@@ -804,9 +845,12 @@ class GrDiffHost extends GestureEventListeners(
     threadEl.parentIndex = this._parentIndex;
     // Use path before renmaing when comment added on the left when comparing
     // two patch sets (not against base)
-    if (this.file && this.file.basePath
-        && thread.commentSide === GrDiffBuilder.Side.LEFT
-        && !thread.isOnParent) {
+    if (
+      this.file &&
+      this.file.basePath &&
+      thread.commentSide === Side.LEFT &&
+      !thread.isOnParent
+    ) {
       threadEl.path = this.file.basePath;
     } else {
       threadEl.path = this.path;
@@ -814,20 +858,26 @@ class GrDiffHost extends GestureEventListeners(
     threadEl.changeNum = this.changeNum;
     threadEl.patchNum = thread.patchNum;
     threadEl.showPatchset = false;
-    threadEl.lineNum = thread.lineNum;
-    const rootIdChangedListener = changeEvent => {
+    // GrCommentThread does not understand 'FILE', but requires undefined.
+    threadEl.lineNum = thread.lineNum !== 'FILE' ? thread.lineNum : undefined;
+    const rootIdChangedListener = (changeEvent: CustomEvent) => {
       thread.rootId = changeEvent.detail.value;
     };
     threadEl.addEventListener('root-id-changed', rootIdChangedListener);
     threadEl.projectName = this.projectName;
     threadEl.range = thread.range;
-    const threadDiscardListener = e => {
-      const threadEl = /** @type {!Node} */ (e.currentTarget);
+    const threadDiscardListener = (e: Event) => {
+      const threadEl = e.currentTarget as Element;
 
       const parent = threadEl.parentNode;
-      parent.removeChild(threadEl);
+      if (parent) parent.removeChild(threadEl);
 
-      threadEl.removeEventListener('root-id-changed', rootIdChangedListener);
+      // TODO(TS): Why does addEventListener respect the HTMLElementEventMap,
+      // but removeEventListener does not? Would be nice to not have to cast.
+      threadEl.removeEventListener(
+        'root-id-changed',
+        rootIdChangedListener as EventListener
+      );
       threadEl.removeEventListener('thread-discard', threadDiscardListener);
     };
     threadEl.addEventListener('thread-discard', threadDiscardListener);
@@ -837,132 +887,132 @@ class GrDiffHost extends GestureEventListeners(
   /**
    * Gets a comment thread element at a given location.
    * May provide a range, to get a range comment.
-   *
-   * @param {?number} lineNum
-   * @param {string} commentSide
-   * @param {!Gerrit.Range=} range
-   * @return {?Node}
    */
-  _getThreadEl(lineNum, commentSide, range = undefined) {
-    let line;
-    if (commentSide === GrDiffBuilder.Side.LEFT) {
+  _getThreadEl(
+    lineNum: LineNumber | undefined,
+    commentSide: Side,
+    range?: CommentRange
+  ): GrCommentThread | null {
+    let line: LineInfo;
+    if (commentSide === Side.LEFT) {
       line = {beforeNumber: lineNum};
-    } else if (commentSide === GrDiffBuilder.Side.RIGHT) {
+    } else if (commentSide === Side.RIGHT) {
       line = {afterNumber: lineNum};
     } else {
       throw new Error(`Unknown side: ${commentSide}`);
     }
-    function matchesRange(threadEl) {
-      const threadRange = /** @type {!Gerrit.Range} */(
-        JSON.parse(threadEl.getAttribute('range')));
+    function matchesRange(threadEl: GrCommentThread) {
+      const rangeAtt = threadEl.getAttribute('range');
+      const threadRange = rangeAtt ? JSON.parse(rangeAtt) : undefined;
       return rangesEqual(threadRange, range);
     }
 
     const filteredThreadEls = this._filterThreadElsForLocation(
-        this.getThreadEls(), line, commentSide).filter(matchesRange);
+      this.getThreadEls(),
+      line,
+      commentSide
+    ).filter(matchesRange);
     return filteredThreadEls.length ? filteredThreadEls[0] : null;
   }
 
-  /**
-   * @param {!Array<!HTMLElement>} threadEls
-   * @param {!{beforeNumber: (number|string|undefined|null),
-   *           afterNumber: (number|string|undefined|null)}}
-   *     lineInfo
-   * @param {!DiffSide=} side The side (LEFT, RIGHT) for
-   *     which to return the threads.
-   * @return {!Array<!HTMLElement>} The thread elements matching the given
-   *     location.
-   */
-  _filterThreadElsForLocation(threadEls, lineInfo, side) {
-    function matchesLeftLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          DiffSide.LEFT &&
-          threadEl.getAttribute('line-num') == lineInfo.beforeNumber;
+  _filterThreadElsForLocation(
+    threadEls: GrCommentThread[],
+    lineInfo: LineInfo,
+    side: Side
+  ) {
+    function matchesLeftLine(threadEl: GrCommentThread) {
+      return (
+        threadEl.getAttribute('comment-side') === Side.LEFT &&
+        threadEl.getAttribute('line-num') === String(lineInfo.beforeNumber)
+      );
     }
-    function matchesRightLine(threadEl) {
-      return threadEl.getAttribute('comment-side') ==
-          DiffSide.RIGHT &&
-          threadEl.getAttribute('line-num') == lineInfo.afterNumber;
+    function matchesRightLine(threadEl: GrCommentThread) {
+      return (
+        threadEl.getAttribute('comment-side') === Side.RIGHT &&
+        threadEl.getAttribute('line-num') === String(lineInfo.afterNumber)
+      );
     }
-    function matchesFileComment(threadEl) {
-      return threadEl.getAttribute('comment-side') == side &&
-            // line/range comments have 1-based line set, if line is falsy it's
-            // a file comment
-            !threadEl.getAttribute('line-num');
+    function matchesFileComment(threadEl: GrCommentThread) {
+      return (
+        threadEl.getAttribute('comment-side') === side &&
+        // line/range comments have 1-based line set, if line is falsy it's
+        // a file comment
+        !threadEl.getAttribute('line-num')
+      );
     }
 
     // Select the appropriate matchers for the desired side and line
     // If side is BOTH, we want both the left and right matcher.
-    const matchers = [];
-    if (side !== DiffSide.RIGHT) {
+    const matchers: ((thread: GrCommentThread) => boolean)[] = [];
+    if (side !== Side.RIGHT) {
       matchers.push(matchesLeftLine);
     }
-    if (side !== DiffSide.LEFT) {
+    if (side !== Side.LEFT) {
       matchers.push(matchesRightLine);
     }
-    if (lineInfo.afterNumber === 'FILE' ||
-        lineInfo.beforeNumber === 'FILE') {
+    if (lineInfo.afterNumber === 'FILE' || lineInfo.beforeNumber === 'FILE') {
       matchers.push(matchesFileComment);
     }
     return threadEls.filter(threadEl =>
-      matchers.some(matcher => matcher(threadEl)));
+      matchers.some(matcher => matcher(threadEl))
+    );
   }
 
-  _getIgnoreWhitespace() {
+  _getIgnoreWhitespace(): IgnoreWhitespaceType {
     if (!this.prefs || !this.prefs.ignore_whitespace) {
-      return WHITESPACE_IGNORE_NONE;
+      return IgnoreWhitespaceType.IGNORE_NONE;
     }
     return this.prefs.ignore_whitespace;
   }
 
+  @observe(
+    'prefs.ignore_whitespace',
+    '_loadedWhitespaceLevel',
+    'noRenderOnPrefsChange'
+  )
   _whitespaceChanged(
-      preferredWhitespaceLevel, loadedWhitespaceLevel,
-      noRenderOnPrefsChange) {
-    // Polymer 2: check for undefined
-    if ([
-      preferredWhitespaceLevel,
-      loadedWhitespaceLevel,
-      noRenderOnPrefsChange,
-    ].includes(undefined)) {
-      return;
-    }
+    preferredWhitespaceLevel?: IgnoreWhitespaceType,
+    loadedWhitespaceLevel?: IgnoreWhitespaceType,
+    noRenderOnPrefsChange?: boolean
+  ) {
+    if (preferredWhitespaceLevel === undefined) return;
+    if (loadedWhitespaceLevel === undefined) return;
+    if (noRenderOnPrefsChange === undefined) return;
 
     this._fetchDiffPromise = null;
-    if (preferredWhitespaceLevel !== loadedWhitespaceLevel &&
-        !noRenderOnPrefsChange) {
+    if (
+      preferredWhitespaceLevel !== loadedWhitespaceLevel &&
+      !noRenderOnPrefsChange
+    ) {
       this.reload();
     }
   }
 
-  _syntaxHighlightingChanged(noRenderOnPrefsChange, prefsChangeRecord) {
-    // Polymer 2: check for undefined
-    if ([
-      noRenderOnPrefsChange,
-      prefsChangeRecord,
-    ].includes(undefined)) {
-      return;
-    }
+  @observe('noRenderOnPrefsChange', 'prefs.*')
+  _syntaxHighlightingChanged(
+    noRenderOnPrefsChange?: boolean,
+    prefsChangeRecord?: PolymerDeepPropertyChange<
+      DiffPreferencesInfo,
+      DiffPreferencesInfo
+    >
+  ) {
+    if (noRenderOnPrefsChange === undefined) return;
+    if (prefsChangeRecord === undefined) return;
+    if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') return;
 
-    if (prefsChangeRecord.path !== 'prefs.syntax_highlighting') {
-      return;
-    }
-
-    if (!noRenderOnPrefsChange) {
-      this.reload();
-    }
+    if (!noRenderOnPrefsChange) this.reload();
   }
 
-  /**
-   * @param {Object} patchRangeRecord
-   * @return {number|null}
-   */
-  _computeParentIndex(patchRangeRecord) {
+  _computeParentIndex(
+    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
+  ) {
     if (!patchRangeRecord.base) return null;
-    return isMergeParent(patchRangeRecord.base.basePatchNum) ?
-      getParentIndex(patchRangeRecord.base.basePatchNum) : null;
+    return isMergeParent(patchRangeRecord.base.basePatchNum)
+      ? getParentIndex(patchRangeRecord.base.basePatchNum)
+      : null;
   }
 
-  _handleCommentSave(e) {
+  _handleCommentSave(e: CustomEvent) {
     const comment = e.detail.comment;
     const side = e.detail.comment.__commentSide;
     const idx = this._findDraftIndex(comment, side);
@@ -970,44 +1020,41 @@ class GrDiffHost extends GestureEventListeners(
     this._handleCommentSaveOrDiscard();
   }
 
-  _handleCommentDiscard(e) {
+  _handleCommentDiscard(e: CustomEvent) {
     const comment = e.detail.comment;
     this._removeComment(comment);
     this._handleCommentSaveOrDiscard();
   }
 
-  /**
-   * Closure annotation for Polymer.prototype.push is off. Submitted PR:
-   * https://github.com/Polymer/polymer/pull/4776
-   * but for not suppressing annotations.
-   *
-   * @suppress {checkTypes}
-   */
-  _handleCommentUpdate(e) {
+  _handleCommentUpdate(e: CustomEvent) {
     const comment = e.detail.comment;
     const side = e.detail.comment.__commentSide;
     let idx = this._findCommentIndex(comment, side);
     if (idx === -1) {
       idx = this._findDraftIndex(comment, side);
     }
-    if (idx !== -1) { // Update draft or comment.
+    if (idx !== -1) {
+      // Update draft or comment.
       this.set(['comments', side, idx], comment);
-    } else { // Create new draft.
+    } else {
+      // Create new draft.
       this.push(['comments', side], comment);
     }
   }
 
   _handleCommentSaveOrDiscard() {
-    this.dispatchEvent(new CustomEvent(
-        'diff-comments-modified', {bubbles: true, composed: true}));
+    this.dispatchEvent(
+      new CustomEvent('diff-comments-modified', {bubbles: true, composed: true})
+    );
   }
 
-  _removeComment(comment) {
+  _removeComment(comment: Comment) {
     const side = comment.__commentSide;
+    if (!side) throw new Error('Missing required "side" in comment.');
     this._removeCommentFromSide(comment, side);
   }
 
-  _removeCommentFromSide(comment, side) {
+  _removeCommentFromSide(comment: Comment, side: Side) {
     let idx = this._findCommentIndex(comment, side);
     if (idx === -1) {
       idx = this._findDraftIndex(comment, side);
@@ -1017,50 +1064,59 @@ class GrDiffHost extends GestureEventListeners(
     }
   }
 
-  /** @return {number} */
-  _findCommentIndex(comment, side) {
-    if (!comment.id || !this.comments[side]) {
+  _findCommentIndex(comment: Comment, side: Side) {
+    if (!comment.id || !this.comments || !this.comments[side]) {
       return -1;
     }
     return this.comments[side].findIndex(item => item.id === comment.id);
   }
 
-  /** @return {number} */
-  _findDraftIndex(comment, side) {
-    if (!comment.__draftID || !this.comments[side]) {
+  _findDraftIndex(comment: Comment, side: Side) {
+    if (!comment.__draftID || !this.comments || !this.comments[side]) {
       return -1;
     }
     return this.comments[side].findIndex(
-        item => item.__draftID === comment.__draftID);
+      item => item.__draftID === comment.__draftID
+    );
   }
 
-  _isSyntaxHighlightingEnabled(preferenceChangeRecord, diff) {
-    if (!preferenceChangeRecord ||
-        !preferenceChangeRecord.base ||
-        !preferenceChangeRecord.base.syntax_highlighting ||
-        !diff) {
+  _isSyntaxHighlightingEnabled(
+    preferenceChangeRecord?: PolymerDeepPropertyChange<
+      DiffPreferencesInfo,
+      DiffPreferencesInfo
+    >,
+    diff?: DiffInfo
+  ) {
+    if (
+      !preferenceChangeRecord ||
+      !preferenceChangeRecord.base ||
+      !preferenceChangeRecord.base.syntax_highlighting ||
+      !diff
+    ) {
       return false;
     }
-    return !this._anyLineTooLong(diff) &&
-        this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH;
+    return (
+      !this._anyLineTooLong(diff) &&
+      this.$.diff.getDiffLength(diff) <= SYNTAX_MAX_DIFF_LENGTH
+    );
   }
 
   /**
-   * @return {boolean} whether any of the lines in diff are longer
+   * @return whether any of the lines in diff are longer
    * than SYNTAX_MAX_LINE_LENGTH.
    */
-  _anyLineTooLong(diff) {
+  _anyLineTooLong(diff?: DiffInfo) {
     if (!diff) return false;
     return diff.content.some(section => {
-      const lines = section.ab ?
-        section.ab :
-        (section.a || []).concat(section.b || []);
+      const lines = section.ab
+        ? section.ab
+        : (section.a || []).concat(section.b || []);
       return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
     });
   }
 
   _listenToViewportRender() {
-    const renderUpdateListener = start => {
+    const renderUpdateListener: DiffLayerListener = start => {
       if (start > NUM_OF_LINES_THRESHOLD_FOR_VIEWPORT) {
         this.reporting.diffViewDisplayed();
         this.$.syntaxLayer.removeListener(renderUpdateListener);
@@ -1079,31 +1135,32 @@ class GrDiffHost extends GestureEventListeners(
     this.reporting.timeEnd(TimingLabel.CONTENT);
   }
 
-  _handleNormalizeRange(event) {
-    this.reporting.reportInteraction('normalize-range',
-        {
-          side: event.detail.side,
-          lineNum: event.detail.lineNum,
-        });
+  _handleNormalizeRange(event: CustomEvent) {
+    this.reporting.reportInteraction('normalize-range', {
+      side: event.detail.side,
+      lineNum: event.detail.lineNum,
+    });
   }
 
-  _handleDiffContextExpanded(event) {
-    this.reporting.reportInteraction(
-        'diff-context-expanded', {numLines: event.detail.numLines}
-    );
+  _handleDiffContextExpanded(event: CustomEvent) {
+    this.reporting.reportInteraction('diff-context-expanded', {
+      numLines: event.detail.numLines,
+    });
   }
 
   /**
    * Find the last chunk for the given side.
    *
-   * @param {!Object} diff
-   * @param {boolean} leftSide true if checking the base of the diff,
-   *     false if testing the revision.
-   * @return {Object|null} returns the chunk object or null if there was
-   *     no chunk for that side.
+   * @param diff
+   * @param leftSide true if checking the base of the diff,
+   * false if testing the revision.
+   * @return returns the chunk object or null if there was
+   * no chunk for that side.
    */
-  _lastChunkForSide(diff, leftSide) {
-    if (!diff.content.length) { return null; }
+  _lastChunkForSide(diff: DiffInfo | undefined, leftSide: boolean) {
+    if (!diff?.content.length) {
+      return null;
+    }
 
     let chunkIndex = diff.content.length;
     let chunk;
@@ -1113,19 +1170,20 @@ class GrDiffHost extends GestureEventListeners(
       chunkIndex--;
       chunk = diff.content[chunkIndex];
     } while (
-    // We haven't reached the beginning.
+      // We haven't reached the beginning.
       chunkIndex >= 0 &&
-
-        // The chunk doesn't have both sides.
-        !chunk.ab &&
-
-        // The chunk doesn't have the given side.
-        ((leftSide && (!chunk.a || !chunk.a.length)) ||
-         (!leftSide && (!chunk.b || !chunk.b.length))));
+      // The chunk doesn't have both sides.
+      !chunk.ab &&
+      // The chunk doesn't have the given side.
+      ((leftSide && (!chunk.a || !chunk.a.length)) ||
+        (!leftSide && (!chunk.b || !chunk.b.length)))
+    );
 
     // If we reached the beginning of the diff and failed to find a chunk
     // with the given side, return null.
-    if (chunkIndex === -1) { return null; }
+    if (chunkIndex === -1) {
+      return null;
+    }
 
     return chunk;
   }
@@ -1133,32 +1191,51 @@ class GrDiffHost extends GestureEventListeners(
   /**
    * Check whether the specified side of the diff has a trailing newline.
    *
-   * @param {!Object} diff
-   * @param {boolean} leftSide true if checking the base of the diff,
-   *     false if testing the revision.
-   * @return {boolean|null} Return true if the side has a trailing newline.
-   *     Return false if it doesn't. Return null if not applicable (for
-   *     example, if the diff has no content on the specified side).
+   * @param diff
+   * @param leftSide true if checking the base of the diff,
+   * false if testing the revision.
+   * @return Return true if the side has a trailing newline.
+   * Return false if it doesn't. Return null if not applicable (for
+   * example, if the diff has no content on the specified side).
    */
-  _hasTrailingNewlines(diff, leftSide) {
+  _hasTrailingNewlines(diff: DiffInfo | undefined, leftSide: boolean) {
     const chunk = this._lastChunkForSide(diff, leftSide);
-    if (!chunk) { return null; }
+    if (!chunk) return null;
     let lines;
     if (chunk.ab) {
       lines = chunk.ab;
     } else {
       lines = leftSide ? chunk.a : chunk.b;
     }
+    if (!lines) return null;
     return lines[lines.length - 1] === '';
   }
 
-  _showNewlineWarningLeft(diff) {
+  _showNewlineWarningLeft(diff?: DiffInfo) {
     return this._hasTrailingNewlines(diff, true) === false;
   }
 
-  _showNewlineWarningRight(diff) {
+  _showNewlineWarningRight(diff?: DiffInfo) {
     return this._hasTrailingNewlines(diff, false) === false;
   }
 }
 
-customElements.define(GrDiffHost.is, GrDiffHost);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-diff-host': GrDiffHost;
+  }
+}
+
+// TODO(TS): Be more specific than CustomEvent, which has detail:any.
+declare global {
+  interface HTMLElementEventMap {
+    render: CustomEvent;
+    'normalize-range': CustomEvent;
+    'diff-context-expanded': CustomEvent;
+    'create-comment': CustomEvent;
+    'comment-discard': CustomEvent;
+    'comment-update': CustomEvent;
+    'comment-save': CustomEvent;
+    'root-id-changed': CustomEvent;
+  }
+}

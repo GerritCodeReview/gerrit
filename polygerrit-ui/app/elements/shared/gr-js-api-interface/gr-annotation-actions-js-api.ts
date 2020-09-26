@@ -15,18 +15,17 @@
  * limitations under the License.
  */
 import {GrAnnotationActionsContext} from './gr-annotation-actions-context';
-import {GrDiffLine, LineNumber} from '../../diff/gr-diff/gr-diff-line';
-import {CoverageRange} from '../../../types/types';
+import {GrDiffLine} from '../../diff/gr-diff/gr-diff-line';
+import {
+  CoverageRange,
+  DiffLayer,
+  DiffLayerListener,
+} from '../../../types/types';
 import {Side} from '../../../constants/constants';
 import {PluginApi} from '../../plugins/gr-plugin-types';
+import {NumericChangeId} from '../../../types/common';
 
 type AddLayerFunc = (ctx: GrAnnotationActionsContext) => void;
-
-type LayerUpdateListener = (
-  start: LineNumber,
-  end: LineNumber,
-  side: Side
-) => void;
 
 type NotifyFunc = (
   path: string,
@@ -36,10 +35,10 @@ type NotifyFunc = (
 ) => void;
 
 export type CoverageProvider = (
-  changeNum: number,
+  changeNum: NumericChangeId,
   path: string,
-  basePatchNum: number,
-  patchNum: number
+  basePatchNum?: number,
+  patchNum?: number
 ) => Promise<Array<CoverageRange>>;
 
 export class GrAnnotationActionsInterface {
@@ -205,8 +204,8 @@ export class GrAnnotationActionsInterface {
   }
 }
 
-export class AnnotationLayer {
-  private listeners: LayerUpdateListener[] = [];
+export class AnnotationLayer implements DiffLayer {
+  private listeners: DiffLayerListener[] = [];
 
   /**
    * Used to create an instance of the Annotation Layer interface.
@@ -232,12 +231,12 @@ export class AnnotationLayer {
    * Should accept as arguments the line numbers for the start and end of
    * the update and the side as a string.
    */
-  addListener(fn: () => void) {
-    this.listeners.push(fn);
+  addListener(listener: DiffLayerListener) {
+    this.listeners.push(listener);
   }
 
-  removeListener(fn: () => void) {
-    this.listeners = this.listeners.filter(f => f !== fn);
+  removeListener(listener: DiffLayerListener) {
+    this.listeners = this.listeners.filter(f => f !== listener);
   }
 
   /**
@@ -271,7 +270,7 @@ export class AnnotationLayer {
    * @param end The line where the update ends.
    * @param side The side of the update. ('left' or 'right')
    */
-  notifyListeners(start: LineNumber, end: LineNumber, side: Side) {
+  notifyListeners(start: number, end: number, side: Side) {
     for (const listener of this.listeners) {
       listener(start, end, side);
     }

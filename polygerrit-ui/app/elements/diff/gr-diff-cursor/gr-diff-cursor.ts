@@ -23,9 +23,8 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-cursor_html';
-import {ScrollMode} from '../../../constants/constants';
+import {ScrollMode, Side} from '../../../constants/constants';
 import {customElement, property, observe} from '@polymer/decorators';
-import {DiffSide} from '../gr-diff/gr-diff-utils';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
@@ -75,7 +74,7 @@ export class GrDiffCursor extends GestureEventListeners(
   private _preventAutoScrollOnManualScroll = false;
 
   @property({type: String})
-  side = DiffSide.RIGHT;
+  side = Side.RIGHT;
 
   @property({type: Object, notify: true, observer: '_rowChanged'})
   diffRow?: HTMLElement;
@@ -154,14 +153,14 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveLeft() {
-    this.side = DiffSide.LEFT;
+    this.side = Side.LEFT;
     if (this._isTargetBlank()) {
       this.moveUp();
     }
   }
 
   moveRight() {
-    this.side = DiffSide.RIGHT;
+    this.side = Side.RIGHT;
     if (this._isTargetBlank()) {
       this.moveUp();
     }
@@ -222,7 +221,7 @@ export class GrDiffCursor extends GestureEventListeners(
     this._fixSide();
   }
 
-  moveToLineNumber(number: number, side: DiffSide, path?: string) {
+  moveToLineNumber(number: number, side: Side, path?: string) {
     const row = this._findRowByNumberAndFile(number, side, path);
     if (row) {
       this.side = side;
@@ -241,7 +240,7 @@ export class GrDiffCursor extends GestureEventListeners(
     }
 
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      lineElSelector += this.side === DiffSide.LEFT ? '.left' : '.right';
+      lineElSelector += this.side === Side.LEFT ? '.left' : '.right';
     }
 
     return this.diffRow.querySelector(lineElSelector);
@@ -402,7 +401,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   _rowHasSide(row: Element) {
     const selector =
-      (this.side === DiffSide.LEFT ? '.left' : '.right') + ' + .content';
+      (this.side === Side.LEFT ? '.left' : '.right') + ' + .content';
     return !!row.querySelector(selector);
   }
 
@@ -428,7 +427,7 @@ export class GrDiffCursor extends GestureEventListeners(
       this._getViewMode() === DiffViewMode.SIDE_BY_SIDE &&
       this._isTargetBlank()
     ) {
-      this.side = this.side === DiffSide.LEFT ? DiffSide.RIGHT : DiffSide.LEFT;
+      this.side = this.side === Side.LEFT ? Side.RIGHT : Side.LEFT;
     }
   }
 
@@ -439,8 +438,8 @@ export class GrDiffCursor extends GestureEventListeners(
 
     const actions = this._getActionsForRow();
     return (
-      (this.side === DiffSide.LEFT && !actions.left) ||
-      (this.side === DiffSide.RIGHT && !actions.right)
+      (this.side === Side.LEFT && !actions.left) ||
+      (this.side === Side.RIGHT && !actions.right)
     );
   }
 
@@ -456,16 +455,8 @@ export class GrDiffCursor extends GestureEventListeners(
     if (!this.diffRow) {
       return;
     }
-    this.toggleClass(
-      LEFT_SIDE_CLASS,
-      this.side === DiffSide.LEFT,
-      this.diffRow
-    );
-    this.toggleClass(
-      RIGHT_SIDE_CLASS,
-      this.side === DiffSide.RIGHT,
-      this.diffRow
-    );
+    this.toggleClass(LEFT_SIDE_CLASS, this.side === Side.LEFT, this.diffRow);
+    this.toggleClass(RIGHT_SIDE_CLASS, this.side === Side.RIGHT, this.diffRow);
   }
 
   _isActionType(type: GrDiffRowType) {
@@ -555,7 +546,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   _findRowByNumberAndFile(
     targetNumber: number,
-    side: DiffSide,
+    side: Side,
     path?: string
   ): HTMLElement | undefined {
     let stops;

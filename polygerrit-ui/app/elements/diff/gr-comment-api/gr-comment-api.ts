@@ -43,25 +43,10 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
-export interface HumanCommentInfoWithPath extends CommentInfo {
-  path: string;
-  __draft?: boolean;
-  __date?: Date;
-}
+export type Comment = CommentInfo | RobotCommentInfo;
 
-export interface RobotCommentInfoWithPath extends RobotCommentInfo {
-  path: string;
-}
-
-export type CommentInfoWithPath =
-  | HumanCommentInfoWithPath
-  | RobotCommentInfoWithPath;
-
-// TODO(TS): Can be removed, CommentInfoWithTwoPaths already has a path
-export type CommentInfoWithTwoPaths = CommentInfoWithPath & {__path: string};
-
-export type PathToCommentsInfoWithPathMap = {
-  [path: string]: CommentInfoWithPath[];
+export type PathToCommentsMap = {
+  [path: string]: Comment[];
 };
 
 export type CommentMap = {[path: string]: boolean};
@@ -69,7 +54,7 @@ export type CommentMap = {[path: string]: boolean};
 export interface PatchSetFile {
   path: string;
   basePath?: string;
-  patchNum: PatchSetNum;
+  patchNum?: PatchSetNum;
 }
 
 export interface PatchNumOnly {
@@ -107,9 +92,13 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
 }
 
 export interface CommentThread {
-  comments: CommentInfoWithTwoPaths[];
+  comments: Comment[];
   patchNum?: PatchSetNum;
   path: string;
+  // TODO(TS): It would be nice to use LineNumber here, but the comment thread
+  // element actually relies on line to be undefined for file comments. Be
+  // aware of element attribute getters and setters, if you try to refactor
+  // this. :-) Still worthwhile to do ...
   line?: number;
   rootId: UrlEncodedCommentId;
   commentSide?: CommentSide;
@@ -119,7 +108,7 @@ export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
 };
 
-interface TwoSidesComments {
+export interface TwoSidesComments {
   // TODO(TS): remove meta - it is not used anywhere
   meta: {
     changeNum: ChangeNum;
@@ -127,16 +116,16 @@ interface TwoSidesComments {
     patchRange: PatchRange;
     projectConfig?: ConfigInfo;
   };
-  left: CommentInfoWithPath[];
-  right: CommentInfoWithPath[];
+  left: Comment[];
+  right: Comment[];
 }
 
 export class ChangeComments {
-  private readonly _comments: PathToCommentsInfoWithPathMap;
+  private readonly _comments: PathToCommentsMap;
 
-  private readonly _robotComments: PathToCommentsInfoWithPathMap;
+  private readonly _robotComments: PathToCommentsMap;
 
-  private readonly _drafts: PathToCommentsInfoWithPathMap;
+  private readonly _drafts: PathToCommentsMap;
 
   private readonly _changeNum: ChangeNum;
 
@@ -164,10 +153,8 @@ export class ChangeComments {
    * TODO(taoalpha): should consider changing BE to send path
    * back within CommentInfo
    */
-  _addPath(
-    comments: PathToCommentsInfoMap = {}
-  ): PathToCommentsInfoWithPathMap {
-    const updatedComments: PathToCommentsInfoWithPathMap = {};
+  _addPath(comments: PathToCommentsInfoMap = {}): PathToCommentsMap {
+    const updatedComments: PathToCommentsMap = {};
     for (const filePath of Object.keys(comments)) {
       const allCommentsForPath = comments[filePath] || [];
       if (allCommentsForPath.length) {
@@ -191,10 +178,8 @@ export class ChangeComments {
     return this._robotComments;
   }
 
-  findCommentById(
-    commentId: UrlEncodedCommentId
-  ): HumanCommentInfoWithPath | RobotCommentInfoWithPath | undefined {
-    const findComment = (comments: PathToCommentsInfoWithPathMap) => {
+  findCommentById(commentId: UrlEncodedCommentId): Comment | undefined {
+    const findComment = (comments: PathToCommentsMap) => {
       let comment;
       for (const path of Object.keys(comments)) {
         comment = comment || comments[path].find(c => c.id === commentId);
@@ -240,9 +225,7 @@ export class ChangeComments {
   /**
    * Gets all the comments and robot comments for the given change.
    */
-  getAllPublishedComments(
-    patchNum?: PatchSetNum
-  ): PathToCommentsInfoWithPathMap {
+  getAllPublishedComments(patchNum?: PatchSetNum): PathToCommentsMap {
     return this.getAllComments(false, patchNum);
   }
 
@@ -266,9 +249,9 @@ export class ChangeComments {
   getAllComments(
     includeDrafts?: boolean,
     patchNum?: PatchSetNum
-  ): PathToCommentsInfoWithPathMap {
+  ): PathToCommentsMap {
     const paths = this.getPaths();
-    const publishedComments: PathToCommentsInfoWithPathMap = {};
+    const publishedComments: PathToCommentsMap = {};
     for (const path of Object.keys(paths)) {
       publishedComments[path] = this.getAllCommentsForPath(
         path,
@@ -282,9 +265,9 @@ export class ChangeComments {
   /**
    * Gets all the drafts for the given change.
    */
-  getAllDrafts(patchNum?: PatchSetNum): PathToCommentsInfoWithPathMap {
+  getAllDrafts(patchNum?: PatchSetNum): PathToCommentsMap {
     const paths = this.getPaths();
-    const drafts: PathToCommentsInfoWithPathMap = {};
+    const drafts: PathToCommentsMap = {};
     for (const path of Object.keys(paths)) {
       drafts[path] = this.getAllDraftsForPath(path, patchNum);
     }
@@ -302,7 +285,7 @@ export class ChangeComments {
     path: string,
     patchNum?: PatchSetNum,
     includeDrafts?: boolean
-  ): CommentInfoWithPath[] {
+  ): Comment[] {
     const comments = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
     let allComments = comments.concat(robotComments);
@@ -347,10 +330,7 @@ export class ChangeComments {
    * This will return a shallow copy of all drafts every time,
    * so changes on any copy will not affect other copies.
    */
-  getAllDraftsForPath(
-    path: string,
-    patchNum?: PatchSetNum
-  ): CommentInfoWithPath[] {
+  getAllDraftsForPath(path: string, patchNum?: PatchSetNum): Comment[] {
     let comments = this._drafts[path] || [];
     if (patchNum) {
       comments = comments.filter(c => patchNumEquals(c.patch_set, patchNum));
@@ -365,7 +345,7 @@ export class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    */
-  getAllDraftsForFile(file: PatchSetFile): CommentInfoWithPath[] {
+  getAllDraftsForFile(file: PatchSetFile): Comment[] {
     let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
     if (file.basePath) {
       allDrafts = allDrafts.concat(
@@ -390,9 +370,9 @@ export class ChangeComments {
     patchRange: PatchRange,
     projectConfig?: ConfigInfo
   ): TwoSidesComments {
-    let comments: CommentInfoWithPath[] = [];
-    let drafts: CommentInfoWithPath[] = [];
-    let robotComments: CommentInfoWithPath[] = [];
+    let comments: Comment[] = [];
+    let drafts: Comment[] = [];
+    let robotComments: Comment[] = [];
     if (this.comments && this.comments[path]) {
       comments = this.comments[path];
     }
@@ -404,8 +384,7 @@ export class ChangeComments {
     }
 
     drafts.forEach(d => {
-      // drafts don't include robot comments
-      (d as HumanCommentInfoWithPath).__draft = true;
+      d.__draft = true;
     });
 
     const all = comments
@@ -450,7 +429,7 @@ export class ChangeComments {
     file: PatchSetFile,
     patchRange: PatchRange,
     projectConfig?: ConfigInfo
-  ) {
+  ): TwoSidesComments {
     const comments = this.getCommentsBySideForPath(
       file.path,
       patchRange,
@@ -476,24 +455,20 @@ export class ChangeComments {
    * also includes the file that it was left on, which was the key of the
    * originall object.
    */
-  _commentObjToArrayWithFile(
-    comments: PathToCommentsInfoWithPathMap
-  ): CommentInfoWithTwoPaths[] {
-    let commentArr: CommentInfoWithTwoPaths[] = [];
+  _commentObjToArrayWithFile(comments: PathToCommentsMap): Comment[] {
+    let commentArr: Comment[] = [];
     for (const file of Object.keys(comments)) {
       const commentsForFile = [];
       for (const comment of comments[file]) {
-        commentsForFile.push({__path: file, ...comment});
+        commentsForFile.push({...comment, __path: file});
       }
       commentArr = commentArr.concat(commentsForFile);
     }
     return commentArr;
   }
 
-  _commentObjToArray(
-    comments: PathToCommentsInfoWithPathMap
-  ): CommentInfoWithPath[] {
-    let commentArr: CommentInfoWithPath[] = [];
+  _commentObjToArray(comments: PathToCommentsMap): Comment[] {
+    let commentArr: Comment[] = [];
     for (const file of Object.keys(comments)) {
       commentArr = commentArr.concat(comments[file]);
     }
@@ -527,8 +502,8 @@ export class ChangeComments {
    * Computes a number of unresolved comment threads in a given file and path.
    */
   computeUnresolvedNum(file: PatchSetFile | PatchNumOnly) {
-    let comments: CommentInfoWithPath[] = [];
-    let drafts: CommentInfoWithPath[] = [];
+    let comments: Comment[] = [];
+    let drafts: Comment[] = [];
 
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
@@ -541,12 +516,7 @@ export class ChangeComments {
 
     comments = comments.concat(drafts);
 
-    // TODO(TS): the 'as CommentInfoWithTwoPaths[]' is completely wrong below
-    // However, this doesn't affect the final result of computeUnresolvedNum
-    // This should be fixed by removing CommentInfoWithTwoPaths later
-    const threads = this.getCommentThreads(
-      sortComments(comments) as CommentInfoWithTwoPaths[]
-    );
+    const threads = this.getCommentThreads(sortComments(comments));
 
     const unresolvedThreads = threads.filter(
       thread =>
@@ -568,7 +538,7 @@ export class ChangeComments {
    *
    * @param comments sorted by updated timestamp.
    */
-  getCommentThreads(comments: CommentInfoWithTwoPaths[]) {
+  getCommentThreads(comments: Comment[]) {
     const threads: CommentThread[] = [];
     const idThreadMap: CommentIdToCommentThreadMap = {};
     for (const comment of comments) {
@@ -585,10 +555,13 @@ export class ChangeComments {
       }
 
       // Otherwise, this comment starts its own thread.
+      if (!comment.__path && !comment.path) {
+        throw new Error('Comment missing required "path".');
+      }
       const newThread: CommentThread = {
         comments: [comment],
         patchNum: comment.patch_set,
-        path: comment.__path,
+        path: comment.__path || comment.path!,
         line: comment.line,
         rootId: comment.id,
       };

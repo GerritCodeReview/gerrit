@@ -53,6 +53,7 @@ import {
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {GrDialog} from '../gr-dialog/gr-dialog';
+import {Side} from '../../../constants/constants';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -83,18 +84,17 @@ const RESPECTFUL_REVIEW_TIPS = [
   'When disagreeing, explain the advantage of your approach.',
 ];
 
-export interface Draft {
+interface CommentState {
   collapsed?: boolean;
   __editing?: boolean;
   __otherEditing?: boolean;
-  __draft?: boolean;
-  __draftID?: string;
-  __commentSide?: string;
-  __date?: Date;
 }
 
-export type Comment = Draft & CommentInfo;
-export type RobotComment = Draft & RobotCommentInfo;
+// TODO(TS): Do not export these types. Others should be using types from
+// commont.ts or from comment-api.
+export type Comment = CommentState & CommentInfo;
+// TODO(TS): Do not allow drafts for robot comments.
+export type RobotComment = CommentState & RobotCommentInfo;
 
 interface CommentOverlays {
   confirmDelete?: GrOverlay | null;
@@ -224,7 +224,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _messageText = '';
 
   @property({type: String})
-  commentSide?: string;
+  commentSide?: Side;
 
   @property({type: String})
   side?: string;

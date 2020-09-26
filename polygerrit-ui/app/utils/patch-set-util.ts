@@ -3,6 +3,7 @@ import {
   ChangeInfo,
   PatchSetNum,
   EditPatchSetNum,
+  BrandType,
 } from '../types/common';
 import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
@@ -79,6 +80,12 @@ export function patchNumEquals(a?: PatchSetNum, b?: PatchSetNum) {
  */
 export function isMergeParent(n: PatchSetNum) {
   return `${n}`[0] === '-';
+}
+
+export function isNumber(
+  psn: PatchSetNum
+): psn is BrandType<number, '_patchSet'> {
+  return typeof psn === 'number';
 }
 
 /**

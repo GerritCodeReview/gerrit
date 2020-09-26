@@ -31,7 +31,7 @@ import {
 import {CancelablePromise, util} from '../../../scripts/util';
 import {customElement, property} from '@polymer/decorators';
 import {DiffContent} from '../../../types/common';
-import {DiffSide} from '../gr-diff/gr-diff-utils';
+import {Side} from '../../../constants/constants';
 
 const WHOLE_FILE = -1;
 
@@ -567,8 +567,8 @@ export class GrDiffProcessor extends GestureEventListeners(
     for (let i = 0; i < numLines; i++) {
       // If this line should not be collapsed.
       if (
-        this.keyLocations[DiffSide.LEFT][leftOffset + i] ||
-        this.keyLocations[DiffSide.RIGHT][rightOffset + i]
+        this.keyLocations[Side.LEFT][leftOffset + i] ||
+        this.keyLocations[Side.RIGHT][rightOffset + i]
       ) {
         // If any lines have been accumulated into the chunk leading up to
         // this non-collapse line, then add them as a chunk and start a new

@@ -19,6 +19,7 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
+import {CommitId} from './common';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -26,6 +27,11 @@ export function notUndefined<T>(x: T | undefined): x is T {
 
 export interface FixIronA11yAnnouncer extends IronA11yAnnouncer {
   requestAvailability(): void;
+}
+
+export interface CommitRange {
+  baseCommit: CommitId;
+  commit: CommitId;
 }
 
 export interface CoverageRange {

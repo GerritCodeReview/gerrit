@@ -25,6 +25,7 @@ import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
 import {createCommentApiMockWithTemplateElement} from '../../../test/mocks/comment-api';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
 import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
+import {ChangeComments} from '../gr-comment-api/gr-comment-api.js';
 
 const commentApiMockElement = createCommentApiMockWithTemplateElement(
     'gr-patch-range-select-comment-api-mock', html`
@@ -355,7 +356,7 @@ suite('gr-patch-range-select tests', () => {
 
   test('_computePatchSetCommentsString', () => {
     // Test string with unresolved comments.
-    element.changeComments._comments = {
+    const comments = {
       foo: [{
         id: '27dcee4d_f7b77cfa',
         message: 'test',
@@ -377,6 +378,7 @@ suite('gr-patch-range-select tests', () => {
       }],
       abc: [],
     };
+    element.changeComments = new ChangeComments(comments, {}, {}, 123);
 
     assert.equal(element._computePatchSetCommentsString(
         element.changeComments, 1), ' (3 comments, 1 unresolved)');

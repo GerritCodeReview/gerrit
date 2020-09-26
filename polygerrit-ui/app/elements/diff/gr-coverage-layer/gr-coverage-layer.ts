@@ -18,7 +18,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-coverage-layer_html';
-import {CoverageType, DiffLayer} from '../../../types/types';
+import {CoverageRange, CoverageType, DiffLayer} from '../../../types/types';
 import {customElement, property} from '@polymer/decorators';
 
 declare global {
@@ -45,11 +45,9 @@ export class GrCoverageLayer
   /**
    * Must be sorted by code_range.start_line.
    * Must only contain ranges that match the side.
-   *
    */
-  // TODO(TS): convert into AnnotationLayer once gr-diff-is converted
   @property({type: Array})
-  coverageRanges: any[] = [];
+  coverageRanges: CoverageRange[] = [];
 
   @property({type: String})
   side?: string;

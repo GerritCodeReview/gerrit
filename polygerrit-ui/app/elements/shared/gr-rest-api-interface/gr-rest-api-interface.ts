@@ -127,6 +127,7 @@ import {
   ProjectInfoWithName,
   TagInfo,
   EmailAddress,
+  BlameInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -2499,7 +2500,7 @@ export class GrRestApiInterface
       req.fetchOptions.headers.append('Cache-Control', 'no-cache');
     }
 
-    return this._getChangeURLAndFetch(req);
+    return this._getChangeURLAndFetch(req) as Promise<DiffInfo | undefined>;
   }
 
   getDiffComments(
@@ -3441,7 +3442,7 @@ export class GrRestApiInterface
       patchNum,
       params: base ? {base: 't'} : undefined,
       anonymizedEndpoint: '/files/*/blame',
-    });
+    }) as Promise<BlameInfo[] | undefined>;
   }
 
   /**

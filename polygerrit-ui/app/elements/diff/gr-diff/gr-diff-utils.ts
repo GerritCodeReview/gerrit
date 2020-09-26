@@ -18,17 +18,12 @@
 import {CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
 
-export enum DiffSide {
-  LEFT = 'left',
-  RIGHT = 'right',
-}
-
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
  * true if both are falsy or if neither are falsy and have the same position
  * values.
  */
-export function rangesEqual(a: CommentRange, b: CommentRange): boolean {
+export function rangesEqual(a?: CommentRange, b?: CommentRange): boolean {
   if (!a && !b) {
     return true;
   }

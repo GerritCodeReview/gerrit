@@ -24,6 +24,7 @@ import {
 } from '../gr-diff/gr-diff-group';
 import {BlameInfo, DiffInfo, DiffPreferencesInfo} from '../../../types/common';
 import {Side} from '../../../constants/constants';
+import {DiffLayer} from '../../../types/types';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -86,8 +87,7 @@ export abstract class GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    // TODO(TS): Replace any by a layer interface.
-    readonly layers: any[] = []
+    readonly layers: DiffLayer[] = []
   ) {
     this._diff = diff;
     this._numLinesLeft = this._diff.content
@@ -140,12 +140,6 @@ export abstract class GrDiffBuilder {
   static readonly Highlights = {
     ADDED: 'edit_b',
     REMOVED: 'edit_a',
-  };
-
-  // TODO(TS): Convert to enum.
-  static readonly Side = {
-    LEFT: 'left',
-    RIGHT: 'right',
   };
 
   // TODO(TS): Replace usages with ContextButtonType enum.
@@ -480,10 +474,14 @@ export abstract class GrDiffBuilder {
         contentText.setAttribute('data-side', side);
       }
 
-      for (const layer of this.layers) {
-        if (typeof layer.annotate === 'function') {
-          layer.annotate(contentText, lineNumberEl, line);
+      if (lineNumberEl) {
+        for (const layer of this.layers) {
+          if (typeof layer.annotate === 'function') {
+            layer.annotate(contentText, lineNumberEl, line);
+          }
         }
+      } else {
+        console.error('The lineNumberEl is null, skipping layer annotations.');
       }
 
       td.appendChild(contentText);

@@ -98,10 +98,7 @@ import {
   PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
 import {assertNever, hasOwnProperty} from '../../../utils/common-util';
-import {
-  CommentThread,
-  HumanCommentInfoWithPath,
-} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -1041,7 +1038,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
         !!thread.comments &&
         !!thread.comments[0] &&
         hasOwnProperty(thread.comments[0], '__draft') &&
-        !!(thread.comments[0] as HumanCommentInfoWithPath).__draft
+        !!thread.comments[0].__draft
     );
   }
 

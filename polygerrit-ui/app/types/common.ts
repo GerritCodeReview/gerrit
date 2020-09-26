@@ -1063,7 +1063,7 @@ export interface UserConfigInfo {
  */
 export interface CommentInfo extends CommentInput {
   patch_set?: PatchSetNum;
-  id?: UrlEncodedCommentId;
+  id: UrlEncodedCommentId;
   path?: string;
   side?: CommentSide;
   parent?: number;
@@ -1071,7 +1071,7 @@ export interface CommentInfo extends CommentInput {
   range?: CommentRange;
   in_reply_to?: UrlEncodedCommentId;
   message?: string;
-  updated?: Timestamp;
+  updated: Timestamp;
   author?: AccountInfo;
   tag?: string;
   unresolved?: boolean;
@@ -1858,6 +1858,18 @@ export type RecipientTypeToNotifyInfoMap = {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#robot-comment-input
  */
 export type RobotCommentInput = RobotCommentInfo;
+
+/**
+ * This is what human, robot and draft comments can agree upon.
+ *
+ * Human, robot and saved draft comments all have a required id, but unsaved
+ * drafts do not. That is why the id is omitted from CommentInfo, such that it
+ * can be optional in Draft, but required in CommentInfo and RobotCommentInfo.
+ */
+export interface CommentBasics extends Omit<CommentInfo, 'id' | 'updated'> {
+  id?: UrlEncodedCommentId;
+  updated?: Timestamp;
+}
 
 /**
  * The RobotCommentInfo entity contains information about a robot inline comment

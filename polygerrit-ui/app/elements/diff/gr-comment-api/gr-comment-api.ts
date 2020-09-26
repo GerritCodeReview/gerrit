@@ -27,12 +27,12 @@ import {
 } from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {
+  CommentBasics,
   CommentInfo,
   ConfigInfo,
   ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
-  PathToCommentsInfoMap,
   PathToRobotCommentsInfoMap,
   RobotCommentInfo,
   Timestamp,
@@ -40,36 +40,61 @@ import {
   ChangeNum,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {CommentSide} from '../../../constants/constants';
+import {CommentSide, Side} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
-export interface HumanCommentInfoWithPath extends CommentInfo {
-  path: string;
+export interface DraftCommentProps {
   __draft?: boolean;
+  __draftID?: string;
   __date?: Date;
 }
 
-export interface RobotCommentInfoWithPath extends RobotCommentInfo {
-  path: string;
+export type DraftInfo = CommentBasics & DraftCommentProps;
+
+/**
+ * Each of the type implements or extends CommentBasics.
+ */
+export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
+
+export interface UIStateCommentProps {
+  // The `side` of the comment is PARENT or REVISION, but this is LEFT or RIGHT.
+  // TODO(TS): Remove the naming confusion of commentSide being of type of Side,
+  // but side being of type CommentSide. :-)
+  __commentSide?: Side;
+  // TODO(TS): Remove this. Seems to be exactly the same as `path`??
+  __path?: string;
+  collapsed?: boolean;
+  // TODO(TS): Consider allowing this only for drafts.
+  __editing?: boolean;
+  __otherEditing?: boolean;
 }
 
-export type CommentInfoWithPath =
-  | HumanCommentInfoWithPath
-  | RobotCommentInfoWithPath;
+export type UIDraft = DraftInfo & UIStateCommentProps;
 
-// TODO(TS): Can be removed, CommentInfoWithTwoPaths already has a path
-export type CommentInfoWithTwoPaths = CommentInfoWithPath & {__path: string};
+export type UIHuman = CommentInfo & UIStateCommentProps;
 
-export type PathToCommentsInfoWithPathMap = {
-  [path: string]: CommentInfoWithPath[];
-};
+export type UIRobot = RobotCommentInfo & UIStateCommentProps;
+
+export type UIComment = UIHuman | UIRobot | UIDraft;
 
 export type CommentMap = {[path: string]: boolean};
+
+export function isRobot<T extends CommentInfo>(
+  x: T | DraftInfo | RobotCommentInfo | undefined
+): x is RobotCommentInfo {
+  return !!x && !!(x as RobotCommentInfo).robot_id;
+}
+
+export function isDraft<T extends CommentInfo>(
+  x: T | UIDraft | undefined
+): x is UIDraft {
+  return !!x && !!(x as UIDraft).__draft;
+}
 
 export interface PatchSetFile {
   path: string;
   basePath?: string;
-  patchNum: PatchSetNum;
+  patchNum?: PatchSetNum;
 }
 
 export interface PatchNumOnly {
@@ -107,9 +132,13 @@ export function sortComments<T extends SortableComment>(comments: T[]): T[] {
 }
 
 export interface CommentThread {
-  comments: CommentInfoWithTwoPaths[];
+  comments: UIComment[];
   patchNum?: PatchSetNum;
   path: string;
+  // TODO(TS): It would be nice to use LineNumber here, but the comment thread
+  // element actually relies on line to be undefined for file comments. Be
+  // aware of element attribute getters and setters, if you try to refactor
+  // this. :-) Still worthwhile to do ...
   line?: number;
   rootId: UrlEncodedCommentId;
   commentSide?: CommentSide;
@@ -119,7 +148,7 @@ export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
 };
 
-interface TwoSidesComments {
+export interface TwoSidesComments {
   // TODO(TS): remove meta - it is not used anywhere
   meta: {
     changeNum: ChangeNum;
@@ -127,16 +156,16 @@ interface TwoSidesComments {
     patchRange: PatchRange;
     projectConfig?: ConfigInfo;
   };
-  left: CommentInfoWithPath[];
-  right: CommentInfoWithPath[];
+  left: UIComment[];
+  right: UIComment[];
 }
 
 export class ChangeComments {
-  private readonly _comments: PathToCommentsInfoWithPathMap;
+  private readonly _comments: {[path: string]: UIHuman[]};
 
-  private readonly _robotComments: PathToCommentsInfoWithPathMap;
+  private readonly _robotComments: {[path: string]: UIRobot[]};
 
-  private readonly _drafts: PathToCommentsInfoWithPathMap;
+  private readonly _drafts: {[path: string]: UIDraft[]};
 
   private readonly _changeNum: ChangeNum;
 
@@ -145,9 +174,9 @@ export class ChangeComments {
    * elements of that which uses the gr-comment-api.
    */
   constructor(
-    comments: PathToCommentsInfoMap | undefined,
-    robotComments: PathToRobotCommentsInfoMap | undefined,
-    drafts: PathToCommentsInfoMap | undefined,
+    comments: {[path: string]: UIHuman[]} | undefined,
+    robotComments: {[path: string]: UIRobot[]} | undefined,
+    drafts: {[path: string]: UIDraft[]} | undefined,
     changeNum: ChangeNum
   ) {
     this._comments = this._addPath(comments);
@@ -164,10 +193,10 @@ export class ChangeComments {
    * TODO(taoalpha): should consider changing BE to send path
    * back within CommentInfo
    */
-  _addPath(
-    comments: PathToCommentsInfoMap = {}
-  ): PathToCommentsInfoWithPathMap {
-    const updatedComments: PathToCommentsInfoWithPathMap = {};
+  _addPath<T>(
+    comments: {[path: string]: T[]} = {}
+  ): {[path: string]: Array<T & {path: string}>} {
+    const updatedComments: {[path: string]: Array<T & {path: string}>} = {};
     for (const filePath of Object.keys(comments)) {
       const allCommentsForPath = comments[filePath] || [];
       if (allCommentsForPath.length) {
@@ -191,10 +220,8 @@ export class ChangeComments {
     return this._robotComments;
   }
 
-  findCommentById(
-    commentId: UrlEncodedCommentId
-  ): HumanCommentInfoWithPath | RobotCommentInfoWithPath | undefined {
-    const findComment = (comments: PathToCommentsInfoWithPathMap) => {
+  findCommentById(commentId: UrlEncodedCommentId): Comment | undefined {
+    const findComment = (comments: {[path: string]: CommentBasics[]}) => {
       let comment;
       for (const path of Object.keys(comments)) {
         comment = comment || comments[path].find(c => c.id === commentId);
@@ -216,7 +243,11 @@ export class ChangeComments {
    * patchNum and basePatchNum properties to represent the range.
    */
   getPaths(patchRange?: PatchRange): CommentMap {
-    const responses = [this.comments, this.drafts, this.robotComments];
+    const responses: {[path: string]: UIComment[]}[] = [
+      this.comments,
+      this.drafts,
+      this.robotComments,
+    ];
     const commentMap: CommentMap = {};
     for (const response of responses) {
       for (const path in response) {
@@ -240,9 +271,7 @@ export class ChangeComments {
   /**
    * Gets all the comments and robot comments for the given change.
    */
-  getAllPublishedComments(
-    patchNum?: PatchSetNum
-  ): PathToCommentsInfoWithPathMap {
+  getAllPublishedComments(patchNum?: PatchSetNum) {
     return this.getAllComments(false, patchNum);
   }
 
@@ -263,12 +292,9 @@ export class ChangeComments {
   /**
    * Gets all the comments and robot comments for the given change.
    */
-  getAllComments(
-    includeDrafts?: boolean,
-    patchNum?: PatchSetNum
-  ): PathToCommentsInfoWithPathMap {
+  getAllComments(includeDrafts?: boolean, patchNum?: PatchSetNum) {
     const paths = this.getPaths();
-    const publishedComments: PathToCommentsInfoWithPathMap = {};
+    const publishedComments: {[path: string]: CommentBasics[]} = {};
     for (const path of Object.keys(paths)) {
       publishedComments[path] = this.getAllCommentsForPath(
         path,
@@ -282,9 +308,9 @@ export class ChangeComments {
   /**
    * Gets all the drafts for the given change.
    */
-  getAllDrafts(patchNum?: PatchSetNum): PathToCommentsInfoWithPathMap {
+  getAllDrafts(patchNum?: PatchSetNum) {
     const paths = this.getPaths();
-    const drafts: PathToCommentsInfoWithPathMap = {};
+    const drafts: {[path: string]: UIDraft[]} = {};
     for (const path of Object.keys(paths)) {
       drafts[path] = this.getAllDraftsForPath(path, patchNum);
     }
@@ -302,8 +328,8 @@ export class ChangeComments {
     path: string,
     patchNum?: PatchSetNum,
     includeDrafts?: boolean
-  ): CommentInfoWithPath[] {
-    const comments = this._comments[path] || [];
+  ): Comment[] {
+    const comments: Comment[] = this._comments[path] || [];
     const robotComments = this._robotComments[path] || [];
     let allComments = comments.concat(robotComments);
     if (includeDrafts) {
@@ -347,10 +373,7 @@ export class ChangeComments {
    * This will return a shallow copy of all drafts every time,
    * so changes on any copy will not affect other copies.
    */
-  getAllDraftsForPath(
-    path: string,
-    patchNum?: PatchSetNum
-  ): CommentInfoWithPath[] {
+  getAllDraftsForPath(path: string, patchNum?: PatchSetNum): Comment[] {
     let comments = this._drafts[path] || [];
     if (patchNum) {
       comments = comments.filter(c => patchNumEquals(c.patch_set, patchNum));
@@ -365,7 +388,7 @@ export class ChangeComments {
    *
    * // TODO(taoalpha): maybe merge in *ForPath
    */
-  getAllDraftsForFile(file: PatchSetFile): CommentInfoWithPath[] {
+  getAllDraftsForFile(file: PatchSetFile): Comment[] {
     let allDrafts = this.getAllDraftsForPath(file.path, file.patchNum);
     if (file.basePath) {
       allDrafts = allDrafts.concat(
@@ -390,9 +413,9 @@ export class ChangeComments {
     patchRange: PatchRange,
     projectConfig?: ConfigInfo
   ): TwoSidesComments {
-    let comments: CommentInfoWithPath[] = [];
-    let drafts: CommentInfoWithPath[] = [];
-    let robotComments: CommentInfoWithPath[] = [];
+    let comments: Comment[] = [];
+    let drafts: DraftInfo[] = [];
+    let robotComments: RobotCommentInfo[] = [];
     if (this.comments && this.comments[path]) {
       comments = this.comments[path];
     }
@@ -404,11 +427,10 @@ export class ChangeComments {
     }
 
     drafts.forEach(d => {
-      // drafts don't include robot comments
-      (d as HumanCommentInfoWithPath).__draft = true;
+      d.__draft = true;
     });
 
-    const all = comments
+    const all: Comment[] = comments
       .concat(drafts)
       .concat(robotComments)
       .map(c => {
@@ -450,7 +472,7 @@ export class ChangeComments {
     file: PatchSetFile,
     patchRange: PatchRange,
     projectConfig?: ConfigInfo
-  ) {
+  ): TwoSidesComments {
     const comments = this.getCommentsBySideForPath(
       file.path,
       patchRange,
@@ -476,24 +498,22 @@ export class ChangeComments {
    * also includes the file that it was left on, which was the key of the
    * originall object.
    */
-  _commentObjToArrayWithFile(
-    comments: PathToCommentsInfoWithPathMap
-  ): CommentInfoWithTwoPaths[] {
-    let commentArr: CommentInfoWithTwoPaths[] = [];
+  _commentObjToArrayWithFile<T>(comments: {
+    [path: string]: T[];
+  }): Array<T & {__path: string}> {
+    let commentArr: Array<T & {__path: string}> = [];
     for (const file of Object.keys(comments)) {
-      const commentsForFile = [];
+      const commentsForFile: Array<T & {__path: string}> = [];
       for (const comment of comments[file]) {
-        commentsForFile.push({__path: file, ...comment});
+        commentsForFile.push({...comment, __path: file});
       }
       commentArr = commentArr.concat(commentsForFile);
     }
     return commentArr;
   }
 
-  _commentObjToArray(
-    comments: PathToCommentsInfoWithPathMap
-  ): CommentInfoWithPath[] {
-    let commentArr: CommentInfoWithPath[] = [];
+  _commentObjToArray<T>(comments: {[path: string]: T[]}): T[] {
+    let commentArr: T[] = [];
     for (const file of Object.keys(comments)) {
       commentArr = commentArr.concat(comments[file]);
     }
@@ -527,8 +547,8 @@ export class ChangeComments {
    * Computes a number of unresolved comment threads in a given file and path.
    */
   computeUnresolvedNum(file: PatchSetFile | PatchNumOnly) {
-    let comments: CommentInfoWithPath[] = [];
-    let drafts: CommentInfoWithPath[] = [];
+    let comments: Comment[] = [];
+    let drafts: Comment[] = [];
 
     if (isPatchSetFile(file)) {
       comments = this.getAllCommentsForFile(file);
@@ -541,12 +561,7 @@ export class ChangeComments {
 
     comments = comments.concat(drafts);
 
-    // TODO(TS): the 'as CommentInfoWithTwoPaths[]' is completely wrong below
-    // However, this doesn't affect the final result of computeUnresolvedNum
-    // This should be fixed by removing CommentInfoWithTwoPaths later
-    const threads = this.getCommentThreads(
-      sortComments(comments) as CommentInfoWithTwoPaths[]
-    );
+    const threads = this.getCommentThreads(sortComments(comments));
 
     const unresolvedThreads = threads.filter(
       thread =>
@@ -568,7 +583,7 @@ export class ChangeComments {
    *
    * @param comments sorted by updated timestamp.
    */
-  getCommentThreads(comments: CommentInfoWithTwoPaths[]) {
+  getCommentThreads(comments: UIComment[]) {
     const threads: CommentThread[] = [];
     const idThreadMap: CommentIdToCommentThreadMap = {};
     for (const comment of comments) {
@@ -585,10 +600,13 @@ export class ChangeComments {
       }
 
       // Otherwise, this comment starts its own thread.
+      if (!comment.__path && !comment.path) {
+        throw new Error('Comment missing required "path".');
+      }
       const newThread: CommentThread = {
         comments: [comment],
         patchNum: comment.patch_set,
-        path: comment.__path,
+        path: comment.__path || comment.path!,
         line: comment.line,
         rootId: comment.id,
       };
@@ -605,7 +623,7 @@ export class ChangeComments {
    * Whether the given comment should be included in the base side of the
    * given patch range.
    */
-  _isInBaseOfPatchRange(comment: CommentInfo, range: PatchRange) {
+  _isInBaseOfPatchRange(comment: CommentBasics, range: PatchRange) {
     // If the base of the patch range is a parent of a merge, and the comment
     // appears on a specific parent then only show the comment if the parent
     // index of the comment matches that of the range.
@@ -636,7 +654,7 @@ export class ChangeComments {
    * Whether the given comment should be included in the revision side of the
    * given patch range.
    */
-  _isInRevisionOfPatchRange(comment: CommentInfo, range: PatchRange) {
+  _isInRevisionOfPatchRange(comment: CommentBasics, range: PatchRange) {
     return (
       comment.side !== CommentSide.PARENT &&
       patchNumEquals(comment.patch_set, range.patchNum)
@@ -646,7 +664,7 @@ export class ChangeComments {
   /**
    * Whether the given comment should be included in the given patch range.
    */
-  _isInPatchRange(comment: CommentInfo, range: PatchRange): boolean {
+  _isInPatchRange(comment: CommentBasics, range: PatchRange): boolean {
     return (
       this._isInBaseOfPatchRange(comment, range) ||
       this._isInRevisionOfPatchRange(comment, range)

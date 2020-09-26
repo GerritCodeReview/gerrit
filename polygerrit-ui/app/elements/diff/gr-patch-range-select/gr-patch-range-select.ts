@@ -51,7 +51,7 @@ import {
   DropDownValueChangeEvent,
   GrDropdownList,
 } from '../../shared/gr-dropdown-list/gr-dropdown-list';
-import {WebLink} from '../../core/gr-navigation/gr-navigation';
+import {GeneratedWebLink} from '../../core/gr-navigation/gr-navigation';
 
 // Maximum length for patch set descriptions.
 const PATCH_DESC_MAX_LENGTH = 500;
@@ -63,9 +63,9 @@ export interface PatchRangeChangeDetail {
 
 export type PatchRangeChangeEvent = CustomEvent<PatchRangeChangeDetail>;
 
-interface FilesWebLinks {
-  meta_a: WebLink[];
-  meta_b: WebLink[];
+export interface FilesWebLinks {
+  meta_a: GeneratedWebLink[];
+  meta_b: GeneratedWebLink[];
 }
 
 export interface GrPatchRangeSelect {

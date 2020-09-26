@@ -97,11 +97,8 @@ import {
   PolymerSplice,
   PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
-import {assertNever, hasOwnProperty} from '../../../utils/common-util';
-import {
-  CommentThread,
-  HumanCommentInfoWithPath,
-} from '../../diff/gr-comment-api/gr-comment-api';
+import {assertNever} from '../../../utils/common-util';
+import {CommentThread, isDraft} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
@@ -1029,10 +1026,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   _containsNewCommentThread(threads: CommentThread[]) {
     return threads.some(
       thread =>
-        !!thread.comments &&
-        !!thread.comments[0] &&
-        hasOwnProperty(thread.comments[0], '__draft') &&
-        !!(thread.comments[0] as HumanCommentInfoWithPath).__draft
+        !!thread.comments && !!thread.comments[0] && isDraft(thread.comments[0])
     );
   }
 

@@ -63,9 +63,9 @@ export interface PatchRangeChangeDetail {
 
 export type PatchRangeChangeEvent = CustomEvent<PatchRangeChangeDetail>;
 
-interface FilesWebLinks {
-  meta_a: WebLink[];
-  meta_b: WebLink[];
+export interface FilesWebLinks {
+  meta_a?: WebLink[];
+  meta_b?: WebLink[];
 }
 
 export interface GrPatchRangeSelect {

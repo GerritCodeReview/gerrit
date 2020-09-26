@@ -27,7 +27,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-diff_html';
 import {FILE, LineNumber} from './gr-diff-line';
-import {DiffSide, getLineNumber, rangesEqual} from './gr-diff-utils';
+import {getLineNumber, rangesEqual} from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {isMergeParent, patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -534,7 +534,7 @@ export class GrDiff extends GestureEventListeners(
     this.dispatchEvent(
       new CustomEvent('line-selected', {
         detail: {
-          side: el.classList.contains('left') ? DiffSide.LEFT : DiffSide.RIGHT,
+          side: el.classList.contains('left') ? Side.LEFT : Side.RIGHT,
           number: el.getAttribute('data-value'),
           path: this.path,
         },
@@ -614,7 +614,7 @@ export class GrDiff extends GestureEventListeners(
       );
       return false;
     }
-    const patchNum = el.classList.contains(DiffSide.LEFT)
+    const patchNum = el.classList.contains(Side.LEFT)
       ? this.patchRange.basePatchNum
       : this.patchRange.patchNum;
 
@@ -717,7 +717,7 @@ export class GrDiff extends GestureEventListeners(
     let patchNum = this.patchRange.patchNum;
 
     if (
-      (lineEl.classList.contains(DiffSide.LEFT) ||
+      (lineEl.classList.contains(Side.LEFT) ||
         contentEl.classList.contains('remove')) &&
       this.patchRange.basePatchNum !== 'PARENT' &&
       !isMergeParent(this.patchRange.basePatchNum)
@@ -730,7 +730,7 @@ export class GrDiff extends GestureEventListeners(
   _getIsParentCommentByLineAndContent(lineEl: Element, contentEl: Element) {
     if (!this.patchRange) throw Error('patch range not set');
     return (
-      (lineEl.classList.contains(DiffSide.LEFT) ||
+      (lineEl.classList.contains(Side.LEFT) ||
         contentEl.classList.contains('remove')) &&
       (this.patchRange.basePatchNum === 'PARENT' ||
         isMergeParent(this.patchRange.basePatchNum))
@@ -740,7 +740,7 @@ export class GrDiff extends GestureEventListeners(
   _getCommentSideByLineAndContent(lineEl: Element, contentEl: Element): Side {
     let side = Side.RIGHT;
     if (
-      lineEl.classList.contains(DiffSide.LEFT) ||
+      lineEl.classList.contains(Side.LEFT) ||
       contentEl.classList.contains('remove')
     ) {
       side = Side.LEFT;

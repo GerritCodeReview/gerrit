@@ -133,6 +133,7 @@ import {
   FixId,
   FilePathToDiffInfoMap,
   ChangeViewChangeInfo,
+  BlameInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -2524,7 +2525,7 @@ export class GrRestApiInterface
       req.fetchOptions.headers.append('Cache-Control', 'no-cache');
     }
 
-    return this._getChangeURLAndFetch(req);
+    return this._getChangeURLAndFetch(req) as Promise<DiffInfo | undefined>;
   }
 
   getDiffComments(
@@ -2639,11 +2640,9 @@ export class GrRestApiInterface
 
   _setRanges(comments?: CommentInfo[]) {
     comments = comments || [];
-    comments.sort((a, b) => {
-      if (!a.updated) return 1;
-      if (!b.updated) return -1;
-      return parseDate(a.updated).valueOf() - parseDate(b.updated).valueOf();
-    });
+    comments.sort(
+      (a, b) => parseDate(a.updated).valueOf() - parseDate(b.updated).valueOf()
+    );
     for (const comment of comments) {
       this._setRange(comments, comment);
     }
@@ -3472,7 +3471,7 @@ export class GrRestApiInterface
       patchNum,
       params: base ? {base: 't'} : undefined,
       anonymizedEndpoint: '/files/*/blame',
-    });
+    }) as Promise<BlameInfo[] | undefined>;
   }
 
   /**

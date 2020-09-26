@@ -98,7 +98,7 @@ export interface GroupInfoInput extends GroupInfo {
 
 function isAccountInfoInput(x: AccountInput): x is AccountInfoInput {
   const input = x as AccountInfoInput;
-  return !!input._account || !!input._account_id;
+  return !!input._account || !!input._account_id || !!input.email;
 }
 
 function isGroupInfoInput(x: AccountInput): x is GroupInfoInput {

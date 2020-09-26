@@ -83,9 +83,13 @@ import {
   GitRef,
   ConfigInput,
   EmailAddress,
+  DiffInfo,
+  BlameInfo,
+  PatchRange,
+  ImagesForDiff,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {HttpMethod} from '../../../constants/constants';
+import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
 import {ChangeNum} from '../../../elements/shared/gr-rest-api-interface/gr-rest-api-interface';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
@@ -694,4 +698,26 @@ export interface RestApiService {
 
   hasPendingDiffDrafts(): number;
   awaitPendingDiffDrafts(): Promise<void>;
+
+  getDiff(
+    changeNum: ChangeNum,
+    basePatchNum: PatchSetNum,
+    patchNum: PatchSetNum,
+    path: string,
+    whitespace?: IgnoreWhitespaceType,
+    errFn?: ErrorCallback
+  ): Promise<DiffInfo | undefined>;
+
+  getBlame(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum,
+    path: string,
+    base?: boolean
+  ): Promise<BlameInfo[] | undefined>;
+
+  getImagesForDiff(
+    changeNum: ChangeNum,
+    diff: DiffInfo,
+    patchRange: PatchRange
+  ): Promise<ImagesForDiff>;
 }

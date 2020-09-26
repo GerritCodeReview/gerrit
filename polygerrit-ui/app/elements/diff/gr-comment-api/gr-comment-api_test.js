@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
+import {ChangeComments} from './gr-comment-api.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -216,7 +217,7 @@ suite('gr-comment-api tests', () => {
       }
 
       setup(() => {
-        element._changeComments._drafts = {
+        const drafts = {
           'file/one': [
             {
               id: '11',
@@ -244,7 +245,7 @@ suite('gr-comment-api tests', () => {
             },
           ],
         };
-        element._changeComments._robotComments = {
+        const robotComments = {
           'file/one': [
             {
               id: '01',
@@ -268,7 +269,7 @@ suite('gr-comment-api tests', () => {
             },
           ],
         };
-        element._changeComments._comments = {
+        const comments = {
           'file/one': [
             {
               id: '03',
@@ -305,6 +306,8 @@ suite('gr-comment-api tests', () => {
             {id: '10', patch_set: 5, line: 1, updated: makeTime(1)},
           ],
         };
+        element._changeComments =
+            new ChangeComments(comments, robotComments, drafts, 1234);
       });
 
       test('getPaths', () => {
@@ -405,9 +408,7 @@ suite('gr-comment-api tests', () => {
       });
 
       test('computeUnresolvedNum w/ non-linear thread', () => {
-        element._changeComments._drafts = {};
-        element._changeComments._robotComments = {};
-        element._changeComments._comments = {
+        const comments = {
           path: [{
             id: '9c6ba3c6_28b7d467',
             patch_set: 1,
@@ -433,6 +434,7 @@ suite('gr-comment-api tests', () => {
             unresolved: false,
           }],
         };
+        element._changeComments = new ChangeComments(comments, {}, {}, 1234);
         assert.equal(
             element._changeComments.computeUnresolvedNum(1, 'path'), 0);
       });
@@ -523,6 +525,7 @@ suite('gr-comment-api tests', () => {
                   end_line: 2,
                   end_character: 2,
                 },
+                path: 'file/one',
                 __path: 'file/one',
               },
             ],
@@ -538,6 +541,7 @@ suite('gr-comment-api tests', () => {
                 patch_set: 2,
                 side: 'PARENT',
                 line: 2,
+                path: 'file/one',
                 __path: 'file/one',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -553,6 +557,7 @@ suite('gr-comment-api tests', () => {
                 id: '04',
                 patch_set: 2,
                 line: 1,
+                path: 'file/one',
                 __path: 'file/one',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -562,6 +567,7 @@ suite('gr-comment-api tests', () => {
                 patch_set: 2,
                 unresolved: true,
                 line: 1,
+                path: 'file/one',
                 __path: 'file/one',
                 updated: '2013-02-26 15:03:43.986000000',
               },
@@ -570,6 +576,7 @@ suite('gr-comment-api tests', () => {
                 in_reply_to: '04',
                 patch_set: 2,
                 line: 1,
+                path: 'file/one',
                 __path: 'file/one',
                 __draft: true,
                 updated: '2013-02-26 15:02:43.986000000',
@@ -585,6 +592,7 @@ suite('gr-comment-api tests', () => {
                 id: '05',
                 patch_set: 2,
                 line: 2,
+                path: 'file/two',
                 __path: 'file/two',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -599,6 +607,7 @@ suite('gr-comment-api tests', () => {
                 id: '06',
                 patch_set: 3,
                 line: 2,
+                path: 'file/two',
                 __path: 'file/two',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -615,6 +624,7 @@ suite('gr-comment-api tests', () => {
                 side: 'PARENT',
                 unresolved: true,
                 line: 1,
+                path: 'file/three',
                 __path: 'file/three',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -630,6 +640,7 @@ suite('gr-comment-api tests', () => {
                 id: '08',
                 patch_set: 3,
                 line: 1,
+                path: 'file/three',
                 __path: 'file/three',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -645,6 +656,7 @@ suite('gr-comment-api tests', () => {
                 patch_set: 5,
                 side: 'PARENT',
                 line: 1,
+                path: 'file/four',
                 __path: 'file/four',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -660,6 +672,7 @@ suite('gr-comment-api tests', () => {
                 id: '10',
                 patch_set: 5,
                 line: 1,
+                path: 'file/four',
                 __path: 'file/four',
                 updated: '2013-02-26 15:01:43.986000000',
               },
@@ -674,6 +687,7 @@ suite('gr-comment-api tests', () => {
                 id: '05',
                 patch_set: 3,
                 line: 1,
+                path: 'file/two',
                 __path: 'file/two',
                 __draft: true,
                 updated: '2013-02-26 15:03:43.986000000',
@@ -690,6 +704,7 @@ suite('gr-comment-api tests', () => {
                 patch_set: 2,
                 side: 'PARENT',
                 line: 1,
+                path: 'file/one',
                 __path: 'file/one',
                 __draft: true,
                 updated: '2013-02-26 15:03:43.986000000',
@@ -710,6 +725,7 @@ suite('gr-comment-api tests', () => {
         let expectedComments = [
           {
             __path: 'file/one',
+            path: 'file/one',
             id: '04',
             patch_set: 2,
             line: 1,
@@ -717,6 +733,7 @@ suite('gr-comment-api tests', () => {
           },
           {
             __path: 'file/one',
+            path: 'file/one',
             id: '02',
             in_reply_to: '04',
             patch_set: 2,
@@ -726,6 +743,7 @@ suite('gr-comment-api tests', () => {
           },
           {
             __path: 'file/one',
+            path: 'file/one',
             __draft: true,
             id: '12',
             in_reply_to: '04',
@@ -742,6 +760,7 @@ suite('gr-comment-api tests', () => {
           patch_set: 2,
           side: 'PARENT',
           line: 1,
+          path: 'file/one',
           __path: 'file/one',
           __draft: true,
           updated: '2013-02-26 15:03:43.986000000',

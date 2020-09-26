@@ -317,9 +317,7 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   }
 
   getSideByLineEl(lineEl: Element) {
-    return lineEl.classList.contains(GrDiffBuilder.Side.RIGHT)
-      ? Side.RIGHT
-      : Side.LEFT;
+    return lineEl.classList.contains(Side.RIGHT) ? Side.RIGHT : Side.LEFT;
   }
 
   emitGroup(group: GrDiffGroup, sectionEl: HTMLElement) {

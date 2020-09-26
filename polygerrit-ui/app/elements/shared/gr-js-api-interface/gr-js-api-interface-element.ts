@@ -21,10 +21,7 @@ import {getPluginLoader} from './gr-plugin-loader';
 import {patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement} from '@polymer/decorators';
 import {ChangeInfo, RevisionInfo} from '../../../types/common';
-import {
-  CoverageProvider,
-  GrAnnotationActionsInterface,
-} from './gr-annotation-actions-js-api';
+import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {
   JsApiService,
@@ -33,7 +30,7 @@ import {
   ShowRevisionActionsDetail,
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
-import {HighlightJS} from '../../../types/types';
+import {DiffLayer, HighlightJS} from '../../../types/types';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
@@ -248,7 +245,7 @@ export class GrJsApiInterface
   }
 
   getDiffLayers(path: string, changeNum: number) {
-    const layers = [];
+    const layers: DiffLayer[] = [];
     for (const cb of this._getEventCallbacks(EventType.ANNOTATE_DIFF)) {
       const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
       try {
@@ -279,7 +276,9 @@ export class GrJsApiInterface
    * provider, the first one is returned. If no plugin offers a coverage provider,
    * will resolve to null.
    */
-  getCoverageAnnotationApi(): Promise<CoverageProvider | undefined> {
+  getCoverageAnnotationApi(): Promise<
+    GrAnnotationActionsInterface | undefined
+  > {
     return getPluginLoader()
       .awaitPluginsLoaded()
       .then(
@@ -287,7 +286,7 @@ export class GrJsApiInterface
           this._getEventCallbacks(EventType.ANNOTATE_DIFF).find(cb => {
             const annotationApi = (cb as unknown) as GrAnnotationActionsInterface;
             return annotationApi.getCoverageProvider();
-          }) as CoverageProvider | undefined
+          }) as GrAnnotationActionsInterface | undefined
       );
   }
 

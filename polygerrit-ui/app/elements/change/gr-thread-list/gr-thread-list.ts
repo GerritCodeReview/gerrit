@@ -26,9 +26,12 @@ import {parseDate} from '../../../utils/date-util';
 
 import {NO_THREADS_MSG} from '../../../constants/messages';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
-import {customElement, property, observe} from '@polymer/decorators';
-import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
-import {Comment, RobotComment} from '../../shared/gr-comment/gr-comment';
+import {customElement, observe, property} from '@polymer/decorators';
+import {
+  CommentThread,
+  isDraft,
+  UIRobot,
+} from '../../diff/gr-comment-api/gr-comment-api';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
 
@@ -303,27 +306,32 @@ export class GrThreadList extends GestureEventListeners(
 
   _getThreadWithStatusInfo(thread: CommentThread): CommentThreadWithInfo {
     const comments = thread.comments;
-    const lastComment = (comments[comments.length - 1] || {}) as Comment;
+    const lastComment = comments.length
+      ? comments[comments.length - 1]
+      : undefined;
     let hasRobotComment = false;
     let hasHumanReplyToRobotComment = false;
     comments.forEach(comment => {
-      if ((comment as RobotComment).robot_id) {
+      if ((comment as UIRobot).robot_id) {
         hasRobotComment = true;
       } else if (hasRobotComment) {
         hasHumanReplyToRobotComment = true;
       }
     });
+    let updated = undefined;
+    if (lastComment) {
+      if (isDraft(lastComment)) updated = lastComment.__date;
+      if (lastComment.updated) updated = parseDate(lastComment.updated);
+    }
 
     return {
       thread,
       hasRobotComment,
       hasHumanReplyToRobotComment,
-      unresolved: !!lastComment.unresolved,
-      isEditing: !!lastComment.__editing,
-      hasDraft: !!lastComment.__draft,
-      updated: lastComment.updated
-        ? parseDate(lastComment.updated)
-        : lastComment.__date,
+      unresolved: !!lastComment && !!lastComment.unresolved,
+      isEditing: !!lastComment && !!lastComment.__editing,
+      hasDraft: !!lastComment && isDraft(lastComment),
+      updated,
     };
   }
 

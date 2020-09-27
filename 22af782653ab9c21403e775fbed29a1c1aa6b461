@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cbf57573_f114d24a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1115330
+      },
+      "writtenOn": "2020-09-27T09:43:07Z",
+      "side": 1,
+      "message": "Created a quick demo here: https://amirn.users.x20web.corp.google.com/www/hljs-tsx-demo/index.html",
+      "revId": "22af782653ab9c21403e775fbed29a1c1aa6b461",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

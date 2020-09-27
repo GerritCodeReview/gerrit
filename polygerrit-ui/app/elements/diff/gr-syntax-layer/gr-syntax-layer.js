@@ -26,6 +26,7 @@
     'text/html': 'html',
     'text/javascript': 'js',
     'text/jsx': 'jsx',
+    'text/tsx': 'jsx',
     'text/x-c': 'cpp',
     'text/x-c++src': 'cpp',
     'text/x-clojure': 'clojure',

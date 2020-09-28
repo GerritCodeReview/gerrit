@@ -179,12 +179,17 @@ export const htmlTemplate = html`
 
     /* dueToMove */
     .dueToMove .content.add .contentText,
+    .dueToMove .moveControls.movedIn .moveDescription,
     .delta.total.dueToMove .content.add .contentText {
       background-color: var(--light-moved-add-highlight-color);
     }
     .dueToMove .content.remove .contentText,
+    .dueToMove .moveControls.movedOut .moveDescription,
     .delta.total.dueToMove .content.remove .contentText {
       background-color: var(--light-remove-add-highlight-color);
+    }
+    .moveControls {
+      text-align: right;
     }
 
     /* ignoredWhitespaceOnly */

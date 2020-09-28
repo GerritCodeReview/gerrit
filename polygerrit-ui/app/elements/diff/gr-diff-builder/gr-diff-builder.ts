@@ -610,6 +610,16 @@ export abstract class GrDiffBuilder {
   ): HTMLElement | null;
 
   /**
+   * Gets configuration for creating move controls for chunks marked with
+   * dueToMove
+   */
+  abstract _getMoveControlsConfig(): {
+    numberOfCells: number;
+    movedOutIndex: number;
+    movedInIndex: number;
+  };
+
+  /**
    * Determines whether the given group is either totally an addition or totally
    * a removal.
    */
@@ -649,6 +659,39 @@ export abstract class GrDiffBuilder {
         }
       }
     }
+  }
+
+  _buildMoveControls(group: GrDiffGroup) {
+    const movedIn = group.adds.length > 0;
+    const {
+      numberOfCells,
+      movedOutIndex,
+      movedInIndex,
+    } = this._getMoveControlsConfig();
+
+    let controlsClass;
+    let descriptionText;
+    let descriptionIndex;
+    if (movedIn) {
+      controlsClass = 'movedIn';
+      descriptionIndex = movedInIndex;
+      descriptionText = 'Moved in';
+    } else {
+      controlsClass = 'movedOut';
+      descriptionIndex = movedOutIndex;
+      descriptionText = 'Moved out';
+    }
+    const controls = document.createElement('tr');
+    const cells = [...Array(numberOfCells).keys()].map(() =>
+      document.createElement('td')
+    );
+    controls.classList.add('moveControls', controlsClass);
+    cells[descriptionIndex].classList.add('moveDescription');
+    cells[descriptionIndex].textContent = descriptionText;
+    cells.forEach(c => {
+      controls.appendChild(c);
+    });
+    return controls;
   }
 
   /**

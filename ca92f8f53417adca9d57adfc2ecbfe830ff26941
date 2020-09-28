@@ -16,6 +16,23 @@
       "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "e32a2b9a_b85ceb4e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-09-28T16:11:16Z",
+      "side": 1,
+      "message": "How come this is the same for both side-by-side and unified?",
+      "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

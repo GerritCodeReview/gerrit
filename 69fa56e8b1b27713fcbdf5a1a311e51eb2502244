@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d661d249_04f91cbf",
+        "filename": "java/com/google/gerrit/server/edit/ModificationIntention.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T16:42:55Z",
+      "side": 1,
+      "message": "Could you please use the same naming convention for patchset-related names? I see 2 names: PatchSet and Patchset and sometimes the difference is only in one letter (S vs s).\nFor example:\nclass PatchSetCommit implements ModificationIntention\nclass PatchsetCommit implements ModificationTarget\n\n(and both classes have the same constructor that makes code harder to read)",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "69fa56e8b1b27713fcbdf5a1a311e51eb2502244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "cd9d71af_a749ac7f",
+        "filename": "java/com/google/gerrit/server/edit/ModificationIntention.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T16:42:55Z",
+      "side": 1,
+      "message": "Are there plans to add other types of ModificationIntention in the future?\nRight now the hierarchy looks a little bit complex, i made some drawing to understand how the code works in different cases. If there are no plans for other ModificationIntention types then probably some methods can be inlined.",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 53
+      },
+      "revId": "69fa56e8b1b27713fcbdf5a1a311e51eb2502244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -87,6 +87,24 @@
       "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8cb2313_bbf6fb14",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-09-28T21:25:04Z",
+      "side": 1,
+      "message": "I honestly though you meant we should make these values the same - not that I missed the different number of columns. Forget everything I wrote in this thread. Marking it as resolved.",
+      "parentUuid": "f38afffa_412e21fc",
+      "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,90 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5acf2592_c2a13267",
+        "filename": "polygerrit-ui/app/elements/shared/gr-overlay/gr-overlay_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T09:34:09Z",
+      "side": 1,
+      "message": "nit: maybe use here and in other similar places await here instead of promise (here: await element.open())",
+      "range": {
+        "startLine": 57,
+        "startChar": 4,
+        "endLine": 58,
+        "endChar": 45
+      },
+      "revId": "9733a748f63bfbf86677c5b0b13b64ca76d07fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "45aca58b_11cec6a6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 297,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T09:34:09Z",
+      "side": 1,
+      "message": "Let\u0027s not mix await and promises - it is not very easy to read.\nFor example, this test can be rewritten as:\nawait element.getAccount();\nassert.isTrue(stub.called);\nassert.isFalse(element._restApiHelper._cache.has(cacheKey));\n\nelement._restApiHelper._cache.set(cacheKey, \u0027fake cache\u0027);\nstub.lastCall.args[0].errFn();\n\nP.S. In the original test (with done) I don\u0027t understand what the last 2 lines do. Also in the original test they are executed after the done() is called.",
+      "revId": "9733a748f63bfbf86677c5b0b13b64ca76d07fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9466fecc_7217307a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 312,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T09:34:09Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 312,
+        "startChar": 8,
+        "endLine": 312,
+        "endChar": 13
+      },
+      "revId": "9733a748f63bfbf86677c5b0b13b64ca76d07fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "46464608_9d2d1491",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface_test.js",
+        "patchSetId": 4
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T09:34:09Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 326,
+        "startChar": 4,
+        "endLine": 326,
+        "endChar": 9
+      },
+      "revId": "9733a748f63bfbf86677c5b0b13b64ca76d07fde",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

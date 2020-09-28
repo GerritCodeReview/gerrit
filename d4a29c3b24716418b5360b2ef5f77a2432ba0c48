@@ -33,6 +33,24 @@
       "revId": "d4a29c3b24716418b5360b2ef5f77a2432ba0c48",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3dd20de7_d372cec6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-09-28T15:24:17Z",
+      "side": 1,
+      "message": "Fixed. PTAL.",
+      "parentUuid": "2abf0d95_be5dc0ab",
+      "revId": "d4a29c3b24716418b5360b2ef5f77a2432ba0c48",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

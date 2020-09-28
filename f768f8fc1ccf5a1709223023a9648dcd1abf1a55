@@ -16,6 +16,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70df4309_6d6d0544",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-28T23:29:45Z",
+      "side": 1,
+      "message": "Then we are back to migrate large repositories single threaded since the small ones will finish quickly. In my tests I could run something like 20 threads with 3 large repositories and all the other ones were smaller. After a while all but these 3 finished migration. This means I was still running 5-10 threads on the remaining 3 large repositories.",
+      "parentUuid": "7688fb7b_3e231980",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

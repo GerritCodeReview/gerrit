@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "7a2495b9_fee65be7",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T13:57:13Z",
+      "side": 1,
+      "message": "Nit: The google-java-format checker is likely complaining about this empty line.",
+      "revId": "21976448f551d9999f9b2d3dba0a69d98965def0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "cc8ce0b6_f774eadf",
+        "filename": "java/com/google/gerrit/server/patch/MagicFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T15:48:53Z",
+      "side": 1,
+      "message": "The old code always adds \"\\n\" after the commit\u0027s generatedContent.\nThe new code doesn\u0027t add it if modifiableContent is empty. Can it break something? I can imagine that some code can read a commit\u0027s header until the blank line. As a result, it can either crash (if modifiableContent is empty) or return the first line of modifiableContent instead of empty generatedContent.",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 43
+      },
+      "revId": "b4b6db390ef0fd985f84f9e465b1964c08e890e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

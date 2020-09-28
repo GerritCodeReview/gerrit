@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "73f0ed99_da6c9188",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 6
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-09-28T15:25:43Z",
+      "side": 1,
+      "message": "I ended up changing the behavior a bit because abort should probably take precedence over filtering (if a file is still loading, I don\u0027t want to skip it, even if it does not have e.g. comments). PTAL.",
+      "revId": "551eff76f67569490058f68980a86420fc164164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

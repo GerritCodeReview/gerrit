@@ -1,0 +1,188 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "3667ebc8_389382d4",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 658,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Does if(this.draft) also work here?",
+      "range": {
+        "startLine": 658,
+        "startChar": 8,
+        "endLine": 658,
+        "endChar": 27
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cbf1b4c_6faf9c00",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 794,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Seems this can be removed - there is a check if(!response) at the start of the method.",
+      "range": {
+        "startLine": 794,
+        "startChar": 10,
+        "endLine": 794,
+        "endChar": 21
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "712ad791_748c18a9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-account-list/gr-account-list.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 443,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Please add TODO(TS) comment about removing \u0027as\u0027. There is a check that account is a group, so we should try to update GroupInfoInput / AccountInfoInput and remove \u0027as\u0027 here and below.",
+      "range": {
+        "startLine": 443,
+        "startChar": 10,
+        "endLine": 443,
+        "endChar": 52
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff9437a6_33e9bb83",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 218,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Please add comment that doc contains invalid information",
+      "range": {
+        "startLine": 218,
+        "startChar": 2,
+        "endLine": 218,
+        "endChar": 23
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5ed56a98_ffcc5284",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1827,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "The java class doesn\u0027t have this property and doc also doesn\u0027t have it. Could you please add some comment about it and why it was added directly in the API interface.(https://gerrit.googlesource.com/gerrit/+/4486f9065730df8b946a28320c694b360a737fc8/java/com/google/gerrit/extensions/api/changes/ReviewResult.java)\nThis property exists in the https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#add-reviewer-result",
+      "range": {
+        "startLine": 1827,
+        "startChar": 2,
+        "endLine": 1827,
+        "endChar": 43
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ab1e4ae5_c86ccc18",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1836,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Could you please either add all fields from doc or write a comment that this interface is not defined completely.",
+      "range": {
+        "startLine": 1836,
+        "startChar": 17,
+        "endLine": 1836,
+        "endChar": 34
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "774def89_3de056e3",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1910,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Weird that AttentionSetInput can be an empty object. Is it correct? Maybe add some comments what it means? (doc is unclear)",
+      "range": {
+        "startLine": 1910,
+        "startChar": 0,
+        "endLine": 1910,
+        "endChar": 36
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e98d738_4587c010",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 1912,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T08:50:59Z",
+      "side": 1,
+      "message": "Doc says this is required field. Could you please either make it required or add comment that doc is not valid.",
+      "range": {
+        "startLine": 1912,
+        "startChar": 2,
+        "endLine": 1912,
+        "endChar": 18
+      },
+      "revId": "191d409911879859708c0806a7d12d3af233cbb0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

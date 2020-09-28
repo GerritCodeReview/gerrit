@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5f16d73e_d49fc1a0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-09-28T15:24:39Z",
+      "side": 1,
+      "message": "Hi Ben, could you take a look on this change? It should add a row with \"moved in\" or \"moved out\" before moved chunks.",
+      "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

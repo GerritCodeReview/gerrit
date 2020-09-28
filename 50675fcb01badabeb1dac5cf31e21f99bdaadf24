@@ -52,6 +52,24 @@
       "revId": "50675fcb01badabeb1dac5cf31e21f99bdaadf24",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0a0faa43_80015938",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-28T15:04:32Z",
+      "side": 1,
+      "message": "\u003e Sorry, this upgrade is very time consuming for us.\n\nWould you have an update on this one, by any chance?",
+      "parentUuid": "0ddae04c_1abe708d",
+      "revId": "50675fcb01badabeb1dac5cf31e21f99bdaadf24",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

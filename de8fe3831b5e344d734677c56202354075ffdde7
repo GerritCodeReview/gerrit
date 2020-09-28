@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "984ccc81_c780495b",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T16:01:57Z",
+      "side": 1,
+      "message": "This looks unsafe for me - the code changes the content of the fixReplacement.range instance. Maybe create a new Range instance instead?",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 43
+      },
+      "revId": "de8fe3831b5e344d734677c56202354075ffdde7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

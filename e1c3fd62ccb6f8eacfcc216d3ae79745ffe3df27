@@ -55,6 +55,24 @@
     },
     {
       "key": {
+        "uuid": "4b9c402b_21e43d68",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070962
+      },
+      "writtenOn": "2020-09-28T18:02:57Z",
+      "side": 1,
+      "message": "ping for help on this",
+      "parentUuid": "81f7bc8f_563fd594",
+      "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "6cf9b5fd_ed5ecbda",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
         "patchSetId": 2

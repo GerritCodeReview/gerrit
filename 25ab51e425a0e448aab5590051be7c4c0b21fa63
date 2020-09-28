@@ -45,6 +45,30 @@
       "revId": "25ab51e425a0e448aab5590051be7c4c0b21fa63",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "94c4dda5_2fff79d3",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T05:54:53Z",
+      "side": 1,
+      "message": "After redoing this commits, this should be done in\nhttps://gerrit-review.googlesource.com/c/gerrit/+/282616",
+      "parentUuid": "4f765ee6_1df2948c",
+      "range": {
+        "startLine": 94,
+        "startChar": 10,
+        "endLine": 94,
+        "endChar": 27
+      },
+      "revId": "25ab51e425a0e448aab5590051be7c4c0b21fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

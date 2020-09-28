@@ -1,0 +1,165 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "238aa41f_96c7be78",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "Can it be changed to if (message) ?",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 32
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a8cefba5_baae634c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "If arr[i] is not a draft comment (i.e. __draftID is undefined) and comment also is not a draft comment, then this expression is true:\nundefined !\u003d\u003d null \u0026\u0026 undefined \u003d\u003d undefined\n\nhowever, the original expression is false:\nundefined !\u003d null \u0026\u0026 undefined \u003d\u003d undefined\n\nSeems this method is used only for draft comments and it works correctly.\nHowever, for ordinary comments it always returns 0.",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 607,
+        "endChar": 67
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5bef947b_02b5939b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "I suggest to redefine types for UI element explicitly. With such redefinition, the API remains unchanged (i.e. changes in gr-rest-api-interface.ts and common.ts are not required). Also it gives better separation between UI objects and API objects.\nThe following types can be used:\n\nexport interface UICommentInfo extends Omit\u003cCommentInfo, \u0027id\u0027 | \u0027updated\u0027\u003e {\n  id?: UrlEncodedCommentId;\n  updated?: Timestamp;\n}\n\nexport interface UIRobotCommentInfo\n  extends Omit\u003cRobotCommentInfo, \u0027id\u0027 | \u0027updated\u0027\u003e {\n  id?: UrlEncodedCommentId;\n  updated?: Timestamp;\n}\n\ninterface Draft {\n  collapsed?: boolean;\n  __editing?: boolean;\n  __otherEditing?: boolean;\n  __draft?: boolean;\n  __draftID?: string;\n  __commentSide?: string;\n  __date?: Date;\n}\n\nexport type Comment \u003d Draft \u0026 UICommentInfo;\nexport type RobotComment \u003d Draft \u0026 UIRobotCommentInfo;",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 52
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "313fc57d_00ec0841",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 2615,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "This change is not required - see my comment in gr-comment.ts",
+      "range": {
+        "startLine": 2610,
+        "startChar": 4,
+        "endLine": 2615,
+        "endChar": 0
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6ab3f471_08c8f59c",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "I would prefer to keep common.ts in sync with API. Instead, I suggest redefining interfaces for UI elements (see my comment in gr-comment.ts)",
+      "range": {
+        "startLine": 1047,
+        "startChar": 2,
+        "endLine": 1047,
+        "endChar": 27
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "90c7e226_c44eba70",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "See comment for id.",
+      "range": {
+        "startLine": 1055,
+        "startChar": 2,
+        "endLine": 1055,
+        "endChar": 10
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0333bc8b_ae110ae2",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T07:54:05Z",
+      "side": 1,
+      "message": "Seems, it should be Timestamp only (also requires update type in gr-date-formatter.ts in 2 methods - _computeFullDateStr and _computeFullDateStr)",
+      "range": {
+        "startLine": 25,
+        "startChar": 35,
+        "endLine": 25,
+        "endChar": 53
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

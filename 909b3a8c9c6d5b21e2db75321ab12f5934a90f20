@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c82359d5_243be540",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 744,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T14:07:21Z",
+      "side": 1,
+      "message": "Obsolete in patchset 10.",
+      "parentUuid": "ecc1e9c3_71399a46",
+      "range": {
+        "startLine": 744,
+        "startChar": 25,
+        "endLine": 744,
+        "endChar": 43
+      },
+      "revId": "909b3a8c9c6d5b21e2db75321ab12f5934a90f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "150c9066_82006f9b",
         "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "909b3a8c9c6d5b21e2db75321ab12f5934a90f20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "27e40f63_c092f259",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 474,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T14:07:21Z",
+      "side": 1,
+      "message": "Adjusted in patchset 10.",
+      "parentUuid": "150c9066_82006f9b",
+      "range": {
+        "startLine": 473,
+        "startChar": 11,
+        "endLine": 474,
+        "endChar": 77
+      },
+      "revId": "909b3a8c9c6d5b21e2db75321ab12f5934a90f20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

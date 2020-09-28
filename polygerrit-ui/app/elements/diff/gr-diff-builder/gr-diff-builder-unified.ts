@@ -31,6 +31,14 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     super(diff, prefs, outputEl, layers);
   }
 
+  _getMoveControlsConfig() {
+    return {
+      numberOfCells: 4,
+      movedOutIndex: 1,
+      movedInIndex: 2,
+    };
+  }
+
   buildSectionElement(group: GrDiffGroup): HTMLElement {
     const sectionEl = this._createElement('tbody', 'section');
     sectionEl.classList.add(group.type);
@@ -42,6 +50,7 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     }
     if (group.dueToMove) {
       sectionEl.classList.add('dueToMove');
+      sectionEl.appendChild(this._buildMoveControls(group));
     }
     if (group.ignoredWhitespaceOnly) {
       sectionEl.classList.add('ignoredWhitespaceOnly');

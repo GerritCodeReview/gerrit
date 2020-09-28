@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "b32dad54_1380eab5",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T01:03:54Z",
+      "side": 1,
+      "message": "This is not relevant anymore after applying your suggestions.\n\nThe underlying problem was the reset of the BatchUpdates.\n\nSubmitPreview (dryrun) reads the submission result from the ReceiveCommands. The reset in updateSuperprojects() was upsetting it. Adding the operation on dryrun would generate the right ReceiveCommands (and there was no need of updateSuperprojects()). Basically we were doing the superproject update through different paths between dryrun (or not).\n\nAgain, now with the BatchUpdate resets in the right place, everything is clearer.",
+      "parentUuid": "f2ed374e_8c61dac1",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 23,
+        "endChar": 69
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "1e3b2d0f_870f69c4",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8
@@ -45,6 +69,30 @@
       "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2cc38b17_5668f89a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T01:03:54Z",
+      "side": 1,
+      "message": "Thanks! The reset in the right place simplified everything.",
+      "parentUuid": "1e3b2d0f_870f69c4",
+      "range": {
+        "startLine": 526,
+        "startChar": 8,
+        "endLine": 526,
+        "endChar": 22
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "8107512d_80ea7e04",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T01:03:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7c9551f1_41ea9819",
+      "range": {
+        "startLine": 531,
+        "startChar": 37,
+        "endLine": 531,
+        "endChar": 49
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "9a2dbed0_8b301158",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 531,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T01:03:54Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fb45c59d_b29db8f4",
+      "range": {
+        "startLine": 531,
+        "startChar": 22,
+        "endLine": 531,
+        "endChar": 34
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "3e8a3c42_3e73a782",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "92af5671_8a62c932",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T01:03:54Z",
+      "side": 1,
+      "message": "I guess they could bump into lock failures and makes sense to retry... \n\nIIUC it could be implemented entirely inside submoduleOp2.updateSuperProjects()... could it be readded in a later change? should I add a TODO?",
+      "parentUuid": "3e8a3c42_3e73a782",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 532,
+        "endChar": 45
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce44eb90_b51cb0c8",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8
@@ -128,6 +248,30 @@
       "writtenOn": "2020-09-25T15:33:23Z",
       "side": 1,
       "message": "Does the test also cover fast-forwards?",
+      "range": {
+        "startLine": 728,
+        "startChar": 25,
+        "endLine": 728,
+        "endChar": 70
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "443ab70e_6998023b",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-28T01:03:54Z",
+      "side": 1,
+      "message": "Still need to take a look into this.",
+      "parentUuid": "ce44eb90_b51cb0c8",
       "range": {
         "startLine": 728,
         "startChar": 25,

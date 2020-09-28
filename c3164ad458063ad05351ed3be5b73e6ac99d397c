@@ -16,6 +16,24 @@
       "revId": "c3164ad458063ad05351ed3be5b73e6ac99d397c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72bc6706_8772e0f0",
+        "filename": "polygerrit-ui/app/elements/change/gr-related-changes-list/gr-related-changes-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-28T12:18:51Z",
+      "side": 0,
+      "message": "Yes, right now it is gone.\n\u003e\u003e We should work on bringing it back!\nCool. Then I will add a property to the RelatedChangeAndCommitInfo interface with appropriate comment and will keep related code unchanged.",
+      "parentUuid": "6bd09bb1_75a13e85",
+      "revId": "c3164ad458063ad05351ed3be5b73e6ac99d397c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

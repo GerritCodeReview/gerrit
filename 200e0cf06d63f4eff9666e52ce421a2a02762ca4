@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "b06b48bc_5ecb0789",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-28T15:13:02Z",
+      "side": 1,
+      "message": "Auto Merge shows no non-trivial diffs for this review series; thanks.",
+      "revId": "200e0cf06d63f4eff9666e52ce421a2a02762ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -33,6 +33,24 @@
       "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fb3b43a9_eef0f1c1",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-09-28T16:20:54Z",
+      "side": 1,
+      "message": "This was just an incredible rookie mistake from my side. Both modes have 4 cells - for some reason it worked in my tests just fine with 3 for unified diffs. Fixing it...",
+      "parentUuid": "e32a2b9a_b85ceb4e",
+      "revId": "ca92f8f53417adca9d57adfc2ecbfe830ff26941",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

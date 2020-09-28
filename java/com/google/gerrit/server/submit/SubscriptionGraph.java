@@ -22,6 +22,7 @@ import com.google.common.collect.ImmutableSetMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.common.collect.SetMultimap;
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
@@ -137,6 +138,7 @@ public class SubscriptionGraph {
   }
 
   /** Check if a {@code branch} is a submodule of a superproject. */
+  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
   public boolean hasSuperproject(BranchNameKey branch) {
     return subscribedBranches.contains(branch);
   }

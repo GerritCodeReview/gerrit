@@ -202,7 +202,7 @@ suite('gr-cursor-manager tests', () => {
     assert.isTrue(scrollStub.called);
   });
 
-  test('_getNextIndex', () => {
+  test('move with filter', () => {
     const isLetterB = function(row) {
       return row.textContent === 'B';
     };
@@ -211,23 +211,25 @@ suite('gr-cursor-manager tests', () => {
     element.setCursor(list.children[0]);
 
     // Move forward to meet the next condition.
-    assert.equal(element._getNextIndex(1, {filter: isLetterB}), 1);
-    element.index = 1;
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 1);
 
     // Nothing else meets the condition, should be at last stop.
-    assert.equal(element._getNextIndex(1, {filter: isLetterB}), 3);
-    element.index = 3;
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 3);
 
     // Should stay at last stop if try to proceed.
-    assert.equal(element._getNextIndex(1, {filter: isLetterB}), 3);
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 3);
 
     // Go back to the previous condition met. Should be back at.
     // stop 1.
-    assert.equal(element._getNextIndex(-1, {filter: isLetterB}), 1);
-    element.index = 1;
+    element.previous({filter: isLetterB});
+    assert.equal(element.index, 1);
 
     // Go back. No more meet the condition. Should be at stop 0.
-    assert.equal(element._getNextIndex(-1, {filter: isLetterB}), 0);
+    element.previous({filter: isLetterB});
+    assert.equal(element.index, 0);
   });
 
   test('focusOnMove prop', () => {

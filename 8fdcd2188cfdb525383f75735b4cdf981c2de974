@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a548fbf8_ab48d34a",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T15:15:00Z",
+      "side": 1,
+      "message": "Nit: Placing this comment directly above the condition check about they command type is a bit confusing. I first thought that the comment should explain the condition. Could you move the comment one or several lines up so that it\u0027s a bit less confusing?",
+      "range": {
+        "startLine": 118,
+        "startChar": 8,
+        "endLine": 118,
+        "endChar": 49
+      },
+      "revId": "8fdcd2188cfdb525383f75735b4cdf981c2de974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7c7a3e70_e75275ae",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T15:15:00Z",
+      "side": 1,
+      "message": "Nit: We could use a better error description here. This method is not updating the gitlinks but just assembling the branch tips (during a dry-run).",
+      "range": {
+        "startLine": 128,
+        "startChar": 36,
+        "endLine": 128,
+        "endChar": 58
+      },
+      "revId": "8fdcd2188cfdb525383f75735b4cdf981c2de974",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

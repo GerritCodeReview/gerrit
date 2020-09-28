@@ -97,6 +97,7 @@ import org.eclipse.jgit.lib.Constants;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
+import org.eclipse.jgit.transport.ReceiveCommand;
 
 /**
  * Merges changes in submission order into a single branch.
@@ -228,6 +229,7 @@ public class MergeOp implements AutoCloseable {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubmoduleCommits.Factory submoduleCommitsFactory;
+  private final SubmoduleOp.Factory submoduleOpFactory;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
@@ -235,6 +237,8 @@ public class MergeOp implements AutoCloseable {
 
   // Changes that were updated by this MergeOp.
   private final Map<Change.Id, Change> updatedChanges;
+  // Refs that were updated by this MergeOp.
+  private final Map<BranchNameKey, ReceiveCommand> updatedRefs;
 
   private Timestamp ts;
   private SubmissionId submissionId;
@@ -259,6 +263,7 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleCommits.Factory submoduleCommitsFactory,
       SubscriptionGraph.Factory subscriptionGraphFactory,
+      SubmoduleOp.Factory submoduleOpFactory,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
@@ -273,12 +278,14 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.submoduleCommitsFactory = submoduleCommitsFactory;
     this.subscriptionGraphFactory = subscriptionGraphFactory;
+    this.submoduleOpFactory = submoduleOpFactory;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
     this.retryHelper = retryHelper;
     this.topicMetrics = topicMetrics;
     this.changeDataFactory = changeDataFactory;
     this.updatedChanges = new HashMap<>();
+    this.updatedRefs = new HashMap<>();
   }
 
   @Override
@@ -520,6 +527,9 @@ public class MergeOp implements AutoCloseable {
             .defaultTimeoutMultiplier(cs.projects().size())
             .call();
 
+        SubmoduleOp submoduleOp = submoduleOpFactory.create(updatedRefs, orm);
+        submoduleOp.updateSuperProjects(dryrun);
+
         if (projects > 1) {
           topicMetrics.topicSubmissionsCompleted.increment();
         }
@@ -623,9 +633,10 @@ public class MergeOp implements AutoCloseable {
             dryrun);
       } finally {
         // If the BatchUpdate fails it can be that merging some of the changes was actually
-        // successful. This is why we must to collect the updated changes also when an exception was
-        // thrown.
+        // successful. This is why we must to collect the updated changes and refs also when an
+        // exception was thrown.
         strategies.forEach(s -> updatedChanges.putAll(s.getUpdatedChanges()));
+        batchUpdates.forEach(bu -> updatedRefs.putAll(bu.getSuccessfullyUpdatedBranches(dryrun)));
 
         // Do not leave executed BatchUpdates in the OpenRepos
         if (!dryrun) {
@@ -713,16 +724,15 @@ public class MergeOp implements AutoCloseable {
                 dryrun);
         strategies.add(strategy);
         strategy.addOps(or.getUpdate(), commitsToSubmit);
-        if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
-            && subscriptionGraph.hasSubscription(branch)) {
-          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
-        }
-      } else {
-        // no open change for this branch
-        // add submodule triggered op into BatchUpdate
-        or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
+        // TODO(ifrade): This case doesn't seem to trigger in the test... not sure what case it
+        // covers
+        //        if (submitting.submitType().equals(SubmitType.FAST_FORWARD_ONLY)
+        //            && subscriptionGraph.hasSubscription(branch)) {
+        //          or.getUpdate().addRepoOnlyOp(gitlinkOpFactory.create(branch));
+        //        }
       }
     }
+
     return strategies;
   }
 

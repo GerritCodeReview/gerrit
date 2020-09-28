@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "e942e22a_6fe646b0",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3465,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T14:09:56Z",
+      "side": 1,
+      "message": "Here and for isConfig(): This new method is unused in this patchset.",
+      "range": {
+        "startLine": 3465,
+        "startChar": 25,
+        "endLine": 3465,
+        "endChar": 31
+      },
+      "revId": "33a3bc47ceed91901a1279ec9366472d4a10fdc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "92768c9a_bfa9b8e8",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 10

@@ -237,6 +237,30 @@
     },
     {
       "key": {
+        "uuid": "e2d913db_1bf91560",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-28T15:10:24Z",
+      "side": 1,
+      "message": "If we need to do something in the future, we should add a TODO to not entirely forget about it. Considering that we record the branchTips in SubmoduleCommits during the execution above in the other retry-block, would a retry here (which doesn\u0027t update the recorded tips) even achieve anything? Maybe we can also leave this out for the moment and only add the retry-mechanism in the future when we see that we really need it.",
+      "parentUuid": "92af5671_8a62c932",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 532,
+        "endChar": 45
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "ce44eb90_b51cb0c8",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8

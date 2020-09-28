@@ -22,6 +22,30 @@
       "revId": "9f10556cb4d33883cbd681676ca70c8fe531be26",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35582dd2_41e2e321",
+        "filename": "java/com/google/gerrit/server/project/ProjectLevelConfig.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-09-28T14:44:00Z",
+      "side": 0,
+      "message": "I don\u0027t think this change impact that behavior. Am I missing something?\n\nIf you put anything in *.config files on any refs/meta/config, that will be cached as String contents and turned into a Config object when requested. The caching happens when ProjectConfig gets read, so after your write and specifically after calling #commit.",
+      "parentUuid": "0bc7a941_3c85a2cb",
+      "range": {
+        "startLine": 32,
+        "startChar": 32,
+        "endLine": 32,
+        "endChar": 57
+      },
+      "revId": "9f10556cb4d33883cbd681676ca70c8fe531be26",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

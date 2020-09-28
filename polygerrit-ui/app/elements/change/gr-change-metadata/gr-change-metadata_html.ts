@@ -321,6 +321,7 @@ export const htmlTemplate = html`
             href="[[_computeHashtagUrl(item)]]"
             removable="[[!_hashtagReadOnly]]"
             on-remove="_handleHashtagRemoved"
+            limit="40"
           >
           </gr-linked-chip>
         </template>

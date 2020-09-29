@@ -49,7 +49,7 @@ import {
   CommentInfo,
   ConfigInfo,
   AccountDetailInfo,
-  ChangeNum,
+  NumericChangeId,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -171,7 +171,7 @@ export class GrComment extends KeyboardShortcutMixin(
    */
 
   @property({type: Number})
-  changeNum?: ChangeNum;
+  changeNum?: NumericChangeId;
 
   @property({type: Object, notify: true, observer: '_commentChanged'})
   comment?: Comment | RobotComment;

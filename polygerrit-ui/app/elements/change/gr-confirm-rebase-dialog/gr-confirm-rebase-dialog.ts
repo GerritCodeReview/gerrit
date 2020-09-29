@@ -24,7 +24,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {NumericChangeId, BranchName, ChangeNum} from '../../../types/common';
+import {NumericChangeId, BranchName} from '../../../types/common';
 import {
   GrAutocomplete,
   AutocompleteQuery,
@@ -71,7 +71,7 @@ export class GrConfirmRebaseDialog extends GestureEventListeners(
   branch?: BranchName;
 
   @property({type: Number})
-  changeNumber?: ChangeNum;
+  changeNumber?: NumericChangeId;
 
   @property({type: Boolean})
   hasParent?: boolean;

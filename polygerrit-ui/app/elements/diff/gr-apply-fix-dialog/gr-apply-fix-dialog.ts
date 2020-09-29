@@ -28,7 +28,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
-  ChangeNum,
+  NumericChangeId,
   DiffInfo,
   DiffPreferencesInfo,
   EditPatchSetNum,
@@ -71,7 +71,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
   change?: ParsedChangeInfo;
 
   @property({type: String})
-  changeNum?: ChangeNum;
+  changeNum?: NumericChangeId;
 
   @property({type: Number})
   _patchNum?: PatchSetNum;
@@ -260,9 +260,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
 
   _computeTooltip(change?: ParsedChangeInfo, patchNum?: PatchSetNum) {
     if (!change || !patchNum) return '';
-    // If change is defined, change.revisions and change.current_revisions
-    // must be defined
-    const latestPatchNum = change.revisions![change.current_revision!]._number;
+    const latestPatchNum = change.revisions[change.current_revision]._number;
     return latestPatchNum !== patchNum
       ? 'Fix can only be applied to the latest patchset'
       : '';
@@ -276,9 +274,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
     if (!change || isApplyFixLoading === undefined || patchNum === undefined) {
       return true;
     }
-    // If change is defined, change.revisions and change.current_revisions
-    // must be defined
-    const currentPatchNum = change.revisions![change.current_revision!]._number;
+    const currentPatchNum = change.revisions[change.current_revision]._number;
     if (patchNum !== currentPatchNum) {
       return true;
     }

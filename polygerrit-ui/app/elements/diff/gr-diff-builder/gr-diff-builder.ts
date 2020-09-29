@@ -87,7 +87,8 @@ export abstract class GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    protected readonly useNewContextControls: boolean = false
   ) {
     this._diff = diff;
     this._numLinesLeft = this._diff.content
@@ -346,6 +347,81 @@ export abstract class GrDiffBuilder {
     return td;
   }
 
+  _createNewContextControl(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[]
+  ): {
+    element: HTMLElement;
+    hasAbove: boolean;
+    hasBelow: boolean;
+  } {
+    const element = this._createElement('td', 'dividerCell');
+
+    const leftStart = contextGroups[0].lineRange.left.start!;
+    const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
+    const numLines = leftEnd - leftStart + 1;
+
+    if (numLines === 0) console.error('context group without lines');
+
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
+
+    const showAbove = leftStart > 1;
+    const showBelow = leftEnd < this._numLinesLeft;
+
+    const showAllContainer = this._createElement('div', 'aboveBelowButtons');
+    element.appendChild(showAllContainer);
+
+    const showAllButton = this._createContextButton(
+      ContextButtonType.ALL,
+      section,
+      contextGroups,
+      numLines
+    );
+    showAllContainer.appendChild(showAllButton);
+
+    if (showAbove && showBelow) {
+      showAllButton.classList.add('centeredButton');
+    } else {
+      if (showAbove) {
+        showAllButton.classList.add('aboveButton');
+      }
+      if (showBelow) {
+        showAllButton.classList.add('belowButton');
+      }
+    }
+
+    if (showPartialLinks) {
+      const container = this._createElement('div', 'aboveBelowButtons');
+      if (showAbove) {
+        container.appendChild(
+          this._createContextButton(
+            ContextButtonType.ABOVE,
+            section,
+            contextGroups,
+            numLines
+          )
+        );
+      }
+      if (showBelow) {
+        container.appendChild(
+          this._createContextButton(
+            ContextButtonType.BELOW,
+            section,
+            contextGroups,
+            numLines
+          )
+        );
+      }
+      element.appendChild(container);
+    }
+
+    return {
+      element,
+      hasAbove: showAbove,
+      hasBelow: showBelow,
+    };
+  }
+
   _createContextButton(
     type: ContextButtonType,
     section: HTMLElement,
@@ -354,27 +430,43 @@ export abstract class GrDiffBuilder {
   ) {
     const context = PARTIAL_CONTEXT_AMOUNT;
     const button = this._createElement('gr-button', 'showContext');
+    if (this.useNewContextControls) {
+      button.classList.add('contextControlButton');
+    }
     button.setAttribute('link', 'true');
     button.setAttribute('no-uppercase', 'true');
 
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      const icon = this._createElement('iron-icon', 'showContext');
-      icon.setAttribute('icon', 'gr-icons:unfold-more');
-      button.appendChild(icon);
-
-      text = `Show ${numLines} common line`;
+      if (this.useNewContextControls) {
+        text = `+${numLines} common line`;
+      } else {
+        text = `Show ${numLines} common line`
+        const icon = this._createElement('iron-icon', 'showContext');
+        icon.setAttribute('icon', 'gr-icons:unfold-more');
+        button.appendChild(icon);
+      }
       if (numLines > 1) {
         text += 's';
       }
       groups.push(...contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = `+${context} above`;
       groups = hideInContextControl(contextGroups, context, numLines);
+      if (this.useNewContextControls) {
+        text = `+${context}`
+        button.classList.add('aboveButton');
+      } else {
+        text = `${context} above`;
+      }
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = `+${context} below`;
       groups = hideInContextControl(contextGroups, 0, numLines - context);
+      if (this.useNewContextControls) {
+        text = `+${context}`;
+        button.classList.add('belowButton');
+      } else {
+        text = `${context} below`;
+      }
     }
     const textSpan = this._createElement('span', 'showContext');
     textSpan.textContent = text;

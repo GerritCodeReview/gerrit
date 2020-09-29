@@ -22,6 +22,30 @@
       "revId": "c9163bf13142505cc6f7c02e61763cb4153eaf64",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "dfc23f4c_6b40249f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view_test.js",
+        "patchSetId": 8
+      },
+      "lineNbr": 497,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T10:15:15Z",
+      "side": 1,
+      "message": "Saw a usage in another test. I guess this is not needed.\nUpdated.",
+      "parentUuid": "68248f16_4f87db9c",
+      "range": {
+        "startLine": 497,
+        "startChar": 6,
+        "endLine": 497,
+        "endChar": 12
+      },
+      "revId": "c9163bf13142505cc6f7c02e61763cb4153eaf64",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

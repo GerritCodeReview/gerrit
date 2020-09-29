@@ -16,6 +16,29 @@
       "revId": "e7e2bbed6db8fba33374d6e7bd504d1b6b355e20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8d6ec3aa_c3218e2f",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T19:37:07Z",
+      "side": 1,
+      "message": "the macOS",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 15
+      },
+      "revId": "e7e2bbed6db8fba33374d6e7bd504d1b6b355e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

@@ -16,7 +16,7 @@
  */
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
-import {LegacyChangeId, PatchSetNum, ChangeInfo} from '../types/common';
+import {LegacyChangeId, PatchSetNum, ChangeInfo, AccountInfo} from '../types/common';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -164,6 +164,11 @@ export function changeStatuses(
     states.push('Active');
   }
   return states;
+}
+
+export function isOwner(change?: ChangeInfo, account?: AccountInfo) {
+  if (!change || !account) return false;
+  return change.owner?._account_id === account._account_id;
 }
 
 export function changeStatusString(change: ChangeInfo) {

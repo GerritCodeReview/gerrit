@@ -14,17 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {getBaseUrl} from '../../../utils/url-util';
-import {GrDiffLine, GrDiffLineType, LineNumber} from '../gr-diff/gr-diff-line';
+import { getBaseUrl } from '../../../utils/url-util';
+import { GrDiffLine, GrDiffLineType, LineNumber } from '../gr-diff/gr-diff-line';
 import {
   GrDiffGroup,
   GrDiffGroupType,
   hideInContextControl,
   rangeBySide,
 } from '../gr-diff/gr-diff-group';
-import {BlameInfo, DiffInfo, DiffPreferencesInfo} from '../../../types/common';
-import {Side} from '../../../constants/constants';
-import {DiffLayer} from '../../../types/types';
+import { BlameInfo, DiffInfo, DiffPreferencesInfo } from '../../../types/common';
+import { DiffViewMode, Side } from '../../../constants/constants';
+import { DiffLayer } from '../../../types/types';
 
 /**
  * In JS, unicode code points above 0xFFFF occupy two elements of a string.
@@ -87,14 +87,15 @@ export abstract class GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    protected readonly useNewContextControls: boolean = false
   ) {
     this._diff = diff;
     this._numLinesLeft = this._diff.content
       ? this._diff.content.reduce((sum, chunk) => {
-          const left = chunk.a || chunk.ab;
-          return sum + (left ? left.length : 0);
-        }, 0)
+        const left = chunk.a || chunk.ab;
+        return sum + (left ? left.length : 0);
+      }, 0)
       : 0;
     this._prefs = prefs;
     this._outputEl = outputEl;
@@ -299,20 +300,16 @@ export abstract class GrDiffBuilder {
     );
   }
 
-  _createContextControl(
+  _createOldContextControls(
     section: HTMLElement,
-    contextGroups: GrDiffGroup[]
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
   ): HTMLElement {
-    const leftStart = contextGroups[0].lineRange.left.start!;
-    const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
-    const numLines = leftEnd - leftStart + 1;
-
-    if (numLines === 0) console.error('context group without lines');
-
     const td = this._createElement('td');
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
 
-    if (showPartialLinks && leftStart > 1) {
+    if (showAbove) {
       td.appendChild(
         this._createContextButton(
           ContextButtonType.ABOVE,
@@ -332,7 +329,7 @@ export abstract class GrDiffBuilder {
       )
     );
 
-    if (showPartialLinks && leftEnd < this._numLinesLeft) {
+    if (showBelow) {
       td.appendChild(
         this._createContextButton(
           ContextButtonType.BELOW,
@@ -346,6 +343,181 @@ export abstract class GrDiffBuilder {
     return td;
   }
 
+  _createContextControls(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    viewMode: DiffViewMode
+  ) {
+    const leftStart = contextGroups[0].lineRange.left.start!;
+    const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
+    
+    const numLines = leftEnd - leftStart + 1;
+    if (numLines === 0) console.error('context group without lines');
+
+    const showAbove = leftStart > 1;
+    const showBelow = leftEnd < this._numLinesLeft;
+
+    if (this.useNewContextControls) {
+      section.classList.add('newStyle');
+      if (showAbove) {
+        const paddingRow = this._createContextControlPaddingRow(viewMode);
+        paddingRow.classList.add('above');
+        section.appendChild(paddingRow);
+      }
+      section.appendChild(
+        this._createNewContextControlRow(section, contextGroups, showAbove, showBelow, numLines)
+      );
+      if (showBelow) {
+        const paddingRow = this._createContextControlPaddingRow(viewMode);
+        paddingRow.classList.add('below');
+        section.appendChild(paddingRow);
+      }
+    } else {
+      section.appendChild(
+        this._createOldContextControlRow(section, contextGroups, viewMode, showAbove, showBelow, numLines)
+      );
+    }
+  }
+
+  /**
+   * Creates old-style context controls: a single row of "+X above" and
+   * "+X below" buttons.
+   */
+  _createOldContextControlRow(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    viewMode: DiffViewMode,
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ) {
+    const row = this._createElement('tr', GrDiffGroupType.CONTEXT_CONTROL);
+
+    row.classList.add('diff-row');
+    row.classList.add(
+      viewMode === DiffViewMode.SIDE_BY_SIDE ? 'side-by-side' : 'unified'
+    );
+
+    row.tabIndex = -1;
+    row.appendChild(this._createBlameCell(0));
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(
+        this._createOldContextControls(
+          section,
+          contextGroups,
+          showAbove,
+          showBelow,
+          numLines
+        )
+      );
+    }
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(
+      this._createOldContextControls(
+        section,
+        contextGroups,
+        showAbove,
+        showBelow,
+        numLines
+      )
+    );
+
+    return row;
+  }
+
+  /**
+   * Creates new-style context controls: buttons extend from the gap created by
+   * this method up or down into the area of code that they affect.
+   */
+  _createNewContextControlRow(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ): HTMLElement {
+    const row = this._createElement('tr', 'contextDivider');
+    if (!(showAbove && showBelow)) {
+      row.classList.add('collapsed');
+    }
+
+    const element = this._createElement('td', 'dividerCell');
+    row.appendChild(element);
+
+    const showAllContainer = this._createElement('div', 'aboveBelowButtons');
+    element.appendChild(showAllContainer);
+
+    const showAllButton = this._createContextButton(
+      ContextButtonType.ALL,
+      section,
+      contextGroups,
+      numLines
+    );
+    showAllButton.classList.add(
+      showAbove && showBelow
+        ? 'centeredButton'
+        : showAbove ? 'aboveButton' : 'belowButton');
+    showAllContainer.appendChild(showAllButton);
+
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
+    if (showPartialLinks) {
+      const container = this._createElement('div', 'aboveBelowButtons');
+      if (showAbove) {
+        container.appendChild(
+          this._createContextButton(
+            ContextButtonType.ABOVE,
+            section,
+            contextGroups,
+            numLines
+          )
+        );
+      }
+      if (showBelow) {
+        container.appendChild(
+          this._createContextButton(
+            ContextButtonType.BELOW,
+            section,
+            contextGroups,
+            numLines
+          )
+        );
+      }
+      element.appendChild(container);
+    }
+
+    return row;
+  }
+
+  /**
+   * Creates a table row to serve as padding between code and context controls.
+   * Blame column, line gutters, and content area will continue visually, but
+   * context controls can render over this background to map more clearly to
+   * the area of code they expand.
+   * @param viewMode 
+   */
+  _createContextControlPaddingRow(viewMode: DiffViewMode) {
+    const row = this._createElement('tr', 'contextBackground');
+
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.classList.add('side-by-side');
+      row.setAttribute('left-type', GrDiffGroupType.CONTEXT_CONTROL);
+      row.setAttribute('right-type', GrDiffGroupType.CONTEXT_CONTROL);
+    } else {
+      row.classList.add('unified');
+    }
+
+    row.appendChild(this._createBlameCell(0));
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(this._createElement('td'));
+    }
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(this._createElement('td'));
+
+    return row;
+  }
+
   _createContextButton(
     type: ContextButtonType,
     section: HTMLElement,
@@ -354,27 +526,43 @@ export abstract class GrDiffBuilder {
   ) {
     const context = PARTIAL_CONTEXT_AMOUNT;
     const button = this._createElement('gr-button', 'showContext');
+    if (this.useNewContextControls) {
+      button.classList.add('contextControlButton');
+    }
     button.setAttribute('link', 'true');
     button.setAttribute('no-uppercase', 'true');
 
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      const icon = this._createElement('iron-icon', 'showContext');
-      icon.setAttribute('icon', 'gr-icons:unfold-more');
-      button.appendChild(icon);
-
-      text = `Show ${numLines} common line`;
+      if (this.useNewContextControls) {
+        text = `+${numLines} common line`;
+      } else {
+        text = `Show ${numLines} common line`;
+        const icon = this._createElement('iron-icon', 'showContext');
+        icon.setAttribute('icon', 'gr-icons:unfold-more');
+        button.appendChild(icon);
+      }
       if (numLines > 1) {
         text += 's';
       }
       groups.push(...contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = `+${context} above`;
       groups = hideInContextControl(contextGroups, context, numLines);
+      if (this.useNewContextControls) {
+        text = `+${context}`;
+        button.classList.add('aboveButton');
+      } else {
+        text = `${context} above`;
+      }
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = `+${context} below`;
       groups = hideInContextControl(contextGroups, 0, numLines - context);
+      if (this.useNewContextControls) {
+        text = `+${context}`;
+        button.classList.add('belowButton');
+      } else {
+        text = `${context} below`;
+      }
     }
     const textSpan = this._createElement('span', 'showContext');
     textSpan.textContent = text;

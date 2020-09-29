@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "c2cd6477_a8bbf37d",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-29T20:06:51Z",
+      "side": 1,
+      "message": "No, because at this stage we only initialize them. I was thinking of keeping the Finalize term for line 323 as before.",
+      "parentUuid": "a2f5a774_49bf0a45",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "469aa0fa_fe90a745",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6fbcf836_55334b8c",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-29T20:06:51Z",
+      "side": 1,
+      "message": "-Was thinking of keeping this original Finalize term (as before this change).",
+      "parentUuid": "469aa0fa_fe90a745",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 12
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "2ac33ca9_221cfdab",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1
@@ -68,6 +116,30 @@
       "revId": "a40a72a65194065452165498f105c4996c72fc04",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a00d1c5e_67194d6b",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-29T20:06:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ac33ca9_221cfdab",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 8
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

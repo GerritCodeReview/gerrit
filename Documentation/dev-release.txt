@@ -104,7 +104,7 @@ Tag the plugins:
 [[build-gerrit]]
 === Build Gerrit
 
-* Build the Gerrit WAR, API JARs and documentation
+* Build the Gerrit WAR, API JARs and documentation:
 +
 ----
   bazel build release Documentation:searchfree
@@ -119,9 +119,7 @@ Tag the plugins:
 ----
 * Try upgrading a test site and launching the daemon
 
-* Verify plugin versions
-+
-Verify the versions:
+* Verify the plugin versions:
 +
 ----
   java -jar bazel-bin/release.war init --list-plugins

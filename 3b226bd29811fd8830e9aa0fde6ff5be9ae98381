@@ -81,6 +81,53 @@
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "03ecb443_0b10b6b8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T15:15:43Z",
+      "side": 1,
+      "message": "Makes sense.\nPerhaps add a comment so that the next person reading knows 48 is just a magic number and coming from getMockDiffResponse().\nI asked in case the 48 was somehow significant but it\u0027s just a magic number so I am fine with keeping it the way it is.",
+      "parentUuid": "276746de_0a52bea0",
+      "range": {
+        "startLine": 463,
+        "startChar": 64,
+        "endLine": 463,
+        "endChar": 66
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "a0b499dd_fd03c589",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T15:15:43Z",
+      "side": 1,
+      "message": "nit: typically we keep the const at the top of the file after imports(afaik)",
+      "range": {
+        "startLine": 55,
+        "startChar": 0,
+        "endLine": 55,
+        "endChar": 5
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

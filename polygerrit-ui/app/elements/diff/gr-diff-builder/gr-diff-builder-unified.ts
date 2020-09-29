@@ -18,7 +18,7 @@ import {GrDiffLine, GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/common';
-import {Side} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 
 export class GrDiffBuilderUnified extends GrDiffBuilder {
   constructor(
@@ -26,9 +26,10 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     // TODO(TS): Replace any by a layer interface.
-    readonly layers: any[] = []
+    readonly layers: any[] = [],
+    useNewContextControls = false
   ) {
-    super(diff, prefs, outputEl, layers);
+    super(diff, prefs, outputEl, layers, useNewContextControls);
   }
 
   _getMoveControlsConfig() {
@@ -56,8 +57,10 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
-      sectionEl.appendChild(
-        this._createContextRow(sectionEl, group.contextGroups)
+      this._createContextControls(
+        sectionEl,
+        group.contextGroups,
+        DiffViewMode.UNIFIED
       );
       return sectionEl;
     }
@@ -118,17 +121,6 @@ export class GrDiffBuilderUnified extends GrDiffBuilder {
     );
     row.appendChild(lineNumberEl);
     row.appendChild(this._createTextEl(lineNumberEl, line));
-    return row;
-  }
-
-  _createContextRow(section: HTMLElement, contextGroups: GrDiffGroup[]) {
-    const row = this._createElement('tr', GrDiffGroupType.CONTEXT_CONTROL);
-    row.classList.add('diff-row', 'unified');
-    row.tabIndex = -1;
-    row.appendChild(this._createBlameCell(0));
-    row.appendChild(this._createElement('td', 'contextLineNum'));
-    row.appendChild(this._createElement('td', 'contextLineNum'));
-    row.appendChild(this._createContextControl(section, contextGroups));
     return row;
   }
 

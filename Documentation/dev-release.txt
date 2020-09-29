@@ -114,7 +114,7 @@ link:https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work[configured with 
 [[build-gerrit]]
 === Build Gerrit
 
-* Build the Gerrit WAR, API JARs and documentation
+* Build the Gerrit WAR, API JARs and documentation:
 +
 ----
   bazel build release Documentation:searchfree
@@ -129,9 +129,7 @@ link:https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work[configured with 
 ----
 * Try upgrading a test site and launching the daemon
 
-* Verify plugin versions
-+
-Verify the versions:
+* Verify the plugin versions:
 +
 ----
   java -jar bazel-bin/release.war init --list-plugins

@@ -46,6 +46,33 @@ export function canHaveAttention(account: AccountInfo): boolean {
   return !!account && !!account._account_id && !isServiceUser(account);
 }
 
+export function canRemoveReviewer(
+  mutable: boolean,
+  change?: ChangeInfo,
+  reviewer?: AccountInfo
+): boolean {
+  if (
+    !mutable ||
+    change === undefined ||
+    reviewer === undefined ||
+    change.removable_reviewers === undefined
+  ) {
+    return false;
+  }
+
+  let current;
+  for (let i = 0; i < change.removable_reviewers.length; i++) {
+    current = change.removable_reviewers[i];
+    if (
+      current._account_id === reviewer._account_id ||
+      (!reviewer._account_id && current.email === reviewer.email)
+    ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 export function hasAttention(
   config: ServerInfo,
   account: AccountInfo,

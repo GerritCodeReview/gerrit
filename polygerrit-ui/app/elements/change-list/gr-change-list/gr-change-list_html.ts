@@ -139,7 +139,7 @@ export const htmlTemplate = html`
           <gr-change-list-item
             account="[[account]]"
             selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
-            highlight$="[[_computeItemHighlight(account, change)]]"
+            highlight$="[[_computeItemHighlight(account, change, _config, changeSection.name)]]"
             needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState, _config)]]"
             change="[[change]]"
             config="[[_config]]"

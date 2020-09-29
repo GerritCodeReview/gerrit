@@ -32,9 +32,6 @@ export const htmlTemplate = html`
       font-weight: var(--font-weight-bold);
       color: var(--primary-text-color);
     }
-    :host([highlight]) {
-      background-color: var(--assignee-highlight-color);
-    }
     .container {
       position: relative;
     }

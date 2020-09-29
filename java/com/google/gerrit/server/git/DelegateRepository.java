@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.git;
 
+import com.google.gerrit.common.UsedAt;
 import java.io.IOException;
 import org.eclipse.jgit.attributes.AttributesNodeProvider;
 import org.eclipse.jgit.lib.BaseRepositoryBuilder;
@@ -24,7 +25,8 @@ import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.lib.StoredConfig;
 
 /** Wrapper around {@link Repository} that delegates all calls to the wrapped {@link Repository}. */
-class DelegateRepository extends Repository {
+@UsedAt(UsedAt.Project.PLUGINS_ALL)
+public class DelegateRepository extends Repository {
 
   private final Repository delegate;
 

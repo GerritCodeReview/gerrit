@@ -101,6 +101,16 @@ Tag the plugins:
   git submodule foreach git tag -s -m "v$version" "v$version"
 ----
 
+==== If unable to tag
+
+Make sure that git is locally
+link:https://git-scm.com/book/en/v2/Git-Tools-Signing-Your-Work[configured with your user's key]:
+
+----
+  gpg --list-keys
+  git config --global user.signingkey yourPubKey
+----
+
 [[build-gerrit]]
 === Build Gerrit
 

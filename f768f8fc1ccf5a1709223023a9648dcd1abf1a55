@@ -142,6 +142,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "13b85e02_e3687f0b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T22:48:51Z",
+      "side": 1,
+      "message": "Thanks, Matthias, for your work.\n\nLet me create a Gatling simulation that would create a big repo with lots of changes (100k or more). I will then run the NoteDb migration with a plain stable-2.16 and with this series and report the results back.\n\n@Martin can you do the same? So that we would have other two measurements.\n\nIf we do not see regressions or significant slowdowns, I would suggest we can merge it safely.\n\n\u003e In case such tests show that a change in this series should be reverted this can still be done down the road when there is more data and someone comes up with more improvements.\n\nI agree: we can always revert the change also after the merge, assuming that someone comes back with significant performance degradation or regression caused y this change.\n\nWDYT?",
+      "parentUuid": "2dbf65c4_b05b1adf",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

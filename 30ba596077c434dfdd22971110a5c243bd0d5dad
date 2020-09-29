@@ -22,6 +22,30 @@
       "revId": "30ba596077c434dfdd22971110a5c243bd0d5dad",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3714f3e_837c8364",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T21:02:20Z",
+      "side": 1,
+      "message": "ChangeId is a string.\n\nI don\u0027t feel strongly about the correct name, but it is definitely an improvement to just use one type instead of two for the same thing. :-)",
+      "parentUuid": "1bee29ca_388fc483",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "30ba596077c434dfdd22971110a5c243bd0d5dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -49,6 +49,30 @@
     },
     {
       "key": {
+        "uuid": "4d0fbda4_02782dc4",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T20:30:46Z",
+      "side": 1,
+      "message": "Gotcha, but then \"initialize\" isn\u0027t the right term either: the release notes are actually initialised much sooner. Only the \"link\" to the release notes is done just before the release.\n\nWhat about \"Upload the final the Release Notes change\"?",
+      "parentUuid": "c2cd6477_a8bbf37d",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "469aa0fa_fe90a745",
         "filename": "Documentation/dev-release.txt",
         "patchSetId": 1

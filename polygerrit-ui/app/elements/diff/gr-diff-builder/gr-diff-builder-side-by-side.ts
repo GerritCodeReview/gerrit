@@ -27,9 +27,10 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     // TODO(TS): Replace any by a layer interface.
-    readonly layers: any[] = []
+    readonly layers: any[] = [],
+    useNewContextControls = false
   ) {
-    super(diff, prefs, outputEl, layers);
+    super(diff, prefs, outputEl, layers, useNewContextControls);
   }
 
   _getMoveControlsConfig() {
@@ -57,9 +58,19 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
-      sectionEl.appendChild(
-        this._createContextRow(sectionEl, group.contextGroups)
-      );
+      if (this.useNewContextControls) {
+        const contextControlRows = this._createContextRows(
+          sectionEl,
+          group.contextGroups
+        );
+        for (const contextControlRow of contextControlRows) {
+          sectionEl.appendChild(contextControlRow);
+        }
+      } else {
+        sectionEl.appendChild(
+          this._createContextRow(sectionEl, group.contextGroups)
+        );
+      }
       return sectionEl;
     }
 
@@ -134,6 +145,58 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     row.appendChild(this._createContextControl(section, contextGroups));
     row.appendChild(this._createElement('td', 'contextLineNum'));
     row.appendChild(this._createContextControl(section, contextGroups));
+    return row;
+  }
+
+  _createContextRows(section: HTMLElement, contextGroups: GrDiffGroup[]) {
+    const {element, hasAbove, hasBelow} = this._createNewContextControl(
+      section,
+      contextGroups
+    );
+
+    const rows = [];
+
+    if (hasAbove) {
+      const rowAbove = this._createContextControlBackgroundRow();
+      rowAbove.classList.add('above');
+      rows.push(rowAbove);
+    }
+
+    const rowDivider = this._createElement('tr', 'contextDivider');
+    rowDivider.classList.add('diff-row', 'side-by-side');
+    rowDivider.setAttribute('left-type', GrDiffGroupType.CONTEXT_CONTROL);
+    rowDivider.setAttribute('right-type', GrDiffGroupType.CONTEXT_CONTROL);
+    rowDivider.tabIndex = -1;
+
+    rowDivider.appendChild(element);
+    if (!(hasAbove && hasBelow)) {
+      rowDivider.classList.add('collapsed');
+    }
+
+    rows.push(rowDivider);
+
+    if (hasBelow) {
+      const rowBelow = this._createContextControlBackgroundRow();
+      rowBelow.classList.add('below');
+      rows.push(rowBelow);
+    }
+
+    return rows;
+  }
+
+  _createContextControlBackgroundRow() {
+    const row = this._createElement('tr', 'contextBackground');
+    row.classList.add('diff-row', 'side-by-side');
+    row.setAttribute('left-type', GrDiffGroupType.CONTEXT_CONTROL);
+    row.setAttribute('right-type', GrDiffGroupType.CONTEXT_CONTROL);
+    row.tabIndex = -1;
+
+    row.appendChild(this._createBlameCell(0));
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(this._createElement('td'));
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(this._createElement('td'));
+
     return row;
   }
 

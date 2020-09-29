@@ -127,6 +127,7 @@ $_documentContainer.innerHTML = `
     --font-weight-h1: 400;
     --font-weight-h2: 400;
     --font-weight-h3: 400;
+    --context-control-button-font: var(--font-weight-normal) var(--font-size-normal) var(--font-family);
 
     /* spacing */
     --spacing-xxs: 1px;
@@ -157,9 +158,7 @@ $_documentContainer.innerHTML = `
     --dark-rebased-remove-highlight-color: #f7e8b7;
     --dark-remove-highlight-color: #ffcdd2;
     --diff-blank-background-color: var(--background-color-secondary);
-    --diff-context-control-background-color: #fff7d4;
-    --diff-context-control-border-color: #f6e6a5;
-    --diff-context-control-color: var(--deemphasized-text-color);
+    --diff-context-control-color: var(--default-button-text-color);
     --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
     --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
     --diff-selection-background-color: #c7dbf9;

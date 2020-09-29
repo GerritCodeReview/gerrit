@@ -106,6 +106,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9aa3cf3f_45ccec49",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T20:43:13Z",
+      "side": 1,
+      "message": "Can I give a different perspective?\n\nQ1: Is this series breaking any feature of the migration? (e.g. making it unusable or slowing it down significantly)\n\nQ2: What is the risk of merging it? Can the behaviour turned on \"on-demand\" so that in case of problems it can be disabled?",
+      "parentUuid": "8b2df448_2b2b138b",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

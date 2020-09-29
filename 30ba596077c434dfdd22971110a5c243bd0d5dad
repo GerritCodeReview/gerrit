@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1bee29ca_388fc483",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T18:38:56Z",
+      "side": 1,
+      "message": "Can you explain the motivation behind this change?\nI am wondering why NumericChangeId is a better name than ChangeNum(I don\u0027t think it is).\nWe already have a ChangeId which is a number, and there might be a bit of confusion between the two.",
+      "range": {
+        "startLine": 7,
+        "startChar": 23,
+        "endLine": 7,
+        "endChar": 38
+      },
+      "revId": "30ba596077c434dfdd22971110a5c243bd0d5dad",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

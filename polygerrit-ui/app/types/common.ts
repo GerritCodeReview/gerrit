@@ -1825,7 +1825,7 @@ export interface ReviewInput {
   labels?: LabelNameToValuesMap;
   comments?: PathToCommentsInputMap;
   robot_comments?: PathToRobotCommentsMap;
-  drafts: DraftsAction;
+  drafts?: DraftsAction;
   notify?: NotifyType;
   notify_details?: RecipientTypeToNotifyInfoMap;
   omit_duplicate_comments?: boolean;

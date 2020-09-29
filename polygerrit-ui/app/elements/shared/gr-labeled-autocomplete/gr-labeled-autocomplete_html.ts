@@ -49,7 +49,7 @@ export const htmlTemplate = html`
     <div id="body">
       <gr-autocomplete
         id="autocomplete"
-        threshold="[[_autocompleteThreshold]]"
+        threshold="0"
         query="[[query]]"
         disabled="[[disabled]]"
         placeholder="[[placeholder]]"

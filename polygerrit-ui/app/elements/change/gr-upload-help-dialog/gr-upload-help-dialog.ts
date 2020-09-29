@@ -58,7 +58,7 @@ export class GrUploadHelpDialog extends GestureEventListeners(
   @property({type: String})
   targetBranch?: string;
 
-  @property({type: String, readOnly: true})
+  @property({type: String})
   _commitCommand = COMMIT_COMMAND;
 
   @property({

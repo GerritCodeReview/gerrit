@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "a22d0567_fc81710f",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-09-29T14:50:56Z",
+      "side": 1,
+      "message": "Yes, always difficult to find a good place to explain the arch for a series of changes. \n\nThe motivation is basically what is described in this CL description: If you have 3 files, and the middle one is very large, and you expand all on the CL page, and then cursor through the changes, it would basically skip over the second file and go straight to the third if the second was still loading. This can cause you to miss critical changes. To prevent that from happening, I am disallowing to skip over loading diffs.\n\nAfter this change, there might be more follow up to make the UX of this more obvious, such as showing a toast \"Cannot go to next change because it\u0027s not done loading yet\". This needs to be discussed with UX.",
+      "parentUuid": "08481e77_672c14f1",
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9f0529c5_e23109b1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
         "patchSetId": 5
@@ -30,6 +48,30 @@
       "writtenOn": "2020-09-29T14:43:27Z",
       "side": 1,
       "message": "where is this 48 coming from?",
+      "range": {
+        "startLine": 463,
+        "startChar": 64,
+        "endLine": 463,
+        "endChar": 66
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "276746de_0a52bea0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-09-29T14:50:56Z",
+      "side": 1,
+      "message": "Magic number: It\u0027s the number of lines returned by getMockDiffResponse(). This assert here is exactly enforcing that the number of cursor stops for the file is not changing invalidating the rest of the test. Is there a better way to retrieve that, maybe from the diff itself?",
+      "parentUuid": "9f0529c5_e23109b1",
       "range": {
         "startLine": 463,
         "startChar": 64,

@@ -19,6 +19,8 @@ import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.TYPE;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Repeatable;
 import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
@@ -28,6 +30,7 @@ import java.lang.annotation.Target;
  */
 @Target({METHOD, TYPE, FIELD})
 @Retention(RUNTIME)
+@Repeatable(UsedAt.Uses.class)
 public @interface UsedAt {
   /** Enumeration of projects that call a method/type/field. */
   enum Project {
@@ -37,9 +40,18 @@ public @interface UsedAt {
     PLUGIN_CODE_OWNERS,
     PLUGIN_DELETE_PROJECT,
     PLUGIN_SERVICEUSER,
+    PLUGIN_HIGH_AVAILABILITY,
+    PLUGIN_MULTI_SITE,
     PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.
   }
 
   /** Reference to the project that uses the method annotated with this annotation. */
   Project value();
+
+  /** Allows to mark method/type/field with multiple UsedAt annotation. */
+  @Retention(RUNTIME)
+  @Target(ElementType.TYPE)
+  @interface Uses {
+    UsedAt[] value();
+  }
 }

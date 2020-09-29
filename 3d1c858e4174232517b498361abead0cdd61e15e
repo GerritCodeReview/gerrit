@@ -48,6 +48,30 @@
     },
     {
       "key": {
+        "uuid": "e4d63245_1620110c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T10:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d54867e_6864fcd5",
+      "range": {
+        "startLine": 462,
+        "startChar": 38,
+        "endLine": 462,
+        "endChar": 42
+      },
+      "revId": "3d1c858e4174232517b498361abead0cdd61e15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "e8586769_649e280e",
         "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
         "patchSetId": 6
@@ -68,6 +92,30 @@
       "revId": "3d1c858e4174232517b498361abead0cdd61e15e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d45f95e8_42d90d06",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T10:07:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e8586769_649e280e",
+      "range": {
+        "startLine": 903,
+        "startChar": 12,
+        "endLine": 903,
+        "endChar": 16
+      },
+      "revId": "3d1c858e4174232517b498361abead0cdd61e15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -17,6 +17,7 @@
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
 import {LegacyChangeId, PatchSetNum, ChangeInfo} from '../types/common';
+import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 // This can be wrong! See WARNING above
 interface ChangeStatusesOptions {
@@ -123,7 +124,7 @@ export function changePath(changeNum: LegacyChangeId) {
   return `${getBaseUrl()}/c/${changeNum}`;
 }
 
-export function changeIsOpen(change?: ChangeInfo) {
+export function changeIsOpen(change?: ChangeInfo | ParsedChangeInfo) {
   return change?.status === ChangeStatus.NEW;
 }
 

@@ -126,6 +126,9 @@ import {
   CapabilityInfoMap,
   ProjectInfoWithName,
   TagInfo,
+  RelatedChangesInfo,
+  SubmittedTogetherInfo,
+  ChangeNum,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -164,8 +167,6 @@ let fetchPromisesCache = new FetchPromisesCache(); // Shared across instances.
 let pendingRequest: {[promiseName: string]: Array<Promise<unknown>>} = {}; // Shared across instances.
 let grEtagDecorator = new GrEtagDecorator(); // Shared across instances.
 let projectLookup: {[changeNum: string]: RepoName} = {}; // Shared across instances.
-
-export type ChangeNum = number; // !!!TODO: define correct types
 
 interface FetchChangeJSON {
   reportEndpointAsIs?: boolean;
@@ -1958,24 +1959,29 @@ export class GrRestApiInterface
     );
   }
 
-  getRelatedChanges(changeNum: ChangeNum, patchNum: PatchSetNum) {
+  getRelatedChanges(
+    changeNum: ChangeNum,
+    patchNum: PatchSetNum
+  ): Promise<RelatedChangesInfo | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/related',
       patchNum,
       reportEndpointAsIs: true,
-    });
+    }) as Promise<RelatedChangesInfo | undefined>;
   }
 
-  getChangesSubmittedTogether(changeNum: ChangeNum) {
+  getChangesSubmittedTogether(
+    changeNum: ChangeNum
+  ): Promise<SubmittedTogetherInfo | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/submitted_together?o=NON_VISIBLE_CHANGES',
       reportEndpointAsIs: true,
-    });
+    }) as Promise<SubmittedTogetherInfo | undefined>;
   }
 
-  getChangeConflicts(changeNum: ChangeNum) {
+  getChangeConflicts(changeNum: ChangeNum): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT
@@ -1988,14 +1994,14 @@ export class GrRestApiInterface
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/conflicts:*',
-    });
+    }) as Promise<ChangeInfo[] | undefined>;
   }
 
   getChangeCherryPicks(
     project: RepoName,
     changeID: ChangeId,
     changeNum: ChangeNum
-  ) {
+  ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT
@@ -2014,10 +2020,13 @@ export class GrRestApiInterface
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/change:*',
-    });
+    }) as Promise<ChangeInfo[] | undefined>;
   }
 
-  getChangesWithSameTopic(topic: string, changeNum: ChangeNum) {
+  getChangesWithSameTopic(
+    topic: string,
+    changeNum: ChangeNum
+  ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.LABELS,
       ListChangesOption.CURRENT_REVISION,
@@ -2037,7 +2046,7 @@ export class GrRestApiInterface
       url: '/changes/',
       params,
       anonymizedUrl: '/changes/topic:*',
-    });
+    }) as Promise<ChangeInfo[] | undefined>;
   }
 
   getReviewedFiles(changeNum: ChangeNum, patchNum: PatchSetNum) {

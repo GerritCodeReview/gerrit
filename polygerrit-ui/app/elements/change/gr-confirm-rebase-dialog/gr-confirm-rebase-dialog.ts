@@ -23,9 +23,8 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-confirm-rebase-dialog_html';
 import {customElement, property, observe} from '@polymer/decorators';
-import {ChangeNum} from '../../shared/gr-rest-api-interface/gr-rest-api-interface';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {LegacyChangeId, BranchName} from '../../../types/common';
+import {LegacyChangeId, BranchName, ChangeNum} from '../../../types/common';
 import {
   GrAutocomplete,
   AutocompleteQuery,

@@ -63,6 +63,7 @@ export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
 export type LegacyChangeId = BrandType<number, '_legacyChangeId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
+export type ChangeNum = number; // !!!TODO: define correct types
 export type RepoName = BrandType<string, '_repoName'>;
 export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
 export type TopicName = BrandType<string, '_topicName'>;
@@ -524,6 +525,10 @@ export interface CommitInfo {
   subject: string;
   message: string;
   web_links?: WebLinkInfo[];
+}
+
+export interface CommitInfoWithRequiredCommit extends CommitInfo {
+  commit: CommitId;
 }
 
 /**
@@ -2024,4 +2029,39 @@ export interface TagInfo {
   created?: string;
   can_delete: boolean;
   web_links?: WebLinkInfo[];
+}
+
+/**
+ * The RelatedChangesInfo entity contains information about related changes.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#related-changes-info
+ */
+export interface RelatedChangesInfo {
+  changes: RelatedChangeAndCommitInfo[];
+}
+
+/**
+ * The RelatedChangeAndCommitInfo entity contains information about a related change and commit.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#related-change-and-commit-info
+ */
+export interface RelatedChangeAndCommitInfo {
+  project: RepoName;
+  change_id?: ChangeId;
+  commit: CommitInfoWithRequiredCommit;
+  _change_number?: ChangeNum;
+  _revision_number?: number;
+  _current_revision_number?: number;
+  status?: ChangeStatus;
+  // The submittable property doesn't exist in the Gerrit API, but in the future
+  // we can bring this feature back. There is a frontend code and CSS styles for
+  // it and this property is added here to keep related frontend code unchanged.
+  submittable?: boolean;
+}
+
+/**
+ * The SubmittedTogetherInfo entity contains information about a collection of changes that would be submitted together.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#submitted-together-info
+ */
+export interface SubmittedTogetherInfo {
+  changes: ChangeInfo[];
+  non_visible_changes: number;
 }

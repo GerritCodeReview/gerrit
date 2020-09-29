@@ -60,9 +60,6 @@ export class GrLabeledAutocomplete extends GestureEventListeners(
   @property({type: Boolean})
   disabled?: boolean;
 
-  @property({type: Number, readOnly: true})
-  _autocompleteThreshold = 0;
-
   _handleTriggerClick(e: Event) {
     // Stop propagation here so we don't confuse gr-autocomplete, which
     // listens for taps on body to try to determine when it's blurred.

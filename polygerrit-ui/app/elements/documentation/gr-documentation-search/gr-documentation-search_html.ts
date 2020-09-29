@@ -28,7 +28,7 @@ export const htmlTemplate = html`
     items="false"
     offset="0"
     loading="[[_loading]]"
-    path="[[_path]]"
+    path="/Documentation"
   >
     <table id="list" class="genericList">
       <tbody>

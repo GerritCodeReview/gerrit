@@ -17,6 +17,7 @@
 
 import '../../../test/common-test-setup-karma.js';
 import './gr-plugin-list.js';
+import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-plugin-list');
 

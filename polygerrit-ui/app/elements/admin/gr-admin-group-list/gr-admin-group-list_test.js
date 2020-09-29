@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-admin-group-list.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-admin-group-list');
 

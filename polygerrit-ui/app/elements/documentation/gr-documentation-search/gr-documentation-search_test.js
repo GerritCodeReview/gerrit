@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-documentation-search.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
+import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-documentation-search');
 

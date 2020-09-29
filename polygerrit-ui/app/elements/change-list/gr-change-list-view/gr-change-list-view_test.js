@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-change-list-view.js';
 import {page} from '../../../utils/page-wrapper-utils.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import 'lodash/lodash.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-view');
 

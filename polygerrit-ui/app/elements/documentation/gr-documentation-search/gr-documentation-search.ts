@@ -50,9 +50,6 @@ export class GrDocumentationSearch extends ListViewMixin(
   @property({type: Object, observer: '_paramsChanged'})
   params?: ListViewParams;
 
-  @property({type: String, readOnly: true})
-  _path = '/Documentation';
-
   @property({type: Array})
   _documentationSearches?: DocResult[];
 

@@ -36,7 +36,7 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     return {
       numberOfCells: 4,
       movedOutIndex: 1,
-      movedInIndex: 2,
+      movedInIndex: 3,
     };
   }
 

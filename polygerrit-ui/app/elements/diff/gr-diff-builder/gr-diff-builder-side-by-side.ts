@@ -19,7 +19,7 @@ import {GrDiffBuilder} from './gr-diff-builder';
 import {GrDiffGroup, GrDiffGroupType} from '../gr-diff/gr-diff-group';
 import {DiffInfo, DiffPreferencesInfo} from '../../../types/common';
 import {GrDiffLine, LineNumber} from '../gr-diff/gr-diff-line';
-import {Side} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 
 export class GrDiffBuilderSideBySide extends GrDiffBuilder {
   constructor(
@@ -27,9 +27,10 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
     // TODO(TS): Replace any by a layer interface.
-    readonly layers: any[] = []
+    readonly layers: any[] = [],
+    useNewContextControls = false
   ) {
-    super(diff, prefs, outputEl, layers);
+    super(diff, prefs, outputEl, layers, useNewContextControls);
   }
 
   _getMoveControlsConfig() {
@@ -57,8 +58,10 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
       sectionEl.classList.add('ignoredWhitespaceOnly');
     }
     if (group.type === GrDiffGroupType.CONTEXT_CONTROL) {
-      sectionEl.appendChild(
-        this._createContextRow(sectionEl, group.contextGroups)
+      this._createContextControls(
+        sectionEl,
+        group.contextGroups,
+        DiffViewMode.SIDE_BY_SIDE
       );
       return sectionEl;
     }
@@ -120,21 +123,6 @@ export class GrDiffBuilderSideBySide extends GrDiffBuilder {
     const lineNumberEl = this._createLineEl(line, lineNumber, line.type, side);
     row.appendChild(lineNumberEl);
     row.appendChild(this._createTextEl(lineNumberEl, line, side));
-  }
-
-  _createContextRow(section: HTMLElement, contextGroups: GrDiffGroup[]) {
-    const row = this._createElement('tr');
-    row.classList.add('diff-row', 'side-by-side');
-    row.setAttribute('left-type', GrDiffGroupType.CONTEXT_CONTROL);
-    row.setAttribute('right-type', GrDiffGroupType.CONTEXT_CONTROL);
-    row.tabIndex = -1;
-
-    row.appendChild(this._createBlameCell(0));
-    row.appendChild(this._createElement('td', 'contextLineNum'));
-    row.appendChild(this._createContextControl(section, contextGroups));
-    row.appendChild(this._createElement('td', 'contextLineNum'));
-    row.appendChild(this._createContextControl(section, contextGroups));
-    return row;
   }
 
   _getNextContentOnSide(content: HTMLElement, side: Side): HTMLElement | null {

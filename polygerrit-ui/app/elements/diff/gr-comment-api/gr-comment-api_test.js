@@ -219,15 +219,15 @@ suite('gr-comment-api tests', () => {
         element._changeComments._drafts = {
           'file/one': [
             {
-              id: 11,
+              id: '11',
               patch_set: 2,
               side: PARENT,
               line: 1,
               updated: makeTime(3),
             },
             {
-              id: 12,
-              in_reply_to: 4,
+              id: '12',
+              in_reply_to: '04',
               patch_set: 2,
               line: 1,
               // Draft gets lower timestamp than published comment, because we
@@ -237,7 +237,7 @@ suite('gr-comment-api tests', () => {
           ],
           'file/two': [
             {
-              id: 5,
+              id: '05',
               patch_set: 3,
               line: 1,
               updated: makeTime(3),
@@ -247,7 +247,7 @@ suite('gr-comment-api tests', () => {
         element._changeComments._robotComments = {
           'file/one': [
             {
-              id: 1,
+              id: '01',
               patch_set: 2,
               side: PARENT,
               line: 1,
@@ -259,8 +259,8 @@ suite('gr-comment-api tests', () => {
                 end_character: 2,
               },
             }, {
-              id: 2,
-              in_reply_to: 4,
+              id: '02',
+              in_reply_to: '04',
               patch_set: 2,
               unresolved: true,
               line: 1,
@@ -270,27 +270,39 @@ suite('gr-comment-api tests', () => {
         };
         element._changeComments._comments = {
           'file/one': [
-            {id: 3, patch_set: 2, side: PARENT, line: 2, updated: makeTime(1)},
-            {id: 4, patch_set: 2, line: 1, updated: makeTime(1)},
+            {
+              id: '03',
+              patch_set: 2,
+              side: PARENT,
+              line: 2,
+              updated: makeTime(1),
+            },
+            {id: '04', patch_set: 2, line: 1, updated: makeTime(1)},
           ],
           'file/two': [
-            {id: 5, patch_set: 2, line: 2, updated: makeTime(1)},
-            {id: 6, patch_set: 3, line: 2, updated: makeTime(1)},
+            {id: '05', patch_set: 2, line: 2, updated: makeTime(1)},
+            {id: '06', patch_set: 3, line: 2, updated: makeTime(1)},
           ],
           'file/three': [
             {
-              id: 7,
+              id: '07',
               patch_set: 2,
               side: PARENT,
               unresolved: true,
               line: 1,
               updated: makeTime(1),
             },
-            {id: 8, patch_set: 3, line: 1, updated: makeTime(1)},
+            {id: '08', patch_set: 3, line: 1, updated: makeTime(1)},
           ],
           'file/four': [
-            {id: 9, patch_set: 5, side: PARENT, line: 1, updated: makeTime(1)},
-            {id: 10, patch_set: 5, line: 1, updated: makeTime(1)},
+            {
+              id: '09',
+              patch_set: 5,
+              side: PARENT,
+              line: 1,
+              updated: makeTime(1),
+            },
+            {id: '10', patch_set: 5, line: 1, updated: makeTime(1)},
           ],
         };
       });
@@ -500,7 +512,7 @@ suite('gr-comment-api tests', () => {
           {
             comments: [
               {
-                id: 1,
+                id: '01',
                 patch_set: 2,
                 side: 'PARENT',
                 line: 1,
@@ -518,11 +530,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/one',
             line: 1,
-            rootId: 1,
+            rootId: '01',
           }, {
             comments: [
               {
-                id: 3,
+                id: '03',
                 patch_set: 2,
                 side: 'PARENT',
                 line: 2,
@@ -534,19 +546,19 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/one',
             line: 2,
-            rootId: 3,
+            rootId: '03',
           }, {
             comments: [
               {
-                id: 4,
+                id: '04',
                 patch_set: 2,
                 line: 1,
                 __path: 'file/one',
                 updated: '2013-02-26 15:01:43.986000000',
               },
               {
-                id: 2,
-                in_reply_to: 4,
+                id: '02',
+                in_reply_to: '04',
                 patch_set: 2,
                 unresolved: true,
                 line: 1,
@@ -554,8 +566,8 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:03:43.986000000',
               },
               {
-                id: 12,
-                in_reply_to: 4,
+                id: '12',
+                in_reply_to: '04',
                 patch_set: 2,
                 line: 1,
                 __path: 'file/one',
@@ -566,11 +578,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/one',
             line: 1,
-            rootId: 4,
+            rootId: '04',
           }, {
             comments: [
               {
-                id: 5,
+                id: '05',
                 patch_set: 2,
                 line: 2,
                 __path: 'file/two',
@@ -580,11 +592,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/two',
             line: 2,
-            rootId: 5,
+            rootId: '05',
           }, {
             comments: [
               {
-                id: 6,
+                id: '06',
                 patch_set: 3,
                 line: 2,
                 __path: 'file/two',
@@ -594,11 +606,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 3,
             path: 'file/two',
             line: 2,
-            rootId: 6,
+            rootId: '06',
           }, {
             comments: [
               {
-                id: 7,
+                id: '07',
                 patch_set: 2,
                 side: 'PARENT',
                 unresolved: true,
@@ -611,11 +623,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 2,
             path: 'file/three',
             line: 1,
-            rootId: 7,
+            rootId: '07',
           }, {
             comments: [
               {
-                id: 8,
+                id: '08',
                 patch_set: 3,
                 line: 1,
                 __path: 'file/three',
@@ -625,11 +637,11 @@ suite('gr-comment-api tests', () => {
             patchNum: 3,
             path: 'file/three',
             line: 1,
-            rootId: 8,
+            rootId: '08',
           }, {
             comments: [
               {
-                id: 9,
+                id: '09',
                 patch_set: 5,
                 side: 'PARENT',
                 line: 1,
@@ -641,25 +653,25 @@ suite('gr-comment-api tests', () => {
             patchNum: 5,
             path: 'file/four',
             line: 1,
-            rootId: 9,
+            rootId: '09',
           }, {
             comments: [
               {
-                id: 10,
+                id: '10',
                 patch_set: 5,
                 line: 1,
                 __path: 'file/four',
                 updated: '2013-02-26 15:01:43.986000000',
               },
             ],
-            rootId: 10,
+            rootId: '10',
             patchNum: 5,
             path: 'file/four',
             line: 1,
           }, {
             comments: [
               {
-                id: 5,
+                id: '05',
                 patch_set: 3,
                 line: 1,
                 __path: 'file/two',
@@ -667,14 +679,14 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:03:43.986000000',
               },
             ],
-            rootId: 5,
+            rootId: '05',
             patchNum: 3,
             path: 'file/two',
             line: 1,
           }, {
             comments: [
               {
-                id: 11,
+                id: '11',
                 patch_set: 2,
                 side: 'PARENT',
                 line: 1,
@@ -683,7 +695,7 @@ suite('gr-comment-api tests', () => {
                 updated: '2013-02-26 15:03:43.986000000',
               },
             ],
-            rootId: 11,
+            rootId: '11',
             commentSide: 'PARENT',
             patchNum: 2,
             path: 'file/one',
@@ -698,15 +710,15 @@ suite('gr-comment-api tests', () => {
         let expectedComments = [
           {
             __path: 'file/one',
-            id: 4,
+            id: '04',
             patch_set: 2,
             line: 1,
             updated: '2013-02-26 15:01:43.986000000',
           },
           {
             __path: 'file/one',
-            id: 2,
-            in_reply_to: 4,
+            id: '02',
+            in_reply_to: '04',
             patch_set: 2,
             unresolved: true,
             line: 1,
@@ -715,18 +727,18 @@ suite('gr-comment-api tests', () => {
           {
             __path: 'file/one',
             __draft: true,
-            id: 12,
-            in_reply_to: 4,
+            id: '12',
+            in_reply_to: '04',
             patch_set: 2,
             line: 1,
             updated: '2013-02-26 15:02:43.986000000',
           },
         ];
-        assert.deepEqual(element._changeComments.getCommentsForThread(4),
+        assert.deepEqual(element._changeComments.getCommentsForThread('04'),
             expectedComments);
 
         expectedComments = [{
-          id: 11,
+          id: '11',
           patch_set: 2,
           side: 'PARENT',
           line: 1,
@@ -735,10 +747,10 @@ suite('gr-comment-api tests', () => {
           updated: '2013-02-26 15:03:43.986000000',
         }];
 
-        assert.deepEqual(element._changeComments.getCommentsForThread(11),
+        assert.deepEqual(element._changeComments.getCommentsForThread('11'),
             expectedComments);
 
-        assert.deepEqual(element._changeComments.getCommentsForThread(1000),
+        assert.deepEqual(element._changeComments.getCommentsForThread('1000'),
             null);
       });
     });

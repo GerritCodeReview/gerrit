@@ -1141,6 +1141,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     // selected file index.
     const patchRangeState = this.viewState.patchRange;
     if (this.viewState.changeNum !== this._changeNum ||
+        !patchRangeState ||
         patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
         patchRangeState.patchNum !== this._patchRange.patchNum) {
       this._resetFileListViewState();

@@ -534,7 +534,7 @@ _describe(
 export interface CustomKeyboardEvent extends CustomEvent, EventApi {
   event: CustomKeyboardEvent;
   detail: {
-    keyboardEvent?: EventApi;
+    keyboardEvent?: CustomKeyboardEvent;
     // TODO(TS): maybe should mark as optional and check before accessing
     key: string;
   };

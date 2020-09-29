@@ -23,7 +23,7 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-included-in-dialog_html';
 import {customElement, property} from '@polymer/decorators';
-import {IncludedInInfo, ChangeNum} from '../../../types/common';
+import {IncludedInInfo, NumericChangeId} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 
 export interface GrIncludedInDialog {
@@ -52,7 +52,7 @@ export class GrIncludedInDialog extends GestureEventListeners(
    */
 
   @property({type: Object, observer: '_resetData'})
-  changeNum?: ChangeNum;
+  changeNum?: NumericChangeId;
 
   @property({type: Object})
   _includedIn?: IncludedInInfo;

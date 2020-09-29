@@ -40,7 +40,7 @@ import {
   PatchSetNum,
   EditPreferencesInfo,
   Base64FileContent,
-  ChangeNum,
+  NumericChangeId,
 } from '../../../types/common';
 import {GrStorage} from '../../shared/gr-storage/gr-storage';
 
@@ -84,7 +84,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
   _change?: ChangeInfo | null;
 
   @property({type: Number})
-  _changeNum?: ChangeNum;
+  _changeNum?: NumericChangeId;
 
   @property({type: String})
   _patchNum?: PatchSetNum;
@@ -190,7 +190,7 @@ export class GrEditorView extends KeyboardShortcutMixin(
     return Promise.all(promises);
   }
 
-  _getChangeDetail(changeNum: ChangeNum) {
+  _getChangeDetail(changeNum: NumericChangeId) {
     return this.$.restAPI.getDiffChangeDetail(changeNum).then(change => {
       this._change = change;
     });
@@ -230,7 +230,11 @@ export class GrEditorView extends KeyboardShortcutMixin(
       );
   }
 
-  _getFileData(changeNum: ChangeNum, path: string, patchNum?: PatchSetNum) {
+  _getFileData(
+    changeNum: NumericChangeId,
+    path: string,
+    patchNum?: PatchSetNum
+  ) {
     if (patchNum === undefined) {
       return Promise.reject(new Error('patchNum undefined'));
     }

@@ -28,7 +28,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property} from '@polymer/decorators';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {
-  ChangeNum,
+  NumericChangeId,
   DiffInfo,
   DiffPreferencesInfo,
   EditPatchSetNum,
@@ -71,7 +71,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
   change?: ParsedChangeInfo;
 
   @property({type: String})
-  changeNum?: ChangeNum;
+  changeNum?: NumericChangeId;
 
   @property({type: Number})
   _patchNum?: PatchSetNum;

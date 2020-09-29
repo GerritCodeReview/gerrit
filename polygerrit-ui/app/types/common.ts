@@ -62,7 +62,6 @@ export const ParentPatchSetNum = 'PARENT' as PatchSetNum;
 export type ChangeId = BrandType<string, '_changeId'>;
 export type ChangeMessageId = BrandType<string, '_changeMessageId'>;
 export type NumericChangeId = BrandType<number, '_numericChangeId'>;
-export type ChangeNum = NumericChangeId; // This type is removed in the following change
 export type RepoName = BrandType<string, '_repoName'>;
 export type UrlEncodedRepoName = BrandType<string, '_urlEncodedRepoName'>;
 export type TopicName = BrandType<string, '_topicName'>;
@@ -2095,7 +2094,7 @@ export interface RelatedChangeAndCommitInfo {
   project: RepoName;
   change_id?: ChangeId;
   commit: CommitInfoWithRequiredCommit;
-  _change_number?: ChangeNum;
+  _change_number?: NumericChangeId;
   _revision_number?: number;
   _current_revision_number?: number;
   status?: ChangeStatus;

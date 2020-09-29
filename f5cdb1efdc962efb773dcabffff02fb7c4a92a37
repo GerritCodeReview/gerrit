@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "f5eaa8de_13ee3d0a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T20:51:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e2d913db_1bf91560",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 532,
+        "endChar": 45
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce44eb90_b51cb0c8",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8
@@ -296,6 +320,30 @@
       "side": 1,
       "message": "Still need to take a look into this.",
       "parentUuid": "ce44eb90_b51cb0c8",
+      "range": {
+        "startLine": 728,
+        "startChar": 25,
+        "endLine": 728,
+        "endChar": 70
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae2c057c_a5549feb",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T20:51:32Z",
+      "side": 1,
+      "message": "Comment removed by: Alice Kober-Sotzek; Reason: Internal links which could be confusing in the future.",
+      "parentUuid": "443ab70e_6998023b",
       "range": {
         "startLine": 728,
         "startChar": 25,

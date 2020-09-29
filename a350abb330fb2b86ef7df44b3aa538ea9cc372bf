@@ -2,6 +2,29 @@
   "comments": [
     {
       "key": {
+        "uuid": "ed0affa4_f09b25bc",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T08:30:32Z",
+      "side": 1,
+      "message": "nit: wrap long line",
+      "range": {
+        "startLine": 10,
+        "startChar": 61,
+        "endLine": 10,
+        "endChar": 74
+      },
+      "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4d166ef0_5d94ea40",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 1
@@ -16,6 +39,46 @@
       "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d23581a1_93d8542f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T08:30:32Z",
+      "side": 1,
+      "message": "Need rebase",
+      "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8ad8d20c_a4de2668",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T08:30:32Z",
+      "side": 1,
+      "message": "I don\u0027t believe this is correct: my understanding is that the high-availability and multi-site plugins will make use of this class.",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

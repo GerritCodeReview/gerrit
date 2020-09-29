@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "0b42ae4b_da4bda5f",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 347,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:54Z",
+      "side": 1,
+      "message": "The below code uses \"this.batchUpdateListener\" and hence this parameter is currently unused. Do we even need it?",
+      "range": {
+        "startLine": 347,
+        "startChar": 6,
+        "endLine": 347,
+        "endChar": 55
+      },
+      "revId": "1b8f0d2d3895aa506aa59f4396b9730b3d9039c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c609f632_7d12343e",
+        "filename": "java/com/google/gerrit/server/notedb/NoteDbUpdateManager.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 373,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:54Z",
+      "side": 1,
+      "message": "As there\u0027s BatchUpdateListener.NONE, there are no null-checks in MutlibatchExecutor#execute. Can we use the same approach for this class (e.g. default to BatchUpdateListener.NONE if the setter isn\u0027t called)?",
+      "range": {
+        "startLine": 373,
+        "startChar": 4,
+        "endLine": 373,
+        "endChar": 43
+      },
+      "revId": "1b8f0d2d3895aa506aa59f4396b9730b3d9039c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "562541c2_142c1503",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdateListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:54Z",
+      "side": 1,
+      "message": "I like the idea of using this listener. The beforeUpdateRefs() nicely fits to the afterUpdateRefs(). :-)",
+      "range": {
+        "startLine": 25,
+        "startChar": 17,
+        "endLine": 25,
+        "endChar": 36
+      },
+      "revId": "1b8f0d2d3895aa506aa59f4396b9730b3d9039c9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

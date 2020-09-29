@@ -133,16 +133,16 @@ export class GrHovercardAccount extends GestureEventListeners(
     return entry.last_update;
   }
 
-  _computeShowLabelNeedsAttention() {
-    return this.isAttentionSetEnabled && this.hasAttention;
+  _computeShowLabelNeedsAttention(isAttentionSetEnabled: boolean, hasAttention: boolean) {
+    return isAttentionSetEnabled && hasAttention;
   }
 
-  _computeShowActionAddToAttentionSet() {
-    return this.isAttentionSetEnabled && !this.hasAttention;
+  _computeShowActionAddToAttentionSet(isAttentionSetEnabled: boolean, hasAttention: boolean) {
+    return isAttentionSetEnabled && hasAttention;
   }
 
-  _computeShowActionRemoveFromAttentionSet() {
-    return this.isAttentionSetEnabled && this.hasAttention;
+  _computeShowActionRemoveFromAttentionSet(isAttentionSetEnabled: boolean, hasAttention: boolean) {
+    return isAttentionSetEnabled && hasAttention;
   }
 
   _handleClickAddToAttentionSet() {

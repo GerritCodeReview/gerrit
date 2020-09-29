@@ -99,7 +99,7 @@ export const htmlTemplate = html`
       </template>
       <template
         is="dom-if"
-        if="[[_computeShowLabelNeedsAttention(_config, highlightAttention, account, change)]]"
+        if="[[_computeShowLabelNeedsAttention(isAttentionSetEnabled, hasAttention)]]"
       >
         <div class="attention">
           <div>
@@ -144,7 +144,7 @@ export const htmlTemplate = html`
       </template>
       <template
         is="dom-if"
-        if="[[_computeShowActionAddToAttentionSet(_config, highlightAttention, account, change)]]"
+        if="[[_computeShowActionAddToAttentionSet(isAttentionSetEnabled, hasAttention)]]"
       >
         <div class="action">
           <gr-button
@@ -159,7 +159,7 @@ export const htmlTemplate = html`
       </template>
       <template
         is="dom-if"
-        if="[[_computeShowActionRemoveFromAttentionSet(_config, highlightAttention, account, change)]]"
+        if="[[_computeShowActionRemoveFromAttentionSet(isAttentionSetEnabled, hasAttention)]]"
       >
         <div class="action">
           <gr-button

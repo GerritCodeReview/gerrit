@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-hovercard-account.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {ReviewerState} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromTemplate(html`
 <gr-hovercard-account class="hovered"></gr-hovercard-account>
@@ -110,6 +111,104 @@ suite('gr-hovercard-account tests', () => {
     flush();
     assert.equal(element.shadowRoot.querySelector('.voteable .value').innerText,
         element.voteableText);
+  });
+
+  test('remove reviewer', async () => {
+    element.change = {
+      removable_reviewers: [ACCOUNT],
+      reviewers: {
+        [ReviewerState.REVIEWER]: [ACCOUNT],
+      },
+    };
+    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+        Promise.resolve({ok: true}));
+    const reloadListener = sinon.spy();
+    element._target.addEventListener('reload', reloadListener);
+    flush();
+    const button = element.shadowRoot.querySelector('.removeReviewerOrCC');
+    assert.isOk(button);
+    assert.equal(button.innerText, 'Remove Reviewer');
+    MockInteractions.tap(button);
+    await flush();
+    assert.isTrue(reloadListener.called);
+  });
+
+  test('move reviewer to cc', async () => {
+    element.change = {
+      removable_reviewers: [ACCOUNT],
+      reviewers: {
+        [ReviewerState.REVIEWER]: [ACCOUNT],
+      },
+    };
+    const saveReviewStub = sinon.stub(element.$.restAPI,
+        'saveChangeReview').returns(
+        Promise.resolve({ok: true}));
+    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+        Promise.resolve({ok: true}));
+    const reloadListener = sinon.spy();
+    element._target.addEventListener('reload', reloadListener);
+
+    flush();
+    const button = element.shadowRoot.querySelector('.changeReviewerOrCC');
+
+    assert.isOk(button);
+    assert.equal(button.innerText, 'Move Reviewer to CC');
+    MockInteractions.tap(button);
+    await flush();
+
+    assert.isTrue(saveReviewStub.called);
+    assert.isTrue(reloadListener.called);
+  });
+
+  test('move reviewer to cc', async () => {
+    element.change = {
+      removable_reviewers: [ACCOUNT],
+      reviewers: {
+        [ReviewerState.REVIEWER]: [],
+      },
+    };
+    const saveReviewStub = sinon.stub(element.$.restAPI,
+        'saveChangeReview').returns(
+        Promise.resolve({ok: true}));
+    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+        Promise.resolve({ok: true}));
+    const reloadListener = sinon.spy();
+    element._target.addEventListener('reload', reloadListener);
+    flush();
+
+    const button = element.shadowRoot.querySelector('.changeReviewerOrCC');
+    assert.isOk(button);
+    assert.equal(button.innerText, 'Move CC to Reviewer');
+
+    MockInteractions.tap(button);
+    await flush();
+
+    assert.isTrue(saveReviewStub.called);
+    assert.isTrue(reloadListener.called);
+  });
+
+  test('remove cc', async () => {
+    element.change = {
+      removable_reviewers: [ACCOUNT],
+      reviewers: {
+        [ReviewerState.REVIEWER]: [],
+      },
+    };
+    sinon.stub(element.$.restAPI, 'removeChangeReviewer').returns(
+        Promise.resolve({ok: true}));
+    const reloadListener = sinon.spy();
+    element._target.addEventListener('reload', reloadListener);
+
+    flush();
+    const button = element.shadowRoot.querySelector('.removeReviewerOrCC');
+
+    assert.equal(button.innerText, 'Remove CC');
+    assert.isOk(button);
+    MockInteractions.tap(button);
+
+    await flush();
+
+    assert.isTrue(reloadListener.called);
   });
 
   test('add to attention set', async () => {

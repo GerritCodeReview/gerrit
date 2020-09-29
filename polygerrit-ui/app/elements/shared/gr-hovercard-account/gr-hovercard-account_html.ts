@@ -172,6 +172,28 @@ export const htmlTemplate = html`
           </gr-button>
         </div>
       </template>
+      <template is="dom-if" if="[[_showReviewerOrCCActions(account, change)]]">
+        <div class="action">
+          <gr-button
+            class="removeReviewerOrCC"
+            link=""
+            no-uppercase=""
+            on-click="_handleRemoveReviewerOrCC"
+          >
+            Remove [[_computeReviewerOrCCText(account, change)]]
+          </gr-button>
+        </div>
+        <div class="action">
+          <gr-button
+            class="changeReviewerOrCC"
+            link=""
+            no-uppercase=""
+            on-click="_handleChangeReviewerOrCCStatus"
+          >
+            [[_computeChangeReviewerOrCCText(account, change)]]
+          </gr-button>
+        </div>
+      </template>
     </template>
   </div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

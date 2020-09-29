@@ -172,6 +172,21 @@ export const htmlTemplate = html`
           </gr-button>
         </div>
       </template>
+      <template
+        is="dom-if"
+        if="[[_computeShowRemoveReviewer(account, change)]]"
+      >
+        <div class="action">
+          <gr-button
+            class="removeReviewer"
+            link=""
+            no-uppercase=""
+            on-click="_handleRemoveReviewer"
+          >
+            Remove reviewer
+          </gr-button>
+        </div>
+      </template>
     </template>
   </div>
   <gr-rest-api-interface id="restAPI"></gr-rest-api-interface>

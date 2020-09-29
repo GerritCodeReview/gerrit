@@ -141,6 +141,47 @@ export class GrHovercardAccount extends GestureEventListeners(
     return entry.last_update;
   }
 
+  _computeShowRemoveReviewer(account: AccountInfo, change: ChangeInfo) {
+    return (
+      account &&
+      !!Object.keys(account).length &&
+      change &&
+      change?.reviewers?.REVIEWER &&
+      change?.reviewers?.REVIEWER.some(
+        (reviewer: AccountInfo) => reviewer._account_id === account._account_id
+      )
+    );
+  }
+
+  _handleRemoveReviewer() {
+    if (!this.change || !this.account?._account_id) return;
+    this.$.restAPI
+      .removeChangeReviewer(this.change._number, this.account._account_id)
+      .then((response: Response | undefined) => {
+        if (!response || !response.ok) {
+          this.dispatchEvent(
+            new CustomEvent('show-alert', {
+              detail: {message: 'something went wrong'},
+              bubbles: true,
+              composed: true,
+            })
+          );
+          return;
+        }
+        this.dispatchEvent(
+          new CustomEvent('reload', {
+            detail: {clearPatchset: true},
+            bubbles: true,
+            composed: true,
+          })
+        );
+      })
+      .catch((err: Error) => {
+        console.error(err);
+        throw err;
+      });
+  }
+
   _computeShowLabelNeedsAttention() {
     return this.isAttentionSetEnabled && this.hasAttention;
   }

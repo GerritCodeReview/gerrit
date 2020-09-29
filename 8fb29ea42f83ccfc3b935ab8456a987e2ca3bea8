@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "9e68ce4f_c1ed5f72",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 480,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Hmmm, I am not 100% sure whether empty string is supposed to be assigned. And I want to keep the existing logic. Why would you prefer `if(message)`?",
+      "parentUuid": "238aa41f_96c7be78",
+      "range": {
+        "startLine": 480,
+        "startChar": 4,
+        "endLine": 480,
+        "endChar": 32
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a8cefba5_baae634c",
         "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
         "patchSetId": 12
@@ -45,6 +69,30 @@
       "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e2d7f8f9_165e2278",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment-thread/gr-comment-thread.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 607,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Good catch. I have changed this to\n\n  (c.__draftID \u0026\u0026 c.__draftID \u003d\u003d\u003d comment.__draftID) ||\n  (c.id \u0026\u0026 c.id \u003d\u003d\u003d comment.id)",
+      "parentUuid": "a8cefba5_baae634c",
+      "range": {
+        "startLine": 607,
+        "startChar": 8,
+        "endLine": 607,
+        "endChar": 67
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "ab2a0a7a_ba636ad7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-comment/gr-comment.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "I agree. Let\u0027s do that. The Omit\u003c\u003e thingy is super cool. Did not know about it.\n\nI have done all the type/interface related changes in change 282679, because I was worried about rebasing hell and conflicts. I hope that is ok for you.",
+      "parentUuid": "5bef947b_02b5939b",
+      "range": {
+        "startLine": 85,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 52
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "313fc57d_00ec0841",
         "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
         "patchSetId": 12
@@ -91,6 +163,30 @@
       "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6eef3d65_cc9171bd",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 2615,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Done in change 282679.",
+      "parentUuid": "313fc57d_00ec0841",
+      "range": {
+        "startLine": 2610,
+        "startChar": 4,
+        "endLine": 2615,
+        "endChar": 0
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "a532c690_c263bd59",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1047,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Done in change 282679.",
+      "parentUuid": "6ab3f471_08c8f59c",
+      "range": {
+        "startLine": 1047,
+        "startChar": 2,
+        "endLine": 1047,
+        "endChar": 27
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "90c7e226_c44eba70",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 12
@@ -140,6 +260,30 @@
     },
     {
       "key": {
+        "uuid": "fed1ce4d_909e942f",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 1055,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Done in change 282679.",
+      "parentUuid": "90c7e226_c44eba70",
+      "range": {
+        "startLine": 1055,
+        "startChar": 2,
+        "endLine": 1055,
+        "endChar": 10
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "0333bc8b_ae110ae2",
         "filename": "polygerrit-ui/app/utils/date-util.ts",
         "patchSetId": 12
@@ -160,6 +304,30 @@
       "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0c5f2d7d_7cec1f4c",
+        "filename": "polygerrit-ui/app/utils/date-util.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0333bc8b_ae110ae2",
+      "range": {
+        "startLine": 25,
+        "startChar": 35,
+        "endLine": 25,
+        "endChar": 53
+      },
+      "revId": "8fb29ea42f83ccfc3b935ab8456a987e2ca3bea8",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

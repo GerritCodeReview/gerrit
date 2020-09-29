@@ -24,12 +24,11 @@ const basicFixture = fixtureFromElement('gr-copy-clipboard');
 suite('gr-copy-clipboard tests', () => {
   let element;
 
-  setup(done => {
+  setup(async () => {
     element = basicFixture.instantiate();
     element.text = `git fetch http://gerrit@localhost:8080/a/test-project
         refs/changes/05/5/1 && git checkout FETCH_HEAD`;
-    flush();
-    flush(done);
+    await flush();
   });
 
   test('copy to clipboard', () => {

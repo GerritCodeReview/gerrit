@@ -42,12 +42,11 @@ suite('gr-autocomplete-dropdown', () => {
     assert.equal(els[1].innerText.trim(), '2');
   });
 
-  test('escape key', done => {
+  test('escape key', () => {
     const closeSpy = sinon.spy(element, 'close');
     MockInteractions.pressAndReleaseKeyOn(element, 27);
     flush();
     assert.isTrue(closeSpy.called);
-    done();
   });
 
   test('tab key', () => {

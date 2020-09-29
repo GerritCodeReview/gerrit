@@ -81,7 +81,7 @@ suite('gr-autocomplete tests', () => {
     assert.isTrue(selectionStub.called);
   });
 
-  test('esc key behavior', done => {
+  test('esc key behavior', () => {
     let promise;
     const queryStub = sinon.spy(() => promise = Promise.resolve([
       {name: 'blah', value: 123},
@@ -93,7 +93,7 @@ suite('gr-autocomplete tests', () => {
     element._focused = true;
     element.text = 'blah';
 
-    promise.then(() => {
+    return promise.then(() => {
       assert.isFalse(element.$.suggestions.isHidden);
 
       const cancelHandler = sinon.spy();
@@ -106,11 +106,10 @@ suite('gr-autocomplete tests', () => {
 
       MockInteractions.pressAndReleaseKeyOn(element.$.input, 27, null, 'esc');
       assert.isTrue(cancelHandler.called);
-      done();
     });
   });
 
-  test('emits commit and handles cursor movement', done => {
+  test('emits commit and handles cursor movement', () => {
     let promise;
     const queryStub = sinon.spy(input => promise = Promise.resolve([
       {name: input + ' 0', value: 0},
@@ -126,7 +125,7 @@ suite('gr-autocomplete tests', () => {
     element._focused = true;
     element.text = 'blah';
 
-    promise.then(() => {
+    return promise.then(() => {
       assert.isFalse(element.$.suggestions.isHidden);
 
       const commitHandler = sinon.spy();
@@ -156,11 +155,10 @@ suite('gr-autocomplete tests', () => {
       assert.equal(commitHandler.getCall(0).args[0].detail.value, 1);
       assert.isTrue(element.$.suggestions.isHidden);
       assert.isTrue(element._focused);
-      done();
     });
   });
 
-  test('clear-on-commit behavior (off)', done => {
+  test('clear-on-commit behavior (off)', () => {
     let promise;
     const queryStub = sinon.spy(() => {
       promise = Promise.resolve([{name: 'suggestion', value: 0}]);
@@ -170,7 +168,7 @@ suite('gr-autocomplete tests', () => {
     focusOnInput(element);
     element.text = 'blah';
 
-    promise.then(() => {
+    return promise.then(() => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
@@ -179,11 +177,10 @@ suite('gr-autocomplete tests', () => {
 
       assert.isTrue(commitHandler.called);
       assert.equal(element.text, 'suggestion');
-      done();
     });
   });
 
-  test('clear-on-commit behavior (on)', done => {
+  test('clear-on-commit behavior (on)', () => {
     let promise;
     const queryStub = sinon.spy(() => {
       promise = Promise.resolve([{name: 'suggestion', value: 0}]);
@@ -194,7 +191,7 @@ suite('gr-autocomplete tests', () => {
     element.text = 'blah';
     element.clearOnCommit = true;
 
-    promise.then(() => {
+    return promise.then(() => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
@@ -203,7 +200,6 @@ suite('gr-autocomplete tests', () => {
 
       assert.isTrue(commitHandler.called);
       assert.equal(element.text, '');
-      done();
     });
   });
 
@@ -246,7 +242,7 @@ suite('gr-autocomplete tests', () => {
     assert.equal(element._suggestions.length, 0);
   });
 
-  test('when focused', done => {
+  test('when focused', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
@@ -258,14 +254,13 @@ suite('gr-autocomplete tests', () => {
     element.text = 'bla';
     assert.equal(element._focused, true);
     flush();
-    promise.then(() => {
+    return promise.then(() => {
       assert.equal(element._suggestions.length, 1);
       assert.equal(queryStub.notCalled, false);
-      done();
     });
   });
 
-  test('when not focused', done => {
+  test('when not focused', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
@@ -276,13 +271,12 @@ suite('gr-autocomplete tests', () => {
     element.text = 'bla';
     assert.equal(element._focused, false);
     flush();
-    promise.then(() => {
+    return promise.then(() => {
       assert.equal(element._suggestions.length, 0);
-      done();
     });
   });
 
-  test('suggestions should not carry over', done => {
+  test('suggestions should not carry over', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
@@ -292,15 +286,14 @@ suite('gr-autocomplete tests', () => {
     focusOnInput(element);
     element.text = 'bla';
     flush();
-    promise.then(() => {
+    return promise.then(() => {
       assert.equal(element._suggestions.length, 1);
       element._updateSuggestions('', 0, false);
       assert.equal(element._suggestions.length, 0);
-      done();
     });
   });
 
-  test('multi completes only the last part of the query', done => {
+  test('multi completes only the last part of the query', () => {
     let promise;
     const queryStub = sinon.stub()
         .returns(promise = Promise.resolve([
@@ -311,7 +304,7 @@ suite('gr-autocomplete tests', () => {
     element.text = 'blah blah';
     element.multi = true;
 
-    promise.then(() => {
+    return promise.then(() => {
       const commitHandler = sinon.spy();
       element.addEventListener('commit', commitHandler);
 
@@ -320,7 +313,6 @@ suite('gr-autocomplete tests', () => {
 
       assert.isTrue(commitHandler.called);
       assert.equal(element.text, 'blah 0');
-      done();
     });
   });
 

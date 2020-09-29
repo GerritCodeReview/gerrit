@@ -39,11 +39,13 @@ suite('gr-alert tests', () => {
     assert.isNull(element.parentNode);
   });
 
-  test('action event', done => {
+  test('action event', () => {
+    const spy = sinon.spy();
     element.show();
-    element._actionCallback = done;
-    MockInteractions.tap(element.shadowRoot
-        .querySelector('.action'));
+    element._actionCallback = spy;
+    assert.isFalse(spy.called);
+    MockInteractions.tap(element.shadowRoot.querySelector('.action'));
+    assert.isTrue(spy.called);
   });
 });
 

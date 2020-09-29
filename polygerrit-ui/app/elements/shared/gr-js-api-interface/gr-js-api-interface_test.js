@@ -182,18 +182,20 @@ suite('gr-js-api-interface tests', () => {
     });
   });
 
-  test('history event', done => {
+  test('history event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     plugin.on(EventType.HISTORY, throwErrFn);
-    plugin.on(EventType.HISTORY, path => {
-      assert.equal(path, '/path/to/awesomesauce');
-      assert.isTrue(errorStub.calledOnce);
-      done();
-    });
-    element.handleEvent(EventType.HISTORY,
-        {path: '/path/to/awesomesauce'});
+    plugin.on(EventType.HISTORY, resolve);
+    element.handleEvent(EventType.HISTORY, {path: '/path/to/awesomesauce'});
+    const path = await promise;
+    assert.equal(path, '/path/to/awesomesauce');
+    assert.isTrue(errorStub.calledOnce);
   });
 
-  test('showchange event', done => {
+  test('showchange event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     const testChange = {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
@@ -201,33 +203,39 @@ suite('gr-js-api-interface tests', () => {
     const expectedChange = {mergeable: false, ...testChange};
     plugin.on(EventType.SHOW_CHANGE, throwErrFn);
     plugin.on(EventType.SHOW_CHANGE, (change, revision, info) => {
-      assert.deepEqual(change, expectedChange);
-      assert.deepEqual(revision, testChange.revisions.abc);
-      assert.deepEqual(info, {mergeable: false});
-      assert.isTrue(errorStub.calledOnce);
-      done();
+      resolve({change, revision, info});
     });
     element.handleEvent(EventType.SHOW_CHANGE,
         {change: testChange, patchNum: 1, info: {mergeable: false}});
+
+    const {change, revision, info} = await promise;
+    assert.deepEqual(change, expectedChange);
+    assert.deepEqual(revision, testChange.revisions.abc);
+    assert.deepEqual(info, {mergeable: false});
+    assert.isTrue(errorStub.calledOnce);
   });
 
-  test('show-revision-actions event', done => {
+  test('show-revision-actions event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     const testChange = {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
     };
     plugin.on(EventType.SHOW_REVISION_ACTIONS, throwErrFn);
     plugin.on(EventType.SHOW_REVISION_ACTIONS, (actions, change) => {
-      assert.deepEqual(change, testChange);
-      assert.deepEqual(actions, {test: {}});
-      assert.isTrue(errorStub.calledOnce);
-      done();
+      resolve({change, actions});
     });
     element.handleEvent(EventType.SHOW_REVISION_ACTIONS,
         {change: testChange, revisionActions: {test: {}}});
+
+    const {change, actions} = await promise;
+    assert.deepEqual(change, testChange);
+    assert.deepEqual(actions, {test: {}});
+    assert.isTrue(errorStub.calledOnce);
   });
 
-  test('handleEvent awaits plugins load', done => {
+  test('handleEvent awaits plugins load', async () => {
     const testChange = {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
@@ -242,21 +250,21 @@ suite('gr-js-api-interface tests', () => {
     // Timeout on loading plugins
     window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
-    flush(() => {
-      assert.isTrue(spy.called);
-      done();
-    });
+    await flush();
+    assert.isTrue(spy.called);
   });
 
-  test('comment event', done => {
+  test('comment event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     const testCommentNode = {foo: 'bar'};
     plugin.on(EventType.COMMENT, throwErrFn);
-    plugin.on(EventType.COMMENT, commentNode => {
-      assert.deepEqual(commentNode, testCommentNode);
-      assert.isTrue(errorStub.calledOnce);
-      done();
-    });
+    plugin.on(EventType.COMMENT, resolve);
     element.handleEvent(EventType.COMMENT, {node: testCommentNode});
+
+    const commentNode = await promise;
+    assert.deepEqual(commentNode, testCommentNode);
+    assert.isTrue(errorStub.calledOnce);
   });
 
   test('revert event', () => {
@@ -294,26 +302,32 @@ suite('gr-js-api-interface tests', () => {
     assert.isTrue(errorStub.calledOnce);
   });
 
-  test('commitmsgedit event', done => {
+  test('commitmsgedit event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     const testMsg = 'Test CL commit message';
     plugin.on(EventType.COMMIT_MSG_EDIT, throwErrFn);
     plugin.on(EventType.COMMIT_MSG_EDIT, (change, msg) => {
-      assert.deepEqual(msg, testMsg);
-      assert.isTrue(errorStub.calledOnce);
-      done();
+      resolve(msg);
     });
     element.handleCommitMessage(null, testMsg);
+
+    const msg = await promise;
+    assert.deepEqual(msg, testMsg);
+    assert.isTrue(errorStub.calledOnce);
   });
 
-  test('labelchange event', done => {
+  test('labelchange event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     const testChange = {_number: 42};
     plugin.on(EventType.LABEL_CHANGE, throwErrFn);
-    plugin.on(EventType.LABEL_CHANGE, change => {
-      assert.deepEqual(change, testChange);
-      assert.isTrue(errorStub.calledOnce);
-      done();
-    });
+    plugin.on(EventType.LABEL_CHANGE, resolve);
     element.handleEvent(EventType.LABEL_CHANGE, {change: testChange});
+
+    const change = await promise;
+    assert.deepEqual(change, testChange);
+    assert.isTrue(errorStub.calledOnce);
   });
 
   test('submitchange', () => {
@@ -327,24 +341,25 @@ suite('gr-js-api-interface tests', () => {
     assert.isTrue(errorStub.calledTwice);
   });
 
-  test('highlightjs-loaded event', done => {
+  test('highlightjs-loaded event', async () => {
+    let resolve;
+    const promise = new Promise(r => resolve = r);
     const testHljs = {_number: 42};
     plugin.on(EventType.HIGHLIGHTJS_LOADED, throwErrFn);
-    plugin.on(EventType.HIGHLIGHTJS_LOADED, hljs => {
-      assert.deepEqual(hljs, testHljs);
-      assert.isTrue(errorStub.calledOnce);
-      done();
-    });
+    plugin.on(EventType.HIGHLIGHTJS_LOADED, resolve);
     element.handleEvent(EventType.HIGHLIGHTJS_LOADED, {hljs: testHljs});
+
+    const hljs = await promise;
+    assert.deepEqual(hljs, testHljs);
+    assert.isTrue(errorStub.calledOnce);
   });
 
-  test('getLoggedIn', done => {
+  test('getLoggedIn', () => {
     // fake fetch for authCheck
     sinon.stub(window, 'fetch').callsFake(() => Promise.resolve({status: 204}));
-    plugin.restApi().getLoggedIn()
+    return plugin.restApi().getLoggedIn()
         .then(loggedIn => {
           assert.isTrue(loggedIn);
-          done();
         });
   });
 

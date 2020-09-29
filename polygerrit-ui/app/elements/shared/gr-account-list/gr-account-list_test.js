@@ -156,7 +156,7 @@ suite('gr-account-list tests', () => {
     assert.isFalse(chips[0].classList.contains('pendingAdd'));
   });
 
-  test('_getSuggestions uses filter correctly', done => {
+  test('_getSuggestions uses filter correctly', () => {
     const originalSuggestions = [
       {
         email: 'abc@example.com',
@@ -184,7 +184,7 @@ suite('gr-account-list tests', () => {
           };
         });
 
-    element._getSuggestions().then(suggestions => {
+    return element._getSuggestions().then(suggestions => {
       // Default is no filtering.
       assert.equal(suggestions.length, 3);
 
@@ -194,14 +194,13 @@ suite('gr-account-list tests', () => {
         return suggestion._account_id === accountId;
       };
 
-      element._getSuggestions()
-          .then(suggestions => {
-            assert.deepEqual(suggestions,
-                [{name: originalSuggestions[0].email,
-                  value: originalSuggestions[0]._account_id}]);
-          })
-          .then(done);
-    });
+      return element._getSuggestions();
+    })
+        .then(suggestions => {
+          assert.deepEqual(suggestions,
+              [{name: originalSuggestions[0].email,
+                value: originalSuggestions[0]._account_id}]);
+        });
   });
 
   test('_computeChipClass', () => {

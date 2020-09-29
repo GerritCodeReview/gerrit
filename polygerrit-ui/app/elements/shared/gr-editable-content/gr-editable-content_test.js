@@ -27,23 +27,27 @@ suite('gr-editable-content tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('save event', done => {
+  test('save event', () => {
     element.content = '';
     element._newContent = 'foo';
-    element.addEventListener('editable-content-save', e => {
-      assert.equal(e.detail.content, 'foo');
-      done();
-    });
+    const handler = sinon.spy();
+    element.addEventListener('editable-content-save', handler);
+
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button[primary]'));
+
+    assert.isTrue(handler.called);
+    assert.equal(handler.lastCall.args[0].detail.content, 'foo');
   });
 
-  test('cancel event', done => {
-    element.addEventListener('editable-content-cancel', () => {
-      done();
-    });
+  test('cancel event', () => {
+    const handler = sinon.spy();
+    element.addEventListener('editable-content-cancel', handler);
+
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button:not([primary])'));
+
+    assert.isTrue(handler.called);
   });
 
   test('enabling editing keeps old content', () => {

@@ -27,8 +27,12 @@ suite('gr-hovercard tests', () => {
   let element;
 
   let button;
+  let testResolve;
+  let testPromise;
 
   setup(() => {
+    testResolve = undefined;
+    testPromise = new Promise(r => testResolve = r);
     button = document.createElement('button');
     button.innerHTML = 'Hello';
     button.setAttribute('id', 'foo');
@@ -89,66 +93,74 @@ suite('gr-hovercard tests', () => {
     assert.equal(style.visibility, 'visible');
   });
 
-  test('debounceShow does not show immediately', done => {
+  test('debounceShow does not show immediately', async () => {
     element.debounceShowBy(100);
-    setTimeout(() => {
-      assert.isFalse(element._isShowing);
-      done();
-    }, 0);
+    setTimeout(testResolve, 0);
+    await testPromise;
+    assert.isFalse(element._isShowing);
   });
 
-  test('debounceShow shows after delay', done => {
+  test('debounceShow shows after delay', async () => {
     element.debounceShowBy(1);
-    setTimeout(() => {
-      assert.isTrue(element._isShowing);
-      done();
-    }, 10);
+    setTimeout(testResolve, 10);
+    await testPromise;
+    assert.isTrue(element._isShowing);
   });
 
-  test('card is scheduled to show on enter and hides on leave', done => {
+  test('card is scheduled to show on enter and hides on leave', async () => {
     const button = document.querySelector('button');
+    let enterResolve = undefined;
+    const enterPromise = new Promise(r => enterResolve = r);
+    button.addEventListener('mouseenter', enterResolve);
+    let leaveResolve = undefined;
+    const leavePromise = new Promise(r => leaveResolve = r);
+    button.addEventListener('mouseleave', leaveResolve);
+
     assert.isFalse(element._isShowing);
-    const enterHandler = event => {
-      assert.isTrue(element._isScheduledToShow);
-      element._showDebouncer.flush();
-      assert.isTrue(element._isShowing);
-      assert.isFalse(element._isScheduledToShow);
-      button.dispatchEvent(new CustomEvent('mouseleave'));
-    };
-    const leaveHandler = event => {
-      assert.isTrue(element._isScheduledToHide);
-      assert.isTrue(element._isShowing);
-      element._hideDebouncer.flush();
-      assert.isFalse(element._isScheduledToShow);
-      assert.isFalse(element._isShowing);
-      button.removeEventListener('mouseenter', enterHandler);
-      button.removeEventListener('mouseleave', leaveHandler);
-      done();
-    };
-    button.addEventListener('mouseenter', enterHandler);
-    button.addEventListener('mouseleave', leaveHandler);
     button.dispatchEvent(new CustomEvent('mouseenter'));
+
+    await enterPromise;
+    assert.isTrue(element._isScheduledToShow);
+    element._showDebouncer.flush();
+    assert.isTrue(element._isShowing);
+    assert.isFalse(element._isScheduledToShow);
+
+    button.dispatchEvent(new CustomEvent('mouseleave'));
+
+    await leavePromise;
+    assert.isTrue(element._isScheduledToHide);
+    assert.isTrue(element._isShowing);
+    element._hideDebouncer.flush();
+    assert.isFalse(element._isScheduledToShow);
+    assert.isFalse(element._isShowing);
+
+    button.removeEventListener('mouseenter', enterResolve);
+    button.removeEventListener('mouseleave', leaveResolve);
   });
 
-  test('card should disappear on click', done => {
+  test('card should disappear on click', async () => {
     const button = document.querySelector('button');
+    let enterResolve = undefined;
+    const enterPromise = new Promise(r => enterResolve = r);
+    button.addEventListener('mouseenter', enterResolve);
+    let clickResolve = undefined;
+    const clickPromise = new Promise(r => clickResolve = r);
+    button.addEventListener('click', clickResolve);
+
     assert.isFalse(element._isShowing);
-    const enterHandler = event => {
-      assert.isTrue(element._isScheduledToShow);
-      // click to hide
-      MockInteractions.tap(button);
-    };
-    const leaveHandler = event => {
-      // no flush needed as hide will be called immediately
-      assert.isFalse(element._isScheduledToShow);
-      assert.isFalse(element._isShowing);
-      button.removeEventListener('mouseenter', enterHandler);
-      button.removeEventListener('click', leaveHandler);
-      done();
-    };
-    button.addEventListener('mouseenter', enterHandler);
-    button.addEventListener('click', leaveHandler);
+
     button.dispatchEvent(new CustomEvent('mouseenter'));
+
+    await enterPromise;
+    assert.isTrue(element._isScheduledToShow);
+    MockInteractions.tap(button);
+
+    await clickPromise;
+    assert.isFalse(element._isScheduledToShow);
+    assert.isFalse(element._isShowing);
+
+    button.removeEventListener('mouseenter', enterResolve);
+    button.removeEventListener('click', clickResolve);
   });
 });
 

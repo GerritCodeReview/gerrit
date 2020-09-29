@@ -23,7 +23,11 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-reviewer-list_html';
-import {hasAttention, isServiceUser} from '../../../utils/account-util';
+import {
+  hasAttention,
+  isServiceUser,
+  canRemoveReviewer,
+} from '../../../utils/account-util';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {
   ChangeInfo,
@@ -251,25 +255,7 @@ export class GrReviewerList extends GestureEventListeners(
   }
 
   _computeCanRemoveReviewer(reviewer: AccountInfo, mutable: boolean) {
-    if (
-      !mutable ||
-      this.change === undefined ||
-      this.change.removable_reviewers === undefined
-    ) {
-      return false;
-    }
-
-    let current;
-    for (let i = 0; i < this.change.removable_reviewers.length; i++) {
-      current = this.change.removable_reviewers[i];
-      if (
-        current._account_id === reviewer._account_id ||
-        (!reviewer._account_id && current.email === reviewer.email)
-      ) {
-        return true;
-      }
-    }
-    return false;
+    return canRemoveReviewer(mutable, this.change, reviewer);
   }
 
   _handleRemove(e: Event) {

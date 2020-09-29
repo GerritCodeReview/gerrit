@@ -16,6 +16,41 @@
       "revId": "200e0cf06d63f4eff9666e52ce421a2a02762ca4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "34fe0650_f47cb39d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-29T14:46:46Z",
+      "side": 1,
+      "message": "\u003e Auto Merge shows no non-trivial diffs for this review series; thanks.\n\nThanks @Sven for the CR.",
+      "parentUuid": "b06b48bc_5ecb0789",
+      "revId": "200e0cf06d63f4eff9666e52ce421a2a02762ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a897c92_c3b22454",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-29T14:46:46Z",
+      "side": 1,
+      "message": "Thanks @Sven for the CR.",
+      "revId": "200e0cf06d63f4eff9666e52ce421a2a02762ca4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

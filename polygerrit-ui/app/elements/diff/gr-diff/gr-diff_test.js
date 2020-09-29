@@ -585,7 +585,7 @@ suite('gr-diff tests', () => {
     });
 
     suite('getCursorStops', () => {
-      const setupDiff = function() {
+      function setupDiff() {
         element.diff = getMockDiffResponse();
         element.prefs = {
           context: 10,
@@ -605,8 +605,9 @@ suite('gr-diff tests', () => {
         };
 
         element._renderDiffTable();
+        element._loading = false;
         flush();
-      };
+      }
 
       test('getCursorStops returns [] when hidden and noAutoRender', () => {
         element.noAutoRender = true;

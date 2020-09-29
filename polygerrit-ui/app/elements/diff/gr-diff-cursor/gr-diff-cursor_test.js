@@ -19,8 +19,9 @@ import '../../../test/common-test-setup-karma.js';
 import '../gr-diff/gr-diff.js';
 import './gr-diff-cursor.js';
 import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 import {html} from '@polymer/polymer/lib/utils/html-tag.js';
+import {listenOnce} from '../../../test/test-utils.js';
+import {getMockDiffResponse} from '../../../test/mocks/diff-response.js';
 
 const basicFixture = fixtureFromTemplate(html`
   <gr-diff></gr-diff>
@@ -419,6 +420,71 @@ suite('gr-diff-cursor tests', () => {
         done();
       });
       someEmptyDiv.appendChild(cursorElement);
+    });
+  });
+
+  suite('multi diff', () => {
+    const multiDiffFixture = fixtureFromTemplate(html`
+      <gr-diff></gr-diff>
+      <gr-diff></gr-diff>
+      <gr-diff></gr-diff>
+      <gr-diff-cursor></gr-diff-cursor>
+      <gr-rest-api-interface></gr-rest-api-interface>
+    `);
+
+    let diffElements;
+
+    setup(async () => {
+      const fixtureElems = multiDiffFixture.instantiate();
+      diffElements = fixtureElems.slice(0, 3);
+      cursorElement = fixtureElems[3];
+      const restAPI = fixtureElems[4];
+
+      // Register the diff with the cursor.
+      cursorElement.push('diffs', ...diffElements);
+
+      await restAPI.getDiffPreferences().then(prefs => {
+        for (const el of diffElements) {
+          el.prefs = prefs;
+        }
+      });
+    });
+
+    test('do not skip loading diffs', async () => {
+      const diffRenderedPromises =
+          diffElements.map(diffEl => listenOnce(diffEl, 'render'));
+
+      diffElements[0].diff = getMockDiffResponse();
+      diffElements[2].diff = getMockDiffResponse();
+      await Promise.all([diffRenderedPromises[0], diffRenderedPromises[2]]);
+
+      const lastLine = diffElements[0].diff.meta_b.lines;
+
+      // Goto second last line of the first diff
+      cursorElement.moveToLineNumber(lastLine - 1, 'right');
+      assert.equal(
+          cursorElement.getTargetLineElement().textContent, lastLine - 1);
+
+      // Can move down until we reach the loading file
+      cursorElement.moveDown();
+      assert.equal(cursorElement.getTargetDiffElement(), diffElements[0]);
+      assert.equal(cursorElement.getTargetLineElement().textContent, lastLine);
+
+      // Cannot move down while still loading the diff we would switch to
+      cursorElement.moveDown();
+      assert.equal(cursorElement.getTargetDiffElement(), diffElements[0]);
+      assert.equal(cursorElement.getTargetLineElement().textContent, lastLine);
+
+      // Diff 1 finishing to load
+      diffElements[1].diff = getMockDiffResponse();
+      await diffRenderedPromises[1];
+
+      // Now we can go down
+      cursorElement.moveDown();
+      assert.equal(cursorElement.getTargetDiffElement(), diffElements[1]);
+      assert.equal(cursorElement.getTargetLineElement().textContent, 'File');
+
+      await Promise.resolve();
     });
   });
 });

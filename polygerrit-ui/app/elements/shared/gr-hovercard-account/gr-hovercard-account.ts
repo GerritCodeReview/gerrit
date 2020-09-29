@@ -133,6 +133,17 @@ export class GrHovercardAccount extends GestureEventListeners(
     return entry.last_update;
   }
 
+  _computeShowRemoveReviewer(account: AccountInfo, change: ChangeInfo) {
+    return (
+      account &&
+      change &&
+      change?.reviewers?.REVIEWER &&
+      change?.reviewers?.REVIEWER.some(
+        (reviewer: AccountInfo) => reviewer._account_id === account._account_id
+      )
+    );
+  }
+
   _computeShowLabelNeedsAttention() {
     return this.isAttentionSetEnabled && this.hasAttention;
   }

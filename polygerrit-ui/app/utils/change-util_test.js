@@ -21,6 +21,7 @@ import {
   changePath,
   changeStatuses,
   changeStatusString,
+  isRemovableReviewer,
 } from './change-util.js';
 
 suite('change-util tests', () => {
@@ -197,6 +198,20 @@ suite('change-util tests', () => {
     const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
     assert.equal(statusString, 'Merge Conflict, WIP, Private');
+  });
+
+  test('isRemovableReviewer', () => {
+    let change = {
+      removable_reviewers: [{_account_id: 1}],
+    };
+    const reviewer = {_account_id: 1};
+
+    assert.equal(isRemovableReviewer(change, reviewer), true);
+
+    change = {
+      removable_reviewers: [{_account_id: 2}],
+    };
+    assert.equal(isRemovableReviewer(change, reviewer), false);
   });
 });
 

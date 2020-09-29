@@ -82,6 +82,24 @@
     },
     {
       "key": {
+        "uuid": "aa7dc6ad_4ab23199",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T15:40:31Z",
+      "side": 1,
+      "message": "This comment is from me(written before TS came into picture). There are more usages of current/latest patch num being decided from change.revisions.\ncomputeLatestPatchNum() calls computeAllPatchSets() also depends on change.revisions being set.\nI think our code will break in multiple places if change.revisions is not returned.\nNot sure what the best solution is.",
+      "parentUuid": "b62ad03d_2d2d6a6f",
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "49126434_425920b5",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 5

@@ -98,45 +98,55 @@ suite('gr-diff-builder tests', () => {
 
     test('no +10 buttons for 10 or less lines', () => {
       const contextGroups = createContextGroups({count: 10});
-      const td = builder._createContextControl({}, contextGroups);
-      const buttons = td.querySelectorAll('gr-button.showContext');
+      const {element} = builder._createContextControl({}, contextGroups);
+      const buttons = element.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 1);
-      assert.equal(buttons[0].textContent, 'Show 10 common lines');
+      assert.equal(buttons[0].textContent, '+10 common lines');
     });
 
     test('context control at the top', () => {
       const contextGroups = createContextGroups({offset: 0, count: 20});
       builder._numLinesLeft = 50;
-      const td = builder._createContextControl({}, contextGroups);
-      const buttons = td.querySelectorAll('gr-button.showContext');
+      const {element} = builder._createContextControl({}, contextGroups);
+      const buttons = element.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 2);
-      assert.equal(buttons[0].textContent, 'Show 20 common lines');
-      assert.equal(buttons[1].textContent, '+10 below');
+      assert.equal(buttons[0].textContent, '+20 common lines');
+      assert.equal(buttons[1].textContent, '+10');
+
+      assert.include([...buttons[0].classList.values()], 'belowButton');
+      assert.include([...buttons[1].classList.values()], 'belowButton');
     });
 
     test('context control in the middle', () => {
       const contextGroups = createContextGroups({offset: 10, count: 20});
       builder._numLinesLeft = 50;
-      const td = builder._createContextControl({}, contextGroups);
-      const buttons = td.querySelectorAll('gr-button.showContext');
+      const {element} = builder._createContextControl({}, contextGroups);
+      const buttons = element.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 3);
-      assert.equal(buttons[0].textContent, '+10 above');
-      assert.equal(buttons[1].textContent, 'Show 20 common lines');
-      assert.equal(buttons[2].textContent, '+10 below');
+      assert.equal(buttons[0].textContent, '+20 common lines');
+      assert.equal(buttons[1].textContent, '+10');
+      assert.equal(buttons[2].textContent, '+10');
+
+      assert.include([...buttons[0].classList.values()], 'centeredButton');
+      assert.include([...buttons[1].classList.values()], 'aboveButton');
+      assert.include([...buttons[2].classList.values()], 'belowButton');
     });
 
-    test('context control at the top', () => {
+    test('context control at the bottom', () => {
       const contextGroups = createContextGroups({offset: 30, count: 20});
       builder._numLinesLeft = 50;
-      const td = builder._createContextControl({}, contextGroups);
-      const buttons = td.querySelectorAll('gr-button.showContext');
+      const {element} = builder._createContextControl({}, contextGroups);
+      const buttons = element.querySelectorAll('gr-button.showContext');
 
       assert.equal(buttons.length, 2);
-      assert.equal(buttons[0].textContent, '+10 above');
-      assert.equal(buttons[1].textContent, 'Show 20 common lines');
+      assert.equal(buttons[0].textContent, '+20 common lines');
+      assert.equal(buttons[1].textContent, '+10');
+
+      assert.include([...buttons[0].classList.values()], 'aboveButton');
+      assert.include([...buttons[1].classList.values()], 'aboveButton');
     });
   });
 

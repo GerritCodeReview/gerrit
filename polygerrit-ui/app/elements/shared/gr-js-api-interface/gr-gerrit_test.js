@@ -28,10 +28,11 @@ const pluginApi = _testOnly_initGerritPluginApi();
 suite('gr-gerrit tests', () => {
   let element;
 
+  let clock;
   let sendStub;
 
   setup(() => {
-    window.clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers();
 
     sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
     stub('gr-rest-api-interface', {
@@ -46,7 +47,7 @@ suite('gr-gerrit tests', () => {
   });
 
   teardown(() => {
-    window.clock.restore();
+    clock.restore();
     element._removeEventCallbacks();
     resetPlugins();
   });

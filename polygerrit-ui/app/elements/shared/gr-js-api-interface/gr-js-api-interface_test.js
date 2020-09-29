@@ -36,13 +36,14 @@ suite('gr-js-api-interface tests', () => {
 
   let getResponseObjectStub;
   let sendStub;
+  let clock;
 
   const throwErrFn = function() {
     throw Error('Unfortunately, this handler has stopped');
   };
 
   setup(() => {
-    window.clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers();
 
     getResponseObjectStub = sinon.stub().returns(Promise.resolve());
     sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
@@ -63,7 +64,7 @@ suite('gr-js-api-interface tests', () => {
   });
 
   teardown(() => {
-    window.clock.restore();
+    clock.restore();
     element._removeEventCallbacks();
     plugin = null;
   });
@@ -240,7 +241,7 @@ suite('gr-js-api-interface tests', () => {
     assert.isFalse(spy.called);
 
     // Timeout on loading plugins
-    window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+    clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
     flush(() => {
       assert.isTrue(spy.called);

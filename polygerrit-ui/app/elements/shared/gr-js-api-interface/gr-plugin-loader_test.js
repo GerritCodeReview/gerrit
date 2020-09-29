@@ -33,9 +33,10 @@ suite('gr-plugin-loader tests', () => {
   let url;
   let sendStub;
   let pluginLoader;
+  let clock;
 
   setup(() => {
-    window.clock = sinon.useFakeTimers();
+    clock = sinon.useFakeTimers();
 
     sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
     stub('gr-rest-api-interface', {
@@ -53,7 +54,7 @@ suite('gr-plugin-loader tests', () => {
   });
 
   teardown(() => {
-    window.clock.restore();
+    clock.restore();
     resetPlugins();
   });
 
@@ -102,7 +103,7 @@ suite('gr-plugin-loader tests', () => {
     pluginLoader.loadPlugins(plugins);
     assert.isFalse(pluginLoader.arePluginsLoaded());
     // Timeout on loading plugins
-    window.clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
+    clock.tick(PLUGIN_LOADING_TIMEOUT_MS * 2);
 
     flush();
     assert.isTrue(pluginLoader.arePluginsLoaded());

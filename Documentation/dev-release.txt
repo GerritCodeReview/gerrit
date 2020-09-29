@@ -12,7 +12,6 @@ hopefully serve as both a how to for those new to the process
 and as a checklist for those already familiar with these
 tasks.
 
-
 == Gerrit Release Type
 
 Here are some guidelines on release approaches depending on the
@@ -41,7 +40,6 @@ There should be no new features in this release, only bug fixes
 
 * Finally create the `stable` release (no `rc`)
 
-
 === Stable-Fix
 
 `stable-fix` releases should likely only contain bug fixes and doc
@@ -51,7 +49,6 @@ updates.
 
 * This type of release does not need any RCs, release when the
 objectives are met
-
 
 [[security]]
 === Security-Fix
@@ -69,7 +66,6 @@ project which is only readable by the Gerrit Maintainers. Only after
 a `security-fix` release has been published will the commits/tags made in
 the `gerrit-security-fixes` project be taken over into the public
 `gerrit` project.
-
 
 == Create the Actual Release
 
@@ -242,7 +238,6 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server].
 
 ** Select `com.google.gerrit` as `Project`.
 
-
 [[publish-to-google-storage]]
 ==== Publish the Gerrit WAR to the Google Cloud Storage
 
@@ -264,7 +259,6 @@ get them merged.
 * Create a change updating the `defaultbranch` field in the `.gitreview`
 to match the branch name created.
 
-
 [[push-tag]]
 ==== Push the Release Tag
 
@@ -279,7 +273,6 @@ Push the new Release Tag on the plugins:
 ----
   git submodule foreach git push gerrit-review tag v$version
 ----
-
 
 [[upload-documentation]]
 ==== Upload the Documentation
@@ -321,7 +314,6 @@ After the release is actually made, you can search in Google Code for
 `Status=Submitted FixedIn=$version` and then batch update these changes
 to say `Status=Released`. Make sure the pulldown says `All Issues`
 because `Status=Submitted` is considered a closed issue.
-
 
 [[announce]]
 ==== Announce on Mailing List

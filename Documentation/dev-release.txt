@@ -67,6 +67,40 @@ a `security-fix` release has been published will the commits/tags made in
 the `gerrit-security-fixes` project be taken over into the public
 `gerrit` project.
 
+[[upload-final-release-notes]]
+== Upload the final Release Notes change
+
+Upload a change on the homepage project to:
+
+* Remove 'In Development' caveat from the relevant section.
+
+* Add links to the released documentation and the .war file, and make the
+latest version bold.
+
+The uploaded change is not to be approved yet, but rather act as the
+release content review thread until it can be finalized.
+
+[[update-links]]
+=== Update homepage links
+
+Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
+homepage project] to change the version numbers to the new version.
+
+[[update-issues]]
+=== Update the Issues
+
+Update the issues by hand. There is no script for this.
+
+Our current process is an issue should be updated to say `Status =
+Submitted, FixedIn-$version` once the change is submitted, but before the
+release.
+
+The updated issues are the ones listed in commit messages since the
+previous version tag. Mention each updated issue in the uploaded change,
+following the examples from the previous version notes. Add updated issue
+owners as reviewers of the uploaded change. More reviewers can be added
+or cc'ed, to further coordinate the final release contents.
+
 == Create the Actual Release
 
 [[update-versions]]
@@ -288,27 +322,10 @@ gerrit-documentation] storage bucket.
 [[finalize-release-notes]]
 === Finalize the Release Notes
 
-Upload a change on the homepage project to:
-
-* Remove 'In Development' caveat from the relevant section.
-
-* Add links to the released documentation and the .war file, and make the
-latest version bold.
-
-[[update-links]]
-==== Update homepage links
-
-Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
-homepage project] to change the version numbers to the new version.
+Submit that previously uploaded change on the homepage project.
 
 [[update-issues]]
 ==== Update the Issues
-
-Update the issues by hand. There is no script for this.
-
-Our current process is an issue should be updated to say `Status =
-Submitted, FixedIn-$version` once the change is submitted, but before the
-release.
 
 After the release is actually made, you can search in Google Code for
 `Status=Submitted FixedIn=$version` and then batch update these changes

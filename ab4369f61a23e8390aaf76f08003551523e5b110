@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "2c566b72_0ef2b5d7",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 12
+      },
+      "lineNbr": 746,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T08:55:50Z",
+      "side": 1,
+      "message": "Thanks for adjusting this as well!",
+      "revId": "ab4369f61a23e8390aaf76f08003551523e5b110",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

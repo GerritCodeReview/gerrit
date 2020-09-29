@@ -20,6 +20,7 @@ import {
   AbortStop,
   CursorMoveResult,
   GrCursorManager,
+  Stop,
   isTargetable,
 } from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
@@ -525,7 +526,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   _updateStops() {
     this.$.cursorManager.stops = this.diffs.reduce(
-      (stops: HTMLElement[], diff) => stops.concat(diff.getCursorStops()),
+      (stops: Stop[], diff) => stops.concat(diff.getCursorStops()),
       []
     );
   }

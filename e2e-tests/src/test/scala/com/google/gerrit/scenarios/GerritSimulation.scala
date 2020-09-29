@@ -23,20 +23,22 @@ import io.gatling.http.request.builder.HttpRequestBuilder
 class GerritSimulation extends Simulation {
   implicit val conf: GatlingGitConfiguration = GatlingGitConfiguration()
 
-  private val pack: String = this.getClass.getPackage.getName
-  private val path: String = pack.replaceAllLiterally(".", "/")
-  protected val name: String = this.getClass.getSimpleName
-  private val pathName: String = s"data/$path/$name"
-  protected val resource: String = s"$pathName.json"
-  protected val body: String = s"$pathName-body.json"
-  protected val unique: String = name + "-" + this.hashCode()
+  private val packageName = getClass.getPackage.getName
+  private val path = packageName.replaceAllLiterally(".", "/")
+
+  protected val className: String = getClass.getSimpleName
+  private val pathName = s"data/$path/$className"
+  protected val resource = s"$pathName.json"
+  protected val body = s"$pathName-body.json"
+
+  protected val uniqueName: String = className + "-" + hashCode()
   protected val single = 1
 
   val replicationDelay: Int = replaceProperty("replication_delay", 15).toInt
-  private val powerFactor: Double = replaceProperty("power_factor", 1.0).toDouble
-  protected val SecondsPerWeightUnit: Int = 2
+  private val powerFactor = replaceProperty("power_factor", 1.0).toDouble
+  protected val SecondsPerWeightUnit = 2
   val maxExecutionTime: Int = (SecondsPerWeightUnit * relativeRuntimeWeight * powerFactor).toInt
-  private var cumulativeWaitTime: Int = 0
+  private var cumulativeWaitTime = 0
 
   /**
    * How long a scenario step should wait before starting to execute.
@@ -53,29 +55,29 @@ class GerritSimulation extends Simulation {
     currentWaitTime
   }
 
-  protected val httpRequest: HttpRequestBuilder = http(unique).post("${url}")
+  protected val httpRequest: HttpRequestBuilder = http(uniqueName).post("${url}")
   protected val httpProtocol: HttpProtocolBuilder = http.basicAuth(
     conf.httpConfiguration.userName,
     conf.httpConfiguration.password)
 
   protected val keys: PartialFunction[(String, Any), Any] = {
-    case ("url", url) =>
-      var in = replaceOverride(url.toString)
-      in = replaceProperty("hostname", "localhost", in)
-      in = replaceProperty("http_port", 8080, in)
-      in = replaceProperty("http_scheme", "http", in)
-      replaceProperty("ssh_port", 29418, in)
+    case ("entries", entries) =>
+      replaceProperty("projects_entries", "1", entries.toString)
     case ("number", number) =>
       val precedes = replaceKeyWith("_number", 0, number.toString)
       replaceProperty("number", 1, precedes)
     case ("parent", parent) =>
       replaceProperty("parent", "All-Projects", parent.toString)
     case ("project", project) =>
-      var precedes = replaceKeyWith("_project", name, project.toString)
+      var precedes = replaceKeyWith("_project", className, project.toString)
       precedes = replaceOverride(precedes)
       replaceProperty("project", precedes)
-    case ("entries", entries) =>
-      replaceProperty("projects_entries", "1", entries.toString)
+    case ("url", url) =>
+      var in = replaceOverride(url.toString)
+      in = replaceProperty("hostname", "localhost", in)
+      in = replaceProperty("http_port", 8080, in)
+      in = replaceProperty("http_scheme", "http", in)
+      replaceProperty("ssh_port", 29418, in)
   }
 
   private def replaceProperty(term: String, in: String): String = {
@@ -87,7 +89,7 @@ class GerritSimulation extends Simulation {
   }
 
   protected def replaceProperty(term: String, default: Any, in: String): String = {
-    val property = pack + "." + term
+    val property = packageName + "." + term
     var value = default
     default match {
       case _: String | _: Double =>

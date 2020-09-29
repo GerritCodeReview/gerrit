@@ -28,7 +28,7 @@ class ApproveChange extends GerritSimulation {
     this.createChange = Some(createChange)
   }
 
-  val test: ScenarioBuilder = scenario(unique)
+  val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(session => {
         if (createChange.nonEmpty) {
@@ -37,7 +37,7 @@ class ApproveChange extends GerritSimulation {
           session
         }
       })
-      .exec(http(unique)
+      .exec(http(uniqueName)
           .post("${url}${number}/revisions/current/review")
           .body(ElFileBody(body)).asJson)
 

@@ -22,7 +22,7 @@ import scala.concurrent.duration._
 
 class CheckNewProjectReplica1 extends GitSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val default: String = name
+  private val projectName = className
 
   private lazy val replicationDuration = replicationDelay + SecondsPerWeightUnit
 
@@ -30,16 +30,16 @@ class CheckNewProjectReplica1 extends GitSimulation {
 
   override def replaceOverride(in: String): String = {
     var next = replaceProperty("http_port1", 8081, in)
-    next = replaceKeyWith("_project", default, next)
+    next = replaceKeyWith("_project", projectName, next)
     super.replaceOverride(next)
   }
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(gitRequest)
 
-  private val createProject = new CreateProject(default)
-  private val deleteProject = new DeleteProject(default)
+  private val createProject = new CreateProject(projectName)
+  private val deleteProject = new DeleteProject(projectName)
 
   setUp(
     createProject.test.inject(

@@ -22,18 +22,18 @@ import scala.concurrent.duration._
 
 class FlushProjectsCache extends CacheFlushSimulation {
   private val data: FeederBuilder = jsonFile(resource).convert(keys).queue
-  private val default: String = name
+  private val projectName = className
 
   override def relativeRuntimeWeight = 2
 
-  private val test: ScenarioBuilder = scenario(unique)
+  private val test: ScenarioBuilder = scenario(uniqueName)
       .feed(data)
       .exec(httpRequest)
 
-  private val createProject = new CreateProject(default)
+  private val createProject = new CreateProject(projectName)
   private val getCacheEntriesAfterProject = new GetProjectsCacheEntries(this)
   private val checkCacheEntriesAfterFlush = new CheckProjectsCacheFlushEntries(this)
-  private val deleteProject = new DeleteProject(default)
+  private val deleteProject = new DeleteProject(projectName)
 
   setUp(
     createProject.test.inject(

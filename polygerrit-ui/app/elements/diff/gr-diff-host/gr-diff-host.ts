@@ -70,6 +70,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
+import {KnownExperimentId} from '../../../services/flags/flags';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 
@@ -271,6 +272,8 @@ export class GrDiffHost extends GestureEventListeners(
   _layers: DiffLayer[] = [];
 
   private readonly reporting = appContext.reportingService;
+
+  private readonly flags = appContext.flagsService;
 
   /** @override */
   created() {
@@ -1206,6 +1209,10 @@ export class GrDiffHost extends GestureEventListeners(
 
   _showNewlineWarningRight(diff?: DiffInfo) {
     return this._hasTrailingNewlines(diff, false) === false;
+  }
+
+  _useNewContextControls() {
+    return this.flags.isEnabled(KnownExperimentId.NEW_CONTEXT_CONTROLS);
   }
 }
 

@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a8de2c25_b295983b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:08Z",
+      "side": 1,
+      "message": "On one hand, I agree. On the other hand, it\u0027s a bit unfortunate that we have to open up the visibility of some methods of BatchUpdate. I really would not want them to be misused. In the existing change series, I also have not seen that it was necessary to extract this method. Will it be necessary for some changes you have not uploaded yet?",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 11,
+        "endChar": 19
+      },
+      "revId": "33dab0add91e7d393ca763a909f28ec5c15f5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "56363039_2f211778",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 292,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:08Z",
+      "side": 1,
+      "message": "Nit: Is there a reason to use a different order for these arguments than for the execute() in line 290?",
+      "range": {
+        "startLine": 292,
+        "startChar": 40,
+        "endLine": 292,
+        "endChar": 57
+      },
+      "revId": "33dab0add91e7d393ca763a909f28ec5c15f5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7f19798c_902add94",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdate.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 500,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:08Z",
+      "side": 1,
+      "message": "Nit: Unused.",
+      "range": {
+        "startLine": 500,
+        "startChar": 33,
+        "endLine": 500,
+        "endChar": 72
+      },
+      "revId": "33dab0add91e7d393ca763a909f28ec5c15f5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "85d4048b_4384f156",
+        "filename": "java/com/google/gerrit/server/update/MultibatchExecutor.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:15:08Z",
+      "side": 1,
+      "message": "Nit: Could just be forEach().",
+      "range": {
+        "startLine": 84,
+        "startChar": 14,
+        "endLine": 84,
+        "endChar": 30
+      },
+      "revId": "33dab0add91e7d393ca763a909f28ec5c15f5df3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

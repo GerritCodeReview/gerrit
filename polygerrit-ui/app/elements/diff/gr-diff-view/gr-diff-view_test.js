@@ -81,7 +81,9 @@ suite('gr-diff-view tests', () => {
       };
     }
 
+    let clock;
     setup(() => {
+      clock = sinon.useFakeTimers();
       sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
       stub('gr-rest-api-interface', {
         getConfig() {
@@ -126,6 +128,11 @@ suite('gr-diff-view tests', () => {
         findCommentById: _testOnly_findCommentById,
       }));
       return element._loadComments();
+    });
+
+    teardown(() => {
+      clock.restore();
+      sinon.restore();
     });
 
     test('params change triggers diffViewDisplayed()', () => {
@@ -387,6 +394,11 @@ suite('gr-diff-view tests', () => {
       MockInteractions.pressAndReleaseKeyOn(element, 82, 'shift', 'r');
       assert.isFalse(element._setReviewed.called);
       assert.isTrue(element._handleToggleFileReviewed.calledOnce);
+
+      MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
+      assert.isTrue(element._handleToggleFileReviewed.calledOnce);
+
+      clock.tick(1000);
 
       MockInteractions.pressAndReleaseKeyOn(element, 82, null, 'r');
       assert.isTrue(element._handleToggleFileReviewed.calledTwice);

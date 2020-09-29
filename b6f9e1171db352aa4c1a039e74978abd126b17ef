@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c52755d4_06944191",
+        "filename": "plugins/delete-project",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T08:53:37Z",
+      "side": 1,
+      "message": "FYI: I added this update of the submodule. Thus, CI should be satisfied.",
+      "revId": "b6f9e1171db352aa4c1a039e74978abd126b17ef",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

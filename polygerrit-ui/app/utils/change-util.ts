@@ -16,7 +16,7 @@
  */
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
-import {LegacyChangeId, PatchSetNum, ChangeInfo} from '../types/common';
+import {NumericChangeId, PatchSetNum, ChangeInfo} from '../types/common';
 import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 // This can be wrong! See WARNING above
@@ -110,7 +110,7 @@ export function listChangesOptionsToHex(...args: number[]) {
 
 export function changeBaseURL(
   project: string,
-  changeNum: LegacyChangeId,
+  changeNum: NumericChangeId,
   patchNum: PatchSetNum
 ): string {
   let v = `${getBaseUrl()}/changes/${encodeURIComponent(project)}~${changeNum}`;
@@ -120,7 +120,7 @@ export function changeBaseURL(
   return v;
 }
 
-export function changePath(changeNum: LegacyChangeId) {
+export function changePath(changeNum: NumericChangeId) {
   return `${getBaseUrl()}/c/${changeNum}`;
 }
 

@@ -15,8 +15,20 @@
  * limitations under the License.
  */
 
-import {AccountInfo, ChangeInfo, ServerInfo} from '../types/common';
+import {
+  AccountId,
+  AccountInfo,
+  ChangeInfo,
+  EmailAddress,
+  ServerInfo,
+} from '../types/common';
 import {AccountTag} from '../constants/constants';
+
+export function accountKey(account: AccountInfo): AccountId | EmailAddress {
+  if (account._account_id) return account._account_id;
+  if (account.email) return account.email;
+  throw new Error('Account has neither _account_id nor email.');
+}
 
 export function isServiceUser(account?: AccountInfo): boolean {
   return !!account?.tags?.includes(AccountTag.SERVICE_USER);
@@ -31,7 +43,7 @@ export function isAttentionSetEnabled(config: ServerInfo): boolean {
 }
 
 export function canHaveAttention(account: AccountInfo): boolean {
-  return !!account && !isServiceUser(account);
+  return !!account && !!account._account_id && !isServiceUser(account);
 }
 
 export function hasAttention(
@@ -42,6 +54,7 @@ export function hasAttention(
   return (
     isAttentionSetEnabled(config) &&
     canHaveAttention(account) &&
+    !!account._account_id &&
     !!change?.attention_set?.hasOwnProperty(account._account_id)
   );
 }

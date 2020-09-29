@@ -703,26 +703,23 @@ suite('gr-reply-dialog tests', () => {
     assert.isTrue(eraseDraftCommentStub.calledWith(location));
   });
 
-  test('400 converts to human-readable server-error', done => {
+  test('400 converts to human-readable server-error', async () => {
     sinon.stub(window, 'fetch').callsFake(() => {
-      const text = '....{"reviewers":{"id1":{"error":"first error"}},' +
-        '"ccs":{"id2":{"error":"second error"}}}';
+      const text = '....{"reviewers":{"id1":{"error":"human readable"}}}';
       return Promise.resolve(cloneableResponse(400, text));
     });
 
-    element.addEventListener('server-error', event => {
-      if (event.target !== element) {
-        return;
-      }
-      event.detail.response.text().then(body => {
-        assert.equal(body, 'first error, second error');
-        done();
-      });
-    });
+    let resolver;
+    const promise = new Promise(r => resolver = r);
+    element.addEventListener('server-error', resolver);
 
-    // Async tick is needed because iron-selector content is distributed and
-    // distributed content requires an observer to be set up.
-    flush(() => { element.send(); });
+    await flush();
+    element.send();
+
+    const event = await promise;
+    assert.equal(event.target, element);
+    const text = await event.detail.response.text();
+    assert.equal(text, 'human readable');
   });
 
   test('non-json 400 is treated as a normal server-error', done => {
@@ -814,7 +811,7 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('_chooseFocusTarget', () => {
-    element._account = null;
+    element._account = undefined;
     assert.strictEqual(
         element._chooseFocusTarget(), element.FocusTarget.BODY);
 
@@ -883,8 +880,8 @@ suite('gr-reply-dialog tests', () => {
     const removeStub = sinon.stub(element, '_removeAccount');
     const mock = function() {
       element._reviewersPendingRemove = {
-        test: [makeAccount()],
-        test2: [makeAccount(), makeAccount()],
+        CC: [makeAccount()],
+        REVIEWER: [makeAccount(), makeAccount()],
       };
     };
     const checkObjEmpty = function(obj) {
@@ -1031,7 +1028,7 @@ suite('gr-reply-dialog tests', () => {
         [reviewer1, reviewer3, reviewer2]);
   });
 
-  test('migrate reviewers between states', done => {
+  test('migrate reviewers between states', async () => {
     element._reviewersPendingRemove = {
       CC: [],
       REVIEWER: [],
@@ -1096,7 +1093,7 @@ suite('gr-reply-dialog tests', () => {
           composed: true, bubbles: true,
         }));
     const mapReviewer = function(reviewer, opt_state) {
-      const result = {reviewer: reviewer._account_id, confirmed: undefined};
+      const result = {reviewer: reviewer._account_id};
       if (opt_state) {
         result.state = opt_state;
       }
@@ -1104,20 +1101,15 @@ suite('gr-reply-dialog tests', () => {
     };
 
     // Send and purge and verify moves, delete cc3.
-    element.send()
+    await element.send()
         .then(keepReviewers =>
-          element._purgeReviewersPendingRemove(false, keepReviewers))
-        .then(() => {
-          assert.deepEqual(
-              mutations, [
-                mapReviewer(cc1),
-                mapReviewer(cc2),
-                mapReviewer(reviewer1, 'CC'),
-                mapReviewer(reviewer2, 'CC'),
-                {account: cc3, state: 'REMOVED'},
-              ]);
-          done();
-        });
+          element._purgeReviewersPendingRemove(false, keepReviewers));
+    expect(mutations).to.have.lengthOf(5);
+    expect(mutations[0]).to.deep.equal(mapReviewer(cc1));
+    expect(mutations[1]).to.deep.equal(mapReviewer(cc2));
+    expect(mutations[2]).to.deep.equal(mapReviewer(reviewer1, 'CC'));
+    expect(mutations[3]).to.deep.equal(mapReviewer(reviewer2, 'CC'));
+    expect(mutations[4]).to.deep.equal({account: cc3, state: 'REMOVED'});
   });
 
   test('emits cancel on esc key', () => {
@@ -1168,17 +1160,15 @@ suite('gr-reply-dialog tests', () => {
     const text = ')]}\'' + JSON.stringify({
       reviewers: {
         username1: {
-          input: 'user 1',
+          input: 'username1',
           error: error1,
         },
         username2: {
-          input: 'user 2',
+          input: 'username2',
           error: error2,
         },
-      },
-      ccs: {
         username3: {
-          input: 'user 3',
+          input: 'username3',
           error: error3,
         },
       },
@@ -1186,25 +1176,6 @@ suite('gr-reply-dialog tests', () => {
     element.addEventListener('server-error', e => {
       e.detail.response.text().then(text => {
         assert.equal(text, [error1, error2, error3].join(', '));
-        done();
-      });
-    });
-    element._handle400Error(cloneableResponse(400, text));
-  });
-
-  test('_handle400Error CCs only', done => {
-    const error1 = 'error 1';
-    const text = ')]}\'' + JSON.stringify({
-      ccs: {
-        username1: {
-          input: 'user 1',
-          error: error1,
-        },
-      },
-    });
-    element.addEventListener('server-error', e => {
-      e.detail.response.text().then(text => {
-        assert.equal(text, error1);
         done();
       });
     });

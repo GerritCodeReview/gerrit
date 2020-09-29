@@ -39,6 +39,30 @@
       "revId": "551eff76f67569490058f68980a86420fc164164",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7fe7f9aa_61ab93a0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-09-29T09:37:56Z",
+      "side": 1,
+      "message": "I felt it was slightly clearer to have the position indicate the direction (right means down and left means up), but I don\u0027t feel strongly, so I reverted to your preference.",
+      "parentUuid": "f0be183d_5163b499",
+      "range": {
+        "startLine": 319,
+        "startChar": 9,
+        "endLine": 319,
+        "endChar": 18
+      },
+      "revId": "551eff76f67569490058f68980a86420fc164164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

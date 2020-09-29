@@ -70,6 +70,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5cb19b35_8502c413",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-09-29T19:48:03Z",
+      "side": 1,
+      "message": "I am grateful for the knowledge your team has provided by creating these changes, and I understand that you don\u0027t want to spend a ton of time on them since they have already done their job for you. Until proven differently with good data, we may need to consider these to be customizations that were appropriate for you and potentially not appropriate for all. I would not push to get them merged too soon without being confident that they will not hurt others. They are here for others to use if others are having issues with the tip code. If others do use them, they may be able to provide more feedback on them, we plan to.\n\nWe are working on benchmarking the changes in this series and do plan to help get them merged. As we test them, we will provide feedback with performance numbers. I hope that we can help provide a good understanding of the impacts of these changes across many different repository configurations before merging them as they could have downsides. If there are downsides, we want to know them and have them at least documented, and potentially mitigated with switches to turn the features off. It may take a while for us to do this work, as we are running into many issues already before this even (we already are pursing one on the mailing list, the issue about ref creations in jgit being very slow). It may makes sense to work through or around some of those types of issues before these changes can be given a fair evaluation.",
+      "parentUuid": "287b6726_5c3b301e",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

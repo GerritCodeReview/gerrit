@@ -117,6 +117,8 @@ const GO_KEY_TIMEOUT_MS = 1000;
 
 const V_KEY_TIMEOUT_MS = 1000;
 
+const THROTTLE_INTERVAL_MS = 500;
+
 /**
  * Enum for all shortcut sections, where that shortcut should be applied to.
  */
@@ -884,6 +886,20 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
         const desc = shortcutManager.getDescription(section, shortcutName);
         const shortcut = shortcutManager.getShortcut(shortcutName);
         return desc && shortcut ? `${desc} (shortcut: ${shortcut})` : '';
+      }
+
+      _throttleWrap(fn: (e: Event) => void) {
+        let lastCall: number | undefined;
+        return (e: Event) => {
+          if (
+            lastCall !== undefined &&
+            Date.now() - lastCall < THROTTLE_INTERVAL_MS
+          ) {
+            return;
+          }
+          lastCall = Date.now();
+          fn(e);
+        };
       }
 
       _addOwnKeyBindings(shortcut: Shortcut, handler: string) {

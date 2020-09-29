@@ -158,8 +158,8 @@ $_documentContainer.innerHTML = `
     --dark-remove-highlight-color: #ffcdd2;
     --diff-blank-background-color: var(--background-color-secondary);
     --diff-context-control-background-color: #fff7d4;
-    --diff-context-control-border-color: #f6e6a5;
-    --diff-context-control-color: var(--deemphasized-text-color);
+    --diff-context-control-border-color: var(--border-color); /*#f6e6a5;*/
+    --diff-context-control-color: var(--default-button-text-color); /*var(--deemphasized-text-color);*/
     --diff-highlight-range-color: rgba(255, 213, 0, 0.5);
     --diff-highlight-range-hover-color: rgba(255, 255, 0, 0.5);
     --diff-selection-background-color: #c7dbf9;

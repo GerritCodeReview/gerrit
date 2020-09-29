@@ -34,6 +34,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a9a7a52c_8626332b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-09-29T00:26:33Z",
+      "side": 1,
+      "message": "To clarify, I didn\u0027t meant to restrict the large repos to 1 thread permanently, I meant only until there are no other repos to grab slices from. However, I realize that this could still be problematic and that it might be better to institute a cap that is larger then 1 (maybe 3-5) threads per repo during the period when there are still other repos to work on. This would come closer to the random approach but likely a bit better. Particularly for us because we have a bunch of larger repos (likely not just 3). My concern is that randomizing things does not force the large repos to be worked on from the start and thus could delay things more than an approach that ensures that the large repos are worked a certain minimum amount right from the start.",
+      "parentUuid": "70df4309_6d6d0544",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

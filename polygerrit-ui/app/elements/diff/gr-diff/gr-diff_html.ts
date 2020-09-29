@@ -46,9 +46,29 @@ export const htmlTemplate = html`
     }
     table {
       border-collapse: collapse;
-      border-right: 1px solid var(--border-color);
       table-layout: fixed;
     }
+
+    /*
+      Context controls break up the table visually, so we set the right border
+      on individual sections to leave a gap for the divider.
+      */
+    .section {
+      border-right: 1px solid var(--border-color);
+    }
+    .section.contextControl.newStyle {
+      border-right-width: 0;
+    }
+    .contextBackground {
+      border-right: 1px solid var(--border-color);
+    }
+    .contextBackground.above {
+      border-bottom: 1px solid var(--border-color);
+    }
+    .contextBackground.below {
+      border-top: 1px solid var(--border-color);
+    }
+
     .lineNumButton {
       display: block;
       width: 100%;
@@ -210,8 +230,16 @@ export const htmlTemplate = html`
       background-color: var(--diff-context-control-background-color);
       border: 1px solid var(--diff-context-control-border-color);
       color: var(--diff-context-control-color);
+      --divider-height: var(--spacing-s);
+      --divider-border: 1px;
     }
-    .contextControl gr-button {
+    .contextControl.newStyle {
+      background-color: transparent;
+      border: none;
+      /* Change to --diff-context-control-color once only new style exists. */
+      --diff-context-control-color: var(--default-button-text-color);
+    }
+    .contextControl:not(.newStyle) gr-button {
       display: inline-block;
       text-decoration: none;
       vertical-align: top;
@@ -228,6 +256,86 @@ export const htmlTemplate = html`
     }
     .contextControl td:not(.lineNumButton) {
       text-align: center;
+    }
+    .contextBackground > .contextLineNum {
+      background-color: var(--diff-blank-background-color);
+    }
+    .contextBackground > td:not(.contextLineNum) {
+      background-color: var(--view-background-color);
+    }
+    .contextBackground {
+      height: 2em;
+    }
+    .contextDivider {
+      height: var(--divider-height);
+      /* Create a positioning context. */
+      transform: translateX(0px);
+    }
+    .contextDivider.collapsed {
+      /* Hide divider gap, but still show child elements (expansion buttons). */
+      height: 0;
+    }
+    .dividerCell {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+    }
+    .contextControlButton {
+      background-color: var(--default-button-background-color);
+      font: var(--context-control-button-font, inherit);
+      /* All position is relative to container, so ignore sibling buttons. */
+      position: absolute;
+    }
+    .contextControlButton:first-child {
+      /* First button needs to claim width to display without text wrapping. */
+      position: relative;
+    }
+    .centeredButton {
+      /* Center over divider. */
+      top: 50%;
+      transform: translateY(-50%);
+      --gr-button: {
+        color: var(--diff-context-control-color);
+        border: solid var(--border-color);
+        border-width: 1px;
+        border-radius: var(--border-radius);
+        padding: var(--spacing-s) var(--spacing-l);
+      }
+    }
+    .aboveBelowButtons {
+      display: flex;
+      flex-direction: column;
+      margin-left: var(--spacing-m);
+      position: relative;
+    }
+    .aboveBelowButtons:first-child {
+      margin-left: 0;
+    }
+    .aboveButton {
+      /* Display over preceding content / background placeholder. */
+      transform: translateY(-100%);
+      --gr-button: {
+        color: var(--diff-context-control-color);
+        border: solid var(--border-color);
+        border-width: 1px 1px 0 1px;
+        border-radius: var(--border-radius) var(--border-radius) 0 0;
+        padding: var(--spacing-xxs) var(--spacing-l);
+      }
+    }
+    .belowButton {
+      /* Display over following content / background placeholder. */
+      top: calc(100% + var(--divider-border));
+      --gr-button: {
+        color: var(--diff-context-control-color);
+        border: solid var(--border-color);
+        border-width: 0 1px 1px 1px;
+        border-radius: 0 0 var(--border-radius) var(--border-radius);
+        padding: var(--spacing-xxs) var(--spacing-l);
+      }
     }
     .displayLine .diff-row.target-row td {
       box-shadow: inset 0 -1px var(--border-color);
@@ -437,6 +545,7 @@ export const htmlTemplate = html`
           base-image="[[baseImage]]"
           layers="[[layers]]"
           revision-image="[[revisionImage]]"
+          use-new-context-controls="[[useNewContextControls]]"
         >
           <table
             id="diffTable"

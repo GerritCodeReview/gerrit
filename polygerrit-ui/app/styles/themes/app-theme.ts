@@ -127,6 +127,7 @@ $_documentContainer.innerHTML = `
     --font-weight-h1: 400;
     --font-weight-h2: 400;
     --font-weight-h3: 400;
+    --context-control-button-font: var(--font-weight-normal) var(--font-size-normal) var(--font-family);
 
     /* spacing */
     --spacing-xxs: 1px;

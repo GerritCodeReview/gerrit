@@ -261,6 +261,30 @@
     },
     {
       "key": {
+        "uuid": "f5eaa8de_13ee3d0a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 532,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T20:51:32Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e2d913db_1bf91560",
+      "range": {
+        "startLine": 532,
+        "startChar": 10,
+        "endLine": 532,
+        "endChar": 45
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "ce44eb90_b51cb0c8",
         "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
         "patchSetId": 8
@@ -296,6 +320,30 @@
       "side": 1,
       "message": "Still need to take a look into this.",
       "parentUuid": "ce44eb90_b51cb0c8",
+      "range": {
+        "startLine": 728,
+        "startChar": 25,
+        "endLine": 728,
+        "endChar": 70
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae2c057c_a5549feb",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T20:51:32Z",
+      "side": 1,
+      "message": "There are tests for fast-forwards (and are passing). It works fine for us removing this op because the fast-forward-only strategy adds FastForwardOp that moves the mergeTip [1] and generates a ReceiveCommand [2] (which is what we use later to know what was updated).\n\nI wonder why before this was done here and not in in https://source.corp.google.com/piper///depot/google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/submit/FastForwardOnly.java;rcl\u003d334147327;l\u003d35\n\n[1] http://google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/submit/FastForwardOp.java?l\u003d37\u0026rcl\u003d334147327\n\n[2] https://source.corp.google.com/piper///depot/google3/third_party/java_src/gerritcodereview/gerrit/java/com/google/gerrit/server/submit/SubmitStrategyOp.java;rcl\u003d334147327;l\u003d132",
+      "parentUuid": "443ab70e_6998023b",
       "range": {
         "startLine": 728,
         "startChar": 25,

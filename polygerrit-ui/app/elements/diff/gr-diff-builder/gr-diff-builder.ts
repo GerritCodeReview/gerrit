@@ -305,51 +305,60 @@ export abstract class GrDiffBuilder {
     );
   }
 
-  _createContextControl(
-    section: HTMLElement,
-    contextGroups: GrDiffGroup[]
-  ): HTMLElement {
+  _createContextControls(section: HTMLElement, contextGroups: GrDiffGroup[]): {
+    elements: HTMLElement[],
+    hasAbove: boolean,
+    hasBelow: boolean,
+  } {
+    const elements = [];
+
     const leftStart = contextGroups[0].lineRange.left.start!;
     const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
     const numLines = leftEnd - leftStart + 1;
 
     if (numLines === 0) console.error('context group without lines');
 
-    const td = this._createElement('td');
     const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
 
-    if (showPartialLinks && leftStart > 1) {
-      td.appendChild(
-        this._createContextButton(
-          ContextButtonType.ABOVE,
-          section,
-          contextGroups,
-          numLines
-        )
-      );
+    const showAbove = leftStart > 1;
+    const showBelow = leftEnd < this._numLinesLeft;
+
+    const showAllContainer = this._createElement('div', 'commonButtons');
+    elements.push(showAllContainer);
+
+    const showAllButton = this._createContextButton(
+        ContextButtonType.ALL, section, contextGroups, numLines);
+    showAllContainer.appendChild(showAllButton);
+
+    if (showAbove && showBelow) {
+      showAllButton.classList.add('commonButton');
+    } else {
+      if (showAbove) {
+        showAllButton.classList.add('aboveButton');
+      }
+      if (showBelow) {
+        showAllButton.classList.add('belowButton');
+      }
     }
 
-    td.appendChild(
-      this._createContextButton(
-        ContextButtonType.ALL,
-        section,
-        contextGroups,
-        numLines
-      )
-    );
-
-    if (showPartialLinks && leftEnd < this._numLinesLeft) {
-      td.appendChild(
-        this._createContextButton(
-          ContextButtonType.BELOW,
-          section,
-          contextGroups,
-          numLines
-        )
-      );
+    if (showPartialLinks) {
+      const container = this._createElement('div', 'aboveBelowButtons');
+      if (showAbove) {
+        container.appendChild(this._createContextButton(
+            ContextButtonType.ABOVE, section, contextGroups, numLines));
+      }
+      if (showBelow) {
+        container.appendChild(this._createContextButton(
+            ContextButtonType.BELOW, section, contextGroups, numLines));
+      }
+      elements.push(container);
     }
 
-    return td;
+    return {
+      elements,
+      hasAbove: showAbove,
+      hasBelow: showBelow,
+    };
   }
 
   _createContextButton(
@@ -359,28 +368,27 @@ export abstract class GrDiffBuilder {
     numLines: number
   ) {
     const context = PARTIAL_CONTEXT_AMOUNT;
-    const button = this._createElement('gr-button', 'showContext');
+    const button =
+        this._createElement('gr-button', 'showContext contextControlButton');
     button.setAttribute('link', 'true');
     button.setAttribute('no-uppercase', 'true');
 
     let text = '';
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      const icon = this._createElement('iron-icon', 'showContext');
-      icon.setAttribute('icon', 'gr-icons:unfold-more');
-      button.appendChild(icon);
-
-      text = `Show ${numLines} common line`;
+      text = `+${numLines} common line`;
       if (numLines > 1) {
         text += 's';
       }
       groups.push(...contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = `+${context} above`;
+      text = `+${context}`;
       groups = hideInContextControl(contextGroups, context, numLines);
+      button.classList.add('aboveButton');
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = `+${context} below`;
+      text = `+${context}`;
       groups = hideInContextControl(contextGroups, 0, numLines - context);
+      button.classList.add('belowButton');
     }
     const textSpan = this._createElement('span', 'showContext');
     textSpan.textContent = text;

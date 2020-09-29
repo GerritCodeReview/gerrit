@@ -26,10 +26,16 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
+import {accountKey} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {AccountInfo, ChangeInfo, ServerInfo} from '../../../types/common';
+import {
+  AccountInfo,
+  ChangeInfo,
+  ServerInfo,
+  ReviewInput,
+} from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {
   canHaveAttention,
@@ -38,6 +44,12 @@ import {
   hasAttention,
   isAttentionSetEnabled,
 } from '../../../utils/attention-set-util';
+import {ReviewerState} from '../../../constants/constants';
+import {
+  computeLatestPatchNum,
+  computeAllPatchSets,
+} from '../../../utils/patch-set-util';
+import {isRemovableReviewer} from '../../../utils/change-util';
 
 export interface GrHovercardAccount {
   $: {
@@ -125,6 +137,97 @@ export class GrHovercardAccount extends GestureEventListeners(
 
   _computeLastUpdate(change?: ChangeInfo) {
     return getLastUpdate(this.account, change);
+  }
+
+  _showReviewerOrCCActions(account?: AccountInfo, change?: ChangeInfo) {
+    return !!this._selfAccount && isRemovableReviewer(change, account);
+  }
+
+  _getReviewerState(account: AccountInfo, change: ChangeInfo) {
+    if (
+      change.reviewers[ReviewerState.REVIEWER]?.some(
+        (reviewer: AccountInfo) => {
+          return reviewer._account_id === account._account_id;
+        }
+      )
+    ) {
+      return ReviewerState.REVIEWER;
+    }
+    return ReviewerState.CC;
+  }
+
+  _computeReviewerOrCCText(account: AccountInfo, change?: ChangeInfo) {
+    if (!change) return '';
+    return this._getReviewerState(account, change) === ReviewerState.REVIEWER
+      ? 'Reviewer'
+      : 'CC';
+  }
+
+  _computeChangeReviewerOrCCText(account: AccountInfo, change?: ChangeInfo) {
+    if (!change) return '';
+    return this._getReviewerState(account, change) === ReviewerState.REVIEWER
+      ? 'Move Reviewer to CC'
+      : 'Move CC to Reviewer';
+  }
+
+  _handleChangeReviewerOrCCStatus() {
+    if (!this.change) throw new Error('expected change object to be present');
+    // accountKey() throws an error if _account_id & email is not found, which
+    // we want to check before showing reloading toast
+    const _accountKey = accountKey(this.account);
+    this.dispatchEventThroughTarget('show-alert', {
+      detail: {
+        message: 'Reloading page...',
+      },
+    });
+    const reviewInput: Partial<ReviewInput> = {};
+    reviewInput.reviewers = [
+      {
+        reviewer: _accountKey,
+        state:
+          this._getReviewerState(this.account, this.change) === ReviewerState.CC
+            ? ReviewerState.REVIEWER
+            : ReviewerState.CC,
+      },
+    ];
+
+    this.$.restAPI
+      .saveChangeReview(
+        this.change._number,
+        computeLatestPatchNum(computeAllPatchSets(this.change!))!,
+        reviewInput
+      )
+      .then(response => {
+        if (!response || !response.ok) {
+          throw new Error(
+            'something went wrong when toggling' +
+              this._getReviewerState(this.account, this.change!)
+          );
+        }
+        this.dispatchEventThroughTarget('reload', {clearPatchset: true});
+      });
+  }
+
+  _handleRemoveReviewerOrCC() {
+    if (!this.change || !(this.account?._account_id || this.account?.email))
+      return;
+    this.dispatchEventThroughTarget('show-alert', {
+      detail: {
+        message: 'Reloading page...',
+      },
+    });
+    this.$.restAPI
+      .removeChangeReviewer(
+        this.change._number,
+        (this.account?._account_id || this.account?.email)!
+      )
+      .then((response: Response | undefined) => {
+        if (!response || !response.ok) {
+          throw new Error('something went wrong when removing user');
+        }
+        this.dispatchEventThroughTarget('reload', {clearPatchset: true});
+        return response;
+      });
   }
 
   _computeShowLabelNeedsAttention() {

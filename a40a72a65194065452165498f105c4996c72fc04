@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a2f5a774_49bf0a45",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T19:59:21Z",
+      "side": 1,
+      "message": "Finalise?",
+      "range": {
+        "startLine": 71,
+        "startChar": 3,
+        "endLine": 71,
+        "endChar": 13
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "469aa0fa_fe90a745",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T19:59:21Z",
+      "side": 1,
+      "message": "Submit",
+      "range": {
+        "startLine": 323,
+        "startChar": 4,
+        "endLine": 323,
+        "endChar": 12
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2ac33ca9_221cfdab",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 325,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-29T19:59:21Z",
+      "side": 1,
+      "message": "Submit",
+      "range": {
+        "startLine": 325,
+        "startChar": 0,
+        "endLine": 325,
+        "endChar": 8
+      },
+      "revId": "a40a72a65194065452165498f105c4996c72fc04",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

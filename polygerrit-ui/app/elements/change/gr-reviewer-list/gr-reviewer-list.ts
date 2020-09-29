@@ -39,6 +39,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {canRemoveReviewer} from '../../../utils/change-util';
 
 export interface GrReviewerList {
   $: {
@@ -251,25 +252,7 @@ export class GrReviewerList extends GestureEventListeners(
   }
 
   _computeCanRemoveReviewer(reviewer: AccountInfo, mutable: boolean) {
-    if (
-      !mutable ||
-      this.change === undefined ||
-      this.change.removable_reviewers === undefined
-    ) {
-      return false;
-    }
-
-    let current;
-    for (let i = 0; i < this.change.removable_reviewers.length; i++) {
-      current = this.change.removable_reviewers[i];
-      if (
-        current._account_id === reviewer._account_id ||
-        (!reviewer._account_id && current.email === reviewer.email)
-      ) {
-        return true;
-      }
-    }
-    return false;
+    return canRemoveReviewer(mutable, this.change, reviewer);
   }
 
   _handleRemove(e: Event) {

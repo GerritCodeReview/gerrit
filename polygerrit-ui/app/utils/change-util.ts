@@ -16,7 +16,12 @@
  */
 import {getBaseUrl} from './url-util';
 import {ChangeStatus} from '../constants/constants';
-import {NumericChangeId, PatchSetNum, ChangeInfo} from '../types/common';
+import {
+  NumericChangeId,
+  PatchSetNum,
+  ChangeInfo,
+  AccountInfo,
+} from '../types/common';
 import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 // This can be wrong! See WARNING above
@@ -169,4 +174,24 @@ export function changeStatuses(
 
 export function changeStatusString(change: ChangeInfo) {
   return changeStatuses(change).join(', ');
+}
+
+export function canRemoveReviewer(
+  mutable: boolean,
+  change?: ChangeInfo,
+  reviewer?: AccountInfo
+): boolean {
+  if (
+    !mutable ||
+    change === undefined ||
+    reviewer === undefined ||
+    change.removable_reviewers === undefined
+  ) {
+    return false;
+  }
+  return change.removable_reviewers.some(
+    account =>
+      account._account_id === reviewer._account_id ||
+      (!reviewer._account_id && account.email === reviewer.email)
+  );
 }

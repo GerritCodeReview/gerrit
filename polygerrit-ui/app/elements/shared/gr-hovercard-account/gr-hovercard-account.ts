@@ -26,13 +26,24 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
-import {isServiceUser} from '../../../utils/account-util';
+import {isServiceUser, accountKey} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {AccountInfo, ChangeInfo, ServerInfo} from '../../../types/common';
+import {
+  AccountInfo,
+  ChangeInfo,
+  ServerInfo,
+  ReviewInput,
+} from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {ReviewerState} from '../../../constants/constants';
+import {
+  computeLatestPatchNum,
+  computeAllPatchSets,
+} from '../../../utils/patch-set-util';
+import {canRemoveReviewer} from '../../../utils/change-util';
 
 export interface GrHovercardAccount {
   $: {
@@ -139,6 +150,83 @@ export class GrHovercardAccount extends GestureEventListeners(
     const entry = change.attention_set[this.account._account_id];
     if (!entry || !entry.last_update) return '';
     return entry.last_update;
+  }
+
+  _showReviewerOrCCActions(account: AccountInfo, change: ChangeInfo) {
+    return canRemoveReviewer(!!Object.keys(account).length, change, account);
+  }
+
+  _getReviewerState(account: AccountInfo, change: ChangeInfo) {
+    if (
+      change.reviewers[ReviewerState.REVIEWER]?.some(
+        (reviewer: AccountInfo) => {
+          return reviewer._account_id === account._account_id;
+        }
+      )
+    ) {
+      return ReviewerState.REVIEWER;
+    }
+    return ReviewerState.CC;
+  }
+
+  _computeReviewerOrCCText(account: AccountInfo, change: ChangeInfo) {
+    if (!change) return '';
+    return this._getReviewerState(account, change) === ReviewerState.REVIEWER
+      ? 'Reviewer'
+      : 'CC';
+  }
+
+  _computeChangeReviewerOrCCText(account: AccountInfo, change: ChangeInfo) {
+    if (!change) return '';
+    return this._getReviewerState(account, change) === ReviewerState.REVIEWER
+      ? 'Move Reviewer to CC'
+      : 'Move CC to Reviewer';
+  }
+
+  _handleChangeReviewerOrCCStatus() {
+    if (!this.change) {
+      throw new Error('expected change object to be present');
+    }
+    if (!this.account?._account_id) {
+      throw new Error('no account id found');
+    }
+    const reviewInput: Partial<ReviewInput> = {};
+    reviewInput.reviewers = [
+      {
+        reviewer: accountKey(this.account),
+        state: this._getReviewerState(this.account, this.change),
+      },
+    ];
+
+    this.$.restAPI
+      .saveChangeReview(
+        this.change!._number,
+        computeLatestPatchNum(computeAllPatchSets(this.change!))!,
+        reviewInput
+      )
+      .then(response => {
+        if (!response || !response.ok) {
+          throw new Error('something went wrong when removing user');
+        }
+        this.dispatchEventThroughTarget('reload', {clearPatchset: true});
+      });
+  }
+
+  _handleRemoveReviewerOrCC() {
+    if (!this.change || !this.account?._account_id) return;
+    this.$.restAPI
+      .removeChangeReviewer(this.change._number, this.account._account_id)
+      .then((response: Response | undefined) => {
+        if (!response || !response.ok) {
+          throw new Error('something went wrong when removing user');
+        }
+        this.dispatchEventThroughTarget('reload', {clearPatchset: true});
+        return response;
+      })
+      .catch((err: Error) => {
+        console.error(err);
+        throw err;
+      });
   }
 
   _computeShowLabelNeedsAttention() {

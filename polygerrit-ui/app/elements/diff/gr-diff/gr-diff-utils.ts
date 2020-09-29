@@ -51,3 +51,15 @@ export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   const lineNumber = Number(lineNumberStr);
   return Number.isInteger(lineNumber) ? lineNumber : null;
 }
+
+const LOADING_SENTINEL_CLASS = 'loading-sentinel';
+
+export function createLoadingSentinel(): HTMLElement {
+  const loadingSentinel = document.createElement('span');
+  loadingSentinel.classList.add(LOADING_SENTINEL_CLASS);
+  return loadingSentinel;
+}
+
+export function isLoadingSentinel(stop: HTMLElement): boolean {
+  return stop.classList.contains(LOADING_SENTINEL_CLASS);
+}

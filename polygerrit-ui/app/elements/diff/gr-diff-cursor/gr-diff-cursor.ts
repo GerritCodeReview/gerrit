@@ -28,7 +28,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-cursor_html';
 import {ScrollMode} from '../../../constants/constants';
 import {customElement, property, observe} from '@polymer/decorators';
-import {DiffSide} from '../gr-diff/gr-diff-utils';
+import {DiffSide, isLoadingSentinel} from '../gr-diff/gr-diff-utils';
 import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
@@ -177,21 +177,21 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.next({
+      this.next({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      this.$.cursorManager.next();
+      this.next();
     }
   }
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.previous({
+      this.previous({
         filter: (row: Element) => this._rowHasSide(row),
       });
     } else {
-      this.$.cursorManager.previous();
+      this.previous();
     }
   }
 
@@ -206,7 +206,7 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveToNextChunk(clipToTop?: boolean, navigateToNextFile?: boolean) {
-    const result = this.$.cursorManager.next({
+    const result = this.next({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
       getTargetHeight: target =>
         (target?.parentNode as HTMLElement)?.scrollHeight || 0,
@@ -252,24 +252,46 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveToPreviousChunk() {
-    this.$.cursorManager.previous({
+    this.previous({
       filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
     });
     this._fixSide();
   }
 
   moveToNextCommentThread() {
-    this.$.cursorManager.next({
+    this.next({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
   }
 
   moveToPreviousCommentThread() {
-    this.$.cursorManager.previous({
+    this.previous({
       filter: (row: HTMLElement) => this._rowHasThread(row),
     });
     this._fixSide();
+  }
+
+  private next(
+    options: {
+      filter?: (stop: HTMLElement) => boolean;
+      getTargetHeight?: (target: HTMLElement) => number;
+      clipToTop?: boolean;
+    } = {}
+  ): CursorMoveResult {
+    return this.$.cursorManager.next({
+      ...options,
+      abort: isLoadingSentinel,
+    });
+  }
+
+  private previous(
+    options: {filter?: (stop: HTMLElement) => boolean} = {}
+  ): CursorMoveResult {
+    return this.$.cursorManager.previous({
+      ...options,
+      abort: isLoadingSentinel,
+    });
   }
 
   moveToLineNumber(number: number, side: DiffSide, path?: string) {

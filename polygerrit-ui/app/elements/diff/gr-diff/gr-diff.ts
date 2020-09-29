@@ -27,7 +27,12 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {htmlTemplate} from './gr-diff_html';
 import {FILE, LineNumber} from './gr-diff-line';
-import {DiffSide, getLineNumber, rangesEqual} from './gr-diff-utils';
+import {
+  DiffSide,
+  getLineNumber,
+  rangesEqual,
+  createLoadingSentinel,
+} from './gr-diff-utils';
 import {getHiddenScroll} from '../../../scripts/hiddenscroll';
 import {isMergeParent, patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement, observe, property} from '@polymer/decorators';
@@ -460,11 +465,14 @@ export class GrDiff extends GestureEventListeners(
 
   getCursorStops() {
     if (this.hidden && this.noAutoRender) return [];
-    if (!this.root) return [];
-
-    return Array.from(
-      this.root.querySelectorAll(':not(.contextControl) > .diff-row')
+    const stops = Array.from(
+      this.root?.querySelectorAll(':not(.contextControl) > .diff-row') || []
     ).filter(tr => tr.querySelector('button'));
+
+    if (stops.length === 0) {
+      return [createLoadingSentinel()];
+    }
+    return stops;
   }
 
   isRangeSelected() {

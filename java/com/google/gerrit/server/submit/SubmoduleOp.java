@@ -15,7 +15,6 @@
 package com.google.gerrit.server.submit;
 
 import com.google.common.collect.ImmutableSet;
-import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.exceptions.StorageException;
@@ -68,11 +67,6 @@ public class SubmoduleOp {
     this.subscriptionGraph = subscriptionGraph;
     this.submoduleCommits = submoduleCommits;
     this.updateOrderCalculator = new UpdateOrderCalculator(subscriptionGraph);
-  }
-
-  @UsedAt(UsedAt.Project.PLUGIN_DELETE_PROJECT)
-  public boolean hasSuperproject(BranchNameKey branch) {
-    return subscriptionGraph.hasSuperproject(branch);
   }
 
   public void updateSuperProjects() throws RestApiException {

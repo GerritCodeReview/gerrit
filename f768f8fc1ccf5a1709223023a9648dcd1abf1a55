@@ -52,6 +52,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "287b6726_5c3b301e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-29T07:42:28Z",
+      "side": 1,
+      "message": "Randomizing worked for our two sites since the large repositories produce a lot of slices so that they had slices being processed all the time during the complete migration. I don\u0027t have a lot of time to further improve notedb migration and it works for our sites, hence I propose to accept this change as an improvement. Further improvements potentially replacing randomizing slices can be implemented in follow-up changes.",
+      "parentUuid": "a9a7a52c_8626332b",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

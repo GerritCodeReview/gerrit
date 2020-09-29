@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "a33f0a99_6633736a",
+        "filename": "java/com/google/gerrit/server/submit/MergeOpRepoManager.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T20:10:59Z",
+      "side": 1,
+      "message": "Adding the wasExecuted check in https://gerrit-review.googlesource.com/c/gerrit/+/282838/1",
+      "parentUuid": "5912fc5b_b49a62f0",
+      "range": {
+        "startLine": 123,
+        "startChar": 16,
+        "endLine": 123,
+        "endChar": 27
+      },
+      "revId": "25ab51e425a0e448aab5590051be7c4c0b21fa63",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f765ee6_1df2948c",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 8

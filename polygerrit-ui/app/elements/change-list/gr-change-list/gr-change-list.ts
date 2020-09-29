@@ -40,7 +40,7 @@ import {
 } from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
-import {changeIsOpen} from '../../../utils/change-util';
+import {changeIsOpen, isOwner} from '../../../utils/change-util';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
@@ -50,6 +50,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
+import {hasAttention, isAttentionSetEnabled} from '../../../utils/account-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -339,17 +340,19 @@ export class GrChangeList extends ChangeTableMixin(
     );
   }
 
-  _computeItemHighlight(account?: AccountInfo, change?: ChangeInfo) {
-    // Do not show the assignee highlight if the change is not open.
-    if (
-      !change ||
-      !change.assignee ||
-      !account ||
-      CLOSED_STATUS.indexOf(change.status) !== -1
-    ) {
-      return false;
-    }
-    return account._account_id === change.assignee._account_id;
+  _computeItemHighlight(
+    account?: AccountInfo,
+    change?: ChangeInfo,
+    config?: ServerInfo,
+    sectionName?: string
+  ) {
+    if (!change || !account) return false;
+    if (CLOSED_STATUS.indexOf(change.status) !== -1) return false;
+    return isAttentionSetEnabled(config)
+      ? hasAttention(config, account, change) &&
+          !isOwner(change, account) &&
+          sectionName === 'Your Turn'
+      : account._account_id === change.assignee?._account_id;
   }
 
   _nextChange(e: CustomKeyboardEvent) {

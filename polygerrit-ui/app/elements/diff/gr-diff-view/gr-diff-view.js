@@ -280,7 +280,7 @@ class GrDiffView extends KeyboardShortcutMixin(
       [Shortcut.UP_TO_CHANGE]: '_handleUpToChange',
       [Shortcut.OPEN_DIFF_PREFS]: '_handleCommaKey',
       [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
-      [Shortcut.TOGGLE_FILE_REVIEWED]: '_handleToggleFileReviewed',
+      [Shortcut.TOGGLE_FILE_REVIEWED]: '_throttledToggleFileReviewed',
       [Shortcut.EXPAND_ALL_DIFF_CONTEXT]: '_handleExpandAllDiffContext',
       [Shortcut.NEXT_UNREVIEWED_FILE]: '_handleNextUnreviewedFile',
       [Shortcut.TOGGLE_BLAME]: '_handleToggleBlame',
@@ -304,6 +304,12 @@ class GrDiffView extends KeyboardShortcutMixin(
     super();
     this.reporting = appContext.reportingService;
     this.flagsService = appContext.flagsService;
+  }
+
+  connectedCallback() {
+    super.connectedCallback();
+    this._throttledToggleFileReviewed = this._throttleWrap(e =>
+      this._handleToggleFileReviewed(e));
   }
 
   /** @override */

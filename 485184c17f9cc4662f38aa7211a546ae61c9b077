@@ -16,6 +16,24 @@
       "revId": "485184c17f9cc4662f38aa7211a546ae61c9b077",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "474aff70_6d5014a9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view_test.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 84,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T12:29:08Z",
+      "side": 1,
+      "message": "I wanted it next to the setup since it\u0027s the one initialising it.\nUpdated.",
+      "parentUuid": "92a7b169_25293e16",
+      "revId": "485184c17f9cc4662f38aa7211a546ae61c9b077",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

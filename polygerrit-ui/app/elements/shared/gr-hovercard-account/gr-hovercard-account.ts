@@ -26,13 +26,27 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
-import {isServiceUser} from '../../../utils/account-util';
+import {
+  isServiceUser,
+  canRemoveReviewer,
+  accountKey,
+} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {AccountInfo, ChangeInfo, ServerInfo} from '../../../types/common';
+import {
+  AccountInfo,
+  ChangeInfo,
+  ServerInfo,
+  ReviewInput,
+} from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {ReviewerState} from '../../../constants/constants';
+import {
+  computeLatestPatchNum,
+  computeAllPatchSets,
+} from '../../../utils/patch-set-util';
 
 export interface GrHovercardAccount {
   $: {
@@ -139,6 +153,98 @@ export class GrHovercardAccount extends GestureEventListeners(
     const entry = change.attention_set[this.account._account_id];
     if (!entry || !entry.last_update) return '';
     return entry.last_update;
+  }
+
+  _computeShowRemoveReviewerOrCC(account: AccountInfo, change: ChangeInfo) {
+    return canRemoveReviewer(!!Object.keys(account).length, change, account);
+  }
+
+  _isReviewerOrCC(account: AccountInfo, change: ChangeInfo) {
+    if (
+      change.reviewers[ReviewerState.REVIEWER]?.some(
+        (reviewer: AccountInfo) => {
+          return reviewer._account_id === account._account_id;
+        }
+      )
+    ) {
+      return ReviewerState.REVIEWER;
+    }
+    return ReviewerState.CC;
+  }
+
+  _computeReviewerOrCCText(account: AccountInfo, change: ChangeInfo) {
+    if (!change) return '';
+    return this._isReviewerOrCC(account, change) === ReviewerState.REVIEWER
+      ? 'Reviewer'
+      : 'CC';
+  }
+
+  _computeChangeReviewerOrCCText(account: AccountInfo, change: ChangeInfo) {
+    if (!change) return '';
+    return this._isReviewerOrCC(account, change) === ReviewerState.REVIEWER
+      ? 'Move Reviewer to CC'
+      : 'Move CC to Reviewer';
+  }
+
+  _handleChangeReviewerOrCCStatus() {
+    if (!this.change || !this.account?._account_id) return;
+    const reviewInput: ReviewInput = {};
+    reviewInput.reviewers = [
+      {
+        reviewer: accountKey(this.account),
+      },
+    ];
+    if (
+      this._isReviewerOrCC(this.account, this.change) === ReviewerState.REVIEWER
+    ) {
+      reviewInput.reviewers[0].state = ReviewerState.CC;
+    }
+    this.$.restAPI
+      .removeChangeReviewer(this.change._number, this.account._account_id)
+      .then((response: Response | undefined) => {
+        if (!response || !response.ok) {
+          this.dispatchEventThroughTarget('show-alert', {
+            message: 'something went wrong when removing user',
+          });
+          return;
+        }
+        this.$.restAPI
+          .saveChangeReview(
+            this.change!._number,
+            computeLatestPatchNum(computeAllPatchSets(this.change!))!,
+            reviewInput
+          )
+          .then(response => {
+            if (!response || !response.ok) {
+              this.dispatchEventThroughTarget('show-alert', {
+                message: 'something went wrong when removing user',
+              });
+              return;
+            }
+            this.dispatchEventThroughTarget('reload', {clearPatchset: true});
+          });
+      });
+  }
+
+  _handleRemoveReviewerOrCC(): Promise<Response | undefined> {
+    if (!this.change || !this.account?._account_id)
+      return Promise.resolve(undefined);
+    return this.$.restAPI
+      .removeChangeReviewer(this.change._number, this.account._account_id)
+      .then((response: Response | undefined) => {
+        if (!response || !response.ok) {
+          this.dispatchEventThroughTarget('show-alert', {
+            message: 'something went wrong when removing user',
+          });
+          return;
+        }
+        this.dispatchEventThroughTarget('reload', {clearPatchset: true});
+        return response;
+      })
+      .catch((err: Error) => {
+        console.error(err);
+        throw err;
+      });
   }
 
   _computeShowLabelNeedsAttention() {

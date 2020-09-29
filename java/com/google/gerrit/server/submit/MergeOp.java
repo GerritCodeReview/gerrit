@@ -24,6 +24,7 @@ import com.github.rholder.retry.Attempt;
 import com.github.rholder.retry.RetryListener;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Joiner;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
@@ -629,7 +630,7 @@ public class MergeOp implements AutoCloseable {
       try {
         BatchUpdate.execute(
             batchUpdates,
-            new SubmitStrategyListener(submitInput, strategies, commitStatus),
+            ImmutableList.of(new SubmitStrategyListener(submitInput, strategies, commitStatus)),
             dryrun);
       } finally {
         // If the BatchUpdate fails it can be that merging some of the changes was actually

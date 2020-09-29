@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.logging.TraceContext.newTimer;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
@@ -96,7 +97,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
-  private BatchUpdateListener batchUpdateListener;
+  private ImmutableList<BatchUpdateListener> batchUpdateListeners;
 
   @Inject
   NoteDbUpdateManager(
@@ -120,7 +121,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     changesToDelete = new HashSet<>();
-    batchUpdateListener = BatchUpdateListener.NONE;
+    batchUpdateListeners = ImmutableList.of();
   }
 
   @Override
@@ -176,9 +177,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return this;
   }
 
-  public NoteDbUpdateManager setBatchUpdateListener(BatchUpdateListener batchUpdateListener) {
-    checkNotNull(batchUpdateListener);
-    this.batchUpdateListener = batchUpdateListener;
+  public NoteDbUpdateManager setBatchUpdateListeners(
+      ImmutableList<BatchUpdateListener> batchUpdateListeners) {
+    checkNotNull(batchUpdateListeners);
+    this.batchUpdateListeners = batchUpdateListeners;
     return this;
   }
 
@@ -368,7 +370,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setAtomic(true);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
-    bru = this.batchUpdateListener.beforeUpdateRefs(bru);
+    for (BatchUpdateListener listener : batchUpdateListeners) {
+      bru = listener.beforeUpdateRefs(bru);
+    }
 
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);

@@ -124,9 +124,9 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public static void execute(
-      Collection<BatchUpdate> updates, BatchUpdateListener listener, boolean dryrun)
+      Collection<BatchUpdate> updates, ImmutableList<BatchUpdateListener> listeners, boolean dryrun)
       throws UpdateException, RestApiException {
-    requireNonNull(listener);
+    requireNonNull(listeners);
     if (updates.isEmpty()) {
       return;
     }
@@ -140,16 +140,16 @@ public class BatchUpdate implements AutoCloseable {
         for (BatchUpdate u : updates) {
           u.executeUpdateRepo();
         }
-        listener.afterUpdateRepos();
+        notifyAfterUpdateRepo(listeners);
         for (BatchUpdate u : updates) {
-          changesHandles.add(u.executeChangeOps(listener, dryrun));
+          changesHandles.add(u.executeChangeOps(listeners, dryrun));
         }
         for (ChangesHandle h : changesHandles) {
           h.execute();
           indexFutures.addAll(h.startIndexFutures());
         }
-        listener.afterUpdateRefs();
-        listener.afterUpdateChanges();
+        notifyAfterUpdateRefs(listeners);
+        notifyAfterUpdateChanges(listeners);
       } finally {
         for (ChangesHandle h : changesHandles) {
           h.close();
@@ -170,6 +170,27 @@ public class BatchUpdate implements AutoCloseable {
       }
     } catch (Exception e) {
       wrapAndThrowException(e);
+    }
+  }
+
+  private static void notifyAfterUpdateRepo(ImmutableList<BatchUpdateListener> listeners)
+      throws Exception {
+    for (BatchUpdateListener listener : listeners) {
+      listener.afterUpdateRepos();
+    }
+  }
+
+  private static void notifyAfterUpdateRefs(ImmutableList<BatchUpdateListener> listeners)
+      throws Exception {
+    for (BatchUpdateListener listener : listeners) {
+      listener.afterUpdateRefs();
+    }
+  }
+
+  private static void notifyAfterUpdateChanges(ImmutableList<BatchUpdateListener> listeners)
+      throws Exception {
+    for (BatchUpdateListener listener : listeners) {
+      listener.afterUpdateChanges();
     }
   }
 
@@ -383,11 +404,11 @@ public class BatchUpdate implements AutoCloseable {
   }
 
   public void execute(BatchUpdateListener listener) throws UpdateException, RestApiException {
-    execute(ImmutableList.of(this), listener, false);
+    execute(ImmutableList.of(this), ImmutableList.of(listener), false);
   }
 
   public void execute() throws UpdateException, RestApiException {
-    execute(BatchUpdateListener.NONE);
+    execute(ImmutableList.of(this), ImmutableList.of(), false);
   }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
@@ -583,8 +604,8 @@ public class BatchUpdate implements AutoCloseable {
     }
   }
 
-  private ChangesHandle executeChangeOps(BatchUpdateListener batchUpdateListener, boolean dryrun)
-      throws Exception {
+  private ChangesHandle executeChangeOps(
+      ImmutableList<BatchUpdateListener> batchUpdateListeners, boolean dryrun) throws Exception {
     logDebug("Executing change ops");
     initRepository();
     Repository repo = repoView.getRepository();
@@ -597,7 +618,7 @@ public class BatchUpdate implements AutoCloseable {
         new ChangesHandle(
             updateManagerFactory
                 .create(project)
-                .setBatchUpdateListener(batchUpdateListener)
+                .setBatchUpdateListeners(batchUpdateListeners)
                 .setChangeRepo(
                     repo, repoView.getRevWalk(), repoView.getInserter(), repoView.getCommands()),
             dryrun);

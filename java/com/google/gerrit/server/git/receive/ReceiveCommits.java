@@ -719,6 +719,7 @@ class ReceiveCommits {
         parseRegularCommand(cmd);
       }
 
+      Map<BranchNameKey, ReceiveCommand> branches;
       try (BatchUpdate bu =
               batchUpdateFactory.create(
                   project.getNameKey(), user.materializedCopy(), TimeUtil.nowTs());
@@ -737,34 +738,33 @@ class ReceiveCommits {
         }
         logger.atFine().log("Added %d additional ref updates", added);
         bu.execute();
+        branches = bu.getSuccessfullyUpdatedBranches(/* dryrun=*/ false);
       } catch (UpdateException | RestApiException e) {
         throw new StorageException(e);
       }
 
-      Set<BranchNameKey> branches = new HashSet<>();
-      for (ReceiveCommand c : cmds) {
-        // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps that
-        // should happen in this loops are things that can't happen within one BatchUpdate because
-        // they involve kicking off an additional BatchUpdate.
-        if (c.getResult() != OK) {
-          continue;
-        }
-        if (isHead(c) || isConfig(c)) {
-          switch (c.getType()) {
-            case CREATE:
-            case UPDATE:
-            case UPDATE_NONFASTFORWARD:
-              Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
-              autoCloseChanges(c, closeProgress);
-              closeProgress.end();
-              branches.add(BranchNameKey.create(project.getNameKey(), c.getRefName()));
-              break;
+      branches.values().stream()
+          .filter(c -> isHead(c) || isConfig(c))
+          .forEach(
+              c -> {
+                // Most post-update steps should happen in UpdateOneRefOp#postUpdate. The only steps
+                // that
+                // should happen in this loops are things that can't happen within one BatchUpdate
+                // because
+                // they involve kicking off an additional BatchUpdate.
+                switch (c.getType()) {
+                  case CREATE:
+                  case UPDATE:
+                  case UPDATE_NONFASTFORWARD:
+                    Task closeProgress = progress.beginSubTask("closed", UNKNOWN);
+                    autoCloseChanges(c, closeProgress);
+                    closeProgress.end();
+                    break;
 
-            case DELETE:
-              break;
-          }
-        }
-      }
+                  case DELETE:
+                    break;
+                }
+              });
 
       // Update superproject gitlinks if required.
       if (!branches.isEmpty()) {

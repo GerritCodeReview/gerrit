@@ -224,17 +224,18 @@ suite('gr-diff-cursor tests', () => {
   });
 
   test('navigate to next unreviewed file via moveToNextChunk', () => {
-    const cursor = cursorElement.shadowRoot.querySelector('#cursorManager');
-    cursor.index = cursor.stops.length - 1;
-    const dispatchEventStub = sinon.stub(cursor, 'dispatchEvent');
+    const cursorManager =
+        cursorElement.shadowRoot.querySelector('#cursorManager');
+    cursorManager.index = cursorManager.stops.length - 1;
+    const dispatchEventStub = sinon.stub(cursorElement, 'dispatchEvent');
     cursorElement.moveToNextChunk(/* opt_clipToTop = */false,
         /* opt_navigateToNextFile = */true);
     assert.isTrue(dispatchEventStub.called);
-    assert.equal(dispatchEventStub.getCall(0).args[0].type, 'show-alert');
+    assert.equal(dispatchEventStub.getCall(1).args[0].type, 'show-alert');
 
     cursorElement.moveToNextChunk(/* opt_clipToTop = */false,
         /* opt_navigateToNextFile = */true);
-    assert.equal(dispatchEventStub.getCall(1).args[0].type,
+    assert.equal(dispatchEventStub.getCall(2).args[0].type,
         'navigate-to-next-unreviewed-file');
   });
 

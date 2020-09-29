@@ -16,7 +16,10 @@
  */
 
 import '../../shared/gr-cursor-manager/gr-cursor-manager';
-import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {
+  CursorMoveResult,
+  GrCursorManager,
+} from '../../shared/gr-cursor-manager/gr-cursor-manager';
 import {afterNextRender} from '@polymer/polymer/lib/utils/render-status';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
@@ -40,6 +43,9 @@ type GrDiffRowType = GrDiffLineType | GrDiffGroupType;
 
 const LEFT_SIDE_CLASS = 'target-side-left';
 const RIGHT_SIDE_CLASS = 'target-side-right';
+
+// Time in which pressing n key again after the toast navigates to next file
+const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
 // TODO(TS): Use proper GrDiff type once that file is converted to TS.
 interface GrDiff extends HTMLElement {
@@ -73,6 +79,8 @@ export class GrDiffCursor extends GestureEventListeners(
   private _boundHandleDiffLineSelected: (e: Event) => void;
 
   private _preventAutoScrollOnManualScroll = false;
+
+  private _lastDisplayedNavigateToNextFileToast: number | null = null;
 
   @property({type: String})
   side = DiffSide.RIGHT;
@@ -169,7 +177,9 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveDown() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.next((row: Element) => this._rowHasSide(row));
+      this.$.cursorManager.next({
+        filter: (row: Element) => this._rowHasSide(row),
+      });
     } else {
       this.$.cursorManager.next();
     }
@@ -177,7 +187,9 @@ export class GrDiffCursor extends GestureEventListeners(
 
   moveUp() {
     if (this._getViewMode() === DiffViewMode.SIDE_BY_SIDE) {
-      this.$.cursorManager.previous((row: Element) => this._rowHasSide(row));
+      this.$.cursorManager.previous({
+        filter: (row: Element) => this._rowHasSide(row),
+      });
     } else {
       this.$.cursorManager.previous();
     }
@@ -194,31 +206,69 @@ export class GrDiffCursor extends GestureEventListeners(
   }
 
   moveToNextChunk(clipToTop?: boolean, navigateToNextFile?: boolean) {
-    this.$.cursorManager.next(
-      (row: HTMLElement) => this._isFirstRowOfChunk(row),
-      target => (target?.parentNode as HTMLElement)?.scrollHeight || 0,
+    const result = this.$.cursorManager.next({
+      filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
+      getTargetHeight: target =>
+        (target?.parentNode as HTMLElement)?.scrollHeight || 0,
       clipToTop,
-      navigateToNextFile
-    );
+    });
+    /*
+     * If user presses n on the last diff chunk, show a toast informing user
+     * that pressing n again will navigate them to next unreviewed file.
+     * If click happens within the time limit, then navigate to next file
+     */
+    if (
+      navigateToNextFile &&
+      result === CursorMoveResult.CLIPPED &&
+      this.$.cursorManager.isAtEnd()
+    ) {
+      if (
+        this._lastDisplayedNavigateToNextFileToast &&
+        Date.now() - this._lastDisplayedNavigateToNextFileToast <=
+          NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
+      ) {
+        // reset for next file
+        this._lastDisplayedNavigateToNextFileToast = null;
+        this.dispatchEvent(
+          new CustomEvent('navigate-to-next-unreviewed-file', {
+            composed: true,
+            bubbles: true,
+          })
+        );
+      }
+      this._lastDisplayedNavigateToNextFileToast = Date.now();
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Press n again to navigate to next unreviewed file',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+    }
+
     this._fixSide();
   }
 
   moveToPreviousChunk() {
-    this.$.cursorManager.previous((row: HTMLElement) =>
-      this._isFirstRowOfChunk(row)
-    );
+    this.$.cursorManager.previous({
+      filter: (row: HTMLElement) => this._isFirstRowOfChunk(row),
+    });
     this._fixSide();
   }
 
   moveToNextCommentThread() {
-    this.$.cursorManager.next((row: HTMLElement) => this._rowHasThread(row));
+    this.$.cursorManager.next({
+      filter: (row: HTMLElement) => this._rowHasThread(row),
+    });
     this._fixSide();
   }
 
   moveToPreviousCommentThread() {
-    this.$.cursorManager.previous((row: HTMLElement) =>
-      this._rowHasThread(row)
-    );
+    this.$.cursorManager.previous({
+      filter: (row: HTMLElement) => this._rowHasThread(row),
+    });
     this._fixSide();
   }
 
@@ -415,8 +465,8 @@ export class GrDiffCursor extends GestureEventListeners(
     );
   }
 
-  _rowHasThread(row: HTMLElement) {
-    return row.querySelector('.thread-group');
+  _rowHasThread(row: HTMLElement): boolean {
+    return !!row.querySelector('.thread-group');
   }
 
   /**
@@ -487,15 +537,11 @@ export class GrDiffCursor extends GestureEventListeners(
     return actions;
   }
 
-  _getStops() {
-    return this.diffs.reduce(
+  _updateStops() {
+    this.$.cursorManager.stops = this.diffs.reduce(
       (stops: HTMLElement[], diff) => stops.concat(diff.getCursorStops()),
       []
     );
-  }
-
-  _updateStops() {
-    this.$.cursorManager.stops = this._getStops();
   }
 
   /**

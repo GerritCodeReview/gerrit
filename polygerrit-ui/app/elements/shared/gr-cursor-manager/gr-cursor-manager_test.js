@@ -141,6 +141,29 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(element.isAtEnd());
   });
 
+  test('next() with abort', () => {
+    element.stops = list.querySelectorAll('li');
+    element.setCursor(list.children[0]);
+
+    const result = element.next({abort: row => row.textContent === 'B'});
+
+    assert.equal(result, CursorMoveResult.ABORTED);
+    assert.equal(element.index, 0);
+  });
+
+  test('next() aborts even when stop would be filtered', () => {
+    element.stops = list.querySelectorAll('li');
+    element.setCursor(list.children[0]);
+
+    const result = element.next({
+      abort: row => row.textContent === 'B',
+      filter: row => row.textContent === 'C',
+    });
+
+    assert.equal(result, CursorMoveResult.ABORTED);
+    assert.equal(element.index, 0);
+  });
+
   test('previous() goes to last element when no cursor is set', () => {
     element.stops = list.querySelectorAll('li');
     const result = element.previous();
@@ -178,18 +201,18 @@ suite('gr-cursor-manager tests', () => {
     assert.isFalse(getTargetHeight.called);
 
     // Move the cursor with an optional get target height function.
-    element._moveCursor(1, null, getTargetHeight);
+    element._moveCursor(1, {getTargetHeight});
     assert.isTrue(getTargetHeight.called);
   });
 
   test('_moveCursor from for invalid index does not check height', () => {
     element.stops = [];
     const getTargetHeight = sinon.stub();
-    element._moveCursor(1, () => false, getTargetHeight);
+    element._moveCursor(1, () => false, {getTargetHeight});
     assert.isFalse(getTargetHeight.called);
   });
 
-  test('opt_noScroll', () => {
+  test('setCursorAtIndex with noScroll', () => {
     sinon.stub(element, '_targetIsVisible').callsFake(() => false);
     const scrollStub = sinon.stub(window, 'scrollTo');
     element.stops = list.querySelectorAll('li');
@@ -202,7 +225,7 @@ suite('gr-cursor-manager tests', () => {
     assert.isTrue(scrollStub.called);
   });
 
-  test('_getNextindex', () => {
+  test('move with filter', () => {
     const isLetterB = function(row) {
       return row.textContent === 'B';
     };
@@ -211,23 +234,25 @@ suite('gr-cursor-manager tests', () => {
     element.setCursor(list.children[0]);
 
     // Move forward to meet the next condition.
-    assert.equal(element._getNextindex(1, isLetterB), 1);
-    element.index = 1;
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 1);
 
     // Nothing else meets the condition, should be at last stop.
-    assert.equal(element._getNextindex(1, isLetterB), 3);
-    element.index = 3;
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 3);
 
     // Should stay at last stop if try to proceed.
-    assert.equal(element._getNextindex(1, isLetterB), 3);
+    element.next({filter: isLetterB});
+    assert.equal(element.index, 3);
 
     // Go back to the previous condition met. Should be back at.
     // stop 1.
-    assert.equal(element._getNextindex(-1, isLetterB), 1);
-    element.index = 1;
+    element.previous({filter: isLetterB});
+    assert.equal(element.index, 1);
 
     // Go back. No more meet the condition. Should be at stop 0.
-    assert.equal(element._getNextindex(-1, isLetterB), 0);
+    element.previous({filter: isLetterB});
+    assert.equal(element.index, 0);
   });
 
   test('focusOnMove prop', () => {

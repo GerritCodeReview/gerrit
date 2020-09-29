@@ -31,9 +31,6 @@ declare global {
   }
 }
 
-// Time in which pressing n key again after the toast navigates to next file
-const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
-
 /**
  * Return type for cursor moves, that indicate whether a move was possible.
  */
@@ -42,8 +39,13 @@ export enum CursorMoveResult {
   MOVED,
   /** There were no stops - the cursor was reset. */
   NO_STOPS,
-  /** There was no more stop to move to - the cursor was clipped to the end. */
+  /**
+   * There was no more matching stop to move to - the cursor was clipped to the
+   * end.
+   */
   CLIPPED,
+  /** The abort condition would have been fulfilled for the new target. */
+  ABORTED,
 }
 
 @customElement('gr-cursor-manager')
@@ -92,8 +94,6 @@ export class GrCursorManager extends GestureEventListeners(
   @property({type: Boolean})
   focusOnMove = false;
 
-  private _lastDisplayedNavigateToNextFileToast: number | null = null;
-
   @property({type: Array})
   stops: HTMLElement[] = [];
 
@@ -106,36 +106,37 @@ export class GrCursorManager extends GestureEventListeners(
   /**
    * Move the cursor forward. Clipped to the ends of the stop list.
    *
-   * @param condition Optional stop condition. If a condition
-   *    is passed the cursor will continue to move in the specified direction
-   *    until the condition is met.
-   * @param getTargetHeight Optional function to calculate the
+   * @param options.abort Will abort moving the cursor when encountering a
+   *    stop for which this condition is met. Will abort even if the stop
+   *    would have been filtered
+   * @param options.filter Will keep going and skip any stops for which this
+   *    condition is not met.
+   * @param options.getTargetHeight Optional function to calculate the
    *    height of the target's 'section'. The height of the target itself is
    *    sometimes different, used by the diff cursor.
-   * @param clipToTop When none of the next indices match, move
+   * @param options.clipToTop When none of the next indices match, move
    *     back to first instead of to last.
-   * @param navigateToNextFile Navigate to next unreviewed file
-   *     if user presses next on the last diff chunk
    * @return If a move was performed or why not.
    * @private
    */
   next(
-    condition?: Function,
-    getTargetHeight?: (target: HTMLElement) => number,
-    clipToTop?: boolean,
-    navigateToNextFile?: boolean
+    options: {
+      filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
+      getTargetHeight?: (target: HTMLElement) => number;
+      clipToTop?: boolean;
+    } = {}
   ): CursorMoveResult {
-    return this._moveCursor(
-      1,
-      condition,
-      getTargetHeight,
-      clipToTop,
-      navigateToNextFile
-    );
+    return this._moveCursor(1, options);
   }
 
-  previous(condition?: Function): CursorMoveResult {
-    return this._moveCursor(-1, condition);
+  previous(
+    options: {
+      filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
+    } = {}
+  ): CursorMoveResult {
+    return this._moveCursor(-1, options);
   }
 
   /**
@@ -271,87 +272,76 @@ export class GrCursorManager extends GestureEventListeners(
    * end of stop list.
    *
    * @param delta either -1 or 1.
-   * @param condition Optional stop condition. If a condition
-   * is passed the cursor will continue to move in the specified direction
-   * until the condition is met.
-   * @param getTargetHeight Optional function to calculate the
+   * @param options.abort Will abort moving the cursor when encountering a
+   *    stop for which this condition is met. Will abort even if the stop
+   *    would have been filtered
+   * @param options.filter Will keep going and skip any stops for which this
+   *    condition is not met.
+   * @param options.getTargetHeight Optional function to calculate the
    * height of the target's 'section'. The height of the target itself is
    * sometimes different, used by the diff cursor.
-   * @param clipToTop When none of the next indices match, move
+   * @param options.clipToTop When none of the next indices match, move
    * back to first instead of to last.
-   * @param navigateToNextFile Navigate to next unreviewed file
-   * if user presses next on the last diff chunk
    * @return  If a move was performed or why not.
    * @private
    */
   _moveCursor(
     delta: number,
-    condition?: Function,
-    getTargetHeight?: (target: HTMLElement) => number,
-    clipToTop?: boolean,
-    navigateToNextFile?: boolean
+    {
+      filter,
+      abort,
+      getTargetHeight,
+      clipToTop,
+    }: {
+      filter?: (stop: HTMLElement) => boolean;
+      abort?: (stop: HTMLElement) => boolean;
+      getTargetHeight?: (target: HTMLElement) => number;
+      clipToTop?: boolean;
+    } = {}
   ): CursorMoveResult {
     if (!this.stops.length) {
       this.unsetCursor();
       return CursorMoveResult.NO_STOPS;
     }
 
+    let newIndex = this.index;
+    // If the cursor is not yet set and we are going backwards, start at the
+    // back.
+    if (this.index === -1 && delta < 0) {
+      newIndex = this.stops.length;
+    }
+
+    let clipped = false;
+
+    do {
+      newIndex += delta;
+      if (
+        (delta > 0 && newIndex >= this.stops.length) ||
+        (delta < 0 && newIndex < 0)
+      ) {
+        newIndex = delta < 0 || clipToTop ? 0 : this.stops.length - 1;
+        clipped = true;
+        break;
+      }
+      if (abort && abort(this.stops[newIndex])) {
+        newIndex = this.index;
+        return CursorMoveResult.ABORTED;
+      }
+    } while (filter && !filter(this.stops[newIndex]));
+
     this._unDecorateTarget();
 
-    const newIndex = this._getNextindex(delta, condition, clipToTop);
-    const newTarget = newIndex !== -1 ? this.stops[newIndex] : null;
-
-    const clipped = this.index === newIndex;
-
-    /*
-     * If user presses n on the last diff chunk, show a toast informing user
-     * that pressing n again will navigate them to next unreviewed file.
-     * If click happens within the time limit, then navigate to next file
-     */
-    if (navigateToNextFile && clipped && this.isAtEnd()) {
-      if (
-        this._lastDisplayedNavigateToNextFileToast &&
-        Date.now() - this._lastDisplayedNavigateToNextFileToast <=
-          NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
-      ) {
-        // reset for next file
-        this._lastDisplayedNavigateToNextFileToast = null;
-        this.dispatchEvent(
-          new CustomEvent('navigate-to-next-unreviewed-file', {
-            composed: true,
-            bubbles: true,
-          })
-        );
-        return CursorMoveResult.CLIPPED;
-      }
-      this._lastDisplayedNavigateToNextFileToast = Date.now();
-      this.dispatchEvent(
-        new CustomEvent('show-alert', {
-          detail: {
-            message: 'Press n again to navigate to next unreviewed file',
-          },
-          composed: true,
-          bubbles: true,
-        })
-      );
-      return CursorMoveResult.CLIPPED;
-    }
-
     this.index = newIndex;
-    this.target = newTarget as HTMLElement;
-
-    if (!newTarget) {
-      return CursorMoveResult.NO_STOPS;
-    }
+    this.target = this.stops[newIndex];
 
     if (getTargetHeight) {
-      this._targetHeight = getTargetHeight(newTarget);
+      this._targetHeight = getTargetHeight(this.target);
     } else {
-      this._targetHeight = newTarget.scrollHeight;
+      this._targetHeight = this.target.scrollHeight;
     }
 
     if (this.focusOnMove) {
-      newTarget.focus();
+      this.target.focus();
     }
 
     this._decorateTarget();
@@ -369,50 +359,6 @@ export class GrCursorManager extends GestureEventListeners(
     if (this.target && this.cursorTargetClass) {
       this.target.classList.remove(this.cursorTargetClass);
     }
-  }
-
-  /**
-   * Get the next stop index indicated by the delta direction.
-   *
-   * @param delta either -1 or 1.
-   * @param condition Optional stop condition.
-   * @param clipToTop When none of the next indices match, move
-   * back to first instead of to last.
-   * @return the new index.
-   * @private
-   */
-  _getNextindex(delta: number, condition?: Function, clipToTop?: boolean) {
-    if (!this.stops.length) {
-      return -1;
-    }
-    let newIndex = this.index;
-    // If the cursor is not yet set and we are going backwards, start at the
-    // back.
-    if (this.index === -1 && delta < 0) {
-      newIndex = this.stops.length;
-    }
-    do {
-      newIndex = newIndex + delta;
-    } while (
-      (delta > 0 || newIndex > 0) &&
-      (delta < 0 || newIndex < this.stops.length - 1) &&
-      condition &&
-      !condition(this.stops[newIndex])
-    );
-
-    newIndex = Math.max(0, Math.min(this.stops.length - 1, newIndex));
-
-    // If we failed to satisfy the condition:
-    if (condition && !condition(this.stops[newIndex])) {
-      if (delta < 0 || clipToTop) {
-        return 0;
-      } else if (delta > 0) {
-        return this.stops.length - 1;
-      }
-      return this.index;
-    }
-
-    return newIndex;
   }
 
   @observe('stops')

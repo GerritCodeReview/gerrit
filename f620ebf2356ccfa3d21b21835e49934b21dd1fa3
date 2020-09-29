@@ -1,0 +1,234 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "254c2ab6_d01f44b2",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 725,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "Nit: Unused variable.",
+      "range": {
+        "startLine": 725,
+        "startChar": 25,
+        "endLine": 725,
+        "endChar": 33
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f79b1552_979a6101",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "Couldn\u0027t this block now also be executed in a SubmissionListener? If so, we could adjust the signature of SubmissionExecutor#execute to take a list of SubmissionListeners and then pass in both SubmissionListeners.",
+      "range": {
+        "startLine": 750,
+        "startChar": 6,
+        "endLine": 772,
+        "endChar": 0
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c6a4956c_178482a7",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "It\u0027s neat that we can now have all of this superproject/submodule-related code in one place instead of distributing it in classes like ReceiveCommits and MergeOp. :-)",
+      "range": {
+        "startLine": 21,
+        "startChar": 13,
+        "endLine": 21,
+        "endChar": 41
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "29b83358_1b1be27c",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "Nit: Should be final.",
+      "range": {
+        "startLine": 27,
+        "startChar": 2,
+        "endLine": 27,
+        "endChar": 9
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "68b05703_1cd074b0",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 29,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "Nit: Should be final.",
+      "range": {
+        "startLine": 29,
+        "startChar": 2,
+        "endLine": 29,
+        "endChar": 9
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "72a7da6b_1154c28d",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "Nit: It would be safer for the overall class design to initialize batchUpdates to an empty list.",
+      "range": {
+        "startLine": 43,
+        "startChar": 4,
+        "endLine": 43,
+        "endChar": 31
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "8b3c49cd_93d37399",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "In theory, different calls could provide different values for dryrun. If so, this could lead to strange results depending of whether the last call provides true (-\u003e all superproject updates will be executed) or false (-\u003e no superproject update will be executed). I tried to find a completely better solution but couldn\u0027t so far. One option would be to set the dryrun parameter in the constructor and use it for all calls. It\u0027s not ideal either but maybe leads to slightly less confusing behavior. Another option would be to also pass a dryrun parameter to the completed() method. Thus, callers could influence whether the SubmissionListener runs in dryrun mode or not. It\u0027s an additional parameter, though. Just some ideas. :-)",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "b3cfad60_f5ef6fcd",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "Note for myself: This call still has to get the dryrun parameter as introduced in an earlier change of the series. Should be updated after rebase.",
+      "range": {
+        "startLine": 59,
+        "startChar": 8,
+        "endLine": 59,
+        "endChar": 33
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4de6db8f_5d7fd82e",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "After thinking about this and the previous changes, I\u0027m wondering whether you maybe missed implementing this method. Now that the BatchUpdateListener has the beforeUpdateRefs() method, I don\u0027t think that we need the SubmissionListener#setBatchUpdates method anymore. Can\u0027t we provide a BatchUpdateListener here, which records the BatchUpdates passed to beforeUpdateRefs() and which executes the logic of collectSuccessfulUpdates() when afterUpdateRefs() is triggered? Or would this be too risky in case an error happens during one of the updates? If so, I\u0027m sure we can find a way to fix that aspect. Or is the missing dryrun parameter an issue?",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9c7905fc_94471735",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:19:57Z",
+      "side": 1,
+      "message": "See https://gerrit-review.googlesource.com/c/gerrit/+/281756/comment/92768c9a_bfa9b8e8/. I\u0027m not sure whether we need this filter here. I\u0027m fine either way.",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 67
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

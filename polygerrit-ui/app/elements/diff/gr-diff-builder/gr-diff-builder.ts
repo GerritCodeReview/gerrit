@@ -24,7 +24,7 @@ import {
   rangeBySide,
 } from '../gr-diff/gr-diff-group';
 import {BlameInfo, DiffInfo, DiffPreferencesInfo} from '../../../types/common';
-import {Side} from '../../../constants/constants';
+import {DiffViewMode, Side} from '../../../constants/constants';
 import {DiffLayer} from '../../../types/types';
 
 /**
@@ -92,7 +92,8 @@ export abstract class GrDiffBuilder {
     diff: DiffInfo,
     prefs: DiffPreferencesInfo,
     outputEl: HTMLElement,
-    readonly layers: DiffLayer[] = []
+    readonly layers: DiffLayer[] = [],
+    protected readonly useNewContextControls: boolean = false
   ) {
     this._diff = diff;
     this._numLinesLeft = this._diff.content
@@ -304,25 +305,116 @@ export abstract class GrDiffBuilder {
     );
   }
 
-  _createContextControl(
+  _createContextControls(
     section: HTMLElement,
-    contextGroups: GrDiffGroup[]
-  ): HTMLElement {
+    contextGroups: GrDiffGroup[],
+    viewMode: DiffViewMode
+  ) {
     const leftStart = contextGroups[0].lineRange.left.start!;
     const leftEnd = contextGroups[contextGroups.length - 1].lineRange.left.end!;
     const numLines = leftEnd - leftStart + 1;
 
     if (numLines === 0) console.error('context group without lines');
 
-    const td = this._createElement('td');
-    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
     const firstGroupIsSkipped = !!contextGroups[0].skip;
     const lastGroupIsSkipped = !!contextGroups[contextGroups.length - 1].skip;
-    const showAboveButton =
-      showPartialLinks && leftStart > 1 && !firstGroupIsSkipped;
-    const showBelowButton =
-      showPartialLinks && leftEnd < this._numLinesLeft && !lastGroupIsSkipped;
-    if (showAboveButton) {
+
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
+    const showAbove = leftStart > 1 && !firstGroupIsSkipped;
+    const showBelow = leftEnd < this._numLinesLeft && !lastGroupIsSkipped;
+
+    if (this.useNewContextControls) {
+      section.classList.add('newStyle');
+      if (showAbove) {
+        const paddingRow = this._createContextControlPaddingRow(viewMode);
+        paddingRow.classList.add('above');
+        section.appendChild(paddingRow);
+      }
+      section.appendChild(
+        this._createNewContextControlRow(
+          section,
+          contextGroups,
+          showAbove,
+          showBelow,
+          numLines
+        )
+      );
+      if (showBelow) {
+        const paddingRow = this._createContextControlPaddingRow(viewMode);
+        paddingRow.classList.add('below');
+        section.appendChild(paddingRow);
+      }
+    } else {
+      section.appendChild(
+        this._createOldContextControlRow(
+          section,
+          contextGroups,
+          viewMode,
+          showAbove && showPartialLinks,
+          showBelow && showPartialLinks,
+          numLines
+        )
+      );
+    }
+  }
+
+  /**
+   * Creates old-style context controls: a single row of "+X above" and
+   * "+X below" buttons.
+   */
+  _createOldContextControlRow(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    viewMode: DiffViewMode,
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ) {
+    const row = this._createElement('tr', GrDiffGroupType.CONTEXT_CONTROL);
+
+    row.classList.add('diff-row');
+    row.classList.add(
+      viewMode === DiffViewMode.SIDE_BY_SIDE ? 'side-by-side' : 'unified'
+    );
+
+    row.tabIndex = -1;
+    row.appendChild(this._createBlameCell(0));
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(
+        this._createOldContextControlButtons(
+          section,
+          contextGroups,
+          showAbove,
+          showBelow,
+          numLines
+        )
+      );
+    }
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(
+      this._createOldContextControlButtons(
+        section,
+        contextGroups,
+        showAbove,
+        showBelow,
+        numLines
+      )
+    );
+
+    return row;
+  }
+
+  _createOldContextControlButtons(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ): HTMLElement {
+    const td = this._createElement('td');
+
+    if (showAbove) {
       td.appendChild(
         this._createContextButton(
           ContextButtonType.ABOVE,
@@ -332,6 +424,7 @@ export abstract class GrDiffBuilder {
         )
       );
     }
+
     td.appendChild(
       this._createContextButton(
         ContextButtonType.ALL,
@@ -340,7 +433,8 @@ export abstract class GrDiffBuilder {
         numLines
       )
     );
-    if (showBelowButton) {
+
+    if (showBelow) {
       td.appendChild(
         this._createContextButton(
           ContextButtonType.BELOW,
@@ -350,7 +444,104 @@ export abstract class GrDiffBuilder {
         )
       );
     }
+
     return td;
+  }
+
+  /**
+   * Creates new-style context controls: buttons extend from the gap created by
+   * this method up or down into the area of code that they affect.
+   */
+  _createNewContextControlRow(
+    section: HTMLElement,
+    contextGroups: GrDiffGroup[],
+    showAbove: boolean,
+    showBelow: boolean,
+    numLines: number
+  ): HTMLElement {
+    const row = this._createElement('tr', 'contextDivider');
+    if (!(showAbove && showBelow)) {
+      row.classList.add('collapsed');
+    }
+
+    const element = this._createElement('td', 'dividerCell');
+    row.appendChild(element);
+
+    const showAllContainer = this._createElement('div', 'aboveBelowButtons');
+    element.appendChild(showAllContainer);
+
+    const showAllButton = this._createContextButton(
+      ContextButtonType.ALL,
+      section,
+      contextGroups,
+      numLines
+    );
+    showAllButton.classList.add(
+      showAbove && showBelow
+        ? 'centeredButton'
+        : showAbove
+        ? 'aboveButton'
+        : 'belowButton'
+    );
+    showAllContainer.appendChild(showAllButton);
+
+    const showPartialLinks = numLines > PARTIAL_CONTEXT_AMOUNT;
+    if (showPartialLinks) {
+      const container = this._createElement('div', 'aboveBelowButtons');
+      if (showAbove) {
+        container.appendChild(
+          this._createContextButton(
+            ContextButtonType.ABOVE,
+            section,
+            contextGroups,
+            numLines
+          )
+        );
+      }
+      if (showBelow) {
+        container.appendChild(
+          this._createContextButton(
+            ContextButtonType.BELOW,
+            section,
+            contextGroups,
+            numLines
+          )
+        );
+      }
+      element.appendChild(container);
+    }
+
+    return row;
+  }
+
+  /**
+   * Creates a table row to serve as padding between code and context controls.
+   * Blame column, line gutters, and content area will continue visually, but
+   * context controls can render over this background to map more clearly to
+   * the area of code they expand.
+   *
+   * @param viewMode
+   */
+  _createContextControlPaddingRow(viewMode: DiffViewMode) {
+    const row = this._createElement('tr', 'contextBackground');
+
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.classList.add('side-by-side');
+      row.setAttribute('left-type', GrDiffGroupType.CONTEXT_CONTROL);
+      row.setAttribute('right-type', GrDiffGroupType.CONTEXT_CONTROL);
+    } else {
+      row.classList.add('unified');
+    }
+
+    row.appendChild(this._createBlameCell(0));
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    if (viewMode === DiffViewMode.SIDE_BY_SIDE) {
+      row.appendChild(this._createElement('td'));
+    }
+    row.appendChild(this._createElement('td', 'contextLineNum'));
+    row.appendChild(this._createElement('td'));
+
+    return row;
   }
 
   _createContextButton(
@@ -361,6 +552,9 @@ export abstract class GrDiffBuilder {
   ) {
     const context = PARTIAL_CONTEXT_AMOUNT;
     const button = this._createElement('gr-button', 'showContext');
+    if (this.useNewContextControls) {
+      button.classList.add('contextControlButton');
+    }
     button.setAttribute('link', 'true');
     button.setAttribute('no-uppercase', 'true');
 
@@ -368,26 +562,39 @@ export abstract class GrDiffBuilder {
     let groups: GrDiffGroup[] = []; // The groups that replace this one if tapped.
     let requiresLoad = false;
     if (type === GrDiffBuilder.ContextButtonType.ALL) {
-      requiresLoad = contextGroups.find(c => !!c.skip) !== undefined;
-      const icon = this._createElement('iron-icon', 'showContext');
-      icon.setAttribute('icon', 'gr-icons:unfold-more');
-      button.appendChild(icon);
-
-      text = `Show ${numLines} common line`;
+      if (this.useNewContextControls) {
+        text = `+${numLines} common line`;
+      } else {
+        text = `Show ${numLines} common line`;
+        const icon = this._createElement('iron-icon', 'showContext');
+        icon.setAttribute('icon', 'gr-icons:unfold-more');
+        button.appendChild(icon);
+      }
       if (numLines > 1) {
         text += 's';
       }
+      requiresLoad = contextGroups.find(c => !!c.skip) !== undefined;
       if (requiresLoad) {
         // Expanding content would require load of more data
         text += ' (too large)';
       }
       groups.push(...contextGroups);
     } else if (type === GrDiffBuilder.ContextButtonType.ABOVE) {
-      text = `+${context} above`;
       groups = hideInContextControl(contextGroups, context, numLines);
+      if (this.useNewContextControls) {
+        text = `+${context}`;
+        button.classList.add('aboveButton');
+      } else {
+        text = `${context} above`;
+      }
     } else if (type === GrDiffBuilder.ContextButtonType.BELOW) {
-      text = `+${context} below`;
       groups = hideInContextControl(contextGroups, 0, numLines - context);
+      if (this.useNewContextControls) {
+        text = `+${context}`;
+        button.classList.add('belowButton');
+      } else {
+        text = `${context} below`;
+      }
     }
     const textSpan = this._createElement('span', 'showContext');
     textSpan.textContent = text;

@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "2858843e_49709456",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 3465,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T00:03:08Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e942e22a_6fe646b0",
+      "range": {
+        "startLine": 3465,
+        "startChar": 25,
+        "endLine": 3465,
+        "endChar": 31
+      },
+      "revId": "33a3bc47ceed91901a1279ec9366472d4a10fdc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "92768c9a_bfa9b8e8",
         "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
         "patchSetId": 10
@@ -45,6 +69,30 @@
       "revId": "33a3bc47ceed91901a1279ec9366472d4a10fdc5",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "552badf7_ba63548d",
+        "filename": "java/com/google/gerrit/server/submit/SubmoduleOp.java",
+        "patchSetId": 10
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-29T00:03:08Z",
+      "side": 1,
+      "message": "In my understanding: 1. ReceiveCommand does the filtering but MergeOp does not 2. It is not necessary (as there are no subscriptions for special branches).\n\nMaybe it could save some noise. That is something we can tune once both code paths share the code?",
+      "parentUuid": "92768c9a_bfa9b8e8",
+      "range": {
+        "startLine": 55,
+        "startChar": 43,
+        "endLine": 55,
+        "endChar": 67
+      },
+      "revId": "33a3bc47ceed91901a1279ec9366472d4a10fdc5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

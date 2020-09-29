@@ -48,7 +48,7 @@ import {
   ServerInfo,
   DiffPreferencesInfo,
   RevisionInfo,
-  ChangeNum,
+  NumericChangeId,
 } from '../../../types/common';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrDiffModeSelector} from '../../diff/gr-diff-mode-selector/gr-diff-mode-selector';
@@ -117,7 +117,7 @@ export class GrFileListHeader extends KeyboardShortcutMixin(
   change: ChangeInfo | undefined;
 
   @property({type: String})
-  changeNum?: ChangeNum;
+  changeNum?: NumericChangeId;
 
   @property({type: String})
   changeUrl?: string;

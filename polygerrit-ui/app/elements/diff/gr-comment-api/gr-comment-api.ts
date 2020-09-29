@@ -37,7 +37,7 @@ import {
   RobotCommentInfo,
   Timestamp,
   UrlEncodedCommentId,
-  ChangeNum,
+  NumericChangeId,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide} from '../../../constants/constants';
@@ -122,7 +122,7 @@ export type CommentIdToCommentThreadMap = {
 interface TwoSidesComments {
   // TODO(TS): remove meta - it is not used anywhere
   meta: {
-    changeNum: ChangeNum;
+    changeNum: NumericChangeId;
     path: string;
     patchRange: PatchRange;
     projectConfig?: ConfigInfo;
@@ -138,7 +138,7 @@ export class ChangeComments {
 
   private readonly _drafts: PathToCommentsInfoWithPathMap;
 
-  private readonly _changeNum: ChangeNum;
+  private readonly _changeNum: NumericChangeId;
 
   /**
    * Construct a change comments object, which can be data-bound to child
@@ -148,7 +148,7 @@ export class ChangeComments {
     comments: PathToCommentsInfoMap | undefined,
     robotComments: PathToRobotCommentsInfoMap | undefined,
     drafts: PathToCommentsInfoMap | undefined,
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
@@ -682,7 +682,7 @@ class GrCommentApi extends GestureEventListeners(
       // TODO(TS): This is a wrong code, however keep it as is for now
       // If changeNum param in ChangeComments is removed, this also must be
       // removed
-      this.reloadDrafts((changeNum as unknown) as ChangeNum)
+      this.reloadDrafts((changeNum as unknown) as NumericChangeId)
     );
   }
 
@@ -691,7 +691,7 @@ class GrCommentApi extends GestureEventListeners(
    * number. The returned promise resolves when the comments have loaded, but
    * does not yield the comment data.
    */
-  loadAll(changeNum: ChangeNum) {
+  loadAll(changeNum: NumericChangeId) {
     const promises = [];
     promises.push(this.$.restAPI.getDiffComments(changeNum));
     promises.push(this.$.restAPI.getDiffRobotComments(changeNum));
@@ -716,7 +716,7 @@ class GrCommentApi extends GestureEventListeners(
    * uses the previous values for comments and robot comments, but fetches
    * updated draft comments.
    */
-  reloadDrafts(changeNum: ChangeNum) {
+  reloadDrafts(changeNum: NumericChangeId) {
     if (!this._changeComments) {
       return this.loadAll(changeNum);
     }

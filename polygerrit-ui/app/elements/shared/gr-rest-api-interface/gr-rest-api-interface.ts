@@ -128,7 +128,7 @@ import {
   TagInfo,
   RelatedChangesInfo,
   SubmittedTogetherInfo,
-  ChangeNum,
+  NumericChangeId,
   EmailAddress,
   FixId,
   FilePathToDiffInfoMap,
@@ -177,7 +177,7 @@ interface FetchChangeJSON {
   endpoint: string;
   anonymizedEndpoint?: string;
   patchNum?: PatchSetNum;
-  changeNum: ChangeNum;
+  changeNum: NumericChangeId;
   errFn?: ErrorCallback;
   params?: FetchParams;
   fetchOptions?: AuthRequestInit;
@@ -192,7 +192,7 @@ interface SendChangeRequestBase {
   reportEndpointAsIs?: boolean;
   endpoint: string;
   anonymizedEndpoint?: string;
-  changeNum: ChangeNum;
+  changeNum: NumericChangeId;
   method: HttpMethod;
   errFn?: ErrorCallback;
   headers?: Record<string, string>;
@@ -1372,7 +1372,7 @@ export class GrRestApiInterface
   }
 
   getChangeActionURL(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum | undefined,
     endpoint: string
   ): Promise<string> {
@@ -1380,7 +1380,7 @@ export class GrRestApiInterface
   }
 
   getChangeDetail(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
   ): Promise<ParsedChangeInfo | null | undefined> {
@@ -1448,7 +1448,7 @@ export class GrRestApiInterface
   }
 
   getDiffChangeDetail(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
   ) {
@@ -1469,7 +1469,7 @@ export class GrRestApiInterface
    * @param optionsHex list changes options in hex
    */
   _getChangeDetail(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     optionsHex: string,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
@@ -1532,7 +1532,7 @@ export class GrRestApiInterface
     );
   }
 
-  getChangeCommitInfo(changeNum: ChangeNum, patchNum: PatchSetNum) {
+  getChangeCommitInfo(changeNum: NumericChangeId, patchNum: PatchSetNum) {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/commit?links',
@@ -1542,7 +1542,7 @@ export class GrRestApiInterface
   }
 
   getChangeFiles(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchRange: PatchRange
   ): Promise<FileNameToFileInfoMap | undefined> {
     let params = undefined;
@@ -1562,7 +1562,7 @@ export class GrRestApiInterface
 
   // TODO(TS): The output type is unclear
   getChangeEditFiles(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchRange: PatchRange
   ): Promise<{files: FileNameToFileInfoMap} | undefined> {
     let endpoint = '/edit?list';
@@ -1578,7 +1578,11 @@ export class GrRestApiInterface
     }) as Promise<{files: FileNameToFileInfoMap} | undefined>;
   }
 
-  queryChangeFiles(changeNum: ChangeNum, patchNum: PatchSetNum, query: string) {
+  queryChangeFiles(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    query: string
+  ) {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: `/files?q=${encodeURIComponent(query)}`,
@@ -1587,7 +1591,7 @@ export class GrRestApiInterface
     }) as Promise<string[] | undefined>;
   }
 
-  getChangeOrEditFiles(changeNum: ChangeNum, patchRange: PatchRange) {
+  getChangeOrEditFiles(changeNum: NumericChangeId, patchRange: PatchRange) {
     if (patchNumEquals(patchRange.patchNum, EditPatchSetNum)) {
       return this.getChangeEditFiles(changeNum, patchRange).then(
         res => res && res.files
@@ -1596,7 +1600,7 @@ export class GrRestApiInterface
     return this.getChangeFiles(changeNum, patchRange);
   }
 
-  getChangeRevisionActions(changeNum: ChangeNum, patchNum: PatchSetNum) {
+  getChangeRevisionActions(changeNum: NumericChangeId, patchNum: PatchSetNum) {
     const req: FetchChangeJSON = {
       changeNum,
       endpoint: '/actions',
@@ -1607,7 +1611,7 @@ export class GrRestApiInterface
   }
 
   getChangeSuggestedReviewers(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     inputVal: string,
     errFn?: ErrorCallback
   ) {
@@ -1620,7 +1624,7 @@ export class GrRestApiInterface
   }
 
   getChangeSuggestedCCs(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     inputVal: string,
     errFn?: ErrorCallback
   ) {
@@ -1634,7 +1638,7 @@ export class GrRestApiInterface
 
   _getChangeSuggestedGroup(
     reviewerState: ReviewerState,
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     inputVal: string,
     errFn?: ErrorCallback
   ): Promise<SuggestedReviewerInfo[] | undefined> {
@@ -1657,7 +1661,7 @@ export class GrRestApiInterface
   }
 
   getChangeIncludedIn(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<IncludedInInfo | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
@@ -1928,7 +1932,7 @@ export class GrRestApiInterface
   }
 
   addChangeReviewer(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId
   ) {
     return this._sendChangeReviewerRequest(
@@ -1939,7 +1943,7 @@ export class GrRestApiInterface
   }
 
   removeChangeReviewer(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId
   ) {
     return this._sendChangeReviewerRequest(
@@ -1951,7 +1955,7 @@ export class GrRestApiInterface
 
   _sendChangeReviewerRequest(
     method: HttpMethod.POST | HttpMethod.DELETE,
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId
   ) {
     return this.getChangeActionURL(changeNum, undefined, '/reviewers').then(
@@ -1974,7 +1978,7 @@ export class GrRestApiInterface
   }
 
   getRelatedChanges(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined> {
     return this._getChangeURLAndFetch({
@@ -1986,7 +1990,7 @@ export class GrRestApiInterface
   }
 
   getChangesSubmittedTogether(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<SubmittedTogetherInfo | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
@@ -1995,7 +1999,9 @@ export class GrRestApiInterface
     }) as Promise<SubmittedTogetherInfo | undefined>;
   }
 
-  getChangeConflicts(changeNum: ChangeNum): Promise<ChangeInfo[] | undefined> {
+  getChangeConflicts(
+    changeNum: NumericChangeId
+  ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
       ListChangesOption.CURRENT_COMMIT
@@ -2014,7 +2020,7 @@ export class GrRestApiInterface
   getChangeCherryPicks(
     project: RepoName,
     changeID: ChangeId,
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.CURRENT_REVISION,
@@ -2039,7 +2045,7 @@ export class GrRestApiInterface
 
   getChangesWithSameTopic(
     topic: string,
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined> {
     const options = listChangesOptionsToHex(
       ListChangesOption.LABELS,
@@ -2063,7 +2069,7 @@ export class GrRestApiInterface
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
-  getReviewedFiles(changeNum: ChangeNum, patchNum: PatchSetNum) {
+  getReviewedFiles(changeNum: NumericChangeId, patchNum: PatchSetNum) {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/files?reviewed',
@@ -2073,14 +2079,14 @@ export class GrRestApiInterface
   }
 
   saveFileReviewed(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
     reviewed: boolean
   ): Promise<Response>;
 
   saveFileReviewed(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
     reviewed: boolean,
@@ -2088,7 +2094,7 @@ export class GrRestApiInterface
   ): Promise<Response | undefined>;
 
   saveFileReviewed(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
     reviewed: boolean,
@@ -2105,20 +2111,20 @@ export class GrRestApiInterface
   }
 
   saveChangeReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput
   ): Promise<Response>;
 
   saveChangeReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
 
   saveChangeReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput,
     errFn?: ErrorCallback
@@ -2138,7 +2144,7 @@ export class GrRestApiInterface
   }
 
   getChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     downloadCommands?: boolean
   ): Promise<false | EditInfo | undefined> {
     const params = downloadCommands ? {'download-commands': true} : undefined;
@@ -2187,7 +2193,7 @@ export class GrRestApiInterface
   }
 
   getFileContent(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string,
     patchNum: PatchSetNum
   ): Promise<Response | Base64FileContent | undefined> {
@@ -2228,7 +2234,7 @@ export class GrRestApiInterface
    * Gets a file in a specific change and revision.
    */
   _getFileInRevision(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string,
     patchNum: PatchSetNum,
     errFn?: ErrorCallback
@@ -2247,7 +2253,7 @@ export class GrRestApiInterface
   /**
    * Gets a file in a change edit.
    */
-  _getFileInChangeEdit(changeNum: ChangeNum, path: string) {
+  _getFileInChangeEdit(changeNum: NumericChangeId, path: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.GET,
@@ -2257,7 +2263,7 @@ export class GrRestApiInterface
     });
   }
 
-  rebaseChangeEdit(changeNum: ChangeNum) {
+  rebaseChangeEdit(changeNum: NumericChangeId) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
@@ -2266,7 +2272,7 @@ export class GrRestApiInterface
     });
   }
 
-  deleteChangeEdit(changeNum: ChangeNum) {
+  deleteChangeEdit(changeNum: NumericChangeId) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,
@@ -2275,7 +2281,7 @@ export class GrRestApiInterface
     });
   }
 
-  restoreFileInChangeEdit(changeNum: ChangeNum, restore_path: string) {
+  restoreFileInChangeEdit(changeNum: NumericChangeId, restore_path: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
@@ -2286,7 +2292,7 @@ export class GrRestApiInterface
   }
 
   renameFileInChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     old_path: string,
     new_path: string
   ) {
@@ -2299,7 +2305,7 @@ export class GrRestApiInterface
     });
   }
 
-  deleteFileInChangeEdit(changeNum: ChangeNum, path: string) {
+  deleteFileInChangeEdit(changeNum: NumericChangeId, path: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,
@@ -2308,7 +2314,7 @@ export class GrRestApiInterface
     });
   }
 
-  saveChangeEdit(changeNum: ChangeNum, path: string, contents: string) {
+  saveChangeEdit(changeNum: NumericChangeId, path: string, contents: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -2320,7 +2326,7 @@ export class GrRestApiInterface
   }
 
   saveFileUploadChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string,
     content: string
   ) {
@@ -2334,7 +2340,7 @@ export class GrRestApiInterface
   }
 
   getRobotCommentFixPreview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: FixId
   ): Promise<FilePathToDiffInfoMap | undefined> {
@@ -2347,7 +2353,7 @@ export class GrRestApiInterface
   }
 
   applyFixSuggestion(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     fixId: string
   ): Promise<Response> {
@@ -2361,7 +2367,7 @@ export class GrRestApiInterface
   }
 
   // Deprecated, prefer to use putChangeCommitMessage instead.
-  saveChangeCommitMessageEdit(changeNum: ChangeNum, message: string) {
+  saveChangeCommitMessageEdit(changeNum: NumericChangeId, message: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -2371,7 +2377,7 @@ export class GrRestApiInterface
     });
   }
 
-  publishChangeEdit(changeNum: ChangeNum) {
+  publishChangeEdit(changeNum: NumericChangeId) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
@@ -2380,7 +2386,7 @@ export class GrRestApiInterface
     });
   }
 
-  putChangeCommitMessage(changeNum: ChangeNum, message: string) {
+  putChangeCommitMessage(changeNum: NumericChangeId, message: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -2390,7 +2396,10 @@ export class GrRestApiInterface
     });
   }
 
-  deleteChangeCommitMessage(changeNum: ChangeNum, messageId: ChangeMessageId) {
+  deleteChangeCommitMessage(
+    changeNum: NumericChangeId,
+    messageId: ChangeMessageId
+  ) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,
@@ -2399,7 +2408,7 @@ export class GrRestApiInterface
     });
   }
 
-  saveChangeStarred(changeNum: ChangeNum, starred: boolean) {
+  saveChangeStarred(changeNum: NumericChangeId, starred: boolean) {
     // Some servers may require the project name to be provided
     // alongside the change number, so resolve the project name
     // first.
@@ -2415,7 +2424,7 @@ export class GrRestApiInterface
   }
 
   saveChangeReviewed(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     reviewed: boolean
   ): Promise<Response | undefined> {
     return this.getConfig().then(config => {
@@ -2480,7 +2489,7 @@ export class GrRestApiInterface
    * algorithm.
    */
   getDiff(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string,
@@ -2519,18 +2528,18 @@ export class GrRestApiInterface
   }
 
   getDiffComments(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<PathToCommentsInfoMap | undefined>;
 
   getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffCommentsOutput>;
 
   getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -2548,18 +2557,18 @@ export class GrRestApiInterface
   }
 
   getDiffRobotComments(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
 
   getDiffRobotComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffRobotCommentsOutput>;
 
   getDiffRobotComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -2583,18 +2592,18 @@ export class GrRestApiInterface
    * empty object.
    */
   getDiffDrafts(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<PathToCommentsInfoMap | undefined>;
 
   getDiffDrafts(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffCommentsOutput>;
 
   getDiffDrafts(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -2642,17 +2651,17 @@ export class GrRestApiInterface
   }
 
   _getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts'
   ): Promise<PathToCommentsInfoMap | undefined>;
 
   _getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     endpoint: '/robotcomments'
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
 
   _getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     endpoint: '/comments' | '/drafts',
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
@@ -2660,7 +2669,7 @@ export class GrRestApiInterface
   ): Promise<GetDiffCommentsOutput>;
 
   _getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     endpoint: '/robotcomments',
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
@@ -2668,7 +2677,7 @@ export class GrRestApiInterface
   ): Promise<GetDiffRobotCommentsOutput>;
 
   _getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     endpoint: string,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
@@ -2755,7 +2764,7 @@ export class GrRestApiInterface
   }
 
   _getDiffCommentsFetchURL(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     endpoint: string,
     patchNum?: PatchSetNum
   ) {
@@ -2763,7 +2772,7 @@ export class GrRestApiInterface
   }
 
   saveDiffDraft(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: CommentInput
   ) {
@@ -2776,7 +2785,7 @@ export class GrRestApiInterface
   }
 
   deleteDiffDraft(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: {id: UrlEncodedCommentId}
   ) {
@@ -2810,21 +2819,21 @@ export class GrRestApiInterface
 
   _sendDiffDraftRequest(
     method: HttpMethod.PUT,
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: CommentInput
   ): Promise<Response>;
 
   _sendDiffDraftRequest(
     method: HttpMethod.GET | HttpMethod.DELETE,
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: {id?: UrlEncodedCommentId}
   ): Promise<Response>;
 
   _sendDiffDraftRequest(
     method: HttpMethod,
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: CommentInput | {id: UrlEncodedCommentId}
   ): Promise<Response> {
@@ -2892,7 +2901,7 @@ export class GrRestApiInterface
   }
 
   getB64FileContents(
-    changeId: ChangeNum,
+    changeId: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
     parentIndex?: number
@@ -2906,7 +2915,7 @@ export class GrRestApiInterface
   }
 
   getImagesForDiff(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     diff: DiffInfo,
     patchRange: PatchRange
   ): Promise<ImagesForDiff> {
@@ -2965,7 +2974,7 @@ export class GrRestApiInterface
   }
 
   _changeBaseURL(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum?: PatchSetNum,
     project?: RepoName
   ): Promise<string> {
@@ -2987,7 +2996,7 @@ export class GrRestApiInterface
   }
 
   addToAttentionSet(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     user: AccountId | undefined | null,
     reason: string
   ) {
@@ -3001,7 +3010,7 @@ export class GrRestApiInterface
   }
 
   removeFromAttentionSet(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     user: AccountId,
     reason: string
   ) {
@@ -3014,7 +3023,7 @@ export class GrRestApiInterface
     });
   }
 
-  setChangeTopic(changeNum: ChangeNum, topic: string | null) {
+  setChangeTopic(changeNum: NumericChangeId, topic: string | null) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -3025,7 +3034,7 @@ export class GrRestApiInterface
     });
   }
 
-  setChangeHashtag(changeNum: ChangeNum, hashtag: HashtagsInput) {
+  setChangeHashtag(changeNum: NumericChangeId, hashtag: HashtagsInput) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
@@ -3133,7 +3142,7 @@ export class GrRestApiInterface
     });
   }
 
-  deleteVote(changeNum: ChangeNum, account: AccountId, label: string) {
+  deleteVote(changeNum: NumericChangeId, account: AccountId, label: string) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,
@@ -3142,7 +3151,11 @@ export class GrRestApiInterface
     });
   }
 
-  setDescription(changeNum: ChangeNum, patchNum: PatchSetNum, desc: string) {
+  setDescription(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    desc: string
+  ) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -3186,7 +3199,7 @@ export class GrRestApiInterface
     });
   }
 
-  setAssignee(changeNum: ChangeNum, assignee: AssigneeInput) {
+  setAssignee(changeNum: NumericChangeId, assignee: AssigneeInput) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
@@ -3196,7 +3209,7 @@ export class GrRestApiInterface
     });
   }
 
-  deleteAssignee(changeNum: ChangeNum) {
+  deleteAssignee(changeNum: NumericChangeId) {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,
@@ -3212,7 +3225,7 @@ export class GrRestApiInterface
   }
 
   startWorkInProgress(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     message?: string
   ): Promise<string | undefined> {
     const body = message ? {message} : {};
@@ -3232,7 +3245,7 @@ export class GrRestApiInterface
   }
 
   startReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     body?: RequestPayload,
     errFn?: ErrorCallback
   ) {
@@ -3247,7 +3260,7 @@ export class GrRestApiInterface
   }
 
   deleteComment(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     commentID: UrlEncodedCommentId,
     reason: string
@@ -3267,7 +3280,7 @@ export class GrRestApiInterface
    * Given a changeNum, gets the change.
    */
   getChange(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     errFn: ErrorCallback
   ): Promise<ChangeInfo | null> {
     // Cannot use _changeBaseURL, as this function is used by _projectLookup.
@@ -3286,7 +3299,7 @@ export class GrRestApiInterface
       });
   }
 
-  setInProjectLookup(changeNum: ChangeNum, project: RepoName) {
+  setInProjectLookup(changeNum: NumericChangeId, project: RepoName) {
     if (
       this._projectLookup[changeNum] &&
       this._projectLookup[changeNum] !== project
@@ -3304,7 +3317,9 @@ export class GrRestApiInterface
    * project. If not, calls the restAPI to get the change, populates
    * _projectLookup with the project for that change, and returns the project.
    */
-  getFromProjectLookup(changeNum: ChangeNum): Promise<RepoName | undefined> {
+  getFromProjectLookup(
+    changeNum: NumericChangeId
+  ): Promise<RepoName | undefined> {
     const project = this._projectLookup[`${changeNum}`];
     if (project) {
       return Promise.resolve(project);
@@ -3401,7 +3416,7 @@ export class GrRestApiInterface
   }
 
   executeChangeAction(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     method: HttpMethod,
     endpoint: string,
     patchNum?: PatchSetNum,
@@ -3409,7 +3424,7 @@ export class GrRestApiInterface
   ): Promise<Response>;
 
   executeChangeAction(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     method: HttpMethod,
     endpoint: string,
     patchNum: PatchSetNum | undefined,
@@ -3421,7 +3436,7 @@ export class GrRestApiInterface
    * Execute a change action or revision action on a change.
    */
   executeChangeAction(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     method: HttpMethod,
     endpoint: string,
     patchNum?: PatchSetNum,
@@ -3445,7 +3460,7 @@ export class GrRestApiInterface
    *     diff, rather than the revision.
    */
   getBlame(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     path: string,
     base?: boolean
@@ -3527,7 +3542,7 @@ export class GrRestApiInterface
     }) as Promise<DocResult[] | undefined>;
   }
 
-  getMergeable(changeNum: ChangeNum) {
+  getMergeable(changeNum: NumericChangeId) {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/revisions/current/mergeable',

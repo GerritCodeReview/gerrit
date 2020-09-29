@@ -48,6 +48,54 @@
     },
     {
       "key": {
+        "uuid": "546e5b48_17cfde20",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-29T17:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43693503_0d1196a5",
+      "range": {
+        "startLine": 80,
+        "startChar": 20,
+        "endLine": 80,
+        "endChar": 27
+      },
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3a6160e3_27e9c483",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-29T17:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "69805900_c7720ecb",
+      "range": {
+        "startLine": 80,
+        "startChar": 30,
+        "endLine": 80,
+        "endChar": 43
+      },
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "84eb6c1f_750a1f57",
         "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
         "patchSetId": 5
@@ -62,6 +110,24 @@
       "revId": "9c11171455a0db73d28cb71235385594ab694960",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a07160b8_1782d035",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-29T17:36:43Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "84eb6c1f_750a1f57",
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -100,6 +166,24 @@
     },
     {
       "key": {
+        "uuid": "d1674a44_21b4c95d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-apply-fix-dialog/gr-apply-fix-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 273,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-29T17:36:43Z",
+      "side": 1,
+      "message": "I copied the comment from an another place without thinking 😊 , but actually this is a very good question.\nI did some research and found that gr-change-view always requests change detail with ALL_REVISIONS option set. As a result, revisions and current_revisions are always set in change view (and other related places). To make it more clear, I introduced a special type ChangeViewChangeInfo. This type always has current_revisions and revisions.\nThe type name is not very good, but I can\u0027t find a better one.",
+      "parentUuid": "aa7dc6ad_4ab23199",
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "49126434_425920b5",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 5
@@ -123,6 +207,30 @@
     },
     {
       "key": {
+        "uuid": "4f0639b2_056625e2",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-29T17:36:43Z",
+      "side": 1,
+      "message": "I rebased the change on top of 282161",
+      "parentUuid": "49126434_425920b5",
+      "range": {
+        "startLine": 66,
+        "startChar": 42,
+        "endLine": 66,
+        "endChar": 56
+      },
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "bdbc6283_6be70d4c",
         "filename": "polygerrit-ui/app/types/common.ts",
         "patchSetId": 5
@@ -137,6 +245,24 @@
       "revId": "9c11171455a0db73d28cb71235385594ab694960",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "afb5fb65_0aab9d2e",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 1169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-29T17:36:43Z",
+      "side": 1,
+      "message": "For me it gives less visual noise:\nPromise\u003cFilePathToDiffInfoMap | undefined\u003e\nvs\nPromise\u003c{[path: string]: DiffInfo} | undefined\u003e\nThe latest one has 3 special chars in a row.\n\nBtw, I see the point in removing it. I think we should discuss it and decide what we will use.\nFor now I would like to keep it, because similar pattern is used in other places.",
+      "parentUuid": "bdbc6283_6be70d4c",
+      "revId": "9c11171455a0db73d28cb71235385594ab694960",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

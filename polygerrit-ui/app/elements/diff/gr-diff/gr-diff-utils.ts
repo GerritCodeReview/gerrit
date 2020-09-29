@@ -18,6 +18,8 @@
 import {CommentRange} from '../../../types/common';
 import {FILE, LineNumber} from './gr-diff-line';
 
+const LOADING_SENTINEL_CLASS = 'loading-sentinel';
+
 /**
  * Compare two ranges. Either argument may be falsy, but will only return
  * true if both are falsy or if neither are falsy and have the same position
@@ -45,4 +47,14 @@ export function getLineNumber(lineEl?: Element | null): LineNumber | null {
   if (lineNumberStr === FILE) return FILE;
   const lineNumber = Number(lineNumberStr);
   return Number.isInteger(lineNumber) ? lineNumber : null;
+}
+
+export function createLoadingSentinel(): HTMLElement {
+  const loadingSentinel = document.createElement('span');
+  loadingSentinel.classList.add(LOADING_SENTINEL_CLASS);
+  return loadingSentinel;
+}
+
+export function isLoadingSentinel(stop: HTMLElement): boolean {
+  return stop.classList.contains(LOADING_SENTINEL_CLASS);
 }

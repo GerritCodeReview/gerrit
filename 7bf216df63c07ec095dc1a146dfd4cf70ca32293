@@ -16,6 +16,24 @@
       "revId": "7bf216df63c07ec095dc1a146dfd4cf70ca32293",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "b633bd81_f383c883",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:31:48Z",
+      "side": 1,
+      "message": "Just because I am curious to understand attention set interpretations: I was not in the attention set until Monday 17:24, so I did not see tests passing since Friday 18:20. Did you expect me to look at the change before Monday 17:24?",
+      "parentUuid": "f711f116_2493e2b2",
+      "revId": "7bf216df63c07ec095dc1a146dfd4cf70ca32293",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

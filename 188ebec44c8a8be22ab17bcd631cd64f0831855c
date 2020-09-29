@@ -1,0 +1,257 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "589dec41_24289094",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdateListenerChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "Is there a reason to not simply adjust all methods which currently take in a BatchUpdateListener to instead take a list of BatchUpdateListener? This would even reduce the need for BatchUpdateListener.NONE as an empty list could be used instead.\n\nThe order of the list would determine the calling order of the BatchUpdateListeners.",
+      "range": {
+        "startLine": 6,
+        "startChar": 6,
+        "endLine": 6,
+        "endChar": 30
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7d51d2e1_491d3012",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdateListenerChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "Nit: Should be final.",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "20b98dec_71eeba16",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "Nit: Should have a private constructor if this class stays as it currently is.",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ff5758cc_c82ab1ba",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "Overall, I feel that we should structure this class a bit differently. Both execute() methods are doing fairly the same but with slightly different arguments. My suggestion would be to transform this class from a utility class to a real class. In the constructor (or a factory method), it could take in a list of SubmissionListeners. Via a setter, it would offer to specify one or several BatchUpdateListeners. This class would then just have one execute() method which takes in a collection (or list) of BatchUpdates and the dryrun flag. The call on completed() would go into an additional method which would iterate over all SubmissionListeners. This of course means that callers have to manually report completion even for the non-retry case but I think that\u0027s fine. It might even be less confusing/error-prone as any user/caller of SubmissionExecutor would be forced adhere to the same calling sequence/contract. It\u0027s just a pity that we can\u0027t enforce the final call of the last method except if we used AutoClosable (but that seems like a misuse to me as we\u0027re not closing resources). We should also document this whole calling contract in the Javadoc description of SubmissionExecutor.\n\nAs I might have confused you with this wall of text, here\u0027s an example of a caller after my suggestion was applied:\n\n  SubmissionExecutor submissionExecutor \u003d SubmissionExecutor.create(submissionListeners);\n  submissionExecutor.setBatchUpdateListeners(additionalBatchUpdateListener);\n  submissionExecutor.execute(batchUpdates, dryrun);\n  submissionExecutor.afterExecutions();\n\nExample signature: setBatchUpdateListeners(BatchUpdateListener firstListener, BatchUpdateListener... otherListeners)\nor: setBatchUpdateListeners(ImmutableList\u003cBatchUpdateListener\u003e listeners)\ndepending on what turns out to be more practical.\n\nIn the Javadoc description of execute(), we might then want to mention that calling it multiple times with different/same BatchUpdates for retry is fine.",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "93eed5dc_8795766e",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "I like the idea of this listener. :-)",
+      "range": {
+        "startLine": 11,
+        "startChar": 17,
+        "endLine": 11,
+        "endChar": 35
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "3885b1ec_3df22ad9",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "May implementations adjust the BatchUpdates? If not, we should at least mention this in the documentation even if we can\u0027t enforce it.",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "12bff7af_c1f0dce2",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "To honor the listener idea (and to follow the lead of BatchUpdateListener), should we maybe call this method something like \"beforeBatchUpdates\"?",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4d3c53ed_8165ba9a",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "This description doesn\u0027t make it clear that this method is only called after repository/storage updates happened. Could you add some more details so that future developers implementing this method are not confused? This may be obsolete if you choose a more descriptive name as suggested below (depending on which one you take ;-) ).",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 79
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9ec04197_941242ca",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "In general, the method name \"completed\" would be fine for me. If we change the name of the above method to \"beforeBatchUpdates\" and if we want to stay close to the BatchUpdateListener style, we should maybe consider to use a similar name, though. For instance, we could use \"afterSubmission\" or \"afterAllRepoUpdates\" or \"afterAllStorageUpdates\".",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ba4a0cf3_4ce66722",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "If you switch to the list approach instead of the BatchUpdateListenerChain, we could return Optional\u003cBatchUpdateListener\u003e or ImmutableList\u003cBatchUpdateListener\u003e here.",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 21
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2fdf61ea_4ae2ecaa",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-29T13:17:32Z",
+      "side": 1,
+      "message": "Nit: If you want to omit a word to make this method name shorter, I\u0027d opt for omitting \"Batch\" instead of \"Update\" (e.g. getUpdateListener()).\n\nAnother option would be to choose a totally different name in line with the listener idea. For instance, we could go with \"listenToBatchUpdates\".",
+      "range": {
+        "startLine": 36,
+        "startChar": 25,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

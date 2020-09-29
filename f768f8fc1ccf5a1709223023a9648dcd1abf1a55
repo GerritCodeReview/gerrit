@@ -124,6 +124,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2dbf65c4_b05b1adf",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-09-29T21:04:12Z",
+      "side": 1,
+      "message": "In the tests I did using the top of this series was an order of magnitude faster  than the stable-2.16 branch without this series for the production sites we have.\n\nProbably further improvements can be done. They could also be done in follow-up changes. \n\nFor getting more data about the performance implications of these changes more developers need to run more tests on copies of their real sites with different real content. In case such tests show that a change in this series should be reverted this can still be done down the road when there is more data and someone comes up with more improvements.\n\nIn the end these changes are confined to the notedb migration and all this code is going to be deleted when merging stable-2.16 to stable-3.0.",
+      "parentUuid": "9aa3cf3f_45ccec49",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

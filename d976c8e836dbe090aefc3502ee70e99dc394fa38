@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "5a796c1c_69d80937",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:16:07Z",
+      "side": 1,
+      "message": "Can you add a screenshot, e.g. at imgur?",
+      "revId": "d976c8e836dbe090aefc3502ee70e99dc394fa38",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

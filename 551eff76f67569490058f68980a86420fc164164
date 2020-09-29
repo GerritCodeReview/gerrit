@@ -16,6 +16,29 @@
       "revId": "551eff76f67569490058f68980a86420fc164164",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f0be183d_5163b499",
+        "filename": "polygerrit-ui/app/elements/shared/gr-cursor-manager/gr-cursor-manager.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 319,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-29T08:42:49Z",
+      "side": 1,
+      "message": "nit: I prefer delta \u003e 0, I guess variable on the left. Not sure if there is a style rule for this.(feel free to ignore).",
+      "range": {
+        "startLine": 319,
+        "startChar": 9,
+        "endLine": 319,
+        "endChar": 18
+      },
+      "revId": "551eff76f67569490058f68980a86420fc164164",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

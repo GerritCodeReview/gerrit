@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6a8effd_78a5820a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 437,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-29T08:52:39Z",
+      "side": 1,
+      "message": "let\u0027s add a test for the throttle",
+      "range": {
+        "startLine": 437,
+        "startChar": 38,
+        "endLine": 437,
+        "endChar": 64
+      },
+      "revId": "3d1c858e4174232517b498361abead0cdd61e15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0d54867e_6864fcd5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 6
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-29T08:52:39Z",
+      "side": 1,
+      "message": "lets stop using `bind` :) use `arrow function` instead",
+      "range": {
+        "startLine": 462,
+        "startChar": 38,
+        "endLine": 462,
+        "endChar": 42
+      },
+      "revId": "3d1c858e4174232517b498361abead0cdd61e15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e8586769_649e280e",
+        "filename": "polygerrit-ui/app/mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 903,
+      "author": {
+        "id": 1086906
+      },
+      "writtenOn": "2020-09-29T08:52:39Z",
+      "side": 1,
+      "message": "why `call`, this may have side effects if your `f` has a different context other than `this`, i would just do `f(e)` instead and manage context in `f`.\n\nmaybe use `fn` instead of `f` ;)",
+      "range": {
+        "startLine": 903,
+        "startChar": 12,
+        "endLine": 903,
+        "endChar": 16
+      },
+      "revId": "3d1c858e4174232517b498361abead0cdd61e15e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

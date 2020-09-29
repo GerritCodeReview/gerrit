@@ -95,6 +95,10 @@ Commit the changes and create a signed release tag on the new commit:
   git tag -s -m "v$version" "v$version"
 ----
 
+If unable to tag, make sure that git is locally
+link:https://medium.com/@rwbutler/signing-commits-using-gpg-on-macos-7210362d15[configured with your user's key].
+These are macOS instructions but such commands should be portable enough.
+
 Tag the plugins:
 
 ----

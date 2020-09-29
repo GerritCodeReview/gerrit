@@ -39,6 +39,30 @@
       "revId": "e7e2bbed6db8fba33374d6e7bd504d1b6b355e20",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "239aaca2_adc25c84",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 6
+      },
+      "lineNbr": 100,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-09-29T20:01:40Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8d6ec3aa_c3218e2f",
+      "range": {
+        "startLine": 100,
+        "startChar": 10,
+        "endLine": 100,
+        "endChar": 15
+      },
+      "revId": "e7e2bbed6db8fba33374d6e7bd504d1b6b355e20",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -21,6 +21,7 @@ import {
   changePath,
   changeStatuses,
   changeStatusString,
+  canRemoveReviewer,
 } from './change-util.js';
 
 suite('change-util tests', () => {
@@ -197,6 +198,23 @@ suite('change-util tests', () => {
     const statusString = changeStatusString(change);
     assert.deepEqual(statuses, ['Merge Conflict', 'WIP', 'Private']);
     assert.equal(statusString, 'Merge Conflict, WIP, Private');
+  });
+
+  test('canRemoveReviewer', () => {
+    let mutable = false;
+    let change = {
+      removable_reviewers: [{_account_id: 1}],
+    };
+    const reviewer = {_account_id: 1};
+    assert.equal(canRemoveReviewer(mutable, change, reviewer), false);
+
+    mutable = true;
+    assert.equal(canRemoveReviewer(mutable, change, reviewer), true);
+
+    change = {
+      removable_reviewers: [{_account_id: 2}],
+    };
+    assert.equal(canRemoveReviewer(mutable, change, reviewer), false);
   });
 });
 

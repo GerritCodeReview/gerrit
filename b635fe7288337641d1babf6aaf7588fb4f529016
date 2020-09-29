@@ -22,6 +22,30 @@
       "revId": "b635fe7288337641d1babf6aaf7588fb4f529016",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "44b062b0_20c18a72",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 11
+      },
+      "lineNbr": 1052,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-29T06:42:50Z",
+      "side": 1,
+      "message": "Done in change 282679.",
+      "parentUuid": "775900d0_d1398919",
+      "range": {
+        "startLine": 1052,
+        "startChar": 2,
+        "endLine": 1052,
+        "endChar": 22
+      },
+      "revId": "b635fe7288337641d1babf6aaf7588fb4f529016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

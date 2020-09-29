@@ -121,8 +121,8 @@ public class MergeOpRepoManager implements AutoCloseable {
     }
 
     // We want to reuse the open repo BUT not the BatchUpdate (because they are already executed)
-    public void resetUpdate() {
-      if (update != null) {
+    public void resetExecutedUpdates() {
+      if (update != null && update.isExecuted()) {
         update.close();
         update = null;
       }
@@ -218,7 +218,7 @@ public class MergeOpRepoManager implements AutoCloseable {
   public void resetUpdates(ImmutableSet<Project.NameKey> projects)
       throws NoSuchProjectException, IOException {
     for (Project.NameKey project : projects) {
-      getRepo(project).resetUpdate();
+      getRepo(project).resetExecutedUpdates();
     }
   }
 

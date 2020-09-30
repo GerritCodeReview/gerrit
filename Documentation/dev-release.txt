@@ -12,7 +12,6 @@ hopefully serve as both a how to for those new to the process
 and as a checklist for those already familiar with these
 tasks.
 
-
 == Gerrit Release Type
 
 Here are some guidelines on release approaches depending on the
@@ -41,7 +40,6 @@ There should be no new features in this release, only bug fixes
 
 * Finally create the `stable` release (no `rc`)
 
-
 === Stable-Fix
 
 `stable-fix` releases should likely only contain bug fixes and doc
@@ -51,7 +49,6 @@ updates.
 
 * This type of release does not need any RCs, release when the
 objectives are met
-
 
 [[security]]
 === Security-Fix
@@ -70,6 +67,39 @@ a `security-fix` release has been published will the commits/tags made in
 the `gerrit-security-fixes` project be taken over into the public
 `gerrit` project.
 
+[[upload-final-release-notes]]
+== Upload the final Release Notes change
+
+Upload a change on the homepage project to:
+
+* Remove 'In Development' caveat from the relevant section.
+
+* Add links to the released documentation and the .war file, and make the
+latest version bold.
+
+The uploaded change is not to be approved yet, but rather act as the
+release content review thread until it can be finalized.
+
+[[update-links]]
+=== Update homepage links
+
+Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
+homepage project] to change the version numbers to the new version.
+
+[[update-issues]]
+=== Update the Issues
+
+Update the issues by hand. There is no script for this.
+
+Our current process is an issue should be updated to say `Status =
+Submitted, FixedIn-$version` once the change is submitted, but before the
+release.
+
+The updated issues are the ones listed in commit messages since the
+previous version tag. Mention each updated issue in the uploaded change,
+following the examples from the previous version notes. Add updated issue
+owners as reviewers of the uploaded change. More reviewers can be added
+or cc'ed, to further coordinate the final release contents.
 
 == Create the Actual Release
 
@@ -95,6 +125,15 @@ Commit the changes and create a signed release tag on the new commit:
   git tag -s -m "v$version" "v$version"
 ----
 
+If unable to tag, make sure that git is locally
+link:https://medium.com/@rwbutler/signing-commits-using-gpg-on-macos-7210362d15[configured with your user's key].
+These are the macOS instructions but such commands should be portable enough.
+Setting `GPG_TTY` this way or similar might also be necessary:
+
+----
+  export GPG_TTY=$(tty)
+----
+
 Tag the plugins:
 
 ----
@@ -104,7 +143,7 @@ Tag the plugins:
 [[build-gerrit]]
 === Build Gerrit
 
-* Build the Gerrit WAR, API JARs and documentation
+* Build the Gerrit WAR, API JARs and documentation:
 +
 ----
   bazel build release Documentation:searchfree
@@ -119,9 +158,7 @@ Tag the plugins:
 ----
 * Try upgrading a test site and launching the daemon
 
-* Verify plugin versions
-+
-Verify the versions:
+* Verify the plugin versions:
 +
 ----
   java -jar bazel-bin/release.war init --list-plugins
@@ -235,7 +272,6 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server].
 
 ** Select `com.google.gerrit` as `Project`.
 
-
 [[publish-to-google-storage]]
 ==== Publish the Gerrit WAR to the Google Cloud Storage
 
@@ -257,7 +293,6 @@ get them merged.
 * Create a change updating the `defaultbranch` field in the `.gitreview`
 to match the branch name created.
 
-
 [[push-tag]]
 ==== Push the Release Tag
 
@@ -273,7 +308,6 @@ Push the new Release Tag on the plugins:
   git submodule foreach git push gerrit-review tag v$version
 ----
 
-
 [[upload-documentation]]
 ==== Upload the Documentation
 
@@ -288,33 +322,15 @@ gerrit-documentation] storage bucket.
 [[finalize-release-notes]]
 === Finalize the Release Notes
 
-Upload a change on the homepage project to:
-
-* Remove 'In Development' caveat from the relevant section.
-
-* Add links to the released documentation and the .war file, and make the
-latest version bold.
-
-[[update-links]]
-==== Update homepage links
-
-Upload a change on the link:https://gerrit-review.googlesource.com/admin/repos/homepage[
-homepage project] to change the version numbers to the new version.
+Submit that previously uploaded change on the homepage project.
 
 [[update-issues]]
 ==== Update the Issues
-
-Update the issues by hand. There is no script for this.
-
-Our current process is an issue should be updated to say `Status =
-Submitted, FixedIn-$version` once the change is submitted, but before the
-release.
 
 After the release is actually made, you can search in Google Code for
 `Status=Submitted FixedIn=$version` and then batch update these changes
 to say `Status=Released`. Make sure the pulldown says `All Issues`
 because `Status=Submitted` is considered a closed issue.
-
 
 [[announce]]
 ==== Announce on Mailing List

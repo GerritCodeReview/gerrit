@@ -45,7 +45,7 @@ import {
 import {RequestPayload} from '../../../types/common';
 import {HttpMethod} from '../../../constants/constants';
 import {JsApiService} from './gr-js-api-types';
-import {GrChangeActions} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrChangeActions} from '../../change/gr-change-actions/gr-change-actions';
 
 /**
  * Plugin-provided custom components can affect content in extension

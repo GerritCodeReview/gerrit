@@ -168,7 +168,7 @@ export type FetchParams = {
 };
 
 interface SendRequestBase {
-  method: HttpMethod;
+  method: HttpMethod | undefined;
   body?: RequestPayload;
   contentType?: string;
   headers?: Record<string, string>;

@@ -204,25 +204,32 @@ suite('gr-label-info tests', () => {
   });
 
   test('placeholder', () => {
+    const values = {
+      '0': 'No score',
+      '+1': 'good',
+      '+2': 'excellent',
+      '-1': 'bad',
+      '-2': 'terrible',
+    };
     element.labelInfo = {};
     assert.isFalse(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
-    element.labelInfo = {all: []};
+    element.labelInfo = {all: [], values};
     assert.isFalse(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
-    element.labelInfo = {all: [{value: 1}]};
+    element.labelInfo = {all: [{value: 1}], values};
     assert.isTrue(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
     element.labelInfo = {rejected: []};
     assert.isTrue(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
-    element.labelInfo = {values: [], rejected: [], all: [{value: 1}]};
+    element.labelInfo = {values: [], rejected: [], all: [{value: 1}, values]};
     assert.isTrue(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
     element.labelInfo = {approved: []};
     assert.isTrue(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
-    element.labelInfo = {values: [], approved: [], all: [{value: 1}]};
+    element.labelInfo = {values: [], approved: [], all: [{value: 1}, values]};
     assert.isTrue(isHidden(element.shadowRoot
         .querySelector('.placeholder')));
   });

@@ -31,6 +31,7 @@ import {
   BranchInfo,
   RepoName,
   BranchName,
+  CommitId,
 } from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
 import {customElement, property, observe} from '@polymer/decorators';
@@ -105,7 +106,7 @@ export class GrConfirmCherrypickDialog extends GestureEventListeners(
   commitMessage?: string;
 
   @property({type: String})
-  commitNum?: string;
+  commitNum?: CommitId;
 
   @property({type: String})
   message?: string;

@@ -33,10 +33,10 @@ import {
   ChangeInfo,
   AccountInfo,
   LabelInfo,
-  DetailedLabelInfo,
-  QuickLabelInfo,
   ApprovalInfo,
   AccountId,
+  isQuickLabelInfo,
+  isDetailedLabelInfo,
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../gr-button/gr-button';
@@ -65,11 +65,6 @@ interface FormattedLabel {
   className?: LabelClassName;
   account: ApprovalInfo;
   value: string;
-}
-
-// type guard to check if label is QuickLabelInfo
-function isQuickLabelInfo(label: LabelInfo): label is QuickLabelInfo {
-  return !(label as DetailedLabelInfo).values;
 }
 
 @customElement('gr-label-info')
@@ -107,8 +102,11 @@ export class GrLabelInfo extends GestureEventListeners(
     if (!labelInfo || !account) {
       return result;
     }
-    if (isQuickLabelInfo(labelInfo)) {
-      if (labelInfo.rejected || labelInfo.approved) {
+    if (!isDetailedLabelInfo(labelInfo)) {
+      if (
+        isQuickLabelInfo(labelInfo) &&
+        (labelInfo.rejected || labelInfo.approved)
+      ) {
         const ok = labelInfo.approved || !labelInfo.rejected;
         return [
           {
@@ -128,7 +126,11 @@ export class GrLabelInfo extends GestureEventListeners(
     );
     const votingRange = getVotingRange(labelInfo);
     for (const label of votes) {
-      if (label.value && label.value !== labelInfo.default_value) {
+      if (
+        label.value &&
+        (!isQuickLabelInfo(labelInfo) ||
+          label.value !== labelInfo.default_value)
+      ) {
         let labelClassName;
         let labelValPrefix = '';
         if (label.value > 0) {
@@ -226,8 +228,8 @@ export class GrLabelInfo extends GestureEventListeners(
   _computeValueTooltip(labelInfo: LabelInfo, score: string) {
     if (
       !labelInfo ||
-      isQuickLabelInfo(labelInfo) ||
-      !labelInfo.values?.[score]
+      !isDetailedLabelInfo(labelInfo) ||
+      !labelInfo.values[score]
     ) {
       return '';
     }
@@ -238,19 +240,25 @@ export class GrLabelInfo extends GestureEventListeners(
    * This method also listens change.labels.* in
    * order to trigger computation when a label is removed from the change.
    */
-  _computeShowPlaceholder(labelInfo: LabelInfo) {
+  _computeShowPlaceholder(labelInfo?: LabelInfo) {
+    if (!labelInfo) {
+      return '';
+    }
     if (
-      labelInfo &&
+      !isDetailedLabelInfo(labelInfo) &&
       isQuickLabelInfo(labelInfo) &&
       (labelInfo.rejected || labelInfo.approved)
     ) {
       return 'hidden';
     }
 
-    // TODO(TS): might replace with hasOwnProperty instead
-    if (labelInfo && (labelInfo as DetailedLabelInfo).all) {
-      for (const label of (labelInfo as DetailedLabelInfo).all || []) {
-        if (label.value && label.value !== labelInfo.default_value) {
+    if (isDetailedLabelInfo(labelInfo) && labelInfo.all) {
+      for (const label of labelInfo.all) {
+        if (
+          label.value &&
+          (!isQuickLabelInfo(labelInfo) ||
+            label.value !== labelInfo.default_value)
+        ) {
           return 'hidden';
         }
       }

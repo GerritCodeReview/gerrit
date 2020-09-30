@@ -15,50 +15,113 @@
  * limitations under the License.
  */
 import {
-  GrChangeActions,
   ActionType,
   ActionPriority,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {JsApiService} from './gr-js-api-types';
 import {TargetElement} from '../../plugins/gr-plugin-types';
+import {ActionInfo, RequireProperties} from '../../../types/common';
 
 interface Plugin {
   getPluginName(): string;
 }
 
-export class GrChangeActionsInterface {
-  private _el?: GrChangeActions;
-  // TODO(TS): define correct types when gr-change-actions is converted to ts
+export enum ChangeActions {
+  ABANDON = 'abandon',
+  DELETE = '/',
+  DELETE_EDIT = 'deleteEdit',
+  EDIT = 'edit',
+  FOLLOW_UP = 'followup',
+  IGNORE = 'ignore',
+  MOVE = 'move',
+  PRIVATE = 'private',
+  PRIVATE_DELETE = 'private.delete',
+  PUBLISH_EDIT = 'publishEdit',
+  REBASE = 'rebase',
+  REBASE_EDIT = 'rebaseEdit',
+  READY = 'ready',
+  RESTORE = 'restore',
+  REVERT = 'revert',
+  REVERT_SUBMISSION = 'revert_submission',
+  REVIEWED = 'reviewed',
+  STOP_EDIT = 'stopEdit',
+  SUBMIT = 'submit',
+  UNIGNORE = 'unignore',
+  UNREVIEWED = 'unreviewed',
+  WIP = 'wip',
+}
 
+export enum RevisionActions {
+  CHERRYPICK = 'cherrypick',
+  REBASE = 'rebase',
+  SUBMIT = 'submit',
+  DOWNLOAD = 'download',
+}
+
+export type PrimaryActionKey = ChangeActions | RevisionActions;
+
+export interface UIActionInfo extends RequireProperties<ActionInfo, 'label'> {
+  __key: string;
+  __url?: string;
+  __primary?: boolean;
+  __type: ActionType;
+  icon?: string;
+}
+
+// This interface is required to avoid circular dependencies between files;
+export interface GrChangeActionsElement extends Element {
   RevisionActions?: Record<string, string>;
+  ChangeActions: Record<string, string>;
+  ActionType: Record<string, string>;
+  primaryActionKeys: string[];
+  push(propName: 'primaryActionKeys', value: string): void;
+  hideQuickApproveAction(): void;
+  setActionOverflow(type: ActionType, key: string, overflow: boolean): void;
+  setActionPriority(
+    type: ActionType,
+    key: string,
+    overflow: ActionPriority
+  ): void;
+  setActionHidden(type: ActionType, key: string, hidden: boolean): void;
+  addActionButton(type: ActionType, label: string): string;
+  removeActionButton(key: string): void;
+  setActionButtonProp<T extends keyof UIActionInfo>(
+    key: string,
+    prop: T,
+    value: UIActionInfo[T]
+  ): void;
+  getActionDetails(actionName: string): ActionInfo | undefined;
+}
 
-  ChangeActions?: Record<string, string>;
+export class GrChangeActionsInterface {
+  private _el?: GrChangeActionsElement;
 
-  ActionType?: Record<string, string>;
+  RevisionActions = RevisionActions;
 
-  constructor(public plugin: Plugin, el?: GrChangeActions) {
+  ChangeActions = ChangeActions;
+
+  ActionType = ActionType;
+
+  constructor(public plugin: Plugin, el?: GrChangeActionsElement) {
     this.setEl(el);
   }
 
   /**
    * Set gr-change-actions element to a GrChangeActionsInterface instance.
    */
-  private setEl(el?: GrChangeActions) {
+  private setEl(el?: GrChangeActionsElement) {
     if (!el) {
       console.warn('changeActions() is not ready');
       return;
     }
     this._el = el;
-    this.RevisionActions = el.RevisionActions;
-    this.ChangeActions = el.ChangeActions;
-    this.ActionType = el.ActionType;
   }
 
   /**
    * Ensure GrChangeActionsInterface instance has access to gr-change-actions
    * element and retrieve if the interface was created before element.
    */
-  private ensureEl(): GrChangeActions {
+  private ensureEl(): GrChangeActionsElement {
     if (!this._el) {
       const sharedApiElement = (document.createElement(
         'gr-js-api-interface'
@@ -66,13 +129,13 @@ export class GrChangeActionsInterface {
       this.setEl(
         (sharedApiElement.getElement(
           TargetElement.CHANGE_ACTIONS
-        ) as unknown) as GrChangeActions
+        ) as unknown) as GrChangeActionsElement
       );
     }
     return this._el!;
   }
 
-  addPrimaryActionKey(key: string) {
+  addPrimaryActionKey(key: PrimaryActionKey) {
     const el = this.ensureEl();
     if (el.primaryActionKeys.includes(key)) {
       return;
@@ -130,7 +193,7 @@ export class GrChangeActionsInterface {
     this.ensureEl().setActionButtonProp(key, 'title', text);
   }
 
-  setEnabled(key: string, enabled: string) {
+  setEnabled(key: string, enabled: boolean) {
     this.ensureEl().setActionButtonProp(key, 'enabled', enabled);
   }
 

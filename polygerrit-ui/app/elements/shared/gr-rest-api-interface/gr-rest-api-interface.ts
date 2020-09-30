@@ -134,6 +134,8 @@ import {
   FilePathToDiffInfoMap,
   ChangeViewChangeInfo,
   BlameInfo,
+  ActionNameToActionInfoMap,
+  RevisionId,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -194,7 +196,7 @@ interface SendChangeRequestBase {
   endpoint: string;
   anonymizedEndpoint?: string;
   changeNum: NumericChangeId;
-  method: HttpMethod;
+  method: HttpMethod | undefined;
   errFn?: ErrorCallback;
   headers?: Record<string, string>;
   contentType?: string;
@@ -1374,10 +1376,12 @@ export class GrRestApiInterface
 
   getChangeActionURL(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum | undefined,
+    revisionId: RevisionId | undefined,
     endpoint: string
   ): Promise<string> {
-    return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
+    return this._changeBaseURL(changeNum, revisionId).then(
+      url => url + endpoint
+    );
   }
 
   getChangeDetail(
@@ -1601,14 +1605,19 @@ export class GrRestApiInterface
     return this.getChangeFiles(changeNum, patchRange);
   }
 
-  getChangeRevisionActions(changeNum: NumericChangeId, patchNum: PatchSetNum) {
+  getChangeRevisionActions(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<ActionNameToActionInfoMap | undefined> {
     const req: FetchChangeJSON = {
       changeNum,
       endpoint: '/actions',
       patchNum,
       reportEndpointAsIs: true,
     };
-    return this._getChangeURLAndFetch(req);
+    return this._getChangeURLAndFetch(req) as Promise<
+      ActionNameToActionInfoMap | undefined
+    >;
   }
 
   getChangeSuggestedReviewers(
@@ -2765,7 +2774,7 @@ export class GrRestApiInterface
   _getDiffCommentsFetchURL(
     changeNum: NumericChangeId,
     endpoint: string,
-    patchNum?: PatchSetNum
+    patchNum?: RevisionId
   ) {
     return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
   }
@@ -2901,7 +2910,7 @@ export class GrRestApiInterface
 
   getB64FileContents(
     changeId: NumericChangeId,
-    patchNum: PatchSetNum,
+    patchNum: RevisionId,
     path: string,
     parentIndex?: number
   ) {
@@ -2974,7 +2983,7 @@ export class GrRestApiInterface
 
   _changeBaseURL(
     changeNum: NumericChangeId,
-    patchNum?: PatchSetNum,
+    revisionId?: RevisionId,
     project?: RepoName
   ): Promise<string> {
     // TODO(kaspern): For full slicer migration, app should warn with a call
@@ -2987,8 +2996,8 @@ export class GrRestApiInterface
       let url = `/changes/${encodeURIComponent(
         project as RepoName
       )}~${changeNum}`;
-      if (patchNum) {
-        url += `/revisions/${patchNum}`;
+      if (revisionId) {
+        url += `/revisions/${revisionId}`;
       }
       return url;
     });
@@ -3279,7 +3288,7 @@ export class GrRestApiInterface
    * Given a changeNum, gets the change.
    */
   getChange(
-    changeNum: NumericChangeId,
+    changeNum: ChangeId | NumericChangeId,
     errFn: ErrorCallback
   ): Promise<ChangeInfo | null> {
     // Cannot use _changeBaseURL, as this function is used by _projectLookup.
@@ -3416,7 +3425,7 @@ export class GrRestApiInterface
 
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload
@@ -3424,7 +3433,7 @@ export class GrRestApiInterface
 
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum: PatchSetNum | undefined,
     payload: RequestPayload | undefined,
@@ -3436,7 +3445,7 @@ export class GrRestApiInterface
    */
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload,

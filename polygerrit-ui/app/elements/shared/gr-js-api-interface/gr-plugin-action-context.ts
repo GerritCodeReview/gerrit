@@ -15,13 +15,9 @@
  * limitations under the License.
  */
 
-import {
-  RevisionInfo,
-  ChangeInfo,
-  RequestPayload,
-  ActionInfo,
-} from '../../../types/common';
+import {RevisionInfo, ChangeInfo, RequestPayload} from '../../../types/common';
 import {PluginApi} from '../../plugins/gr-plugin-types';
+import {UIActionInfo} from './gr-change-actions-js-api';
 
 interface GrPopupInterface {
   close(): void;
@@ -36,7 +32,7 @@ export class GrPluginActionContext {
 
   constructor(
     public readonly plugin: PluginApi,
-    public readonly action: ActionInfo,
+    public readonly action: UIActionInfo,
     public readonly change: ChangeInfo,
     public readonly revision: RevisionInfo
   ) {}

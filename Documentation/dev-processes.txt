@@ -68,7 +68,7 @@ hackathon, the voting period goes from 14th May to 16th May).
 
 Google maintainers do not take part in this vote, because Google
 already has dedicated seats in the steering committee (see section
-link:steering-committee[steering committee]).
+link:#steering-committee[steering committee]).
 
 [[contribution-process]]
 == Contribution Process

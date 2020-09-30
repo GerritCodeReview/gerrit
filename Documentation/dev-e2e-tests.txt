@@ -42,17 +42,17 @@ So, Eclipse can also be used alongside as a development IDE; this is described b
 === Eclipse
 
 1. Install the link:http://scala-ide.org/docs/user/gettingstarted.html[Scala plugin for Eclipse,role=external,window=_blank].
-1. Run `sbt eclipse` from the `e2e-tests` root directory.
-1. Import the resulting `e2e-tests` eclipse file inside the Gerrit project, in Eclipse.
-1. You should see errors in Eclipse telling you there are missing packages.
-1. This is due to the sbt-eclipse plugin not properly linking the Gerrit Gatling e2e tests with
+2. Run `sbt eclipse` from the `e2e-tests` root directory.
+3. Import the resulting `e2e-tests` eclipse file inside the Gerrit project, in Eclipse.
+4. You should see errors in Eclipse telling you there are missing packages.
+5. This is due to the sbt-eclipse plugin not properly linking the Gerrit Gatling e2e tests with
    Gatling Git plugin.
-1. You then have to right-click on the root directory and choose the build path->link source option.
-1. Then you have to browse to `.sbt/1.0/staging`, find the folder where gatling-git is contained,
+6. You then have to right-click on the root directory and choose the build path->link source option.
+7. Then you have to browse to `.sbt/1.0/staging`, find the folder where gatling-git is contained,
    and choose that.
-1. That last step should link the gatling-git plugin to the project; e2e tests should not show
+8. That last step should link the gatling-git plugin to the project; e2e tests should not show
    errors anymore.
-1. You may get errors in the gatling-git directory; these should not affect Gerrit Gatling
+9. You may get errors in the gatling-git directory; these should not affect Gerrit Gatling
    development and can be ignored.
 
 == How to build the tests

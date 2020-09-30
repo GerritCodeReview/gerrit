@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "1c8c8b8f_394fad42",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T09:03:22Z",
+      "side": 1,
+      "message": "According to TS style guide it should be LabelCategory",
+      "range": {
+        "startLine": 60,
+        "startChar": 12,
+        "endLine": 60,
+        "endChar": 26
+      },
+      "revId": "43833d0766da31cb19d57d942b0d9fd13905a6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

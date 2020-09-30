@@ -353,6 +353,30 @@
       "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bee63dee_a2d75d57",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-30T07:36:58Z",
+      "side": 1,
+      "message": "Comment from Ivan with publicly accessible links:\n\n\u003e There are tests for fast-forwards (and are passing). It works fine for us removing this op because the fast-forward-only strategy adds FastForwardOp that moves the mergeTip [1] and generates a ReceiveCommand [2] (which is what we use later to know what was updated).\n\u003e \n\u003e I wonder why before this was done here and not in in https://gerrit.googlesource.com/gerrit/+/refs/changes/59/281759/14/java/com/google/gerrit/server/submit/FastForwardOnly.java#35\n\u003e \n\u003e [1] https://gerrit.googlesource.com/gerrit/+/refs/changes/59/281759/14/java/com/google/gerrit/server/submit/FastForwardOp.java#37\n\u003e \n\u003e [2] https://gerrit.googlesource.com/gerrit/+/refs/changes/59/281759/14/java/com/google/gerrit/server/submit/SubmitStrategyOp.java#132",
+      "parentUuid": "ae2c057c_a5549feb",
+      "range": {
+        "startLine": 728,
+        "startChar": 25,
+        "endLine": 728,
+        "endChar": 70
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

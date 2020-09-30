@@ -682,7 +682,7 @@ public class ChangeData {
         // from the index. However, we need these values for permission checks.
         throw new IllegalStateException("reviewers not populated");
       }
-      reviewers = approvalsUtil.getReviewers(notes(), approvals().values());
+      reviewers = approvalsUtil.getReviewers(notes());
     }
     return reviewers;
   }

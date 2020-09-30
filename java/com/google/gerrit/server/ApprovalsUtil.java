@@ -117,16 +117,6 @@ public class ApprovalsUtil {
   }
 
   /**
-   * Get all reviewers and CCed accounts for a change.
-   *
-   * @param allApprovals all approvals to consider; must all belong to the same change.
-   * @return reviewers for the change.
-   */
-  public ReviewerSet getReviewers(ChangeNotes notes, Iterable<PatchSetApproval> allApprovals) {
-    return notes.load().getReviewers();
-  }
-
-  /**
    * Get updates to reviewer set.
    *
    * @param notes change notes.

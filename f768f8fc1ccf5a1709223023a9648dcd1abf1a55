@@ -160,6 +160,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "731f6309_68470939",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-30T10:12:50Z",
+      "side": 1,
+      "message": "I did not manage yet to reach a 100k changes, but just 10k for now, but I\u0027ll continue in the next few days.\n\nSee below my results:\n\nBaseline: v2.16.22\n- Rebuilt 10010 changes in 27.7s (361.3/s)\n- Total time: 2m7.822s\n\nTip of this series: v2.16.22-29-g19502a836c\n- Rebuilt 10010 changes in 16.2s (619.1/s)\n- Total time: 0m50.327s\n\nSo, overall, there is 2x factor on the speed of migration, which means the changes are making a significant improvement on the migration process.\n\n@Martin can you share your stats as well?",
+      "parentUuid": "13b85e02_e3687f0b",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

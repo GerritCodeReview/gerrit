@@ -96,6 +96,30 @@
     },
     {
       "key": {
+        "uuid": "11d1e699_3a0942b6",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T23:21:53Z",
+      "side": 1,
+      "message": "I tried. \"autoCloseChanges\" pulls half ReceiveCommits with it and uses internal classes... not a quick refactoring. ok to leave it as a TODO?",
+      "parentUuid": "11c9c3c7_0016e53a",
+      "range": {
+        "startLine": 750,
+        "startChar": 6,
+        "endLine": 772,
+        "endChar": 0
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6a4956c_178482a7",
         "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
         "patchSetId": 2
@@ -283,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "de8d1af0_e9dcfd22",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T23:21:53Z",
+      "side": 1,
+      "message": "I think it makes sense on the constructor (it is an immutable property of the submission). I added a \"setDryrun\" to the SubmissionListener interface to propagate the information.",
+      "parentUuid": "8b3c49cd_93d37399",
+      "range": {
+        "startLine": 48,
+        "startChar": 4,
+        "endLine": 48,
+        "endChar": 25
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "b3cfad60_f5ef6fcd",
         "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
         "patchSetId": 2
@@ -353,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "3f3946e5_0740ed73",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T23:21:53Z",
+      "side": 1,
+      "message": "Not sure I understand.\n\nBatchUpdateListener#beforeUpdateRefs() only sees BatchRefUpdates (and we cannot go from those to the BatchUpdates). It is a lower-level call to intercept the actual update and add submission information to it. Sidenote: Maybe its name is misleading, as it is a \"lower level\" call?\n\nDo you mean to move #beforeBatchUpdates() to the constructor of a BatchUpdateListener and use #afterUpdateRefs() to collect \nresults? \n\nI took #afterSubmission() as \"success point\" of the submission because otherwise I would need to keep track if #afterUpdateRefs() have been called (ie is #afterSubmission() invoked after sucess or after giving up retrying). Also, #afterSubmission() is invoked after post-operations.",
+      "parentUuid": "4de6db8f_5d7fd82e",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9c7905fc_94471735",
         "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
         "patchSetId": 2
@@ -373,6 +445,30 @@
       "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "77147283_47e70262",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 76,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T23:21:53Z",
+      "side": 1,
+      "message": "At the moment I leave it without filter, to keep functionality \"consistent\". As mentioned before, it doesn\u0027t \"break\".\n\nIIUC MergeOp wasn\u0027t doing this filtering, I wonder if it would break some existing repos to add it (e.g. if they use refs out of refs/heads?)",
+      "parentUuid": "9c7905fc_94471735",
+      "range": {
+        "startLine": 76,
+        "startChar": 14,
+        "endLine": 76,
+        "endChar": 67
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

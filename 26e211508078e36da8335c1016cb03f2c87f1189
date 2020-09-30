@@ -121,6 +121,24 @@
       "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "0ea73116_d9b1904d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-09-30T08:47:18Z",
+      "side": 1,
+      "message": "FYI Icons for the dashboard: https://gerrit-review.googlesource.com/c/gerrit/+/282695",
+      "parentUuid": "012aa0b6_34866fa1",
+      "revId": "26e211508078e36da8335c1016cb03f2c87f1189",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

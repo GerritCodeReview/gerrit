@@ -60,7 +60,7 @@ enum CHANGE_SIZE {
 const PRIMARY_REVIEWERS_COUNT = 2;
 
 @customElement('gr-change-list-item')
-class GrChangeListItem extends ChangeTableMixin(
+export class GrChangeListItem extends ChangeTableMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
 ) {
   static get template() {

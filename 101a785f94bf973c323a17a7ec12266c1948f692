@@ -351,6 +351,24 @@
     },
     {
       "key": {
+        "uuid": "9e89ee1e_08e7b121",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 18
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-09-30T20:51:52Z",
+      "side": 1,
+      "message": "no worries :) you have a good point here.\n\nYes, one cache entry stands for 1 comment. 100 lines is definitely plenty. From a UI perspective, we would never need to show more than this beside a comment (or a comment thread). I will add more proper handling to the number of lines anyway in a follow up change.\n\nI found more documentation about the default in-memory and on-disk limits for caches in https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#cache. 1GB seems like the default for many caches. We could also tweak these values depending on the observed hits/misses in the future.",
+      "parentUuid": "066b9dce_5d2ae196",
+      "revId": "101a785f94bf973c323a17a7ec12266c1948f692",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "d07bcc70_b9fc37f8",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 18

@@ -28,6 +28,7 @@ import {RevisionInfo} from '../../shared/revision-info/revision-info';
 import {GrDownloadCommands} from '../../shared/gr-download-commands/gr-download-commands';
 import {GrButton} from '../../shared/gr-button/gr-button';
 import {hasOwnProperty} from '../../../utils/common-util';
+import {GrOverlayStops} from '../../shared/gr-overlay/gr-overlay';
 
 export interface GrDownloadDialog {
   $: {
@@ -96,7 +97,7 @@ export class GrDownloadDialog extends GestureEventListeners(
     }
   }
 
-  getFocusStops() {
+  getFocusStops(): GrOverlayStops {
     return {
       start: this.$.downloadCommands.$.downloadTabs,
       end: this.$.closeButton,

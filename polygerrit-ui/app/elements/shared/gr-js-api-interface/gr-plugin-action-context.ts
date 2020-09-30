@@ -63,7 +63,7 @@ export class GrPluginActionContext {
     window.location.reload();
   }
 
-  textfield() {
+  textfield(): HTMLElement {
     return document.createElement('paper-input');
   }
 

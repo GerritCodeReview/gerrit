@@ -453,18 +453,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
 
   @Override
   public final void postUpdate(Context ctx) throws Exception {
-    if (changeAlreadyMerged) {
-      // TODO(dborowitz): This is suboptimal behavior in the presence of retries: postUpdate steps
-      // will never get run for changes that submitted successfully on any but the final attempt.
-      // This is primarily a temporary workaround for the fact that the submitter field is not
-      // populated in the changeAlreadyMerged case.
-      //
-      // If we naively execute postUpdate even if the change is already merged when updateChange
-      // being, then we are subject to a race where postUpdate steps are run twice if two submit
-      // processes run at the same time.
-      logger.atFine().log("Skipping post-update steps for change %s", getId());
-      return;
-    }
+    if (isChangeAlreadyMerged()) return;
     postUpdateImpl(ctx);
 
     if (command != null) {
@@ -500,6 +489,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
    */
   @Override
   public final void asyncPostUpdate(Context ctx) {
+    if (isChangeAlreadyMerged()) return;
     try {
       args.mergedSenderFactory
           .create(
@@ -513,6 +503,24 @@ abstract class SubmitStrategyOp implements BatchUpdateOp, AsyncPostUpdateOp {
       logger.atSevere().withCause(e).log("Cannot email merged notification for %s", getId());
     }
     asyncPostUpdateImpl(ctx);
+  }
+
+  /**
+   * This is suboptimal behavior in the presence of retries: postUpdate steps will never get run for
+   * changes that submitted successfully on any but the final attempt. This is primarily a temporary
+   * workaround for the fact that the submitter field is not populated in the changeAlreadyMerged
+   * case.
+   *
+   * <p>If we naively execute postUpdate even if the change is already merged when updateChange
+   * being, then we are subject to a race where postUpdate steps are run twice if two submit
+   * processes run at the same time.
+   */
+  private boolean isChangeAlreadyMerged() {
+    if (changeAlreadyMerged) {
+      logger.atFine().log("Skipping post-update steps for change %s", getId());
+      return true;
+    }
+    return false;
   }
 
   /**

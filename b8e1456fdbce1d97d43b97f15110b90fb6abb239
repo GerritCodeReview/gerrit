@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "e5d94f14_d6b36be2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-30T15:57:53Z",
+      "side": 1,
+      "message": "Edwin or Patrick, it would be nice to get a review soon. I just noticed that this change was still lying around.",
+      "revId": "b8e1456fdbce1d97d43b97f15110b90fb6abb239",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

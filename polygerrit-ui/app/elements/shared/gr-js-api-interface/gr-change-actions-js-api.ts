@@ -15,12 +15,17 @@
  * limitations under the License.
  */
 import {
-  GrChangeActions,
   ActionType,
   ActionPriority,
 } from '../../../services/services/gr-rest-api/gr-rest-api';
 import {JsApiService} from './gr-js-api-types';
 import {TargetElement} from '../../plugins/gr-plugin-types';
+import {
+  RevisionActions,
+  GrChangeActions,
+  ChangeActions,
+  PrimaryActionKey,
+} from '../../change/gr-change-actions/gr-change-actions';
 
 interface Plugin {
   getPluginName(): string;
@@ -30,11 +35,11 @@ export class GrChangeActionsInterface {
   private _el?: GrChangeActions;
   // TODO(TS): define correct types when gr-change-actions is converted to ts
 
-  RevisionActions?: Record<string, string>;
+  RevisionActions = RevisionActions;
 
-  ChangeActions?: Record<string, string>;
+  ChangeActions = ChangeActions;
 
-  ActionType?: Record<string, string>;
+  ActionType = ActionType;
 
   constructor(public plugin: Plugin, el?: GrChangeActions) {
     this.setEl(el);
@@ -49,9 +54,6 @@ export class GrChangeActionsInterface {
       return;
     }
     this._el = el;
-    this.RevisionActions = el.RevisionActions;
-    this.ChangeActions = el.ChangeActions;
-    this.ActionType = el.ActionType;
   }
 
   /**
@@ -72,7 +74,7 @@ export class GrChangeActionsInterface {
     return this._el!;
   }
 
-  addPrimaryActionKey(key: string) {
+  addPrimaryActionKey(key: PrimaryActionKey) {
     const el = this.ensureEl();
     if (el.primaryActionKeys.includes(key)) {
       return;
@@ -130,7 +132,7 @@ export class GrChangeActionsInterface {
     this.ensureEl().setActionButtonProp(key, 'title', text);
   }
 
-  setEnabled(key: string, enabled: string) {
+  setEnabled(key: string, enabled: boolean) {
     this.ensureEl().setActionButtonProp(key, 'enabled', enabled);
   }
 

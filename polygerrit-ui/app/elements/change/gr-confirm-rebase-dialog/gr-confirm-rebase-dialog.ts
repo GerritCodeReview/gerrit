@@ -37,6 +37,10 @@ interface RebaseChange {
   value: NumericChangeId;
 }
 
+export interface ConfirmRebaseEventDetail {
+  base: string | null;
+}
+
 export interface GrConfirmRebaseDialog {
   $: {
     restAPI: RestApiService & Element;
@@ -187,9 +191,10 @@ export class GrConfirmRebaseDialog extends GestureEventListeners(
   _handleConfirmTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(
-      new CustomEvent('confirm', {detail: {base: this._getSelectedBase()}})
-    );
+    const detail: ConfirmRebaseEventDetail = {
+      base: this._getSelectedBase(),
+    };
+    this.dispatchEvent(new CustomEvent('confirm', {detail}));
     this._text = '';
   }
 

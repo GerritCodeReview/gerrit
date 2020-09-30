@@ -554,7 +554,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     const comment = diffCommentEl.comment;
     const idx = this._indexOf(comment, this.comments);
     if (idx === -1) {
-      throw Error(
+      throw new Error(
         'Cannot find comment ' + JSON.stringify(diffCommentEl.comment)
       );
     }
@@ -574,7 +574,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
           path: changeComment.path,
           line: changeComment.line,
         };
-        return this.$.storage.setDraftComment(
+        this.$.storage.setDraftComment(
           commentLocation,
           changeComment.message ?? ''
         );

@@ -79,7 +79,7 @@ export class GrDiffCursor extends GestureEventListeners(
 
   private _preventAutoScrollOnManualScroll = false;
 
-  private _lastDisplayedNavigateToNextFileToast: number | null = null;
+  private lastDisplayedNavigateToNextFileToast: number | null = null;
 
   @property({type: String})
   side = Side.RIGHT;
@@ -222,12 +222,12 @@ export class GrDiffCursor extends GestureEventListeners(
       this.$.cursorManager.isAtEnd()
     ) {
       if (
-        this._lastDisplayedNavigateToNextFileToast &&
-        Date.now() - this._lastDisplayedNavigateToNextFileToast <=
+        this.lastDisplayedNavigateToNextFileToast &&
+        Date.now() - this.lastDisplayedNavigateToNextFileToast <=
           NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS
       ) {
         // reset for next file
-        this._lastDisplayedNavigateToNextFileToast = null;
+        this.lastDisplayedNavigateToNextFileToast = null;
         this.dispatchEvent(
           new CustomEvent('navigate-to-next-unreviewed-file', {
             composed: true,
@@ -235,7 +235,7 @@ export class GrDiffCursor extends GestureEventListeners(
           })
         );
       }
-      this._lastDisplayedNavigateToNextFileToast = Date.now();
+      this.lastDisplayedNavigateToNextFileToast = Date.now();
       this.dispatchEvent(
         new CustomEvent('show-alert', {
           detail: {

@@ -958,7 +958,7 @@ suite('gr-reply-dialog tests', () => {
         element.shadowRoot.querySelector('.edit-attention-button'));
     flush();
 
-    assert.isTrue(element._attentionModified);
+    assert.isTrue(element._attentionExpanded);
     let accountLabels = Array.from(element.shadowRoot.querySelectorAll(
         '.attention-detail gr-account-label'));
     assert.equal(accountLabels.length, 5);
@@ -969,13 +969,13 @@ suite('gr-reply-dialog tests', () => {
 
     // The 'attention modified' section collapses and resets when reviewers or
     // ccs change.
-    assert.isFalse(element._attentionModified);
+    assert.isFalse(element._attentionExpanded);
 
     MockInteractions.tap(
         element.shadowRoot.querySelector('.edit-attention-button'));
     flush();
 
-    assert.isTrue(element._attentionModified);
+    assert.isTrue(element._attentionExpanded);
     accountLabels = Array.from(element.shadowRoot.querySelectorAll(
         '.attention-detail gr-account-label'));
     assert.equal(accountLabels.length, 7);
@@ -1344,7 +1344,7 @@ suite('gr-reply-dialog tests', () => {
     ));
   });
 
-  test('_computeSendButtonDisabled_attentionModified true', () => {
+  test('_computeSendButtonDisabled_attentionExpanded true', () => {
     const fn = element._computeSendButtonDisabled.bind(element);
     // Mock everything false
     assert.isFalse(fn(

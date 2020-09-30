@@ -206,6 +206,27 @@ export const htmlTemplate = html`
       color: var(--deemphasized-text-color);
       margin-bottom: var(--spacing-m);
     }
+    .attentionTip {
+      justify-content: space-between;
+      display: flex;
+      padding: var(--spacing-m);
+      border: 1px solid var(--border-color);
+      border-radius: var(--border-radius);
+      margin-top: var(--spacing-m);
+      background-color: var(--assignee-highlight-color);
+    }
+    .attentionTip div {
+      display: flex;
+    }
+    .attentionTip div iron-icon {
+      margin-right: var(--spacing-s);
+    }
+    .attentionTip a {
+      white-space: nowrap;
+      margin-right: var(--spacing-s);
+      padding-left: var(--spacing-m);
+      text-decoration: none;
+    }
   </style>
   <div class="container" tabindex="-1">
     <section class="peopleContainer">
@@ -352,7 +373,7 @@ export const htmlTemplate = html`
     </section>
     <div class="stickyBottom">
       <section
-        hidden$="[[!_showAttentionSummary(serverConfig, _attentionModified)]]"
+        hidden$="[[!_showAttentionSummary(serverConfig, _attentionExpanded)]]"
         class="attention"
       >
         <div class="attentionSummary">
@@ -416,7 +437,7 @@ export const htmlTemplate = html`
         </div>
       </section>
       <section
-        hidden$="[[!_showAttentionDetails(serverConfig, _attentionModified)]]"
+        hidden$="[[!_showAttentionDetails(serverConfig, _attentionExpanded)]]"
         class="attention-detail"
       >
         <div class="attentionDetailsTitle">
@@ -520,6 +541,29 @@ export const htmlTemplate = html`
                 >
                 </gr-account-label>
               </template>
+            </div>
+          </div>
+        </template>
+        <template
+          is="dom-if"
+          if="[[_computeShowAttentionTip(_newAttentionSet)]]"
+        >
+          <div class="attentionTip">
+            <div>
+              <iron-icon
+                class="pointer"
+                icon="gr-icons:lightbulb-outline"
+              ></iron-icon>
+              Be mindful of requiring attention from too many reviewers.
+            </div>
+            <div>
+              <a
+                tabindex="-1"
+                href="https://gerrit-review.googlesource.com/Documentation/user-attention-set.html"
+                target="_blank"
+              >
+                Read more
+              </a>
             </div>
           </div>
         </template>

@@ -56,6 +56,17 @@ enum CHANGE_SIZE {
   LARGE = 1000,
 }
 
+// export for testing
+export enum LABEL_CATEGORY {
+  NOT_APPLICABLE = 'NOT_APPLICABLE',
+  APPROVED = 'APPROVED',
+  POSITIVE = 'POSITIVE',
+  NEUTRAL = 'NEUTRAL',
+  UNRESOLVED_COMMENTS = 'UNRESOLVED_COMMENTS',
+  NEGATIVE = 'NEGATIVE',
+  REJECTED = 'REJECTED',
+}
+
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
 
@@ -131,8 +142,14 @@ class GrChangeListItem extends ChangeTableMixin(
 
   _computeLabelTitle(change: ChangeInfo | undefined, labelName: string) {
     const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    if (!label) {
+    const category = this._computeLabelCategory(change, labelName);
+    if (!label || category === LABEL_CATEGORY.NOT_APPLICABLE) {
       return 'Label not applicable';
+    }
+    if (category === LABEL_CATEGORY.UNRESOLVED_COMMENTS) {
+      const num = change?.unresolved_comment_count ?? 0;
+      const plural = num > 1 ? 's' : '';
+      return `${num} unresolved comment${plural}`;
     }
     const significantLabel =
       label.rejected || label.approved || label.disliked || label.recommended;
@@ -143,58 +160,90 @@ class GrChangeListItem extends ChangeTableMixin(
   }
 
   _computeLabelClass(change: ChangeInfo | undefined, labelName: string) {
-    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    // Mimic a Set.
-    // TODO(TS): replace with `u_green` to remove the quotes and brackets
-    const classes: {
-      cell: boolean;
-      label: boolean;
-      ['u-green']?: boolean;
-      ['u-monospace']?: boolean;
-      ['u-red']?: boolean;
-      ['u-gray-background']?: boolean;
-    } = {
-      cell: true,
-      label: true,
-    };
-    if (label) {
-      if (label.approved) {
-        classes['u-green'] = true;
-      }
-      if (label.value === 1) {
-        classes['u-monospace'] = true;
-        classes['u-green'] = true;
-      } else if (label.value === -1) {
-        classes['u-monospace'] = true;
-        classes['u-red'] = true;
-      }
-      if (label.rejected) {
-        classes['u-red'] = true;
-      }
-    } else {
-      classes['u-gray-background'] = true;
+    const category = this._computeLabelCategory(change, labelName);
+    const classes = ['cell', 'label'];
+    switch (category) {
+      case LABEL_CATEGORY.NOT_APPLICABLE:
+        classes.push('u-gray-background');
+        break;
+      case LABEL_CATEGORY.APPROVED:
+        classes.push('u-green');
+        break;
+      case LABEL_CATEGORY.POSITIVE:
+        classes.push('u-monospace');
+        classes.push('u-green');
+        break;
+      case LABEL_CATEGORY.NEGATIVE:
+        classes.push('u-monospace');
+        classes.push('u-red');
+        break;
+      case LABEL_CATEGORY.REJECTED:
+        classes.push('u-red');
+        break;
     }
-    return Object.keys(classes).sort().join(' ');
+    return classes.sort().join(' ');
+  }
+
+  _computeHasLabelIcon(change: ChangeInfo | undefined, labelName: string) {
+    return this._computeLabelIcon(change, labelName) !== '';
+  }
+
+  _computeLabelIcon(change: ChangeInfo | undefined, labelName: string): string {
+    const category = this._computeLabelCategory(change, labelName);
+    switch (category) {
+      case LABEL_CATEGORY.APPROVED:
+        return 'gr-icons:check';
+      case LABEL_CATEGORY.UNRESOLVED_COMMENTS:
+        return 'gr-icons:comment';
+      case LABEL_CATEGORY.REJECTED:
+        return 'gr-icons:close';
+      default:
+        return '';
+    }
+  }
+
+  _computeLabelCategory(change: ChangeInfo | undefined, labelName: string) {
+    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
+    if (!label) {
+      return LABEL_CATEGORY.NOT_APPLICABLE;
+    }
+    if (label.rejected) {
+      return LABEL_CATEGORY.REJECTED;
+    }
+    if (label.value && label.value < 0) {
+      return LABEL_CATEGORY.NEGATIVE;
+    }
+    if (change?.unresolved_comment_count && labelName === 'Code-Review') {
+      return LABEL_CATEGORY.UNRESOLVED_COMMENTS;
+    }
+    if (label.approved) {
+      return LABEL_CATEGORY.APPROVED;
+    }
+    if (label.value && label.value > 0) {
+      return LABEL_CATEGORY.POSITIVE;
+    }
+    return LABEL_CATEGORY.NEUTRAL;
   }
 
   _computeLabelValue(change: ChangeInfo | undefined, labelName: string) {
     const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    if (!label) {
-      return '';
+    const category = this._computeLabelCategory(change, labelName);
+    switch (category) {
+      case LABEL_CATEGORY.NOT_APPLICABLE:
+        return '';
+      case LABEL_CATEGORY.APPROVED:
+        return '✓';
+      case LABEL_CATEGORY.POSITIVE:
+        return `+${label?.value}`;
+      case LABEL_CATEGORY.NEUTRAL:
+        return '';
+      case LABEL_CATEGORY.UNRESOLVED_COMMENTS:
+        return 'u';
+      case LABEL_CATEGORY.NEGATIVE:
+        return `${label?.value}`;
+      case LABEL_CATEGORY.REJECTED:
+        return '✕';
     }
-    if (label.approved) {
-      return '✓';
-    }
-    if (label.rejected) {
-      return '✕';
-    }
-    if (label.value && label.value > 0) {
-      return `+${label.value}`;
-    }
-    if (label.value && label.value < 0) {
-      return label.value;
-    }
-    return '';
   }
 
   _computeRepoUrl(change?: ChangeInfo) {

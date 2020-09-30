@@ -18,6 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-change-list-item.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {LABEL_CATEGORY} from './gr-change-list-item.js';
 
 const basicFixture = fixtureFromElement('gr-change-list-item');
 
@@ -32,27 +33,57 @@ suite('gr-change-list-item tests', () => {
     element = basicFixture.instantiate();
   });
 
-  test('computed fields', () => {
+  test('_computeLabelCategory', () => {
+    assert.equal(element._computeLabelCategory({labels: {}}),
+        LABEL_CATEGORY.NOT_APPLICABLE);
+    assert.equal(element._computeLabelCategory(
+        {labels: {}}, 'Verified'), LABEL_CATEGORY.NOT_APPLICABLE);
+    assert.equal(element._computeLabelCategory(
+        {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
+        LABEL_CATEGORY.APPROVED);
+    assert.equal(element._computeLabelCategory(
+        {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
+        LABEL_CATEGORY.REJECTED);
+    assert.equal(element._computeLabelCategory(
+        {
+          labels: {'Code-Review': {approved: true, value: 1}},
+          unresolved_comment_count: 1,
+        }, 'Code-Review'),
+        LABEL_CATEGORY.UNRESOLVED_COMMENTS);
+    assert.equal(element._computeLabelCategory(
+        {labels: {'Code-Review': {value: 1}}}, 'Code-Review'),
+        LABEL_CATEGORY.POSITIVE);
+    assert.equal(element._computeLabelCategory(
+        {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
+        LABEL_CATEGORY.NEGATIVE);
+    assert.equal(element._computeLabelCategory(
+        {labels: {'Code-Review': {value: -1}}}, 'Verified'),
+        LABEL_CATEGORY.NOT_APPLICABLE);
+  });
+
+  test('_computeLabelClass', () => {
     assert.equal(element._computeLabelClass({labels: {}}),
         'cell label u-gray-background');
     assert.equal(element._computeLabelClass(
         {labels: {}}, 'Verified'), 'cell label u-gray-background');
     assert.equal(element._computeLabelClass(
         {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
-    'cell label u-green u-monospace');
+        'cell label u-green');
     assert.equal(element._computeLabelClass(
         {labels: {Verified: {rejected: true, value: -1}}}, 'Verified'),
-    'cell label u-monospace u-red');
+        'cell label u-red');
     assert.equal(element._computeLabelClass(
         {labels: {'Code-Review': {value: 1}}}, 'Code-Review'),
-    'cell label u-green u-monospace');
+        'cell label u-green u-monospace');
     assert.equal(element._computeLabelClass(
         {labels: {'Code-Review': {value: -1}}}, 'Code-Review'),
-    'cell label u-monospace u-red');
+        'cell label u-monospace u-red');
     assert.equal(element._computeLabelClass(
         {labels: {'Code-Review': {value: -1}}}, 'Verified'),
-    'cell label u-gray-background');
+        'cell label u-gray-background');
+  });
 
+  test('_computeLabelTitle', () => {
     assert.equal(element._computeLabelTitle({labels: {}}, 'Verified'),
         'Label not applicable');
     assert.equal(element._computeLabelTitle(
@@ -86,7 +117,34 @@ suite('gr-change-list-item tests', () => {
         {labels: {'Code-Review': {approved: {name: 'Diffy'},
           disliked: {name: 'Admin'}, value: -1}}}, 'Code-Review'),
     'Code-Review\nby Diffy');
+    assert.equal(element._computeLabelTitle(
+        {
+          labels: {'Code-Review': {approved: true, value: 1}},
+          unresolved_comment_count: 1,
+        }, 'Code-Review'),
+        '1 unresolved comment');
+    assert.equal(element._computeLabelTitle(
+        {
+          labels: {'Code-Review': {approved: true, value: 1}},
+          unresolved_comment_count: 2,
+        }, 'Code-Review'),
+        '2 unresolved comments');
+  });
 
+  test('_computeLabelIcon', () => {
+    assert.equal(element._computeLabelIcon({labels: {}}), '');
+    assert.equal(element._computeLabelIcon(
+        {labels: {Verified: {approved: true, value: 1}}}, 'Verified'),
+        'gr-icons:check');
+    assert.equal(element._computeLabelIcon(
+        {
+          labels: {'Code-Review': {approved: true, value: 1}},
+          unresolved_comment_count: 1,
+        }, 'Code-Review'),
+        'gr-icons:comment');
+  });
+
+  test('_computeLabelValue', () => {
     assert.equal(element._computeLabelValue({labels: {}}), '');
     assert.equal(element._computeLabelValue({labels: {}}, 'Verified'), '');
     assert.equal(element._computeLabelValue(

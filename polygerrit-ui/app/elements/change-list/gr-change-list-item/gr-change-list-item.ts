@@ -49,11 +49,22 @@ import {
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 
-enum CHANGE_SIZE {
+enum ChangeSize {
   XS = 10,
   SMALL = 50,
   MEDIUM = 250,
   LARGE = 1000,
+}
+
+// export for testing
+export enum LabelCategory {
+  NOT_APPLICABLE = 'NOT_APPLICABLE',
+  APPROVED = 'APPROVED',
+  POSITIVE = 'POSITIVE',
+  NEUTRAL = 'NEUTRAL',
+  UNRESOLVED_COMMENTS = 'UNRESOLVED_COMMENTS',
+  NEGATIVE = 'NEGATIVE',
+  REJECTED = 'REJECTED',
 }
 
 // How many reviewers should be shown with an account-label?
@@ -131,8 +142,14 @@ class GrChangeListItem extends ChangeTableMixin(
 
   _computeLabelTitle(change: ChangeInfo | undefined, labelName: string) {
     const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    if (!label) {
+    const category = this._computeLabelCategory(change, labelName);
+    if (!label || category === LabelCategory.NOT_APPLICABLE) {
       return 'Label not applicable';
+    }
+    if (category === LabelCategory.UNRESOLVED_COMMENTS) {
+      const num = change?.unresolved_comment_count ?? 0;
+      const plural = num > 1 ? 's' : '';
+      return `${num} unresolved comment${plural}`;
     }
     const significantLabel =
       label.rejected || label.approved || label.disliked || label.recommended;
@@ -143,58 +160,90 @@ class GrChangeListItem extends ChangeTableMixin(
   }
 
   _computeLabelClass(change: ChangeInfo | undefined, labelName: string) {
-    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    // Mimic a Set.
-    // TODO(TS): replace with `u_green` to remove the quotes and brackets
-    const classes: {
-      cell: boolean;
-      label: boolean;
-      ['u-green']?: boolean;
-      ['u-monospace']?: boolean;
-      ['u-red']?: boolean;
-      ['u-gray-background']?: boolean;
-    } = {
-      cell: true,
-      label: true,
-    };
-    if (label) {
-      if (label.approved) {
-        classes['u-green'] = true;
-      }
-      if (label.value === 1) {
-        classes['u-monospace'] = true;
-        classes['u-green'] = true;
-      } else if (label.value === -1) {
-        classes['u-monospace'] = true;
-        classes['u-red'] = true;
-      }
-      if (label.rejected) {
-        classes['u-red'] = true;
-      }
-    } else {
-      classes['u-gray-background'] = true;
+    const category = this._computeLabelCategory(change, labelName);
+    const classes = ['cell', 'label'];
+    switch (category) {
+      case LabelCategory.NOT_APPLICABLE:
+        classes.push('u-gray-background');
+        break;
+      case LabelCategory.APPROVED:
+        classes.push('u-green');
+        break;
+      case LabelCategory.POSITIVE:
+        classes.push('u-monospace');
+        classes.push('u-green');
+        break;
+      case LabelCategory.NEGATIVE:
+        classes.push('u-monospace');
+        classes.push('u-red');
+        break;
+      case LabelCategory.REJECTED:
+        classes.push('u-red');
+        break;
     }
-    return Object.keys(classes).sort().join(' ');
+    return classes.sort().join(' ');
+  }
+
+  _computeHasLabelIcon(change: ChangeInfo | undefined, labelName: string) {
+    return this._computeLabelIcon(change, labelName) !== '';
+  }
+
+  _computeLabelIcon(change: ChangeInfo | undefined, labelName: string): string {
+    const category = this._computeLabelCategory(change, labelName);
+    switch (category) {
+      case LabelCategory.APPROVED:
+        return 'gr-icons:check';
+      case LabelCategory.UNRESOLVED_COMMENTS:
+        return 'gr-icons:comment';
+      case LabelCategory.REJECTED:
+        return 'gr-icons:close';
+      default:
+        return '';
+    }
+  }
+
+  _computeLabelCategory(change: ChangeInfo | undefined, labelName: string) {
+    const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
+    if (!label) {
+      return LabelCategory.NOT_APPLICABLE;
+    }
+    if (label.rejected) {
+      return LabelCategory.REJECTED;
+    }
+    if (label.value && label.value < 0) {
+      return LabelCategory.NEGATIVE;
+    }
+    if (change?.unresolved_comment_count && labelName === 'Code-Review') {
+      return LabelCategory.UNRESOLVED_COMMENTS;
+    }
+    if (label.approved) {
+      return LabelCategory.APPROVED;
+    }
+    if (label.value && label.value > 0) {
+      return LabelCategory.POSITIVE;
+    }
+    return LabelCategory.NEUTRAL;
   }
 
   _computeLabelValue(change: ChangeInfo | undefined, labelName: string) {
     const label: QuickLabelInfo | undefined = change?.labels?.[labelName];
-    if (!label) {
-      return '';
+    const category = this._computeLabelCategory(change, labelName);
+    switch (category) {
+      case LabelCategory.NOT_APPLICABLE:
+        return '';
+      case LabelCategory.APPROVED:
+        return '\u2713'; // ✓
+      case LabelCategory.POSITIVE:
+        return `+${label?.value}`;
+      case LabelCategory.NEUTRAL:
+        return '';
+      case LabelCategory.UNRESOLVED_COMMENTS:
+        return 'u';
+      case LabelCategory.NEGATIVE:
+        return `${label?.value}`;
+      case LabelCategory.REJECTED:
+        return '\u2715'; // ✕
     }
-    if (label.approved) {
-      return '✓';
-    }
-    if (label.rejected) {
-      return '✕';
-    }
-    if (label.value && label.value > 0) {
-      return `+${label.value}`;
-    }
-    if (label.value && label.value < 0) {
-      return label.value;
-    }
-    return '';
   }
 
   _computeRepoUrl(change?: ChangeInfo) {
@@ -319,13 +368,13 @@ class GrChangeListItem extends ChangeTableMixin(
     if (isNaN(delta) || delta === 0) {
       return null; // Unknown
     }
-    if (delta < CHANGE_SIZE.XS) {
+    if (delta < ChangeSize.XS) {
       return 'XS';
-    } else if (delta < CHANGE_SIZE.SMALL) {
+    } else if (delta < ChangeSize.SMALL) {
       return 'S';
-    } else if (delta < CHANGE_SIZE.MEDIUM) {
+    } else if (delta < ChangeSize.MEDIUM) {
       return 'M';
-    } else if (delta < CHANGE_SIZE.LARGE) {
+    } else if (delta < ChangeSize.LARGE) {
       return 'L';
     } else {
       return 'XL';

@@ -118,6 +118,8 @@ class ChangeNotesParser {
   private final List<ReviewerStatusUpdate> reviewerUpdates;
   /** Holds only the most recent update per user. Older updates are discarded. */
   private final Map<Account.Id, AttentionSetUpdate> latestAttentionStatus;
+  /** Holds all updates to attention set. */
+  private final List<AttentionSetUpdate> allAttentionSetUpdates;
 
   private final List<AssigneeStatusUpdate> assigneeUpdates;
   private final List<SubmitRecord> submitRecords;
@@ -175,6 +177,7 @@ class ChangeNotesParser {
     allPastReviewers = new ArrayList<>();
     reviewerUpdates = new ArrayList<>();
     latestAttentionStatus = new HashMap<>();
+    allAttentionSetUpdates = new ArrayList<>();
     assigneeUpdates = new ArrayList<>();
     submitRecords = Lists.newArrayListWithExpectedSize(1);
     allChangeMessages = new ArrayList<>();
@@ -246,6 +249,7 @@ class ChangeNotesParser {
         allPastReviewers,
         buildReviewerUpdates(),
         ImmutableSet.copyOf(latestAttentionStatus.values()),
+        allAttentionSetUpdates,
         assigneeUpdates,
         submitRecords,
         buildAllMessages(),
@@ -589,6 +593,9 @@ class ChangeNotesParser {
       }
       // Processing is in reverse chronological order. Keep only the latest update.
       latestAttentionStatus.putIfAbsent(attentionStatus.get().account(), attentionStatus.get());
+
+      // Keep all updates as well.
+      allAttentionSetUpdates.add(attentionStatus.get());
     }
   }
 

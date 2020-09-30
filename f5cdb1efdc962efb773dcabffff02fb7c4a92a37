@@ -377,6 +377,30 @@
       "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "34dbab49_b1de8e65",
+        "filename": "java/com/google/gerrit/server/submit/MergeOp.java",
+        "patchSetId": 8
+      },
+      "lineNbr": 728,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-09-30T07:41:04Z",
+      "side": 1,
+      "message": "Thanks for checking! It\u0027s nice that we don\u0027t need the special code for fast-forwards anymore. :-)",
+      "parentUuid": "bee63dee_a2d75d57",
+      "range": {
+        "startLine": 728,
+        "startChar": 25,
+        "endLine": 728,
+        "endChar": 70
+      },
+      "revId": "f5cdb1efdc962efb773dcabffff02fb7c4a92a37",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

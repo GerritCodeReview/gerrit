@@ -196,6 +196,24 @@
       "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7e94a98_ca2a8a82",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 9
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-30T22:38:29Z",
+      "side": 1,
+      "message": "\u003e It\u0027s good to see improvements. We will be sharing our stats on each individual change when they are aimed at performance improvements. Can you do the same?\n\nSure, just post your results and I\u0027ll follow-up.",
+      "parentUuid": "679b539c_0c8a79ba",
+      "revId": "f768f8fc1ccf5a1709223023a9648dcd1abf1a55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

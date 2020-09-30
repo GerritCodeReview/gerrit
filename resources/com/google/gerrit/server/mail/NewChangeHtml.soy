@@ -32,7 +32,8 @@
         {/if}
         {$reviewerName}
       {/for}{sp}
-      to <strong>review</strong> this change.
+      to <strong>review</strong> this change
+      {if $fromName != $ownerName}{sp}authored by {$ownerName}{else}.{/if}
     {else}
       {$ownerName} has uploaded this change for <strong>review</strong>.
     {/if}

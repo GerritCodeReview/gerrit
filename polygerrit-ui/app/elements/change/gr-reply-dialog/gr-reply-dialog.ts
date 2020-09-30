@@ -324,7 +324,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   _commentEditing = false;
 
   @property({type: Boolean})
-  _attentionModified = false;
+  _attentionExpanded = false;
 
   @property({type: Object})
   _currentAttentionSet: Set<AccountId> = new Set();
@@ -337,7 +337,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     computed:
       '_computeSendButtonDisabled(canBeStarted, ' +
       'draftCommentThreads, draft, _reviewersMutated, _labelsChanged, ' +
-      '_includeComments, disabled, _commentEditing, _attentionModified)',
+      '_includeComments, disabled, _commentEditing, _attentionExpanded)',
     observer: '_sendDisabledChanged',
   })
   _sendDisabled?: boolean;
@@ -646,7 +646,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
         }
       }
       this.reportAttentionSetChanges(
-        this._attentionModified,
+        this._attentionExpanded,
         reviewInput.add_to_attention_set,
         reviewInput.remove_from_attention_set
       );
@@ -872,7 +872,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _handleAttentionModify() {
-    this._attentionModified = true;
+    this._attentionExpanded = true;
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
     this.dispatchEvent(
@@ -880,12 +880,12 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     );
   }
 
-  _showAttentionSummary(config?: ServerInfo, attentionModified?: boolean) {
-    return this._isAttentionSetEnabled(config) && !attentionModified;
+  _showAttentionSummary(config?: ServerInfo, attentionExpanded?: boolean) {
+    return this._isAttentionSetEnabled(config) && !attentionExpanded;
   }
 
-  _showAttentionDetails(config?: ServerInfo, attentionModified?: boolean) {
-    return this._isAttentionSetEnabled(config) && attentionModified;
+  _showAttentionDetails(config?: ServerInfo, attentionExpanded?: boolean) {
+    return this._isAttentionSetEnabled(config) && attentionExpanded;
   }
 
   _isAttentionSetEnabled(config?: ServerInfo) {
@@ -956,7 +956,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     ) {
       return;
     }
-    this._attentionModified = false;
     this._currentAttentionSet = new Set(
       Object.keys(change.attention_set || {}).map(
         id => parseInt(id) as AccountId
@@ -1008,6 +1007,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     this._newAttentionSet = new Set(
       [...newAttention].filter(id => allAccountIds.includes(id))
     );
+    this._attentionExpanded = this._newAttentionSet.size > 2;
+  }
+
+  _computeShowAttentionTip(newAttentionSet: Set<AccountId>) {
+    return newAttentionSet.size > 2;
   }
 
   _computeCommentAccounts(threads: CommentThread[]) {
@@ -1352,7 +1356,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     includeComments?: boolean,
     disabled?: boolean,
     commentEditing?: boolean,
-    attentionModified?: boolean
+    attentionExpanded?: boolean
   ) {
     if (
       canBeStarted === undefined ||
@@ -1363,7 +1367,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       includeComments === undefined ||
       disabled === undefined ||
       commentEditing === undefined ||
-      attentionModified === undefined
+      attentionExpanded === undefined
     ) {
       return undefined;
     }
@@ -1379,7 +1383,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       !text.length &&
       !reviewersMutated &&
       !labelsChanged &&
-      !attentionModified
+      !attentionExpanded
     );
   }
 

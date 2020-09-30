@@ -634,6 +634,39 @@ public class ChangeNotesStateTest {
   }
 
   @Test
+  public void serializeAllAttentionSetUpdates() throws Exception {
+    assertRoundTrip(
+        newBuilder()
+            .allAttentionSetUpdates(
+                ImmutableList.of(
+                    AttentionSetUpdate.createFromRead(
+                        Instant.EPOCH.plusSeconds(23),
+                        Account.id(1000),
+                        AttentionSetUpdate.Operation.ADD,
+                        "reason 1"),
+                    AttentionSetUpdate.createFromRead(
+                        Instant.EPOCH.plusSeconds(42),
+                        Account.id(2000),
+                        AttentionSetUpdate.Operation.REMOVE,
+                        "reason 2")))
+            .build(),
+        newProtoBuilder()
+            .addAllAttentionSetUpdate(
+                AttentionSetUpdateProto.newBuilder()
+                    .setTimestampMillis(23_000) // epoch millis
+                    .setAccount(1000)
+                    .setOperation("ADD")
+                    .setReason("reason 1"))
+            .addAllAttentionSetUpdate(
+                AttentionSetUpdateProto.newBuilder()
+                    .setTimestampMillis(42_000) // epoch millis
+                    .setAccount(2000)
+                    .setOperation("REMOVE")
+                    .setReason("reason 2"))
+            .build());
+  }
+
+  @Test
   public void serializeAssigneeUpdates() throws Exception {
     assertRoundTrip(
         newBuilder()
@@ -792,6 +825,9 @@ public class ChangeNotesStateTest {
                 .put(
                     "attentionSet",
                     new TypeLiteral<ImmutableSet<AttentionSetUpdate>>() {}.getType())
+                .put(
+                    "allAttentionSetUpdates",
+                    new TypeLiteral<ImmutableList<AttentionSetUpdate>>() {}.getType())
                 .put(
                     "assigneeUpdates",
                     new TypeLiteral<ImmutableList<AssigneeStatusUpdate>>() {}.getType())

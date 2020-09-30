@@ -96,6 +96,54 @@ suite('GrDiffBuilderUnified tests', () => {
     });
   });
 
+  suite('buildSectionElement for moved chunks', () => {
+    test('creates a moved out group', () => {
+      const lines = [
+        new GrDiffLine(GrDiffLineType.REMOVE, 15),
+        new GrDiffLine(GrDiffLineType.REMOVE, 16),
+      ];
+      lines[0].text = 'def hello_world():';
+      lines[1].text = '  print "Hello World"';
+      const group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
+      group.dueToMove = true;
+
+      const sectionEl = diffBuilder.buildSectionElement(group);
+
+      const rowEls = sectionEl.querySelectorAll('tr');
+      const moveControlsRow = rowEls[0];
+      const cells = moveControlsRow.querySelectorAll('td');
+      assert.isTrue(sectionEl.classList.contains('dueToMove'));
+      assert.equal(rowEls.length, 3);
+      assert.isTrue(moveControlsRow.classList.contains('movedOut'));
+      assert.equal(cells.length, 3);
+      assert.isTrue(cells[2].classList.contains('moveDescription'));
+      assert.equal(cells[2].textContent, 'Moved out');
+    });
+
+    test('creates a moved in group', () => {
+      const lines = [
+        new GrDiffLine(GrDiffLineType.ADD, 37),
+        new GrDiffLine(GrDiffLineType.ADD, 38),
+      ];
+      lines[0].text = 'def hello_world():';
+      lines[1].text = '  print "Hello World"';
+      const group = new GrDiffGroup(GrDiffGroupType.DELTA, lines);
+      group.dueToMove = true;
+
+      const sectionEl = diffBuilder.buildSectionElement(group);
+
+      const rowEls = sectionEl.querySelectorAll('tr');
+      const moveControlsRow = rowEls[0];
+      const cells = moveControlsRow.querySelectorAll('td');
+      assert.isTrue(sectionEl.classList.contains('dueToMove'));
+      assert.equal(rowEls.length, 3);
+      assert.isTrue(moveControlsRow.classList.contains('movedIn'));
+      assert.equal(cells.length, 3);
+      assert.isTrue(cells[2].classList.contains('moveDescription'));
+      assert.equal(cells[2].textContent, 'Moved in');
+    });
+  });
+
   suite('buildSectionElement for DELTA group', () => {
     let lines;
     let group;
@@ -131,12 +179,6 @@ suite('GrDiffBuilderUnified tests', () => {
       group.dueToRebase = true;
       const sectionEl = diffBuilder.buildSectionElement(group);
       assert.isTrue(sectionEl.classList.contains('dueToRebase'));
-    });
-
-    test('creates the section with class if dueToMove', () => {
-      group.dueToMove = true;
-      const sectionEl = diffBuilder.buildSectionElement(group);
-      assert.isTrue(sectionEl.classList.contains('dueToMove'));
     });
 
     test('creates first the removed and then the added rows', () => {

@@ -22,6 +22,52 @@
       "revId": "43833d0766da31cb19d57d942b0d9fd13905a6e6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "38b5f029_ffb0cba9",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-30T09:19:17Z",
+      "side": 1,
+      "message": "TS is awesome!",
+      "range": {
+        "startLine": 150,
+        "startChar": 18,
+        "endLine": 150,
+        "endChar": 56
+      },
+      "revId": "43833d0766da31cb19d57d942b0d9fd13905a6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "c11b8499_5350e96d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-09-30T09:19:17Z",
+      "side": 1,
+      "message": "Should we replace with the unicode character? I remember changing it to unicode usages in keyboard-shortcut-mixin.\n(U+2713)\nhttps://www.compart.com/en/unicode/U+2713",
+      "range": {
+        "startLine": 235,
+        "startChar": 16,
+        "endLine": 235,
+        "endChar": 17
+      },
+      "revId": "43833d0766da31cb19d57d942b0d9fd13905a6e6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

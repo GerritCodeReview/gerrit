@@ -130,8 +130,8 @@ class GrAdminView extends GestureEventListeners(
       }
 
       return getAdminLinks(this._account,
-          params => this.$.restAPI.getAccountCapabilities(params),
-          () => this.$.jsAPI.getAdminMenuLinks(),
+          params => { return this.$.restAPI.getAccountCapabilities(params); },
+          () => { return this.$.jsAPI.getAdminMenuLinks(); },
           options)
           .then(res => {
             this._filteredLinks = res.links;
@@ -170,7 +170,7 @@ class GrAdminView extends GestureEventListeners(
 
   _handleSubsectionChange(e) {
     const selected = this._subsectionLinks
-        .find(section => section.value === e.detail.value);
+        .find(section => { return section.value === e.detail.value; });
 
     // This is when it gets set initially.
     if (this._selectedIsCurrentPage(selected)) {

@@ -32,7 +32,7 @@ suite('gr-app custom dark theme tests', () => {
     element = basicFixture.instantiate();
     getPluginLoader().loadPlugins([]);
     getPluginLoader().awaitPluginsLoaded()
-        .then(() => flush(done));
+        .then(() => { return flush(done); });
   });
 
   teardown(() => {

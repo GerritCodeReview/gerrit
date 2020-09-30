@@ -26,7 +26,7 @@ suite('gr-menu-editor tests', () => {
   let menu;
 
   function assertMenuNamesEqual(element, expected) {
-    const names = element.menuItems.map(i => i.name);
+    const names = element.menuItems.map(i => { return i.name; });
     assert.equal(names.length, expected.length);
     for (let i = 0; i < names.length; i++) {
       assert.equal(names[i], expected[i]);

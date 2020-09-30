@@ -111,7 +111,7 @@ suite('gr-error-manager tests', () => {
 
     test('show normal Error', done => {
       const showErrorStub = sinon.stub(element, '_showErrorDialog');
-      const textSpy = sinon.spy(() => Promise.resolve('ZOMG'));
+      const textSpy = sinon.spy(() => { return Promise.resolve('ZOMG'); });
       element.dispatchEvent(
           new CustomEvent('server-error', {
             detail: {response: {status: 500, text: textSpy}},
@@ -159,7 +159,7 @@ suite('gr-error-manager tests', () => {
 
     test('extract trace id from headers if exists', done => {
       const textSpy = sinon.spy(
-          () => Promise.resolve('500')
+          () => { return Promise.resolve('500'); }
       );
       const headers = new Headers();
       headers.set('X-Gerrit-Trace', 'xxxx');
@@ -186,7 +186,7 @@ suite('gr-error-manager tests', () => {
     test('suppress TOO_MANY_FILES error', done => {
       const showAlertStub = sinon.stub(element, '_showAlert');
       const textSpy = sinon.spy(
-          () => Promise.resolve('too many files to find conflicts')
+          () => { return Promise.resolve('too many files to find conflicts'); }
       );
       element.dispatchEvent(
           new CustomEvent('server-error', {
@@ -243,7 +243,7 @@ suite('gr-error-manager tests', () => {
       // starts with authed state
       element.$.restAPI.getLoggedIn();
       const refreshStub = sinon.stub(element.$.restAPI, 'getAccount').callsFake(
-          () => Promise.resolve({}));
+          () => { return Promise.resolve({}); });
       const windowOpen = sinon.stub(window, 'open');
       const responseText = Promise.resolve('Authentication required\n');
       // fake failed auth

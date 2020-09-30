@@ -152,10 +152,11 @@ suite('gr-apply-fix-dialog tests', () => {
     sinon.stub(element.$.applyFixOverlay, 'open').returns(Promise.resolve());
 
     element.open({detail: {patchNum: 2, comment: ROBOT_COMMENT_WITH_ONE_FIX}})
-        .then(() => assert.isTrue(element.$.nextFix.disabled))
-        .then(() =>
-          element.open({detail: {patchNum: 2,
-            comment: ROBOT_COMMENT_WITH_TWO_FIXES}}))
+        .then(() => { return assert.isTrue(element.$.nextFix.disabled); })
+        .then(() => {
+          return element.open({detail: {patchNum: 2,
+            comment: ROBOT_COMMENT_WITH_TWO_FIXES}});
+        })
         .then(() => {
           assert.isFalse(element.$.nextFix.disabled);
           done();

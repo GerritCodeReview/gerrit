@@ -301,7 +301,7 @@ class GrFileList extends KeyboardShortcutMixin(
   created() {
     super.created();
     this.addEventListener('keydown',
-        e => this._scopedKeydownHandler(e));
+        e => { return this._scopedKeydownHandler(e); });
   }
 
   /** @override */
@@ -372,7 +372,7 @@ class GrFileList extends KeyboardShortcutMixin(
       this._filesByPath = filesByPath;
     }));
     promises.push(this._getLoggedIn()
-        .then(loggedIn => this._loggedIn = loggedIn)
+        .then(loggedIn => { return this._loggedIn = loggedIn; })
         .then(loggedIn => {
           if (!loggedIn) { return; }
 
@@ -409,7 +409,7 @@ class GrFileList extends KeyboardShortcutMixin(
     // from earlier with a different patch set choice and associated with a
     // different entry in the files array. So filter on visible items only.
     return Array.from(diffs).filter(
-        el => !!el && !!el.style && el.style.display !== 'none');
+        el => { return !!el && !!el.style && el.style.display !== 'none'; });
   }
 
   openDiffPrefs() {
@@ -417,8 +417,7 @@ class GrFileList extends KeyboardShortcutMixin(
   }
 
   _calculatePatchChange(files) {
-    const magicFilesExcluded = files.filter(files =>
-      !isMagicPath(files.__path)
+    const magicFilesExcluded = files.filter(files => { return !isMagicPath(files.__path); }
     );
 
     return magicFilesExcluded.reduce((acc, obj) => {
@@ -452,7 +451,7 @@ class GrFileList extends KeyboardShortcutMixin(
   _toggleFileExpanded(file) {
     // Is the path in the list of expanded diffs? IF so remove it, otherwise
     // add it to the list.
-    const pathIndex = this._expandedFiles.findIndex(f => f.path === file.path);
+    const pathIndex = this._expandedFiles.findIndex(f => { return f.path === file.path; });
     if (pathIndex === -1) {
       this.push('_expandedFiles', file);
     } else {
@@ -488,7 +487,7 @@ class GrFileList extends KeyboardShortcutMixin(
     let path;
     for (let i = 0; i < this._shownFiles.length; i++) {
       path = this._shownFiles[i].__path;
-      if (!this._expandedFiles.some(f => f.path === path)) {
+      if (!this._expandedFiles.some(f => { return f.path === path; })) {
         newFiles.push(this._computeFileRange(this._shownFiles[i]));
       }
     }
@@ -624,7 +623,7 @@ class GrFileList extends KeyboardShortcutMixin(
    */
   _reviewFile(path, opt_reviewed) {
     if (this.editMode) { return; }
-    const index = this._files.findIndex(file => file.__path === path);
+    const index = this._files.findIndex(file => { return file.__path === path; });
     const reviewed = opt_reviewed || !this._files[index].isReviewed;
 
     this.set(['_files', index, 'isReviewed'], reviewed);
@@ -705,12 +704,12 @@ class GrFileList extends KeyboardShortcutMixin(
 
   _reviewedClick(e) {
     this._fileActionClick(e,
-        file => this._reviewFile(file.path));
+        file => { return this._reviewFile(file.path); });
   }
 
   _expandedClick(e) {
     this._fileActionClick(e,
-        file => this._toggleFileExpanded(file));
+        file => { return this._toggleFileExpanded(file); });
   }
 
   /**
@@ -988,7 +987,7 @@ class GrFileList extends KeyboardShortcutMixin(
   _computeDiffURL(change, patchRange, path, editMode) {
     // Polymer 2: check for undefined
     if ([change, patchRange, path, editMode]
-        .some(arg => arg === undefined)) {
+        .some(arg => { return arg === undefined; })) {
       return;
     }
     if (editMode && path !== SpecialFilePath.MERGE_LIST) {
@@ -1186,7 +1185,7 @@ class GrFileList extends KeyboardShortcutMixin(
   }
 
   _isFileExpanded(path, expandedFilesRecord) {
-    return expandedFilesRecord.base.some(f => f.path === path);
+    return expandedFilesRecord.base.some(f => { return f.path === path; });
   }
 
   _isFileExpandedStr(path, expandedFilesRecord) {
@@ -1214,8 +1213,7 @@ class GrFileList extends KeyboardShortcutMixin(
   _expandedFilesChanged(record) {
     // Clear content for any diffs that are not open so if they get re-opened
     // the stale content does not flash before it is cleared and reloaded.
-    const collapsedDiffs = this.diffs.filter(diff =>
-      this._expandedFiles.findIndex(f => f.path === diff.path) === -1);
+    const collapsedDiffs = this.diffs.filter(diff => { return this._expandedFiles.findIndex(f => { return f.path === diff.path; }) === -1; });
     this._clearCollapsedDiffs(collapsedDiffs);
 
     if (!record) { return; } // Happens after "Collapse all" clicked.
@@ -1225,9 +1223,11 @@ class GrFileList extends KeyboardShortcutMixin(
 
     // Find the paths introduced by the new index splices:
     const newFiles = record.indexSplices
-        .map(splice => splice.object.slice(
-            splice.index, splice.index + splice.addedCount))
-        .reduce((acc, paths) => acc.concat(paths), []);
+        .map(splice => {
+          return splice.object.slice(
+              splice.index, splice.index + splice.addedCount);
+        })
+        .reduce((acc, paths) => { return acc.concat(paths); }, []);
 
     // Required so that the newly created diff view is included in this.diffs.
     flush();
@@ -1276,32 +1276,33 @@ class GrFileList extends KeyboardShortcutMixin(
         detail: {resolve},
         composed: true, bubbles: true,
       }));
-    })).then(() => asyncForeach(files, (file, cancel) => {
-      const path = file.path;
-      this._cancelForEachDiff = cancel;
+    })).then(() => {
+      return asyncForeach(files, (file, cancel) => {
+        const path = file.path;
+        this._cancelForEachDiff = cancel;
 
-      iter++;
-      console.info('Expanding diff', iter, 'of', initialCount, ':',
-          path);
-      const diffElem = this._findDiffByPath(path, diffElements);
-      if (!diffElem) {
-        console.warn(`Did not find <gr-diff-host> element for ${path}`);
-        return Promise.resolve();
-      }
-      diffElem.comments = this.changeComments.getCommentsBySideForFile(
-          file, this.patchRange, this.projectConfig);
-      const promises = [diffElem.reload()];
-      if (this._loggedIn && !this.diffPrefs.manual_review) {
-        promises.push(this._reviewFile(path, true));
-      }
-      return Promise.all(promises);
-    }).then(() => {
-      this._cancelForEachDiff = null;
-      this._nextRenderParams = null;
-      console.info('Finished expanding', initialCount, 'diff(s)');
-      this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
-          EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
-      /* Block diff cursor from auto scrolling after files are done rendering.
+        iter++;
+        console.info('Expanding diff', iter, 'of', initialCount, ':',
+            path);
+        const diffElem = this._findDiffByPath(path, diffElements);
+        if (!diffElem) {
+          console.warn(`Did not find <gr-diff-host> element for ${path}`);
+          return Promise.resolve();
+        }
+        diffElem.comments = this.changeComments.getCommentsBySideForFile(
+            file, this.patchRange, this.projectConfig);
+        const promises = [diffElem.reload()];
+        if (this._loggedIn && !this.diffPrefs.manual_review) {
+          promises.push(this._reviewFile(path, true));
+        }
+        return Promise.all(promises);
+      }).then(() => {
+        this._cancelForEachDiff = null;
+        this._nextRenderParams = null;
+        console.info('Finished expanding', initialCount, 'diff(s)');
+        this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
+            EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
+        /* Block diff cursor from auto scrolling after files are done rendering.
        * This prevents the bug where the screen jumps to the first diff chunk
        * after files are done being rendered after the user has already begun
        * scrolling.
@@ -1313,14 +1314,15 @@ class GrFileList extends KeyboardShortcutMixin(
        * prevented the issue of scrolling to top when we expand the second
        * file individually.
        */
-      this.$.diffCursor.reInitAndUpdateStops();
-    }));
+        this.$.diffCursor.reInitAndUpdateStops();
+      });
+    });
   }
 
   /** Cancel the rendering work of every diff in the list */
   _cancelDiffs() {
     if (this._cancelForEachDiff) { this._cancelForEachDiff(); }
-    this._forEachDiff(d => d.cancel());
+    this._forEachDiff(d => { return d.cancel(); });
   }
 
   /**
@@ -1347,10 +1349,10 @@ class GrFileList extends KeyboardShortcutMixin(
   reloadCommentsForThreadWithRootId(rootId, path) {
     // Don't bother continuing if we already know that the path that contains
     // the updated comment thread is not expanded.
-    if (!this._expandedFiles.some(f => f.path === path)) { return; }
-    const diff = this.diffs.find(d => d.path === path);
+    if (!this._expandedFiles.some(f => { return f.path === path; })) { return; }
+    const diff = this.diffs.find(d => { return d.path === path; });
 
-    const threadEl = diff.getThreadEls().find(t => t.rootId === rootId);
+    const threadEl = diff.getThreadEls().find(t => { return t.rootId === rootId; });
     if (!threadEl) { return; }
 
     const newComments = this.changeComments.getCommentsForThread(rootId);
@@ -1369,9 +1371,11 @@ class GrFileList extends KeyboardShortcutMixin(
     // comments due to use in the _handleCommentUpdate function.
     // The comment thread already has a side associated with it, so
     // set the comment's side to match.
-    threadEl.comments = newComments.map(c => Object.assign(
-        c, {__commentSide: threadEl.commentSide}
-    ));
+    threadEl.comments = newComments.map(c => {
+      return Object.assign(
+          c, {__commentSide: threadEl.commentSide}
+      );
+    });
     flush();
   }
 
@@ -1437,7 +1441,7 @@ class GrFileList extends KeyboardShortcutMixin(
       deletionOffset: 0,
     };
     shownFilesRecord.base
-        .filter(f => this._showBarsForPath(f.__path))
+        .filter(f => { return this._showBarsForPath(f.__path); })
         .forEach(f => {
           if (f.lines_inserted) {
             stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);

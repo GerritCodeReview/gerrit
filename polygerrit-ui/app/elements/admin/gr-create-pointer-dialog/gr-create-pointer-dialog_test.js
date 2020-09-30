@@ -38,7 +38,7 @@ suite('gr-create-pointer-dialog tests', () => {
     sinon.stub(
         element.$.restAPI,
         'createRepoBranch')
-        .callsFake(() => Promise.resolve({}));
+        .callsFake(() => { return Promise.resolve({}); });
 
     assert.isFalse(element.hasNewItemName);
 
@@ -60,7 +60,7 @@ suite('gr-create-pointer-dialog tests', () => {
     sinon.stub(
         element.$.restAPI,
         'createRepoTag')
-        .callsFake(() => Promise.resolve({}));
+        .callsFake(() => { return Promise.resolve({}); });
 
     assert.isFalse(element.hasNewItemName);
 
@@ -82,7 +82,7 @@ suite('gr-create-pointer-dialog tests', () => {
     sinon.stub(
         element.$.restAPI,
         'createRepoTag')
-        .callsFake(() => Promise.resolve({}));
+        .callsFake(() => { return Promise.resolve({}); });
 
     assert.isFalse(element.hasNewItemName);
 

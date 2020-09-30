@@ -110,7 +110,7 @@ suite('gr-repo-list tests', () => {
 
     test('_paramsChanged', done => {
       sinon.stub(element.$.restAPI, 'getRepos')
-          .callsFake( () => Promise.resolve(repos));
+          .callsFake( () => { return Promise.resolve(repos); });
       const value = {
         filter: 'test',
         offset: 25,

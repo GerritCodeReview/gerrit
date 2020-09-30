@@ -115,7 +115,7 @@ suite('gr-download-commands', () => {
     test('saves scheme to preferences', () => {
       element._loggedIn = true;
       const savePrefsStub = sinon.stub(element.$.restAPI, 'savePreferences')
-          .callsFake(() => Promise.resolve());
+          .callsFake(() => { return Promise.resolve(); });
 
       flush();
 

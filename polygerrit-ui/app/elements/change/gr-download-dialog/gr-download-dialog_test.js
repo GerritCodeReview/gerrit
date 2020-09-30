@@ -120,7 +120,7 @@ suite('gr-download-dialog', () => {
   test('anchors use download attribute', () => {
     const anchors = Array.from(
         element.root.querySelectorAll('a'));
-    assert.isTrue(!anchors.some(a => !a.hasAttribute('download')));
+    assert.isTrue(!anchors.some(a => { return !a.hasAttribute('download'); }));
   });
 
   suite('gr-download-dialog tests with no fetch options', () => {

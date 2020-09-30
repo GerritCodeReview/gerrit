@@ -51,7 +51,7 @@ suite('gr-settings-view tests', () => {
 
   function stubAddAccountEmail(statusCode) {
     return sinon.stub(element.$.restAPI, 'addAccountEmail').callsFake(
-        () => Promise.resolve({status: statusCode}));
+        () => { return Promise.resolve({status: statusCode}); });
   }
 
   setup(done => {
@@ -483,8 +483,10 @@ suite('gr-settings-view tests', () => {
           element.$.restAPI,
           'confirmEmail')
           .callsFake(
-              () => new Promise(
-                  resolve => { resolveConfirm = resolve; }));
+              () => {
+                return new Promise(
+                    resolve => { resolveConfirm = resolve; });
+              });
       element.params = {emailToken: 'foo'};
       element.attached();
     });

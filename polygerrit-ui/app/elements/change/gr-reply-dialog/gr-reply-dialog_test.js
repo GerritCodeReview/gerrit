@@ -127,21 +127,23 @@ suite('gr-reply-dialog tests', () => {
     return sinon.stub(
         element,
         '_saveReview')
-        .callsFake(review => new Promise((resolve, reject) => {
-          try {
-            const result = jsonResponseProducer(review) || {};
-            const resultStr =
+        .callsFake(review => {
+          return new Promise((resolve, reject) => {
+            try {
+              const result = jsonResponseProducer(review) || {};
+              const resultStr =
             element.$.restAPI.JSON_PREFIX + JSON.stringify(result);
-            resolve({
-              ok: true,
-              text() {
-                return Promise.resolve(resultStr);
-              },
-            });
-          } catch (err) {
-            reject(err);
-          }
-        }));
+              resolve({
+                ok: true,
+                text() {
+                  return Promise.resolve(resultStr);
+                },
+              });
+            } catch (err) {
+              reject(err);
+            }
+          });
+        });
   }
 
   test('default to publishing draft comments with reply', done => {
@@ -214,15 +216,17 @@ suite('gr-reply-dialog tests', () => {
     if (hasDraft) {
       draftThreads[0].comments.push({__draft: true});
     }
-    replyToIds.forEach(id => draftThreads[0].comments.push({
-      author: {_account_id: id},
-    }));
+    replyToIds.forEach(id => {
+      return draftThreads[0].comments.push({
+        author: {_account_id: id},
+      });
+    });
     const change = {
       owner: {_account_id: ownerId},
       status,
       attention_set: {},
     };
-    attSetIds.forEach(id => change.attention_set[id] = {});
+    attSetIds.forEach(id => { return change.attention_set[id] = {}; });
     if (uploaderId) {
       change.current_revision = 1;
       change.revisions = [{}, {uploader: {_account_id: uploaderId}}];
@@ -285,10 +289,11 @@ suite('gr-reply-dialog tests', () => {
     element._ccs = [
       {_account_id: 7, display_name: 'Elmo'},
     ];
-    const compute = (currentAtt, newAtt) =>
-      element._computeNewAttentionAccounts(
+    const compute = (currentAtt, newAtt) => {
+      return element._computeNewAttentionAccounts(
           undefined, new Set(currentAtt), new Set(newAtt))
-          .map(a => a._account_id);
+          .map(a => { return a._account_id; });
+    };
 
     assert.sameMembers(compute([], []), []);
     assert.sameMembers(compute([], [999]), [999]);
@@ -710,7 +715,7 @@ suite('gr-reply-dialog tests', () => {
     });
 
     let resolver;
-    const promise = new Promise(r => resolver = r);
+    const promise = new Promise(r => { return resolver = r; });
     element.addEventListener('server-error', resolver);
 
     await flush();
@@ -1046,7 +1051,7 @@ suite('gr-reply-dialog tests', () => {
 
     const mutations = [];
 
-    stubSaveReview(review => mutations.push(...review.reviewers));
+    stubSaveReview(review => { return mutations.push(...review.reviewers); });
 
     sinon.stub(element, '_removeAccount').callsFake((account, type) => {
       mutations.push({state: 'REMOVED', account});
@@ -1102,8 +1107,7 @@ suite('gr-reply-dialog tests', () => {
 
     // Send and purge and verify moves, delete cc3.
     await element.send()
-        .then(keepReviewers =>
-          element._purgeReviewersPendingRemove(false, keepReviewers));
+        .then(keepReviewers => { return element._purgeReviewersPendingRemove(false, keepReviewers); });
     expect(mutations).to.have.lengthOf(5);
     expect(mutations[0]).to.deep.equal(mapReviewer(cc1));
     expect(mutations[1]).to.deep.equal(mapReviewer(cc2));
@@ -1122,15 +1126,15 @@ suite('gr-reply-dialog tests', () => {
   });
 
   test('should not send on enter key', () => {
-    stubSaveReview(() => undefined);
-    element.addEventListener('send', () => assert.fail('wrongly called'));
+    stubSaveReview(() => { return undefined; });
+    element.addEventListener('send', () => { return assert.fail('wrongly called'); });
     MockInteractions.pressAndReleaseKeyOn(element, 13, null, 'enter');
     flush();
   });
 
   test('emit send on ctrl+enter key', done => {
-    stubSaveReview(() => undefined);
-    element.addEventListener('send', () => done());
+    stubSaveReview(() => { return undefined; });
+    element.addEventListener('send', () => { return done(); });
     MockInteractions.pressAndReleaseKeyOn(element, 13, 'ctrl', 'enter');
     flush();
   });
@@ -1203,7 +1207,7 @@ suite('gr-reply-dialog tests', () => {
       startReviewStub = sinon.stub(
           element.$.restAPI,
           'startReview')
-          .callsFake(() => Promise.resolve());
+          .callsFake(() => { return Promise.resolve(); });
     });
 
     test('ready property in review input on start review', () => {
@@ -1230,7 +1234,7 @@ suite('gr-reply-dialog tests', () => {
     let sendStub;
 
     setup(() => {
-      sendStub = sinon.stub(element, 'send').callsFake(() => Promise.resolve());
+      sendStub = sinon.stub(element, 'send').callsFake(() => { return Promise.resolve(); });
       element.canBeStarted = true;
       // Flush to make both Start/Save buttons appear in DOM.
       flush();

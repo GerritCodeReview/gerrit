@@ -74,7 +74,7 @@ suite('gr-documentation-search tests', () => {
       sinon.stub(
           element.$.restAPI,
           'getDocumentationSearches')
-          .callsFake(() => Promise.resolve(documentationSearches));
+          .callsFake(() => { return Promise.resolve(documentationSearches); });
       const value = {
         filter: 'test',
       };

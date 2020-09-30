@@ -43,7 +43,7 @@ suite('gr-group tests', () => {
     groupStub = sinon.stub(
         element.$.restAPI,
         'getGroupConfig')
-        .callsFake(() => Promise.resolve(group));
+        .callsFake(() => { return Promise.resolve(group); });
   });
 
   test('loading displays before group config is loaded', () => {
@@ -58,7 +58,7 @@ suite('gr-group tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getIsGroupOwner')
-        .callsFake(() => Promise.resolve(true));
+        .callsFake(() => { return Promise.resolve(true); });
     element.groupId = 1;
     element._loadGroup().then(() => {
       assert.isTrue(element._groupIsInternal);
@@ -74,11 +74,11 @@ suite('gr-group tests', () => {
     groupStub = sinon.stub(
         element.$.restAPI,
         'getGroupConfig')
-        .callsFake(() => Promise.resolve(groupExternal));
+        .callsFake(() => { return Promise.resolve(groupExternal); });
     sinon.stub(
         element.$.restAPI,
         'getIsGroupOwner')
-        .callsFake(() => Promise.resolve(true));
+        .callsFake(() => { return Promise.resolve(true); });
     element.groupId = 1;
     element._loadGroup().then(() => {
       assert.isFalse(element._groupIsInternal);
@@ -99,12 +99,12 @@ suite('gr-group tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getIsGroupOwner')
-        .callsFake(() => Promise.resolve(true));
+        .callsFake(() => { return Promise.resolve(true); });
 
     sinon.stub(
         element.$.restAPI,
         'saveGroupName')
-        .callsFake(() => Promise.resolve({status: 200}));
+        .callsFake(() => { return Promise.resolve({status: 200}); });
 
     const button = element.$.inputUpdateNameBtn;
 
@@ -138,7 +138,7 @@ suite('gr-group tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getIsGroupOwner')
-        .callsFake(() => Promise.resolve({status: 200}));
+        .callsFake(() => { return Promise.resolve({status: 200}); });
 
     const button = element.$.inputUpdateOwnerBtn;
 
@@ -165,7 +165,7 @@ suite('gr-group tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getGroupConfig')
-        .callsFake(() => Promise.resolve({}));
+        .callsFake(() => { return Promise.resolve({}); });
 
     assert.isUndefined(element.groupId);
 

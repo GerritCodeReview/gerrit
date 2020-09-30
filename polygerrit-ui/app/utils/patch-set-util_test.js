@@ -168,7 +168,7 @@ suite('gr-patch-set-util tests', () => {
         messages: [],
         work_in_progress: initialWip,
       };
-      const revs = Object.keys(tagsByRevision).sort((a, b) => a - b);
+      const revs = Object.keys(tagsByRevision).sort((a, b) => { return a - b; });
       for (const rev of revs) {
         for (const tag of tagsByRevision[rev]) {
           change.messages.push({
@@ -186,7 +186,7 @@ suite('gr-patch-set-util tests', () => {
       }
       const verifier = {
         assertWip(revision, expectedWip) {
-          const patchNum = patchNums.find(patchNum => patchNum.num == revision);
+          const patchNum = patchNums.find(patchNum => { return patchNum.num == revision; });
           if (!patchNum) {
             assert.fail('revision ' + revision + ' not found');
           }

@@ -60,8 +60,7 @@ suite('gr-group-list tests', () => {
 
     assert.equal(rows.length, 3);
 
-    const nameCells = rows.map(row =>
-      row.querySelectorAll('td a')[0].textContent.trim()
+    const nameCells = rows.map(row => { return row.querySelectorAll('td a')[0].textContent.trim(); }
     );
 
     assert.equal(nameCells[0], 'Group 1');
@@ -76,7 +75,7 @@ suite('gr-group-list tests', () => {
 
   test('_computeGroupPath', () => {
     let urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
-        () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
+        () => { return '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5'; });
 
     let group = {
       id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
@@ -92,7 +91,7 @@ suite('gr-group-list tests', () => {
     urlStub.restore();
 
     urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
-        () => '/admin/groups/user/test');
+        () => { return '/admin/groups/user/test'; });
 
     group = {
       id: 'user%2Ftest',

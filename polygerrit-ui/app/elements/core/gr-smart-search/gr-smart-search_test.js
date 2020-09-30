@@ -28,13 +28,14 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake(() =>
-      Promise.resolve([
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake(() => {
+      return Promise.resolve([
         {
           name: 'fred',
           email: 'fred@goog.co',
         },
-      ])
+      ]);
+    }
     );
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
@@ -42,52 +43,55 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Inserts self as option when valid', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
-      Promise.resolve([
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () => {
+      return Promise.resolve([
         {
           name: 'fred',
           email: 'fred@goog.co',
         },
-      ])
+      ]);
+    }
     );
     element._fetchAccounts('owner', 's')
         .then(s => {
           assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
           assert.deepEqual(s[1], {text: 'owner:self'});
         })
-        .then(() => element._fetchAccounts('owner', 'selfs'))
+        .then(() => { return element._fetchAccounts('owner', 'selfs'); })
         .then(s => {
           assert.notEqual(s[0], {text: 'owner:self'});
         });
   });
 
   test('Inserts me as option when valid', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
-      Promise.resolve([
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () => {
+      return Promise.resolve([
         {
           name: 'fred',
           email: 'fred@goog.co',
         },
-      ])
+      ]);
+    }
     );
     return element._fetchAccounts('owner', 'm')
         .then(s => {
           assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: 'fred'});
           assert.deepEqual(s[1], {text: 'owner:me'});
         })
-        .then(() => element._fetchAccounts('owner', 'meme'))
+        .then(() => { return element._fetchAccounts('owner', 'meme'); })
         .then(s => {
           assert.notEqual(s[0], {text: 'owner:me'});
         });
   });
 
   test('Autocompletes groups', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedGroups').callsFake( () =>
-      Promise.resolve({
+    sinon.stub(element.$.restAPI, 'getSuggestedGroups').callsFake( () => {
+      return Promise.resolve({
         Polygerrit: 0,
         gerrit: 0,
         gerrittest: 0,
-      })
+      });
+    }
     );
     return element._fetchGroups('ownerin', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
@@ -95,20 +99,20 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes projects', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedProjects').callsFake( () =>
-      Promise.resolve({Polygerrit: 0}));
+    sinon.stub(element.$.restAPI, 'getSuggestedProjects').callsFake( () => { return Promise.resolve({Polygerrit: 0}); });
     return element._fetchProjects('project', 'pol').then(s => {
       assert.deepEqual(s[0], {text: 'project:Polygerrit'});
     });
   });
 
   test('Autocomplete doesnt override exact matches to input', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedGroups').callsFake( () =>
-      Promise.resolve({
+    sinon.stub(element.$.restAPI, 'getSuggestedGroups').callsFake( () => {
+      return Promise.resolve({
         Polygerrit: 0,
         gerrit: 0,
         gerrittest: 0,
-      })
+      });
+    }
     );
     return element._fetchGroups('ownerin', 'gerrit').then(s => {
       assert.deepEqual(s[0], {text: 'ownerin:Polygerrit'});
@@ -118,16 +122,14 @@ suite('gr-smart-search tests', () => {
   });
 
   test('Autocompletes accounts with no email', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
-      Promise.resolve([{name: 'fred'}]));
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () => { return Promise.resolve([{name: 'fred'}]); });
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:"fred"', label: 'fred'});
     });
   });
 
   test('Autocompletes accounts with email', () => {
-    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () =>
-      Promise.resolve([{email: 'fred@goog.co'}]));
+    sinon.stub(element.$.restAPI, 'getSuggestedAccounts').callsFake( () => { return Promise.resolve([{email: 'fred@goog.co'}]); });
     return element._fetchAccounts('owner', 'fr').then(s => {
       assert.deepEqual(s[0], {text: 'owner:fred@goog.co', label: ''});
     });

@@ -458,8 +458,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleChangeStar = this._throttleWrap(e =>
-      this._handleToggleChangeStar(e));
+    this._throttledToggleChangeStar = this._throttleWrap(e => { return this._handleToggleChangeStar(e); });
   }
 
   /** @override */
@@ -467,7 +466,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     super.created();
 
     this.addEventListener('topic-changed',
-        () => this._handleTopicChanged());
+        () => { return this._handleTopicChanged(); });
 
     this.addEventListener(
         // When an overlay is opened in a mobile viewport, the overlay has a full
@@ -476,16 +475,16 @@ class GrChangeView extends KeyboardShortcutMixin(
         // hiding most of the contents on the screen upon opening, and showing
         // again upon closing.
         'fullscreen-overlay-opened',
-        () => this._handleHideBackgroundContent());
+        () => { return this._handleHideBackgroundContent(); });
 
     this.addEventListener('fullscreen-overlay-closed',
-        () => this._handleShowBackgroundContent());
+        () => { return this._handleShowBackgroundContent(); });
 
     this.addEventListener('diff-comments-modified',
-        () => this._handleReloadCommentThreads());
+        () => { return this._handleReloadCommentThreads(); });
 
     this.addEventListener('open-reply-dialog',
-        e => this._openReplyDialog());
+        e => { return this._openReplyDialog(); });
   }
 
   /** @override */
@@ -516,29 +515,29 @@ class GrChangeView extends KeyboardShortcutMixin(
             console.warn('Different number of tab headers and tab content.');
           }
         })
-        .then(() => this._initActiveTabs(this.params));
+        .then(() => { return this._initActiveTabs(this.params); });
 
-    this.addEventListener('comment-save', e => this._handleCommentSave(e));
-    this.addEventListener('comment-refresh', e => this._reloadDrafts(e));
+    this.addEventListener('comment-save', e => { return this._handleCommentSave(e); });
+    this.addEventListener('comment-refresh', e => { return this._reloadDrafts(e); });
     this.addEventListener('comment-discard',
-        e => this._handleCommentDiscard(e));
+        e => { return this._handleCommentDiscard(e); });
     this.addEventListener('change-message-deleted',
-        () => this._reload());
+        () => { return this._reload(); });
     this.addEventListener('editable-content-save',
-        e => this._handleCommitMessageSave(e));
+        e => { return this._handleCommitMessageSave(e); });
     this.addEventListener('editable-content-cancel',
-        e => this._handleCommitMessageCancel(e));
+        e => { return this._handleCommitMessageCancel(e); });
     this.addEventListener('open-fix-preview',
-        e => this._onOpenFixPreview(e));
+        e => { return this._onOpenFixPreview(e); });
     this.addEventListener('close-fix-preview',
-        e => this._onCloseFixPreview(e));
+        e => { return this._onCloseFixPreview(e); });
     this.listen(window, 'scroll', '_handleScroll');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
 
     this.addEventListener('show-primary-tab',
-        e => this._setActivePrimaryTab(e));
+        e => { return this._setActivePrimaryTab(e); });
     this.addEventListener('show-secondary-tab',
-        e => this._setActiveSecondaryTab(e));
+        e => { return this._setActiveSecondaryTab(e); });
     this.addEventListener('reload', e => {
       e.stopPropagation();
       this._reload(/* opt_isLocationChange= */false,
@@ -770,8 +769,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   _robotCommentCountPerPatchSet(threads) {
     return threads.reduce((robotCommentCountMap, thread) => {
       const comments = thread.comments;
-      const robotCommentsCount = comments.reduce((acc, comment) =>
-        (comment.robot_id ? acc + 1 : acc), 0);
+      const robotCommentsCount = comments.reduce((acc, comment) => { return (comment.robot_id ? acc + 1 : acc); }, 0);
       robotCommentCountMap[comments[0].patch_set] =
           (robotCommentCountMap[comments[0].patch_set] || 0) +
         robotCommentsCount;
@@ -792,14 +790,14 @@ class GrChangeView extends KeyboardShortcutMixin(
     if (!change || !commentThreads || !change.revisions) return [];
 
     return Object.values(change.revisions)
-        .filter(patch => patch._number !== 'edit')
+        .filter(patch => { return patch._number !== 'edit'; })
         .map(patch => {
           return {
             text: this._computeText(patch, commentThreads),
             value: patch._number,
           };
         })
-        .sort((a, b) => b.value - a.value);
+        .sort((a, b) => { return b.value - a.value; });
   }
 
   _handleCurrentRevisionUpdate(currentRevision) {
@@ -892,9 +890,9 @@ class GrChangeView extends KeyboardShortcutMixin(
     }
     diffDrafts[draft.path].push(draft);
     diffDrafts[draft.path].sort((c1, c2) =>
-      // No line number means that it’s a file comment. Sort it above the
-      // others.
-      (c1.line || -1) - (c2.line || -1)
+    // No line number means that it’s a file comment. Sort it above the
+    // others.
+    { return (c1.line || -1) - (c2.line || -1); }
     );
     this._diffDrafts = diffDrafts;
   }
@@ -977,7 +975,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   _handleMessageReply(e) {
     const msg = e.detail.message.message;
     const quoteStr = msg.split('\n').map(
-        line => '> ' + line)
+        line => { return '> ' + line; })
         .join('\n') + '\n\n';
     this.$.replyDialog.quote = quoteStr;
     this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
@@ -1190,7 +1188,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   _maybeShowRevertDialog() {
     getPluginLoader().awaitPluginsLoaded()
-        .then(() => this._getLoggedIn())
+        .then(() => { return this._getLoggedIn(); })
         .then(loggedIn => {
           if (!loggedIn || !this._change ||
               this._change.status !== ChangeStatus.MERGED) {
@@ -1387,7 +1385,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
     const drafts = (changeRecord && changeRecord.base) || {};
     const draftCount = Object.keys(drafts)
-        .reduce((count, file) => count + drafts[file].length, 0);
+        .reduce((count, file) => { return count + drafts[file].length; }, 0);
 
     let label = canStartReview ? 'Start Review' : 'Reply';
     if (draftCount > 0) {
@@ -1669,7 +1667,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   _getChangeDetail() {
     const detailCompletes = this.$.restAPI.getChangeDetail(
-        this._changeNum, r => this._handleGetChangeDetailError(r));
+        this._changeNum, r => { return this._handleGetChangeDetailError(r); });
     const editCompletes = this._getEdit();
     const prefCompletes = this._getPreferences();
 
@@ -1781,7 +1779,7 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _reloadDraftsWithCallback(e) {
-    return this._reloadDrafts().then(() => e.detail.resolve());
+    return this._reloadDrafts().then(() => { return e.detail.resolve(); });
   }
 
   /**
@@ -1797,7 +1795,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._draftCommentThreads = undefined;
     this._robotCommentThreads = undefined;
     return this.$.commentAPI.loadAll(this._changeNum)
-        .then(comments => this._recomputeComments(comments));
+        .then(comments => { return this._recomputeComments(comments); });
   }
 
   /**
@@ -1810,7 +1808,7 @@ class GrChangeView extends KeyboardShortcutMixin(
    */
   _reloadDrafts() {
     return this.$.commentAPI.reloadDrafts(this._changeNum)
-        .then(comments => this._recomputeComments(comments));
+        .then(comments => { return this._recomputeComments(comments); });
   }
 
   _recomputeComments(comments) {
@@ -1818,7 +1816,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._diffDrafts = {...this._changeComments.drafts};
     this._commentThreads = this._changeComments.getAllThreadsForChange();
     this._draftCommentThreads = this._commentThreads
-        .filter(thread => thread.comments[thread.comments.length - 1].__draft)
+        .filter(thread => { return thread.comments[thread.comments.length - 1].__draft; })
         .map(thread => {
           const copiedThread = {...thread};
           // Make a hardcopy of all comments and collapse all but last one
@@ -1875,7 +1873,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
     // Resolves when the project config has loaded.
     const projectConfigLoaded = detailCompletes
-        .then(() => this._getProjectConfig());
+        .then(() => { return this._getProjectConfig(); });
     allDataPromises.push(projectConfigLoaded);
 
     // Resolves when change comments have loaded (comments, drafts and robot
@@ -1899,12 +1897,12 @@ class GrChangeView extends KeyboardShortcutMixin(
 
       // Promise resolves when mergeability information has loaded.
       const mergeabilityLoaded = detailAndPatchResourcesLoaded
-          .then(() => this._getMergeability());
+          .then(() => { return this._getMergeability(); });
       allDataPromises.push(mergeabilityLoaded);
 
       // Promise resovles when the change actions have loaded.
       const actionsLoaded = detailAndPatchResourcesLoaded
-          .then(() => this.$.actions.reload());
+          .then(() => { return this.$.actions.reload(); });
       allDataPromises.push(actionsLoaded);
 
       // The core data is loaded when both mergeability and actions are known.
@@ -1912,7 +1910,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     } else {
       // Resolves when the file list has loaded.
       const fileListReload = loadingFlagSet
-          .then(() => this.$.fileList.reload());
+          .then(() => { return this.$.fileList.reload(); });
       allDataPromises.push(fileListReload);
 
       const latestCommitMessageLoaded = loadingFlagSet.then(() => {
@@ -1924,7 +1922,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
       // Promise resolves when mergeability information has loaded.
       const mergeabilityLoaded = loadingFlagSet
-          .then(() => this._getMergeability());
+          .then(() => { return this._getMergeability(); });
       allDataPromises.push(mergeabilityLoaded);
 
       // Core data is loaded when mergeability has been loaded.
@@ -1934,7 +1932,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     if (opt_isLocationChange) {
       this._editingCommitMessage = false;
       const relatedChangesLoaded = coreDataPromise
-          .then(() => this.$.relatedChanges.reload());
+          .then(() => { return this.$.relatedChanges.reload(); });
       allDataPromises.push(relatedChangesLoaded);
     }
 
@@ -2264,7 +2262,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       return;
     }
     this._selectedRevision = Object.values(this._change.revisions).find(
-        revision => revision._number === patchNum);
+        revision => { return revision._number === patchNum; });
   }
 
   /**
@@ -2272,8 +2270,7 @@ class GrChangeView extends KeyboardShortcutMixin(
    * navigation API.
    */
   _handleEditTap() {
-    const editInfo = Object.values(this._change.revisions).find(info =>
-      info._number === SPECIAL_PATCH_SET_NUM.EDIT);
+    const editInfo = Object.values(this._change.revisions).find(info => { return info._number === SPECIAL_PATCH_SET_NUM.EDIT; });
 
     if (editInfo) {
       GerritNav.navigateToChange(this._change, SPECIAL_PATCH_SET_NUM.EDIT);

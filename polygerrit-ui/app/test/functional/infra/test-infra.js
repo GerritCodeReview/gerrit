@@ -13,7 +13,7 @@ function setup() {
         driver = d;
         return driver.get('http://localhost:8080');
       })
-      .then(() => driver);
+      .then(() => { return driver; });
 }
 
 function cleanup() {

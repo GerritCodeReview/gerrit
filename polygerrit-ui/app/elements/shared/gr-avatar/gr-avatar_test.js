@@ -85,7 +85,7 @@ suite('gr-avatar tests', () => {
   suite('config set', () => {
     setup(() => {
       stub('gr-avatar', {
-        _getConfig: () => Promise.resolve({plugin: {has_avatars: true}}),
+        _getConfig: () => { return Promise.resolve({plugin: {has_avatars: true}}); },
       });
       element = basicFixture.instantiate();
     });
@@ -121,7 +121,7 @@ suite('gr-avatar tests', () => {
 
     setup(() => {
       stub('gr-avatar', {
-        _getConfig: () => Promise.resolve({plugin: {has_avatars: true}}),
+        _getConfig: () => { return Promise.resolve({plugin: {has_avatars: true}}); },
       });
 
       element = basicFixture.instantiate();
@@ -149,7 +149,7 @@ suite('gr-avatar tests', () => {
 
     setup(() => {
       stub('gr-avatar', {
-        _getConfig: () => Promise.resolve({}),
+        _getConfig: () => { return Promise.resolve({}); },
       });
 
       element = basicFixture.instantiate();

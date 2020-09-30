@@ -33,7 +33,7 @@ suite('gr-plugin-rest-api tests', () => {
     getResponseObjectStub = sinon.stub().returns(Promise.resolve());
     sendStub = sinon.stub().returns(Promise.resolve({status: 200}));
     restApiStub = {
-      getAccount: () => Promise.resolve({name: 'Judy Hopps'}),
+      getAccount: () => { return Promise.resolve({name: 'Judy Hopps'}); },
       getResponseObject: getResponseObjectStub,
       send: sendStub,
       getLoggedIn: sinon.stub(),
@@ -41,7 +41,7 @@ suite('gr-plugin-rest-api tests', () => {
       getConfig: sinon.stub(),
     };
     stub('gr-rest-api-interface', Object.keys(restApiStub).reduce((a, k) => {
-      a[k] = (...args) => restApiStub[k](...args);
+      a[k] = (...args) => { return restApiStub[k](...args); };
       return a;
     }, {}));
     pluginApi.install(p => {}, '0.1',

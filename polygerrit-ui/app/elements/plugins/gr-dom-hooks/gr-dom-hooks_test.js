@@ -104,7 +104,7 @@ suite('gr-dom-hooks tests', () => {
 
     test('getLastAttached', () => {
       const beforeAttachedPromise = hook.getLastAttached().then(
-          el => assert.strictEqual(el1, el));
+          el => { return assert.strictEqual(el1, el); });
       const [el1, el2] = [
         document.createElement(hook.getModuleName()),
         document.createElement(hook.getModuleName()),
@@ -114,7 +114,7 @@ suite('gr-dom-hooks tests', () => {
       hook.handleInstanceAttached(el1);
       hook.handleInstanceAttached(el2);
       const afterAttachedPromise = hook.getLastAttached().then(
-          el => assert.strictEqual(el2, el));
+          el => { return assert.strictEqual(el2, el); });
       return Promise.all([
         beforeAttachedPromise,
         afterAttachedPromise,

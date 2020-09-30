@@ -114,7 +114,7 @@ suite('gr-diff-host tests', () => {
             composed: true, bubbles: true,
           }));
       const drafts = element.comments.left
-          .filter(item => item.__draftID === draftID);
+          .filter(item => { return item.__draftID === draftID; });
       assert.equal(drafts.length, 0);
       assert.isTrue(diffCommentsModifiedStub.called);
     });
@@ -139,7 +139,7 @@ suite('gr-diff-host tests', () => {
             composed: true, bubbles: true,
           }));
       const drafts = element.comments.left
-          .filter(item => item.__draftID === draftID);
+          .filter(item => { return item.__draftID === draftID; });
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].id, id);
       assert.isTrue(diffCommentsModifiedStub.called);
@@ -340,7 +340,7 @@ suite('gr-diff-host tests', () => {
         // but only 'Diff Total Render' is important in this test.
         assert.equal(
             element.reporting.timeEnd.getCalls()
-                .filter(call => call.calledWithExactly('Diff Total Render'))
+                .filter(call => { return call.calledWithExactly('Diff Total Render'); })
                 .length,
             1);
         done();
@@ -382,7 +382,7 @@ suite('gr-diff-host tests', () => {
     const cancelStub = sinon.stub(element.$.diff, 'cancel');
 
     // Stub the network calls into requests that never resolve.
-    sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
+    sinon.stub(element, '_getDiff').callsFake(() => { return new Promise(() => {}); });
     element.patchRange = {};
 
     element.reload();
@@ -518,8 +518,10 @@ suite('gr-diff-host tests', () => {
         sinon.stub(element.$.restAPI,
             'getB64FileContents')
             .callsFake(
-                (changeId, patchNum, path, opt_parentIndex) => Promise.resolve(
-                    opt_parentIndex === 1 ? mockFile1 : mockFile2)
+                (changeId, patchNum, path, opt_parentIndex) => {
+                  return Promise.resolve(
+                      opt_parentIndex === 1 ? mockFile1 : mockFile2);
+                }
             );
 
         element.patchRange = {basePatchNum: 'PARENT', patchNum: 1};
@@ -1528,24 +1530,26 @@ suite('gr-diff-host tests', () => {
           return Promise.resolve({
             notify: notifyStub,
             getCoverageProvider() {
-              return () => Promise.resolve([
-                {
-                  type: 'COVERED',
-                  side: 'right',
-                  code_range: {
-                    start_line: 1,
-                    end_line: 2,
+              return () => {
+                return Promise.resolve([
+                  {
+                    type: 'COVERED',
+                    side: 'right',
+                    code_range: {
+                      start_line: 1,
+                      end_line: 2,
+                    },
                   },
-                },
-                {
-                  type: 'NOT_COVERED',
-                  side: 'right',
-                  code_range: {
-                    start_line: 3,
-                    end_line: 4,
+                  {
+                    type: 'NOT_COVERED',
+                    side: 'right',
+                    code_range: {
+                      start_line: 3,
+                      end_line: 4,
+                    },
                   },
-                },
-              ]);
+                ]);
+              };
             },
           });
         },

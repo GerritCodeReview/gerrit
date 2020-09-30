@@ -21,8 +21,8 @@ import {grReportingMock} from './gr-reporting_mock.js';
 suite('gr-reporting_mock tests', () => {
   test('mocks all public methods', () => {
     const methods = Object.getOwnPropertyNames(GrReporting.prototype)
-        .filter(name => typeof GrReporting.prototype[name] === 'function')
-        .filter(name => !name.startsWith('_') && name !== 'constructor')
+        .filter(name => { return typeof GrReporting.prototype[name] === 'function'; })
+        .filter(name => { return !name.startsWith('_') && name !== 'constructor'; })
         .sort();
     const mockMethods = Object.getOwnPropertyNames(grReportingMock)
         .sort();

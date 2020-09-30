@@ -352,7 +352,7 @@ suite('gr-diff-view tests', () => {
 
       const showPrefsStub =
           sinon.stub(element.$.diffPreferencesDialog, 'open').callsFake(
-              () => Promise.resolve());
+              () => { return Promise.resolve(); });
 
       MockInteractions.pressAndReleaseKeyOn(element, 188, null, ',');
       assert(showPrefsStub.calledOnce);
@@ -838,11 +838,11 @@ suite('gr-diff-view tests', () => {
         sinon.stub(
             GerritNav,
             'getUrlForDiff')
-            .callsFake((c, p, pn, bpn) => `${c._number}-${p}-${pn}-${bpn}`);
+            .callsFake((c, p, pn, bpn) => { return `${c._number}-${p}-${pn}-${bpn}`; });
         sinon.stub(
             GerritNav
             , 'getUrlForChange')
-            .callsFake((c, pn, bpn) => `${c._number}-${pn}-${bpn}`);
+            .callsFake((c, pn, bpn) => { return `${c._number}-${pn}-${bpn}`; });
       });
 
       test('_formattedFiles', () => {
@@ -995,9 +995,9 @@ suite('gr-diff-view tests', () => {
 
     test('_prefs.manual_review is respected', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
-          .callsFake(() => Promise.resolve());
+          .callsFake(() => { return Promise.resolve(); });
       const getReviewedStub = sinon.stub(element, '_getReviewedStatus')
-          .callsFake(() => Promise.resolve());
+          .callsFake(() => { return Promise.resolve(); });
 
       sinon.stub(element.$.diffHost, 'reload');
       element._loggedIn = true;
@@ -1027,7 +1027,7 @@ suite('gr-diff-view tests', () => {
 
     test('file review status', () => {
       const saveReviewedStub = sinon.stub(element, '_saveReviewedState')
-          .callsFake(() => Promise.resolve());
+          .callsFake(() => { return Promise.resolve(); });
       sinon.stub(element.$.diffHost, 'reload');
 
       element._loggedIn = true;
@@ -1127,7 +1127,7 @@ suite('gr-diff-view tests', () => {
         resolvePrefs = resolve;
       });
       sinon.stub(element.$.restAPI, 'getPreferences')
-          .callsFake(() => prefsPromise);
+          .callsFake(() => { return prefsPromise; });
 
       // Attach a new gr-diff-view so we can intercept the preferences fetch.
       const view = document.createElement('gr-diff-view');
@@ -1466,7 +1466,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_computeEditMode', () => {
-      const callCompute = range => element._computeEditMode({base: range});
+      const callCompute = range => { return element._computeEditMode({base: range}); };
       assert.isFalse(callCompute({}));
       assert.isFalse(callCompute({basePatchNum: 'PARENT', patchNum: 1}));
       assert.isFalse(callCompute({basePatchNum: 'edit', patchNum: 1}));
@@ -1494,13 +1494,13 @@ suite('gr-diff-view tests', () => {
           .returns(Promise.resolve(['path']));
 
       promises.push(element._getReviewedStatus(true, null, null, 'path')
-          .then(reviewed => assert.isFalse(reviewed)));
+          .then(reviewed => { return assert.isFalse(reviewed); }));
 
       promises.push(element._getReviewedStatus(false, null, null, 'otherPath')
-          .then(reviewed => assert.isFalse(reviewed)));
+          .then(reviewed => { return assert.isFalse(reviewed); }));
 
       promises.push(element._getReviewedStatus(false, null, null, 'path')
-          .then(reviewed => assert.isTrue(reviewed)));
+          .then(reviewed => { return assert.isTrue(reviewed); }));
 
       return Promise.all(promises);
     });
@@ -1509,13 +1509,13 @@ suite('gr-diff-view tests', () => {
       test('toggle blame with button', () => {
         const toggleBlame = sinon.stub(
             element.$.diffHost, 'loadBlame')
-            .callsFake(() => Promise.resolve());
+            .callsFake(() => { return Promise.resolve(); });
         MockInteractions.tap(element.$.toggleBlame);
         assert.isTrue(toggleBlame.calledOnce);
       });
       test('toggle blame with shortcut', () => {
         const toggleBlame = sinon.stub(
-            element.$.diffHost, 'loadBlame').callsFake(() => Promise.resolve());
+            element.$.diffHost, 'loadBlame').callsFake(() => { return Promise.resolve(); });
         MockInteractions.pressAndReleaseKeyOn(element, 66, null, 'b');
         assert.isTrue(toggleBlame.calledOnce);
       });

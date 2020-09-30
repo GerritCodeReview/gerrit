@@ -30,7 +30,7 @@ suite('gr-repo-header tests', () => {
 
   test('repoUrl reset once repo changed', () => {
     sinon.stub(GerritNav, 'getUrlForRepo').callsFake(
-        repoName => `http://test.com/${repoName}`
+        repoName => { return `http://test.com/${repoName}`; }
     );
     assert.equal(element._repoUrl, undefined);
     element.repo = 'test';

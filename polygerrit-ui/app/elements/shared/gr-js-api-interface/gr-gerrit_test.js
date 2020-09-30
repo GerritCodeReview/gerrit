@@ -58,7 +58,7 @@ suite('gr-gerrit tests', () => {
       sinon.stub(
           getPluginLoader(),
           'isPluginEnabled')
-          .callsFake((...args) => stubFn(...args)
+          .callsFake((...args) => { return stubFn(...args); }
           );
       pluginApi._isPluginEnabled('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
@@ -69,7 +69,7 @@ suite('gr-gerrit tests', () => {
       sinon.stub(
           getPluginLoader(),
           'isPluginLoaded')
-          .callsFake((...args) => stubFn(...args));
+          .callsFake((...args) => { return stubFn(...args); });
       pluginApi._isPluginLoaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });
@@ -79,7 +79,7 @@ suite('gr-gerrit tests', () => {
       sinon.stub(
           getPluginLoader(),
           'isPluginPreloaded')
-          .callsFake((...args) => stubFn(...args));
+          .callsFake((...args) => { return stubFn(...args); });
       pluginApi._isPluginPreloaded('test_plugin');
       assert.isTrue(stubFn.calledWith('test_plugin'));
     });

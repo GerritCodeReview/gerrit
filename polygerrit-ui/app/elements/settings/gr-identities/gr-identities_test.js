@@ -55,8 +55,7 @@ suite('gr-identities tests', () => {
 
     assert.equal(rows.length, 2);
 
-    const nameCells = rows.map(row =>
-      row.querySelectorAll('td')[2].textContent
+    const nameCells = rows.map(row => { return row.querySelectorAll('td')[2].textContent; }
     );
 
     assert.equal(nameCells[0].trim(), 'gerrit:gerrit');
@@ -69,8 +68,7 @@ suite('gr-identities tests', () => {
 
     assert.equal(rows.length, 2);
 
-    const nameCells = rows.map(row =>
-      row.querySelectorAll('td')[1].textContent
+    const nameCells = rows.map(row => { return row.querySelectorAll('td')[1].textContent; }
     );
 
     assert.equal(nameCells[0], 'gerrit@example.com');

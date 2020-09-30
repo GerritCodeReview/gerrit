@@ -108,7 +108,7 @@ suite('gr-repo tests', () => {
     repoStub = sinon.stub(
         element.$.restAPI,
         'getProjectConfig')
-        .callsFake(() => Promise.resolve(repoConf));
+        .callsFake(() => { return Promise.resolve(repoConf); });
   });
 
   test('_computePluginData', () => {
@@ -169,11 +169,11 @@ suite('gr-repo tests', () => {
 
   test('form defaults to read only when logged in and not admin', done => {
     element.repo = REPO;
-    sinon.stub(element, '_getLoggedIn').callsFake(() => Promise.resolve(true));
+    sinon.stub(element, '_getLoggedIn').callsFake(() => { return Promise.resolve(true); });
     sinon.stub(
         element.$.restAPI,
         'getRepoAccess')
-        .callsFake(() => Promise.resolve({'test-repo': {}}));
+        .callsFake(() => { return Promise.resolve({'test-repo': {}}); });
     element._loadRepo().then(() => {
       assert.isTrue(element._readOnly);
       done();
@@ -262,11 +262,11 @@ suite('gr-repo tests', () => {
     setup(() => {
       element.repo = REPO;
       sinon.stub(element, '_getLoggedIn')
-          .callsFake(() => Promise.resolve(true));
+          .callsFake(() => { return Promise.resolve(true); });
       sinon.stub(
           element.$.restAPI,
           'getRepoAccess')
-          .callsFake(() => Promise.resolve({'test-repo': {is_owner: true}}));
+          .callsFake(() => { return Promise.resolve({'test-repo': {is_owner: true}}); });
     });
 
     test('all form elements are enabled', done => {
@@ -323,7 +323,7 @@ suite('gr-repo tests', () => {
       };
 
       const saveStub = sinon.stub(element.$.restAPI, 'saveRepoConfig')
-          .callsFake(() => Promise.resolve({}));
+          .callsFake(() => { return Promise.resolve({}); });
 
       const button = element.root.querySelector('gr-button');
 

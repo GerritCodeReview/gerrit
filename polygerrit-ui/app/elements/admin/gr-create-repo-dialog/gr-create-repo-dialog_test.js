@@ -45,7 +45,7 @@ suite('gr-create-repo-dialog tests', () => {
     };
 
     const saveStub = sinon.stub(element.$.restAPI,
-        'createRepo').callsFake(() => Promise.resolve({}));
+        'createRepo').callsFake(() => { return Promise.resolve({}); });
 
     assert.isFalse(element.hasNewRepoName);
 

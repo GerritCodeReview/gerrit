@@ -67,7 +67,7 @@ suite('gr-external-style integration tests', () => {
 
   setup(() => {
     sinon.stub(getPluginEndpoints(), 'importUrl')
-        .callsFake( url => Promise.resolve());
+        .callsFake( url => { return Promise.resolve(); });
     sinon.stub(getPluginLoader(), 'awaitPluginsLoaded')
         .returns(Promise.resolve());
   });
@@ -75,7 +75,7 @@ suite('gr-external-style integration tests', () => {
   teardown(() => {
     resetPlugins();
     document.body.querySelectorAll('custom-style')
-        .forEach(style => style.remove());
+        .forEach(style => { return style.remove(); });
   });
 
   test('imports plugin-provided module', async () => {
@@ -105,7 +105,7 @@ suite('gr-external-style integration tests', () => {
     plugin.registerStyleModule('foo', 'some-module');
     await new Promise(flush);
     const stylesApplied =
-        element._stylesApplied.filter(name => name === 'some-module');
+        element._stylesApplied.filter(name => { return name === 'some-module'; });
     assert.strictEqual(stylesApplied.length, 1);
   });
 

@@ -572,7 +572,7 @@ suite('gr-diff tests', () => {
 
       const selectStub = sinon.stub(element, '_selectLine');
       sinon.stub(element.$.diffBuilder, 'getLineElByChild')
-          .callsFake(() => lineEl);
+          .callsFake(() => { return lineEl; });
 
       content.className = 'content';
       content.addEventListener('click', e => {
@@ -848,8 +848,7 @@ suite('gr-diff tests', () => {
     const NO_NEWLINE_BASE = 'No newline at end of base file.';
     const NO_NEWLINE_REVISION = 'No newline at end of revision file.';
 
-    const getWarning = element =>
-      element.shadowRoot.querySelector('.newlineWarning').textContent;
+    const getWarning = element => { return element.shadowRoot.querySelector('.newlineWarning').textContent; };
 
     setup(() => {
       element = basicFixture.instantiate();

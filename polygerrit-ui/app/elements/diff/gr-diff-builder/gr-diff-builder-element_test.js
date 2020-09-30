@@ -298,13 +298,13 @@ suite('gr-diff-builder tests', () => {
 
   test('_handlePreferenceError throws with invalid preference', () => {
     const prefs = {tab_size: 0};
-    assert.throws(() => element._getDiffBuilder(element.diff, prefs));
+    assert.throws(() => { return element._getDiffBuilder(element.diff, prefs); });
   });
 
   test('_handlePreferenceError triggers alert and javascript error', () => {
     const errorStub = sinon.stub();
     element.addEventListener('show-alert', errorStub);
-    assert.throws(() => element._handlePreferenceError('tab size'));
+    assert.throws(() => { return element._handlePreferenceError('tab size'); });
     assert.equal(errorStub.lastCall.args[0].detail.message,
         `The value of the 'tab size' user preference is invalid. ` +
       `Fix in diff preferences`);
@@ -840,7 +840,7 @@ suite('gr-diff-builder tests', () => {
         builder.buildSectionElement = function(group) {
           const section = document.createElement('stub');
           section.textContent = group.lines
-              .reduce((acc, line) => acc + line.text, '');
+              .reduce((acc, line) => { return acc + line.text; }, '');
           return section;
         };
         return builder;
@@ -876,7 +876,7 @@ suite('gr-diff-builder tests', () => {
       const dispatchEventStub = sinon.stub(element, 'dispatchEvent');
       element.render(keyLocations, {}).then(() => {
         const firedEventTypes = dispatchEventStub.getCalls()
-            .map(c => c.args[0].type);
+            .map(c => { return c.args[0].type; });
         assert.include(firedEventTypes, 'render-start');
         assert.include(firedEventTypes, 'render-content');
         done();

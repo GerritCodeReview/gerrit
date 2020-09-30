@@ -57,8 +57,8 @@ suite('gr-repo-branch-picker tests', () => {
           'plugins/avatars/external',
           'plugins/avatars/gravatar',
         ];
-        assert.deepEqual(suggestions.map(s => s.name), unencodedNames);
-        assert.deepEqual(suggestions.map(s => s.value), unencodedNames);
+        assert.deepEqual(suggestions.map(s => { return s.name; }), unencodedNames);
+        assert.deepEqual(suggestions.map(s => { return s.value; }), unencodedNames);
       });
     });
   });
@@ -92,8 +92,8 @@ suite('gr-repo-branch-picker tests', () => {
               'stable-2.14',
               'stable-2.15',
             ];
-            assert.deepEqual(suggestions.map(s => s.name), refNames);
-            assert.deepEqual(suggestions.map(s => s.value), refNames);
+            assert.deepEqual(suggestions.map(s => { return s.name; }), refNames);
+            assert.deepEqual(suggestions.map(s => { return s.value; }), refNames);
           });
     });
 
@@ -108,16 +108,18 @@ suite('gr-repo-branch-picker tests', () => {
           });
     });
 
-    test('does not query when repo is unset', () => element
-        ._getRepoBranchesSuggestions('')
-        .then(() => {
-          assert.isFalse(element.$.restAPI.getRepoBranches.called);
-          element.repo = 'gerrit';
-          return element._getRepoBranchesSuggestions('');
-        })
-        .then(() => {
-          assert.isTrue(element.$.restAPI.getRepoBranches.called);
-        }));
+    test('does not query when repo is unset', () => {
+      return element
+          ._getRepoBranchesSuggestions('')
+          .then(() => {
+            assert.isFalse(element.$.restAPI.getRepoBranches.called);
+            element.repo = 'gerrit';
+            return element._getRepoBranchesSuggestions('');
+          })
+          .then(() => {
+            assert.isTrue(element.$.restAPI.getRepoBranches.called);
+          });
+    });
   });
 });
 

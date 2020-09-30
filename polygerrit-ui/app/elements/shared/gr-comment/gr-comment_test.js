@@ -1265,7 +1265,7 @@ suite('gr-comment tests', () => {
       respectfulGetStub.returns(null);
       element = draftFixture.instantiate();
       // fake random
-      element.getRandomNum = () => 0;
+      element.getRandomNum = () => { return 0; };
       element.comment = {__editing: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
@@ -1288,7 +1288,7 @@ suite('gr-comment tests', () => {
       respectfulGetStub.returns(null);
       element = draftFixture.instantiate();
       // fake random
-      element.getRandomNum = () => 0;
+      element.getRandomNum = () => { return 0; };
       element.comment = {__editing: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
@@ -1317,7 +1317,7 @@ suite('gr-comment tests', () => {
       respectfulGetStub.returns(null);
       element = draftFixture.instantiate();
       // fake random
-      element.getRandomNum = () => 3;
+      element.getRandomNum = () => { return 3; };
       element.comment = {__editing: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);
@@ -1340,7 +1340,7 @@ suite('gr-comment tests', () => {
       respectfulGetStub.returns(null);
       element = draftFixture.instantiate();
       // fake random
-      element.getRandomNum = () => 0;
+      element.getRandomNum = () => { return 0; };
       element.comment = {__editing: false};
       flush(() => {
         assert.isFalse(respectfulGetStub.called);
@@ -1372,7 +1372,7 @@ suite('gr-comment tests', () => {
       respectfulGetStub.returns({});
       element = draftFixture.instantiate();
       // fake random
-      element.getRandomNum = () => 0;
+      element.getRandomNum = () => { return 0; };
       element.comment = {__editing: true};
       flush(() => {
         assert.isTrue(respectfulGetStub.called);

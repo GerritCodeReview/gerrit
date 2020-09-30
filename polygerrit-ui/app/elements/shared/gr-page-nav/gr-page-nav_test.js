@@ -36,17 +36,17 @@ suite('gr-page-nav tests', () => {
   });
 
   test('header is not pinned just below top', () => {
-    sinon.stub(element, '_getOffsetParent').callsFake(() => 0);
-    sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
-    sinon.stub(element, '_getScrollY').callsFake(() => 5);
+    sinon.stub(element, '_getOffsetParent').callsFake(() => { return 0; });
+    sinon.stub(element, '_getOffsetTop').callsFake(() => { return 10; });
+    sinon.stub(element, '_getScrollY').callsFake(() => { return 5; });
     element._handleBodyScroll();
     assert.isFalse(element.$.nav.classList.contains('pinned'));
   });
 
   test('header is pinned when scroll down the page', () => {
-    sinon.stub(element, '_getOffsetParent').callsFake(() => 0);
-    sinon.stub(element, '_getOffsetTop').callsFake(() => 10);
-    sinon.stub(element, '_getScrollY').callsFake(() => 25);
+    sinon.stub(element, '_getOffsetParent').callsFake(() => { return 0; });
+    sinon.stub(element, '_getOffsetTop').callsFake(() => { return 10; });
+    sinon.stub(element, '_getScrollY').callsFake(() => { return 25; });
     window.scrollY = 100;
     element._handleBodyScroll();
     assert.isTrue(element.$.nav.classList.contains('pinned'));
@@ -54,7 +54,7 @@ suite('gr-page-nav tests', () => {
 
   test('header is not pinned just below top with header set', () => {
     element._headerHeight = 20;
-    sinon.stub(element, '_getScrollY').callsFake(() => 15);
+    sinon.stub(element, '_getScrollY').callsFake(() => { return 15; });
     window.scrollY = 100;
     element._handleBodyScroll();
     assert.isFalse(element.$.nav.classList.contains('pinned'));
@@ -62,7 +62,7 @@ suite('gr-page-nav tests', () => {
 
   test('header is pinned when scroll down the page with header set', () => {
     element._headerHeight = 20;
-    sinon.stub(element, '_getScrollY').callsFake(() => 25);
+    sinon.stub(element, '_getScrollY').callsFake(() => { return 25; });
     window.scrollY = 100;
     element._handleBodyScroll();
     assert.isTrue(element.$.nav.classList.contains('pinned'));

@@ -145,9 +145,9 @@ class GrChangeListView extends GestureEventListeners(
   created() {
     super.created();
     this.addEventListener('next-page',
-        () => this._handleNextPage());
+        () => { return this._handleNextPage(); });
     this.addEventListener('previous-page',
-        () => this._handlePreviousPage());
+        () => { return this._handlePreviousPage(); });
   }
 
   /** @override */
@@ -171,10 +171,12 @@ class GrChangeListView extends GestureEventListeners(
 
     // NOTE: This method may be called before attachment. Fire title-change
     // in an async so that attachment to the DOM can take place first.
-    this.async(() => this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: this._query},
-      composed: true, bubbles: true,
-    })));
+    this.async(() => {
+      return this.dispatchEvent(new CustomEvent('title-change', {
+        detail: {title: this._query},
+        composed: true, bubbles: true,
+      }));
+    });
 
     this._getPreferences()
         .then(prefs => {

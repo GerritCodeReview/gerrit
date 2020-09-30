@@ -28,8 +28,7 @@ suite('gr-lib-loader tests', () => {
   setup(() => {
     element = basicFixture.instantiate();
 
-    loadStub = sinon.stub(element, '_loadScript').callsFake(() =>
-      new Promise(resolve => resolveLoad = resolve)
+    loadStub = sinon.stub(element, '_loadScript').callsFake(() => { return new Promise(resolve => { return resolveLoad = resolve; }); }
     );
 
     // Assert preconditions:
@@ -96,9 +95,11 @@ suite('gr-lib-loader tests', () => {
       assert.isTrue(firstCallHandler.calledWith(hljsStub));
     });
 
-    test('configures hljs', () => element.getHLJS().then(() => {
-      assert.isTrue(window.hljs.configure.calledOnce);
-    }));
+    test('configures hljs', () => {
+      return element.getHLJS().then(() => {
+        assert.isTrue(window.hljs.configure.calledOnce);
+      });
+    });
   });
 
   suite('_getHLJSUrl', () => {
@@ -106,7 +107,7 @@ suite('gr-lib-loader tests', () => {
       let root;
 
       setup(() => {
-        sinon.stub(element, '_getLibRoot').callsFake(() => root);
+        sinon.stub(element, '_getLibRoot').callsFake(() => { return root; });
       });
 
       test('with no root', () => {

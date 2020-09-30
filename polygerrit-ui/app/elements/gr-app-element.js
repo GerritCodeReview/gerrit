@@ -177,19 +177,19 @@ class GrAppElement extends KeyboardShortcutMixin(
     super.created();
     this._bindKeyboardShortcuts();
     this.addEventListener('page-error',
-        e => this._handlePageError(e));
+        e => { return this._handlePageError(e); });
     this.addEventListener('title-change',
-        e => this._handleTitleChange(e));
+        e => { return this._handleTitleChange(e); });
     this.addEventListener('location-change',
-        e => this._handleLocationChange(e));
+        e => { return this._handleLocationChange(e); });
     this.addEventListener('rpc-log',
-        e => this._handleRpcLog(e));
+        e => { return this._handleRpcLog(e); });
     this.addEventListener('shortcut-triggered',
-        e => this._handleShortcutTriggered(e));
+        e => { return this._handleShortcutTriggered(e); });
     // Ideally individual views should handle this event and respond with a soft
     // reload. This is a catch-all for all views that cannot or have not
     // implemented that.
-    this.addEventListener('reload', e => window.location.reload());
+    this.addEventListener('reload', e => { return window.location.reload(); });
   }
 
   /** @override */
@@ -429,7 +429,7 @@ class GrAppElement extends KeyboardShortcutMixin(
     // because _showPluginScreen value does not change. To force restamp,
     // change _showPluginScreen value between true and false.
     if (isPluginScreen) {
-      this.async(() => this.set('_showPluginScreen', true), 1);
+      this.async(() => { return this.set('_showPluginScreen', true); }, 1);
     }
     this.set('_showDocumentationSearch',
         view === GerritNav.View.DOCUMENTATION_SEARCH);

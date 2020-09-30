@@ -282,7 +282,7 @@ suite('gr-repo-detail-list', () => {
         sinon.stub(
             element.$.restAPI,
             'getRepoBranches')
-            .callsFake(() => Promise.resolve(branches));
+            .callsFake(() => { return Promise.resolve(branches); });
         const params = {
           detail: 'branches',
           repo: 'test',
@@ -460,7 +460,7 @@ suite('gr-repo-detail-list', () => {
         sinon.stub(
             element.$.restAPI,
             'getRepoTags')
-            .callsFake(() => Promise.resolve(tags));
+            .callsFake(() => { return Promise.resolve(tags); });
         const params = {
           repo: 'test',
           detail: 'tags',

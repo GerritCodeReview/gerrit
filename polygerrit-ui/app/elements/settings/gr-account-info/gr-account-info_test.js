@@ -134,11 +134,11 @@ suite('gr-account-info tests', () => {
           {auth: {editable_account_fields: ['FULL_NAME', 'USER_NAME']}});
 
       nameStub = sinon.stub(element.$.restAPI, 'setAccountName').callsFake(
-          name => Promise.resolve());
+          name => { return Promise.resolve(); });
       usernameStub = sinon.stub(element.$.restAPI, 'setAccountUsername')
-          .callsFake(username => Promise.resolve());
+          .callsFake(username => { return Promise.resolve(); });
       statusStub = sinon.stub(element.$.restAPI, 'setAccountStatus').callsFake(
-          status => Promise.resolve());
+          status => { return Promise.resolve(); });
     });
 
     test('name', done => {
@@ -218,11 +218,11 @@ suite('gr-account-info tests', () => {
           {auth: {editable_account_fields: ['FULL_NAME']}});
 
       nameStub = sinon.stub(element.$.restAPI, 'setAccountName').callsFake(
-          name => Promise.resolve());
+          name => { return Promise.resolve(); });
       statusStub = sinon.stub(element.$.restAPI, 'setAccountStatus').callsFake(
-          status => Promise.resolve());
+          status => { return Promise.resolve(); });
       sinon.stub(element.$.restAPI, 'setAccountUsername').callsFake(
-          username => Promise.resolve());
+          username => { return Promise.resolve(); });
     });
 
     test('set name and status', done => {
@@ -262,7 +262,7 @@ suite('gr-account-info tests', () => {
           {auth: {editable_account_fields: []}});
 
       statusStub = sinon.stub(element.$.restAPI, 'setAccountStatus').callsFake(
-          status => Promise.resolve());
+          status => { return Promise.resolve(); });
     });
 
     test('read full name but set status', done => {

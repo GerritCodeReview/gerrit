@@ -42,8 +42,8 @@ suite('gr-reporting tests', () => {
       navigationStart: 1,
       loadEventEnd: 2,
     };
-    fakePerformance.toJSON = () => fakePerformance;
-    sinon.stub(service, 'performanceTiming').get(() => fakePerformance);
+    fakePerformance.toJSON = () => { return fakePerformance; };
+    sinon.stub(service, 'performanceTiming').get(() => { return fakePerformance; });
     sinon.stub(window.performance, 'now').returns(42);
     service.appStarted();
     assert.isTrue(

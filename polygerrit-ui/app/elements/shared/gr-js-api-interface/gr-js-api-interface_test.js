@@ -126,7 +126,7 @@ suite('gr-js-api-interface tests', () => {
   test('get using Promise', () => {
     const response = {foo: 'foo'};
     getResponseObjectStub.returns(Promise.resolve(response));
-    return plugin.get('/url', r => 'rubbish').then(r => {
+    return plugin.get('/url', r => { return 'rubbish'; }).then(r => {
       assert.isTrue(sendStub.calledWith(
           'GET', 'http://test.com/plugins/testplugin/url'));
       assert.strictEqual(r, response);
@@ -185,7 +185,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('history event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     plugin.on(EventType.HISTORY, throwErrFn);
     plugin.on(EventType.HISTORY, resolve);
     element.handleEvent(EventType.HISTORY, {path: '/path/to/awesomesauce'});
@@ -196,7 +196,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('showchange event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     const testChange = {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
@@ -218,7 +218,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('show-revision-actions event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     const testChange = {
       _number: 42,
       revisions: {def: {_number: 2}, abc: {_number: 1}},
@@ -257,7 +257,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('comment event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     const testCommentNode = {foo: 'bar'};
     plugin.on(EventType.COMMENT, throwErrFn);
     plugin.on(EventType.COMMENT, resolve);
@@ -305,7 +305,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('commitmsgedit event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     const testMsg = 'Test CL commit message';
     plugin.on(EventType.COMMIT_MSG_EDIT, throwErrFn);
     plugin.on(EventType.COMMIT_MSG_EDIT, (change, msg) => {
@@ -320,7 +320,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('labelchange event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     const testChange = {_number: 42};
     plugin.on(EventType.LABEL_CHANGE, throwErrFn);
     plugin.on(EventType.LABEL_CHANGE, resolve);
@@ -333,18 +333,18 @@ suite('gr-js-api-interface tests', () => {
 
   test('submitchange', () => {
     plugin.on(EventType.SUBMIT_CHANGE, throwErrFn);
-    plugin.on(EventType.SUBMIT_CHANGE, () => true);
+    plugin.on(EventType.SUBMIT_CHANGE, () => { return true; });
     assert.isTrue(element.canSubmitChange());
     assert.isTrue(errorStub.calledOnce);
-    plugin.on(EventType.SUBMIT_CHANGE, () => false);
-    plugin.on(EventType.SUBMIT_CHANGE, () => true);
+    plugin.on(EventType.SUBMIT_CHANGE, () => { return false; });
+    plugin.on(EventType.SUBMIT_CHANGE, () => { return true; });
     assert.isFalse(element.canSubmitChange());
     assert.isTrue(errorStub.calledTwice);
   });
 
   test('highlightjs-loaded event', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     const testHljs = {_number: 42};
     plugin.on(EventType.HIGHLIGHTJS_LOADED, throwErrFn);
     plugin.on(EventType.HIGHLIGHTJS_LOADED, resolve);
@@ -357,7 +357,7 @@ suite('gr-js-api-interface tests', () => {
 
   test('getLoggedIn', () => {
     // fake fetch for authCheck
-    sinon.stub(window, 'fetch').callsFake(() => Promise.resolve({status: 204}));
+    sinon.stub(window, 'fetch').callsFake(() => { return Promise.resolve({status: 204}); });
     return plugin.restApi().getLoggedIn()
         .then(loggedIn => {
           assert.isTrue(loggedIn);
@@ -372,8 +372,8 @@ suite('gr-js-api-interface tests', () => {
     const links = [{text: 'a', url: 'b'}, {text: 'c', url: 'd'}];
     const getCallbacksStub = sinon.stub(element, '_getEventCallbacks')
         .returns([
-          {getMenuLinks: () => [links[0]]},
-          {getMenuLinks: () => [links[1]]},
+          {getMenuLinks: () => { return [links[0]]; }},
+          {getMenuLinks: () => { return [links[1]]; }},
         ]);
     const result = element.getAdminMenuLinks();
     assert.deepEqual(result, links);

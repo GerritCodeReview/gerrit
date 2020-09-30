@@ -54,7 +54,7 @@ suite('gr-change-list-view tests', () => {
 
   test('_limitFor', () => {
     const defaultLimit = 25;
-    const _limitFor = q => element._limitFor(q, defaultLimit);
+    const _limitFor = q => { return element._limitFor(q, defaultLimit); };
     assert.equal(_limitFor(''), defaultLimit);
     assert.equal(_limitFor('limit:10'), 10);
     assert.equal(_limitFor('xlimit:10'), defaultLimit);

@@ -365,7 +365,7 @@ suite('gr-account-list tests', () => {
 
     const makeSuggestionItemStub =
         sinon.stub(suggestionsProvider, 'makeSuggestionItem')
-            .callsFake( item => item);
+            .callsFake( item => { return item; });
 
     const input = element.$.entry.$.input;
 
@@ -396,7 +396,7 @@ suite('gr-account-list tests', () => {
 
     const makeSuggestionItemStub =
         sinon.stub(suggestionsProvider, 'makeSuggestionItem')
-            .callsFake( item => item);
+            .callsFake( item => { return item; });
 
     const input = element.$.entry.$.input;
 

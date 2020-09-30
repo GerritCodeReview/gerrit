@@ -482,7 +482,7 @@ suite('gr-diff-processor tests', () => {
     test('breaks down shared chunks w/ whole-file', () => {
       const size = 120 * 2 + 5;
       const content = [{
-        ab: _.times(size, () => `${Math.random()}`),
+        ab: _.times(size, () => { return `${Math.random()}`; }),
       }];
       element.context = -1;
       const result = element._splitLargeChunks(content);
@@ -493,7 +493,7 @@ suite('gr-diff-processor tests', () => {
 
     test('does not break-down common chunks w/ context', () => {
       const content = [{
-        ab: _.times(75, () => `${Math.random()}`),
+        ab: _.times(75, () => { return `${Math.random()}`; }),
       }];
       element.context = 4;
       const result =
@@ -896,7 +896,7 @@ suite('gr-diff-processor tests', () => {
           assert.isAtMost(subResult.length, size);
         }
         const flattened = result
-            .reduce((a, b) => a.concat(b), []);
+            .reduce((a, b) => { return a.concat(b); }, []);
         assert.deepEqual(flattened, array);
       });
 

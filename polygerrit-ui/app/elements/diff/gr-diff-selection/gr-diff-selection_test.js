@@ -166,7 +166,7 @@ suite('gr-diff-selection', () => {
     element.classList.add('selected-left');
     element.diffBuilder.getLineElByChild.returns(null);
     sinon.stub(element, '_elementDescendedFromClass').callsFake(
-        (el, className) => className === 'blame');
+        (el, className) => { return className === 'blame'; });
     MockInteractions.down(element);
     assert.isTrue(
         element.classList.contains('selected-blame'), 'adds selected-right');

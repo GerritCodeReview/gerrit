@@ -231,7 +231,7 @@ class GrDiffHost extends GestureEventListeners(
        */
       _coverageRanges: {
         type: Array,
-        value: () => [],
+        value: () => { return []; },
       },
 
       _loadedWhitespaceLevel: String,
@@ -278,21 +278,21 @@ class GrDiffHost extends GestureEventListeners(
         // change in some way, and that we should update any models we may want
         // to keep in sync.
         'create-comment',
-        e => this._handleCreateComment(e));
+        e => { return this._handleCreateComment(e); });
     this.addEventListener('comment-discard',
-        e => this._handleCommentDiscard(e));
+        e => { return this._handleCommentDiscard(e); });
     this.addEventListener('comment-update',
-        e => this._handleCommentUpdate(e));
+        e => { return this._handleCommentUpdate(e); });
     this.addEventListener('comment-save',
-        e => this._handleCommentSave(e));
+        e => { return this._handleCommentSave(e); });
     this.addEventListener('render-start',
-        () => this._handleRenderStart());
+        () => { return this._handleRenderStart(); });
     this.addEventListener('render-content',
-        () => this._handleRenderContent());
+        () => { return this._handleRenderContent(); });
     this.addEventListener('normalize-range',
-        event => this._handleNormalizeRange(event));
+        event => { return this._handleNormalizeRange(event); });
     this.addEventListener('diff-context-expanded',
-        event => this._handleDiffContextExpanded(event));
+        event => { return this._handleDiffContextExpanded(event); });
   }
 
   /** @override */
@@ -703,8 +703,7 @@ class GrDiffHost extends GestureEventListeners(
       // If the comment is in reply to another comment, find that comment's
       // thread and append to it.
       if (comment.in_reply_to) {
-        const thread = threads.find(thread =>
-          thread.comments.some(c => c.id === comment.in_reply_to));
+        const thread = threads.find(thread => { return thread.comments.some(c => { return c.id === comment.in_reply_to; }); });
         if (thread) {
           thread.comments.push(comment);
           continue;
@@ -904,8 +903,7 @@ class GrDiffHost extends GestureEventListeners(
         lineInfo.beforeNumber === 'FILE') {
       matchers.push(matchesFileComment);
     }
-    return threadEls.filter(threadEl =>
-      matchers.some(matcher => matcher(threadEl)));
+    return threadEls.filter(threadEl => { return matchers.some(matcher => { return matcher(threadEl); }); });
   }
 
   _getIgnoreWhitespace() {
@@ -1022,7 +1020,7 @@ class GrDiffHost extends GestureEventListeners(
     if (!comment.id || !this.comments[side]) {
       return -1;
     }
-    return this.comments[side].findIndex(item => item.id === comment.id);
+    return this.comments[side].findIndex(item => { return item.id === comment.id; });
   }
 
   /** @return {number} */
@@ -1031,7 +1029,7 @@ class GrDiffHost extends GestureEventListeners(
       return -1;
     }
     return this.comments[side].findIndex(
-        item => item.__draftID === comment.__draftID);
+        item => { return item.__draftID === comment.__draftID; });
   }
 
   _isSyntaxHighlightingEnabled(preferenceChangeRecord, diff) {
@@ -1055,7 +1053,7 @@ class GrDiffHost extends GestureEventListeners(
       const lines = section.ab ?
         section.ab :
         (section.a || []).concat(section.b || []);
-      return lines.some(line => line.length >= SYNTAX_MAX_LINE_LENGTH);
+      return lines.some(line => { return line.length >= SYNTAX_MAX_LINE_LENGTH; });
     });
   }
 

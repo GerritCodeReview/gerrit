@@ -282,7 +282,7 @@ suite('comment action tests with unresolved thread', () => {
     MockInteractions.tap(replyBtn);
     flush();
 
-    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    const drafts = element._orderedComments.filter(c => { return c.__draft == true; });
     assert.equal(drafts.length, 1);
     assert.notOk(drafts[0].message, 'message should be empty');
     assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
@@ -300,7 +300,7 @@ suite('comment action tests with unresolved thread', () => {
     MockInteractions.tap(quoteBtn);
     flush();
 
-    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    const drafts = element._orderedComments.filter(c => { return c.__draft == true; });
     assert.equal(drafts.length, 1);
     assert.equal(drafts[0].message, '> is this a crossover episode!?\n\n');
     assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
@@ -331,7 +331,7 @@ suite('comment action tests with unresolved thread', () => {
     MockInteractions.tap(quoteBtn);
     flush();
 
-    const drafts = element._orderedComments.filter(c => c.__draft == true);
+    const drafts = element._orderedComments.filter(c => { return c.__draft == true; });
     assert.equal(drafts.length, 1);
     assert.equal(drafts[0].message,
         '> is this a crossover episode!?\n> It might be!\n\n');
@@ -352,7 +352,7 @@ suite('comment action tests with unresolved thread', () => {
     const ackBtn = element.shadowRoot.querySelector('#ackBtn');
     MockInteractions.tap(ackBtn);
     flush(() => {
-      const drafts = element.comments.filter(c => c.__draft == true);
+      const drafts = element.comments.filter(c => { return c.__draft == true; });
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].message, 'Ack');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
@@ -374,7 +374,7 @@ suite('comment action tests with unresolved thread', () => {
     const doneBtn = element.shadowRoot.querySelector('#doneBtn');
     MockInteractions.tap(doneBtn);
     flush(() => {
-      const drafts = element.comments.filter(c => c.__draft == true);
+      const drafts = element.comments.filter(c => { return c.__draft == true; });
       assert.equal(drafts.length, 1);
       assert.equal(drafts[0].message, 'Done');
       assert.equal(drafts[0].in_reply_to, 'baf0414d_60047215');
@@ -415,7 +415,7 @@ suite('comment action tests with unresolved thread', () => {
         .querySelector('gr-comment');
     assert.ok(commentEl);
     commentEl.addEventListener('create-fix-comment', () => {
-      const drafts = element._orderedComments.filter(c => c.__draft == true);
+      const drafts = element._orderedComments.filter(c => { return c.__draft == true; });
       assert.equal(drafts.length, 1);
       assert.equal(
           drafts[0].message, '> is this a crossover episode!?\n\nPlease fix.');
@@ -446,7 +446,7 @@ suite('comment action tests with unresolved thread', () => {
         element.root.querySelectorAll('gr-comment')[1];
     assert.ok(draftEl);
     draftEl.addEventListener('comment-discard', () => {
-      const drafts = element.comments.filter(c => c.__draft == true);
+      const drafts = element.comments.filter(c => { return c.__draft == true; });
       assert.equal(drafts.length, 0);
       assert.isTrue(saveOrDiscardStub.called);
       assert.equal(saveOrDiscardStub.lastCall.args[0].detail.rootId,
@@ -512,7 +512,7 @@ suite('comment action tests with unresolved thread', () => {
     MockInteractions.tap(replyBtn);
     flush();
 
-    const editing = element._orderedComments.filter(c => c.__editing == true);
+    const editing = element._orderedComments.filter(c => { return c.__editing == true; });
     assert.equal(editing.length, 1);
     assert.equal(!!editing[0].__otherEditing, false);
   });

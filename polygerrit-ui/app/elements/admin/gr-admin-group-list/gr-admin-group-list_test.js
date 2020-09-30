@@ -50,7 +50,7 @@ suite('gr-admin-group-list tests', () => {
 
   test('_computeGroupUrl', () => {
     let urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
-        () => '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5');
+        () => { return '/admin/groups/e2cd66f88a2db4d391ac068a92d987effbe872f5'; });
 
     let group = {
       id: 'e2cd66f88a2db4d391ac068a92d987effbe872f5',
@@ -61,7 +61,7 @@ suite('gr-admin-group-list tests', () => {
     urlStub.restore();
 
     urlStub = sinon.stub(GerritNav, 'getUrlForGroup').callsFake(
-        () => '/admin/groups/user/test');
+        () => { return '/admin/groups/user/test'; });
 
     group = {
       id: 'user%2Ftest',
@@ -133,7 +133,7 @@ suite('gr-admin-group-list tests', () => {
       sinon.stub(
           element.$.restAPI,
           'getGroups')
-          .callsFake(() => Promise.resolve(groups));
+          .callsFake(() => { return Promise.resolve(groups); });
       const value = {
         filter: 'test',
         offset: 25,

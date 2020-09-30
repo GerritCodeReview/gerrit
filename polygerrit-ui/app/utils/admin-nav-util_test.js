@@ -63,7 +63,7 @@ suite('gr-admin-nav-behavior tests', () => {
           if (expected.pluginGeneratedLinks) {
             for (const link of expected.pluginGeneratedLinks) {
               const linkMatch = res.links
-                  .find(l => (l.url === link.url && l.name === link.text));
+                  .find(l => { return (l.url === link.url && l.name === link.text); });
               assert.isTrue(!!linkMatch);
 
               // External links should open in new tab.

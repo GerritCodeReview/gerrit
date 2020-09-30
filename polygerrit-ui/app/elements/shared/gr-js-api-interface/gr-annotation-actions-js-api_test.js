@@ -118,7 +118,7 @@ suite('gr-annotation-actions-js-api tests', () => {
       onAttachedFuncCalled = true;
     };
     annotationActions.enableToggleCheckbox('test label', onAttachedFunc);
-    const emulateAttached = () => hookStub.onAttached.callArgWith(0, fakeEl);
+    const emulateAttached = () => { return hookStub.onAttached.callArgWith(0, fakeEl); };
     emulateAttached();
 
     // Assert that onAttachedFunc is called and HTML elements have the
@@ -134,7 +134,7 @@ suite('gr-annotation-actions-js-api tests', () => {
     onAttachedFuncCalled = false;
     annotationActions.enableToggleCheckbox('test label2', onAttachedFunc);
     const errorStub = sinon.stub(
-        console, 'error').callsFake((msg, err) => undefined);
+        console, 'error').callsFake((msg, err) => { return undefined; });
     emulateAttached();
     assert.isTrue(
         errorStub.calledWith(

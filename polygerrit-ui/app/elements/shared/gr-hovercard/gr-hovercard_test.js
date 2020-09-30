@@ -32,7 +32,7 @@ suite('gr-hovercard tests', () => {
 
   setup(() => {
     testResolve = undefined;
-    testPromise = new Promise(r => testResolve = r);
+    testPromise = new Promise(r => { return testResolve = r; });
     button = document.createElement('button');
     button.innerHTML = 'Hello';
     button.setAttribute('id', 'foo');
@@ -62,8 +62,7 @@ suite('gr-hovercard tests', () => {
     const targetLeft = targetRect.left - parentRect.left;
     const targetTop = targetRect.top - parentRect.top;
 
-    const pixelCompare = pixel =>
-      Math.round(parseInt(pixel.substring(0, pixel.length - 1)), 10);
+    const pixelCompare = pixel => { return Math.round(parseInt(pixel.substring(0, pixel.length - 1)), 10); };
 
     assert.equal(
         pixelCompare(element.style.left),
@@ -110,10 +109,10 @@ suite('gr-hovercard tests', () => {
   test('card is scheduled to show on enter and hides on leave', async () => {
     const button = document.querySelector('button');
     let enterResolve = undefined;
-    const enterPromise = new Promise(r => enterResolve = r);
+    const enterPromise = new Promise(r => { return enterResolve = r; });
     button.addEventListener('mouseenter', enterResolve);
     let leaveResolve = undefined;
-    const leavePromise = new Promise(r => leaveResolve = r);
+    const leavePromise = new Promise(r => { return leaveResolve = r; });
     button.addEventListener('mouseleave', leaveResolve);
 
     assert.isFalse(element._isShowing);
@@ -141,10 +140,10 @@ suite('gr-hovercard tests', () => {
   test('card should disappear on click', async () => {
     const button = document.querySelector('button');
     let enterResolve = undefined;
-    const enterPromise = new Promise(r => enterResolve = r);
+    const enterPromise = new Promise(r => { return enterResolve = r; });
     button.addEventListener('mouseenter', enterResolve);
     let clickResolve = undefined;
-    const clickPromise = new Promise(r => clickResolve = r);
+    const clickPromise = new Promise(r => { return clickResolve = r; });
     button.addEventListener('click', clickResolve);
 
     assert.isFalse(element._isShowing);

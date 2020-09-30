@@ -488,9 +488,9 @@ class GrChangeActions extends GestureEventListeners(
   created() {
     super.created();
     this.addEventListener('fullscreen-overlay-opened',
-        () => this._handleHideBackgroundContent());
+        () => { return this._handleHideBackgroundContent(); });
     this.addEventListener('fullscreen-overlay-closed',
-        () => this._handleShowBackgroundContent());
+        () => { return this._handleShowBackgroundContent(); });
   }
 
   /** @override */
@@ -552,7 +552,7 @@ class GrChangeActions extends GestureEventListeners(
 
   _handleLoadingComplete() {
     getPluginLoader().awaitPluginsLoaded()
-        .then(() => this._loading = false);
+        .then(() => { return this._loading = false; });
   }
 
   _sendShowRevisionActions(detail) {
@@ -620,7 +620,7 @@ class GrChangeActions extends GestureEventListeners(
       throw Error(`Invalid action type given: ${type}`);
     }
     const index = this._actionPriorityOverrides
-        .findIndex(action => action.type === type && action.key === key);
+        .findIndex(action => { return action.type === type && action.key === key; });
     const action = {
       type,
       key,
@@ -783,7 +783,7 @@ class GrChangeActions extends GestureEventListeners(
   }
 
   _getValuesFor(obj) {
-    return Object.keys(obj).map(key => obj[key]);
+    return Object.keys(obj).map(key => { return obj[key]; });
   }
 
   _getLabelStatus(label) {
@@ -849,7 +849,7 @@ class GrChangeActions extends GestureEventListeners(
   hideQuickApproveAction() {
     this._topLevelSecondaryActions =
       this._topLevelSecondaryActions
-          .filter(sa => sa.key !== QUICK_APPROVE_ACTION.key);
+          .filter(sa => { return sa.key !== QUICK_APPROVE_ACTION.key; });
     this._hideQuickApproveAction = true;
   }
 
@@ -908,7 +908,7 @@ class GrChangeActions extends GestureEventListeners(
     let additionalActions = (additionalActionsChangeRecord &&
     additionalActionsChangeRecord.base) || [];
     additionalActions = additionalActions
-        .filter(a => a.__type === type)
+        .filter(a => { return a.__type === type; })
         .map(a => {
           a.__primary = primaryActionKeys.includes(a.__key);
           // Triggers a re-render by ensuring object inequality.
@@ -922,7 +922,7 @@ class GrChangeActions extends GestureEventListeners(
           action.__type === ActionType.REVISION ? this.latestPatchNum : null;
     this.$.restAPI.getChangeActionURL(
         this.changeNum, patchNum, '/' + action.__key)
-        .then(url => action.__url = url);
+        .then(url => { return action.__url = url; });
   }
 
   /**
@@ -1057,7 +1057,7 @@ class GrChangeActions extends GestureEventListeners(
         this._showActionDialog(this.$.confirmAbandonDialog);
         break;
       case QUICK_APPROVE_ACTION.key:
-        action = this._allActionValues.find(o => o.key === key);
+        action = this._allActionValues.find(o => { return o.key === key; });
         this._fireAction(
             this._prependSlash(key), action, true, action.payload);
         break;
@@ -1278,7 +1278,7 @@ class GrChangeActions extends GestureEventListeners(
 
   _getActionOverflowIndex(type, key) {
     return this._overflowActions
-        .findIndex(action => action.type === type && action.key === key);
+        .findIndex(action => { return action.type === type && action.key === key; });
   }
 
   _setLoadingOnButtonWithKey(type, key) {
@@ -1324,7 +1324,7 @@ class GrChangeActions extends GestureEventListeners(
         this._setLoadingOnButtonWithKey(action.__type, action.__key);
 
     this._send(action.method, opt_payload, endpoint, revAction, cleanupFn,
-        action).then(res => this._handleResponse(action, res));
+        action).then(res => { return this._handleResponse(action, res); });
   }
 
   _showActionDialog(dialog) {
@@ -1352,7 +1352,7 @@ class GrChangeActions extends GestureEventListeners(
       switch (action.__key) {
         case ChangeActions.REVERT:
           this._waitForChangeReachable(obj._number)
-              .then(() => this._setLabelValuesOnRevert(obj._number))
+              .then(() => { return this._setLabelValuesOnRevert(obj._number); })
               .then(() => {
                 GerritNav.navigateToChange(obj);
               });
@@ -1570,7 +1570,7 @@ class GrChangeActions extends GestureEventListeners(
 
     return revisionActionValues
         .concat(changeActionValues)
-        .sort((a, b) => this._actionComparator(a, b))
+        .sort((a, b) => { return this._actionComparator(a, b); })
         .map(action => {
           if (ACTIONS_WITH_ICONS.has(action.__key)) {
             action.icon = action.__key;
@@ -1583,13 +1583,13 @@ class GrChangeActions extends GestureEventListeners(
           // End of hack
           return action;
         })
-        .filter(action => !this._shouldSkipAction(action, config));
+        .filter(action => { return !this._shouldSkipAction(action, config); });
   }
 
   _getActionPriority(action) {
     if (action.__type && action.__key) {
       const overrideAction = this._actionPriorityOverrides
-          .find(i => i.type === action.__type && i.key === action.__key);
+          .find(i => { return i.type === action.__type && i.key === action.__key; });
 
       if (overrideAction !== undefined) {
         return overrideAction.priority;
@@ -1640,10 +1640,8 @@ class GrChangeActions extends GestureEventListeners(
   }
 
   _filterPrimaryActions(_topLevelActions) {
-    this._topLevelPrimaryActions = _topLevelActions.filter(action =>
-      action.__primary);
-    this._topLevelSecondaryActions = _topLevelActions.filter(action =>
-      !action.__primary);
+    this._topLevelPrimaryActions = _topLevelActions.filter(action => { return action.__primary; });
+    this._topLevelSecondaryActions = _topLevelActions.filter(action => { return !action.__primary; });
   }
 
   _computeMenuActions(actionRecord, hiddenActionsRecord) {

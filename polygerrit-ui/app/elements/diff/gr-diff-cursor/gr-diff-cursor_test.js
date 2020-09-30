@@ -411,7 +411,7 @@ suite('gr-diff-cursor tests', () => {
       someEmptyDiv = emptyFixture.instantiate();
     });
 
-    teardown(() => sinon.restore());
+    teardown(() => { return sinon.restore(); });
 
     test('ready is fired after component is rendered', done => {
       const cursorElement = document.createElement('gr-diff-cursor');

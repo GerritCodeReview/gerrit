@@ -46,9 +46,11 @@ suite('gr-search-bar tests', () => {
     assert.equal(element._inputVal, 'foo');
   });
 
-  const getActiveElement = () => (document.activeElement.shadowRoot ?
-    document.activeElement.shadowRoot.activeElement :
-    document.activeElement);
+  const getActiveElement = () => {
+    return (document.activeElement.shadowRoot ?
+      document.activeElement.shadowRoot.activeElement :
+      document.activeElement);
+  };
 
   test('enter in search input fires event', done => {
     element.addEventListener('handle-search', () => {
@@ -124,8 +126,7 @@ suite('gr-search-bar tests', () => {
 
   suite('_getSearchSuggestions', () => {
     test('Autocompletes accounts', () => {
-      sinon.stub(element, 'accountSuggestions').callsFake(() =>
-        Promise.resolve([{text: 'owner:fred@goog.co'}])
+      sinon.stub(element, 'accountSuggestions').callsFake(() => { return Promise.resolve([{text: 'owner:fred@goog.co'}]); }
       );
       return element._getSearchSuggestions('owner:fr').then(s => {
         assert.equal(s[0].value, 'owner:fred@goog.co');
@@ -133,11 +134,12 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Autocompletes groups', done => {
-      sinon.stub(element, 'groupSuggestions').callsFake(() =>
-        Promise.resolve([
+      sinon.stub(element, 'groupSuggestions').callsFake(() => {
+        return Promise.resolve([
           {text: 'ownerin:Polygerrit'},
           {text: 'ownerin:gerrit'},
-        ])
+        ]);
+      }
       );
       element._getSearchSuggestions('ownerin:pol').then(s => {
         assert.equal(s[0].value, 'ownerin:Polygerrit');
@@ -146,12 +148,13 @@ suite('gr-search-bar tests', () => {
     });
 
     test('Autocompletes projects', done => {
-      sinon.stub(element, 'projectSuggestions').callsFake(() =>
-        Promise.resolve([
+      sinon.stub(element, 'projectSuggestions').callsFake(() => {
+        return Promise.resolve([
           {text: 'project:Polygerrit'},
           {text: 'project:gerrit'},
           {text: 'project:gerrittest'},
-        ])
+        ]);
+      }
       );
       element._getSearchSuggestions('project:pol').then(s => {
         assert.equal(s[0].value, 'project:Polygerrit');

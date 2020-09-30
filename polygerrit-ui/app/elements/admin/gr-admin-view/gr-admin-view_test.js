@@ -36,7 +36,7 @@ suite('gr-admin-view tests', () => {
     });
     const pluginsLoaded = Promise.resolve();
     sinon.stub(getPluginLoader(), 'awaitPluginsLoaded').returns(pluginsLoaded);
-    pluginsLoaded.then(() => flush(done));
+    pluginsLoaded.then(() => { return flush(done); });
   });
 
   test('_computeURLHelper', () => {
@@ -89,11 +89,13 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        })
+        .callsFake(() => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        }
         );
     element.reload().then(() => {
       assert.equal(element._filteredLinks.length, 3);
@@ -117,7 +119,7 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({})
+        .callsFake(() => { return Promise.resolve({}); }
         );
     element.reload().then(() => {
       assert.equal(element._filteredLinks.length, 2);
@@ -177,11 +179,13 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        }));
+        .callsFake(() => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        });
     element.reload().then(() => {
       flush();
       assert.equal(dom(element.root)
@@ -208,11 +212,13 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        }));
+        .callsFake(() => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        });
     element.reload().then(() => {
       flush();
       assert.equal(element._filteredLinks.length, 3);
@@ -234,15 +240,17 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        }));
+        .callsFake(() => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        });
     sinon.stub(
         element.$.restAPI,
         'getAccount')
-        .callsFake(() => Promise.resolve({_id: 1}));
+        .callsFake(() => { return Promise.resolve({_id: 1}); });
     sinon.stub(element, 'reload');
     element.params = {repo: 'Test Repo', adminView: 'gr-repo'};
     assert.equal(element.reload.callCount, 1);
@@ -256,15 +264,17 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        }));
+        .callsFake(() => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        });
     sinon.stub(
         element.$.restAPI,
         'getAccount')
-        .callsFake(() => Promise.resolve({_id: 1}));
+        .callsFake(() => { return Promise.resolve({_id: 1}); });
     sinon.stub(element, 'reload');
     element.params = {groupId: '1', adminView: 'gr-group'};
     assert.equal(element.reload.callCount, 1);
@@ -323,15 +333,17 @@ suite('gr-admin-view tests', () => {
     sinon.stub(
         element.$.restAPI,
         'getAccountCapabilities')
-        .callsFake(() => Promise.resolve({
-          createGroup: true,
-          createProject: true,
-          viewPlugins: true,
-        }));
+        .callsFake(() => {
+          return Promise.resolve({
+            createGroup: true,
+            createProject: true,
+            viewPlugins: true,
+          });
+        });
     sinon.stub(
         element.$.restAPI,
         'getAccount')
-        .callsFake(() => Promise.resolve({_id: 1}));
+        .callsFake(() => { return Promise.resolve({_id: 1}); });
     flush();
     const expectedFilteredLinks = [
       {
@@ -486,15 +498,17 @@ suite('gr-admin-view tests', () => {
       sinon.stub(
           element.$.restAPI,
           'getAccountCapabilities')
-          .callsFake(() => Promise.resolve({
-            createGroup: true,
-            createProject: true,
-            viewPlugins: true,
-          }));
+          .callsFake(() => {
+            return Promise.resolve({
+              createGroup: true,
+              createProject: true,
+              viewPlugins: true,
+            });
+          });
       sinon.stub(
           element.$.restAPI,
           'getAccount')
-          .callsFake(() => Promise.resolve({_id: 1}));
+          .callsFake(() => { return Promise.resolve({_id: 1}); });
 
       return element.reload();
     });
@@ -570,7 +584,7 @@ suite('gr-admin-view tests', () => {
     suite('groups', () => {
       setup(() => {
         stub('gr-group', {
-          _loadGroup: () => Promise.resolve({}),
+          _loadGroup: () => { return Promise.resolve({}); },
         });
         stub('gr-group-members', {
           _loadGroupDetails: () => {},

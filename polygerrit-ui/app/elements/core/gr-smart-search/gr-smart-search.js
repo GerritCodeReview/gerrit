@@ -44,22 +44,19 @@ class GrSmartSearch extends GestureEventListeners(
       _projectSuggestions: {
         type: Function,
         value() {
-          return (predicate, expression) =>
-            this._fetchProjects(predicate, expression);
+          return (predicate, expression) => { return this._fetchProjects(predicate, expression); };
         },
       },
       _groupSuggestions: {
         type: Function,
         value() {
-          return (predicate, expression) =>
-            this._fetchGroups(predicate, expression);
+          return (predicate, expression) => { return this._fetchGroups(predicate, expression); };
         },
       },
       _accountSuggestions: {
         type: Function,
         value() {
-          return (predicate, expression) =>
-            this._fetchAccounts(predicate, expression);
+          return (predicate, expression) => { return this._fetchAccounts(predicate, expression); };
         },
       },
       /**

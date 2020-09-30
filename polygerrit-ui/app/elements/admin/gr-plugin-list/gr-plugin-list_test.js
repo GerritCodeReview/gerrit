@@ -133,7 +133,7 @@ suite('gr-plugin-list tests', () => {
       sinon.stub(
           element.$.restAPI,
           'getPlugins')
-          .callsFake(() => Promise.resolve(plugins));
+          .callsFake(() => { return Promise.resolve(plugins); });
       const value = {
         filter: 'test',
         offset: 25,

@@ -57,8 +57,8 @@ suite('gr-endpoint-decorator', () => {
     resetPlugins();
     container = basicFixture.instantiate();
     sinon.stub(getPluginEndpoints(), 'importUrl')
-        .callsFake( url => Promise.resolve());
-    pluginApi.install(p => plugin = p, '0.1',
+        .callsFake( url => { return Promise.resolve(); });
+    pluginApi.install(p => { return plugin = p; }, '0.1',
         'http://some/plugin/url.html');
     // Decoration
     decorationHook = plugin.registerCustomComponent('first', 'some-module');
@@ -92,7 +92,7 @@ suite('gr-endpoint-decorator', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="first"]');
     const modules = Array.from(element.root.children).filter(
-        element => element.nodeName === 'SOME-MODULE');
+        element => { return element.nodeName === 'SOME-MODULE'; });
     assert.equal(modules.length, 1);
     const [module] = modules;
     assert.isOk(module);
@@ -129,7 +129,7 @@ suite('gr-endpoint-decorator', () => {
     const element =
         container.querySelector('gr-endpoint-decorator[name="second"]');
     const module = Array.from(element.root.children).find(
-        element => element.nodeName === 'OTHER-MODULE');
+        element => { return element.nodeName === 'OTHER-MODULE'; });
     assert.isOk(module);
     assert.equal(module['someparam'], 'foofoo');
     return replacementHook.getLastAttached()
@@ -148,7 +148,7 @@ suite('gr-endpoint-decorator', () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="banana"]');
       const module = Array.from(element.root.children).find(
-          element => element.nodeName === 'NOOB-NOOB');
+          element => { return element.nodeName === 'NOOB-NOOB'; });
       assert.isOk(module);
       done();
     });
@@ -161,10 +161,10 @@ suite('gr-endpoint-decorator', () => {
       const element =
           container.querySelector('gr-endpoint-decorator[name="banana"]');
       const module1 = Array.from(element.root.children).find(
-          element => element.nodeName === 'MOD-ONE');
+          element => { return element.nodeName === 'MOD-ONE'; });
       assert.isOk(module1);
       const module2 = Array.from(element.root.children).find(
-          element => element.nodeName === 'MOD-TWO');
+          element => { return element.nodeName === 'MOD-TWO'; });
       assert.isOk(module2);
       done();
     });
@@ -178,14 +178,14 @@ suite('gr-endpoint-decorator', () => {
     plugin.registerCustomComponent('banana', 'noob-noob');
     flush(() => {
       let module = Array.from(element.root.children).find(
-          element => element.nodeName === 'NOOB-NOOB');
+          element => { return element.nodeName === 'NOOB-NOOB'; });
       // Module waits for param to be defined.
       assert.isNotOk(module);
       const value = {abc: 'def'};
       param.value = value;
       flush(() => {
         module = Array.from(element.root.children).find(
-            element => element.nodeName === 'NOOB-NOOB');
+            element => { return element.nodeName === 'NOOB-NOOB'; });
         assert.isOk(module);
         assert.strictEqual(module['someParam'], value);
         done();
@@ -203,7 +203,7 @@ suite('gr-endpoint-decorator', () => {
     plugin.registerCustomComponent('banana', 'noob-noob');
     flush(() => {
       const module = Array.from(element.root.children).find(
-          element => element.nodeName === 'NOOB-NOOB');
+          element => { return element.nodeName === 'NOOB-NOOB'; });
       assert.strictEqual(module['someParam'], value1);
       param.value = value2;
       assert.strictEqual(module['someParam'], value2);

@@ -235,10 +235,12 @@ suite('gr-reviewer-updates-parser tests', () => {
 
   test('_advanceUpdates', () => {
     const T0 = parseDate('2017-02-17 19:04:18.000000000').getTime();
-    const tplus = delta => new Date(T0 + delta)
-        .toISOString()
-        .replace('T', ' ')
-        .replace('Z', '000000');
+    const tplus = delta => {
+      return new Date(T0 + delta)
+          .toISOString()
+          .replace('T', ' ')
+          .replace('Z', '000000');
+    };
     const change = {
       reviewer_updates: [{
         date: tplus(0),

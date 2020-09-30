@@ -759,7 +759,7 @@ suite('gr-change-metadata tests', () => {
           p => {
             plugin = p;
             plugin.hook('change-metadata-item').getLastAttached()
-                .then(el => hookEl = el);
+                .then(el => { return hookEl = el; });
           },
           '0.1',
           'http://some/plugins/url.html');

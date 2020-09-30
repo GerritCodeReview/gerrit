@@ -226,8 +226,8 @@ class GrMainHeader extends GestureEventListeners(
     links.forEach(link => { topMenuLinks[link.title] = link.links; });
     for (const m of topMenus) {
       const items = m.items.map(this._fixCustomMenuItem).filter(link =>
-        // Ignore GWT project links
-        !link.url.includes('${projectName}')
+      // Ignore GWT project links
+      { return !link.url.includes('${projectName}'); }
       );
       if (m.name in topMenuLinks) {
         items.forEach(link => { topMenuLinks[m.name].push(link); });
@@ -274,8 +274,8 @@ class GrMainHeader extends GestureEventListeners(
       this._topMenus = result[1];
 
       return getAdminLinks(account,
-          params => this.$.restAPI.getAccountCapabilities(params),
-          () => this.$.jsAPI.getAdminMenuLinks())
+          params => { return this.$.restAPI.getAccountCapabilities(params); },
+          () => { return this.$.jsAPI.getAdminMenuLinks(); })
           .then(res => {
             this._adminLinks = res.links;
           });

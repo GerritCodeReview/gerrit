@@ -11,11 +11,13 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 20000;
 describe('example ', () => {
   let driver;
 
-  beforeAll(() => setup().then(d => driver = d));
+  beforeAll(() => { return setup().then(d => { return driver = d; }); });
 
-  afterAll(() => cleanup());
+  afterAll(() => { return cleanup(); });
 
-  it('should update title', () => driver.wait(
-      until.titleIs('status:open · Gerrit Code Review'), 5000
-  ));
+  it('should update title', () => {
+    return driver.wait(
+        until.titleIs('status:open · Gerrit Code Review'), 5000
+    );
+  });
 });

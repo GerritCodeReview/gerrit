@@ -56,7 +56,7 @@ const cleanups = [];
 // (karma doesn't provide the fixture method)
 window.fixture = function(fixtureId, model) {
   // This method is inspired by web-component-tester method
-  cleanups.push(() => document.getElementById(fixtureId).restore());
+  cleanups.push(() => { return document.getElementById(fixtureId).restore(); });
   return document.getElementById(fixtureId).create(model);
 };
 
@@ -95,7 +95,7 @@ window.stub = function(tagName, implementation) {
   // This method is inspired by web-component-tester method
   const proto = document.createElement(tagName).constructor.prototype;
   const stubs = Object.keys(implementation)
-      .map(key => sinon.stub(proto, key).callsFake(implementation[key]));
+      .map(key => { return sinon.stub(proto, key).callsFake(implementation[key]); });
   cleanups.push(() => {
     stubs.forEach(stub => {
       stub.restore();
@@ -144,7 +144,7 @@ function checkGlobalSpace() {
 teardown(() => {
   sinon.restore();
   cleanupTestUtils();
-  cleanups.forEach(cleanup => cleanup());
+  cleanups.forEach(cleanup => { return cleanup(); });
   cleanups.splice(0);
   TestKeyboardShortcutBinder.pop();
   checkGlobalSpace();

@@ -39,7 +39,7 @@ suite('gr-dashboard-view tests', () => {
     element = basicFixture.instantiate();
 
     getChangesStub = sinon.stub(element.$.restAPI, 'getChanges').callsFake(
-        (_, qs) => Promise.resolve(qs.map(() => [])));
+        (_, qs) => { return Promise.resolve(qs.map(() => { return []; })); });
 
     let resolver;
     paramsChangedPromise = new Promise(resolve => {
@@ -47,7 +47,7 @@ suite('gr-dashboard-view tests', () => {
     });
     const paramsChanged = element._paramsChanged.bind(element);
     sinon.stub(element, '_paramsChanged').callsFake( params => {
-      paramsChanged(params).then(() => resolver());
+      paramsChanged(params).then(() => { return resolver(); });
     });
   });
 
@@ -231,14 +231,16 @@ suite('gr-dashboard-view tests', () => {
   suite('_getProjectDashboard', () => {
     test('dashboard with foreach', () => {
       sinon.stub(element.$.restAPI, 'getDashboard')
-          .callsFake( () => Promise.resolve({
-            title: 'title',
-            foreach: 'foreach for ${project}',
-            sections: [
-              {name: 'section 1', query: 'query 1'},
-              {name: 'section 2', query: '${project} query 2'},
-            ],
-          }));
+          .callsFake( () => {
+            return Promise.resolve({
+              title: 'title',
+              foreach: 'foreach for ${project}',
+              sections: [
+                {name: 'section 1', query: 'query 1'},
+                {name: 'section 2', query: '${project} query 2'},
+              ],
+            });
+          });
       return element._getProjectDashboard('project', '').then(dashboard => {
         assert.deepEqual(
             dashboard,
@@ -257,13 +259,15 @@ suite('gr-dashboard-view tests', () => {
 
     test('dashboard without foreach', () => {
       sinon.stub(element.$.restAPI, 'getDashboard').callsFake(
-          () => Promise.resolve({
-            title: 'title',
-            sections: [
-              {name: 'section 1', query: 'query 1'},
-              {name: 'section 2', query: '${project} query 2'},
-            ],
-          }));
+          () => {
+            return Promise.resolve({
+              title: 'title',
+              sections: [
+                {name: 'section 1', query: 'query 1'},
+                {name: 'section 2', query: '${project} query 2'},
+              ],
+            });
+          });
       return element._getProjectDashboard('project', '').then(dashboard => {
         assert.deepEqual(
             dashboard,

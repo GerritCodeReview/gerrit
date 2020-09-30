@@ -20,8 +20,8 @@ import {GerritNav} from './gr-navigation.js';
 
 suite('gr-navigation tests', () => {
   test('invalid patch ranges throw exceptions', () => {
-    assert.throw(() => GerritNav.getUrlForChange('123', undefined, 12));
-    assert.throw(() => GerritNav.getUrlForDiff('123', 'x.c', undefined, 12));
+    assert.throw(() => { return GerritNav.getUrlForChange('123', undefined, 12); });
+    assert.throw(() => { return GerritNav.getUrlForDiff('123', 'x.c', undefined, 12); });
   });
 
   suite('_getUserDashboard', () => {

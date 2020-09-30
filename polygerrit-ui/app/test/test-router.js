@@ -16,4 +16,4 @@
  */
 import {GerritNav} from '../elements/core/gr-navigation/gr-navigation.js';
 
-GerritNav.setup(url => { /* noop */ }, params => '', () => []);
+GerritNav.setup(url => { /* noop */ }, params => { return ''; }, () => { return []; });

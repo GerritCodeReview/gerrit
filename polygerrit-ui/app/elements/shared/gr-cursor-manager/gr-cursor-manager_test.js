@@ -145,7 +145,7 @@ suite('gr-cursor-manager tests', () => {
     element.stops = list.querySelectorAll('li');
     element.setCursor(list.children[0]);
 
-    const result = element.next({abort: row => row.textContent === 'B'});
+    const result = element.next({abort: row => { return row.textContent === 'B'; }});
 
     assert.equal(result, CursorMoveResult.ABORTED);
     assert.equal(element.index, 0);
@@ -156,8 +156,8 @@ suite('gr-cursor-manager tests', () => {
     element.setCursor(list.children[0]);
 
     const result = element.next({
-      abort: row => row.textContent === 'B',
-      filter: row => row.textContent === 'C',
+      abort: row => { return row.textContent === 'B'; },
+      filter: row => { return row.textContent === 'C'; },
     });
 
     assert.equal(result, CursorMoveResult.ABORTED);
@@ -208,12 +208,12 @@ suite('gr-cursor-manager tests', () => {
   test('_moveCursor from for invalid index does not check height', () => {
     element.stops = [];
     const getTargetHeight = sinon.stub();
-    element._moveCursor(1, () => false, {getTargetHeight});
+    element._moveCursor(1, () => { return false; }, {getTargetHeight});
     assert.isFalse(getTargetHeight.called);
   });
 
   test('setCursorAtIndex with noScroll', () => {
-    sinon.stub(element, '_targetIsVisible').callsFake(() => false);
+    sinon.stub(element, '_targetIsVisible').callsFake(() => { return false; });
     const scrollStub = sinon.stub(window, 'scrollTo');
     element.stops = list.querySelectorAll('li');
     element.scrollMode = 'keep-visible';
@@ -299,7 +299,7 @@ suite('gr-cursor-manager tests', () => {
 
     test('Called when top is visible, bottom is not, scroll is lower', () => {
       const visibleStub = sinon.stub(element, '_targetIsVisible').callsFake(
-          () => visibleStub.callCount === 2);
+          () => { return visibleStub.callCount === 2; });
       sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 15,
@@ -315,7 +315,7 @@ suite('gr-cursor-manager tests', () => {
 
     test('Called when top is visible, bottom not, scroll is higher', () => {
       const visibleStub = sinon.stub(element, '_targetIsVisible').callsFake(
-          () => visibleStub.callCount === 2);
+          () => { return visibleStub.callCount === 2; });
       sinon.stub(element, '_getWindowDims').returns({
         scrollX: 123,
         scrollY: 25,

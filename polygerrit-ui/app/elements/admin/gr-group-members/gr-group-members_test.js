@@ -141,7 +141,7 @@ suite('gr-group-members tests', () => {
     groupStub = sinon.stub(
         element.$.restAPI,
         'getGroupConfig')
-        .callsFake(() => Promise.resolve(groups));
+        .callsFake(() => { return Promise.resolve(groups); });
     return element._loadGroupDetails();
   });
 
@@ -163,7 +163,7 @@ suite('gr-group-members tests', () => {
     const memberName = 'test-admin';
 
     const saveStub = sinon.stub(element.$.restAPI, 'saveGroupMember')
-        .callsFake(() => Promise.resolve({}));
+        .callsFake(() => { return Promise.resolve({}); });
 
     const button = element.$.saveGroupMember;
 
@@ -189,7 +189,7 @@ suite('gr-group-members tests', () => {
 
     const saveIncludedGroupStub = sinon.stub(
         element.$.restAPI, 'saveIncludedGroup')
-        .callsFake(() => Promise.resolve({}));
+        .callsFake(() => { return Promise.resolve({}); });
 
     const button = element.$.saveIncludedGroups;
 
@@ -220,7 +220,7 @@ suite('gr-group-members tests', () => {
       ok: false,
     };
     sinon.stub(element.$.restAPI._restApiHelper, 'fetch').callsFake(
-        () => Promise.resolve(errorResponse));
+        () => { return Promise.resolve(errorResponse); });
 
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;
@@ -238,7 +238,7 @@ suite('gr-group-members tests', () => {
     element.addEventListener('show-alert', alertStub);
     const err = new Error();
     sinon.stub(element.$.restAPI._restApiHelper, 'fetch').callsFake(
-        () => Promise.reject(err));
+        () => { return Promise.reject(err); });
 
     element.$.groupMemberSearchInput.text = memberName;
     element.$.groupMemberSearchInput.value = 1234;

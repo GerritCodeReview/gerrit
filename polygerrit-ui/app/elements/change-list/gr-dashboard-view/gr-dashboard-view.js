@@ -66,7 +66,7 @@ class GrDashboardView extends GestureEventListeners(
       createChangeTap: {
         type: Function,
         value() {
-          return e => this._createChangeTap(e);
+          return e => { return this._createChangeTap(e); };
         },
       },
 
@@ -183,12 +183,14 @@ class GrDashboardView extends GestureEventListeners(
     const dashboardPromise = project ?
       this._getProjectDashboard(project, dashboard) :
       this.$.restAPI.getConfig().then(
-          config => Promise.resolve(GerritNav.getUserDashboard(
-              user,
-              sections,
-              title || this._computeTitle(user),
-              config
-          ))
+          config => {
+            return Promise.resolve(GerritNav.getUserDashboard(
+                user,
+                sections,
+                title || this._computeTitle(user),
+                config
+            ));
+          }
       );
 
     const checkForNewUser = !project && user === 'self';
@@ -238,9 +240,11 @@ class GrDashboardView extends GestureEventListeners(
       window.PRELOADED_QUERIES.dashboardQuery = undefined;
     } else {
       queries = res.sections
-          .map(section => (section.suffixForDashboard ?
-            section.query + ' ' + section.suffixForDashboard :
-            section.query));
+          .map(section => {
+            return (section.suffixForDashboard ?
+              section.query + ' ' + section.suffixForDashboard :
+              section.query);
+          });
 
       if (checkForNewUser) {
         queries.push('owner:self limit:1');
@@ -262,9 +266,11 @@ class GrDashboardView extends GestureEventListeners(
               results,
               isOutgoing: res.sections[i].isOutgoing,
             };
-          }).filter((section, i) => i < res.sections.length && (
-            !res.sections[i].hideIfEmpty ||
-              section.results.length));
+          }).filter((section, i) => {
+            return i < res.sections.length && (
+              !res.sections[i].hideIfEmpty ||
+              section.results.length);
+          });
         });
   }
 
@@ -305,11 +311,11 @@ class GrDashboardView extends GestureEventListeners(
     if (!(this.params.user === 'self')) { return; }
 
     const draftSection = this._results
-        .find(section => section.query === 'has:draft');
+        .find(section => { return section.query === 'has:draft'; });
     if (!draftSection || !draftSection.results.length) { return; }
 
     const closedChanges = draftSection.results
-        .filter(change => !changeIsOpen(change));
+        .filter(change => { return !changeIsOpen(change); });
     if (!closedChanges.length) { return; }
 
     this._showDraftsBanner = true;

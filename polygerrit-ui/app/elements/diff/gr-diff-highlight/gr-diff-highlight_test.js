@@ -260,7 +260,7 @@ suite('gr-diff-highlight', () => {
     };
 
     const getLineElByChild = node => {
-      const stubs = contentStubs.find(stub => stub.contentTd.contains(node));
+      const stubs = contentStubs.find(stub => { return stub.contentTd.contains(node); });
       return stubs && stubs.lineEl;
     };
 

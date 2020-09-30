@@ -126,10 +126,8 @@ suite('gr-change-actions tests', () => {
     });
 
     test('revert submission action is skipped', () => {
-      assert.equal(element._allActionValues.filter(action =>
-        action.__key === 'submit').length, 1);
-      assert.equal(element._allActionValues.filter(action =>
-        action.__key === 'revert_submission').length, 0);
+      assert.equal(element._allActionValues.filter(action => { return action.__key === 'submit'; }).length, 1);
+      assert.equal(element._allActionValues.filter(action => { return action.__key === 'revert_submission'; }).length, 0);
     });
 
     test('_shouldHideActions', () => {
@@ -235,7 +233,7 @@ suite('gr-change-actions tests', () => {
     test('delete buttons have explicit labels', done => {
       flush(() => {
         const deleteItems = element.$.moreActions.items
-            .filter(item => item.id.startsWith('delete'));
+            .filter(item => { return item.id.startsWith('delete'); });
         assert.equal(deleteItems.length, 1);
         assert.notEqual(deleteItems[0].name);
         assert.equal(deleteItems[0].name, 'Delete change');
@@ -329,7 +327,7 @@ suite('gr-change-actions tests', () => {
 
     test('submit change with plugin hook', done => {
       sinon.stub(element, '_canSubmitChange').callsFake(
-          () => false);
+          () => { return false; });
       const fireActionStub = sinon.stub(element, '_fireAction');
       flush(() => {
         const submitButton = element.shadowRoot
@@ -767,14 +765,14 @@ suite('gr-change-actions tests', () => {
             const headers = Array.from(changesTable.querySelectorAll('th'));
             const expectedHeadings = ['Change', 'Subject', 'Project',
               'Status', ''];
-            const headings = headers.map(header => header.innerText);
+            const headings = headers.map(header => { return header.innerText; });
             assert.equal(headings.length, expectedHeadings.length);
             for (let i = 0; i < headings.length; i++) {
               assert.equal(headings[i].trim(), expectedHeadings[i]);
             }
             const changeRows = changesTable.querySelectorAll('tbody > tr');
             const change = Array.from(changeRows[0].querySelectorAll('td'))
-                .map(e => e.innerText);
+                .map(e => { return e.innerText; });
             const expectedChange = ['1234567890', 'random', 'A',
               'NOT STARTED', ''];
             for (let i = 0; i < change.length; i++) {
@@ -980,7 +978,7 @@ suite('gr-change-actions tests', () => {
       test('revert change with plugin hook', done => {
         const newRevertMsg = 'Modified revert msg';
         sinon.stub(element.$.confirmRevertDialog, '_modifyRevertMsg').callsFake(
-            () => newRevertMsg);
+            () => { return newRevertMsg; });
         element.change = {
           current_revision: 'abc1234',
         };
@@ -990,7 +988,7 @@ suite('gr-change-actions tests', () => {
               {change_id: '23456', topic: 'T', subject: 'a'.repeat(100)},
             ]));
         sinon.stub(element.$.confirmRevertDialog,
-            '_populateRevertSubmissionMessage').callsFake(() => 'original msg');
+            '_populateRevertSubmissionMessage').callsFake(() => { return 'original msg'; });
         flush(() => {
           const revertButton = element.shadowRoot
               .querySelector('gr-button[data-action-key="revert"]');
@@ -1440,16 +1438,14 @@ suite('gr-change-actions tests', () => {
       });
 
       test('action is enabled', () => {
-        assert.equal(element._allActionValues.filter(action =>
-          action.__key === 'reviewed').length, 1);
+        assert.equal(element._allActionValues.filter(action => { return action.__key === 'reviewed'; }).length, 1);
       });
 
       test('action is skipped when attention set is enabled', () => {
         element._config = {
           change: {enable_attention_set: true},
         };
-        assert.equal(element._allActionValues.filter(action =>
-          action.__key === 'reviewed').length, 0);
+        assert.equal(element._allActionValues.filter(action => { return action.__key === 'reviewed'; }).length, 0);
       });
 
       test('make sure the reviewed button is not outside of the overflow menu',
@@ -1762,16 +1758,18 @@ suite('gr-change-actions tests', () => {
 
       suite('_waitForChangeReachable', () => {
         setup(() => {
-          sinon.stub(element, 'async').callsFake( fn => fn());
+          sinon.stub(element, 'async').callsFake( fn => { return fn(); });
         });
 
-        const makeGetChange = numTries => () => {
-          if (numTries === 1) {
-            return Promise.resolve({_number: 123});
-          } else {
-            numTries--;
-            return Promise.resolve(undefined);
-          }
+        const makeGetChange = numTries => {
+          return () => {
+            if (numTries === 1) {
+              return Promise.resolve({_number: 123});
+            } else {
+              numTries--;
+              return Promise.resolve(undefined);
+            }
+          };
         };
 
         test('succeed', () => {

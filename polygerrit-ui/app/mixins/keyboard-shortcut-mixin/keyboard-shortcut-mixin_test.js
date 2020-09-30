@@ -94,7 +94,7 @@ suite('keyboard-shortcut-mixin tests', () => {
     suite('binding descriptions', () => {
       function mapToObject(m) {
         const o = {};
-        m.forEach((v, k) => o[k] = v);
+        m.forEach((v, k) => { return o[k] = v; });
         return o;
       }
 

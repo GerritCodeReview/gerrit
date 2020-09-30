@@ -44,11 +44,13 @@ suite('gr-account-entry tests', () => {
 
   suite('stubbed values for querySuggestions', () => {
     setup(() => {
-      element.querySuggestions = input => Promise.resolve([
-        suggestion1,
-        suggestion2,
-        suggestion3,
-      ]);
+      element.querySuggestions = input => {
+        return Promise.resolve([
+          suggestion1,
+          suggestion2,
+          suggestion3,
+        ]);
+      };
     });
   });
 
@@ -57,7 +59,7 @@ suite('gr-account-entry tests', () => {
         // Spy on query, as that is called when _updateSuggestions proceeds.
         const changeStub = sinon.stub();
         element.allowAnyInput = true;
-        element.querySuggestions = input => Promise.resolve([]);
+        element.querySuggestions = input => { return Promise.resolve([]); };
         element.addEventListener('account-text-changed', changeStub);
         element.$.input.text = 'a';
         assert.isTrue(changeStub.calledOnce);
@@ -69,7 +71,7 @@ suite('gr-account-entry tests', () => {
       'allowAnyInput', () => {
     // Spy on query, as that is called when _updateSuggestions proceeds.
     const changeStub = sinon.stub();
-    element.querySuggestions = input => Promise.resolve([]);
+    element.querySuggestions = input => { return Promise.resolve([]); };
     element.addEventListener('account-text-changed', changeStub);
     element.$.input.text = 'a';
     assert.isFalse(changeStub.called);

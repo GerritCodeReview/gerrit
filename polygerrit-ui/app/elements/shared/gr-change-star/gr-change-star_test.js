@@ -47,7 +47,7 @@ suite('gr-change-star tests', () => {
 
   test('starring', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     element.addEventListener('toggle-star', resolve);
     element.set('change.starred', false);
     MockInteractions.tap(element.shadowRoot
@@ -59,7 +59,7 @@ suite('gr-change-star tests', () => {
 
   test('unstarring', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     element.addEventListener('toggle-star', resolve);
     element.set('change.starred', true);
     MockInteractions.tap(element.shadowRoot

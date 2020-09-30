@@ -116,7 +116,7 @@ suite('gr-file-list tests', () => {
         patchNum: '2',
       };
       saveStub = sinon.stub(element, '_saveReviewedState').callsFake(
-          () => Promise.resolve());
+          () => { return Promise.resolve(); });
     });
 
     test('correct number of files are shown', () => {
@@ -602,7 +602,7 @@ suite('gr-file-list tests', () => {
         // Property getter cannot be stubbed w/ sandbox due to a bug in Sinon.
         // https://github.com/sinonjs/sinon/issues/781
         const diffsStub = sinon.stub(element, 'diffs')
-            .get(() => [{toggleLeftDiff: toggleLeftDiffStub}]);
+            .get(() => { return [{toggleLeftDiff: toggleLeftDiffStub}]; });
         MockInteractions.pressAndReleaseKeyOn(element, 65, 'shift', 'a');
         assert.isTrue(toggleLeftDiffStub.calledOnce);
         diffsStub.restore();
@@ -701,7 +701,7 @@ suite('gr-file-list tests', () => {
           if (!element.diffs.hasOwnProperty(index)) { continue; }
           assert.isTrue(
               element._expandedFiles
-                  .some(f => f.path === element.diffs[index].path)
+                  .some(f => { return f.path === element.diffs[index].path; })
           );
         }
 
@@ -712,8 +712,8 @@ suite('gr-file-list tests', () => {
       });
 
       test('r key toggles reviewed flag', () => {
-        const reducer = (accum, file) => (file.isReviewed ? ++accum : accum);
-        const getNumReviewed = () => element._files.reduce(reducer, 0);
+        const reducer = (accum, file) => { return (file.isReviewed ? ++accum : accum); };
+        const getNumReviewed = () => { return element._files.reduce(reducer, 0); };
         flush();
 
         // Default state should be unreviewed.
@@ -787,7 +787,7 @@ suite('gr-file-list tests', () => {
 
         let noDiffsExpanded = true;
         sinon.stub(element, '_noDiffsExpanded')
-            .callsFake(() => noDiffsExpanded);
+            .callsFake(() => { return noDiffsExpanded; });
 
         MockInteractions.pressAndReleaseKeyOn(element, 73, 'shift', 'left');
         assert.isFalse(moveLeftStub.called);
@@ -951,7 +951,7 @@ suite('gr-file-list tests', () => {
       MockInteractions.tap(showHideLabel);
       assert.equal(showHideCheck.getAttribute('aria-checked'), 'true');
       assert.notEqual(
-          element._expandedFiles.findIndex(f => f.path === 'myfile.txt'),
+          element._expandedFiles.findIndex(f => { return f.path === 'myfile.txt'; }),
           -1);
     });
 
@@ -1033,14 +1033,14 @@ suite('gr-file-list tests', () => {
           .querySelector('iron-icon').icon, 'gr-icons:expand-less');
 
       assert.equal(renderSpy.callCount, 1);
-      assert.isTrue(element._expandedFiles.some(f => f.path === path));
+      assert.isTrue(element._expandedFiles.some(f => { return f.path === path; }));
       element._toggleFileExpanded({path});
       flush();
 
       assert.equal(element.shadowRoot
           .querySelector('iron-icon').icon, 'gr-icons:expand-more');
       assert.equal(renderSpy.callCount, 1);
-      assert.isFalse(element._expandedFiles.some(f => f.path === path));
+      assert.isFalse(element._expandedFiles.some(f => { return f.path === path; }));
       assert.equal(collapseStub.lastCall.args[0].length, 1);
     });
 
@@ -1086,7 +1086,7 @@ suite('gr-file-list tests', () => {
           }
         },
       }];
-      sinon.stub(element, 'diffs').get(() => diffs);
+      sinon.stub(element, 'diffs').get(() => { return diffs; });
       element.push('_expandedFiles', {path});
     });
 
@@ -1585,7 +1585,7 @@ suite('gr-file-list tests', () => {
         basePatchNum: 'PARENT',
         patchNum: '2',
       };
-      sinon.stub(window, 'fetch').callsFake(() => Promise.resolve());
+      sinon.stub(window, 'fetch').callsFake(() => { return Promise.resolve(); });
       flush();
     });
 
@@ -1749,9 +1749,9 @@ suite('gr-file-list tests', () => {
 
     test('_displayLine', () => {
       sinon.stub(element, 'shouldSuppressKeyboardShortcut')
-          .callsFake(() => false);
+          .callsFake(() => { return false; });
       sinon.stub(element, 'modifierPressed')
-          .callsFake(() => false);
+          .callsFake(() => { return false; });
       element._showInlineDiffs = true;
       const mockEvent = {preventDefault() {}};
 
@@ -1807,7 +1807,7 @@ suite('gr-file-list tests', () => {
           Array.from(
               dom(element.root)
                   .querySelectorAll('.row:not(.header-row)'))
-              .map(row => row.querySelector('gr-edit-file-controls'));
+              .map(row => { return row.querySelector('gr-edit-file-controls'); });
       assert.isTrue(editControls[0].classList.contains('invisible'));
     });
 
@@ -1821,7 +1821,7 @@ suite('gr-file-list tests', () => {
       const threadEls = diffs[0].getThreadEls();
       assert.equal(threadEls.length, 2);
       const threadElsByRootId = new Map(
-          threadEls.map(threadEl => [threadEl.rootId, threadEl]));
+          threadEls.map(threadEl => { return [threadEl.rootId, threadEl]; }));
 
       const thread1 = threadElsByRootId.get('503008e2_0ab203ee');
       assert.equal(thread1.comments.length, 1);

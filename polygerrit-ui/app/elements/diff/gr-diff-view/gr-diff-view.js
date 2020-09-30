@@ -229,7 +229,7 @@ class GrDiffView extends KeyboardShortcutMixin(
       },
       _reviewedFiles: {
         type: Object,
-        value: () => new Set(),
+        value: () => { return new Set(); },
       },
       // line number on the diff which should be scrolled to upon loading
       _focusLineNum: Number,
@@ -308,8 +308,7 @@ class GrDiffView extends KeyboardShortcutMixin(
 
   connectedCallback() {
     super.connectedCallback();
-    this._throttledToggleFileReviewed = this._throttleWrap(e =>
-      this._handleToggleFileReviewed(e));
+    this._throttledToggleFileReviewed = this._throttleWrap(e => { return this._handleToggleFileReviewed(e); });
   }
 
   /** @override */
@@ -320,7 +319,7 @@ class GrDiffView extends KeyboardShortcutMixin(
     });
 
     this.addEventListener('open-fix-preview',
-        e => this._onOpenFixPreview(e));
+        e => { return this._onOpenFixPreview(e); });
     this.$.cursor.push('diffs', this.$.diffHost);
     this._onRenderHandler = () => {
       this.$.cursor.reInitCursor();
@@ -378,7 +377,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   _getFiles(changeNum, patchRangeRecord, changeComments) {
     // Polymer 2: check for undefined
     if ([changeNum, patchRangeRecord, patchRangeRecord.base, changeComments]
-        .some(arg => arg === undefined)) {
+        .some(arg => { return arg === undefined; })) {
       return Promise.resolve();
     }
 
@@ -749,7 +748,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   _getReviewedStatus(editMode, changeNum, patchNum, path) {
     if (editMode) { return Promise.resolve(false); }
     return this._getReviewedFiles(changeNum, patchNum)
-        .then(files => files.has(path));
+        .then(files => { return files.has(path); });
   }
 
   _initLineOfInterestAndCursor(leftSide) {
@@ -880,9 +879,10 @@ class GrDiffView extends KeyboardShortcutMixin(
 
   _isFileUnchanged(diff) {
     if (!diff || !diff.content) return false;
-    return !diff.content.some(content =>
-      (content.a && !content.common) ||
-        (content.b && !content.common)
+    return !diff.content.some(content => {
+      return (content.a && !content.common) ||
+        (content.b && !content.common);
+    }
     );
   }
 
@@ -1146,7 +1146,7 @@ class GrDiffView extends KeyboardShortcutMixin(
       unmodifiedString,
       commentString,
       unresolvedString]
-        .filter(v => v && v.length > 0).join(', ');
+        .filter(v => { return v && v.length > 0; }).join(', ');
   }
 
   _computePrefsButtonHidden(prefs, prefsDisabled) {
@@ -1523,7 +1523,7 @@ class GrDiffView extends KeyboardShortcutMixin(
       return undefined;
     }
 
-    return files.findIndex(({value}) => value === file) + 1;
+    return files.findIndex(({value}) => { return value === file; }) + 1;
   }
 
   /**
@@ -1553,8 +1553,7 @@ class GrDiffView extends KeyboardShortcutMixin(
     // Ensure that the currently viewed file always appears in unreviewedFiles
     // so we resolve the right "next" file.
     const unreviewedFiles = this._fileList
-        .filter(file =>
-          (file === this._path || !this._reviewedFiles.has(file)));
+        .filter(file => { return (file === this._path || !this._reviewedFiles.has(file)); });
     this._navToFile(this._path, unreviewedFiles, 1);
   }
 
@@ -1564,7 +1563,7 @@ class GrDiffView extends KeyboardShortcutMixin(
 
   _computeCanEdit(loggedIn, changeChangeRecord) {
     if ([changeChangeRecord, changeChangeRecord.base]
-        .some(arg => arg === undefined)) {
+        .some(arg => { return arg === undefined; })) {
       return false;
     }
     return loggedIn && changeIsOpen(changeChangeRecord.base);

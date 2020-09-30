@@ -28,7 +28,7 @@ suite('gr-labeled-autocomplete tests', () => {
   });
 
   test('tapping trigger focuses autocomplete', () => {
-    const e = {stopPropagation: () => undefined};
+    const e = {stopPropagation: () => { return undefined; }};
     sinon.stub(e, 'stopPropagation');
     sinon.stub(element.$.autocomplete, 'focus');
     element._handleTriggerClick(e);

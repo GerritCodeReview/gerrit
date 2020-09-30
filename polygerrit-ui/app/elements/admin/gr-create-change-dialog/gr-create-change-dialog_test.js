@@ -60,7 +60,7 @@ suite('gr-create-change-dialog tests', () => {
     };
 
     const saveStub = sinon.stub(element.$.restAPI,
-        'createChange').callsFake(() => Promise.resolve({}));
+        'createChange').callsFake(() => { return Promise.resolve({}); });
 
     element.branch = 'test-branch';
     element.topic = 'test-topic';
@@ -87,7 +87,7 @@ suite('gr-create-change-dialog tests', () => {
       inherited_value: false,
     };
     sinon.stub(element, '_formatBooleanString')
-        .callsFake(() => Promise.resolve(true));
+        .callsFake(() => { return Promise.resolve(true); });
     flush();
 
     const configInputObj = {
@@ -99,7 +99,7 @@ suite('gr-create-change-dialog tests', () => {
     };
 
     const saveStub = sinon.stub(element.$.restAPI,
-        'createChange').callsFake(() => Promise.resolve({}));
+        'createChange').callsFake(() => { return Promise.resolve({}); });
 
     element.branch = 'test-branch';
     element.topic = 'test-topic';

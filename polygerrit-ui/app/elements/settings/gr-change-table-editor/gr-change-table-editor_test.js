@@ -102,7 +102,7 @@ suite('gr-change-table-editor tests', () => {
         element.shadowRoot
             .querySelector('.checkboxContainer input[name=Assignee]'));
     assert.deepEqual(element._getDisplayedColumns(),
-        columns.filter(c => c !== 'Assignee'));
+        columns.filter(c => { return c !== 'Assignee'; }));
   });
 
   test('_handleCheckboxContainerClick relays taps to checkboxes', () => {

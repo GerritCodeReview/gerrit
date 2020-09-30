@@ -38,7 +38,7 @@ suite('gr-app custom light theme tests', () => {
     element = basicFixture.instantiate();
     getPluginLoader().loadPlugins([]);
     getPluginLoader().awaitPluginsLoaded()
-        .then(() => flush(done));
+        .then(() => { return flush(done); });
   });
   teardown(() => {
     // The app sends requests to server. This can lead to

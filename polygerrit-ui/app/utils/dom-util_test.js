@@ -97,7 +97,7 @@ suite('dom-util tests', () => {
       const element = basicFixture.instantiate();
       const aLink = element.querySelector('a');
       let path;
-      aLink.onclick = e => path = getEventPath(e);
+      aLink.onclick = e => { return path = getEventPath(e); };
       MockInteractions.click(aLink);
       assert.equal(
           path,

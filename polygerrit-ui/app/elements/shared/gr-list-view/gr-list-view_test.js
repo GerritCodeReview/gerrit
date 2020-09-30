@@ -61,7 +61,7 @@ suite('gr-list-view tests', () => {
 
   test('_onValueChange', async () => {
     let resolve;
-    const promise = new Promise(r => resolve = r);
+    const promise = new Promise(r => { return resolve = r; });
     element.path = '/admin/projects';
     sinon.stub(page, 'show').callsFake(resolve);
 

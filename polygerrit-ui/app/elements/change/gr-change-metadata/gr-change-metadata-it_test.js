@@ -126,7 +126,7 @@ suite('gr-change-metadata integration tests', () => {
 
     teardown(() => {
       document.body.querySelectorAll('custom-style')
-          .forEach(style => style.remove());
+          .forEach(style => { return style.remove(); });
     });
 
     for (const sectionSelector of sectionSelectors) {
@@ -151,7 +151,7 @@ suite('gr-change-metadata integration tests', () => {
 
     teardown(() => {
       document.body.querySelectorAll('custom-style')
-          .forEach(style => style.remove());
+          .forEach(style => { return style.remove(); });
     });
 
     test('labels changed callback', done => {

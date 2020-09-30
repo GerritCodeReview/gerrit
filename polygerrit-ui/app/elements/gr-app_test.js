@@ -56,7 +56,7 @@ suite('gr-app tests', () => {
     flush(done);
   });
 
-  const appElement = () => element.$['app-element'];
+  const appElement = () => { return element.$['app-element']; };
 
   test('reporting', () => {
     assert.isTrue(appElement().reporting.appStarted.calledOnce);

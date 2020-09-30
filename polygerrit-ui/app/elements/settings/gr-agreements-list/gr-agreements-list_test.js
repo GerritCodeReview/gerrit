@@ -45,8 +45,7 @@ suite('gr-agreements-list tests', () => {
 
     assert.equal(rows.length, 1);
 
-    const nameCells = Array.from(rows).map(row =>
-      row.querySelectorAll('td')[0].textContent.trim()
+    const nameCells = Array.from(rows).map(row => { return row.querySelectorAll('td')[0].textContent.trim(); }
     );
 
     assert.equal(nameCells[0], 'Agreements 1');

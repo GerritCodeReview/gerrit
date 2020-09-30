@@ -112,7 +112,7 @@ suite('gr-repo-dashboards tests', () => {
   suite('test url', () => {
     test('_getUrl', () => {
       sinon.stub(GerritNav, 'getUrlForRepoDashboard').callsFake(
-          () => '/r/dashboard/test');
+          () => { return '/r/dashboard/test'; });
 
       assert.equal(element._getUrl('/dashboard/test', {}), '/r/dashboard/test');
 

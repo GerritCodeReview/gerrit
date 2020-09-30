@@ -56,7 +56,7 @@ const randomMessage = function(opt_params) {
 
 function generateRandomMessages(count) {
   return new Array(count).fill()
-      .map(() => randomMessage());
+      .map(() => { return randomMessage(); });
 }
 
 suite('gr-messages-list tests', () => {
@@ -178,19 +178,19 @@ suite('gr-messages-list tests', () => {
     test('expand/collapse from external keypress', () => {
       // Start with one expanded message. -> not all collapsed
       element.scrollToMessage(messages[1].id);
-      assert.isFalse([...getMessages()].filter(m => m._expanded).length == 0);
+      assert.isFalse([...getMessages()].filter(m => { return m._expanded; }).length == 0);
 
       // Press 'z' -> all collapsed
       element.handleExpandCollapse(false);
-      assert.isTrue([...getMessages()].filter(m => m._expanded).length == 0);
+      assert.isTrue([...getMessages()].filter(m => { return m._expanded; }).length == 0);
 
       // Press 'x' -> all expanded
       element.handleExpandCollapse(true);
-      assert.isTrue([...getMessages()].filter(m => !m._expanded).length == 0);
+      assert.isTrue([...getMessages()].filter(m => { return !m._expanded; }).length == 0);
 
       // Press 'z' -> all collapsed
       element.handleExpandCollapse(false);
-      assert.isTrue([...getMessages()].filter(m => m._expanded).length == 0);
+      assert.isTrue([...getMessages()].filter(m => { return m._expanded; }).length == 0);
     });
 
     test('showAllActivity does not appear when all msgs are important', () => {

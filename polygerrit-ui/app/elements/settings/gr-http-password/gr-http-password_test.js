@@ -44,9 +44,11 @@ suite('gr-http-password tests', () => {
     let generateResolve;
     const generateStub = sinon.stub(element.$.restAPI,
         'generateAccountHttpPassword')
-        .callsFake(() => new Promise(resolve => {
-          generateResolve = resolve;
-        }));
+        .callsFake(() => {
+          return new Promise(resolve => {
+            generateResolve = resolve;
+          });
+        });
 
     assert.isNotOk(element._generatedPassword);
 

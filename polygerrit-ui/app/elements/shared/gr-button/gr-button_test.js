@@ -63,7 +63,7 @@ suite('gr-button tests', () => {
     let resolve;
     element.addEventListener('click', e => {
       e.target.loading = true;
-      resolve = () => e.target.loading = false;
+      resolve = () => { return e.target.loading = false; };
     });
     const paperBtn = element.shadowRoot.querySelector('paper-button');
     assert.isFalse(paperBtn.disabled);

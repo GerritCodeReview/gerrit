@@ -78,14 +78,16 @@ suite('gr-rest-api-helper tests', () => {
   });
 
   test('JSON prefix is properly removed',
-      () => helper.fetchJSON({url: '/dummy/url'}).then(obj => {
-        assert.deepEqual(obj, {hello: 'bonjour'});
-      })
+      () => {
+        return helper.fetchJSON({url: '/dummy/url'}).then(obj => {
+          assert.deepEqual(obj, {hello: 'bonjour'});
+        });
+      }
   );
 
   test('cached results', () => {
     let n = 0;
-    sinon.stub(helper, 'fetchJSON').callsFake(() => Promise.resolve(++n));
+    sinon.stub(helper, 'fetchJSON').callsFake(() => { return Promise.resolve(++n); });
     const promises = [];
     promises.push(helper.fetchCacheURL('/foo'));
     promises.push(helper.fetchCacheURL('/foo'));
@@ -148,7 +150,7 @@ suite('gr-rest-api-helper tests', () => {
         cancel() { cancelCalled = true; },
       },
     }));
-    const cancelCondition = () => true;
+    const cancelCondition = () => { return true; };
     return helper.fetchJSON({url: '/dummy/url', cancelCondition}).then(obj => {
       assert.isUndefined(obj);
       assert.isTrue(cancelCalled);

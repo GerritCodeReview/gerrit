@@ -665,7 +665,7 @@ suite('gr-router tests', () => {
 
     test('_handleDefaultRoute on first load', () => {
       const appElementStub = {dispatchEvent: sinon.stub()};
-      element._appElement = () => appElementStub;
+      element._appElement = () => { return appElementStub; };
       element._handleDefaultRoute();
       assert.isTrue(appElementStub.dispatchEvent.calledOnce);
       assert.equal(
@@ -685,7 +685,7 @@ suite('gr-router tests', () => {
       element._startRouter();
 
       const appElementStub = {dispatchEvent: sinon.stub()};
-      element._appElement = () => appElementStub;
+      element._appElement = () => { return appElementStub; };
       element._handleDefaultRoute();
 
       onExit('', () => {}); // we left page;

@@ -28,7 +28,7 @@ suite('gr-create-change-help tests', () => {
   });
 
   test('Create change tap', done => {
-    element.addEventListener('create-tap', () => done());
+    element.addEventListener('create-tap', () => { return done(); });
     MockInteractions.tap(element.shadowRoot
         .querySelector('gr-button'));
   });

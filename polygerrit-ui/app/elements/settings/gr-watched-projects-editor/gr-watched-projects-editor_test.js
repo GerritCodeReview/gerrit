@@ -74,7 +74,7 @@ suite('gr-watched-projects-editor tests', () => {
     function getKeysOfRow(row) {
       const boxes = rows[row].querySelectorAll('input[checked]');
       return Array.prototype.map.call(boxes,
-          e => e.getAttribute('data-key'));
+          e => { return e.getAttribute('data-key'); });
     }
 
     let checkedKeys = getKeysOfRow(0);

@@ -31,7 +31,7 @@ suite('gr-thread-list tests', () => {
   function getVisibleThreads() {
     return [...dom(element.root)
         .querySelectorAll('gr-comment-thread')]
-        .filter(e => e.style.display !== 'none');
+        .filter(e => { return e.style.display !== 'none'; });
   }
 
   setup(done => {
@@ -303,7 +303,7 @@ suite('gr-thread-list tests', () => {
     assert.equal(
         getVisibleThreads().length,
         element.threads.length - 1);
-    assert.isNotOk(getVisibleThreads().find(th => th.rootId === 'rc1'));
+    assert.isNotOk(getVisibleThreads().find(th => { return th.rootId === 'rc1'; }));
   });
 
   suite('_compareThreads', () => {

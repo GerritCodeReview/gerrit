@@ -111,7 +111,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('plugins installed successfully', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => void 0, undefined, url);
+      pluginApi.install(() => { return void 0; }, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(pluginLoader._getReporting(),
         'pluginsLoaded');
@@ -129,7 +129,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('isPluginEnabled and isPluginLoaded', () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => void 0, undefined, url);
+      pluginApi.install(() => { return void 0; }, undefined, url);
     });
 
     const plugins = [
@@ -139,13 +139,13 @@ suite('gr-plugin-loader tests', () => {
     ];
     pluginLoader.loadPlugins(plugins);
     assert.isTrue(
-        plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
+        plugins.every(plugin => { return pluginLoader.isPluginEnabled(plugin); })
     );
 
     flush();
     assert.isTrue(pluginLoader.arePluginsLoaded());
     assert.isTrue(
-        plugins.every(plugin => pluginLoader.isPluginLoaded(plugin))
+        plugins.every(plugin => { return pluginLoader.isPluginLoaded(plugin); })
     );
   });
 
@@ -199,7 +199,7 @@ suite('gr-plugin-loader tests', () => {
 
     pluginLoader.loadPlugins(plugins);
     assert.isTrue(
-        plugins.every(plugin => pluginLoader.isPluginEnabled(plugin))
+        plugins.every(plugin => { return pluginLoader.isPluginEnabled(plugin); })
     );
 
     await flush();
@@ -263,7 +263,7 @@ suite('gr-plugin-loader tests', () => {
 
   test('multiple assets for same plugin installed successfully', async () => {
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => void 0, undefined, url);
+      pluginApi.install(() => { return void 0; }, undefined, url);
     });
     const pluginsLoadedStub = sinon.stub(pluginLoader._getReporting(),
         'pluginsLoaded');
@@ -452,7 +452,7 @@ suite('gr-plugin-loader tests', () => {
       }
     }
     sinon.stub(pluginLoader, '_loadJsPlugin').callsFake( url => {
-      pluginApi.install(() => pluginCallback(url), undefined, url);
+      pluginApi.install(() => { return pluginCallback(url); }, undefined, url);
     });
 
     pluginLoader.loadPlugins(plugins);
@@ -477,8 +477,8 @@ suite('gr-plugin-loader tests', () => {
       });
 
       window.Gerrit._preloadedPlugins = {
-        foo: () => void 0,
-        bar: () => void 0,
+        foo: () => { return void 0; },
+        bar: () => { return void 0; },
       };
 
       pluginLoader.loadPlugins([

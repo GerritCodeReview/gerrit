@@ -163,7 +163,7 @@ suite('gr-access-section tests', () => {
           element._computePermissions(name, capabilities, element.labels),
           labelOptions
               .concat(toSortedPermissionsArray(AccessPermissions))
-              .filter(permission => permission.id !== 'read'));
+              .filter(permission => { return permission.id !== 'read'; }));
     });
 
     test('_computePermissionName', () => {

@@ -172,10 +172,10 @@ suite('gr-change-list-item tests', () => {
         name: reviewerNames[i],
       });
     }
-    attSetIds.forEach(id => element.change.attention_set[id] = {});
+    attSetIds.forEach(id => { return element.change.attention_set[id] = {}; });
 
     const actual = element._computeReviewers(element.change)
-        .map(r => r._account_id);
+        .map(r => { return r._account_id; });
     assert.deepEqual(actual, expected);
   }
 

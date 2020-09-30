@@ -25,7 +25,7 @@ suite('gr-plugin-config-array-editor tests', () => {
 
   let dispatchStub;
 
-  const getAll = str => element.root.querySelectorAll(str);
+  const getAll = str => { return element.root.querySelectorAll(str); };
 
   setup(() => {
     element = basicFixture.instantiate();

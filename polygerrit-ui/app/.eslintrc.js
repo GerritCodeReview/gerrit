@@ -35,8 +35,7 @@ module.exports = {
     // https://eslint.org/docs/rules/newline-per-chained-call
     "newline-per-chained-call": ["error", {"ignoreChainWithDepth": 2}],
     // https://eslint.org/docs/rules/arrow-body-style
-    "arrow-body-style": ["error", "as-needed",
-      {"requireReturnForObjectLiteral": true}],
+    "arrow-body-style": ["error", "always"],
     // https://eslint.org/docs/rules/arrow-parens
     "arrow-parens": ["error", "as-needed"],
     // https://eslint.org/docs/rules/block-spacing

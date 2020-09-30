@@ -28,7 +28,7 @@ export const mockPromise = () => {
   promise.resolve = res;
   return promise;
 };
-export const isHidden = el => getComputedStyle(el).display === 'none';
+export const isHidden = el => { return getComputedStyle(el).display === 'none'; };
 
 // Some tests/elements can define its own binding. We want to restore bindings
 // at the end of the test. The TestKeyboardShortcutBinder store bindings in
@@ -77,14 +77,14 @@ function registerTestCleanup(cleanupCallback) {
 }
 
 export function cleanupTestUtils() {
-  cleanups.forEach(cleanup => cleanup());
+  cleanups.forEach(cleanup => { return cleanup(); });
   cleanups.splice(0);
 }
 
 export function stubBaseUrl(newUrl) {
   const originalCanonicalPath = window.CANONICAL_PATH;
   window.CANONICAL_PATH = newUrl;
-  registerTestCleanup(() => window.CANONICAL_PATH = originalCanonicalPath);
+  registerTestCleanup(() => { return window.CANONICAL_PATH = originalCanonicalPath; });
 }
 
 export function generateChange(options) {

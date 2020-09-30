@@ -37,13 +37,15 @@ suite('gr-autocomplete tests', () => {
 
   test('renders', () => {
     let promise;
-    const queryStub = sinon.spy(input => promise = Promise.resolve([
-      {name: input + ' 0', value: 0},
-      {name: input + ' 1', value: 1},
-      {name: input + ' 2', value: 2},
-      {name: input + ' 3', value: 3},
-      {name: input + ' 4', value: 4},
-    ]));
+    const queryStub = sinon.spy(input => {
+      return promise = Promise.resolve([
+        {name: input + ' 0', value: 0},
+        {name: input + ' 1', value: 1},
+        {name: input + ' 2', value: 2},
+        {name: input + ' 3', value: 3},
+        {name: input + ' 4', value: 4},
+      ]);
+    });
     element.query = queryStub;
     assert.isTrue(element.$.suggestions.isHidden);
     assert.equal(element.$.suggestions.$.cursor.index, -1);
@@ -83,9 +85,11 @@ suite('gr-autocomplete tests', () => {
 
   test('esc key behavior', () => {
     let promise;
-    const queryStub = sinon.spy(() => promise = Promise.resolve([
-      {name: 'blah', value: 123},
-    ]));
+    const queryStub = sinon.spy(() => {
+      return promise = Promise.resolve([
+        {name: 'blah', value: 123},
+      ]);
+    });
     element.query = queryStub;
 
     assert.isTrue(element.$.suggestions.isHidden);
@@ -111,13 +115,15 @@ suite('gr-autocomplete tests', () => {
 
   test('emits commit and handles cursor movement', () => {
     let promise;
-    const queryStub = sinon.spy(input => promise = Promise.resolve([
-      {name: input + ' 0', value: 0},
-      {name: input + ' 1', value: 1},
-      {name: input + ' 2', value: 2},
-      {name: input + ' 3', value: 3},
-      {name: input + ' 4', value: 4},
-    ]));
+    const queryStub = sinon.spy(input => {
+      return promise = Promise.resolve([
+        {name: input + ' 0', value: 0},
+        {name: input + ' 1', value: 1},
+        {name: input + ' 2', value: 2},
+        {name: input + ' 3', value: 3},
+        {name: input + ' 4', value: 4},
+      ]);
+    });
     element.query = queryStub;
 
     assert.isTrue(element.$.suggestions.isHidden);
@@ -204,7 +210,7 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('threshold guards the query', () => {
-    const queryStub = sinon.spy(() => Promise.resolve([]));
+    const queryStub = sinon.spy(() => { return Promise.resolve([]); });
     element.query = queryStub;
     element.threshold = 2;
     focusOnInput(element);
@@ -215,7 +221,7 @@ suite('gr-autocomplete tests', () => {
   });
 
   test('noDebounce=false debounces the query', () => {
-    const queryStub = sinon.spy(() => Promise.resolve([]));
+    const queryStub = sinon.spy(() => { return Promise.resolve([]); });
     let callback;
     const debounceStub = sinon.stub(element, 'debounce').callsFake(
         (name, cb) => { callback = cb; });

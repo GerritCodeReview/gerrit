@@ -35,7 +35,7 @@ suite('gr-linked-text tests', () => {
     originalCanonicalPath = window.CANONICAL_PATH;
     element = basicFixture.instantiate();
 
-    sinon.stub(GerritNav, 'mapCommentlinks').value( x => x);
+    sinon.stub(GerritNav, 'mapCommentlinks').value( x => { return x; });
     element.config = {
       ph: {
         match: '([Bb]ug|[Ii]ssue)\\s*#?(\\d+)',

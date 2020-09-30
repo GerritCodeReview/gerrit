@@ -564,7 +564,7 @@ suite('gr-related-changes-list plugin tests', () => {
         p => {
           plugin = p;
           plugin.hook('related-changes-section').getLastAttached()
-              .then(el => hookEl = el);
+              .then(el => { return hookEl = el; });
         },
         '0.1',
         'http://some/plugins/url1.html');
@@ -588,7 +588,7 @@ suite('gr-related-changes-list plugin tests', () => {
         p => {
           plugin = p;
           plugin.hook('related-changes-section').getLastAttached()
-              .then(el => hookEl = el);
+              .then(el => { return hookEl = el; });
         },
         '0.1',
         'http://some/plugins/url2.html');

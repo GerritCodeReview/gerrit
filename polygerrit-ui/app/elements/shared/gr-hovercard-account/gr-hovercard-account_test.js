@@ -118,7 +118,7 @@ suite('gr-hovercard-account tests', () => {
       apiResolve = r;
     });
     sinon.stub(element.$.restAPI, 'addToAttentionSet')
-        .callsFake(() => apiPromise);
+        .callsFake(() => { return apiPromise; });
     element.highlightAttention = true;
     element._target = document.createElement('div');
     flush();
@@ -151,7 +151,7 @@ suite('gr-hovercard-account tests', () => {
       apiResolve = r;
     });
     sinon.stub(element.$.restAPI, 'removeFromAttentionSet')
-        .callsFake(() => apiPromise);
+        .callsFake(() => { return apiPromise; });
     element.highlightAttention = true;
     element.change = {attention_set: {31415926535: {}}};
     element._target = document.createElement('div');

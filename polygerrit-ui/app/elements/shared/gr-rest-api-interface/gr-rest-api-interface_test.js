@@ -56,20 +56,22 @@ suite('gr-rest-api-interface tests', () => {
 
   test('parent diff comments are properly grouped', () => {
     sinon.stub(element._restApiHelper, 'fetchJSON')
-        .callsFake(() => Promise.resolve({
-          '/COMMIT_MSG': [],
-          'sieve.go': [
-            {
-              updated: '2017-02-03 22:32:28.000000000',
-              message: 'this isn’t quite right',
-            },
-            {
-              side: 'PARENT',
-              message: 'how did this work in the first place?',
-              updated: '2017-02-03 22:33:28.000000000',
-            },
-          ],
-        }));
+        .callsFake(() => {
+          return Promise.resolve({
+            '/COMMIT_MSG': [],
+            'sieve.go': [
+              {
+                updated: '2017-02-03 22:32:28.000000000',
+                message: 'this isn’t quite right',
+              },
+              {
+                side: 'PARENT',
+                message: 'how did this work in the first place?',
+                updated: '2017-02-03 22:33:28.000000000',
+              },
+            ],
+          });
+        });
     return element._getDiffComments('42', '', 'PARENT', 1, 'sieve.go').then(
         obj => {
           assert.equal(obj.baseComments.length, 1);
@@ -291,7 +293,7 @@ suite('gr-rest-api-interface tests', () => {
   test('getAccount when resp is null does not add to cache', async () => {
     const cacheKey = '/accounts/self/detail';
     const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL')
-        .callsFake(() => Promise.resolve());
+        .callsFake(() => { return Promise.resolve(); });
 
     await element.getAccount();
     assert.isTrue(stub.called);
@@ -304,7 +306,7 @@ suite('gr-rest-api-interface tests', () => {
   test('getAccount does not add to cache when status is 403', async () => {
     const cacheKey = '/accounts/self/detail';
     const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL')
-        .callsFake(() => Promise.resolve());
+        .callsFake(() => { return Promise.resolve(); });
 
     await element.getAccount();
     assert.isTrue(stub.called);
@@ -317,7 +319,7 @@ suite('gr-rest-api-interface tests', () => {
   test('getAccount when resp is successful', async () => {
     const cacheKey = '/accounts/self/detail';
     const stub = sinon.stub(element._restApiHelper, 'fetchCacheURL').callsFake(
-        () => Promise.resolve());
+        () => { return Promise.resolve(); });
 
     await element.getAccount();
 
@@ -329,12 +331,12 @@ suite('gr-rest-api-interface tests', () => {
 
   const preferenceSetup = function(testJSON, loggedIn, smallScreen) {
     sinon.stub(element, 'getLoggedIn')
-        .callsFake(() => Promise.resolve(loggedIn));
-    sinon.stub(element, '_isNarrowScreen').callsFake(() => smallScreen);
+        .callsFake(() => { return Promise.resolve(loggedIn); });
+    sinon.stub(element, '_isNarrowScreen').callsFake(() => { return smallScreen; });
     sinon.stub(
         element._restApiHelper,
         'fetchCacheURL')
-        .callsFake(() => Promise.resolve(testJSON));
+        .callsFake(() => { return Promise.resolve(testJSON); });
   };
 
   test('getPreferences returns correctly on small screens logged in',
@@ -400,7 +402,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('getDiffPreferences returns correct defaults', () => {
-    sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
+    sinon.stub(element, 'getLoggedIn').callsFake(() => { return Promise.resolve(false); });
 
     return element.getDiffPreferences().then(obj => {
       assert.equal(obj.auto_hide_diff_table_header, true);
@@ -428,7 +430,7 @@ suite('gr-rest-api-interface tests', () => {
   });
 
   test('getEditPreferences returns correct defaults', () => {
-    sinon.stub(element, 'getLoggedIn').callsFake(() => Promise.resolve(false));
+    sinon.stub(element, 'getLoggedIn').callsFake(() => { return Promise.resolve(false); });
 
     return element.getEditPreferences().then(obj => {
       assert.equal(obj.auto_close_brackets, false);
@@ -488,7 +490,7 @@ suite('gr-rest-api-interface tests', () => {
     test('_sendDiffDraftRequest pending requests tracked', () => {
       const obj = element._pendingRequests;
       sinon.stub(element, '_getChangeURLAndSend')
-          .callsFake(() => mockPromise());
+          .callsFake(() => { return mockPromise(); });
       assert.notOk(element.hasPendingDiffDrafts());
 
       element._sendDiffDraftRequest(null, null, null, {});
@@ -537,10 +539,12 @@ suite('gr-rest-api-interface tests', () => {
           ok: true,
           status: 200,
           headers: {
-            entries: () => [
-              ['Set-CoOkiE', 'secret'],
-              ['Innocuous', 'hello'],
-            ],
+            entries: () => {
+              return [
+                ['Set-CoOkiE', 'secret'],
+                ['Innocuous', 'hello'],
+              ];
+            },
           },
         };
         return element._failForCreate200(Promise.resolve(result))
@@ -559,7 +563,7 @@ suite('gr-rest-api-interface tests', () => {
         const result = {
           ok: true,
           status: 201,
-          headers: {entries: () => []},
+          headers: {entries: () => { return []; }},
         };
         return element._failForCreate200(Promise.resolve(result));
       });
@@ -870,7 +874,7 @@ suite('gr-rest-api-interface tests', () => {
 
   test('_fetchJSON gets called by getSuggestedAccounts', () => {
     const _fetchJSONStub = sinon.stub(element._restApiHelper, 'fetchJSON')
-        .callsFake(() => Promise.resolve());
+        .callsFake(() => { return Promise.resolve(); });
     return element.getSuggestedAccounts('own').then(() => {
       assert.deepEqual(_fetchJSONStub.lastCall.args[0].params, {
         q: 'own',
@@ -982,7 +986,7 @@ suite('gr-rest-api-interface tests', () => {
         const getPayloadSpy = sinon.spy(element._etags, 'getCachedPayload');
         sinon.stub(element._restApiHelper, 'fetchRawJSON')
             .returns(Promise.resolve({
-              text: () => Promise.resolve(mockResponseSerial),
+              text: () => { return Promise.resolve(mockResponseSerial); },
               status: 200,
               ok: true,
             }));
@@ -1000,7 +1004,7 @@ suite('gr-rest-api-interface tests', () => {
         getPayloadStub.returns(mockResponseSerial);
         sinon.stub(element._restApiHelper, 'fetchRawJSON')
             .returns(Promise.resolve({
-              text: () => Promise.resolve(''),
+              text: () => { return Promise.resolve(''); },
               status: 304,
               ok: true,
             }));
@@ -1120,7 +1124,7 @@ suite('gr-rest-api-interface tests', () => {
     test('_readResponsePayload', () => {
       const mockObject = {foo: 'bar', baz: 'foo'};
       const serial = element.JSON_PREFIX + JSON.stringify(mockObject);
-      const mockResponse = {text: () => Promise.resolve(serial)};
+      const mockResponse = {text: () => { return Promise.resolve(serial); }};
       return element._restApiHelper.readResponsePayload(mockResponse)
           .then(payload => {
             assert.deepEqual(payload.parsed, mockObject);

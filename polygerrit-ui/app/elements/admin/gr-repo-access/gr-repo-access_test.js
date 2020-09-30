@@ -1167,7 +1167,7 @@ suite('gr-repo-access tests', () => {
       let resolver;
       const saveStub = sinon.stub(element.$.restAPI,
           'setRepoAccessRights')
-          .returns(new Promise(r => resolver = r));
+          .returns(new Promise(r => { return resolver = r; }));
 
       element.repo = 'test-repo';
       sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);
@@ -1214,7 +1214,7 @@ suite('gr-repo-access tests', () => {
       let resolver;
       const saveForReviewStub = sinon.stub(element.$.restAPI,
           'setRepoAccessRightsForReview')
-          .returns(new Promise(r => resolver = r));
+          .returns(new Promise(r => { return resolver = r; }));
 
       element.repo = 'test-repo';
       sinon.stub(element, '_computeAddAndRemove').returns(repoAccessInput);

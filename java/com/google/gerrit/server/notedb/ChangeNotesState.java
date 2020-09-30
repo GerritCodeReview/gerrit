@@ -120,6 +120,7 @@ public abstract class ChangeNotesState {
       List<Account.Id> allPastReviewers,
       List<ReviewerStatusUpdate> reviewerUpdates,
       Set<AttentionSetUpdate> attentionSetUpdates,
+      List<AttentionSetUpdate> allAttentionSetUpdates,
       List<AssigneeStatusUpdate> assigneeUpdates,
       List<SubmitRecord> submitRecords,
       List<ChangeMessage> changeMessages,
@@ -171,6 +172,7 @@ public abstract class ChangeNotesState {
         .allPastReviewers(allPastReviewers)
         .reviewerUpdates(reviewerUpdates)
         .attentionSet(attentionSetUpdates)
+        .allAttentionSetUpdates(allAttentionSetUpdates)
         .assigneeUpdates(assigneeUpdates)
         .submitRecords(submitRecords)
         .changeMessages(changeMessages)
@@ -305,8 +307,11 @@ public abstract class ChangeNotesState {
 
   abstract ImmutableList<ReviewerStatusUpdate> reviewerUpdates();
 
-  /** Returns the most recent update (i.e. current status status) per user. */
+  /** Returns the most recent update (i.e. current status) per user. */
   abstract ImmutableSet<AttentionSetUpdate> attentionSet();
+
+  /** Returns all attention set updates. */
+  abstract ImmutableList<AttentionSetUpdate> allAttentionSetUpdates();
 
   abstract ImmutableList<AssigneeStatusUpdate> assigneeUpdates();
 
@@ -386,6 +391,7 @@ public abstract class ChangeNotesState {
           .allPastReviewers(ImmutableList.of())
           .reviewerUpdates(ImmutableList.of())
           .attentionSet(ImmutableSet.of())
+          .allAttentionSetUpdates(ImmutableList.of())
           .assigneeUpdates(ImmutableList.of())
           .submitRecords(ImmutableList.of())
           .changeMessages(ImmutableList.of())
@@ -420,6 +426,8 @@ public abstract class ChangeNotesState {
     abstract Builder reviewerUpdates(List<ReviewerStatusUpdate> reviewerUpdates);
 
     abstract Builder attentionSet(Set<AttentionSetUpdate> attentionSetUpdates);
+
+    abstract Builder allAttentionSetUpdates(List<AttentionSetUpdate> attentionSetUpdates);
 
     abstract Builder assigneeUpdates(List<AssigneeStatusUpdate> assigneeUpdates);
 
@@ -489,6 +497,9 @@ public abstract class ChangeNotesState {
       object.allPastReviewers().forEach(a -> b.addPastReviewer(a.get()));
       object.reviewerUpdates().forEach(u -> b.addReviewerUpdate(toReviewerStatusUpdateProto(u)));
       object.attentionSet().forEach(u -> b.addAttentionSetUpdate(toAttentionSetUpdateProto(u)));
+      object
+          .allAttentionSetUpdates()
+          .forEach(u -> b.addAllAttentionSetUpdate(toAttentionSetUpdateProto(u)));
       object.assigneeUpdates().forEach(u -> b.addAssigneeUpdate(toAssigneeStatusUpdateProto(u)));
       object
           .submitRecords()
@@ -623,6 +634,8 @@ public abstract class ChangeNotesState {
                   proto.getPastReviewerList().stream().map(Account::id).collect(toImmutableList()))
               .reviewerUpdates(toReviewerStatusUpdateList(proto.getReviewerUpdateList()))
               .attentionSet(toAttentionSetUpdates(proto.getAttentionSetUpdateList()))
+              .allAttentionSetUpdates(
+                  toAllAttentionSetUpdates(proto.getAllAttentionSetUpdateList()))
               .assigneeUpdates(toAssigneeStatusUpdateList(proto.getAssigneeUpdateList()))
               .submitRecords(
                   proto.getSubmitRecordList().stream()
@@ -724,6 +737,20 @@ public abstract class ChangeNotesState {
     private static ImmutableSet<AttentionSetUpdate> toAttentionSetUpdates(
         List<AttentionSetUpdateProto> protos) {
       ImmutableSet.Builder<AttentionSetUpdate> b = ImmutableSet.builder();
+      for (AttentionSetUpdateProto proto : protos) {
+        b.add(
+            AttentionSetUpdate.createFromRead(
+                Instant.ofEpochMilli(proto.getTimestampMillis()),
+                Account.id(proto.getAccount()),
+                AttentionSetUpdate.Operation.valueOf(proto.getOperation()),
+                proto.getReason()));
+      }
+      return b.build();
+    }
+
+    private static ImmutableList<AttentionSetUpdate> toAllAttentionSetUpdates(
+        List<AttentionSetUpdateProto> protos) {
+      ImmutableList.Builder<AttentionSetUpdate> b = ImmutableList.builder();
       for (AttentionSetUpdateProto proto : protos) {
         b.add(
             AttentionSetUpdate.createFromRead(

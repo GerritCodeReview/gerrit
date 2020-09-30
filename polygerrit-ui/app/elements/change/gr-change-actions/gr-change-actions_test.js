@@ -153,19 +153,17 @@ suite('gr-change-actions tests', () => {
       });
     });
 
-    test('plugin change actions', done => {
+    test('plugin change actions', async () => {
       sinon.stub(element.$.restAPI, 'getChangeActionURL').returns(
           Promise.resolve('the-url'));
       element.actions = {
         'plugin~action': {},
       };
       assert.isOk(element.actions['plugin~action']);
-      flush(() => {
-        assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
-            element.changeNum, null, '/plugin~action'));
-        assert.equal(element.actions['plugin~action'].__url, 'the-url');
-        done();
-      });
+      await flush();
+      assert.isTrue(element.$.restAPI.getChangeActionURL.calledWith(
+          element.changeNum, undefined, '/plugin~action'));
+      assert.equal(element.actions['plugin~action'].__url, 'the-url');
     });
 
     test('not supported actions are filtered out', () => {
@@ -813,6 +811,14 @@ suite('gr-change-actions tests', () => {
       setup(() => {
         fireActionStub = sinon.stub(element, '_fireAction');
         sinon.stub(window, 'alert');
+        element.actions = {
+          move: {
+            method: 'POST',
+            label: 'Move',
+            title: 'Move the change',
+            enabled: true,
+          },
+        };
       });
 
       test('works', () => {
@@ -1614,7 +1620,7 @@ suite('gr-change-actions tests', () => {
         assert.isTrue(fireActionStub.called);
         assert.isTrue(fireActionStub.calledWith('/review'));
         const payload = fireActionStub.lastCall.args[3];
-        assert.deepEqual(payload.labels, {foo: '+1'});
+        assert.deepEqual(payload.labels, {foo: 1});
       });
 
       test('not added when multiple labels are required', () => {
@@ -1834,16 +1840,12 @@ suite('gr-change-actions tests', () => {
               'navigateToChange').returns(Promise.resolve(true));
         });
 
-        test('change action', done => {
-          element
-              ._send('DELETE', payload, '/endpoint', false, cleanup)
-              .then(() => {
-                assert.isFalse(onShowError.called);
-                assert.isTrue(cleanup.calledOnce);
-                assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
-                    null, payload));
-                done();
-              });
+        test('change action', async () => {
+          await element._send('DELETE', payload, '/endpoint', false, cleanup);
+          assert.isFalse(onShowError.called);
+          assert.isTrue(cleanup.calledOnce);
+          assert.isTrue(sendStub.calledWith(42, 'DELETE', '/endpoint',
+              undefined, payload));
         });
 
         suite('show revert submission dialog', () => {
@@ -1990,6 +1992,13 @@ suite('gr-change-actions tests', () => {
 
     test('_handleAction reports', () => {
       sinon.stub(element, '_fireAction');
+      element.actions = {
+        key: {
+          __key: 'key',
+          __type: 'type',
+        },
+      };
+
       const reportStub = sinon.stub(element.reporting, 'reportInteraction');
       element._handleAction('type', 'key');
       assert.isTrue(reportStub.called);

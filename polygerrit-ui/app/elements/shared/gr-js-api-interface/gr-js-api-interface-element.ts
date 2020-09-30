@@ -20,7 +20,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {getPluginLoader} from './gr-plugin-loader';
 import {patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement} from '@polymer/decorators';
-import {ChangeInfo, RevisionInfo} from '../../../types/common';
+import {
+  ChangeInfo,
+  LabelNameToValuesMap,
+  RevisionInfo,
+} from '../../../types/common';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
 import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
 import {
@@ -87,7 +91,7 @@ export class GrJsApiInterface
     eventCallbacks[eventName].push(callback);
   }
 
-  canSubmitChange(change: ChangeInfo, revision: RevisionInfo) {
+  canSubmitChange(change: ChangeInfo, revision?: RevisionInfo | null) {
     const submitCallbacks = this._getEventCallbacks(EventType.SUBMIT_CHANGE);
     const cancelSubmit = submitCallbacks.some(callback => {
       try {
@@ -299,8 +303,8 @@ export class GrJsApiInterface
     return links;
   }
 
-  getLabelValuesPostRevert(change: ChangeInfo) {
-    let labels = {};
+  getLabelValuesPostRevert(change?: ChangeInfo): LabelNameToValuesMap {
+    let labels: LabelNameToValuesMap = {};
     for (const cb of this._getEventCallbacks(EventType.POST_REVERT)) {
       try {
         labels = cb(change);

@@ -154,7 +154,7 @@ suite('gr-thread-list tests', () => {
             message: 'resolved draft',
             unresolved: false,
             __draft: true,
-            __draftID: '0.m683trwff68',
+            __draftID: '0.m683trwff69',
             __editing: false,
             patch_set: '2',
           },

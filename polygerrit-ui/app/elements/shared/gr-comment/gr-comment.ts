@@ -38,22 +38,27 @@ import {htmlTemplate} from './gr-comment_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {getRootElement} from '../../../scripts/rootElement';
 import {appContext} from '../../../services/app-context';
-import {customElement, property, observe} from '@polymer/decorators';
+import {customElement, observe, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrTextarea} from '../gr-textarea/gr-textarea';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
 import {GrOverlay} from '../gr-overlay/gr-overlay';
 import {
-  RobotCommentInfo,
-  PatchSetNum,
-  CommentInfo,
-  ConfigInfo,
   AccountDetailInfo,
   NumericChangeId,
+  ConfigInfo,
+  PatchSetNum,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
 import {GrDialog} from '../gr-dialog/gr-dialog';
+import {Side} from '../../../constants/constants';
+import {
+  isDraft,
+  UIComment,
+  UIDraft,
+  UIRobot,
+} from '../../diff/gr-comment-api/gr-comment-api';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -84,23 +89,6 @@ const RESPECTFUL_REVIEW_TIPS = [
   'When disagreeing, explain the advantage of your approach.',
 ];
 
-export interface Draft {
-  collapsed?: boolean;
-  __editing?: boolean;
-  __otherEditing?: boolean;
-  __draft?: boolean;
-  __draftID?: string;
-  __commentSide?: string;
-  __date?: Date;
-}
-
-export type Comment = Draft & CommentInfo;
-export type RobotComment = Draft & RobotCommentInfo;
-
-export function isRobotComment(c: Comment | RobotComment): c is RobotComment {
-  return (c as RobotComment).robot_id !== undefined;
-}
-
 interface CommentOverlays {
   confirmDelete?: GrOverlay | null;
   confirmDiscard?: GrOverlay | null;
@@ -117,7 +105,7 @@ export interface GrComment {
 
 export interface CommentEventDetail {
   patchNum?: PatchSetNum;
-  comment?: Comment | RobotComment;
+  comment?: UIComment;
 }
 
 @customElement('gr-comment')
@@ -174,10 +162,10 @@ export class GrComment extends KeyboardShortcutMixin(
   changeNum?: NumericChangeId;
 
   @property({type: Object, notify: true, observer: '_commentChanged'})
-  comment?: Comment | RobotComment;
+  comment?: UIComment | UIRobot;
 
   @property({type: Array})
-  comments?: (Comment | RobotComment)[];
+  comments?: (UIComment | UIRobot)[];
 
   @property({type: Boolean, reflectToAttribute: true})
   isRobotComment = false;
@@ -235,7 +223,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _messageText = '';
 
   @property({type: String})
-  commentSide?: string;
+  commentSide?: Side;
 
   @property({type: String})
   side?: string;
@@ -311,7 +299,7 @@ export class GrComment extends KeyboardShortcutMixin(
     }
   }
 
-  _getAuthor(comment: Comment) {
+  _getAuthor(comment: UIComment) {
     return comment.author || this._selfAccount;
   }
 
@@ -410,7 +398,7 @@ export class GrComment extends KeyboardShortcutMixin(
   }
 
   @observe('comment')
-  _isRobotComment(comment: RobotComment) {
+  _isRobotComment(comment: UIRobot) {
     this.isRobotComment = !!comment.robot_id;
   }
 
@@ -433,7 +421,7 @@ export class GrComment extends KeyboardShortcutMixin(
     return 'DRAFT' + (unableToSave ? '(Failed to save)' : '');
   }
 
-  save(opt_comment?: Comment) {
+  save(opt_comment?: UIComment) {
     let comment = opt_comment;
     if (!comment) {
       comment = this.comment;
@@ -456,7 +444,8 @@ export class GrComment extends KeyboardShortcutMixin(
 
         this._eraseDraftComment();
         return this.$.restAPI.getResponseObject(response).then(obj => {
-          const resComment = (obj as unknown) as Comment;
+          const resComment = (obj as unknown) as UIDraft;
+          if (!isDraft(this.comment)) throw new Error('Can only save drafts.');
           resComment.__draft = true;
           // Maintain the ephemeral draft ID for identification by other
           // elements.
@@ -495,7 +484,7 @@ export class GrComment extends KeyboardShortcutMixin(
     });
   }
 
-  _commentChanged(comment: Comment) {
+  _commentChanged(comment: UIComment) {
     this.editing = !!comment.__editing;
     this.resolved = !comment.unresolved;
     if (this.editing) {
@@ -513,7 +502,7 @@ export class GrComment extends KeyboardShortcutMixin(
       c =>
         c.in_reply_to &&
         c.in_reply_to === comment.id &&
-        !(c as RobotComment).robot_id
+        !(c as UIRobot).robot_id
     );
   }
 
@@ -587,7 +576,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _computeSaveDisabled(
     draft: string,
-    comment: Comment | undefined,
+    comment: UIComment | undefined,
     resolved?: boolean
   ) {
     // If resolved state has changed and a msg exists, save should be enabled.
@@ -753,8 +742,8 @@ export class GrComment extends KeyboardShortcutMixin(
     );
   }
 
-  _hasNoFix(comment: Comment) {
-    return !comment || !(comment as RobotComment).fix_suggestions;
+  _hasNoFix(comment: UIComment) {
+    return !comment || !(comment as UIRobot).fix_suggestions;
   }
 
   _handleDiscard(e: Event) {
@@ -785,7 +774,7 @@ export class GrComment extends KeyboardShortcutMixin(
 
   _discardDraft() {
     if (!this.comment) return Promise.reject(new Error('undefined comment'));
-    if (!this.comment.__draft) {
+    if (!isDraft(this.comment)) {
       return Promise.reject(new Error('Cannot discard a non-draft comment.'));
     }
     this.discarding = true;
@@ -883,7 +872,7 @@ export class GrComment extends KeyboardShortcutMixin(
     this._handleFailedDraftRequest();
   }
 
-  _saveDraft(draft?: Comment) {
+  _saveDraft(draft?: UIComment) {
     if (!draft || this.changeNum === undefined || this.patchNum === undefined) {
       throw new Error('undefined draft or changeNum or patchNum');
     }
@@ -907,7 +896,7 @@ export class GrComment extends KeyboardShortcutMixin(
       });
   }
 
-  _deleteDraft(draft: Comment) {
+  _deleteDraft(draft: UIComment) {
     if (this.changeNum === undefined || this.patchNum === undefined) {
       throw new Error('undefined changeNum or patchNum');
     }
@@ -937,7 +926,7 @@ export class GrComment extends KeyboardShortcutMixin(
   _loadLocalDraft(
     changeNum: number,
     patchNum?: PatchSetNum,
-    comment?: Comment
+    comment?: UIComment
   ) {
     // Polymer 2: check for undefined
     if ([changeNum, patchNum, comment].includes(undefined)) {
@@ -1012,7 +1001,7 @@ export class GrComment extends KeyboardShortcutMixin(
     return overlay.open();
   }
 
-  _computeHideRunDetails(comment: RobotComment, collapsed: boolean) {
+  _computeHideRunDetails(comment: UIRobot, collapsed: boolean) {
     if (!comment) return true;
     return !(comment.robot_id && comment.url && !collapsed);
   }

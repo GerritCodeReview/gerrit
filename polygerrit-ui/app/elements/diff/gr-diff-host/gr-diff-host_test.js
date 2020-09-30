@@ -20,8 +20,8 @@ import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {DiffSide} from '../gr-diff/gr-diff-utils.js';
 import {sortComments} from '../gr-comment-api/gr-comment-api.js';
+import {Side} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');
 
@@ -36,6 +36,8 @@ suite('gr-diff-host tests', () => {
       async getLoggedIn() { return getLoggedIn; },
     });
     element = basicFixture.instantiate();
+    element.changeNum = 123;
+    element.path = 'some/path';
     sinon.stub(element.reporting, 'time');
     sinon.stub(element.reporting, 'timeEnd');
   });
@@ -47,6 +49,8 @@ suite('gr-diff-host tests', () => {
         getDiffLayers() { return pluginLayers; },
       });
       element = basicFixture.instantiate();
+      element.changeNum = 123;
+      element.path = 'some/path';
     });
     test('plugin layers requested', () => {
       element.patchRange = {};
@@ -172,7 +176,6 @@ suite('gr-diff-host tests', () => {
       ],
     };
 
-    element._removeComment({});
     // Using JSON.stringify because Safari 9.1 (11601.5.17.1) doesn’t seem
     // to believe that one object deepEquals another even when they do :-/.
     assert.equal(JSON.stringify(element.comments), JSON.stringify({
@@ -249,12 +252,20 @@ suite('gr-diff-host tests', () => {
   });
 
   test('thread-discard handling', () => {
-    const threads = [
-      {comments: [{id: 4711}]},
-      {comments: [{id: 42}]},
-    ];
+    const threads = element._createThreads([
+      {
+        id: 4711,
+        __commentSide: 'left',
+        updated: '2015-12-20 15:01:20.396000000',
+      },
+      {
+        id: 42,
+        __commentSide: 'left',
+        updated: '2017-12-20 15:01:20.396000000',
+      },
+    ]);
     element._parentIndex = 1;
-    element.changeNum = '2';
+    element.changeNum = 2;
     element.path = 'some/path';
     element.projectName = 'Some project';
     const threadEls = threads.map(
@@ -268,8 +279,8 @@ suite('gr-diff-host tests', () => {
           return threadEl;
         });
     assert.equal(threadEls.length, 2);
-    assert.equal(threadEls[0].rootId, 4711);
-    assert.equal(threadEls[1].rootId, 42);
+    assert.equal(threadEls[0].comments[0].id, 4711);
+    assert.equal(threadEls[1].comments[0].id, 42);
     for (const threadEl of threadEls) {
       element.appendChild(threadEl);
     }
@@ -279,7 +290,7 @@ suite('gr-diff-host tests', () => {
     const attachedThreads = element.queryAllEffectiveChildren(
         'gr-comment-thread');
     assert.equal(attachedThreads.length, 1);
-    assert.equal(attachedThreads[0].rootId, 42);
+    assert.equal(attachedThreads[0].comments[0].id, 42);
   });
 
   suite('render reporting', () => {
@@ -393,6 +404,8 @@ suite('gr-diff-host tests', () => {
     setup(() => {
       getLoggedIn = false;
       element = basicFixture.instantiate();
+      element.changeNum = 123;
+      element.path = 'some/path';
     });
 
     test('reload() loads files weblinks', () => {
@@ -852,6 +865,8 @@ suite('gr-diff-host tests', () => {
   suite('blame', () => {
     setup(() => {
       element = basicFixture.instantiate();
+      element.changeNum = 123;
+      element.path = 'some/path';
     });
 
     test('clearBlame', () => {
@@ -933,9 +948,8 @@ suite('gr-diff-host tests', () => {
   });
 
   test('passes in changeNum', () => {
-    const value = '12345';
-    element.changeNum = value;
-    assert.equal(element.$.diff.changeNum, value);
+    element.changeNum = 12345;
+    assert.equal(element.$.diff.changeNum, 12345);
   });
 
   test('passes in noAutoRender', () => {
@@ -963,9 +977,8 @@ suite('gr-diff-host tests', () => {
   });
 
   test('passes in changeNum', () => {
-    const value = '12345';
-    element.changeNum = value;
-    assert.equal(element.$.diff.changeNum, value);
+    element.changeNum = 12345;
+    assert.equal(element.$.diff.changeNum, 12345);
   });
 
   test('passes in projectName', () => {
@@ -1016,6 +1029,7 @@ suite('gr-diff-host tests', () => {
 
     setup(() => {
       element = basicFixture.instantiate();
+      element.changeNum = 123;
       element.path = 'file.txt';
       element.patchRange = {basePatchNum: 1};
       reportStub = sinon.stub(element.reporting, 'reportInteraction');
@@ -1167,23 +1181,17 @@ suite('gr-diff-host tests', () => {
 
     assert.equal(actualThreads.length, 2);
 
-    assert.equal(
-        actualThreads[0].start_datetime, '2015-12-23 15:00:20.396000000');
     assert.equal(actualThreads[0].commentSide, 'left');
     assert.equal(actualThreads[0].comments.length, 2);
     assert.deepEqual(actualThreads[0].comments[0], comments[0]);
     assert.deepEqual(actualThreads[0].comments[1], comments[1]);
     assert.equal(actualThreads[0].patchNum, undefined);
-    assert.equal(actualThreads[0].rootId, 'sallys_confession');
     assert.equal(actualThreads[0].lineNum, 1);
 
-    assert.equal(
-        actualThreads[1].start_datetime, '2015-12-20 15:01:20.396000000');
     assert.equal(actualThreads[1].commentSide, 'left');
     assert.equal(actualThreads[1].comments.length, 1);
     assert.deepEqual(actualThreads[1].comments[0], comments[2]);
     assert.equal(actualThreads[1].patchNum, undefined);
-    assert.equal(actualThreads[1].rootId, 'new_draft');
     assert.equal(actualThreads[1].lineNum, undefined);
   });
 
@@ -1205,7 +1213,6 @@ suite('gr-diff-host tests', () => {
 
     const expectedThreads = [
       {
-        start_datetime: '2015-12-24 15:00:10.396000000',
         commentSide: 'left',
         comments: [{
           id: 'betsys_confession',
@@ -1222,7 +1229,6 @@ suite('gr-diff-host tests', () => {
           line: 1,
         }],
         patchNum: 5,
-        rootId: 'betsys_confession',
         range: {
           start_line: 1,
           start_character: 1,
@@ -1264,14 +1270,12 @@ suite('gr-diff-host tests', () => {
             id: 'sallys_confession',
             message: 'i like you, jack',
             updated: '2015-12-23 15:00:20.396000000',
-            // line: 1,
-            // __commentSide: 'left',
+            __commentSide: 'left',
           }, {
             id: 'jacks_reply',
             message: 'i like you, too',
             updated: '2015-12-24 15:01:20.396000000',
-            // __commentSide: 'left',
-            // line: 1,
+            __commentSide: 'left',
             in_reply_to: 'sallys_confession',
           },
         ];
@@ -1375,9 +1379,9 @@ suite('gr-diff-host tests', () => {
     const threads = [];
     assert.deepEqual(element._filterThreadElsForLocation(threads, line), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        DiffSide.LEFT), []);
+        Side.LEFT), []);
     assert.deepEqual(element._filterThreadElsForLocation(threads, line,
-        DiffSide.RIGHT), []);
+        Side.RIGHT), []);
   });
 
   test('_filterThreadElsForLocation for line comments', () => {
@@ -1403,9 +1407,9 @@ suite('gr-diff-host tests', () => {
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
         [l3, r5]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        DiffSide.LEFT), [l3]);
+        Side.LEFT), [l3]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        DiffSide.RIGHT), [r5]);
+        Side.RIGHT), [r5]);
   });
 
   test('_filterThreadElsForLocation for file comments', () => {
@@ -1423,11 +1427,11 @@ suite('gr-diff-host tests', () => {
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line),
         [l, r]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        DiffSide.BOTH), [l, r]);
+        Side.BOTH), [l, r]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        DiffSide.LEFT), [l]);
+        Side.LEFT), [l]);
     assert.deepEqual(element._filterThreadElsForLocation(threadEls, line,
-        DiffSide.RIGHT), [r]);
+        Side.RIGHT), [r]);
   });
 
   suite('syntax layer with syntax_highlighting on', () => {
@@ -1441,6 +1445,8 @@ suite('gr-diff-host tests', () => {
       };
       element.patchRange = {};
       element.prefs = prefs;
+      element.changeNum = 123;
+      element.path = 'some/path';
     });
 
     test('gr-diff-host provides syntax highlighting layer to gr-diff', () => {
@@ -1551,6 +1557,8 @@ suite('gr-diff-host tests', () => {
         },
       });
       element = basicFixture.instantiate();
+      element.changeNum = 123;
+      element.path = 'some/path';
       const prefs = {
         line_length: 10,
         show_tabs: true,

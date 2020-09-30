@@ -38,11 +38,9 @@ import {
   RobotId,
 } from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {
-  CommentEventDetail,
-  isRobotComment,
-} from '../../shared/gr-comment/gr-comment';
+import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {isRobot} from '../gr-comment-api/gr-comment-api';
 
 export interface GrApplyFixDialog {
   $: {
@@ -115,7 +113,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
   open(e: CustomEvent<CommentEventDetail>) {
     const detail = e.detail;
     const comment = detail.comment;
-    if (!detail.patchNum || !comment || !isRobotComment(comment)) {
+    if (!detail.patchNum || !comment || !isRobot(comment)) {
       return Promise.resolve();
     }
     this._patchNum = detail.patchNum;

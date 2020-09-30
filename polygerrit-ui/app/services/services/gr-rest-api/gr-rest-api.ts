@@ -87,9 +87,13 @@ import {
   EmailAddress,
   FixId,
   FilePathToDiffInfoMap,
+  DiffInfo,
+  BlameInfo,
+  PatchRange,
+  ImagesForDiff,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
-import {HttpMethod} from '../../../constants/constants';
+import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
@@ -735,4 +739,26 @@ export interface RestApiService {
     patchNum: PatchSetNum,
     fixId: string
   ): Promise<Response>;
+
+  getDiff(
+    changeNum: NumericChangeId,
+    basePatchNum: PatchSetNum,
+    patchNum: PatchSetNum,
+    path: string,
+    whitespace?: IgnoreWhitespaceType,
+    errFn?: ErrorCallback
+  ): Promise<DiffInfo | undefined>;
+
+  getBlame(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    path: string,
+    base?: boolean
+  ): Promise<BlameInfo[] | undefined>;
+
+  getImagesForDiff(
+    changeNum: NumericChangeId,
+    diff: DiffInfo,
+    patchRange: PatchRange
+  ): Promise<ImagesForDiff>;
 }

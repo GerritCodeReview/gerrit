@@ -37,6 +37,52 @@
     },
     {
       "key": {
+        "uuid": "9f79e0e1_5cbf3966",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 198,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "cursorManager.moveToVisibleArea uses stops. Maybe this method should be updated too?",
+      "range": {
+        "startLine": 198,
+        "startChar": 2,
+        "endLine": 198,
+        "endChar": 19
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "168d7e43_af2637c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 450,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "The setup callback is marked with \u0027async\u0027 and await can be used here instead then:\nconst prefs \u003d await restAPI.getDiffPreferences();\nfor (const el of diffElements) {\n    el.prefs \u003d prefs;\n}",
+      "range": {
+        "startLine": 446,
+        "startChar": 4,
+        "endLine": 450,
+        "endChar": 9
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "9f0529c5_e23109b1",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
         "patchSetId": 5
@@ -108,6 +154,30 @@
     },
     {
       "key": {
+        "uuid": "7afeb892_7e921856",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor_test.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 463,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "I agree with Dhruv - please add a comment or a constant MOCK_DIFF_RESPONSE_LINES\u003d48 and update test (there are other places in the test where this number appears).",
+      "parentUuid": "03ecb443_0b10b6b8",
+      "range": {
+        "startLine": 463,
+        "startChar": 64,
+        "endLine": 463,
+        "endChar": 66
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a0b499dd_fd03c589",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff-utils.ts",
         "patchSetId": 5
@@ -124,6 +194,98 @@
         "startChar": 0,
         "endLine": 55,
         "endChar": 5
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "17513d76_4b60d2d9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 473,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "There are several methods in gr-cursor-manager that check stops.length:\nmoveToStart - \nmoveToEnd\nisAtStart\nisAtEnd\n\nWithout loadingSentinel, the moveToStartMethod does nothing. I am unsure how it works when the stops contains sentinel instead of empty list.\n\nCould you please add a tests for these methods? (i.e. for the cases, when the first and/or the last item is not loaded)",
+      "range": {
+        "startLine": 473,
+        "startChar": 14,
+        "endLine": 473,
+        "endChar": 35
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ede126b8_5fc7df0b",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 148,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "The function doesn\u0027t have await inside - async can be removed.",
+      "range": {
+        "startLine": 148,
+        "startChar": 7,
+        "endLine": 148,
+        "endChar": 12
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "9a5a10ae_18b63ae7",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 152,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "maybe rename to listener instead of renderCallback - the function can be used with any event, not only with \u0027render\u0027.",
+      "range": {
+        "startLine": 152,
+        "startChar": 40,
+        "endLine": 152,
+        "endChar": 54
+      },
+      "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c7ff5a15_c7edaf90",
+        "filename": "polygerrit-ui/app/test/test-utils.js",
+        "patchSetId": 5
+      },
+      "lineNbr": 154,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-09-30T07:10:12Z",
+      "side": 1,
+      "message": "If tests fail, this can lead to a memory leak or unexpected behavior if el is a global object (document/window).\nI can suggest to update this method, so event listener is always removed:\nexport function listenOnce(el, eventType) {\n  return new Promise(resolve \u003d\u003e {\n    const renderCallback \u003d () \u003d\u003e {\n      removeEventListener();\n      resolve();\n    };\n    el.addEventListener(eventType, renderCallback);\n    let removeEventListener \u003d () \u003d\u003e {\n      el.removeEventListener(eventType, renderCallback);\n      removeEventListener \u003d () \u003d\u003e {};  \n    }\n    registerTestCleanup(() \u003d\u003e removeEventListener());\n  }\n}",
+      "range": {
+        "startLine": 154,
+        "startChar": 4,
+        "endLine": 154,
+        "endChar": 51
       },
       "revId": "3b226bd29811fd8830e9aa0fde6ff5be9ae98381",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",

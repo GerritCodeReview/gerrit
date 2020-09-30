@@ -958,7 +958,7 @@ suite('gr-reply-dialog tests', () => {
         element.shadowRoot.querySelector('.edit-attention-button'));
     flush();
 
-    assert.isTrue(element._attentionModified);
+    assert.isTrue(element._attentionExpanded);
     let accountLabels = Array.from(element.shadowRoot.querySelectorAll(
         '.attention-detail gr-account-label'));
     assert.equal(accountLabels.length, 5);
@@ -969,13 +969,13 @@ suite('gr-reply-dialog tests', () => {
 
     // The 'attention modified' section collapses and resets when reviewers or
     // ccs change.
-    assert.isFalse(element._attentionModified);
+    assert.isFalse(element._attentionExpanded);
 
     MockInteractions.tap(
         element.shadowRoot.querySelector('.edit-attention-button'));
     flush();
 
-    assert.isTrue(element._attentionModified);
+    assert.isTrue(element._attentionExpanded);
     accountLabels = Array.from(element.shadowRoot.querySelectorAll(
         '.attention-detail gr-account-label'));
     assert.equal(accountLabels.length, 7);
@@ -1324,7 +1324,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
@@ -1340,11 +1342,13 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
-  test('_computeSendButtonDisabled_attentionModified true', () => {
+  test('_computeSendButtonDisabled_attentionExpanded true', () => {
     const fn = element._computeSendButtonDisabled.bind(element);
     // Mock everything false
     assert.isFalse(fn(
@@ -1356,7 +1360,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ true
+        /* attentionExpanded= */ true,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set([1])
     ));
   });
 
@@ -1372,7 +1378,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ true,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
@@ -1388,7 +1396,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
@@ -1404,7 +1414,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
@@ -1420,7 +1432,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
@@ -1436,7 +1450,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 
@@ -1452,7 +1468,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ true,
         /* commentEditing= */ false,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
     assert.isTrue(fn(
         /* buttonLabel= */ 'Send',
@@ -1463,7 +1481,9 @@ suite('gr-reply-dialog tests', () => {
         /* includeComments= */ false,
         /* disabled= */ false,
         /* commentEditing= */ true,
-        /* attentionModified= */ false
+        /* attentionExpanded= */ false,
+        /* _currentAttentionSet */ new Set(),
+        /* _newAttentionSet */ new Set()
     ));
   });
 

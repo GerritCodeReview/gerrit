@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "981f3a5a_a3fcb2ff",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdateListenerChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "In parent change, I made BatchUpdate receive a list of listeners. This class is not needed.",
+      "parentUuid": "589dec41_24289094",
+      "range": {
+        "startLine": 6,
+        "startChar": 6,
+        "endLine": 6,
+        "endChar": 30
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "7d51d2e1_491d3012",
         "filename": "java/com/google/gerrit/server/update/BatchUpdateListenerChain.java",
         "patchSetId": 2
@@ -45,6 +69,30 @@
       "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "75164c30_ea9351ef",
+        "filename": "java/com/google/gerrit/server/update/BatchUpdateListenerChain.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "This class is not needed anymore.",
+      "parentUuid": "7d51d2e1_491d3012",
+      "range": {
+        "startLine": 8,
+        "startChar": 2,
+        "endLine": 8,
+        "endChar": 9
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -94,6 +142,54 @@
     },
     {
       "key": {
+        "uuid": "b71d1bfe_f08c32ba",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Almost there on this one.\n\nI need to adjust a bit parameters (Maybe I can remove some ImmutableList.of()) and update the javadoc.",
+      "parentUuid": "ff5758cc_c82ab1ba",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "2c58a0bd_e7fc0031",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Now it is not a static executor. Not needed.",
+      "parentUuid": "20b98dec_71eeba16",
+      "range": {
+        "startLine": 7,
+        "startChar": 7,
+        "endLine": 7,
+        "endChar": 12
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93eed5dc_8795766e",
         "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
         "patchSetId": 2
@@ -140,6 +236,30 @@
     },
     {
       "key": {
+        "uuid": "395a2dbf_d5daf73e",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3885b1ec_3df22ad9",
+      "range": {
+        "startLine": 23,
+        "startChar": 5,
+        "endLine": 23,
+        "endChar": 19
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "12bff7af_c1f0dce2",
         "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
         "patchSetId": 2
@@ -160,6 +280,30 @@
       "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "622fef22_8b729910",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "12bff7af_c1f0dce2",
+      "range": {
+        "startLine": 25,
+        "startChar": 7,
+        "endLine": 25,
+        "endChar": 22
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -186,6 +330,30 @@
     },
     {
       "key": {
+        "uuid": "04c3c094_988eb675",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Both! I choose \"afterSubmission\" and add a line in the javadoc.",
+      "parentUuid": "4d3c53ed_8165ba9a",
+      "range": {
+        "startLine": 27,
+        "startChar": 6,
+        "endLine": 27,
+        "endChar": 79
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "9ec04197_941242ca",
         "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
         "patchSetId": 2
@@ -206,6 +374,30 @@
       "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4b90e995_267acf5f",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "afterSubmission and I add javadoc.",
+      "parentUuid": "9ec04197_941242ca",
+      "range": {
+        "startLine": 28,
+        "startChar": 7,
+        "endLine": 28,
+        "endChar": 16
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -252,6 +444,54 @@
       "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "3f0dce9b_c3ba067d",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Done (although it reads a bit weird... I am open to rename it again).",
+      "parentUuid": "2fdf61ea_4ae2ecaa",
+      "range": {
+        "startLine": 36,
+        "startChar": 25,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "056009d1_f5f2499e",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-09-30T06:35:03Z",
+      "side": 1,
+      "message": "Done (Optional)",
+      "parentUuid": "ba4a0cf3_4ce66722",
+      "range": {
+        "startLine": 36,
+        "startChar": 2,
+        "endLine": 36,
+        "endChar": 21
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

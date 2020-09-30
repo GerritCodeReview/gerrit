@@ -169,7 +169,9 @@ export function sortRevisions<T extends RevisionInfo>(revisions: T[]): T[] {
  * @return Sorted list of patch set objects, as described
  *     above
  */
-export function computeAllPatchSets(change: ParsedChangeInfo): PatchSet[] {
+export function computeAllPatchSets(
+  change: ChangeInfo | ParsedChangeInfo
+): PatchSet[] {
   if (!change) {
     return [];
   }
@@ -205,7 +207,7 @@ export function computeAllPatchSets(change: ParsedChangeInfo): PatchSet[] {
  *     wip property set on each of them
  */
 function _computeWipForPatchSets(
-  change: ParsedChangeInfo,
+  change: ChangeInfo | ParsedChangeInfo,
   patchNums: PatchSet[]
 ) {
   if (!change.messages || !change.messages.length) {

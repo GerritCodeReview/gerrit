@@ -38,6 +38,7 @@ import {
   RepoName,
   ReviewInputTag,
   VotingRangeInfo,
+  NumericChangeId,
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
@@ -102,7 +103,7 @@ export class GrMessage extends GestureEventListeners(
   change?: ChangeInfo;
 
   @property({type: Number})
-  changeNum?: number;
+  changeNum?: NumericChangeId;
 
   @property({type: Object})
   message: ChangeMessage | undefined;

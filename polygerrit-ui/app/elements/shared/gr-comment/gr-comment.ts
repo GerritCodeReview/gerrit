@@ -49,6 +49,7 @@ import {
   CommentInfo,
   ConfigInfo,
   AccountDetailInfo,
+  NumericChangeId,
 } from '../../../types/common';
 import {GrButton} from '../gr-button/gr-button';
 import {GrConfirmDeleteCommentDialog} from '../gr-confirm-delete-comment-dialog/gr-confirm-delete-comment-dialog';
@@ -96,6 +97,10 @@ export interface Draft {
 export type Comment = Draft & CommentInfo;
 export type RobotComment = Draft & RobotCommentInfo;
 
+export function isRobotComment(c: Comment | RobotComment): c is RobotComment {
+  return (c as RobotComment).robot_id !== undefined;
+}
+
 interface CommentOverlays {
   confirmDelete?: GrOverlay | null;
   confirmDiscard?: GrOverlay | null;
@@ -109,6 +114,12 @@ export interface GrComment {
     resolvedCheckbox: HTMLInputElement;
   };
 }
+
+export interface CommentEventDetail {
+  patchNum?: PatchSetNum;
+  comment?: Comment | RobotComment;
+}
+
 @customElement('gr-comment')
 export class GrComment extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -160,7 +171,7 @@ export class GrComment extends KeyboardShortcutMixin(
    */
 
   @property({type: Number})
-  changeNum?: number;
+  changeNum?: NumericChangeId;
 
   @property({type: Object, notify: true, observer: '_commentChanged'})
   comment?: Comment | RobotComment;
@@ -506,8 +517,8 @@ export class GrComment extends KeyboardShortcutMixin(
     );
   }
 
-  _getEventPayload(opt_mixin?: Record<string, any>) {
-    return {...opt_mixin, comment: this.comment, patchNum: this.patchNum};
+  _getEventPayload(): CommentEventDetail {
+    return {comment: this.comment, patchNum: this.patchNum};
   }
 
   _fireSave() {

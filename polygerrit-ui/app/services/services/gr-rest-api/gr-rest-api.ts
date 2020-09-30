@@ -85,10 +85,11 @@ import {
   RelatedChangesInfo,
   SubmittedTogetherInfo,
   EmailAddress,
+  FixId,
+  FilePathToDiffInfoMap,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod} from '../../../constants/constants';
-import {ChangeNum} from '../../../types/common';
 
 export type ErrorCallback = (response?: Response | null, err?: Error) => void;
 export type CancelConditionCallback = () => boolean;
@@ -208,7 +209,7 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<GroupNameToGroupInfoMap | undefined>;
   executeChangeAction(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     method: HttpMethod,
     endpoint: string,
     patchNum?: PatchSetNum,
@@ -294,29 +295,29 @@ export interface RestApiService {
   probePath(path: string): Promise<boolean>;
 
   saveFileUploadChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string,
     content: string
   ): Promise<Response | undefined>;
 
   deleteFileInChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string
   ): Promise<Response | undefined>;
 
   restoreFileInChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     restore_path: string
   ): Promise<Response | undefined>;
 
   renameFileInChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     old_path: string,
     new_path: string
   ): Promise<Response | undefined>;
 
   queryChangeFiles(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     query: string
   ): Promise<string[] | undefined>;
@@ -394,25 +395,25 @@ export interface RestApiService {
   ): Promise<Response>;
 
   saveChangeReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput
   ): Promise<Response>;
   saveChangeReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
   saveChangeReview(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     review: ReviewInput,
     errFn?: ErrorCallback
   ): Promise<Response>;
 
   getChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     downloadCommands?: boolean
   ): Promise<false | EditInfo | undefined>;
 
@@ -428,34 +429,36 @@ export interface RestApiService {
   ): Promise<ChangeInfo | undefined>;
 
   getChangeIncludedIn(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<IncludedInInfo | undefined>;
 
-  getFromProjectLookup(changeNum: ChangeNum): Promise<RepoName | undefined>;
+  getFromProjectLookup(
+    changeNum: NumericChangeId
+  ): Promise<RepoName | undefined>;
 
   saveDiffDraft(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: CommentInput
   ): Promise<Response>;
 
   getDiffChangeDetail(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     errFn?: ErrorCallback,
     cancelCondition?: CancelConditionCallback
   ): Promise<ChangeInfo | undefined | null>;
 
   getDiffComments(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<PathToCommentsInfoMap | undefined>;
   getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffCommentsOutput>;
   getDiffComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -464,16 +467,16 @@ export interface RestApiService {
     | Promise<GetDiffCommentsOutput>;
 
   getDiffRobotComments(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<PathToRobotCommentsInfoMap | undefined>;
   getDiffRobotComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffRobotCommentsOutput>;
   getDiffRobotComments(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -482,16 +485,16 @@ export interface RestApiService {
     | Promise<PathToRobotCommentsInfoMap | undefined>;
 
   getDiffDrafts(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<PathToCommentsInfoMap | undefined>;
   getDiffDrafts(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum: PatchSetNum,
     patchNum: PatchSetNum,
     path: string
   ): Promise<GetDiffCommentsOutput>;
   getDiffDrafts(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     basePatchNum?: PatchSetNum,
     patchNum?: PatchSetNum,
     path?: string
@@ -585,12 +588,12 @@ export interface RestApiService {
   invalidateReposCache(): void;
   invalidateAccountsCache(): void;
   removeFromAttentionSet(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     user: AccountId,
     reason: string
   ): Promise<Response>;
   addToAttentionSet(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     user: AccountId | undefined | null,
     reason: string
   ): Promise<Response>;
@@ -601,35 +604,35 @@ export interface RestApiService {
   setAccountStatus(status: string, errFn?: ErrorCallback): Promise<void>;
   getAvatarChangeUrl(): Promise<string | undefined>;
   setDescription(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     desc: string
   ): Promise<Response>;
   deleteVote(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     account: AccountId,
     label: string
   ): Promise<Response>;
 
   deleteComment(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     commentID: UrlEncodedCommentId,
     reason: string
   ): Promise<CommentInfo>;
   deleteDiffDraft(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum,
     draft: {id: UrlEncodedCommentId}
   ): Promise<Response>;
 
   deleteChangeCommitMessage(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     messageId: ChangeMessageId
   ): Promise<Response>;
 
   removeChangeReviewer(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     reviewerID: AccountId | EmailAddress | GroupId
   ): Promise<Response | undefined>;
 
@@ -671,13 +674,13 @@ export interface RestApiService {
     errFn?: ErrorCallback
   ): Promise<Response | undefined>;
   getFileContent(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string,
     patchNum: PatchSetNum
   ): Promise<Response | Base64FileContent | undefined>;
 
   saveChangeEdit(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     path: string,
     contents: string
   ): Promise<Response>;
@@ -695,27 +698,41 @@ export interface RestApiService {
   saveRepoConfig(repo: RepoName, config: ConfigInput): Promise<Response>;
 
   getRelatedChanges(
-    changeNum: ChangeNum,
+    changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<RelatedChangesInfo | undefined>;
 
   getChangesSubmittedTogether(
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<SubmittedTogetherInfo | undefined>;
 
-  getChangeConflicts(changeNum: ChangeNum): Promise<ChangeInfo[] | undefined>;
+  getChangeConflicts(
+    changeNum: NumericChangeId
+  ): Promise<ChangeInfo[] | undefined>;
 
   getChangeCherryPicks(
     project: RepoName,
     changeID: ChangeId,
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined>;
 
   getChangesWithSameTopic(
     topic: string,
-    changeNum: ChangeNum
+    changeNum: NumericChangeId
   ): Promise<ChangeInfo[] | undefined>;
 
   hasPendingDiffDrafts(): number;
   awaitPendingDiffDrafts(): Promise<void>;
+
+  getRobotCommentFixPreview(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixId: FixId
+  ): Promise<FilePathToDiffInfoMap | undefined>;
+
+  applyFixSuggestion(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    fixId: string
+  ): Promise<Response>;
 }

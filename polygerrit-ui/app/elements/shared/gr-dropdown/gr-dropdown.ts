@@ -47,7 +47,7 @@ export interface GrDropdown {
   };
 }
 
-interface DropdownLink {
+export interface DropdownLink {
   url?: string;
   name?: string;
   external?: boolean;

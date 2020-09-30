@@ -101,6 +101,9 @@ following the examples from the previous version notes. Add updated issue
 owners as reviewers of the uploaded change. More reviewers can be added
 or cc'ed, to further coordinate the final release contents.
 
+Similarly to issues, also mention every noteworty change done after the
+previous release. Again, previous notes should be used as template examples.
+
 You may need to split note update changes from the final change that
 updates the links. This allows non-final update changes to be reviewed and
 submitted timely. The final (links) change may take more time to complete,

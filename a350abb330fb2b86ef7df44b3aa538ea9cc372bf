@@ -151,6 +151,30 @@
       "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "e3f9fd84_7b3bf134",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-30T22:48:01Z",
+      "side": 1,
+      "message": "See below an example of how it could be:\n\n  @Target({METHOD, TYPE, FIELD})\n  @Retention(RUNTIME)\n  @Repeatable(UsedAt.Uses.class)\n  public @interface UsedAt {\n    /** Enumeration of projects that call a method/type/field. */\n    enum Project {\n      GOOGLE,\n      COLLABNET,\n      PLUGIN_CHECKS,\n      PLUGIN_CODE_OWNERS,\n      PLUGIN_DELETE_PROJECT,\n      PLUGIN_SERVICEUSER,\n      PLUGIN_HIGH_AVAILABILITY,\n      PLUGIN_MULTI_SITE,\n      PLUGINS_ALL, // Use this project if a method/type is generally made available to all plugins.\n    }\n\n    /** Reference to the project that uses the method annotated with this annotation. */\n    Project value();\n  \n    @Retention(RUNTIME)\n    @Target(ElementType.TYPE)\n    @interface Uses {\n      UsedAt[] value();\n    }\n  }",
+      "parentUuid": "484460f2_75f20aa2",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

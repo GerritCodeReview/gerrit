@@ -16,9 +16,11 @@ package com.google.gerrit.server.notedb;
 
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.base.Preconditions.checkArgument;
+import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 import static com.google.gerrit.server.logging.TraceContext.newTimer;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.common.Nullable;
@@ -34,6 +36,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.logging.Metadata;
 import com.google.gerrit.server.logging.TraceContext;
+import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.ChainedReceiveCommands;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -94,6 +97,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
   private String refLogMessage;
   private PersonIdent refLogIdent;
   private PushCertificate pushCert;
+  private ImmutableList<BatchUpdateListener> batchUpdateListeners;
 
   @Inject
   NoteDbUpdateManager(
@@ -117,6 +121,7 @@ public class NoteDbUpdateManager implements AutoCloseable {
     robotCommentUpdates = MultimapBuilder.hashKeys().arrayListValues().build();
     rewriters = MultimapBuilder.hashKeys().arrayListValues().build();
     changesToDelete = new HashSet<>();
+    batchUpdateListeners = ImmutableList.of();
   }
 
   @Override
@@ -169,6 +174,13 @@ public class NoteDbUpdateManager implements AutoCloseable {
    */
   public NoteDbUpdateManager setPushCertificate(PushCertificate pushCert) {
     this.pushCert = pushCert;
+    return this;
+  }
+
+  public NoteDbUpdateManager setBatchUpdateListeners(
+      ImmutableList<BatchUpdateListener> batchUpdateListeners) {
+    checkNotNull(batchUpdateListeners);
+    this.batchUpdateListeners = batchUpdateListeners;
     return this;
   }
 
@@ -358,6 +370,9 @@ public class NoteDbUpdateManager implements AutoCloseable {
     bru.setAtomic(true);
     or.cmds.addTo(bru);
     bru.setAllowNonFastForwards(true);
+    for (BatchUpdateListener listener : batchUpdateListeners) {
+      bru = listener.beforeUpdateRefs(bru);
+    }
 
     if (!dryrun) {
       RefUpdateUtil.executeChecked(bru, or.rw);

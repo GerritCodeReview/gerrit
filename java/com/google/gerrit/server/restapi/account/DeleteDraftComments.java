@@ -48,7 +48,6 @@ import com.google.gerrit.server.restapi.change.CommentJson;
 import com.google.gerrit.server.restapi.change.CommentJson.HumanCommentFormatter;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdate.Factory;
-import com.google.gerrit.server.update.BatchUpdateListener;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.UpdateException;
@@ -140,7 +139,7 @@ public class DeleteDraftComments
     // Currently there's no way to let some updates succeed even if others fail. Even if there were,
     // all updates from this operation only happen in All-Users and thus are fully atomic, so
     // allowing partial failure would have little value.
-    BatchUpdate.execute(updates.values(), BatchUpdateListener.NONE, false);
+    BatchUpdate.execute(updates.values(), ImmutableList.of(), false);
 
     return Response.ok(
         ops.stream().map(Op::getResult).filter(Objects::nonNull).collect(toImmutableList()));

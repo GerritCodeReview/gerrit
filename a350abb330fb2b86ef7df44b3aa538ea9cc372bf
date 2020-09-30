@@ -127,6 +127,30 @@
       "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "484460f2_75f20aa2",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-09-30T22:22:00Z",
+      "side": 1,
+      "message": "You can make the UserAt annotation repeatable, isn\u0027t it?",
+      "parentUuid": "5d2d0d09_b69d40c6",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

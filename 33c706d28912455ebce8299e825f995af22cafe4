@@ -22,6 +22,30 @@
       "revId": "33c706d28912455ebce8299e825f995af22cafe4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "989d5e05_1940a95e",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-01T18:01:33Z",
+      "side": 0,
+      "message": "Ack",
+      "parentUuid": "46f753d6_0f015790",
+      "range": {
+        "startLine": 272,
+        "startChar": 7,
+        "endLine": 272,
+        "endChar": 14
+      },
+      "revId": "33c706d28912455ebce8299e825f995af22cafe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

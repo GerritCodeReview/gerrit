@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "46f753d6_0f015790",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1011323
+      },
+      "writtenOn": "2020-10-01T17:59:58Z",
+      "side": 0,
+      "message": "The document you linked in the commit message only announced http\u003d\u003ehttps change. I don\u0027t even find where was announced the change from central.maven.org to repo1.maven.org.",
+      "range": {
+        "startLine": 272,
+        "startChar": 7,
+        "endLine": 272,
+        "endChar": 14
+      },
+      "revId": "33c706d28912455ebce8299e825f995af22cafe4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

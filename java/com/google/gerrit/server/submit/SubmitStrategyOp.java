@@ -461,7 +461,7 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // If we naively execute postUpdate even if the change is already merged when updateChange
       // being, then we are subject to a race where postUpdate steps are run twice if two submit
       // processes run at the same time.
-      logger.atFine().log("Skipping post-update steps for change %s", getId());
+      logger.atInfo().log("Skipping post-update steps for change %s", getId());
       return;
     }
     postUpdateImpl(ctx);

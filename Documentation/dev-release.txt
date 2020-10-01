@@ -269,7 +269,7 @@ https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/.
 ** It may take up to 2 hours until the artifacts appear on Maven
 Central:
 +
-http://central.maven.org/maven2/com/google/gerrit/
+https://repo1.maven.org/maven2/com/google/gerrit/
 
 * [optional]: View download statistics
 

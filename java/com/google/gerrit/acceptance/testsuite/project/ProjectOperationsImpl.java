@@ -91,6 +91,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);
+    args.permissionsOnly = projectCreation.permissionOnly().orElse(false);
     args.branch = Collections.singletonList(Constants.R_HEADS + Constants.MASTER);
     args.createEmptyCommit = projectCreation.createEmptyCommit().orElse(true);
     projectCreation.parent().ifPresent(p -> args.newParent = p);

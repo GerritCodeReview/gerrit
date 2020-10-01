@@ -174,6 +174,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_OWNERIN = "ownerin";
   public static final String FIELD_PARENTPROJECT = "parentproject";
   public static final String FIELD_PATH = "path";
+  public static final String FIELD_PEERS = "peers";
   public static final String FIELD_PENDING_REVIEWER = "pendingreviewer";
   public static final String FIELD_PENDING_REVIEWER_BY_EMAIL = "pendingreviewerbyemail";
   public static final String FIELD_PRIVATE = "private";
@@ -1337,6 +1338,11 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
     }
     throw new QueryParseException(
         "'cherrypickof' operator is not supported by change index version");
+  }
+
+  @Operator
+  public Predicate<ChangeData> peers(String query) throws QueryParseException {
+    return new PeersPredicate(args, query);
   }
 
   @Override

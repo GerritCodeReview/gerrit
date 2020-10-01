@@ -579,6 +579,30 @@ comment while unresolved:0 will be true for any change which has all comments re
 Valid relations are >=, >, <=, <, or no relation, which will match if the number of unresolved
 comments is exactly equal.
 
+[[peers]]
+peers:"{query}"::
++
+Peers operator can be used to match changes which are peers of changes that are
+part of a quoted query passed in to peers.
++
+A peer of a change has the same Change-Id, the 40 character SHA with an 'I'
+prefix, as the change but not the same legacy numerical 'ID', such as 15183.
++
+The argument for peers is a quoted query. It can be any valid query and can
+include ANDs, ORs or NOTs.
++
+NOTE: The results do not include changes from the quoted query, only their peers
++
+Some examples of peers searches:
++
+`peers:"branch:foo AND project:bar"`::
++
+Matches changes that are peers of the changes on branch foo and in project bar.
++
+`peers:"branch:master OR branch:hummingbird"`::
++
+Matches changes that are peers of the changes on branches master or humbingbird.
+
 == Argument Quoting
 
 Operator values that are not bare words (roughly A-Z, a-z, 0-9, @,

@@ -46,6 +46,30 @@
       "revId": "294f53f11c3e88066f5a0f6ee3cb0dfddccabee3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "99b8f64f_e54197c7",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T19:05:05Z",
+      "side": 1,
+      "message": "Sounds good. Thanks!",
+      "parentUuid": "b0266268_b497700c",
+      "range": {
+        "startLine": 40,
+        "startChar": 34,
+        "endLine": 40,
+        "endChar": 63
+      },
+      "revId": "294f53f11c3e88066f5a0f6ee3cb0dfddccabee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -184,6 +184,10 @@ public class NoteDbUpdateManager implements AutoCloseable {
     return this;
   }
 
+  public boolean isExecuted() {
+    return executed;
+  }
+
   private void initChangeRepo() throws IOException {
     if (changeRepo == null) {
       changeRepo = OpenRepo.open(repoManager, projectName);

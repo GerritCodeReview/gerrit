@@ -367,6 +367,7 @@ public class BatchUpdate implements AutoCloseable {
 
   private RepoView repoView;
   private BatchRefUpdate batchRefUpdate;
+  private boolean executed;
   private OnSubmitValidators onSubmitValidators;
   private PushCertificate pushCert;
   private String refLogMessage;
@@ -409,6 +410,10 @@ public class BatchUpdate implements AutoCloseable {
 
   public void execute() throws UpdateException, RestApiException {
     execute(ImmutableList.of(this), ImmutableList.of(), false);
+  }
+
+  public boolean isExecuted() {
+    return executed;
   }
 
   public BatchUpdate setRepository(Repository repo, RevWalk revWalk, ObjectInserter inserter) {
@@ -577,6 +582,7 @@ public class BatchUpdate implements AutoCloseable {
 
     void execute() throws IOException {
       BatchUpdate.this.batchRefUpdate = manager.execute(dryrun);
+      BatchUpdate.this.executed = manager.isExecuted();
     }
 
     List<ListenableFuture<?>> startIndexFutures() {

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "f51da163_6d503e84",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-01T14:47:56Z",
+      "side": 1,
+      "message": "Will this become part of the URL? Same concern below.",
+      "range": {
+        "startLine": 238,
+        "startChar": 80,
+        "endLine": 238,
+        "endChar": 81
+      },
+      "revId": "aff0e4e5138ffff7b5d58bf1b33bcea3fd5c9c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

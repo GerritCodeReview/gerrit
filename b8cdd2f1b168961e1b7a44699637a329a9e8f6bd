@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c2079992_b7629704",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-01T18:05:32Z",
+      "side": 1,
+      "message": "CI passed this check on patch-set #2, which only differed by the commit message compared to #3. Same for the apparently hanging latest Verified check.",
+      "revId": "b8cdd2f1b168961e1b7a44699637a329a9e8f6bd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

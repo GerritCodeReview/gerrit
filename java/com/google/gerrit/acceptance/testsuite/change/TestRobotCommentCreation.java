@@ -41,8 +41,6 @@ public abstract class TestRobotCommentCreation {
 
   public abstract Optional<CommentSide> side();
 
-  public abstract Optional<Boolean> unresolved();
-
   public abstract Optional<String> parentUuid();
 
   public abstract Optional<String> tag();
@@ -151,18 +149,6 @@ public abstract class TestRobotCommentCreation {
     }
 
     abstract Builder side(CommentSide side);
-
-    /** Indicates a resolved comment. */
-    public Builder resolved() {
-      return unresolved(false);
-    }
-
-    /** Indicates an unresolved comment. */
-    public Builder unresolved() {
-      return unresolved(true);
-    }
-
-    abstract Builder unresolved(boolean unresolved);
 
     /**
      * UUID of another comment to which this comment is a reply. This comment must have similar

@@ -166,7 +166,6 @@ public class CommentJson {
       r.updated = c.writtenOn;
       r.range = toRange(c.range);
       r.tag = c.tag;
-      r.unresolved = c.unresolved;
       if (loader != null) {
         r.author = loader.get(c.author.getId());
       }
@@ -194,6 +193,7 @@ public class CommentJson {
     protected CommentInfo toInfo(HumanComment c, AccountLoader loader) {
       CommentInfo ci = new CommentInfo();
       fillCommentInfo(c, ci, loader);
+      ci.unresolved = c.unresolved;
       return ci;
     }
 

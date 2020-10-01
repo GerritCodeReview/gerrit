@@ -259,9 +259,6 @@ public class PerPatchsetOperationsImpl implements PerPatchsetOperations {
           .ifPresent(range -> newRobotComment.setLineNbrAndRange(null, range));
 
       robotCommentCreation
-          .unresolved()
-          .ifPresent(unresolved -> newRobotComment.unresolved = unresolved);
-      robotCommentCreation
           .parentUuid()
           .ifPresent(parentUuid -> newRobotComment.parentUuid = parentUuid);
       robotCommentCreation.url().ifPresent(url -> newRobotComment.url = url);

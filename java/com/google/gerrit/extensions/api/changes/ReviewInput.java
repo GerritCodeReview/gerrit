@@ -100,9 +100,11 @@ public class ReviewInput {
     PUBLISH_ALL_REVISIONS
   }
 
-  public static class CommentInput extends Comment {}
+  public static class CommentInput extends Comment {
+    public Boolean unresolved;
+  }
 
-  public static class RobotCommentInput extends CommentInput {
+  public static class RobotCommentInput extends Comment {
     public String robotId;
     public String robotRunId;
     public String url;

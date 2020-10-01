@@ -1279,25 +1279,6 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void robotCommentAddsOwnerOnNewChanges() throws Exception {
-    TestAccount robot =
-        accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");
-    PushOneCommit.Result r = createChange();
-    requestScopeOperations.setApiUser(robot.id());
-    ReviewInput reviewInput = new ReviewInput();
-    ReviewInput.RobotCommentInput robotCommentInput =
-        TestCommentHelper.createRobotCommentInputWithMandatoryFields("a.txt");
-    reviewInput.robotComments = ImmutableMap.of("a.txt", ImmutableList.of(robotCommentInput));
-    change(r).current().review(reviewInput);
-
-    AttentionSetUpdate attentionSet =
-        Iterables.getOnlyElement(getAttentionSetUpdatesForUser(r, admin));
-    assertThat(attentionSet).hasAccountIdThat().isEqualTo(admin.id());
-    assertThat(attentionSet).hasOperationThat().isEqualTo(AttentionSetUpdate.Operation.ADD);
-    assertThat(attentionSet).hasReasonThat().isEqualTo("A robot comment was added");
-  }
-
-  @Test
   public void robotCommentDoesNotAddOwnerOnClosedChanges() throws Exception {
     TestAccount robot =
         accountCreator.create("robot2", "robot2@example.com", "Ro Bot", "Ro", "Service Users");

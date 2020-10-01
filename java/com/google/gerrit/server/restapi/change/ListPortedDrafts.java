@@ -53,7 +53,8 @@ public class ListPortedDrafts implements RestReadView<RevisionResource> {
         commentsUtil.draftByChangeAuthor(
             revisionResource.getNotes(), revisionResource.getAccountId());
     ImmutableList<HumanComment> portedDraftComments =
-        commentPorter.portComments(revisionResource.getNotes(), targetPatchset, draftComments);
+        commentPorter.portComments(
+            revisionResource.getNotes(), targetPatchset, draftComments, ImmutableList.of());
     return Response.ok(format(portedDraftComments));
   }
 

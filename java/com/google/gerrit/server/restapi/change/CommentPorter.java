@@ -29,8 +29,6 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.change.CommentThread;
-import com.google.gerrit.server.change.CommentThreads;
 import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.patch.DiffMappings;
 import com.google.gerrit.server.patch.GitPositionTransformer;
@@ -45,11 +43,11 @@ import com.google.gerrit.server.patch.PatchListKey;
 import com.google.gerrit.server.patch.PatchListNotAvailableException;
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Optional;
+import java.util.stream.Stream;
 import org.eclipse.jgit.lib.ObjectId;
 
 /**
@@ -96,30 +94,38 @@ public class CommentPorter {
    * @param changeNotes the {@link ChangeNotes} of the change to which the comments belong
    * @param targetPatchset the patchset to which the comments should be ported
    * @param comments the original comments
+   * @param filters additional filters to apply to the comments before porting. Only the remaining
+   *     comments will be ported.
    * @return the ported comments, in no particular order
    */
   public ImmutableList<HumanComment> portComments(
-      ChangeNotes changeNotes, PatchSet targetPatchset, List<HumanComment> comments) {
+      ChangeNotes changeNotes,
+      PatchSet targetPatchset,
+      List<HumanComment> comments,
+      List<HumanCommentFilter> filters) {
 
-    ImmutableList<HumanComment> relevantComments = filterToRelevant(comments, targetPatchset);
+    ImmutableList<HumanCommentFilter> allFilters = addDefaultFilters(filters, targetPatchset);
+    ImmutableList<HumanComment> relevantComments = filter(comments, allFilters);
     return port(changeNotes, targetPatchset, relevantComments);
   }
 
-  private ImmutableList<HumanComment> filterToRelevant(
-      List<HumanComment> allComments, PatchSet targetPatchset) {
-    ImmutableList<HumanComment> previousPatchsetsComments =
-        allComments.stream()
-            .filter(comment -> comment.key.patchSetId < targetPatchset.number())
-            .collect(toImmutableList());
-
-    ImmutableSet<CommentThread<HumanComment>> commentThreads =
-        CommentThreads.forComments(previousPatchsetsComments).getThreads();
-
-    return commentThreads.stream()
-        .filter(CommentThread::unresolved)
-        .map(CommentThread::comments)
-        .flatMap(Collection::stream)
+  private ImmutableList<HumanCommentFilter> addDefaultFilters(
+      List<HumanCommentFilter> filters, PatchSet targetPatchset) {
+    // Apply the EarlierPatchsetCommentFilter first as it reduces the amount of comments before
+    // more expensive filters are applied.
+    HumanCommentFilter earlierPatchsetFilter =
+        new EarlierPatchsetCommentFilter(targetPatchset.id());
+    return Stream.concat(Stream.of(earlierPatchsetFilter), filters.stream())
         .collect(toImmutableList());
+  }
+
+  private ImmutableList<HumanComment> filter(
+      List<HumanComment> allComments, ImmutableList<HumanCommentFilter> filters) {
+    ImmutableList<HumanComment> filteredComments = ImmutableList.copyOf(allComments);
+    for (HumanCommentFilter filter : filters) {
+      filteredComments = filter.filter(filteredComments);
+    }
+    return filteredComments;
   }
 
   private ImmutableList<HumanComment> port(
@@ -308,5 +314,22 @@ public class CommentPorter {
       GitPositionTransformer.Range lineRange, int originalStartChar, int originalEndChar) {
     int adjustedEndLine = originalEndChar > 0 ? lineRange.end() : lineRange.end() + 1;
     return new Range(lineRange.start() + 1, originalStartChar, adjustedEndLine, originalEndChar);
+  }
+
+  /** A filter which just keeps those comments which are before the given patchset. */
+  private static class EarlierPatchsetCommentFilter implements HumanCommentFilter {
+
+    private final PatchSet.Id patchsetId;
+
+    public EarlierPatchsetCommentFilter(PatchSet.Id patchsetId) {
+      this.patchsetId = patchsetId;
+    }
+
+    @Override
+    public ImmutableList<HumanComment> filter(ImmutableList<HumanComment> comments) {
+      return comments.stream()
+          .filter(comment -> comment.key.patchSetId < patchsetId.get())
+          .collect(toImmutableList());
+    }
   }
 }

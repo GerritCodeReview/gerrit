@@ -190,6 +190,30 @@
     },
     {
       "key": {
+        "uuid": "ed304130_568bb12c",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-10-01T00:07:19Z",
+      "side": 1,
+      "message": "Done\n\nOpted for setBatchUpdateListeners(ImmutableList\u003c\u003e x) so the caller can remove the listeners setting an empty list.",
+      "parentUuid": "b71d1bfe_f08c32ba",
+      "range": {
+        "startLine": 7,
+        "startChar": 13,
+        "endLine": 7,
+        "endChar": 31
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "93eed5dc_8795766e",
         "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
         "patchSetId": 2

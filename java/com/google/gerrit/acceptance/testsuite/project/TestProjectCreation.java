@@ -18,8 +18,10 @@ import com.google.auto.value.AutoValue;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 import org.eclipse.jgit.lib.Constants;
@@ -36,6 +38,8 @@ public abstract class TestProjectCreation {
   public abstract Optional<Boolean> createEmptyCommit();
 
   public abstract Optional<SubmitType> submitType();
+
+  public abstract Optional<List<AccountGroup.UUID>> owners();
 
   abstract ThrowingFunction<TestProjectCreation, Project.NameKey> projectCreator();
 
@@ -66,6 +70,8 @@ public abstract class TestProjectCreation {
     abstract TestProjectCreation.Builder branches(Set<String> branches);
 
     public abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
+
+    public abstract TestProjectCreation.Builder owners(List<AccountGroup.UUID> owners);
 
     /** Skips the empty commit on creation. This means that project's branches will not exist. */
     public TestProjectCreation.Builder noEmptyCommit() {

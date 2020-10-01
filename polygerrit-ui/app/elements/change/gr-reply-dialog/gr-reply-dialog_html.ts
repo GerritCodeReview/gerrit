@@ -371,7 +371,10 @@ export const htmlTemplate = html`
               is="dom-if"
               if="[[_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
             >
-              <span>Do not update the attention set.</span>
+              <span
+                >[[_computeDoNotUpdateMessage(_currentAttentionSet,
+                _newAttentionSet)]]</span
+              >
             </template>
             <template
               is="dom-if"

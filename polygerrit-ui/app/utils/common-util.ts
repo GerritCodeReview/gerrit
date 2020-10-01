@@ -44,3 +44,25 @@ export function assertNever(obj: never, msg: string): never {
   console.error(msg, obj);
   throw new Error(msg);
 }
+
+/**
+ * Returns true, if both sets contain the same members.
+ */
+export function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {
+  if (a.size !== b.size) {
+    return false;
+  }
+  return containsAll(a, b);
+}
+
+/**
+ * Returns true, if 'set' contains 'subset'.
+ */
+export function containsAll<T>(set: Set<T>, subSet: Set<T>): boolean {
+  for (const value of subSet) {
+    if (!set.has(value)) {
+      return false;
+    }
+  }
+  return true;
+}

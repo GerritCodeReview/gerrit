@@ -16,7 +16,7 @@
  */
 
 import '../test/common-test-setup-karma.js';
-import {hasOwnProperty} from './common-util.js';
+import {hasOwnProperty, areSetsEqual, containsAll} from './common-util.js';
 
 suite('common-util tests', () => {
   suite('hasOwnProperty', () => {
@@ -40,5 +40,30 @@ suite('common-util tests', () => {
       assert.isTrue(hasOwnProperty(obj, 'abc'));
       assert.isFalse(hasOwnProperty(obj, 'def'));
     });
+  });
+
+  test('areSetsEqual', () => {
+    assert.isTrue(areSetsEqual(new Set(), new Set()));
+    assert.isTrue(areSetsEqual(new Set([1]), new Set([1])));
+    assert.isTrue(areSetsEqual(new Set([1, 1, 1, 1]), new Set([1])));
+    assert.isTrue(areSetsEqual(new Set([1, 1, 2, 2]), new Set([2, 1, 2, 1])));
+    assert.isTrue(areSetsEqual(new Set([1, 2, 3, 4]), new Set([4, 3, 2, 1])));
+    assert.isFalse(areSetsEqual(new Set(), new Set([1])));
+    assert.isFalse(areSetsEqual(new Set([1]), new Set([2])));
+    assert.isFalse(areSetsEqual(new Set([1, 2, 4]), new Set([1, 2, 3])));
+  });
+
+  test('containsAll', () => {
+    assert.isTrue(containsAll(new Set(), new Set()));
+    assert.isTrue(containsAll(new Set([1]), new Set()));
+    assert.isTrue(containsAll(new Set([1]), new Set([1])));
+    assert.isTrue(containsAll(new Set([1, 2]), new Set([1])));
+    assert.isTrue(containsAll(new Set([1, 2]), new Set([2])));
+    assert.isTrue(containsAll(new Set([1, 2, 3, 4]), new Set([1, 4])));
+    assert.isTrue(containsAll(new Set([1, 2, 3, 4]), new Set([1, 2, 3, 4])));
+    assert.isFalse(containsAll(new Set(), new Set([2])));
+    assert.isFalse(containsAll(new Set([1]), new Set([2])));
+    assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([5])));
+    assert.isFalse(containsAll(new Set([1, 2, 3, 4]), new Set([1, 2, 3, 5])));
   });
 });

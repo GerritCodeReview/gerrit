@@ -245,7 +245,6 @@ interface QuerySuggestedReviewersParams {
 
 interface GetDiffParams {
   [paramName: string]: string | undefined | null | number | boolean;
-  context?: number | 'ALL';
   intraline?: boolean | null;
   whitespace?: IgnoreWhitespaceType;
   parent?: number;
@@ -2498,7 +2497,6 @@ export class GrRestApiInterface
     errFn?: ErrorCallback
   ) {
     const params: GetDiffParams = {
-      context: 'ALL',
       intraline: null,
       whitespace: whitespace || IgnoreWhitespaceType.IGNORE_NONE,
     };

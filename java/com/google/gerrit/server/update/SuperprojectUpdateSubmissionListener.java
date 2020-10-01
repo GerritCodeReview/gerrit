@@ -20,10 +20,12 @@ import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleOp;
+import com.google.inject.AbstractModule;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import javax.inject.Inject;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
 /** Update superprojects after submission is done */
@@ -36,6 +38,16 @@ public class SuperprojectUpdateSubmissionListener implements SubmissionListener 
   private ImmutableList<BatchUpdate> batchUpdates = ImmutableList.of();
   private boolean dryrun;
 
+  public static class Module extends AbstractModule {
+    @Override
+    protected void configure() {
+      bind(SubmissionListener.class)
+          .annotatedWith(SuperprojectUpdateOnSubmission.class)
+          .to(SuperprojectUpdateSubmissionListener.class);
+    }
+  }
+
+  @Inject
   public SuperprojectUpdateSubmissionListener(SubmoduleOp.Factory subOpFactory) {
     this.subOpFactory = subOpFactory;
   }

@@ -120,6 +120,30 @@
     },
     {
       "key": {
+        "uuid": "866e826c_25c13988",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:34:30Z",
+      "side": 1,
+      "message": "I wasn\u0027t aware that autoCloseChanges() depended on that much functionality of ReceiveCommits. It\u0027s also fine if you just leave a comment saying that this code could be moved into a SubmissionListener. It doesn\u0027t even need to be a TODO for you. If it\u0027s that much work, it wouldn\u0027t be fair to put the burden on you, considering that you generally improved the code a lot with your changes. Hence, feel free to transform the TODO you added in the latest patchset into a comment.\n\nI just saw that Dave left another TODO inside of autoCloseChanges() saying we should combine the operations with the original BatchUpdate. I don\u0027t know the code good enough to determine in this moment whether doing this combination or using a SubmissionListener would be better. Dave\u0027s comment is already present for some years, so I\u0027d say there\u0027s even less reason for you to take on the burdon of improving this part of the code.",
+      "parentUuid": "11d1e699_3a0942b6",
+      "range": {
+        "startLine": 750,
+        "startChar": 6,
+        "endLine": 772,
+        "endChar": 0
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "c6a4956c_178482a7",
         "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
         "patchSetId": 2
@@ -422,6 +446,30 @@
       "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a73aa390_0525f535",
+        "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 69,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:34:30Z",
+      "side": 1,
+      "message": "Sorry, I confused BatchUpdate and BatchRefUpdate. They are so similar except for three letters. ;-)\n\nPlease disregard my original comment. It doesn\u0027t apply.\n\nYou\u0027re right that the name might be a bit misleading. If you can think of something better, feel free to adjust it.",
+      "parentUuid": "3f3946e5_0740ed73",
+      "range": {
+        "startLine": 66,
+        "startChar": 2,
+        "endLine": 69,
+        "endChar": 3
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {

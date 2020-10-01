@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "23233b5d_f14ca705",
+        "filename": "java/com/google/gerrit/server/update/SubmissionExecutor.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:34:05Z",
+      "side": 1,
+      "message": "Nit: Having a setDryrun() method on SubmissionListener suggests that you can re-use a SubmissionListener and set it to dry-run mode. If we follow that concept, it\u0027s a bit strange that you can\u0027t take a SubmissionListener out of dry-run mode again (e.g. pass \u0027false\u0027). That\u0027s just a nit regarding the class API design, though. All of the current code works as it currently is.",
+      "range": {
+        "startLine": 40,
+        "startChar": 34,
+        "endLine": 40,
+        "endChar": 63
+      },
+      "revId": "294f53f11c3e88066f5a0f6ee3cb0dfddccabee3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

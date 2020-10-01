@@ -516,6 +516,30 @@
       "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "d65830a3_768810d1",
+        "filename": "java/com/google/gerrit/server/update/SubmissionListener.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 36,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:34:05Z",
+      "side": 1,
+      "message": "I agree that it reads a bit weird in callers. What if we added an \u0027s\u0027 in between: \"listensToBatchUpdates\"? You can also switch back to getBatchUpdateListener if you think that\u0027s less confusing or leave the name as it currently is.",
+      "parentUuid": "3f0dce9b_c3ba067d",
+      "range": {
+        "startLine": 36,
+        "startChar": 25,
+        "endLine": 36,
+        "endChar": 30
+      },
+      "revId": "188ebec44c8a8be22ab17bcd631cd64f0831855c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

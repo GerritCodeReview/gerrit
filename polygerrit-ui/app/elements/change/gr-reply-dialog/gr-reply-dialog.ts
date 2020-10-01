@@ -97,7 +97,11 @@ import {
   PolymerSplice,
   PolymerSpliceChange,
 } from '@polymer/polymer/interfaces';
-import {assertNever} from '../../../utils/common-util';
+import {
+  areSetsEqual,
+  assertNever,
+  containsAll,
+} from '../../../utils/common-util';
 import {CommentThread, isDraft} from '../../diff/gr-comment-api/gr-comment-api';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
@@ -1063,6 +1067,23 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
         newAttentionSet
       ).length === 0
     );
+  }
+
+  _computeDoNotUpdateMessage(
+    currentAttentionSet?: Set<AccountId>,
+    newAttentionSet?: Set<AccountId>
+  ) {
+    if (!currentAttentionSet || !newAttentionSet) return '';
+    if (areSetsEqual(currentAttentionSet, newAttentionSet)) {
+      return 'No changes to the attention set.';
+    }
+    if (containsAll(currentAttentionSet, newAttentionSet)) {
+      return 'No additions to the attention set.';
+    }
+    console.error(
+      '_computeDoNotUpdateMessage() should not be called when users were added to the attention set.'
+    );
+    return '';
   }
 
   _computeNewAttentionAccounts(

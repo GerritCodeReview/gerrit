@@ -22,6 +22,30 @@
       "revId": "b4b6db390ef0fd985f84f9e465b1964c08e890e2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1a35decd_17177b25",
+        "filename": "java/com/google/gerrit/server/patch/MagicFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T09:40:49Z",
+      "side": 1,
+      "message": "You mean that the /COMMIT_MSG file doesn\u0027t end with an empty line anymore if the commit message is empty, right? That should be a very rare corner case. It\u0027s easy to fix if we don\u0027t want to automatically insert an empty line between the generated and modifiable part. Maybe it\u0027s even better if the generated/modifiable parts can control on their own whether they want to end with an empty line or not. I adjusted the code and the tests accordingly. Let me know if you think that the previous automatic inserting was better.",
+      "parentUuid": "cc8ce0b6_f774eadf",
+      "range": {
+        "startLine": 149,
+        "startChar": 0,
+        "endLine": 151,
+        "endChar": 43
+      },
+      "revId": "b4b6db390ef0fd985f84f9e465b1964c08e890e2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

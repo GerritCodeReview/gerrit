@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "158340ce_8ac9bf96",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-10-01T20:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3acf0d0f_c38fe407",
+      "revId": "6c8e1a366069c334d947bf561dad405aeb3475d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a6eeeafa_4aa51b82",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1
@@ -33,6 +51,24 @@
       "revId": "6c8e1a366069c334d947bf561dad405aeb3475d3",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "c9632bec_61ab3cd9",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-10-01T20:34:56Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a6eeeafa_4aa51b82",
+      "revId": "6c8e1a366069c334d947bf561dad405aeb3475d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

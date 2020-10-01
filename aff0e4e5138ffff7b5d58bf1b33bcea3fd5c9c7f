@@ -22,6 +22,30 @@
       "revId": "aff0e4e5138ffff7b5d58bf1b33bcea3fd5c9c7f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ad1d5348_c61e3ebb",
+        "filename": "Documentation/dev-release.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 238,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-01T15:23:14Z",
+      "side": 1,
+      "message": "Not according to my local testing of these.",
+      "parentUuid": "f51da163_6d503e84",
+      "range": {
+        "startLine": 238,
+        "startChar": 80,
+        "endLine": 238,
+        "endChar": 81
+      },
+      "revId": "aff0e4e5138ffff7b5d58bf1b33bcea3fd5c9c7f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

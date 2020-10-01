@@ -335,7 +335,7 @@ gerrit-documentation] storage bucket.
 
 Submit any previously uploaded notes change on the homepage project.
 
-[[update-issues]]
+[[finalize-issues]]
 ==== Update the Issues
 
 After the release is actually made, you can search in Google Code for

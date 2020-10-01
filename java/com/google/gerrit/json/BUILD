@@ -6,6 +6,5 @@ java_library(
     visibility = ["//visibility:public"],
     deps = [
         "//lib:gson",
-        "//lib/flogger:api",
     ],
 )

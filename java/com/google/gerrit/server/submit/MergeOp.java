@@ -79,6 +79,7 @@ import com.google.gerrit.server.update.ChangeContext;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.SubmissionExecutor;
 import com.google.gerrit.server.update.SubmissionListener;
+import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
 import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.time.TimeUtil;
@@ -232,7 +233,7 @@ public class MergeOp implements AutoCloseable {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubmoduleCommits.Factory submoduleCommitsFactory;
-  private final SubmoduleOp.Factory submoduleOpFactory;
+  private final SubmissionListener superprojectUpdateSubmissionListener;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
@@ -264,7 +265,7 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleCommits.Factory submoduleCommitsFactory,
       SubscriptionGraph.Factory subscriptionGraphFactory,
-      SubmoduleOp.Factory submoduleOpFactory,
+      @SuperprojectUpdateOnSubmission SubmissionListener superprojectUpdateSubmissionListener,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
@@ -279,7 +280,7 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.submoduleCommitsFactory = submoduleCommitsFactory;
     this.subscriptionGraphFactory = subscriptionGraphFactory;
-    this.submoduleOpFactory = submoduleOpFactory;
+    this.superprojectUpdateSubmissionListener = superprojectUpdateSubmissionListener;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
     this.retryHelper = retryHelper;
@@ -497,10 +498,8 @@ public class MergeOp implements AutoCloseable {
           topicMetrics.topicSubmissions.increment();
         }
 
-        SubmissionListener updateSuperprojectsAfterSubmission =
-            new SuperprojectUpdateSubmissionListener(submoduleOpFactory);
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(dryrun, updateSuperprojectsAfterSubmission);
+            new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListener);
         RetryTracker retryTracker = new RetryTracker();
         retryHelper
             .changeUpdate(

@@ -26,6 +26,8 @@ import java.util.Map;
 import java.util.Optional;
 import org.eclipse.jgit.transport.ReceiveCommand;
 
+import javax.inject.Inject;
+
 /** Update superprojects after submission is done */
 public class SuperprojectUpdateSubmissionListener implements SubmissionListener {
 
@@ -36,6 +38,7 @@ public class SuperprojectUpdateSubmissionListener implements SubmissionListener 
   private ImmutableList<BatchUpdate> batchUpdates = ImmutableList.of();
   private boolean dryrun;
 
+  @Inject
   public SuperprojectUpdateSubmissionListener(SubmoduleOp.Factory subOpFactory) {
     this.subOpFactory = subOpFactory;
   }

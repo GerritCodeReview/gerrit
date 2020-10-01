@@ -194,6 +194,9 @@ import com.google.gerrit.server.submit.SubmitStrategy;
 import com.google.gerrit.server.submit.SubscriptionGraph;
 import com.google.gerrit.server.tools.ToolsCatalog;
 import com.google.gerrit.server.update.BatchUpdate;
+import com.google.gerrit.server.update.SubmissionListener;
+import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
+import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.server.util.IdGenerator;
 import com.google.gerrit.server.util.ThreadLocalRequestContext;
 import com.google.gerrit.server.validators.AccountActivationValidationListener;
@@ -456,6 +459,8 @@ public class GerritGlobalModule extends FactoryModule {
 
     bind(AccountManager.class);
     bind(SubscriptionGraph.Factory.class).to(ConfiguredSubscriptionGraphFactory.class);
+    bind(SubmissionListener.class).annotatedWith(SuperprojectUpdateOnSubmission.class)
+        .to(SuperprojectUpdateSubmissionListener.class);
 
     bind(new TypeLiteral<List<CommentLinkInfo>>() {}).toProvider(CommentLinkProvider.class);
     DynamicSet.bind(binder(), GerritConfigListener.class).to(CommentLinkProvider.class);

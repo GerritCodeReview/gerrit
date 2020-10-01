@@ -173,6 +173,8 @@ import com.google.gerrit.server.update.RepoContext;
 import com.google.gerrit.server.update.RepoOnlyOp;
 import com.google.gerrit.server.update.RetryHelper;
 import com.google.gerrit.server.update.SubmissionExecutor;
+import com.google.gerrit.server.update.SubmissionListener;
+import com.google.gerrit.server.update.SuperprojectUpdateOnSubmission;
 import com.google.gerrit.server.update.SuperprojectUpdateSubmissionListener;
 import com.google.gerrit.server.update.UpdateException;
 import com.google.gerrit.server.util.LabelVote;
@@ -344,7 +346,7 @@ class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
-  private final SubmoduleOp.Factory subOpFactory;
+  private final SubmissionListener superprojectUpdateSubmissionListener;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
@@ -426,7 +428,7 @@ class ReceiveCommits {
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
-      SubmoduleOp.Factory subOpFactory,
+      @SuperprojectUpdateOnSubmission SubmissionListener superprojectUpdateSubmissionListener,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
@@ -474,7 +476,7 @@ class ReceiveCommits {
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
-    this.subOpFactory = subOpFactory;
+    this.superprojectUpdateSubmissionListener = superprojectUpdateSubmissionListener;
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
@@ -742,7 +744,7 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(false, new SuperprojectUpdateSubmissionListener(subOpFactory));
+            new SubmissionExecutor(false, superprojectUpdateSubmissionListener);
 
         submissionExecutor.execute(ImmutableList.of(bu));
 

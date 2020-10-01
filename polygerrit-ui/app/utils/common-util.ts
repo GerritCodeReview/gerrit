@@ -44,3 +44,19 @@ export function assertNever(obj: never, msg: string): never {
   console.error(msg, obj);
   throw new Error(msg);
 }
+
+export function areSetsEqual<T>(a: Set<T>, b: Set<T>): boolean {
+  if (a.size !== b.size) {
+    return false;
+  }
+  return containsAll(a, b);
+}
+
+export function containsAll<T>(a: Set<T>, b: Set<T>): boolean {
+  for (const value of b) {
+    if (!a.has(value)) {
+      return false;
+    }
+  }
+  return true;
+}

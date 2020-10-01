@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a6eeeafa_4aa51b82",
+        "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:41:45Z",
+      "side": 1,
+      "message": "If you want to bind another SubmissionListener internally, GerritGlobalModule isn\u0027t the right place. To find the right places, look for how the instance with the @VanillaSubscriptionGraph binding annotation is bound.",
+      "revId": "6c8e1a366069c334d947bf561dad405aeb3475d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

@@ -467,6 +467,10 @@ public class BatchUpdate implements AutoCloseable {
     return this;
   }
 
+  public Project.NameKey getProject() {
+    return project;
+  }
+
   private void initRepository() throws IOException {
     if (repoView == null) {
       repoView = new RepoView(repoManager, project);

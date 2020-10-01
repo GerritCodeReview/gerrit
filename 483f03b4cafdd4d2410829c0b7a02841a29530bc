@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a7e38d8f_40b3d574",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T19:08:02Z",
+      "side": 1,
+      "message": "Typo: switch",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "483f03b4cafdd4d2410829c0b7a02841a29530bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

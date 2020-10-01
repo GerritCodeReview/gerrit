@@ -19,18 +19,19 @@ import java.util.Objects;
 
 public class DraftInput extends Comment {
   public String tag;
+  public Boolean unresolved;
 
   @Override
   public boolean equals(Object o) {
     if (super.equals(o)) {
       DraftInput di = (DraftInput) o;
-      return Objects.equals(tag, di.tag);
+      return Objects.equals(tag, di.tag) && Objects.equals(unresolved, di.unresolved);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), tag);
+    return Objects.hash(super.hashCode(), tag, unresolved);
   }
 }

@@ -15,6 +15,7 @@
 package com.google.gerrit.entities;
 
 import java.sql.Timestamp;
+import java.util.Objects;
 
 /**
  * This class represents inline human comments in NoteDb. This means it determines the JSON format
@@ -27,6 +28,8 @@ import java.sql.Timestamp;
  */
 public class HumanComment extends Comment {
 
+  public boolean unresolved;
+
   public HumanComment(
       Key key,
       Account.Id author,
@@ -35,7 +38,8 @@ public class HumanComment extends Comment {
       String message,
       String serverId,
       boolean unresolved) {
-    super(key, author, writtenOn, side, message, serverId, unresolved);
+    super(key, author, writtenOn, side, message, serverId);
+    this.unresolved = unresolved;
   }
 
   public HumanComment(HumanComment comment) {
@@ -49,19 +53,23 @@ public class HumanComment extends Comment {
 
   @Override
   public String toString() {
-    return toStringHelper().toString();
+    return toStringHelper().add("unresolved", unresolved).toString();
   }
 
   @Override
-  public boolean equals(Object o) {
-    if (!(o instanceof HumanComment)) {
+  public boolean equals(Object otherObject) {
+    if (!(otherObject instanceof HumanComment)) {
       return false;
     }
-    return super.equals(o);
+    if (!super.equals(otherObject)) {
+      return false;
+    }
+    HumanComment otherComment = (HumanComment) otherObject;
+    return unresolved == otherComment.unresolved;
   }
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return Objects.hash(super.hashCode(), unresolved);
   }
 }

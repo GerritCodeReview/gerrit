@@ -78,7 +78,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.function.Supplier;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -1883,39 +1882,46 @@ public class CommentsIT extends AbstractDaemonTest {
 
   private static CommentInput newCommentWithOnlyMandatoryFields(String path, String message) {
     CommentInput c = new CommentInput();
-    return populate(c, path, null, null, null, null, message, false);
+    c.unresolved = false;
+    return populate(c, path, null, null, null, null, message);
   }
 
   private static CommentInput newComment(
       String path, Side side, int line, String message, Boolean unresolved) {
     CommentInput c = new CommentInput();
-    return populate(c, path, side, null, line, message, unresolved);
+    c.unresolved = unresolved;
+    return populate(c, path, side, null, line, message);
   }
 
   private static CommentInput newCommentOnParent(
       String path, int parent, int line, String message) {
     CommentInput c = new CommentInput();
-    return populate(c, path, Side.PARENT, parent, line, message, false);
+    c.unresolved = false;
+    return populate(c, path, Side.PARENT, parent, line, message);
   }
 
   private DraftInput newDraft(String path, Side side, int line, String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, side, null, line, message, false);
+    d.unresolved = false;
+    return populate(d, path, side, null, line, message);
   }
 
   private DraftInput newDraft(String path, Side side, Comment.Range range, String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, side, null, range.startLine, range, message, false);
+    d.unresolved = false;
+    return populate(d, path, side, null, range.startLine, range, message);
   }
 
   private DraftInput newDraftOnParent(String path, int parent, int line, String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, Side.PARENT, parent, line, message, false);
+    d.unresolved = false;
+    return populate(d, path, Side.PARENT, parent, line, message);
   }
 
   private DraftInput newDraftWithOnlyMandatoryFields(String path, String message) {
     DraftInput d = new DraftInput();
-    return populate(d, path, null, null, null, null, message, false);
+    d.unresolved = false;
+    return populate(d, path, null, null, null, null, message);
   }
 
   private static <C extends Comment> C populate(
@@ -1925,14 +1931,12 @@ public class CommentsIT extends AbstractDaemonTest {
       Integer parent,
       Integer line,
       Comment.Range range,
-      String message,
-      Boolean unresolved) {
+      String message) {
     c.path = path;
     c.side = side;
     c.parent = parent;
     c.line = line != null && line != 0 ? line : null;
     c.message = message;
-    c.unresolved = unresolved;
     if (range != null) {
       c.range = range;
     }
@@ -1940,8 +1944,8 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private static <C extends Comment> C populate(
-      C c, String path, Side side, Integer parent, int line, String message, Boolean unresolved) {
-    return populate(c, path, side, parent, line, null, message, unresolved);
+      C c, String path, Side side, Integer parent, int line, String message) {
+    return populate(c, path, side, parent, line, null, message);
   }
 
   private static Comment.Range createLineRange(int startChar, int endChar) {
@@ -1954,20 +1958,22 @@ public class CommentsIT extends AbstractDaemonTest {
   }
 
   private static Function<CommentInfo, CommentInput> infoToInput(String path) {
-    return infoToInput(path, CommentInput::new);
+    return info -> {
+      CommentInput commentInput = new CommentInput();
+      commentInput.path = path;
+      commentInput.unresolved = info.unresolved;
+      copy(info, commentInput);
+      return commentInput;
+    };
   }
 
   private static Function<CommentInfo, DraftInput> infoToDraft(String path) {
-    return infoToInput(path, DraftInput::new);
-  }
-
-  private static <I extends Comment> Function<CommentInfo, I> infoToInput(
-      String path, Supplier<I> supplier) {
     return info -> {
-      I i = supplier.get();
-      i.path = path;
-      copy(info, i);
-      return i;
+      DraftInput draftInput = new DraftInput();
+      draftInput.path = path;
+      draftInput.unresolved = info.unresolved;
+      copy(info, draftInput);
+      return draftInput;
     };
   }
 
@@ -1977,7 +1983,6 @@ public class CommentsIT extends AbstractDaemonTest {
     to.line = from.line;
     to.message = from.message;
     to.range = from.range;
-    to.unresolved = from.unresolved;
     to.inReplyTo = from.inReplyTo;
   }
 }

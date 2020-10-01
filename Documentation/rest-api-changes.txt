@@ -7809,7 +7809,8 @@ selector menu. May be null if no description is set.
 The `RobotCommentInfo` entity contains information about a robot inline
 comment.
 
-`RobotCommentInfo` has the same fields as <<comment-info,CommentInfo>>.
+`RobotCommentInfo` has the same fields as <<comment-info,CommentInfo>>
+except for the `unresolved` field which doesn't exist for robot comments.
 In addition `RobotCommentInfo` has the following fields:
 
 [options="header",cols="1,^1,5"]
@@ -7829,8 +7830,35 @@ keys to values.
 The `RobotCommentInput` entity contains information for creating an inline
 robot comment.
 
-`RobotCommentInput` has the same fields as
-<<robot-comment-info,RobotCommentInfo>>.
+[options="header",cols="1,^1,5"]
+|===========================
+|Field Name    ||Description
+|`path`        ||
+link:#file-id[The file path] for which the inline comment should be added.
+|`side`        |optional|
+The side on which the comment should be added. +
+Allowed values are `REVISION` and `PARENT`. +
+If not set, the default is `REVISION`.
+|`line`        |optional|
+The number of the line for which the comment should be added. +
+`0` if it is a file comment. +
+If neither line nor range is set, a file comment is added. +
+If range is set, this value is ignored in favor of the `end_line` of the range.
+|`range`       |optional|
+The range of the comment as a link:#comment-range[CommentRange]
+entity.
+|`in_reply_to` |optional|
+The URL encoded UUID of the comment to which this comment is a reply.
+|`message`     |optional|
+The comment message.
+|`robot_id`       ||The ID of the robot that generated this comment.
+|`robot_run_id`   ||An ID of the run of the robot.
+|`url`            |optional|URL to more information.
+|`properties`     |optional|Robot specific properties as map that maps arbitrary
+keys to values.
+|`fix_suggestions`|optional|Suggested fixes for this robot comment as a list of
+<<fix-suggestion-info,FixSuggestionInfo>> entities.
+|===========================
 
 [[rule-input]]
 === RuleInput

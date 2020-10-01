@@ -1067,28 +1067,6 @@ public class PatchsetOperationsImplTest extends AbstractDaemonTest {
   }
 
   @Test
-  public void robotCommentCanBeCreatedAsResolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-
-    String commentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().resolved().create();
-
-    CommentInfo comment = getRobotCommentFromServerInCurrentPatchset(changeId, commentUuid);
-    assertThat(comment).unresolved().isFalse();
-  }
-
-  @Test
-  public void robotCommentCanBeCreatedAsUnresolved() throws Exception {
-    Change.Id changeId = changeOperations.newChange().create();
-
-    String commentUuid =
-        changeOperations.change(changeId).currentPatchset().newRobotComment().unresolved().create();
-
-    CommentInfo comment = getRobotCommentFromServerInCurrentPatchset(changeId, commentUuid);
-    assertThat(comment).unresolved().isTrue();
-  }
-
-  @Test
   public void replyToRobotCommentCanBeCreated() throws Exception {
     Change.Id changeId = changeOperations.newChange().create();
     String parentCommentUuid =

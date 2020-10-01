@@ -82,7 +82,6 @@ public class TestCommentHelper {
     c.parent = null;
     c.line = line != 0 ? line : null;
     c.message = message;
-    c.unresolved = false;
     c.inReplyTo = inReplyTo;
     if (line != 0) c.range = range;
     return c;
@@ -96,7 +95,6 @@ public class TestCommentHelper {
     c.parent = null;
     c.line = line != 0 ? line : null;
     c.message = message;
-    c.unresolved = false;
     if (line != 0) c.range = range;
     return c;
   }

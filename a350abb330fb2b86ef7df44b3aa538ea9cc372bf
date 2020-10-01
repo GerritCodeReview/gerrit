@@ -175,6 +175,30 @@
       "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fce98859_6782336d",
+        "filename": "java/com/google/gerrit/server/git/DelegateRepository.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-10-01T07:36:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e3f9fd84_7b3bf134",
+      "range": {
+        "startLine": 28,
+        "startChar": 23,
+        "endLine": 28,
+        "endChar": 34
+      },
+      "revId": "a350abb330fb2b86ef7df44b3aa538ea9cc372bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "c0bc1d1e_3819424f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:50:22Z",
+      "side": 1,
+      "message": "Thanks for adding this!\n\nDo you think that we should now remove the dryrun check from MergeOp [1]? It\u0027s not harmful (except for the additional code) but we shouldn\u0027t need it anymore. If you think that we can/should remove it, could you please upload a follow-up change?\n\n[1] https://gerrit.googlesource.com/gerrit/+/cc5a649b002c1bae3afafdb6e1badef6b9b449c7/java/com/google/gerrit/server/submit/MergeOp.java#643",
+      "revId": "cc5a649b002c1bae3afafdb6e1badef6b9b449c7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

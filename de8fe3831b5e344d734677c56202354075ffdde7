@@ -22,6 +22,30 @@
       "revId": "de8fe3831b5e344d734677c56202354075ffdde7",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "70798550_efe91915",
+        "filename": "java/com/google/gerrit/server/fixes/FixReplacementInterpreter.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T09:40:49Z",
+      "side": 1,
+      "message": "Good catch, especially as this code is used inside of a Stream. That\u0027s still a left-over from my prototype code. I deliberately created a new FixReplacement instance but forgot to do the same for the Range. Fixed now. (I wish we switched to AutoValues at some point in the future for these types. ;-) )",
+      "parentUuid": "984ccc81_c780495b",
+      "range": {
+        "startLine": 129,
+        "startChar": 4,
+        "endLine": 131,
+        "endChar": 43
+      },
+      "revId": "de8fe3831b5e344d734677c56202354075ffdde7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

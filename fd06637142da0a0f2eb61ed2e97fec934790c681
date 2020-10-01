@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "753ff767_8b0aa333",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 7
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-01T08:29:39Z",
+      "side": 1,
+      "message": "You should also mention that the UsedAt is now repeatable, allowing to tag\none feature used by multiple plugins.",
+      "revId": "fd06637142da0a0f2eb61ed2e97fec934790c681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

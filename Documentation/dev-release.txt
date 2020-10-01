@@ -24,31 +24,31 @@ type of release you want to make (`stable-fix`, `stable`, `rc0`,
 A `stable` release is generally built from the `master` branch and may
 need to undergo some stabilization before releasing the final release.
 
-* Propose the release with any plans/objectives to the mailing list
+* Propose the release with any plans/objectives to the mailing list.
 
-* Create a Gerrit `rc0`
+* Create a Gerrit `rc0`.
 
-* If needed create a Gerrit `rc1`
-
-[NOTE]
-You may let in a few features to this release
-
-* If needed create a Gerrit `rc2`
+* If needed create a Gerrit `rc1`.
 
 [NOTE]
-There should be no new features in this release, only bug fixes
+You may let in a few features to this release.
 
-* Finally create the `stable` release (no `rc`)
+* If needed create a Gerrit `rc2`.
+
+[NOTE]
+There should be no new features in this release, only bug fixes.
+
+* Finally create the `stable` release (no `rc`).
 
 === Stable-Fix
 
 `stable-fix` releases should likely only contain bug fixes and doc
 updates.
 
-* Propose the release with any plans/objectives to the mailing list
+* Propose the release with any plans/objectives to the mailing list.
 
 * This type of release does not need any RCs, release when the
-objectives are met
+objectives are met.
 
 [[security]]
 === Security-Fix
@@ -164,7 +164,8 @@ Tag the plugins:
 ----
   java -jar bazel-bin/release.war --version
 ----
-* Try upgrading a test site and launching the daemon
+
+* Try upgrading a test site and launching the daemon.
 
 * Verify the plugin versions:
 +
@@ -180,7 +181,7 @@ Tag the plugins:
 
 * Make sure you have done the
 link:dev-release-deploy-config.html#deploy-configuration-setting-maven-central[
-configuration] for deploying to Maven Central
+configuration] for deploying to Maven Central.
 
 * Make sure that the version is updated in the `version.bzl` file and in
 the `*_pom.xml` files as described in the link:#update-versions[Update
@@ -234,7 +235,7 @@ modified anymore, but you may still drop it if you find any issues.
 ** Test closed staging repository
 +
 Once a repository is closed you can find the URL to it in the `Summary`
-section, e.g. https://oss.sonatype.org/content/repositories/comgooglegerrit-1029
+section, e.g. https://oss.sonatype.org/content/repositories/comgooglegerrit-1029.
 +
 Use this URL for further testing of the artifacts in this repository,
 e.g. to try building a plugin against the plugin API in this repository
@@ -263,7 +264,7 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server], select it and
 click on `Release`.
 
 ** The released artifacts are available in
-https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/
+https://oss.sonatype.org/content/repositories/releases/com/google/gerrit/.
 
 ** It may take up to 2 hours until the artifacts appear on Maven
 Central:
@@ -283,10 +284,12 @@ link:https://oss.sonatype.org/[Sonatype Nexus Server].
 [[publish-to-google-storage]]
 ==== Publish the Gerrit WAR to the Google Cloud Storage
 
-* go to the link:https://console.cloud.google.com/storage/browser/gerrit-releases/?project=api-project-164060093628[
-gerrit-releases bucket in the Google cloud storage console]
-* make sure you are signed in with your Gmail account
-* manually upload the Gerrit WAR file by using the `Upload` button
+* Go to the link:https://console.cloud.google.com/storage/browser/gerrit-releases/?project=api-project-164060093628[
+gerrit-releases bucket in the Google cloud storage console].
+
+* Make sure you are signed in with your Gmail account.
+
+* Manually upload the Gerrit WAR file by using the `Upload` button.
 
 [[push-stable]]
 ==== Push the Stable Branch
@@ -352,7 +355,7 @@ For details refer to the documentation in the script's header, and/or the
 help text:
 
 ----
- ~/gerrit-release-tools/release-announcement.py --help
+  ~/gerrit-release-tools/release-announcement.py --help
 ----
 
 [[increase-version]]
@@ -365,7 +368,7 @@ for the next release.
 Use the `version` tool to set the version in the `version.bzl` file:
 
 ----
- ./tools/version.py 2.6-SNAPSHOT
+  ./tools/version.py 2.6-SNAPSHOT
 ----
 
 Verify that the changes made by the tool are sane, then commit them, push

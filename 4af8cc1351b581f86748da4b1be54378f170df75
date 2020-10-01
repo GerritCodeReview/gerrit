@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "60f19c4a_e21a8a8c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 8
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-01T17:59:06Z",
+      "side": 1,
+      "message": "I\u0027m now done conducting as much dry-run as I can that is not definitive:\n- I\u0027m able to deploy to maven central;\n- my Google Cloud storage access is set-up.\n\nOnce this change is approved,\n- I will deploy and store officially,\n- as well as push the tags.\n- I will also be able to verify I664f6d18 for approval.\n- Followed by announcing on the list and Twitter, once Maven Central has it all.\n- Not forgetting to set the next version to SNAPSHOT.\n\nI\u0027d like to do (finish) this release by tomorrow Friday, if all is well enough.",
+      "revId": "4af8cc1351b581f86748da4b1be54378f170df75",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

@@ -568,8 +568,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private static <T extends CommentInput> Map<String, List<T>> cleanUpComments(
-      Map<String, List<T>> commentsPerPath) {
+  private static <T extends com.google.gerrit.extensions.client.Comment>
+      Map<String, List<T>> cleanUpComments(Map<String, List<T>> commentsPerPath) {
     Map<String, List<T>> cleanedUpCommentMap = new HashMap<>();
     for (Map.Entry<String, List<T>> e : commentsPerPath.entrySet()) {
       String path = e.getKey();
@@ -587,7 +587,8 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return cleanedUpCommentMap;
   }
 
-  private static <T extends CommentInput> List<T> cleanUpComments(List<T> comments) {
+  private static <T extends com.google.gerrit.extensions.client.Comment> List<T> cleanUpComments(
+      List<T> comments) {
     return comments.stream()
         .filter(Objects::nonNull)
         .filter(comment -> !Strings.nullToEmpty(comment.message).trim().isEmpty())
@@ -598,7 +599,7 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     return TraceContext.newTimer(getClass().getSimpleName() + "#" + method, Metadata.empty());
   }
 
-  private <T extends CommentInput> void checkComments(
+  private <T extends com.google.gerrit.extensions.client.Comment> void checkComments(
       RevisionResource revision, Map<String, List<T>> commentsPerPath)
       throws BadRequestException, PatchListNotAvailableException {
     logger.atFine().log("checking comments");
@@ -646,15 +647,16 @@ public class PostReview implements RestModifyView<RevisionResource, ReviewInput>
     }
   }
 
-  private static <T extends CommentInput> void ensureCommentNotOnMagicFilesOfAutoMerge(
-      String path, T comment) throws BadRequestException {
+  private static <T extends com.google.gerrit.extensions.client.Comment>
+      void ensureCommentNotOnMagicFilesOfAutoMerge(String path, T comment)
+          throws BadRequestException {
     if (Patch.isMagic(path) && comment.side == Side.PARENT && comment.parent == null) {
       throw new BadRequestException(String.format("cannot comment on %s on auto-merge", path));
     }
   }
 
-  private static <T extends CommentInput> void ensureValidPatchsetLevelComment(
-      String path, T comment) throws BadRequestException {
+  private static <T extends com.google.gerrit.extensions.client.Comment>
+      void ensureValidPatchsetLevelComment(String path, T comment) throws BadRequestException {
     if (path.equals(PATCHSET_LEVEL)
         && (comment.side != null || comment.range != null || comment.line != null)) {
       throw new BadRequestException("Patchset-level comments can't have side, range, or line");

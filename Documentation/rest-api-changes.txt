@@ -7809,7 +7809,8 @@ selector menu. May be null if no description is set.
 The `RobotCommentInfo` entity contains information about a robot inline
 comment.
 
-`RobotCommentInfo` has the same fields as <<comment-info,CommentInfo>>.
+`RobotCommentInfo` has the same fields as <<comment-info,CommentInfo>>
+except for the `unresolved` field which doesn't exist for robot comments.
 In addition `RobotCommentInfo` has the following fields:
 
 [options="header",cols="1,^1,5"]
@@ -7830,7 +7831,8 @@ The `RobotCommentInput` entity contains information for creating an inline
 robot comment.
 
 `RobotCommentInput` has the same fields as
-<<robot-comment-info,RobotCommentInfo>>.
+<<robot-comment-info,RobotCommentInfo>> except for the `unresolved` field which
+doesn't exist for robot comments.
 
 [[rule-input]]
 === RuleInput

@@ -35,7 +35,7 @@ public final class RobotComment extends Comment {
       String serverId,
       String robotId,
       String robotRunId) {
-    super(key, author, writtenOn, side, message, serverId, false);
+    super(key, author, writtenOn, side, message, serverId);
     this.robotId = robotId;
     this.robotRunId = robotRunId;
   }

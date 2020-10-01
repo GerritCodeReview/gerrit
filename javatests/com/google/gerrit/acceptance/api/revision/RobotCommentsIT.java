@@ -440,17 +440,6 @@ public class RobotCommentsIT extends AbstractDaemonTest {
   }
 
   @Test
-  public void robotCommentsAreAlwaysResolved() throws Exception {
-    RobotCommentInput robotCommentInput = TestCommentHelper.createRobotCommentInput(FILE_NAME);
-    robotCommentInput.unresolved = true;
-    testCommentHelper.addRobotComment(changeId, robotCommentInput);
-
-    List<RobotCommentInfo> robotCommentInfos = getRobotComments();
-    // The unresolved flag is false even though we explicitly set it to true!
-    assertThatList(robotCommentInfos).onlyElement().unresolved().isFalse();
-  }
-
-  @Test
   public void addedFixSuggestionCanBeRetrieved() throws Exception {
     testCommentHelper.addRobotComment(changeId, withFixRobotCommentInput);
     List<RobotCommentInfo> robotCommentInfos = getRobotComments();

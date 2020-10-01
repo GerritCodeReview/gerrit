@@ -17,9 +17,11 @@ package com.google.gerrit.server.change;
 import com.google.auto.value.AutoValue;
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Streams;
 import com.google.gerrit.entities.Comment;
+import com.google.gerrit.entities.HumanComment;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Representation of a comment thread.
@@ -37,7 +39,14 @@ public abstract class CommentThread<T extends Comment> {
 
   /** Whether the whole thread is considered as unresolved. */
   public boolean unresolved() {
-    return Iterables.getLast(comments()).unresolved;
+    Optional<HumanComment> lastHumanComment =
+        Streams.findLast(
+            comments().stream()
+                .filter(HumanComment.class::isInstance)
+                .map(HumanComment.class::cast));
+    // We often use false == null for boolean fields. It's also a safe fall-back if no human comment
+    // is part of the thread.
+    return lastHumanComment.map(comment -> comment.unresolved).orElse(false);
   }
 
   public static <T extends Comment> Builder<T> builder() {

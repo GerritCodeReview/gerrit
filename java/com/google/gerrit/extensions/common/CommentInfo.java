@@ -22,6 +22,7 @@ public class CommentInfo extends Comment {
   public AccountInfo author;
   public String tag;
   public String changeMessageId;
+  public Boolean unresolved;
 
   /**
    * A list of {@link ContextLineInfo}, that is, a list of pairs of {line_num, line_text} of the
@@ -33,13 +34,15 @@ public class CommentInfo extends Comment {
   public boolean equals(Object o) {
     if (super.equals(o)) {
       CommentInfo ci = (CommentInfo) o;
-      return Objects.equals(author, ci.author) && Objects.equals(tag, ci.tag);
+      return Objects.equals(author, ci.author)
+          && Objects.equals(tag, ci.tag)
+          && Objects.equals(unresolved, ci.unresolved);
     }
     return false;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(super.hashCode(), author, tag);
+    return Objects.hash(super.hashCode(), author, tag, unresolved);
   }
 }

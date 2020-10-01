@@ -338,7 +338,7 @@ Submit any previously uploaded notes change on the homepage project.
 [[finalize-issues]]
 ==== Update the Issues
 
-After the release is actually made, you can search in Google Code for
+After the release is actually made, you can search (in Monorail) for
 `Status=Submitted FixedIn=$version` and then batch update these changes
 to say `Status=Released`. Make sure the pulldown says `All Issues`
 because `Status=Submitted` is considered a closed issue.

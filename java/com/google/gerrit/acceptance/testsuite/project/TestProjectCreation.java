@@ -16,8 +16,10 @@ package com.google.gerrit.acceptance.testsuite.project;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
+import java.util.List;
 import java.util.Optional;
 
 @AutoValue
@@ -32,6 +34,8 @@ public abstract class TestProjectCreation {
   public abstract Optional<Boolean> permissionOnly();
 
   public abstract Optional<SubmitType> submitType();
+
+  public abstract Optional<List<AccountGroup.UUID>> owners();
 
   abstract ThrowingFunction<TestProjectCreation, Project.NameKey> projectCreator();
 
@@ -51,6 +55,8 @@ public abstract class TestProjectCreation {
     public abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
 
     public abstract TestProjectCreation.Builder permissionOnly(boolean value);
+
+    public abstract TestProjectCreation.Builder owners(List<AccountGroup.UUID> owners);
 
     /** Skips the empty commit on creation. This means that project's branches will not exist. */
     public TestProjectCreation.Builder noEmptyCommit() {

@@ -144,6 +144,30 @@
     },
     {
       "key": {
+        "uuid": "dce0fce8_0338c368",
+        "filename": "java/com/google/gerrit/server/git/receive/ReceiveCommits.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 772,
+      "author": {
+        "id": 1072453
+      },
+      "writtenOn": "2020-10-01T18:46:37Z",
+      "side": 1,
+      "message": "Ack (changed it to a comment)",
+      "parentUuid": "866e826c_25c13988",
+      "range": {
+        "startLine": 750,
+        "startChar": 6,
+        "endLine": 772,
+        "endChar": 0
+      },
+      "revId": "f620ebf2356ccfa3d21b21835e49934b21dd1fa3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "c6a4956c_178482a7",
         "filename": "java/com/google/gerrit/server/update/SuperprojectUpdateSubmission.java",
         "patchSetId": 2

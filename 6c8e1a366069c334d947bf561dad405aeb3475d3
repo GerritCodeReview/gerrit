@@ -2,6 +2,23 @@
   "comments": [
     {
       "key": {
+        "uuid": "3acf0d0f_c38fe407",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T16:56:39Z",
+      "side": 1,
+      "message": "An additional thing which just came to my mind: It might be helpful for others to know why you make the SuperprojectUpdateSubmissionListener injectable so that they don\u0027t revert this change in the future. Could you please add a line to the commit message saying that some implementations might want to use another implementation / update mechanism and that this listener is hence injectable?",
+      "revId": "6c8e1a366069c334d947bf561dad405aeb3475d3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "a6eeeafa_4aa51b82",
         "filename": "java/com/google/gerrit/server/config/GerritGlobalModule.java",
         "patchSetId": 1

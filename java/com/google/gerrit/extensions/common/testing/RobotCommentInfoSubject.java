@@ -17,6 +17,7 @@ package com.google.gerrit.extensions.common.testing;
 import static com.google.common.truth.Truth.assertAbout;
 import static com.google.gerrit.truth.ListSubject.elements;
 
+import com.google.common.truth.BooleanSubject;
 import com.google.common.truth.FailureMetadata;
 import com.google.common.truth.MapSubject;
 import com.google.common.truth.StringSubject;
@@ -78,6 +79,11 @@ public class RobotCommentInfoSubject extends Subject {
   public MapSubject properties() {
     isNotNull();
     return check("property").that(robotCommentInfo.properties);
+  }
+
+  public BooleanSubject unresolved() {
+    isNotNull();
+    return check("unresolved").that(robotCommentInfo.unresolved);
   }
 
   public FixSuggestionInfoSubject onlyFixSuggestion() {

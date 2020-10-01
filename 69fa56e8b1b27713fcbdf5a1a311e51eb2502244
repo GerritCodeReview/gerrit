@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "da654874_32ecaca0",
+        "filename": "java/com/google/gerrit/server/edit/ModificationIntention.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T09:40:49Z",
+      "side": 1,
+      "message": "Sure. That was an oversight. I had consistently used \"PatchSet\" when I wrote this code some months ago and tried to switch everything to \"Patchset\" now (as we decided to go with \"Patchset\" everywhere in the meantime). I just missed to update this name. If you notice some other lines where I forgot to adapt it, please tell me.",
+      "parentUuid": "d661d249_04f91cbf",
+      "range": {
+        "startLine": 38,
+        "startChar": 8,
+        "endLine": 38,
+        "endChar": 22
+      },
+      "revId": "69fa56e8b1b27713fcbdf5a1a311e51eb2502244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "cd9d71af_a749ac7f",
         "filename": "java/com/google/gerrit/server/edit/ModificationIntention.java",
         "patchSetId": 1
@@ -36,6 +60,30 @@
       "writtenOn": "2020-09-28T16:42:55Z",
       "side": 1,
       "message": "Are there plans to add other types of ModificationIntention in the future?\nRight now the hierarchy looks a little bit complex, i made some drawing to understand how the code works in different cases. If there are no plans for other ModificationIntention types then probably some methods can be inlined.",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 53
+      },
+      "revId": "69fa56e8b1b27713fcbdf5a1a311e51eb2502244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ef3fec38_1ed9f603",
+        "filename": "java/com/google/gerrit/server/edit/ModificationIntention.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-01T09:40:49Z",
+      "side": 1,
+      "message": "I\u0027m not aware of any need of further types for ModificationIntention. I know that the resulting hierarchy is not optimal. That\u0027s why I wrote this paragraph in the commit message:\n\n\u003e This change adjusts the code such that we only have one method which captures the general logic for creating/updating a change edit. Due to the above-mentioned differences, we needed to create strategy objects, though, to select different behaviors depending on the context/situation. The chosen approach is not perfect and could introduce additional complexity for first-time readers. If somebody thinks of a better structure in the future, feel free to adjust it.\n\nAs you mentioned that we could inline some methods, I took a look at the code but I didn\u0027t see how we could inline the code of ModificationIntention without breaking the logic. I\u0027d love to polish this part of the code but I unfortunately don\u0027t have enough time for it. If you have more concrete ideas for improvement, I can try to include them in the next two days. If you think it\u0027s better to not have these strategy objects at all and to rather have several separate methods as before, I\u0027m also willing to revert the first two changes of this series.",
+      "parentUuid": "cd9d71af_a749ac7f",
       "range": {
         "startLine": 61,
         "startChar": 2,

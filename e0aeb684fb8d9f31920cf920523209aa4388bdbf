@@ -16,6 +16,24 @@
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "8b2e482b_44fa573c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-02T15:12:27Z",
+      "side": 1,
+      "message": "I think it better sits at the end of this series since it requires a Googler to +1 on library compliance which can take time.\n\nThe ssh part of the graceful shutdown is ready to be submitted as soon as the builds have voted +1.",
+      "parentUuid": "b3fc813d_9a652863",
+      "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

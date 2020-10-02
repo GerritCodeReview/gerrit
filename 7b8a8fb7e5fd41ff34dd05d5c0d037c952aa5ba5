@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "865ca302_f5043a5e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-02T08:31:08Z",
+      "side": 1,
+      "message": "nit (here and in the follow-up change):\nPlease add a test or two to ProjectOperationsImplTest",
+      "revId": "7b8a8fb7e5fd41ff34dd05d5c0d037c952aa5ba5",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

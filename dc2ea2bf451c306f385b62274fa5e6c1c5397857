@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "4b1bcf9a_28fdc6ed",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1025452
+      },
+      "writtenOn": "2020-10-02T11:30:06Z",
+      "side": 1,
+      "message": "@Alice is there anything that should be improved in this change so that you could take your -2 out? Thanks in advance ;)",
+      "revId": "dc2ea2bf451c306f385b62274fa5e6c1c5397857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

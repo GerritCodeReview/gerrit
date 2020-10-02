@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment-thread.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {SpecialFilePath} from '../../../constants/constants.js';
-import {sortComments} from '../../diff/gr-comment-api/gr-comment-api.js';
+import {sortComments} from '../../../utils/comment-util.js';
 
 const basicFixture = fixtureFromElement('gr-comment-thread');
 

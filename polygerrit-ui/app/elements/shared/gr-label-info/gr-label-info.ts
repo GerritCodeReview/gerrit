@@ -40,6 +40,7 @@ import {
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../gr-button/gr-button';
+import {getVotingRange} from '../../../utils/label-util';
 
 export interface GrLabelInfo {
   $: {
@@ -125,23 +126,20 @@ export class GrLabelInfo extends GestureEventListeners(
     const votes = (labelInfo.all || []).sort(
       (a, b) => (a.value || 0) - (b.value || 0)
     );
-    const values = Object.keys(labelInfo.values || {});
+    const votingRange = getVotingRange(labelInfo);
     for (const label of votes) {
       if (label.value && label.value !== labelInfo.default_value) {
         let labelClassName;
         let labelValPrefix = '';
         if (label.value > 0) {
           labelValPrefix = '+';
-          if (
-            parseInt(`${label.value}`, 10) ===
-            parseInt(values[values.length - 1], 10)
-          ) {
+          if (label.value === votingRange.max) {
             labelClassName = LabelClassName.MAX;
           } else {
             labelClassName = LabelClassName.POSITIVE;
           }
         } else if (label.value < 0) {
-          if (parseInt(`${label.value}`, 10) === parseInt(values[0], 10)) {
+          if (label.value === votingRange.min) {
             labelClassName = LabelClassName.MIN;
           } else {
             labelClassName = LabelClassName.NEGATIVE;

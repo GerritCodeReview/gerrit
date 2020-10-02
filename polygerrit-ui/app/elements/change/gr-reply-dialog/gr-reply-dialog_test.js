@@ -203,7 +203,8 @@ suite('gr-reply-dialog tests', () => {
   });
 
   function checkComputeAttention(status, userId, reviewerIds, ownerId,
-      attSetIds, replyToIds, expectedIds, uploaderId, hasDraft) {
+      attSetIds, replyToIds, expectedIds, uploaderId, hasDraft,
+      includeComments = true) {
     const user = {_account_id: userId};
     const reviewers = {base: reviewerIds.map(id => {
       return {_account_id: id};
@@ -212,7 +213,7 @@ suite('gr-reply-dialog tests', () => {
       {comments: []},
     ];
     if (hasDraft) {
-      draftThreads[0].comments.push({__draft: true});
+      draftThreads[0].comments.push({__draft: true, unresolved: true});
     }
     replyToIds.forEach(id => draftThreads[0].comments.push({
       author: {_account_id: id},
@@ -230,7 +231,8 @@ suite('gr-reply-dialog tests', () => {
     element.change = change;
     element._reviewers = reviewers.base;
     flush();
-    element._computeNewAttention(user, reviewers, [], change, draftThreads);
+    element._computeNewAttention(
+        user, reviewers, [], change, draftThreads, includeComments);
     assert.sameMembers([...element._newAttentionSet], expectedIds);
   }
 
@@ -262,6 +264,8 @@ suite('gr-reply-dialog tests', () => {
     checkComputeAttention('MERGED', null, [], 999, [], [], []);
     checkComputeAttention('MERGED', 1, [], 999, [], [], []);
     checkComputeAttention('MERGED', 1, [], 999, [], [], [999], undefined, true);
+    checkComputeAttention(
+        'MERGED', 1, [], 999, [], [], [], undefined, true, false);
     checkComputeAttention('MERGED', 1, [], 999, [1], [], []);
     checkComputeAttention('MERGED', 1, [22], 999, [], [], []);
     checkComputeAttention('MERGED', 1, [22], 999, [22], [], [22]);
@@ -298,6 +302,45 @@ suite('gr-reply-dialog tests', () => {
     assert.sameMembers(compute([999], [999]), []);
     assert.sameMembers(compute([123, 321], [999]), [999]);
     assert.sameMembers(compute([999], [7, 123, 999]), [7, 123]);
+  });
+
+  test('_computeCommentAccounts', () => {
+    element.change = {
+      labels: {
+        'Code-Review': {
+          all: [
+            {_account_id: 1, value: 0},
+            {_account_id: 2, value: 1},
+            {_account_id: 3, value: 2},
+          ],
+          values: {
+            '-2': 'Do not submit',
+            '-1': 'I would prefer that you didnt submit this',
+            ' 0': 'No score',
+            '+1': 'Looks good to me, but someone else must approve',
+            '+2': 'Looks good to me, approved',
+          },
+        },
+      },
+    };
+    const threads = [
+      {
+        comments: [
+          {author: {_account_id: 1}, unresolved: false},
+          {author: {_account_id: 2}, unresolved: true},
+        ],
+      },
+      {
+        comments: [
+          {author: {_account_id: 3}, unresolved: false},
+          {author: {_account_id: 4}, unresolved: false},
+        ],
+      },
+    ];
+    const actualAccounts = [...element._computeCommentAccounts(threads)];
+    // Account 3 is not included, because the comment is resolved *and* they
+    // have given the highest possible vote on the Code-Review label.
+    assert.sameMembers(actualAccounts, [1, 2, 4]);
   });
 
   test('toggle resolved checkbox', done => {

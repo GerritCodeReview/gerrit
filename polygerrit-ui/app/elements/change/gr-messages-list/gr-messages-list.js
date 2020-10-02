@@ -411,6 +411,7 @@ class GrMessagesList extends KeyboardShortcutMixin(
     const labels = labelRecord.base;
     if (!labels) { return extremes; }
     for (const key of Object.keys(labels)) {
+      // TODO(TS): Let's use label-util!
       if (!labels[key] || !labels[key].values) { continue; }
       const values = Object.keys(labels[key].values)
           .map(v => parseInt(v, 10));

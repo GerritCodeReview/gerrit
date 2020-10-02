@@ -20,7 +20,7 @@ import './gr-diff-host.js';
 import {GrDiffBuilderImage} from '../gr-diff-builder/gr-diff-builder-image.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {sortComments} from '../gr-comment-api/gr-comment-api.js';
+import {sortComments} from '../../../utils/comment-util.js';
 import {Side} from '../../../constants/constants.js';
 
 const basicFixture = fixtureFromElement('gr-diff-host');

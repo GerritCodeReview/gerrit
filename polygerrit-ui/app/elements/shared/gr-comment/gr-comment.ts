@@ -58,7 +58,7 @@ import {
   UIComment,
   UIDraft,
   UIRobot,
-} from '../../diff/gr-comment-api/gr-comment-api';
+} from '../../../utils/comment-util';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;

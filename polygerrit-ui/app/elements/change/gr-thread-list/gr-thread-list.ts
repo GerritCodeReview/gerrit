@@ -27,11 +27,7 @@ import {parseDate} from '../../../utils/date-util';
 import {NO_THREADS_MSG} from '../../../constants/messages';
 import {CommentSide, SpecialFilePath} from '../../../constants/constants';
 import {customElement, observe, property} from '@polymer/decorators';
-import {
-  CommentThread,
-  isDraft,
-  UIRobot,
-} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread, isDraft, UIRobot} from '../../../utils/comment-util';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
 

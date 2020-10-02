@@ -40,7 +40,7 @@ import {
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {isRobot} from '../gr-comment-api/gr-comment-api';
+import {isRobot} from '../../../utils/comment-util';
 
 export interface GrApplyFixDialog {
   $: {

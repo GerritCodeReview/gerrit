@@ -315,6 +315,32 @@ suite('gr-message tests', () => {
       assert.isFalse(scoreChips[2].classList.contains('min'));
     });
 
+    test('Uploaded patch set X', () => {
+      element.message = {
+        author: {},
+        expanded: false,
+        message: 'Uploaded patch set 1:' +
+         'Verified+1 Code-Review-2 Trybot-Label3+1 Blub+1',
+      };
+      element.labelExtremes = {
+        'Verified': {max: 1, min: -1},
+        'Code-Review': {max: 2, min: -2},
+        'Trybot-Label3': {max: 3, min: 0},
+      };
+      flush();
+      const scoreChips = element.root.querySelectorAll('.score');
+      assert.equal(scoreChips.length, 3);
+
+      assert.isTrue(scoreChips[0].classList.contains('positive'));
+      assert.isTrue(scoreChips[0].classList.contains('max'));
+
+      assert.isTrue(scoreChips[1].classList.contains('negative'));
+      assert.isTrue(scoreChips[1].classList.contains('min'));
+
+      assert.isTrue(scoreChips[2].classList.contains('positive'));
+      assert.isFalse(scoreChips[2].classList.contains('min'));
+    });
+
     test('removed votes', () => {
       element.message = {
         author: {},

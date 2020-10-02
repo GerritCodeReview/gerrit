@@ -44,8 +44,8 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 
-const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
-const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
+const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;
+const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?(?:[.]*)$/;
 
 declare global {
   interface HTMLElementTagNameMap {

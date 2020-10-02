@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a1998662_38b08858",
+        "filename": "Documentation/rest-api-changes.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 7836,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-02T08:24:32Z",
+      "side": 1,
+      "message": "This is actually wrong (and also was wrong before this change). Could you just mention that RobotCommentInput doesn\u0027t have \"author\", \"tag\" and \"changeMessageId\" (see CommentInfo)?",
+      "range": {
+        "startLine": 7833,
+        "startChar": 0,
+        "endLine": 7836,
+        "endChar": 0
+      },
+      "revId": "6278f4e1ad6b3986712d2a2b4c5a45452d75017e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

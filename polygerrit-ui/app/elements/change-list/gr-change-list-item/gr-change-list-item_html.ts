@@ -92,10 +92,12 @@ export const htmlTemplate = html`
       font-size: var(--font-size-mono);
       line-height: var(--line-height-mono);
     }
-    .u-green {
+    .u-green,
+    .u-green iron-icon {
       color: var(--positive-green-text-color);
     }
-    .u-red {
+    .u-red,
+    .u-red iron-icon {
       color: var(--negative-red-text-color);
     }
     .u-gray-background {
@@ -107,6 +109,9 @@ export const htmlTemplate = html`
     }
     .cell.label {
       font-weight: var(--font-weight-normal);
+    }
+    .cell.label iron-icon {
+      vertical-align: top;
     }
     .lastChildHidden:last-of-type {
       display: none;
@@ -278,7 +283,12 @@ export const htmlTemplate = html`
       title$="[[_computeLabelTitle(change, labelName)]]"
       class$="[[_computeLabelClass(change, labelName)]]"
     >
-      [[_computeLabelValue(change, labelName)]]
+      <template is="dom-if" if="[[_computeHasLabelIcon(change, labelName)]]">
+        <iron-icon icon="[[_computeLabelIcon(change, labelName)]]"></iron-icon>
+      </template>
+      <template is="dom-if" if="[[!_computeHasLabelIcon(change, labelName)]]">
+        <span>[[_computeLabelValue(change, labelName)]]</span>
+      </template>
     </td>
   </template>
   <template

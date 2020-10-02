@@ -1,0 +1,192 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "20eb2406_247f09bd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "This needs to be guarded by an experiment.",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "edaa1dc3_9a852d87",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "It would be great, if the context control row would become its own component. This gets a bit too much in terms of DOM creation by javascript.",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ecddca51_474c2cd4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "We are trying to use var(--spacing-s) for paddings and spaces like these.",
+      "range": {
+        "startLine": 231,
+        "startChar": 24,
+        "endLine": 231,
+        "endChar": 27
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a7fa473c_d2f4851a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "We are trying to avoid ems. What are you trying to express here? Do you want to use a calc() maybe to approximate the absolutely positioned button height and add a spacing-s?",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 18
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b05cc03_8980cc5c",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "I have never seen that magic. :-) Would \"position: relative\" also work?",
+      "range": {
+        "startLine": 245,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 33
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "6b3f8a00_8fcd1e09",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "Maybe add a comment why this is not the usual \"display:none\".",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "ae6363cc_c773c6c9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "Would it be possible to get away without absolute positioning?",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7e26e9b3_927039b0",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "For Gerrit this would have to:\n\n  Roboto 14px 400 ALL CAPS\n\nCurrently it is 12px 500 NO CAPS.\n\nDoesn\u0027t \u003cgr-button\u003e have its defaults so you can leave the font css out?",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "572d9308_b78c9c9f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "Colors must strictly be based on css vars from app-theme.",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "4e325b07_0c9bf01b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:54:00Z",
+      "side": 1,
+      "message": "spacing-m",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

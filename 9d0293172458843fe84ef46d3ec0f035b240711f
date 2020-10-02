@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "a940673a_adf97e9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T10:57:21Z",
+      "side": 1,
+      "message": "What is this change for? Why does it need to be a group? Would adding `.?` be sufficient?",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9d0293172458843fe84ef46d3ec0f035b240711f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

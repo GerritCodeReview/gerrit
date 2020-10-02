@@ -46,6 +46,30 @@
       "revId": "9d0293172458843fe84ef46d3ec0f035b240711f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "95adde3c_eb93d38d",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T11:36:03Z",
+      "side": 1,
+      "message": "Looks better. I think I would prefer \\. over [.], but that is probably a matter of taste.",
+      "parentUuid": "aabb6457_fe6acb3b",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9d0293172458843fe84ef46d3ec0f035b240711f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

@@ -98,13 +98,6 @@ public class LoggingContextAwareRunnable implements Runnable {
     loggingCtx.setTags(tags);
     loggingCtx.forceLogging(forceLogging);
     loggingCtx.performanceLogging(performanceLogging);
-
-    // For the performance log records use the {@link MutablePerformanceLogRecords} instance from
-    // the logging context of the calling thread in the logging context of the new thread. This way
-    // performance log records that are created from the new thread are available from the logging
-    // context of the calling thread. This is important since performance log records are processed
-    // only at the end of the request and performance log records that are created in another thread
-    // should not get lost.
     loggingCtx.setMutablePerformanceLogRecords(mutablePerformanceLogRecords);
     try {
       runnable.run();

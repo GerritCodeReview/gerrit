@@ -42,6 +42,7 @@ import {GrReviewerSuggestionsProvider, SUGGESTIONS_PROVIDERS_USERS_TYPES} from '
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
+import {isEmptyObject} from '../../../utils/common-util.js';
 
 const HASHTAG_ADD_MESSAGE = 'Add Hashtag';
 
@@ -520,7 +521,7 @@ class GrChangeMetadata extends GestureEventListeners(
   }
 
   _computeIsMutable(account) {
-    return !!Object.keys(account).length;
+    return !isEmptyObject(account);
   }
 
   editTopic() {

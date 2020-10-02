@@ -61,6 +61,7 @@ public class SetLoggingLevelCommand extends SshCommand {
   @SuppressWarnings("unchecked")
   @Override
   protected void run() throws MalformedURLException {
+    enableGracefulStop();
     if (level == LevelOption.RESET) {
       reset();
     } else {

@@ -34,6 +34,7 @@ public class IndexActivateCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    enableGracefulStop();
     try {
       if (versionManager.isKnownIndex(name)) {
         if (versionManager.activateLatestIndex(name)) {

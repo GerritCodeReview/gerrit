@@ -32,6 +32,7 @@ public class ListProjectsCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
+    enableGracefulStop();
     if (!impl.getFormat().isJson()) {
       List<String> showBranch = impl.getShowBranch();
       if (impl.isShowTree() && (showBranch != null) && !showBranch.isEmpty()) {

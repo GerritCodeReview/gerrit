@@ -43,6 +43,7 @@ final class IndexChangesInProjectCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure, Failure, Exception {
+    enableGracefulStop();
     if (projects.isEmpty()) {
       throw die("needs at least one project as command arguments");
     }

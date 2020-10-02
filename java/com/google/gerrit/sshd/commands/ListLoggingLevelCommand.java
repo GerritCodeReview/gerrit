@@ -40,6 +40,7 @@ public class ListLoggingLevelCommand extends SshCommand {
   @SuppressWarnings("unchecked")
   @Override
   protected void run() {
+    enableGracefulStop();
     Map<String, String> logs = new TreeMap<>();
     for (Enumeration<Logger> logger = LogManager.getCurrentLoggers(); logger.hasMoreElements(); ) {
       Logger log = logger.nextElement();

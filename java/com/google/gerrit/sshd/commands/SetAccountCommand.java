@@ -154,6 +154,7 @@ final class SetAccountCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
+    enableGracefulStop();
     user = genericUserFactory.create(id);
 
     validate();

@@ -34,6 +34,24 @@
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "331bb1e3_397e6d9b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-02T15:14:48Z",
+      "side": 1,
+      "message": "Gotcha, so the Jetty upgrade is only needed for Git over HTTP(s)?",
+      "parentUuid": "8b2e482b_44fa573c",
+      "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

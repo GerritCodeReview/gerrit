@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "abb40c43_3d5a63bd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 5
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e7b1b900_28de5959",
+      "range": {
+        "startLine": 41,
+        "startChar": 31,
+        "endLine": 41,
+        "endChar": 35
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "fa1c48b8_fb3ef5fd",
         "filename": "Documentation/rest-api-projects.txt",
         "patchSetId": 5
@@ -45,6 +69,30 @@
       "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a90c0ac6_d3b18c1c",
+        "filename": "Documentation/rest-api-projects.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 3345,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fa1c48b8_fb3ef5fd",
+      "range": {
+        "startLine": 3345,
+        "startChar": 29,
+        "endLine": 3345,
+        "endChar": 31
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -71,6 +119,30 @@
     },
     {
       "key": {
+        "uuid": "2732737f_7d819f7b",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 67,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c0e0fa8a_8deec967",
+      "range": {
+        "startLine": 67,
+        "startChar": 0,
+        "endLine": 67,
+        "endChar": 4
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "028b6d8c_58bacc11",
         "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
         "patchSetId": 5
@@ -82,6 +154,30 @@
       "writtenOn": "2020-02-25T10:58:58Z",
       "side": 1,
       "message": "can\u0027t we clear out the ACL logs regardless of the consumer? This sounds dangerous, and aside from the info leak, a possible resource leak.",
+      "range": {
+        "startLine": 281,
+        "startChar": 42,
+        "endLine": 282,
+        "endChar": 80
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "a0943b4b_e2f8db41",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 282,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Not sure, what you suggest here. We do clear the ACL logs in the clear() method that is invoked  from a finally block before a thread is released.\n\nThis is a package internal method, and the package ensures that it\u0027s only used when clearing is ensured.",
+      "parentUuid": "028b6d8c_58bacc11",
       "range": {
         "startLine": 281,
         "startChar": 42,
@@ -117,6 +213,30 @@
     },
     {
       "key": {
+        "uuid": "1b9892aa_817874df",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 298,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5850fb81_129baed2",
+      "range": {
+        "startLine": 298,
+        "startChar": 10,
+        "endLine": 298,
+        "endChar": 11
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6c1ce85a_d31a1f28",
         "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
         "patchSetId": 5
@@ -137,6 +257,30 @@
       "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "fd8a4c7d_0c84d73f",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6c1ce85a_d31a1f28",
+      "range": {
+        "startLine": 346,
+        "startChar": 33,
+        "endLine": 350,
+        "endChar": 4
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -163,6 +307,30 @@
     },
     {
       "key": {
+        "uuid": "1c1b7564_e1492c9a",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareCallable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f62aae48_d9ca8508",
+      "range": {
+        "startLine": 96,
+        "startChar": 77,
+        "endLine": 101,
+        "endChar": 61
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "4f802fae_5a17a009",
         "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareRunnable.java",
         "patchSetId": 5
@@ -183,6 +351,30 @@
       "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "af1d6a41_9d5c7f24",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContextAwareRunnable.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 123,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f802fae_5a17a009",
+      "range": {
+        "startLine": 120,
+        "startChar": 42,
+        "endLine": 123,
+        "endChar": 90
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -209,6 +401,30 @@
     },
     {
       "key": {
+        "uuid": "cacd3177_fd1b32ad",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 399,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9f340d25_490279ac",
+      "range": {
+        "startLine": 392,
+        "startChar": 10,
+        "endLine": 399,
+        "endChar": 23
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "58825ef7_313aa8b4",
         "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
         "patchSetId": 5
@@ -229,6 +445,30 @@
       "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d9dc2fc2_81a17769",
+        "filename": "java/com/google/gerrit/server/restapi/project/CheckAccess.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 136,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-02T10:44:44Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "58825ef7_313aa8b4",
+      "range": {
+        "startLine": 135,
+        "startChar": 46,
+        "endLine": 136,
+        "endChar": 55
+      },
+      "revId": "2959f15f1e97e46c3f48eff8e816318608cb96bf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

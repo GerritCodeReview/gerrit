@@ -22,6 +22,30 @@
       "revId": "cbee28a79efc1b88eed18dcb0ee499149d074d14",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "92f08504_cc3d113e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item_html.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-02T09:25:36Z",
+      "side": 1,
+      "message": "I think the `title` on the \u003ctd\u003e should be sufficient. Otherwise it would be repeated on the icon. Let me know if that is not ideal for a11y, and I will send a follow-up change.",
+      "parentUuid": "2ad02b9c_495477f3",
+      "range": {
+        "startLine": 286,
+        "startChar": 5,
+        "endLine": 291,
+        "endChar": 17
+      },
+      "revId": "cbee28a79efc1b88eed18dcb0ee499149d074d14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

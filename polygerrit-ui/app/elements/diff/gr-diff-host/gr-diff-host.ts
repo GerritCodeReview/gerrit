@@ -36,9 +36,9 @@ import {
   isDraft,
   PatchSetFile,
   sortComments,
-  TwoSidesComments,
   UIComment,
-} from '../gr-comment-api/gr-comment-api';
+} from '../../../utils/comment-util';
+import {TwoSidesComments} from '../gr-comment-api/gr-comment-api';
 import {customElement, observe, property} from '@polymer/decorators';
 import {
   CommitRange,

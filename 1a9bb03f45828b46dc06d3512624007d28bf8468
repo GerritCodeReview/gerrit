@@ -16,6 +16,24 @@
       "revId": "1a9bb03f45828b46dc06d3512624007d28bf8468",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "f040b7c0_cd4c86c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-02T12:24:08Z",
+      "side": 1,
+      "message": "I took that suggestion to configure the log level for the class internally.",
+      "parentUuid": "098a8be5_34e8c9f5",
+      "revId": "1a9bb03f45828b46dc06d3512624007d28bf8468",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

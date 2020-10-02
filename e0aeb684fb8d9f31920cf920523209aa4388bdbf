@@ -52,6 +52,24 @@
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "ec639df9_d3be371d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-02T15:18:20Z",
+      "side": 1,
+      "message": "that\u0027s required for git over https and REST requests and it is independent from supporting graceful shutdown in sshd daemon",
+      "parentUuid": "331bb1e3_397e6d9b",
+      "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

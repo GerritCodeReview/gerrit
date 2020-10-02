@@ -22,6 +22,30 @@
       "revId": "483f03b4cafdd4d2410829c0b7a02841a29530bc",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "36cf7593_1007e056",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-02T06:45:48Z",
+      "side": 1,
+      "message": "This was fixed in patchset 3 but overwritten in patchset 4. Let\u0027s still submit this change now. The typo is not important enough to delay by a day.",
+      "parentUuid": "a7e38d8f_40b3d574",
+      "range": {
+        "startLine": 9,
+        "startChar": 14,
+        "endLine": 9,
+        "endChar": 19
+      },
+      "revId": "483f03b4cafdd4d2410829c0b7a02841a29530bc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

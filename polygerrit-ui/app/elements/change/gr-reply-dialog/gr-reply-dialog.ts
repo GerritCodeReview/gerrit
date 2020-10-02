@@ -107,6 +107,7 @@ import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
+import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -632,7 +633,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       reviewInput.ready = true;
     }
 
-    if (this._isAttentionSetEnabled(this.serverConfig)) {
+    if (isAttentionSetEnabled(this.serverConfig)) {
       const selfName = getDisplayName(this.serverConfig, this._account);
       const reason = `${selfName} replied on the change`;
 
@@ -885,15 +886,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _showAttentionSummary(config?: ServerInfo, attentionExpanded?: boolean) {
-    return this._isAttentionSetEnabled(config) && !attentionExpanded;
+    return isAttentionSetEnabled(config) && !attentionExpanded;
   }
 
   _showAttentionDetails(config?: ServerInfo, attentionExpanded?: boolean) {
-    return this._isAttentionSetEnabled(config) && attentionExpanded;
-  }
-
-  _isAttentionSetEnabled(config?: ServerInfo) {
-    return !!config && !!config.change && config.change.enable_attention_set;
+    return isAttentionSetEnabled(config) && attentionExpanded;
   }
 
   _handleAttentionClick(e: Event) {

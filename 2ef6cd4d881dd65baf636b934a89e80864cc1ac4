@@ -25,6 +25,30 @@
     },
     {
       "key": {
+        "uuid": "66252571_f839b7c0",
+        "filename": "java/com/google/gerrit/prettify/common/EditHunk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-02T09:34:04Z",
+      "side": 1,
+      "message": "This class is a very simplified/modified version of the existing class EditList, which is from 2009. Git just doesn\u0027t notice it as a renamed + modified version. Are you fine if we keep the old copyright?",
+      "parentUuid": "e09e858c_7e524788",
+      "range": {
+        "startLine": 1,
+        "startChar": 17,
+        "endLine": 1,
+        "endChar": 21
+      },
+      "revId": "2ef6cd4d881dd65baf636b934a89e80864cc1ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
         "uuid": "4c9243c2_8d24641c",
         "filename": "java/com/google/gerrit/prettify/common/EditHunk.java",
         "patchSetId": 1
@@ -48,6 +72,30 @@
     },
     {
       "key": {
+        "uuid": "6c727a46_474cc8c9",
+        "filename": "java/com/google/gerrit/prettify/common/EditHunk.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 20,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-02T09:34:04Z",
+      "side": 1,
+      "message": "As it\u0027s not a class description but just another comment, I thought that a Javadoc comment would be inappropriate. I don\u0027t really care so I adjusted it.",
+      "parentUuid": "4c9243c2_8d24641c",
+      "range": {
+        "startLine": 20,
+        "startChar": 0,
+        "endLine": 20,
+        "endChar": 1
+      },
+      "revId": "2ef6cd4d881dd65baf636b934a89e80864cc1ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "52c37c8f_46bedecc",
         "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
         "patchSetId": 1
@@ -62,6 +110,24 @@
       "revId": "2ef6cd4d881dd65baf636b934a89e80864cc1ac4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "f1c2fc48_daa05795",
+        "filename": "java/com/google/gerrit/server/restapi/change/GetDiff.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 276,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-02T09:34:04Z",
+      "side": 1,
+      "message": "Done. You now have two TODOs reminding you about the removal as we also have the one in line 84. ;-)",
+      "parentUuid": "52c37c8f_46bedecc",
+      "revId": "2ef6cd4d881dd65baf636b934a89e80864cc1ac4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

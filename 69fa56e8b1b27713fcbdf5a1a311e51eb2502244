@@ -93,6 +93,30 @@
       "revId": "69fa56e8b1b27713fcbdf5a1a311e51eb2502244",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "564cac48_c00ad5dc",
+        "filename": "java/com/google/gerrit/server/edit/ModificationIntention.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 61,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-02T05:55:31Z",
+      "side": 1,
+      "message": "I don\u0027t think the first 2 changes should be reverted, they definitely improvement the code. As you said, we can make improvements later.",
+      "parentUuid": "ef3fec38_1ed9f603",
+      "range": {
+        "startLine": 61,
+        "startChar": 2,
+        "endLine": 61,
+        "endChar": 53
+      },
+      "revId": "69fa56e8b1b27713fcbdf5a1a311e51eb2502244",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

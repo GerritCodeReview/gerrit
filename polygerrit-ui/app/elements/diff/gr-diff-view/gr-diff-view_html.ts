@@ -225,6 +225,7 @@ export const htmlTemplate = html`
           on-change="_handleReviewedChange"
           hidden$="[[!_loggedIn]]"
           hidden=""
+          title="Toggle reviewed status of file"
           aria-label="file reviewed"
         /><!--
        -->

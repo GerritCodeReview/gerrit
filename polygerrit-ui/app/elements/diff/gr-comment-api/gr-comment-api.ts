@@ -19,7 +19,6 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-api_html';
-import {parseDate} from '../../../utils/date-util';
 import {
   getParentIndex,
   isMergeParent,
@@ -28,121 +27,33 @@ import {
 import {customElement, property} from '@polymer/decorators';
 import {
   CommentBasics,
-  CommentInfo,
   ConfigInfo,
   ParentPatchSetNum,
   PatchRange,
   PatchSetNum,
   PathToRobotCommentsInfoMap,
   RobotCommentInfo,
-  Timestamp,
   UrlEncodedCommentId,
   NumericChangeId,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {CommentSide, Side} from '../../../constants/constants';
+import {CommentSide} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-
-export interface DraftCommentProps {
-  __draft?: boolean;
-  __draftID?: string;
-  __date?: Date;
-}
-
-export type DraftInfo = CommentBasics & DraftCommentProps;
-
-/**
- * Each of the type implements or extends CommentBasics.
- */
-export type Comment = DraftInfo | CommentInfo | RobotCommentInfo;
-
-export interface UIStateCommentProps {
-  // The `side` of the comment is PARENT or REVISION, but this is LEFT or RIGHT.
-  // TODO(TS): Remove the naming confusion of commentSide being of type of Side,
-  // but side being of type CommentSide. :-)
-  __commentSide?: Side;
-  // TODO(TS): Remove this. Seems to be exactly the same as `path`??
-  __path?: string;
-  collapsed?: boolean;
-  // TODO(TS): Consider allowing this only for drafts.
-  __editing?: boolean;
-  __otherEditing?: boolean;
-}
-
-export type UIDraft = DraftInfo & UIStateCommentProps;
-
-export type UIHuman = CommentInfo & UIStateCommentProps;
-
-export type UIRobot = RobotCommentInfo & UIStateCommentProps;
-
-export type UIComment = UIHuman | UIRobot | UIDraft;
-
-export type CommentMap = {[path: string]: boolean};
-
-export function isRobot<T extends CommentInfo>(
-  x: T | DraftInfo | RobotCommentInfo | undefined
-): x is RobotCommentInfo {
-  return !!x && !!(x as RobotCommentInfo).robot_id;
-}
-
-export function isDraft<T extends CommentInfo>(
-  x: T | UIDraft | undefined
-): x is UIDraft {
-  return !!x && !!(x as UIDraft).__draft;
-}
-
-export interface PatchSetFile {
-  path: string;
-  basePath?: string;
-  patchNum?: PatchSetNum;
-}
-
-export interface PatchNumOnly {
-  patchNum: PatchSetNum;
-}
-
-export function isPatchSetFile(
-  x: PatchSetFile | PatchNumOnly
-): x is PatchSetFile {
-  return !!(x as PatchSetFile).path;
-}
-
-interface SortableComment {
-  __draft?: boolean;
-  __date?: Date;
-  updated?: Timestamp;
-  id?: UrlEncodedCommentId;
-}
-
-export function sortComments<T extends SortableComment>(comments: T[]): T[] {
-  return comments.slice(0).sort((c1, c2) => {
-    const d1 = !!c1.__draft;
-    const d2 = !!c2.__draft;
-    if (d1 !== d2) return d1 ? 1 : -1;
-
-    const date1 = (c1.updated && parseDate(c1.updated)) || c1.__date;
-    const date2 = (c2.updated && parseDate(c2.updated)) || c2.__date;
-    const dateDiff = date1!.valueOf() - date2!.valueOf();
-    if (dateDiff !== 0) return dateDiff;
-
-    const id1 = c1.id ?? '';
-    const id2 = c2.id ?? '';
-    return id1.localeCompare(id2);
-  });
-}
-
-export interface CommentThread {
-  comments: UIComment[];
-  patchNum?: PatchSetNum;
-  path: string;
-  // TODO(TS): It would be nice to use LineNumber here, but the comment thread
-  // element actually relies on line to be undefined for file comments. Be
-  // aware of element attribute getters and setters, if you try to refactor
-  // this. :-) Still worthwhile to do ...
-  line?: number;
-  rootId: UrlEncodedCommentId;
-  commentSide?: CommentSide;
-}
+import {
+  Comment,
+  CommentMap,
+  CommentThread,
+  DraftInfo,
+  isPatchSetFile,
+  isUnresolved,
+  PatchNumOnly,
+  PatchSetFile,
+  sortComments,
+  UIComment,
+  UIDraft,
+  UIHuman,
+  UIRobot,
+} from '../../../utils/comment-util';
 
 export type CommentIdToCommentThreadMap = {
   [urlEncodedCommentId: string]: CommentThread;
@@ -560,15 +471,8 @@ export class ChangeComments {
     }
 
     comments = comments.concat(drafts);
-
     const threads = this.getCommentThreads(sortComments(comments));
-
-    const unresolvedThreads = threads.filter(
-      thread =>
-        thread.comments.length &&
-        thread.comments[thread.comments.length - 1].unresolved
-    );
-
+    const unresolvedThreads = threads.filter(isUnresolved);
     return unresolvedThreads.length;
   }
 

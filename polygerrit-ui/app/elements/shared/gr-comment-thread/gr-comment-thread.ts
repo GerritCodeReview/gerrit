@@ -34,7 +34,7 @@ import {
   UIComment,
   UIDraft,
   UIRobot,
-} from '../../diff/gr-comment-api/gr-comment-api';
+} from '../../../utils/comment-util';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {appContext} from '../../../services/app-context';
 import {CommentSide, Side, SpecialFilePath} from '../../../constants/constants';

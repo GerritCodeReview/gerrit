@@ -102,12 +102,14 @@ import {
   assertNever,
   containsAll,
 } from '../../../utils/common-util';
-import {CommentThread, isDraft} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread} from '../../../utils/comment-util';
 import {GrTextarea} from '../../shared/gr-textarea/gr-textarea';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {GrStorage, StorageLocation} from '../../shared/gr-storage/gr-storage';
 import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
+import {CODE_REVIEW, getMaxAccounts} from '../../../utils/label-util';
+import {isUnresolved} from '../../../utils/comment-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
@@ -992,8 +994,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       }
     } else {
       // The only reason for adding someone to the attention set for merged or
-      // abandoned changes is that someone adds a new comment thread.
-      if (change.owner && this._containsNewCommentThread(draftCommentThreads)) {
+      // abandoned changes is that someone makes a comment thread unresolved.
+      const hasUnresolvedDraft = draftCommentThreads.some(isUnresolved);
+      if (change.owner && hasUnresolvedDraft) {
         // A change owner must have an _account_id.
         newAttention.add(change.owner._account_id!);
       }
@@ -1016,23 +1019,21 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   }
 
   _computeCommentAccounts(threads: CommentThread[]) {
+    const crLabel = this.change?.labels?.[CODE_REVIEW];
+    const maxCrVoteAccountIds = getMaxAccounts(crLabel).map(a => a._account_id);
     const accountIds = new Set<AccountId>();
     threads.forEach(thread => {
+      const unresolved = isUnresolved(thread);
       thread.comments.forEach(comment => {
         if (comment.author) {
           // A comment author must have an _account_id.
-          accountIds.add(comment.author._account_id!);
+          const authorId = comment.author._account_id!;
+          const hasGivenMaxReviewVote = maxCrVoteAccountIds.includes(authorId);
+          if (unresolved || !hasGivenMaxReviewVote) accountIds.add(authorId);
         }
       });
     });
     return accountIds;
-  }
-
-  _containsNewCommentThread(threads: CommentThread[]) {
-    return threads.some(
-      thread =>
-        !!thread.comments && !!thread.comments[0] && isDraft(thread.comments[0])
-    );
   }
 
   _isNewAttentionEmpty(

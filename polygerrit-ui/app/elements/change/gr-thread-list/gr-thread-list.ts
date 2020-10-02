@@ -31,7 +31,7 @@ import {
   CommentThread,
   isDraft,
   UIRobot,
-} from '../../diff/gr-comment-api/gr-comment-api';
+} from '../../../utils/comment-util';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeInfo} from '../../../types/common';
 

@@ -41,7 +41,7 @@ import {
   NumericChangeId,
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread} from '../../../utils/comment-util';
 import {hasOwnProperty} from '../../../utils/common-util';
 
 const PATCH_SET_PREFIX_PATTERN = /^(?:Uploaded\s*)?(?:P|p)atch (?:S|s)et \d+:\s*(.*)/;

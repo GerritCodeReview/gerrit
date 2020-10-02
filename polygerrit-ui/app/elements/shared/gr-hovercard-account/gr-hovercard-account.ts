@@ -26,13 +26,18 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-hovercard-account_html';
 import {appContext} from '../../../services/app-context';
-import {isServiceUser} from '../../../utils/account-util';
 import {getDisplayName} from '../../../utils/display-name-util';
 import {customElement, property} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {AccountInfo, ChangeInfo, ServerInfo} from '../../../types/common';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
-import {hasOwnProperty} from '../../../utils/common-util';
+import {
+  canHaveAttention,
+  getLastUpdate,
+  getReason,
+  hasAttention,
+  isAttentionSetEnabled,
+} from '../../../utils/attention-set-util';
 
 export interface GrHovercardAccount {
   $: {
@@ -101,56 +106,37 @@ export class GrHovercardAccount extends GestureEventListeners(
     return account._account_id === selfAccount._account_id ? 'Your' : 'Their';
   }
 
-  get isAttentionSetEnabled() {
+  get isAttentionEnabled() {
     return (
-      !!this._config &&
-      !!this._config.change &&
-      !!this._config.change.enable_attention_set &&
+      isAttentionSetEnabled(this._config) &&
       !!this.highlightAttention &&
       !!this.change &&
-      !!this.account &&
-      !isServiceUser(this.account)
+      canHaveAttention(this.account)
     );
   }
 
-  get hasAttention() {
-    if (
-      !this.isAttentionSetEnabled ||
-      !this.change?.attention_set ||
-      !this.account._account_id
-    )
-      return false;
-    return hasOwnProperty(this.change.attention_set, this.account._account_id);
+  get hasUserAttention() {
+    return hasAttention(this._config, this.account, this.change);
   }
 
   _computeReason(change?: ChangeInfo) {
-    if (!change || !change.attention_set || !this.account._account_id) {
-      return '';
-    }
-    const entry = change.attention_set[this.account._account_id];
-    if (!entry || !entry.reason) return '';
-    return entry.reason;
+    return getReason(this.account, change);
   }
 
   _computeLastUpdate(change?: ChangeInfo) {
-    if (!change || !change.attention_set || !this.account._account_id) {
-      return '';
-    }
-    const entry = change.attention_set[this.account._account_id];
-    if (!entry || !entry.last_update) return '';
-    return entry.last_update;
+    return getLastUpdate(this.account, change);
   }
 
   _computeShowLabelNeedsAttention() {
-    return this.isAttentionSetEnabled && this.hasAttention;
+    return this.isAttentionEnabled && this.hasUserAttention;
   }
 
   _computeShowActionAddToAttentionSet() {
-    return this.isAttentionSetEnabled && !this.hasAttention;
+    return this.isAttentionEnabled && !this.hasUserAttention;
   }
 
   _computeShowActionRemoveFromAttentionSet() {
-    return this.isAttentionSetEnabled && this.hasAttention;
+    return this.isAttentionEnabled && this.hasUserAttention;
   }
 
   _handleClickAddToAttentionSet() {

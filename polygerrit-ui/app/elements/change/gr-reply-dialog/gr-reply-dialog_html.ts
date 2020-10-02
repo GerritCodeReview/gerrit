@@ -547,7 +547,10 @@ export const htmlTemplate = html`
             </div>
           </div>
         </template>
-        <template is="dom-if" if="[[_computeShowAttentionTip(_newAttentionSet)]]">
+        <template
+          is="dom-if"
+          if="[[_computeShowAttentionTip(_newAttentionSet)]]"
+        >
           <div class="attentionTip">
             <div>
               <iron-icon

@@ -22,6 +22,30 @@
       "revId": "9d0293172458843fe84ef46d3ec0f035b240711f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "aabb6457_fe6acb3b",
+        "filename": "polygerrit-ui/app/elements/change/gr-message/gr-message.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-02T11:31:26Z",
+      "side": 1,
+      "message": "?: made this a non-capturing group.\nI added this because there is a \".\" at the end of the message. Yeah this doesn\u0027t need to be a group I guess.",
+      "parentUuid": "a940673a_adf97e9b",
+      "range": {
+        "startLine": 48,
+        "startChar": 66,
+        "endLine": 48,
+        "endChar": 74
+      },
+      "revId": "9d0293172458843fe84ef46d3ec0f035b240711f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

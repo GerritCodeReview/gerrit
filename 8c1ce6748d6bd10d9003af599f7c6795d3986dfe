@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "640e17ca_9cc0b7c0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-02T11:31:26Z",
+      "side": 1,
+      "message": "Flaky tests(npm run test is working for me).",
+      "revId": "8c1ce6748d6bd10d9003af599f7c6795d3986dfe",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

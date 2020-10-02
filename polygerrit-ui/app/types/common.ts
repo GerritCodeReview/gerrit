@@ -145,7 +145,8 @@ export type LabelNameToValueMap = {[labelName: string]: string[]};
 export type LabelValueToDescriptionMap = {[labelValue: string]: string};
 
 /**
- * The LabelInfo entity contains information about a label on a change, always corresponding to the current patch set.
+ * The LabelInfo entity contains information about a label on a change, always
+ * corresponding to the current patch set.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#label-info
  */
 export type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
@@ -164,10 +165,22 @@ export interface QuickLabelInfo extends LabelCommonInfo {
   default_value?: number;
 }
 
+/**
+ * LabelInfo when DETAILED_LABELS are requested.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#_fields_set_by_code_detailed_labels_code
+ */
 export interface DetailedLabelInfo extends LabelCommonInfo {
-  all?: ApprovalInfo[];
-  values?: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
+  // Docs claim that 'all' is optional, but it is actually always set.
+  all: ApprovalInfo[];
+  // Docs claim that 'values' is optional, but it is actually always set.
+  values: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
   default_value?: number;
+}
+
+export function isDetailedLabelInfo(
+  label: LabelInfo
+): label is DetailedLabelInfo {
+  return !!(label as DetailedLabelInfo).values;
 }
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "93be3230_e8bd040b",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-02T14:09:49Z",
+      "side": 1,
+      "message": "Add \"Bug: Issue 13337\" footer",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    }
+  ]
+}

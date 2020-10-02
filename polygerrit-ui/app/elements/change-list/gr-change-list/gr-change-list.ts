@@ -50,6 +50,7 @@ import {
   ServerInfo,
   PreferencesInput,
 } from '../../../types/common';
+import {isAttentionSetEnabled} from '../../../utils/attention-set-util';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];
@@ -327,10 +328,8 @@ export class GrChangeList extends ChangeTableMixin(
     showReviewedState: boolean,
     config?: ServerInfo
   ) {
-    const isAttentionSetEnabled =
-      !!config && !!config.change && config.change.enable_attention_set;
     return (
-      !isAttentionSetEnabled &&
+      !isAttentionSetEnabled(config) &&
       showReviewedState &&
       !change.reviewed &&
       !change.work_in_progress &&

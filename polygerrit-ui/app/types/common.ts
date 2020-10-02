@@ -165,8 +165,8 @@ export interface QuickLabelInfo extends LabelCommonInfo {
 }
 
 export interface DetailedLabelInfo extends LabelCommonInfo {
-  all?: ApprovalInfo[];
-  values?: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
+  all: ApprovalInfo[];
+  values: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
   default_value?: number;
 }
 

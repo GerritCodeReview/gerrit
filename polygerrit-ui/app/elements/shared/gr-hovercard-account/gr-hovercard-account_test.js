@@ -59,17 +59,6 @@ suite('gr-hovercard-account tests', () => {
         'Kermit The Frog');
   });
 
-  test('_computeReason', () => {
-    const change = {
-      attention_set: {
-        31415926535: {
-          reason: 'a good reason',
-        },
-      },
-    };
-    assert.equal(element._computeReason(change), 'a good reason');
-  });
-
   test('_computeLastUpdate', () => {
     const last_update = '2019-07-17 19:39:02.000000000';
     const change = {

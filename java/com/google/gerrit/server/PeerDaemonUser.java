@@ -40,11 +40,6 @@ public class PeerDaemonUser extends CurrentUser {
     return GroupMembership.EMPTY;
   }
 
-  @Override
-  public Object getCacheKey() {
-    return getRemoteAddress();
-  }
-
   public SocketAddress getRemoteAddress() {
     return peer;
   }

@@ -36,9 +36,4 @@ public final class SingleGroupUser extends CurrentUser {
   public GroupMembership getEffectiveGroups() {
     return groups;
   }
-
-  @Override
-  public Object getCacheKey() {
-    return groups.getKnownGroups();
-  }
 }

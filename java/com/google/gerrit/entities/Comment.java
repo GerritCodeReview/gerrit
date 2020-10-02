@@ -231,7 +231,6 @@ public abstract class Comment {
   private String revId;
 
   public String serverId;
-  public boolean unresolved;
 
   public Comment(Comment c) {
     this(
@@ -240,15 +239,13 @@ public abstract class Comment {
         new Timestamp(c.writtenOn.getTime()),
         c.side,
         c.message,
-        c.serverId,
-        c.unresolved);
+        c.serverId);
     this.lineNbr = c.lineNbr;
     this.realAuthor = c.realAuthor;
     this.parentUuid = c.parentUuid;
     this.range = c.range != null ? new Range(c.range) : null;
     this.tag = c.tag;
     this.revId = c.revId;
-    this.unresolved = c.unresolved;
   }
 
   public Comment(
@@ -257,8 +254,7 @@ public abstract class Comment {
       Timestamp writtenOn,
       short side,
       String message,
-      String serverId,
-      boolean unresolved) {
+      String serverId) {
     this.key = key;
     this.author = new Comment.Identity(author);
     this.realAuthor = this.author;
@@ -266,7 +262,6 @@ public abstract class Comment {
     this.side = side;
     this.message = message;
     this.serverId = serverId;
-    this.unresolved = unresolved;
   }
 
   public void setLineNbrAndRange(
@@ -334,8 +329,7 @@ public abstract class Comment {
         && Objects.equals(range, c.range)
         && Objects.equals(tag, c.tag)
         && Objects.equals(revId, c.revId)
-        && Objects.equals(serverId, c.serverId)
-        && unresolved == c.unresolved;
+        && Objects.equals(serverId, c.serverId);
   }
 
   @Override
@@ -352,8 +346,7 @@ public abstract class Comment {
         range,
         tag,
         revId,
-        serverId,
-        unresolved);
+        serverId);
   }
 
   @Override
@@ -373,7 +366,6 @@ public abstract class Comment {
         .add("parentUuid", Objects.toString(parentUuid, ""))
         .add("range", Objects.toString(range, ""))
         .add("revId", Objects.toString(revId, ""))
-        .add("tag", Objects.toString(tag, ""))
-        .add("unresolved", unresolved);
+        .add("tag", Objects.toString(tag, ""));
   }
 }

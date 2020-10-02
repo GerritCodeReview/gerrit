@@ -986,7 +986,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       // Add the owner, if someone else replies. Also add the owner, if the
       // attention set would otherwise be empty.
       if (change.owner) {
-        if (!this._isOwner(currentUser, change) || newAttention.size === 0) {
+        if (!this._isOwner(currentUser, change)) {
           // A change owner must have an _account_id.
           newAttention.add(change.owner._account_id!);
         }

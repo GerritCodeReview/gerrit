@@ -16,6 +16,24 @@
       "revId": "e427a209d72059000167663bf58c1eba76981cfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7816625b_99adda56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-02T14:18:22Z",
+      "side": 1,
+      "message": "Er, sorry: \"Feature: Issue 13337\"",
+      "parentUuid": "93be3230_e8bd040b",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     }
   ]
 }

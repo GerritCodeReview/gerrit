@@ -5585,9 +5585,6 @@ The `whitespace` parameter can be specified to control how whitespace
 differences are reported in the result.  Valid values are `IGNORE_NONE`,
 `IGNORE_TRAILING`, `IGNORE_LEADING_AND_TRAILING` or `IGNORE_ALL`.
 
-The `context` parameter can be specified to control the number of lines of surrounding context
-in the diff.  Valid values are `ALL` or number of lines.
-
 [[preview-fix]]
 === Preview fix
 --

@@ -20,19 +20,13 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
-import com.google.gerrit.common.data.CommentDetail;
 import com.google.gerrit.common.data.PatchScript;
-import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Change;
-import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.Patch.ChangeType;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo;
 import com.google.gerrit.extensions.client.DiffPreferencesInfo.Whitespace;
 import com.google.gerrit.extensions.restapi.AuthException;
-import com.google.gerrit.server.CommentsUtil;
-import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.edit.ChangeEdit;
 import com.google.gerrit.server.edit.ChangeEditUtil;
@@ -84,7 +78,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSetUtil psUtil;
   private final Provider<PatchScriptBuilder> builderFactory;
   private final PatchListCache patchListCache;
-  private final CommentsUtil commentsUtil;
 
   private final String fileName;
   @Nullable private final PatchSet.Id psa;
@@ -92,12 +85,10 @@ public class PatchScriptFactory implements Callable<PatchScript> {
   private final PatchSet.Id psb;
   private final DiffPreferencesInfo diffPrefs;
   private final ChangeEditUtil editReader;
-  private final Provider<CurrentUser> userProvider;
   private final PermissionBackend permissionBackend;
   private final ProjectCache projectCache;
 
   private final Change.Id changeId;
-  private boolean loadComments = true;
 
   private ChangeNotes notes;
 
@@ -107,9 +98,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
-      CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
-      Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
@@ -122,9 +111,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.notes = notes;
-    this.commentsUtil = commentsUtil;
     this.editReader = editReader;
-    this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
 
@@ -143,9 +130,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       PatchSetUtil psUtil,
       Provider<PatchScriptBuilder> builderFactory,
       PatchListCache patchListCache,
-      CommentsUtil commentsUtil,
       ChangeEditUtil editReader,
-      Provider<CurrentUser> userProvider,
       PermissionBackend permissionBackend,
       ProjectCache projectCache,
       @Assisted ChangeNotes notes,
@@ -158,9 +143,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     this.builderFactory = builderFactory;
     this.patchListCache = patchListCache;
     this.notes = notes;
-    this.commentsUtil = commentsUtil;
     this.editReader = editReader;
-    this.userProvider = userProvider;
     this.permissionBackend = permissionBackend;
     this.projectCache = projectCache;
 
@@ -172,10 +155,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
     changeId = patchSetB.changeId();
     checkArgument(parentNum >= 0, "parentNum must be >= 0");
-  }
-
-  public void setLoadComments(boolean load) {
-    loadComments = load;
   }
 
   @Override
@@ -218,9 +197,7 @@ public class PatchScriptFactory implements Callable<PatchScript> {
         final PatchScriptBuilder b = newBuilder();
         final PatchListEntry content = list.get(fileName);
 
-        Optional<CommentDetail> comments = loadComments(content, changeEdit);
-
-        return b.toPatchScript(git, list, content, comments.orElse(null));
+        return b.toPatchScript(git, list, content);
       } catch (PatchListNotAvailableException e) {
         throw new NoSuchChangeException(changeId, e);
       } catch (IOException e) {
@@ -236,14 +213,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
       logger.atSevere().withCause(e).log("Cannot open repository %s", notes.getProjectName());
       throw new NoSuchChangeException(changeId, e);
     }
-  }
-
-  private Optional<CommentDetail> loadComments(PatchListEntry content, boolean changeEdit) {
-    if (!loadComments) {
-      return Optional.empty();
-    }
-    return new CommentsLoader(psa, psb, userProvider, notes, commentsUtil)
-        .load(changeEdit, content.getChangeType(), content.getOldName(), content.getNewName());
   }
 
   private Optional<ObjectId> getAId() {
@@ -297,99 +266,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
     } else if (changeId.equals(psId.changeId())) { // OK, same change;
     } else {
       throw new NoSuchChangeException(changeId);
-    }
-  }
-
-  private static class CommentsLoader {
-    private final PatchSet.Id psa;
-    private final PatchSet.Id psb;
-    private final Provider<CurrentUser> userProvider;
-    private final ChangeNotes notes;
-    private final CommentsUtil commentsUtil;
-    private CommentDetail comments;
-
-    CommentsLoader(
-        PatchSet.Id psa,
-        PatchSet.Id psb,
-        Provider<CurrentUser> userProvider,
-        ChangeNotes notes,
-        CommentsUtil commentsUtil) {
-      this.psa = psa;
-      this.psb = psb;
-      this.userProvider = userProvider;
-      this.notes = notes;
-      this.commentsUtil = commentsUtil;
-    }
-
-    private Optional<CommentDetail> load(
-        boolean changeEdit, ChangeType changeType, String oldName, String newName) {
-      // TODO: Implement this method with CommentDetailBuilder (this class doesn't exists yet).
-      // This is a legacy code which create final object and populate it and then returns it.
-      if (changeEdit) {
-        return Optional.empty();
-      }
-
-      comments = new CommentDetail(psa, psb);
-      switch (changeType) {
-        case ADDED:
-        case MODIFIED:
-          loadPublished(newName);
-          break;
-
-        case DELETED:
-          loadPublished(newName);
-          break;
-
-        case COPIED:
-        case RENAMED:
-          if (psa != null) {
-            loadPublished(oldName);
-          }
-          loadPublished(newName);
-          break;
-
-        case REWRITE:
-          break;
-      }
-
-      CurrentUser user = userProvider.get();
-      if (user.isIdentifiedUser()) {
-        Account.Id me = user.getAccountId();
-        switch (changeType) {
-          case ADDED:
-          case MODIFIED:
-            loadDrafts(me, newName);
-            break;
-
-          case DELETED:
-            loadDrafts(me, newName);
-            break;
-
-          case COPIED:
-          case RENAMED:
-            if (psa != null) {
-              loadDrafts(me, oldName);
-            }
-            loadDrafts(me, newName);
-            break;
-
-          case REWRITE:
-            break;
-        }
-      }
-      return Optional.of(comments);
-    }
-
-    private void loadPublished(String file) {
-      for (HumanComment c : commentsUtil.publishedByChangeFile(notes, file)) {
-        comments.include(notes.getChangeId(), c);
-      }
-    }
-
-    private void loadDrafts(Account.Id me, String file) {
-      for (HumanComment c : commentsUtil.draftByChangeFileAuthor(notes, file, me)) {
-        comments.include(notes.getChangeId(), c);
-      }
     }
   }
 

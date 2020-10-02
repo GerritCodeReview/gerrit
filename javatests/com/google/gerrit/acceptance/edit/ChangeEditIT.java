@@ -1016,11 +1016,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
   }
 
   private String urlDiff(String changeId, String fileName) {
-    return "/changes/"
-        + changeId
-        + "/revisions/0/files/"
-        + fileName
-        + "/diff?context=ALL&intraline";
+    return "/changes/" + changeId + "/revisions/0/files/" + fileName + "/diff?intraline";
   }
 
   private String urlDiff(String changeId, String revisionId, String fileName) {
@@ -1030,7 +1026,7 @@ public class ChangeEditIT extends AbstractDaemonTest {
         + revisionId
         + "/files/"
         + fileName
-        + "/diff?context=ALL&intraline";
+        + "/diff?intraline";
   }
 
   private <T> T readContentFromJson(RestResponse r, Class<T> clazz) throws Exception {

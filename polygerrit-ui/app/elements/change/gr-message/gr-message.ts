@@ -44,7 +44,7 @@ import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api
 import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 
-const PATCH_SET_PREFIX_PATTERN = /^Patch Set \d+:\s*(.*)/;
+const PATCH_SET_PREFIX_PATTERN = /^(Uploaded\s*)?P|patch S|set \d+:\s*(.*)/;
 const LABEL_TITLE_SCORE_PATTERN = /^(-?)([A-Za-z0-9-]+?)([+-]\d+)?$/;
 
 declare global {
@@ -382,7 +382,8 @@ export class GrMessage extends GestureEventListeners(
     if (!line.match(patchSetPrefix)) {
       return [];
     }
-    const scoresRaw = line.split(patchSetPrefix)[1];
+    const index = line.includes('Uploaded') ? 2 : 1;
+    const scoresRaw = line.split(patchSetPrefix)[index];
     if (!scoresRaw) {
       return [];
     }

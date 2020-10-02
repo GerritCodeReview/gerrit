@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "32a5e907_56986abd",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-02T09:51:31Z",
+      "side": 1,
+      "message": "this series with tiny changes each adding a single line have a large carbon footprint due to all the build jobs started by them ...",
+      "revId": "0d535305cdac06ff3b71c6f329fb2ef873c63720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    }
+  ]
+}

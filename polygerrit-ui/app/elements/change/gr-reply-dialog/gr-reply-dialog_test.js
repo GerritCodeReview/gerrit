@@ -242,9 +242,11 @@ suite('gr-reply-dialog tests', () => {
     checkComputeAttention('NEW', 1, [22], 999, [22], [], [22, 999]);
     checkComputeAttention('NEW', 1, [22], 999, [], [22], [22, 999]);
     checkComputeAttention('NEW', 1, [22, 33], 999, [33], [22], [22, 33, 999]);
-    checkComputeAttention('NEW', 1, [], 1, [], [], [1]);
-    checkComputeAttention('NEW', 1, [], 1, [1], [], [1]);
-    checkComputeAttention('NEW', 1, [22], 1, [], [], [1]);
+    // If the owner replies, then do not add them.
+    checkComputeAttention('NEW', 1, [], 1, [], [], []);
+    checkComputeAttention('NEW', 1, [], 1, [1], [], []);
+    checkComputeAttention('NEW', 1, [22], 1, [], [], []);
+
     checkComputeAttention('NEW', 1, [22], 1, [], [22], [22]);
     checkComputeAttention('NEW', 1, [22, 33], 1, [33], [22], [22, 33]);
     checkComputeAttention('NEW', 1, [22, 33], 1, [], [22], [22]);

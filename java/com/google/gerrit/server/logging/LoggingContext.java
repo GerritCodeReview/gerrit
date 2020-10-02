@@ -42,6 +42,15 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
   private static final ThreadLocal<MutableTags> tags = new ThreadLocal<>();
   private static final ThreadLocal<Boolean> forceLogging = new ThreadLocal<>();
   private static final ThreadLocal<Boolean> performanceLogging = new ThreadLocal<>();
+
+  /**
+   * When copying the logging context to a new thread we need to ensure that the performance log
+   * records that are added in the new thread are added to the same {@link
+   * MutablePerformanceLogRecords} instance (see {@link LoggingContextAwareRunnable} and {@link
+   * LoggingContextAwareCallable}). This is important since performance log records are processed
+   * only at the end of the request and performance log records that are created in another thread
+   * should not get lost.
+   */
   private static final ThreadLocal<MutablePerformanceLogRecords> performanceLogRecords =
       new ThreadLocal<>();
 
@@ -57,11 +66,6 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return runnable;
     }
 
-    // Pass the MutablePerformanceLogRecords instance into the LoggingContextAwareRunnable
-    // constructor so that performance log records that are created in the wrapped runnable are
-    // added to this MutablePerformanceLogRecords instance. This is important since performance
-    // log records are processed only at the end of the request and performance log records that
-    // are created in another thread should not get lost.
     return new LoggingContextAwareRunnable(
         runnable, getInstance().getMutablePerformanceLogRecords());
   }
@@ -71,11 +75,6 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
       return callable;
     }
 
-    // Pass the MutablePerformanceLogRecords instance into the LoggingContextAwareCallable
-    // constructor so that performance log records that are created in the wrapped runnable are
-    // added to this MutablePerformanceLogRecords instance. This is important since performance
-    // log records are processed only at the end of the request and performance log records that
-    // are created in another thread should not get lost.
     return new LoggingContextAwareCallable<>(
         callable, getInstance().getMutablePerformanceLogRecords());
   }
@@ -233,12 +232,7 @@ public class LoggingContext extends com.google.common.flogger.backend.system.Log
    * <p><strong>Attention:</strong> The passed in {@link MutablePerformanceLogRecords} instance is
    * directly stored in the logging context.
    *
-   * <p>This method is intended to be only used when the logging context is copied to a new thread
-   * to ensure that the performance log records that are added in the new thread are added to the
-   * same {@link MutablePerformanceLogRecords} instance (see {@link LoggingContextAwareRunnable} and
-   * {@link LoggingContextAwareCallable}). This is important since performance log records are
-   * processed only at the end of the request and performance log records that are created in
-   * another thread should not get lost.
+   * <p>This method is intended to be only used when the logging context is copied to a new thread.
    *
    * @param mutablePerformanceLogRecords the {@link MutablePerformanceLogRecords} instance in which
    *     performance log records should be stored

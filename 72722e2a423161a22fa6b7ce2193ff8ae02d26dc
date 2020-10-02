@@ -9,12 +9,9 @@
       "updated": "2020-10-02T07:28:19Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "FAILED",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/93946/console",
-      "started": "2020-10-02T07:25:52Z",
-      "finished": "2020-10-02T08:11:16Z",
+      "state": "NOT_STARTED",
       "created": "2020-10-01T21:25:25Z",
-      "updated": "2020-10-02T08:11:16Z"
+      "updated": "2020-10-02T09:29:13Z"
     }
   }
 }

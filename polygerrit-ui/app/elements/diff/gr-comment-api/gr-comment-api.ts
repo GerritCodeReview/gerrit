@@ -42,6 +42,7 @@ import {
 import {hasOwnProperty} from '../../../utils/common-util';
 import {CommentSide, Side} from '../../../constants/constants';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {isUnresolved} from '../../../utils/comment-util';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -560,15 +561,8 @@ export class ChangeComments {
     }
 
     comments = comments.concat(drafts);
-
     const threads = this.getCommentThreads(sortComments(comments));
-
-    const unresolvedThreads = threads.filter(
-      thread =>
-        thread.comments.length &&
-        thread.comments[thread.comments.length - 1].unresolved
-    );
-
+    const unresolvedThreads = threads.filter(isUnresolved);
     return unresolvedThreads.length;
   }
 

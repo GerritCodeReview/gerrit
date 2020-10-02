@@ -17,40 +17,33 @@
 
 import '../test/common-test-setup-karma.js';
 import {
-  hasAttention, getReason,
-} from './attention-set-util.js';
+  getVotingRange,
+} from './label-util.js';
 
-const KERMIT = {
-  email: 'kermit@gmail.com',
-  username: 'kermit',
-  name: 'Kermit The Frog',
-  _account_id: '31415926535',
-};
-
-suite('attention-set-util', () => {
-  test('hasAttention', () => {
-    const config = {
-      change: {enable_attention_set: true},
-    };
-    const change = {
-      attention_set: {
-        31415926535: {
-          reason: 'a good reason',
-        },
+suite('label-util', () => {
+  test('getVotingRange -1 to +1', () => {
+    const label = {
+      values: {
+        '-1': 'bad',
+        '0': 'neutral',
+        '+1': 'good',
       },
     };
-
-    assert.isTrue(hasAttention(config, KERMIT, change));
+    const expectedRange = {min: -1, max: 1};
+    assert.deepEqual(getVotingRange(label), expectedRange);
   });
 
-  test('getReason', () => {
-    const change = {
-      attention_set: {
-        31415926535: {
-          reason: 'a good reason',
-        },
+  test('getVotingRange -2 to +2', () => {
+    const label = {
+      values: {
+        '-1': 'bad',
+        '+2': 'perfect',
+        '0': 'neutral',
+        '-2': 'blocking',
+        '+1': 'good',
       },
     };
-    assert.equal(getReason(KERMIT, change), 'a good reason');
+    const expectedRange = {min: -2, max: 2};
+    assert.deepEqual(getVotingRange(label), expectedRange);
   });
 });

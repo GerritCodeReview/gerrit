@@ -32,6 +32,11 @@ export function hasOwnProperty(obj: any, prop: PropertyKey) {
   return Object.prototype.hasOwnProperty.call(obj, prop);
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function isEmptyObject(obj: any) {
+  return !Object.keys(obj).length;
+}
+
 // TODO(TS): move to common types once we have type utils
 // tslint:disable-next-line:no-any Required for constructor signature.
 export type Constructor<T> = new (...args: any[]) => T;

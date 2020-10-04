@@ -90,7 +90,7 @@ export function computeDisplayPath(path: string) {
   return path;
 }
 
-export function isMagicPath(path: string) {
+export function isMagicPath(path?: string) {
   return (
     !!path &&
     (path === SpecialFilePath.COMMIT_MESSAGE ||

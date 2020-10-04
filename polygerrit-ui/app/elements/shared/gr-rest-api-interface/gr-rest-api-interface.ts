@@ -2092,7 +2092,7 @@ export class GrRestApiInterface
       endpoint: '/files?reviewed',
       patchNum,
       reportEndpointAsIs: true,
-    });
+    }) as Promise<string[] | undefined>;
   }
 
   saveFileReviewed(

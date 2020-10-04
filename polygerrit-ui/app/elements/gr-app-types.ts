@@ -20,7 +20,14 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from './core/gr-navigation/gr-navigation';
-import {DashboardId, GroupId, RepoName} from '../types/common';
+import {
+  DashboardId,
+  GroupId,
+  NumericChangeId,
+  PatchSetNum,
+  RepoName,
+  UrlEncodedCommentId,
+} from '../types/common';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -86,6 +93,19 @@ export interface AppElementAgreementParam {
   view: GerritView.AGREEMENTS;
 }
 
+export interface AppElementDiffViewParam {
+  view: GerritView.DIFF;
+  changeNum: NumericChangeId;
+  project?: RepoName;
+  commentId?: UrlEncodedCommentId;
+  path?: string;
+  patchNum?: PatchSetNum;
+  basePatchNum?: PatchSetNum;
+  lineNum: number;
+  leftSide?: boolean;
+  commentLink?: boolean;
+}
+
 export interface AppElementJustRegisteredParams {
   // We use params.view === ... as a type guard.
   // The view?: never tells to the compiler that
@@ -106,4 +126,5 @@ export type AppElementParams =
   | AppElementSearchParam
   | AppElementSettingsParam
   | AppElementAgreementParam
-  | AppElementJustRegisteredParams;
+  | AppElementJustRegisteredParams
+  | AppElementDiffViewParam;

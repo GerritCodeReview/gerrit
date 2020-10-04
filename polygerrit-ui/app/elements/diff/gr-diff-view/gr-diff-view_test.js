@@ -24,6 +24,7 @@ import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
 import {appContext} from '../../../services/app-context.js';
+import {GerritView} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -82,7 +83,7 @@ suite('gr-diff-view tests', () => {
       };
     }
 
-    setup(() => {
+    setup(async () => {
       clock = sinon.useFakeTimers();
       sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
       stub('gr-rest-api-interface', {
@@ -118,6 +119,14 @@ suite('gr-diff-view tests', () => {
         },
       });
       element = basicFixture.instantiate();
+      element._changeNum = '42';
+      element._path = 'some/path.txt';
+      element._change = {};
+      element._diff = {content: []};
+      element._patchRange = {
+        patchNum: 77,
+        basePatchNum: 'PARENT',
+      };
       sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
         _comments: {'/COMMIT_MSG': [{id: 'c1', line: 10, patch_set: 2,
           __commentSide: 'left', path: '/COMMIT_MSG'}]},
@@ -127,7 +136,8 @@ suite('gr-diff-view tests', () => {
         getCommentsBySideForPath: () => {},
         findCommentById: _testOnly_findCommentById,
       }));
-      return element._loadComments();
+      await element._loadComments();
+      await flush();
     });
 
     teardown(() => {
@@ -269,13 +279,22 @@ suite('gr-diff-view tests', () => {
       assert.equal(element._isFileUnchanged(diff), true);
     });
 
-    test('diff toast to go to latest is shown and not base', () => {
+    test('diff toast to go to latest is shown and not base', async () => {
       sinon.stub(element.reporting, 'diffViewDisplayed');
       sinon.stub(element, '_loadBlame');
       sinon.stub(element.$.diffHost, 'reload').returns(Promise.resolve());
       sinon.spy(element, '_paramsChanged');
-      sinon.stub(element, '_getChangeDetail').returns(Promise.resolve(
-          generateChange({revisionsCount: 11})));
+      element.$.restAPI.getDiffChangeDetail.restore();
+      sinon.stub(element.$.restAPI, 'getDiffChangeDetail')
+          .returns(
+              Promise.resolve(generateChange({revisionsCount: 11})));
+      element._patchRange = {
+        patchNum: '2',
+        basePatchNum: '1',
+      };
+      sinon.stub(element, '_isFileUnchanged').returns(false);
+      const toastStub =
+          sinon.stub(element, '_displayDiffBaseAgainstLeftToast');
       element.params = {
         view: GerritNav.View.DIFF,
         changeNum: '42',
@@ -283,12 +302,8 @@ suite('gr-diff-view tests', () => {
         commentId: 'c1',
         commentLink: true,
       };
-      element._change = generateChange({revisionsCount: 11});
-      const toastStub =
-        sinon.stub(element, '_displayDiffBaseAgainstLeftToast');
-      return element._paramsChanged.returnValues[0].then(() => {
-        assert.isTrue(toastStub.called);
-      });
+      await element._paramsChanged.returnValues[0];
+      assert.isTrue(toastStub.called);
     });
 
     test('toggle left diff with a hotkey', () => {
@@ -1251,7 +1266,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_getLineOfInterest', () => {
-      assert.isNull(element._getLineOfInterest({}));
+      assert.isUndefined(element._getLineOfInterest({}));
 
       element._focusLineNum = 12;
       let result = element._getLineOfInterest({});
@@ -1334,10 +1349,20 @@ suite('gr-diff-view tests', () => {
     });
 
     suite('_initPatchRange', () => {
+      setup(async () => {
+        // const changeDetail = generateChange({revisionsCount: 5});
+        // sinon.stub(element.$.restAPI, 'getDiffChangeDetail')
+        //     .returns(Promise.resolve(changeDetail));
+        element.params = {
+          view: GerritView.DIFF,
+          changeNum: '42',
+          patchNum: '3',
+        };
+        await flush();
+      });
       test('empty', () => {
         sinon.stub(element, '_getCommentsForPath');
         sinon.stub(element, '_getPaths').returns(new Map());
-        element.params = {};
         element._initPatchRange();
         assert.equal(Object.keys(element._commentMap).length, 0);
       });
@@ -1354,7 +1379,6 @@ suite('gr-diff-view tests', () => {
           basePatchNum: '3',
           patchNum: '5',
         };
-        element.params = {};
         element._initPatchRange();
         assert.deepEqual(Object.keys(element._commentMap),
             ['path/to/file/one.cpp', 'path-to/file/two.py']);
@@ -1523,6 +1547,9 @@ suite('gr-diff-view tests', () => {
           .then(reviewed => assert.isFalse(reviewed)));
 
       promises.push(element._getReviewedStatus(false, null, null, 'path')
+          .then(reviewed => assert.isFalse(reviewed)));
+
+      promises.push(element._getReviewedStatus(false, 3, 5, 'path')
           .then(reviewed => assert.isTrue(reviewed)));
 
       return Promise.all(promises);
@@ -1613,6 +1640,7 @@ suite('gr-diff-view tests', () => {
         patchNum: 1,
         basePatchNum: 'PARENT',
       };
+      element._change = generateChange({revisionsCount: 1});
       flush();
       assert.isTrue(GerritNav.navigateToDiff.notCalled);
 
@@ -1754,6 +1782,7 @@ suite('gr-diff-view tests', () => {
         getReviewedFiles() { return Promise.resolve([]); },
       });
       element = basicFixture.instantiate();
+      element._changeNum = '42';
       return element._loadComments();
     });
 

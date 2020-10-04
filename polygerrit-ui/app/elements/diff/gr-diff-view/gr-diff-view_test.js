@@ -24,6 +24,7 @@ import {SPECIAL_PATCH_SET_NUM} from '../../../utils/patch-set-util.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
 import {_testOnly_findCommentById} from '../gr-comment-api/gr-comment-api.js';
 import {appContext} from '../../../services/app-context.js';
+import {PatchSetNum} from '../../../types/common';
 
 const basicFixture = fixtureFromElement('gr-diff-view');
 
@@ -82,7 +83,7 @@ suite('gr-diff-view tests', () => {
       };
     }
 
-    setup(() => {
+    setup(async () => {
       clock = sinon.useFakeTimers();
       sinon.stub(appContext.flagsService, 'isEnabled').returns(true);
       stub('gr-rest-api-interface', {
@@ -118,6 +119,14 @@ suite('gr-diff-view tests', () => {
         },
       });
       element = basicFixture.instantiate();
+      element._changeNum = '42';
+      element._path = 'some/path.txt';
+      element._change = {};
+      element._diff = {content: []};
+      element._patchRange = {
+        patchNum: 77,
+        basePatchNum: 'PARENT',
+      };
       sinon.stub(element.$.commentAPI, 'loadAll').returns(Promise.resolve({
         _comments: {'/COMMIT_MSG': [{id: 'c1', line: 10, patch_set: 2,
           __commentSide: 'left', path: '/COMMIT_MSG'}]},
@@ -127,7 +136,8 @@ suite('gr-diff-view tests', () => {
         getCommentsBySideForPath: () => {},
         findCommentById: _testOnly_findCommentById,
       }));
-      return element._loadComments();
+      await element._loadComments();
+      await flush();
     });
 
     teardown(() => {
@@ -1251,7 +1261,7 @@ suite('gr-diff-view tests', () => {
     });
 
     test('_getLineOfInterest', () => {
-      assert.isNull(element._getLineOfInterest({}));
+      assert.isUndefined(element._getLineOfInterest({}));
 
       element._focusLineNum = 12;
       let result = element._getLineOfInterest({});
@@ -1731,6 +1741,7 @@ suite('gr-diff-view tests', () => {
         getReviewedFiles() { return Promise.resolve([]); },
       });
       element = basicFixture.instantiate();
+      element._changeNum = '42';
       return element._loadComments();
     });
 

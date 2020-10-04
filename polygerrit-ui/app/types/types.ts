@@ -14,12 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import {Side} from '../constants/constants';
+import {DiffViewMode, Side} from '../constants/constants';
 import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announcer';
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {CommitId} from './common';
+import {CommitId, NumericChangeId, PatchRange, PatchSetNum} from './common';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -164,4 +164,52 @@ export interface DiffLayer {
   annotate(el: HTMLElement, lineEl: HTMLElement, line: GrDiffLine): void;
   addListener?(listener: DiffLayerListener): void;
   removeListener?(listener: DiffLayerListener): void;
+}
+
+export interface ChangeViewState {
+  changeNum: NumericChangeId | null;
+  patchRange: PatchRange | null;
+  selectedFileIndex: number;
+  showReplyDialog: boolean;
+  showDownloadDialog: boolean;
+  diffMode: DiffViewMode | null;
+  numFilesShown: number | null;
+  scrollTop: number;
+}
+
+export interface ChangeListViewState {
+  query: string | null;
+  offset: number;
+  selectedChangeIndex: number;
+}
+
+export interface DashboardViewState {
+  selectedChangeIndex: number;
+}
+
+export interface ViewState {
+  changeView: ChangeViewState;
+  changeListView: ChangeListViewState;
+  dashboardView: DashboardViewState;
+}
+
+export interface PatchSetFile {
+  path: string;
+  basePath?: string;
+  patchNum?: PatchSetNum;
+}
+
+export interface PatchNumOnly {
+  patchNum: PatchSetNum;
+}
+
+export function isPatchSetFile(
+  x: PatchSetFile | PatchNumOnly
+): x is PatchSetFile {
+  return !!(x as PatchSetFile).path;
+}
+
+export interface FileRange {
+  basePath?: string;
+  path: string;
 }

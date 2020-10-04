@@ -34,7 +34,6 @@ import {
 import {
   Comment,
   isDraft,
-  PatchSetFile,
   sortComments,
   TwoSidesComments,
   UIComment,
@@ -70,6 +69,7 @@ import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {FilesWebLinks} from '../gr-patch-range-select/gr-patch-range-select';
 import {LineNumber} from '../gr-diff/gr-diff-line';
 import {GrCommentThread} from '../../shared/gr-comment-thread/gr-comment-thread';
+import {PatchSetFile} from '../../../types/types';
 
 const MSG_EMPTY_BLAME = 'No blame information for this diff.';
 

@@ -91,6 +91,7 @@ import {
   BlameInfo,
   PatchRange,
   ImagesForDiff,
+  FileNameToFileInfoMap,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -761,4 +762,24 @@ export interface RestApiService {
     diff: DiffInfo,
     patchRange: PatchRange
   ): Promise<ImagesForDiff>;
+
+  getChangeFiles(
+    changeNum: NumericChangeId,
+    patchRange: PatchRange
+  ): Promise<FileNameToFileInfoMap | undefined>;
+
+  getReviewedFiles(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<string[] | undefined>;
+
+  saveFileReviewed(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    path: string,
+    reviewed: boolean,
+    errFn?: ErrorCallback
+  ): Promise<Response | undefined>;
+
+  setInProjectLookup(changeNum: NumericChangeId, project: RepoName): void;
 }

@@ -544,6 +544,7 @@ export interface CustomKeyboardEvent extends CustomEvent, EventApi {
   readonly metaKey: boolean;
   readonly shiftKey: boolean;
   readonly keyCode: number;
+  readonly repeat: boolean;
 }
 function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
   const event = dom(e.detail ? e.detail.keyboardEvent : e);
@@ -1091,6 +1092,8 @@ export interface KeyboardShortcutMixinInterface {
   getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent;
   addKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
   removeKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
+  // TODO(TS): Remove underscore. Apparently not a private method.
+  _throttleWrap(eventListener: EventListener): EventListener;
 }
 
 export function _testOnly_getShortcutManagerInstance() {

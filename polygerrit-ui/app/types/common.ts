@@ -1158,6 +1158,7 @@ export interface UserConfigInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
  */
 export interface CommentInfo {
+  // TODO(TS): Make this required.
   patch_set?: PatchSetNum;
   id: UrlEncodedCommentId;
   path?: string;
@@ -1441,7 +1442,7 @@ export interface CommentLinks {
 
 /**
  * The ConfigInfo entity contains information about the effective
- * projectconfiguration.
+ * project configuration.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#config-info
  */
 export interface ConfigInfo {
@@ -1468,7 +1469,8 @@ export interface ConfigInfo {
 }
 
 /**
- * The ProjectAccessInfo entity contains information about the access rights for a project
+ * The ProjectAccessInfo entity contains information about the access rights for
+ * a project.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-access.html#project-access-info
  */
 export interface ProjectAccessInfo {

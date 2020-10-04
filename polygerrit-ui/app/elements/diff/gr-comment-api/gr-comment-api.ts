@@ -131,15 +131,20 @@ export class ChangeComments {
     return this._robotComments;
   }
 
-  findCommentById(commentId: UrlEncodedCommentId): Comment | undefined {
-    const findComment = (comments: {[path: string]: CommentBasics[]}) => {
+  findCommentById(commentId?: UrlEncodedCommentId): UIComment | undefined {
+    if (!commentId) return undefined;
+    const findComment = (comments: {[path: string]: UIComment[]}) => {
       let comment;
       for (const path of Object.keys(comments)) {
         comment = comment || comments[path].find(c => c.id === commentId);
       }
       return comment;
     };
-    return findComment(this._comments) || findComment(this._robotComments);
+    return (
+      findComment(this._comments) ||
+      findComment(this._robotComments) ||
+      findComment(this._drafts)
+    );
   }
 
   /**
@@ -580,14 +585,14 @@ export class ChangeComments {
 export const _testOnly_findCommentById =
   ChangeComments.prototype.findCommentById;
 
-interface GrCommentApi {
+export interface GrCommentApi {
   $: {
     restAPI: RestApiService & Element;
   };
 }
 
 @customElement('gr-comment-api')
-class GrCommentApi extends GestureEventListeners(
+export class GrCommentApi extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

@@ -818,6 +818,11 @@ export interface RestApiService {
     topic: string | null
   ): Promise<string>;
 
+  getChangeFiles(
+    changeNum: NumericChangeId,
+    patchRange: PatchRange
+  ): Promise<FileNameToFileInfoMap | undefined>;
+
   getChangeOrEditFiles(
     changeNum: NumericChangeId,
     patchRange: PatchRange
@@ -844,4 +849,6 @@ export interface RestApiService {
   ): Promise<Response | undefined>;
 
   getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined>;
+
+  setInProjectLookup(changeNum: NumericChangeId, project: RepoName): void;
 }

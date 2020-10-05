@@ -193,10 +193,13 @@ export const hovercardBehaviorMixin = dedupingMixin(
        * Hovercard elements are created outside of <gr-app>, so if you want to fire
        * events, then you probably want to do that through the target element.
        */
-      dispatchEventThroughTarget(eventName: string) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      dispatchEventThroughTarget(eventName: string, detail?: any) {
+        if (!detail) detail = {};
         if (this._target)
           this._target.dispatchEvent(
             new CustomEvent(eventName, {
+              detail,
               bubbles: true,
               composed: true,
             })
@@ -463,7 +466,8 @@ export interface GrHovercardBehaviorInterface {
   removeListeners(): void;
   debounceHide(): void;
   cancelHideDebouncer(): void;
-  dispatchEventThroughTarget(eventName: string): void;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  dispatchEventThroughTarget(eventName: string, detail?: any): void;
   hide(e?: MouseEvent): void;
   debounceShow(): void;
   debounceShowBy(delayMs: number): void;

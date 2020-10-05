@@ -52,6 +52,24 @@
       "parentUuid": "6e1d2135_eede9833",
       "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9a6801e3_326ccee4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T15:12:26Z",
+      "side": 1,
+      "message": "I agree, the name _computeIsMutable is confusing.\nBased on the usage, I can suggest to rename _computeIsMutable to _isRegisterdUserAccount and do not create isEmptyObject function.\n\nOr (option 2), you can change _mutable to _readonly and then use method _isAnonymousUser (as I can see, the idea here is to disable edits if user is not logged in). This require more changes, because _readonly has an opposite meaning than _mutable.",
+      "parentUuid": "85858ef1_3fcd0f0c",
+      "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

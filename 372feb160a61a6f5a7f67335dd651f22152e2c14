@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "eb3df1a4_2e59e2a6",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "The large diff is mainly because of adding the new ContextLines class.",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e31641de_be6da26b",
         "filename": "Documentation/config-gerrit.txt",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "How many lines?\n\nSilly question: What happens when someone selects a huge file and adds a comment for lines 1-1,000,000. Would that cause an issue somewhere?",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "d0b684ac_9c66879a",
         "filename": "Documentation/config-gerrit.txt",
@@ -49,10 +50,28 @@
       "message": "In this change, we return exactly all the lines highlighted by the user. In a follow up change, I will add a num_lines parameter, that should be passed to the API, which will control the number of lines to return.\n\nI will also extra logic to limit the number of lines in a follow up change.\n\nI adjusted the text of the documentation here to: only the lines highlighted by the user.",
       "parentUuid": "e31641de_be6da26b",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b89a8b2d_91a4d657",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:03:27Z",
+      "side": 1,
+      "message": "Documentation update LGTM\n\nI wonder if we can avoid the complexity of an additional parameter. Can we simply hard code (or use a flag for) a limit that prevents abuse? I guess if we set this to, say, 100 then that\u0027ll almost always be sufficient, and if not it\u0027d just be a rendering inaccuracy.",
+      "parentUuid": "d0b684ac_9c66879a",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7a32129e_0b77b209",
         "filename": "java/com/google/gerrit/entities/ContextLines.java",
@@ -66,10 +85,10 @@
       "side": 1,
       "message": "Is it possible that we\u0027re going to have more context data in the future than just the lines? I wonder if simply \"CommentContext\" would be more forward compatible. (Sorry for re-questioning this...)",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a37a8071_767e3c3f",
         "filename": "java/com/google/gerrit/entities/ContextLines.java",
@@ -84,10 +103,10 @@
       "message": "I don\u0027t think there are other meta-data we would need to include. However I agree with your rename for forward compatibility.\n\nDone.",
       "parentUuid": "7a32129e_0b77b209",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e67e6a7d_0166f58c",
         "filename": "java/com/google/gerrit/entities/ContextLines.java",
@@ -101,10 +120,10 @@
       "side": 1,
       "message": "Should this be an ImmutableMap, given that it\u0027s cached?",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "4038b482_35248905",
         "filename": "java/com/google/gerrit/entities/ContextLines.java",
@@ -119,10 +138,10 @@
       "message": "Done",
       "parentUuid": "e67e6a7d_0166f58c",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "008353cf_a9c69d72",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
@@ -136,10 +155,10 @@
       "side": 1,
       "message": "As a caller I\u0027d wonder if it\u0027s allowed to request contexts for different projects/changes, and if there are any implications (performance) of that.",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "83d0ba06_e00494b5",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCache.java",
@@ -154,10 +173,10 @@
       "message": "Yes you can. No implications.\n\nI added a comment about it to the javadocs.",
       "parentUuid": "008353cf_a9c69d72",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4c9d8539_1463da94",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
@@ -171,10 +190,10 @@
       "side": 1,
       "message": "What about an  inmemory limit?",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "157fa6e3_ca759351",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
@@ -189,10 +208,10 @@
       "message": "mmm, I revisited the javadocs again, and I believe the maximumWeight() that I\u0027m using is for all entries of the cache, which is essentially the memory limit.\n\nI adjusted it to 8 MB - 1\u003c\u003c23 (similar to the other default values as in [1]).\n\n[1] https://gerrit-review.googlesource.com/Documentation/config-gerrit.html#cache\n[2] https://github.com/ben-manes/caffeine/blob/master/caffeine/src/main/java/com/github/benmanes/caffeine/cache/Caffeine.java#L405",
       "parentUuid": "4c9d8539_1463da94",
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d8661f57_1813e80d",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
@@ -212,10 +231,10 @@
         "endChar": 96
       },
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "07bbf660_3ce4fdf3",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
@@ -236,10 +255,10 @@
         "endChar": 96
       },
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "04f79b25_503aed93",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
@@ -259,10 +278,10 @@
         "endChar": 5
       },
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "29645e96_3eadc9f2",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
@@ -283,8 +302,7 @@
         "endChar": 5
       },
       "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

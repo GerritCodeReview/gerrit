@@ -19,6 +19,24 @@
     },
     {
       "key": {
+        "uuid": "33e41c72_a7614208",
+        "filename": "polygerrit-ui/app/constants/messages.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-05T08:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "60c482e5_57791e7f",
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "a81e3a15_37f3fff3",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 10
@@ -36,6 +54,24 @@
     },
     {
       "key": {
+        "uuid": "c4300731_5d1e6964",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-05T08:26:33Z",
+      "side": 1,
+      "message": "Actually, this function will only be called if _showEmptyThreadsMessage returns true so this check is not needed at all, the templating will ensure this above check is always done.",
+      "parentUuid": "a81e3a15_37f3fff3",
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
+      "key": {
         "uuid": "6e870af1_ee87c888",
         "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
         "patchSetId": 10
@@ -50,6 +86,24 @@
       "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "1d0b6bac_d4b5acf2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 104,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-05T08:26:33Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "6e870af1_ee87c888",
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     },
     {
       "key": {
@@ -73,6 +127,30 @@
       "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
       "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "7559418c_762e24c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-05T08:26:33Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a96ca9d_cb937727",
+      "range": {
+        "startLine": 95,
+        "startChar": 10,
+        "endLine": 95,
+        "endChar": 19
+      },
+      "revId": "4db2966d3b82d42f8c382132a0e08ba19125d5ba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

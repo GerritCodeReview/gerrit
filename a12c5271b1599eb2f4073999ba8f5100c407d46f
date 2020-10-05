@@ -34,6 +34,24 @@
       "parentUuid": "d48e81aa_dd544b9d",
       "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "85858ef1_3fcd0f0c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-05T13:47:51Z",
+      "side": 1,
+      "message": "Mainly for readibility.\nI was reading the code and _computeIsMutable did not make any sense to me.\nI assumed the purpose of the code was to check if object is non-empty(perhaps I\u0027m wrong), so I decided to make it explicit.\nWhat would you suggest as a better name for the function?",
+      "parentUuid": "6e1d2135_eede9833",
+      "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

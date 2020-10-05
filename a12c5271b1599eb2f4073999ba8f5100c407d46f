@@ -16,6 +16,24 @@
       "message": "Could you please explain a little bit, why this change is made? Any plans for reusing it in the future?\n\nisEmptyObject is a generic name and the function itself has corner cases. For example:\nisEmptyObject(new Date()) returns false\nor\nl \u003d new Map();l.set(1, \"x\");\nisEmptyObjects(l) returns true\n\n\n\n",
       "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6e1d2135_eede9833",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T13:23:01Z",
+      "side": 1,
+      "message": "Sorry,\nisEmptyObject(new Date()) returns true",
+      "parentUuid": "d48e81aa_dd544b9d",
+      "revId": "a12c5271b1599eb2f4073999ba8f5100c407d46f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

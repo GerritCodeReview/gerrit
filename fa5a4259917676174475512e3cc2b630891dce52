@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fb084e96_20a7a8b3",
+        "filename": "lib/BUILD",
+        "patchSetId": 13
+      },
+      "lineNbr": 544,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T15:10:32Z",
+      "side": 0,
+      "message": "This should stay for Java8 compatibility.",
+      "range": {
+        "startLine": 533,
+        "startChar": 0,
+        "endLine": 544,
+        "endChar": 0
+      },
+      "revId": "fa5a4259917676174475512e3cc2b630891dce52",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eea07fa5_22d40019",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-05T16:29:39Z",
+      "side": 1,
+      "message": "`unknown` is preferable over `any`.\n\n\"The any type allows assignment into any other type and dereferencing any property off it. Often this behaviour is not necessary or desirable, and code just needs to express that a type is unknown. Use the built-in type unknown in that situation — it expresses the concept and is much safer as it does not allow dereferencing arbitrary properties.\"",
+      "range": {
+        "startLine": 197,
+        "startChar": 61,
+        "endLine": 197,
+        "endChar": 64
+      },
+      "revId": "e8490f8a76a94de77dabf2ea2045d01aa1b68872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

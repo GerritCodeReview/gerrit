@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "b735a7c8_4737b010",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T20:05:49Z",
+      "side": 1,
+      "message": "Let me double-check the verification job.",
+      "parentUuid": "0278c717_9dc012ee",
+      "revId": "703582fd1523f7a78cfda5647b7aeb64e86fdd4d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "ba0090ef_29b50f09",

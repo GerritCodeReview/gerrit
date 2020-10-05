@@ -159,6 +159,23 @@
       "parentUuid": "cd802b82_707be9a8",
       "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2055289_0d33e932",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-05T14:28:20Z",
+      "side": 1,
+      "message": "I prefer CR\u0027ing to silently removing myself from this attention set for now; still up to you next.",
+      "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

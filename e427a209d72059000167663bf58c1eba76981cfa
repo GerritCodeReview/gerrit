@@ -55,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "04e5d4b7_a35d75cb",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-05T19:14:42Z",
+      "side": 1,
+      "message": "Yes currently we have users that make use of this functionality in our gerrit version (forked from 2.7 version). Use cases for UX is low but primarily this functionality is used by the CI system.",
+      "parentUuid": "821ae05d_461809e5",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "342f3577_b2ad3b5b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2
@@ -66,6 +84,30 @@
       "writtenOn": "2020-10-05T10:11:44Z",
       "side": 1,
       "message": "This is adding nested queries to change search, which I would really like to avoid. Maybe there is a solution to your problem that doesn\u0027t require nested queries. Would be good to learn about the context/background for that.\n\nNested queries make the query language more complex and add computational complexity as well. Besides, there are UX drawbacks. For example, the UI suggests predicates in the search field, but wouldn\u0027t suggest them for nested queries.",
+      "range": {
+        "startLine": 598,
+        "startChar": 8,
+        "endLine": 598,
+        "endChar": 35
+      },
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7f7db0a9_5aa85a45",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 598,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-05T19:14:42Z",
+      "side": 1,
+      "message": "\u003e This is adding nested queries to change search, which I would really like to avoid. Maybe there is a solution to your problem that doesn\u0027t require nested queries. Would be good to learn about the context/background for that.\n\nPrimary use case for our users is to identify the changes that can be integrated only if they don\u0027t have same Change-Id as that of changes that matches a particular criteria (query). A simple e.g. If user wants to filter the changes for integration that are only present in branch \u0027foo\u0027 but not present in branch \u0027bar\u0027 and there are changes being shared between branch foo and bar.\nDo you have an idea for another way to make it work for given use case?",
+      "parentUuid": "342f3577_b2ad3b5b",
       "range": {
         "startLine": 598,
         "startChar": 8,

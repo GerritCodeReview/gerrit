@@ -91,6 +91,7 @@ import {
   BlameInfo,
   PatchRange,
   ImagesForDiff,
+  GroupName,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -376,17 +377,23 @@ export interface RestApiService {
   ): Promise<GroupNameToGroupInfoMap | undefined>;
 
   getGroupConfig(
-    group: GroupId,
+    group: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined>;
 
   getIsAdmin(): Promise<boolean | undefined>;
 
-  getIsGroupOwner(groupName: GroupId): Promise<boolean>;
+  getIsGroupOwner(groupName: GroupName): Promise<boolean>;
 
-  saveGroupName(groupId: GroupId, name: string): Promise<Response>;
+  saveGroupName(
+    groupId: GroupId | GroupName,
+    name: GroupName
+  ): Promise<Response>;
 
-  saveGroupOwner(groupId: GroupId, ownerId: string): Promise<Response>;
+  saveGroupOwner(
+    groupId: GroupId | GroupName,
+    ownerId: string
+  ): Promise<Response>;
 
   saveGroupDescription(
     groupId: GroupId,
@@ -646,30 +653,32 @@ export interface RestApiService {
   ): Promise<GroupAuditEventInfo[] | undefined>;
 
   getGroupMembers(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined>;
 
-  getIncludedGroup(groupName: GroupId): Promise<GroupInfo[] | undefined>;
+  getIncludedGroup(
+    groupName: GroupId | GroupName
+  ): Promise<GroupInfo[] | undefined>;
 
   saveGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<AccountInfo>;
 
   saveIncludedGroup(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     includedGroup: GroupId,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined>;
 
   deleteGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<Response>;
 
   deleteIncludedGroup(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     includedGroup: GroupId
   ): Promise<Response>;
 

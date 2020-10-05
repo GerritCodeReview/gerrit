@@ -1,0 +1,72 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa8f01eb_7ac9fdb4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:22:22Z",
+      "side": 1,
+      "message": "I think I need more background on this change. What metrics will this enable? \u003cgoogle_internal\u003e Shouldn\u0027t the gerritcodereview.changes table have an attention set field? It seems like it doesn\u0027t at the moment.\u003c/google_internal\u003e",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "989e27e1_0f7c7486",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesCache.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:22:22Z",
+      "side": 1,
+      "message": "I guess I should have done this in https://gerrit-review.googlesource.com/c/gerrit/+/255633, right?",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ba8fbb80_8aaef618",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:22:22Z",
+      "side": 1,
+      "message": "This overlaps with latestAttentionStatus.",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f077e73_ce063f0e",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:22:22Z",
+      "side": 1,
+      "message": "This contradicts the comment 3 lines above. Could you explain the reasoning here?",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

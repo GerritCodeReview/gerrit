@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a50f3070_7fd17c50",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T15:05:42Z",
+      "side": 1,
+      "message": "@Alice can you revisit your -2? According to the roadmap, we are due to set the language level to Java 11 today.\n\nWe\u0027ll continue to validate Gerrit changes on Java8 as well.",
+      "revId": "85c00f827a46a04974ac0fb7eabcd942533534b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

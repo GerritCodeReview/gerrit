@@ -16,6 +16,46 @@
       "message": "@Alice can you revisit your -2? According to the roadmap, we are due to set the language level to Java 11 today.\n\nWe\u0027ll continue to validate Gerrit changes on Java8 as well.",
       "revId": "85c00f827a46a04974ac0fb7eabcd942533534b0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "47066133_5924d5c4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T15:10:32Z",
+      "side": 1,
+      "message": "At the moment, it looks like this change won\u0027t allow to build with Java8 anymore.\nI\u0027ll upload another alternative change that just switch the default language level to Java11, without impacting the ability to build on Java8 as well.",
+      "revId": "85c00f827a46a04974ac0fb7eabcd942533534b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f5d8ea2_b063d3ad",
+        "filename": "java/Main.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 40,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T15:10:32Z",
+      "side": 1,
+      "message": "We would set the language level to Java 11. However, we\u0027ll keep on validating incoming changes on Java8. So this check should be removed.",
+      "range": {
+        "startLine": 37,
+        "startChar": 0,
+        "endLine": 40,
+        "endChar": 78
+      },
+      "revId": "85c00f827a46a04974ac0fb7eabcd942533534b0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

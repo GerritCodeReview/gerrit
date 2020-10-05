@@ -132,6 +132,7 @@ export type Hashtag = BrandType<string, '_hashtag'>;
 export type StarLabel = BrandType<string, '_startLabel'>;
 export type CommitId = BrandType<string, '_commitId'>;
 export type LabelName = BrandType<string, '_labelName'>;
+export type GroupName = BrandType<string, '_groupName'>;
 
 // The UUID of the group
 export type GroupId = BrandType<string, '_groupId'>;
@@ -369,17 +370,17 @@ export interface GroupAuditEventInfo {
  */
 export interface GroupBaseInfo {
   id: GroupId;
-  name: string;
+  name: GroupName;
 }
 
 /**
  * The GroupInfo entity contains information about a group. This can be a
  * Gerrit internal group, or an external group that is known to Gerrit.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info
  */
 export interface GroupInfo {
   id: GroupId;
-  name?: string;
+  name?: GroupName;
   url?: string;
   options?: GroupOptionsInfo;
   description?: string;
@@ -397,10 +398,10 @@ export type GroupNameToGroupInfoMap = {[groupName: string]: GroupInfo};
 /**
  * The 'GroupInput' entity contains information for the creation of a new
  * internal group.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-input
  */
 export interface GroupInput {
-  name?: string;
+  name?: GroupName;
   uuid?: string;
   description?: string;
   visible_to_all?: string;

@@ -26,7 +26,7 @@ import {encodeURL, getBaseUrl} from '../../../utils/url-util';
 import {page} from '../../../utils/page-wrapper-utils';
 import {customElement, property, observe} from '@polymer/decorators';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
-import {GroupId} from '../../../types/common';
+import {GroupName} from '../../../types/common';
 
 export interface GrCreateGroupDialog {
   $: {
@@ -46,7 +46,7 @@ export class GrCreateGroupDialog extends GestureEventListeners(
   hasNewGroupName = false;
 
   @property({type: String})
-  _name = '';
+  _name: GroupName | '' = '';
 
   @property({type: Boolean})
   _groupCreated = false;
@@ -61,20 +61,17 @@ export class GrCreateGroupDialog extends GestureEventListeners(
   }
 
   handleCreateGroup() {
-    return this.$.restAPI
-      .createGroup({name: this._name})
-      .then(groupRegistered => {
-        if (groupRegistered.status !== 201) {
-          return;
-        }
-        this._groupCreated = true;
-        return this.$.restAPI
-          .getGroupConfig(this._name as GroupId)
-          .then(group => {
-            // TODO(TS): should group always defined ?
-            page.show(this._computeGroupUrl(group!.group_id!));
-          });
+    const name = this._name as GroupName;
+    return this.$.restAPI.createGroup({name}).then(groupRegistered => {
+      if (groupRegistered.status !== 201) {
+        return;
+      }
+      this._groupCreated = true;
+      return this.$.restAPI.getGroupConfig(name).then(group => {
+        // TODO(TS): should group always defined ?
+        page.show(this._computeGroupUrl(group!.group_id!));
       });
+    });
   }
 }
 

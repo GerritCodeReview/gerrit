@@ -41,6 +41,7 @@ import {
   AccountId,
   AccountInfo,
   GroupInfo,
+  GroupName,
 } from '../../../types/common';
 import {AutocompleteQuery} from '../../shared/gr-autocomplete/gr-autocomplete';
 import {PolymerDomRepeatEvent} from '../../../types/types';
@@ -85,7 +86,7 @@ export class GrGroupMembers extends GestureEventListeners(
   _loading = true;
 
   @property({type: String})
-  _groupName?: GroupId;
+  _groupName?: GroupName;
 
   @property({type: Object})
   _groupMembers?: AccountInfo[];
@@ -155,7 +156,7 @@ export class GrGroupMembers extends GestureEventListeners(
         return Promise.resolve();
       }
 
-      this._groupName = config.name as GroupId;
+      this._groupName = config.name;
 
       promises.push(
         this.$.restAPI.getIsAdmin().then(isAdmin => {

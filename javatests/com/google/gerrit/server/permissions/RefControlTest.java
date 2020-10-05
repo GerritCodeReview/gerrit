@@ -1198,11 +1198,6 @@ public class RefControlTest {
     }
 
     @Override
-    public Object getCacheKey() {
-      return new Object();
-    }
-
-    @Override
     public Optional<String> getUserName() {
       return Optional.ofNullable(username);
     }

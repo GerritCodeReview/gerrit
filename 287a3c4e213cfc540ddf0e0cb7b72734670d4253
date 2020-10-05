@@ -36,6 +36,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "01248a70_cdf87cbf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:32:24Z",
+      "side": 1,
+      "message": "Can\u0027t we build this data in the code that populates the table? It currently seems to me we\u0027d be making a code change here in order to simplify our Dremel export, but maybe I\u0027m missing something.",
+      "parentUuid": "f1774c13_b08975b1",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "989e27e1_0f7c7486",

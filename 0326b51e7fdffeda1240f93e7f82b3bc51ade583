@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee32dbb0_db2db784",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-05T21:54:13Z",
+      "side": 1,
+      "message": "According to the release notes\nhttps://github.com/FasterXML/jackson-core/blob/master/release-notes/VERSION-2.x\nthis version has no changes compared to 2.11.0.\nNot sure why they release a new version if there are no changes ?",
+      "revId": "0326b51e7fdffeda1240f93e7f82b3bc51ade583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

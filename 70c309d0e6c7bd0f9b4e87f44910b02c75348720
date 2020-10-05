@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ab375e26_5eefdfd5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T16:53:08Z",
+      "side": 1,
+      "message": "This is a follow-up change for\nhttps://gerrit-review.googlesource.com/c/gerrit/+/283576.\nIt contains fixes/updates for comments in the specified change.",
+      "revId": "70c309d0e6c7bd0f9b4e87f44910b02c75348720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

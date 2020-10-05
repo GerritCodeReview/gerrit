@@ -1,7 +1,6 @@
 {
   "comments": [
     {
-      "unresolved": true,
       "key": {
         "uuid": "f715b26d_cd48aa45",
         "filename": "Documentation/dev-bazel.txt",
@@ -21,10 +20,10 @@
         "endChar": 24
       },
       "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
-      "unresolved": true,
       "key": {
         "uuid": "59d500c8_f649a452",
         "filename": "Documentation/dev-bazel.txt",
@@ -45,10 +44,34 @@
         "endChar": 24
       },
       "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
     },
     {
-      "unresolved": true,
+      "key": {
+        "uuid": "72c01491_bcf06e67",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T22:44:37Z",
+      "side": 1,
+      "message": "I believe we should keep the update to the future versions of Java as a separate chante.\nWill restore just the elipsis rather than mentioning Java 14.\n\nA follow-up change can then address the future versions of Java.",
+      "parentUuid": "59d500c8_f649a452",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
+    },
+    {
       "key": {
         "uuid": "49ad2102_5c468aa6",
         "filename": "Documentation/dev-bazel.txt",
@@ -68,7 +91,32 @@
         "endChar": 3
       },
       "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "35fe7220_20d15e05",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T22:44:37Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "49ad2102_5c468aa6",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
+      "unresolved": false
     }
   ]
 }

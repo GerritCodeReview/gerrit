@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185521c7_a13a6636",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-05T15:20:32Z",
+      "side": 1,
+      "message": "this could do with some documentation",
+      "range": {
+        "startLine": 529,
+        "startChar": 5,
+        "endLine": 529,
+        "endChar": 24
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d0bd30b8_de0c792d",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-05T15:20:32Z",
+      "side": 1,
+      "message": "this is unnecessary.",
+      "range": {
+        "startLine": 538,
+        "startChar": 2,
+        "endLine": 538,
+        "endChar": 16
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7d693456_ccc9c13b",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-05T15:20:32Z",
+      "side": 1,
+      "message": "wg.Done()",
+      "range": {
+        "startLine": 575,
+        "startChar": 28,
+        "endLine": 576,
+        "endChar": 6
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32ff0c0d_f4aeca1c",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-05T15:20:32Z",
+      "side": 1,
+      "message": "this looks a little fishy. I think stdout and stderr could be written in parallel, but the data structure isn\u0027t thread-safe.\n\nhave you tried running the binary with the race detector? (try go build -race server.go)",
+      "range": {
+        "startLine": 600,
+        "startChar": 14,
+        "endLine": 600,
+        "endChar": 23
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

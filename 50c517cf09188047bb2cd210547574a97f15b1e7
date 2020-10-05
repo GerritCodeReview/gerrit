@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f715b26d_cd48aa45",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-05T21:47:43Z",
+      "side": 1,
+      "message": "13, if willing to keep Java 13 mentioned in here. As for 14, it has no corresponding section in this file.",
+      "range": {
+        "startLine": 21,
+        "startChar": 22,
+        "endLine": 21,
+        "endChar": 24
+      },
+      "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "49ad2102_5c468aa6",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 7
+      },
+      "lineNbr": 74,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-05T21:47:43Z",
+      "side": 1,
+      "message": "There is already such a section down below; merge and amend?\n\nI\u0027d then keep the increasing order of these Java-version sections, meaning, 8 before 11 and 11 before 13. This may require a follow-up change though.",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 74,
+        "endChar": 3
+      },
+      "revId": "50c517cf09188047bb2cd210547574a97f15b1e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

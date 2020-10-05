@@ -527,38 +527,56 @@ var (
 )
 
 type typescriptLogWriter struct {
-	logger *log.Logger
+	unfinishedLine string
+	logger         *log.Logger
 	// when WaitGroup counter is 0 the compilation is complete
 	compilationDoneWaiter *sync.WaitGroup
 }
 
 func newTypescriptLogWriter(compilationCompleteWaiter *sync.WaitGroup) *typescriptLogWriter {
 	return &typescriptLogWriter{
+		unfinishedLine:        "",
 		logger:                log.New(log.Writer(), "TSC - ", log.Flags()),
 		compilationDoneWaiter: compilationCompleteWaiter,
 	}
 }
 
 func (lw typescriptLogWriter) Write(p []byte) (n int, err error) {
-	text := strings.TrimSpace(string(p))
-	if strings.HasSuffix(text, tsFileChangeDetectedMsg) ||
-		strings.HasSuffix(text, tsStartingCompilation) {
-		lw.compilationDoneWaiter.Add(1)
+	// The input p can contain several lines and/or the partial line
+	// Code splits the input by EOL marker (\n) and stores the unfinished line
+	// for the next call to Write.
+	partialText := lw.unfinishedLine + string(p)
+	lines := strings.Split(partialText, "\n")
+	fullLines := lines
+	if strings.HasSuffix(partialText, "\n") {
+		lw.unfinishedLine = ""
+	} else {
+		fullLines = lines[:len(lines)-1]
+		lw.unfinishedLine = lines[len(lines)-1]
 	}
-	if tsStartWatchingMsg.MatchString(text) {
-		// A source code can be changed while previous compiler run is in progress.
-		// In this case typescript reruns compilation again almost immediately
-		// after the previous run finishes. To detect this situation, we are
-		// waiting waitForNextChangeInterval before decreasing the counter.
-		// If another compiler run is started in this interval, we will wait
-		// again until it finishes.
-		go func() {
-			time.Sleep(waitForNextChangeInterval)
-			lw.compilationDoneWaiter.Add(-1)
-		}()
-
+	for _, fullLine := range fullLines {
+		text := strings.TrimSpace(fullLine)
+		if text == "" {
+			continue
+		}
+		if strings.HasSuffix(text, tsFileChangeDetectedMsg) ||
+			strings.HasSuffix(text, tsStartingCompilation) {
+			lw.compilationDoneWaiter.Add(1)
+		}
+		if tsStartWatchingMsg.MatchString(text) {
+			// A source code can be changed while previous compiler run is in progress.
+			// In this case typescript reruns compilation again almost immediately
+			// after the previous run finishes. To detect this situation, we are
+			// waiting waitForNextChangeInterval before decreasing the counter.
+			// If another compiler run is started in this interval, we will wait
+			// again until it finishes.
+			go func() {
+				time.Sleep(waitForNextChangeInterval)
+				lw.compilationDoneWaiter.Add(-1)
+			}()
+		}
+		lw.logger.Print(text)
 	}
-	lw.logger.Print(text)
 	return len(p), nil
 }
 

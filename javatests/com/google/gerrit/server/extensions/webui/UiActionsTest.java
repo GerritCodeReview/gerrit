@@ -101,11 +101,6 @@ public class UiActionsTest {
         }
 
         @Override
-        public Object getCacheKey() {
-          return new Object();
-        }
-
-        @Override
         public boolean isIdentifiedUser() {
           return true;
         }

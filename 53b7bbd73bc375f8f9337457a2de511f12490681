@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "b305d6e0_894e08f4",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 28
       },
       "revId": "53b7bbd73bc375f8f9337457a2de511f12490681",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0b7ec681_5875f135",
         "filename": "/COMMIT_MSG",
@@ -44,8 +45,54 @@
         "endChar": 28
       },
       "revId": "53b7bbd73bc375f8f9337457a2de511f12490681",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "53da51d3_be1c99ff",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 4
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T21:34:49Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0b7ec681_5875f135",
+      "range": {
+        "startLine": 16,
+        "startChar": 15,
+        "endLine": 16,
+        "endChar": 28
+      },
+      "revId": "53b7bbd73bc375f8f9337457a2de511f12490681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee9a39dd_45e8593a",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-05T21:34:49Z",
+      "side": 1,
+      "message": "This should stay.",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 32
+      },
+      "revId": "53b7bbd73bc375f8f9337457a2de511f12490681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

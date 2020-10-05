@@ -22,6 +22,30 @@
       },
       "revId": "e8490f8a76a94de77dabf2ea2045d01aa1b68872",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bfaa195c_df0dd15b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard/gr-hovercard-behavior.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 197,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-05T21:07:59Z",
+      "side": 1,
+      "message": "Thanks for explaining!",
+      "parentUuid": "eea07fa5_22d40019",
+      "range": {
+        "startLine": 197,
+        "startChar": 61,
+        "endLine": 197,
+        "endChar": 64
+      },
+      "revId": "e8490f8a76a94de77dabf2ea2045d01aa1b68872",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bce02b65_327f3473",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T16:50:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/283577/2/polygerrit-ui/server.go#529",
+      "parentUuid": "185521c7_a13a6636",
+      "range": {
+        "startLine": 529,
+        "startChar": 5,
+        "endLine": 529,
+        "endChar": 24
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d0bd30b8_de0c792d",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-05T15:20:32Z",
       "side": 1,
       "message": "this is unnecessary.",
+      "range": {
+        "startLine": 538,
+        "startChar": 2,
+        "endLine": 538,
+        "endChar": 16
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "07f18e8b_c8c60079",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 538,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T16:50:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/283577/2/polygerrit-ui/server.go#545",
+      "parentUuid": "d0bd30b8_de0c792d",
       "range": {
         "startLine": 538,
         "startChar": 2,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0096df71_f9781895",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 576,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T16:50:20Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/283577/2/polygerrit-ui/server.go#582",
+      "parentUuid": "7d693456_ccc9c13b",
+      "range": {
+        "startLine": 575,
+        "startChar": 28,
+        "endLine": 576,
+        "endChar": 6
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "32ff0c0d_f4aeca1c",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-10-05T15:20:32Z",
       "side": 1,
       "message": "this looks a little fishy. I think stdout and stderr could be written in parallel, but the data structure isn\u0027t thread-safe.\n\nhave you tried running the binary with the race detector? (try go build -race server.go)",
+      "range": {
+        "startLine": 600,
+        "startChar": 14,
+        "endLine": 600,
+        "endChar": 23
+      },
+      "revId": "5a2334ed6902c2bb1e5a4214267d23f92995760a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7ce8844_f93903b7",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 600,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-05T16:50:20Z",
+      "side": 1,
+      "message": "There is a special case:\nhttps://golang.org/pkg/os/exec/#Cmd\nIf Stdout and Stderr are the same writer, and have a type that can\nbe compared with \u003d\u003d, at most one goroutine at a time will call Write.\n\nSeems, race condition is not possible in this case. However, I agree this is very unobvious behavior, so I added a comment about it: https://gerrit-review.googlesource.com/c/gerrit/+/283577/2/polygerrit-ui/server.go#606",
+      "parentUuid": "32ff0c0d_f4aeca1c",
       "range": {
         "startLine": 600,
         "startChar": 14,

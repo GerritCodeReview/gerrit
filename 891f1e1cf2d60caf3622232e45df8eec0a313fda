@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "38cc3f30_cbd3a556",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-05T14:38:16Z",
+      "side": 1,
+      "message": "Once we confirm being ok with this tagged (small) set of changes, I\u0027m planning to update plugins [1] in turn (as usual).\n\n[1] https://github.com/dpursehouse/gerrit-plugins",
+      "revId": "891f1e1cf2d60caf3622232e45df8eec0a313fda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

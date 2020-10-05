@@ -84,5 +84,5 @@ function _accountEmail(email?: string) {
 export const _testOnly_accountEmail = _accountEmail;
 
 export function getGroupDisplayName(group: GroupInfo) {
-  return (group.name || '') + ' (group)';
+  return `${group.name || ''} (group)`;
 }

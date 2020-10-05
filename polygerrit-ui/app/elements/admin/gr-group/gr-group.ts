@@ -32,7 +32,7 @@ import {
   AutocompleteSuggestion,
   AutocompleteQuery,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
-import {GroupId, GroupInfo} from '../../../types/common';
+import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {
   ErrorCallback,
   RestApiService,
@@ -57,6 +57,11 @@ export interface GrGroup {
     restAPI: RestApiService & Element;
     loading: HTMLDivElement;
   };
+}
+
+export interface GroupNameChangedDetail {
+  name: GroupName;
+  external: boolean;
 }
 
 declare global {
@@ -164,7 +169,7 @@ export class GrGroup extends GestureEventListeners(
       );
 
       promises.push(
-        this.$.restAPI.getIsGroupOwner(config.name as GroupId).then(isOwner => {
+        this.$.restAPI.getIsGroupOwner(config.name).then(isOwner => {
           this._groupOwner = !!isOwner;
         })
       );
@@ -205,17 +210,19 @@ export class GrGroup extends GestureEventListeners(
     if (!this.groupId || !groupConfig || !groupConfig.name) {
       return Promise.reject(new Error('invalid groupId or config name'));
     }
+    const groupName = groupConfig.name;
     return this.$.restAPI
-      .saveGroupName(this.groupId, groupConfig.name)
+      .saveGroupName(this.groupId, groupName)
       .then(config => {
         if (config.status === 200) {
-          this._groupName = groupConfig.name;
+          this._groupName = groupName;
+          const detail: GroupNameChangedDetail = {
+            name: groupName,
+            external: !this._groupIsInternal,
+          };
           this.dispatchEvent(
             new CustomEvent('name-changed', {
-              detail: {
-                name: groupConfig.name,
-                external: !this._groupIsInternal,
-              },
+              detail,
               composed: true,
               bubbles: true,
             })

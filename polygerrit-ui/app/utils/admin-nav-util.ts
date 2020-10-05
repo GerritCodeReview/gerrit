@@ -24,7 +24,7 @@ import {
   RepoName,
   GroupId,
   AccountDetailInfo,
-  CapabilityInfo,
+  AccountCapabilityInfo,
 } from '../types/common';
 import {MenuLink} from '../elements/plugins/gr-admin-api/gr-admin-api';
 import {hasOwnProperty} from './common-util';
@@ -54,12 +54,27 @@ const ADMIN_LINKS: NavLink[] = [
   },
 ];
 
+export interface AdminLink {
+  url: string;
+  text: string;
+  capability: string | null;
+  noBaseUrl: boolean;
+  view: null;
+  viewableToAll: boolean;
+  target: '_blank' | null;
+}
+
+export interface AdminLinks {
+  links: NavLink[];
+  expandedSection?: SubsectionInterface;
+}
+
 export function getAdminLinks(
-  account: AccountDetailInfo,
-  getAccountCapabilities: (params?: string[]) => Promise<CapabilityInfo>,
+  account: AccountDetailInfo | undefined,
+  getAccountCapabilities: () => Promise<AccountCapabilityInfo>,
   getAdminMenuLinks: () => MenuLink[],
   options?: AdminNavLinksOption
-) {
+): Promise<AdminLinks> {
   if (!account) {
     return Promise.resolve(
       _filterLinks(link => !!link.viewableToAll, getAdminMenuLinks, options)
@@ -78,9 +93,9 @@ function _filterLinks(
   filterFn: (link: NavLink) => boolean,
   getAdminMenuLinks: () => MenuLink[],
   options?: AdminNavLinksOption
-) {
-  let links = ADMIN_LINKS.slice(0);
-  let expandedSection;
+): AdminLinks {
+  let links: NavLink[] = ADMIN_LINKS.slice(0);
+  let expandedSection: SubsectionInterface | undefined = undefined;
 
   const isExternalLink = (link: MenuLink) => link.url[0] !== '/';
 
@@ -90,18 +105,18 @@ function _filterLinks(
       return {
         url: link.url,
         name: link.text,
-        capability: link.capability || null,
+        capability: link.capability || undefined,
         noBaseUrl: !isExternalLink(link),
         view: null,
         viewableToAll: !link.capability,
         target: isExternalLink(link) ? '_blank' : null,
-      } as NavLink;
+      };
     })
   );
 
   links = links.filter(filterFn);
 
-  const filteredLinks = [];
+  const filteredLinks: NavLink[] = [];
   const repoName = options && options.repoName;
   const groupId = options && options.groupId;
   const groupName = options && options.groupName;

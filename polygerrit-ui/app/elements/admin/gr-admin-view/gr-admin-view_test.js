@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-admin-view.js';
 import {dom} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation.js';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
 import {stubBaseUrl} from '../../../test/test-utils.js';
 
@@ -149,7 +149,7 @@ suite('gr-admin-view tests', () => {
     return element.reload().then(() => {
       assert.equal(element._filteredLinks.length, 3);
       assert.deepEqual(element._filteredLinks[1], {
-        capability: null,
+        capability: undefined,
         url: '/internal/link/url',
         name: 'internal link text',
         noBaseUrl: true,
@@ -158,7 +158,7 @@ suite('gr-admin-view tests', () => {
         target: null,
       });
       assert.deepEqual(element._filteredLinks[2], {
-        capability: null,
+        capability: undefined,
         url: 'http://external/link/url',
         name: 'external link text',
         noBaseUrl: false,
@@ -244,10 +244,10 @@ suite('gr-admin-view tests', () => {
         'getAccount')
         .callsFake(() => Promise.resolve({_id: 1}));
     sinon.stub(element, 'reload');
-    element.params = {repo: 'Test Repo', adminView: 'gr-repo'};
+    element.params = {repo: 'Test Repo', view: GerritView.REPO};
     assert.equal(element.reload.callCount, 1);
     element.params = {repo: 'Test Repo 2',
-      adminView: 'gr-repo'};
+      view: GerritView.REPO};
     assert.equal(element.reload.callCount, 2);
   });
 
@@ -266,7 +266,7 @@ suite('gr-admin-view tests', () => {
         'getAccount')
         .callsFake(() => Promise.resolve({_id: 1}));
     sinon.stub(element, 'reload');
-    element.params = {groupId: '1', adminView: 'gr-group'};
+    element.params = {groupId: '1', view: GerritView.GROUP};
     assert.equal(element.reload.callCount, 1);
   });
 

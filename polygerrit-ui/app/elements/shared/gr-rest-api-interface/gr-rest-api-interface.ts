@@ -136,6 +136,7 @@ import {
   BlameInfo,
   ActionNameToActionInfoMap,
   RevisionId,
+  GroupName,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -517,7 +518,7 @@ export class GrRestApiInterface
   }
 
   getGroupConfig(
-    group: GroupId,
+    group: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined> {
     return this._restApiHelper.fetchJSON({
@@ -651,7 +652,7 @@ export class GrRestApiInterface
     });
   }
 
-  getIsGroupOwner(groupName: GroupId): Promise<boolean> {
+  getIsGroupOwner(groupName: GroupName): Promise<boolean> {
     const encodeName = encodeURIComponent(groupName);
     const req = {
       url: `/groups/?owned&g=${encodeName}`,
@@ -663,7 +664,7 @@ export class GrRestApiInterface
   }
 
   getGroupMembers(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined> {
     const encodeName = encodeURIComponent(groupName);
@@ -674,14 +675,16 @@ export class GrRestApiInterface
     }) as Promise<AccountInfo[] | undefined>;
   }
 
-  getIncludedGroup(groupName: GroupId): Promise<GroupInfo[] | undefined> {
+  getIncludedGroup(
+    groupName: GroupId | GroupName
+  ): Promise<GroupInfo[] | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/groups/${encodeURIComponent(groupName)}/groups/`,
       anonymizedUrl: '/groups/*/groups',
     }) as Promise<GroupInfo[] | undefined>;
   }
 
-  saveGroupName(groupId: GroupId, name: string): Promise<Response> {
+  saveGroupName(groupId: GroupId | GroupName, name: string): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
@@ -691,7 +694,10 @@ export class GrRestApiInterface
     });
   }
 
-  saveGroupOwner(groupId: GroupId, ownerId: string): Promise<Response> {
+  saveGroupOwner(
+    groupId: GroupId | GroupName,
+    ownerId: string
+  ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
@@ -702,7 +708,7 @@ export class GrRestApiInterface
   }
 
   saveGroupDescription(
-    groupId: GroupId,
+    groupId: GroupId | GroupName,
     description: string
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
@@ -715,7 +721,7 @@ export class GrRestApiInterface
   }
 
   saveGroupOptions(
-    groupId: GroupId,
+    groupId: GroupId | GroupName,
     options: GroupOptionsInput
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
@@ -739,7 +745,7 @@ export class GrRestApiInterface
   }
 
   saveGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<AccountInfo> {
     const encodeName = encodeURIComponent(groupName);
@@ -753,7 +759,7 @@ export class GrRestApiInterface
   }
 
   saveIncludedGroup(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     includedGroup: GroupId,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined> {
@@ -776,7 +782,7 @@ export class GrRestApiInterface
   }
 
   deleteGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
@@ -790,7 +796,7 @@ export class GrRestApiInterface
 
   deleteIncludedGroup(
     groupName: GroupId,
-    includedGroup: GroupId
+    includedGroup: GroupId | GroupName
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
     const encodeIncludedGroup = encodeURIComponent(includedGroup);

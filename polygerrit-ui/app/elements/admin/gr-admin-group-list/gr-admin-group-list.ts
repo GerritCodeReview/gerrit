@@ -31,7 +31,7 @@ import {GerritNav} from '../../core/gr-navigation/gr-navigation';
 import {customElement, property, observe, computed} from '@polymer/decorators';
 import {AppElementAdminParams} from '../../gr-app-types';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {GroupId, GroupInfo} from '../../../types/common';
+import {GroupId, GroupInfo, GroupName} from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrCreateGroupDialog} from '../gr-create-group-dialog/gr-create-group-dialog';
 
@@ -160,7 +160,7 @@ export class GrAdminGroupList extends ListViewMixin(
         }
         this._groups = Object.keys(groups).map(key => {
           const group = groups[key];
-          group.name = key;
+          group.name = key as GroupName;
           return group;
         });
         this._loading = false;

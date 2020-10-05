@@ -419,6 +419,7 @@ class GrAppElement extends KeyboardShortcutMixin(
     this.set('_showChangeView', view === GerritNav.View.CHANGE);
     this.set('_showDiffView', view === GerritNav.View.DIFF);
     this.set('_showSettingsView', view === GerritNav.View.SETTINGS);
+    // _showAdminView must be in sync with the gr-admin-view AdminViewParams type
     this.set('_showAdminView', view === GerritNav.View.ADMIN ||
         view === GerritNav.View.GROUP || view === GerritNav.View.REPO);
     this.set('_showCLAView', view === GerritNav.View.AGREEMENTS);

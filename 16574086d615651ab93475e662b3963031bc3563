@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "516d3001_3768a633",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:03:27Z",
+      "side": 1,
+      "message": "Not this change: I\u0027d have expected end() to be exclusive; that\u0027s more common in C++ and I think also in Java (e.g. substring()). WDYT about changing that (and documenting at the API)?",
+      "range": {
+        "startLine": 103,
+        "startChar": 72,
+        "endLine": 103,
+        "endChar": 76
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "58d0f525_e921c5a9",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-05T15:03:27Z",
+      "side": 1,
+      "message": "I think it would be cleaner to have a package visible getHashedPath() method in CommentContextKey. That way we don\u0027t have to store the hashed path in path and at the same time the public API of CommentContextKey doesn\u0027t expose this implementation detail.",
+      "range": {
+        "startLine": 98,
+        "startChar": 25,
+        "endLine": 98,
+        "endChar": 80
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

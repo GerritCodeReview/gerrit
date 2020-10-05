@@ -527,7 +527,8 @@ var (
 )
 
 type typescriptLogWriter struct {
-	logger *log.Logger
+	unfinishedLine string
+	logger         *log.Logger
 	// when WaitGroup counter is 0 the compilation is complete
 	compilationDoneWaiter *sync.WaitGroup
 }
@@ -540,25 +541,41 @@ func newTypescriptLogWriter(compilationCompleteWaiter *sync.WaitGroup) *typescri
 }
 
 func (lw typescriptLogWriter) Write(p []byte) (n int, err error) {
-	text := strings.TrimSpace(string(p))
-	if strings.HasSuffix(text, tsFileChangeDetectedMsg) ||
-		strings.HasSuffix(text, tsStartingCompilation) {
-		lw.compilationDoneWaiter.Add(1)
+	// The input p can contain several lines and/or the partial line
+	// Code splits the input by EOL marker (\n) and stores the unfinished line
+	// for the next call to Write.
+	partialText := lw.unfinishedLine + string(p)
+	lines := strings.Split(partialText, "\n")
+	fullLines := lines
+	if strings.HasSuffix(partialText, "\n") {
+		lw.unfinishedLine = ""
+	} else {
+		fullLines = lines[:len(lines)-1]
+		lw.unfinishedLine = lines[len(lines)-1]
 	}
-	if tsStartWatchingMsg.MatchString(text) {
-		// A source code can be changed while previous compiler run is in progress.
-		// In this case typescript reruns compilation again almost immediately
-		// after the previous run finishes. To detect this situation, we are
-		// waiting waitForNextChangeInterval before decreasing the counter.
-		// If another compiler run is started in this interval, we will wait
-		// again until it finishes.
-		go func() {
-			time.Sleep(waitForNextChangeInterval)
-			lw.compilationDoneWaiter.Add(-1)
-		}()
-
+	for _, fullLine := range fullLines {
+		text := strings.TrimSpace(fullLine)
+		if text == "" {
+			continue
+		}
+		if strings.HasSuffix(text, tsFileChangeDetectedMsg) ||
+			strings.HasSuffix(text, tsStartingCompilation) {
+			lw.compilationDoneWaiter.Add(1)
+		}
+		if tsStartWatchingMsg.MatchString(text) {
+			// A source code can be changed while previous compiler run is in progress.
+			// In this case typescript reruns compilation again almost immediately
+			// after the previous run finishes. To detect this situation, we are
+			// waiting waitForNextChangeInterval before decreasing the counter.
+			// If another compiler run is started in this interval, we will wait
+			// again until it finishes.
+			go func() {
+				time.Sleep(waitForNextChangeInterval)
+				lw.compilationDoneWaiter.Done()
+			}()
+		}
+		lw.logger.Print(text)
 	}
-	lw.logger.Print(text)
 	return len(p), nil
 }
 
@@ -578,6 +595,20 @@ func newTypescriptInstance(tscBinaryPath string, projectPath string, outdir stri
 
 	compilationCompleteWaiter := &sync.WaitGroup{}
 	logWriter := newTypescriptLogWriter(compilationCompleteWaiter)
+	// Note 1: (from https://golang.org/pkg/os/exec/#Cmd)
+	// If Stdout and Stderr are the same writer, and have a type that can
+	// be compared with ==, at most one goroutine at a time will call Write.
+	//
+	// Note 2: The typescript compiler reports all compilation errors to
+	// stdout by design (see https://github.com/microsoft/TypeScript/issues/615)
+	// It writes to stderr only when something unexpected happens (like internal
+	// exceptions). To print such errors in the same way as standard typescript
+	// error, the same logWriter is used both for Stdout and Stderr.
+	//
+	// If Stderr arrives in the middle of ordinary typescript output (i.e.
+	// something unexpected happens), the server.go can stop respond to http
+	// requests. However, this is not a problem for us: typescript compiler and
+	// server.go must be restarted anyway.
 	cmd.Stdout = logWriter
 	cmd.Stderr = logWriter
 

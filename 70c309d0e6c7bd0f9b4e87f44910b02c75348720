@@ -16,6 +16,23 @@
       "message": "This is a follow-up change for\nhttps://gerrit-review.googlesource.com/c/gerrit/+/283576.\nIt contains fixes/updates for comments in the specified change.",
       "revId": "70c309d0e6c7bd0f9b4e87f44910b02c75348720",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c24fac6_ede36b52",
+        "filename": "polygerrit-ui/server.go",
+        "patchSetId": 2
+      },
+      "lineNbr": 609,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-05T17:12:28Z",
+      "side": 1,
+      "message": "Ah, so I remembered incorrectly. \n\nthere is still the possibility that the stderr and stdout are interleaved, though? (that might cause you to miss the marker strings.) \n\nIt\u0027s probably OK since you only get stderr in exceptional situations, and if the compiler crashes, the state of the compilationDoneWaiter is likely inaccurate anyway.",
+      "revId": "70c309d0e6c7bd0f9b4e87f44910b02c75348720",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "4b1bcf9a_28fdc6ed",
         "filename": "/PATCHSET_LEVEL",
@@ -14,8 +15,48 @@
       "side": 1,
       "message": "@Alice is there anything that should be improved in this change so that you could take your -2 out? Thanks in advance ;)",
       "revId": "dc2ea2bf451c306f385b62274fa5e6c1c5397857",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6151b124_f6a167ac",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-05T12:06:22Z",
+      "side": 1,
+      "message": "The -2 was just for the implementation of change-level comments. I\u0027ll remove the vote.\n\nApart from that, I quickly glanced at the code modifications and left a comment. It\u0027s not a full review, though. Unfortunately, I won\u0027t have time for it anymore (see my message on the mailing list about switching the team) and I will need to hand the review over to somebody else.\n\n@anybody else reviewing this change: Please make sure that all relevant locations (e.g. emails, change log, comments tag) will be updated in this change.",
+      "parentUuid": "4b1bcf9a_28fdc6ed",
+      "revId": "dc2ea2bf451c306f385b62274fa5e6c1c5397857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "12065b72_c1eeed76",
+        "filename": "java/com/google/gerrit/server/mail/send/CommentSender.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-05T12:06:22Z",
+      "side": 1,
+      "message": "Returning null here feels wrong. IIRC, we only have this else-if line for the title of patchset-level comments. If the title is going away for them, we should remove all involved code lines to not keep effectively dead code around. I thought there were even more than just this line.",
+      "range": {
+        "startLine": 98,
+        "startChar": 8,
+        "endLine": 99,
+        "endChar": 20
+      },
+      "revId": "dc2ea2bf451c306f385b62274fa5e6c1c5397857",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

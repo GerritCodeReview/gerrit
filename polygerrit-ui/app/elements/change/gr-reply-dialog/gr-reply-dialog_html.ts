@@ -514,7 +514,7 @@ export const htmlTemplate = html`
             </template>
           </div>
         </div>
-        <template is="dom-if" if="[[_computeShowAttentionCcs(_ccs)]]">
+        <template is="dom-if" if="[[_attentionCcsCount]]">
           <div class="peopleList">
             <div class="peopleListLabel">CC</div>
             <div>

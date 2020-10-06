@@ -22,6 +22,30 @@
       },
       "revId": "65d9b2b7afdea8563ae3b96babcad9b230b88a07",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c02247de_f047a10d",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T20:16:40Z",
+      "side": 0,
+      "message": "This downstream exec method already has its counterpart in this branch/class. As for that exec2, yes it is unreferenced here.",
+      "parentUuid": "d089b496_0bf499f5",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "65d9b2b7afdea8563ae3b96babcad9b230b88a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

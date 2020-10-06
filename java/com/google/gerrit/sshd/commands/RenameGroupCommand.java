@@ -46,6 +46,7 @@ public class RenameGroupCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     try {
       GroupResource rsrc = groups.parse(TopLevelResource.INSTANCE, IdString.fromDecoded(groupName));
       NameInput input = new NameInput();

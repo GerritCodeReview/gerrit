@@ -65,6 +65,22 @@ public class SshSession {
     }
   }
 
+  @SuppressWarnings("resource")
+  public int execAndReturnStatus(String command) throws Exception {
+    ChannelExec channel = (ChannelExec) getSession().openChannel("exec");
+    try {
+      channel.setCommand(command);
+      InputStream err = channel.getErrStream();
+      channel.connect();
+
+      Scanner s = new Scanner(err, UTF_8.name()).useDelimiter("\\A");
+      error = s.hasNext() ? s.next() : null;
+      return channel.getExitStatus();
+    } finally {
+      channel.disconnect();
+    }
+  }
+
   private boolean hasError() {
     return error != null;
   }

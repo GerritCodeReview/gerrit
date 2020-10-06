@@ -85,6 +85,7 @@ final class ShowQueue extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     maxCommandWidth = wide ? Integer.MAX_VALUE : columns - 8 - 12 - 12 - 4 - 4;
     stdout.print(
         String.format(

@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "26826245_41c622f0",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,34 @@
         "endChar": 71
       },
       "revId": "be1772e1a870f48b9e0e4022de955ce40b4f2297",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "daa5a18c_fa8fe9c7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T21:02:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "26826245_41c622f0",
+      "range": {
+        "startLine": 16,
+        "startChar": 0,
+        "endLine": 18,
+        "endChar": 71
+      },
+      "revId": "be1772e1a870f48b9e0e4022de955ce40b4f2297",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "a57cccf4_340a6b4f",
         "filename": "/PATCHSET_LEVEL",
@@ -37,8 +62,7 @@
       "side": 1,
       "message": "Thanks, Matthias, looks good!\nCan you also cover the new scenario by tests?",
       "revId": "be1772e1a870f48b9e0e4022de955ce40b4f2297",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

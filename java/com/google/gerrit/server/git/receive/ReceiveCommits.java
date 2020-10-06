@@ -2212,6 +2212,7 @@ class ReceiveCommits {
 
           BranchCommitValidator.Result validationResult =
               validator.validateCommit(
+                  repo,
                   receivePack.getRevWalk().getObjectReader(),
                   magicBranch.cmd,
                   c,
@@ -3231,7 +3232,7 @@ class ReceiveCommits {
 
           BranchCommitValidator.Result validationResult =
               validator.validateCommit(
-                  walk.getObjectReader(), cmd, c, false, rejectCommits, null, skipValidation);
+                  repo, walk.getObjectReader(), cmd, c, false, rejectCommits, null, skipValidation);
           messages.addAll(validationResult.messages());
           if (!validationResult.isValid()) {
             break;

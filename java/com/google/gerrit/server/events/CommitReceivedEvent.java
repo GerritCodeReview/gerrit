@@ -17,6 +17,7 @@ package com.google.gerrit.server.events;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.server.IdentifiedUser;
 import java.io.IOException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.ObjectReader;
 import org.eclipse.jgit.revwalk.RevCommit;
@@ -28,6 +29,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
   public ReceiveCommand command;
   public Project project;
   public String refName;
+  public Config repoConfig;
   public RevWalk revWalk;
   public RevCommit commit;
   public IdentifiedUser user;
@@ -40,6 +42,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
       ReceiveCommand command,
       Project project,
       String refName,
+      Config repoConfig,
       ObjectReader reader,
       ObjectId commitId,
       IdentifiedUser user)
@@ -48,6 +51,7 @@ public class CommitReceivedEvent extends RefEvent implements AutoCloseable {
     this.command = command;
     this.project = project;
     this.refName = refName;
+    this.repoConfig = repoConfig;
     this.revWalk = new RevWalk(reader);
     this.commit = revWalk.parseCommit(commitId);
     this.user = user;

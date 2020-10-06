@@ -981,12 +981,6 @@ suite('gr-diff-host tests', () => {
     assert.equal(element.$.diff.changeNum, 12345);
   });
 
-  test('passes in projectName', () => {
-    const value = 'Gerrit';
-    element.projectName = value;
-    assert.equal(element.$.diff.projectName, value);
-  });
-
   test('passes in displayLine', () => {
     const value = true;
     element.displayLine = value;

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3821cd35_f630b499",
+        "filename": "plugins/replication",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-06T12:36:54Z",
+      "side": 1,
+      "message": "Revert?",
+      "revId": "a83ef89d3d24add737cd1ae28ea7910f186f0dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -150,10 +150,6 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
  */
 export type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
 
-export type Reviewers = {
-  REVIEWER?: AccountInfo[];
-  CC?: AccountInfo[];
-};
 interface LabelCommonInfo {
   optional?: boolean; // not set if false
 }
@@ -243,6 +239,15 @@ export interface ChangeInfo {
   contains_git_conflicts?: boolean;
   internalHost?: string; // TODO(TS): provide an explanation what is its
 }
+
+/**
+ * The reviewers as a map that maps a reviewer state to a list of AccountInfo
+ * entities. Possible reviewer states are REVIEWER, CC and REMOVED.
+ * REVIEWER: Users with at least one non-zero vote on the change.
+ * CC: Users that were added to the change, but have not voted.
+ * REMOVED: Users that were previously reviewers on the change, but have been removed.
+ */
+export type Reviewers = Partial<Record<ReviewerState, AccountInfo[]>>;
 
 /**
  * ChangeView request change detail with ALL_REVISIONS option set.

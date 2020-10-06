@@ -163,6 +163,30 @@
       },
       "revId": "e427a209d72059000167663bf58c1eba76981cfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "63d49bf8_ee04f864",
+        "filename": "java/com/google/gerrit/server/query/change/PeersPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-06T11:00:43Z",
+      "side": 1,
+      "message": "It means that random users can wedge individual servers down by simply executing a query that returns a lot of results repeatedly, like\n\n status:merged peers:\"status:merged\" \n\nit\u0027s also unclear in your implementation how often the search backend is actually called to produce the list for the subquery. If it is called N times, then a single query could exhaust search backend quota, bringing the entire service down across all our tenants.\n\nI would expect it to work like:\n\n * get subquery results, put ChangeIds in a HashSet\u003cString\u003e once\n * post-filter by checking HashSet\u003c\u003e membership, which is O(1).\n\nThese are technical concerns, btw. I agree with Patrick; we don\u0027t currently do joins in the search backend, and I\u0027d rather keep it that way for service stability and predictability.",
+      "parentUuid": "0c48850a_3d315dbf",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

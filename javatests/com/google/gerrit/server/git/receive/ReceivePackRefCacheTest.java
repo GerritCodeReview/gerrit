@@ -24,6 +24,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import java.util.Map;
 import org.eclipse.jgit.lib.ObjectId;
@@ -60,17 +61,18 @@ public class ReceivePackRefCacheTest {
   }
 
   @Test
-  public void noCache_tipsFromObjectIdDelegatesToRefDbAndFiltersByPrefix() throws Exception {
+  public void noCache_tipsFromObjectIdDelegatesToRefDb() throws Exception {
     Ref refBla = newRef("refs/bla", "badc0feebadc0feebadc0feebadc0feebadc0fee");
-    Ref refheads = newRef(RefNames.REFS_HEADS, "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
+    String patchSetRef = RefNames.REFS_CHANGES + "01/1/1";
+    Ref patchSet = newRef(patchSetRef, "deadbeefdeadbeefdeadbeefdeadbeefdeadbeef");
 
     RefDatabase mockRefDb = mock(RefDatabase.class);
     ReceivePackRefCache cache = ReceivePackRefCache.noCache(mockRefDb);
     when(mockRefDb.getTipsWithSha1(ObjectId.zeroId()))
-        .thenReturn(ImmutableSet.of(refBla, refheads));
+        .thenReturn(ImmutableSet.of(refBla, patchSet));
 
-    assertThat(cache.tipsFromObjectId(ObjectId.zeroId(), RefNames.REFS_HEADS))
-        .containsExactly(refheads);
+    assertThat(cache.patchSetIdsFromObjectId(ObjectId.zeroId()))
+        .containsExactly(PatchSet.Id.fromRef(patchSetRef));
     verify(mockRefDb).getTipsWithSha1(ObjectId.zeroId());
     verifyNoMoreInteractions(mockRefDb);
   }
@@ -107,25 +109,14 @@ public class ReceivePackRefCacheTest {
   }
 
   @Test
-  public void advertisedRefs_tipsFromObjectIdWithNoPrefix() throws Exception {
+  public void advertisedRefs_patchSetIdsFromObjectId() throws Exception {
     Map<String, Ref> refs = setupTwoChanges();
     ReceivePackRefCache cache = ReceivePackRefCache.withAdvertisedRefs(() -> refs);
 
     assertThat(
-            cache.tipsFromObjectId(
-                ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee"), null))
-        .containsExactly(refs.get("refs/changes/01/1/1"));
-  }
-
-  @Test
-  public void advertisedRefs_tipsFromObjectIdWithPrefix() throws Exception {
-    Map<String, Ref> refs = setupTwoChanges();
-    ReceivePackRefCache cache = ReceivePackRefCache.withAdvertisedRefs(() -> refs);
-
-    assertThat(
-            cache.tipsFromObjectId(
-                ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee"), "/refs/some"))
-        .isEmpty();
+            cache.patchSetIdsFromObjectId(
+                ObjectId.fromString("badc0feebadc0feebadc0feebadc0feebadc0fee")))
+        .containsExactly(PatchSet.Id.fromRef("refs/changes/01/1/1"));
   }
 
   private static Ref newRef(String name, String sha1) {

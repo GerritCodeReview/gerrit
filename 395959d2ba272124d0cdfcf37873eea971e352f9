@@ -16,6 +16,24 @@
       "message": "@Matthias are you planning to address the TODOs in this change?",
       "revId": "395959d2ba272124d0cdfcf37873eea971e352f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "655876c5_b9cadc6d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-06T20:34:11Z",
+      "side": 1,
+      "message": "yes, but not in the ancient 5.1 version Gerrit 2.16 is using, current development version is 5.10",
+      "parentUuid": "bed675be_2bbf9d0d",
+      "revId": "395959d2ba272124d0cdfcf37873eea971e352f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

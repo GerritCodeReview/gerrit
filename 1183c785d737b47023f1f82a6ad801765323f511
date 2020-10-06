@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a4128a9_3a5b6524",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T18:38:14Z",
+      "side": 1,
+      "message": "I\u0027d like to branch 3.3 off from here or so, this EDT afternoon if possible.",
+      "revId": "1183c785d737b47023f1f82a6ad801765323f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

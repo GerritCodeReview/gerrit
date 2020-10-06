@@ -139,6 +139,30 @@
       },
       "revId": "e427a209d72059000167663bf58c1eba76981cfa",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c48850a_3d315dbf",
+        "filename": "java/com/google/gerrit/server/query/change/PeersPredicate.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 43,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Yes it is for the use case I am trying to address. Do you see any downsides?",
+      "parentUuid": "4ea5ac8a_103363ae",
+      "range": {
+        "startLine": 43,
+        "startChar": 9,
+        "endLine": 43,
+        "endChar": 17
+      },
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

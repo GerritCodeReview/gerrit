@@ -39,6 +39,7 @@ suite('gr-hovercard-account tests', () => {
         new Promise(resolve => { '2'; })
     );
 
+    element._selfAccount = {...ACCOUNT};
     element.account = {...ACCOUNT};
     element._config = {
       change: {enable_attention_set: true},

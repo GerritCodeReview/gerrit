@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "51e419ab_cd66be1d",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 13
+      },
+      "lineNbr": 904,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T22:08:31Z",
+      "side": 1,
+      "message": "Did you check with GJF?",
+      "range": {
+        "startLine": 893,
+        "startChar": 0,
+        "endLine": 904,
+        "endChar": 7
+      },
+      "revId": "833df4928b6f8d41d48a2dea15188a37b8a7dfcc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

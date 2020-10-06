@@ -113,9 +113,6 @@ export const htmlTemplate = html`
     .cell.label iron-icon {
       vertical-align: top;
     }
-    .lastChildHidden:last-of-type {
-      display: none;
-    }
     @media only screen and (max-width: 50em) {
       :host {
         display: flex;
@@ -197,6 +194,7 @@ export const htmlTemplate = html`
         is="dom-repeat"
         items="[[_computePrimaryReviewers(change)]]"
         as="reviewer"
+        indexAs="index"
       >
         <gr-account-link
           hide-avatar=""
@@ -206,7 +204,11 @@ export const htmlTemplate = html`
           change="[[change]]"
           account="[[reviewer]]"
         ></gr-account-link
-        ><span class="lastChildHidden" aria-hidden="true">, </span>
+        ><span
+          hidden$="[[_computeCommaHidden(index, change)]]"
+          aria-hidden="true"
+          >,
+        </span>
       </template>
       <template is="dom-if" if="[[_computeAdditionalReviewersCount(change)]]">
         <span title="[[_computeAdditionalReviewersTitle(change, config)]]">

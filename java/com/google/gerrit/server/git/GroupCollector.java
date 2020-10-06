@@ -29,7 +29,6 @@ import com.google.common.collect.SortedSetMultimap;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Project;
-import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.server.PatchSetUtil;
 import com.google.gerrit.server.change.RevisionResource;
 import com.google.gerrit.server.git.receive.ReceivePackRefCache;
@@ -43,7 +42,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.TreeSet;
 import org.eclipse.jgit.lib.ObjectId;
-import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.revwalk.RevCommit;
 
 /**
@@ -231,7 +229,7 @@ public class GroupCollector {
 
   private boolean isGroupFromExistingPatchSet(RevCommit commit, String group) throws IOException {
     ObjectId id = parseGroup(commit, group);
-    return id != null && !receivePackRefCache.tipsFromObjectId(id, RefNames.REFS_CHANGES).isEmpty();
+    return id != null && !receivePackRefCache.patchSetIdsFromObjectId(id).isEmpty();
   }
 
   private Set<String> resolveGroups(ObjectId forCommit, Collection<String> candidates)
@@ -273,17 +271,13 @@ public class GroupCollector {
   private Iterable<String> resolveGroup(ObjectId forCommit, String group) throws IOException {
     ObjectId id = parseGroup(forCommit, group);
     if (id != null) {
-      Ref ref =
-          Iterables.getFirst(receivePackRefCache.tipsFromObjectId(id, RefNames.REFS_CHANGES), null);
-      if (ref != null) {
-        PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
-        if (psId != null) {
-          List<String> groups = groupLookup.lookup(psId);
-          // Group for existing patch set may be missing, e.g. if group has not
-          // been migrated yet.
-          if (groups != null && !groups.isEmpty()) {
-            return groups;
-          }
+      PatchSet.Id psId = Iterables.getFirst(receivePackRefCache.patchSetIdsFromObjectId(id), null);
+      if (psId != null) {
+        List<String> groups = groupLookup.lookup(psId);
+        // Group for existing patch set may be missing, e.g. if group has not
+        // been migrated yet.
+        if (groups != null && !groups.isEmpty()) {
+          return groups;
         }
       }
     }

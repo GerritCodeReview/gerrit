@@ -273,6 +273,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   @property({type: Array})
   _ccs: (AccountInfo | GroupInfo)[] = [];
 
+  @property({type: Number})
+  _attentionCcsCount = 0;
+
   @property({type: Object, observer: '_reviewerPendingConfirmationUpdated'})
   _ccPendingConfirmation: GroupObjectInput | null = null;
 
@@ -948,7 +951,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       AccountInfoInput[],
       AccountInfoInput[]
     >,
-    _?: PolymerDeepPropertyChange<AccountInfoInput[], AccountInfoInput[]>,
+    ccs?: PolymerDeepPropertyChange<AccountInfoInput[], AccountInfoInput[]>,
     change?: ChangeInfo,
     draftCommentThreads?: CommentThread[],
     includeComments?: boolean
@@ -957,6 +960,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       currentUser === undefined ||
       currentUser._account_id === undefined ||
       reviewers === undefined ||
+      ccs === undefined ||
       change === undefined ||
       draftCommentThreads === undefined ||
       includeComments === undefined
@@ -966,6 +970,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     // The draft comments are only relevant for the attention set as long as the
     // user actually plans to publish their drafts.
     draftCommentThreads = includeComments ? draftCommentThreads : [];
+    this._attentionCcsCount = removeServiceUsers(ccs.base).length;
     this._currentAttentionSet = new Set(
       Object.keys(change.attention_set || {}).map(
         id => parseInt(id) as AccountId
@@ -1122,10 +1127,6 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
    */
   _removeServiceUsers(accounts: AccountInfo[], _: Set<AccountId>) {
     return removeServiceUsers(accounts);
-  }
-
-  _computeShowAttentionCcs(ccs: AccountInfo[]) {
-    return removeServiceUsers(ccs).length > 0;
   }
 
   _computeUploader(change: ChangeInfo) {

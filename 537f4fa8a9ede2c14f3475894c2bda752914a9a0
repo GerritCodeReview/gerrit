@@ -1,0 +1,130 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ce32f80_f25007cb",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-06T20:22:12Z",
+      "side": 1,
+      "message": "additional space",
+      "range": {
+        "startLine": 82,
+        "startChar": 42,
+        "endLine": 82,
+        "endChar": 44
+      },
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5f2a70f7_e54f776a",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-06T20:22:12Z",
+      "side": 1,
+      "message": "W",
+      "range": {
+        "startLine": 82,
+        "startChar": 38,
+        "endLine": 82,
+        "endChar": 39
+      },
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9ff56fb_eab7c406",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 82,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-06T20:22:12Z",
+      "side": 1,
+      "message": "additional space",
+      "range": {
+        "startLine": 82,
+        "startChar": 65,
+        "endLine": 82,
+        "endChar": 67
+      },
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0a7b189b_fcdd7784",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 83,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-06T20:22:12Z",
+      "side": 1,
+      "message": "period at the end of the sentence",
+      "range": {
+        "startLine": 83,
+        "startChar": 12,
+        "endLine": 83,
+        "endChar": 16
+      },
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "151189f5_2c74e1c7",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-06T20:22:12Z",
+      "side": 1,
+      "message": "All parameters of compute methods must be optional.",
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "36e93c42_33c83453",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-06T20:22:12Z",
+      "side": 1,
+      "message": "Should this also get a text-decoration:underline? Did you discuss with Delphine? What do we do in other places?",
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

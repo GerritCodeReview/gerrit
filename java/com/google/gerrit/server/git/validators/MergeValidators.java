@@ -35,6 +35,7 @@ import com.google.gerrit.server.config.GerritServerConfig;
 import com.google.gerrit.server.config.PluginConfig;
 import com.google.gerrit.server.config.ProjectConfigEntry;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.permissions.GlobalPermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
@@ -51,7 +52,6 @@ import java.util.Objects;
 import org.eclipse.jgit.errors.ConfigInvalidException;
 import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.Repository;
-import org.eclipse.jgit.revwalk.RevWalk;
 
 /**
  * Collection of validators that run inside Gerrit before a change is submitted. The main purpose is
@@ -92,6 +92,7 @@ public class MergeValidators {
    */
   public void validatePreMerge(
       Repository repo,
+      CodeReviewRevWalk revWalk,
       CodeReviewCommit commit,
       ProjectState destProject,
       BranchNameKey destBranch,
@@ -106,7 +107,7 @@ public class MergeValidators {
             groupValidatorFactory.create());
 
     for (MergeValidationListener validator : validators) {
-      validator.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller);
+      validator.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller);
     }
   }
 
@@ -168,11 +169,12 @@ public class MergeValidators {
 
     @Override
     public void onPreMerge(
-        final Repository repo,
-        final CodeReviewCommit commit,
-        final ProjectState destProject,
-        final BranchNameKey destBranch,
-        final PatchSet.Id patchSetId,
+        Repository repo,
+        CodeReviewRevWalk revWalk,
+        CodeReviewCommit commit,
+        ProjectState destProject,
+        BranchNameKey destBranch,
+        PatchSet.Id patchSetId,
         IdentifiedUser caller)
         throws MergeValidationException {
       if (RefNames.REFS_CONFIG.equals(destBranch.branch())) {
@@ -260,6 +262,7 @@ public class MergeValidators {
     @Override
     public void onPreMerge(
         Repository repo,
+        CodeReviewRevWalk revWalk,
         CodeReviewCommit commit,
         ProjectState destProject,
         BranchNameKey destBranch,
@@ -267,7 +270,7 @@ public class MergeValidators {
         IdentifiedUser caller)
         throws MergeValidationException {
       mergeValidationListeners.runEach(
-          l -> l.onPreMerge(repo, commit, destProject, destBranch, patchSetId, caller),
+          l -> l.onPreMerge(repo, revWalk, commit, destProject, destBranch, patchSetId, caller),
           MergeValidationException.class);
     }
   }
@@ -294,6 +297,7 @@ public class MergeValidators {
     @Override
     public void onPreMerge(
         Repository repo,
+        CodeReviewRevWalk revWalk,
         CodeReviewCommit commit,
         ProjectState destProject,
         BranchNameKey destBranch,
@@ -316,8 +320,9 @@ public class MergeValidators {
         throw new MergeValidationException("account validation unavailable");
       }
 
-      try (RevWalk rw = new RevWalk(repo)) {
-        List<String> errorMessages = accountValidator.validate(accountId, repo, rw, null, commit);
+      try {
+        List<String> errorMessages =
+            accountValidator.validate(accountId, repo, revWalk, null, commit);
         if (!errorMessages.isEmpty()) {
           throw new MergeValidationException(
               "invalid account configuration: " + Joiner.on("; ").join(errorMessages));
@@ -345,6 +350,7 @@ public class MergeValidators {
     @Override
     public void onPreMerge(
         Repository repo,
+        CodeReviewRevWalk revWalk,
         CodeReviewCommit commit,
         ProjectState destProject,
         BranchNameKey destBranch,

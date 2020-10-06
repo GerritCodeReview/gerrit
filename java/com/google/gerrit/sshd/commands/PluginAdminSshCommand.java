@@ -28,6 +28,7 @@ public abstract class PluginAdminSshCommand extends SshCommand {
 
   @Override
   protected final void run() throws UnloggedFailure {
+    enableGracefulStop();
     if (!loader.isRemoteAdminEnabled()) {
       throw die("remote plugin administration is disabled");
     }

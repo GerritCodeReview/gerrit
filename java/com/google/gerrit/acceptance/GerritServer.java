@@ -312,6 +312,7 @@ public class GerritServer implements AutoCloseable {
    * @param desc server description.
    * @param baseConfig default config values; merged with config from {@code desc}.
    * @param testSysModule additional Guice module to use.
+   * @param testSshModule additional Guice module to use.
    * @return started server.
    * @throws Exception
    */
@@ -319,14 +320,15 @@ public class GerritServer implements AutoCloseable {
       TemporaryFolder temporaryFolder,
       Description desc,
       Config baseConfig,
-      @Nullable Module testSysModule)
+      @Nullable Module testSysModule,
+      @Nullable Module testSshModule)
       throws Exception {
     Path site = temporaryFolder.newFolder().toPath();
     try {
       if (!desc.memory()) {
         init(desc, baseConfig, site);
       }
-      return start(desc, baseConfig, site, testSysModule, null);
+      return start(desc, baseConfig, site, testSysModule, testSshModule, null);
     } catch (Exception e) {
       throw e;
     }
@@ -342,6 +344,7 @@ public class GerritServer implements AutoCloseable {
    *     initialize this directory. Can be retrieved from the returned instance via {@link
    *     #getSitePath()}.
    * @param testSysModule optional additional module to add to the system injector.
+   * @param testSshModule optional additional module to add to the ssh injector.
    * @param inMemoryRepoManager {@link InMemoryRepositoryManager} that should be used if the site is
    *     started in memory
    * @param additionalArgs additional command-line arguments for the daemon program; only allowed if
@@ -354,6 +357,7 @@ public class GerritServer implements AutoCloseable {
       Config baseConfig,
       Path site,
       @Nullable Module testSysModule,
+      @Nullable Module testSshModule,
       @Nullable InMemoryRepositoryManager inMemoryRepoManager,
       String... additionalArgs)
       throws Exception {
@@ -375,6 +379,9 @@ public class GerritServer implements AutoCloseable {
     daemon.setAuditEventModuleForTesting(new FakeGroupAuditService.Module());
     if (testSysModule != null) {
       daemon.addAdditionalSysModuleForTesting(testSysModule);
+    }
+    if (testSshModule != null) {
+      daemon.addAdditionalSshModuleForTesting(testSshModule);
     }
     daemon.setEnableSshd(desc.useSsh());
 
@@ -596,7 +603,24 @@ public class GerritServer implements AutoCloseable {
 
     server.close();
     server.daemon.stop();
-    return start(server.desc, cfg, site, null, inMemoryRepoManager);
+    return start(server.desc, cfg, site, null, null, inMemoryRepoManager);
+  }
+
+  public static GerritServer restart(
+      GerritServer server, @Nullable Module testSysModule, @Nullable Module testSshModule)
+      throws Exception {
+    checkState(server.desc.sandboxed(), "restarting as slave requires @Sandboxed");
+    Config cfg = server.testInjector.getInstance(Key.get(Config.class, GerritServerConfig.class));
+    Path site = server.testInjector.getInstance(Key.get(Path.class, SitePath.class));
+
+    InMemoryRepositoryManager inMemoryRepoManager = null;
+    if (hasBinding(server.testInjector, InMemoryRepositoryManager.class)) {
+      inMemoryRepoManager = server.testInjector.getInstance(InMemoryRepositoryManager.class);
+    }
+
+    server.close();
+    server.daemon.stop();
+    return start(server.desc, cfg, site, testSysModule, testSshModule, inMemoryRepoManager);
   }
 
   private static boolean hasBinding(Injector injector, Class<?> clazz) {

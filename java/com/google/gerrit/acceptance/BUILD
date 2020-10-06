@@ -117,6 +117,7 @@ java_library2(
         "//lib:jgit-junit",
         "//lib:jimfs",
         "//lib:servlet-api",
+        "//lib/flogger:api",
         "//lib/httpcomponents:fluent-hc",
         "//lib/httpcomponents:httpclient",
         "//lib/httpcomponents:httpcore",

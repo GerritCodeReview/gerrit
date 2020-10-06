@@ -102,6 +102,7 @@ final class CreateGroupCommand extends SshCommand {
   @Override
   protected void run()
       throws Failure, IOException, ConfigInvalidException, PermissionBackendException {
+    enableGracefulStop();
     try {
       GroupResource rsrc = createGroup();
 

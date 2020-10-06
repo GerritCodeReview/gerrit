@@ -89,6 +89,7 @@ import org.apache.sshd.common.mac.Mac;
 import org.apache.sshd.common.random.Random;
 import org.apache.sshd.common.random.SingletonRandomFactory;
 import org.apache.sshd.common.session.Session;
+import org.apache.sshd.common.session.helpers.AbstractSession;
 import org.apache.sshd.common.session.helpers.DefaultUnknownChannelReferenceHandler;
 import org.apache.sshd.common.util.buffer.Buffer;
 import org.apache.sshd.common.util.buffer.ByteArrayBuffer;
@@ -368,14 +369,24 @@ public class SshDaemon extends SshServer implements SshInfo, LifecycleListener {
     Collection<IoSession> ioSessions = daemonAcceptor.getManagedSessions().values();
     CountDownLatch allSessionsClosed = new CountDownLatch(ioSessions.size());
     for (IoSession io : ioSessions) {
-      logger.atFine().log("Waiting for session %s to stop.", io.getId());
-      io.addCloseFutureListener(
-          new SshFutureListener<CloseFuture>() {
-            @Override
-            public void operationComplete(CloseFuture future) {
-              allSessionsClosed.countDown();
-            }
-          });
+      AbstractSession serverSession = AbstractSession.getSession(io, true);
+      SshSession sshSession =
+          serverSession != null ? serverSession.getAttribute(SshSession.KEY) : null;
+      if (sshSession != null && sshSession.requiresGracefulStop()) {
+        logger.atFine().log("Waiting for session %s to stop.", io.getId());
+        io.addCloseFutureListener(
+            new SshFutureListener<CloseFuture>() {
+              @Override
+              public void operationComplete(CloseFuture future) {
+                logger.atFine().log("Session %s was stopped.", io.getId());
+                allSessionsClosed.countDown();
+              }
+            });
+      } else {
+        logger.atFine().log("Stopping session %s immediately.", io.getId());
+        io.close(true);
+        allSessionsClosed.countDown();
+      }
     }
     try {
       if (!allSessionsClosed.await(gracefulStopTimeout, TimeUnit.SECONDS)) {

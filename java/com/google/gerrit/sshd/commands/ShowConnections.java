@@ -86,6 +86,7 @@ final class ShowConnections extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     final IoAcceptor acceptor = daemon.getIoAcceptor();
     if (acceptor == null) {
       throw new Failure(1, "fatal: sshd no longer running");

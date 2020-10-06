@@ -62,6 +62,7 @@ public class GarbageCollectionCommand extends SshCommand {
 
   @Override
   public void run() throws Exception {
+    enableGracefulStop();
     verifyCommandLine();
     runGC();
   }

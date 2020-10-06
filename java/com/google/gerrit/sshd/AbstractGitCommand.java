@@ -52,6 +52,7 @@ public abstract class AbstractGitCommand extends BaseCommand {
 
   @Override
   public void start(ChannelSession channel, Environment env) {
+    enableGracefulStop();
     String gitProtocol = env.getEnv().get(GIT_PROTOCOL);
     if (gitProtocol != null) {
       extraParameters = gitProtocol.split(":");

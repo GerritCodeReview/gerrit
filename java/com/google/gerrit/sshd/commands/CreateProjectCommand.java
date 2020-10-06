@@ -166,6 +166,7 @@ final class CreateProjectCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     try {
       if (!suggestParent) {
         if (projectName == null) {

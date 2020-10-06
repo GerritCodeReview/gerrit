@@ -74,6 +74,7 @@ public class LsUserRefs extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     Account.Id userAccountId;
     try {
       userAccountId = accountResolver.resolve(userName).asUnique().account().id();

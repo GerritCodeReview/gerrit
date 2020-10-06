@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b91d937_bbcd02d8",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-06T16:27:24Z",
+      "side": 1,
+      "message": "I still don\u0027t understand how this failure mode happens.\n\nit\u0027s also confusing, because CheckAccess consumes the log records using getAclLogRecord, but that does not mutate the logging context (ie. the messages aren\u0027t consumed as they\u0027re still left in the context).",
+      "revId": "35b6f4acce48315f0840e2ff9d4051245dd9a6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

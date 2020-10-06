@@ -9,7 +9,7 @@ Bazel must be installed as described by
 <<dev-bazel#installation,Building with Bazel - Installation>>.
 
 It's strongly recommended to verify you can build your Gerrit tree with Bazel
-for Java 8 from the command line first. Ensure that at least
+for Java 11 from the command line first. Ensure that at least
 `bazel build gerrit` runs successfully before you proceed.
 
 === IntelliJ version and Bazel plugin
@@ -21,12 +21,12 @@ to see what version of the IntelliJ IDEA it is actually compatible with.
 Also note that the version of the Bazel plugin used in turn may or may not be
 compatible with the Bazel version used.
 
-In addition, Java 8 must be specified on your path or via `JAVA_HOME` so that
+In addition, Java 11 must be specified on your path or via `JAVA_HOME` so that
 building with Bazel via the Bazel plugin is possible.
 
 TIP: If the synchronization of the project with the BUILD files using the Bazel
 plugin fails and IntelliJ reports the error **Could not get Bazel roots**, this
-indicates that the Bazel plugin couldn't find Java 8.
+indicates that the Bazel plugin couldn't find Java 11.
 
 === Installation of IntelliJ IDEA
 

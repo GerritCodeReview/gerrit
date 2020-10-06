@@ -41,6 +41,7 @@ import com.google.gerrit.acceptance.AbstractDaemonTest;
 import com.google.gerrit.acceptance.testsuite.project.TestProjectUpdate.TestPermission;
 import com.google.gerrit.common.data.Permission;
 import com.google.gerrit.entities.Project;
+import com.google.gerrit.entities.RefNames;
 import com.google.gerrit.extensions.api.projects.BranchInfo;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.server.project.ProjectConfig;
@@ -81,6 +82,13 @@ public class ProjectOperationsImplTest extends AbstractDaemonTest {
     assertThat(branches).isNotEmpty();
     assertThat(branches.stream().map(x -> x.ref).collect(toList()))
         .isEqualTo(ImmutableList.of("HEAD", "refs/meta/config", "refs/heads/master"));
+  }
+
+  @Test
+  public void permissionOnly() throws Exception {
+    Project.NameKey key = projectOperations.newProject().permissionOnly(true).create();
+    String head = gApi.projects().name(key.get()).head();
+    assertThat(head).isEqualTo(RefNames.REFS_CONFIG);
   }
 
   @Test

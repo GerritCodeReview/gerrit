@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1df9d04e_5bbbeced",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T12:50:05Z",
+      "side": 1,
+      "message": "Following the switch to Java 11, we also need to use it for running tests.",
+      "revId": "980a8f0d1b1a0fcce145c0438bf90ad325f4f229",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

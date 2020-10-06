@@ -33,6 +33,24 @@
       "message": "Currently unable to re-run this check; strange. However, this change is only about documentation changes, which I already checked manually (locally). If you agree, you may Submit or check otherwise.",
       "revId": "e6b8e9143bdc6048590730fdb0556f8807f36c55",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "491664cd_19a56251",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T21:01:33Z",
+      "side": 1,
+      "message": "Yeah, the CI is failing because of the replication plugin tests :-(",
+      "parentUuid": "10419c24_b9e40c28",
+      "revId": "e6b8e9143bdc6048590730fdb0556f8807f36c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

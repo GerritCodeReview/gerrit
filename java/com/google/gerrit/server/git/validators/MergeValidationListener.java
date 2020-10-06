@@ -19,6 +19,7 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.extensions.annotations.ExtensionPoint;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.git.CodeReviewCommit;
+import com.google.gerrit.server.git.CodeReviewCommit.CodeReviewRevWalk;
 import com.google.gerrit.server.project.ProjectState;
 import org.eclipse.jgit.lib.Repository;
 
@@ -33,6 +34,7 @@ public interface MergeValidationListener {
    * Validate a commit before it is merged.
    *
    * @param repo the repository
+   * @param revWalk the rev walk
    * @param commit commit details
    * @param destProject the destination project
    * @param destBranch the destination branch
@@ -42,6 +44,7 @@ public interface MergeValidationListener {
    */
   void onPreMerge(
       Repository repo,
+      CodeReviewRevWalk revWalk,
       CodeReviewCommit commit,
       ProjectState destProject,
       BranchNameKey destBranch,

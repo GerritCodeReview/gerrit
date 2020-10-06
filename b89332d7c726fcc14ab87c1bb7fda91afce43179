@@ -16,6 +16,23 @@
       "message": "Thanks. As discussed, it\u0027s important to us not to use Java11 language features until we\u0027ve completed the internal migration, which I expect will be done EOQ1/21. The additional CI build guarantees that, so seems good to switch the default.",
       "revId": "b89332d7c726fcc14ab87c1bb7fda91afce43179",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0f378165_1069867b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 16
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T11:27:27Z",
+      "side": 1,
+      "message": "I\u0027ve manually verified that the CI job still checks against Java 8.",
+      "revId": "b89332d7c726fcc14ab87c1bb7fda91afce43179",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

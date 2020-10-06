@@ -22,6 +22,30 @@
       },
       "revId": "71335cf6cc784763d97b3e9cb346c7db8c7f458c",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "71fc471f_6bf1b49a",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 9
+      },
+      "lineNbr": 980,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-06T22:07:07Z",
+      "side": 1,
+      "message": "oops, done",
+      "parentUuid": "fb3fac47_3cc6cd64",
+      "range": {
+        "startLine": 980,
+        "startChar": 54,
+        "endLine": 980,
+        "endChar": 91
+      },
+      "revId": "71335cf6cc784763d97b3e9cb346c7db8c7f458c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

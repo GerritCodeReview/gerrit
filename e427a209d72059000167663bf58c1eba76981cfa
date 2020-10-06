@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "342ae010_49ea59b5",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 2
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T18:53:28Z",
+      "side": 1,
+      "message": "\u003e \u003e Use cases for UX is low but primarily this functionality is used by the CI system.\n\u003e \n\u003e If the caller is a bot and human UI users aren\u0027t the concern, then I would really try to not implement this in Gerrit. It seems simpler to just have your CI resolve that by sending a second query.\n\u003e \nCertainly CI can do 2 queries but I think its a good utility that we\u0027ve had internally for a while and working well. To have it in Gerrit is more logical and will be beneficial for one and all rather than having every CI system implement on its own.\n\n\u003e Any CI/bot you look at has workflows similar to this one where we could combine two requests inside Gerrit, but the bot can also just send a second request to resolve something. For some cases, I wouldn\u0027t worry much if we resolved things in Gerrit, but here we\u0027d be exposing sub-queries, so we have to parse the query twice, make sure the UI knows about nested queries and be mindful of the computational complexity.\n\u003e \nI think it\u0027s better to solve such things in Gerrit. Having 2 request right away will likely put the same load on server as 2 back to back requests or may be less. We can surely follow up with performance improvements if there are concerns around that. This UI works well for us, welcome any suggestions on ways to improve it.\n\n\u003e If you absolutely need this to be implemented in Gerrit, we could expand the plugin infrastructure to allow for predicates to be exposed from plugins that also take an argument. You can already expose predicates from plugins (e.g. is:myPredicate_myPlugin) but IIRC they can\u0027t take arguments right now\nSurely this can be implemented in plugin but I think its a useful utility to have in Gerrit that can benefit all",
+      "parentUuid": "d54ff290_a9bd9c6b",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "342f3577_b2ad3b5b",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2

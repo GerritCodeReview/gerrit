@@ -38,6 +38,7 @@ public class IndexStartCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    enableGracefulStop();
     try {
       if (versionManager.isKnownIndex(name)) {
         if (versionManager.startReindexer(name, force)) {

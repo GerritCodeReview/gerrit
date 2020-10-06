@@ -59,6 +59,7 @@ abstract class BaseTestPrologCommand extends SshCommand {
 
   @Override
   protected final void run() throws UnloggedFailure {
+    enableGracefulStop();
     try {
       RevisionResource revision =
           revisions.parse(

@@ -53,6 +53,7 @@ final class IndexChangesCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure {
+    enableGracefulStop();
     boolean ok = true;
     for (ChangeResource rsrc : changes.values()) {
       try {

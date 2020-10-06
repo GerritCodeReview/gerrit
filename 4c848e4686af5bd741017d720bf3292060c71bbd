@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "a5b8739d_7a7f4465",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,10 @@
         "endChar": 7
       },
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "38ca5539_9efb336d",
         "filename": "/COMMIT_MSG",
@@ -44,10 +45,10 @@
         "endChar": 7
       },
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "d2eea558_74e6ce84",
         "filename": "/COMMIT_MSG",
@@ -68,10 +69,10 @@
         "endChar": 7
       },
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "e68558ac_d17e4287",
         "filename": "/COMMIT_MSG",
@@ -92,8 +93,31 @@
         "endChar": 7
       },
       "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eedffe5b_7d3876dd",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 8
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-06T22:24:42Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "e68558ac_d17e4287",
+      "range": {
+        "startLine": 10,
+        "startChar": 20,
+        "endLine": 11,
+        "endChar": 7
+      },
+      "revId": "4c848e4686af5bd741017d720bf3292060c71bbd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

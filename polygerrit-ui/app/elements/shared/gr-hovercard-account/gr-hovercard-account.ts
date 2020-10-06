@@ -132,11 +132,15 @@ export class GrHovercardAccount extends GestureEventListeners(
   }
 
   _computeShowActionAddToAttentionSet() {
-    return this.isAttentionEnabled && !this.hasUserAttention;
+    return (
+      this._selfAccount && this.isAttentionEnabled && !this.hasUserAttention
+    );
   }
 
   _computeShowActionRemoveFromAttentionSet() {
-    return this.isAttentionEnabled && this.hasUserAttention;
+    return (
+      this._selfAccount && this.isAttentionEnabled && this.hasUserAttention
+    );
   }
 
   _handleClickAddToAttentionSet() {

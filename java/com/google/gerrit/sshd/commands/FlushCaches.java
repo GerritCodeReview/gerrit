@@ -55,6 +55,7 @@ final class FlushCaches extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     try {
       if (list) {
         if (all || !caches.isEmpty()) {

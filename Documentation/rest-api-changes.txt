@@ -7325,6 +7325,13 @@ it's set. Otherwise, the current branch tip of the destination branch will be us
 |`merge`              ||
 The detail of the source commit for merge as a link:#merge-input[MergeInput]
 entity.
+|`author`             |optional|
+An link:rest-api-accounts.html#account-input[AccountInput] entity
+that will set the author of the commit to create. The author must be
+specified as name/email combination.
+The caller needs "Forge Author" permission when using this field.
+This field does not affect the owner of the change, which will
+continue to use the identity of the caller.
 |==================================
 
 [[move-input]]

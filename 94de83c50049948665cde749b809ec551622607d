@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "d0d1f267_cb25ace4",
         "filename": "/COMMIT_MSG",
@@ -20,10 +21,34 @@
         "endChar": 11
       },
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "23ca44b1_445e036c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0d1f267_cb25ace4",
+      "range": {
+        "startLine": 10,
+        "startChar": 31,
+        "endLine": 25,
+        "endChar": 11
+      },
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "30ae73a6_b97d4421",
         "filename": "/PATCHSET_LEVEL",
@@ -37,10 +62,10 @@
       "side": 1,
       "message": "This also needs tests added",
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "fdaf8ef6_31e1c430",
         "filename": "Documentation/user-search.txt",
@@ -54,10 +79,10 @@
       "side": 1,
       "message": "Put a newline with + above this?",
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "c168fb9e_a54cb3c3",
         "filename": "Documentation/user-search.txt",
@@ -77,10 +102,52 @@
         "endChar": 41
       },
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e11fd545_ac90f9cf",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fdaf8ef6_31e1c430",
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8e581a14_01c51a4d",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 587,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c168fb9e_a54cb3c3",
+      "range": {
+        "startLine": 587,
+        "startChar": 32,
+        "endLine": 587,
+        "endChar": 41
+      },
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "81dfeed0_1bc8d0be",
         "filename": "Documentation/user-search.txt",
@@ -100,10 +167,10 @@
         "endChar": 45
       },
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "724a2713_192b3db1",
         "filename": "Documentation/user-search.txt",
@@ -123,10 +190,58 @@
         "endChar": 56
       },
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3d800ed2_4afc59d9",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "724a2713_192b3db1",
+      "range": {
+        "startLine": 588,
+        "startChar": 46,
+        "endLine": 588,
+        "endChar": 56
+      },
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "beef8d6c_9d045b0b",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 588,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "\u003e Is it referred to as \u0027legacy\u0027 elsewhere in this doc? If not, remove.\n\nIts being referred as legacy in this doc at other places as well",
+      "parentUuid": "81dfeed0_1bc8d0be",
+      "range": {
+        "startLine": 588,
+        "startChar": 39,
+        "endLine": 588,
+        "endChar": 45
+      },
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ce39f526_d22954f6",
         "filename": "Documentation/user-search.txt",
@@ -140,10 +255,28 @@
       "side": 1,
       "message": "Newline with + above this?",
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c3569f64_c399e3c5",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 589,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ce39f526_d22954f6",
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "c1075a0f_7d7f3ca4",
         "filename": "Documentation/user-search.txt",
@@ -157,10 +290,28 @@
       "side": 1,
       "message": "I think you need + on the blank lines",
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "885df3b8_b90d04c7",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 591,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c1075a0f_7d7f3ca4",
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "15de5c22_2edf6721",
         "filename": "Documentation/user-search.txt",
@@ -180,10 +331,34 @@
         "endChar": 56
       },
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "95d872d3_770935d7",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 592,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "15de5c22_2edf6721",
+      "range": {
+        "startLine": 592,
+        "startChar": 50,
+        "endLine": 592,
+        "endChar": 56
+      },
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "05a5b975_41c2a166",
         "filename": "Documentation/user-search.txt",
@@ -203,8 +378,31 @@
         "endChar": 17
       },
       "revId": "94de83c50049948665cde749b809ec551622607d",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5871be6a_8a9ff77c",
+        "filename": "Documentation/user-search.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 593,
+      "author": {
+        "id": 1096249
+      },
+      "writtenOn": "2020-10-06T06:31:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "05a5b975_41c2a166",
+      "range": {
+        "startLine": 593,
+        "startChar": 6,
+        "endLine": 593,
+        "endChar": 17
+      },
+      "revId": "94de83c50049948665cde749b809ec551622607d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

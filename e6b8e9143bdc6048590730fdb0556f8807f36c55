@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b975d031_30b763f6",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T19:34:19Z",
+      "side": 1,
+      "message": "+2 on Marco\u0027s adjustments. @Marco can you +2 back if you agree on my content?",
+      "revId": "e6b8e9143bdc6048590730fdb0556f8807f36c55",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

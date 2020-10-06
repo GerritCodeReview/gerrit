@@ -4,7 +4,7 @@
 This document is about configuring Gerrit Code Review into an
 Eclipse workspace for development.
 
-Java 8 or later SDK is required.
+Java 11 or later SDK is required.
 
 [[setup]]
 == Project Setup
@@ -30,6 +30,9 @@ and
 ----
 
 First, generate the Eclipse project by running the `tools/eclipse/project.py` script.
+If running Eclipse on Java 8, add the extra parameter `-e='--java_toolchain=//tools:error_prone_warnings_toolchain’`
+for generating a compatible project.
+
 Then, in Eclipse, choose 'Import existing project' and select the `gerrit` project
 from the current working directory.
 
@@ -79,10 +82,9 @@ the same way you would when
 link:dev-build-plugins.html#_bundle_custom_plugin_in_release_war[bundling in release.war]
 and run `tools/eclipse/project.py`.
 
-[[Newer Java versions]]
+[[Java versions]]
 
-Java 9 and later are supported, but some adjustments must be done, because
-Java 8 is still the default:
+Java 11 is supported as a default, but some adjustments must be done for other JDKs:
 
 * Add JRE, e.g.: directory: /usr/lib64/jvm/java-9-openjdk, name: java-9-openjdk-9
 * Change execution environment for gerrit project to: JavaSE-9 (java-9-openjdk-9)

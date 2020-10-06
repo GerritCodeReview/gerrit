@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd2720d5_47c637f1",
+        "filename": "java/com/google/gerrit/server/git/receive/BranchCommitValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-06T15:47:05Z",
+      "side": 1,
+      "message": "Why do you have to wrap this? It seems StoredConfig is a subclass of Config.",
+      "range": {
+        "startLine": 149,
+        "startChar": 14,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "c54963cffba2998b07e89745a572a0a5d4c246cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

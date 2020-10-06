@@ -91,7 +91,7 @@ public class PostWatchedProjects
       throws RestApiException, IOException, PermissionBackendException {
     Map<ProjectWatchKey, Set<NotifyType>> m = new HashMap<>();
     for (ProjectWatchInfo info : input) {
-      if (info.project == null) {
+      if (info.project == null || info.project.trim().isEmpty()) {
         throw new BadRequestException("project name must be specified");
       }
 

@@ -16,6 +16,24 @@
       "message": "Revert?",
       "revId": "a83ef89d3d24add737cd1ae28ea7910f186f0dda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51a5b5e4_85a71251",
+        "filename": "plugins/replication",
+        "patchSetId": 3
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-06T12:40:56Z",
+      "side": 1,
+      "message": "It\u0027s OK to leave this. The submission would update the reference to this commit anyway and CI uses this to also fetch the plugin submodule.",
+      "parentUuid": "3821cd35_f630b499",
+      "revId": "a83ef89d3d24add737cd1ae28ea7910f186f0dda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

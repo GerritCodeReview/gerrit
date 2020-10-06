@@ -16,6 +16,23 @@
       "message": "I\u0027d like to branch 3.3 off from here or so, this EDT afternoon if possible.",
       "revId": "1183c785d737b47023f1f82a6ad801765323f511",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "03e73a66_1778ea19",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T20:22:00Z",
+      "side": 1,
+      "message": "There is a problem to be fixed in a test coming from the upcoming branch in the merge:\n\n  javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java:117: error: \n  [JUnit4TestNotRun] This looks like a test method but is not run; please add @Test and @Ignore, or, \n  if this is a helper method, reduce its visibility.\n    public void permissionOnly() throws Exception {\n              ^\n      (see https://errorprone.info/bugpattern/JUnit4TestNotRun)",
+      "revId": "1183c785d737b47023f1f82a6ad801765323f511",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

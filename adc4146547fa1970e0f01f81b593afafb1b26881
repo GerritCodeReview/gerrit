@@ -3,6 +3,75 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "53fb8620_7cb3f866",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T16:02:47Z",
+      "side": 1,
+      "message": "based",
+      "range": {
+        "startLine": 12,
+        "startChar": 60,
+        "endLine": 12,
+        "endChar": 66
+      },
+      "revId": "adc4146547fa1970e0f01f81b593afafb1b26881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d43bb00b_28b900dc",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T16:02:47Z",
+      "side": 1,
+      "message": "11 or later is required; 8 can still be used for now\n\n(Or similar, to clarify.)",
+      "range": {
+        "startLine": 7,
+        "startChar": 5,
+        "endLine": 7,
+        "endChar": 32
+      },
+      "revId": "adc4146547fa1970e0f01f81b593afafb1b26881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "38bdedcc_dd7dec2c",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T16:02:47Z",
+      "side": 1,
+      "message": "May wrap here.",
+      "range": {
+        "startLine": 33,
+        "startChar": 53,
+        "endLine": 33,
+        "endChar": 54
+      },
+      "revId": "adc4146547fa1970e0f01f81b593afafb1b26881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "2bfe47e0_abb66fbc",
         "filename": "Documentation/dev-eclipse.txt",
         "patchSetId": 1
@@ -14,6 +83,30 @@
       "writtenOn": "2020-10-06T15:37:17Z",
       "side": 1,
       "message": "Shall we state that the language features aren\u0027t yet supported?",
+      "range": {
+        "startLine": 87,
+        "startChar": 26,
+        "endLine": 87,
+        "endChar": 33
+      },
+      "revId": "adc4146547fa1970e0f01f81b593afafb1b26881",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9668ca7f_3466fb15",
+        "filename": "Documentation/dev-eclipse.txt",
+        "patchSetId": 1
+      },
+      "lineNbr": 87,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T16:02:47Z",
+      "side": 1,
+      "message": "+1",
+      "parentUuid": "2bfe47e0_abb66fbc",
       "range": {
         "startLine": 87,
         "startChar": 26,

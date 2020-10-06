@@ -30,8 +30,7 @@ export class GrChangeMetadataApi {
     this._hook = this.plugin.hook('change-metadata-item');
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onLabelsChanged(callback: (value: any) => void) {
+  onLabelsChanged(callback: (value: unknown) => void) {
     if (!this._hook) {
       this._createHook();
     }

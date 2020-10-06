@@ -49,8 +49,7 @@ export const util = {
     // True if the promise is either resolved or reject (possibly cancelled)
     let isDone = false;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let rejectPromise: (reason?: any) => void;
+    let rejectPromise: (reason?: unknown) => void;
 
     const wrappedPromise: CancelablePromise<T> = new Promise(
       (resolve, reject) => {

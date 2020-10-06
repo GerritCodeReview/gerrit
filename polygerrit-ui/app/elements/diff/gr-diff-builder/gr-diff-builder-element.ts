@@ -120,9 +120,6 @@ export class GrDiffBuilderElement extends GestureEventListeners(
   @property({type: String})
   path?: string;
 
-  @property({type: String})
-  projectName?: string;
-
   @property({type: Object})
   _builder?: GrDiffBuilder;
 

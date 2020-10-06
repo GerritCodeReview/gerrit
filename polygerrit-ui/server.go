@@ -526,16 +526,23 @@ var (
 	waitForNextChangeInterval = 1 * time.Second
 )
 
+// typescriptLogWriter implements Writer interface and receives output
+// (stdout and stderr) from the typescript compiler. It reads incoming
+// data line-by-line, analyzes each line and updates compilationDoneWaiter
+// according to the current compiler state. Additionally, the
+// typescriptLogWriter passes all incoming lines to the underlying logger.
 type typescriptLogWriter struct {
+	// unfinishedLine stores the portion of line which was partially received
+	// (i.e. all text received after the last EOL (\n) mark.
 	unfinishedLine string
-	logger         *log.Logger
+	// logger is used to pass-through all received strings
+	logger *log.Logger
 	// when WaitGroup counter is 0 the compilation is complete
 	compilationDoneWaiter *sync.WaitGroup
 }
 
 func newTypescriptLogWriter(compilationCompleteWaiter *sync.WaitGroup) *typescriptLogWriter {
 	return &typescriptLogWriter{
-		unfinishedLine:        "",
 		logger:                log.New(log.Writer(), "TSC - ", log.Flags()),
 		compilationDoneWaiter: compilationCompleteWaiter,
 	}
@@ -572,7 +579,7 @@ func (lw typescriptLogWriter) Write(p []byte) (n int, err error) {
 			// again until it finishes.
 			go func() {
 				time.Sleep(waitForNextChangeInterval)
-				lw.compilationDoneWaiter.Add(-1)
+				lw.compilationDoneWaiter.Done()
 			}()
 		}
 		lw.logger.Print(text)
@@ -596,6 +603,20 @@ func newTypescriptInstance(tscBinaryPath string, projectPath string, outdir stri
 
 	compilationCompleteWaiter := &sync.WaitGroup{}
 	logWriter := newTypescriptLogWriter(compilationCompleteWaiter)
+	// Note 1: (from https://golang.org/pkg/os/exec/#Cmd)
+	// If Stdout and Stderr are the same writer, and have a type that can
+	// be compared with ==, at most one goroutine at a time will call Write.
+	//
+	// Note 2: The typescript compiler reports all compilation errors to
+	// stdout by design (see https://github.com/microsoft/TypeScript/issues/615)
+	// It writes to stderr only when something unexpected happens (like internal
+	// exceptions). To print such errors in the same way as standard typescript
+	// error, the same logWriter is used both for Stdout and Stderr.
+	//
+	// If Stderr arrives in the middle of ordinary typescript output (i.e.
+	// something unexpected happens), the server.go can stop respond to http
+	// requests. However, this is not a problem for us: typescript compiler and
+	// server.go must be restarted anyway.
 	cmd.Stdout = logWriter
 	cmd.Stderr = logWriter
 

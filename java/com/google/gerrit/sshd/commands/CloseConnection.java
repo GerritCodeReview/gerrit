@@ -57,6 +57,7 @@ final class CloseConnection extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     SshUtil.forEachSshSession(
         sshDaemon,
         (k, sshSession, abstractSession, ioSession) -> {

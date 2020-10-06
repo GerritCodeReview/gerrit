@@ -102,6 +102,7 @@ public class SetMembersCommand extends SshCommand {
 
   @Override
   protected void run() throws UnloggedFailure, Failure, Exception {
+    enableGracefulStop();
     try {
       for (AccountGroup.UUID groupUuid : groups) {
         GroupResource resource =

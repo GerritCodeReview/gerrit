@@ -35,6 +35,8 @@ public abstract class TestProjectCreation {
 
   public abstract Optional<Boolean> createEmptyCommit();
 
+  public abstract Optional<Boolean> permissionOnly();
+
   public abstract Optional<SubmitType> submitType();
 
   abstract ThrowingFunction<TestProjectCreation, Project.NameKey> projectCreator();
@@ -66,6 +68,8 @@ public abstract class TestProjectCreation {
     abstract TestProjectCreation.Builder branches(Set<String> branches);
 
     public abstract TestProjectCreation.Builder createEmptyCommit(boolean value);
+
+    public abstract TestProjectCreation.Builder permissionOnly(boolean value);
 
     /** Skips the empty commit on creation. This means that project's branches will not exist. */
     public TestProjectCreation.Builder noEmptyCommit() {

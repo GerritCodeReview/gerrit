@@ -403,6 +403,10 @@ public abstract class BaseCommand implements Command {
     }
   }
 
+  protected void enableGracefulStop() {
+    context.getSession().setGracefulStop(true);
+  }
+
   protected String getTaskDescription() {
     String[] ta = getTrimmedArguments();
     if (ta != null) {

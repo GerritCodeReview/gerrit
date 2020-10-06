@@ -132,6 +132,7 @@ final class SetProjectCommand extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     ConfigInput configInput = new ConfigInput();
     configInput.requireChangeId = requireChangeID;
     configInput.submitType = submitType;

@@ -1,4 +1,4 @@
-// Copyright (C) 2011 The Android Open Source Project
+// Copyright (C) 2020 The Android Open Source Project
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,25 +12,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-package com.google.gerrit.sshd.commands;
+package com.google.gerrit.acceptance.ssh;
 
 import static com.google.gerrit.sshd.CommandMetaData.Mode.MASTER_OR_SLAVE;
 
-import com.google.gerrit.common.Version;
 import com.google.gerrit.sshd.CommandMetaData;
-import com.google.gerrit.sshd.SshCommand;
 
-@CommandMetaData(name = "version", description = "Display gerrit version", runsAt = MASTER_OR_SLAVE)
-final class VersionCommand extends SshCommand {
+@CommandMetaData(
+    name = "non-graceful",
+    description = "Test command for immediate shutdown",
+    runsAt = MASTER_OR_SLAVE)
+public class NonGracefulCommand extends TestCommand {
 
   @Override
-  protected void run() throws Failure {
-    enableGracefulStop();
-    String v = Version.getVersion();
-    if (v == null) {
-      throw new Failure(1, "fatal: version unavailable");
-    }
-
-    stdout.println("gerrit version " + v);
+  boolean isGraceful() {
+    return false;
   }
 }

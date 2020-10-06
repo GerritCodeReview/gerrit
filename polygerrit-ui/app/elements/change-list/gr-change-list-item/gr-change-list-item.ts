@@ -408,6 +408,16 @@ export class GrChangeListItem extends ChangeTableMixin(
       isOwner: selfId === ownerId,
     });
   }
+
+  _computeCommaHidden(index?: number, change?: ChangeInfo) {
+    if (index === undefined) return false;
+    if (change === undefined) return false;
+
+    const additionalCount = this._computeAdditionalReviewersCount(change);
+    const primaryCount = this._computePrimaryReviewers(change).length;
+    const isLast = index === primaryCount - 1;
+    return isLast && additionalCount === 0;
+  }
 }
 
 declare global {

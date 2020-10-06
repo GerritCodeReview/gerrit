@@ -85,6 +85,9 @@ export const htmlTemplate = html`
       position: relative;
       top: 2px;
     }
+    .hasAttention .name {
+      font-weight: var(--font-weight-bold);
+    }
   </style>
   <span>
     <template is="dom-if" if="[[!hideHovercard]]">
@@ -113,7 +116,10 @@ export const htmlTemplate = html`
       </gr-button>
     </template>
   </span>
-  <span id="hovercardTarget">
+  <span
+    id="hovercardTarget"
+    class$="[[_computeHasAttentionClass(_config, highlightAttention, account, change, forceAttention)]]"
+  >
     <template is="dom-if" if="[[!hideAvatar]]">
       <gr-avatar account="[[account]]" image-size="32"></gr-avatar>
     </template>

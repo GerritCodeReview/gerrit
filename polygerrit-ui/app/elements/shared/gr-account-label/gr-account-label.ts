@@ -183,6 +183,18 @@ export class GrAccountLabel extends GestureEventListeners(
     );
   }
 
+  _computeHasAttentionClass(
+    config: ServerInfo | undefined,
+    highlight: boolean,
+    account: AccountInfo,
+    change: ChangeInfo,
+    force: boolean
+  ) {
+    return this._hasAttention(config, highlight, account, change, force)
+      ? 'hasAttention'
+      : '';
+  }
+
   _computeName(
     account?: AccountInfo,
     config?: ServerInfo,

@@ -47,6 +47,7 @@ final class KillCommand extends SshCommand {
 
   @Override
   protected void run() {
+    enableGracefulStop();
     ConfigResource cfgRsrc = new ConfigResource();
     for (String id : taskIds) {
       try {

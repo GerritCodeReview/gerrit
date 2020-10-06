@@ -388,6 +388,15 @@ public abstract class AbstractDaemonTest {
     initSsh();
   }
 
+  protected void restart() throws Exception {
+    server = GerritServer.restart(server, createModule(), createSshModule());
+    server.getTestInjector().injectMembers(this);
+    if (resetter != null) {
+      server.getTestInjector().injectMembers(resetter);
+    }
+    initSsh();
+  }
+
   protected void reindexAccount(Account.Id accountId) {
     accountIndexer.index(accountId);
   }
@@ -430,15 +439,18 @@ public abstract class AbstractDaemonTest {
     baseConfig.setInt("receive", null, "changeUpdateThreads", 4);
     Module module = createModule();
     Module auditModule = createAuditModule();
+    Module sshModule = createSshModule();
     if (classDesc.equals(methodDesc) && !classDesc.sandboxed() && !methodDesc.sandboxed()) {
       if (commonServer == null) {
         commonServer =
-            GerritServer.initAndStart(temporaryFolder, classDesc, baseConfig, module, auditModule);
+            GerritServer.initAndStart(
+                temporaryFolder, classDesc, baseConfig, module, auditModule, sshModule);
       }
       server = commonServer;
     } else {
       server =
-          GerritServer.initAndStart(temporaryFolder, methodDesc, baseConfig, module, auditModule);
+          GerritServer.initAndStart(
+              temporaryFolder, methodDesc, baseConfig, module, auditModule, sshModule);
     }
 
     server.getTestInjector().injectMembers(this);
@@ -533,6 +545,11 @@ public abstract class AbstractDaemonTest {
 
   /** Override to bind an alternative audit Guice module */
   public Module createAuditModule() {
+    return null;
+  }
+
+  /** Override to bind an additional Guice module for SSH injector */
+  public Module createSshModule() {
     return null;
   }
 

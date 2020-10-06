@@ -112,6 +112,7 @@ final class ShowCaches extends SshCommand {
 
   @Override
   protected void run() throws Failure {
+    enableGracefulStop();
     nw = columns - 50;
     Date now = new Date();
     stdout.format(

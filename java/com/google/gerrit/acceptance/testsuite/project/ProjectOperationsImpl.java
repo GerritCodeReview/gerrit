@@ -90,6 +90,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
 
     CreateProjectArgs args = new CreateProjectArgs();
     args.setProjectName(name);
+    args.permissionsOnly = projectCreation.permissionOnly().orElse(false);
     args.branch =
         projectCreation.branches().stream().map(RefNames::fullName).collect(toImmutableList());
     args.createEmptyCommit = projectCreation.createEmptyCommit().orElse(true);

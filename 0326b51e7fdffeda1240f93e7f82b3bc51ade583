@@ -16,6 +16,24 @@
       "message": "According to the release notes\nhttps://github.com/FasterXML/jackson-core/blob/master/release-notes/VERSION-2.x\nthis version has no changes compared to 2.11.0.\nNot sure why they release a new version if there are no changes ?",
       "revId": "0326b51e7fdffeda1240f93e7f82b3bc51ade583",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4abda23f_757f5351",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-06T11:55:00Z",
+      "side": 1,
+      "message": "Yeah. This change upgraded from 2.11.2 to 2.11.3, for which this is the comparison: [2] below. The only meaningful commit from that list would be [3].\n\n[2] https://github.com/FasterXML/jackson-core/compare/jackson-core-2.11.2...jackson-core-2.11.3\n\n[3] https://github.com/FasterXML/jackson-core/commit/3bd4b7d4bfb1b94b81d1959e13676fa965184aca\n\nWe regularly upgrade such dependencies based on the content of [4] and its related repo, which uses dependabot PRs as triggers for me (and David before) to update. We try to update as regularly as we can, once we receive those PRs, to not grow an upgrade debt too much.\n\n[4] https://github.com/dpursehouse/java-deps/blob/master/pom.xml",
+      "parentUuid": "ee32dbb0_db2db784",
+      "revId": "0326b51e7fdffeda1240f93e7f82b3bc51ade583",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

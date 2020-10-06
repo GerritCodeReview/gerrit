@@ -21,9 +21,11 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ListMultimap;
 import com.google.common.collect.MultimapBuilder;
 import com.google.gerrit.entities.Change;
+import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.RefNames;
 import java.io.IOException;
 import java.util.Map;
+import java.util.Objects;
 import org.eclipse.jgit.annotations.Nullable;
 import org.eclipse.jgit.lib.ObjectId;
 import org.eclipse.jgit.lib.Ref;
@@ -58,8 +60,8 @@ public interface ReceivePackRefCache {
     return new WithAdvertisedRefs(allRefsSupplier);
   }
 
-  /** Returns a list of refs whose name starts with {@code prefix} that point to {@code id}. */
-  ImmutableList<Ref> tipsFromObjectId(ObjectId id, @Nullable String prefix) throws IOException;
+  /** Returns a list of {@link com.google.gerrit.entities.PatchSet.Id}s that point to {@code id}. */
+  ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id) throws IOException;
 
   /** Returns all refs whose name starts with {@code prefix}. */
   ImmutableList<Ref> byPrefix(String prefix) throws IOException;
@@ -76,10 +78,10 @@ public interface ReceivePackRefCache {
     }
 
     @Override
-    public ImmutableList<Ref> tipsFromObjectId(ObjectId id, @Nullable String prefix)
-        throws IOException {
+    public ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id) throws IOException {
       return delegate.getTipsWithSha1(id).stream()
-          .filter(r -> prefix == null || r.getName().startsWith(prefix))
+          .map(r -> PatchSet.Id.fromRef(r.getName()))
+          .filter(Objects::nonNull)
           .collect(toImmutableList());
     }
 
@@ -113,10 +115,11 @@ public interface ReceivePackRefCache {
     }
 
     @Override
-    public ImmutableList<Ref> tipsFromObjectId(ObjectId id, String prefix) {
+    public ImmutableList<PatchSet.Id> patchSetIdsFromObjectId(ObjectId id) {
       lazilyInitRefMaps();
       return refsByObjectId.get(id).stream()
-          .filter(r -> prefix == null || r.getName().startsWith(prefix))
+          .map(r -> PatchSet.Id.fromRef(r.getName()))
+          .filter(Objects::nonNull)
           .collect(toImmutableList());
     }
 

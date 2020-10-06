@@ -2128,15 +2128,15 @@ class ReceiveCommits {
           receivePack.getRevWalk().parseBody(c);
           String name = c.name();
           groupCollector.visit(c);
-          Collection<Ref> existingRefs =
-              receivePackRefCache.tipsFromObjectId(c, RefNames.REFS_CHANGES);
+          Collection<PatchSet.Id> existingPatchSets =
+              receivePackRefCache.patchSetIdsFromObjectId(c);
 
           if (rejectImplicitMerges) {
             Collections.addAll(mergedParents, c.getParents());
             mergedParents.remove(c);
           }
 
-          boolean commitAlreadyTracked = !existingRefs.isEmpty();
+          boolean commitAlreadyTracked = !existingPatchSets.isEmpty();
           if (commitAlreadyTracked) {
             alreadyTracked++;
             // Corner cases where an existing commit might need a new group:
@@ -2152,9 +2152,7 @@ class ReceiveCommits {
             //      A's group.
             // C) Commit is a PatchSet of a pre-existing change uploaded with a
             //    different target branch.
-            existingRefs.stream()
-                .map(r -> PatchSet.Id.fromRef(r.getName()))
-                .filter(Objects::nonNull)
+            existingPatchSets.stream()
                 .forEach(i -> updateGroups.add(new UpdateGroupsRequest(i, c)));
             if (!(newChangeForAllNotInTarget || magicBranch.base != null)) {
               continue;
@@ -2294,8 +2292,7 @@ class ReceiveCommits {
 
             // In case the change look up from the index failed,
             // double check against the existing refs
-            if (foundInExistingRef(
-                receivePackRefCache.tipsFromObjectId(p.commit, RefNames.REFS_CHANGES))) {
+            if (foundInExistingPatchSets(receivePackRefCache.patchSetIdsFromObjectId(p.commit))) {
               if (pending.size() == 1) {
                 reject(magicBranch.cmd, "commit(s) already exists (as current patchset)");
                 return Collections.emptyList();
@@ -2343,11 +2340,10 @@ class ReceiveCommits {
     }
   }
 
-  private boolean foundInExistingRef(Collection<Ref> existingRefs) {
+  private boolean foundInExistingPatchSets(Collection<PatchSet.Id> existingPatchSets) {
     try (TraceTimer traceTimer = newTimer("foundInExistingRef")) {
-      for (Ref ref : existingRefs) {
-        ChangeNotes notes =
-            notesFactory.create(project.getNameKey(), Change.Id.fromRef(ref.getName()));
+      for (PatchSet.Id psId : existingPatchSets) {
+        ChangeNotes notes = notesFactory.create(project.getNameKey(), psId.changeId());
         Change change = notes.getChange();
         if (change.getDest().equals(magicBranch.dest)) {
           logger.atFine().log("Found change %s from existing refs.", change.getKey());
@@ -2821,15 +2817,15 @@ class ReceiveCommits {
           return false;
         }
 
-        List<Ref> existingChangesWithSameCommit =
-            receivePackRefCache.tipsFromObjectId(newCommit, RefNames.REFS_CHANGES);
-        if (!existingChangesWithSameCommit.isEmpty()) {
+        List<PatchSet.Id> existingPatchSetsWithSameCommit =
+            receivePackRefCache.patchSetIdsFromObjectId(newCommit);
+        if (!existingPatchSetsWithSameCommit.isEmpty()) {
           // TODO(hiesel, hanwen): Remove this check entirely when Gerrit requires change IDs
           //  without the option to turn that off.
           reject(
               inputCommand,
               "commit already exists (in the project): "
-                  + existingChangesWithSameCommit.get(0).getName());
+                  + existingPatchSetsWithSameCommit.get(0).toRefName());
           return false;
         }
 
@@ -3208,7 +3204,7 @@ class ReceiveCommits {
                     "more than %d commits, and %s not set", limit, PUSH_OPTION_SKIP_VALIDATION));
             return;
           }
-          if (!receivePackRefCache.tipsFromObjectId(c, RefNames.REFS_CHANGES).isEmpty()) {
+          if (!receivePackRefCache.patchSetIdsFromObjectId(c).isEmpty()) {
             continue;
           }
 
@@ -3269,13 +3265,8 @@ class ReceiveCommits {
                     COMMIT:
                     for (RevCommit c; (c = rw.next()) != null; ) {
                       rw.parseBody(c);
-
-                      for (Ref ref :
-                          receivePackRefCache.tipsFromObjectId(c.copy(), RefNames.REFS_CHANGES)) {
-                        if (!PatchSet.isChangeRef(ref.getName())) {
-                          continue;
-                        }
-                        PatchSet.Id psId = PatchSet.Id.fromRef(ref.getName());
+                      for (PatchSet.Id psId :
+                          receivePackRefCache.patchSetIdsFromObjectId(c.copy())) {
                         Optional<ChangeNotes> notes = getChangeNotes(psId.changeId());
                         if (notes.isPresent() && notes.get().getChange().getDest().equals(branch)) {
                           if (submissionId == null) {

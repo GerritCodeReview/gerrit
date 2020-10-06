@@ -546,6 +546,7 @@ public class ChangeInserter implements InsertChangeOp {
               cmd,
               projectState.getProject(),
               change.getDest().branch(),
+              ctx.getRepoView().getConfig(),
               ctx.getRevWalk().getObjectReader(),
               commitId,
               ctx.getIdentifiedUser())) {

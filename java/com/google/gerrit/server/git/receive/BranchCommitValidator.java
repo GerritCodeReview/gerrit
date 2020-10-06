@@ -37,7 +37,9 @@ import com.google.gerrit.server.ssh.SshInfo;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
 import java.io.IOException;
+import org.eclipse.jgit.lib.Config;
 import org.eclipse.jgit.lib.ObjectReader;
+import org.eclipse.jgit.lib.Repository;
 import org.eclipse.jgit.notes.NoteMap;
 import org.eclipse.jgit.revwalk.RevCommit;
 import org.eclipse.jgit.transport.ReceiveCommand;
@@ -94,6 +96,7 @@ public class BranchCommitValidator {
   /**
    * Validates a single commit. If the commit does not validate, the command is rejected.
    *
+   * @param repository the repository
    * @param objectReader the object reader to use.
    * @param cmd the ReceiveCommand executing the push.
    * @param commit the commit being validated.
@@ -102,6 +105,7 @@ public class BranchCommitValidator {
    * @return The validation {@link Result}.
    */
   Result validateCommit(
+      Repository repository,
       ObjectReader objectReader,
       ReceiveCommand cmd,
       RevCommit commit,
@@ -109,12 +113,14 @@ public class BranchCommitValidator {
       NoteMap rejectCommits,
       @Nullable Change change)
       throws IOException {
-    return validateCommit(objectReader, cmd, commit, isMerged, rejectCommits, change, false);
+    return validateCommit(
+        repository, objectReader, cmd, commit, isMerged, rejectCommits, change, false);
   }
 
   /**
    * Validates a single commit. If the commit does not validate, the command is rejected.
    *
+   * @param repository the repository
    * @param objectReader the object reader to use.
    * @param cmd the ReceiveCommand executing the push.
    * @param commit the commit being validated.
@@ -124,6 +130,7 @@ public class BranchCommitValidator {
    * @return The validation {@link Result}.
    */
   Result validateCommit(
+      Repository repository,
       ObjectReader objectReader,
       ReceiveCommand cmd,
       RevCommit commit,
@@ -135,7 +142,14 @@ public class BranchCommitValidator {
     try (TraceTimer traceTimer = TraceContext.newTimer("BranchCommitValidator#validateCommit")) {
       ImmutableList.Builder<CommitValidationMessage> messages = new ImmutableList.Builder<>();
       try (CommitReceivedEvent receiveEvent =
-          new CommitReceivedEvent(cmd, project, branch.branch(), objectReader, commit, user)) {
+          new CommitReceivedEvent(
+              cmd,
+              project,
+              branch.branch(),
+              new Config(repository.getConfig()),
+              objectReader,
+              commit,
+              user)) {
         CommitValidators validators;
         if (isMerged) {
           validators =

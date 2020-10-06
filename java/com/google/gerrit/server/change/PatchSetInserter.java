@@ -342,6 +342,7 @@ public class PatchSetInserter implements BatchUpdateOp {
                 .orElseThrow(illegalState(origNotes.getProjectName()))
                 .getProject(),
             origNotes.getChange().getDest().branch(),
+            ctx.getRepoView().getConfig(),
             ctx.getRevWalk().getObjectReader(),
             commitId,
             ctx.getIdentifiedUser())) {

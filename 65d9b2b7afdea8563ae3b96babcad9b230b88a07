@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d089b496_0bf499f5",
+        "filename": "java/com/google/gerrit/acceptance/SshSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 97,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T19:42:53Z",
+      "side": 0,
+      "message": "Have you checked that these are actually unreferenced?",
+      "range": {
+        "startLine": 86,
+        "startChar": 0,
+        "endLine": 97,
+        "endChar": 3
+      },
+      "revId": "65d9b2b7afdea8563ae3b96babcad9b230b88a07",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -27,12 +27,6 @@ public class AnonymousUser extends CurrentUser {
   }
 
   @Override
-  public Object getCacheKey() {
-    // Treat all anonymous users as a single user
-    return "anonymous";
-  }
-
-  @Override
   public String toString() {
     return "ANONYMOUS";
   }

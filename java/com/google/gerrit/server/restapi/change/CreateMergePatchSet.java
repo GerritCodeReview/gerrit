@@ -55,6 +55,7 @@ import com.google.gerrit.server.notedb.ChangeNotes;
 import com.google.gerrit.server.permissions.ChangePermission;
 import com.google.gerrit.server.permissions.PermissionBackend;
 import com.google.gerrit.server.permissions.PermissionBackendException;
+import com.google.gerrit.server.permissions.RefPermission;
 import com.google.gerrit.server.project.ProjectCache;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.restapi.project.CommitsCollection;
@@ -128,6 +129,13 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     psUtil.checkPatchSetNotLocked(rsrc.getNotes());
 
     rsrc.permissions().check(ChangePermission.ADD_PATCH_SET);
+    if (in.author != null) {
+      permissionBackend
+          .currentUser()
+          .project(rsrc.getProject())
+          .ref(rsrc.getChange().getDest().branch())
+          .check(RefPermission.FORGE_AUTHOR);
+    }
 
     ProjectState projectState =
         projectCache.get(rsrc.getProject()).orElseThrow(illegalState(rsrc.getProject()));
@@ -136,6 +144,10 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
     MergeInput merge = in.merge;
     if (merge == null || Strings.isNullOrEmpty(merge.source)) {
       throw new BadRequestException("merge.source must be non-empty");
+    }
+    if (in.author != null
+        && (Strings.isNullOrEmpty(in.author.email) || Strings.isNullOrEmpty(in.author.name))) {
+      throw new BadRequestException("Author must specify name and email");
     }
     in.baseChange = Strings.nullToEmpty(in.baseChange).trim();
 
@@ -166,7 +178,10 @@ public class CreateMergePatchSet implements RestModifyView<ChangeResource, Merge
 
       Timestamp now = TimeUtil.nowTs();
       IdentifiedUser me = user.get().asIdentifiedUser();
-      PersonIdent author = me.newCommitterIdent(now, serverTimeZone);
+      PersonIdent author =
+          in.author == null
+              ? me.newCommitterIdent(now, serverTimeZone)
+              : new PersonIdent(in.author.name, in.author.email, now, serverTimeZone);
       CodeReviewCommit newCommit =
           createMergeCommit(
               in,

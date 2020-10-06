@@ -14,9 +14,12 @@
 
 package com.google.gerrit.extensions.common;
 
+import com.google.gerrit.extensions.api.accounts.AccountInput;
+
 public class MergePatchSetInput {
   public String subject;
   public boolean inheritParent;
   public String baseChange;
   public MergeInput merge;
+  public AccountInput author;
 }

@@ -1,12 +1,9 @@
 {
   "checks": {
     "gerritforge:codestyle-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "SUCCESSFUL",
-      "url": "https://gerrit-ci.gerritforge.com/job/Gerrit-codestyle/61298/console",
-      "started": "2020-10-05T17:30:29Z",
-      "finished": "2020-10-05T17:33:28Z",
+      "state": "NOT_STARTED",
       "created": "2020-10-05T15:30:20Z",
-      "updated": "2020-10-05T17:33:28Z"
+      "updated": "2020-10-06T07:54:27Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
       "state": "FAILED",

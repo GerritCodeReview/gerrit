@@ -93,6 +93,30 @@
       },
       "revId": "53b7bbd73bc375f8f9337457a2de511f12490681",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3dd6ec04_bbb6eb27",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 4
+      },
+      "lineNbr": 58,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T10:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ee9a39dd_45e8593a",
+      "range": {
+        "startLine": 58,
+        "startChar": 0,
+        "endLine": 58,
+        "endChar": 32
+      },
+      "revId": "53b7bbd73bc375f8f9337457a2de511f12490681",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

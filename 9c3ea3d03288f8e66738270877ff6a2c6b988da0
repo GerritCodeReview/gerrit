@@ -33,6 +33,24 @@
       "message": "nit: unrelated change",
       "revId": "9c3ea3d03288f8e66738270877ff6a2c6b988da0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7a8f810d_b6f14d6b",
+        "filename": "Documentation/dev-bazel.txt",
+        "patchSetId": 5
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-06T10:20:27Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8cc8926a_63cb28cd",
+      "revId": "9c3ea3d03288f8e66738270877ff6a2c6b988da0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

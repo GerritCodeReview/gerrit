@@ -13,5 +13,6 @@ build --incompatible_strict_action_env
 
 test --build_tests_only
 test --test_output=errors
+test --java_toolchain=//tools:error_prone_warnings_toolchain_java11
 
 import %workspace%/tools/remote-bazelrc

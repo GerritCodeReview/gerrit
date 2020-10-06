@@ -46,6 +46,30 @@
       },
       "revId": "9ea1ac58415c6e6c1320959630408f09fd8514d6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5c24ccf7_45b7dda0",
+        "filename": "javatests/com/google/gerrit/acceptance/testsuite/project/ProjectOperationsImplTest.java",
+        "patchSetId": 5
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-10-06T14:04:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f2387cf6_4c097bdc",
+      "range": {
+        "startLine": 101,
+        "startChar": 4,
+        "endLine": 101,
+        "endChar": 8
+      },
+      "revId": "9ea1ac58415c6e6c1320959630408f09fd8514d6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

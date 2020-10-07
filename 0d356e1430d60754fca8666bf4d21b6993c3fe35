@@ -1,0 +1,96 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "478b3c5d_ba005516",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T17:38:05Z",
+      "side": 1,
+      "message": "seems this can be Timestamp | null (and the function should return null instead of empty string)",
+      "range": {
+        "startLine": 386,
+        "startChar": 61,
+        "endLine": 386,
+        "endChar": 67
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9c57f03f_23e3212e",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T17:38:05Z",
+      "side": 1,
+      "message": "const? (see my other comments about section name)",
+      "range": {
+        "startLine": 247,
+        "startChar": 25,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b1234b3d_4ad23402",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T17:38:05Z",
+      "side": 1,
+      "message": "Same as above",
+      "range": {
+        "startLine": 250,
+        "startChar": 25,
+        "endLine": 250,
+        "endChar": 42
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7732230a_43cb03b5",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T17:38:05Z",
+      "side": 1,
+      "message": "seems this is the only call to the fromNow function, so everywhere we will have relative time without \u0027ago\u0027. Is it expected?\nIf this is expected, why the second parameter is required? Any plans for future use?",
+      "range": {
+        "startLine": 232,
+        "startChar": 6,
+        "endLine": 232,
+        "endChar": 34
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

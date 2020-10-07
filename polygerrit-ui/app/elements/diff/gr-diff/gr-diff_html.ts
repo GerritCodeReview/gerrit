@@ -428,7 +428,6 @@ export const htmlTemplate = html`
           id="diffBuilder"
           comment-ranges="[[_commentRanges]]"
           coverage-ranges="[[coverageRanges]]"
-          project-name="[[projectName]]"
           diff="[[diff]]"
           path="[[path]]"
           change-num="[[changeNum]]"

@@ -164,9 +164,6 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Object, observer: '_prefsObserver'})
   prefs?: DiffPreferencesInfo;
 
-  @property({type: String})
-  projectName?: string;
-
   @property({type: Boolean})
   displayLine = false;
 

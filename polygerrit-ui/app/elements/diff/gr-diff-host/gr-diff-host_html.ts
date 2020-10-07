@@ -24,7 +24,6 @@ export const htmlTemplate = html`
     patch-range="[[patchRange]]"
     path="[[path]]"
     prefs="[[prefs]]"
-    project-name="[[projectName]]"
     display-line="[[displayLine]]"
     is-image-diff="[[isImageDiff]]"
     hidden$="[[hidden]]"

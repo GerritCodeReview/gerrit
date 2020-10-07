@@ -47,6 +47,7 @@ export const htmlTemplate = html`
     .stickyBottom {
       background-color: var(--dialog-background-color);
       box-shadow: 0px 0px 8px 0px rgba(60, 64, 67, 0.15);
+      margin-top: var(--spacing-s);
       bottom: 0;
       position: sticky;
       /* @see Issue 8602 */
@@ -167,33 +168,39 @@ export const htmlTemplate = html`
       display: flex;
       justify-content: space-between;
     }
-    .attentionSummary gr-account-chip {
-      display: inline-block;
-      vertical-align: top;
-      /* The account chip is misbehaving currently: It consumes 22px height, so
-         it does not fit nicely into the 20px line-height of the standard
-         inline layout flow. :-( */
-      position: relative;
-      top: -1px;
-    }
-    .attentionSummary,
-    .attention-detail {
-      --account-max-length: 150px;
+    .attentionSummary {
+      /* The account label for selection is misbehaving currently: It consumes
+         26px height instead of 20px, which is the default line-height and thus
+         the max that can be nicely fit into an inline layout flow. We
+         acknowledge that using a fixed 26px value here is a hack and not a
+         great solution. */
+      line-height: 26px;
     }
     .attention-detail .peopleList .accountList {
       display: flex;
       flex-wrap: wrap;
     }
+    .attentionSummary gr-account-label,
     .attention-detail gr-account-label {
+      --account-max-length: 150px;
       display: inline-block;
       padding: var(--spacing-xs) var(--spacing-m);
-      vertical-align: baseline;
       user-select: none;
       --label-border-radius: 8px;
     }
+    .attentionSummary gr-account-label {
+      margin: 0 var(--spacing-xs);
+      line-height: var(--line-height-normal);
+      vertical-align: top;
+    }
+    .attention-detail gr-account-label {
+      vertical-align: baseline;
+    }
+    .attentionSummary gr-account-label:focus,
     .attention-detail gr-account-label:focus {
       outline: none;
     }
+    .attentionSummary gr-account-label:hover,
     .attention-detail gr-account-label:hover {
       box-shadow: var(--elevation-level-1);
       cursor: pointer;
@@ -386,8 +393,14 @@ export const htmlTemplate = html`
                 items="[[_computeNewAttentionAccounts(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
                 as="account"
               >
-                <gr-account-chip account="[[account]]" force-attention="">
-                </gr-account-chip>
+                <gr-account-label
+                  account="[[account]]"
+                  force-attention="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                  selected$="[[_computeHasNewAttention(account, _newAttentionSet)]]"
+                  deselected$="[[!_computeHasNewAttention(account, _newAttentionSet)]]"
+                  hide-hovercard=""
+                  on-click="_handleAttentionClick"
+                ></gr-account-label>
               </template>
             </template>
             <gr-button

@@ -24,16 +24,24 @@ import {
 // Name of the standard Code-Review label.
 export const CODE_REVIEW = 'Code-Review';
 
-export function getVotingRange(label?: LabelInfo): VotingRangeInfo {
-  if (!label || !isDetailedLabelInfo(label)) return {min: 0, max: 0};
+export function getVotingRange(label?: LabelInfo): VotingRangeInfo | undefined {
+  if (!label || !isDetailedLabelInfo(label)) return undefined;
   const values = Object.keys(label.values).map(v => parseInt(v, 10));
   values.sort((a, b) => a - b);
-  if (!values.length) return {min: 0, max: 0};
+  if (!values.length) return undefined;
   return {min: values[0], max: values[values.length - 1]};
+}
+
+export function getVotingRangeOrDefault(label?: LabelInfo): VotingRangeInfo {
+  const range = getVotingRange(label);
+  if (!range) {
+    return {min: 0, max: 0};
+  }
+  return range;
 }
 
 export function getMaxAccounts(label?: LabelInfo): ApprovalInfo[] {
   if (!label || !isDetailedLabelInfo(label) || !label.all) return [];
-  const votingRange = getVotingRange(label);
+  const votingRange = getVotingRangeOrDefault(label);
   return label.all.filter(account => account.value === votingRange.max);
 }

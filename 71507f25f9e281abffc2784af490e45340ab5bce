@@ -1,0 +1,176 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f65d21c_d45c0be5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "Maybe rename this to `assert...`.",
+      "range": {
+        "startLine": 269,
+        "startChar": 9,
+        "endLine": 269,
+        "endChar": 15
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0842295a_d56dec90",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "I am still unsure whether it is a good idea to use ! for properties. If you want this to be always defined, then just initialize with []?",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 21
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4a042707_122f4dd6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "Nit: Personally I am a huge fan of writing guard statements as one-liners. I feel three lines for something like that is too much. Not sure whether we can/want to standardize this ...",
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8f4a2893_8888a8d0",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "Maybe use GrDialog here?",
+      "range": {
+        "startLine": 1578,
+        "startChar": 28,
+        "endLine": 1578,
+        "endChar": 68
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3a9280f2_3a3a4a6a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "Do you need this here? I would like to only offer ChangeId when we really must.",
+      "range": {
+        "startLine": 1591,
+        "startChar": 39,
+        "endLine": 1591,
+        "endChar": 47
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "057f5684_5868f3f9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2048,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "see above",
+      "range": {
+        "startLine": 2048,
+        "startChar": 37,
+        "endLine": 2048,
+        "endChar": 45
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0cdd3b9b_82c3b65f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "Can we stick to PatchSetNum? Why change that?",
+      "range": {
+        "startLine": 1379,
+        "startChar": 14,
+        "endLine": 1379,
+        "endChar": 24
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0f6ad55_1e582cec",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T08:44:13Z",
+      "side": 1,
+      "message": "That is a weird type. Why can this be CommitId?\n\nCan we just clean up the usage of \u00270\u0027?\n\nAnd then can we end up using \u0027current\u0027 instead of an undefined PatchSetNum everywhere? Or the other way around?",
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

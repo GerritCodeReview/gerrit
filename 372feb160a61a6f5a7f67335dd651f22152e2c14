@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ad323842_73709eea",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-07T09:24:21Z",
+      "side": 1,
+      "message": "Thanks for the suggestion. We agreed to have a parameter that the front end can set, but I agree there should also be an upper limit.\n\nI was planning to add both with follow up changes. Should I add a limit here with this change?",
+      "parentUuid": "b89a8b2d_91a4d657",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a32129e_0b77b209",
         "filename": "java/com/google/gerrit/entities/ContextLines.java",
         "patchSetId": 20

@@ -16,6 +16,24 @@
       "message": "I still don\u0027t understand how this failure mode happens.\n\nit\u0027s also confusing, because CheckAccess consumes the log records using getAclLogRecord, but that does not mutate the logging context (ie. the messages aren\u0027t consumed as they\u0027re still left in the context).",
       "revId": "35b6f4acce48315f0840e2ff9d4051245dd9a6cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "07fc5fda_454d748c",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-07T06:06:17Z",
+      "side": 1,
+      "message": "CheckAccess opens a TraceContext. When opening the TraceContext we tell it to start ACL tracing. This makes TraceContext call this method to enable ACL tracing. TraceContext is an AutoCloseable and in its close method it takes care to stop ACL tracing and cleanup the collected ACL logs. This means TraceContext follows the contract of this method that is described here, if you use this method to start ACL tracing, the caller (TraceContext in this case) must take care to stop / cleanup ACL tracing when done. The failure can happen is a caller of this method doesn\u0027t obey this contract and just starts ACL tracing, but never stops it. It\u0027s a package private method to limit the possibilities of misuse.",
+      "parentUuid": "8b91d937_bbcd02d8",
+      "revId": "35b6f4acce48315f0840e2ff9d4051245dd9a6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -197,6 +197,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "58867a90_3b6fe975",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesParser.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 597,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-07T20:50:32Z",
+      "side": 1,
+      "message": "that\u0027s an internal use case that we probably shouldn\u0027t mention.\nIt could have other usecases, too (leaving unresolved if you want to comment so that I\u0027ll do it in a follow-up).",
+      "parentUuid": "acc4bc49_1d571c5d",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "f083d15c_0baa85dd",
         "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
         "patchSetId": 2
@@ -208,6 +226,24 @@
       "writtenOn": "2020-10-06T16:13:29Z",
       "side": 1,
       "message": "Could we have a TODO here and in ChangeNotes for the refactoring?",
+      "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "172e0a0e_18f68866",
+        "filename": "java/com/google/gerrit/server/notedb/ChangeNotesState.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 313,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-07T20:50:32Z",
+      "side": 1,
+      "message": "Done in I1102fe363",
+      "parentUuid": "f083d15c_0baa85dd",
       "revId": "287a3c4e213cfc540ddf0e0cb7b72734670d4253",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

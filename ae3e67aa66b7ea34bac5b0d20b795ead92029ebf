@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "9fc7aa93_363c86a4",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "+1 because I don\u0027t want to approve my own code",
       "revId": "ae3e67aa66b7ea34bac5b0d20b795ead92029ebf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "782fcc17_d1701d98",
         "filename": "java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
@@ -31,8 +32,25 @@
       "side": 1,
       "message": "Note for reviewers: this and the next method are not new code. This code is moved here from\nthe NoteDbMigration class",
       "revId": "ae3e67aa66b7ea34bac5b0d20b795ead92029ebf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b1abbe2d_23ed6b15",
+        "filename": "java/com/google/gerrit/server/notedb/PrimaryStorageMigrator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 178,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-07T23:24:24Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "782fcc17_d1701d98",
+      "revId": "ae3e67aa66b7ea34bac5b0d20b795ead92029ebf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

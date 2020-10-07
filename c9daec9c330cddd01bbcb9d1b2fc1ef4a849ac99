@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "bfff5968_f3b308c8",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T16:01:05Z",
+      "side": 1,
+      "message": "Maybe _includeComments should be taken into account as well - if draft comments are not published, the owner doesn\u0027t see any new messages and can\u0027t understand why changes is added again to the attention set.",
+      "range": {
+        "startLine": 999,
+        "startChar": 26,
+        "endLine": 999,
+        "endChar": 44
+      },
+      "revId": "c9daec9c330cddd01bbcb9d1b2fc1ef4a849ac99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "185404d4_2de91512",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T16:01:05Z",
+      "side": 1,
+      "message": "The doc says both properties are optional. Does doc wrong? Some comments about it can be useful",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 36
+      },
+      "revId": "c9daec9c330cddd01bbcb9d1b2fc1ef4a849ac99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4b765382_eec3fad3",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T16:01:05Z",
+      "side": 1,
+      "message": "Maybe move it to common.ts, so it is easy to find and reuse.\nI am doing similar change here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/283423",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "c9daec9c330cddd01bbcb9d1b2fc1ef4a849ac99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

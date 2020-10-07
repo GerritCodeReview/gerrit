@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b9a58d4_4efe8ebb",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T10:48:26Z",
+      "side": 0,
+      "message": "Why not keep these?",
+      "revId": "055d8ed3ba87aff275f544794db18cb7714e100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

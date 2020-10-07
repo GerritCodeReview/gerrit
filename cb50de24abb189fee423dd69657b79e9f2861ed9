@@ -1,0 +1,67 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cae35d8_2688d1be",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T10:48:26Z",
+      "side": 1,
+      "message": "RepoName and GroupId have type string, so why `| \u0027\u0027`?",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 26
+      },
+      "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a34b3364_5c323125",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T10:48:26Z",
+      "side": 1,
+      "message": "Nit: I think ?? is often the better choice compared to ||, even though it rarely makes a difference. It is making the intent clearer that you really only want to avoid null and undefined.",
+      "range": {
+        "startLine": 234,
+        "startChar": 47,
+        "endLine": 234,
+        "endChar": 49
+      },
+      "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "db7de33a_1df25367",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-07T10:48:26Z",
+      "side": 1,
+      "message": "Nit: Would you mind using one-line guards?",
+      "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -77,6 +77,10 @@ export type UIRobot = RobotCommentInfo & UIStateCommentProps;
 
 export type UIComment = UIHuman | UIRobot | UIDraft;
 
+export function isRobotComment(c: UIComment): c is UIRobot {
+  return !!(c as UIRobot).robot_id;
+}
+
 export type CommentMap = {[path: string]: boolean};
 
 export function isRobot<T extends CommentInfo>(

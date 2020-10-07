@@ -39,6 +39,7 @@ import {
   ReviewInputTag,
   VotingRangeInfo,
   NumericChangeId,
+  ChangeMessageId,
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {CommentThread} from '../../diff/gr-comment-api/gr-comment-api';
@@ -51,6 +52,10 @@ declare global {
   interface HTMLElementTagNameMap {
     'gr-message': GrMessage;
   }
+}
+
+export interface MessageAnchorTapDetail {
+  id: ChangeMessageId;
 }
 
 export interface GrMessage {
@@ -438,11 +443,16 @@ export class GrMessage extends GestureEventListeners(
 
   _handleAnchorClick(e: Event) {
     e.preventDefault();
+    // The element which triggers _handleAnchorClick is rendered only if
+    // message.id defined: the elemenet is wrapped in dom-if if="[[message.id]]"
+    const detail: MessageAnchorTapDetail = {
+      id: this.message!.id,
+    };
     this.dispatchEvent(
       new CustomEvent('message-anchor-tap', {
         bubbles: true,
         composed: true,
-        detail: {id: this.message?.id},
+        detail,
       })
     );
   }

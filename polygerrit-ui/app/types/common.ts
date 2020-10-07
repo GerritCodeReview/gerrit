@@ -149,7 +149,10 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
  * The LabelInfo entity contains information about a label on a change, always corresponding to the current patch set.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#label-info
  */
-export type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
+export type LabelInfo =
+  | QuickLabelInfo
+  | DetailedLabelInfo
+  | (QuickLabelInfo & DetailedLabelInfo);
 
 export type Reviewers = {
   REVIEWER?: AccountInfo[];
@@ -173,6 +176,31 @@ export interface DetailedLabelInfo extends LabelCommonInfo {
   all?: ApprovalInfo[];
   values?: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
   default_value?: number;
+}
+
+export function isQuickLabelInfo(
+  l: LabelInfo
+): l is QuickLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
+  const quickLabelInfo = l as QuickLabelInfo;
+  return (
+    quickLabelInfo.approved !== undefined ||
+    quickLabelInfo.rejected !== undefined ||
+    quickLabelInfo.recommended !== undefined ||
+    quickLabelInfo.disliked !== undefined ||
+    quickLabelInfo.blocking !== undefined ||
+    quickLabelInfo.blocking !== undefined ||
+    quickLabelInfo.value !== undefined
+  );
+}
+
+export function isDetailedLabelInfo(
+  l: LabelInfo
+): l is DetailedLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
+  const detailedLabelInfo = l as DetailedLabelInfo;
+  return (
+    detailedLabelInfo.all !== undefined ||
+    detailedLabelInfo.values !== undefined
+  );
 }
 
 // https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#contributor-agreement-input
@@ -1077,7 +1105,7 @@ export interface UserConfigInfo {
  * The CommentInfo entity contains information about an inline comment.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#comment-info
  */
-export interface CommentInfo extends CommentInput {
+export interface CommentInfo {
   patch_set?: PatchSetNum;
   id: UrlEncodedCommentId;
   path?: string;

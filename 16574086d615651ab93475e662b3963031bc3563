@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "1ead5c09_6335587b",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-07T09:24:21Z",
+      "side": 1,
+      "message": "Agree. Will do.",
+      "parentUuid": "516d3001_3768a633",
+      "range": {
+        "startLine": 103,
+        "startChar": 72,
+        "endLine": 103,
+        "endChar": 76
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58d0f525_e921c5a9",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 21
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-05T15:03:27Z",
       "side": 1,
       "message": "I think it would be cleaner to have a package visible getHashedPath() method in CommentContextKey. That way we don\u0027t have to store the hashed path in path and at the same time the public API of CommentContextKey doesn\u0027t expose this implementation detail.",
+      "range": {
+        "startLine": 98,
+        "startChar": 25,
+        "endLine": 98,
+        "endChar": 80
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c2bab139_1f211fb1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-07T09:24:21Z",
+      "side": 1,
+      "message": "The problem is that we are using this class (CommentContextKey) as the cache key, and also as a part of the public API. In previous patchsets, I used to have 2 different classes that were very similar, except for the path, and I moved to a single class after your suggestion.\n\nThe cache key needs to be serialized and deserialized, and deserialization means that it should be reconstructed exactly from the serialized version. During serialization, if the path was plain then it needs to be hashed, and consequently we won\u0027t be able to reconstruct the plain path again because hashing is 1 way. Hence the entity to be serialized (with a hashed path) should be different than the entity having the path as a plain text.\n\nNote: With this current implementation, this detail is not exposed to the public API: The cache implementation just re-uses this class while overriding the path to a different meaning, but that\u0027s hidden inside the cache implementation.",
+      "parentUuid": "58d0f525_e921c5a9",
       "range": {
         "startLine": 98,
         "startChar": 25,

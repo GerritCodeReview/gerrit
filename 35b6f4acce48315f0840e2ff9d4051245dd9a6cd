@@ -34,6 +34,24 @@
       "parentUuid": "8b91d937_bbcd02d8",
       "revId": "35b6f4acce48315f0840e2ff9d4051245dd9a6cd",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "054afd1f_96123bec",
+        "filename": "java/com/google/gerrit/server/logging/LoggingContext.java",
+        "patchSetId": 7
+      },
+      "lineNbr": 274,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-07T14:17:15Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "07fc5fda_454d748c",
+      "revId": "35b6f4acce48315f0840e2ff9d4051245dd9a6cd",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

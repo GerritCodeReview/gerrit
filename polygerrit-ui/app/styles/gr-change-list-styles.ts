@@ -91,6 +91,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       .owner,
       .assignee,
       .updated,
+      .submitted,
+      .since,
       .size,
       .status,
       .repo {
@@ -170,6 +172,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         .repo,
         .branch,
         .updated,
+        .submitted,
+        .since,
         .label,
         .assignee,
         .groupHeader .star,

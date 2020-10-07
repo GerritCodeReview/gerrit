@@ -122,7 +122,13 @@ export class GrDateFormatter extends TooltipMixin(
   _timeFormat?: string;
 
   @property({type: Boolean})
-  _relative?: boolean;
+  _relative = false;
+
+  @property({type: Boolean})
+  forceRelative = false;
+
+  @property({type: Boolean})
+  relativeOptionNoAgo = false;
 
   constructor() {
     super();
@@ -143,7 +149,7 @@ export class GrDateFormatter extends TooltipMixin(
       if (!loggedIn) {
         this._timeFormat = TimeFormats.TIME_24;
         this._dateFormat = DateFormats.STD;
-        this._relative = false;
+        this._relative = this.forceRelative;
         return;
       }
       return Promise.all([this._loadTimeFormat(), this._loadRelative()]);
@@ -198,7 +204,8 @@ export class GrDateFormatter extends TooltipMixin(
   _loadRelative() {
     return this._getPreferences().then(prefs => {
       // prefs.relative_date_in_change_table is not set when false.
-      this._relative = !!(prefs && prefs.relative_date_in_change_table);
+      this._relative =
+        this.forceRelative || !!(prefs && prefs.relative_date_in_change_table);
     });
   }
 
@@ -225,7 +232,7 @@ export class GrDateFormatter extends TooltipMixin(
       return '';
     }
     if (relative) {
-      return fromNow(date);
+      return fromNow(date, this.relativeOptionNoAgo);
     }
     const now = new Date();
     let format = dateFormat.full;

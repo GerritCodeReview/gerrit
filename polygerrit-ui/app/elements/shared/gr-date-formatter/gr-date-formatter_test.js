@@ -381,16 +381,16 @@ suite('gr-date-formatter tests', () => {
     test('Within 24 hours on same day', () => {
       testDates('2015-07-29 20:34:14.985000000',
           '2015-07-29 15:34:14.985000000',
-          '5 hours ago',
-          '5 hours ago',
+          '5 hours',
+          '5 hours',
           'Jul 29, 2015, 3:34:14 PM');
     });
 
     test('More than six months', () => {
       testDates('2015-09-15 20:34:00.000000000',
           '2015-01-15 03:25:00.000000000',
-          '8 months ago',
-          '8 months ago',
+          '8 months',
+          '8 months',
           'Jan 15, 2015, 3:25:00 AM');
     });
   });

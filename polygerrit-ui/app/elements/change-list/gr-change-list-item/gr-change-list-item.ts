@@ -45,7 +45,7 @@ import {
   ChangeInfo,
   ServerInfo,
   AccountInfo,
-  QuickLabelInfo,
+  QuickLabelInfo, Timestamp,
 } from '../../../types/common';
 import {hasOwnProperty} from '../../../utils/common-util';
 
@@ -381,6 +381,14 @@ export class GrChangeListItem extends ChangeTableMixin(
     } else {
       return 'XL';
     }
+  }
+
+  _computeSince(
+    account?: AccountInfo,
+    change?: ChangeInfo
+  ): Timestamp | undefined {
+    if (!account?._account_id || !change?.attention_set) return undefined;
+    return change?.attention_set[account._account_id]?.last_update;
   }
 
   toggleReviewed() {

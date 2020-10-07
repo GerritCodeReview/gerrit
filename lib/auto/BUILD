@@ -27,6 +27,21 @@ java_plugin(
     ],
 )
 
+java_plugin(
+    name = "auto-value-gson-plugin",
+    processor_class = "com.ryanharter.auto.value.gson.factory.AutoValueGsonAdapterFactoryProcessor",
+    deps = [
+        "@auto-value-annotations//jar",
+        "@auto-value-gson-extension//jar",
+        "@auto-value-gson-factory//jar",
+        "@auto-value-gson-runtime//jar",
+        "@auto-value//jar",
+        "@autotransient//jar",
+        "@gson//jar",
+        "@javapoet//jar",
+    ],
+)
+
 java_library(
     name = "auto-value",
     data = ["//lib:LICENSE-Apache2.0"],
@@ -49,4 +64,18 @@ java_library(
     ],
     visibility = ["//visibility:public"],
     exports = ["@auto-value-annotations//jar"],
+)
+
+java_library(
+    name = "auto-value-gson",
+    data = ["//lib:LICENSE-Apache2.0"],
+    exported_plugins = [
+        ":auto-value-gson-plugin",
+    ],
+    visibility = ["//visibility:public"],
+    exports = [
+        "@auto-value-gson-extension//jar",
+        "@auto-value-gson-factory//jar",
+        "@auto-value-gson-runtime//jar",
+    ],
 )

@@ -21,6 +21,9 @@ import com.google.auto.value.AutoValue;
 import com.google.common.primitives.Ints;
 import com.google.gerrit.common.Nullable;
 import com.google.gerrit.extensions.client.ChangeStatus;
+import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.annotations.SerializedName;
 import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.Optional;
@@ -283,6 +286,7 @@ public final class Change {
       return Change.key(KeyUtil.decode(str));
     }
 
+    @SerializedName("id")
     abstract String key();
 
     public String get() {
@@ -306,6 +310,10 @@ public final class Change {
     @Override
     public final String toString() {
       return get();
+    }
+
+    public static TypeAdapter<Key> typeAdapter(Gson gson) {
+      return new AutoValue_Change_Key.GsonTypeAdapter(gson);
     }
   }
 

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89fe4ad9_9bec18eb",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 5
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T16:06:50Z",
+      "side": 1,
+      "message": "nit: usually in observers we don\u0027t get value directly from property. Instead, we get new value from the parameter. As I can see, _ccs change record is passed as 3rd parameter in this method, maybe use it instead of the property.",
+      "range": {
+        "startLine": 965,
+        "startChar": 49,
+        "endLine": 965,
+        "endChar": 58
+      },
+      "revId": "648ed550f9f708aa6c5b017f00ff49b6db931bb4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

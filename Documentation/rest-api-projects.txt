@@ -3393,6 +3393,8 @@ The `AccessCheckInfo` entity is the result of an access check.
 |`status`                    ||The HTTP status code for the access.
 200 means success and 403 means denied.
 |`message`                   |optional|A clarifying message if `status` is not 200.
+|`debug_logs`                |optional|
+Debug logs that may help to understand why a permission is denied or allowed.
 |=========================================
 
 [[auto_closeable_changes_check_input]]

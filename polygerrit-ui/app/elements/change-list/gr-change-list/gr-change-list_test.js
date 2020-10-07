@@ -145,7 +145,7 @@ suite('gr-change-list basic tests', () => {
     const changeTableColumns = [];
     const labelNames = [];
     assert.equal(tdItemCount, element._computeColspan(
-        changeTableColumns, labelNames));
+        {}, changeTableColumns, labelNames));
   });
 
   test('keyboard shortcuts', done => {
@@ -416,11 +416,9 @@ suite('gr-change-list basic tests', () => {
       for (const column of element.changeTableColumns) {
         const elementClass = '.' + column.toLowerCase();
         if (column === 'Repo') {
-          assert.isTrue(element.shadowRoot
-              .querySelector(elementClass).hidden);
+          assert.isNotOk(element.shadowRoot.querySelector(elementClass));
         } else {
-          assert.isFalse(element.shadowRoot
-              .querySelector(elementClass).hidden);
+          assert.isOk(element.shadowRoot.querySelector(elementClass));
         }
       }
     });

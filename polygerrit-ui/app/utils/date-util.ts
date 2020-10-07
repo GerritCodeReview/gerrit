@@ -36,25 +36,25 @@ export function isValidDate(date: any): date is Date {
 }
 
 // similar to fromNow from moment.js
-export function fromNow(date: Date) {
+export function fromNow(date: Date, addAgo = true) {
   const now = new Date();
+  const ago = addAgo ? ' ago' : '';
   const secondsAgo = Math.round((now.valueOf() - date.valueOf()) / 1000);
   if (secondsAgo <= 44) return 'just now';
-  if (secondsAgo <= 89) return 'a minute ago';
+  if (secondsAgo <= 89) return `1 minute${ago}`;
   const minutesAgo = Math.round(secondsAgo / 60);
-  if (minutesAgo <= 44) return `${minutesAgo} minutes ago`;
-  if (minutesAgo <= 89) return 'an hour ago';
+  if (minutesAgo <= 59) return `${minutesAgo} minutes${ago}`;
+  if (minutesAgo <= 89) return `1 hour${ago}`;
   const hoursAgo = Math.round(minutesAgo / 60);
-  if (hoursAgo <= 21) return `${hoursAgo} hours ago`;
-  if (hoursAgo <= 35) return 'a day ago';
+  if (hoursAgo <= 48) return `${hoursAgo} hours${ago}`;
   const daysAgo = Math.round(hoursAgo / 24);
-  if (daysAgo <= 25) return `${daysAgo} days ago`;
-  if (daysAgo <= 45) return 'a month ago';
+  if (daysAgo <= 25) return `${daysAgo} days${ago}`;
+  if (daysAgo <= 45) return `1 month${ago}`;
   const monthsAgo = Math.round(daysAgo / 30);
-  if (daysAgo <= 319) return `${monthsAgo} months ago`;
-  if (daysAgo <= 547) return 'a year ago';
+  if (daysAgo <= 319) return `${monthsAgo} months${ago}`;
+  if (daysAgo <= 547) return `1 year${ago}`;
   const yearsAgo = Math.round(daysAgo / 365);
-  return `${yearsAgo} years ago`;
+  return `${yearsAgo} years${ago}`;
 }
 
 /**

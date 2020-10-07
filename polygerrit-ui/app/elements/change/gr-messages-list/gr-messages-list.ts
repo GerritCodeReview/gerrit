@@ -14,53 +14,99 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/paper-toggle-button/paper-toggle-button.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../gr-message/gr-message.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-messages-list_html.js';
+import '@polymer/paper-toggle-button/paper-toggle-button';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-icons/gr-icons';
+import '../gr-message/gr-message';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-messages-list_html';
 import {
   KeyboardShortcutMixin,
-  Shortcut, ShortcutSection,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {parseDate} from '../../../utils/date-util.js';
-import {MessageTag} from '../../../constants/constants.js';
-import {appContext} from '../../../services/app-context.js';
+  Shortcut,
+  ShortcutSection,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {parseDate} from '../../../utils/date-util';
+import {MessageTag} from '../../../constants/constants';
+import {appContext} from '../../../services/app-context';
+import {customElement, property} from '@polymer/decorators';
+import {
+  ChangeId,
+  ChangeMessageId,
+  ChangeMessageInfo,
+  ChangeViewChangeInfo,
+  LabelNameToInfoMap,
+  NumericChangeId,
+  PatchSetNum,
+  RepoName,
+  ReviewerUpdateInfo,
+  VotingRangeInfo,
+} from '../../../types/common';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {CommentThread, isRobot} from '../../../utils/comment-util';
+import {GrMessage, MessageAnchorTapDetail} from '../gr-message/gr-message';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
+import {FormattedReviewerUpdateInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {DomRepeat} from '@polymer/polymer/lib/elements/dom-repeat';
+import {getVotingRange} from '../../../utils/label-util';
 
 /**
  * The content of the enum is also used in the UI for the button text.
- *
- * @enum {string}
  */
-const ExpandAllState = {
-  EXPAND_ALL: 'Expand All',
-  COLLAPSE_ALL: 'Collapse All',
+enum ExpandAllState {
+  EXPAND_ALL = 'Expand All',
+  COLLAPSE_ALL = 'Collapse All',
+}
+
+interface TagsCountReportInfo {
+  [tag: string]: number;
+  all: number;
+}
+
+type CombinedMessage = Omit<
+  FormattedReviewerUpdateInfo | ChangeMessageInfo,
+  'tag'
+> & {
+  _revision_number?: PatchSetNum;
+  _index?: number;
+  expanded?: boolean;
+  isImportant?: boolean;
+  commentThreads?: CommentThread[];
+  tag?: string;
 };
+
+function isChangeMessageInfo(x: CombinedMessage): x is ChangeMessageInfo {
+  return (x as ChangeMessageInfo).id !== undefined;
+}
+
+function getMessageId(x: CombinedMessage): ChangeMessageId | undefined {
+  return isChangeMessageInfo(x) ? x.id : undefined;
+}
 
 /**
  * Computes message author's comments for this change message. The backend
  * sets comment.change_message_id for matching, so this computation is fairly
  * straightforward.
  */
-function computeThreads(message, allMessages, changeComments) {
-  if ([message, allMessages, changeComments].includes(undefined)) {
-    return [];
-  }
+function computeThreads(
+  message: CombinedMessage,
+  changeComments: ChangeComments
+): CommentThread[] {
   if (message._index === undefined) {
     return [];
   }
-
-  return changeComments.getAllThreadsForChange().filter(
-      thread => thread.comments.map(comment => {
+  const messageId = getMessageId(message);
+  return changeComments.getAllThreadsForChange().filter(thread =>
+    thread.comments
+      .map(comment => {
         // collapse all by default
         comment.collapsed = true;
         return comment;
-      }).some(comment => {
-        const condition = comment.change_message_id === message.id;
+      })
+      .some(comment => {
+        const condition = comment.change_message_id === messageId;
         // Since getAllThreadsForChange() always returns a new copy of
         // all comments we can modify them here without worrying about
         // polluting other threads.
@@ -84,13 +130,15 @@ function computeThreads(message, allMessages, changeComments) {
  * 3. Everything beyond the ~ character is cut off from the tag. That gives
  * tools control over which messages will be hidden.
  */
-function computeTag(message) {
+function computeTag(message: CombinedMessage) {
   if (!message.tag) {
     const threads = message.commentThreads || [];
-    const comments = threads.map(
-        t => t.comments.find(c => c.change_message_id === message.id));
-    const isRobot = comments.some(c => c && !!c.robot_id);
-    return isRobot ? 'autogenerated:has-robot-comments' : undefined;
+    const messageId = getMessageId(message);
+    const comments = threads.map(t =>
+      t.comments.find(c => c.change_message_id === messageId)
+    );
+    const hasRobotComments = comments.some(isRobot);
+    return hasRobotComments ? 'autogenerated:has-robot-comments' : undefined;
   }
 
   if (message.tag === MessageTag.TAG_NEW_WIP_PATCHSET) {
@@ -115,12 +163,17 @@ function computeTag(message) {
  * for reviewer updates. Other messages should typically have the revision
  * number already set.
  */
-function computeRevision(message, allMessages) {
-  if (message._revision_number > 0) return message._revision_number;
-  let revision = 0;
+function computeRevision(
+  message: CombinedMessage,
+  allMessages: CombinedMessage[]
+): PatchSetNum | undefined {
+  if (message._revision_number && message._revision_number > 0)
+    return message._revision_number;
+  let revision: PatchSetNum = 0 as PatchSetNum;
   for (const m of allMessages) {
     if (m.date > message.date) break;
-    if (m._revision_number > revision) revision = m._revision_number;
+    if (m._revision_number && m._revision_number > revision)
+      revision = m._revision_number;
   }
   return revision > 0 ? revision : undefined;
 }
@@ -133,12 +186,16 @@ function computeRevision(message, allMessages) {
  * Autogenerated messages are unimportant, if there is a message with the same
  * tag and a higher revision number.
  */
-function computeIsImportant(message, allMessages) {
+function computeIsImportant(
+  message: CombinedMessage,
+  allMessages: CombinedMessage[]
+) {
   if (!message.tag) return true;
 
-  const hasSameTag = m => m.tag === message.tag;
+  const hasSameTag = (m: CombinedMessage) => m.tag === message.tag;
   const revNumber = message._revision_number || 0;
-  const hasHigherRevisionNumber = m => m._revision_number > revNumber;
+  const hasHigherRevisionNumber = (m: CombinedMessage) =>
+    (m._revision_number || 0) > revNumber;
   return !allMessages.filter(hasSameTag).some(hasHigherRevisionNumber);
 }
 
@@ -149,92 +206,72 @@ export const TEST_ONLY = {
   computeIsImportant,
 };
 
-/**
- * @extends PolymerElement
- */
-class GrMessagesList extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(
-            PolymerElement))) {
-  static get template() { return htmlTemplate; }
+export interface GrMessagesList {
+  $: {
+    messageRepeat: DomRepeat;
+  };
+}
 
-  static get is() { return 'gr-messages-list'; }
-
-  static get properties() {
-    return {
-      /** @type {?} */
-      change: Object,
-      changeNum: Number,
-      /**
-       * These are just the change messages. They are combined with reviewer
-       * updates below. So _combinedMessages is the more important property.
-       */
-      messages: {
-        type: Array,
-        value() { return []; },
-      },
-      /**
-       * These are just the reviewer updates. They are combined with change
-       * messages above. So _combinedMessages is the more important property.
-       */
-      reviewerUpdates: {
-        type: Array,
-        value() { return []; },
-      },
-      changeComments: Object,
-      projectName: String,
-      showReplyButtons: {
-        type: Boolean,
-        value: false,
-      },
-      labels: Object,
-
-      /**
-       * Keeps track of the state of the "Expand All" toggle button. Note that
-       * you can individually expand/collapse some messages without affecting
-       * the toggle button's state.
-       *
-       * @type {ExpandAllState}
-       */
-      _expandAllState: {
-        type: String,
-        value: ExpandAllState.EXPAND_ALL,
-      },
-      _expandAllTitle: {
-        type: String,
-        computed: '_computeExpandAllTitle(_expandAllState)',
-      },
-
-      _showAllActivity: {
-        type: Boolean,
-        value: false,
-        observer: '_observeShowAllActivity',
-      },
-      /**
-       * The merged array of change messages and reviewer updates.
-       */
-      _combinedMessages: {
-        type: Array,
-        computed: '_computeCombinedMessages(messages, reviewerUpdates, '
-            + 'changeComments)',
-        observer: '_combinedMessagesChanged',
-      },
-
-      _labelExtremes: {
-        type: Object,
-        computed: '_computeLabelExtremes(labels.*)',
-      },
-    };
+@customElement('gr-messages-list')
+export class GrMessagesList extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
+  @property({type: Object})
+  change?: ChangeViewChangeInfo;
 
-  scrollToMessage(messageID) {
+  @property({type: String})
+  changeNum?: ChangeId | NumericChangeId;
+
+  @property({type: Array})
+  messages: ChangeMessageInfo[] = [];
+
+  @property({type: Array})
+  reviewerUpdates: ReviewerUpdateInfo[] = [];
+
+  @property({type: Object})
+  changeComments?: ChangeComments;
+
+  @property({type: String})
+  projectName?: RepoName;
+
+  @property({type: Boolean})
+  showReplyButtons = false;
+
+  @property({type: Object})
+  labels?: LabelNameToInfoMap;
+
+  @property({type: String})
+  _expandAllState = ExpandAllState.EXPAND_ALL;
+
+  @property({type: String, computed: '_computeExpandAllTitle(_expandAllState)'})
+  _expandAllTitle = '';
+
+  @property({type: Boolean, observer: '_observeShowAllActivity'})
+  _showAllActivity = false;
+
+  @property({
+    type: Array,
+    computed:
+      '_computeCombinedMessages(messages, reviewerUpdates, ' +
+      'changeComments)',
+    observer: '_combinedMessagesChanged',
+  })
+  _combinedMessages: CombinedMessage[] = [];
+
+  @property({type: Object, computed: '_computeLabelExtremes(labels.*)'})
+  _labelExtremes: {[lableName: string]: VotingRangeInfo} = {};
+
+  private readonly reporting = appContext.reportingService;
+
+  scrollToMessage(messageID: string) {
     const selector = `[data-message-id="${messageID}"]`;
-    const el = this.shadowRoot.querySelector(selector);
+    const el = this.shadowRoot!.querySelector(selector) as
+      | GrMessage
+      | undefined;
 
     if (!el && this._showAllActivity) {
       console.warn(`Failed to scroll to message: ${messageID}`);
@@ -248,16 +285,18 @@ class GrMessagesList extends KeyboardShortcutMixin(
 
     el.set('message.expanded', true);
     let top = el.offsetTop;
-    for (let offsetParent = el.offsetParent;
+    for (
+      let offsetParent = el.offsetParent as HTMLElement | null;
       offsetParent;
-      offsetParent = offsetParent.offsetParent) {
+      offsetParent = offsetParent.offsetParent as HTMLElement | null
+    ) {
       top += offsetParent.offsetTop;
     }
     window.scrollTo(0, top);
     this._highlightEl(el);
   }
 
-  _observeShowAllActivity(showAllActivity) {
+  _observeShowAllActivity() {
     // We have to call render() such that the dom-repeat filter picks up the
     // change.
     this.$.messageRepeat.render();
@@ -266,7 +305,7 @@ class GrMessagesList extends KeyboardShortcutMixin(
   /**
    * Filter for the dom-repeat of combinedMessages.
    */
-  _isMessageVisible(message) {
+  _isMessageVisible(message: CombinedMessage) {
     return this._showAllActivity || message.isImportant;
   }
 
@@ -274,17 +313,26 @@ class GrMessagesList extends KeyboardShortcutMixin(
    * Merges change messages and reviewer updates into one array. Also processes
    * all messages and updates, aligns or massages some of the properties.
    */
-  _computeCombinedMessages(messages, reviewerUpdates, changeComments) {
-    const params = [messages, reviewerUpdates, changeComments];
-    if (params.some(o => o === undefined)) return [];
+  _computeCombinedMessages(
+    messages?: ChangeMessageInfo[],
+    reviewerUpdates?: FormattedReviewerUpdateInfo[],
+    changeComments?: ChangeComments
+  ) {
+    if (
+      messages === undefined ||
+      reviewerUpdates === undefined ||
+      changeComments === undefined
+    )
+      return [];
 
     let mi = 0;
     let ri = 0;
-    let combinedMessages = [];
+    let combinedMessages: CombinedMessage[] = [];
     let mDate;
     let rDate;
     for (let i = 0; i < messages.length; i++) {
-      messages[i]._index = i;
+      // TODO(TS): clone message instead and avoid API object mutation
+      (messages[i] as CombinedMessage)._index = i;
     }
 
     while (mi < messages.length || ri < reviewerUpdates.length) {
@@ -310,7 +358,7 @@ class GrMessagesList extends KeyboardShortcutMixin(
       if (m.expanded === undefined) {
         m.expanded = false;
       }
-      m.commentThreads = computeThreads(m, combinedMessages, changeComments);
+      m.commentThreads = computeThreads(m, changeComments);
       m._revision_number = computeRevision(m, combinedMessages);
       m.tag = computeTag(m);
     });
@@ -323,7 +371,7 @@ class GrMessagesList extends KeyboardShortcutMixin(
     return combinedMessages;
   }
 
-  _updateExpandedStateOfAllMessages(exp) {
+  _updateExpandedStateOfAllMessages(exp: boolean) {
     if (this._combinedMessages) {
       for (let i = 0; i < this._combinedMessages.length; i++) {
         this._combinedMessages[i].expanded = exp;
@@ -332,21 +380,24 @@ class GrMessagesList extends KeyboardShortcutMixin(
     }
   }
 
-  _computeExpandAllTitle(_expandAllState) {
+  _computeExpandAllTitle(_expandAllState?: string) {
     if (_expandAllState === ExpandAllState.COLLAPSE_ALL) {
       return this.createTitle(
-          Shortcut.COLLAPSE_ALL_MESSAGES, ShortcutSection.ACTIONS);
+        Shortcut.COLLAPSE_ALL_MESSAGES,
+        ShortcutSection.ACTIONS
+      );
     }
     if (_expandAllState === ExpandAllState.EXPAND_ALL) {
       return this.createTitle(
-          Shortcut.EXPAND_ALL_MESSAGES, ShortcutSection.ACTIONS);
+        Shortcut.EXPAND_ALL_MESSAGES,
+        ShortcutSection.ACTIONS
+      );
     }
     return '';
   }
 
-  _highlightEl(el) {
-    const highlightedEls =
-        this.root.querySelectorAll('.highlighted');
+  _highlightEl(el: HTMLElement) {
+    const highlightedEls = this.root!.querySelectorAll('.highlighted');
     for (const highlightedEl of highlightedEls) {
       highlightedEl.classList.remove('highlighted');
     }
@@ -358,46 +409,49 @@ class GrMessagesList extends KeyboardShortcutMixin(
     el.classList.add('highlighted');
   }
 
-  /**
-   * @param {boolean} expand
-   */
-  handleExpandCollapse(expand) {
-    this._expandAllState = expand ? ExpandAllState.COLLAPSE_ALL
+  handleExpandCollapse(expand: boolean) {
+    this._expandAllState = expand
+      ? ExpandAllState.COLLAPSE_ALL
       : ExpandAllState.EXPAND_ALL;
     this._updateExpandedStateOfAllMessages(expand);
   }
 
-  _handleExpandCollapseTap(e) {
+  _handleExpandCollapseTap(e: Event) {
     e.preventDefault();
     this.handleExpandCollapse(
-        this._expandAllState === ExpandAllState.EXPAND_ALL);
+      this._expandAllState === ExpandAllState.EXPAND_ALL
+    );
   }
 
-  _handleAnchorClick(e) {
+  _handleAnchorClick(e: CustomEvent<MessageAnchorTapDetail>) {
     this.scrollToMessage(e.detail.id);
   }
 
-  _isVisibleShowAllActivityToggle(messages = []) {
+  _isVisibleShowAllActivityToggle(messages: CombinedMessage[] = []) {
     return messages.some(m => !m.isImportant);
   }
 
-  _computeHiddenEntriesCount(messages = []) {
+  _computeHiddenEntriesCount(messages: CombinedMessage[] = []) {
     return messages.filter(m => !m.isImportant).length;
   }
 
   /**
    * This method is for reporting stats only.
    */
-  _combinedMessagesChanged(combinedMessages) {
+  _combinedMessagesChanged(combinedMessages?: CombinedMessage[]) {
     if (combinedMessages) {
       if (combinedMessages.length === 0) return;
       const tags = combinedMessages.map(
-          message => message.tag || message.type ||
-              (message.comments ? 'comments' : 'none'));
-      const tagsCounted = tags.reduce((acc, val) => {
-        acc[val] = (acc[val] || 0) + 1;
-        return acc;
-      }, {all: combinedMessages.length});
+        message =>
+          message.tag || (message as FormattedReviewerUpdateInfo).type || 'none'
+      );
+      const tagsCounted = tags.reduce(
+        (acc, val) => {
+          acc[val] = (acc[val] || 0) + 1;
+          return acc;
+        },
+        {all: combinedMessages.length} as TagsCountReportInfo
+      );
       this.reporting.reportInteraction('messages-count', tagsCounted);
     }
   }
@@ -406,18 +460,22 @@ class GrMessagesList extends KeyboardShortcutMixin(
    * Compute a mapping from label name to objects representing the minimum and
    * maximum possible values for that label.
    */
-  _computeLabelExtremes(labelRecord) {
-    const extremes = {};
+  _computeLabelExtremes(
+    labelRecord: PolymerDeepPropertyChange<
+      LabelNameToInfoMap,
+      LabelNameToInfoMap
+    >
+  ) {
+    const extremes: {[lableName: string]: VotingRangeInfo} = {};
     const labels = labelRecord.base;
-    if (!labels) { return extremes; }
+    if (!labels) {
+      return extremes;
+    }
     for (const key of Object.keys(labels)) {
-      // TODO(TS): Let's use label-util!
-      if (!labels[key] || !labels[key].values) { continue; }
-      const values = Object.keys(labels[key].values)
-          .map(v => parseInt(v, 10));
-      values.sort((a, b) => a - b);
-      if (!values.length) { continue; }
-      extremes[key] = {min: values[0], max: values[values.length - 1]};
+      const range = getVotingRange(labels[key]);
+      if (range) {
+        extremes[key] = range;
+      }
     }
     return extremes;
   }
@@ -425,10 +483,13 @@ class GrMessagesList extends KeyboardShortcutMixin(
   /**
    * Work around a issue on iOS when clicking turns into double tap
    */
-  _onTapShowAllActivityToggle(e) {
+  _onTapShowAllActivityToggle(e: Event) {
     e.preventDefault();
   }
 }
 
-customElements.define(GrMessagesList.is,
-    GrMessagesList);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-messages-list': GrMessagesList;
+  }
+}

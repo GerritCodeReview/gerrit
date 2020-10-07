@@ -18,6 +18,7 @@
 import '../test/common-test-setup-karma.js';
 import {
   getVotingRange,
+  getVotingRangeOrDefault,
 } from './label-util.js';
 
 suite('label-util', () => {
@@ -31,6 +32,7 @@ suite('label-util', () => {
     };
     const expectedRange = {min: -1, max: 1};
     assert.deepEqual(getVotingRange(label), expectedRange);
+    assert.deepEqual(getVotingRangeOrDefault(label), expectedRange);
   });
 
   test('getVotingRange -2 to +2', () => {
@@ -45,5 +47,22 @@ suite('label-util', () => {
     };
     const expectedRange = {min: -2, max: 2};
     assert.deepEqual(getVotingRange(label), expectedRange);
+    assert.deepEqual(getVotingRangeOrDefault(label), expectedRange);
+  });
+
+  test('getVotingRange empty values', () => {
+    const label = {
+      values: {},
+    };
+    const expectedRange = {min: 0, max: 0};
+    assert.isUndefined(getVotingRange(label));
+    assert.deepEqual(getVotingRangeOrDefault(label), expectedRange);
+  });
+
+  test('getVotingRange no values', () => {
+    const label = {};
+    const expectedRange = {min: 0, max: 0};
+    assert.isUndefined(getVotingRange(label));
+    assert.deepEqual(getVotingRangeOrDefault(label), expectedRange);
   });
 });

@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "beee4257_dcd19d11",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-07T12:37:16Z",
+      "side": 1,
+      "message": "I\u0027d like to understand the use case for the parameter. Wouldn\u0027t the FE always set this to the same value? Or would there be a heuristic to lower the value when there are many comments? In that case maybe we can fix the total number instead?",
+      "parentUuid": "ad323842_73709eea",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7a32129e_0b77b209",
         "filename": "java/com/google/gerrit/entities/ContextLines.java",
         "patchSetId": 20

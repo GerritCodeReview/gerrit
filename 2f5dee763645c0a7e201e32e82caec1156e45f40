@@ -16,6 +16,24 @@
       "message": "Maybe also add\n\n  public TestProjectCreation.Builder addOwner(AccountGroup.UUID owner) {\n    ownersBuilder().add(requireNonNull(owner, \"owner\"));\n    return this;\n  }\n\n  abstract ImmutableSet.Builder\u003cAccountGroup.UUID\u003e ownersBuilder();\n\n?\n\nThis would make this API more comfortable to use for callers that only want to set a single owner.",
       "revId": "2f5dee763645c0a7e201e32e82caec1156e45f40",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a7af814a_88894445",
+        "filename": "java/com/google/gerrit/acceptance/testsuite/project/TestProjectCreation.java",
+        "patchSetId": 6
+      },
+      "lineNbr": 59,
+      "author": {
+        "id": 1014252
+      },
+      "writtenOn": "2020-10-07T10:03:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d7cc25fe_ac735803",
+      "revId": "2f5dee763645c0a7e201e32e82caec1156e45f40",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

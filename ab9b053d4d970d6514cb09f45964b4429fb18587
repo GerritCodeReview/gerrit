@@ -176,6 +176,24 @@
       "message": "I prefer CR\u0027ing to silently removing myself from this attention set for now; still up to you next.",
       "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "97ef9952_9cdea6d7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 5
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-07T12:22:57Z",
+      "side": 1,
+      "message": "I can take this over.\n\nThe version we have internally is: 95d519a8404777999a59f99c264bfc77f3076338 (fetched on 6/19/2020 from master). This seems newer than 1.3. There weren\u0027t a lot of changes since the 1.3 release in January: https://github.com/rharter/auto-value-gson/commits/main\n\nSo I\u0027d say this version seems OK to not cause trouble. I\u0027ve rebased the change and ran a test import and that worked without issues.",
+      "parentUuid": "ab09a91e_660727ba",
+      "revId": "ab9b053d4d970d6514cb09f45964b4429fb18587",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

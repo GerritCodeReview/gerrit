@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6338eeb2_c24c130e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T16:31:15Z",
+      "side": 1,
+      "message": "This change leads to an unexpected behavior. It looked initially like a bug for me, then I understood how it works, but maybe it will also confuse someone else.\nSteps:\n1) Click reply, it should show you \"Bring to attention of: \"... and one/more accounts.\n2) Click on the account - the account disappear. To bring it back I have to click Modify.\nBefore this change, click on the account doesn\u0027t change anything, that can be also confusing. \n\nMaybe we can preserve the visibility on step (2) somehow?",
+      "revId": "d5209d67b2c40f42764cb10f9fa8237494711b95",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

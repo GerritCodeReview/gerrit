@@ -221,6 +221,11 @@ export class GrChangeList extends ChangeTableMixin(
       );
       if (preferences.change_table && preferences.change_table.length > 0) {
         const prefColumns = this.getVisibleColumns(preferences.change_table);
+        const updatedIndex = prefColumns.indexOf('Updated');
+        if (updatedIndex !== -1) {
+          prefColumns[updatedIndex] = 'Since';
+        }
+
         this.visibleChangeTableColumns = this.getEnabledColumns(
           prefColumns,
           config,

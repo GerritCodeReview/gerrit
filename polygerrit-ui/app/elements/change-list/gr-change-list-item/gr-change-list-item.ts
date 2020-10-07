@@ -383,6 +383,14 @@ export class GrChangeListItem extends ChangeTableMixin(
     }
   }
 
+  _computeSince(account?: AccountInfo, change?: ChangeInfo): string {
+    console.log(`_computeSince1: ${account}, ${change}`);
+    if (!account?._account_id || !change?.attention_set) return '';
+    const set = JSON.stringify(change.attention_set, undefined, 2);
+    console.log(`_computeSince2: ${change._number}, ${account._account_id}, ${change?.attention_set[account._account_id]?.last_update}, ${set}`);
+    return change?.attention_set[account._account_id]?.last_update ?? '';
+  }
+
   toggleReviewed() {
     const newVal = !this.change?.reviewed;
     this.set('change.reviewed', newVal);

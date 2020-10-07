@@ -61,7 +61,7 @@ export const htmlTemplate = html`
             ></td>
             <td
               class="cell"
-              colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
+              colspan$="[[_computeColspan(visibleChangeTableColumns, labelNames)]]"
             >
               <a
                 href$="[[_sectionHref(changeSection.query)]]"
@@ -83,7 +83,7 @@ export const htmlTemplate = html`
             <td aria-hidden="true" class="star" hidden></td>
             <td
               class="cell"
-              colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
+              colspan$="[[_computeColspan(visibleChangeTableColumns, labelNames)]]"
             >
               <template
                 is="dom-if"
@@ -110,7 +110,7 @@ export const htmlTemplate = html`
               hidden=""
             ></td>
             <td class="number" hidden$="[[!showNumber]]" hidden="">#</td>
-            <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
+            <template is="dom-repeat" items="[[visibleChangeTableColumns]]" as="item">
               <td
                 class$="[[_lowerCase(item)]]"
                 hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]"

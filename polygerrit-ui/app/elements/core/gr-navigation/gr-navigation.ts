@@ -208,7 +208,7 @@ const CCED: DashboardSection = {
   query: 'is:open -is:ignored cc:${user}',
   suffixForDashboard: 'limit:10',
 };
-const CLOSED: DashboardSection = {
+export const CLOSED: DashboardSection = {
   name: 'Recently closed',
   // Closed changes where viewed user is owner, reviewer, or assignee.
   // Changes ignored by the viewing user are filtered out, and so are WIP

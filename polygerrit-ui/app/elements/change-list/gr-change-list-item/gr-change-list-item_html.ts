@@ -265,6 +265,26 @@ export const htmlTemplate = html`
     ></gr-date-formatter>
   </td>
   <td
+    class="cell submitted"
+    hidden$="[[isColumnHidden('Submitted', visibleChangeTableColumns)]]"
+  >
+    <gr-date-formatter
+      has-tooltip=""
+      date-str="[[change.submitted]]"
+    ></gr-date-formatter>
+  </td>
+  <td
+    class="cell since"
+    hidden$="[[isColumnHidden('Since', visibleChangeTableColumns)]]"
+  >
+    <gr-date-formatter
+      has-tooltip=""
+      force-relative=""
+      relative-option-no-ago=""
+      date-str="[[_computeSince(account, change)]]"
+    ></gr-date-formatter>
+  </td>
+  <td
     class="cell size"
     hidden$="[[isColumnHidden('Size', visibleChangeTableColumns)]]"
   >

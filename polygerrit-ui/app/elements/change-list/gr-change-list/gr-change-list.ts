@@ -38,6 +38,7 @@ import {
   GerritNav,
   DashboardSection,
   YOUR_TURN,
+  CLOSED,
 } from '../../core/gr-navigation/gr-navigation';
 import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
 import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
@@ -59,6 +60,8 @@ const LABEL_PREFIX_INVALID_PROLOG = 'Invalid-Prolog-Rules-Label-Name--';
 const MAX_SHORTCUT_CHARS = 5;
 
 export interface ChangeListSection {
+  name?: string;
+  query?: string;
   results: ChangeInfo[];
 }
 export interface GrChangeList {
@@ -231,9 +234,35 @@ export class GrChangeList extends ChangeTableMixin(
     }
   }
 
-  _computeColspan(changeTableColumns: string[], labelNames: string[]) {
-    if (!changeTableColumns || !labelNames) return;
-    return changeTableColumns.length + labelNames.length + NUMBER_FIXED_COLUMNS;
+  /**
+   * This methods allows us to customize the columns per section.
+   *
+   * @param visibleColumns are the columns according to configs and user prefs
+   */
+  _computeColumns(
+    section?: ChangeListSection,
+    visibleColumns?: string[]
+  ): string[] {
+    if (!section || !visibleColumns) return [];
+    const cols = [...visibleColumns];
+    const updatedIndex = cols.indexOf('Updated');
+    if (section.name === YOUR_TURN.name && updatedIndex !== -1) {
+      cols[updatedIndex] = 'Since';
+    }
+    if (section.name === CLOSED.name && updatedIndex !== -1) {
+      cols[updatedIndex] = 'Submitted';
+    }
+    return cols;
+  }
+
+  _computeColspan(
+    section?: ChangeListSection,
+    visibleColumns?: string[],
+    labelNames?: string[]
+  ) {
+    const cols = this._computeColumns(section, visibleColumns);
+    if (!cols || !labelNames) return 1;
+    return cols.length + labelNames.length + NUMBER_FIXED_COLUMNS;
   }
 
   _computeLabelNames(sections: ChangeListSection[]) {

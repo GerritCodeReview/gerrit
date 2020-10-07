@@ -41,14 +41,11 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Singleton
 public class DefaultPermissionBackend extends PermissionBackend {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
-
-  private static final CurrentUser.PropertyKey<Boolean> IS_ADMIN = CurrentUser.PropertyKey.create();
 
   private final Provider<CurrentUser> currentUser;
   private final ProjectCache projectCache;
@@ -197,21 +194,13 @@ public class DefaultPermissionBackend extends PermissionBackend {
     }
 
     private Boolean computeAdmin() {
-      Optional<Boolean> r = user.get(IS_ADMIN);
-      if (r.isPresent()) {
-        return r.get();
-      }
-
-      boolean isAdmin;
       if (user.isImpersonating()) {
-        isAdmin = false;
+        return false;
       } else if (user instanceof PeerDaemonUser) {
-        isAdmin = true;
+        return true;
       } else {
-        isAdmin = allow(capabilities().administrateServer);
+        return allow(capabilities().administrateServer);
       }
-      user.put(IS_ADMIN, isAdmin);
-      return isAdmin;
     }
 
     private boolean canEmailReviewers() {

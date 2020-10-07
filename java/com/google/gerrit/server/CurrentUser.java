@@ -14,7 +14,6 @@
 
 package com.google.gerrit.server;
 
-import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.GroupMembership;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -31,17 +30,19 @@ import java.util.function.Consumer;
  * @see IdentifiedUser
  */
 public abstract class CurrentUser {
-  /** Unique key for plugin/extension specific data on a CurrentUser. */
-  public static final class PropertyKey<T> {
-    public static <T> PropertyKey<T> create() {
-      return new PropertyKey<>();
-    }
+  public static final PropertyMap.Key<ExternalId.Key> LAST_LOGIN_EXTERNAL_ID_PROPERTY_KEY =
+      PropertyMap.key();
 
-    private PropertyKey() {}
+  private final PropertyMap properties;
+  private AccessPath accessPath = AccessPath.UNKNOWN;
+
+  protected CurrentUser() {
+    this.properties = PropertyMap.EMPTY;
   }
 
-  private AccessPath accessPath = AccessPath.UNKNOWN;
-  private PropertyKey<ExternalId.Key> lastLoginExternalIdPropertyKey = PropertyKey.create();
+  protected CurrentUser(PropertyMap properties) {
+    this.properties = properties;
+  }
 
   /** How this user is accessing the Gerrit Code Review application. */
   public final AccessPath getAccessPath() {
@@ -127,29 +128,17 @@ public abstract class CurrentUser {
   }
 
   /**
-   * Lookup a previously stored property.
+   * Lookup a stored property.
    *
    * @param key unique property key.
-   * @return previously stored value, or {@code Optional#empty()}.
+   * @return stored value, or {@code Optional#empty()}.
    */
-  public <T> Optional<T> get(PropertyKey<T> key) {
-    return Optional.empty();
-  }
-
-  /**
-   * Store a property for later retrieval.
-   *
-   * @param key unique property key.
-   * @param value value to store; or {@code null} to clear the value.
-   */
-  public <T> void put(PropertyKey<T> key, @Nullable T value) {}
-
-  public void setLastLoginExternalIdKey(ExternalId.Key externalIdKey) {
-    put(lastLoginExternalIdPropertyKey, externalIdKey);
+  public <T> Optional<T> get(PropertyMap.Key<T> key) {
+    return properties.get(key);
   }
 
   public Optional<ExternalId.Key> getLastLoginExternalIdKey() {
-    return get(lastLoginExternalIdPropertyKey);
+    return get(LAST_LOGIN_EXTERNAL_ID_PROPERTY_KEY);
   }
 
   /**

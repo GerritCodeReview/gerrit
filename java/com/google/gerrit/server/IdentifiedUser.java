@@ -46,8 +46,6 @@ import java.net.MalformedURLException;
 import java.net.SocketAddress;
 import java.net.URL;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.TimeZone;
@@ -121,7 +119,8 @@ public class IdentifiedUser extends CurrentUser {
           enableReverseDnsLookup,
           Providers.of(remotePeer),
           id,
-          caller);
+          caller,
+          PropertyMap.EMPTY);
     }
   }
 
@@ -163,6 +162,10 @@ public class IdentifiedUser extends CurrentUser {
     }
 
     public IdentifiedUser create(Account.Id id) {
+      return create(id, PropertyMap.EMPTY);
+    }
+
+    public <T> IdentifiedUser create(Account.Id id, PropertyMap properties) {
       return new IdentifiedUser(
           authConfig,
           realm,
@@ -173,7 +176,8 @@ public class IdentifiedUser extends CurrentUser {
           enableReverseDnsLookup,
           remotePeerProvider,
           id,
-          null);
+          null,
+          properties);
     }
 
     public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
@@ -187,7 +191,8 @@ public class IdentifiedUser extends CurrentUser {
           enableReverseDnsLookup,
           remotePeerProvider,
           id,
-          caller);
+          caller,
+          PropertyMap.EMPTY);
     }
   }
 
@@ -212,7 +217,6 @@ public class IdentifiedUser extends CurrentUser {
   private boolean loadedAllEmails;
   private Set<String> invalidEmails;
   private GroupMembership effectiveGroups;
-  private Map<PropertyKey<Object>, Object> properties;
 
   private IdentifiedUser(
       AuthConfig authConfig,
@@ -235,7 +239,8 @@ public class IdentifiedUser extends CurrentUser {
         enableReverseDnsLookup,
         remotePeerProvider,
         state.account().id(),
-        realUser);
+        realUser,
+        PropertyMap.EMPTY);
     this.state = state;
   }
 
@@ -249,7 +254,9 @@ public class IdentifiedUser extends CurrentUser {
       Boolean enableReverseDnsLookup,
       @Nullable Provider<SocketAddress> remotePeerProvider,
       Account.Id id,
-      @Nullable CurrentUser realUser) {
+      @Nullable CurrentUser realUser,
+      PropertyMap properties) {
+    super(properties);
     this.canonicalUrl = canonicalUrl;
     this.accountCache = accountCache;
     this.groupBackend = groupBackend;
@@ -456,40 +463,6 @@ public class IdentifiedUser extends CurrentUser {
   @Override
   public boolean isIdentifiedUser() {
     return true;
-  }
-
-  @Override
-  public synchronized <T> Optional<T> get(PropertyKey<T> key) {
-    if (properties != null) {
-      @SuppressWarnings("unchecked")
-      T value = (T) properties.get(key);
-      return Optional.ofNullable(value);
-    }
-    return Optional.empty();
-  }
-
-  /**
-   * Store a property for later retrieval.
-   *
-   * @param key unique property key.
-   * @param value value to store; or {@code null} to clear the value.
-   */
-  @Override
-  public synchronized <T> void put(PropertyKey<T> key, @Nullable T value) {
-    if (properties == null) {
-      if (value == null) {
-        return;
-      }
-      properties = new HashMap<>();
-    }
-
-    @SuppressWarnings("unchecked")
-    PropertyKey<Object> k = (PropertyKey<Object>) key;
-    if (value != null) {
-      properties.put(k, value);
-    } else {
-      properties.remove(k);
-    }
   }
 
   /**

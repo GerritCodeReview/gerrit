@@ -1639,9 +1639,6 @@ public class RestApiServlet extends HttpServlet {
           "Invalid authentication method. In order to authenticate, "
               + "prefix the REST endpoint URL with /a/ (e.g. http://example.com/a/projects/).");
     }
-    if (user.isIdentifiedUser()) {
-      user.setLastLoginExternalIdKey(globals.webSession.get().getLastLoginExternalId());
-    }
   }
 
   private List<String> getParameterNames(HttpServletRequest req) {

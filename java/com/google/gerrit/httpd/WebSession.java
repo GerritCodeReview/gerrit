@@ -19,7 +19,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.account.AuthResult;
-import com.google.gerrit.server.account.externalids.ExternalId;
 
 public interface WebSession {
   boolean isSignedIn();
@@ -28,8 +27,6 @@ public interface WebSession {
   String getXGerritAuth();
 
   boolean isValidXGerritAuth(String keyIn);
-
-  ExternalId.Key getLastLoginExternalId();
 
   CurrentUser getUser();
 

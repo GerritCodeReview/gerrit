@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a9893cd9_7d4fbe56",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-07T14:49:11Z",
+      "side": 1,
+      "message": "Drop this? I read this as \"it\u0027s not done for all, but some\" but it seems it\u0027s not done for any yet.",
+      "range": {
+        "startLine": 17,
+        "startChar": 46,
+        "endLine": 17,
+        "endChar": 49
+      },
+      "revId": "cf6466cd06209f3a2d01b59358226b20bd0b2ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "43a02434_ce45e6be",
+        "filename": "java/com/google/gerrit/server/change/EmailReviewComments.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 56,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-07T14:49:11Z",
+      "side": 1,
+      "message": "nit: duplicated line?",
+      "revId": "cf6466cd06209f3a2d01b59358226b20bd0b2ef1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

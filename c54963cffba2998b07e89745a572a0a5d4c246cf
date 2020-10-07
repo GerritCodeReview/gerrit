@@ -46,6 +46,30 @@
       },
       "revId": "c54963cffba2998b07e89745a572a0a5d4c246cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eedc3ddf_aa2a72a4",
+        "filename": "java/com/google/gerrit/server/git/receive/BranchCommitValidator.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 149,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-07T06:15:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6497986a_6d69d9b8",
+      "range": {
+        "startLine": 149,
+        "startChar": 14,
+        "endLine": 149,
+        "endChar": 24
+      },
+      "revId": "c54963cffba2998b07e89745a572a0a5d4c246cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

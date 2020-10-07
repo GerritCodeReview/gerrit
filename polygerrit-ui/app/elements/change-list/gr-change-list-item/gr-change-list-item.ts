@@ -383,6 +383,11 @@ export class GrChangeListItem extends ChangeTableMixin(
     }
   }
 
+  _computeSince(account?: AccountInfo, change?: ChangeInfo): string {
+    if (!account?._account_id || !change?.attention_set) return '';
+    return change?.attention_set[account._account_id]?.last_update ?? '';
+  }
+
   toggleReviewed() {
     const newVal = !this.change?.reviewed;
     this.set('change.reviewed', newVal);

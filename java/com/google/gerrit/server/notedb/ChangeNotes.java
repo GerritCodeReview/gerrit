@@ -77,6 +77,9 @@ import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
 
 /** View of a single {@link Change} based on the log of its notes branch. */
+// TODO(paiking): This class should be refactored to get rid of potentially duplicate or unneeded
+// variables, such as allAttentionSetUpdates, reviewerUpdates, and others.
+
 public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 

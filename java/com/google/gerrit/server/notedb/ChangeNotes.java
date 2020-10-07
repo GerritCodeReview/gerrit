@@ -391,6 +391,11 @@ public class ChangeNotes extends AbstractChangeNotes<ChangeNotes> {
     return state.attentionSet();
   }
 
+  /** Returns all updates for the attention set. */
+  public ImmutableList<AttentionSetUpdate> getAttentionSetUpdates() {
+    return state.allAttentionSetUpdates();
+  }
+
   /**
    * @return an ImmutableSet of Account.Ids of all users that have been assigned to this change. The
    *     order of the set is the order in which they were assigned.

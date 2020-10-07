@@ -168,6 +168,10 @@ public class ChangeNotesCache {
           + P
           + list(state.assigneeUpdates(), 4 * O + K + K)
           + P
+          + set(state.attentionSet(), 4 * O + K + I + str(15))
+          + P
+          + list(state.allAttentionSetUpdates(), 4 * O + K + I + str(15))
+          + P
           + list(state.submitRecords(), P + list(2, str(4) + P + K) + P)
           + P
           + list(state.changeMessages(), changeMessage())

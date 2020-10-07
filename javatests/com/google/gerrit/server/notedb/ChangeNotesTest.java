@@ -699,6 +699,13 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
   }
 
   @Test
+  public void defaultAttentionSetUpdatesIsEmpty() throws Exception {
+    Change c = newChange();
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getAttentionSetUpdates()).isEmpty();
+  }
+
+  @Test
   public void addAttentionStatus() throws Exception {
     Change c = newChange();
     ChangeUpdate update = newUpdate(c, changeOwner);
@@ -709,6 +716,19 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getAttentionSet()).containsExactly(addTimestamp(attentionSetUpdate, c));
+  }
+
+  @Test
+  public void addAllAttentionUpdates() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    AttentionSetUpdate attentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(attentionSetUpdate));
+    update.commit();
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getAttentionSetUpdates()).containsExactly(addTimestamp(attentionSetUpdate, c));
   }
 
   @Test
@@ -727,6 +747,28 @@ public class ChangeNotesTest extends AbstractChangeNotesTest {
 
     ChangeNotes notes = newNotes(c);
     assertThat(notes.getAttentionSet()).containsExactly(addTimestamp(attentionSetUpdate, c));
+  }
+
+  @Test
+  public void DoesNotFilterLatestAttentionSetUpdates() throws Exception {
+    Change c = newChange();
+    ChangeUpdate update = newUpdate(c, changeOwner);
+    AttentionSetUpdate firstAttentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.ADD, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(firstAttentionSetUpdate));
+    update.commit();
+    update = newUpdate(c, changeOwner);
+    firstAttentionSetUpdate = addTimestamp(firstAttentionSetUpdate, c);
+
+    AttentionSetUpdate secondAttentionSetUpdate =
+        AttentionSetUpdate.createForWrite(changeOwner.getAccountId(), Operation.REMOVE, "test");
+    update.addToPlannedAttentionSetUpdates(ImmutableSet.of(secondAttentionSetUpdate));
+    update.commit();
+    secondAttentionSetUpdate = addTimestamp(secondAttentionSetUpdate, c);
+
+    ChangeNotes notes = newNotes(c);
+    assertThat(notes.getAttentionSetUpdates())
+        .containsExactly(secondAttentionSetUpdate, firstAttentionSetUpdate);
   }
 
   @Test

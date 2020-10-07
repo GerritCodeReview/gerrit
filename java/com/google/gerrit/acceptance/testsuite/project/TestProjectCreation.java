@@ -14,8 +14,12 @@
 
 package com.google.gerrit.acceptance.testsuite.project;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.auto.value.AutoValue;
+import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.acceptance.testsuite.ThrowingFunction;
+import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.client.SubmitType;
 import java.util.Optional;
@@ -32,6 +36,8 @@ public abstract class TestProjectCreation {
   public abstract Optional<Boolean> permissionOnly();
 
   public abstract Optional<SubmitType> submitType();
+
+  public abstract ImmutableSet<AccountGroup.UUID> owners();
 
   abstract ThrowingFunction<TestProjectCreation, Project.NameKey> projectCreator();
 
@@ -56,6 +62,13 @@ public abstract class TestProjectCreation {
     public TestProjectCreation.Builder noEmptyCommit() {
       return createEmptyCommit(false);
     }
+
+    public TestProjectCreation.Builder addOwner(AccountGroup.UUID owner) {
+      ownersBuilder().add(requireNonNull(owner, "owner"));
+      return this;
+    }
+
+    abstract ImmutableSet.Builder<AccountGroup.UUID> ownersBuilder();
 
     abstract TestProjectCreation.Builder projectCreator(
         ThrowingFunction<TestProjectCreation, Project.NameKey> projectCreator);

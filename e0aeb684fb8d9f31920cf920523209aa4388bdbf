@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "b3fc813d_9a652863",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Should this go at the beginning of the series?",
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "8b2e482b_44fa573c",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "I think it better sits at the end of this series since it requires a Googler to +1 on library compliance which can take time.\n\nThe ssh part of the graceful shutdown is ready to be submitted as soon as the builds have voted +1.",
       "parentUuid": "b3fc813d_9a652863",
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "331bb1e3_397e6d9b",
         "filename": "/PATCHSET_LEVEL",
@@ -50,10 +51,10 @@
       "message": "Gotcha, so the Jetty upgrade is only needed for Git over HTTP(s)?",
       "parentUuid": "8b2e482b_44fa573c",
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "ec639df9_d3be371d",
         "filename": "/PATCHSET_LEVEL",
@@ -68,10 +69,10 @@
       "message": "that\u0027s required for git over https and REST requests and it is independent from supporting graceful shutdown in sshd daemon",
       "parentUuid": "331bb1e3_397e6d9b",
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "260b897c_840dddec",
         "filename": "/PATCHSET_LEVEL",
@@ -85,8 +86,24 @@
       "side": 1,
       "message": "Edwin can you check library-compliance ?",
       "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51b79aae_9817a720",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-07T09:17:29Z",
+      "side": 1,
+      "message": "The version differs in the minor version from our internal version, but there\u0027s already a skew (we have .27 internally). Seems OK to move forward here.",
+      "revId": "e0aeb684fb8d9f31920cf920523209aa4388bdbf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

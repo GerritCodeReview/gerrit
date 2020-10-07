@@ -34,6 +34,7 @@ public final class Main {
 
   private static boolean onSupportedJavaVersion() {
     final String version = System.getProperty("java.specification.version");
+    version.isBlank();
     if (1.8 <= parse(version)) {
       return true;
     }

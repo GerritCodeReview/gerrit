@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2b01d108_2de3db3d",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T15:12:39Z",
+      "side": 1,
+      "message": "nit: This text might be unclear, it sounds like imperative sentence. Maybe rephrase:\n\"Attention set doesn\u0027t have new members\"\n\nThe same for \"Do not update the attention set\" sentence. I can suggest \"Attention set is not changed\" or smth similar",
+      "range": {
+        "startLine": 1064,
+        "startChar": 14,
+        "endLine": 1064,
+        "endChar": 53
+      },
+      "revId": "1ac6ac320babc16483facfd8323d48afce4bc695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0ba27113_fb2af872",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T15:12:39Z",
+      "side": 1,
+      "message": "nit: this definition doesn\u0027t provide information what is what and require code reading.\nMaybe add some comments or change namings. I can suggest:\ncontainsAll(set: Set\u003cT\u003e, subset: Set\u003cT\u003e)",
+      "range": {
+        "startLine": 55,
+        "startChar": 16,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "1ac6ac320babc16483facfd8323d48afce4bc695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

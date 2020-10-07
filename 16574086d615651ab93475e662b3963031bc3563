@@ -48,6 +48,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b6a9f584_096b2ce8",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-07T12:37:16Z",
+      "side": 1,
+      "message": "Resolved.",
+      "parentUuid": "1ead5c09_6335587b",
+      "range": {
+        "startLine": 103,
+        "startChar": 72,
+        "endLine": 103,
+        "endChar": 76
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58d0f525_e921c5a9",
@@ -85,6 +109,30 @@
       "side": 1,
       "message": "The problem is that we are using this class (CommentContextKey) as the cache key, and also as a part of the public API. In previous patchsets, I used to have 2 different classes that were very similar, except for the path, and I moved to a single class after your suggestion.\n\nThe cache key needs to be serialized and deserialized, and deserialization means that it should be reconstructed exactly from the serialized version. During serialization, if the path was plain then it needs to be hashed, and consequently we won\u0027t be able to reconstruct the plain path again because hashing is 1 way. Hence the entity to be serialized (with a hashed path) should be different than the entity having the path as a plain text.\n\nNote: With this current implementation, this detail is not exposed to the public API: The cache implementation just re-uses this class while overriding the path to a different meaning, but that\u0027s hidden inside the cache implementation.",
       "parentUuid": "58d0f525_e921c5a9",
+      "range": {
+        "startLine": 98,
+        "startChar": 25,
+        "endLine": 98,
+        "endChar": 80
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61b10d44_8b8d2d37",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-07T12:37:16Z",
+      "side": 1,
+      "message": "I was thinking:\n\nclass CommentContextKey {\n  // ... like now ...\n\n\n  @Nullable private String hashedPath; // lazily initialized\n  String hashedPath() {\n    if (hashedPath \u003d\u003d null) hashedPath \u003d hash(path());\n    return hashedPath;\n  }\n  @AutoValue.Builder\n  ... Builder {\n    @Nullable String hashedPath;\n    setHashedPath(String hashedPath) {\n      this.hashedPath \u003d hashedPath);\n    }\n    CommentContextKey build() {\n      CommentContextKey key \u003d autoBuild();\n      key.hashedPath \u003d hashedPath;\n    }\n  }\n}\n\nThen in serialization or for cache access you just use hashedPath(), and in deserialization you set the hashedPath field by means of the custom setHashedPath() method (and corresponding field) in the Builder.\n\nI hope I haven\u0027t overlooked anything.",
+      "parentUuid": "c2bab139_1f211fb1",
       "range": {
         "startLine": 98,
         "startChar": 25,

@@ -35,6 +35,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.Locale;
+import java.util.Optional;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -124,8 +125,8 @@ class HttpAuthFilter implements Filter {
   }
 
   private static boolean correctUser(String user, WebSession session) {
-    ExternalId.Key id = session.getLastLoginExternalId();
-    return id != null && id.equals(ExternalId.Key.create(SCHEME_GERRIT, user));
+    Optional<ExternalId.Key> id = session.getUser().getLastLoginExternalIdKey();
+    return id.map(i -> i.equals(ExternalId.Key.create(SCHEME_GERRIT, user))).orElse(false);
   }
 
   String getRemoteUser(HttpServletRequest req) {

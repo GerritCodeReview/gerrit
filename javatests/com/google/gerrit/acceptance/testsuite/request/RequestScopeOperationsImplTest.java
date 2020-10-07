@@ -16,7 +16,6 @@ package com.google.gerrit.acceptance.testsuite.request;
 
 import static com.google.common.truth.Truth.assertThat;
 import static com.google.common.truth.Truth.assertWithMessage;
-import static com.google.common.truth.Truth8.assertThat;
 import static com.google.gerrit.testing.GerritJUnit.assertThrows;
 
 import com.google.common.collect.ImmutableSet;
@@ -29,7 +28,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.extensions.common.ChangeInput;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
-import com.google.gerrit.server.CurrentUser.PropertyKey;
 import com.google.gerrit.server.notedb.Sequences;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
@@ -72,19 +70,6 @@ public class RequestScopeOperationsImplTest extends AbstractDaemonTest {
         RuntimeException.class,
         () -> requestScopeOperations.setApiUser(Account.id(sequences.nextAccountId())));
     checkCurrentUser(admin.id());
-  }
-
-  @Test
-  public void resetCurrentApiUserClearsCachedState() throws Exception {
-    requestScopeOperations.setApiUser(user.id());
-    PropertyKey<String> key = PropertyKey.create();
-    atrScope.get().getUser().put(key, "foo");
-    assertThat(atrScope.get().getUser().get(key)).hasValue("foo");
-
-    AcceptanceTestRequestScope.Context oldCtx = requestScopeOperations.resetCurrentApiUser();
-    checkCurrentUser(user.id());
-    assertThat(atrScope.get().getUser().get(key)).isEmpty();
-    assertThat(oldCtx.getUser().get(key)).hasValue("foo");
   }
 
   @Test

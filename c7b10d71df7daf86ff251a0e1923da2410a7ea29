@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5fcf97bc_311b89b3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 280,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T17:14:18Z",
+      "side": 1,
+      "message": "It would be good to have a const for it.",
+      "range": {
+        "startLine": 280,
+        "startChar": 17,
+        "endLine": 280,
+        "endChar": 28
+      },
+      "revId": "c7b10d71df7daf86ff251a0e1923da2410a7ea29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a70f39cc_71f4d0ab",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-dashboard-view/gr-dashboard-view.js",
+        "patchSetId": 3
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T17:14:18Z",
+      "side": 1,
+      "message": "Not sure that it is safe to sort an existing array here. Can you make a copy of the results array before sort?",
+      "range": {
+        "startLine": 281,
+        "startChar": 6,
+        "endLine": 281,
+        "endChar": 18
+      },
+      "revId": "c7b10d71df7daf86ff251a0e1923da2410a7ea29",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

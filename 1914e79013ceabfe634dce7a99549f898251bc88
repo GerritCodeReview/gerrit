@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "3428874d_09e6b4db",
         "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
@@ -14,8 +15,25 @@
       "side": 1,
       "message": "sigh - trailing whitespace",
       "revId": "1914e79013ceabfe634dce7a99549f898251bc88",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "738a85ad_0dca98ba",
+        "filename": "java/com/google/gerrit/server/notedb/rebuild/NoteDbMigrator.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 452,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-07T23:22:47Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3428874d_09e6b4db",
+      "revId": "1914e79013ceabfe634dce7a99549f898251bc88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

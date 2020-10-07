@@ -887,7 +887,8 @@ export class GrDiffHost extends GestureEventListeners(
     }
     function matchesRange(threadEl: GrCommentThread) {
       const rangeAtt = threadEl.getAttribute('range');
-      const threadRange = rangeAtt ? JSON.parse(rangeAtt) : undefined;
+      const threadRange =
+          rangeAtt ? JSON.parse(rangeAtt) as CommentRange : undefined;
       return rangesEqual(threadRange, range);
     }
 

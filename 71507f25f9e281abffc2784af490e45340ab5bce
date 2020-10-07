@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "595702f0_e56d0dc2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 269,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8f65d21c_d45c0be5",
+      "range": {
+        "startLine": 269,
+        "startChar": 9,
+        "endLine": 269,
+        "endChar": 15
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0842295a_d56dec90",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-07T08:44:13Z",
       "side": 1,
       "message": "I am still unsure whether it is a good idea to use ! for properties. If you want this to be always defined, then just initialize with []?",
+      "range": {
+        "startLine": 434,
+        "startChar": 2,
+        "endLine": 434,
+        "endChar": 21
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "81d2eb82_e61236d9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 434,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "Agree, [] is safer.",
+      "parentUuid": "0842295a_d56dec90",
       "range": {
         "startLine": 434,
         "startChar": 2,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "504cfb52_cb09b22b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1122,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4a042707_122f4dd6",
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8f4a2893_8888a8d0",
@@ -77,6 +143,30 @@
       "writtenOn": "2020-10-07T08:44:13Z",
       "side": 1,
       "message": "Maybe use GrDialog here?",
+      "range": {
+        "startLine": 1578,
+        "startChar": 28,
+        "endLine": 1578,
+        "endChar": 68
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "04a1d3d0_1a0a5fa9",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1578,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "GrDialog can\u0027t be used here, because many dialogs are not GrDialog. Example:\nexport class GrConfirmRebaseDialog extends GestureEventListeners(\n  LegacyElementMixin(PolymerElement)\n)\n\nI added interface ChangeActionDialog only to this file, because I think dialogs shouldn\u0027t depend on an interface from gr-change-actions.",
+      "parentUuid": "8f4a2893_8888a8d0",
       "range": {
         "startLine": 1578,
         "startChar": 28,
@@ -110,6 +200,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d26aec1_8d6c5a00",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1591,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "Existing code passes changeInfo._number that has type NumericChangeId.\nI added a TODO to ChangeInfo about replacing _number to changeId. Right now I don\u0027t want to update it, because it will require additional testing and we decided to avoid refactoring during migration.",
+      "parentUuid": "3a9280f2_3a3a4a6a",
+      "range": {
+        "startLine": 1591,
+        "startChar": 39,
+        "endLine": 1591,
+        "endChar": 47
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "057f5684_5868f3f9",
@@ -123,6 +237,30 @@
       "writtenOn": "2020-10-07T08:44:13Z",
       "side": 1,
       "message": "see above",
+      "range": {
+        "startLine": 2048,
+        "startChar": 37,
+        "endLine": 2048,
+        "endChar": 45
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cff3e6d_b8409e99",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-actions/gr-change-actions.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 2048,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "The same as above 😊",
+      "parentUuid": "057f5684_5868f3f9",
       "range": {
         "startLine": 2048,
         "startChar": 37,
@@ -156,6 +294,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5f3197f2_5048ad9f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-rest-api-interface/gr-rest-api-interface.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1379,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "Speaking about this change: the gr-change-actions calls saveChangeReview and passes \u0027current\u0027 as patchNum. According to the doc (https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revision-id) this is a revision-id, not a patchNum. saveChangeReview update requires fixes in getChangeActionURL, _changeBaseURL.\n\nIn overall, the _changeBaseUrl uses second parameter as RevisionId to construct URL in the form\n/changes/{change-id}/revisions/{revision-id}/\nGerrit API contains multiple endpoints like this (for ex: https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#get-commit). It would be good if our RestApiInterface defines Gerrit API as precise as possible (later we can decide to make it public, so having only PatchSetNum type here will limit the API usage).",
+      "parentUuid": "0cdd3b9b_82c3b65f",
+      "range": {
+        "startLine": 1379,
+        "startChar": 14,
+        "endLine": 1379,
+        "endChar": 24
+      },
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a0f6ad55_1e582cec",
@@ -169,6 +331,24 @@
       "writtenOn": "2020-10-07T08:44:13Z",
       "side": 1,
       "message": "That is a weird type. Why can this be CommitId?\n\nCan we just clean up the usage of \u00270\u0027?\n\nAnd then can we end up using \u0027current\u0027 instead of an undefined PatchSetNum everywhere? Or the other way around?",
+      "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8d076e6_13473982",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 92,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-07T14:25:32Z",
+      "side": 1,
+      "message": "\u003e\u003e That is a weird type. Why can this be CommitId?\nThis a type from the gerrit doc:\nhttps://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revision-id\nSome endpoints accept it and our code also passes CommitId or PatchSetNum to the same restAPI method.\nI prefer to keep our restAPI in sync with backend even if type is weird.\n\n\u003e\u003e That is a weird type. Why can this be CommitId?\n\u00270\u0027 - removed. It is not used in our code. Initially, I added it to define type exactly as described doc.",
+      "parentUuid": "a0f6ad55_1e582cec",
       "revId": "71507f25f9e281abffc2784af490e45340ab5bce",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

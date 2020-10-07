@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6b1b337_bab2f4f7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-07T20:50:32Z",
+      "side": 1,
+      "message": "CI was talking many, many hours to run successfully, so I want to make sure this is submitted. Resolved the comment in the follow-up.\nThanks for the +2!",
+      "revId": "120bacaada31ce19550bc3cdb6e8c3b1297b9d2e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

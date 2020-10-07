@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ecd9d1d_b7b809f9",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-07T00:07:09Z",
+      "side": 1,
+      "message": "Now that the stable-3.3 branch has been created and initialized for 3.3.0-rc0 (and next).",
+      "revId": "93b24978ca81e617eb62c8db1bd902a1d5028c1d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

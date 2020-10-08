@@ -21,8 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.gerrit.server.logging.TraceContext.TraceIdConsumer;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import java.util.Set;
 import org.junit.After;
 import org.junit.Test;
 
@@ -254,7 +253,7 @@ public class TraceContextTest {
   }
 
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
-    SortedMap<String, SortedSet<Object>> actualTagMap =
+    Map<String, ? extends Set<Object>> actualTagMap =
         LoggingContext.getInstance().getTags().asMap();
     assertThat(actualTagMap.keySet()).containsExactlyElementsIn(expectedTagMap.keySet());
     for (Map.Entry<String, ImmutableSet<String>> expectedEntry : expectedTagMap.entrySet()) {

@@ -24,8 +24,8 @@ import com.google.gerrit.testing.InMemoryModule;
 import com.google.inject.Guice;
 import com.google.inject.Inject;
 import com.google.inject.Injector;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import org.eclipse.jgit.lib.Config;
@@ -76,7 +76,7 @@ public class LoggingContextAwareExecutorServiceTest {
       // Create a performance log record.
       TraceContext.newTimer("test").close();
 
-      SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
+      Map<String, ? extends Set<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
       assertForceLogging(true);
@@ -90,7 +90,7 @@ public class LoggingContextAwareExecutorServiceTest {
               () -> {
                 // Verify that the tags and force logging flag have been propagated to the new
                 // thread.
-                SortedMap<String, SortedSet<Object>> threadTagMap =
+                Map<String, ? extends Set<Object>> threadTagMap =
                     LoggingContext.getInstance().getTags().asMap();
                 expect.that(threadTagMap.keySet()).containsExactly("foo");
                 expect.that(threadTagMap.get("foo")).containsExactly("bar");

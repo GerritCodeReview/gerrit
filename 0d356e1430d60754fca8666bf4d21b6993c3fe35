@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0871a785_08dc3437",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 386,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T14:51:29Z",
+      "side": 1,
+      "message": "Done. \n\nBut I would prefer using \u0027undefined\u0027 over \u0027null\u0027. We should maybe discuss that with team, but I would be happy, if we could get rid of most nulls in favor of undefineds.",
+      "parentUuid": "478b3c5d_ba005516",
+      "range": {
+        "startLine": 386,
+        "startChar": 61,
+        "endLine": 386,
+        "endChar": 67
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9c57f03f_23e3212e",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-07T17:38:05Z",
       "side": 1,
       "message": "const? (see my other comments about section name)",
+      "range": {
+        "startLine": 247,
+        "startChar": 25,
+        "endLine": 247,
+        "endChar": 36
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fb64d63_50ab0bb5",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 247,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T14:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9c57f03f_23e3212e",
       "range": {
         "startLine": 247,
         "startChar": 25,
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b8609bb6_9eb3960c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T14:51:29Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b1234b3d_4ad23402",
+      "range": {
+        "startLine": 250,
+        "startChar": 25,
+        "endLine": 250,
+        "endChar": 42
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7732230a_43cb03b5",
@@ -83,6 +155,30 @@
       "writtenOn": "2020-10-07T17:38:05Z",
       "side": 1,
       "message": "seems this is the only call to the fromNow function, so everywhere we will have relative time without \u0027ago\u0027. Is it expected?\nIf this is expected, why the second parameter is required? Any plans for future use?",
+      "range": {
+        "startLine": 232,
+        "startChar": 6,
+        "endLine": 232,
+        "endChar": 34
+      },
+      "revId": "0d356e1430d60754fca8666bf4d21b6993c3fe35",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9d248591_da400d69",
+        "filename": "polygerrit-ui/app/elements/shared/gr-date-formatter/gr-date-formatter.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T14:51:29Z",
+      "side": 1,
+      "message": "Changed to keep \"ago\" everywhere else. Introduced another property for that.",
+      "parentUuid": "7732230a_43cb03b5",
       "range": {
         "startLine": 232,
         "startChar": 6,

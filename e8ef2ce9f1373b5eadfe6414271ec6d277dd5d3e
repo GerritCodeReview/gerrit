@@ -87,6 +87,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f59e3eb8_5391a453",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-08T18:11:23Z",
+      "side": 1,
+      "message": "Thanks for all the review Patrick!",
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bc72f41_f6254d99",
@@ -112,6 +129,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "33557685_72708fa1",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-08T18:11:23Z",
+      "side": 1,
+      "message": "This was carried over from the single-change factory where it uses null to indicate that no attribute should be added to the output. I agree that\u0027s handled now by the Change.Id key not being present in the Map and there shouldn\u0027t be a need to to return null here. We\u0027ll double check that doesn\u0027t break any use cases and make the change.",
+      "parentUuid": "1bc72f41_f6254d99",
+      "range": {
+        "startLine": 936,
+        "startChar": 1,
+        "endLine": 936,
+        "endChar": 16
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "7e4b3cb3_8468173f",
         "filename": "Documentation/dev-plugins.txt",
         "patchSetId": 17
@@ -123,6 +164,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "I feel strongly about only maintaining one of the two. The new bulk factory seems like the better choice to me because it allows for more use cases to be implemented and performance optimizations to happen.\n\nHaving the option to speed up processing by calling plugins with a collection of changes instead of one change makes sense to me. At the same time, all implementation comes at a maintenance cost and I see no need for needing the single-change attribute factory going forward. From what I see, it doesn\u0027t have many callers and all callers can simple migrate to your new bulk factory without much work.\n\nCan you remove the old factory in a follow up change or rewrite the old to the new instead of implementing the new completely on the side?",
+      "range": {
+        "startLine": 978,
+        "startChar": 0,
+        "endLine": 988,
+        "endChar": 57
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aae47081_91adfd77",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 988,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-08T18:11:23Z",
+      "side": 1,
+      "message": "\u003e I feel strongly about only maintaining one of the two. The new bulk factory seems like the better choice to me because it allows for more use cases to be implemented and performance optimizations to happen.\n\u003e \n\u003e Having the option to speed up processing by calling plugins with a collection of changes instead of one change makes sense to me. At the same time, all implementation comes at a maintenance cost and I see no need for needing the single-change attribute factory going forward. From what I see, it doesn\u0027t have many callers and all callers can simple migrate to your new bulk factory without much work.\n\u003e \n\u003e Can you remove the old factory in a follow up change or rewrite the old to the new instead of implementing the new completely on the side?\n\nWe were hesitant to break all the old implementations in a single change, but we did plan to remove it. We thought to be safe it made sense to have both available in a single release and then remove the single-change attribute factory. Since 3.3 is close, maybe that makes sense?\n\nI\u0027m also OK with removing the single-change factory now since I agree it shouldn\u0027t be much work for any caller to convert to the new interface, but we didn\u0027t want to assume it was ok with everyone else. If there\u0027s no opposition to replacing the existing interface we can do that in this change or an immediate child.",
+      "parentUuid": "7e4b3cb3_8468173f",
       "range": {
         "startLine": 978,
         "startChar": 0,

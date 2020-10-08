@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2229c53a_3fa5273a",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T13:38:18Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "b6a9f584_096b2ce8",
+      "range": {
+        "startLine": 103,
+        "startChar": 72,
+        "endLine": 103,
+        "endChar": 76
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58d0f525_e921c5a9",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "I was thinking:\n\nclass CommentContextKey {\n  // ... like now ...\n\n\n  @Nullable private String hashedPath; // lazily initialized\n  String hashedPath() {\n    if (hashedPath \u003d\u003d null) hashedPath \u003d hash(path());\n    return hashedPath;\n  }\n  @AutoValue.Builder\n  ... Builder {\n    @Nullable String hashedPath;\n    setHashedPath(String hashedPath) {\n      this.hashedPath \u003d hashedPath);\n    }\n    CommentContextKey build() {\n      CommentContextKey key \u003d autoBuild();\n      key.hashedPath \u003d hashedPath;\n    }\n  }\n}\n\nThen in serialization or for cache access you just use hashedPath(), and in deserialization you set the hashedPath field by means of the custom setHashedPath() method (and corresponding field) in the Builder.\n\nI hope I haven\u0027t overlooked anything.",
       "parentUuid": "c2bab139_1f211fb1",
+      "range": {
+        "startLine": 98,
+        "startChar": 25,
+        "endLine": 98,
+        "endChar": 80
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "474e4d17_43f5d4b1",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T13:38:18Z",
+      "side": 1,
+      "message": "Resolving as per our offline discussion. Left it as is.\n\nCallers would pass in a List\u003cCommentContextKey\u003e with plain file paths, and get back a Map\u003cCommentContextKey, CommentContext\u003e as output, where the map keys are the same input entities with plain text.\n\nIn the cache implementation, we create another set of keys with the hashed paths and pass them to the cache getAll(). After retrieving the values, they are mapped again to the input keys.\n\nThis hashing is required because we don\u0027t want to store private data in cache keys, as recommended by the storage layer that is used in google3.",
+      "parentUuid": "61b10d44_8b8d2d37",
       "range": {
         "startLine": 98,
         "startChar": 25,

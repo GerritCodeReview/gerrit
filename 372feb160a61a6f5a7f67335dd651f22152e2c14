@@ -107,6 +107,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "023d9bc8_e8d071ae",
+        "filename": "Documentation/config-gerrit.txt",
+        "patchSetId": 20
+      },
+      "lineNbr": 995,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T13:38:18Z",
+      "side": 1,
+      "message": "Resolving this comment as per our offline discussion: clients and front end may require this flexibility of requesting a specific (maybe larger) number of context lines.\n\nI will add more logic around an upper limit for the number of lines, and another num_lines parameter in a follow up change.",
+      "parentUuid": "beee4257_dcd19d11",
+      "revId": "372feb160a61a6f5a7f67335dd651f22152e2c14",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7a32129e_0b77b209",

@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8a875240_233c9e47",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1064,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2b01d108_2de3db3d",
+      "range": {
+        "startLine": 1064,
+        "startChar": 14,
+        "endLine": 1064,
+        "endChar": 53
+      },
+      "revId": "1ac6ac320babc16483facfd8323d48afce4bc695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0ba27113_fb2af872",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-07T15:12:39Z",
       "side": 1,
       "message": "nit: this definition doesn\u0027t provide information what is what and require code reading.\nMaybe add some comments or change namings. I can suggest:\ncontainsAll(set: Set\u003cT\u003e, subset: Set\u003cT\u003e)",
+      "range": {
+        "startLine": 55,
+        "startChar": 16,
+        "endLine": 55,
+        "endChar": 63
+      },
+      "revId": "1ac6ac320babc16483facfd8323d48afce4bc695",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "09048d31_62634319",
+        "filename": "polygerrit-ui/app/utils/common-util.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 55,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:15Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0ba27113_fb2af872",
       "range": {
         "startLine": 55,
         "startChar": 16,

@@ -54,9 +54,9 @@ import com.google.gerrit.server.validators.ValidationException;
 import com.google.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import java.util.Set;
 import org.apache.http.message.BasicHeader;
 import org.junit.Rule;
 import org.junit.Test;
@@ -337,7 +337,7 @@ public class TraceIT extends AbstractDaemonTest {
     assertThat(LoggingContext.getInstance().getTags().isEmpty()).isTrue();
     assertForceLogging(false);
     try (TraceContext traceContext = TraceContext.open().forceLogging().addTag("foo", "bar")) {
-      SortedMap<String, SortedSet<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
+      Map<String, ? extends Set<Object>> tagMap = LoggingContext.getInstance().getTags().asMap();
       assertThat(tagMap.keySet()).containsExactly("foo");
       assertThat(tagMap.get("foo")).containsExactly("bar");
       assertForceLogging(true);
@@ -348,7 +348,7 @@ public class TraceIT extends AbstractDaemonTest {
               () -> {
                 // Verify that the tags and force logging flag have been propagated to the new
                 // thread.
-                SortedMap<String, SortedSet<Object>> threadTagMap =
+                Map<String, ? extends Set<Object>> threadTagMap =
                     LoggingContext.getInstance().getTags().asMap();
                 expect.that(threadTagMap.keySet()).containsExactly("foo");
                 expect.that(threadTagMap.get("foo")).containsExactly("bar");

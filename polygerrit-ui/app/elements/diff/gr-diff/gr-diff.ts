@@ -455,12 +455,14 @@ export class GrDiff extends GestureEventListeners(
     this.cancelDebouncer(RENDER_DIFF_TABLE_DEBOUNCE_NAME);
   }
 
-  getCursorStops() {
+  getCursorStops(): HTMLElement[] {
     if (this.hidden && this.noAutoRender) return [];
     if (!this.root) return [];
 
     return Array.from(
-      this.root.querySelectorAll(':not(.contextControl) > .diff-row')
+      this.root.querySelectorAll<HTMLElement>(
+        ':not(.contextControl) > .diff-row'
+      )
     ).filter(tr => tr.querySelector('button'));
   }
 

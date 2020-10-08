@@ -32,6 +32,7 @@ import {GrDiffLineType} from '../gr-diff/gr-diff-line';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {PolymerDomWrapper} from '../../../types/types';
 import {GrDiffGroupType} from '../gr-diff/gr-diff-group';
+import { GrDiff } from '../gr-diff/gr-diff';
 
 const DiffViewMode = {
   SIDE_BY_SIDE: 'SIDE_BY_SIDE',
@@ -46,14 +47,6 @@ const RIGHT_SIDE_CLASS = 'target-side-right';
 // Time in which pressing n key again after the toast navigates to next file
 const NAVIGATE_TO_NEXT_FILE_TIMEOUT_MS = 5000;
 
-// TODO(TS): Use proper GrDiff type once that file is converted to TS.
-interface GrDiff extends HTMLElement {
-  path: string;
-  addDraftAtLine: (element: HTMLElement) => void;
-  createRangeComment: () => void;
-  getCursorStops: () => HTMLElement[];
-  isRangeSelected: () => boolean;
-}
 
 export interface GrDiffCursor {
   $: {

@@ -104,6 +104,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7e2265f4_28de4fc0",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-08T18:12:41Z",
+      "side": 1,
+      "message": "Yes, I just didn\u0027t know who from Google would have time to review and Marco wanted someone from Google to review, so I cast a wide net. Feel free to remove yourself if you\u0027re letting Patrick handle the review.",
+      "parentUuid": "1fa3c1ed_ba34790a",
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1bc72f41_f6254d99",

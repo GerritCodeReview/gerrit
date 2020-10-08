@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6ded4b3_2cc87bde",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-08T08:38:30Z",
+      "side": 1,
+      "message": "Waiting for @Matthias to check my commit message edit.",
+      "revId": "d6b0ba0477109d51390ac7fdaf6f274140d6ea51",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

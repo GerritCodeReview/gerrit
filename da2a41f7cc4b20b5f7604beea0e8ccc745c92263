@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e309ae32_647f9b42",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:10Z",
+      "side": 1,
+      "message": "Changed it to \"owner only\" and to only consider *added* users.",
+      "parentUuid": "394545ba_7fd0435c",
+      "revId": "da2a41f7cc4b20b5f7604beea0e8ccc745c92263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "457a1c52_c5855c33",
@@ -41,6 +59,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f3121443_7a1e9d8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1010,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "457a1c52_c5855c33",
+      "range": {
+        "startLine": 1010,
+        "startChar": 30,
+        "endLine": 1010,
+        "endChar": 60
+      },
+      "revId": "da2a41f7cc4b20b5f7604beea0e8ccc745c92263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7c8e63f7_550ca109",
@@ -54,6 +96,30 @@
       "writtenOn": "2020-10-07T14:44:38Z",
       "side": 1,
       "message": "Due to the this._attentionExpanded \u003d this._newAttentionSet.size \u003e 2 condition, the \"Send\" button are always enabled if there are more than 2 reviewers in the attention set (even if there are no changes in reply dialog). Is it expectged?",
+      "range": {
+        "startLine": 1386,
+        "startChar": 6,
+        "endLine": 1386,
+        "endChar": 24
+      },
+      "revId": "da2a41f7cc4b20b5f7604beea0e8ccc745c92263",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "089d76a1_01408b69",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 4
+      },
+      "lineNbr": 1386,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:10Z",
+      "side": 1,
+      "message": "Yeah, the condition for enabling/disabling the send button was a bit bogus. I have changed it to something proper. :-)",
+      "parentUuid": "7c8e63f7_550ca109",
       "range": {
         "startLine": 1386,
         "startChar": 6,

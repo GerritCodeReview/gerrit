@@ -67,6 +67,24 @@
       "message": "With so many reviewers on this change, could you clarify how you envision the process so that you don\u0027t get contradictory or redundant comments? Maybe it would make sense to go top-down in the level of abstraction so that people don\u0027t spend time on details until the design is okayed?",
       "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1fa3c1ed_ba34790a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 17
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-08T13:07:43Z",
+      "side": 1,
+      "message": "Nasser added you while I was adding Patrick, so I suspect he didn\u0027t notice me doing so (prior to adding you and Han-Wen). Now, your comment about going top-down makes sense to me. This review ended up truly needing Google reviewers, hence me 1. requesting so and 2. eventually having to add Patrick.",
+      "parentUuid": "d4fc3134_ac28e529",
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

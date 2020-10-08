@@ -36,6 +36,23 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a84b042b_42accf81",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-08T15:03:10Z",
+      "side": 1,
+      "message": "I\u0027m sorry, but I\u0027m going to have to -2 this.\n\nThere are several reasons outlined in earlier comments. Let me summarize them again:\n\n* We don\u0027t have proper UI support for autocompletion, and indeed, I think you can’t even enter nested queries properly (how would you issue a query where the inner query uses a \" ?). \n\n* If we could nest queries, this would lead to a potential fan-out of queries (peers:”peers:\\” ... ), where one incoming query leads to multiple outgoing queries. This is a potential DOS vector for public instances, in particular, the googlesource deployment.\n\n* We carry the pager for this service. We can’t afford to address performance problems when they happen, because “happen” means a fire drill where our servers fall over. We also have latency SLOs for our service, which are hard to satisfy with a nested operator like this. Even for deployments without pager duties, having predictable latency on search queries is a valuable property. (Predictable latency is the prime reason why we have disabled the conflicts: operator on googlesource.com as well)\n\n* The feature seems very specific to a certain CI system, in a waterfall-like setting (where changes get cherry-picked across branches?). If we build a query operator that looks specifically like this, at a minimum, we\u0027d want to see evidence that this use-case is much more widespread than just this system at Qualcomm.\n\n* The feature is introducing a very specific form of joining results. If we go down this route, I think we should rather think about the query system holistically and provide a more generic join functionality, that allows joining on other keys. In this case, we should also build infrastructure to limit the fan-out of an incoming query, and to limit the amount of CPU time spent on answering a single query. \n\nAs a practical way out of this, we can commit to help you extend the support for plugin-provided predicates to they can take arguments. Then you can implement a ‘peers’ operator from a plugin. How does that sound?\n",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "821ae05d_461809e5",

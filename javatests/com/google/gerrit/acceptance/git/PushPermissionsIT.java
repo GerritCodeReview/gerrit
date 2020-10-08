@@ -364,7 +364,7 @@ public class PushPermissionsIT extends AbstractDaemonTest {
         .update();
 
     String project2 = name("project2");
-    gApi.projects().create(project2);
+    projectOperations.newProject().name(project2).create();
 
     ObjectId oldId = forceFetch("refs/meta/config");
 

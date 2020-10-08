@@ -45,6 +45,54 @@
       },
       "revId": "69d10df74c7d7ff91a1b211e96901c8d1de318d0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f763f8b4_9755efc1",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T14:51:39Z",
+      "side": 1,
+      "message": "No, that is a conscious decision. We don\u0027t want to support assignee highlighting anymore, if the attention set is enabled. For Google hosts we will anyway forbid assignee to be used along with attention set, so this can only happen for (rare) open source hosts that decide to use both features at the same time.",
+      "parentUuid": "cac5bc7b_b6cf6236",
+      "range": {
+        "startLine": 354,
+        "startChar": 10,
+        "endLine": 354,
+        "endChar": 37
+      },
+      "revId": "69d10df74c7d7ff91a1b211e96901c8d1de318d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2c2a2d01_21fef665",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list/gr-change-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 354,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T14:51:39Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e94d5238_12a1c1b6",
+      "range": {
+        "startLine": 354,
+        "startChar": 26,
+        "endLine": 354,
+        "endChar": 37
+      },
+      "revId": "69d10df74c7d7ff91a1b211e96901c8d1de318d0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

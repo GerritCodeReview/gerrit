@@ -33,6 +33,23 @@
       "message": "@Matthias can you also manually verify that solves the Docker issue? I\u0027ll also do it on my side.",
       "revId": "5e22f4880d0efe5226c1a20ccdef626abef672ca",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "045cf478_63069eaf",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-08T08:33:07Z",
+      "side": 1,
+      "message": "It works! Thanks a lot @Matthias for the prompt fix.\n\nbash-4.4$ java -jar bin/gerrit.war --version\ngerrit version 3.3.0-rc0-2-g5e22f4880d\nbash-4.4$ cd\nbash-4.4$ /entrypoint.sh\nInitializing Gerrit site ...\nGenerating SSH host key ... rsa... ed25519... ecdsa 256... ecdsa 384... ecdsa 521... done\nInitialized /var/gerrit\n\n",
+      "revId": "5e22f4880d0efe5226c1a20ccdef626abef672ca",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

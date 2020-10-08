@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9ba29731_d437d3be",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-10-08T08:59:15Z",
+      "side": 1,
+      "message": "Looking at the screenshot, we should add --spacing-m: 8px; between the message and the button \"Show 18 comments\". \n\n",
+      "revId": "4e454fc5b81a344806797643b04344bef495a740",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

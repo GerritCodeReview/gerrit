@@ -119,6 +119,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1d75150_a8888fc2",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "dd376acc_de5cc21b",
+      "range": {
+        "startLine": 60,
+        "startChar": 53,
+        "endLine": 60,
+        "endChar": 69
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "58d0f525_e921c5a9",
@@ -261,6 +285,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8580bb6_7579d44d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "aeda1b81_10cf1e9f",
+      "range": {
+        "startLine": 110,
+        "startChar": 39,
+        "endLine": 110,
+        "endChar": 46
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cdb408b6_c1460f52",
@@ -274,6 +322,30 @@
       "writtenOn": "2020-10-08T13:54:30Z",
       "side": 1,
       "message": "You can do forEach() directly on the map.",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 48
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "cd0c027d_88077485",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cdb408b6_c1460f52",
       "range": {
         "startLine": 121,
         "startChar": 29,
@@ -303,6 +375,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "24305612_92854422",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "I couldn\u0027t find anything in the javadocs about instability [1]. I am using\npublic static \u003cT\u003e Stream\u003cT\u003e stream(Iterable\u003cT\u003e iterable)\n\nThe implementation of this Streams.stream method that I\u0027m using [2] delegates to the call that you recommended:\nStreamSupport.stream(inputKeys.spliterator(), false)\n\n[1] https://guava.dev/releases/23.0/api/docs/com/google/common/collect/Streams.html#stream-java.lang.Iterable-\n\n[2] https://github.com/google/guava/blob/master/guava/src/com/google/common/collect/Streams.java#L61",
+      "parentUuid": "cf0e5301_c11bc12d",
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9a88a25_46bde171",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 21
@@ -314,6 +404,30 @@
       "writtenOn": "2020-10-08T13:54:30Z",
       "side": 1,
       "message": "Map.Entry::getValue",
+      "range": {
+        "startLine": 207,
+        "startChar": 73,
+        "endLine": 207,
+        "endChar": 91
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da43517b_e747155e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d9a88a25_46bde171",
       "range": {
         "startLine": 207,
         "startChar": 73,
@@ -347,6 +461,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "27f22673_49dd756e",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "21ddfed0_47c3b5e5",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 49
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "adad4c73_ecd11492",
@@ -360,6 +498,24 @@
       "writtenOn": "2020-10-08T13:54:30Z",
       "side": 1,
       "message": "String.join(\"\\n\", content.build()),",
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "589367d7_5f369b9a",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-08T14:45:32Z",
+      "side": 1,
+      "message": "Nice! Done.",
+      "parentUuid": "adad4c73_ecd11492",
       "revId": "16574086d615651ab93475e662b3963031bc3563",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

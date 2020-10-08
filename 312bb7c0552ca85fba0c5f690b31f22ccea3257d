@@ -1,0 +1,95 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1a46ffe0_732e7468",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T09:48:05Z",
+      "side": 1,
+      "message": "Declare the argument @Nullable.",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "258be557_8fb73588",
+        "filename": "java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T09:48:05Z",
+      "side": 1,
+      "message": "Should this mention the requirement about \"key\" having to be the same instance?",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6eb22ed4_e96be39f",
+        "filename": "java/com/google/gerrit/server/PropertyMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T09:48:05Z",
+      "side": 1,
+      "message": "I think this would be clearer worded as \"the same instance\".\n\nCould you add to the comment why that is?",
+      "range": {
+        "startLine": 21,
+        "startChar": 70,
+        "endLine": 21,
+        "endChar": 83
+      },
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e42f11c9_2712925f",
+        "filename": "java/com/google/gerrit/server/PropertyMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T09:48:05Z",
+      "side": 1,
+      "message": "You could use an ImmutableMap.Builder.",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5c83f9a0_84408d08",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T09:48:05Z",
+      "side": 1,
+      "message": "nit/opt: \"else\"-s aren\u0027t needed.",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

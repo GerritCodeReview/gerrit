@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6c22450_e689d4e8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-08T08:39:56Z",
+      "side": 1,
+      "message": "of course I verified that this fixes the problem that starting Gerrit docker image was hanging",
+      "revId": "36b398b81ee0b17ef3657aba1a393799a882d84f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -84,6 +84,9 @@ import org.eclipse.jgit.lib.ObjectId;
  * <p>Note that {@link ChangeNotes} contains more than just a single {@code ChangeNoteState}, such
  * as per-draft information, so that class is not cached directly.
  */
+// TODO(paiking): This class should be refactored to get rid of potentially duplicate or unneeded
+// variables, such as allAttentionSetUpdates, reviewerUpdates, and others.
+
 @AutoValue
 public abstract class ChangeNotesState {
 

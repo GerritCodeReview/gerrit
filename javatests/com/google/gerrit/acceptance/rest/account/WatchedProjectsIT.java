@@ -249,4 +249,30 @@ public class WatchedProjectsIT extends AbstractDaemonTest {
   public void postWithoutBody() throws Exception {
     adminRestSession.post("/accounts/" + admin.username() + "/watched.projects").assertOK();
   }
+
+  @Test
+  public void nullProjectThrowsBadRequestException() {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = null;
+    projectsToWatch.add(pwi);
+    Throwable t =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
+    assertThat(t.getMessage()).isEqualTo("project name must be specified");
+  }
+
+  @Test
+  public void emptyProjectThrowsBadRequestException() {
+    List<ProjectWatchInfo> projectsToWatch = new ArrayList<>();
+    ProjectWatchInfo pwi = new ProjectWatchInfo();
+    pwi.project = "  ";
+    projectsToWatch.add(pwi);
+    Throwable t =
+        assertThrows(
+            BadRequestException.class,
+            () -> gApi.accounts().self().setWatchedProjects(projectsToWatch));
+    assertThat(t.getMessage()).isEqualTo("project name must be specified");
+  }
 }

@@ -344,7 +344,7 @@ class ReceiveCommits {
   private final RequestScopePropagator requestScopePropagator;
   private final Sequences seq;
   private final SetHashtagsOp.Factory hashtagsFactory;
-  private final SubmissionListener superprojectUpdateSubmissionListener;
+  private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
   private final TagCache tagCache;
   private final ProjectConfig.Factory projectConfigFactory;
   private final SetPrivateOp.Factory setPrivateOpFactory;
@@ -426,7 +426,8 @@ class ReceiveCommits {
       RequestScopePropagator requestScopePropagator,
       Sequences seq,
       SetHashtagsOp.Factory hashtagsFactory,
-      @SuperprojectUpdateOnSubmission SubmissionListener superprojectUpdateSubmissionListener,
+      @SuperprojectUpdateOnSubmission
+          ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners,
       TagCache tagCache,
       SetPrivateOp.Factory setPrivateOpFactory,
       ReplyAttentionSetUpdates replyAttentionSetUpdates,
@@ -474,7 +475,7 @@ class ReceiveCommits {
     this.retryHelper = retryHelper;
     this.requestScopePropagator = requestScopePropagator;
     this.seq = seq;
-    this.superprojectUpdateSubmissionListener = superprojectUpdateSubmissionListener;
+    this.superprojectUpdateSubmissionListeners = superprojectUpdateSubmissionListeners;
     this.tagCache = tagCache;
     this.projectConfigFactory = projectConfigFactory;
     this.setPrivateOpFactory = setPrivateOpFactory;
@@ -742,7 +743,7 @@ class ReceiveCommits {
         logger.atFine().log("Added %d additional ref updates", added);
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(false, superprojectUpdateSubmissionListener);
+            new SubmissionExecutor(false, superprojectUpdateSubmissionListeners);
 
         submissionExecutor.execute(ImmutableList.of(bu));
 

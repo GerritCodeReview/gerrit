@@ -232,7 +232,7 @@ public class MergeOp implements AutoCloseable {
   private final SubmitStrategyFactory submitStrategyFactory;
   private final SubscriptionGraph.Factory subscriptionGraphFactory;
   private final SubmoduleCommits.Factory submoduleCommitsFactory;
-  private final SubmissionListener superprojectUpdateSubmissionListener;
+  private final ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners;
   private final Provider<MergeOpRepoManager> ormProvider;
   private final NotifyResolver notifyResolver;
   private final RetryHelper retryHelper;
@@ -264,7 +264,8 @@ public class MergeOp implements AutoCloseable {
       SubmitStrategyFactory submitStrategyFactory,
       SubmoduleCommits.Factory submoduleCommitsFactory,
       SubscriptionGraph.Factory subscriptionGraphFactory,
-      @SuperprojectUpdateOnSubmission SubmissionListener superprojectUpdateSubmissionListener,
+      @SuperprojectUpdateOnSubmission
+          ImmutableList<SubmissionListener> superprojectUpdateSubmissionListeners,
       Provider<MergeOpRepoManager> ormProvider,
       NotifyResolver notifyResolver,
       TopicMetrics topicMetrics,
@@ -279,7 +280,7 @@ public class MergeOp implements AutoCloseable {
     this.submitStrategyFactory = submitStrategyFactory;
     this.submoduleCommitsFactory = submoduleCommitsFactory;
     this.subscriptionGraphFactory = subscriptionGraphFactory;
-    this.superprojectUpdateSubmissionListener = superprojectUpdateSubmissionListener;
+    this.superprojectUpdateSubmissionListeners = superprojectUpdateSubmissionListeners;
     this.ormProvider = ormProvider;
     this.notifyResolver = notifyResolver;
     this.retryHelper = retryHelper;
@@ -498,7 +499,7 @@ public class MergeOp implements AutoCloseable {
         }
 
         SubmissionExecutor submissionExecutor =
-            new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListener);
+            new SubmissionExecutor(dryrun, superprojectUpdateSubmissionListeners);
         RetryTracker retryTracker = new RetryTracker();
         retryHelper
             .changeUpdate(

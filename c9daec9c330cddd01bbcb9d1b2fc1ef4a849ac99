@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "106a0d20_25c97af7",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 999,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:26Z",
+      "side": 1,
+      "message": "Good point. I never use that feature. :-)\n\nDone.",
+      "parentUuid": "bfff5968_f3b308c8",
+      "range": {
+        "startLine": 999,
+        "startChar": 26,
+        "endLine": 999,
+        "endChar": 44
+      },
+      "revId": "c9daec9c330cddd01bbcb9d1b2fc1ef4a849ac99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "185404d4_2de91512",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "86c1add0_005f4a25",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 169,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:26Z",
+      "side": 1,
+      "message": "Docs are wrong. I have checked backend code and return values in prod. Added comments.",
+      "parentUuid": "185404d4_2de91512",
+      "range": {
+        "startLine": 168,
+        "startChar": 0,
+        "endLine": 169,
+        "endChar": 36
+      },
+      "revId": "c9daec9c330cddd01bbcb9d1b2fc1ef4a849ac99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4b765382_eec3fad3",
@@ -60,6 +108,30 @@
       "writtenOn": "2020-10-07T16:01:05Z",
       "side": 1,
       "message": "Maybe move it to common.ts, so it is easy to find and reuse.\nI am doing similar change here:\nhttps://gerrit-review.googlesource.com/c/gerrit/+/283423",
+      "range": {
+        "startLine": 27,
+        "startChar": 9,
+        "endLine": 27,
+        "endChar": 28
+      },
+      "revId": "c9daec9c330cddd01bbcb9d1b2fc1ef4a849ac99",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e6c8ca72_1597b4c7",
+        "filename": "polygerrit-ui/app/utils/label-util.ts",
+        "patchSetId": 8
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-08T20:12:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4b765382_eec3fad3",
       "range": {
         "startLine": 27,
         "startChar": 9,

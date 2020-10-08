@@ -53,6 +53,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8f03bb8_0d8ff0c7",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-08T21:13:44Z",
+      "side": 1,
+      "message": "\u003e I\u0027m sorry, but I\u0027m going to have to -2 this.\n\u003e \n\u003e There are several reasons outlined in earlier comments. Let me summarize them again:\n\nThanks for this summary. It really helps!\n\n\u003e \n\u003e * We don\u0027t have proper UI support for autocompletion, and indeed, I think you can’t even enter nested queries properly (how would you issue a query where the inner query uses a \" ?). \n\nWe\u0027ll look into that, but I think using {} instead of \"\" helps with that issue.\nhttps://gerrit-review.googlesource.com/Documentation/user-search.html#_argument_quoting\n\n\u003e \n\u003e * If we could nest queries, this would lead to a potential fan-out of queries (peers:”peers:\\” ... ), where one incoming query leads to multiple outgoing queries. This is a potential DOS vector for public instances, in particular, the googlesource deployment.\n\nWe could limiting nesting to a single (or other fixed/configurable number) of sub queries. Would that address this concern?\n\n\u003e \n\u003e * We carry the pager for this service. We can’t afford to address performance problems when they happen, because “happen” means a fire drill where our servers fall over. We also have latency SLOs for our service, which are hard to satisfy with a nested operator like this. Even for deployments without pager duties, having predictable latency on search queries is a valuable property. (Predictable latency is the prime reason why we have disabled the conflicts: operator on googlesource.com as well)\n\nI don\u0027t believe the Gerrit project (i.e. open source community Gerrit) provides predictable latency on search queries. If this becomes the only remaining concern, perhaps it would make sense for you to disable this on googlesource.com servers too.\n\n\u003e \n\u003e * The feature seems very specific to a certain CI system, in a waterfall-like setting (where changes get cherry-picked across branches?). If we build a query operator that looks specifically like this, at a minimum, we\u0027d want to see evidence that this use-case is much more widespread than just this system at Qualcomm.\n\nI think this feature is applicable to anyone looking for cherry-picks. Gerrit provides a cherry-pick feature, this operator makes those cherry-picks more discoverable. Yes, Qualcomm has CI systems (plural) that use this. I don\u0027t think it\u0027s a fair (or documented) criteria for a core change to say that use-cases are as widespread as you request here. Do you believe this is a general policy that the project should be (or already is) applying to changes?\n\n\u003e \n\u003e * The feature is introducing a very specific form of joining results. If we go down this route, I think we should rather think about the query system holistically and provide a more generic join functionality, that allows joining on other keys. In this case, we should also build infrastructure to limit the fan-out of an incoming query, and to limit the amount of CPU time spent on answering a single query. \n\nJoining results is not a new thing for Gerrit queries. There have been many instances of it in the past.\n\n\u003e \n\u003e As a practical way out of this, we can commit to help you extend the support for plugin-provided predicates to they can take arguments. Then you can implement a ‘peers’ operator from a plugin. How does that sound?\n\nPlugins don\u0027t need core support to do that already (we have existing plugins that do this). It\u0027s not relevant though as this change is intended to get the feature into core. We know we can do this in a plugin, but since we see broader value, we want to understand what it will take to get this into core.",
+      "parentUuid": "a84b042b_42accf81",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "821ae05d_461809e5",

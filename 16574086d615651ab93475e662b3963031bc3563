@@ -98,6 +98,29 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "dd376acc_de5cc21b",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 60,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "not needed",
+      "range": {
+        "startLine": 60,
+        "startChar": 53,
+        "endLine": 60,
+        "endChar": 69
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "58d0f525_e921c5a9",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 21
@@ -187,6 +210,156 @@
         "endLine": 98,
         "endChar": 80
       },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0c72636e_15a64a75",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 98,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "So I think what I had in mind, avoiding the mapping back and forth, could be made to work (e.g. https://github.com/google/auto/blob/master/value/userguide/howto.md#ignore), but would add too much complexity to be worth it. The current solution is more readable because it doesn\u0027t require thinking strange things about AutoValue and LoadingCache (like, does it access fields by reflection, or why doesn\u0027t it return the input keys themselves but recreates them, which it turns out it actually does). So let\u0027s keep it.",
+      "parentUuid": "61b10d44_8b8d2d37",
+      "range": {
+        "startLine": 98,
+        "startChar": 25,
+        "endLine": 98,
+        "endChar": 80
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "aeda1b81_10cf1e9f",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "This isn\u0027t needed.",
+      "range": {
+        "startLine": 110,
+        "startChar": 39,
+        "endLine": 110,
+        "endChar": 46
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cdb408b6_c1460f52",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 121,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "You can do forEach() directly on the map.",
+      "range": {
+        "startLine": 121,
+        "startChar": 29,
+        "endLine": 121,
+        "endChar": 48
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf0e5301_c11bc12d",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "This is marked unstable. How about:\nStreamSupport.stream(inputKeys.spliterator(), false)",
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9a88a25_46bde171",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 207,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "Map.Entry::getValue",
+      "range": {
+        "startLine": 207,
+        "startChar": 73,
+        "endLine": 207,
+        "endChar": 91
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "21ddfed0_47c3b5e5",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextKey.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "nameKey (also below)",
+      "range": {
+        "startLine": 42,
+        "startChar": 44,
+        "endLine": 42,
+        "endChar": 49
+      },
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "adad4c73_ecd11492",
+        "filename": "javatests/com/google/gerrit/acceptance/server/change/CommentsIT.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 1110,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-08T13:54:30Z",
+      "side": 1,
+      "message": "String.join(\"\\n\", content.build()),",
       "revId": "16574086d615651ab93475e662b3963031bc3563",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

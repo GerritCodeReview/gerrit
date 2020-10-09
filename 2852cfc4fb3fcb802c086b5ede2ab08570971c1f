@@ -39,6 +39,24 @@
       "message": "Now I can\u0027t remove anyone from the attention set without making other changes. I agree that there is no reason for adding someone without comments, but removing can be useful - if I add someone by mistake in the dialog, my first action is to reopen dialog and remove it. Now this is impossible and I have to use hovercard instead.\nMaybe we shouldn\u0027t be so strict and instead of disabling \"modify\"/\"send\" only show a message like:\n\"Don\u0027t change attention set only - people might not understand why you changed it. For example,  you can vote or comment.\" I am afraid we can disable some valid use case.",
       "revId": "2852cfc4fb3fcb802c086b5ede2ab08570971c1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "113eab83_dc39daf4",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-09T09:47:34Z",
+      "side": 1,
+      "message": "*",
+      "parentUuid": "04559e45_d6cb3e38",
+      "revId": "2852cfc4fb3fcb802c086b5ede2ab08570971c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

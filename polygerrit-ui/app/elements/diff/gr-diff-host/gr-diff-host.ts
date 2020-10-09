@@ -327,7 +327,7 @@ export class GrDiffHost extends GestureEventListeners(
    * signal to report metrics event that started on location change.
    * @return
    */
-  reload(shouldReportMetric?: boolean) {
+  async reload(shouldReportMetric?: boolean) {
     this.clear();
     if (!this.path) throw new Error('Missing required "path" property.');
     if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
@@ -372,48 +372,46 @@ export class GrDiffHost extends GestureEventListeners(
       return this._loadDiffAssets(diff);
     });
 
-    // Not waiting for coverage ranges intentionally as
-    // plugin loading should not block the content rendering
-    return Promise.all([diffRequest, assetRequest])
-      .then(async results => {
-        const diff = results[0];
-        if (!diff) {
-          return Promise.resolve();
-        }
-        this.filesWeblinks = this._getFilesWeblinks(diff);
-        this.diff = diff;
-        const event = await new Promise<CustomEvent>(resolve => {
-          const callback = (event: CustomEvent) => {
-            this.removeEventListener('render', callback);
-            resolve(event);
-          };
-          this.addEventListener('render', callback);
-        });
-        const needsSyntaxHighlighting =
-          event.detail && event.detail.contentRendered;
-        let result: Promise<unknown> = Promise.resolve();
-        if (needsSyntaxHighlighting) {
-          this.reporting.time(TimingLabel.SYNTAX);
-          result = this.$.syntaxLayer.process().finally(() => {
-            this.reporting.timeEnd(TimingLabel.SYNTAX);
-          });
-        }
-        result.finally(() => {
-          this.reporting.timeEnd(TimingLabel.TOTAL);
-        });
-        if (shouldReportMetric) {
-          // We report diffViewContentDisplayed only on reload caused
-          // by params changed - expected only on Diff Page.
-          this.reporting.diffViewContentDisplayed();
-        }
-        return result;
-      })
-      .catch(err => {
-        console.warn('Error encountered loading diff:', err);
-      })
-      .then(() => {
+    try {
+      // Not waiting for coverage ranges intentionally as
+      // plugin loading should not block the content rendering
+      const results = await Promise.all([diffRequest, assetRequest]);
+      const diff = results[0];
+      if (!diff) {
         this._loading = false;
+        return;
+      }
+      this.filesWeblinks = this._getFilesWeblinks(diff);
+      this.diff = diff;
+      const event = await new Promise<CustomEvent>(resolve => {
+        const callback = (event: CustomEvent) => {
+          this.removeEventListener('render', callback);
+          resolve(event);
+        };
+        this.addEventListener('render', callback);
       });
+      const needsSyntaxHighlighting =
+        event.detail && event.detail.contentRendered;
+      let result: Promise<unknown> = Promise.resolve();
+      if (needsSyntaxHighlighting) {
+        this.reporting.time(TimingLabel.SYNTAX);
+        result = this.$.syntaxLayer.process().finally(() => {
+          this.reporting.timeEnd(TimingLabel.SYNTAX);
+        });
+      }
+      result.finally(() => {
+        this.reporting.timeEnd(TimingLabel.TOTAL);
+      });
+      if (shouldReportMetric) {
+        // We report diffViewContentDisplayed only on reload caused
+        // by params changed - expected only on Diff Page.
+        this.reporting.diffViewContentDisplayed();
+      }
+      await result;
+    } catch (err) {
+      console.warn('Error encountered loading diff:', err);
+    }
+    this._loading = false;
   }
 
   clear() {

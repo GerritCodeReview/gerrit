@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "20eb2406_247f09bd",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,28 @@
       "side": 1,
       "message": "This needs to be guarded by an experiment.",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5759acb2_371262eb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Done. I did a lot of manual testing back and forth to ensure that styles don\u0027t bleed into each other and it looks fine, but to rule out any last minute bugs, it would give me more confidence if you also ran this locally.",
+      "parentUuid": "20eb2406_247f09bd",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "edaa1dc3_9a852d87",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
@@ -31,10 +50,28 @@
       "side": 1,
       "message": "It would be great, if the context control row would become its own component. This gets a bit too much in terms of DOM creation by javascript.",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "ce600be5_01c1c5fd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Noticed this comment very late, as I was busy figuring out how to put everything behind an experiment. I will take a stab at it, but I would be glad if you could already give me feedback on the other stuff, in case there are more adjustments I need to make. I guess a separate component might better encapsulate the old style vs new style switching, but I am also not familiar enough with Polymer to really judge.",
+      "parentUuid": "edaa1dc3_9a852d87",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ecddca51_474c2cd4",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -54,10 +91,34 @@
         "endChar": 27
       },
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8c24ad69_65970f0b",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ecddca51_474c2cd4",
+      "range": {
+        "startLine": 231,
+        "startChar": 24,
+        "endLine": 231,
+        "endChar": 27
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "a7fa473c_d2f4851a",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -77,10 +138,34 @@
         "endChar": 18
       },
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "92908aef_652291e4",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Originally I tried to have one empty line of diff text in the background row, so essentially \"1lh\" (once that becomes available) or a calc() of line height times font size. However that looks slightly too cramped, as the button borders for the above and below buttons will start encroaching on the content above and below. I could change this too a calc of roughly 1.5 * line height * font size, but I thought ems were more concise and should do the right thing if we scale the text, unless I misunderstand how these work?",
+      "parentUuid": "a7fa473c_d2f4851a",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 18
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6b05cc03_8980cc5c",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -100,10 +185,34 @@
         "endChar": 33
       },
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d9b4c410_fb9e1c1f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 246,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "No, at least when I tried it didn\u0027t work and according to the spec the effect of position: relative on table rows and cells is undefined: https://www.w3.org/TR/CSS21/visuren.html#propdef-position. I could not find mentions of transform working this way in the spec, so I went with what I found on CSS Tricks, but it seems to perform as advertised there.",
+      "parentUuid": "6b05cc03_8980cc5c",
+      "range": {
+        "startLine": 245,
+        "startChar": 2,
+        "endLine": 246,
+        "endChar": 33
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6b3f8a00_8fcd1e09",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -117,10 +226,28 @@
       "side": 1,
       "message": "Maybe add a comment why this is not the usual \"display:none\".",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "748d5a11_947a8c0a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 249,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6b3f8a00_8fcd1e09",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ae6363cc_c773c6c9",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -134,10 +261,28 @@
       "side": 1,
       "message": "Would it be possible to get away without absolute positioning?",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b3f76667_1b623174",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "When I remove absolute positioning and instead give the td a colspan\u003d\"4\", it seems to ignore that until I remove display: flex (which would complicate my horizontal centering). The current approach seemed the most simple, but maybe you have another idea.",
+      "parentUuid": "ae6363cc_c773c6c9",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "7e26e9b3_927039b0",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -151,10 +296,28 @@
       "side": 1,
       "message": "For Gerrit this would have to:\n\n  Roboto 14px 400 ALL CAPS\n\nCurrently it is 12px 500 NO CAPS.\n\nDoesn\u0027t \u003cgr-button\u003e have its defaults so you can leave the font css out?",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4c244648_a536fab8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 260,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "When I tried without, it inherits the monospace font of the surrounding diff (same as the current context expansion buttons). I believe this might be because of how the @applys to --gr-button work, from what I see in the dev tools the \u0027font\u0027 property reverts to \u0027initial\u0027 unless it\u0027s explicitly specified.",
+      "parentUuid": "7e26e9b3_927039b0",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "572d9308_b78c9c9f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -168,10 +331,28 @@
       "side": 1,
       "message": "Colors must strictly be based on css vars from app-theme.",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "3fc6720c_e7becc7f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "572d9308_b78c9c9f",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4e325b07_0c9bf01b",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
@@ -185,8 +366,25 @@
       "side": 1,
       "message": "spacing-m",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "65bc629c_7d248f8e",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 290,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:11:19Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e325b07_0c9bf01b",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

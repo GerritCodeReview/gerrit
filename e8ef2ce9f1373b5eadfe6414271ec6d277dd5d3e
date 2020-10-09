@@ -543,6 +543,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "32fde4f5_938b3a7f",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1003883
+      },
+      "writtenOn": "2020-10-09T15:20:29Z",
+      "side": 1,
+      "message": "I am picturing a plugin which accesses an external data source. Suddenly there is an intermittent issue with the data source that triggers an unexpected exception in the plugin. I would not want ALL my queries failing because of an unmissed unusual exception path in the plugin since these types of things are fairly common, yet not common enough that the plugin developer would likely proactively catch it. External system errors are something you can\u0027t likely produce in advance to code to them. As a plugin developer I would wrap all my plugin code with this same code so that my plugins never cause all queries to fail. So without this code here, I would have to hope that I (and my coworkers) remember to add it to all our plugins.",
+      "parentUuid": "ea14b7d8_35ea7a5c",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cb26549_1e8550d6",
         "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
         "patchSetId": 17

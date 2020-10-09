@@ -352,25 +352,19 @@ export class GrDiffHost extends GestureEventListeners(
 
     this._coverageRanges = [];
     this._getCoverageData();
-    const diffRequest = this._getDiff()
-      .then(diff => {
-        this._loadedWhitespaceLevel = whitespaceLevel;
-        this._reportDiff(diff);
-        return diff;
-      })
-      .catch(e => {
-        this._handleGetDiffError(e);
-        return null;
-      });
+
+    let diff: DiffInfo;
+    try {
+      diff = await this._getDiff();
+      this._loadedWhitespaceLevel = whitespaceLevel;
+      this._reportDiff(diff);
+    } catch (e) {
+      this._handleGetDiffError(e);
+      this._loading = false;
+      return;
+    }
 
     try {
-      const diff = await diffRequest;
-
-      if (!diff) {
-        this._loading = false;
-        return;
-      }
-
       await this._loadDiffAssets(diff);
 
       // Not waiting for coverage ranges intentionally as

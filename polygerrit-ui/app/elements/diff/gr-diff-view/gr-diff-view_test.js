@@ -1282,6 +1282,29 @@ suite('gr-diff-view tests', () => {
 
       assert.isTrue(replaceStateStub.called);
       assert.isTrue(getUrlStub.called);
+      assert.isFalse(getUrlStub.lastCall.args[6]);
+    });
+
+    test('line selected on left side', () => {
+      const getUrlStub = sinon.stub(GerritNav, 'getUrlForDiffById');
+      const replaceStateStub = sinon.stub(history, 'replaceState');
+      sinon.stub(element.$.cursor, 'getAddress')
+          .returns({number: 123, isLeftSide: true});
+
+      element._changeNum = 321;
+      element._change = {_number: 321, project: 'foo/bar'};
+      element._patchRange = {
+        basePatchNum: '3',
+        patchNum: '5',
+      };
+      const e = {};
+      const detail = {number: 123, side: 'left'};
+
+      element._onLineSelected(e, detail);
+
+      assert.isTrue(replaceStateStub.called);
+      assert.isTrue(getUrlStub.called);
+      assert.isTrue(getUrlStub.lastCall.args[6]);
     });
 
     test('_getDiffViewMode', () => {

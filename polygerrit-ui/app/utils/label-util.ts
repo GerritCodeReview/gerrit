@@ -33,7 +33,7 @@ export function getVotingRange(label?: LabelInfo): VotingRangeInfo {
 }
 
 export function getMaxAccounts(label?: LabelInfo): ApprovalInfo[] {
-  if (!label || !isDetailedLabelInfo(label)) return [];
+  if (!label || !isDetailedLabelInfo(label) || !label.all) return [];
   const votingRange = getVotingRange(label);
   return label.all.filter(account => account.value === votingRange.max);
 }

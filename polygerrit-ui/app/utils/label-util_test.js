@@ -17,33 +17,54 @@
 
 import '../test/common-test-setup-karma.js';
 import {
-  getVotingRange,
+  getVotingRange, getMaxAccounts,
 } from './label-util.js';
+
+const VALUES_1 = {
+  '-1': 'bad',
+  '0': 'neutral',
+  '+1': 'good',
+};
+
+const VALUES_2 = {
+  '-1': 'bad',
+  '+2': 'perfect',
+  '0': 'neutral',
+  '-2': 'blocking',
+  '+1': 'good',
+};
 
 suite('label-util', () => {
   test('getVotingRange -1 to +1', () => {
-    const label = {
-      values: {
-        '-1': 'bad',
-        '0': 'neutral',
-        '+1': 'good',
-      },
-    };
+    const label = {values: VALUES_1};
     const expectedRange = {min: -1, max: 1};
     assert.deepEqual(getVotingRange(label), expectedRange);
   });
 
   test('getVotingRange -2 to +2', () => {
-    const label = {
-      values: {
-        '-1': 'bad',
-        '+2': 'perfect',
-        '0': 'neutral',
-        '-2': 'blocking',
-        '+1': 'good',
-      },
-    };
+    const label = {values: VALUES_2};
     const expectedRange = {min: -2, max: 2};
     assert.deepEqual(getVotingRange(label), expectedRange);
+  });
+
+  test('getMaxAccounts', () => {
+    const label = {
+      values: VALUES_2,
+      all: [
+        {value: 2, _account_id: 314},
+        {value: 1, _account_id: 777},
+      ],
+    };
+
+    const maxAccounts = getMaxAccounts(label);
+
+    assert.equal(maxAccounts.length, 1);
+    assert.equal(maxAccounts[0]._account_id, 314);
+  });
+
+  test('getMaxAccounts unset parameters', () => {
+    assert.isEmpty(getMaxAccounts());
+    assert.isEmpty(getMaxAccounts({}));
+    assert.isEmpty(getMaxAccounts({values: VALUES_2}));
   });
 });

@@ -22,6 +22,30 @@
       },
       "revId": "0a4705a910bef6c75f8529396a90fa568fd5b6cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cea9a43e_8f6a4b5f",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T07:30:14Z",
+      "side": 1,
+      "message": "Ok, so you are right. It is really hard to make this accurate.\n\nWe don\u0027t really support it well that you change the attention set in the reply dialog without doing anything else. For example the change message in the History tab will just be empty.\n\nSo I think the best way forward is to hide the attention related sections altogether as long as \"send\" is disabled.\n\nIf you agree, can you +2 this change and let me do this in a follow-up? The long chain is tested and +2ed otherwise, so it would be nice to just submit that. :-)",
+      "parentUuid": "3fb42378_50d6068b",
+      "range": {
+        "startLine": 1404,
+        "startChar": 14,
+        "endLine": 1404,
+        "endChar": 52
+      },
+      "revId": "0a4705a910bef6c75f8529396a90fa568fd5b6cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

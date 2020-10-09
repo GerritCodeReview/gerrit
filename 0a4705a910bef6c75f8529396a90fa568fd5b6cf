@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3fb42378_50d6068b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-09T06:51:12Z",
+      "side": 1,
+      "message": "1. From the commit message in https://gerrit-review.googlesource.com/c/gerrit/+/283437 it seems that owner can (re-)add themselves. However, this condition \"someone other than the owner was added\" doesn\u0027t allow the owner to (re-)add themselves in the dialog.\n\n2. It seems, you want to avoid situation when the owner is (re-)added without making any comments/voting/etc...\nI agree that it is nice to have, however there is no indication about it in gr-reply-dialog (i.e. I explicitly adds owner to the attention set, but I can\u0027t click \"Send\" and it is unclear why). At the same time, the owner can be added from the hovercard, so a reviewer can bypass this condition.\nMaybe remove isNotOwnerCondition?\n\nThe same for isNotCurrentUser",
+      "range": {
+        "startLine": 1404,
+        "startChar": 14,
+        "endLine": 1404,
+        "endChar": 52
+      },
+      "revId": "0a4705a910bef6c75f8529396a90fa568fd5b6cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

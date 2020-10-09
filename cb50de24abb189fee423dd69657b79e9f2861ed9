@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60ed5b4c_fb7be74c",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 130,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-09T14:08:51Z",
+      "side": 1,
+      "message": "The \u0027\u0027 had a special meaning for _repoName and _groupId (\u0027\u0027 means value is empty/invalid), I decided to keep it separated in the type. But you are right, this seems strange. So, i removed it and use undefined instead of \u0027\u0027 for _groupId and _repoName. As a result, the _paramsChanged method calls reload() not so often, but it seems the previous behavior was incorrect (i.e. reload was called too often).",
+      "parentUuid": "7cae35d8_2688d1be",
+      "range": {
+        "startLine": 127,
+        "startChar": 2,
+        "endLine": 130,
+        "endChar": 26
+      },
+      "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a34b3364_5c323125",
@@ -47,6 +71,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cfa6ae5d_e3129dbf",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 234,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-09T14:08:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a34b3364_5c323125",
+      "range": {
+        "startLine": 234,
+        "startChar": 47,
+        "endLine": 234,
+        "endChar": 49
+      },
+      "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "db7de33a_1df25367",
@@ -60,6 +108,24 @@
       "writtenOn": "2020-10-07T10:48:26Z",
       "side": 1,
       "message": "Nit: Would you mind using one-line guards?",
+      "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd5d7c62_f64a5ef3",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-09T14:08:51Z",
+      "side": 1,
+      "message": "Yes. I sent this change for review before you wrote the similar comment in another change.",
+      "parentUuid": "db7de33a_1df25367",
       "revId": "cb50de24abb189fee423dd69657b79e9f2861ed9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

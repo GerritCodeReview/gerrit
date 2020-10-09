@@ -23,11 +23,14 @@ import sys
 
 MAIN = '//tools/eclipse:classpath'
 AUTO = '//lib/auto:auto-value'
-JRE = '/'.join([
-    'org.eclipse.jdt.launching.JRE_CONTAINER',
-    'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
-    'JavaSE-1.8',
-])
+
+def JRE(java_vers = '11'):
+    return '/'.join([
+        'org.eclipse.jdt.launching.JRE_CONTAINER',
+        'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
+        "JavaSE-%s" % java_vers,
+    ])
+
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
     AUTO: '//tools/eclipse:autovalue_classpath_collect',
@@ -46,9 +49,9 @@ opts.add_argument('--name', help='name of the generated project',
 opts.add_argument('-b', '--batch', action='store_true',
                   dest='batch', help='Bazel batch option')
 opts.add_argument('-j', '--java', action='store',
-                  dest='java', help='Post Java 8 support (9)')
+                  dest='java', help='Legacy Java 1.8 or post Java 11')
 opts.add_argument('-e', '--edge_java', action='store',
-                  dest='edge_java', help='Post Java 9 support (10|11|...)')
+                  dest='edge_java', help='Post Java 11 support (14|...)')
 opts.add_argument('--bazel',
                   help=('name of the bazel executable. Defaults to using'
                         ' bazelisk if found, or bazel if bazelisk is not'
@@ -95,7 +98,9 @@ def _build_bazel_cmd(*args):
         if arg == "build":
             build = True
         cmd.append(arg)
-    if custom_java and not edge_java:
+    if custom_java == '1.8':
+        cmd.append('--java_toolchain=//tools:error_prone_warnings_toolchain')
+    elif custom_java and not edge_java:
         cmd.append('--host_java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
         cmd.append('--java_toolchain=@bazel_tools//tools/jdk:toolchain_java%s' % custom_java)
         if edge_java and build:
@@ -312,7 +317,7 @@ def gen_classpath(ext):
         s = s.replace('.jar', '-src.jar')
         classpathentry('lib', p, s)
 
-    classpathentry('con', JRE)
+    classpathentry('con', JRE(custom_java) if custom_java else JRE())
     classpathentry('output', 'eclipse-out/classes')
     classpathentry('src', '.apt_generated')
     classpathentry('src', '.apt_generated_tests', out="eclipse-out/test")

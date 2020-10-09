@@ -46,6 +46,30 @@
       },
       "revId": "f4cd615a5635adda78caf357fe7bd722262a6830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7e5946c7_c62bda71",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-09T17:00:18Z",
+      "side": 1,
+      "message": "If you are introducing a new data race, you are actually making it worse.",
+      "parentUuid": "ab6e6f20_88131086",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 492,
+        "endChar": 29
+      },
+      "revId": "f4cd615a5635adda78caf357fe7bd722262a6830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

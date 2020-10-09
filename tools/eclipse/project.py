@@ -26,7 +26,7 @@ AUTO = '//lib/auto:auto-value'
 JRE = '/'.join([
     'org.eclipse.jdt.launching.JRE_CONTAINER',
     'org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType',
-    'JavaSE-1.8',
+    'JavaSE-11',
 ])
 # Map of targets to corresponding classpath collector rules
 cp_targets = {
@@ -46,9 +46,9 @@ opts.add_argument('--name', help='name of the generated project',
 opts.add_argument('-b', '--batch', action='store_true',
                   dest='batch', help='Bazel batch option')
 opts.add_argument('-j', '--java', action='store',
-                  dest='java', help='Post Java 8 support (9)')
+                  dest='java', help='Post Java 11')
 opts.add_argument('-e', '--edge_java', action='store',
-                  dest='edge_java', help='Post Java 9 support (10|11|...)')
+                  dest='edge_java', help='Post Java 11 support (14|...)')
 opts.add_argument('--bazel',
                   help=('name of the bazel executable. Defaults to using'
                         ' bazelisk if found, or bazel if bazelisk is not'

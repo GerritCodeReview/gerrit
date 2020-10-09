@@ -61,7 +61,7 @@ export const htmlTemplate = html`
             ></td>
             <td
               class="cell"
-              colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
+              colspan$="[[_computeColspan(changeSection, visibleChangeTableColumns, labelNames)]]"
             >
               <a
                 href$="[[_sectionHref(changeSection.query)]]"
@@ -83,7 +83,7 @@ export const htmlTemplate = html`
             <td aria-hidden="true" class="star" hidden></td>
             <td
               class="cell"
-              colspan$="[[_computeColspan(changeTableColumns, labelNames)]]"
+              colspan$="[[_computeColspan(changeSection, visibleChangeTableColumns, labelNames)]]"
             >
               <template
                 is="dom-if"
@@ -110,11 +110,12 @@ export const htmlTemplate = html`
               hidden=""
             ></td>
             <td class="number" hidden$="[[!showNumber]]" hidden="">#</td>
-            <template is="dom-repeat" items="[[changeTableColumns]]" as="item">
-              <td
-                class$="[[_lowerCase(item)]]"
-                hidden$="[[isColumnHidden(item, visibleChangeTableColumns)]]"
-              >
+            <template
+              is="dom-repeat"
+              items="[[_computeColumns(changeSection, visibleChangeTableColumns)]]"
+              as="item"
+            >
+              <td class$="[[_lowerCase(item)]]">
                 [[item]]
               </td>
             </template>
@@ -139,12 +140,12 @@ export const htmlTemplate = html`
           <gr-change-list-item
             account="[[account]]"
             selected$="[[_computeItemSelected(sectionIndex, index, selectedIndex)]]"
-            highlight$="[[_computeItemHighlight(account, change)]]"
+            highlight$="[[_computeItemHighlight(account, change, _config, changeSection.name)]]"
             needs-review$="[[_computeItemNeedsReview(account, change, showReviewedState, _config)]]"
             change="[[change]]"
             config="[[_config]]"
             section-name="[[changeSection.name]]"
-            visible-change-table-columns="[[visibleChangeTableColumns]]"
+            visible-change-table-columns="[[_computeColumns(changeSection, visibleChangeTableColumns)]]"
             show-number="[[showNumber]]"
             show-star="[[showStar]]"
             tabindex$="[[_computeTabIndex(sectionIndex, index, selectedIndex)]]"

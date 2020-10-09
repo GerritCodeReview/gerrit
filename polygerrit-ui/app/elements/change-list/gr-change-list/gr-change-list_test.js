@@ -21,6 +21,7 @@ import {afterNextRender} from '@polymer/polymer/lib/utils/render-status.js';
 import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
 import {TestKeyboardShortcutBinder} from '../../../test/test-utils.js';
 import {Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
+import {YOUR_TURN} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-change-list');
 
@@ -145,7 +146,7 @@ suite('gr-change-list basic tests', () => {
     const changeTableColumns = [];
     const labelNames = [];
     assert.equal(tdItemCount, element._computeColspan(
-        changeTableColumns, labelNames));
+        {}, changeTableColumns, labelNames));
   });
 
   test('keyboard shortcuts', done => {
@@ -303,7 +304,7 @@ suite('gr-change-list basic tests', () => {
     });
 
     test('shown on empty outgoing sections', () => {
-      const section = {results: [], name: 'Your Turn'};
+      const section = {results: [], name: YOUR_TURN.name};
       assert.isTrue(element._isEmpty(section));
       assert.equal(element._getSpecialEmptySlot(section), 'empty-your-turn');
     });
@@ -416,11 +417,9 @@ suite('gr-change-list basic tests', () => {
       for (const column of element.changeTableColumns) {
         const elementClass = '.' + column.toLowerCase();
         if (column === 'Repo') {
-          assert.isTrue(element.shadowRoot
-              .querySelector(elementClass).hidden);
+          assert.isNotOk(element.shadowRoot.querySelector(elementClass));
         } else {
-          assert.isFalse(element.shadowRoot
-              .querySelector(elementClass).hidden);
+          assert.isOk(element.shadowRoot.querySelector(elementClass));
         }
       }
     });

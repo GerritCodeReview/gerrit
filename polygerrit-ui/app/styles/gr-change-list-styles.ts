@@ -32,6 +32,13 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       gr-change-list-item:focus {
         background-color: var(--selection-background-color);
       }
+      gr-change-list-item[highlight] {
+        background-color: var(--assignee-highlight-color);
+      }
+      gr-change-list-item[highlight][selected],
+      gr-change-list-item[highlight]:focus {
+        background-color: var(--assignee-highlight-selection-color);
+      }
       .groupTitle td,
       .cell {
         vertical-align: middle;
@@ -84,6 +91,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       .owner,
       .assignee,
       .updated,
+      .submitted,
+      .since,
       .size,
       .status,
       .repo {
@@ -163,6 +172,8 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         .repo,
         .branch,
         .updated,
+        .submitted,
+        .since,
         .label,
         .assignee,
         .groupHeader .star,

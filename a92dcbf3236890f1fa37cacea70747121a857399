@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fade0db3_4fa873a1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T20:03:44Z",
+      "side": 1,
+      "message": "Number() is preferable over parseInt(): http://go/tsstyle#type-coercion",
+      "range": {
+        "startLine": 1061,
+        "startChar": 15,
+        "endLine": 1061,
+        "endChar": 23
+      },
+      "revId": "a92dcbf3236890f1fa37cacea70747121a857399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6a6b9465_fcfdbfd7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T20:03:44Z",
+      "side": 1,
+      "message": "Can you add a TODO(TS) here that this is just a bandaid and that we need to have another look at that when we convert the change-view?",
+      "revId": "a92dcbf3236890f1fa37cacea70747121a857399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

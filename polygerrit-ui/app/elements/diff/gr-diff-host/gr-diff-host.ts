@@ -358,13 +358,7 @@ export class GrDiffHost extends GestureEventListeners(
       diff = await this._getDiff();
       this._loadedWhitespaceLevel = whitespaceLevel;
       this._reportDiff(diff);
-    } catch (e) {
-      this._handleGetDiffError(e);
-      this._loading = false;
-      return;
-    }
 
-    try {
       await this._loadDiffAssets(diff);
 
       // Not waiting for coverage ranges intentionally as
@@ -395,8 +389,12 @@ export class GrDiffHost extends GestureEventListeners(
         // by params changed - expected only on Diff Page.
         this.reporting.diffViewContentDisplayed();
       }
-    } catch (err) {
-      console.warn('Error encountered loading diff:', err);
+    } catch (e) {
+      if (e instanceof Response) {
+        this._handleGetDiffError(e);
+      } else {
+        console.warn('Error encountered loading diff:', e);
+      }
     }
     this._loading = false;
   }

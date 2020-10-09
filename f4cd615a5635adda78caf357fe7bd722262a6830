@@ -22,6 +22,30 @@
       },
       "revId": "f4cd615a5635adda78caf357fe7bd722262a6830",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab6e6f20_88131086",
+        "filename": "java/com/google/gerrit/server/submit/SubmitStrategyOp.java",
+        "patchSetId": 3
+      },
+      "lineNbr": 492,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-09T12:05:10Z",
+      "side": 1,
+      "message": "I agree that something is broken here, and there is no such guarantee yet. I am claiming that the bug (race condition) already exists with or without my async email sendings, so this change can\u0027t make it worse. Specifically, this change just avoids NPE. I am confident it avoids NPE since otherwise we would have seen NPEs in postUpdate() already (which we don\u0027t, right now the emails are just not sent).\n\nThis change just puts us in a \"consistent state\" \u003d same bug in asyncPostUpdate and postUpdate, whereas right now we have an incorrect logging in postUpdate, and NPE in asyncPostUpdate.\n\nWe should definitely find the reason for the bug that causes the emails not to be sent, but I\u0027m confident that issue is not related.",
+      "parentUuid": "895dd937_bb4a5b6e",
+      "range": {
+        "startLine": 492,
+        "startChar": 8,
+        "endLine": 492,
+        "endChar": 29
+      },
+      "revId": "f4cd615a5635adda78caf357fe7bd722262a6830",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

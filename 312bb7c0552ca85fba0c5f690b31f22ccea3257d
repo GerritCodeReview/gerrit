@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bd38a16f_ad4c5c55",
+        "filename": "java/com/google/gerrit/httpd/CacheBasedWebSession.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-09T08:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1a46ffe0_732e7468",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "258be557_8fb73588",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-08T09:48:05Z",
       "side": 1,
       "message": "Should this mention the requirement about \"key\" having to be the same instance?",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "12ca69ae_6c096afe",
+        "filename": "java/com/google/gerrit/server/CurrentUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-09T08:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "258be557_8fb73588",
       "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -58,6 +94,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "4090b982_a43dfb7a",
+        "filename": "java/com/google/gerrit/server/PropertyMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-09T08:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6eb22ed4_e96be39f",
+      "range": {
+        "startLine": 21,
+        "startChar": 70,
+        "endLine": 21,
+        "endChar": 83
+      },
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e42f11c9_2712925f",
@@ -75,6 +135,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0d0441c_a7c9a3b8",
+        "filename": "java/com/google/gerrit/server/PropertyMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-09T08:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e42f11c9_2712925f",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5c83f9a0_84408d08",
@@ -88,6 +166,24 @@
       "writtenOn": "2020-10-08T09:48:05Z",
       "side": 1,
       "message": "nit/opt: \"else\"-s aren\u0027t needed.",
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ec71394_f144aa0b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultPermissionBackend.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 199,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-09T08:09:10Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5c83f9a0_84408d08",
       "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

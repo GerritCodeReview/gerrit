@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e430db0a_de847b8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-messages-list/gr-messages-list.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 250,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T16:53:35Z",
+      "side": 1,
+      "message": "I am still uneasy to mark properties with !. There is still a time window between component creation and Polymer listeners running for the first time that such properties can be undefined.\n\nIf you are sure about this not being a problem, then you can as well initialize this with \u0027\u0027 instead of adding a !.\n\nSame for _combinedMessages.\n\nOr am I wrong and Polymer magically creates a getter for computed properties such that initialization is an anti-pattern??",
+      "revId": "21afa33df563e423110c669e0d9985e0b8fc6f4b",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

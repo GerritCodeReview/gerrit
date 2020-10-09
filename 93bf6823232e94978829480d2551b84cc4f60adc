@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5bfb4686_ecb5911b",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 905,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-10-09T08:45:31Z",
+      "side": 1,
+      "message": "tooltip proposal:\n\n\u0027Modify the attention set by adding a comment or use the account hovercard in the change page.\u0027",
+      "range": {
+        "startLine": 904,
+        "startChar": 13,
+        "endLine": 905,
+        "endChar": 49
+      },
+      "revId": "93bf6823232e94978829480d2551b84cc4f60adc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

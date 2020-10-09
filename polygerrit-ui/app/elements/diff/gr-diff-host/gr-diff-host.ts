@@ -357,20 +357,13 @@ export class GrDiffHost extends GestureEventListeners(
 
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
-      const event = await new Promise<CustomEvent>(resolve => {
-        const callback = (event: CustomEvent) => {
-          this.removeEventListener('render', callback);
-          resolve(event);
-        };
-        this.addEventListener('render', callback);
-      });
+      const event = await this._onRenderOnce();
       if (shouldReportMetric) {
         // We report diffViewContentDisplayed only on reload caused
         // by params changed - expected only on Diff Page.
         this.reporting.diffViewContentDisplayed();
       }
-      const needsSyntaxHighlighting =
-        event.detail && event.detail.contentRendered;
+      const needsSyntaxHighlighting = !!event.detail?.contentRendered;
       if (needsSyntaxHighlighting) {
         this.reporting.time(TimingLabel.SYNTAX);
         try {
@@ -394,6 +387,16 @@ export class GrDiffHost extends GestureEventListeners(
   private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {
     // Get layers from plugins (if any).
     return [this.$.syntaxLayer, ...this.$.jsAPI.getDiffLayers(path, changeNum)];
+  }
+
+  private _onRenderOnce(): Promise<CustomEvent> {
+    return new Promise<CustomEvent>(resolve => {
+      const callback = (event: CustomEvent) => {
+        this.removeEventListener('render', callback);
+        resolve(event);
+      };
+      this.addEventListener('render', callback);
+    });
   }
 
   clear() {

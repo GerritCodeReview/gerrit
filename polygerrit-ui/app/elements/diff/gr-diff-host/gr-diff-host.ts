@@ -381,30 +381,32 @@ export class GrDiffHost extends GestureEventListeners(
           return Promise.resolve();
         }
         this.filesWeblinks = this._getFilesWeblinks(diff);
-        return new Promise(resolve => {
+        this.diff = diff;
+        return new Promise<CustomEvent>(resolve => {
           const callback = (event: CustomEvent) => {
-            const needsSyntaxHighlighting =
-              event.detail && event.detail.contentRendered;
-            if (needsSyntaxHighlighting) {
-              this.reporting.time(TimingLabel.SYNTAX);
-              this.$.syntaxLayer.process().finally(() => {
-                this.reporting.timeEnd(TimingLabel.SYNTAX);
-                this.reporting.timeEnd(TimingLabel.TOTAL);
-                resolve();
-              });
-            } else {
-              this.reporting.timeEnd(TimingLabel.TOTAL);
-              resolve();
-            }
             this.removeEventListener('render', callback);
-            if (shouldReportMetric) {
-              // We report diffViewContentDisplayed only on reload caused
-              // by params changed - expected only on Diff Page.
-              this.reporting.diffViewContentDisplayed();
-            }
+            resolve(event);
           };
           this.addEventListener('render', callback);
-          this.diff = diff;
+        }).then((event: CustomEvent) => {
+          const needsSyntaxHighlighting =
+            event.detail && event.detail.contentRendered;
+          let result: Promise<unknown> = Promise.resolve();
+          if (needsSyntaxHighlighting) {
+            this.reporting.time(TimingLabel.SYNTAX);
+            result = this.$.syntaxLayer.process().finally(() => {
+              this.reporting.timeEnd(TimingLabel.SYNTAX);
+            });
+          }
+          result.finally(() => {
+            this.reporting.timeEnd(TimingLabel.TOTAL);
+          });
+          if (shouldReportMetric) {
+            // We report diffViewContentDisplayed only on reload caused
+            // by params changed - expected only on Diff Page.
+            this.reporting.diffViewContentDisplayed();
+          }
+          return result;
         });
       })
       .catch(err => {

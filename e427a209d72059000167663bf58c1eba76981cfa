@@ -71,6 +71,41 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "723f7a24_25552a12",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-09T16:50:42Z",
+      "side": 1,
+      "message": "\nI\u0027ll be out next week, so further responses will be delayed.",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8f02da33_99858682",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1024147
+      },
+      "writtenOn": "2020-10-09T16:50:42Z",
+      "side": 1,
+      "message": "\u003e Joining results is not a new thing for Gerrit queries. There have been many instances of it in the past.\n\nSuch as?\n\n\u003e say that use-cases are as widespread as you request here. Do you believe this is a general policy that the project should be (or already is) applying to changes?\n\nif this were a regular index feature (eg. adding a new field) we wouldn\u0027t have that many concerns. But this making more fundamental changes, so we want to be extra careful.\n\n\u003e If this becomes the only remaining concern, perhaps it would make sense for you to disable this on googlesource.com servers too.\n\nthis is a measure of last resort; we\u0027d rather see core gerrit be the same everywhere.",
+      "parentUuid": "e8f03bb8_0d8ff0c7",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "821ae05d_461809e5",

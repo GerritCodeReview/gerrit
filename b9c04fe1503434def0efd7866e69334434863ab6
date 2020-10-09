@@ -22,6 +22,30 @@
       },
       "revId": "b9c04fe1503434def0efd7866e69334434863ab6",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5b162d7f_022f7b9c",
+        "filename": "tools/eclipse/project.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-09T23:32:22Z",
+      "side": 1,
+      "message": "Actually, it is way better to include Java 8 support with the \u0027-j\u0027 parameter.",
+      "parentUuid": "3759f955_18121176",
+      "range": {
+        "startLine": 51,
+        "startChar": 42,
+        "endLine": 51,
+        "endChar": 71
+      },
+      "revId": "b9c04fe1503434def0efd7866e69334434863ab6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

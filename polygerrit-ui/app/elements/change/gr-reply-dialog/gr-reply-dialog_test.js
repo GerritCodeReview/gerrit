@@ -999,11 +999,18 @@ suite('gr-reply-dialog tests', () => {
     element._reviewers = [makeAccount(), makeAccount()];
     element._ccs = [makeAccount(), makeAccount()];
     element.draftCommentThreads = [];
-    MockInteractions.tap(
-        element.shadowRoot.querySelector('.edit-attention-button'));
+    const modifyButton =
+        element.shadowRoot.querySelector('.edit-attention-button');
+    MockInteractions.tap(modifyButton);
     flush();
 
+    // "Modify" button disabled, because "Send" button is disabled.
+    assert.isFalse(element._attentionExpanded);
+    element.draft = 'a test comment';
+    MockInteractions.tap(modifyButton);
+    flush();
     assert.isTrue(element._attentionExpanded);
+
     let accountLabels = Array.from(element.shadowRoot.querySelectorAll(
         '.attention-detail gr-account-label'));
     assert.equal(accountLabels.length, 5);
@@ -1368,10 +1375,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
   });
 
@@ -1386,28 +1390,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
-    ));
-  });
-
-  test('_computeSendButtonDisabled_attentionExpanded true', () => {
-    const fn = element._computeSendButtonDisabled.bind(element);
-    // Mock everything false
-    assert.isFalse(fn(
-        /* canBeStarted= */ false,
-        /* draftCommentThreads= */ [],
-        /* text= */ '',
-        /* reviewersMutated= */ false,
-        /* labelsChanged= */ false,
-        /* includeComments= */ false,
-        /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ true,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set([1])
+        /* commentEditing= */ false
     ));
   });
 
@@ -1422,10 +1405,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ true,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
   });
 
@@ -1440,10 +1420,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
   });
 
@@ -1458,10 +1435,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
   });
 
@@ -1476,10 +1450,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ false,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
   });
 
@@ -1494,10 +1465,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
   });
 
@@ -1512,10 +1480,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ true,
-        /* commentEditing= */ false,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ false
     ));
     assert.isTrue(fn(
         /* buttonLabel= */ 'Send',
@@ -1525,10 +1490,7 @@ suite('gr-reply-dialog tests', () => {
         /* labelsChanged= */ true,
         /* includeComments= */ false,
         /* disabled= */ false,
-        /* commentEditing= */ true,
-        /* attentionExpanded= */ false,
-        /* _currentAttentionSet */ new Set(),
-        /* _newAttentionSet */ new Set()
+        /* commentEditing= */ true
     ));
   });
 

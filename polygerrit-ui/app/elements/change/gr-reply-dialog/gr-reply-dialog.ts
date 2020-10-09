@@ -899,6 +899,13 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     return isAttentionSetEnabled(config) && attentionExpanded;
   }
 
+  _computeAttentionButtonTitle(sendDisabled?: boolean) {
+    return sendDisabled
+      ? 'Modify the attention set by adding a comment or use the account ' +
+          'hovercard in the change page.'
+      : 'Edit attention set changes';
+  }
+
   _handleAttentionClick(e: Event) {
     const id = (e.target as GrAccountChip)?.account?._account_id;
     if (!id) return;
@@ -1064,12 +1071,14 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     return accountIds;
   }
 
-  _isNewAttentionEmpty(
+  _computeShowNoAttentionUpdate(
     config?: ServerInfo,
     currentAttentionSet?: Set<AccountId>,
-    newAttentionSet?: Set<AccountId>
+    newAttentionSet?: Set<AccountId>,
+    sendDisabled?: boolean
   ) {
     return (
+      sendDisabled ||
       this._computeNewAttentionAccounts(
         config,
         currentAttentionSet,
@@ -1080,10 +1089,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _computeDoNotUpdateMessage(
     currentAttentionSet?: Set<AccountId>,
-    newAttentionSet?: Set<AccountId>
+    newAttentionSet?: Set<AccountId>,
+    sendDisabled?: boolean
   ) {
     if (!currentAttentionSet || !newAttentionSet) return '';
-    if (areSetsEqual(currentAttentionSet, newAttentionSet)) {
+    if (sendDisabled || areSetsEqual(currentAttentionSet, newAttentionSet)) {
       return 'No changes to the attention set.';
     }
     if (containsAll(currentAttentionSet, newAttentionSet)) {
@@ -1398,10 +1408,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     labelsChanged?: boolean,
     includeComments?: boolean,
     disabled?: boolean,
-    commentEditing?: boolean,
-    attentionExpanded?: boolean,
-    _currentAttentionSet?: Set<AccountId>,
-    _newAttentionSet?: Set<AccountId>
+    commentEditing?: boolean
   ) {
     if (
       canBeStarted === undefined ||
@@ -1411,10 +1418,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       labelsChanged === undefined ||
       includeComments === undefined ||
       disabled === undefined ||
-      commentEditing === undefined ||
-      attentionExpanded === undefined ||
-      _currentAttentionSet === undefined ||
-      _newAttentionSet === undefined
+      commentEditing === undefined
     ) {
       return undefined;
     }
@@ -1425,29 +1429,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       return false;
     }
     const hasDrafts = includeComments && draftCommentThreads.length;
-    // Changing the attention set is also sufficient to enable the 'Send'
-    // button, but only if the attention set detail section was expanded and
-    // either someone other than the owner was added, or someone other than the
-    // current user was removed.
-    const isNotCurrentUser = (id: AccountId) =>
-      id !== this._account?._account_id;
-    const isNotOwner = (id: AccountId) => id !== this._owner?._account_id;
-    const attentionAdditions = [..._newAttentionSet]
-      .filter(id => !_currentAttentionSet.has(id))
-      .filter(isNotOwner);
-    const attentionRemovals = [..._currentAttentionSet]
-      .filter(id => !_newAttentionSet.has(id))
-      .filter(isNotCurrentUser);
-    const hasAttentionChange =
-      attentionExpanded &&
-      (attentionAdditions.length > 0 || attentionRemovals.length > 0);
-    return (
-      !hasDrafts &&
-      !text.length &&
-      !reviewersMutated &&
-      !labelsChanged &&
-      !hasAttentionChange
-    );
+    return !hasDrafts && !text.length && !reviewersMutated && !labelsChanged;
   }
 
   _computePatchSetWarning(patchNum?: PatchSetNum, labelsChanged?: boolean) {

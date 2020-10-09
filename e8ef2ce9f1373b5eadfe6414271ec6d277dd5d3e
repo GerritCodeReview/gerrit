@@ -495,6 +495,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ea14b7d8_35ea7a5c",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-09T11:32:05Z",
+      "side": 1,
+      "message": "This depends on the ownership model of your Gerrit installation:\n\n(1) On googlesource.com, we are the holistic service owners, so we\u0027re also responsible for any plugins that fail. As a practical result of that, we have SLOs on all HTTP requests to Gerrit and don\u0027t factor our plugins by default.\n\nIf you employ that model, it\u0027s better to just have the entire request fail. This way you know fast that something is not working as expected and catch regressions early. It\u0027s also way easier for your monitoring to detect issues because it can work off of HTTP status codes.\n\n(2) The opposite model would be to have other plugins be owned by other teams. In which case you can take the stance of \"I don\u0027t care what you but I will make sure you can\u0027t harm the main functionality\". As a practical result, an error encapsulated in PluginDefinedInfo as you suggested would be the better pick.\n\nMy vote always goes to (1) because it think it\u0027s way easier to support that as a service admin in that it\u0027s easier to monitor the system. We\u0027ve also found that because plugins run Java code inside your server binary, the desired \"I will make sure you can\u0027t harm the main functionality\" from (2) doesn\u0027t entirely work just because from that code, a malfunctioning plugin can always bring down the server. For me, that is a supporting argument for (1).",
+      "parentUuid": "36a17a85_f988d1f4",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cb26549_1e8550d6",
         "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
         "patchSetId": 17

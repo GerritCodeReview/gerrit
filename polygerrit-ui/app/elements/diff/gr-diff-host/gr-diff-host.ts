@@ -363,23 +363,18 @@ export class GrDiffHost extends GestureEventListeners(
         return null;
       });
 
-    const assetRequest = diffRequest.then(diff => {
-      // If the diff is null, then it's failed to load.
-      if (!diff) {
-        return null;
-      }
-
-      return this._loadDiffAssets(diff);
-    });
-
     try {
-      // Not waiting for coverage ranges intentionally as
-      // plugin loading should not block the content rendering
-      const results = await Promise.all([diffRequest, assetRequest]);
-      const diff = results[0];
+      const diff = await diffRequest;
+
       if (!diff) {
         return Promise.resolve();
       }
+
+      await this._loadDiffAssets(diff);
+
+      // Not waiting for coverage ranges intentionally as
+      // plugin loading should not block the content rendering
+
       this.filesWeblinks = this._getFilesWeblinks(diff);
       this.diff = diff;
       const event = await new Promise<CustomEvent>(resolve => {

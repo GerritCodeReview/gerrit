@@ -375,39 +375,38 @@ export class GrDiffHost extends GestureEventListeners(
     // Not waiting for coverage ranges intentionally as
     // plugin loading should not block the content rendering
     return Promise.all([diffRequest, assetRequest])
-      .then(results => {
+      .then(async results => {
         const diff = results[0];
         if (!diff) {
           return Promise.resolve();
         }
         this.filesWeblinks = this._getFilesWeblinks(diff);
         this.diff = diff;
-        return new Promise<CustomEvent>(resolve => {
+        const event = await new Promise<CustomEvent>(resolve => {
           const callback = (event: CustomEvent) => {
             this.removeEventListener('render', callback);
             resolve(event);
           };
           this.addEventListener('render', callback);
-        }).then((event: CustomEvent) => {
-          const needsSyntaxHighlighting =
-            event.detail && event.detail.contentRendered;
-          let result: Promise<unknown> = Promise.resolve();
-          if (needsSyntaxHighlighting) {
-            this.reporting.time(TimingLabel.SYNTAX);
-            result = this.$.syntaxLayer.process().finally(() => {
-              this.reporting.timeEnd(TimingLabel.SYNTAX);
-            });
-          }
-          result.finally(() => {
-            this.reporting.timeEnd(TimingLabel.TOTAL);
-          });
-          if (shouldReportMetric) {
-            // We report diffViewContentDisplayed only on reload caused
-            // by params changed - expected only on Diff Page.
-            this.reporting.diffViewContentDisplayed();
-          }
-          return result;
         });
+        const needsSyntaxHighlighting =
+          event.detail && event.detail.contentRendered;
+        let result: Promise<unknown> = Promise.resolve();
+        if (needsSyntaxHighlighting) {
+          this.reporting.time(TimingLabel.SYNTAX);
+          result = this.$.syntaxLayer.process().finally(() => {
+            this.reporting.timeEnd(TimingLabel.SYNTAX);
+          });
+        }
+        result.finally(() => {
+          this.reporting.timeEnd(TimingLabel.TOTAL);
+        });
+        if (shouldReportMetric) {
+          // We report diffViewContentDisplayed only on reload caused
+          // by params changed - expected only on Diff Page.
+          this.reporting.diffViewContentDisplayed();
+        }
+        return result;
       })
       .catch(err => {
         console.warn('Error encountered loading diff:', err);

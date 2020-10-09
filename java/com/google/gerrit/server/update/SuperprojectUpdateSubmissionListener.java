@@ -21,6 +21,7 @@ import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
 import com.google.gerrit.server.submit.SubmoduleOp;
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -39,11 +40,11 @@ public class SuperprojectUpdateSubmissionListener implements SubmissionListener 
   private boolean dryrun;
 
   public static class Module extends AbstractModule {
-    @Override
-    protected void configure() {
-      bind(SubmissionListener.class)
-          .annotatedWith(SuperprojectUpdateOnSubmission.class)
-          .to(SuperprojectUpdateSubmissionListener.class);
+    @Provides
+    @SuperprojectUpdateOnSubmission
+    ImmutableList<SubmissionListener> provideSubmissionListeners(
+        SuperprojectUpdateSubmissionListener listener) {
+      return ImmutableList.of(listener);
     }
   }
 

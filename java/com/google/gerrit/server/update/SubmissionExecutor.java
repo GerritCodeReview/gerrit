@@ -17,7 +17,6 @@ package com.google.gerrit.server.update;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.extensions.restapi.RestApiException;
 import com.google.gerrit.server.submit.MergeOpRepoManager;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -28,14 +27,9 @@ public class SubmissionExecutor {
   private final boolean dryrun;
   private ImmutableList<BatchUpdateListener> additionalListeners = ImmutableList.of();
 
-  public SubmissionExecutor(
-      boolean dryrun, SubmissionListener listener, SubmissionListener... otherListeners) {
+  public SubmissionExecutor(boolean dryrun, ImmutableList<SubmissionListener> submissionListeners) {
     this.dryrun = dryrun;
-    this.submissionListeners =
-        ImmutableList.<SubmissionListener>builder()
-            .add(listener)
-            .addAll(Arrays.asList(otherListeners))
-            .build();
+    this.submissionListeners = submissionListeners;
     if (dryrun) {
       submissionListeners.forEach(SubmissionListener::setDryrun);
     }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "25519d5c_5afa258c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1030912
+      },
+      "writtenOn": "2020-10-09T07:38:59Z",
+      "side": 1,
+      "message": "This will require an adjustment during the import and I don\u0027t have time to do the import myself. Feel free to submit this change when you have time to do the import afterwards.",
+      "revId": "33f7258a051aeace6eb752eafc32da70100af350",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -21,8 +21,7 @@ import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.ImmutableSetMultimap;
 import java.util.Map;
-import java.util.SortedMap;
-import java.util.SortedSet;
+import java.util.Set;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -157,7 +156,7 @@ public class MutableTagsTest {
   }
 
   private void assertTags(ImmutableMap<String, ImmutableSet<String>> expectedTagMap) {
-    SortedMap<String, SortedSet<Object>> actualTagMap = tags.getTags().asMap();
+    Map<String, ? extends Set<Object>> actualTagMap = tags.getTags().asMap();
     assertThat(actualTagMap.keySet()).containsExactlyElementsIn(expectedTagMap.keySet());
     for (Map.Entry<String, ImmutableSet<String>> expectedEntry : expectedTagMap.entrySet()) {
       assertThat(actualTagMap.get(expectedEntry.getKey()))

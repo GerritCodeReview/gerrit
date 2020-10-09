@@ -41,6 +41,8 @@ import com.google.gerrit.extensions.api.changes.AttentionSetInput;
 import com.google.gerrit.extensions.api.changes.DeleteReviewerInput;
 import com.google.gerrit.extensions.api.changes.HashtagsInput;
 import com.google.gerrit.extensions.api.changes.ReviewInput;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.client.ReviewerState;
 import com.google.gerrit.extensions.client.Side;
 import com.google.gerrit.extensions.restapi.BadRequestException;
@@ -1358,6 +1360,49 @@ public class AttentionSetIT extends AbstractDaemonTest {
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
         .doesNotContain("Gerrit-Attention: " + user.fullName());
     sender.clear();
+  }
+
+  @Test
+  public void attentionSetWithEmailFilter() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add preference for the user such that they only receive an email on changes that require
+    // their attention.
+    requestScopeOperations.setApiUser(user.id());
+    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
+    prefs.emailStrategy = EmailStrategy.ATTENTION_SET_ONLY;
+    gApi.accounts().self().setPreferences(prefs);
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Add user to attention set. They receive an email since they are in the attention set.
+    change(r).addReviewer(user.id().toString());
+    assertThat(sender.getMessages()).isNotEmpty();
+    sender.clear();
+
+    // Irrelevant reply, User is still in the attention set, thus got another email.
+    change(r).current().review(ReviewInput.approve());
+    assertThat(sender.getMessages()).isNotEmpty();
+    sender.clear();
+
+    // Abandon the change which removes user from attention set; the user doesn't receive an email
+    // since they are not in the attention set.
+    change(r).abandon();
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
+  public void attentionSetWithEmailFilterImpactingOnlyChangeEmails() throws Exception {
+    // Add preference for the user such that they only receive an email on changes that require
+    // their attention.
+    requestScopeOperations.setApiUser(user.id());
+    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
+    prefs.emailStrategy = EmailStrategy.ATTENTION_SET_ONLY;
+    gApi.accounts().self().setPreferences(prefs);
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Ensure emails that don't relate to changes are still sent.
+    gApi.accounts().id(user.id().get()).generateHttpPassword();
+    assertThat(sender.getMessages()).isNotEmpty();
   }
 
   private List<AttentionSetUpdate> getAttentionSetUpdatesForUser(

@@ -1058,6 +1058,12 @@ class GrChangeView extends KeyboardShortcutMixin(
       patchNum: value.patchNum,
       basePatchNum: value.basePatchNum || 'PARENT',
     };
+    if (!isNaN(parseInt(patchRange.patchNum))) {
+      patchRange.patchNum = parseInt(patchRange.patchNum);
+    }
+    if (!isNaN(parseInt(patchRange.basePatchNum))) {
+      patchRange.basePatchNum = parseInt(patchRange.basePatchNum);
+    }
 
     this.$.fileList.collapseAllDiffs();
     this._patchRange = patchRange;

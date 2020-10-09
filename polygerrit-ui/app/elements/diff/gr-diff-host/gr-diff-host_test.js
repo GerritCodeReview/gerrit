@@ -328,8 +328,8 @@ suite('gr-diff-host tests', () => {
       // Multiple cascading microtasks are scheduled.
       setTimeout(() => {
         notifySyntaxProcessed();
-        // Assert after the notification task is processed.
-        Promise.resolve().then(() => {
+        // Multiple cascading microtasks are scheduled.
+        setTimeout(() => {
           assert.isTrue(element.reporting.timeEnd.calledWithExactly(
               'Diff Total Render'));
           assert.isTrue(element.reporting.timeEnd.calledWithExactly(

@@ -52,6 +52,7 @@ import {
   isMagicPath, specialFilePathCompare,
 } from '../../../utils/path-list-util.js';
 import {changeBaseURL, changeIsOpen} from '../../../utils/change-util.js';
+import {Side} from '../../../constants/constants.js';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1218,8 +1219,8 @@ class GrDiffView extends KeyboardShortcutMixin(
     if (!this._change) { return; }
     const number = detail.number;
     // for on-comment-anchor-tap side can be PARENT/REVISIONS
-    // for on-line-selected side can be LEFT/RIGHT
-    const leftSide = detail.side === 'LEFT' || detail.side === 'PARENT';
+    // for on-line-selected side can be left/right
+    const leftSide = detail.side === Side.LEFT || detail.side === 'PARENT';
     const url = GerritNav.getUrlForDiffById(this._changeNum,
         this._change.project, this._path, this._patchRange.patchNum,
         this._patchRange.basePatchNum, number, leftSide);

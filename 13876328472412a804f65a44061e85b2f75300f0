@@ -1,0 +1,187 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "44cd9014_93968742",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "All 4 methods need to have the parameters optional.\n\nAlso note that if you don\u0027t make the `change` parameter optional, then checking for `!change` is weird.",
+      "range": {
+        "startLine": 142,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "93970052_ba5fd263",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "How does the API know that you want to change from REVIEWER to CC? It looks like you are sending `state:CC`, if the account is already CC?",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c62b9a6a_c8bc3ad6",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "You can drop the `!`. It is already checked above. Also in next line.",
+      "range": {
+        "startLine": 195,
+        "startChar": 19,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "226b6713_c57e1c41",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "Are you sure that the revisions are set, also when using the hovercard in the dashboard?",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41b09c21_62b0a5c0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "Should be a different message than below.",
+      "range": {
+        "startLine": 201,
+        "startChar": 53,
+        "endLine": 201,
+        "endChar": 66
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "82a8b1a3_a494eafc",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "I think CCs do not have to have an account_id. They can be referenced by just email.",
+      "range": {
+        "startLine": 208,
+        "startChar": 39,
+        "endLine": 208,
+        "endChar": 50
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5497fe3_70f4c6b0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "Does this catch clause improve the error handling workflow? In what way?",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "66392d79_bbc6c970",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "Maybe rename to `isRemovableReviewer`.\n\n`can...` sounds like a permission check.",
+      "range": {
+        "startLine": 184,
+        "startChar": 16,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a4fe6e65_c9b4f5e2",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "I would remove the `mutable` parameter out of the utility. It does not have a meaning without further context. The utility should just be based on `change` and `reviewer`.",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

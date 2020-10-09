@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c22e7d66_e7ffc7c7",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "It is not a Polymer compute method? I have not looked it up, but I thought methods being used in the HTML template behave identically to compute methods, i.e. as soon as one of `account` or `change` becomes defined, this method will be called. Can you double check?",
+      "parentUuid": "f77088f4_e3fa8db0",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "8a5cb27b_3d4a2f03",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
         "patchSetId": 10
@@ -225,6 +243,30 @@
       "side": 1,
       "message": "Done. I guess this implies 2 errors for each check.",
       "parentUuid": "2f11eb41_098e24e5",
+      "range": {
+        "startLine": 190,
+        "startChar": 52,
+        "endLine": 190,
+        "endChar": 58
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "87be569d_84d379be",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "Each guard statement can fit on one line.",
+      "parentUuid": "0fb99ecc_78587439",
       "range": {
         "startLine": 190,
         "startChar": 52,
@@ -582,6 +624,24 @@
       "side": 1,
       "message": "The class is used for the tests which is why I thought they were added in the first place.\nShould they be replaced with id instead?",
       "parentUuid": "29bd33fe_11a02bcf",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8ca13ecf_ae3b01b2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T14:20:05Z",
+      "side": 1,
+      "message": "Ok, got it.",
+      "parentUuid": "7a68763f_65fa1752",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

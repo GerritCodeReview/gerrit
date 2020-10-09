@@ -19,6 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import {getComputedStyleValue} from '../../../utils/dom-util.js';
 import './gr-settings-view.js';
 import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
+import {GerritView} from '../../core/gr-navigation/gr-navigation.js';
 
 const basicFixture = fixtureFromElement('gr-settings-view');
 const blankFixture = fixtureFromElement('div');
@@ -95,7 +96,7 @@ suite('gr-settings-view tests', () => {
     element = basicFixture.instantiate();
 
     // Allow the element to render.
-    element._loadingPromise.then(done);
+    element._testOnly_loadingPromise.then(done);
   });
 
   test('theme changing', () => {
@@ -485,7 +486,7 @@ suite('gr-settings-view tests', () => {
           .callsFake(
               () => new Promise(
                   resolve => { resolveConfirm = resolve; }));
-      element.params = {emailToken: 'foo'};
+      element.params = {view: GerritView.SETTINGS, emailToken: 'foo'};
       element.attached();
     });
 
@@ -499,7 +500,7 @@ suite('gr-settings-view tests', () => {
     });
 
     test('user emails are loaded after email confirmed', done => {
-      element._loadingPromise.then(() => {
+      element._testOnly_loadingPromise.then(() => {
         assert.isTrue(element.$.emailEditor.loadData.calledOnce);
         done();
       });
@@ -508,7 +509,7 @@ suite('gr-settings-view tests', () => {
 
     test('show-alert is fired when email is confirmed', done => {
       sinon.spy(element, 'dispatchEvent');
-      element._loadingPromise.then(() => {
+      element._testOnly_loadingPromise.then(() => {
         assert.equal(
             element.dispatchEvent.lastCall.args[0].type, 'show-alert');
         assert.deepEqual(

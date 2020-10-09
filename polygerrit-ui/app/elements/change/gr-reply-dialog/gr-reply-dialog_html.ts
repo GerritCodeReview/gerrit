@@ -376,16 +376,16 @@ export const htmlTemplate = html`
           <div>
             <template
               is="dom-if"
-              if="[[_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+              if="[[_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
             >
               <span
                 >[[_computeDoNotUpdateMessage(_currentAttentionSet,
-                _newAttentionSet)]]</span
+                _newAttentionSet, _sendDisabled)]]</span
               >
             </template>
             <template
               is="dom-if"
-              if="[[!_isNewAttentionEmpty(serverConfig, _currentAttentionSet, _newAttentionSet)]]"
+              if="[[!_computeShowNoAttentionUpdate(serverConfig, _currentAttentionSet, _newAttentionSet, _sendDisabled)]]"
             >
               <span>Bring to attention of</span>
               <template
@@ -406,12 +406,13 @@ export const htmlTemplate = html`
             <gr-button
               class="edit-attention-button"
               on-click="_handleAttentionModify"
+              disabled="[[_sendDisabled]]"
               link=""
               position-below=""
               data-label="Edit"
               data-action-type="change"
               data-action-key="edit"
-              title="Edit attention set changes"
+              title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
               role="button"
               tabindex="0"
             >

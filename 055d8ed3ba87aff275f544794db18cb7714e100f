@@ -16,6 +16,24 @@
       "message": "Why not keep these?",
       "revId": "055d8ed3ba87aff275f544794db18cb7714e100f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e9cf651c_81fbabb4",
+        "filename": "polygerrit-ui/app/elements/admin/gr-admin-view/gr-admin-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 183,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-09T14:08:51Z",
+      "side": 0,
+      "message": "Typescript can\u0027t compile isGroupView \u0026\u0026 !params.detail - the compiler doesn\u0027t infer the correct type for params and reports error about non-existing detail property.\nThis method can be refactored, but I would prefer to do it later.",
+      "parentUuid": "8b9a58d4_4efe8ebb",
+      "revId": "055d8ed3ba87aff275f544794db18cb7714e100f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

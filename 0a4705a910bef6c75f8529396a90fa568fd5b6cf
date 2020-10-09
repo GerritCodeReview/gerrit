@@ -70,6 +70,30 @@
       },
       "revId": "0a4705a910bef6c75f8529396a90fa568fd5b6cf",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e18ec16_e0569bb6",
+        "filename": "polygerrit-ui/app/elements/change/gr-reply-dialog/gr-reply-dialog.ts",
+        "patchSetId": 6
+      },
+      "lineNbr": 1404,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T08:39:58Z",
+      "side": 1,
+      "message": "Follow up in https://gerrit-review.googlesource.com/c/gerrit/+/284119",
+      "parentUuid": "225c3f69_af3baa3c",
+      "range": {
+        "startLine": 1404,
+        "startChar": 14,
+        "endLine": 1404,
+        "endChar": 52
+      },
+      "revId": "0a4705a910bef6c75f8529396a90fa568fd5b6cf",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

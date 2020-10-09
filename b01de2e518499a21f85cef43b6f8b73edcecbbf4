@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cc55729_e31e399d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-10-09T08:50:34Z",
+      "side": 1,
+      "message": "PTAL.",
+      "revId": "b01de2e518499a21f85cef43b6f8b73edcecbbf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "312efdbc_8df92866",
@@ -14,6 +31,24 @@
       "writtenOn": "2020-10-09T06:13:59Z",
       "side": 1,
       "message": "Lint wants just one empty line here.\n\nYou can use \u0027npm run estlintfix\u0027 to fix this automatically.",
+      "revId": "b01de2e518499a21f85cef43b6f8b73edcecbbf4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "bdecfe16_0ce7df7d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-cursor/gr-diff-cursor.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 50,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-10-09T08:50:34Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "312efdbc_8df92866",
       "revId": "b01de2e518499a21f85cef43b6f8b73edcecbbf4",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

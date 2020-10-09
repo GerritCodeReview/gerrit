@@ -766,4 +766,15 @@ export interface RestApiService {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<ActionNameToActionInfoMap | undefined>;
+
+  confirmEmail(token: string): Promise<string | null>;
+
+  getDefaultPreferences(): Promise<PreferencesInfo | undefined>;
+
+  addAccountEmail(email: string): Promise<Response>;
+
+  addAccountEmail(
+    email: string,
+    errFn?: ErrorCallback
+  ): Promise<Response | undefined>;
 }

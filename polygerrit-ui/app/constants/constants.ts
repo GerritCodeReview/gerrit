@@ -296,6 +296,16 @@ export enum EmailStrategy {
 }
 
 /**
+ * The type of email format to use.
+ * Doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo.
+ */
+
+export enum EmailFormat {
+  PLAINTEXT = 'PLAINTEXT',
+  HTML_PLAINTEXT = 'HTML_PLAINTEXT',
+}
+
+/**
  * The base which should be pre-selected in the 'Diff Against' drop-down list when the change screen is opened for a merge commit
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
  */

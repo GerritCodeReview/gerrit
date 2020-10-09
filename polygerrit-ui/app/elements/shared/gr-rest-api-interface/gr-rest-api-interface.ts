@@ -1200,11 +1200,11 @@ export class GrRestApiInterface
       );
   }
 
-  getDefaultPreferences() {
+  getDefaultPreferences(): Promise<PreferencesInfo | undefined> {
     return this._fetchSharedCacheURL({
       url: '/config/server/preferences',
       reportUrlAsIs: true,
-    });
+    }) as Promise<PreferencesInfo | undefined>;
   }
 
   getPreferences(): Promise<PreferencesInfo | undefined> {
@@ -3180,7 +3180,7 @@ export class GrRestApiInterface
     });
   }
 
-  confirmEmail(token: string) {
+  confirmEmail(token: string): Promise<string | null> {
     const req = {
       method: HttpMethod.PUT,
       url: '/config/server/email.confirm',

@@ -29,13 +29,10 @@ let getDocsBaseUrlCachedPromise: Promise<string | null> | undefined;
 /**
  * Get the docs base URL from either the server config or by probing.
  *
- * @param config The server config.
- * @param restApi A REST API instance
- * @return A promise that resolves with the docs base
- *     URL.
+ * @return A promise that resolves with the docs base URL.
  */
 export function getDocsBaseUrl(
-  config: ServerInfo,
+  config: ServerInfo | undefined,
   restApi: RestApiService
 ): Promise<string | null> {
   if (!getDocsBaseUrlCachedPromise) {

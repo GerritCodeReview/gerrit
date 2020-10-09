@@ -42,6 +42,7 @@ import {
   DiffViewMode,
   DraftsAction,
   NotifyType,
+  EmailFormat,
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
@@ -1036,13 +1037,22 @@ export interface ServerInfo {
   download: DownloadInfo;
   gerrit: GerritInfo;
   index: IndexConfigInfo;
-  note_db_enabled: boolean;
+  note_db_enabled?: boolean;
   plugin: PluginConfigInfo;
   receive?: ReceiveInfo;
+  sshd?: SshdInfo;
   suggest: SuggestInfo;
   user: UserConfigInfo;
   default_theme?: string;
 }
+
+/**
+ * The SshdInfo entity contains information about Gerrit configuration from the sshd section.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#sshd-info
+ * This entity doesn’t contain any data, but the presence of this (empty) entity
+ * in the ServerInfo entity means that SSHD is enabled on the server.
+ */
+export type SshdInfo = {};
 
 /**
  * The SuggestInfo entity contains information about Gerritconfiguration from
@@ -1737,25 +1747,11 @@ export interface EditPreferencesInfo {
 /**
  * The PreferencesInput entity contains information for setting the user preferences. Fields which are not set will not be updated
  * https://gerrit-review.googlesource.com/Documentation/rest-api-accounts.html#preferences-input
+ *
+ * Note: the doc missed several properties. Java code uses the same class (GeneralPreferencesInfo)
+ * both for input data and for response data.
  */
-export interface PreferencesInput {
-  changes_per_page?: 10 | 25 | 50 | 100;
-  theme?: AppTheme;
-  expand_inline_diffs?: boolean;
-  download_scheme?: string;
-  date_format?: DateFormat;
-  time_format?: TimeFormat;
-  relative_date_in_change_table?: boolean;
-  diff_view?: DiffViewMode;
-  size_bar_in_change_table?: boolean;
-  legacycid_in_change_table?: boolean;
-  mute_common_path_prefixes?: boolean;
-  signed_off_by?: boolean;
-  my?: TopMenuItemInfo[];
-  change_table?: string[];
-  email_strategy?: EmailStrategy;
-  default_base_for_merges?: DefaultBase;
-}
+export type PreferencesInput = Partial<PreferencesInfo>;
 
 /**
  * The DiffPreferencesInput entity contains information for setting the diff preferences of a user. Fields which are not set will not be updated
@@ -1852,6 +1848,8 @@ export interface PreferencesInfo {
   default_base_for_merges: DefaultBase;
   publish_comments_on_push?: boolean;
   work_in_progress_by_default?: boolean;
+  // The email_format doesn't mentioned in doc, but exists in Java class GeneralPreferencesInfo
+  email_format?: EmailFormat;
   // The following property doesn't exist in RestAPI, it is added by GrRestApiInterface
   default_diff_view?: DiffViewMode;
 }

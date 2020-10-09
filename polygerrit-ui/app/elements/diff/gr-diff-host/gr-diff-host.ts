@@ -373,30 +373,29 @@ export class GrDiffHost extends GestureEventListeners(
         };
         this.addEventListener('render', callback);
       });
-      const needsSyntaxHighlighting =
-        event.detail && event.detail.contentRendered;
-      let result: Promise<unknown> = Promise.resolve();
-      if (needsSyntaxHighlighting) {
-        this.reporting.time(TimingLabel.SYNTAX);
-        result = this.$.syntaxLayer.process().finally(() => {
-          this.reporting.timeEnd(TimingLabel.SYNTAX);
-        });
-      }
-      result.finally(() => {
-        this.reporting.timeEnd(TimingLabel.TOTAL);
-      });
       if (shouldReportMetric) {
         // We report diffViewContentDisplayed only on reload caused
         // by params changed - expected only on Diff Page.
         this.reporting.diffViewContentDisplayed();
       }
-      await result;
+      const needsSyntaxHighlighting =
+        event.detail && event.detail.contentRendered;
+      if (needsSyntaxHighlighting) {
+        this.reporting.time(TimingLabel.SYNTAX);
+        try {
+          await this.$.syntaxLayer.process();
+        } finally {
+          this.reporting.timeEnd(TimingLabel.SYNTAX);
+        }
+      }
     } catch (e) {
       if (e instanceof Response) {
         this._handleGetDiffError(e);
       } else {
         console.warn('Error encountered loading diff:', e);
       }
+    } finally {
+      this.reporting.timeEnd(TimingLabel.TOTAL);
     }
     this._loading = false;
   }

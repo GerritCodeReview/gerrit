@@ -33,9 +33,11 @@ import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.api.changes.NotifyHandling;
 import com.google.gerrit.extensions.api.changes.RecipientType;
+import com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.mail.MailHeader;
 import com.google.gerrit.server.StarredChangesUtil;
+import com.google.gerrit.server.account.AccountState;
 import com.google.gerrit.server.mail.send.ProjectWatch.Watchers;
 import com.google.gerrit.server.notedb.ReviewerStateInternal;
 import com.google.gerrit.server.patch.PatchList;
@@ -56,6 +58,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.stream.Collectors;
@@ -75,6 +78,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     return ea.changeDataFactory.create(project, id);
   }
 
+  private final Set<Account.Id> currentAttentionSet;
   protected final Change change;
   protected final ChangeData changeData;
   protected ListMultimap<Account.Id, String> stars;
@@ -92,6 +96,7 @@ public abstract class ChangeEmail extends NotificationEmail {
     this.changeData = changeData;
     this.change = changeData.change();
     this.emailOnlyAuthors = false;
+    this.currentAttentionSet = getAttentionSet();
   }
 
   @Override
@@ -387,9 +392,19 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected void add(RecipientType rt, Account.Id to) {
-    if (!emailOnlyAuthors || authors.contains(to)) {
-      super.add(rt, to);
+    Optional<AccountState> accountState = args.accountCache.get(to);
+    if (!accountState.isPresent()) {
+      return;
     }
+    if (accountState.get().generalPreferences().getEmailStrategy()
+            == EmailStrategy.ATTENTION_SET_ONLY
+        && !currentAttentionSet.contains(to)) {
+      return;
+    }
+    if (emailOnlyAuthors && !authors.contains(to)) {
+      return;
+    }
+    super.add(rt, to);
   }
 
   @Override
@@ -487,8 +502,8 @@ public abstract class ChangeEmail extends NotificationEmail {
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
       footers.add(MailHeader.CC.withDelimiter() + reviewer);
     }
-    for (String attentionUser : getAttentionSet()) {
-      footers.add(MailHeader.ATTENTION.withDelimiter() + attentionUser);
+    for (Account.Id attentionUser : currentAttentionSet) {
+      footers.add(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
     }
   }
 
@@ -515,12 +530,12 @@ public abstract class ChangeEmail extends NotificationEmail {
     return reviewers;
   }
 
-  private Set<String> getAttentionSet() {
-    Set<String> attentionSet = new TreeSet<>();
+  private Set<Account.Id> getAttentionSet() {
+    Set<Account.Id> attentionSet = new TreeSet<>();
     try {
       attentionSet =
           additionsOnly(changeData.attentionSet()).stream()
-              .map(a -> getNameEmailFor(a.account()))
+              .map(a -> a.account())
               .collect(Collectors.toSet());
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change attention set");

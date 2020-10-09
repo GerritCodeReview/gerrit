@@ -170,8 +170,8 @@ export interface QuickLabelInfo extends LabelCommonInfo {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#_fields_set_by_code_detailed_labels_code
  */
 export interface DetailedLabelInfo extends LabelCommonInfo {
-  // Docs claim that 'all' is optional, but it is actually always set.
-  all: ApprovalInfo[];
+  // This is not set when the change has no reviewers.
+  all?: ApprovalInfo[];
   // Docs claim that 'values' is optional, but it is actually always set.
   values: LabelValueToDescriptionMap; // A map of all values that are allowed for this label
   default_value?: number;

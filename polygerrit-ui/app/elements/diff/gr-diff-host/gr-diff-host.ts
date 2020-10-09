@@ -335,15 +335,7 @@ export class GrDiffHost extends GestureEventListeners(
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
 
-    const layers: DiffLayer[] = [this.$.syntaxLayer];
-    // Get layers from plugins (if any).
-    for (const pluginLayer of this.$.jsAPI.getDiffLayers(
-      this.path,
-      this.changeNum
-    )) {
-      layers.push(pluginLayer);
-    }
-    this._layers = layers;
+    this._layers = this._getLayers(this.path, this.changeNum);
 
     if (shouldReportMetric) {
       // We listen on render viewport only on DiffPage (on paramsChanged)
@@ -397,6 +389,11 @@ export class GrDiffHost extends GestureEventListeners(
       this.reporting.timeEnd(TimingLabel.TOTAL);
     }
     this._loading = false;
+  }
+
+  private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {
+    // Get layers from plugins (if any).
+    return [this.$.syntaxLayer, ...this.$.jsAPI.getDiffLayers(path, changeNum)];
   }
 
   clear() {

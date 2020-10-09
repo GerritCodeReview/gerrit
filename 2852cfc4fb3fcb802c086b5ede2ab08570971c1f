@@ -26,6 +26,30 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "44f852d4_6ba1567a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T10:20:03Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "260ee870_49668a16",
+      "range": {
+        "startLine": 9,
+        "startChar": 4,
+        "endLine": 9,
+        "endChar": 7
+      },
+      "revId": "2852cfc4fb3fcb802c086b5ede2ab08570971c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "04559e45_d6cb3e38",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -55,6 +79,24 @@
       "side": 1,
       "message": "*",
       "parentUuid": "04559e45_d6cb3e38",
+      "revId": "2852cfc4fb3fcb802c086b5ede2ab08570971c1f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c249ec5c_1186c28b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-09T10:20:03Z",
+      "side": 1,
+      "message": "We have discussed this extensively in the \"Gerrit Attention Set\" chat room with Marian, Delphine and Gal. Sorry, I should probably have added you to the chat room, as well. :-/\n\nTBH, if you just want to remove someone from the attention set, then should maybe just click the attention icon? Or use the hovercard. I think having a tooltip on the button should be enough. I don\u0027t like a message instead of a tooltip, because then it will be very prominent again and again, while it is only interesting to read once. We also have a long documentation page about the attention set feature, which users can read, if they are confused.",
+      "parentUuid": "113eab83_dc39daf4",
       "revId": "2852cfc4fb3fcb802c086b5ede2ab08570971c1f",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

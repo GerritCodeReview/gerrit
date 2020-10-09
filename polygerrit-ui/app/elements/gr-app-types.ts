@@ -87,6 +87,12 @@ export interface AppElementAgreementParam {
 }
 
 export interface AppElementJustRegisteredParams {
+  // We use params.view === ... as a type guard.
+  // The view?: never tells to the compiler that
+  // AppElementJustRegisteredParams can't have view property.
+  // Otherwise, the compiler reports an error when the code tries to use
+  // the property 'view' of AppElementParams.
+  view?: never;
   justRegistered: true;
 }
 

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "003ac379_1b04a239",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-10-09T15:59:34Z",
+      "side": 1,
+      "message": "Ben, after starring at this method for far too long I decided to try my luck and simplify it using async...await. I took tiny steps to reduce the risk of breakage as much as possible, but I\u0027d ask you to take a very close look at each step. I tested a bit locally (and hope for unit tests) and it seems to work, but I think it\u0027s pretty easy to mess up. Hopefully the end result is much more readable. Sending the full series to you so that you have the context. Feel free to add anyone else.",
+      "revId": "e19c5593c5590e542dc12c7d5a8cecc9e194b304",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

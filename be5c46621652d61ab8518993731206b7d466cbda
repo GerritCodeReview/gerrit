@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "bc09f9c8_92b3450f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1083880
+      },
+      "writtenOn": "2020-10-09T08:33:28Z",
+      "side": 1,
+      "message": "However, one problem I currently see with the separate component is that part of the new style controls needs knowledge of the surrounding table, like column count and the styles that need to be applied to the columns to make it look like the line gutter continues behind the buttons up to the dividing gap in the table. So either those details bleed into the shared component as parameters, or the unified and side-by-side diff builders continue to build these background rows themselves as they do now.\n\nAlso regarding the amount of DOM creation by Javascript, I am not sure if we will be able to significantly reduce that in favour of templates while keeping those readable, since there is very little content not living behind an if statement; above and below buttons are shown conditionally, as would be \"+Block\" buttons should we introduce those. I find reading through a mostly linear flow of button creation in Javascript clearer than switching back and forth between a template full of conditionals and the associated component properties to find out what is being shown when and which class. WDYT?",
+      "parentUuid": "ce600be5_01c1c5fd",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecddca51_474c2cd4",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 9

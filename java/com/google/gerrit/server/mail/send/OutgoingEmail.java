@@ -14,10 +14,12 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.ATTENTION_SET_ONLY;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.CC_ON_OWN_COMMENTS;
 import static com.google.gerrit.extensions.client.GeneralPreferencesInfo.EmailStrategy.DISABLED;
 import static java.util.Objects.requireNonNull;
 
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
@@ -68,6 +70,7 @@ public abstract class OutgoingEmail {
   private StringBuilder textBody;
   private StringBuilder htmlBody;
   private MessageIdGenerator.MessageId messageId;
+  private Set<Account.Id> currentAttentionSet;
   protected Map<String, Object> soyContext;
   protected Map<String, Object> soyContextEmailData;
   protected List<String> footers;
@@ -91,6 +94,10 @@ public abstract class OutgoingEmail {
 
   public void setMessageId(MessageIdGenerator.MessageId messageId) {
     this.messageId = messageId;
+  }
+
+  public void setCurrentAttentionSet(Set<Account.Id> attentionSet) {
+    currentAttentionSet = ImmutableSet.copyOf(attentionSet);
   }
 
   /**
@@ -164,6 +171,14 @@ public abstract class OutgoingEmail {
           if (prefs == null || prefs.getEmailStrategy() == DISABLED) {
             logger.atFine().log(
                 "Not emailing account %s because user has set email strategy to %s", id, DISABLED);
+            removeUser(thisUserAccount);
+          } else if (this instanceof ChangeEmail
+              && prefs.getEmailStrategy() == ATTENTION_SET_ONLY
+              && !currentAttentionSet.contains(id)) {
+            logger.atFine().log(
+                "Not emailing account %s because user has set email strategy to %s, this is a "
+                    + "change email, and the user is not part of the attention set",
+                id, ATTENTION_SET_ONLY);
             removeUser(thisUserAccount);
           } else if (useHtml() && prefs.getEmailFormat() == EmailFormat.PLAINTEXT) {
             logger.atFine().log(

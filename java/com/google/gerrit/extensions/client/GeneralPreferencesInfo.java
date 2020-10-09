@@ -75,7 +75,8 @@ public class GeneralPreferencesInfo {
   public enum EmailStrategy {
     ENABLED,
     CC_ON_OWN_COMMENTS,
-    DISABLED
+    DISABLED,
+    ATTENTION_SET_ONLY
   }
 
   public enum EmailFormat {

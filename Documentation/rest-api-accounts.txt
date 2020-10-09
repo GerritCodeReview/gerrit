@@ -2807,9 +2807,11 @@ empty, which will default columns as determined by the frontend.
 |`email_strategy`               ||
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
-their own comments. On `DISABLED` the user will not receive any email
-notifications from Gerrit.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
+their own comments. On `ATTENTION_SET_ONLY`, on emails about changes, the user
+will receive emails only if they are in the attention set of that change.
+On `DISABLED` the user will not receive any email notifications from Gerrit.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `ATTENTION_SET_ONLY`,
+`DISABLED`.
 |`default_base_for_merges`      ||
 The base which should be pre-selected in the 'Diff Against' drop-down
 list when the change screen is opened for a merge commit.
@@ -2870,9 +2872,11 @@ empty, which will default columns as determined by the frontend.
 |`email_strategy`               |optional|
 The type of email strategy to use. On `ENABLED`, the user will receive emails
 from Gerrit. On `CC_ON_OWN_COMMENTS` the user will also receive emails for
-their own comments. On `DISABLED` the user will not receive any email
-notifications from Gerrit.
-Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `DISABLED`.
+their own comments. On `ATTENTION_SET_ONLY`, on emails about changes, the user
+will receive emails only if they are in the attention set of that change.
+On `DISABLED` the user will not receive any email notifications from Gerrit.
+Allowed values are `ENABLED`, `CC_ON_OWN_COMMENTS`, `ATTENTION_SET_ONLY`,
+`DISABLED`.
 |`default_base_for_merges`      |optional|
 The base which should be pre-selected in the 'Diff Against' drop-down
 list when the change screen is opened for a merge commit.

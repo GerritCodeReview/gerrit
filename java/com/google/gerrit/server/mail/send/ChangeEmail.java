@@ -487,9 +487,12 @@ public abstract class ChangeEmail extends NotificationEmail {
     for (String reviewer : getEmailsByState(ReviewerStateInternal.CC)) {
       footers.add(MailHeader.CC.withDelimiter() + reviewer);
     }
-    for (String attentionUser : getAttentionSet()) {
-      footers.add(MailHeader.ATTENTION.withDelimiter() + attentionUser);
+    Set<Account.Id> attentionSet = new HashSet<>();
+    for (Account.Id attentionUser : getAttentionSet()) {
+      attentionSet.add(attentionUser);
+      footers.add(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
     }
+    setCurrentAttentionSet(attentionSet);
   }
 
   /**
@@ -515,12 +518,12 @@ public abstract class ChangeEmail extends NotificationEmail {
     return reviewers;
   }
 
-  private Set<String> getAttentionSet() {
-    Set<String> attentionSet = new TreeSet<>();
+  private Set<Account.Id> getAttentionSet() {
+    Set<Account.Id> attentionSet = new TreeSet<>();
     try {
       attentionSet =
           additionsOnly(changeData.attentionSet()).stream()
-              .map(a -> getNameEmailFor(a.account()))
+              .map(a -> a.account())
               .collect(Collectors.toSet());
     } catch (StorageException e) {
       logger.atWarning().withCause(e).log("Cannot get change attention set");

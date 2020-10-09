@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fa96048a_2661d809",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "18331308_a2281492",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "aa9160fe_aab1e877",
@@ -37,6 +55,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "75d34148_ec133109",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Letting Delphine decide this one.\nI personally don\u0027t want the hovercard to take up too much height.",
+      "parentUuid": "aa9160fe_aab1e877",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78a5bd77_79e42407",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
         "patchSetId": 10
@@ -48,6 +84,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "compute methods with more than one parameter require all parameter to be optional",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f77088f4_e3fa8db0",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "It\u0027s not a polymer compute method. Updated the name to be _showReviewerOrCCActions",
+      "parentUuid": "78a5bd77_79e42407",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +129,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "feafcb77_65f6a56f",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8a5cb27b_3d4a2f03",
+      "range": {
+        "startLine": 159,
+        "startChar": 29,
+        "endLine": 159,
+        "endChar": 58
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5e712498_3e0a0bb2",
@@ -88,6 +166,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "Maybe rename to `_getReviewerState`? Or make it a boolean method and call it `_isReviewer`?",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18dd6e99_30b4cbbf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 162,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Renamed to _getReviewerState",
+      "parentUuid": "5e712498_3e0a0bb2",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -115,6 +211,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0fb99ecc_78587439",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done. I guess this implies 2 errors for each check.",
+      "parentUuid": "2f11eb41_098e24e5",
+      "range": {
+        "startLine": 190,
+        "startChar": 52,
+        "endLine": 190,
+        "endChar": 58
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "24244944_a82e79b4",
@@ -128,6 +248,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "When building new instances of something you may want to use Partial\u003cReviewInput\u003e. Then you don\u0027t have to mark properties optional, just because you don\u0027t have the value right from the beginning.",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "830d1b14_e334f028",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "I updated drafts to be optional because it is actually not required in the ReviewInput at all, so it was incorrectly marked as optional in our type.\n\nI1bd7700f9f66d1b2e19227afebfd1adc3d4b44e0 was submitted marking it as optional.\n\nAlso updated to use Partial\u003cReviewInput\u003e",
+      "parentUuid": "24244944_a82e79b4",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +293,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "294a601b_d38dbf1a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 200,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0caee076_092bb684",
+      "range": {
+        "startLine": 200,
+        "startChar": 18,
+        "endLine": 200,
+        "endChar": 30
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5aaf51b7_56eef002",
@@ -168,6 +330,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "I have just checked what the reply dialog does on playground when moving someone from reviewer to cc. And it looks like just the saveChangeReview call should be sufficient. Can you double check whether two API calls are required to accomplish this?",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b4bc080a_738ff828",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 203,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Yeah only one API call is sufficient. Nice catch!",
+      "parentUuid": "5aaf51b7_56eef002",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +369,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d2fa6ab4_57e2d52d",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 205,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "615914b9_6c792a3b",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "9a6843a7_8a66eb53",
@@ -202,6 +400,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "If you force a reload at the end, then you should notify the user at least with a toast, even better with an overlay, because it is annoying if nothing happens for 3 seconds and then suddenly the page reloads.",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88d62376_9f4d9be2",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 224,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9a6843a7_8a66eb53",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -225,6 +441,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fd59cfd8_a28b33f1",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 231,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Did you mean throw an error in this function when the API fails?\nIf so, updated.",
+      "parentUuid": "d336d9ae_44d2d7f0",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d6c67461_c448c1e5",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
         "patchSetId": 10
@@ -236,6 +470,30 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "Why does this return something?",
+      "range": {
+        "startLine": 232,
+        "startChar": 4,
+        "endLine": 232,
+        "endChar": 10
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7435487_0a419c8a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 232,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Removed.",
+      "parentUuid": "d6c67461_c448c1e5",
       "range": {
         "startLine": 232,
         "startChar": 4,
@@ -269,6 +527,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e8b662a0_ae8ce4f9",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 177,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e76c56f_389b8919",
+      "range": {
+        "startLine": 177,
+        "startChar": 14,
+        "endLine": 177,
+        "endChar": 44
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "29bd33fe_11a02bcf",
@@ -282,6 +564,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "Maybe remove the class? Also below. Also for `removeFromAttentionSet` that was added by brohlfs. :-)",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7a68763f_65fa1752",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_html.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 181,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "The class is used for the tests which is why I thought they were added in the first place.\nShould they be replaced with id instead?",
+      "parentUuid": "29bd33fe_11a02bcf",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -303,6 +603,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "b9b33af2_fb6335fe",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account_test.js",
+        "patchSetId": 10
+      },
+      "lineNbr": 116,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "07cc26d3_171558e2",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "17de4365_a25c28bc",
@@ -316,6 +634,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "please revert",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72cd9dc7_7f14ea13",
+        "filename": "polygerrit-ui/app/types/common.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1828,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "17de4365_a25c28bc",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -360,6 +696,48 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "77742f85_4b106b34",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "70b00b0c_36a3054b",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2f73b88a_7182679b",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca36ceb3_70e84d07",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 34
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "04653f32_2b0107c6",
@@ -377,6 +755,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e9bbd94_ddafe370",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 51,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "04653f32_2b0107c6",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "365bea96_bc976828",
@@ -390,6 +786,24 @@
       "writtenOn": "2020-10-05T16:25:13Z",
       "side": 1,
       "message": "Opt nit (because you just copied the code): Using `return change.removable_reviewers.some(account \u003d\u003e ...)` would look much nicer.",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d6a9d762_3a8b4eea",
+        "filename": "polygerrit-ui/app/utils/account-util.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 64,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-09T12:01:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "365bea96_bc976828",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

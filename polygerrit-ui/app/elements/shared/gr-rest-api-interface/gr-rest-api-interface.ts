@@ -2424,7 +2424,10 @@ export class GrRestApiInterface
     });
   }
 
-  saveChangeStarred(changeNum: NumericChangeId, starred: boolean) {
+  saveChangeStarred(
+    changeNum: NumericChangeId,
+    starred: boolean
+  ): Promise<Response> {
     // Some servers may require the project name to be provided
     // alongside the change number, so resolve the project name
     // first.

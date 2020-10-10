@@ -43,7 +43,7 @@ public class StartAwarePositionBuilder<T> {
               TestRange.Position.builder().line(endLine).charOffset(endCharOffset).build();
           TestRange range = testRangeBuilder.setEnd(end).build();
           rangeConsumer.accept(range);
-          return new FileBuilder<T>(fileFunction);
+          return new FileBuilder<>(fileFunction);
         });
   }
 }

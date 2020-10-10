@@ -777,4 +777,14 @@ export interface RestApiService {
     email: string,
     errFn?: ErrorCallback
   ): Promise<Response | undefined>;
+
+  saveChangeReviewed(
+    changeNum: NumericChangeId,
+    reviewed: boolean
+  ): Promise<Response | undefined>;
+
+  saveChangeStarred(
+    changeNum: NumericChangeId,
+    starred: boolean
+  ): Promise<Response>;
 }

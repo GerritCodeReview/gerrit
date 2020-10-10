@@ -68,6 +68,11 @@ export enum LabelCategory {
   REJECTED = 'REJECTED',
 }
 
+export interface ChangeListToggleReviewedDetail {
+  change: ChangeInfo;
+  reviewed: boolean;
+}
+
 // How many reviewers should be shown with an account-label?
 const PRIMARY_REVIEWERS_COUNT = 2;
 
@@ -393,13 +398,18 @@ export class GrChangeListItem extends ChangeTableMixin(
   }
 
   toggleReviewed() {
+    if (!this.change) return;
     const newVal = !this.change?.reviewed;
     this.set('change.reviewed', newVal);
+    const detail: ChangeListToggleReviewedDetail = {
+      change: this.change,
+      reviewed: newVal,
+    };
     this.dispatchEvent(
       new CustomEvent('toggle-reviewed', {
         bubbles: true,
         composed: true,
-        detail: {change: this.change, reviewed: newVal},
+        detail,
       })
     );
   }

@@ -30,6 +30,11 @@ declare global {
   }
 }
 
+export interface ChangeStarToggleStarDetail {
+  change: ChangeInfo;
+  starred: boolean;
+}
+
 @customElement('gr-change-star')
 export class GrChangeStar extends KeyboardShortcutMixin(
   GestureEventListeners(LegacyElementMixin(PolymerElement))
@@ -69,11 +74,15 @@ export class GrChangeStar extends KeyboardShortcutMixin(
     }
     const newVal = !this.change.starred;
     this.set('change.starred', newVal);
+    const detail: ChangeStarToggleStarDetail = {
+      change: this.change,
+      starred: newVal,
+    };
     this.dispatchEvent(
       new CustomEvent('toggle-star', {
         bubbles: true,
         composed: true,
-        detail: {change: this.change, starred: newVal},
+        detail,
       })
     );
   }

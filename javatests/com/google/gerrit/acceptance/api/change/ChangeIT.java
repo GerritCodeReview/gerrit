@@ -141,7 +141,6 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
-import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -4313,18 +4312,5 @@ public class ChangeIT extends AbstractDaemonTest {
   @FunctionalInterface
   private interface AddReviewerCaller {
     void call(String changeId, String reviewer) throws RestApiException;
-  }
-
-  private static class TestWorkInProgressStateChangedListener
-      implements WorkInProgressStateChangedListener {
-    boolean invoked;
-    Boolean wip;
-
-    @Override
-    public void onWorkInProgressStateChanged(Event event) {
-      this.invoked = true;
-      this.wip =
-          event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
-    }
   }
 }

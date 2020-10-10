@@ -63,7 +63,8 @@ public class CommentContextLoader {
 
   /**
    * Returns an empty list of {@link ContextLineInfo}. Clients are expected to call this method one
-   * or more times. Each call returns a reference to an empty {@link List<ContextLineInfo>}.
+   * or more times. Each call returns a reference to an empty {@link List
+   * List&lt;ContextLineInfo&gt;}.
    *
    * <p>A single call to {@link #fill()} will cause all list references returned from this method to
    * be populated. If a client calls this method again with a comment that was passed before calling

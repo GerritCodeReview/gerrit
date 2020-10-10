@@ -91,7 +91,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
@@ -120,7 +119,6 @@ import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
-import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -4301,10 +4299,6 @@ public class ChangeIT extends AbstractDaemonTest {
 
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {
     return pushTo("refs/for/master%wip");
-  }
-
-  private BranchApi createBranch(String branch) throws Exception {
-    return createBranch(BranchNameKey.create(project, branch));
   }
 
   private ThrowableSubject assertThatQueryException(String query) throws Exception {

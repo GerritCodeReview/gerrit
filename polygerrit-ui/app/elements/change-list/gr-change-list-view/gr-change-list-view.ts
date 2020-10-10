@@ -15,18 +15,21 @@
  * limitations under the License.
  */
 
-import '../../shared/gr-icons/gr-icons.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-change-list/gr-change-list.js';
-import '../gr-repo-header/gr-repo-header.js';
-import '../gr-user-header/gr-user-header.js';
-import '../../../styles/shared-styles.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-list-view_html.js';
-import {page} from '../../../utils/page-wrapper-utils.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import '../../shared/gr-icons/gr-icons';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-change-list/gr-change-list';
+import '../gr-repo-header/gr-repo-header';
+import '../gr-user-header/gr-user-header';
+import '../../../styles/shared-styles';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-list-view_html';
+import {page} from '../../../utils/page-wrapper-utils';
+import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
+import {customElement, property} from '@polymer/decorators';
+import {AppElementParams, AppElementSearchParam} from '../../gr-app-types';
+import {AccountDetailInfo, ChangeInfo, PreferencesInfo} from '../../../types/common';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
@@ -36,118 +39,78 @@ const LookupQueryPatterns = {
 
 const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 
-const REPO_QUERY_PATTERN =
-    /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
+const REPO_QUERY_PATTERN = /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
 
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
 
-/**
- * @extends PolymerElement
- */
-class GrChangeListView extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface ChangeListViewState {
+  changeNum: null;
+  patchRange: null;
+  selectedFileIndex: number;
+  showReplyDialog: boolean;
+  showDownloadDialog: boolean;
+  diffMode: null;
+  numFilesShown: number;
+  scrollTop: number;
+  query?: string;
+  offset?: number;
+}
 
-  static get is() { return 'gr-change-list-view'; }
+@customElement('gr-change-list-view')
+class GrChangeListView extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the title of the page should change.
    *
    * @event title-change
    */
 
-  static get properties() {
-    return {
-    /**
-     * URL params passed from the router.
-     */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
+  @property({type: Object, observer: '_paramsChanged'})
+  params?: AppElementParams;
 
-      /**
-       * True when user is logged in.
-       */
-      _loggedIn: {
-        type: Boolean,
-        computed: '_computeLoggedIn(account)',
-      },
+  @property({type: Boolean, computed: '_computeLoggedIn(account)'})
+  _loggedIn?: boolean;
 
-      account: {
-        type: Object,
-        value: null,
-      },
+  @property({type: Object})
+  account: AccountDetailInfo | null = null;
 
-      /**
-       * State persisted across restamps of the element.
-       *
-       * Need sub-property declaration since it is used in template before
-       * assignment.
-       *
-       * @type {{ selectedChangeIndex: (number|undefined) }}
-       *
-       */
-      viewState: {
-        type: Object,
-        notify: true,
-        value() { return {}; },
-      },
+  @property({type: Object, notify: true})
+  viewState: ChangeListViewState = {};
 
-      preferences: Object,
+  @property({type: Object})
+  preferences?: PreferencesInfo | {};
 
-      _changesPerPage: Number,
+  @property({type: Number})
+  _changesPerPage?: number;
 
-      /**
-       * Currently active query.
-       */
-      _query: {
-        type: String,
-        value: '',
-      },
+  @property({type: String})
+  _query = '';
 
-      /**
-       * Offset of currently visible query results.
-       */
-      _offset: Number,
+  @property({type: Number})
+  _offset?: number;
 
-      /**
-       * Change objects loaded from the server.
-       */
-      _changes: {
-        type: Array,
-        observer: '_changesChanged',
-      },
+  @property({type: Array, observer: '_changesChanged'})
+  _changes?: ChangeInfo[];
 
-      /**
-       * For showing a "loading..." string during ajax requests.
-       */
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
+  @property({type: Boolean})
+  _loading = true;
 
-      /** @type {?string} */
-      _userId: {
-        type: String,
-        value: null,
-      },
+  @property({type: String})
+  _userId: string | null = null;
 
-      /** @type {?string} */
-      _repo: {
-        type: String,
-        value: null,
-      },
-    };
-  }
+  @property({type: String})
+  _repo: string | null = null;
 
   /** @override */
   created() {
     super.created();
-    this.addEventListener('next-page',
-        () => this._handleNextPage());
-    this.addEventListener('previous-page',
-        () => this._handlePreviousPage());
+    this.addEventListener('next-page', () => this._handleNextPage());
+    this.addEventListener('previous-page', () => this._handlePreviousPage());
   }
 
   /** @override */
@@ -156,14 +119,18 @@ class GrChangeListView extends GestureEventListeners(
     this._loadPreferences();
   }
 
-  _paramsChanged(value) {
-    if (value.view !== GerritNav.View.SEARCH) { return; }
+  _paramsChanged(value: AppElementParams) {
+    if (value.view !== GerritView.SEARCH) {
+      return;
+    }
 
     this._loading = true;
     this._query = value.query;
     this._offset = value.offset || 0;
-    if (this.viewState.query != this._query ||
-        this.viewState.offset != this._offset) {
+    if (
+      this.viewState.query != this._query ||
+      this.viewState.offset != this._offset
+    ) {
       this.set('viewState.selectedChangeIndex', 0);
       this.set('viewState.query', this._query);
       this.set('viewState.offset', this._offset);
@@ -171,32 +138,39 @@ class GrChangeListView extends GestureEventListeners(
 
     // NOTE: This method may be called before attachment. Fire title-change
     // in an async so that attachment to the DOM can take place first.
-    this.async(() => this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title: this._query},
-      composed: true, bubbles: true,
-    })));
+    this.async(() =>
+      this.dispatchEvent(
+        new CustomEvent('title-change', {
+          detail: {title: this._query},
+          composed: true,
+          bubbles: true,
+        })
+      )
+    );
 
     this._getPreferences()
-        .then(prefs => {
-          this._changesPerPage = prefs.changes_per_page;
-          return this._getChanges();
-        })
-        .then(changes => {
-          changes = changes || [];
-          if (this._query && changes.length === 1) {
-            for (const query in LookupQueryPatterns) {
-              if (LookupQueryPatterns.hasOwnProperty(query) &&
-              this._query.match(LookupQueryPatterns[query])) {
-                // "Back"/"Forward" buttons work correctly only with
-                // opt_redirect options
-                GerritNav.navigateToChange(changes[0], null, null, null, true);
-                return;
-              }
+      .then(prefs => {
+        this._changesPerPage = prefs.changes_per_page;
+        return this._getChanges();
+      })
+      .then(changes => {
+        changes = changes || [];
+        if (this._query && changes.length === 1) {
+          for (const query in LookupQueryPatterns) {
+            if (
+              LookupQueryPatterns.hasOwnProperty(query) &&
+              this._query.match(LookupQueryPatterns[query])
+            ) {
+              // "Back"/"Forward" buttons work correctly only with
+              // opt_redirect options
+              GerritNav.navigateToChange(changes[0], null, null, null, true);
+              return;
             }
           }
-          this._changes = changes;
-          this._loading = false;
-        });
+        }
+        this._changes = changes;
+        this._loading = false;
+      });
   }
 
   _loadPreferences() {
@@ -212,8 +186,11 @@ class GrChangeListView extends GestureEventListeners(
   }
 
   _getChanges() {
-    return this.$.restAPI.getChanges(this._changesPerPage, this._query,
-        this._offset);
+    return this.$.restAPI.getChanges(
+      this._changesPerPage,
+      this._query,
+      this._offset
+    );
   }
 
   _getPreferences() {
@@ -232,7 +209,7 @@ class GrChangeListView extends GestureEventListeners(
     // Offset could be a string when passed from the router.
     offset = +(offset || 0);
     const limit = this._limitFor(query, changesPerPage);
-    const newOffset = Math.max(0, offset + (limit * direction));
+    const newOffset = Math.max(0, offset + limit * direction);
     return GerritNav.getUrlForSearchQuery(query, newOffset);
   }
 
@@ -250,15 +227,21 @@ class GrChangeListView extends GestureEventListeners(
   }
 
   _handleNextPage() {
-    if (this.$.nextArrow.hidden) { return; }
-    page.show(this._computeNavLink(
-        this._query, this._offset, 1, this._changesPerPage));
+    if (this.$.nextArrow.hidden) {
+      return;
+    }
+    page.show(
+      this._computeNavLink(this._query, this._offset, 1, this._changesPerPage)
+    );
   }
 
   _handlePreviousPage() {
-    if (this.$.prevArrow.hidden) { return; }
-    page.show(this._computeNavLink(
-        this._query, this._offset, -1, this._changesPerPage));
+    if (this.$.prevArrow.hidden) {
+      return;
+    }
+    page.show(
+      this._computeNavLink(this._query, this._offset, -1, this._changesPerPage)
+    );
   }
 
   _changesChanged(changes) {
@@ -293,14 +276,19 @@ class GrChangeListView extends GestureEventListeners(
   }
 
   _handleToggleStar(e) {
-    this.$.restAPI.saveChangeStarred(e.detail.change._number,
-        e.detail.starred);
+    this.$.restAPI.saveChangeStarred(e.detail.change._number, e.detail.starred);
   }
 
   _handleToggleReviewed(e) {
-    this.$.restAPI.saveChangeReviewed(e.detail.change._number,
-        e.detail.reviewed);
+    this.$.restAPI.saveChangeReviewed(
+      e.detail.change._number,
+      e.detail.reviewed
+    );
   }
 }
 
-customElements.define(GrChangeListView.is, GrChangeListView);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-list-view': GrChangeListView;
+  }
+}

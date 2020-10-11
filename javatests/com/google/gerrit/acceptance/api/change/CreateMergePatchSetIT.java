@@ -504,7 +504,6 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
-    String parent = currentMaster.getCommit().getName();
 
     // push a commit into dev branch
     testRepo.reset(initialHead);
@@ -549,7 +548,6 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
-    String parent = currentMaster.getCommit().getName();
 
     // push a commit into dev branch
     testRepo.reset(initialHead);
@@ -589,7 +587,6 @@ public class CreateMergePatchSetIT extends AbstractDaemonTest {
     testRepo.reset(initialHead);
     PushOneCommit.Result currentMaster = pushTo("refs/heads/master");
     currentMaster.assertOkStatus();
-    String parent = currentMaster.getCommit().getName();
 
     // push a commit into dev branch
     testRepo.reset(initialHead);

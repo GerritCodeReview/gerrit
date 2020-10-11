@@ -182,7 +182,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
 
         ObjectId aId = getAId().orElse(null);
         ObjectId bId = getBId().orElse(null);
-        boolean changeEdit = false;
         if (bId == null) {
           // Change edit: create synthetic PatchSet corresponding to the edit.
           Optional<ChangeEdit> edit = editReader.byChange(notes);
@@ -190,7 +189,6 @@ public class PatchScriptFactory implements Callable<PatchScript> {
             throw new NoSuchChangeException(notes.getChangeId());
           }
           bId = edit.get().getEditCommit();
-          changeEdit = true;
         }
 
         final PatchList list = listFor(keyFor(aId, bId, diffPrefs.ignoreWhitespace));

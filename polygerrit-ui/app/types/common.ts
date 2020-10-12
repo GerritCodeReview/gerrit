@@ -467,6 +467,14 @@ export interface ActionNameToActionInfoMap {
   deleteEdit?: ActionInfo;
   edit?: ActionInfo;
   stopEdit?: ActionInfo;
+  download?: ActionInfo;
+  rebase?: ActionInfo;
+  cherrypick?: ActionInfo;
+  move?: ActionInfo;
+  revert?: ActionInfo;
+  revert_submission?: ActionInfo;
+  abandon?: ActionInfo;
+  submit?: ActionInfo;
 }
 
 /**

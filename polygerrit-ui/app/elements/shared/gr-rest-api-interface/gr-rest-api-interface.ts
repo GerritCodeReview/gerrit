@@ -137,6 +137,7 @@ import {
   ActionNameToActionInfoMap,
   RevisionId,
   GroupName,
+  Hashtag,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -3040,26 +3041,32 @@ export class GrRestApiInterface
     });
   }
 
-  setChangeTopic(changeNum: NumericChangeId, topic: string | null) {
-    return this._getChangeURLAndSend({
+  setChangeTopic(
+    changeNum: NumericChangeId,
+    topic: string | null
+  ): Promise<string> {
+    return (this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
       endpoint: '/topic',
       body: {topic},
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<string>;
   }
 
-  setChangeHashtag(changeNum: NumericChangeId, hashtag: HashtagsInput) {
-    return this._getChangeURLAndSend({
+  setChangeHashtag(
+    changeNum: NumericChangeId,
+    hashtag: HashtagsInput
+  ): Promise<Hashtag[]> {
+    return (this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
       endpoint: '/hashtags',
       body: hashtag,
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<Hashtag[]>;
   }
 
   deleteAccountHttpPassword() {
@@ -3216,17 +3223,21 @@ export class GrRestApiInterface
     });
   }
 
-  setAssignee(changeNum: NumericChangeId, assignee: AssigneeInput) {
+  setAssignee(
+    changeNum: NumericChangeId,
+    assignee: AccountId
+  ): Promise<Response> {
+    const body: AssigneeInput = {assignee};
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
       endpoint: '/assignee',
-      body: {assignee},
+      body,
       reportUrlAsIs: true,
     });
   }
 
-  deleteAssignee(changeNum: NumericChangeId) {
+  deleteAssignee(changeNum: NumericChangeId): Promise<Response> {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,

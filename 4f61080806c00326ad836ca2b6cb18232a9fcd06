@@ -1,6 +1,46 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "9bd51257_d466a01e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "either spell it out completely as \"python\" or leave it out as it\u0027s obvious that this is python code",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b3ce4f79_14e49d46",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "this seems to contradict the sentence before",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "21ea00dd_f6b7b20a",
@@ -14,6 +54,154 @@
       "writtenOn": "2020-10-12T01:26:06Z",
       "side": 1,
       "message": "I\u0027m basing this on stable-3.3 because that\u0027s where I\u0027ve been testing it.",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "159e4081_4f82f558",
+        "filename": "tools/release_noter/Pipfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "3.8.0 since below you require that version ?",
+      "range": {
+        "startLine": 7,
+        "startChar": 61,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b9953543_eb21fdc0",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "This is a long list of exclusion patterns and some of them are pretty generic and short\nwhich risks we filter out commits which should be captured in the release notes.\n\nMaybe it would help to move all filtered commits into a separate section \"filtered\"\ninstead of silently dropping them so that the human editor has a chance to double-check\nwithout having to read the complete git log.",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "703d4201_edf06265",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "this is hard to understand, maybe state instead that this option is experimental and slow ?",
+      "range": {
+        "startLine": 80,
+        "startChar": 51,
+        "endLine": 80,
+        "endChar": 66
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "61baa64c_0e6c7902",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "it seems this requires that the new release or rc is already tagged\nI think it would be more useful to allow any commit-ish to specify boundaries\nto enable creation of release notes before tagging a release or rc,\nin the end release notes should be included in the tagged release, right ?\n\nmaybe instead of explicit options -p and -r specify version range in\nstandard way git log understands by using {}..{} or {}...{} notation, e.g.\n\n pipenv run python release_noter.py v3.2.3..v3.3.0-rc0\n\ninstead of\n\n pipenv run python release_noter.py -p v3.2.3 -r v3.3.0-rc0\n\nthis would also enable e.g.\n\n pipenv run python release_noter.py v3.2.3..HEAD",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7d5a4f8_cd3bce0a",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "maybe use --format\u003draw to simplify parsing the log output ?",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e1c82e9_2738dcc9",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "this long list of if .. elif is hard to read, maybe use a dictionary mapping \nhttps://www.pydanny.com/why-doesnt-python-have-switch-case.html ?",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c3dd49b8_b8661dd7",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "maybe add a link to the corresponding commit in gerrit to aid manual double-checking\n\nhttps://gerrit-review.googlesource.com/Documentation/user-search.html#commit",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5949f7a3_6efc0ded",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T09:18:43Z",
+      "side": 1,
+      "message": "how about jgit which is a submodule but not a plugin ?",
       "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

@@ -1074,6 +1074,30 @@
       },
       "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8de4ff59_0a78d26b",
+        "filename": "javatests/com/google/gerrit/acceptance/api/change/PluginFieldsIT.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 42,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T17:11:16Z",
+      "side": 1,
+      "message": "Removed the NullAttribute tests.",
+      "parentUuid": "3140b87e_2f402632",
+      "range": {
+        "startLine": 42,
+        "startChar": 42,
+        "endLine": 42,
+        "endChar": 55
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

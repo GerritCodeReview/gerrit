@@ -877,6 +877,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "d64f91ea_714be287",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T22:53:42Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "db3c56d5_2e7f7159",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1cb26549_1e8550d6",

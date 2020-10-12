@@ -30,7 +30,7 @@ import com.google.gerrit.server.config.SitePaths;
 import com.google.gerrit.server.index.account.AccountField;
 import com.google.gerrit.server.index.group.GroupField;
 import com.google.gerrit.server.query.change.ChangeData;
-import com.google.gerrit.server.query.change.SingleGroupUser;
+import com.google.gerrit.server.query.change.GroupBackedUser;
 import java.io.IOException;
 import java.util.Set;
 import org.eclipse.jgit.errors.ConfigInvalidException;
@@ -107,7 +107,7 @@ public final class IndexUtils {
     if (user.isIdentifiedUser()) {
       return user.getAccountId().toString();
     }
-    if (user instanceof SingleGroupUser) {
+    if (user instanceof GroupBackedUser) {
       return "group:" + user.getEffectiveGroups().getKnownGroups().iterator().next().toString();
     }
     return user.toString();

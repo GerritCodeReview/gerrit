@@ -33,7 +33,7 @@ import com.google.gerrit.server.account.ProjectWatches.ProjectWatchKey;
 import com.google.gerrit.server.project.ProjectState;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder;
-import com.google.gerrit.server.query.change.SingleGroupUser;
+import com.google.gerrit.server.query.change.GroupBackedUser;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -150,7 +150,7 @@ public class ProjectWatch {
       throws QueryParseException {
     logger.atFine().log("Checking watchers for notify config %s from project %s", nc, projectName);
     for (GroupReference groupRef : nc.getGroups()) {
-      CurrentUser user = new SingleGroupUser(groupRef.getUUID());
+      CurrentUser user = new GroupBackedUser(ImmutableSet.of(groupRef.getUUID()));
       if (filterMatch(user, nc.getFilter())) {
         deliverToMembers(matching.list(nc.getHeader()), groupRef.getUUID());
         logger.atFine().log("Added watchers for group %s", groupRef);

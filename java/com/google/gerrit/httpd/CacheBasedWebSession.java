@@ -28,6 +28,7 @@ import com.google.gerrit.server.AccessPath;
 import com.google.gerrit.server.AnonymousUser;
 import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.PropertyMap;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AuthResult;
 import com.google.gerrit.server.account.externalids.ExternalId;
@@ -161,20 +162,25 @@ public abstract class CacheBasedWebSession implements WebSession {
   }
 
   @Override
-  public ExternalId.Key getLastLoginExternalId() {
-    return val != null ? val.getExternalId() : null;
-  }
-
-  @Override
   public CurrentUser getUser() {
     if (user == null) {
       if (isSignedIn()) {
-        user = identified.create(val.getAccountId());
+
+        user = identified.create(val.getAccountId(), getUserProperties(val));
       } else {
         user = anonymousProvider.get();
       }
     }
     return user;
+  }
+
+  private static PropertyMap getUserProperties(@Nullable WebSessionManager.Val val) {
+    if (val == null || val.getExternalId() == null) {
+      return PropertyMap.EMPTY;
+    }
+    return PropertyMap.builder()
+        .put(CurrentUser.LAST_LOGIN_EXTERNAL_ID_PROPERTY_KEY, val.getExternalId())
+        .build();
   }
 
   @Override
@@ -194,7 +200,7 @@ public abstract class CacheBasedWebSession implements WebSession {
     key = manager.createKey(id);
     val = manager.createVal(key, id, rememberMe, identity, null, null);
     saveCookie();
-    user = identified.create(val.getAccountId());
+    user = identified.create(val.getAccountId(), getUserProperties(val));
   }
 
   /** Set the user account for this current request only. */

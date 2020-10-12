@@ -1026,7 +1026,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       for (GroupReference ref : suggestions) {
         ids.add(ref.getUUID());
       }
-      return visibleto(new SingleGroupUser(ids));
+      return visibleto(new GroupBackedUser(ids));
     }
 
     throw error("No user or group matches \"" + who + "\".");

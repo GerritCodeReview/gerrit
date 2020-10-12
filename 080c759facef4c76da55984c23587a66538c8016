@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "08996c7d_a541fb50",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 159,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T15:14:46Z",
+      "side": 1,
+      "message": "optional, also below",
+      "range": {
+        "startLine": 159,
+        "startChar": 27,
+        "endLine": 159,
+        "endChar": 34
+      },
+      "revId": "080c759facef4c76da55984c23587a66538c8016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2484ebad_ae77c587",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 18
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T15:14:46Z",
+      "side": 1,
+      "message": "This guard can be re-written on one line as:\n\n  if (!reviewer || !change?.removable_reviewers) return false;",
+      "range": {
+        "startLine": 189,
+        "startChar": 4,
+        "endLine": 191,
+        "endChar": 44
+      },
+      "revId": "080c759facef4c76da55984c23587a66538c8016",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -17,11 +17,13 @@ package com.google.gerrit.server;
 import static com.google.common.base.MoreObjects.firstNonNull;
 import static com.google.common.flogger.LazyArgs.lazy;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.common.base.Strings;
 import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Sets;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.common.Nullable;
+import com.google.gerrit.common.UsedAt;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.server.account.AccountCache;
 import com.google.gerrit.server.account.AccountState;
@@ -103,12 +105,26 @@ public class IdentifiedUser extends CurrentUser {
       return create(null, id);
     }
 
+    @VisibleForTesting
+    @UsedAt(UsedAt.Project.GOOGLE)
+    public IdentifiedUser forTest(Account.Id id, PropertyMap properties) {
+      return runAs(null, id, null, properties);
+    }
+
     public IdentifiedUser create(SocketAddress remotePeer, Account.Id id) {
       return runAs(remotePeer, id, null);
     }
 
     public IdentifiedUser runAs(
         SocketAddress remotePeer, Account.Id id, @Nullable CurrentUser caller) {
+      return runAs(remotePeer, id, caller, PropertyMap.EMPTY);
+    }
+
+    private IdentifiedUser runAs(
+        SocketAddress remotePeer,
+        Account.Id id,
+        @Nullable CurrentUser caller,
+        PropertyMap properties) {
       return new IdentifiedUser(
           authConfig,
           realm,
@@ -120,7 +136,7 @@ public class IdentifiedUser extends CurrentUser {
           Providers.of(remotePeer),
           id,
           caller,
-          PropertyMap.EMPTY);
+          properties);
     }
   }
 

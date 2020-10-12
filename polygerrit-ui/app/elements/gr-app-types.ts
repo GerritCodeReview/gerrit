@@ -20,7 +20,7 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from './core/gr-navigation/gr-navigation';
-import {GroupId, RepoName} from '../types/common';
+import {DashboardId, GroupId, RepoName} from '../types/common';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -32,9 +32,9 @@ export interface AppElement extends HTMLElement {
 export interface AppElementDashboardParams {
   view: GerritView.DASHBOARD;
   project?: RepoName;
-  dashboard?: string;
+  dashboard: DashboardId;
   user?: string;
-  sections?: Array<{name: string; query: string}>;
+  sections: Array<{name: string; query: string}>;
   title?: string;
 }
 

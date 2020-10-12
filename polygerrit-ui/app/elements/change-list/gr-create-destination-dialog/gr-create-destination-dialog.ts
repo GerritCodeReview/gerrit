@@ -26,6 +26,11 @@ import {customElement, property} from '@polymer/decorators';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {RepoName, BranchName} from '../../../types/common';
 
+export interface CreateDestinationConfirmDetail {
+  repo?: RepoName;
+  branch?: BranchName;
+}
+
 /**
  * Fired when a destination has been picked. Event details contain the repo
  * name and the branch name.
@@ -70,7 +75,10 @@ export class GrCreateDestinationDialog extends GestureEventListeners(
 
   _pickerConfirm(e: Event) {
     this.$.createOverlay.close();
-    const detail = {repo: this._repo, branch: this._branch};
+    const detail: CreateDestinationConfirmDetail = {
+      repo: this._repo,
+      branch: this._branch,
+    };
     // e is a 'confirm' event from gr-dialog. We want to fire a more detailed
     // 'confirm' event here, so let's stop propagation of the bare event.
     e.preventDefault();

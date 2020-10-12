@@ -22,7 +22,6 @@ import {
   NumericChangeId,
   ServerInfo,
   ProjectInfo,
-  ActionInfo,
   AccountCapabilityInfo,
   SuggestedReviewerInfo,
   GroupNameToGroupInfoMap,
@@ -91,6 +90,9 @@ import {
   BlameInfo,
   PatchRange,
   ImagesForDiff,
+  ActionNameToActionInfoMap,
+  RevisionId,
+  GroupName,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -119,27 +121,6 @@ export enum ActionPriority {
   PRIMARY = 3,
   REVIEW = -3,
   REVISION = 1,
-}
-
-// TODO(TS) remove interface when GrChangeActions is converted to typescript
-export interface GrChangeActions extends Element {
-  RevisionActions?: Record<string, string>;
-  ChangeActions: Record<string, string>;
-  ActionType: Record<string, string>;
-  primaryActionKeys: string[];
-  push(propName: 'primaryActionKeys', value: string): void;
-  hideQuickApproveAction(): void;
-  setActionOverflow(type: ActionType, key: string, overflow: boolean): void;
-  setActionPriority(
-    type: ActionType,
-    key: string,
-    overflow: ActionPriority
-  ): void;
-  setActionHidden(type: ActionType, key: string, hidden: boolean): void;
-  addActionButton(type: ActionType, label: string): string;
-  removeActionButton(key: string): void;
-  setActionButtonProp(key: string, prop: string, value: string): void;
-  getActionDetails(actionName: string): ActionInfo;
 }
 
 export interface GetDiffCommentsOutput {
@@ -214,7 +195,7 @@ export interface RestApiService {
   ): Promise<GroupNameToGroupInfoMap | undefined>;
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload,
@@ -233,6 +214,11 @@ export interface RestApiService {
     opt_errFn?: Function,
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | null | undefined>;
+
+  getChange(
+    changeNum: ChangeId | NumericChangeId,
+    errFn: ErrorCallback
+  ): Promise<ChangeInfo | null>;
 
   savePreferences(prefs: PreferencesInput): Promise<Response>;
 
@@ -376,17 +362,23 @@ export interface RestApiService {
   ): Promise<GroupNameToGroupInfoMap | undefined>;
 
   getGroupConfig(
-    group: GroupId,
+    group: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined>;
 
   getIsAdmin(): Promise<boolean | undefined>;
 
-  getIsGroupOwner(groupName: GroupId): Promise<boolean>;
+  getIsGroupOwner(groupName: GroupName): Promise<boolean>;
 
-  saveGroupName(groupId: GroupId, name: string): Promise<Response>;
+  saveGroupName(
+    groupId: GroupId | GroupName,
+    name: GroupName
+  ): Promise<Response>;
 
-  saveGroupOwner(groupId: GroupId, ownerId: string): Promise<Response>;
+  saveGroupOwner(
+    groupId: GroupId | GroupName,
+    ownerId: string
+  ): Promise<Response>;
 
   saveGroupDescription(
     groupId: GroupId,
@@ -399,19 +391,19 @@ export interface RestApiService {
   ): Promise<Response>;
 
   saveChangeReview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
+    changeNum: ChangeId | NumericChangeId,
+    patchNum: RevisionId,
     review: ReviewInput
   ): Promise<Response>;
   saveChangeReview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
+    changeNum: ChangeId | NumericChangeId,
+    patchNum: RevisionId,
     review: ReviewInput,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
   saveChangeReview(
-    changeNum: NumericChangeId,
-    patchNum: PatchSetNum,
+    changeNum: ChangeId | NumericChangeId,
+    patchNum: RevisionId,
     review: ReviewInput,
     errFn?: ErrorCallback
   ): Promise<Response>;
@@ -420,6 +412,12 @@ export interface RestApiService {
     changeNum: NumericChangeId,
     downloadCommands?: boolean
   ): Promise<false | EditInfo | undefined>;
+
+  getChangeActionURL(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum | undefined,
+    endpoint: string
+  ): Promise<string>;
 
   createChange(
     project: RepoName,
@@ -646,30 +644,32 @@ export interface RestApiService {
   ): Promise<GroupAuditEventInfo[] | undefined>;
 
   getGroupMembers(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined>;
 
-  getIncludedGroup(groupName: GroupId): Promise<GroupInfo[] | undefined>;
+  getIncludedGroup(
+    groupName: GroupId | GroupName
+  ): Promise<GroupInfo[] | undefined>;
 
   saveGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<AccountInfo>;
 
   saveIncludedGroup(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     includedGroup: GroupId,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined>;
 
   deleteGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<Response>;
 
   deleteIncludedGroup(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     includedGroup: GroupId
   ): Promise<Response>;
 
@@ -761,4 +761,9 @@ export interface RestApiService {
     diff: DiffInfo,
     patchRange: PatchRange
   ): Promise<ImagesForDiff>;
+
+  getChangeRevisionActions(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<ActionNameToActionInfoMap | undefined>;
 }

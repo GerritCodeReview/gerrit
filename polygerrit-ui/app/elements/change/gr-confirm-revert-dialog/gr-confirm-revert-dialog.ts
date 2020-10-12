@@ -30,10 +30,15 @@ const ERR_COMMIT_NOT_FOUND = 'Unable to find the commit hash of this change.';
 const CHANGE_SUBJECT_LIMIT = 50;
 
 // TODO(dhruvsri): clean up repeated definitions after moving to js modules
-const REVERT_TYPES = {
-  REVERT_SINGLE_CHANGE: 1,
-  REVERT_SUBMISSION: 2,
-};
+export enum RevertType {
+  REVERT_SINGLE_CHANGE = 1,
+  REVERT_SUBMISSION = 2,
+}
+
+export interface ConfirmRevertEventDetail {
+  revertType: RevertType;
+  message?: string;
+}
 
 export interface GrConfirmRevertDialog {
   $: {
@@ -66,7 +71,7 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
   _message?: string;
 
   @property({type: Number})
-  _revertType = REVERT_TYPES.REVERT_SINGLE_CHANGE;
+  _revertType = RevertType.REVERT_SINGLE_CHANGE;
 
   @property({type: Boolean})
   _showRevertSubmission = false;
@@ -88,11 +93,11 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
   _revertMessages: string[] = [];
 
   _computeIfSingleRevert(revertType: number) {
-    return revertType === REVERT_TYPES.REVERT_SINGLE_CHANGE;
+    return revertType === RevertType.REVERT_SINGLE_CHANGE;
   }
 
   _computeIfRevertSubmission(revertType: number) {
-    return revertType === REVERT_TYPES.REVERT_SUBMISSION;
+    return revertType === RevertType.REVERT_SUBMISSION;
   }
 
   _modifyRevertMsg(change: ChangeInfo, commitMessage: string, message: string) {
@@ -135,7 +140,7 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
       'Reason for revert: <INSERT REASONING HERE>\n';
     // This is to give plugins a chance to update message
     this._message = this._modifyRevertMsg(change, commitMessage, message);
-    this._revertType = REVERT_TYPES.REVERT_SINGLE_CHANGE;
+    this._revertType = RevertType.REVERT_SINGLE_CHANGE;
     this._showRevertSubmission = false;
     this._revertMessages[this._revertType] = this._message;
     this._originalRevertMessages[this._revertType] = this._message;
@@ -190,7 +195,7 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
       message,
       commitMessage
     );
-    this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
+    this._revertType = RevertType.REVERT_SUBMISSION;
     this._revertMessages[this._revertType] = this._message;
     this._originalRevertMessages[this._revertType] = this._message;
     this._showRevertSubmission = true;
@@ -199,17 +204,17 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
   _handleRevertSingleChangeClicked() {
     this._showErrorMessage = false;
     if (this._message)
-      this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION] = this._message;
-    this._message = this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE];
-    this._revertType = REVERT_TYPES.REVERT_SINGLE_CHANGE;
+      this._revertMessages[RevertType.REVERT_SUBMISSION] = this._message;
+    this._message = this._revertMessages[RevertType.REVERT_SINGLE_CHANGE];
+    this._revertType = RevertType.REVERT_SINGLE_CHANGE;
   }
 
   _handleRevertSubmissionClicked() {
     this._showErrorMessage = false;
-    this._revertType = REVERT_TYPES.REVERT_SUBMISSION;
+    this._revertType = RevertType.REVERT_SUBMISSION;
     if (this._message)
-      this._revertMessages[REVERT_TYPES.REVERT_SINGLE_CHANGE] = this._message;
-    this._message = this._revertMessages[REVERT_TYPES.REVERT_SUBMISSION];
+      this._revertMessages[RevertType.REVERT_SINGLE_CHANGE] = this._message;
+    this._message = this._revertMessages[RevertType.REVERT_SUBMISSION];
   }
 
   _handleConfirmTap(e: MouseEvent) {
@@ -219,9 +224,13 @@ export class GrConfirmRevertDialog extends GestureEventListeners(
       this._showErrorMessage = true;
       return;
     }
+    const detail: ConfirmRevertEventDetail = {
+      revertType: this._revertType,
+      message: this._message,
+    };
     this.dispatchEvent(
       new CustomEvent('confirm', {
-        detail: {revertType: this._revertType, message: this._message},
+        detail,
         composed: true,
         bubbles: false,
       })

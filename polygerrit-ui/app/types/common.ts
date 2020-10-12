@@ -43,6 +43,7 @@ import {
   DraftsAction,
   NotifyType,
 } from '../constants/constants';
+import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
 export type BrandType<T, BrandName extends string> = T &
   {[__brand in BrandName]: never};
@@ -52,6 +53,13 @@ export type BrandType<T, BrandName extends string> = T &
  */
 export type RequireProperties<T, K extends keyof T> = Omit<T, K> &
   Required<Pick<T, K>>;
+
+export type PropertyType<T, K extends keyof T> = ReturnType<() => T[K]>;
+
+export type ElementPropertyDeepChange<
+  T,
+  K extends keyof T
+> = PolymerDeepPropertyChange<PropertyType<T, K>, PropertyType<T, K>>;
 
 /**
  * Type alias for parsed json object to make code cleaner
@@ -79,6 +87,10 @@ export type TrackingId = BrandType<string, '_trackingId'>;
 export type ReviewInputTag = BrandType<string, '_reviewInputTag'>;
 export type RobotId = BrandType<string, '_robotId'>;
 export type RobotRunId = BrandType<string, '_robotRunId'>;
+
+// RevisionId '0' is the same as 'current'. However, we want to avoid '0'
+// in our code, so it is not added here as a possible value.
+export type RevisionId = 'current' | CommitId | PatchSetNum;
 
 // The UUID of the suggested fix.
 export type FixId = BrandType<string, '_fixId'>;
@@ -120,6 +132,7 @@ export type Hashtag = BrandType<string, '_hashtag'>;
 export type StarLabel = BrandType<string, '_startLabel'>;
 export type CommitId = BrandType<string, '_commitId'>;
 export type LabelName = BrandType<string, '_labelName'>;
+export type GroupName = BrandType<string, '_groupName'>;
 
 // The UUID of the group
 export type GroupId = BrandType<string, '_groupId'>;
@@ -149,7 +162,10 @@ export type LabelValueToDescriptionMap = {[labelValue: string]: string};
  * corresponding to the current patch set.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#label-info
  */
-export type LabelInfo = QuickLabelInfo | DetailedLabelInfo;
+export type LabelInfo =
+  | QuickLabelInfo
+  | DetailedLabelInfo
+  | (QuickLabelInfo & DetailedLabelInfo);
 
 interface LabelCommonInfo {
   optional?: boolean; // not set if false
@@ -177,9 +193,24 @@ export interface DetailedLabelInfo extends LabelCommonInfo {
   default_value?: number;
 }
 
+export function isQuickLabelInfo(
+  l: LabelInfo
+): l is QuickLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
+  const quickLabelInfo = l as QuickLabelInfo;
+  return (
+    quickLabelInfo.approved !== undefined ||
+    quickLabelInfo.rejected !== undefined ||
+    quickLabelInfo.recommended !== undefined ||
+    quickLabelInfo.disliked !== undefined ||
+    quickLabelInfo.blocking !== undefined ||
+    quickLabelInfo.blocking !== undefined ||
+    quickLabelInfo.value !== undefined
+  );
+}
+
 export function isDetailedLabelInfo(
   label: LabelInfo
-): label is DetailedLabelInfo {
+): label is DetailedLabelInfo | (QuickLabelInfo & DetailedLabelInfo) {
   return !!(label as DetailedLabelInfo).values;
 }
 
@@ -225,9 +256,10 @@ export interface ChangeInfo {
   deletions: number; // Number of deleted lines
   total_comment_count?: number;
   unresolved_comment_count?: number;
+  // TODO(TS): Use changed_id everywhere in code instead of (legacy) _number
   _number: NumericChangeId;
   owner: AccountInfo;
-  actions?: ActionInfo[];
+  actions?: ActionNameToActionInfoMap;
   requirements?: Requirement[];
   labels?: LabelNameToInfoMap;
   permitted_labels?: LabelNameToValueMap;
@@ -338,17 +370,17 @@ export interface GroupAuditEventInfo {
  */
 export interface GroupBaseInfo {
   id: GroupId;
-  name: string;
+  name: GroupName;
 }
 
 /**
  * The GroupInfo entity contains information about a group. This can be a
  * Gerrit internal group, or an external group that is known to Gerrit.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-info
  */
 export interface GroupInfo {
   id: GroupId;
-  name?: string;
+  name?: GroupName;
   url?: string;
   options?: GroupOptionsInfo;
   description?: string;
@@ -366,10 +398,10 @@ export type GroupNameToGroupInfoMap = {[groupName: string]: GroupInfo};
 /**
  * The 'GroupInput' entity contains information for the creation of a new
  * internal group.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-groups.html#group-input
  */
 export interface GroupInput {
-  name?: string;
+  name?: GroupName;
   uuid?: string;
   description?: string;
   visible_to_all?: string;
@@ -420,12 +452,21 @@ export interface MembersInput {
  * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#action-info
  */
 export interface ActionInfo {
-  __key?: string;
-  __url?: string;
   method?: HttpMethod; // Most actions use POST, PUT or DELETE to cause state changes.
   label?: string; // Short title to display to a user describing the action
   title?: string; // Longer text to display describing the action
   enabled?: boolean; // not set if false
+}
+
+export interface ActionNameToActionInfoMap {
+  [actionType: string]: ActionInfo | undefined;
+  // List of actions explicitly used in code:
+  wip?: ActionInfo;
+  publishEdit?: ActionInfo;
+  rebaseEdit?: ActionInfo;
+  deleteEdit?: ActionInfo;
+  edit?: ActionInfo;
+  stopEdit?: ActionInfo;
 }
 
 /**
@@ -2155,4 +2196,29 @@ export interface RelatedChangeAndCommitInfo {
 export interface SubmittedTogetherInfo {
   changes: ChangeInfo[];
   non_visible_changes: number;
+}
+
+/**
+ * The RevertSubmissionInfo entity describes the revert changes.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#revert-submission-info
+ */
+export interface RevertSubmissionInfo {
+  revert_changes: ChangeInfo[];
+}
+
+/**
+ * The CherryPickInput entity contains information for cherry-picking a change to a new branch.
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#cherrypick-input
+ */
+export interface CherryPickInput {
+  message?: string;
+  destination: BranchName;
+  base?: CommitId;
+  parent?: number;
+  notify?: NotifyType;
+  notify_details: RecipientTypeToNotifyInfoMap;
+  keep_reviewers?: boolean;
+  allow_conflicts?: boolean;
+  topic?: TopicName;
+  allow_empty?: boolean;
 }

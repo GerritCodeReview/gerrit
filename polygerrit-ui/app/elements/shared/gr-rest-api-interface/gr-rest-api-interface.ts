@@ -134,6 +134,9 @@ import {
   FilePathToDiffInfoMap,
   ChangeViewChangeInfo,
   BlameInfo,
+  ActionNameToActionInfoMap,
+  RevisionId,
+  GroupName,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -194,7 +197,7 @@ interface SendChangeRequestBase {
   endpoint: string;
   anonymizedEndpoint?: string;
   changeNum: NumericChangeId;
-  method: HttpMethod;
+  method: HttpMethod | undefined;
   errFn?: ErrorCallback;
   headers?: Record<string, string>;
   contentType?: string;
@@ -515,7 +518,7 @@ export class GrRestApiInterface
   }
 
   getGroupConfig(
-    group: GroupId,
+    group: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined> {
     return this._restApiHelper.fetchJSON({
@@ -649,7 +652,7 @@ export class GrRestApiInterface
     });
   }
 
-  getIsGroupOwner(groupName: GroupId): Promise<boolean> {
+  getIsGroupOwner(groupName: GroupName): Promise<boolean> {
     const encodeName = encodeURIComponent(groupName);
     const req = {
       url: `/groups/?owned&g=${encodeName}`,
@@ -661,7 +664,7 @@ export class GrRestApiInterface
   }
 
   getGroupMembers(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     errFn?: ErrorCallback
   ): Promise<AccountInfo[] | undefined> {
     const encodeName = encodeURIComponent(groupName);
@@ -672,14 +675,16 @@ export class GrRestApiInterface
     }) as Promise<AccountInfo[] | undefined>;
   }
 
-  getIncludedGroup(groupName: GroupId): Promise<GroupInfo[] | undefined> {
+  getIncludedGroup(
+    groupName: GroupId | GroupName
+  ): Promise<GroupInfo[] | undefined> {
     return this._restApiHelper.fetchJSON({
       url: `/groups/${encodeURIComponent(groupName)}/groups/`,
       anonymizedUrl: '/groups/*/groups',
     }) as Promise<GroupInfo[] | undefined>;
   }
 
-  saveGroupName(groupId: GroupId, name: string): Promise<Response> {
+  saveGroupName(groupId: GroupId | GroupName, name: string): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
@@ -689,7 +694,10 @@ export class GrRestApiInterface
     });
   }
 
-  saveGroupOwner(groupId: GroupId, ownerId: string): Promise<Response> {
+  saveGroupOwner(
+    groupId: GroupId | GroupName,
+    ownerId: string
+  ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
     return this._restApiHelper.send({
       method: HttpMethod.PUT,
@@ -700,7 +708,7 @@ export class GrRestApiInterface
   }
 
   saveGroupDescription(
-    groupId: GroupId,
+    groupId: GroupId | GroupName,
     description: string
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
@@ -713,7 +721,7 @@ export class GrRestApiInterface
   }
 
   saveGroupOptions(
-    groupId: GroupId,
+    groupId: GroupId | GroupName,
     options: GroupOptionsInput
   ): Promise<Response> {
     const encodeId = encodeURIComponent(groupId);
@@ -737,7 +745,7 @@ export class GrRestApiInterface
   }
 
   saveGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<AccountInfo> {
     const encodeName = encodeURIComponent(groupName);
@@ -751,7 +759,7 @@ export class GrRestApiInterface
   }
 
   saveIncludedGroup(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     includedGroup: GroupId,
     errFn?: ErrorCallback
   ): Promise<GroupInfo | undefined> {
@@ -774,7 +782,7 @@ export class GrRestApiInterface
   }
 
   deleteGroupMember(
-    groupName: GroupId,
+    groupName: GroupId | GroupName,
     groupMember: AccountId
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
@@ -788,7 +796,7 @@ export class GrRestApiInterface
 
   deleteIncludedGroup(
     groupName: GroupId,
-    includedGroup: GroupId
+    includedGroup: GroupId | GroupName
   ): Promise<Response> {
     const encodeName = encodeURIComponent(groupName);
     const encodeIncludedGroup = encodeURIComponent(includedGroup);
@@ -1374,10 +1382,12 @@ export class GrRestApiInterface
 
   getChangeActionURL(
     changeNum: NumericChangeId,
-    patchNum: PatchSetNum | undefined,
+    revisionId: RevisionId | undefined,
     endpoint: string
   ): Promise<string> {
-    return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
+    return this._changeBaseURL(changeNum, revisionId).then(
+      url => url + endpoint
+    );
   }
 
   getChangeDetail(
@@ -1601,14 +1611,19 @@ export class GrRestApiInterface
     return this.getChangeFiles(changeNum, patchRange);
   }
 
-  getChangeRevisionActions(changeNum: NumericChangeId, patchNum: PatchSetNum) {
+  getChangeRevisionActions(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<ActionNameToActionInfoMap | undefined> {
     const req: FetchChangeJSON = {
       changeNum,
       endpoint: '/actions',
       patchNum,
       reportEndpointAsIs: true,
     };
-    return this._getChangeURLAndFetch(req);
+    return this._getChangeURLAndFetch(req) as Promise<
+      ActionNameToActionInfoMap | undefined
+    >;
   }
 
   getChangeSuggestedReviewers(
@@ -2765,7 +2780,7 @@ export class GrRestApiInterface
   _getDiffCommentsFetchURL(
     changeNum: NumericChangeId,
     endpoint: string,
-    patchNum?: PatchSetNum
+    patchNum?: RevisionId
   ) {
     return this._changeBaseURL(changeNum, patchNum).then(url => url + endpoint);
   }
@@ -2901,7 +2916,7 @@ export class GrRestApiInterface
 
   getB64FileContents(
     changeId: NumericChangeId,
-    patchNum: PatchSetNum,
+    patchNum: RevisionId,
     path: string,
     parentIndex?: number
   ) {
@@ -2974,7 +2989,7 @@ export class GrRestApiInterface
 
   _changeBaseURL(
     changeNum: NumericChangeId,
-    patchNum?: PatchSetNum,
+    revisionId?: RevisionId,
     project?: RepoName
   ): Promise<string> {
     // TODO(kaspern): For full slicer migration, app should warn with a call
@@ -2987,8 +3002,8 @@ export class GrRestApiInterface
       let url = `/changes/${encodeURIComponent(
         project as RepoName
       )}~${changeNum}`;
-      if (patchNum) {
-        url += `/revisions/${patchNum}`;
+      if (revisionId) {
+        url += `/revisions/${revisionId}`;
       }
       return url;
     });
@@ -3279,7 +3294,7 @@ export class GrRestApiInterface
    * Given a changeNum, gets the change.
    */
   getChange(
-    changeNum: NumericChangeId,
+    changeNum: ChangeId | NumericChangeId,
     errFn: ErrorCallback
   ): Promise<ChangeInfo | null> {
     // Cannot use _changeBaseURL, as this function is used by _projectLookup.
@@ -3416,7 +3431,7 @@ export class GrRestApiInterface
 
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload
@@ -3424,7 +3439,7 @@ export class GrRestApiInterface
 
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum: PatchSetNum | undefined,
     payload: RequestPayload | undefined,
@@ -3436,7 +3451,7 @@ export class GrRestApiInterface
    */
   executeChangeAction(
     changeNum: NumericChangeId,
-    method: HttpMethod,
+    method: HttpMethod | undefined,
     endpoint: string,
     patchNum?: PatchSetNum,
     payload?: RequestPayload,

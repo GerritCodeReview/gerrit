@@ -1,0 +1,13 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+black = {version = "==20.8b1", markers = "python_version >= '3.6.0'"}
+flake8 = "*"
+
+[packages]
+
+[requires]
+python_version = "3.8"

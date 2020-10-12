@@ -126,7 +126,7 @@ const USER_PLACEHOLDER_PATTERN = /\${user}/g;
 export interface DashboardSection {
   name: string;
   query: string;
-  suffixForDashboard: string;
+  suffixForDashboard?: string;
   attentionSetOnly?: boolean;
   selfOnly?: boolean;
   hideIfEmpty?: boolean;
@@ -140,7 +140,7 @@ export interface UserDashboardConfig {
 }
 
 export interface UserDashboard {
-  title: string;
+  title?: string;
   sections: DashboardSection[];
 }
 

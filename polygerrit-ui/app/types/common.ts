@@ -1519,11 +1519,12 @@ export interface DashboardInfo {
   project: RepoName;
   defining_project: RepoName;
   ref: string; // The name of the ref in which the dashboard is defined, without the refs/meta/dashboards/ prefix
+  path: string;
   description?: string;
   foreach?: string;
   url: string;
   is_default?: boolean;
-  title?: boolean;
+  title?: string;
   sections: DashboardSectionInfo[];
 }
 

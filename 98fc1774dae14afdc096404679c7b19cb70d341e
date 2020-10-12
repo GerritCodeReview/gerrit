@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "317ec032_217dcd32",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T15:19:39Z",
+      "side": 1,
+      "message": "Looks good, but note that the \u0027show-alert\u0027 listener is installed on document level, so this change is not actually required to fix anything.",
+      "revId": "98fc1774dae14afdc096404679c7b19cb70d341e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

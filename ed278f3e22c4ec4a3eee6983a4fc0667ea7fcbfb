@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c1b21ea0_9150ca78",
+        "filename": "java/com/google/gerrit/extensions/client/GeneralPreferencesInfo.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 79,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-12T10:37:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "325ce021_bc3d303f",
+      "revId": "ed278f3e22c4ec4a3eee6983a4fc0667ea7fcbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "72f47ee5_d0a01118",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-10-12T07:50:57Z",
       "side": 1,
       "message": "nit: use attentionSet \u003d getAttentionSet() here to spare having to call \"add\". Then just iterate over the variable in l.491",
+      "range": {
+        "startLine": 490,
+        "startChar": 35,
+        "endLine": 490,
+        "endChar": 50
+      },
+      "revId": "ed278f3e22c4ec4a3eee6983a4fc0667ea7fcbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "00b97a05_59f4b0fa",
+        "filename": "java/com/google/gerrit/server/mail/send/ChangeEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 490,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-12T10:37:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "72f47ee5_d0a01118",
       "range": {
         "startLine": 490,
         "startChar": 35,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0d10bb97_4e728470",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 99,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-12T10:37:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "410f26db_c9bd9f4d",
+      "revId": "ed278f3e22c4ec4a3eee6983a4fc0667ea7fcbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "362968fb_02b30fec",
@@ -71,6 +131,30 @@
       "writtenOn": "2020-10-12T07:50:57Z",
       "side": 1,
       "message": "Checking types of children in parents is discouraged because it goes against what subclassing tries to achieve (have behavioral code be contained in child classes).\n\nWould it work if we stick this code into the ChangeEmail#add and prevent adding users who aren\u0027t in the attention set in the first place? I guess for that, we\u0027d require that the attention set was set before. At that point, we fall over the code quality of this component because the API doesn\u0027t have the means to guarantee that for now.\n\nAlternatively, we could just skip this instanceof check here and make sure we don\u0027t populate attentionSet for anything that isn\u0027t a ChangeEmail. For that, we could leave the attententionSet member in this class, but move the setter to ChangeEmail such that it can only ever be set there.",
+      "range": {
+        "startLine": 175,
+        "startChar": 21,
+        "endLine": 175,
+        "endChar": 48
+      },
+      "revId": "ed278f3e22c4ec4a3eee6983a4fc0667ea7fcbfb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1bac5171_25d09245",
+        "filename": "java/com/google/gerrit/server/mail/send/OutgoingEmail.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 175,
+      "author": {
+        "id": 1085183
+      },
+      "writtenOn": "2020-10-12T10:37:26Z",
+      "side": 1,
+      "message": "Done\nI am aware of this, but also wanted to keep the \"EmailStrategy\" preference logic somewhere in the same place rather than scattered in different classes. I agree that it\u0027s probably not as bad as checking types of children, though.",
+      "parentUuid": "362968fb_02b30fec",
       "range": {
         "startLine": 175,
         "startChar": 21,

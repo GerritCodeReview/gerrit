@@ -393,6 +393,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "500e346b_96df0485",
+        "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
+        "patchSetId": 21
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-12T06:51:08Z",
+      "side": 1,
+      "message": "The entire Streams class is annotated @Beta. If it delegates to the canonical (java.util.stream) method, why not use that directly? No big deal either way though, feel free to keep it if you prefer.",
+      "parentUuid": "24305612_92854422",
+      "revId": "16574086d615651ab93475e662b3963031bc3563",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d9a88a25_46bde171",
         "filename": "java/com/google/gerrit/server/comment/CommentContextCacheImpl.java",
         "patchSetId": 21

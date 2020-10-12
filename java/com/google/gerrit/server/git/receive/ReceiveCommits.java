@@ -1468,7 +1468,7 @@ class ReceiveCommits {
         name = "--label",
         aliases = {"-l"},
         metaVar = "LABEL+VALUE",
-        usage = "label(s) to assign (defaults to +1 if no value provided")
+        usage = "label(s) to assign (defaults to +1 if no value provided)")
     void addLabel(String token) throws CmdLineException {
       LabelVote v = LabelVote.parse(token);
       try {

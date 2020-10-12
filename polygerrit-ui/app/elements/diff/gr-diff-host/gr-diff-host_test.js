@@ -311,7 +311,7 @@ suite('gr-diff-host tests', () => {
           'Diff Content Render'));
     });
 
-    test('ends total and syntax timer after syntax layer processing', done => {
+    test('ends total and syntax timer after syntax layer', async () => {
       sinon.stub(element.reporting, 'diffViewContentDisplayed');
       let notifySyntaxProcessed;
       sinon.stub(element.$.syntaxLayer, 'process').returns(new Promise(
@@ -326,39 +326,34 @@ suite('gr-diff-host tests', () => {
         return element.reload(true);
       });
       // Multiple cascading microtasks are scheduled.
-      setTimeout(() => {
-        notifySyntaxProcessed();
-        // Multiple cascading microtasks are scheduled.
-        setTimeout(() => {
-          assert.isTrue(element.reporting.timeEnd.calledWithExactly(
-              'Diff Total Render'));
-          assert.isTrue(element.reporting.timeEnd.calledWithExactly(
-              'Diff Syntax Render'));
-          assert.isTrue(element.reporting.diffViewContentDisplayed.called);
-          done();
-        });
-      });
+      await flush();
+      notifySyntaxProcessed();
+      // Multiple cascading microtasks are scheduled.
+      await flush();
+      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
+          'Diff Total Render'));
+      assert.isTrue(element.reporting.timeEnd.calledWithExactly(
+          'Diff Syntax Render'));
+      assert.isTrue(element.reporting.diffViewContentDisplayed.called);
     });
 
-    test('ends total timer w/ no syntax layer processing', done => {
+    test('ends total timer w/ no syntax layer processing', async () => {
       sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.patchRange = {};
       element.reload();
       // Multiple cascading microtasks are scheduled.
-      setTimeout(() => {
-        // Reporting can be called with other parameters (ex. PluginsLoaded),
-        // but only 'Diff Total Render' is important in this test.
-        assert.equal(
-            element.reporting.timeEnd.getCalls()
-                .filter(call => call.calledWithExactly('Diff Total Render'))
-                .length,
-            1);
-        done();
-      });
+      await flush();
+      // Reporting can be called with other parameters (ex. PluginsLoaded),
+      // but only 'Diff Total Render' is important in this test.
+      assert.equal(
+          element.reporting.timeEnd.getCalls()
+              .filter(call => call.calledWithExactly('Diff Total Render'))
+              .length,
+          1);
     });
 
-    test('completes reload promise after syntax layer processing', done => {
+    test('completes reload promise after syntax layer processing', async () => {
       let notifySyntaxProcessed;
       sinon.stub(element.$.syntaxLayer, 'process').returns(new Promise(
           resolve => {
@@ -377,15 +372,12 @@ suite('gr-diff-host tests', () => {
             reloadComplete = true;
           });
       // Multiple cascading microtasks are scheduled.
-      setTimeout(() => {
-        assert.isFalse(reloadComplete);
-        notifySyntaxProcessed();
-        // Assert after the notification task is processed.
-        setTimeout(() => {
-          assert.isTrue(reloadComplete);
-          done();
-        });
-      });
+      await flush();
+      assert.isFalse(reloadComplete);
+      notifySyntaxProcessed();
+      // Assert after the notification task is processed.
+      await flush();
+      assert.isTrue(reloadComplete);
     });
   });
 
@@ -1467,18 +1459,16 @@ suite('gr-diff-host tests', () => {
       assert.isFalse(element.$.syntaxLayer.enabled);
     });
 
-    test('starts syntax layer processing on render event', done => {
+    test('starts syntax layer processing on render event', async () => {
       sinon.stub(element.$.syntaxLayer, 'process')
           .returns(Promise.resolve());
       sinon.stub(element.$.restAPI, 'getDiff').returns(
           Promise.resolve({content: []}));
       element.reload();
-      setTimeout(() => {
-        element.dispatchEvent(
-            new CustomEvent('render', {bubbles: true, composed: true}));
-        assert.isTrue(element.$.syntaxLayer.process.called);
-        done();
-      });
+      await flush();
+      element.dispatchEvent(
+          new CustomEvent('render', {bubbles: true, composed: true}));
+      assert.isTrue(element.$.syntaxLayer.process.called);
     });
   });
 

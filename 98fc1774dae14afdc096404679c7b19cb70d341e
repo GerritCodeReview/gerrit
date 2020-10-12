@@ -16,6 +16,24 @@
       "message": "Looks good, but note that the \u0027show-alert\u0027 listener is installed on document level, so this change is not actually required to fix anything.",
       "revId": "98fc1774dae14afdc096404679c7b19cb70d341e",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7770e5c5_f88a577e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T17:13:30Z",
+      "side": 1,
+      "message": "Yeah I mainly sent it for readability.\nI was initially confused when using dispatchEvent for some other event and it wasn\u0027t working while there was a usage of dispatchEvent in the file.",
+      "parentUuid": "317ec032_217dcd32",
+      "revId": "98fc1774dae14afdc096404679c7b19cb70d341e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

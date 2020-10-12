@@ -22,6 +22,30 @@
       },
       "revId": "6cd1f207d2e27c3a55e1f29b861330d6e6b0d3be",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5883d36c_935b6dcd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-10-12T14:52:50Z",
+      "side": 1,
+      "message": "By the time I had simplified it, maybe not. But who knows, maybe it will grow more. I think both the cost and the benefit of this changes is fairly small, so maybe not worth discussing too long about.",
+      "parentUuid": "78f69c56_3c5eb322",
+      "range": {
+        "startLine": 338,
+        "startChar": 24,
+        "endLine": 338,
+        "endChar": 34
+      },
+      "revId": "6cd1f207d2e27c3a55e1f29b861330d6e6b0d3be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

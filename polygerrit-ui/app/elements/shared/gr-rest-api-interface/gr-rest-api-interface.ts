@@ -3567,11 +3567,12 @@ export class GrRestApiInterface
     });
   }
 
-  deleteDraftComments(query: DeleteDraftCommentsInput) {
+  deleteDraftComments(query: string): Promise<Response> {
+    const body: DeleteDraftCommentsInput = {query};
     return this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/accounts/self/drafts:delete',
-      body: {query},
+      body,
     });
   }
 }

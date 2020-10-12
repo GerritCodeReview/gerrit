@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "d3308fee_c734e95a",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Thanks @Jacek for the review. Can somebody review in terms of L-C or potential approval (or else)?",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a006c47f_e0797a0c",
         "filename": "/PATCHSET_LEVEL",
@@ -31,10 +32,10 @@
       "side": 1,
       "message": "Giving the maximum I can provide :-) ... we do need some Googler for the LC +1 though.",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "3d28f4ec_d271036c",
         "filename": "/PATCHSET_LEVEL",
@@ -48,10 +49,10 @@
       "side": 1,
       "message": "Sorry - misunderstood our docs - let me get back to you on that.",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "4bdada48_493e57cf",
         "filename": "/PATCHSET_LEVEL",
@@ -65,10 +66,10 @@
       "side": 1,
       "message": "scheduled an internal upgrade.",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "892e6c42_e6e4ef55",
         "filename": "/PATCHSET_LEVEL",
@@ -83,10 +84,10 @@
       "message": "\u003e scheduled an internal upgrade.\n\nThanks Gal. Is there a tentative date for this to be done?",
       "parentUuid": "4bdada48_493e57cf",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "46433747_626dc8ec",
         "filename": "/PATCHSET_LEVEL",
@@ -101,10 +102,10 @@
       "message": "Yes, I\u0027ll check in the team meeting.\nCan you provide some benefits that this upgrade can cause? (Does it block anything, does it improve latency / something else?)\n\nThanks!",
       "parentUuid": "892e6c42_e6e4ef55",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "e146161b_bf827749",
         "filename": "/PATCHSET_LEVEL",
@@ -119,10 +120,28 @@
       "message": "\u003e Yes, I\u0027ll check in the team meeting.\nThanks.\n\n\u003e Can you provide some benefits that this upgrade can cause? (Does it block anything, does it improve latency / something else?)\n\nYes; this is all described in the commit message.",
       "parentUuid": "46433747_626dc8ec",
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "6ba9602b_c518cab1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-12T07:52:38Z",
+      "side": 1,
+      "message": "\u003e Yes, I\u0027ll check in the team meeting.\n\nGal, what was the outcome of this check?",
+      "parentUuid": "e146161b_bf827749",
+      "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "42767eaa_055bdf03",
         "filename": "WORKSPACE",
@@ -142,10 +161,10 @@
         "endChar": 57
       },
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "a11abdab_2016d735",
         "filename": "WORKSPACE",
@@ -166,10 +185,10 @@
         "endChar": 57
       },
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
       "key": {
         "uuid": "5279d333_8d5abe39",
         "filename": "WORKSPACE",
@@ -190,8 +209,7 @@
         "endChar": 57
       },
       "revId": "2684b28c575db73cb4ffbc264599c36f8ced4bab",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

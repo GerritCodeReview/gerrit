@@ -180,7 +180,7 @@ public class IdentifiedUser extends CurrentUser {
           properties);
     }
 
-    public IdentifiedUser runAs(Account.Id id, CurrentUser caller) {
+    public IdentifiedUser runAs(Account.Id id, CurrentUser caller, PropertyMap properties) {
       return new IdentifiedUser(
           authConfig,
           realm,
@@ -192,7 +192,7 @@ public class IdentifiedUser extends CurrentUser {
           remotePeerProvider,
           id,
           caller,
-          PropertyMap.EMPTY);
+          properties);
     }
   }
 

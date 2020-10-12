@@ -686,7 +686,7 @@ suite('gr-change-metadata tests', () => {
       const newTopic = 'the new topic';
       sinon.stub(element.$.restAPI, 'setChangeTopic').returns(
           Promise.resolve(newTopic));
-      element._handleTopicChanged({}, newTopic);
+      element._handleTopicChanged({detail: newTopic});
       const topicChangedSpy = sinon.spy();
       element.addEventListener('topic-changed', topicChangedSpy);
       assert.isTrue(element.$.restAPI.setChangeTopic.calledWith(

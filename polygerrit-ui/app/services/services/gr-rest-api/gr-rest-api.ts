@@ -94,6 +94,8 @@ import {
   RevisionId,
   GroupName,
   DashboardId,
+  HashtagsInput,
+  Hashtag,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -796,4 +798,21 @@ export interface RestApiService {
   ): Promise<DashboardInfo | undefined>;
 
   deleteDraftComments(query: string): Promise<Response>;
+
+  setAssignee(
+    changeNum: NumericChangeId,
+    assignee: AccountId
+  ): Promise<Response>;
+
+  deleteAssignee(changeNum: NumericChangeId): Promise<Response>;
+
+  setChangeHashtag(
+    changeNum: NumericChangeId,
+    hashtag: HashtagsInput
+  ): Promise<Hashtag[]>;
+
+  setChangeTopic(
+    changeNum: NumericChangeId,
+    topic: string | null
+  ): Promise<string>;
 }

@@ -208,7 +208,7 @@ public abstract class CacheBasedWebSession implements WebSession {
   public void setUserAccountId(Account.Id id) {
     key = new Key("id:" + id);
     val = new Val(id, 0, false, null, 0, null, null);
-    user = identified.runAs(id, user);
+    user = identified.runAs(id, user, PropertyMap.EMPTY);
   }
 
   @Override

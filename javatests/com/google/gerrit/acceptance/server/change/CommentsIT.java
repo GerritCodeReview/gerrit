@@ -1090,6 +1090,76 @@ public class CommentsIT extends AbstractDaemonTest {
             contextLines("2", "line_2", "3", "line_3", "4", "line_4", "5", "line_5"));
   }
 
+  @Test
+  public void commentContextForCommentsOnDifferentPatchsets() throws Exception {
+    PushOneCommit.Result r1 = createChange();
+
+    ImmutableList.Builder<String> content = ImmutableList.builder();
+    for (int i = 1; i <= 10; i++) {
+      content.add("line_" + i);
+    }
+
+    PushOneCommit.Result r2 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                SUBJECT,
+                FILE_NAME,
+                String.join("\n", content.build()),
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    PushOneCommit.Result r3 =
+        pushFactory
+            .create(
+                admin.newIdent(),
+                testRepo,
+                SUBJECT,
+                FILE_NAME,
+                content.build().stream().collect(Collectors.joining("\n")),
+                r1.getChangeId())
+            .to("refs/for/master");
+
+    addCommentOnLine(r2, "r2: please fix", 1);
+    addCommentOnRange(r2, "r2: looks good", commentRangeInLines(2, 3));
+    addCommentOnLine(r3, "r3: please fix", 6);
+    addCommentOnRange(r3, "r3: looks good", commentRangeInLines(7, 8));
+
+    List<CommentInfo> comments =
+        gApi.changes().id(r2.getChangeId()).commentsRequest().withContext(true).getAsList();
+
+    assertThat(comments).hasSize(4);
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("r2: please fix"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(contextLines("1", "line_1"));
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("r2: looks good"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(contextLines("2", "line_2", "3", "line_3"));
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("r3: please fix"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(contextLines("6", "line_6"));
+
+    assertThat(
+            comments.stream()
+                .filter(c -> c.message.equals("r3: looks good"))
+                .collect(MoreCollectors.onlyElement())
+                .contextLines)
+        .containsExactlyElementsIn(contextLines("7", "line_7", "8", "line_8"));
+  }
+
   private List<ContextLineInfo> contextLines(String... args) {
     List<ContextLineInfo> result = new ArrayList<>();
     for (int i = 0; i < args.length; i += 2) {

@@ -19,7 +19,6 @@ import static java.util.stream.Collectors.toList;
 import com.google.common.collect.ImmutableList;
 import com.google.gerrit.entities.ChangeMessage;
 import com.google.gerrit.entities.HumanComment;
-import com.google.gerrit.entities.Project;
 import com.google.gerrit.extensions.common.CommentInfo;
 import com.google.gerrit.extensions.common.ContextLineInfo;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -84,8 +83,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
 
   private ImmutableList<CommentInfo> getAsList(Iterable<HumanComment> comments, ChangeResource rsrc)
       throws PermissionBackendException {
-    ImmutableList<CommentInfo> commentInfos =
-        getCommentFormatter(rsrc.getProject()).formatAsList(comments);
+    ImmutableList<CommentInfo> commentInfos = getCommentFormatter(rsrc).formatAsList(comments);
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
     CommentsUtil.linkCommentsToChangeMessages(commentInfos, changeMessages, true);
     return commentInfos;
@@ -93,8 +91,7 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
 
   private Map<String, List<CommentInfo>> getAsMap(
       Iterable<HumanComment> comments, ChangeResource rsrc) throws PermissionBackendException {
-    Map<String, List<CommentInfo>> commentInfosMap =
-        getCommentFormatter(rsrc.getProject()).format(comments);
+    Map<String, List<CommentInfo>> commentInfosMap = getCommentFormatter(rsrc).format(comments);
     List<CommentInfo> commentInfos =
         commentInfosMap.values().stream().flatMap(List::stream).collect(toList());
     List<ChangeMessage> changeMessages = changeMessagesUtil.byChange(rsrc.getNotes());
@@ -102,12 +99,14 @@ public class ListChangeComments implements RestReadView<ChangeResource> {
     return commentInfosMap;
   }
 
-  private CommentJson.HumanCommentFormatter getCommentFormatter(Project.NameKey project) {
+  private CommentJson.HumanCommentFormatter getCommentFormatter(ChangeResource rsrc) {
     return commentJson
         .get()
         .setFillAccounts(true)
         .setFillPatchSet(true)
-        .setEnableContext(includeContext, project)
+        .setFillCommentContext(includeContext)
+        .setProjectKey(rsrc.getProject())
+        .setChangeId(rsrc.getId())
         .newHumanCommentFormatter();
   }
 }

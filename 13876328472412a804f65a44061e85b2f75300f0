@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a83c3c3_3528a070",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Yeah. _getReviewerState can require a change since it\u0027s only called after each function checks for change to be non-empty.",
+      "parentUuid": "44cd9014_93968742",
+      "range": {
+        "startLine": 142,
+        "startChar": 2,
+        "endLine": 171,
+        "endChar": 3
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "93970052_ba5fd263",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-09T14:20:05Z",
       "side": 1,
       "message": "How does the API know that you want to change from REVIEWER to CC? It looks like you are sending `state:CC`, if the account is already CC?",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ffbbbef_942d78eb",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "93970052_ba5fd263",
       "revId": "13876328472412a804f65a44061e85b2f75300f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0db13e69_7b6fb11c",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 195,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c62b9a6a_c8bc3ad6",
+      "range": {
+        "startLine": 195,
+        "startChar": 19,
+        "endLine": 195,
+        "endChar": 20
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "226b6713_c57e1c41",
@@ -81,6 +147,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5bd71d1c_8f74dd2b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 196,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "https://gerrit-review.googlesource.com/c/gerrit/+/284221 should add the required option for this.",
+      "parentUuid": "226b6713_c57e1c41",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "41b09c21_62b0a5c0",
@@ -94,6 +178,30 @@
       "writtenOn": "2020-10-09T14:20:05Z",
       "side": 1,
       "message": "Should be a different message than below.",
+      "range": {
+        "startLine": 201,
+        "startChar": 53,
+        "endLine": 201,
+        "endChar": 66
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "55469821_ed08123b",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 201,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "41b09c21_62b0a5c0",
       "range": {
         "startLine": 201,
         "startChar": 53,
@@ -127,6 +235,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e4ef70f9_9da119bf",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 208,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Added email fallback.",
+      "parentUuid": "82a8b1a3_a494eafc",
+      "range": {
+        "startLine": 208,
+        "startChar": 39,
+        "endLine": 208,
+        "endChar": 50
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e5497fe3_70f4c6b0",
@@ -140,6 +272,24 @@
       "writtenOn": "2020-10-09T14:20:05Z",
       "side": 1,
       "message": "Does this catch clause improve the error handling workflow? In what way?",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f32e52a3_7da3a045",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 223,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Removed",
+      "parentUuid": "e5497fe3_70f4c6b0",
       "revId": "13876328472412a804f65a44061e85b2f75300f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -167,6 +317,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "59d98fd8_9be09d13",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66392d79_bbc6c970",
+      "range": {
+        "startLine": 184,
+        "startChar": 16,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d983cf29_a129e0df",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 184,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "66392d79_bbc6c970",
+      "range": {
+        "startLine": 184,
+        "startChar": 16,
+        "endLine": 184,
+        "endChar": 33
+      },
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a4fe6e65_c9b4f5e2",
@@ -180,6 +378,24 @@
       "writtenOn": "2020-10-09T14:20:05Z",
       "side": 1,
       "message": "I would remove the `mutable` parameter out of the utility. It does not have a meaning without further context. The utility should just be based on `change` and `reviewer`.",
+      "revId": "13876328472412a804f65a44061e85b2f75300f0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "431ec3c3_42912047",
+        "filename": "polygerrit-ui/app/utils/change-util.ts",
+        "patchSetId": 16
+      },
+      "lineNbr": 185,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a4fe6e65_c9b4f5e2",
       "revId": "13876328472412a804f65a44061e85b2f75300f0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

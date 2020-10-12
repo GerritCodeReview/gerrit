@@ -108,6 +108,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "c6b425b7_6896c029",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-12T20:42:59Z",
+      "side": 1,
+      "message": "\u003e \u003e Joining results is not a new thing for Gerrit queries. There have been many instances of it in the past.\n\u003e \n\u003e Such as?\n\nI\u0027m not claiming this is the complete set; however, I think \"ownerin:\", \"reviewerin:\", \"commit:\", \"label:\", \"has:draft\", \"is:watched\", \"is:reviewed\" and \"has:star\", still do something equivalent to a join. I could definitely be wrong about that, especially if I missed some preloading we do with ChangeDatas (we seem to for query output, but not during queries AFAICT).\n\nOften making joins fast comes down to picking the appropriate ChangeDataSource for the query. We can look at implementing that for peers (we\u0027ve done that internally) in a follow up change. Would that help?\n\n\u003e \n\u003e \u003e say that use-cases are as widespread as you request here. Do you believe this is a general policy that the project should be (or already is) applying to changes?\n\u003e \n\u003e if this were a regular index feature (eg. adding a new field) we wouldn\u0027t have that many concerns. But this making more fundamental changes, so we want to be extra careful.\n\nWe\u0027re comfortable with \"extra careful\". What are you looking for to gain confidence in this change?\n\n\u003e \n\u003e \u003e If this becomes the only remaining concern, perhaps it would make sense for you to disable this on googlesource.com servers too.\n\u003e \n\u003e this is a measure of last resort; we\u0027d rather see core gerrit be the same everywhere.\n\nWe would too, hopefully we can find a way to make that happen with this change. We\u0027ve been using this feature (albeit on a non-public facing server and with it as a ChangeDataSource) for 5 years without any issues. I think we can work together to find some ways to make it safer for you.",
+      "parentUuid": "8f02da33_99858682",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "821ae05d_461809e5",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2

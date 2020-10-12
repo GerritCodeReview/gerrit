@@ -116,9 +116,6 @@ public abstract class OutgoingEmail {
     if (messageId == null) {
       throw new IllegalStateException("All emails must have a messageId");
     }
-    if (useHtml()) {
-      appendHtml(soyHtmlTemplate("HeaderHtml"));
-    }
     format();
     appendText(textTemplate("Footer"));
     if (useHtml()) {

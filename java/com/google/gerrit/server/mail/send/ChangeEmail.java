@@ -14,6 +14,7 @@
 
 package com.google.gerrit.server.mail.send;
 
+import static com.google.common.collect.ImmutableSet.toImmutableSet;
 import static com.google.gerrit.server.util.AttentionSetUtil.additionsOnly;
 
 import com.google.common.base.Splitter;
@@ -128,6 +129,10 @@ public abstract class ChangeEmail extends NotificationEmail {
   /** Format the message body by calling {@link #appendText(String)}. */
   @Override
   protected void format() throws EmailException {
+    if (useHtml()) {
+      appendHtml(soyHtmlTemplate("ChangeHeaderHtml"));
+    }
+    appendText(textTemplate("ChangeHeader"));
     formatChange();
     appendText(textTemplate("ChangeFooter"));
     if (useHtml()) {
@@ -504,6 +509,13 @@ public abstract class ChangeEmail extends NotificationEmail {
     }
     for (Account.Id attentionUser : currentAttentionSet) {
       footers.add(MailHeader.ATTENTION.withDelimiter() + getNameEmailFor(attentionUser));
+    }
+    // Since this would be user visible, only show it if attention set is enabled
+    if (args.settings.isAttentionSetEnabled && !currentAttentionSet.isEmpty()) {
+      // We need names rather than account ids / emails to make it user readable.
+      soyContext.put(
+          "attentionSet",
+          currentAttentionSet.stream().map(this::getNameFor).collect(toImmutableSet()));
     }
   }
 

@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2016 The Android Open Source Project
+ * Copyright (C) 2020 The Android Open Source Project
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,7 +14,20 @@
  * limitations under the License.
 */
 
+
 {namespace com.google.gerrit.server.mail.template}
 
-{template .HeaderHtml}
+{template .ChangeHeaderHtml}
+  {@param attentionSet: ?}
+  {if $attentionSet}
+    <p> Attention is currently required from:{sp}
+    {for $attentionSetUser in $attentionSet}
+      {$attentionSetUser}
+      //add commas or dot.
+      {if isLast($attentionSetUser)}.
+      {else},{sp}
+      {/if}
+    {/for} </p>
+    {\n}
+  {/if}
 {/template}

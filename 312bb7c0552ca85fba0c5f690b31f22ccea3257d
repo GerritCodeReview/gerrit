@@ -120,6 +120,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "495e9520_bfe0e96a",
+        "filename": "java/com/google/gerrit/server/PropertyMap.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-12T07:05:09Z",
+      "side": 1,
+      "message": "I think the comment should also say why the key has to be the same instance. It\u0027s an unusual requirement and while it\u0027s good that the comment mentions it the reader will probably wonder why the requirement exists in the first place.",
+      "parentUuid": "4090b982_a43dfb7a",
+      "range": {
+        "startLine": 21,
+        "startChar": 70,
+        "endLine": 21,
+        "endChar": 83
+      },
+      "revId": "312bb7c0552ca85fba0c5f690b31f22ccea3257d",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e42f11c9_2712925f",
         "filename": "java/com/google/gerrit/server/PropertyMap.java",
         "patchSetId": 1

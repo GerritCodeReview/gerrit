@@ -93,6 +93,7 @@ import {
   ActionNameToActionInfoMap,
   RevisionId,
   GroupName,
+  DashboardId,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -787,4 +788,12 @@ export interface RestApiService {
     changeNum: NumericChangeId,
     starred: boolean
   ): Promise<Response>;
+
+  getDashboard(
+    project: RepoName,
+    dashboard: DashboardId,
+    errFn?: ErrorCallback
+  ): Promise<DashboardInfo | undefined>;
+
+  deleteDraftComments(query: string): Promise<Response>;
 }

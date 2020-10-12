@@ -14,94 +14,116 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../gr-change-list/gr-change-list.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-dialog/gr-dialog.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-create-commands-dialog/gr-create-commands-dialog.js';
-import '../gr-create-change-help/gr-create-change-help.js';
-import '../gr-create-destination-dialog/gr-create-destination-dialog.js';
-import '../gr-user-header/gr-user-header.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-dashboard-view_html.js';
-import {GerritNav, YOUR_TURN} from '../../core/gr-navigation/gr-navigation.js';
-import {appContext} from '../../../services/app-context.js';
-import {changeIsOpen} from '../../../utils/change-util.js';
-import {parseDate} from '../../../utils/date-util.js';
+import '../../../styles/shared-styles';
+import '../gr-change-list/gr-change-list';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-dialog/gr-dialog';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-create-commands-dialog/gr-create-commands-dialog';
+import '../gr-create-change-help/gr-create-change-help';
+import '../gr-create-destination-dialog/gr-create-destination-dialog';
+import '../gr-user-header/gr-user-header';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-dashboard-view_html';
+import {
+  GerritNav,
+  GerritView,
+  UserDashboard,
+  YOUR_TURN,
+} from '../../core/gr-navigation/gr-navigation';
+import {appContext} from '../../../services/app-context';
+import {changeIsOpen} from '../../../utils/change-util';
+import {parseDate} from '../../../utils/date-util';
+import {customElement, observe, property} from '@polymer/decorators';
+import {
+  AccountDetailInfo,
+  ChangeInfo,
+  DashboardId,
+  ElementPropertyDeepChange,
+  PreferencesInput,
+  RepoName,
+} from '../../../types/common';
+import {AppElementDashboardParams, AppElementParams} from '../../gr-app-types';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrDialog} from '../../shared/gr-dialog/gr-dialog';
+import {GrCreateCommandsDialog} from '../gr-create-commands-dialog/gr-create-commands-dialog';
+import {
+  CreateDestinationConfirmDetail,
+  GrCreateDestinationDialog,
+} from '../gr-create-destination-dialog/gr-create-destination-dialog';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
+import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
 
-/**
- * @extends PolymerElement
- */
-class GrDashboardView extends GestureEventListeners(
-    LegacyElementMixin(PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface DashboardViewState {
+  selectedChangeIndex: number;
+}
 
-  static get is() { return 'gr-dashboard-view'; }
+export interface GrDashboardView {
+  $: {
+    restAPI: RestApiService & Element;
+    confirmDeleteDialog: GrDialog;
+    commandsDialog: GrCreateCommandsDialog;
+    destinationDialog: GrCreateDestinationDialog;
+    confirmDeleteOverlay: GrOverlay;
+  };
+}
+
+interface DashboardChange {
+  name: string;
+  countLabel: string;
+  query: string;
+  results: ChangeInfo[];
+  isOutgoing?: boolean;
+}
+
+@customElement('gr-dashboard-view')
+export class GrDashboardView extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the title of the page should change.
    *
    * @event title-change
    */
 
-  static get properties() {
-    return {
-      account: {
-        type: Object,
-        value: null,
-      },
-      preferences: Object,
-      /** @type {{ selectedChangeIndex: number }} */
-      viewState: Object,
+  @property({type: Object})
+  account: AccountDetailInfo | null = null;
 
-      /** @type {{ project: string, user: string }} */
-      params: {
-        type: Object,
-      },
+  @property({type: Object})
+  preferences?: PreferencesInput;
 
-      createChangeTap: {
-        type: Function,
-        value() {
-          return e => this._createChangeTap(e);
-        },
-      },
+  @property({type: Object})
+  viewState?: DashboardViewState;
 
-      _results: Array,
+  @property({type: Object})
+  params?: AppElementParams;
 
-      /**
-       * For showing a "loading..." string during ajax requests.
-       */
-      _loading: {
-        type: Boolean,
-        value: true,
-      },
+  @property({type: Array})
+  _results?: DashboardChange[];
 
-      _showDraftsBanner: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: Boolean})
+  _loading = true;
 
-      _showNewUserHelp: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+  @property({type: Boolean})
+  _showDraftsBanner = false;
+
+  @property({type: Boolean})
+  _showNewUserHelp = false;
+
+  private reporting = appContext.reportingService;
 
   constructor() {
     super();
-    this.reporting = appContext.reportingService;
-  }
-
-  static get observers() {
-    return [
-      '_paramsChanged(params.*)',
-    ];
   }
 
   /** @override */
@@ -126,147 +148,175 @@ class GrDashboardView extends GestureEventListeners(
     });
   }
 
-  _getProjectDashboard(project, dashboard) {
-    const errFn = response => {
-      this.dispatchEvent(new CustomEvent('page-error', {
-        detail: {response},
-        composed: true, bubbles: true,
-      }));
+  _getProjectDashboard(
+    project: RepoName,
+    dashboard: DashboardId
+  ): Promise<UserDashboard | undefined> {
+    const errFn = (response?: Response | null) => {
+      this.dispatchEvent(
+        new CustomEvent('page-error', {
+          detail: {response},
+          composed: true,
+          bubbles: true,
+        })
+      );
     };
-    return this.$.restAPI.getDashboard(
-        project, dashboard, errFn).then(response => {
-      if (!response) {
-        return;
-      }
-      return {
-        title: response.title,
-        sections: response.sections.map(section => {
-          const suffix = response.foreach ? ' ' + response.foreach : '';
-          return {
-            name: section.name,
-            query: (section.query + suffix).replace(
-                PROJECT_PLACEHOLDER_PATTERN, project),
-          };
-        }),
-      };
-    });
+    return this.$.restAPI
+      .getDashboard(project, dashboard, errFn)
+      .then(response => {
+        if (!response) {
+          return;
+        }
+        return {
+          title: response.title,
+          sections: response.sections.map(section => {
+            const suffix = response.foreach ? ' ' + response.foreach : '';
+            return {
+              name: section.name,
+              query: (section.query + suffix).replace(
+                PROJECT_PLACEHOLDER_PATTERN,
+                project
+              ),
+            };
+          }),
+        };
+      });
   }
 
-  _computeTitle(user) {
+  _computeTitle(user?: string) {
     if (!user || user === 'self') {
       return 'My Reviews';
     }
     return 'Dashboard for ' + user;
   }
 
-  _isViewActive(params) {
-    return params.view === GerritNav.View.DASHBOARD;
+  _isViewActive(params: AppElementParams): params is AppElementDashboardParams {
+    return params.view === GerritView.DASHBOARD;
   }
 
-  _paramsChanged(paramsChangeRecord) {
+  @observe('params.*')
+  _paramsChanged(
+    paramsChangeRecord: ElementPropertyDeepChange<GrDashboardView, 'params'>
+  ) {
     const params = paramsChangeRecord.base;
 
-    if (!this._isViewActive(params)) {
-      return Promise.resolve();
-    }
-
-    return this._reload();
+    return this._reload(params);
   }
 
   /**
    * Reloads the element.
-   *
-   * @return {Promise<!Object>}
    */
-  _reload() {
+  _reload(params?: AppElementParams) {
+    if (!params || !this._isViewActive(params)) {
+      return Promise.resolve();
+    }
     this._loading = true;
-    const {project, dashboard, title, user, sections} = this.params;
-    const dashboardPromise = project ?
-      this._getProjectDashboard(project, dashboard) :
-      this.$.restAPI.getConfig().then(
-          config => Promise.resolve(GerritNav.getUserDashboard(
-              user,
-              sections,
-              title || this._computeTitle(user),
-              config
-          ))
-      );
+    const {project, dashboard, title, user, sections} = params;
+    const dashboardPromise: Promise<UserDashboard | undefined> = project
+      ? this._getProjectDashboard(project, dashboard)
+      : this.$.restAPI
+          .getConfig()
+          .then(config =>
+            Promise.resolve(
+              GerritNav.getUserDashboard(
+                user,
+                sections,
+                title || this._computeTitle(user),
+                config
+              )
+            )
+          );
 
     const checkForNewUser = !project && user === 'self';
     return dashboardPromise
-        .then(res => {
-          if (res && res.title) {
-            this.dispatchEvent(new CustomEvent('title-change', {
+      .then(res => {
+        if (res && res.title) {
+          this.dispatchEvent(
+            new CustomEvent('title-change', {
               detail: {title: res.title},
-              composed: true, bubbles: true,
-            }));
-          }
-          return this._fetchDashboardChanges(res, checkForNewUser);
-        })
-        .then(() => {
-          this._maybeShowDraftsBanner();
-          this.reporting.dashboardDisplayed();
-        })
-        .catch(err => {
-          this.dispatchEvent(new CustomEvent('title-change', {
+              composed: true,
+              bubbles: true,
+            })
+          );
+        }
+        return this._fetchDashboardChanges(res, checkForNewUser);
+      })
+      .then(() => {
+        this._maybeShowDraftsBanner(params);
+        this.reporting.dashboardDisplayed();
+      })
+      .catch(err => {
+        this.dispatchEvent(
+          new CustomEvent('title-change', {
             detail: {
               title: title || this._computeTitle(user),
             },
-            composed: true, bubbles: true,
-          }));
-          console.warn(err);
-        })
-        .then(() => { this._loading = false; });
+            composed: true,
+            bubbles: true,
+          })
+        );
+        console.warn(err);
+      })
+      .then(() => {
+        this._loading = false;
+      });
   }
 
   /**
    * Fetches the changes for each dashboard section and sets this._results
    * with the response.
-   *
-   * @param {!Object} res
-   * @param {boolean} checkForNewUser
-   * @return {Promise}
    */
-  _fetchDashboardChanges(res, checkForNewUser) {
-    if (!res) { return Promise.resolve(); }
+  _fetchDashboardChanges(
+    res: UserDashboard | undefined,
+    checkForNewUser: boolean
+  ): Promise<void> {
+    if (!res) {
+      return Promise.resolve();
+    }
 
-    let queries;
+    let queries: string[];
 
-    if (window.PRELOADED_QUERIES
-      && window.PRELOADED_QUERIES.dashboardQuery) {
+    if (window.PRELOADED_QUERIES && window.PRELOADED_QUERIES.dashboardQuery) {
       queries = window.PRELOADED_QUERIES.dashboardQuery;
       // we use preloaded query from index only on first page load
       window.PRELOADED_QUERIES.dashboardQuery = undefined;
     } else {
-      queries = res.sections
-          .map(section => (section.suffixForDashboard ?
-            section.query + ' ' + section.suffixForDashboard :
-            section.query));
+      queries = res.sections.map(section =>
+        section.suffixForDashboard
+          ? section.query + ' ' + section.suffixForDashboard
+          : section.query
+      );
 
       if (checkForNewUser) {
         queries.push('owner:self limit:1');
       }
     }
 
-    return this.$.restAPI.getChanges(null, queries)
-        .then(changes => {
-          if (checkForNewUser) {
-            // Last set of results is not meant for dashboard display.
-            const lastResultSet = changes.pop();
-            this._showNewUserHelp = lastResultSet.length == 0;
-          }
-          this._results = changes.map((results, i) => {
-            return {
-              name: res.sections[i].name,
-              countLabel: this._computeSectionCountLabel(results),
-              query: res.sections[i].query,
-              results: this._maybeSortResults(res.sections[i].name, results),
-              isOutgoing: res.sections[i].isOutgoing,
-            };
-          }).filter((section, i) => i < res.sections.length && (
-            !res.sections[i].hideIfEmpty ||
-              section.results.length));
-        });
+    return this.$.restAPI.getChanges(undefined, queries).then(changes => {
+      if (!changes) {
+        throw new Error('getChanges returns undefined');
+      }
+      if (checkForNewUser) {
+        // Last set of results is not meant for dashboard display.
+        const lastResultSet = changes.pop();
+        this._showNewUserHelp = lastResultSet!.length === 0;
+      }
+      this._results = changes
+        .map((results, i) => {
+          return {
+            name: res.sections[i].name,
+            countLabel: this._computeSectionCountLabel(results),
+            query: res.sections[i].query,
+            results: this._maybeSortResults(res.sections[i].name, results),
+            isOutgoing: res.sections[i].isOutgoing,
+          };
+        })
+        .filter(
+          (section, i) =>
+            i < res.sections.length &&
+            (!res.sections[i].hideIfEmpty || section.results.length)
+        );
+    });
   }
 
   /**
@@ -275,7 +325,7 @@ class GrDashboardView extends GestureEventListeners(
    * top where the current user is a reviewer. Owned changes are less important.
    * And then we want to emphasize the changes where the waiting time is larger.
    */
-  _maybeSortResults(name, results) {
+  _maybeSortResults(name: string, results: ChangeInfo[]) {
     const userId = this.account && this.account._account_id;
     const sortedResults = [...results];
     if (name === YOUR_TURN.name && userId) {
@@ -291,14 +341,14 @@ class GrDashboardView extends GestureEventListeners(
         const c2Update = c2.attention_set[userId].last_update;
         // Should never happen that an attention set entry has no update.
         if (!c1Update || !c2Update) return c1Update ? 1 : -1;
-        return parseDate(c1Update) - parseDate(c2Update);
+        return parseDate(c1Update).valueOf() - parseDate(c2Update).valueOf();
       });
     }
     return sortedResults;
   }
 
-  _computeSectionCountLabel(changes) {
-    if (!changes || !changes.length || changes.length == 0) {
+  _computeSectionCountLabel(changes: ChangeInfo[]) {
+    if (!changes || !changes.length || changes.length === 0) {
       return '';
     }
     const more = changes[changes.length - 1]._more_changes;
@@ -307,44 +357,62 @@ class GrDashboardView extends GestureEventListeners(
     return `(${numChanges}${andMore})`;
   }
 
-  _computeUserHeaderClass(params) {
-    if (!params || !!params.project || !params.user ||
-        params.user === 'self') {
+  _computeUserHeaderClass(params: AppElementParams) {
+    if (
+      !params ||
+      params.view !== GerritView.DASHBOARD ||
+      !!params.project ||
+      !params.user ||
+      params.user === 'self'
+    ) {
       return 'hide';
     }
     return '';
   }
 
-  _handleToggleStar(e) {
-    this.$.restAPI.saveChangeStarred(e.detail.change._number,
-        e.detail.starred);
+  _handleToggleStar(e: CustomEvent<ChangeStarToggleStarDetail>) {
+    this.$.restAPI.saveChangeStarred(e.detail.change._number, e.detail.starred);
   }
 
-  _handleToggleReviewed(e) {
-    this.$.restAPI.saveChangeReviewed(e.detail.change._number,
-        e.detail.reviewed);
+  _handleToggleReviewed(e: CustomEvent<ChangeListToggleReviewedDetail>) {
+    this.$.restAPI.saveChangeReviewed(
+      e.detail.change._number,
+      e.detail.reviewed
+    );
   }
 
   /**
    * Banner is shown if a user is on their own dashboard and they have draft
    * comments on closed changes.
    */
-  _maybeShowDraftsBanner() {
+  _maybeShowDraftsBanner(params: AppElementDashboardParams) {
     this._showDraftsBanner = false;
-    if (!(this.params.user === 'self')) { return; }
+    if (!(params.user === 'self')) {
+      return;
+    }
 
-    const draftSection = this._results
-        .find(section => section.query === 'has:draft');
-    if (!draftSection || !draftSection.results.length) { return; }
+    if (!this._results) {
+      throw new Error('this._results must be set. restAPI returned undefined');
+    }
 
-    const closedChanges = draftSection.results
-        .filter(change => !changeIsOpen(change));
-    if (!closedChanges.length) { return; }
+    const draftSection = this._results.find(
+      section => section.query === 'has:draft'
+    );
+    if (!draftSection || !draftSection.results.length) {
+      return;
+    }
+
+    const closedChanges = draftSection.results.filter(
+      change => !changeIsOpen(change)
+    );
+    if (!closedChanges.length) {
+      return;
+    }
 
     this._showDraftsBanner = true;
   }
 
-  _computeBannerClass(show) {
+  _computeBannerClass(show: boolean) {
     return show ? '' : 'hide';
   }
 
@@ -356,7 +424,7 @@ class GrDashboardView extends GestureEventListeners(
     this.$.confirmDeleteDialog.disabled = true;
     return this.$.restAPI.deleteDraftComments('-is:open').then(() => {
       this._closeConfirmDeleteOverlay();
-      this._reload();
+      this._reload(this.params);
     });
   }
 
@@ -368,14 +436,18 @@ class GrDashboardView extends GestureEventListeners(
     return GerritNav.getUrlForSearchQuery('has:draft -is:open');
   }
 
-  _createChangeTap(e) {
+  _handleCreateChangeTap() {
     this.$.destinationDialog.open();
   }
 
-  _handleDestinationConfirm(e) {
+  _handleDestinationConfirm(e: CustomEvent<CreateDestinationConfirmDetail>) {
     this.$.commandsDialog.branch = e.detail.branch;
     this.$.commandsDialog.open();
   }
 }
 
-customElements.define(GrDashboardView.is, GrDashboardView);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-dashboard-view': GrDashboardView;
+  }
+}

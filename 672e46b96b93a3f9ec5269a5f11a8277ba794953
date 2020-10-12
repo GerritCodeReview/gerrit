@@ -16,6 +16,24 @@
       "message": "FYI: The new recommended style for this is to use `await flush();`.",
       "revId": "672e46b96b93a3f9ec5269a5f11a8277ba794953",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d07ba557_c5948d88",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host_test.js",
+        "patchSetId": 2
+      },
+      "lineNbr": 329,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-10-12T14:51:06Z",
+      "side": 1,
+      "message": "Thanks for pointing that out. I decided to fix this separately in https://gerrit-review.googlesource.com/c/gerrit/+/284222",
+      "parentUuid": "66bd7491_8ad40d04",
+      "revId": "672e46b96b93a3f9ec5269a5f11a8277ba794953",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

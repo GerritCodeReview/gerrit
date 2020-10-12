@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d91a75d5_e9836529",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 151,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "Maybe add 1-3 lines of method comment.",
+      "revId": "4c8979e29b3f6bd607427154b5ad54009c1c6897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c601bfa_b465f44f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-side-by-side.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 189,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "Maybe `paddingRow` instead of `backgroundRow`?\n\nAnd maybe write 1-3 lines of method comment about what this row is.",
+      "range": {
+        "startLine": 189,
+        "startChar": 2,
+        "endLine": 189,
+        "endChar": 36
+      },
+      "revId": "4c8979e29b3f6bd607427154b5ad54009c1c6897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0c242fa1_39cafa4a",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 146,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "The two methods _createContextRows and _createContextControlBackgroundRow have a bit too much overlap between unified and side-by-side diff. Can you maybe try to get rid of most of the overlap? Compared to the current state I would be happier with just one method in the parent class that takes DiffViewMode as a parameter. WDYT?",
+      "range": {
+        "startLine": 146,
+        "startChar": 2,
+        "endLine": 146,
+        "endChar": 20
+      },
+      "revId": "4c8979e29b3f6bd607427154b5ad54009c1c6897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1838608e_f6f407e7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder.ts",
+        "patchSetId": 13
+      },
+      "lineNbr": 350,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "Maybe add 1-3 lines of method comment.",
+      "revId": "4c8979e29b3f6bd607427154b5ad54009c1c6897",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

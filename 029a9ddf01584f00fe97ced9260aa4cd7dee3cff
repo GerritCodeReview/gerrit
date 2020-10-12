@@ -22,6 +22,30 @@
       },
       "revId": "029a9ddf01584f00fe97ced9260aa4cd7dee3cff",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ac1775b_9f94d671",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-12T07:06:02Z",
+      "side": 1,
+      "message": "it\u0027s rendered only once: https://imgur.com/a/6Tcg7zS\naccording to javadoc documentation [1] the syntax is\n\n {@link package.class#member label}\n\npackage.class#member \nis \"List\" linking to the javadoc of class List (javadoc doesn\u0027t accept generic type parameters here),\n\nlabel \ndefines the label to be displayed\n\n[1] https://docs.oracle.com/javase/8/docs/technotes/tools/windows/javadoc.html#CHDDIECH",
+      "parentUuid": "d37129ae_e1e81a5d",
+      "range": {
+        "startLine": 66,
+        "startChar": 69,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "029a9ddf01584f00fe97ced9260aa4cd7dee3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

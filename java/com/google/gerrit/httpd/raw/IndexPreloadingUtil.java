@@ -122,6 +122,7 @@ public class IndexPreloadingUtil {
     Set<ListChangesOption> options = EnumSet.noneOf(ListChangesOption.class);
     options.add(ListChangesOption.LABELS);
     options.add(ListChangesOption.DETAILED_ACCOUNTS);
+    options.add(ListChangesOption.CURRENT_REVISION);
 
     if (isEnabledAttentionSet(serverApi)) {
       options.add(ListChangesOption.DETAILED_LABELS);

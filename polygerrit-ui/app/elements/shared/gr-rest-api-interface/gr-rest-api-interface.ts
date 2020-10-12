@@ -1420,6 +1420,7 @@ export class GrRestApiInterface
     const options = [
       ListChangesOption.LABELS,
       ListChangesOption.DETAILED_ACCOUNTS,
+      ListChangesOption.CURRENT_REVISION,
     ];
     if (config?.change && config.change.enable_attention_set) {
       options.push(ListChangesOption.DETAILED_LABELS);

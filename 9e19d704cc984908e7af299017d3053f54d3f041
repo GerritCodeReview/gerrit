@@ -73,6 +73,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "88150c53_06c09cfb",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1079742
+      },
+      "writtenOn": "2020-10-12T09:09:42Z",
+      "side": 1,
+      "message": "Yes, each action button should be on one line per the hovercard guidelines.",
+      "parentUuid": "75d34148_ec133109",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "78a5bd77_79e42407",
         "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
         "patchSetId": 10

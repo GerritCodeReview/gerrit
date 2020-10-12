@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7639770f_ffd2433d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-12T16:20:21Z",
+      "side": 1,
+      "message": "Tests passed locally. It seems the replication plugin tests are flaky.",
+      "revId": "71ac15d663a3caeaab25889c41b82bbd2e55ca06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

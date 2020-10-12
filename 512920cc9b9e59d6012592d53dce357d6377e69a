@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "44bc41cb_f3594232",
+        "filename": "java/com/google/gerrit/server/query/change/GroupBackedUser.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 32,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-12T08:08:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c93ac99b_77183990",
+      "range": {
+        "startLine": 32,
+        "startChar": 72,
+        "endLine": 32,
+        "endChar": 76
+      },
+      "revId": "512920cc9b9e59d6012592d53dce357d6377e69a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0343a33_463a77c5",

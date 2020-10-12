@@ -247,10 +247,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   quote = '';
 
   @property({type: Object})
-  filterReviewerSuggestion: () => (input: Suggestion) => boolean;
+  filterReviewerSuggestion: (input: Suggestion) => boolean;
 
   @property({type: Object})
-  filterCCSuggestion: () => (input: Suggestion) => boolean;
+  filterCCSuggestion: (input: Suggestion) => boolean;
 
   @property({type: Object})
   permittedLabels?: LabelNameToValueMap;
@@ -373,10 +373,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   constructor() {
     super();
-    this.filterReviewerSuggestion = () =>
-      this._filterReviewerSuggestionGenerator(false);
-    this.filterCCSuggestion = () =>
-      this._filterReviewerSuggestionGenerator(true);
+    this.filterReviewerSuggestion = this._filterReviewerSuggestionGenerator(
+      false
+    );
+    this.filterCCSuggestion = this._filterReviewerSuggestionGenerator(true);
   }
 
   /** @override */

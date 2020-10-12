@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "78f69c56_3c5eb322",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 338,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T14:29:10Z",
+      "side": 1,
+      "message": "Was it worth extracting a method for this?",
+      "range": {
+        "startLine": 338,
+        "startChar": 24,
+        "endLine": 338,
+        "endChar": 34
+      },
+      "revId": "6cd1f207d2e27c3a55e1f29b861330d6e6b0d3be",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

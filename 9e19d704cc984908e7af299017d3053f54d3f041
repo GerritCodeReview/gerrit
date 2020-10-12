@@ -89,6 +89,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "fd3d9dd7_ea5bad62",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 10
+      },
+      "lineNbr": 14,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "88150c53_06c09cfb",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "78a5bd77_79e42407",
@@ -138,6 +156,24 @@
       "side": 1,
       "message": "It is not a Polymer compute method? I have not looked it up, but I thought methods being used in the HTML template behave identically to compute methods, i.e. as soon as one of `account` or `change` becomes defined, this method will be called. Can you double check?",
       "parentUuid": "f77088f4_e3fa8db0",
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a961e63d_93ff9c94",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 158,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c22e7d66_e7ffc7c7",
       "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -285,6 +321,30 @@
       "side": 1,
       "message": "Each guard statement can fit on one line.",
       "parentUuid": "0fb99ecc_78587439",
+      "range": {
+        "startLine": 190,
+        "startChar": 52,
+        "endLine": 190,
+        "endChar": 58
+      },
+      "revId": "9e19d704cc984908e7af299017d3053f54d3f041",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad9c41a1_0cd8b24a",
+        "filename": "polygerrit-ui/app/elements/shared/gr-hovercard-account/gr-hovercard-account.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 190,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T14:45:02Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87be569d_84d379be",
       "range": {
         "startLine": 190,
         "startChar": 52,

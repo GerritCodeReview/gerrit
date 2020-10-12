@@ -38,6 +38,7 @@ public class EmailSettings {
   public final Encryption encryption;
   public final long fetchInterval; // in milliseconds
   public final boolean sendNewPatchsetEmails;
+  public final boolean isAttentionSetEnabled;
 
   @Inject
   EmailSettings(@GerritServerConfig Config cfg) {
@@ -60,5 +61,6 @@ public class EmailSettings {
             TimeUnit.MILLISECONDS.convert(60, TimeUnit.SECONDS),
             TimeUnit.MILLISECONDS);
     sendNewPatchsetEmails = cfg.getBoolean("change", null, "sendNewPatchsetEmails", true);
+    isAttentionSetEnabled = cfg.getBoolean("change", null, "enableAttentionSet", false);
   }
 }

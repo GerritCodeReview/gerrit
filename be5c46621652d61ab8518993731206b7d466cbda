@@ -91,6 +91,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0d4563cc_a10b7f81",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-builder/gr-diff-builder-unified.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "I think I would still prefer a separate component, but I won\u0027t be blocking the review on that, if you think it is either not worth it or actually better as it currently is. Please continue as you see fit.\n\nI don\u0027t think the \"bleeding\" of information into the component is problematic. It is expected that a certain amount of data has to be passed into the component to configure it.\n\nI think I personally prefer a template with lots of conditionals. I still have an easier time to understand the overall resulting structure, e.g. level of nestedness.\n\nAlso, at the moment there are a lot of css rules applying to the context control only. It would be great to have them separated somehow, even without taking the component approach. For example just with some blank lines or comment blocks.",
+      "parentUuid": "bc09f9c8_92b3450f",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "ecddca51_474c2cd4",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
         "patchSetId": 9
@@ -173,6 +191,30 @@
       "side": 1,
       "message": "Originally I tried to have one empty line of diff text in the background row, so essentially \"1lh\" (once that becomes available) or a calc() of line height times font size. However that looks slightly too cramped, as the button borders for the above and below buttons will start encroaching on the content above and below. I could change this too a calc of roughly 1.5 * line height * font size, but I thought ems were more concise and should do the right thing if we scale the text, unless I misunderstand how these work?",
       "parentUuid": "a7fa473c_d2f4851a",
+      "range": {
+        "startLine": 241,
+        "startChar": 6,
+        "endLine": 241,
+        "endChar": 18
+      },
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f9c508c2_d862f557",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 241,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "Maybe go for a calc of --line-height-normal + --spacing-s? I think that would express better what you are trying to accomplish here. You could add a comment explaining that the line-height is for the button and the spacing-s is for a bit of padding.",
+      "parentUuid": "92908aef_652291e4",
       "range": {
         "startLine": 241,
         "startChar": 6,
@@ -296,6 +338,24 @@
       "side": 1,
       "message": "When I remove absolute positioning and instead give the td a colspan\u003d\"4\", it seems to ignore that until I remove display: flex (which would complicate my horizontal centering). The current approach seemed the most simple, but maybe you have another idea.",
       "parentUuid": "ae6363cc_c773c6c9",
+      "revId": "be5c46621652d61ab8518993731206b7d466cbda",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4655e96f_2352b3bd",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff/gr-diff_html.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 256,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-12T12:01:16Z",
+      "side": 1,
+      "message": "Applying `display:flex` to a \u003ctd\u003e is a bit weird anyway. I would recommend to put a container \u003cdiv\u003e inside the \u003ctd\u003e and apply styles to that. Maybe then you problem with colspan\u003d4 also goes away?",
+      "parentUuid": "b3f76667_1b623174",
       "revId": "be5c46621652d61ab8518993731206b7d466cbda",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

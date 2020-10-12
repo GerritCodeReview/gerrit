@@ -169,6 +169,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "af997d71_fa4b73e8",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 17
+      },
+      "lineNbr": 936,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33557685_72708fa1",
+      "range": {
+        "startLine": 936,
+        "startChar": 1,
+        "endLine": 936,
+        "endChar": 16
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "7e4b3cb3_8468173f",
@@ -263,6 +287,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e195539f_c7361882",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 255,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "I was following the existing pattern.",
+      "parentUuid": "fecb50ee_378c301d",
+      "range": {
+        "startLine": 255,
+        "startChar": 16,
+        "endLine": 255,
+        "endChar": 24
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e310dc90_286588c5",
@@ -309,6 +357,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "029522aa_e0a073f5",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4669010c_2dfb5905",
+      "range": {
+        "startLine": 306,
+        "startChar": 73,
+        "endLine": 306,
+        "endChar": 77
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0913dc7a_38c96681",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 306,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e310dc90_286588c5",
+      "range": {
+        "startLine": 306,
+        "startChar": 58,
+        "endLine": 306,
+        "endChar": 70
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0d66e11c_c69579f5",
@@ -322,6 +418,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "Optionals in arguments are discouraged. Just use an empty collection here in case there\u0027s no PDAF",
+      "range": {
+        "startLine": 440,
+        "startChar": 6,
+        "endLine": 440,
+        "endChar": 14
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "22cb80ed_8d99ea4f",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 440,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0d66e11c_c69579f5",
       "range": {
         "startLine": 440,
         "startChar": 6,
@@ -355,6 +475,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "feb62fbd_d4183d76",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 468,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "87827960_3f45b57c",
+      "range": {
+        "startLine": 466,
+        "startChar": 18,
+        "endLine": 468,
+        "endChar": 40
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3ae7420d_ef3e270f",
@@ -368,6 +512,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "Similar to above, don\u0027t wrap collections in optionals. Use empty collections instead (which the ListMultiMap returns if there\u0027s no value for a key).",
+      "range": {
+        "startLine": 526,
+        "startChar": 6,
+        "endLine": 526,
+        "endChar": 14
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ee9ddad3_383dc366",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 526,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ae7420d_ef3e270f",
       "range": {
         "startLine": 526,
         "startChar": 6,
@@ -401,6 +569,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "bb6b177c_75214920",
+        "filename": "java/com/google/gerrit/server/change/ChangeJson.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 647,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "823edbdf_96c6e55d",
+      "range": {
+        "startLine": 639,
+        "startChar": 0,
+        "endLine": 647,
+        "endChar": 5
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b0087032_676a48c9",
@@ -414,6 +606,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "nit: ... for each of the provided {@link ChangeData}s",
+      "range": {
+        "startLine": 41,
+        "startChar": 5,
+        "endLine": 41,
+        "endChar": 41
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b149088a_1f0063f5",
+        "filename": "java/com/google/gerrit/server/change/ChangePluginDefinedInfoFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b0087032_676a48c9",
       "range": {
         "startLine": 41,
         "startChar": 5,
@@ -447,6 +663,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "16381b7c_6263ef61",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 66,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e0d14d81_a5a5aafc",
+      "range": {
+        "startLine": 66,
+        "startChar": 0,
+        "endLine": 66,
+        "endChar": 11
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2540daec_86075bb2",
@@ -460,6 +700,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "nit:naming\n\nsuggestion: pluginInfosByChange",
+      "range": {
+        "startLine": 71,
+        "startChar": 64,
+        "endLine": 71,
+        "endChar": 68
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8cabe0c_7a9b22c8",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 71,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2540daec_86075bb2",
       "range": {
         "startLine": 71,
         "startChar": 64,
@@ -606,6 +870,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ceb08da9_3950167b",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1cb26549_1e8550d6",
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4240c128_3cbeb71a",
@@ -619,6 +901,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "Should this happen in the constructor instead? It seems it\u0027s the only place where you need the values.",
+      "range": {
+        "startLine": 155,
+        "startChar": 13,
+        "endLine": 155,
+        "endChar": 65
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a23b007e_e558253c",
+        "filename": "java/com/google/gerrit/server/query/change/ChangeQueryProcessor.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 155,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4240c128_3cbeb71a",
       "range": {
         "startLine": 155,
         "startChar": 13,
@@ -652,6 +958,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f164ad29_7f766b5d",
+        "filename": "java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c8aa3ba_182a39e9",
+      "range": {
+        "startLine": 103,
+        "startChar": 62,
+        "endLine": 103,
+        "endChar": 65
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "df329be5_838feaae",
@@ -665,6 +995,30 @@
       "writtenOn": "2020-10-08T13:50:50Z",
       "side": 1,
       "message": "Same as before for treating collections/null/lists.",
+      "range": {
+        "startLine": 333,
+        "startChar": 21,
+        "endLine": 333,
+        "endChar": 26
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1e4403a0_976a9a7f",
+        "filename": "java/com/google/gerrit/server/query/change/OutputStreamQuery.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 333,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-12T15:54:18Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "df329be5_838feaae",
       "range": {
         "startLine": 333,
         "startChar": 21,

@@ -567,6 +567,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "db3c56d5_2e7f7159",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 17
+      },
+      "lineNbr": 96,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-12T07:36:36Z",
+      "side": 1,
+      "message": "Sure. This is a valid argument for model (2) that I described. If you want to handle it this way, I think that\u0027s OK. It does mean that plugin developers would need to handle the error cases in their frontend plugin as well. But that seems OK to me as well.",
+      "parentUuid": "32fde4f5_938b3a7f",
+      "range": {
+        "startLine": 96,
+        "startChar": 9,
+        "endLine": 96,
+        "endChar": 59
+      },
+      "revId": "e8ef2ce9f1373b5eadfe6414271ec6d277dd5d3e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "1cb26549_1e8550d6",
         "filename": "java/com/google/gerrit/server/change/PluginDefinedInfosFactory.java",
         "patchSetId": 17

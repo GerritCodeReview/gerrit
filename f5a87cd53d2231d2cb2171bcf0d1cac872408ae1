@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9efd49f4_3aaa7eee",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-12T20:56:34Z",
+      "side": 1,
+      "message": "The latest verification on stable-3.3 was successful (see [1]). Merging it anyway as the failing test looks just flaky.\n\n[1] https://gerrit-ci.gerritforge.com/job/Gerrit-bazel-java11-stable-3.2/7/",
+      "revId": "f5a87cd53d2231d2cb2171bcf0d1cac872408ae1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

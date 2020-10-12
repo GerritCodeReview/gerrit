@@ -145,16 +145,12 @@ export class GrHovercardAccount extends GestureEventListeners(
 
   _handleClickAddToAttentionSet() {
     if (!this.change || !this.account._account_id) return;
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {
-          message: 'Saving attention set update ...',
-          dismissOnNavigation: true,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    this.dispatchEventThroughTarget('show-alert', {
+      detail: {
+        message: 'Saving attention set update ...',
+        dismissOnNavigation: true,
+      },
+    });
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.
@@ -181,16 +177,12 @@ export class GrHovercardAccount extends GestureEventListeners(
 
   _handleClickRemoveFromAttentionSet() {
     if (!this.change || !this.account._account_id) return;
-    this.dispatchEvent(
-      new CustomEvent('show-alert', {
-        detail: {
-          message: 'Saving attention set update ...',
-          dismissOnNavigation: true,
-        },
-        composed: true,
-        bubbles: true,
-      })
-    );
+    this.dispatchEventThroughTarget('show-alert', {
+      detail: {
+        message: 'Saving attention set update ...',
+        dismissOnNavigation: true,
+      },
+    });
 
     // We are deliberately updating the UI before making the API call. It is a
     // risk that we are taking to achieve a better UX for 99.9% of the cases.

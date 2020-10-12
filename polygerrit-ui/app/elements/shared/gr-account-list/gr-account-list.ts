@@ -134,7 +134,7 @@ export class GrAccountList extends GestureEventListeners(
   change?: ChangeInfo;
 
   @property({type: Object})
-  filter?: (input: Suggestion) => boolean;
+  filter?: () => (input: Suggestion) => boolean;
 
   @property({type: String})
   placeholder = '';
@@ -222,7 +222,9 @@ export class GrAccountList extends GestureEventListeners(
         return [];
       }
       if (this.filter) {
-        suggestions = suggestions.filter(this.filter);
+        suggestions = suggestions.filter(suggestion =>
+          this.filter!()(suggestion)
+        );
       }
       return suggestions.map(suggestion =>
         provider.makeSuggestionItem(suggestion)

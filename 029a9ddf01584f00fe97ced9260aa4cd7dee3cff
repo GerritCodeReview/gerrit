@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d37129ae_e1e81a5d",
+        "filename": "java/com/google/gerrit/server/CommentContextLoader.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 68,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-12T06:07:10Z",
+      "side": 1,
+      "message": "List seems to appear twice now.",
+      "range": {
+        "startLine": 66,
+        "startChar": 69,
+        "endLine": 68,
+        "endChar": 4
+      },
+      "revId": "029a9ddf01584f00fe97ced9260aa4cd7dee3cff",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

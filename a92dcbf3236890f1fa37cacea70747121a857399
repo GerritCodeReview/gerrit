@@ -39,6 +39,48 @@
       "message": "Can you add a TODO(TS) here that this is just a bandaid and that we need to have another look at that when we convert the change-view?",
       "revId": "a92dcbf3236890f1fa37cacea70747121a857399",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c8d3b250_6fe2e252",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T08:12:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "fade0db3_4fa873a1",
+      "range": {
+        "startLine": 1061,
+        "startChar": 15,
+        "endLine": 1061,
+        "endChar": 23
+      },
+      "revId": "a92dcbf3236890f1fa37cacea70747121a857399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "619fdb76_2973eda4",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.js",
+        "patchSetId": 1
+      },
+      "lineNbr": 1061,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-12T08:12:11Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "6a6b9465_fcfdbfd7",
+      "revId": "a92dcbf3236890f1fa37cacea70747121a857399",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

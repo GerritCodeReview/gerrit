@@ -115,7 +115,7 @@ suite('gr-hovercard-account tests', () => {
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
-    element.addEventListener('show-alert', showAlertListener);
+    element._target.addEventListener('show-alert', showAlertListener);
     element._target.addEventListener('hide-alert', hideAlertListener);
     element._target.addEventListener('attention-set-updated', updatedListener);
 
@@ -149,7 +149,7 @@ suite('gr-hovercard-account tests', () => {
     const showAlertListener = sinon.spy();
     const hideAlertListener = sinon.spy();
     const updatedListener = sinon.spy();
-    element.addEventListener('show-alert', showAlertListener);
+    element._target.addEventListener('show-alert', showAlertListener);
     element._target.addEventListener('hide-alert', hideAlertListener);
     element._target.addEventListener('attention-set-updated', updatedListener);
 

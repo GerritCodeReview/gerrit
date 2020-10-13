@@ -446,7 +446,7 @@ export const htmlTemplate = html`
 
           <template
             is="dom-if"
-            if="[[showNoChangeMessage(loading, prefs, _diffLength, diff)]]"
+            if="[[showNoChangeMessage(_loading, prefs, _diffLength, diff)]]"
           >
             <div class="whitespace-change-only-message">
               This file only contains whitespace changes. Modify the whitespace
@@ -457,7 +457,7 @@ export const htmlTemplate = html`
       </gr-diff-highlight>
     </gr-diff-selection>
   </div>
-  <div class$="[[_computeNewlineWarningClass(_newlineWarning, loading)]]">
+  <div class$="[[_computeNewlineWarningClass(_newlineWarning, _loading)]]">
     [[_newlineWarning]]
   </div>
   <div id="loadingError" class$="[[_computeErrorClass(errorMessage)]]">

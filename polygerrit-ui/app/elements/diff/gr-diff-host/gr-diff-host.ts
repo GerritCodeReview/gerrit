@@ -231,9 +231,6 @@ export class GrDiffHost extends GestureEventListeners(
   @property({type: Boolean})
   _loggedIn = false;
 
-  @property({type: Boolean})
-  _loading = false;
-
   @property({type: String})
   _errorMessage: string | null = null;
 
@@ -331,7 +328,7 @@ export class GrDiffHost extends GestureEventListeners(
     this.clear();
     if (!this.path) throw new Error('Missing required "path" property.');
     if (!this.changeNum) throw new Error('Missing required "changeNum" prop.');
-    this._loading = true;
+    this.diff = undefined;
     this._errorMessage = null;
     const whitespaceLevel = this._getIgnoreWhitespace();
 
@@ -381,7 +378,6 @@ export class GrDiffHost extends GestureEventListeners(
     } finally {
       this.reporting.timeEnd(TimingLabel.TOTAL);
     }
-    this._loading = false;
   }
 
   private _getLayers(path: string, changeNum: NumericChangeId): DiffLayer[] {

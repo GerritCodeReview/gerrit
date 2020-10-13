@@ -212,6 +212,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2353b4d8_869d058f",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 110,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-13T11:39:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "33224bcf_3e36870a",
+      "range": {
+        "startLine": 110,
+        "startChar": 42,
+        "endLine": 110,
+        "endChar": 46
+      },
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "151189f5_2c74e1c7",
@@ -368,6 +392,24 @@
       "side": 1,
       "message": "Yes sounds good. I did not include all caps in the mocks thus the confusion. We\u0027ll change the button to small caps in a later change.",
       "parentUuid": "8e619b83_53ff9b0c",
+      "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8dd028c3_17c737d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list_html.ts",
+        "patchSetId": 12
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-13T11:39:24Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "3ec92552_b4dada51",
       "revId": "537f4fa8a9ede2c14f3475894c2bda752914a9a0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

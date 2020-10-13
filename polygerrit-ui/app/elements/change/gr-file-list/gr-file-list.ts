@@ -14,41 +14,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../../styles/shared-styles.js';
-import '../../diff/gr-diff-cursor/gr-diff-cursor.js';
-import '../../diff/gr-diff-host/gr-diff-host.js';
-import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog.js';
-import '../../edit/gr-edit-file-controls/gr-edit-file-controls.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-cursor-manager/gr-cursor-manager.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../../shared/gr-linked-text/gr-linked-text.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-select/gr-select.js';
-import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
-import '../../shared/gr-copy-clipboard/gr-copy-clipboard.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-file-list_html.js';
-import {asyncForeach} from '../../../utils/async-util.js';
-import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {FilesExpandedState} from '../gr-file-list-constants.js';
-import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {appContext} from '../../../services/app-context.js';
-import {SpecialFilePath} from '../../../constants/constants.js';
-import {descendedFromClass} from '../../../utils/dom-util.js';
-import {
-  addUnmodifiedFiles,
-  computeDisplayPath,
-  computeTruncatedPath,
-  isMagicPath,
-  specialFilePathCompare,
-} from '../../../utils/path-list-util.js';
+import '../../../styles/shared-styles';
+import '../../diff/gr-diff-cursor/gr-diff-cursor';
+import '../../diff/gr-diff-host/gr-diff-host';
+import '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
+import '../../edit/gr-edit-file-controls/gr-edit-file-controls';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-cursor-manager/gr-cursor-manager';
+import '../../shared/gr-icons/gr-icons';
+import '../../shared/gr-linked-text/gr-linked-text';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-select/gr-select';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import '../../shared/gr-copy-clipboard/gr-copy-clipboard';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-file-list_html';
+import {asyncForeach} from '../../../utils/async-util';
+import {CustomKeyboardEvent, KeyboardShortcutMixin, Modifier, Shortcut,} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {FilesExpandedState} from '../gr-file-list-constants';
+import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter';
+import {GerritNav} from '../../core/gr-navigation/gr-navigation';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {appContext} from '../../../services/app-context';
+import {DiffViewMode, SpecialFilePath} from '../../../constants/constants';
+import {descendedFromClass} from '../../../utils/dom-util';
+import {addUnmodifiedFiles, computeDisplayPath, computeTruncatedPath, isMagicPath, specialFilePathCompare,} from '../../../utils/path-list-util';
+import {customElement, observe, property} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {ConfigInfo, DiffPreferencesInfo, ElementPropertyDeepChange, FileInfo, FileNameToFileInfoMap, NumericChangeId, PatchRange, PreferencesInfo, RevisionInfo,} from '../../../types/common';
+import {GrDiffHost} from '../../diff/gr-diff-host/gr-diff-host';
+import {GrDiffPreferencesDialog} from '../../diff/gr-diff-preferences-dialog/gr-diff-preferences-dialog';
+import {hasOwnProperty} from '../../../utils/common-util';
+import {GrDiffCursor} from '../../diff/gr-diff-cursor/gr-diff-cursor';
+import {GrCursorManager} from '../../shared/gr-cursor-manager/gr-cursor-manager';
+import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
+import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
+import {UIDraft} from '../../../utils/comment-util';
+import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 const WARN_SHOW_ALL_THRESHOLD = 1000;
 const LOADING_DEBOUNCE_INTERVAL = 100;
@@ -74,6 +80,74 @@ const FileStatus = {
 
 const FILE_ROW_CLASS = 'file-row';
 
+export interface GrFileList {
+  $: {
+    restAPI: RestApiService & Element;
+    diffPreferencesDialog: GrDiffPreferencesDialog;
+    diffCursor: GrDiffCursor;
+    fileCursor: GrCursorManager;
+  };
+}
+
+interface ReviewedFileInfo extends FileInfo {
+  isReviewed?: boolean;
+}
+interface NormalizedFileInfo extends ReviewedFileInfo {
+  __path: string;
+}
+
+interface PatchChange {
+  inserted: number;
+  deleted: number;
+  size_delta_inserted: number;
+  size_delta_deleted: number;
+  total_size: number;
+}
+
+function createDefaultPatchChange(): PatchChange {
+  // Use function instead of const to prevent unexpected changes in the default
+  // values.
+  return {
+    inserted: 0,
+    deleted: 0,
+    size_delta_inserted: 0,
+    size_delta_deleted: 0,
+    total_size: 0,
+  };
+}
+
+interface SizeBarLayout {
+  maxInserted: number;
+  maxDeleted: number;
+  maxAdditionWidth: number;
+  maxDeletionWidth: number;
+  deletionOffset: number;
+}
+
+function createDefaultSizeBarLayout(): SizeBarLayout {
+  // Use function instead of const to prevent unexpected changes in the default
+  // values.
+  return {
+    maxInserted: 0,
+    maxDeleted: 0,
+    maxAdditionWidth: 0,
+    maxDeletionWidth: 0,
+    deletionOffset: 0,
+  }
+};
+
+interface FileRange {
+  path: string;
+  basePath?: string;
+}
+
+interface FileRow {
+  file: FileRange;
+  element: HTMLElement;
+}
+
+export type FileNameToReviewedFileInfoMap = {[name: string]: ReviewedFileInfo};
+
 /**
  * Type for FileInfo
  *
@@ -89,175 +163,156 @@ const FILE_ROW_CLASS = 'file-row';
  * @property {number} lines_inserted - fallback to 0 if not present in api
  */
 
-/**
- * @extends PolymerElement
- */
-class GrFileList extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+@customElement('gr-file-list')
+export class GrFileList extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
 
-  static get is() { return 'gr-file-list'; }
   /**
    * Fired when a draft refresh should get triggered
    *
    * @event reload-drafts
    */
 
-  static get properties() {
-    return {
-    /** @type {?} */
-      patchRange: Object,
-      patchNum: String,
-      changeNum: String,
-      /** @type {?} */
-      changeComments: Object,
-      drafts: Object,
-      revisions: Array,
-      projectConfig: Object,
-      selectedIndex: {
-        type: Number,
-        notify: true,
-      },
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      /** @type {?} */
-      change: Object,
-      diffViewMode: {
-        type: String,
-        notify: true,
-        observer: '_updateDiffPreferences',
-      },
-      editMode: {
-        type: Boolean,
-        observer: '_editModeChanged',
-      },
-      filesExpanded: {
-        type: String,
-        value: FilesExpandedState.NONE,
-        notify: true,
-      },
-      _filesByPath: Object,
+  @property({type: Object})
+  patchRange?: PatchRange;
 
-      /** @type {!Array<FileInfo>} */
-      _files: {
-        type: Array,
-        observer: '_filesChanged',
-        value() { return []; },
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _reviewed: {
-        type: Array,
-        value() { return []; },
-      },
-      diffPrefs: {
-        type: Object,
-        notify: true,
-        observer: '_updateDiffPreferences',
-      },
-      /** @type {?} */
-      _userPrefs: Object,
-      _showInlineDiffs: Boolean,
-      numFilesShown: {
-        type: Number,
-        notify: true,
-      },
-      /** @type {?} */
-      _patchChange: {
-        type: Object,
-        computed: '_calculatePatchChange(_files)',
-      },
-      fileListIncrement: Number,
-      _hideChangeTotals: {
-        type: Boolean,
-        computed: '_shouldHideChangeTotals(_patchChange)',
-      },
-      _hideBinaryChangeTotals: {
-        type: Boolean,
-        computed: '_shouldHideBinaryChangeTotals(_patchChange)',
-      },
+  @property({type: String})
+  patchNum?: string;
 
-      _shownFiles: {
-        type: Array,
-        computed: '_computeFilesShown(numFilesShown, _files)',
-      },
+  @property({type: Number})
+  changeNum?: NumericChangeId;
 
-      /**
-       * The amount of files added to the shown files list the last time it was
-       * updated. This is used for reporting the average render time.
-       */
-      _reportinShownFilesIncrement: Number,
+  @property({type: Object})
+  changeComments?: ChangeComments[];
 
-      /** @type {!Array<Gerrit.FileRange>} */
-      _expandedFiles: {
-        type: Array,
-        value() { return []; },
-      },
-      _displayLine: Boolean,
-      _loading: {
-        type: Boolean,
-        observer: '_loadingChanged',
-      },
-      /** @type {Gerrit.LayoutStats|undefined} */
-      _sizeBarLayout: {
-        type: Object,
-        computed: '_computeSizeBarLayout(_shownFiles.*)',
-      },
+  @property({type: Object})
+  drafts?: {[path: string]: UIDraft[]};
 
-      _showSizeBars: {
-        type: Boolean,
-        value: true,
-        computed: '_computeShowSizeBars(_userPrefs)',
-      },
+  @property({type: Array})
+  revisions?: {[revisionId: string]: RevisionInfo};
 
-      /** @type {Function} */
-      _cancelForEachDiff: Function,
+  @property({type: Object})
+  projectConfig?: ConfigInfo;
 
-      _showDynamicColumns: {
-        type: Boolean,
-        computed: '_computeShowDynamicColumns(_dynamicHeaderEndpoints, ' +
-                '_dynamicContentEndpoints, _dynamicSummaryEndpoints)',
-      },
-      _showPrependedDynamicColumns: {
-        type: Boolean,
-        computed: '_computeShowPrependedDynamicColumns(' +
-        '_dynamicPrependedHeaderEndpoints, _dynamicPrependedContentEndpoints)',
-      },
-      /** @type {Array<string>} */
-      _dynamicHeaderEndpoints: {
-        type: Array,
-      },
-      /** @type {Array<string>} */
-      _dynamicContentEndpoints: {
-        type: Array,
-      },
-      /** @type {Array<string>} */
-      _dynamicSummaryEndpoints: {
-        type: Array,
-      },
-      /** @type {Array<string>} */
-      _dynamicPrependedHeaderEndpoints: {
-        type: Array,
-      },
-      /** @type {Array<string>} */
-      _dynamicPrependedContentEndpoints: {
-        type: Array,
-      },
-    };
-  }
+  @property({type: Number, notify: true})
+  selectedIndex?: number;
 
-  static get observers() {
-    return [
-      '_expandedFilesChanged(_expandedFiles.splices)',
-      '_computeFiles(_filesByPath, changeComments, patchRange, _reviewed, ' +
-        '_loading)',
-    ];
-  }
+  @property({type: Object})
+  keyEventTarget = document.body;
+
+  @property({type: Object})
+  change?: ParsedChangeInfo;
+
+  @property({type: String, notify: true, observer: '_updateDiffPreferences'})
+  diffViewMode?: DiffViewMode;
+
+  @property({type: Boolean, observer: '_editModeChanged'})
+  editMode?: boolean;
+
+  @property({type: String, notify: true})
+  filesExpanded = FilesExpandedState.NONE;
+
+  @property({type: Object})
+  _filesByPath?: FileNameToFileInfoMap;
+
+  @property({type: Array, observer: '_filesChanged'})
+  _files: NormalizedFileInfo[] = [];
+
+  @property({type: Boolean})
+  _loggedIn = false;
+
+  @property({type: Array})
+  _reviewed?: string[] = [];
+
+  @property({type: Object, notify: true, observer: '_updateDiffPreferences'})
+  diffPrefs?: DiffPreferencesInfo;
+
+  @property({type: Object})
+  _userPrefs?: PreferencesInfo;
+
+  @property({type: Boolean})
+  _showInlineDiffs?: boolean;
+
+  @property({type: Number, notify: true})
+  numFilesShown?: number;
+
+  @property({type: Object, computed: '_calculatePatchChange(_files)'})
+  _patchChange: PatchChange = createDefaultPatchChange();
+
+  @property({type: Number})
+  fileListIncrement?: number;
+
+  @property({type: Boolean, computed: '_shouldHideChangeTotals(_patchChange)'})
+  _hideChangeTotals = true;
+
+  @property({
+    type: Boolean,
+    computed: '_shouldHideBinaryChangeTotals(_patchChange)',
+  })
+  _hideBinaryChangeTotals = true;
+
+  @property({
+    type: Array,
+    computed: '_computeFilesShown(numFilesShown, _files)',
+  })
+  _shownFiles: NormalizedFileInfo[] = [];
+
+  @property({type: Number})
+  _reportinShownFilesIncrement?: number;
+
+  @property({type: Array})
+  _expandedFiles: FileRange[] = [];
+
+  @property({type: Boolean})
+  _displayLine?: boolean;
+
+  @property({type: Boolean, observer: '_loadingChanged'})
+  _loading?: boolean;
+
+  @property({type: Object, computed: '_computeSizeBarLayout(_shownFiles.*)'})
+  _sizeBarLayout: SizeBarLayout = createDefaultSizeBarLayout();
+
+  @property({type: Boolean, computed: '_computeShowSizeBars(_userPrefs)'})
+  _showSizeBars = true;
+
+  private _cancelForEachDiff?: () => void;
+
+  @property({
+    type: Boolean,
+    computed:
+      '_computeShowDynamicColumns(_dynamicHeaderEndpoints, ' +
+      '_dynamicContentEndpoints, _dynamicSummaryEndpoints)',
+  })
+  _showDynamicColumns = false;
+
+  @property({
+    type: Boolean,
+    computed:
+      '_computeShowPrependedDynamicColumns(' +
+      '_dynamicPrependedHeaderEndpoints, _dynamicPrependedContentEndpoints)',
+  })
+  _showPrependedDynamicColumns = false;
+
+  @property({type: Array})
+  _dynamicHeaderEndpoints?: string[];
+
+  @property({type: Array})
+  _dynamicContentEndpoints?: string[];
+
+  @property({type: Array})
+  _dynamicSummaryEndpoints?: string[];
+
+  @property({type: Array})
+  _dynamicPrependedHeaderEndpoints?: string[];
+
+  @property({type: Array})
+  _dynamicPrependedContentEndpoints?: string[];
+
+  private readonly reporting = appContext.reportingService;
 
   get keyBindings() {
     return {
@@ -292,50 +347,59 @@ class GrFileList extends KeyboardShortcutMixin(
     };
   }
 
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
-
   /** @override */
   created() {
     super.created();
-    this.addEventListener('keydown',
-        e => this._scopedKeydownHandler(e));
+    this.addEventListener('keydown', e => this._scopedKeydownHandler(e));
   }
 
   /** @override */
   attached() {
     super.attached();
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => {
-          this._dynamicHeaderEndpoints = getPluginEndpoints()
-              .getDynamicEndpoints('change-view-file-list-header');
-          this._dynamicContentEndpoints = getPluginEndpoints()
-              .getDynamicEndpoints('change-view-file-list-content');
-          this._dynamicPrependedHeaderEndpoints = getPluginEndpoints()
-              .getDynamicEndpoints('change-view-file-list-header-prepend');
-          this._dynamicPrependedContentEndpoints = getPluginEndpoints()
-              .getDynamicEndpoints('change-view-file-list-content-prepend');
-          this._dynamicSummaryEndpoints = getPluginEndpoints()
-              .getDynamicEndpoints('change-view-file-list-summary');
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this._dynamicHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-header'
+        );
+        this._dynamicContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-content'
+        );
+        this._dynamicPrependedHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-header-prepend'
+        );
+        this._dynamicPrependedContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-content-prepend'
+        );
+        this._dynamicSummaryEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-file-list-summary'
+        );
 
-          if (this._dynamicHeaderEndpoints.length !==
-          this._dynamicContentEndpoints.length) {
-            console.warn(
-                'Different number of dynamic file-list header and content.');
-          }
-          if (this._dynamicPrependedHeaderEndpoints.length !==
-        this._dynamicPrependedContentEndpoints.length) {
-            console.warn(
-                'Different number of dynamic file-list header and content.');
-          }
-          if (this._dynamicHeaderEndpoints.length !==
-          this._dynamicSummaryEndpoints.length) {
-            console.warn(
-                'Different number of dynamic file-list headers and summary.');
-          }
-        });
+        if (
+          this._dynamicHeaderEndpoints.length !==
+          this._dynamicContentEndpoints.length
+        ) {
+          console.warn(
+            'Different number of dynamic file-list header and content.'
+          );
+        }
+        if (
+          this._dynamicPrependedHeaderEndpoints.length !==
+          this._dynamicPrependedContentEndpoints.length
+        ) {
+          console.warn(
+            'Different number of dynamic file-list header and content.'
+          );
+        }
+        if (
+          this._dynamicHeaderEndpoints.length !==
+          this._dynamicSummaryEndpoints.length
+        ) {
+          console.warn(
+            'Different number of dynamic file-list headers and summary.'
+          );
+        }
+      });
   }
 
   /** @override */
@@ -351,7 +415,7 @@ class GrFileList extends KeyboardShortcutMixin(
    *
    * Context: Issue 7277
    */
-  _scopedKeydownHandler(e) {
+  _scopedKeydownHandler(e: CustomKeyboardEvent) {
     if (e.keyCode === 13) {
       // Enter.
       this._handleOpenFile(e);
@@ -359,35 +423,51 @@ class GrFileList extends KeyboardShortcutMixin(
   }
 
   reload() {
-    if (!this.changeNum || !this.patchRange.patchNum) {
+    if (!this.changeNum || !this.patchRange?.patchNum) {
       return Promise.resolve();
     }
+    const changeNum = this.changeNum;
+    const patchRange = this.patchRange;
 
     this._loading = true;
 
     this.collapseAllDiffs();
     const promises = [];
 
-    promises.push(this._getFiles().then(filesByPath => {
-      this._filesByPath = filesByPath;
-    }));
-    promises.push(this._getLoggedIn()
-        .then(loggedIn => this._loggedIn = loggedIn)
+    promises.push(
+      this.$.restAPI
+        .getChangeOrEditFiles(changeNum, patchRange)
+        .then(filesByPath => {
+          this._filesByPath = filesByPath;
+        })
+    );
+    promises.push(
+      this._getLoggedIn()
+        .then(loggedIn => (this._loggedIn = loggedIn))
         .then(loggedIn => {
-          if (!loggedIn) { return; }
+          if (!loggedIn) {
+            return;
+          }
 
-          return this._getReviewedFiles().then(reviewed => {
-            this._reviewed = reviewed;
-          });
-        }));
+          return this._getReviewedFiles(changeNum, patchRange).then(
+            reviewed => {
+              this._reviewed = reviewed;
+            }
+          );
+        })
+    );
 
-    promises.push(this._getDiffPreferences().then(prefs => {
-      this.diffPrefs = prefs;
-    }));
+    promises.push(
+      this._getDiffPreferences().then(prefs => {
+        this.diffPrefs = prefs;
+      })
+    );
 
-    promises.push(this._getPreferences().then(prefs => {
-      this._userPrefs = prefs;
-    }));
+    promises.push(
+      this._getPreferences().then(prefs => {
+        this._userPrefs = prefs;
+      })
+    );
 
     return Promise.all(promises).then(() => {
       this._loading = false;
@@ -403,32 +483,36 @@ class GrFileList extends KeyboardShortcutMixin(
     }
   }
 
-  get diffs() {
-    const diffs = this.root.querySelectorAll('gr-diff-host');
+  get diffs(): GrDiffHost[] {
+    const diffs = this.root!.querySelectorAll('gr-diff-host');
     // It is possible that a bogus diff element is hanging around invisibly
     // from earlier with a different patch set choice and associated with a
     // different entry in the files array. So filter on visible items only.
     return Array.from(diffs).filter(
-        el => !!el && !!el.style && el.style.display !== 'none');
+      el => !!el && !!el.style && el.style.display !== 'none'
+    );
   }
 
   openDiffPrefs() {
     this.$.diffPreferencesDialog.open();
   }
 
-  _calculatePatchChange(files) {
-    const magicFilesExcluded = files.filter(files =>
-      !isMagicPath(files.__path)
+  _calculatePatchChange(files?: NormalizedFileInfo[]): PatchChange {
+    if (!files) {
+      files = [];
+    }
+    const magicFilesExcluded = files.filter(
+      files => !isMagicPath(files.__path)
     );
 
     return magicFilesExcluded.reduce((acc, obj) => {
       const inserted = obj.lines_inserted ? obj.lines_inserted : 0;
       const deleted = obj.lines_deleted ? obj.lines_deleted : 0;
-      const total_size = (obj.size && obj.binary) ? obj.size : 0;
+      const total_size = obj.size && obj.binary ? obj.size : 0;
       const size_delta_inserted =
-          obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
+        obj.binary && obj.size_delta > 0 ? obj.size_delta : 0;
       const size_delta_deleted =
-          obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
+        obj.binary && obj.size_delta < 0 ? obj.size_delta : 0;
 
       return {
         inserted: acc.inserted + inserted,
@@ -437,8 +521,7 @@ class GrFileList extends KeyboardShortcutMixin(
         size_delta_deleted: acc.size_delta_deleted + size_delta_deleted,
         total_size: acc.total_size + total_size,
       };
-    }, {inserted: 0, deleted: 0, size_delta_inserted: 0,
-      size_delta_deleted: 0, total_size: 0});
+    }, createDefaultPatchChange());
   }
 
   _getDiffPreferences() {
@@ -449,7 +532,7 @@ class GrFileList extends KeyboardShortcutMixin(
     return this.$.restAPI.getPreferences();
   }
 
-  _toggleFileExpanded(file) {
+  private _toggleFileExpanded(file: FileRange) {
     // Is the path in the list of expanded diffs? IF so remove it, otherwise
     // add it to the list.
     const pathIndex = this._expandedFiles.findIndex(f => f.path === file.path);
@@ -460,19 +543,24 @@ class GrFileList extends KeyboardShortcutMixin(
     }
   }
 
-  _toggleFileExpandedByIndex(index) {
+  _toggleFileExpandedByIndex(index: number) {
     this._toggleFileExpanded(this._computeFileRange(this._files[index]));
   }
 
   _updateDiffPreferences() {
-    if (!this.diffs.length) { return; }
+    if (!this.diffs.length) {
+      return;
+    }
     // Re-render all expanded diffs sequentially.
     this.reporting.time(EXPAND_ALL_TIMING_LABEL);
-    this._renderInOrder(this._expandedFiles, this.diffs,
-        this._expandedFiles.length);
+    this._renderInOrder(
+      this._expandedFiles,
+      this.diffs,
+      this._expandedFiles.length
+    );
   }
 
-  _forEachDiff(fn) {
+  _forEachDiff(fn: (host: GrDiffHost) => void) {
     const diffs = this.diffs;
     for (let i = 0; i < diffs.length; i++) {
       fn(diffs[i]);
@@ -484,8 +572,8 @@ class GrFileList extends KeyboardShortcutMixin(
 
     // Find the list of paths that are in the file list, but not in the
     // expanded list.
-    const newFiles = [];
-    let path;
+    const newFiles: FileRange[] = [];
+    let path: string;
     for (let i = 0; i < this._shownFiles.length; i++) {
       path = this._shownFiles[i].__path;
       if (!this._expandedFiles.some(f => f.path === path)) {
@@ -500,132 +588,150 @@ class GrFileList extends KeyboardShortcutMixin(
     this._showInlineDiffs = false;
     this._expandedFiles = [];
     this.filesExpanded = this._computeExpandedFiles(
-        this._expandedFiles.length, this._files.length);
+      this._expandedFiles.length,
+      this._files.length
+    );
     this.$.diffCursor.handleDiffUpdate();
   }
 
   /**
    * Computes a string with the number of comments and unresolved comments.
-   *
-   * @param {!Object} changeComments
-   * @param {!Object} patchRange
-   * @param {string} path
-   * @return {string}
    */
-  _computeCommentsString(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].includes(undefined)) {
+  _computeCommentsString(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    path?: string
+  ) {
+    if (
+      changeComments === undefined ||
+      patchRange === undefined ||
+      path === undefined
+    ) {
       return '';
     }
     const unresolvedCount =
-        changeComments.computeUnresolvedNum({
-          patchNum: patchRange.basePatchNum,
-          path,
-        }) +
-        changeComments.computeUnresolvedNum({
-          patchNum: patchRange.patchNum,
-          path,
-        });
+      changeComments.computeUnresolvedNum({
+        patchNum: patchRange.basePatchNum,
+        path,
+      }) +
+      changeComments.computeUnresolvedNum({
+        patchNum: patchRange.patchNum,
+        path,
+      });
     const commentCount =
-        changeComments.computeCommentCount({
-          patchNum: patchRange.basePatchNum,
-          path,
-        }) +
-        changeComments.computeCommentCount({
-          patchNum: patchRange.patchNum,
-          path,
-        });
+      changeComments.computeCommentCount({
+        patchNum: patchRange.basePatchNum,
+        path,
+      }) +
+      changeComments.computeCommentCount({
+        patchNum: patchRange.patchNum,
+        path,
+      });
     const commentString = GrCountStringFormatter.computePluralString(
-        commentCount, 'comment');
+      commentCount,
+      'comment'
+    );
     const unresolvedString = GrCountStringFormatter.computeString(
-        unresolvedCount, 'unresolved');
+      unresolvedCount,
+      'unresolved'
+    );
 
-    return commentString +
-        // Add a space if both comments and unresolved
-        (commentString && unresolvedString ? ' ' : '') +
-        // Add parentheses around unresolved if it exists.
-        (unresolvedString ? `(${unresolvedString})` : '');
+    return (
+      commentString +
+      // Add a space if both comments and unresolved
+      (commentString && unresolvedString ? ' ' : '') +
+      // Add parentheses around unresolved if it exists.
+      (unresolvedString ? `(${unresolvedString})` : '')
+    );
   }
 
   /**
    * Computes a string with the number of drafts.
-   *
-   * @param {!Object} changeComments
-   * @param {!Object} patchRange
-   * @param {string} path
-   * @return {string}
    */
-  _computeDraftsString(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].includes(undefined)) {
+  _computeDraftsString(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    path?: string
+  ) {
+    if (
+      changeComments === undefined ||
+      patchRange === undefined ||
+      path === undefined
+    ) {
       return '';
     }
     const draftCount =
-        changeComments.computeDraftCount({
-          patchNum: patchRange.basePatchNum,
-          path,
-        }) +
-        changeComments.computeDraftCount({
-          patchNum: patchRange.patchNum,
-          path,
-        });
+      changeComments.computeDraftCount({
+        patchNum: patchRange.basePatchNum,
+        path,
+      }) +
+      changeComments.computeDraftCount({
+        patchNum: patchRange.patchNum,
+        path,
+      });
     return GrCountStringFormatter.computePluralString(draftCount, 'draft');
   }
 
   /**
    * Computes a shortened string with the number of drafts.
-   *
-   * @param {!Object} changeComments
-   * @param {!Object} patchRange
-   * @param {string} path
-   * @return {string}
    */
-  _computeDraftsStringMobile(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].includes(undefined)) {
+  _computeDraftsStringMobile(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    path?: string
+  ) {
+    if (
+      changeComments === undefined ||
+      patchRange === undefined ||
+      path === undefined
+    ) {
       return '';
     }
     const draftCount =
-        changeComments.computeDraftCount({
-          patchNum: patchRange.basePatchNum,
-          path,
-        }) +
-        changeComments.computeDraftCount({
-          patchNum: patchRange.patchNum,
-          path,
-        });
+      changeComments.computeDraftCount({
+        patchNum: patchRange.basePatchNum,
+        path,
+      }) +
+      changeComments.computeDraftCount({
+        patchNum: patchRange.patchNum,
+        path,
+      });
     return GrCountStringFormatter.computeShortString(draftCount, 'd');
   }
 
   /**
    * Computes a shortened string with the number of comments.
-   *
-   * @param {!Object} changeComments
-   * @param {!Object} patchRange
-   * @param {string} path
-   * @return {string}
    */
-  _computeCommentsStringMobile(changeComments, patchRange, path) {
-    if ([changeComments, patchRange, path].includes(undefined)) {
+  _computeCommentsStringMobile(
+    changeComments?: ChangeComments,
+    patchRange?: PatchRange,
+    path?: string
+  ) {
+    if (
+      changeComments === undefined ||
+      patchRange === undefined ||
+      path === undefined
+    ) {
       return '';
     }
     const commentCount =
-        changeComments.computeCommentCount({
-          patchNum: patchRange.basePatchNum,
-          path,
-        }) +
-        changeComments.computeCommentCount({
-          patchNum: patchRange.patchNum,
-          path,
-        });
+      changeComments.computeCommentCount({
+        patchNum: patchRange.basePatchNum,
+        path,
+      }) +
+      changeComments.computeCommentCount({
+        patchNum: patchRange.patchNum,
+        path,
+      });
     return GrCountStringFormatter.computeShortString(commentCount, 'c');
   }
 
-  /**
-   * @param {string} path
-   * @param {boolean=} opt_reviewed
-   */
-  _reviewFile(path, opt_reviewed) {
-    if (this.editMode) { return; }
+  private _reviewFile(path: string, reviewed?: boolean) {
+    if (this.editMode) {
+      return;
+    }
     const index = this._files.findIndex(file => file.__path === path);
-    const reviewed = opt_reviewed || !this._files[index].isReviewed;
+    reviewed = reviewed || !this._files[index].isReviewed;
 
     this.set(['_files', index, 'isReviewed'], reviewed);
     if (index < this._shownFiles.length) {
@@ -635,34 +741,31 @@ class GrFileList extends KeyboardShortcutMixin(
     this._saveReviewedState(path, reviewed);
   }
 
-  _saveReviewedState(path, reviewed) {
-    return this.$.restAPI.saveFileReviewed(this.changeNum,
-        this.patchRange.patchNum, path, reviewed);
+  _saveReviewedState(path: string, reviewed: boolean) {
+    return this.$.restAPI.saveFileReviewed(
+      this.changeNum,
+      this.patchRange.patchNum,
+      path,
+      reviewed
+    );
   }
 
   _getLoggedIn() {
     return this.$.restAPI.getLoggedIn();
   }
 
-  _getReviewedFiles() {
-    if (this.editMode) { return Promise.resolve([]); }
-    return this.$.restAPI.getReviewedFiles(this.changeNum,
-        this.patchRange.patchNum);
+  _getReviewedFiles(changeNum: NumericChangeId, patchRange: PatchRange) {
+    if (this.editMode) {
+      return Promise.resolve([]);
+    }
+    return this.$.restAPI.getReviewedFiles(changeNum, patchRange.patchNum);
   }
 
-  _getFiles() {
-    return this.$.restAPI.getChangeOrEditFiles(
-        this.changeNum, this.patchRange);
-  }
-
-  /**
-   *
-   * @returns {!Array<FileInfo>}
-   */
-  _normalizeChangeFilesResponse(response) {
-    if (!response) { return []; }
+  _normalizeChangeFilesResponse(
+    response: FileNameToReviewedFileInfoMap
+  ): NormalizedFileInfo[] {
     const paths = Object.keys(response).sort(specialFilePathCompare);
-    const files = [];
+    const files: NormalizedFileInfo[] = [];
     for (let i = 0; i < paths.length; i++) {
       const info = response[paths[i]];
       info.__path = paths[i];
@@ -680,15 +783,16 @@ class GrFileList extends KeyboardShortcutMixin(
    * The click is: mouse click or pressing Enter or Space key
    * P.S> Screen readers sends click event as well
    */
-  _isClickEvent(e) {
+  _isClickEvent(e: MouseEvent | KeyboardEvent) {
     if (e.type === 'click') {
       return true;
     }
-    const isSpaceOrEnter = (e.key === 'Enter' || e.key === ' ');
-    return e.type === 'keydown' && isSpaceOrEnter;
+    const ke = e as KeyboardEvent;
+    const isSpaceOrEnter = ke.key === 'Enter' || ke.key === ' ';
+    return ke.type === 'keydown' && isSpaceOrEnter;
   }
 
-  _fileActionClick(e, fileAction) {
+  _fileActionClick(e: MouseEvent | KeyboardEvent, fileAction) {
     if (this._isClickEvent(e)) {
       const fileRow = this._getFileRowFromEvent(e);
       if (!fileRow) {
@@ -703,14 +807,12 @@ class GrFileList extends KeyboardShortcutMixin(
     }
   }
 
-  _reviewedClick(e) {
-    this._fileActionClick(e,
-        file => this._reviewFile(file.path));
+  _reviewedClick(e: MouseEvent | KeyboardEvent) {
+    this._fileActionClick(e, file => this._reviewFile(file.path));
   }
 
-  _expandedClick(e) {
-    this._fileActionClick(e,
-        file => this._toggleFileExpanded(file));
+  _expandedClick(e: MouseEvent | KeyboardEvent) {
+    this._fileActionClick(e, file => this._toggleFileExpanded(file));
   }
 
   /**
@@ -727,19 +829,23 @@ class GrFileList extends KeyboardShortcutMixin(
     // If a path cannot be interpreted from the click target (meaning it's not
     // somewhere in the row, e.g. diff content) or if the user clicked the
     // link, defer to the native behavior.
-    if (!path || descendedFromClass(e.target, 'pathLink')) { return; }
+    if (!path || descendedFromClass(e.target, 'pathLink')) {
+      return;
+    }
 
     // Disregard the event if the click target is in the edit controls.
-    if (descendedFromClass(e.target, 'editFileControls')) { return; }
+    if (descendedFromClass(e.target, 'editFileControls')) {
+      return;
+    }
 
     e.preventDefault();
     this.$.fileCursor.setCursor(fileRow.element);
     this._toggleFileExpanded(file);
   }
 
-  _getFileRowFromEvent(e) {
+  _getFileRowFromEvent(e: Event): FileRow | null {
     // Traverse upwards to find the row element if the target is not the row.
-    let row = e.target;
+    let row = e.target as HTMLElement;
     while (!row.classList.contains(FILE_ROW_CLASS) && row.parentElement) {
       row = row.parentElement;
     }
@@ -750,19 +856,16 @@ class GrFileList extends KeyboardShortcutMixin(
     }
 
     return {
-      file: JSON.parse(row.dataset['file']),
+      file: JSON.parse(row.dataset['file']) as FileRange,
       element: row,
     };
   }
 
   /**
    * Generates file range from file info object.
-   *
-   * @param {FileInfo} file
-   * @returns {Gerrit.FileRange}
    */
-  _computeFileRange(file) {
-    const fileData = {
+  _computeFileRange(file: NormalizedFileInfo): FileRange {
+    const fileData: FileRange = {
       path: file.__path,
     };
     if (file.old_path) {
@@ -771,7 +874,7 @@ class GrFileList extends KeyboardShortcutMixin(
     return fileData;
   }
 
-  _handleLeftPane(e) {
+  _handleLeftPane(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
       return;
     }
@@ -780,7 +883,7 @@ class GrFileList extends KeyboardShortcutMixin(
     this.$.diffCursor.moveLeft();
   }
 
-  _handleRightPane(e) {
+  _handleRightPane(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e) || this._noDiffsExpanded()) {
       return;
     }
@@ -789,23 +892,29 @@ class GrFileList extends KeyboardShortcutMixin(
     this.$.diffCursor.moveRight();
   }
 
-  _handleToggleInlineDiff(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e) ||
-        this.$.fileCursor.index === -1) { return; }
+  _handleToggleInlineDiff(e: CustomKeyboardEvent) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      this.modifierPressed(e) ||
+      this.$.fileCursor.index === -1
+    ) {
+      return;
+    }
 
     e.preventDefault();
     this._toggleFileExpandedByIndex(this.$.fileCursor.index);
   }
 
-  _handleToggleAllInlineDiffs(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+  _handleToggleAllInlineDiffs(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._toggleInlineDiffs();
   }
 
-  _handleToggleHideAllCommentThreads(e) {
+  _handleToggleHideAllCommentThreads(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
       return;
     }
@@ -814,7 +923,7 @@ class GrFileList extends KeyboardShortcutMixin(
     this.toggleClass('hideComments');
   }
 
-  _handleCursorNext(e) {
+  _handleCursorNext(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
       return;
     }
@@ -825,14 +934,16 @@ class GrFileList extends KeyboardShortcutMixin(
       this._displayLine = true;
     } else {
       // Down key
-      if (this.getKeyboardEvent(e).keyCode === 40) { return; }
+      if (this.getKeyboardEvent(e).keyCode === 40) {
+        return;
+      }
       e.preventDefault();
       this.$.fileCursor.next();
       this.selectedIndex = this.$.fileCursor.index;
     }
   }
 
-  _handleCursorPrev(e) {
+  _handleCursorPrev(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
       return;
     }
@@ -843,41 +954,53 @@ class GrFileList extends KeyboardShortcutMixin(
       this._displayLine = true;
     } else {
       // Up key
-      if (this.getKeyboardEvent(e).keyCode === 38) { return; }
+      if (this.getKeyboardEvent(e).keyCode === 38) {
+        return;
+      }
       e.preventDefault();
       this.$.fileCursor.previous();
       this.selectedIndex = this.$.fileCursor.index;
     }
   }
 
-  _handleNewComment(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleNewComment(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
     e.preventDefault();
     this.$.diffCursor.createCommentInPlace();
   }
 
-  _handleOpenLastFile(e) {
+  _handleOpenLastFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.getKeyboardEvent(e).metaKey) { return; }
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      this.getKeyboardEvent(e).metaKey
+    ) {
+      return;
+    }
 
     e.preventDefault();
     this._openSelectedFile(this._files.length - 1);
   }
 
-  _handleOpenFirstFile(e) {
+  _handleOpenFirstFile(e: CustomKeyboardEvent) {
     // Check for meta key to avoid overriding native chrome shortcut.
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.getKeyboardEvent(e).metaKey) { return; }
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      this.getKeyboardEvent(e).metaKey
+    ) {
+      return;
+    }
 
     e.preventDefault();
     this._openSelectedFile(0);
   }
 
-  _handleOpenFile(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleOpenFile(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
     e.preventDefault();
 
     if (this._showInlineDiffs) {
@@ -888,10 +1011,12 @@ class GrFileList extends KeyboardShortcutMixin(
     this._openSelectedFile();
   }
 
-  _handleNextChunk(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
-        this._noDiffsExpanded()) {
+  _handleNextChunk(e: CustomKeyboardEvent) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
+      this._noDiffsExpanded()
+    ) {
       return;
     }
 
@@ -903,33 +1028,39 @@ class GrFileList extends KeyboardShortcutMixin(
     }
   }
 
-  _handlePrevChunk(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
-        this._noDiffsExpanded()) {
+  _handlePrevChunk(e: CustomKeyboardEvent) {
+    if (
+      this.shouldSuppressKeyboardShortcut(e) ||
+      (this.modifierPressed(e) && !this.isModifierPressed(e, 'shiftKey')) ||
+      this._noDiffsExpanded()
+    ) {
       return;
     }
 
     e.preventDefault();
-    if (this.isModifierPressed(e, 'shiftKey')) {
+    if (this.isModifierPressed(e, Modifier.SHIFT_KEY)) {
       this.$.diffCursor.moveToPreviousCommentThread();
     } else {
       this.$.diffCursor.moveToPreviousChunk();
     }
   }
 
-  _handleToggleFileReviewed(e) {
+  _handleToggleFileReviewed(e: CustomKeyboardEvent) {
     if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
       return;
     }
 
     e.preventDefault();
-    if (!this._files[this.$.fileCursor.index]) { return; }
+    if (!this._files[this.$.fileCursor.index]) {
+      return;
+    }
     this._reviewFile(this._files[this.$.fileCursor.index].__path);
   }
 
-  _handleToggleLeftPane(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+  _handleToggleLeftPane(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._forEachDiff(diff => {
@@ -947,21 +1078,27 @@ class GrFileList extends KeyboardShortcutMixin(
 
   _openCursorFile() {
     const diff = this.$.diffCursor.getTargetDiffElement();
-    GerritNav.navigateToDiff(this.change, diff.path,
-        diff.patchRange.patchNum, this.patchRange.basePatchNum);
+    GerritNav.navigateToDiff(
+      this.change,
+      diff.path,
+      diff.patchRange.patchNum,
+      this.patchRange.basePatchNum
+    );
   }
 
-  /**
-   * @param {number=} opt_index
-   */
-  _openSelectedFile(opt_index) {
-    if (opt_index != null) {
-      this.$.fileCursor.setCursorAtIndex(opt_index);
+  _openSelectedFile(index?: number) {
+    if (index !== undefined) {
+      this.$.fileCursor.setCursorAtIndex(index);
     }
-    if (!this._files[this.$.fileCursor.index]) { return; }
-    GerritNav.navigateToDiff(this.change,
-        this._files[this.$.fileCursor.index].__path, this.patchRange.patchNum,
-        this.patchRange.basePatchNum);
+    if (!this._files[this.$.fileCursor.index]) {
+      return;
+    }
+    GerritNav.navigateToDiff(
+      this.change,
+      this._files[this.$.fileCursor.index].__path,
+      this.patchRange.patchNum,
+      this.patchRange.basePatchNum
+    );
   }
 
   _addDraftAtTarget() {
@@ -972,70 +1109,90 @@ class GrFileList extends KeyboardShortcutMixin(
     }
   }
 
-  _shouldHideChangeTotals(_patchChange) {
+  _shouldHideChangeTotals(_patchChange: PatchChange): boolean {
     return _patchChange.inserted === 0 && _patchChange.deleted === 0;
   }
 
-  _shouldHideBinaryChangeTotals(_patchChange) {
-    return _patchChange.size_delta_inserted === 0 &&
-        _patchChange.size_delta_deleted === 0;
+  _shouldHideBinaryChangeTotals(_patchChange: PatchChange) {
+    return (
+      _patchChange.size_delta_inserted === 0 &&
+      _patchChange.size_delta_deleted === 0
+    );
   }
 
-  _computeFileStatus(status) {
+  _computeFileStatus(
+    status?: keyof typeof FileStatus
+  ): keyof typeof FileStatus {
     return status || 'M';
   }
 
   _computeDiffURL(change, patchRange, path, editMode) {
     // Polymer 2: check for undefined
-    if ([change, patchRange, path, editMode]
-        .some(arg => arg === undefined)) {
+    if ([change, patchRange, path, editMode].some(arg => arg === undefined)) {
       return;
     }
     if (editMode && path !== SpecialFilePath.MERGE_LIST) {
-      return GerritNav.getEditUrlForDiff(change, path, patchRange.patchNum,
-          patchRange.basePatchNum);
+      return GerritNav.getEditUrlForDiff(
+        change,
+        path,
+        patchRange.patchNum,
+        patchRange.basePatchNum
+      );
     }
-    return GerritNav.getUrlForDiff(change, path, patchRange.patchNum,
-        patchRange.basePatchNum);
+    return GerritNav.getUrlForDiff(
+      change,
+      path,
+      patchRange.patchNum,
+      patchRange.basePatchNum
+    );
   }
 
   _formatBytes(bytes) {
     if (bytes == 0) return '+/-0 B';
     const bits = 1024;
     const decimals = 1;
-    const sizes =
-        ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
+    const sizes = ['B', 'KiB', 'MiB', 'GiB', 'TiB', 'PiB', 'EiB', 'ZiB', 'YiB'];
     const exponent = Math.floor(Math.log(Math.abs(bytes)) / Math.log(bits));
     const prepend = bytes > 0 ? '+' : '';
-    return prepend + parseFloat((bytes / Math.pow(bits, exponent))
-        .toFixed(decimals)) + ' ' + sizes[exponent];
+    return (
+      prepend +
+      parseFloat((bytes / Math.pow(bits, exponent)).toFixed(decimals)) +
+      ' ' +
+      sizes[exponent]
+    );
   }
 
   _formatPercentage(size, delta) {
     const oldSize = size - delta;
 
-    if (oldSize === 0) { return ''; }
+    if (oldSize === 0) {
+      return '';
+    }
 
-    const percentage = Math.round(Math.abs(delta * 100 / oldSize));
+    const percentage = Math.round(Math.abs((delta * 100) / oldSize));
     return '(' + (delta > 0 ? '+' : '-') + percentage + '%)';
   }
 
   _computeBinaryClass(delta) {
-    if (delta === 0) { return; }
+    if (delta === 0) {
+      return;
+    }
     return delta >= 0 ? 'added' : 'removed';
   }
 
   /**
-   * @param {string} baseClass
-   * @param {string} path
+   * @param baseClass
+   * @param path
    */
   _computeClass(baseClass, path) {
     const classes = [];
     if (baseClass) {
       classes.push(baseClass);
     }
-    if (path === SpecialFilePath.COMMIT_MESSAGE ||
-      path === SpecialFilePath.MERGE_LIST) {
+    if (
+      path === SpecialFilePath.COMMIT_MESSAGE ||
+      path === SpecialFilePath.MERGE_LIST
+    ) {
       classes.push('invisible');
     }
     return classes.join(' ');
@@ -1051,51 +1208,74 @@ class GrFileList extends KeyboardShortcutMixin(
   }
 
   _computeShowHideIcon(path, expandedFilesRecord) {
-    return this._isFileExpanded(path, expandedFilesRecord) ?
-      'gr-icons:expand-less' : 'gr-icons:expand-more';
+    return this._isFileExpanded(path, expandedFilesRecord)
+      ? 'gr-icons:expand-less'
+      : 'gr-icons:expand-more';
   }
 
-  _computeFiles(filesByPath, changeComments, patchRange, reviewed, loading) {
+  @observe(
+    '_filesByPath',
+    'changeComments',
+    'patchRange',
+    '_reviewed',
+    '_loading'
+  )
+  _computeFiles(
+    filesByPath?: FileNameToFileInfoMap,
+    changeComments,
+    patchRange?: PatchRange,
+    reviewed,
+    loading
+  ) {
     // Polymer 2: check for undefined
-    if ([
-      filesByPath,
-      changeComments,
-      patchRange,
-      reviewed,
-      loading,
-    ].includes(undefined)) {
+    if (
+      filesByPath === undefined ||
+      changeComments === undefined ||
+      patchRange === undefined ||
+      reviewed === undefined ||
+      loading === undefined
+    ) {
       return;
     }
 
     // Await all promises resolving from reload. @See Issue 9057
-    if (loading || !changeComments) { return; }
+    if (loading || !changeComments) {
+      return;
+    }
 
     const commentedPaths = changeComments.getPaths(patchRange);
-    const files = {...filesByPath};
+    const files: FileNameToReviewedFileInfoMap = {...filesByPath};
     addUnmodifiedFiles(files, commentedPaths);
     const reviewedSet = new Set(reviewed || []);
     for (const filePath in files) {
-      if (!files.hasOwnProperty(filePath)) { continue; }
+      if (!hasOwnProperty(files, filePath)) {
+        continue;
+      }
       files[filePath].isReviewed = reviewedSet.has(filePath);
     }
 
     this._files = this._normalizeChangeFilesResponse(files);
   }
 
-  _computeFilesShown(numFilesShown, files) {
+  _computeFilesShown(
+    numFilesShown?: number,
+    files: NormalizedFileInfo[]
+  ): NormalizedFileInfo[] | undefined {
     // Polymer 2: check for undefined
-    if ([numFilesShown, files].includes(undefined)) {
-      return undefined;
-    }
+    if (numFilesShown === undefined || files === undefined) return undefined;
 
-    const previousNumFilesShown = this._shownFiles ?
-      this._shownFiles.length : 0;
+    const previousNumFilesShown = this._shownFiles
+      ? this._shownFiles.length
+      : 0;
 
     const filesShown = files.slice(0, numFilesShown);
-    this.dispatchEvent(new CustomEvent('files-shown-changed', {
-      detail: {length: filesShown.length},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('files-shown-changed', {
+        detail: {length: filesShown.length},
+        composed: true,
+        bubbles: true,
+      })
+    );
 
     // Start the timer for the rendering work hwere because this is where the
     // _shownFiles property is being set, and _shownFiles is used in the
@@ -1103,8 +1283,10 @@ class GrFileList extends KeyboardShortcutMixin(
     this.reporting.time(RENDER_TIMING_LABEL);
 
     // How many more files are being shown (if it's an increase).
-    this._reportinShownFilesIncrement =
-        Math.max(0, filesShown.length - previousNumFilesShown);
+    this._reportinShownFilesIncrement = Math.max(
+      0,
+      filesShown.length - previousNumFilesShown
+    );
 
     return filesShown;
   }
@@ -1112,14 +1294,16 @@ class GrFileList extends KeyboardShortcutMixin(
   _updateDiffCursor() {
     // Overwrite the cursor's list of diffs:
     this.$.diffCursor.splice(
-        ...['diffs', 0, this.$.diffCursor.diffs.length].concat(this.diffs));
+      ...['diffs', 0, this.$.diffCursor.diffs.length].concat(this.diffs)
+    );
   }
 
   _filesChanged() {
     if (this._files && this._files.length > 0) {
       flush();
       this.$.fileCursor.stops = Array.from(
-          this.root.querySelectorAll(`.${FILE_ROW_CLASS}`));
+        this.root!.querySelectorAll(`.${FILE_ROW_CLASS}`)
+      );
       this.$.fileCursor.setCursorAtIndex(this.selectedIndex, true);
     }
   }
@@ -1128,19 +1312,25 @@ class GrFileList extends KeyboardShortcutMixin(
     this.numFilesShown += this.fileListIncrement;
   }
 
-  _computeFileListControlClass(numFilesShown, files) {
+  _computeFileListControlClass(
+    numFilesShown?: number,
+    files?: NormalizedFileInfo[]
+  ) {
     return numFilesShown >= files.length ? 'invisible' : '';
   }
 
   _computeIncrementText(numFilesShown, files) {
-    if (!files) { return ''; }
-    const text =
-        Math.min(this.fileListIncrement, files.length - numFilesShown);
+    if (!files) {
+      return '';
+    }
+    const text = Math.min(this.fileListIncrement, files.length - numFilesShown);
     return 'Show ' + text + ' more';
   }
 
   _computeShowAllText(files) {
-    if (!files) { return ''; }
+    if (!files) {
+      return '';
+    }
     return 'Show all ' + files.length + ' files';
   }
 
@@ -1149,9 +1339,14 @@ class GrFileList extends KeyboardShortcutMixin(
   }
 
   _computeShowAllWarning(files) {
-    if (!this._computeWarnShowAll(files)) { return ''; }
-    return 'Warning: showing all ' + files.length +
-        ' files may take several seconds.';
+    if (!this._computeWarnShowAll(files)) {
+      return '';
+    }
+    return (
+      'Warning: showing all ' +
+      files.length +
+      ' files may take several seconds.'
+    );
   }
 
   _showAllFiles() {
@@ -1161,14 +1356,12 @@ class GrFileList extends KeyboardShortcutMixin(
   /**
    * Get a descriptive label for use in the status indicator's tooltip and
    * ARIA label.
-   *
-   * @param {string} status
-   * @return {string}
    */
-  _computeFileStatusLabel(status) {
+  _computeFileStatusLabel(status?: keyof typeof FileStatus) {
     const statusCode = this._computeFileStatus(status);
-    return FileStatus.hasOwnProperty(statusCode) ?
-      FileStatus[statusCode] : 'Status Unknown';
+    return hasOwnProperty(FileStatus, statusCode)
+      ? FileStatus[statusCode]
+      : 'Status Unknown';
   }
 
   /**
@@ -1178,23 +1371,32 @@ class GrFileList extends KeyboardShortcutMixin(
    * value. The aria-checked attribute is string attribute. Binding directly
    * to boolean variable causes problem on gerrit-CI.
    *
-   * @param {object} val
-   * @return {string} 'true' if val is true-like, otherwise false
+   * @return 'true' if val is true-like, otherwise false
    */
-  _booleanToString(val) {
+  _booleanToString(val?: unknown) {
     return val ? 'true' : 'false';
   }
 
-  _isFileExpanded(path, expandedFilesRecord) {
+  _isFileExpanded(
+    path?: string,
+    expandedFilesRecord: ElementPropertyDeepChange<GrFileList, '_expandedFiles'>
+  ) {
     return expandedFilesRecord.base.some(f => f.path === path);
   }
 
-  _isFileExpandedStr(path, expandedFilesRecord) {
+  _isFileExpandedStr(
+    path?: string,
+    expandedFilesRecord: ElementPropertyDeepChange<GrFileList, '_expandedFiles'>
+  ) {
     return this._booleanToString(
-        this._isFileExpanded(path, expandedFilesRecord));
+      this._isFileExpanded(path, expandedFilesRecord)
+    );
   }
 
-  _computeExpandedFiles(expandedCount, totalCount) {
+  private _computeExpandedFiles(
+    expandedCount: number,
+    totalCount: number
+  ): FilesExpandedState {
     if (expandedCount === 0) {
       return FilesExpandedState.NONE;
     } else if (expandedCount === totalCount) {
@@ -1209,25 +1411,32 @@ class GrFileList extends KeyboardShortcutMixin(
    * order by waiting for the previous diff to finish before starting the next
    * one.
    *
-   * @param {!Array} record The splice record in the expanded paths list.
+   * @param record The splice record in the expanded paths list.
    */
-  _expandedFilesChanged(record) {
+  @observe('_expandedFiles.splices')
+  _expandedFilesChanged(record?: PolymerSpliceChange<FileRange[]>) {
     // Clear content for any diffs that are not open so if they get re-opened
     // the stale content does not flash before it is cleared and reloaded.
-    const collapsedDiffs = this.diffs.filter(diff =>
-      this._expandedFiles.findIndex(f => f.path === diff.path) === -1);
+    const collapsedDiffs = this.diffs.filter(
+      diff => this._expandedFiles.findIndex(f => f.path === diff.path) === -1
+    );
     this._clearCollapsedDiffs(collapsedDiffs);
 
-    if (!record) { return; } // Happens after "Collapse all" clicked.
+    if (!record) {
+      return;
+    } // Happens after "Collapse all" clicked.
 
     this.filesExpanded = this._computeExpandedFiles(
-        this._expandedFiles.length, this._files.length);
+      this._expandedFiles.length,
+      this._files.length
+    );
 
     // Find the paths introduced by the new index splices:
     const newFiles = record.indexSplices
-        .map(splice => splice.object.slice(
-            splice.index, splice.index + splice.addedCount))
-        .reduce((acc, paths) => acc.concat(paths), []);
+      .map(splice =>
+        splice.object.slice(splice.index, splice.index + splice.addedCount)
+      )
+      .reduce((acc, paths) => acc.concat(paths), []);
 
     // Required so that the newly created diff view is included in this.diffs.
     flush();
@@ -1242,7 +1451,7 @@ class GrFileList extends KeyboardShortcutMixin(
     this.$.diffCursor.reInitAndUpdateStops();
   }
 
-  _clearCollapsedDiffs(collapsedDiffs) {
+  private _clearCollapsedDiffs(collapsedDiffs: GrDiffHost[]) {
     for (const diff of collapsedDiffs) {
       diff.cancel();
       diff.clearDiffContent();
@@ -1254,13 +1463,15 @@ class GrFileList extends KeyboardShortcutMixin(
    * for each path in order, awaiting the previous render to complete before
    * continuing.
    *
-   * @param  {!Array<Gerrit.FileRange>} files
-   * @param  {!NodeList<!Object>} diffElements (GrDiffHostElement)
-   * @param  {number} initialCount The total number of paths in the pass. This
-   *   is used to generate log messages.
-   * @return {!Promise}
+   * @param initialCount The total number of paths in the pass. This
+   * is used to generate log messages.
+   * @return
    */
-  _renderInOrder(files, diffElements, initialCount) {
+  private _renderInOrder(
+    files: FileRange[],
+    diffElements: GrDiffHost[],
+    initialCount: number
+  ) {
     let iter = 0;
 
     for (const file of files) {
@@ -1271,37 +1482,46 @@ class GrFileList extends KeyboardShortcutMixin(
       }
     }
 
-    return (new Promise(resolve => {
-      this.dispatchEvent(new CustomEvent('reload-drafts', {
-        detail: {resolve},
-        composed: true, bubbles: true,
-      }));
-    })).then(() => asyncForeach(files, (file, cancel) => {
-      const path = file.path;
-      this._cancelForEachDiff = cancel;
+    return new Promise(resolve => {
+      this.dispatchEvent(
+        new CustomEvent('reload-drafts', {
+          detail: {resolve},
+          composed: true,
+          bubbles: true,
+        })
+      );
+    }).then(() =>
+      asyncForeach(files, (file, cancel) => {
+        const path = file.path;
+        this._cancelForEachDiff = cancel;
 
-      iter++;
-      console.info('Expanding diff', iter, 'of', initialCount, ':',
-          path);
-      const diffElem = this._findDiffByPath(path, diffElements);
-      if (!diffElem) {
-        console.warn(`Did not find <gr-diff-host> element for ${path}`);
-        return Promise.resolve();
-      }
-      diffElem.comments = this.changeComments.getCommentsBySideForFile(
-          file, this.patchRange, this.projectConfig);
-      const promises = [diffElem.reload()];
-      if (this._loggedIn && !this.diffPrefs.manual_review) {
-        promises.push(this._reviewFile(path, true));
-      }
-      return Promise.all(promises);
-    }).then(() => {
-      this._cancelForEachDiff = null;
-      this._nextRenderParams = null;
-      console.info('Finished expanding', initialCount, 'diff(s)');
-      this.reporting.timeEndWithAverage(EXPAND_ALL_TIMING_LABEL,
-          EXPAND_ALL_AVG_TIMING_LABEL, initialCount);
-      /* Block diff cursor from auto scrolling after files are done rendering.
+        iter++;
+        console.info('Expanding diff', iter, 'of', initialCount, ':', path);
+        const diffElem = this._findDiffByPath(path, diffElements);
+        if (!diffElem) {
+          console.warn(`Did not find <gr-diff-host> element for ${path}`);
+          return Promise.resolve();
+        }
+        diffElem.comments = this.changeComments.getCommentsBySideForFile(
+          file,
+          this.patchRange,
+          this.projectConfig
+        );
+        const promises = [diffElem.reload()];
+        if (this._loggedIn && !this.diffPrefs.manual_review) {
+          promises.push(this._reviewFile(path, true));
+        }
+        return Promise.all(promises);
+      }).then(() => {
+        this._cancelForEachDiff = null;
+        this._nextRenderParams = null;
+        console.info('Finished expanding', initialCount, 'diff(s)');
+        this.reporting.timeEndWithAverage(
+          EXPAND_ALL_TIMING_LABEL,
+          EXPAND_ALL_AVG_TIMING_LABEL,
+          initialCount
+        );
+        /* Block diff cursor from auto scrolling after files are done rendering.
        * This prevents the bug where the screen jumps to the first diff chunk
        * after files are done being rendered after the user has already begun
        * scrolling.
@@ -1313,22 +1533,25 @@ class GrFileList extends KeyboardShortcutMixin(
        * prevented the issue of scrolling to top when we expand the second
        * file individually.
        */
-      this.$.diffCursor.reInitAndUpdateStops();
-    }));
+        this.$.diffCursor.reInitAndUpdateStops();
+      })
+    );
   }
 
   /** Cancel the rendering work of every diff in the list */
   _cancelDiffs() {
-    if (this._cancelForEachDiff) { this._cancelForEachDiff(); }
+    if (this._cancelForEachDiff) {
+      this._cancelForEachDiff();
+    }
     this._forEachDiff(d => d.cancel());
   }
 
   /**
    * In the given NodeList of diff elements, find the diff for the given path.
    *
-   * @param  {string} path
-   * @param  {!NodeList<!Object>} diffElements (GrDiffElement)
-   * @return {!Object|undefined} (GrDiffElement)
+   * @param path
+   * @param diffElements (GrDiffElement)
+   * @return (GrDiffElement)
    */
   _findDiffByPath(path, diffElements) {
     for (let i = 0; i < diffElements.length; i++) {
@@ -1341,17 +1564,21 @@ class GrFileList extends KeyboardShortcutMixin(
   /**
    * Reset the comments of a modified thread
    *
-   * @param  {string} rootId
-   * @param  {string} path
+   * @param rootId
+   * @param path
    */
   reloadCommentsForThreadWithRootId(rootId, path) {
     // Don't bother continuing if we already know that the path that contains
     // the updated comment thread is not expanded.
-    if (!this._expandedFiles.some(f => f.path === path)) { return; }
+    if (!this._expandedFiles.some(f => f.path === path)) {
+      return;
+    }
     const diff = this.diffs.find(d => d.path === path);
 
     const threadEl = diff.getThreadEls().find(t => t.rootId === rootId);
-    if (!threadEl) { return; }
+    if (!threadEl) {
+      return;
+    }
 
     const newComments = this.changeComments.getCommentsForThread(rootId);
 
@@ -1369,15 +1596,16 @@ class GrFileList extends KeyboardShortcutMixin(
     // comments due to use in the _handleCommentUpdate function.
     // The comment thread already has a side associated with it, so
     // set the comment's side to match.
-    threadEl.comments = newComments.map(c => Object.assign(
-        c, {__commentSide: threadEl.commentSide}
-    ));
+    threadEl.comments = newComments.map(c =>
+      Object.assign(c, {__commentSide: threadEl.commentSide})
+    );
     flush();
   }
 
   _handleEscKey(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
     e.preventDefault();
     this._displayLine = false;
   }
@@ -1387,14 +1615,18 @@ class GrFileList extends KeyboardShortcutMixin(
    * debouncer so that the file list doesn't flash gray when the API requests
    * are reasonably fast.
    *
-   * @param {boolean} loading
+   * @param loading
    */
   _loadingChanged(loading) {
-    this.debounce('loading-change', () => {
-      // Only show set the loading if there have been files loaded to show. In
-      // this way, the gray loading style is not shown on initial loads.
-      this.classList.toggle('loading', loading && !!this._files.length);
-    }, LOADING_DEBOUNCE_INTERVAL);
+    this.debounce(
+      'loading-change',
+      () => {
+        // Only show set the loading if there have been files loaded to show. In
+        // this way, the gray loading style is not shown on initial loads.
+        this.classList.toggle('loading', loading && !!this._files.length);
+      },
+      LOADING_DEBOUNCE_INTERVAL
+    );
   }
 
   _editModeChanged(editMode) {
@@ -1413,45 +1645,42 @@ class GrFileList extends KeyboardShortcutMixin(
    * Given a file path, return whether that path should have visible size bars
    * and be included in the size bars calculation.
    *
-   * @param {string} path
-   * @return {boolean}
+   * @param path
+   * @return
    */
   _showBarsForPath(path) {
-    return path !== SpecialFilePath.COMMIT_MESSAGE &&
-      path !== SpecialFilePath.MERGE_LIST;
+    return (
+      path !== SpecialFilePath.COMMIT_MESSAGE &&
+      path !== SpecialFilePath.MERGE_LIST
+    );
   }
 
   /**
    * Compute size bar layout values from the file list.
-   *
-   * @return {Gerrit.LayoutStats|undefined}
-   *
    */
-  _computeSizeBarLayout(shownFilesRecord) {
-    if (!shownFilesRecord || !shownFilesRecord.base) { return undefined; }
-    const stats = {
-      maxInserted: 0,
-      maxDeleted: 0,
-      maxAdditionWidth: 0,
-      maxDeletionWidth: 0,
-      deletionOffset: 0,
-    };
+  _computeSizeBarLayout(
+    shownFilesRecord?: ElementPropertyDeepChange<GrFileList, '_shownFiles'>
+  ) {
+    const stats: SizeBarLayout = createDefaultSizeBarLayout();
+    if (!shownFilesRecord || !shownFilesRecord.base) {
+      return stats;
+    }
     shownFilesRecord.base
-        .filter(f => this._showBarsForPath(f.__path))
-        .forEach(f => {
-          if (f.lines_inserted) {
-            stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
-          }
-          if (f.lines_deleted) {
-            stats.maxDeleted = Math.max(stats.maxDeleted, f.lines_deleted);
-          }
-        });
+      .filter(f => this._showBarsForPath(f.__path))
+      .forEach(f => {
+        if (f.lines_inserted) {
+          stats.maxInserted = Math.max(stats.maxInserted, f.lines_inserted);
+        }
+        if (f.lines_deleted) {
+          stats.maxDeleted = Math.max(stats.maxDeleted, f.lines_deleted);
+        }
+      });
     const ratio = stats.maxInserted / (stats.maxInserted + stats.maxDeleted);
     if (!isNaN(ratio)) {
       stats.maxAdditionWidth =
-          (SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH) * ratio;
+        (SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH) * ratio;
       stats.maxDeletionWidth =
-          SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
+        SIZE_BAR_MAX_WIDTH - SIZE_BAR_GAP_WIDTH - stats.maxAdditionWidth;
       stats.deletionOffset = stats.maxAdditionWidth + SIZE_BAR_GAP_WIDTH;
     }
     return stats;
@@ -1460,67 +1689,66 @@ class GrFileList extends KeyboardShortcutMixin(
   /**
    * Get the width of the addition bar for a file.
    *
-   * @param {Object} file
-   * @param {Gerrit.LayoutStats} stats
-   * @return {number}
+   * @param file
+   * @param stats
+   * @return
    */
   _computeBarAdditionWidth(file, stats) {
-    if (stats.maxInserted === 0 ||
-        !file.lines_inserted ||
-        !this._showBarsForPath(file.__path)) {
+    if (
+      stats.maxInserted === 0 ||
+      !file.lines_inserted ||
+      !this._showBarsForPath(file.__path)
+    ) {
       return 0;
     }
     const width =
-        stats.maxAdditionWidth * file.lines_inserted / stats.maxInserted;
+      (stats.maxAdditionWidth * file.lines_inserted) / stats.maxInserted;
     return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
   }
 
   /**
    * Get the x-offset of the addition bar for a file.
    *
-   * @param {Object} file
-   * @param {Gerrit.LayoutStats} stats
-   * @return {number}
+   * @param file
+   * @param stats
+   * @return
    */
   _computeBarAdditionX(file, stats) {
-    return stats.maxAdditionWidth -
-        this._computeBarAdditionWidth(file, stats);
+    return stats.maxAdditionWidth - this._computeBarAdditionWidth(file, stats);
   }
 
   /**
    * Get the width of the deletion bar for a file.
    *
-   * @param {Object} file
-   * @param {Gerrit.LayoutStats} stats
-   * @return {number}
+   * @param file
+   * @param stats
+   * @return
    */
   _computeBarDeletionWidth(file, stats) {
-    if (stats.maxDeleted === 0 ||
-        !file.lines_deleted ||
-        !this._showBarsForPath(file.__path)) {
+    if (
+      stats.maxDeleted === 0 ||
+      !file.lines_deleted ||
+      !this._showBarsForPath(file.__path)
+    ) {
       return 0;
     }
     const width =
-        stats.maxDeletionWidth * file.lines_deleted / stats.maxDeleted;
+      (stats.maxDeletionWidth * file.lines_deleted) / stats.maxDeleted;
     return width === 0 ? 0 : Math.max(SIZE_BAR_MIN_WIDTH, width);
   }
 
   /**
    * Get the x-offset of the deletion bar for a file.
-   *
-   * @param {Gerrit.LayoutStats} stats
-   *
-   * @return {number}
    */
-  _computeBarDeletionX(stats) {
+  _computeBarDeletionX(stats?: ) {
     return stats.deletionOffset;
   }
 
-  _computeShowSizeBars(userPrefs) {
-    return !!userPrefs.size_bar_in_change_table;
+  _computeShowSizeBars(userPrefs?: PreferencesInfo) {
+    return !!userPrefs?.size_bar_in_change_table;
   }
 
-  _computeSizeBarsClass(showSizeBars, path) {
+  _computeSizeBarsClass(showSizeBars?: boolean, path?: string) {
     let hideClass = '';
     if (!showSizeBars) {
       hideClass = 'hide';
@@ -1537,11 +1765,18 @@ class GrFileList extends KeyboardShortcutMixin(
    * dependencies between dynamic endpoints.
    */
   _computeShowDynamicColumns(
-      headerEndpoints, contentEndpoints, summaryEndpoints) {
-    return headerEndpoints && contentEndpoints && summaryEndpoints &&
-           headerEndpoints.length &&
-           headerEndpoints.length === contentEndpoints.length &&
-           headerEndpoints.length === summaryEndpoints.length;
+    headerEndpoints?: string,
+    contentEndpoints?: string,
+    summaryEndpoints?: string
+  ) {
+    return (
+      headerEndpoints &&
+      contentEndpoints &&
+      summaryEndpoints &&
+      headerEndpoints.length &&
+      headerEndpoints.length === contentEndpoints.length &&
+      headerEndpoints.length === summaryEndpoints.length
+    );
   }
 
   /**
@@ -1549,16 +1784,21 @@ class GrFileList extends KeyboardShortcutMixin(
    * endpoints are registered the exact same number of times.
    */
   _computeShowPrependedDynamicColumns(
-      headerEndpoints, contentEndpoints) {
-    return headerEndpoints && contentEndpoints &&
-           headerEndpoints.length &&
-           headerEndpoints.length === contentEndpoints.length;
+    headerEndpoints?: string,
+    contentEndpoints?: string
+  ) {
+    return (
+      headerEndpoints &&
+      contentEndpoints &&
+      headerEndpoints.length &&
+      headerEndpoints.length === contentEndpoints.length
+    );
   }
 
   /**
    * Returns true if none of the inline diffs have been expanded.
    *
-   * @return {boolean}
+   * @return
    */
   _noDiffsExpanded() {
     return this.filesExpanded === FilesExpandedState.NONE;
@@ -1569,20 +1809,22 @@ class GrFileList extends KeyboardShortcutMixin(
    * allows approximate detection of when the dom-repeat has completed
    * rendering.
    *
-   * @param {number} index The index of the row being rendered.
-   * @return {string} an empty string.
+   * @param index The index of the row being rendered.
    */
-  _reportRenderedRow(index) {
+  _reportRenderedRow(index: number) {
     if (index === this._shownFiles.length - 1) {
       this.async(() => {
-        this.reporting.timeEndWithAverage(RENDER_TIMING_LABEL,
-            RENDER_AVG_TIMING_LABEL, this._reportinShownFilesIncrement);
+        this.reporting.timeEndWithAverage(
+          RENDER_TIMING_LABEL,
+          RENDER_AVG_TIMING_LABEL,
+          this._reportinShownFilesIncrement
+        );
       }, 1);
     }
     return '';
   }
 
-  _reviewedTitle(reviewed) {
+  _reviewedTitle(reviewed?: boolean) {
     if (reviewed) {
       return 'Mark as not reviewed (shortcut: r)';
     }
@@ -1599,16 +1841,20 @@ class GrFileList extends KeyboardShortcutMixin(
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _computeDisplayPath(path) {
+  _computeDisplayPath(path: string) {
     return computeDisplayPath(path);
   }
 
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _computeTruncatedPath(path) {
+  _computeTruncatedPath(path: string) {
     return computeTruncatedPath(path);
   }
 }
 
-customElements.define(GrFileList.is, GrFileList);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-file-list': GrFileList;
+  }
+}

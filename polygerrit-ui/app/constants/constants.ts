@@ -190,6 +190,17 @@ export enum SubmitType {
   INHERIT = 'INHERIT',
 }
 
+/**
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info
+ */
+export enum MergeStrategy {
+  RECURSIVE = 'recursive',
+  RESOLVE = 'resolve',
+  SIMPLE_TWO_WAY_IN_CORE = 'simple-two-way-in-core',
+  OURS = 'ours',
+  THEIRS = 'theirs',
+}
+
 /*
  * Enum for possible configured value in InheritedBooleanInfo.
  * https://gerrit-review.googlesource.com/Documentation/rest-api-projects.html#inherited-boolean-info

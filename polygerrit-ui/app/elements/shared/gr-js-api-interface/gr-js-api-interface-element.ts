@@ -35,6 +35,7 @@ import {
 } from './gr-js-api-types';
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
 import {DiffLayer, HighlightJS} from '../../../types/types';
+import {ParsedChangeInfo} from '../gr-rest-api-interface/gr-reviewer-updates-parser';
 
 const elements: {[key: string]: HTMLElement} = {};
 const eventCallbacks: {[key: string]: EventCallback[]} = {};
@@ -177,7 +178,7 @@ export class GrJsApiInterface
     }
   }
 
-  handleCommitMessage(change: ChangeInfo, msg: string) {
+  handleCommitMessage(change: ChangeInfo | ParsedChangeInfo, msg: string) {
     for (const cb of this._getEventCallbacks(EventType.COMMIT_MSG_EDIT)) {
       try {
         cb(change, msg);

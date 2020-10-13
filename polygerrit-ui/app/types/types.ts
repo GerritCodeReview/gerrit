@@ -20,6 +20,7 @@ import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
 import {CommitId, NumericChangeId, PatchRange, PatchSetNum} from './common';
+import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 
 export function notUndefined<T>(x: T | undefined): x is T {
   return x !== undefined;
@@ -212,4 +213,11 @@ export function isPatchSetFile(
 export interface FileRange {
   basePath?: string;
   path: string;
+}
+
+export function isPolymerSpliceChange<
+  T,
+  U extends Array<{} | null | undefined>
+>(x: T | PolymerSpliceChange<U>): x is PolymerSpliceChange<U> {
+  return (x as PolymerSpliceChange<U>).indexSplices !== undefined;
 }

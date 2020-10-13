@@ -105,6 +105,15 @@ export interface AppElementDiffViewParam {
   leftSide?: boolean;
   commentLink?: boolean;
 }
+export interface AppElementChangeViewParams {
+  view: GerritView.CHANGE;
+  changeNum: NumericChangeId;
+  project: RepoName;
+  edit?: boolean;
+  patchNum?: PatchSetNum;
+  basePatchNum?: PatchSetNum;
+  queryMap?: Map<string, string> | URLSearchParams;
+}
 
 export interface AppElementJustRegisteredParams {
   // We use params.view === ... as a type guard.
@@ -120,6 +129,7 @@ export type AppElementParams =
   | AppElementDashboardParams
   | AppElementGroupParams
   | AppElementAdminParams
+  | AppElementChangeViewParams
   | AppElementRepoParams
   | AppElementDocSearchParams
   | AppElementPluginScreenParams

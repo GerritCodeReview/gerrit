@@ -22,6 +22,30 @@
       },
       "revId": "5bd5049ae2112303a730d934f1fbfe61985649df",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "18926ced_025a9d6e",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 20
+      },
+      "lineNbr": 101,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-13T00:52:08Z",
+      "side": 1,
+      "message": "Done., Added in the dev-plugin.txt document.",
+      "parentUuid": "d53d07e9_83906a6c",
+      "range": {
+        "startLine": 98,
+        "startChar": 6,
+        "endLine": 101,
+        "endChar": 79
+      },
+      "revId": "5bd5049ae2112303a730d934f1fbfe61985649df",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

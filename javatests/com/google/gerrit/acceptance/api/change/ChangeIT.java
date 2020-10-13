@@ -100,6 +100,8 @@ import com.google.gerrit.entities.PatchSet;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.RefNames;
+import com.google.gerrit.entities.SubmitRecord;
+import com.google.gerrit.entities.SubmitRequirement;
 import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.annotations.Exports;
 import com.google.gerrit.extensions.api.accounts.DeleteDraftCommentsInput;
@@ -145,6 +147,7 @@ import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.MergeInput;
 import com.google.gerrit.extensions.common.MergePatchSetInput;
 import com.google.gerrit.extensions.common.RevisionInfo;
+import com.google.gerrit.extensions.common.SubmitRequirementInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
 import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
@@ -175,6 +178,7 @@ import com.google.gerrit.server.project.testing.TestLabels;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.gerrit.server.query.change.ChangeQueryBuilder.ChangeOperatorFactory;
 import com.google.gerrit.server.restapi.change.PostReview;
+import com.google.gerrit.server.rules.SubmitRule;
 import com.google.gerrit.server.update.BatchUpdate;
 import com.google.gerrit.server.update.BatchUpdateOp;
 import com.google.gerrit.server.update.ChangeContext;
@@ -4703,6 +4707,31 @@ public class ChangeIT extends AbstractDaemonTest {
   public void changeQueryDoesNotReturnMergeableWhenGerritDoesNotIndexMergeable() throws Exception {
     String changeId = createChange().getChangeId();
     assertThat(gApi.changes().query(changeId).get().get(0).mergeable).isNull();
+  }
+
+  @Test
+  public void requirementsPopulatedForMergedChange() throws Exception {
+    try (Registration registration =
+        extensionRegistry
+            .newRegistration()
+            .add(
+                (SubmitRule)
+                    changeData -> {
+                      SubmitRecord submitRecord = new SubmitRecord();
+                      submitRecord.status = SubmitRecord.Status.OK;
+                      submitRecord.requirements =
+                          ImmutableList.of(
+                              SubmitRequirement.builder()
+                                  .setFallbackText("Foo Bar")
+                                  .setType("foo-bar")
+                                  .build());
+                      return Optional.of(submitRecord);
+                    })) {
+      PushOneCommit.Result changeResult = createChange();
+      merge(changeResult);
+      assertThat(gApi.changes().id(changeResult.getChangeId()).get().requirements)
+          .containsExactly(new SubmitRequirementInfo("OK", "Foo Bar", "foo-bar"));
+    }
   }
 
   private PushOneCommit.Result createWorkInProgressChange() throws Exception {

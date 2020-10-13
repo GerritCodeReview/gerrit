@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "deb0f6b8_15dc3190",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Done. I originally wanted to fit in the desirable 50-characters limit for subjects but that\u0027s ok.",
+      "parentUuid": "9bd51257_d466a01e",
+      "range": {
+        "startLine": 7,
+        "startChar": 41,
+        "endLine": 7,
+        "endChar": 43
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b3ce4f79_14e49d46",
@@ -43,6 +67,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "803b7861_219aa189",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 19,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Done; line 18 rephrased.",
+      "parentUuid": "b3ce4f79_14e49d46",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "21ea00dd_f6b7b20a",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 2
@@ -54,6 +96,23 @@
       "writtenOn": "2020-10-12T01:26:06Z",
       "side": 1,
       "message": "I\u0027m basing this on stable-3.3 because that\u0027s where I\u0027ve been testing it.",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a8c61d3a_44cf6230",
+        "filename": "tools/release_noter/.gitignore",
+        "patchSetId": 2
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "/.idea added, for PyCharm which I at least resumed using now.",
       "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -81,6 +140,53 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6489e0a5_cbfb7368",
+        "filename": "tools/release_noter/Pipfile",
+        "patchSetId": 2
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Done; a copy-paste oversight 😞\n\nAlso fixed file\u0027s formatting.",
+      "parentUuid": "159e4081_4f82f558",
+      "range": {
+        "startLine": 7,
+        "startChar": 61,
+        "endLine": 7,
+        "endChar": 66
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0405c503_996bf939",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 4,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Unused; removed.",
+      "range": {
+        "startLine": 4,
+        "startChar": 0,
+        "endLine": 4,
+        "endChar": 14
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b9953543_eb21fdc0",
@@ -94,6 +200,41 @@
       "writtenOn": "2020-10-12T09:18:43Z",
       "side": 1,
       "message": "This is a long list of exclusion patterns and some of them are pretty generic and short\nwhich risks we filter out commits which should be captured in the release notes.\n\nMaybe it would help to move all filtered commits into a separate section \"filtered\"\ninstead of silently dropping them so that the human editor has a chance to double-check\nwithout having to read the complete git log.",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "584757e6_3ef1dc84",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "\u003e This is a long list of exclusion patterns and some of them are pretty generic and short\n\u003e which risks we filter out commits which should be captured in the release notes.\n\nThat remains true, yes.\n\n\u003e Maybe it would help to move all filtered commits into a separate section \"filtered\"\n\u003e instead of silently dropping them so that the human editor has a chance to double-check\n\u003e without having to read the complete git log.\n\nGood idea. For the sake of completing this specific change /review iteration, I\u0027d like to do this in a near follow-up change instead.\n\nThe latter is needed anyway for the overall (near) requirement of grouping some more core changes into similar sections, for generated notes usability too. Hence your comment is well noted for upcoming follow-up work.",
+      "parentUuid": "b9953543_eb21fdc0",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b16b595b_dadb7fa6",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Above, replaced set([ with {, to fix the related PyCharm warning.",
       "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -121,6 +262,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80189398_959b54ac",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 80,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Done. I also had doubts about this formulation.",
+      "parentUuid": "703d4201_edf06265",
+      "range": {
+        "startLine": 80,
+        "startChar": 51,
+        "endLine": 80,
+        "endChar": 66
+      },
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "61baa64c_0e6c7902",
@@ -134,6 +299,47 @@
       "writtenOn": "2020-10-12T09:18:43Z",
       "side": 1,
       "message": "it seems this requires that the new release or rc is already tagged\nI think it would be more useful to allow any commit-ish to specify boundaries\nto enable creation of release notes before tagging a release or rc,\nin the end release notes should be included in the tagged release, right ?\n\nmaybe instead of explicit options -p and -r specify version range in\nstandard way git log understands by using {}..{} or {}...{} notation, e.g.\n\n pipenv run python release_noter.py v3.2.3..v3.3.0-rc0\n\ninstead of\n\n pipenv run python release_noter.py -p v3.2.3 -r v3.3.0-rc0\n\nthis would also enable e.g.\n\n pipenv run python release_noter.py v3.2.3..HEAD",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "5564951f_be0c90c2",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 86,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "\u003e it seems this requires that the new release or rc is already tagged\n\u003e I think it would be more useful to allow any commit-ish to specify boundaries\n\u003e to enable creation of release notes before tagging a release or rc,\n\nAgree, good idea; done.\n\n\u003e in the end release notes should be included in the tagged release, right ?\n\nThat would be the ultimate goal, yes ;)\n\n\u003e maybe instead of explicit options -p and -r specify version range in\n\u003e standard way git log understands by using {}..{} or {}...{} notation, e.g.\n\u003e \n\u003e  pipenv run python release_noter.py v3.2.3..v3.3.0-rc0\n\u003e \n\u003e instead of\n\u003e \n\u003e  pipenv run python release_noter.py -p v3.2.3 -r v3.3.0-rc0\n\u003e \n\u003e this would also enable e.g.\n\u003e \n\u003e  pipenv run python release_noter.py v3.2.3..HEAD\n\n(Done; thanks.)",
+      "parentUuid": "61baa64c_0e6c7902",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d4a1dca4_49ad99e8",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 108,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Preceding; done.",
+      "range": {
+        "startLine": 108,
+        "startChar": 14,
+        "endLine": 108,
+        "endChar": 24
+      },
       "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -155,6 +361,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "249c0a51_713b44b5",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 118,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Trying this locally, I don\u0027t see noticeable advantages in doing so. This current implementation relies on the Date header, which goes away with raw formatting.",
+      "parentUuid": "f7d5a4f8_cd3bce0a",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e1c82e9_2738dcc9",
@@ -168,6 +392,24 @@
       "writtenOn": "2020-10-12T09:18:43Z",
       "side": 1,
       "message": "this long list of if .. elif is hard to read, maybe use a dictionary mapping \nhttps://www.pydanny.com/why-doesnt-python-have-switch-case.html ?",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "b895d67c_fd36e360",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 166,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Agree. I\u0027d like to try this interesting tip in a follow-up change; thanks.",
+      "parentUuid": "3e1c82e9_2738dcc9",
       "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -189,6 +431,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cae355c_8c42fcc2",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 253,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "Good idea, especially now that we start having such automation handy. I added this to my list of follow-up changes if I may.",
+      "parentUuid": "c3dd49b8_b8661dd7",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "5949f7a3_6efc0ded",
@@ -202,6 +462,47 @@
       "writtenOn": "2020-10-12T09:18:43Z",
       "side": 1,
       "message": "how about jgit which is a submodule but not a plugin ?",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "da2f8a71_4a8ec7ef",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 257,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "JGit is not listed by this current script as a plugin (this section), or as plugin changes. It is rather listed as a core change(s). This should improve as component-specific sections get added to the script soon. -Potentially splitting jgit from core to its own section in notes.",
+      "parentUuid": "5949f7a3_6efc0ded",
+      "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9a7c5c77_52df3713",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 2
+      },
+      "lineNbr": 278,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T19:30:42Z",
+      "side": 1,
+      "message": "These variable names were shadowing their homonymes in those called functions; renamed.",
+      "range": {
+        "startLine": 276,
+        "startChar": 4,
+        "endLine": 278,
+        "endChar": 23
+      },
       "revId": "4f61080806c00326ad836ca2b6cb18232a9fcd06",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

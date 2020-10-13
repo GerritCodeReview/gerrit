@@ -57,10 +57,6 @@ interface PatchRange {
   basePatchNum?: PatchSetNum;
 }
 
-interface PatchRangeRecord {
-  base: PatchRange;
-}
-
 /**
  * As patchNum can be either a string (e.g. 'edit', 'PARENT') OR a number,
  * this function checks for patchNum equality.
@@ -263,11 +259,7 @@ export function hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {
   return allPatchSets[0].num === EditPatchSetNum;
 }
 
-export function hasEditPatchsetLoaded(patchRangeRecord: PatchRangeRecord) {
-  const patchRange = patchRangeRecord.base;
-  if (!patchRange) {
-    return false;
-  }
+export function hasEditPatchsetLoaded(patchRange: PatchRange) {
   return (
     patchRange.patchNum === EditPatchSetNum ||
     patchRange.basePatchNum === EditPatchSetNum
@@ -283,7 +275,7 @@ export function hasEditPatchsetLoaded(patchRangeRecord: PatchRangeRecord) {
  *     meantime. The promise is rejected on network error.
  */
 export function fetchChangeUpdates(
-  change: ChangeInfo,
+  change: ChangeInfo | ParsedChangeInfo,
   restAPI: RestApiService
 ) {
   const knownLatest = computeLatestPatchNum(computeAllPatchSets(change));

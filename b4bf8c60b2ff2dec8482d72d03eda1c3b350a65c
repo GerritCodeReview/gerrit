@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2efc4430_bc76457f",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T22:18:30Z",
+      "side": 1,
+      "message": "Replaced with more modern f-strings, across.",
+      "range": {
+        "startLine": 81,
+        "startChar": 54,
+        "endLine": 81,
+        "endChar": 61
+      },
+      "revId": "b4bf8c60b2ff2dec8482d72d03eda1c3b350a65c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

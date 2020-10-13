@@ -32,6 +32,7 @@ import {
   ParentPatchSetNum,
   ServerInfo,
 } from '../../../types/common';
+import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 
 // Navigation parameters object format:
 //
@@ -664,7 +665,7 @@ export const GerritNav = {
    * @param basePatchNum The string 'PARENT' can be used for none.
    */
   getUrlForDiff(
-    change: ChangeInfo,
+    change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
     basePatchNum?: PatchSetNum,
@@ -723,7 +724,7 @@ export const GerritNav = {
   },
 
   getEditUrlForDiff(
-    change: ChangeInfo,
+    change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
     lineNum?: number
@@ -763,7 +764,7 @@ export const GerritNav = {
    * @param basePatchNum The string 'PARENT' can be used for none.
    */
   navigateToDiff(
-    change: ChangeInfo,
+    change: ChangeInfo | ParsedChangeInfo,
     filePath: string,
     patchNum?: PatchSetNum,
     basePatchNum?: PatchSetNum,

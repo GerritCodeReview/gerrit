@@ -37,7 +37,6 @@ import '../../shared/gr-icons/gr-icons.js';
 import '../gr-commit-info/gr-commit-info.js';
 import '../gr-download-dialog/gr-download-dialog.js';
 import '../gr-file-list-header/gr-file-list-header.js';
-import '../gr-file-list/gr-file-list.js';
 import '../gr-included-in-dialog/gr-included-in-dialog.js';
 import '../gr-messages-list/gr-messages-list.js';
 import '../gr-related-changes-list/gr-related-changes-list.js';
@@ -73,6 +72,7 @@ import {
 } from '../../../utils/patch-set-util.js';
 import {changeStatuses, changeStatusString} from '../../../utils/change-util.js';
 import {EventType} from '../../plugins/gr-plugin-types.js';
+import {DEFAULT_NUM_FILES_SHOWN} from '../gr-file-list/gr-file-list.js';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -82,7 +82,6 @@ const CHANGE_ID_REGEX_PATTERN =
   /^(Change-Id\:\s|Link:.*\/id\/)(I[0-9a-f]{8,40})/gm;
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
-const DEFAULT_NUM_FILES_SHOWN = 200;
 
 const REVIEWERS_REGEX = /^(R|CC)=/gm;
 const MIN_CHECK_INTERVAL_SECS = 0;

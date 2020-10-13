@@ -143,7 +143,7 @@ export class GrCommentThread extends KeyboardShortcutMixin(
     notify: true,
     computed: '_computeRootId(comments.*)',
   })
-  rootId?: string;
+  rootId?: UrlEncodedCommentId;
 
   @property({type: Boolean})
   showFilePath = false;

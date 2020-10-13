@@ -14,53 +14,56 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '@polymer/paper-tabs/paper-tabs.js';
-import '../../../styles/shared-styles.js';
-import '../../diff/gr-comment-api/gr-comment-api.js';
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import '../../plugins/gr-endpoint-param/gr-endpoint-param.js';
-import '../../shared/gr-account-link/gr-account-link.js';
-import '../../shared/gr-button/gr-button.js';
-import '../../shared/gr-change-star/gr-change-star.js';
-import '../../shared/gr-change-status/gr-change-status.js';
-import '../../shared/gr-date-formatter/gr-date-formatter.js';
-import '../../shared/gr-editable-content/gr-editable-content.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import '../../shared/gr-linked-text/gr-linked-text.js';
-import '../../shared/gr-overlay/gr-overlay.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../../shared/gr-tooltip-content/gr-tooltip-content.js';
-import '../../shared/revision-info/revision-info.js';
-import '../gr-change-actions/gr-change-actions.js';
-import '../gr-change-metadata/gr-change-metadata.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../gr-commit-info/gr-commit-info.js';
-import '../gr-download-dialog/gr-download-dialog.js';
-import '../gr-file-list-header/gr-file-list-header.js';
-import '../gr-included-in-dialog/gr-included-in-dialog.js';
-import '../gr-messages-list/gr-messages-list.js';
-import '../gr-related-changes-list/gr-related-changes-list.js';
-import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog.js';
-import '../gr-reply-dialog/gr-reply-dialog.js';
-import '../gr-thread-list/gr-thread-list.js';
-import '../gr-upload-help-dialog/gr-upload-help-dialog.js';
-import {flush} from '@polymer/polymer/lib/legacy/polymer.dom.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-change-view_html.js';
-import {KeyboardShortcutMixin, Shortcut} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {GrEditConstants} from '../../edit/gr-edit-constants.js';
-import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter.js';
-import {getComputedStyleValue} from '../../../utils/dom-util.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
-import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {RevisionInfo} from '../../shared/revision-info/revision-info.js';
-import {PrimaryTab, SecondaryTab} from '../../../constants/constants.js';
-import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages.js';
-import {appContext} from '../../../services/app-context.js';
-import {ChangeStatus} from '../../../constants/constants.js';
+import '@polymer/paper-tabs/paper-tabs';
+import '../../../styles/shared-styles';
+import '../../diff/gr-comment-api/gr-comment-api';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../plugins/gr-endpoint-param/gr-endpoint-param';
+import '../../shared/gr-account-link/gr-account-link';
+import '../../shared/gr-button/gr-button';
+import '../../shared/gr-change-star/gr-change-star';
+import '../../shared/gr-change-status/gr-change-status';
+import '../../shared/gr-date-formatter/gr-date-formatter';
+import '../../shared/gr-editable-content/gr-editable-content';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import '../../shared/gr-linked-text/gr-linked-text';
+import '../../shared/gr-overlay/gr-overlay';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../../shared/gr-tooltip-content/gr-tooltip-content';
+import '../gr-change-actions/gr-change-actions';
+import '../gr-change-metadata/gr-change-metadata';
+import '../../shared/gr-icons/gr-icons';
+import '../gr-commit-info/gr-commit-info';
+import '../gr-download-dialog/gr-download-dialog';
+import '../gr-file-list-header/gr-file-list-header';
+import '../gr-included-in-dialog/gr-included-in-dialog';
+import '../gr-messages-list/gr-messages-list';
+import '../gr-related-changes-list/gr-related-changes-list';
+import '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import '../gr-reply-dialog/gr-reply-dialog';
+import '../gr-thread-list/gr-thread-list';
+import '../gr-upload-help-dialog/gr-upload-help-dialog';
+import {flush} from '@polymer/polymer/lib/legacy/polymer.dom';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-change-view_html';
+import {
+  KeyboardShortcutMixin,
+  Shortcut,
+  CustomKeyboardEvent,
+} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {GrEditConstants} from '../../edit/gr-edit-constants';
+import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter';
+import {getComputedStyleValue} from '../../../utils/dom-util';
+import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation';
+import {getPluginEndpoints} from '../../shared/gr-js-api-interface/gr-plugin-endpoints';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {RevisionInfo as RevisionInfoClass} from '../../shared/revision-info/revision-info';
+import {PrimaryTab, SecondaryTab} from '../../../constants/constants';
+import {NO_ROBOT_COMMENTS_THREADS_MSG} from '../../../constants/messages';
+import {appContext} from '../../../services/app-context';
+import {ChangeStatus} from '../../../constants/constants';
 import {
   computeAllPatchSets,
   computeLatestPatchNum,
@@ -68,18 +71,81 @@ import {
   hasEditBasedOnCurrentPatchSet,
   hasEditPatchsetLoaded,
   patchNumEquals,
-  SPECIAL_PATCH_SET_NUM,
-} from '../../../utils/patch-set-util.js';
-import {changeStatuses, changeStatusString} from '../../../utils/change-util.js';
-import {EventType} from '../../plugins/gr-plugin-types.js';
-import {DEFAULT_NUM_FILES_SHOWN} from '../gr-file-list/gr-file-list.js';
+  PatchSet,
+} from '../../../utils/patch-set-util';
+import {changeStatuses, changeStatusString} from '../../../utils/change-util';
+import {EventType} from '../../plugins/gr-plugin-types';
+import {customElement, property, observe} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {GrJsApiInterface} from '../../shared/gr-js-api-interface/gr-js-api-interface-element';
+import {GrApplyFixDialog} from '../../diff/gr-apply-fix-dialog/gr-apply-fix-dialog';
+import {GrFileListHeader} from '../gr-file-list-header/gr-file-list-header';
+import {GrEditableContent} from '../../shared/gr-editable-content/gr-editable-content';
+import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
+import {GrRelatedChangesList} from '../gr-related-changes-list/gr-related-changes-list';
+import {GrChangeStar} from '../../shared/gr-change-star/gr-change-star';
+import {GrChangeActions} from '../gr-change-actions/gr-change-actions';
+import {
+  AccountDetailInfo,
+  ChangeInfo,
+  NumericChangeId,
+  PatchRange,
+  ActionNameToActionInfoMap,
+  CommitId,
+  PatchSetNum,
+  ParentPatchSetNum,
+  EditPatchSetNum,
+  ServerInfo,
+  ConfigInfo,
+  PreferencesInfo,
+  CommitInfo,
+  DiffPreferencesInfo,
+  RevisionInfo,
+  EditInfo,
+  LabelNameToInfoMap,
+  UrlEncodedCommentId,
+  QuickLabelInfo,
+  ApprovalInfo,
+  ElementPropertyDeepChange,
+} from '../../../types/common';
+import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
+import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
+import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
+import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
+import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
+import {
+  GrCommentApi,
+  ChangeComments,
+} from '../../diff/gr-comment-api/gr-comment-api';
+import {hasOwnProperty} from '../../../utils/common-util';
+import {GrEditControls} from '../../edit/gr-edit-controls/gr-edit-controls';
+import {
+  CommentThread,
+  UIDraft,
+  DraftInfo,
+  isDraftThread,
+  isRobot,
+} from '../../../utils/comment-util';
+import {
+  PolymerDeepPropertyChange,
+  PolymerSpliceChange,
+  PolymerSplice,
+} from '@polymer/polymer/interfaces';
+import {AppElementChangeViewParams} from '../../gr-app-types';
+import {DropdownLink} from '../../shared/gr-dropdown/gr-dropdown';
+import {PaperTabsElement} from '@polymer/paper-tabs/paper-tabs';
+import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {
+  GrFileList,
+  DEFAULT_NUM_FILES_SHOWN,
+} from '../gr-file-list/gr-file-list';
+import {isPolymerSpliceChange} from '../../../types/types';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
   MISSING: 'missing',
 };
-const CHANGE_ID_REGEX_PATTERN =
-  /^(Change-Id\:\s|Link:.*\/id\/)(I[0-9a-f]{8,40})/gm;
+const CHANGE_ID_REGEX_PATTERN = /^(Change-Id:\s|Link:.*\/id\/)(I[0-9a-f]{8,40})/gm;
 
 const MIN_LINES_FOR_COMMIT_COLLAPSE = 30;
 
@@ -111,10 +177,10 @@ const ReloadToastMessage = {
   NEW_MESSAGE: 'There are new messages on this change',
 };
 
-const DiffViewMode = {
-  SIDE_BY_SIDE: 'SIDE_BY_SIDE',
-  UNIFIED: 'UNIFIED_DIFF',
-};
+enum DiffViewMode {
+  SIDE_BY_SIDE = 'SIDE_BY_SIDE',
+  UNIFIED = 'UNIFIED_DIFF',
+}
 
 const CHANGE_DATA_TIMING_LABEL = 'ChangeDataLoaded';
 const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
@@ -122,24 +188,62 @@ const SEND_REPLY_TIMING_LABEL = 'SendReply';
 // Making the tab names more unique in case a plugin adds one with same name
 const ROBOT_COMMENTS_LIMIT = 10;
 
-// types used in this file
-/**
- * Type for the custom event to switch tab.
- *
- * @typedef {Object} SwitchTabEventDetail
- * @property {?string} tab - name of the tab to set as active, from custom event
- * @property {?boolean} scrollIntoView - scroll into the tab afterwards, from custom event
- * @property {?number} value - index of tab to set as active, from paper-tabs event
- */
+// Type for the custom event to switch tab.
+interface SwitchTabEventDetail {
+  // name of the tab to set as active, from custom event
+  tab?: string;
+  // index of tab to set as active, from paper-tabs event
+  value?: number;
+  // scroll into the tab afterwards, from custom event
+  scrollIntoView?: boolean;
+}
 
-/**
- * @extends PolymerElement
- */
-class GrChangeView extends KeyboardShortcutMixin(
-    GestureEventListeners(LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+export interface ChangeViewState {
+  diffMode?: DiffViewMode;
+  scrollTop?: number;
+  showDownloadDialog?: boolean;
+  showReplyDialog?: boolean;
+  changeNum?: NumericChangeId;
+  numFilesShown?: number;
+  patchRange?: PatchRange;
+  diffViewMode?: boolean;
+}
 
-  static get is() { return 'gr-change-view'; }
+export interface GrChangeView {
+  $: {
+    restAPI: RestApiService & Element;
+    jsAPI: GrJsApiInterface;
+    commentAPI: GrCommentApi;
+    applyFixDialog: GrApplyFixDialog;
+    fileList: GrFileList & Element;
+    fileListHeader: GrFileListHeader;
+    commitMessageEditor: GrEditableContent;
+    includedInOverlay: GrOverlay;
+    includedInDialog: GrIncludedInDialog;
+    downloadOverlay: GrOverlay;
+    downloadDialog: GrDownloadDialog;
+    uploadHelpOverlay: GrOverlay;
+    replyOverlay: GrOverlay;
+    replyDialog: GrReplyDialog;
+    mainContent: HTMLDivElement;
+    relatedChanges: GrRelatedChangesList;
+    changeStar: GrChangeStar;
+    actions: GrChangeActions;
+    commitMessage: HTMLDivElement;
+    commitAndRelated: HTMLDivElement;
+    metadata: GrChangeMetadata;
+    relatedChangesToggle: HTMLDivElement;
+    mainChangeInfo: HTMLDivElement;
+  };
+}
+@customElement('gr-change-view')
+export class GrChangeView extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the title of the page should change.
    *
@@ -158,271 +262,276 @@ class GrChangeView extends KeyboardShortcutMixin(
    * @event show-auth-required
    */
 
-  static get properties() {
-    return {
-    /**
-     * URL params passed from the router.
-     */
-      params: {
-        type: Object,
-        observer: '_paramsChanged',
-      },
-      /** @type {?} */
-      viewState: {
-        type: Object,
-        notify: true,
-        value() { return {}; },
-        observer: '_viewStateChanged',
-      },
-      backPage: String,
-      hasParent: Boolean,
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
-      disableEdit: {
-        type: Boolean,
-        value: false,
-      },
-      disableDiffPrefs: {
-        type: Boolean,
-        value: false,
-      },
-      _diffPrefsDisabled: {
-        type: Boolean,
-        computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
-      },
-      _commentThreads: Array,
-      // TODO(taoalpha): Consider replacing diffDrafts
-      // with _draftCommentThreads everywhere, currently only
-      // replaced in reply-dialoig
-      _draftCommentThreads: {
-        type: Array,
-      },
-      _robotCommentThreads: {
-        type: Array,
-        computed: '_computeRobotCommentThreads(_commentThreads,'
-          + ' _currentRobotCommentsPatchSet, _showAllRobotComments)',
-      },
-      /** @type {?} */
-      _serverConfig: {
-        type: Object,
-        observer: '_startUpdateCheckTimer',
-      },
-      _diffPrefs: Object,
-      _numFilesShown: {
-        type: Number,
-        value: DEFAULT_NUM_FILES_SHOWN,
-        observer: '_numFilesShownChanged',
-      },
-      _account: {
-        type: Object,
-        value: {},
-      },
-      _prefs: Object,
-      /** @type {?} */
-      _changeComments: Object,
-      _canStartReview: {
-        type: Boolean,
-        computed: '_computeCanStartReview(_change)',
-      },
-      /** @type {?} */
-      _change: {
-        type: Object,
-        observer: '_changeChanged',
-      },
-      _revisionInfo: {
-        type: Object,
-        computed: '_getRevisionInfo(_change)',
-      },
-      /** @type {?} */
-      _commitInfo: Object,
-      _currentRevision: {
-        type: Object,
-        computed: '_computeCurrentRevision(_change.current_revision, ' +
-          '_change.revisions)',
-        observer: '_handleCurrentRevisionUpdate',
-      },
-      _files: Object,
-      _changeNum: String,
-      _diffDrafts: {
-        type: Object,
-        value() { return {}; },
-      },
-      _editingCommitMessage: {
-        type: Boolean,
-        value: false,
-      },
-      _hideEditCommitMessage: {
-        type: Boolean,
-        computed: '_computeHideEditCommitMessage(_loggedIn, ' +
-            '_editingCommitMessage, _change, _editMode, _commitCollapsed, ' +
-            '_commitCollapsible)',
-      },
-      _diffAgainst: String,
-      /** @type {?string} */
-      _latestCommitMessage: {
-        type: String,
-        value: '',
-      },
-      _constants: {
-        type: Object,
-        value: {
-          SecondaryTab,
-          PrimaryTab,
-        },
-      },
-      _messages: {
-        type: Object,
-        value: {
-          NO_ROBOT_COMMENTS_THREADS_MSG,
-        },
-      },
-      _lineHeight: Number,
-      _changeIdCommitMessageError: {
-        type: String,
-        computed:
-        '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
-      },
-      /** @type {?} */
-      _patchRange: {
-        type: Object,
-      },
-      _filesExpanded: String,
-      _basePatchNum: String,
-      _selectedRevision: Object,
-      _currentRevisionActions: Object,
-      _allPatchSets: {
-        type: Array,
-        computed: '_computeAllPatchSets(_change, _change.revisions.*)',
-      },
-      _loggedIn: {
-        type: Boolean,
-        value: false,
-      },
-      _loading: Boolean,
-      /** @type {?} */
-      _projectConfig: Object,
-      _replyButtonLabel: {
-        type: String,
-        value: 'Reply',
-        computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
-      },
-      _selectedPatchSet: String,
-      _shownFileCount: Number,
-      _initialLoadComplete: {
-        type: Boolean,
-        value: false,
-      },
-      _replyDisabled: {
-        type: Boolean,
-        value: true,
-        computed: '_computeReplyDisabled(_serverConfig)',
-      },
-      _changeStatus: {
-        type: String,
-        computed: '_changeStatusString(_change)',
-      },
-      _changeStatuses: {
-        type: String,
-        computed:
-        '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
-      },
-      /** If false, then the "Show more" button was used to expand. */
-      _commitCollapsed: {
-        type: Boolean,
-        value: true,
-      },
-      /** Is the "Show more/less" button visible? */
-      _commitCollapsible: {
-        type: Boolean,
-        computed: '_computeCommitCollapsible(_latestCommitMessage)',
-      },
-      _relatedChangesCollapsed: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {?number} */
-      _updateCheckTimerHandle: Number,
-      _editMode: {
-        type: Boolean,
-        computed: '_computeEditMode(_patchRange.*, params.*)',
-      },
-      _showRelatedToggle: {
-        type: Boolean,
-        value: false,
-        observer: '_updateToggleContainerClass',
-      },
-      _parentIsCurrent: {
-        type: Boolean,
-        computed: '_isParentCurrent(_currentRevisionActions)',
-      },
-      _submitEnabled: {
-        type: Boolean,
-        computed: '_isSubmitEnabled(_currentRevisionActions)',
-      },
+  reporting = appContext.reportingService;
 
-      /** @type {?} */
-      _mergeable: {
-        type: Boolean,
-        value: undefined,
-      },
-      _showFileTabContent: {
-        type: Boolean,
-        value: true,
-      },
-      /** @type {Array<string>} */
-      _dynamicTabHeaderEndpoints: {
-        type: Array,
-      },
-      /** @type {Array<string>} */
-      _dynamicTabContentEndpoints: {
-        type: Array,
-      },
-      // The dynamic content of the plugin added tab
-      _selectedTabPluginEndpoint: {
-        type: String,
-      },
-      // The dynamic heading of the plugin added tab
-      _selectedTabPluginHeader: {
-        type: String,
-      },
-      _robotCommentsPatchSetDropdownItems: {
-        type: Array,
-        value() { return []; },
-        computed: '_computeRobotCommentsPatchSetDropdownItems(_change, ' +
-          '_commentThreads)',
-      },
-      _currentRobotCommentsPatchSet: {
-        type: Number,
-      },
+  /**
+   * URL params passed from the router.
+   */
+  @property({type: Object, observer: '_paramsChanged'})
+  params?: AppElementChangeViewParams;
 
-      /**
-       * @type {Array<string>} this is a two-element tuple to always
-       * hold the current active tab for both primary and secondary tabs
-       */
-      _activeTabs: {
-        type: Array,
-        value: [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG],
-      },
-      _showAllRobotComments: {
-        type: Boolean,
-        value: false,
-      },
-      _showRobotCommentsButton: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+  @property({type: Object, notify: true, observer: '_viewStateChanged'})
+  viewState: ChangeViewState = {};
 
-  static get observers() {
-    return [
-      '_labelsChanged(_change.labels.*)',
-      '_paramsAndChangeChanged(params, _change)',
-      '_patchNumChanged(_patchRange.patchNum)',
-    ];
-  }
+  @property({type: String})
+  backPage?: string;
+
+  @property({type: Boolean})
+  hasParent?: boolean;
+
+  @property({type: Object})
+  keyEventTarget = document.body;
+
+  @property({type: Boolean})
+  disableEdit = false;
+
+  @property({type: Boolean})
+  disableDiffPrefs = false;
+
+  @property({
+    type: Boolean,
+    computed: '_computeDiffPrefsDisabled(disableDiffPrefs, _loggedIn)',
+  })
+  _diffPrefsDisabled?: boolean;
+
+  @property({type: Array})
+  _commentThreads?: CommentThread[];
+
+  // TODO(taoalpha): Consider replacing diffDrafts
+  // with _draftCommentThreads everywhere, currently only
+  // replaced in reply-dialog
+  @property({type: Array})
+  _draftCommentThreads?: CommentThread[];
+
+  @property({
+    type: Array,
+    computed:
+      '_computeRobotCommentThreads(_commentThreads,' +
+      ' _currentRobotCommentsPatchSet, _showAllRobotComments)',
+  })
+  _robotCommentThreads?: CommentThread[];
+
+  @property({type: Object, observer: '_startUpdateCheckTimer'})
+  _serverConfig?: ServerInfo;
+
+  @property({type: Object})
+  _diffPrefs?: DiffPreferencesInfo;
+
+  @property({type: Number, observer: '_numFilesShownChanged'})
+  _numFilesShown = DEFAULT_NUM_FILES_SHOWN;
+
+  @property({type: Object})
+  _account?: AccountDetailInfo;
+
+  @property({type: Object})
+  _prefs?: PreferencesInfo;
+
+  @property({type: Object})
+  _changeComments?: ChangeComments;
+
+  @property({type: Boolean, computed: '_computeCanStartReview(_change)'})
+  _canStartReview?: boolean;
+
+  @property({type: Object, observer: '_changeChanged'})
+  _change?: ChangeInfo | ParsedChangeInfo;
+
+  @property({type: Object, computed: '_getRevisionInfo(_change)'})
+  _revisionInfo?: RevisionInfoClass;
+
+  @property({type: Object})
+  _commitInfo?: CommitInfo;
+
+  @property({
+    type: Object,
+    computed:
+      '_computeCurrentRevision(_change.current_revision, ' +
+      '_change.revisions)',
+    observer: '_handleCurrentRevisionUpdate',
+  })
+  _currentRevision?: RevisionInfo;
+
+  @property({type: String})
+  _changeNum?: NumericChangeId;
+
+  @property({type: Object})
+  _diffDrafts?: {[path: string]: UIDraft[]} = {};
+
+  @property({type: Boolean})
+  _editingCommitMessage = false;
+
+  @property({
+    type: Boolean,
+    computed:
+      '_computeHideEditCommitMessage(_loggedIn, ' +
+      '_editingCommitMessage, _change, _editMode, _commitCollapsed, ' +
+      '_commitCollapsible)',
+  })
+  _hideEditCommitMessage?: boolean;
+
+  @property({type: String})
+  _diffAgainst?: string;
+
+  @property({type: String})
+  _latestCommitMessage: string | null = '';
+
+  @property({type: Object})
+  _constants = {
+    SecondaryTab,
+    PrimaryTab,
+  };
+
+  @property({type: Object})
+  _messages = NO_ROBOT_COMMENTS_THREADS_MSG;
+
+  @property({type: Number})
+  _lineHeight?: number;
+
+  @property({
+    type: String,
+    computed:
+      '_computeChangeIdCommitMessageError(_latestCommitMessage, _change)',
+  })
+  _changeIdCommitMessageError?: string;
+
+  @property({type: Object})
+  _patchRange?: PatchRange;
+
+  @property({type: String})
+  _filesExpanded?: string;
+
+  @property({type: String})
+  _basePatchNum?: string;
+
+  @property({type: Object})
+  _selectedRevision?: RevisionInfo;
+
+  @property({type: Object})
+  _currentRevisionActions?: ActionNameToActionInfoMap;
+
+  @property({
+    type: Array,
+    computed: '_computeAllPatchSets(_change, _change.revisions.*)',
+  })
+  _allPatchSets?: PatchSet[];
+
+  @property({type: Boolean})
+  _loggedIn = false;
+
+  @property({type: Boolean})
+  _loading?: boolean;
+
+  @property({type: Object})
+  _projectConfig?: ConfigInfo;
+
+  @property({
+    type: String,
+    computed: '_computeReplyButtonLabel(_diffDrafts.*, _canStartReview)',
+  })
+  _replyButtonLabel = 'Reply';
+
+  @property({type: String})
+  _selectedPatchSet?: string;
+
+  @property({type: Number})
+  _shownFileCount?: number;
+
+  @property({type: Boolean})
+  _initialLoadComplete = false;
+
+  @property({type: Boolean})
+  _replyDisabled = true;
+
+  @property({type: String, computed: '_changeStatusString(_change)'})
+  _changeStatus?: string;
+
+  @property({
+    type: String,
+    computed: '_computeChangeStatusChips(_change, _mergeable, _submitEnabled)',
+  })
+  _changeStatuses?: string;
+
+  /** If false, then the "Show more" button was used to expand. */
+  @property({type: Boolean})
+  _commitCollapsed = true;
+
+  /** Is the "Show more/less" button visible? */
+  @property({
+    type: Boolean,
+    computed: '_computeCommitCollapsible(_latestCommitMessage)',
+  })
+  _commitCollapsible?: boolean;
+
+  @property({type: Boolean})
+  _relatedChangesCollapsed = true;
+
+  @property({type: Number})
+  _updateCheckTimerHandle?: number | null;
+
+  @property({
+    type: Boolean,
+    computed: '_computeEditMode(_patchRange.*, params.*)',
+  })
+  _editMode?: boolean;
+
+  @property({type: Boolean, observer: '_updateToggleContainerClass'})
+  _showRelatedToggle = false;
+
+  @property({
+    type: Boolean,
+    computed: '_isParentCurrent(_currentRevisionActions)',
+  })
+  _parentIsCurrent?: boolean;
+
+  @property({
+    type: Boolean,
+    computed: '_isSubmitEnabled(_currentRevisionActions)',
+  })
+  _submitEnabled?: boolean;
+
+  @property({type: Boolean})
+  _mergeable: boolean | null = null;
+
+  @property({type: Boolean})
+  _showFileTabContent = true;
+
+  @property({type: Array})
+  _dynamicTabHeaderEndpoints: string[] = [];
+
+  @property({type: Array})
+  _dynamicTabContentEndpoints: string[] = [];
+
+  @property({type: String})
+  // The dynamic content of the plugin added tab
+  _selectedTabPluginEndpoint?: string;
+
+  @property({type: String})
+  // The dynamic heading of the plugin added tab
+  _selectedTabPluginHeader?: string;
+
+  @property({
+    type: Array,
+    computed:
+      '_computeRobotCommentsPatchSetDropdownItems(_change, _commentThreads)',
+  })
+  _robotCommentsPatchSetDropdownItems: DropdownLink[] = [];
+
+  @property({type: Number})
+  _currentRobotCommentsPatchSet?: PatchSetNum;
+
+  /**
+   * this is a two-element tuple to always
+   * hold the current active tab for both primary and secondary tabs
+   */
+  @property({type: Array})
+  _activeTabs: string[] = [PrimaryTab.FILES, SecondaryTab.CHANGE_LOG];
+
+  @property({type: Boolean})
+  _showAllRobotComments = false;
+
+  @property({type: Boolean})
+  _showRobotCommentsButton = false;
+
+  _throttledToggleChangeStar?: EventListener;
 
   keyboardShortcuts() {
     return {
@@ -430,8 +539,7 @@ class GrChangeView extends KeyboardShortcutMixin(
       [Shortcut.EMOJI_DROPDOWN]: null, // DOC_ONLY binding
       [Shortcut.REFRESH_CHANGE]: '_handleRefreshChange',
       [Shortcut.OPEN_REPLY_DIALOG]: '_handleOpenReplyDialog',
-      [Shortcut.OPEN_DOWNLOAD_DIALOG]:
-          '_handleOpenDownloadDialogShortcut',
+      [Shortcut.OPEN_DOWNLOAD_DIALOG]: '_handleOpenDownloadDialogShortcut',
       [Shortcut.TOGGLE_DIFF_MODE]: '_handleToggleDiffMode',
       [Shortcut.TOGGLE_CHANGE_STAR]: '_throttledToggleChangeStar',
       [Shortcut.UP_TO_DASHBOARD]: '_handleUpToDashboard',
@@ -443,48 +551,44 @@ class GrChangeView extends KeyboardShortcutMixin(
       [Shortcut.DIFF_AGAINST_BASE]: '_handleDiffAgainstBase',
       [Shortcut.DIFF_AGAINST_LATEST]: '_handleDiffAgainstLatest',
       [Shortcut.DIFF_BASE_AGAINST_LEFT]: '_handleDiffBaseAgainstLeft',
-      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]:
-        '_handleDiffRightAgainstLatest',
-      [Shortcut.DIFF_BASE_AGAINST_LATEST]:
-        '_handleDiffBaseAgainstLatest',
+      [Shortcut.DIFF_RIGHT_AGAINST_LATEST]: '_handleDiffRightAgainstLatest',
+      [Shortcut.DIFF_BASE_AGAINST_LATEST]: '_handleDiffBaseAgainstLatest',
     };
   }
 
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
-
+  /** @override */
   connectedCallback() {
     super.connectedCallback();
     this._throttledToggleChangeStar = this._throttleWrap(e =>
-      this._handleToggleChangeStar(e));
+      this._handleToggleChangeStar(e as CustomKeyboardEvent)
+    );
   }
 
   /** @override */
   created() {
     super.created();
 
-    this.addEventListener('topic-changed',
-        () => this._handleTopicChanged());
+    this.addEventListener('topic-changed', () => this._handleTopicChanged());
 
     this.addEventListener(
-        // When an overlay is opened in a mobile viewport, the overlay has a full
-        // screen view. When it has a full screen view, we do not want the
-        // background to be scrollable. This will eliminate background scroll by
-        // hiding most of the contents on the screen upon opening, and showing
-        // again upon closing.
-        'fullscreen-overlay-opened',
-        () => this._handleHideBackgroundContent());
+      // When an overlay is opened in a mobile viewport, the overlay has a full
+      // screen view. When it has a full screen view, we do not want the
+      // background to be scrollable. This will eliminate background scroll by
+      // hiding most of the contents on the screen upon opening, and showing
+      // again upon closing.
+      'fullscreen-overlay-opened',
+      () => this._handleHideBackgroundContent()
+    );
 
-    this.addEventListener('fullscreen-overlay-closed',
-        () => this._handleShowBackgroundContent());
+    this.addEventListener('fullscreen-overlay-closed', () =>
+      this._handleShowBackgroundContent()
+    );
 
-    this.addEventListener('diff-comments-modified',
-        () => this._handleReloadCommentThreads());
+    this.addEventListener('diff-comments-modified', () =>
+      this._handleReloadCommentThreads()
+    );
 
-    this.addEventListener('open-reply-dialog',
-        e => this._openReplyDialog());
+    this.addEventListener('open-reply-dialog', () => this._openReplyDialog());
   }
 
   /** @override */
@@ -492,6 +596,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     super.attached();
     this._getServerConfig().then(config => {
       this._serverConfig = config;
+      this._replyDisabled = false;
     });
 
     this._getLoggedIn().then(loggedIn => {
@@ -504,44 +609,56 @@ class GrChangeView extends KeyboardShortcutMixin(
       this._setDiffViewMode();
     });
 
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => {
-          this._dynamicTabHeaderEndpoints =
-            getPluginEndpoints().getDynamicEndpoints('change-view-tab-header');
-          this._dynamicTabContentEndpoints =
-            getPluginEndpoints().getDynamicEndpoints('change-view-tab-content');
-          if (this._dynamicTabContentEndpoints.length !==
-          this._dynamicTabHeaderEndpoints.length) {
-            console.warn('Different number of tab headers and tab content.');
-          }
-        })
-        .then(() => this._initActiveTabs(this.params));
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this._dynamicTabHeaderEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-tab-header'
+        );
+        this._dynamicTabContentEndpoints = getPluginEndpoints().getDynamicEndpoints(
+          'change-view-tab-content'
+        );
+        if (
+          this._dynamicTabContentEndpoints.length !==
+          this._dynamicTabHeaderEndpoints.length
+        ) {
+          console.warn('Different number of tab headers and tab content.');
+        }
+      })
+      .then(() => this._initActiveTabs(this.params));
 
     this.addEventListener('comment-save', e => this._handleCommentSave(e));
-    this.addEventListener('comment-refresh', e => this._reloadDrafts(e));
-    this.addEventListener('comment-discard',
-        e => this._handleCommentDiscard(e));
-    this.addEventListener('change-message-deleted',
-        () => this._reload());
-    this.addEventListener('editable-content-save',
-        e => this._handleCommitMessageSave(e));
-    this.addEventListener('editable-content-cancel',
-        e => this._handleCommitMessageCancel(e));
-    this.addEventListener('open-fix-preview',
-        e => this._onOpenFixPreview(e));
-    this.addEventListener('close-fix-preview',
-        e => this._onCloseFixPreview(e));
+    this.addEventListener('comment-refresh', () => this._reloadDrafts());
+    this.addEventListener('comment-discard', e =>
+      this._handleCommentDiscard(e)
+    );
+    this.addEventListener('change-message-deleted', () => this._reload());
+    this.addEventListener('editable-content-save', e =>
+      this._handleCommitMessageSave(e as CustomEvent<{content: string}>)
+    );
+    this.addEventListener('editable-content-cancel', () =>
+      this._handleCommitMessageCancel()
+    );
+    this.addEventListener('open-fix-preview', e =>
+      this._onOpenFixPreview(e as CustomEvent<CommentEventDetail>)
+    );
+    this.addEventListener('close-fix-preview', () => this._onCloseFixPreview());
     this.listen(window, 'scroll', '_handleScroll');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
 
-    this.addEventListener('show-primary-tab',
-        e => this._setActivePrimaryTab(e));
-    this.addEventListener('show-secondary-tab',
-        e => this._setActiveSecondaryTab(e));
+    this.addEventListener('show-primary-tab', e =>
+      this._setActivePrimaryTab(e as CustomEvent<SwitchTabEventDetail>)
+    );
+    this.addEventListener('show-secondary-tab', e =>
+      this._setActiveSecondaryTab(e as CustomEvent<SwitchTabEventDetail>)
+    );
     this.addEventListener('reload', e => {
       e.stopPropagation();
-      this._reload(/* opt_isLocationChange= */false,
-          /* opt_clearPatchset= */e.detail && e.detail.clearPatchset);
+      const evt = e as CustomEvent<{clearPatchset: boolean}>;
+      this._reload(
+        /* isLocationChange= */ false,
+        /* clearPatchset= */ evt.detail && evt.detail.clearPatchset
+      );
     });
   }
 
@@ -557,47 +674,47 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   get messagesList() {
-    return this.shadowRoot.querySelector('gr-messages-list');
+    return this.shadowRoot!.querySelector('gr-messages-list');
   }
 
   get threadList() {
-    return this.shadowRoot.querySelector('gr-thread-list');
+    return this.shadowRoot!.querySelector('gr-thread-list');
   }
 
-  _changeStatusString(change) {
+  _changeStatusString(change: ChangeInfo) {
     return changeStatusString(change);
   }
 
-  /**
-   * @param {boolean=} opt_reset
-   */
-  _setDiffViewMode(opt_reset) {
-    if (!opt_reset && this.viewState.diffViewMode) { return; }
+  _setDiffViewMode(opt_reset?: boolean) {
+    if (!opt_reset && this.viewState.diffViewMode) {
+      return;
+    }
 
     return this._getPreferences()
-        .then( prefs => {
-          if (!this.viewState.diffMode) {
-            this.set('viewState.diffMode', prefs.default_diff_view);
-          }
-        })
-        .then(() => {
-          if (!this.viewState.diffMode) {
-            this.set('viewState.diffMode', 'SIDE_BY_SIDE');
-          }
-        });
+      .then(prefs => {
+        if (!this.viewState.diffMode && prefs) {
+          this.set('viewState.diffMode', prefs.default_diff_view);
+        }
+      })
+      .then(() => {
+        if (!this.viewState.diffMode) {
+          this.set('viewState.diffMode', 'SIDE_BY_SIDE');
+        }
+      });
   }
 
-  _onOpenFixPreview(e) {
+  _onOpenFixPreview(e: CustomEvent<CommentEventDetail>) {
     this.$.applyFixDialog.open(e);
   }
 
-  _onCloseFixPreview(e) {
+  _onCloseFixPreview() {
     this._reload();
   }
 
-  _handleToggleDiffMode(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleToggleDiffMode(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     if (this.viewState.diffMode === DiffViewMode.SIDE_BY_SIDE) {
@@ -607,19 +724,27 @@ class GrChangeView extends KeyboardShortcutMixin(
     }
   }
 
-  _isTabActive(tab, activeTabs) {
+  _isTabActive(tab: string, activeTabs: string[]) {
     return activeTabs.includes(tab);
   }
 
   /**
    * Actual implementation of switching a tab
    *
-   * @param {!HTMLElement} paperTabs - the parent tabs container
-   * @param {!SwitchTabEventDetail} activeDetails
+   * @param paperTabs - the parent tabs container
    */
-  _setActiveTab(paperTabs, activeDetails) {
+  _setActiveTab(
+    paperTabs: PaperTabsElement,
+    activeDetails: {
+      activeTabName?: string;
+      activeTabIndex?: number;
+      scrollIntoView?: boolean;
+    }
+  ) {
     const {activeTabName, activeTabIndex, scrollIntoView} = activeDetails;
-    const tabs = paperTabs.querySelectorAll('paper-tab');
+    const tabs = paperTabs.querySelectorAll('paper-tab') as NodeListOf<
+      HTMLElement
+    >;
     let activeIndex = -1;
     if (activeTabIndex !== undefined) {
       activeIndex = activeTabIndex;
@@ -649,11 +774,11 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   /**
    * Changes active primary tab.
-   *
-   * @param {CustomEvent<SwitchTabEventDetail>} e
    */
-  _setActivePrimaryTab(e) {
-    const primaryTabs = this.shadowRoot.querySelector('#primaryTabs');
+  _setActivePrimaryTab(e: CustomEvent<SwitchTabEventDetail>) {
+    const primaryTabs = this.shadowRoot!.querySelector(
+      '#primaryTabs'
+    ) as PaperTabsElement;
     const activeTabName = this._setActiveTab(primaryTabs, {
       activeTabName: e.detail.tab,
       activeTabIndex: e.detail.value,
@@ -664,12 +789,15 @@ class GrChangeView extends KeyboardShortcutMixin(
 
       // update plugin endpoint if its a plugin tab
       const pluginIndex = (this._dynamicTabHeaderEndpoints || []).indexOf(
-          activeTabName);
+        activeTabName
+      );
       if (pluginIndex !== -1) {
         this._selectedTabPluginEndpoint = this._dynamicTabContentEndpoints[
-            pluginIndex];
+          pluginIndex
+        ];
         this._selectedTabPluginHeader = this._dynamicTabHeaderEndpoints[
-            pluginIndex];
+          pluginIndex
+        ];
       } else {
         this._selectedTabPluginEndpoint = '';
         this._selectedTabPluginHeader = '';
@@ -679,11 +807,11 @@ class GrChangeView extends KeyboardShortcutMixin(
 
   /**
    * Changes active secondary tab.
-   *
-   * @param {CustomEvent<SwitchTabEventDetail>} e
    */
-  _setActiveSecondaryTab(e) {
-    const secondaryTabs = this.shadowRoot.querySelector('#secondaryTabs');
+  _setActiveSecondaryTab(e: CustomEvent<SwitchTabEventDetail>) {
+    const secondaryTabs = this.shadowRoot!.querySelector(
+      '#secondaryTabs'
+    ) as PaperTabsElement;
     const activeTabName = this._setActiveTab(secondaryTabs, {
       activeTabName: e.detail.tab,
       activeTabIndex: e.detail.value,
@@ -699,45 +827,47 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.commitMessageEditor.focusTextarea();
   }
 
-  _handleCommitMessageSave(e) {
+  _handleCommitMessageSave(e: CustomEvent<{content: string}>) {
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._changeNum)
+      throw new Error('missing required changeNum property');
     // Trim trailing whitespace from each line.
     const message = e.detail.content.replace(TRAILING_WHITESPACE_REGEX, '');
 
     this.$.jsAPI.handleCommitMessage(this._change, message);
 
     this.$.commitMessageEditor.disabled = true;
-    this.$.restAPI.putChangeCommitMessage(
-        this._changeNum, message)
-        .then(resp => {
-          this.$.commitMessageEditor.disabled = false;
-          if (!resp.ok) { return; }
+    this.$.restAPI
+      .putChangeCommitMessage(this._changeNum, message)
+      .then(resp => {
+        this.$.commitMessageEditor.disabled = false;
+        if (!resp.ok) {
+          return;
+        }
 
-          this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-              message);
-          this._editingCommitMessage = false;
-          this._reloadWindow();
-        })
-        .catch(err => {
-          this.$.commitMessageEditor.disabled = false;
-        });
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(message);
+        this._editingCommitMessage = false;
+        this._reloadWindow();
+      })
+      .catch(() => {
+        this.$.commitMessageEditor.disabled = false;
+      });
   }
 
   _reloadWindow() {
     window.location.reload();
   }
 
-  _handleCommitMessageCancel(e) {
+  _handleCommitMessageCancel() {
     this._editingCommitMessage = false;
   }
 
-  _computeChangeStatusChips(change, mergeable, submitEnabled) {
-    // Polymer 2: check for undefined
-    if ([
-      change,
-      mergeable,
-    ].includes(undefined)) {
-      // To keep consistent with Polymer 1, we are returning undefined
-      // if not all dependencies are defined
+  _computeChangeStatusChips(
+    change: ChangeInfo | undefined,
+    mergeable: boolean | null,
+    submitEnabled?: boolean
+  ) {
+    if (!change) {
       return undefined;
     }
 
@@ -755,63 +885,77 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _computeHideEditCommitMessage(
-      loggedIn, editing, change, editMode, collapsed, collapsible) {
-    if (!loggedIn || editing ||
-        (change && change.status === ChangeStatus.MERGED) ||
-        editMode ||
-        (collapsed && collapsible)) {
+    loggedIn: boolean,
+    editing: boolean,
+    change: ChangeInfo,
+    editMode: boolean,
+    collapsed: boolean,
+    collapsible: boolean
+  ) {
+    if (
+      !loggedIn ||
+      editing ||
+      (change && change.status === ChangeStatus.MERGED) ||
+      editMode ||
+      (collapsed && collapsible)
+    ) {
       return true;
     }
 
     return false;
   }
 
-  _robotCommentCountPerPatchSet(threads) {
+  _robotCommentCountPerPatchSet(threads: CommentThread[]) {
     return threads.reduce((robotCommentCountMap, thread) => {
       const comments = thread.comments;
-      const robotCommentsCount = comments.reduce((acc, comment) =>
-        (comment.robot_id ? acc + 1 : acc), 0);
-      robotCommentCountMap[comments[0].patch_set] =
-          (robotCommentCountMap[comments[0].patch_set] || 0) +
-        robotCommentsCount;
+      const robotCommentsCount = comments.reduce(
+        (acc, comment) => (isRobot(comment) ? acc + 1 : acc),
+        0
+      );
+      if (comments[0].patch_set)
+        robotCommentCountMap[`${comments[0].patch_set}`] =
+          (robotCommentCountMap[`${comments[0].patch_set}`] || 0) +
+          robotCommentsCount;
       return robotCommentCountMap;
-    }, {});
+    }, {} as {[patchset: string]: number});
   }
 
-  _computeText(patch, commentThreads) {
+  _computeText(patch: RevisionInfo, commentThreads: CommentThread[]) {
     const commentCount = this._robotCommentCountPerPatchSet(commentThreads);
     const commentCnt = commentCount[patch._number] || 0;
     if (commentCnt === 0) return `Patchset ${patch._number}`;
     const findingsText = commentCnt === 1 ? 'finding' : 'findings';
-    return `Patchset ${patch._number}`
-            + ` (${commentCnt} ${findingsText})`;
+    return `Patchset ${patch._number} (${commentCnt} ${findingsText})`;
   }
 
-  _computeRobotCommentsPatchSetDropdownItems(change, commentThreads) {
+  _computeRobotCommentsPatchSetDropdownItems(
+    change: ChangeInfo,
+    commentThreads: CommentThread[]
+  ) {
     if (!change || !commentThreads || !change.revisions) return [];
 
     return Object.values(change.revisions)
-        .filter(patch => patch._number !== 'edit')
-        .map(patch => {
-          return {
-            text: this._computeText(patch, commentThreads),
-            value: patch._number,
-          };
-        })
-        .sort((a, b) => b.value - a.value);
+      .filter(patch => patch._number !== 'edit')
+      .map(patch => {
+        return {
+          text: this._computeText(patch, commentThreads),
+          value: patch._number,
+        };
+      })
+      .sort((a, b) => (b.value as number) - (a.value as number));
   }
 
-  _handleCurrentRevisionUpdate(currentRevision) {
+  _handleCurrentRevisionUpdate(currentRevision: RevisionInfo) {
     this._currentRobotCommentsPatchSet = currentRevision._number;
   }
 
-  _handleRobotCommentPatchSetChanged(e) {
-    const patchSet = parseInt(e.detail.value);
+  _handleRobotCommentPatchSetChanged(e: CustomEvent<{value: string}>) {
+    const patchSet = parseInt(e.detail.value) as PatchSetNum;
     if (patchSet === this._currentRobotCommentsPatchSet) return;
     this._currentRobotCommentsPatchSet = patchSet;
   }
 
-  _computeShowText(showAllRobotComments) {
+  _computeShowText(showAllRobotComments: boolean) {
     return showAllRobotComments ? 'Show Less' : 'Show more';
   }
 
@@ -819,56 +963,79 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._showAllRobotComments = !this._showAllRobotComments;
   }
 
-  _computeRobotCommentThreads(commentThreads, currentRobotCommentsPatchSet,
-      showAllRobotComments) {
+  _computeRobotCommentThreads(
+    commentThreads: CommentThread[],
+    currentRobotCommentsPatchSet: PatchSetNum,
+    showAllRobotComments: boolean
+  ) {
     if (!commentThreads || !currentRobotCommentsPatchSet) return [];
     const threads = commentThreads.filter(thread => {
       const comments = thread.comments || [];
-      return comments.length && comments[0].robot_id && (comments[0].patch_set
-        === currentRobotCommentsPatchSet);
+      return (
+        comments.length &&
+        isRobot(comments[0]) &&
+        comments[0].patch_set === currentRobotCommentsPatchSet
+      );
     });
     this._showRobotCommentsButton = threads.length > ROBOT_COMMENTS_LIMIT;
-    return threads.slice(0, showAllRobotComments ? undefined :
-      ROBOT_COMMENTS_LIMIT);
+    return threads.slice(
+      0,
+      showAllRobotComments ? undefined : ROBOT_COMMENTS_LIMIT
+    );
   }
 
   _handleReloadCommentThreads() {
     // Get any new drafts that have been saved in the diff view and show
     // in the comment thread view.
     this._reloadDrafts().then(() => {
-      this._commentThreads = this._changeComments.getAllThreadsForChange();
+      this._commentThreads = this._changeComments?.getAllThreadsForChange();
       flush();
     });
   }
 
-  _handleReloadDiffComments(e) {
+  _handleReloadDiffComments(
+    e: CustomEvent<{rootId: UrlEncodedCommentId; path: string}>
+  ) {
     // Keeps the file list counts updated.
     this._reloadDrafts().then(() => {
       // Get any new drafts that have been saved in the thread view and show
       // in the diff view.
-      this.$.fileList.reloadCommentsForThreadWithRootId(e.detail.rootId,
-          e.detail.path);
+      this.$.fileList.reloadCommentsForThreadWithRootId(
+        e.detail.rootId,
+        e.detail.path
+      );
       flush();
     });
   }
 
-  _computeTotalCommentCounts(unresolvedCount, changeComments) {
+  _computeTotalCommentCounts(
+    unresolvedCount: number,
+    changeComments: ChangeComments
+  ) {
     if (!changeComments) return undefined;
     const draftCount = changeComments.computeDraftCount();
     const unresolvedString = GrCountStringFormatter.computeString(
-        unresolvedCount, 'unresolved');
+      unresolvedCount,
+      'unresolved'
+    );
     const draftString = GrCountStringFormatter.computePluralString(
-        draftCount, 'draft');
+      draftCount,
+      'draft'
+    );
 
-    return unresolvedString +
-        // Add a comma and space if both unresolved and draft comments exist.
-        (unresolvedString && draftString ? ', ' : '') +
-        draftString;
+    return (
+      unresolvedString +
+      // Add a comma and space if both unresolved and draft comments exist.
+      (unresolvedString && draftString ? ', ' : '') +
+      draftString
+    );
   }
 
-  _handleCommentSave(e) {
+  _handleCommentSave(e: CustomEvent<{comment: DraftInfo}>) {
     const draft = e.detail.comment;
-    if (!draft.__draft) { return; }
+    if (!draft.__draft || !draft.path) return;
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
 
     draft.patch_set = draft.patch_set || this._patchRange.patchNum;
 
@@ -882,27 +1049,30 @@ class GrChangeView extends KeyboardShortcutMixin(
       this._diffDrafts = diffDrafts;
       return;
     }
-    for (let i = 0; i < this._diffDrafts[draft.path].length; i++) {
-      if (this._diffDrafts[draft.path][i].id === draft.id) {
+    for (let i = 0; i < diffDrafts[draft.path].length; i++) {
+      if (diffDrafts[draft.path][i].id === draft.id) {
         diffDrafts[draft.path][i] = draft;
         this._diffDrafts = diffDrafts;
         return;
       }
     }
     diffDrafts[draft.path].push(draft);
-    diffDrafts[draft.path].sort((c1, c2) =>
-      // No line number means that it’s a file comment. Sort it above the
-      // others.
-      (c1.line || -1) - (c2.line || -1)
+    diffDrafts[draft.path].sort(
+      (c1, c2) =>
+        // No line number means that it’s a file comment. Sort it above the
+        // others.
+        (c1.line || -1) - (c2.line || -1)
     );
     this._diffDrafts = diffDrafts;
   }
 
-  _handleCommentDiscard(e) {
+  _handleCommentDiscard(e: CustomEvent<{comment: DraftInfo}>) {
     const draft = e.detail.comment;
-    if (!draft.__draft) { return; }
+    if (!draft.__draft || !draft.path) {
+      return;
+    }
 
-    if (!this._diffDrafts[draft.path]) {
+    if (!this._diffDrafts || !this._diffDrafts[draft.path]) {
       return;
     }
     let index = -1;
@@ -918,6 +1088,8 @@ class GrChangeView extends KeyboardShortcutMixin(
       return;
     }
 
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     draft.patch_set = draft.patch_set || this._patchRange.patchNum;
 
     // The use of path-based notification helpers (set, push) can’t be used
@@ -932,7 +1104,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._diffDrafts = diffDrafts;
   }
 
-  _handleReplyTap(e) {
+  _handleReplyTap(e: MouseEvent) {
     e.preventDefault();
     this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
   }
@@ -949,34 +1121,37 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.includedInOverlay.open();
   }
 
-  _handleIncludedInDialogClose(e) {
+  _handleIncludedInDialogClose() {
     this.$.includedInOverlay.close();
   }
 
   _handleOpenDownloadDialog() {
     this.$.downloadOverlay.open().then(() => {
-      this.$.downloadOverlay
-          .setFocusStops(this.$.downloadDialog.getFocusStops());
+      this.$.downloadOverlay.setFocusStops(
+        this.$.downloadDialog.getFocusStops()
+      );
       this.$.downloadDialog.focus();
     });
   }
 
-  _handleDownloadDialogClose(e) {
+  _handleDownloadDialogClose() {
     this.$.downloadOverlay.close();
   }
 
-  _handleOpenUploadHelpDialog(e) {
+  _handleOpenUploadHelpDialog() {
     this.$.uploadHelpOverlay.open();
   }
 
-  _handleCloseUploadHelpDialog(e) {
+  _handleCloseUploadHelpDialog() {
     this.$.uploadHelpOverlay.close();
   }
 
-  _handleMessageReply(e) {
-    const msg = e.detail.message.message;
-    const quoteStr = msg.split('\n').map(
-        line => '> ' + line)
+  _handleMessageReply(e: CustomEvent<{message: {message: string}}>) {
+    const msg: string = e.detail.message.message;
+    const quoteStr =
+      msg
+        .split('\n')
+        .map(line => '> ' + line)
         .join('\n') + '\n\n';
     this.$.replyDialog.quote = quoteStr;
     this._openReplyDialog(this.$.replyDialog.FocusTarget.BODY);
@@ -990,27 +1165,34 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.mainContent.classList.remove('overlayOpen');
   }
 
-  _handleReplySent(e) {
-    this.addEventListener('change-details-loaded',
-        () => {
-          this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
-        }, {once: true});
+  _handleReplySent() {
+    this.addEventListener(
+      'change-details-loaded',
+      () => {
+        this.reporting.timeEnd(SEND_REPLY_TIMING_LABEL);
+      },
+      {once: true}
+    );
     this.$.replyOverlay.close();
     this._reload();
   }
 
-  _handleReplyCancel(e) {
+  _handleReplyCancel() {
     this.$.replyOverlay.close();
   }
 
-  _handleReplyAutogrow(e) {
+  _handleReplyAutogrow() {
     // If the textarea resizes, we need to re-fit the overlay.
-    this.debounce('reply-overlay-refit', () => {
-      this.$.replyOverlay.refit();
-    }, REPLY_REFIT_DEBOUNCE_INTERVAL_MS);
+    this.debounce(
+      'reply-overlay-refit',
+      () => {
+        this.$.replyOverlay.refit();
+      },
+      REPLY_REFIT_DEBOUNCE_INTERVAL_MS
+    );
   }
 
-  _handleShowReplyDialog(e) {
+  _handleShowReplyDialog(e: CustomEvent<{value: {ccsOnly: boolean}}>) {
     let target = this.$.replyDialog.FocusTarget.REVIEWERS;
     if (e.detail.value && e.detail.value.ccsOnly) {
       target = this.$.replyDialog.FocusTarget.CCS;
@@ -1019,17 +1201,23 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleScroll() {
-    this.debounce('scroll', () => {
-      this.viewState.scrollTop = document.body.scrollTop;
-    }, 150);
+    this.debounce(
+      'scroll',
+      () => {
+        this.viewState.scrollTop = document.body.scrollTop;
+      },
+      150
+    );
   }
 
-  _setShownFiles(e) {
+  _setShownFiles(e: CustomEvent<{length: number}>) {
     this._shownFileCount = e.detail.length;
   }
 
-  _expandAllDiffs(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+  _expandAllDiffs(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
     this.$.fileList.expandAllDiffs();
   }
 
@@ -1037,8 +1225,8 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.fileList.collapseAllDiffs();
   }
 
-  _paramsChanged(value) {
-    if (value.view !== GerritNav.View.CHANGE) {
+  _paramsChanged(value: AppElementChangeViewParams) {
+    if (value.view !== GerritView.CHANGE) {
       this._initialLoadComplete = false;
       return;
     }
@@ -1047,9 +1235,11 @@ class GrChangeView extends KeyboardShortcutMixin(
       this.$.restAPI.setInProjectLookup(value.changeNum, value.project);
     }
 
-    const patchChanged = this._patchRange &&
-        (value.patchNum !== undefined && value.basePatchNum !== undefined) &&
-        (this._patchRange.patchNum !== value.patchNum ||
+    const patchChanged =
+      this._patchRange &&
+      value.patchNum !== undefined &&
+      value.basePatchNum !== undefined &&
+      (this._patchRange.patchNum !== value.patchNum ||
         this._patchRange.basePatchNum !== value.basePatchNum);
     const changeChanged = this._changeNum !== value.changeNum;
 
@@ -1059,19 +1249,20 @@ class GrChangeView extends KeyboardShortcutMixin(
     };
     // TODO(TS): remove once proper type for patchRange is defined
     if (!isNaN(Number(patchRange.patchNum))) {
-      patchRange.patchNum = Number(patchRange.patchNum);
+      patchRange.patchNum = Number(patchRange.patchNum) as PatchSetNum;
     }
     if (!isNaN(Number(patchRange.basePatchNum))) {
-      patchRange.basePatchNum = Number(patchRange.basePatchNum);
+      patchRange.basePatchNum = Number(patchRange.basePatchNum) as PatchSetNum;
     }
 
     this.$.fileList.collapseAllDiffs();
-    this._patchRange = patchRange;
+    // TODO(TS): change patchRange to PatchRange.
+    this._patchRange = patchRange as PatchRange;
 
     // If the change has already been loaded and the parameter change is only
     // in the patch range, then don't do a full reload.
     if (!changeChanged && patchChanged) {
-      if (patchRange.patchNum == null) {
+      if (!patchRange.patchNum) {
         patchRange.patchNum = computeLatestPatchNum(this._allPatchSets);
       }
       this._reloadPatchNumDependentResources().then(() => {
@@ -1088,30 +1279,37 @@ class GrChangeView extends KeyboardShortcutMixin(
       this._performPostLoadTasks();
     });
 
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => {
-          this._initActiveTabs(value);
-        });
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => {
+        this._initActiveTabs(value);
+      });
   }
 
-  _initActiveTabs(params = {}) {
+  _initActiveTabs(params?: AppElementChangeViewParams) {
     let primaryTab = PrimaryTab.FILES;
-    if (params.queryMap && params.queryMap.has('tab')) {
-      primaryTab = params.queryMap.get('tab');
+    if (params && params.queryMap && params.queryMap.has('tab')) {
+      primaryTab = params.queryMap.get('tab') as PrimaryTab;
     }
-    this._setActivePrimaryTab({
-      detail: {
-        tab: primaryTab,
-      },
-    });
-    this._setActiveSecondaryTab({
-      detail: {
-        tab: SecondaryTab.CHANGE_LOG,
-      },
-    });
+    this._setActivePrimaryTab(
+      new CustomEvent('initActiveTab', {
+        detail: {
+          tab: primaryTab,
+        },
+      })
+    );
+    this._setActiveSecondaryTab(
+      new CustomEvent('initActiveTab', {
+        detail: {
+          tab: SecondaryTab.CHANGE_LOG,
+        },
+      })
+    );
   }
 
   _sendShowChangeEvent() {
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     this.$.jsAPI.handleEvent(EventType.SHOW_CHANGE, {
       change: this._change,
       patchNum: this._patchRange.patchNum,
@@ -1128,8 +1326,7 @@ class GrChangeView extends KeyboardShortcutMixin(
 
     this.async(() => {
       if (this.viewState.scrollTop) {
-        document.documentElement.scrollTop =
-            document.body.scrollTop = this.viewState.scrollTop;
+        document.documentElement.scrollTop = document.body.scrollTop = this.viewState.scrollTop;
       } else {
         this._maybeScrollToMessage(window.location.hash);
       }
@@ -1137,42 +1334,58 @@ class GrChangeView extends KeyboardShortcutMixin(
     });
   }
 
-  _paramsAndChangeChanged(value, change) {
+  @observe('params', '_change')
+  _paramsAndChangeChanged(
+    value?: AppElementChangeViewParams,
+    change?: ChangeInfo
+  ) {
     // Polymer 2: check for undefined
-    if ([value, change].includes(undefined)) {
+    if (!value || !change) {
       return;
     }
 
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     // If the change number or patch range is different, then reset the
     // selected file index.
     const patchRangeState = this.viewState.patchRange;
-    if (this.viewState.changeNum !== this._changeNum ||
-        !patchRangeState ||
-        patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
-        patchRangeState.patchNum !== this._patchRange.patchNum) {
+    if (
+      this.viewState.changeNum !== this._changeNum ||
+      !patchRangeState ||
+      patchRangeState.basePatchNum !== this._patchRange.basePatchNum ||
+      patchRangeState.patchNum !== this._patchRange.patchNum
+    ) {
       this._resetFileListViewState();
     }
   }
 
-  _viewStateChanged(viewState) {
-    this._numFilesShown = viewState.numFilesShown ?
-      viewState.numFilesShown : DEFAULT_NUM_FILES_SHOWN;
+  _viewStateChanged(viewState: ChangeViewState) {
+    this._numFilesShown = viewState.numFilesShown
+      ? viewState.numFilesShown
+      : DEFAULT_NUM_FILES_SHOWN;
   }
 
-  _numFilesShownChanged(numFilesShown) {
+  _numFilesShownChanged(numFilesShown: number) {
     this.viewState.numFilesShown = numFilesShown;
   }
 
-  _handleMessageAnchorTap(e) {
+  _handleMessageAnchorTap(e: CustomEvent<{id: string}>) {
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     const hash = MSG_PREFIX + e.detail.id;
-    const url = GerritNav.getUrlForChange(this._change,
-        this._patchRange.patchNum, this._patchRange.basePatchNum,
-        this._editMode, hash);
+    const url = GerritNav.getUrlForChange(
+      this._change,
+      this._patchRange.patchNum,
+      this._patchRange.basePatchNum,
+      this._editMode,
+      hash
+    );
     history.replaceState(null, '', url);
   }
 
-  _maybeScrollToMessage(hash) {
-    if (hash.startsWith(MSG_PREFIX)) {
+  _maybeScrollToMessage(hash: string) {
+    if (hash.startsWith(MSG_PREFIX) && this.messagesList) {
       this.messagesList.scrollToMessage(hash.substr(MSG_PREFIX.length));
     }
   }
@@ -1182,12 +1395,12 @@ class GrChangeView extends KeyboardShortcutMixin(
     return window.location.search;
   }
 
-  _getUrlParameter(param) {
+  _getUrlParameter(param: string) {
     const pageURL = this._getLocationSearch().substring(1);
     const vars = pageURL.split('&');
     for (let i = 0; i < vars.length; i++) {
       const name = vars[i].split('=');
-      if (name[0] == param) {
+      if (name[0] === param) {
         return name[0];
       }
     }
@@ -1195,30 +1408,40 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _maybeShowRevertDialog() {
-    getPluginLoader().awaitPluginsLoaded()
-        .then(() => this._getLoggedIn())
-        .then(loggedIn => {
-          if (!loggedIn || !this._change ||
-              this._change.status !== ChangeStatus.MERGED) {
+    getPluginLoader()
+      .awaitPluginsLoaded()
+      .then(() => this._getLoggedIn())
+      .then(loggedIn => {
+        if (
+          !loggedIn ||
+          !this._change ||
+          this._change.status !== ChangeStatus.MERGED
+        ) {
           // Do not display dialog if not logged-in or the change is not
           // merged.
-            return;
-          }
-          if (this._getUrlParameter('revert')) {
-            this.$.actions.showRevertDialog();
-          }
-        });
+          return;
+        }
+        if (this._getUrlParameter('revert')) {
+          this.$.actions.showRevertDialog();
+        }
+      });
   }
 
   _maybeShowReplyDialog() {
     this._getLoggedIn().then(loggedIn => {
-      if (!loggedIn) { return; }
+      if (!loggedIn) {
+        return;
+      }
 
       if (this.viewState.showReplyDialog) {
         this._openReplyDialog(this.$.replyDialog.FocusTarget.ANY);
         // TODO(kaspern@): Find a better signal for when to call center.
-        this.async(() => { this.$.replyOverlay.center(); }, 100);
-        this.async(() => { this.$.replyOverlay.center(); }, 1000);
+        this.async(() => {
+          this.$.replyOverlay.center();
+        }, 100);
+        this.async(() => {
+          this.$.replyOverlay.center();
+        }, 1000);
         this.set('viewState.showReplyDialog', false);
       }
     });
@@ -1234,8 +1457,10 @@ class GrChangeView extends KeyboardShortcutMixin(
   _resetFileListViewState() {
     this.set('viewState.selectedFileIndex', 0);
     this.set('viewState.scrollTop', 0);
-    if (!!this.viewState.changeNum &&
-        this.viewState.changeNum !== this._changeNum) {
+    if (
+      !!this.viewState.changeNum &&
+      this.viewState.changeNum !== this._changeNum
+    ) {
       // Reset the diff mode to null when navigating from one change to
       // another, so that the user's preference is restored.
       this._setDiffViewMode(true);
@@ -1245,36 +1470,41 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.set('viewState.patchRange', this._patchRange);
   }
 
-  _changeChanged(change) {
-    if (!change || !this._patchRange || !this._allPatchSets) { return; }
+  _changeChanged(change?: ChangeInfo | ParsedChangeInfo) {
+    if (!change || !this._patchRange || !this._allPatchSets) {
+      return;
+    }
 
     // We get the parent first so we keep the original value for basePatchNum
     // and not the updated value.
     const parent = this._getBasePatchNum(change, this._patchRange);
 
-    this.set('_patchRange.patchNum', this._patchRange.patchNum ||
-            computeLatestPatchNum(this._allPatchSets));
+    this.set(
+      '_patchRange.patchNum',
+      this._patchRange.patchNum || computeLatestPatchNum(this._allPatchSets)
+    );
 
     this.set('_patchRange.basePatchNum', parent);
 
     const title = change.subject + ' (' + change.change_id.substr(0, 9) + ')';
-    this.dispatchEvent(new CustomEvent('title-change', {
-      detail: {title},
-      composed: true, bubbles: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('title-change', {
+        detail: {title},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   /**
    * Gets base patch number, if it is a parent try and decide from
    * preference whether to default to `auto merge`, `Parent 1` or `PARENT`.
-   *
-   * @param {Object} change
-   * @param {Object} patchRange
-   * @return {number|string}
    */
-  _getBasePatchNum(change, patchRange) {
-    if (patchRange.basePatchNum &&
-        patchRange.basePatchNum !== 'PARENT') {
+  _getBasePatchNum(
+    change: ChangeInfo | ParsedChangeInfo,
+    patchRange: PatchRange
+  ) {
+    if (patchRange.basePatchNum && patchRange.basePatchNum !== 'PARENT') {
       return patchRange.basePatchNum;
     }
 
@@ -1284,11 +1514,10 @@ class GrChangeView extends KeyboardShortcutMixin(
     const parentCounts = revisionInfo.getParentCountMap();
     // check that there is at least 2 parents otherwise fall back to 1,
     // which means there is only one parent.
-    const parentCount = parentCounts.hasOwnProperty(1) ?
-      parentCounts[1] : 1;
+    const parentCount = hasOwnProperty(parentCounts, 1) ? parentCounts[1] : 1;
 
-    const preferFirst = this._prefs &&
-        this._prefs.default_base_for_merges === 'FIRST_PARENT';
+    const preferFirst =
+      this._prefs && this._prefs.default_base_for_merges === 'FIRST_PARENT';
 
     if (parentCount > 1 && preferFirst && !patchRange.patchNum) {
       return -1;
@@ -1297,48 +1526,60 @@ class GrChangeView extends KeyboardShortcutMixin(
     return 'PARENT';
   }
 
-  _computeChangeUrl(change) {
+  _computeChangeUrl(change: ChangeInfo) {
     return GerritNav.getUrlForChange(change);
   }
 
-  _computeShowCommitInfo(changeStatus, current_revision) {
+  _computeShowCommitInfo(changeStatus: string, current_revision: RevisionInfo) {
     return changeStatus === 'Merged' && current_revision;
   }
 
-  _computeMergedCommitInfo(current_revision, revisions) {
+  _computeMergedCommitInfo(
+    current_revision: CommitId,
+    revisions: {[revisionId: string]: RevisionInfo}
+  ) {
     const rev = revisions[current_revision];
-    if (!rev || !rev.commit) { return {}; }
+    if (!rev || !rev.commit) {
+      return {};
+    }
     // CommitInfo.commit is optional. Set commit in all cases to avoid error
     // in <gr-commit-info>. @see Issue 5337
-    if (!rev.commit.commit) { rev.commit.commit = current_revision; }
+    if (!rev.commit.commit) {
+      rev.commit.commit = current_revision;
+    }
     return rev.commit;
   }
 
-  _computeChangeIdClass(displayChangeId) {
+  _computeChangeIdClass(displayChangeId: string) {
     return displayChangeId === CHANGE_ID_ERROR.MISMATCH ? 'warning' : '';
   }
 
-  _computeTitleAttributeWarning(displayChangeId) {
+  _computeTitleAttributeWarning(displayChangeId: string) {
     if (displayChangeId === CHANGE_ID_ERROR.MISMATCH) {
       return 'Change-Id mismatch';
     } else if (displayChangeId === CHANGE_ID_ERROR.MISSING) {
       return 'No Change-Id in commit message';
     }
+    return undefined;
   }
 
-  _computeChangeIdCommitMessageError(commitMessage, change) {
-    // Polymer 2: check for undefined
-    if ([commitMessage, change].includes(undefined)) {
+  _computeChangeIdCommitMessageError(
+    commitMessage?: string,
+    change?: ChangeInfo
+  ) {
+    if (change === undefined) {
       return undefined;
     }
 
-    if (!commitMessage) { return CHANGE_ID_ERROR.MISSING; }
+    if (!commitMessage) {
+      return CHANGE_ID_ERROR.MISSING;
+    }
 
     // Find the last match in the commit message:
     let changeId;
     let changeIdArr;
 
-    while (changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage)) {
+    while ((changeIdArr = CHANGE_ID_REGEX_PATTERN.exec(commitMessage))) {
       changeId = changeIdArr[2];
     }
 
@@ -1356,62 +1597,42 @@ class GrChangeView extends KeyboardShortcutMixin(
     return CHANGE_ID_ERROR.MISSING;
   }
 
-  _computeLabelNames(labels) {
-    return Object.keys(labels).sort();
-  }
-
-  _computeLabelValues(labelName, labels) {
-    const result = [];
-    const t = labels[labelName];
-    if (!t) { return result; }
-    const approvals = t.all || [];
-    for (const label of approvals) {
-      if (label.value && label.value != labels[labelName].default_value) {
-        let labelClassName;
-        let labelValPrefix = '';
-        if (label.value > 0) {
-          labelValPrefix = '+';
-          labelClassName = 'approved';
-        } else if (label.value < 0) {
-          labelClassName = 'notApproved';
-        }
-        result.push({
-          value: labelValPrefix + label.value,
-          className: labelClassName,
-          account: label,
-        });
-      }
-    }
-    return result;
-  }
-
-  _computeReplyButtonLabel(changeRecord, canStartReview) {
-    // Polymer 2: check for undefined
-    if ([changeRecord, canStartReview].includes(undefined)) {
+  _computeReplyButtonLabel(
+    changeRecord?: ElementPropertyDeepChange<
+      GrChangeView,
+      '_diffDrafts'
+    > | null,
+    canStartReview?: PolymerDeepPropertyChange<boolean, boolean>
+  ) {
+    if (changeRecord === undefined || canStartReview === undefined) {
       return 'Reply';
     }
 
     const drafts = (changeRecord && changeRecord.base) || {};
-    const draftCount = Object.keys(drafts)
-        .reduce((count, file) => count + drafts[file].length, 0);
+    const draftCount = Object.keys(drafts).reduce(
+      (count, file) => count + drafts[file].length,
+      0
+    );
 
     let label = canStartReview ? 'Start Review' : 'Reply';
     if (draftCount > 0) {
-      label += ' (' + draftCount + ')';
+      label += ` (${draftCount})`;
     }
     return label;
   }
 
-  _handleOpenReplyDialog(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) {
+  _handleOpenReplyDialog(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
       return;
     }
     this._getLoggedIn().then(isLoggedIn => {
       if (!isLoggedIn) {
-        this.dispatchEvent(new CustomEvent('show-auth-required', {
-          composed: true, bubbles: true,
-        }));
+        this.dispatchEvent(
+          new CustomEvent('show-auth-required', {
+            composed: true,
+            bubbles: true,
+          })
+        );
         return;
       }
 
@@ -1420,144 +1641,203 @@ class GrChangeView extends KeyboardShortcutMixin(
     });
   }
 
-  _handleOpenDownloadDialogShortcut(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleOpenDownloadDialogShortcut(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._handleOpenDownloadDialog();
   }
 
-  _handleEditTopic(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleEditTopic(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this.$.metadata.editTopic();
   }
 
-  _handleDiffAgainstBase(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (patchNumEquals(this._patchRange.basePatchNum,
-        SPECIAL_PATCH_SET_NUM.PARENT)) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {
-          message: 'Base is already selected.',
-        },
-        composed: true, bubbles: true,
-      }));
+  _handleDiffAgainstBase(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
+    if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Base is already selected.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
   }
 
-  _handleDiffBaseAgainstLeft(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    if (patchNumEquals(this._patchRange.basePatchNum,
-        SPECIAL_PATCH_SET_NUM.PARENT)) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {
-          message: 'Left is already base.',
-        },
-        composed: true, bubbles: true,
-      }));
+  _handleDiffBaseAgainstLeft(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
+    if (patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Left is already base.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
     GerritNav.navigateToChange(this._change, this._patchRange.basePatchNum);
   }
 
-  _handleDiffAgainstLatest(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
-    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {
-          message: 'Latest is already selected.',
-        },
-        composed: true, bubbles: true,
-      }));
+  _handleDiffAgainstLatest(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
       return;
     }
-    GerritNav.navigateToChange(this._change, latestPatchNum,
-        this._patchRange.basePatchNum);
-  }
-
-  _handleDiffRightAgainstLatest(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
     if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {
-          message: 'Right is already latest.',
-        },
-        composed: true, bubbles: true,
-      }));
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Latest is already selected.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
-    GerritNav.navigateToChange(this._change, latestPatchNum,
-        this._patchRange.patchNum);
+    GerritNav.navigateToChange(
+      this._change,
+      latestPatchNum,
+      this._patchRange.basePatchNum
+    );
   }
 
-  _handleDiffBaseAgainstLatest(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+  _handleDiffRightAgainstLatest(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
+    if (!this._change) throw new Error('missing required change property');
     const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
-    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
-      patchNumEquals(this._patchRange.basePatchNum,
-          SPECIAL_PATCH_SET_NUM.PARENT)) {
-      this.dispatchEvent(new CustomEvent('show-alert', {
-        detail: {
-          message: 'Already diffing base against latest.',
-        },
-        composed: true, bubbles: true,
-      }));
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
+    if (patchNumEquals(this._patchRange.patchNum, latestPatchNum)) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Right is already latest.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
+      return;
+    }
+    GerritNav.navigateToChange(
+      this._change,
+      latestPatchNum,
+      this._patchRange.patchNum
+    );
+  }
+
+  _handleDiffBaseAgainstLatest(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
+    const latestPatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (
+      patchNumEquals(this._patchRange.patchNum, latestPatchNum) &&
+      patchNumEquals(this._patchRange.basePatchNum, ParentPatchSetNum)
+    ) {
+      this.dispatchEvent(
+        new CustomEvent('show-alert', {
+          detail: {
+            message: 'Already diffing base against latest.',
+          },
+          composed: true,
+          bubbles: true,
+        })
+      );
       return;
     }
     GerritNav.navigateToChange(this._change, latestPatchNum);
   }
 
-  _handleRefreshChange(e) {
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+  _handleRefreshChange(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
     e.preventDefault();
-    this._reload(/* opt_isLocationChange= */false,
-        /* opt_clearPatchset= */true);
+    this._reload(/* isLocationChange= */ false, /* clearPatchset= */ true);
   }
 
-  _handleToggleChangeStar(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleToggleChangeStar(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
     e.preventDefault();
     this.$.changeStar.toggleStar();
   }
 
-  _handleUpToDashboard(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleUpToDashboard(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
     this._determinePageBack();
   }
 
-  _handleExpandAllMessages(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleExpandAllMessages(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
-    this.messagesList.handleExpandCollapse(true);
+    if (this.messagesList) {
+      this.messagesList.handleExpandCollapse(true);
+    }
   }
 
-  _handleCollapseAllMessages(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleCollapseAllMessages(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
     e.preventDefault();
-    this.messagesList.handleExpandCollapse(false);
+    if (this.messagesList) {
+      this.messagesList.handleExpandCollapse(false);
+    }
   }
 
-  _handleOpenDiffPrefsShortcut(e) {
-    if (this.shouldSuppressKeyboardShortcut(e) ||
-        this.modifierPressed(e)) { return; }
+  _handleOpenDiffPrefsShortcut(e: CustomKeyboardEvent) {
+    if (this.shouldSuppressKeyboardShortcut(e) || this.modifierPressed(e)) {
+      return;
+    }
 
-    if (this._diffPrefsDisabled) { return; }
+    if (this._diffPrefsDisabled) {
+      return;
+    }
 
     e.preventDefault();
     this.$.fileList.openDiffPrefs();
@@ -1566,18 +1846,22 @@ class GrChangeView extends KeyboardShortcutMixin(
   _determinePageBack() {
     // Default backPage to root if user came to change view page
     // via an email link, etc.
-    GerritNav.navigateToRelativeUrl(this.backPage ||
-         GerritNav.getUrlForRoot());
+    GerritNav.navigateToRelativeUrl(this.backPage || GerritNav.getUrlForRoot());
   }
 
-  _handleLabelRemoved(splices, path) {
+  _handleLabelRemoved(
+    splices: Array<PolymerSplice<ApprovalInfo[]>>,
+    path: string
+  ) {
     for (const splice of splices) {
       for (const removed of splice.removed) {
         const changePath = path.split('.');
         const labelPath = changePath.splice(0, changePath.length - 2);
-        const labelDict = this.get(labelPath);
-        if (labelDict.approved &&
-            labelDict.approved._account_id === removed._account_id) {
+        const labelDict = this.get(labelPath) as QuickLabelInfo;
+        if (
+          labelDict.approved &&
+          labelDict.approved._account_id === removed._account_id
+        ) {
           this._reload();
           return;
         }
@@ -1585,35 +1869,45 @@ class GrChangeView extends KeyboardShortcutMixin(
     }
   }
 
-  _labelsChanged(changeRecord) {
-    if (!changeRecord) { return; }
-    if (changeRecord.value && changeRecord.value.indexSplices) {
-      this._handleLabelRemoved(changeRecord.value.indexSplices,
-          changeRecord.path);
+  @observe('_change.labels.*')
+  _labelsChanged(
+    changeRecord: PolymerDeepPropertyChange<
+      LabelNameToInfoMap,
+      PolymerSpliceChange<ApprovalInfo[]>
+    >
+  ) {
+    if (!changeRecord) {
+      return;
+    }
+    if (changeRecord.value && isPolymerSpliceChange(changeRecord.value)) {
+      this._handleLabelRemoved(
+        changeRecord.value.indexSplices,
+        changeRecord.path
+      );
     }
     this.$.jsAPI.handleEvent(EventType.LABEL_CHANGE, {
       change: this._change,
     });
   }
 
-  /**
-   * @param {string=} opt_section
-   */
-  _openReplyDialog(opt_section) {
+  _openReplyDialog(section?: FocusTarget) {
     this.$.replyOverlay.open().finally(() => {
       // the following code should be executed no matter open succeed or not
       this._resetReplyOverlayFocusStops();
-      this.$.replyDialog.open(opt_section);
+      this.$.replyDialog.open(section);
       flush();
       this.$.replyOverlay.center();
     });
   }
 
-  _handleGetChangeDetailError(response) {
-    this.dispatchEvent(new CustomEvent('page-error', {
-      detail: {response},
-      composed: true, bubbles: true,
-    }));
+  _handleGetChangeDetailError(response?: Response | null) {
+    this.dispatchEvent(
+      new CustomEvent('page-error', {
+        detail: {response},
+        composed: true,
+        bubbles: true,
+      })
+    );
   }
 
   _getLoggedIn() {
@@ -1625,18 +1919,19 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getProjectConfig() {
-    if (!this._change) return;
-    return this.$.restAPI.getProjectConfig(this._change.project).then(
-        config => {
-          this._projectConfig = config;
-        });
+    if (!this._change) throw new Error('missing required change property');
+    return this.$.restAPI
+      .getProjectConfig(this._change.project)
+      .then(config => {
+        this._projectConfig = config;
+      });
   }
 
   _getPreferences() {
     return this.$.restAPI.getPreferences();
   }
 
-  _prepareCommitMsgForLinkify(msg) {
+  _prepareCommitMsgForLinkify(msg: string) {
     // TODO(wyatta) switch linkify sequence, see issue 5526.
     // This is a zero-with space. It is added to prevent the linkify library
     // from including R= or CC= as part of the email address.
@@ -1646,99 +1941,126 @@ class GrChangeView extends KeyboardShortcutMixin(
   /**
    * Utility function to make the necessary modifications to a change in the
    * case an edit exists.
-   *
-   * @param {!Object} change
-   * @param {?Object} edit
    */
-  _processEdit(change, edit) {
-    if (!edit) { return; }
-    change.revisions[edit.commit.commit] = {
-      _number: SPECIAL_PATCH_SET_NUM.EDIT,
-      basePatchNum: edit.base_patch_set_number,
-      commit: edit.commit,
-      fetch: edit.fetch,
-    };
+  _processEdit(change: ParsedChangeInfo, edit?: EditInfo | false) {
+    if (!edit) return;
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
+    if (!edit.commit.commit) throw new Error('undefined edit.commit.commit');
+    const changeWithEdit = change;
+    if (changeWithEdit.revisions)
+      changeWithEdit.revisions[edit.commit.commit] = {
+        _number: EditPatchSetNum,
+        basePatchNum: edit.base_patch_set_number,
+        commit: edit.commit,
+        fetch: edit.fetch,
+      } as RevisionInfo;
+
     // If the edit is based on the most recent patchset, load it by
     // default, unless another patch set to load was specified in the URL.
-    if (!this._patchRange.patchNum &&
-        change.current_revision === edit.base_revision) {
-      change.current_revision = edit.commit.commit;
-      this.set('_patchRange.patchNum', SPECIAL_PATCH_SET_NUM.EDIT);
+    if (
+      !this._patchRange.patchNum &&
+      changeWithEdit.current_revision === edit.base_revision
+    ) {
+      changeWithEdit.current_revision = edit.commit.commit;
+      this.set('_patchRange.patchNum', EditPatchSetNum);
       // Because edits are fibbed as revisions and added to the revisions
       // array, and revision actions are always derived from the 'latest'
       // patch set, we must copy over actions from the patch set base.
       // Context: Issue 7243
-      change.revisions[edit.commit.commit].actions =
-          change.revisions[edit.base_revision].actions;
+      if (changeWithEdit.revisions) {
+        changeWithEdit.revisions[edit.commit.commit].actions =
+          changeWithEdit.revisions[edit.base_revision].actions;
+      }
     }
   }
 
   _getChangeDetail() {
-    const detailCompletes = this.$.restAPI.getChangeDetail(
-        this._changeNum, r => this._handleGetChangeDetailError(r));
+    if (!this._changeNum)
+      throw new Error('missing required changeNum property');
+    const detailCompletes = this.$.restAPI.getChangeDetail(this._changeNum, r =>
+      this._handleGetChangeDetailError(r)
+    );
     const editCompletes = this._getEdit();
     const prefCompletes = this._getPreferences();
 
-    return Promise.all([detailCompletes, editCompletes, prefCompletes])
-        .then(([change, edit, prefs]) => {
-          this._prefs = prefs;
+    return Promise.all([detailCompletes, editCompletes, prefCompletes]).then(
+      ([change, edit, prefs]) => {
+        this._prefs = prefs;
 
-          if (!change) {
-            return '';
+        if (!change) {
+          return false;
+        }
+        this._processEdit(change, edit);
+        // Issue 4190: Coalesce missing topics to null.
+        // TODO(TS): code needs second thought,
+        // it might be that nulls were assigned to trigger some bindings
+        if (!change.topic) {
+          change.topic = (null as unknown) as undefined;
+        }
+        if (!change.reviewer_updates) {
+          change.reviewer_updates = (null as unknown) as undefined;
+        }
+        const latestRevisionSha = this._getLatestRevisionSHA(change);
+        if (!latestRevisionSha)
+          throw new Error('Could not find latest Revision Sha');
+        const currentRevision = change.revisions[latestRevisionSha];
+        if (currentRevision.commit && currentRevision.commit.message) {
+          this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+            currentRevision.commit.message
+          );
+        } else {
+          this._latestCommitMessage = null;
+        }
+
+        const lineHeight = getComputedStyle(this).lineHeight;
+
+        // Slice returns a number as a string, convert to an int.
+        this._lineHeight = parseInt(
+          lineHeight.slice(0, lineHeight.length - 2),
+          10
+        );
+
+        this._change = change;
+        if (
+          !this._patchRange ||
+          !this._patchRange.patchNum ||
+          patchNumEquals(this._patchRange.patchNum, currentRevision._number)
+        ) {
+          // CommitInfo.commit is optional, and may need patching.
+          if (currentRevision.commit && !currentRevision.commit.commit) {
+            currentRevision.commit.commit = latestRevisionSha as CommitId;
           }
-          this._processEdit(change, edit);
-          // Issue 4190: Coalesce missing topics to null.
-          if (!change.topic) { change.topic = null; }
-          if (!change.reviewer_updates) {
-            change.reviewer_updates = null;
-          }
-          const latestRevisionSha = this._getLatestRevisionSHA(change);
-          const currentRevision = change.revisions[latestRevisionSha];
-          if (currentRevision.commit && currentRevision.commit.message) {
-            this._latestCommitMessage = this._prepareCommitMsgForLinkify(
-                currentRevision.commit.message);
-          } else {
-            this._latestCommitMessage = null;
-          }
-
-          const lineHeight = getComputedStyle(this).lineHeight;
-
-          // Slice returns a number as a string, convert to an int.
-          this._lineHeight =
-              parseInt(lineHeight.slice(0, lineHeight.length - 2), 10);
-
-          this._change = change;
-          if (!this._patchRange || !this._patchRange.patchNum ||
-              patchNumEquals(this._patchRange.patchNum,
-                  currentRevision._number)) {
-            // CommitInfo.commit is optional, and may need patching.
-            if (!currentRevision.commit.commit) {
-              currentRevision.commit.commit = latestRevisionSha;
+          this._commitInfo = currentRevision.commit;
+          this._selectedRevision = currentRevision;
+          // TODO: Fetch and process files.
+        } else {
+          if (!this._change?.revisions || !this._patchRange) return false;
+          this._selectedRevision = Object.values(this._change.revisions).find(
+            revision => {
+              // edit patchset is a special one
+              const thePatchNum = this._patchRange!.patchNum;
+              if (thePatchNum === 'edit') {
+                return revision._number === thePatchNum;
+              }
+              return revision._number === parseInt(`${thePatchNum}`, 10);
             }
-            this._commitInfo = currentRevision.commit;
-            this._selectedRevision = currentRevision;
-            // TODO: Fetch and process files.
-          } else {
-            this._selectedRevision =
-              Object.values(this._change.revisions).find(
-                  revision => {
-                    // edit patchset is a special one
-                    const thePatchNum = this._patchRange.patchNum;
-                    if (thePatchNum === 'edit') {
-                      return revision._number === thePatchNum;
-                    }
-                    return revision._number === parseInt(thePatchNum, 10);
-                  });
-          }
-        });
+          );
+        }
+        return false;
+      }
+    );
   }
 
-  _isSubmitEnabled(revisionActions) {
-    return !!(revisionActions && revisionActions.submit &&
-      revisionActions.submit.enabled);
+  _isSubmitEnabled(revisionActions: ActionNameToActionInfoMap) {
+    return !!(
+      revisionActions &&
+      revisionActions.submit &&
+      revisionActions.submit.enabled
+    );
   }
 
-  _isParentCurrent(revisionActions) {
+  _isParentCurrent(revisionActions: ActionNameToActionInfoMap) {
     if (revisionActions && revisionActions.rebase) {
       return !revisionActions.rebase.enabled;
     } else {
@@ -1747,28 +2069,39 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getEdit() {
+    if (!this._changeNum)
+      return Promise.reject(new Error('missing required changeNum property'));
     return this.$.restAPI.getChangeEdit(this._changeNum, true);
   }
 
   _getLatestCommitMessage() {
-    return this.$.restAPI.getChangeCommitInfo(this._changeNum,
-        computeLatestPatchNum(this._allPatchSets)).then(commitInfo => {
-      if (!commitInfo) return Promise.resolve();
-      this._latestCommitMessage =
-                  this._prepareCommitMsgForLinkify(commitInfo.message);
-    });
+    if (!this._changeNum)
+      throw new Error('missing required changeNum property');
+    const lastpatchNum = computeLatestPatchNum(this._allPatchSets);
+    if (lastpatchNum === undefined)
+      throw new Error('missing lastPatchNum property');
+    return this.$.restAPI
+      .getChangeCommitInfo(this._changeNum, lastpatchNum)
+      .then(commitInfo => {
+        if (!commitInfo) return;
+        this._latestCommitMessage = this._prepareCommitMsgForLinkify(
+          commitInfo.message
+        );
+      });
   }
 
-  _getLatestRevisionSHA(change) {
+  _getLatestRevisionSHA(change: ChangeInfo | ParsedChangeInfo) {
     if (change.current_revision) {
       return change.current_revision;
     }
     // current_revision may not be present in the case where the latest rev is
     // a draft and the user doesn’t have permission to view that rev.
     let latestRev = null;
-    let latestPatchNum = -1;
+    let latestPatchNum = -1 as PatchSetNum;
     for (const rev in change.revisions) {
-      if (!change.revisions.hasOwnProperty(rev)) { continue; }
+      if (!hasOwnProperty(change.revisions, rev)) {
+        continue;
+      }
 
       if (change.revisions[rev]._number > latestPatchNum) {
         latestRev = rev;
@@ -1779,14 +2112,20 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _getCommitInfo() {
-    return this.$.restAPI.getChangeCommitInfo(
-        this._changeNum, this._patchRange.patchNum).then(
-        commitInfo => {
-          this._commitInfo = commitInfo;
-        });
+    if (!this._changeNum)
+      throw new Error('missing required changeNum property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
+    if (this._patchRange.patchNum === undefined)
+      throw new Error('missing required patchNum property');
+    return this.$.restAPI
+      .getChangeCommitInfo(this._changeNum, this._patchRange.patchNum)
+      .then(commitInfo => {
+        this._commitInfo = commitInfo;
+      });
   }
 
-  _reloadDraftsWithCallback(e) {
+  _reloadDraftsWithCallback(e: CustomEvent<{resolve: () => void}>) {
     return this._reloadDrafts().then(() => e.detail.resolve());
   }
 
@@ -1802,8 +2141,11 @@ class GrChangeView extends KeyboardShortcutMixin(
     this._diffDrafts = undefined;
     this._draftCommentThreads = undefined;
     this._robotCommentThreads = undefined;
-    return this.$.commentAPI.loadAll(this._changeNum)
-        .then(comments => this._recomputeComments(comments));
+    if (!this._changeNum)
+      throw new Error('missing required changeNum property');
+    return this.$.commentAPI
+      .loadAll(this._changeNum)
+      .then(comments => this._recomputeComments(comments));
   }
 
   /**
@@ -1815,41 +2157,47 @@ class GrChangeView extends KeyboardShortcutMixin(
    * without updating threads
    */
   _reloadDrafts() {
-    return this.$.commentAPI.reloadDrafts(this._changeNum)
-        .then(comments => this._recomputeComments(comments));
+    if (!this._changeNum)
+      throw new Error('missing required changeNum property');
+    return this.$.commentAPI
+      .reloadDrafts(this._changeNum)
+      .then(comments => this._recomputeComments(comments));
   }
 
-  _recomputeComments(comments) {
+  _recomputeComments(comments: ChangeComments) {
     this._changeComments = comments;
     this._diffDrafts = {...this._changeComments.drafts};
     this._commentThreads = this._changeComments.getAllThreadsForChange();
     this._draftCommentThreads = this._commentThreads
-        .filter(thread => thread.comments[thread.comments.length - 1].__draft)
-        .map(thread => {
-          const copiedThread = {...thread};
-          // Make a hardcopy of all comments and collapse all but last one
-          const commentsInThread = copiedThread.comments = thread.comments
-              .map(comment => { return {...comment, collapsed: true}; });
-          commentsInThread[commentsInThread.length - 1].collapsed = false;
-          return copiedThread;
-        });
+      .filter(isDraftThread)
+      .map(thread => {
+        const copiedThread = {...thread};
+        // Make a hardcopy of all comments and collapse all but last one
+        const commentsInThread = (copiedThread.comments = thread.comments.map(
+          comment => {
+            return {...comment, collapsed: true as boolean};
+          }
+        ));
+        commentsInThread[commentsInThread.length - 1].collapsed = false;
+        return copiedThread;
+      });
   }
 
   /**
    * Reload the change.
    *
-   * @param {boolean=} opt_isLocationChange Reloads the related changes
-   *     when true and ends reporting events that started on location change.
-   * @param {boolean=} opt_clearPatchset Reloads the related changes
-   *     ignoring any patchset choice made.
-   * @return {Promise} A promise that resolves when the core data has loaded.
-   *     Some non-core data loading may still be in-flight when the core data
-   *     promise resolves.
+   * @param isLocationChange Reloads the related changes
+   * when true and ends reporting events that started on location change.
+   * @param clearPatchset Reloads the related changes
+   * ignoring any patchset choice made.
+   * @return A promise that resolves when the core data has loaded.
+   * Some non-core data loading may still be in-flight when the core data
+   * promise resolves.
    */
-  _reload(opt_isLocationChange, opt_clearPatchset) {
-    if (opt_clearPatchset) {
+  _reload(isLocationChange?: boolean, clearPatchset?: boolean) {
+    if (clearPatchset && this._change) {
       GerritNav.navigateToChange(this._change);
-      return;
+      return Promise.resolve([]);
     }
     this._loading = true;
     this._relatedChangesCollapsed = true;
@@ -1857,7 +2205,7 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.reporting.time(CHANGE_DATA_TIMING_LABEL);
 
     // Array to house all promises related to data requests.
-    const allDataPromises = [];
+    const allDataPromises: Promise<unknown>[] = [];
 
     // Resolves when the change detail and the edit patch set (if available)
     // are loaded.
@@ -1867,21 +2215,26 @@ class GrChangeView extends KeyboardShortcutMixin(
     // Resolves when the loading flag is set to false, meaning that some
     // change content may start appearing.
     const loadingFlagSet = detailCompletes
-        .then(() => {
-          this._loading = false;
-          this.dispatchEvent(new CustomEvent('change-details-loaded',
-              {bubbles: true, composed: true}));
-        })
-        .then(() => {
-          this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
-          if (opt_isLocationChange) {
-            this.reporting.changeDisplayed();
-          }
-        });
+      .then(() => {
+        this._loading = false;
+        this.dispatchEvent(
+          new CustomEvent('change-details-loaded', {
+            bubbles: true,
+            composed: true,
+          })
+        );
+      })
+      .then(() => {
+        this.reporting.timeEnd(CHANGE_RELOAD_TIMING_LABEL);
+        if (isLocationChange) {
+          this.reporting.changeDisplayed();
+        }
+      });
 
     // Resolves when the project config has loaded.
-    const projectConfigLoaded = detailCompletes
-        .then(() => this._getProjectConfig());
+    const projectConfigLoaded = detailCompletes.then(() =>
+      this._getProjectConfig()
+    );
     allDataPromises.push(projectConfigLoaded);
 
     // Resolves when change comments have loaded (comments, drafts and robot
@@ -1900,53 +2253,62 @@ class GrChangeView extends KeyboardShortcutMixin(
 
       // Promise resolves when the change detail and patch dependent resources
       // have loaded.
-      const detailAndPatchResourcesLoaded =
-          Promise.all([patchResourcesLoaded, loadingFlagSet]);
+      const detailAndPatchResourcesLoaded = Promise.all([
+        patchResourcesLoaded,
+        loadingFlagSet,
+      ]);
 
       // Promise resolves when mergeability information has loaded.
-      const mergeabilityLoaded = detailAndPatchResourcesLoaded
-          .then(() => this._getMergeability());
+      const mergeabilityLoaded = detailAndPatchResourcesLoaded.then(() =>
+        this._getMergeability()
+      );
       allDataPromises.push(mergeabilityLoaded);
 
       // Promise resovles when the change actions have loaded.
-      const actionsLoaded = detailAndPatchResourcesLoaded
-          .then(() => this.$.actions.reload());
+      const actionsLoaded = detailAndPatchResourcesLoaded.then(() =>
+        this.$.actions.reload()
+      );
       allDataPromises.push(actionsLoaded);
 
       // The core data is loaded when both mergeability and actions are known.
       coreDataPromise = Promise.all([mergeabilityLoaded, actionsLoaded]);
     } else {
       // Resolves when the file list has loaded.
-      const fileListReload = loadingFlagSet
-          .then(() => this.$.fileList.reload());
+      const fileListReload = loadingFlagSet.then(() =>
+        this.$.fileList.reload()
+      );
       allDataPromises.push(fileListReload);
 
       const latestCommitMessageLoaded = loadingFlagSet.then(() => {
         // If the latest commit message is known, there is nothing to do.
-        if (this._latestCommitMessage) { return Promise.resolve(); }
+        if (this._latestCommitMessage) {
+          return Promise.resolve();
+        }
         return this._getLatestCommitMessage();
       });
       allDataPromises.push(latestCommitMessageLoaded);
 
       // Promise resolves when mergeability information has loaded.
-      const mergeabilityLoaded = loadingFlagSet
-          .then(() => this._getMergeability());
+      const mergeabilityLoaded = loadingFlagSet.then(() =>
+        this._getMergeability()
+      );
       allDataPromises.push(mergeabilityLoaded);
 
       // Core data is loaded when mergeability has been loaded.
-      coreDataPromise = mergeabilityLoaded;
+      coreDataPromise = Promise.all([mergeabilityLoaded]);
     }
 
-    if (opt_isLocationChange) {
+    if (isLocationChange) {
       this._editingCommitMessage = false;
-      const relatedChangesLoaded = coreDataPromise
-          .then(() => this.$.relatedChanges.reload());
+      const relatedChangesLoaded = coreDataPromise.then(() =>
+        this.$.relatedChanges.reload()
+      );
       allDataPromises.push(relatedChangesLoaded);
     }
 
     Promise.all(allDataPromises).then(() => {
       this.reporting.timeEnd(CHANGE_DATA_TIMING_LABEL);
-      if (opt_isLocationChange) {
+      if (isLocationChange) {
         this.reporting.changeFullyLoaded();
       }
     });
@@ -1959,10 +2321,7 @@ class GrChangeView extends KeyboardShortcutMixin(
    * (`this._patchRange`) being defined.
    */
   _reloadPatchNumDependentResources() {
-    return Promise.all([
-      this._getCommitInfo(),
-      this.$.fileList.reload(),
-    ]);
+    return Promise.all([this._getCommitInfo(), this.$.fileList.reload()]);
   }
 
   _getMergeability() {
@@ -1973,38 +2332,51 @@ class GrChangeView extends KeyboardShortcutMixin(
     // If the change is closed, it is not mergeable. Note: already merged
     // changes are obviously not mergeable, but the mergeability API will not
     // answer for abandoned changes.
-    if (this._change.status === ChangeStatus.MERGED ||
-        this._change.status === ChangeStatus.ABANDONED) {
+    if (
+      this._change.status === ChangeStatus.MERGED ||
+      this._change.status === ChangeStatus.ABANDONED
+    ) {
       this._mergeable = false;
       return Promise.resolve();
     }
 
+    if (!this._changeNum) {
+      return Promise.reject(new Error('missing required changeNum property'));
+    }
+
     this._mergeable = null;
-    return this.$.restAPI.getMergeable(this._changeNum).then(m => {
-      this._mergeable = m.mergeable;
+    return this.$.restAPI.getMergeable(this._changeNum).then(mergableInfo => {
+      if (mergableInfo) {
+        this._mergeable = mergableInfo.mergeable;
+      }
     });
   }
 
-  _computeCanStartReview(change) {
-    return !!(change.actions && change.actions.ready &&
-      change.actions.ready.enabled);
+  _computeCanStartReview(change: ChangeInfo) {
+    return !!(
+      change.actions &&
+      change.actions.ready &&
+      change.actions.ready.enabled
+    );
   }
 
-  _computeReplyDisabled() { return false; }
-
-  _computeChangePermalinkAriaLabel(changeNum) {
-    return 'Change ' + changeNum;
+  _computeReplyDisabled() {
+    return false;
   }
 
-  _computeCommitMessageCollapsed(collapsed, collapsible) {
+  _computeChangePermalinkAriaLabel(changeNum: NumericChangeId) {
+    return `Change ${changeNum}`;
+  }
+
+  _computeCommitMessageCollapsed(collapsed?: boolean, collapsible?: boolean) {
     return collapsible && collapsed;
   }
 
-  _computeRelatedChangesClass(collapsed) {
+  _computeRelatedChangesClass(collapsed: boolean) {
     return collapsed ? 'collapsed' : '';
   }
 
-  _computeCollapseText(collapsed) {
+  _computeCollapseText(collapsed: boolean) {
     // Symbols are up and down triangles.
     return collapsed ? '\u25bc Show more' : '\u25b2 Show less';
   }
@@ -2012,13 +2384,13 @@ class GrChangeView extends KeyboardShortcutMixin(
   /**
    * Returns the text to be copied when
    * click the copy icon next to change subject
-   *
-   * @param {!Object} change
    */
-  _computeCopyTextForTitle(change) {
-    return `${change._number}: ${change.subject} | ` +
-     `${location.protocol}//${location.host}` +
-       `${this._computeChangeUrl(change)}`;
+  _computeCopyTextForTitle(change: ChangeInfo) {
+    return (
+      `${change._number}: ${change.subject} | ` +
+      `${location.protocol}//${location.host}` +
+      `${this._computeChangeUrl(change)}`
+    );
   }
 
   _toggleCommitCollapsed() {
@@ -2035,25 +2407,27 @@ class GrChangeView extends KeyboardShortcutMixin(
     }
   }
 
-  _computeCommitCollapsible(commitMessage) {
-    if (!commitMessage) { return false; }
+  _computeCommitCollapsible(commitMessage?: string) {
+    if (!commitMessage) {
+      return false;
+    }
     return commitMessage.split('\n').length >= MIN_LINES_FOR_COMMIT_COLLAPSE;
   }
 
-  _getOffsetHeight(element) {
+  _getOffsetHeight(element: HTMLElement) {
     return element.offsetHeight;
   }
 
-  _getScrollHeight(element) {
+  _getScrollHeight(element: HTMLElement) {
     return element.scrollHeight;
   }
 
   /**
    * Get the line height of an element to the nearest integer.
    */
-  _getLineHeight(element) {
+  _getLineHeight(element: Element) {
     const lineHeightStr = getComputedStyle(element).lineHeight;
-    return Math.round(lineHeightStr.slice(0, lineHeightStr.length - 2));
+    return Math.round(Number(lineHeightStr.slice(0, lineHeightStr.length - 2)));
   }
 
   /**
@@ -2066,21 +2440,23 @@ class GrChangeView extends KeyboardShortcutMixin(
     const EXTRA_HEIGHT = 30;
     let newHeight;
 
-    if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_SMALL})`)
-        .matches) {
+    if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_SMALL})`).matches) {
       // In a small (mobile) view, give the relation chain some space.
       newHeight = SMALL_RELATED_HEIGHT;
-    } else if (window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_MED})`)
-        .matches) {
+    } else if (
+      window.matchMedia(`(max-width: ${BREAKPOINT_RELATED_MED})`).matches
+    ) {
       // Since related changes are below the commit message, but still next to
       // metadata, the height should be the height of the metadata minus the
       // height of the commit message to reduce jank. However, if that doesn't
       // result in enough space, instead use the MINIMUM_RELATED_MAX_HEIGHT.
       // Note: extraHeight is to take into account margin/padding.
       const medRelatedHeight = Math.max(
-          this._getOffsetHeight(this.$.mainChangeInfo) -
-          this._getOffsetHeight(this.$.commitMessage) - 2 * EXTRA_HEIGHT,
-          MINIMUM_RELATED_MAX_HEIGHT);
+        this._getOffsetHeight(this.$.mainChangeInfo) -
+          this._getOffsetHeight(this.$.commitMessage) -
+          2 * EXTRA_HEIGHT,
+        MINIMUM_RELATED_MAX_HEIGHT
+      );
       newHeight = medRelatedHeight;
     } else {
       if (this._commitCollapsible) {
@@ -2089,11 +2465,11 @@ class GrChangeView extends KeyboardShortcutMixin(
         // height.
         newHeight = this._getOffsetHeight(this.$.commitMessage);
       } else {
-        newHeight = this._getOffsetHeight(this.$.commitAndRelated) -
-            EXTRA_HEIGHT;
+        newHeight =
+          this._getOffsetHeight(this.$.commitAndRelated) - EXTRA_HEIGHT;
       }
     }
-    const stylesToUpdate = {};
+    const stylesToUpdate: {[key: string]: string} = {};
 
     // Get the line height of related changes, and convert it to the nearest
     // integer.
@@ -2103,11 +2479,11 @@ class GrChangeView extends KeyboardShortcutMixin(
     const remainder = newHeight % lineHeight;
     newHeight = newHeight - remainder;
 
-    stylesToUpdate['--relation-chain-max-height'] = newHeight + 'px';
+    stylesToUpdate['--relation-chain-max-height'] = `${newHeight}px`;
 
     // Update the max-height of the relation chain to this new height.
     if (this._commitCollapsible) {
-      stylesToUpdate['--related-change-btn-top-padding'] = remainder + 'px';
+      stylesToUpdate['--related-change-btn-top-padding'] = `${remainder}px`;
     }
 
     this.updateStyles(stylesToUpdate);
@@ -2122,18 +2498,20 @@ class GrChangeView extends KeyboardShortcutMixin(
     // Prevents showMore from showing when click on related change, since the
     // line height would be positive, but related changes height is 0.
     if (!this._getScrollHeight(this.$.relatedChanges)) {
-      return this._showRelatedToggle = false;
+      return (this._showRelatedToggle = false);
     }
 
-    if (this._getScrollHeight(this.$.relatedChanges) >
-        (this._getOffsetHeight(this.$.relatedChanges) +
-        this._getLineHeight(this.$.relatedChanges))) {
-      return this._showRelatedToggle = true;
+    if (
+      this._getScrollHeight(this.$.relatedChanges) >
+      this._getOffsetHeight(this.$.relatedChanges) +
+        this._getLineHeight(this.$.relatedChanges)
+    ) {
+      return (this._showRelatedToggle = true);
     }
-    this._showRelatedToggle = false;
+    return (this._showRelatedToggle = false);
   }
 
-  _updateToggleContainerClass(showRelatedToggle) {
+  _updateToggleContainerClass(showRelatedToggle: boolean) {
     if (showRelatedToggle) {
       this.$.relatedChangesToggle.classList.add('showToggle');
     } else {
@@ -2142,14 +2520,17 @@ class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _startUpdateCheckTimer() {
-    if (!this._serverConfig ||
-        !this._serverConfig.change ||
-        this._serverConfig.change.update_delay === undefined ||
-        this._serverConfig.change.update_delay <= MIN_CHECK_INTERVAL_SECS) {
+    if (
+      !this._serverConfig ||
+      !this._serverConfig.change ||
+      this._serverConfig.change.update_delay === undefined ||
+      this._serverConfig.change.update_delay <= MIN_CHECK_INTERVAL_SECS
+    ) {
       return;
     }
 
     this._updateCheckTimerHandle = this.async(() => {
+      if (!this._change) throw new Error('missing required change property');
       const change = this._change;
       fetchChangeUpdates(change, this.$.restAPI).then(result => {
         let toastMessage = null;
@@ -2176,19 +2557,24 @@ class GrChangeView extends KeyboardShortcutMixin(
         }
 
         this._cancelUpdateCheckTimer();
-        this.dispatchEvent(new CustomEvent('show-alert', {
-          detail: {
-            message: toastMessage,
-            // Persist this alert.
-            dismissOnNavigation: true,
-            action: 'Reload',
-            callback: () => {
-              this._reload(/* opt_isLocationChange= */false,
-                  /* opt_clearPatchset= */true);
+        this.dispatchEvent(
+          new CustomEvent('show-alert', {
+            detail: {
+              message: toastMessage,
+              // Persist this alert.
+              dismissOnNavigation: true,
+              action: 'Reload',
+              callback: () => {
+                this._reload(
+                  /* isLocationChange= */ false,
+                  /* clearPatchset= */ true
+                );
+              },
             },
-          },
-          composed: true, bubbles: true,
-        }));
+            composed: true,
+            bubbles: true,
+          })
+        );
       });
     }, this._serverConfig.change.update_delay * 1000);
   }
@@ -2212,27 +2598,42 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.relatedChanges.reload();
   }
 
-  _computeHeaderClass(editMode) {
+  _computeHeaderClass(editMode: boolean) {
     const classes = ['header'];
-    if (editMode) { classes.push('editMode'); }
+    if (editMode) {
+      classes.push('editMode');
+    }
     return classes.join(' ');
   }
 
-  _computeEditMode(patchRangeRecord, paramsRecord) {
-    if ([patchRangeRecord, paramsRecord].includes(undefined)) {
+  _computeEditMode(
+    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>,
+    paramsRecord: PolymerDeepPropertyChange<
+      AppElementChangeViewParams,
+      AppElementChangeViewParams
+    >
+  ) {
+    if (!patchRangeRecord || !paramsRecord) {
       return undefined;
     }
 
-    if (paramsRecord.base && paramsRecord.base.edit) { return true; }
+    if (paramsRecord.base && paramsRecord.base.edit) {
+      return true;
+    }
 
     const patchRange = patchRangeRecord.base || {};
-    return patchNumEquals(patchRange.patchNum, SPECIAL_PATCH_SET_NUM.EDIT);
+    return patchNumEquals(patchRange.patchNum, EditPatchSetNum);
   }
 
-  _handleFileActionTap(e) {
+  _handleFileActionTap(e: CustomEvent<{path: string; action: string}>) {
     e.preventDefault();
-    const controls = this.$.fileListHeader
-        .shadowRoot.querySelector('#editControls');
+    const controls = this.$.fileListHeader.shadowRoot!.querySelector(
+      '#editControls'
+    ) as GrEditControls | null;
+    if (!controls) throw new Error('Missing edit controls');
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     const path = e.detail.path;
     switch (e.detail.action) {
       case GrEditConstants.Actions.DELETE.id:
@@ -2240,8 +2641,12 @@ class GrChangeView extends KeyboardShortcutMixin(
         break;
       case GrEditConstants.Actions.OPEN.id:
         GerritNav.navigateToRelativeUrl(
-            GerritNav.getEditUrlForDiff(this._change, path,
-                this._patchRange.patchNum));
+          GerritNav.getEditUrlForDiff(
+            this._change,
+            path,
+            this._patchRange.patchNum
+          )
+        );
         break;
       case GrEditConstants.Actions.RENAME.id:
         controls.openRenameDialog(path);
@@ -2252,25 +2657,31 @@ class GrChangeView extends KeyboardShortcutMixin(
     }
   }
 
-  _computeCommitMessageKey(number, revision) {
+  _computeCommitMessageKey(number: NumericChangeId, revision: CommitId) {
     return `c${number}_rev${revision}`;
   }
 
-  _patchNumChanged(patchNumStr) {
+  @observe('_patchRange.patchNum')
+  _patchNumChanged(patchNumStr: PatchSetNum) {
     if (!this._selectedRevision) {
       return;
     }
+    if (!this._change) throw new Error('missing required change property');
 
-    let patchNum = parseInt(patchNumStr, 10);
+    let patchNum: PatchSetNum;
     if (patchNumStr === 'edit') {
-      patchNum = patchNumStr;
+      patchNum = EditPatchSetNum;
+    } else {
+      patchNum = parseInt(`${patchNumStr}`, 10) as PatchSetNum;
     }
 
     if (patchNum === this._selectedRevision._number) {
       return;
     }
-    this._selectedRevision = Object.values(this._change.revisions).find(
-        revision => revision._number === patchNum);
+    if (this._change.revisions)
+      this._selectedRevision = Object.values(this._change.revisions).find(
+        revision => revision._number === patchNum
+      );
   }
 
   /**
@@ -2278,25 +2689,37 @@ class GrChangeView extends KeyboardShortcutMixin(
    * navigation API.
    */
   _handleEditTap() {
-    const editInfo = Object.values(this._change.revisions).find(info =>
-      info._number === SPECIAL_PATCH_SET_NUM.EDIT);
+    if (!this._change || !this._change.revisions)
+      throw new Error('missing required change property');
+    const editInfo = Object.values(this._change.revisions).find(
+      info => info._number === EditPatchSetNum
+    );
 
     if (editInfo) {
-      GerritNav.navigateToChange(this._change, SPECIAL_PATCH_SET_NUM.EDIT);
+      GerritNav.navigateToChange(this._change, EditPatchSetNum);
       return;
     }
 
     // Avoid putting patch set in the URL unless a non-latest patch set is
     // selected.
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     let patchNum;
-    if (!patchNumEquals(this._patchRange.patchNum,
-        computeLatestPatchNum(this._allPatchSets))) {
+    if (
+      !patchNumEquals(
+        this._patchRange.patchNum,
+        computeLatestPatchNum(this._allPatchSets)
+      )
+    ) {
       patchNum = this._patchRange.patchNum;
     }
-    GerritNav.navigateToChange(this._change, patchNum, null, true);
+    GerritNav.navigateToChange(this._change, patchNum, undefined, true);
   }
 
   _handleStopEditTap() {
+    if (!this._change) throw new Error('missing required change property');
+    if (!this._patchRange)
+      throw new Error('missing required _patchRange property');
     GerritNav.navigateToChange(this._change, this._patchRange.patchNum);
   }
 
@@ -2304,50 +2727,62 @@ class GrChangeView extends KeyboardShortcutMixin(
     this.$.replyOverlay.setFocusStops(this.$.replyDialog.getFocusStops());
   }
 
-  _handleToggleStar(e) {
-    this.$.restAPI.saveChangeStarred(e.detail.change._number,
-        e.detail.starred);
+  _handleToggleStar(e: CustomEvent<{change: ChangeInfo; starred: boolean}>) {
+    this.$.restAPI.saveChangeStarred(e.detail.change._number, e.detail.starred);
   }
 
-  _getRevisionInfo(change) {
-    return new RevisionInfo(change);
+  _getRevisionInfo(change: ChangeInfo | ParsedChangeInfo) {
+    return new RevisionInfoClass(change);
   }
 
-  _computeCurrentRevision(currentRevision, revisions) {
+  _computeCurrentRevision(
+    currentRevision: CommitId,
+    revisions: {[revisionId: string]: RevisionInfo}
+  ) {
     return currentRevision && revisions && revisions[currentRevision];
   }
 
-  _computeDiffPrefsDisabled(disableDiffPrefs, loggedIn) {
+  _computeDiffPrefsDisabled(disableDiffPrefs: boolean, loggedIn: boolean) {
     return disableDiffPrefs || !loggedIn;
   }
 
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _computeLatestPatchNum(allPatchSets) {
+  _computeLatestPatchNum(allPatchSets: PatchSet[]) {
     return computeLatestPatchNum(allPatchSets);
   }
 
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _hasEditBasedOnCurrentPatchSet(allPatchSets) {
+  _hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {
     return hasEditBasedOnCurrentPatchSet(allPatchSets);
   }
 
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _hasEditPatchsetLoaded(patchRangeRecord) {
-    return hasEditPatchsetLoaded(patchRangeRecord);
+  _hasEditPatchsetLoaded(
+    patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
+  ) {
+    const patchRange = patchRangeRecord.base;
+    if (!patchRange) {
+      return false;
+    }
+    return hasEditPatchsetLoaded(patchRange);
   }
 
   /**
    * Wrapper for using in the element template and computed properties
    */
-  _computeAllPatchSets(change) {
+  _computeAllPatchSets(change: ChangeInfo) {
     return computeAllPatchSets(change);
   }
 }
 
-customElements.define(GrChangeView.is, GrChangeView);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-change-view': GrChangeView;
+  }
+}

@@ -44,6 +44,7 @@ import {
   NotifyType,
   EmailFormat,
   AuthType,
+  MergeStrategy,
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
@@ -804,7 +805,7 @@ export interface ChangeConfigInfo {
   large_change: string;
   reply_label: string;
   reply_tooltip: string;
-  update_delay: string;
+  update_delay: number;
   submit_whole_topic: boolean;
   disable_private_changes: boolean;
   mergeability_computation_behavior: string;
@@ -2234,4 +2235,17 @@ export interface CherryPickInput {
   allow_conflicts?: boolean;
   topic?: TopicName;
   allow_empty?: boolean;
+}
+
+/**
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-changes.html#mergeable-info
+ */
+export interface MergeableInfo {
+  submit_type: SubmitType;
+  strategy?: MergeStrategy;
+  mergeable: boolean;
+  commit_merged?: boolean;
+  content_merged?: boolean;
+  conflicts?: string[];
+  mergeable_into?: string[];
 }

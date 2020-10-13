@@ -17,6 +17,7 @@
 
 import {patchNumEquals} from '../../../utils/patch-set-util';
 import {ChangeInfo, PatchSetNum} from '../../../types/common';
+import {ParsedChangeInfo} from '../gr-rest-api-interface/gr-reviewer-updates-parser';
 
 type RevNumberToParentCountMap = {[revNumber: number]: number};
 
@@ -26,7 +27,7 @@ export class RevisionInfo {
    * @param change A change object resulting from a change detail
    *     call that includes revision information.
    */
-  constructor(private change: ChangeInfo) {}
+  constructor(private change: ChangeInfo | ParsedChangeInfo) {}
 
   /**
    * Get the largest number of parents of the commit in any revision. For

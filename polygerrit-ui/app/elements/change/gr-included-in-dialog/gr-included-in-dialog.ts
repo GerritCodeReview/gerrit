@@ -65,7 +65,7 @@ export class GrIncludedInDialog extends GestureEventListeners(
 
   loadData() {
     if (!this.changeNum) {
-      return;
+      return Promise.reject(new Error('missing required property changeNum'));
     }
     this._filterText = '';
     return this.$.restAPI.getChangeIncludedIn(this.changeNum).then(configs => {

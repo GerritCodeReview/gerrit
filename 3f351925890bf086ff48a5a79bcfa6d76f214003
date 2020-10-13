@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "62b7eb4e_f26b32f0",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4d3f0d5e_a18f30fd",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "167f3cda_e444a64c",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-13T09:57:51Z",
       "side": 1,
       "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1657eff5_4bca192d",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "167f3cda_e444a64c",
       "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -52,6 +88,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f0a77fee_f4875469",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "947551e6_0f9a82aa",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1dc8c315_2901498c",
@@ -65,6 +119,24 @@
       "writtenOn": "2020-10-13T09:57:51Z",
       "side": 1,
       "message": "It would be nice, if we were consistent with whether compute methods that have just one parameter are allowed to be undefined or not.",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "770ffee5_37b6b104",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "I suppose, compute methods that have just one parameter should have the same type of parameter as property.\nI.e. if property can be undefined - the parameter also can be undefined. If property has a default value and can\u0027t be undefined - the parameter also can\u0027t be undefined.",
+      "parentUuid": "1dc8c315_2901498c",
       "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -86,6 +158,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "9679c57a_93484838",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cf2f37a6_2e461104",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "1c3413cb_4c55efa3",
@@ -103,6 +193,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "744b51c3_fe8e98bd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "1c3413cb_4c55efa3",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8177b329_157ca730",
@@ -116,6 +224,24 @@
       "writtenOn": "2020-10-13T09:57:51Z",
       "side": 1,
       "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "eb29af35_aca96f52",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-13T11:38:55Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8177b329_157ca730",
       "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

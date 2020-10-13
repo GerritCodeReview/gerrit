@@ -7,6 +7,7 @@ import {
 } from '../types/common';
 import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 import {ParsedChangeInfo} from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import { PolymerDeepPropertyChange } from '@polymer/polymer/interfaces';
 
 /**
  * @license
@@ -55,10 +56,6 @@ interface RevisionWithSha extends RevisionInfo {
 interface PatchRange {
   patchNum?: PatchSetNum;
   basePatchNum?: PatchSetNum;
-}
-
-interface PatchRangeRecord {
-  base: PatchRange;
 }
 
 /**
@@ -263,7 +260,9 @@ export function hasEditBasedOnCurrentPatchSet(allPatchSets: PatchSet[]) {
   return allPatchSets[0].num === EditPatchSetNum;
 }
 
-export function hasEditPatchsetLoaded(patchRangeRecord: PatchRangeRecord) {
+export function hasEditPatchsetLoaded(
+  patchRangeRecord: PolymerDeepPropertyChange<PatchRange, PatchRange>
+) {
   const patchRange = patchRangeRecord.base;
   if (!patchRange) {
     return false;

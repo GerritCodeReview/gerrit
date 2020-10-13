@@ -138,6 +138,7 @@ import {
   RevisionId,
   GroupName,
   Hashtag,
+  MergeableInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1550,7 +1551,7 @@ export class GrRestApiInterface
       endpoint: '/commit?links',
       patchNum,
       reportEndpointAsIs: true,
-    });
+    }) as Promise<CommitInfo | undefined>;
   }
 
   getChangeFiles(
@@ -3575,7 +3576,7 @@ export class GrRestApiInterface
       changeNum,
       endpoint: '/revisions/current/mergeable',
       reportEndpointAsIs: true,
-    });
+    }) as Promise<MergeableInfo | undefined>;
   }
 
   deleteDraftComments(query: string): Promise<Response> {

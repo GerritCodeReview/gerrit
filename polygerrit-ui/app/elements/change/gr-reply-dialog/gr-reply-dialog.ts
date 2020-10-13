@@ -113,7 +113,7 @@ import {isUnresolved} from '../../../utils/comment-util';
 
 const STORAGE_DEBOUNCE_INTERVAL_MS = 400;
 
-enum FocusTarget {
+export enum FocusTarget {
   ANY = 'any',
   BODY = 'body',
   CCS = 'cc',

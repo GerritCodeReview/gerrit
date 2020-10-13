@@ -20,7 +20,13 @@ import {
   GroupDetailView,
   RepoDetailView,
 } from './core/gr-navigation/gr-navigation';
-import {DashboardId, GroupId, RepoName} from '../types/common';
+import {
+  DashboardId,
+  GroupId,
+  RepoName,
+  PatchSetNum,
+  NumericChangeId,
+} from '../types/common';
 
 export interface AppElement extends HTMLElement {
   params: AppElementParams | GenerateUrlParameters;
@@ -86,6 +92,31 @@ export interface AppElementAgreementParam {
   view: GerritView.AGREEMENTS;
 }
 
+// export interface GenerateUrlChangeViewParameters {
+//   view: GerritView.CHANGE;
+//   // TODO(TS): NumericChangeId - not sure about it, may be it can be removeds
+//   changeNum: NumericChangeId;
+//   project: RepoName;
+//   patchNum?: PatchSetNum;
+//   basePatchNum?: PatchSetNum;
+//   edit?: boolean;
+//   host?: string;
+//   messageHash?: string;
+//   queryMap?: Map<string, string> | URLSearchParams;
+
+//   // TODO(TS): querystring isn't set anywhere, try to remove
+//   querystring?: string;
+// }
+export interface AppElementChangeViewParams {
+  view: GerritView.CHANGE;
+  changeNum: NumericChangeId;
+  project: RepoName;
+  edit?: boolean;
+  patchNum?: PatchSetNum;
+  basePatchNum?: PatchSetNum;
+  queryMap?: Map<string, string> | URLSearchParams;
+}
+
 export interface AppElementJustRegisteredParams {
   // We use params.view === ... as a type guard.
   // The view?: never tells to the compiler that
@@ -100,6 +131,7 @@ export type AppElementParams =
   | AppElementDashboardParams
   | AppElementGroupParams
   | AppElementAdminParams
+  | AppElementChangeViewParams
   | AppElementRepoParams
   | AppElementDocSearchParams
   | AppElementPluginScreenParams

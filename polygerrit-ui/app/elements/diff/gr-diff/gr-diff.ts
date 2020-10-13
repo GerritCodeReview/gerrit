@@ -191,8 +191,9 @@ export class GrDiff extends GestureEventListeners(
   @property({type: Object})
   lineOfInterest?: LineOfInterest;
 
-  @property({type: Boolean, observer: '_loadingChanged'})
-  loading = false;
+  /** True when diff is changed, until the content is done rendering. */
+  @property({type: Boolean})
+  _loading = false;
 
   @property({type: Boolean})
   loggedIn = false;
@@ -787,12 +788,6 @@ export class GrDiff extends GestureEventListeners(
     this.clearDiffContent();
   }
 
-  _loadingChanged(newValue?: boolean) {
-    if (newValue) {
-      this._cleanup();
-    }
-  }
-
   _lineWrappingObserver() {
     this._prefsChanged(this.prefs);
   }
@@ -831,8 +826,9 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _diffChanged(newValue?: DiffInfo) {
+    this._loading = true;
+    this._cleanup();
     if (newValue) {
-      this._cleanup();
       this._diffLength = this.getDiffLength(newValue);
       this._debounceRenderDiffTable();
     }
@@ -890,6 +886,7 @@ export class GrDiff extends GestureEventListeners(
   }
 
   _handleRenderContent() {
+    this._loading = false;
     this._unobserveIncrementalNodes();
     this._incrementalNodeObserver = (dom(
       this

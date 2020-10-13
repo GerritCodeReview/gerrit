@@ -388,6 +388,13 @@ suite('gr-diff-host tests', () => {
     sinon.stub(element, '_getDiff').callsFake(() => new Promise(() => {}));
     element.patchRange = {};
 
+    // Needs to be set to something first for it to cancel.
+    element.diff = {
+      content: [{
+        a: ['foo'],
+      }],
+    };
+
     element.reload();
     assert.isTrue(cancelStub.called);
   });
@@ -824,7 +831,7 @@ suite('gr-diff-host tests', () => {
   test('delegates cancel()', () => {
     const stub = sinon.stub(element.$.diff, 'cancel');
     element.patchRange = {};
-    element.reload();
+    element.cancel();
     assert.isTrue(stub.calledOnce);
     assert.equal(stub.lastCall.args.length, 0);
   });

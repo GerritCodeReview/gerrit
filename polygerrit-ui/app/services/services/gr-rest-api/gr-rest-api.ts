@@ -98,6 +98,8 @@ import {
   Hashtag,
   FileNameToFileInfoMap,
   TopMenuEntryInfo,
+  MergeableInfo,
+  CommitInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -216,7 +218,7 @@ export interface RestApiService {
 
   getChangeDetail(
     changeNum: number | string,
-    opt_errFn?: Function,
+    opt_errFn?: ErrorCallback,
     opt_cancelCondition?: Function
   ): Promise<ParsedChangeInfo | null | undefined>;
 
@@ -851,4 +853,15 @@ export interface RestApiService {
   getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined>;
 
   setInProjectLookup(changeNum: NumericChangeId, project: RepoName): void;
+  getMergeable(changeNum: NumericChangeId): Promise<MergeableInfo | undefined>;
+
+  putChangeCommitMessage(
+    changeNum: NumericChangeId,
+    message: string
+  ): Promise<Response>;
+
+  getChangeCommitInfo(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<CommitInfo | undefined>;
 }

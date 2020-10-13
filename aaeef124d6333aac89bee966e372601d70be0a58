@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cf393c87_17557998",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/GroupBackedUserPermissionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 53,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-13T07:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c141f463_d07bce95",
+      "range": {
+        "startLine": 53,
+        "startChar": 46,
+        "endLine": 53,
+        "endChar": 84
+      },
+      "revId": "aaeef124d6333aac89bee966e372601d70be0a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a81b81b6_73009b12",
@@ -37,6 +61,24 @@
       "writtenOn": "2020-10-12T13:14:41Z",
       "side": 1,
       "message": "nit: javadoc inside method",
+      "revId": "aaeef124d6333aac89bee966e372601d70be0a58",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9bede6fb_02cd1d37",
+        "filename": "javatests/com/google/gerrit/acceptance/server/permissions/GroupBackedUserPermissionIT.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-13T07:34:22Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a81b81b6_73009b12",
       "revId": "aaeef124d6333aac89bee966e372601d70be0a58",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

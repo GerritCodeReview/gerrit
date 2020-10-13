@@ -28,6 +28,7 @@ import com.google.gerrit.acceptance.NoHttpd;
 import com.google.gerrit.acceptance.PushOneCommit;
 import com.google.gerrit.acceptance.TestAccount;
 import com.google.gerrit.acceptance.UseClockStep;
+import com.google.gerrit.acceptance.config.GerritConfig;
 import com.google.gerrit.acceptance.testsuite.account.AccountOperations;
 import com.google.gerrit.acceptance.testsuite.change.ChangeOperations;
 import com.google.gerrit.acceptance.testsuite.request.RequestScopeOperations;
@@ -1359,6 +1360,75 @@ public class AttentionSetIT extends AbstractDaemonTest {
     change(r).abandon();
     assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
         .doesNotContain("Gerrit-Attention: " + user.fullName());
+    sender.clear();
+  }
+
+  @Test
+  @GerritConfig(name = "change.enableAttentionSet", value = "true")
+  public void attentionSetEmailHeader() throws Exception {
+    PushOneCommit.Result r = createChange();
+    TestAccount user2 = accountCreator.user2();
+    // Add user and user2 to the attention set.
+    change(r)
+        .current()
+        .review(
+            ReviewInput.create().reviewer(user.email()).reviewer(accountCreator.user2().email()));
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains(
+            "Attention is currently required from: "
+                + user2.fullName()
+                + ", "
+                + user.fullName()
+                + ".");
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
+        .contains(
+            "Attention is currently required from: "
+                + user2.fullName()
+                + ", "
+                + user.fullName()
+                + ".");
+    sender.clear();
+
+    // Irrelevant reply, User and User2 are still in the attention set.
+    change(r).current().review(ReviewInput.approve());
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .contains(
+            "Attention is currently required from: "
+                + user2.fullName()
+                + ", "
+                + user.fullName()
+                + ".");
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
+        .contains(
+            "Attention is currently required from: "
+                + user2.fullName()
+                + ", "
+                + user.fullName()
+                + ".");
+    sender.clear();
+
+    // Abandon the change which removes user from attention set; there is an email but without the
+    // attention footer.
+    change(r).abandon();
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .doesNotContain("Attention is currently required");
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
+        .doesNotContain("Attention is currently required");
+    sender.clear();
+  }
+
+  @Test
+  @GerritConfig(name = "change.enableAttentionSet", value = "false")
+  public void noReferenceToAttentionSetInEmailsWhenDisabled() throws Exception {
+    PushOneCommit.Result r = createChange();
+    // Add user and to the attention set.
+    change(r).addReviewer(user.id().toString());
+
+    // Attention set is not referenced.
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).body())
+        .doesNotContain("Attention is currently required");
+    assertThat(Iterables.getOnlyElement(sender.getMessages()).htmlBody())
+        .doesNotContain("Attention is currently required");
     sender.clear();
   }
 

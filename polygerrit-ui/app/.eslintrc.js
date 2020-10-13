@@ -277,6 +277,12 @@ module.exports = {
         "@typescript-eslint/restrict-plus-operands": "error",
         // https://github.com/mysticatea/eslint-plugin-node/blob/master/docs/rules/no-unsupported-features/node-builtins.md
         "node/no-unsupported-features/node-builtins": "off",
+        // Disable no-invalid-this for ts files, because it incorrectly reports
+        // errors in some cases (see https://github.com/typescript-eslint/typescript-eslint/issues/491)
+        // At the same time, we are using typescript in a strict mode and
+        // it catches almost all errors related to invalid usage of this.
+        "no-invalid-this": "off",
+
         "jsdoc/no-types": 2,
       },
       "parserOptions": {

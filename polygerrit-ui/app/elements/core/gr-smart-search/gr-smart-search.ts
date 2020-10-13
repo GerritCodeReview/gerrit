@@ -14,64 +14,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-search-bar/gr-search-bar.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-smart-search_html.js';
-import {GerritNav} from '../gr-navigation/gr-navigation.js';
-import {getUserName} from '../../../utils/display-name-util.js';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-search-bar/gr-search-bar';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-smart-search_html';
+import {GerritNav} from '../gr-navigation/gr-navigation';
+import {getUserName} from '../../../utils/display-name-util';
+import {customElement, property} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {AccountInfo, ServerInfo} from '../../../types/common';
+import {
+  SearchBarHandleSearchDetail,
+  SuggestionProvider,
+} from '../gr-search-bar/gr-search-bar';
+import {AutocompleteSuggestion} from '../../shared/gr-autocomplete/gr-autocomplete';
 
 const MAX_AUTOCOMPLETE_RESULTS = 10;
 const SELF_EXPRESSION = 'self';
 const ME_EXPRESSION = 'me';
 
-/**
- * @extends PolymerElement
- */
-class GrSmartSearch extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrSmartSearch {
+  $: {
+    restAPI: RestApiService & Element;
+  };
+}
 
-  static get is() { return 'gr-smart-search'; }
-
-  static get properties() {
-    return {
-      searchQuery: String,
-      _config: Object,
-      _projectSuggestions: {
-        type: Function,
-        value() {
-          return (predicate, expression) =>
-            this._fetchProjects(predicate, expression);
-        },
-      },
-      _groupSuggestions: {
-        type: Function,
-        value() {
-          return (predicate, expression) =>
-            this._fetchGroups(predicate, expression);
-        },
-      },
-      _accountSuggestions: {
-        type: Function,
-        value() {
-          return (predicate, expression) =>
-            this._fetchAccounts(predicate, expression);
-        },
-      },
-      /**
-       * Invisible label for input element. This label is exposed to
-       * screen readers by nested element
-       */
-      label: {
-        type: String,
-        value: '',
-      },
-    };
+@customElement('gr-smart-search')
+export class GrSmartSearch extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
+
+  @property({type: String})
+  searchQuery?: string;
+
+  @property({type: Object})
+  _config?: ServerInfo;
+
+  @property({type: Object})
+  _projectSuggestions: SuggestionProvider = (predicate, expression) =>
+    this._fetchProjects(predicate, expression);
+
+  @property({type: Object})
+  _groupSuggestions: SuggestionProvider = (predicate, expression) =>
+    this._fetchGroups(predicate, expression);
+
+  @property({type: Object})
+  _accountSuggestions: SuggestionProvider = (predicate, expression) =>
+    this._fetchAccounts(predicate, expression);
+
+  @property({type: String})
+  label = '';
 
   /** @override */
   attached() {
@@ -81,7 +78,7 @@ class GrSmartSearch extends GestureEventListeners(
     });
   }
 
-  _handleSearch(e) {
+  _handleSearch(e: CustomEvent<SearchBarHandleSearchDetail>) {
     const input = e.detail.inputVal;
     if (input) {
       GerritNav.navigateToSearchQuery(input);
@@ -91,90 +88,110 @@ class GrSmartSearch extends GestureEventListeners(
   /**
    * Fetch from the API the predicted projects.
    *
-   * @param {string} predicate - The first part of the search term, e.g.
-   *     'project'
-   * @param {string} expression - The second part of the search term, e.g.
-   *     'gerr'
-   * @return {!Promise} This returns a promise that resolves to an array of
-   *     strings.
+   * @param predicate - The first part of the search term, e.g.
+   * 'project'
+   * @param expression - The second part of the search term, e.g.
+   * 'gerr'
    */
-  _fetchProjects(predicate, expression) {
-    return this.$.restAPI.getSuggestedProjects(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS)
-        .then(projects => {
-          if (!projects) { return []; }
-          const keys = Object.keys(projects);
-          return keys.map(key => { return {text: predicate + ':' + key}; });
+  _fetchProjects(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    return this.$.restAPI
+      .getSuggestedProjects(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .then(projects => {
+        if (!projects) {
+          return [];
+        }
+        const keys = Object.keys(projects);
+        return keys.map(key => {
+          return {text: predicate + ':' + key};
         });
+      });
   }
 
   /**
    * Fetch from the API the predicted groups.
    *
-   * @param {string} predicate - The first part of the search term, e.g.
-   *     'ownerin'
-   * @param {string} expression - The second part of the search term, e.g.
-   *     'polyger'
-   * @return {!Promise} This returns a promise that resolves to an array of
-   *     strings.
+   * @param predicate - The first part of the search term, e.g.
+   * 'ownerin'
+   * @param expression - The second part of the search term, e.g.
+   * 'polyger'
    */
-  _fetchGroups(predicate, expression) {
-    if (expression.length === 0) { return Promise.resolve([]); }
-    return this.$.restAPI.getSuggestedGroups(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS)
-        .then(groups => {
-          if (!groups) { return []; }
-          const keys = Object.keys(groups);
-          return keys.map(key => { return {text: predicate + ':' + key}; });
+  _fetchGroups(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    if (expression.length === 0) {
+      return Promise.resolve([]);
+    }
+    return this.$.restAPI
+      .getSuggestedGroups(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .then(groups => {
+        if (!groups) {
+          return [];
+        }
+        const keys = Object.keys(groups);
+        return keys.map(key => {
+          return {text: predicate + ':' + key};
         });
+      });
   }
 
   /**
    * Fetch from the API the predicted accounts.
    *
-   * @param {string} predicate - The first part of the search term, e.g.
-   *     'owner'
-   * @param {string} expression - The second part of the search term, e.g.
-   *     'kasp'
-   * @return {!Promise} This returns a promise that resolves to an array of
-   *     strings.
+   * @param predicate - The first part of the search term, e.g.
+   * 'owner'
+   * @param expression - The second part of the search term, e.g.
+   * 'kasp'
    */
-  _fetchAccounts(predicate, expression) {
-    if (expression.length === 0) { return Promise.resolve([]); }
-    return this.$.restAPI.getSuggestedAccounts(
-        expression,
-        MAX_AUTOCOMPLETE_RESULTS)
-        .then(accounts => {
-          if (!accounts) { return []; }
-          return this._mapAccountsHelper(accounts, predicate);
-        })
-        .then(accounts => {
-          // When the expression supplied is a beginning substring of 'self',
-          // add it as an autocomplete option.
-          if (SELF_EXPRESSION.startsWith(expression)) {
-            return accounts.concat(
-                [{text: predicate + ':' + SELF_EXPRESSION}]);
-          } else if (ME_EXPRESSION.startsWith(expression)) {
-            return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
-          } else {
-            return accounts;
-          }
-        });
+  _fetchAccounts(
+    predicate: string,
+    expression: string
+  ): Promise<AutocompleteSuggestion[]> {
+    if (expression.length === 0) {
+      return Promise.resolve([]);
+    }
+    return this.$.restAPI
+      .getSuggestedAccounts(expression, MAX_AUTOCOMPLETE_RESULTS)
+      .then(accounts => {
+        if (!accounts) {
+          return [];
+        }
+        return this._mapAccountsHelper(accounts, predicate);
+      })
+      .then(accounts => {
+        // When the expression supplied is a beginning substring of 'self',
+        // add it as an autocomplete option.
+        if (SELF_EXPRESSION.startsWith(expression)) {
+          return accounts.concat([{text: predicate + ':' + SELF_EXPRESSION}]);
+        } else if (ME_EXPRESSION.startsWith(expression)) {
+          return accounts.concat([{text: predicate + ':' + ME_EXPRESSION}]);
+        } else {
+          return accounts;
+        }
+      });
   }
 
-  _mapAccountsHelper(accounts, predicate) {
+  _mapAccountsHelper(
+    accounts: AccountInfo[],
+    predicate: string
+  ): AutocompleteSuggestion[] {
     return accounts.map(account => {
-      const userName = getUserName(this._serverConfig, account);
+      const userName = getUserName(this._config, account);
       return {
         label: account.name || '',
-        text: account.email ?
-          `${predicate}:${account.email}` :
-          `${predicate}:"${userName}"`,
+        text: account.email
+          ? `${predicate}:${account.email}`
+          : `${predicate}:"${userName}"`,
       };
     });
   }
 }
 
-customElements.define(GrSmartSearch.is, GrSmartSearch);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-smart-search': GrSmartSearch;
+  }
+}

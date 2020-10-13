@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4d3f0d5e_a18f30fd",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-item/gr-change-list-item.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 401,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "167f3cda_e444a64c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 144,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "947551e6_0f9a82aa",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 239,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "That is not true. It always comes from _offest, which is `number|undefined`.",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1dc8c315_2901498c",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 254,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "It would be nice, if we were consistent with whether compute methods that have just one parameter are allowed to be undefined or not.",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cf2f37a6_2e461104",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 264,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "1c3413cb_4c55efa3",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 272,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8177b329_157ca730",
+        "filename": "polygerrit-ui/app/elements/change-list/gr-change-list-view/gr-change-list-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 305,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T09:57:51Z",
+      "side": 1,
+      "message": "one line",
+      "revId": "3f351925890bf086ff48a5a79bcfa6d76f214003",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

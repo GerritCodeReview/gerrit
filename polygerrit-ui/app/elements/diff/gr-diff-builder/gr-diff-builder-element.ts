@@ -447,6 +447,11 @@ export class GrDiffBuilderElement extends GestureEventListeners(
       // annotations.
       annotate(contentEl: HTMLElement, _: HTMLElement, line: GrDiffLine) {
         const HL_CLASS = 'style-scope gr-diff intraline';
+        const ranges: {
+          offset: number;
+          length: number;
+          cssClass: string;
+        }[] = [];
         for (const highlight of line.highlights) {
           // The start and end indices could be the same if a highlight is
           // meant to start at the end of a line and continue onto the
@@ -461,13 +466,20 @@ export class GrDiffBuilderElement extends GestureEventListeners(
               ? line.text.length
               : highlight.endIndex;
 
-          GrAnnotation.annotateElement(
-            contentEl,
-            highlight.startIndex,
-            endIndex - highlight.startIndex,
-            HL_CLASS
-          );
+          ranges.push({
+            offset: highlight.startIndex,
+            length: endIndex - highlight.startIndex,
+            cssClass: HL_CLASS,
+          });
+
+          // GrAnnotation.annotateElement(
+          //   contentEl,
+          //   highlight.startIndex,
+          //   endIndex - highlight.startIndex,
+          //   HL_CLASS
+          // );
         }
+        GrAnnotation.annotateElements(contentEl, ranges);
       },
     };
   }

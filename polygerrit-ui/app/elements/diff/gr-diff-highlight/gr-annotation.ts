@@ -148,6 +148,67 @@ export const GrAnnotation = {
     }
   },
 
+  annotateElements(parent: HTMLElement, ranges: {
+    offset: number;
+    length: number;
+    cssClass: string;
+    processed?: boolean;
+  }[]) {
+    const nodes: Array<HTMLElement | Text> = [].slice.apply(parent.childNodes);
+
+    let newNode: Element | Text | null = null;
+    let i = 0;
+    while (i < nodes.length || newNode !== null) {
+      let node = nodes[i];
+      if (newNode) {
+        node = newNode as HTMLElement;
+        newNode = null;
+      } else {
+        i += 1;
+      }
+      let nodeLength = this.getLength(node);
+
+      for (const range of ranges) {
+        if (range.processed) {
+          continue;
+        }
+
+        // If the current node is completely before the offset.
+        if (nodeLength <= range.offset) {
+          range.offset -= nodeLength;
+          continue;
+        }
+
+        // Sublength is the annotation length for the current node.
+        const subLength = Math.min(length, nodeLength - range.offset);
+
+        if (node instanceof Text) {
+          newNode = this._annotateText(
+            node,
+            range.offset,
+            subLength,
+            range.cssClass
+          );
+        } else if (node instanceof HTMLElement) {
+          // TODO(milutin) - this can also create a new node.
+          this.annotateElement(node, range.offset, subLength, range.cssClass);
+        }
+
+        nodeLength = this.getLength(node) + subLength;
+
+        // If there is still more to annotate, then shift the indices, otherwise
+        // work is done, so break the loop.
+        if (subLength < range.length) {
+          range.length -= subLength;
+          range.offset = 0;
+          // TODO(milutin) this means repeat again on next node
+        } else {
+          range.processed = true;
+        }
+      }
+    }
+  },
+
   /**
    * Wraps node in annotation tag with cssClass, replacing the node in DOM.
    */
@@ -175,6 +236,7 @@ export const GrAnnotation = {
     cssClass: string,
     firstPart?: boolean
   ) {
+    let nextNode = null;
     if (this.getLength(node) === offset || offset === 0) {
       return this.wrapInHighlight(node, cssClass);
     } else {
@@ -183,9 +245,10 @@ export const GrAnnotation = {
         // Node points to first part of the Text, second one is sibling.
       } else {
         // if node is Text then splitNode will return a Text
-        node = this.splitNode(node, offset) as Text;
+        nextNode = this.splitNode(node, offset) as Text;
       }
-      return this.wrapInHighlight(node, cssClass);
+      const tail = this.wrapInHighlight(node, cssClass);
+      return nextNode ? nextNode : tail;
     }
   },
 
@@ -258,20 +321,21 @@ export const GrAnnotation = {
 
     if (offset === 0 && nodeLength === length) {
       // Case 1.
-      this.wrapInHighlight(node, cssClass);
+      return this.wrapInHighlight(node, cssClass);
     } else if (offset === 0) {
       // Case 2.
-      this.splitAndWrapInHighlight(node, length, cssClass, true);
+      return this.splitAndWrapInHighlight(node, length, cssClass, true);
     } else if (offset + length === nodeLength) {
       // Case 3
-      this.splitAndWrapInHighlight(node, offset, cssClass, false);
+      return this.splitAndWrapInHighlight(node, offset, cssClass, false);
     } else {
       // Case 4
-      this.splitAndWrapInHighlight(
+      return this.splitAndWrapInHighlight(
         this.splitTextNode(node, offset),
         length,
         cssClass,
-        true
+        // TODO(milutin): Check this, but it looks splitTextNode is once returning head and another time tail.
+        false
       );
     }
   },

@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "827ad320_791a1d70",
+        "filename": "polygerrit-ui/app/elements/change/gr-thread-list/gr-thread-list.ts",
+        "patchSetId": 15
+      },
+      "lineNbr": 119,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T12:10:52Z",
+      "side": 1,
+      "message": "Nit: Maybe handle the plural `s`?",
+      "range": {
+        "startLine": 119,
+        "startChar": 53,
+        "endLine": 119,
+        "endChar": 54
+      },
+      "revId": "43a19d4316e4631c09f1818ab56ff3b0263844a9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

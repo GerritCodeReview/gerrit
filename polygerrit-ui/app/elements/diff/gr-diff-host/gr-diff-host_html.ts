@@ -32,7 +32,6 @@ export const htmlTemplate = html`
     view-mode="[[viewMode]]"
     line-of-interest="[[lineOfInterest]]"
     logged-in="[[_loggedIn]]"
-    loading="[[_loading]]"
     error-message="[[_errorMessage]]"
     base-image="[[_baseImage]]"
     revision-image="[[_revisionImage]]"

@@ -3,6 +3,23 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "d3dcd7a9_1bb0c77d",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-13T22:32:04Z",
+      "side": 1,
+      "message": "some more ideas: \n\nMaybe we could use a hashtag to mark noteworthy commits explicitly which should be mentioned in the release notes, this could already be done during code review and would simplify gathering release notes.\n\nIn the Gardener project we use a section for the release note entry in each pull request (not in the commit message, e.g. [1]) which also defines the audience of those release note entries (developer, operator, user). Reviewing the release note entry for a given commit is part of the review of each pull request. Changes which shouldn\u0027t be mentioned in release notes have the release note entry set to NONE [2]. Generation of the release notes is fully automated based on this simple approach. See e.g. [3].\n\nIf we adopt a similar approach in Gerrit I think the release note text should ideally not be part of the commit message but be stored separately (in a hashtag or in notedb ?) which would allow to e.g. fix typos in release note entries of already submitted changes.\n\n[1] https://github.com/gardener/gardener/pull/2945\n[2] https://github.com/gardener/gardener/pull/2968\n[3] https://github.com/gardener/gardener/releases/tag/v1.11.0",
+      "revId": "b4bf8c60b2ff2dec8482d72d03eda1c3b350a65c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2efc4430_bc76457f",
         "filename": "tools/release_noter/release_noter.py",
         "patchSetId": 4

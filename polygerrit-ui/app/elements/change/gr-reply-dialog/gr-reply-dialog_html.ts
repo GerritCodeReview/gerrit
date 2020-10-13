@@ -552,14 +552,14 @@ export const htmlTemplate = html`
         </template>
         <template
           is="dom-if"
-          if="[[_computeShowAttentionTip(account, _owner, _currentAttentionSet, _newAttentionSet)]]"
+          if="[[_computeShowAttentionTip(_account, _owner, _currentAttentionSet, _newAttentionSet)]]"
         >
           <div class="attentionTip">
             <iron-icon
               class="pointer"
               icon="gr-icons:lightbulb-outline"
             ></iron-icon>
-            Be mindful of requiring attention from too many reviewers.
+            Be mindful of requiring attention from too many users.
           </div>
         </template>
       </section>

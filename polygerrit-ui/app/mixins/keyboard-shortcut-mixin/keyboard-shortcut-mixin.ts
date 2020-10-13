@@ -1091,6 +1091,8 @@ export interface KeyboardShortcutMixinInterface {
   getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent;
   addKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
   removeKeyboardShortcutDirectoryListener(listener: ShortcutListener): void;
+  // TODO(TS): Remove underscore. Apparently not a private method.
+  _throttleWrap(eventListener: EventListener): EventListener;
 }
 
 export function _testOnly_getShortcutManagerInstance() {

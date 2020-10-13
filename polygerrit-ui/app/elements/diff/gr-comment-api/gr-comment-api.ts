@@ -580,14 +580,14 @@ export class ChangeComments {
 export const _testOnly_findCommentById =
   ChangeComments.prototype.findCommentById;
 
-interface GrCommentApi {
+export interface GrCommentApi {
   $: {
     restAPI: RestApiService & Element;
   };
 }
 
 @customElement('gr-comment-api')
-class GrCommentApi extends GestureEventListeners(
+export class GrCommentApi extends GestureEventListeners(
   LegacyElementMixin(PolymerElement)
 ) {
   static get template() {

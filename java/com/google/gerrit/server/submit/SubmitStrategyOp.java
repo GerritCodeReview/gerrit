@@ -461,9 +461,12 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
       // If we naively execute postUpdate even if the change is already merged when updateChange
       // being, then we are subject to a race where postUpdate steps are run twice if two submit
       // processes run at the same time.
-      logger.atFine().log("Skipping post-update steps for change %s", getId());
+      logger.atFine().log(
+          "Skipping post-update steps for change %s; submitter is %s", getId(), submitter);
       return;
     }
+    logger.atFine().log(
+        "Begin post-update steps for change %s; submitter is %s", getId(), submitter);
     postUpdateImpl(ctx);
 
     if (command != null) {
@@ -482,6 +485,9 @@ abstract class SubmitStrategyOp implements BatchUpdateOp {
         }
       }
     }
+
+    logger.atFine().log(
+        "Begin sending emails for submitting change %s; submitter is %s", getId(), submitter);
 
     // Assume the change must have been merged at this point, otherwise we would
     // have failed fast in one of the other steps.

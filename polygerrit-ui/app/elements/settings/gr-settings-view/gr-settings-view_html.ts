@@ -175,6 +175,9 @@ export const htmlTemplate = html`
               <select>
                 <option value="CC_ON_OWN_COMMENTS">Every comment</option>
                 <option value="ENABLED">Only comments left by others</option>
+                <option value="ATTENTION_SET_ONLY"
+                  >Only when I am in the attention set</option
+                >
                 <option value="DISABLED">None</option>
               </select>
             </gr-select>

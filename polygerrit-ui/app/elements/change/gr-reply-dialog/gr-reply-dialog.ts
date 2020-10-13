@@ -321,6 +321,11 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
   @property({type: Boolean})
   _reviewersMutated = false;
 
+  /**
+   * Signifies that the user has changed their vote on a label or (if they have
+   * not yet voted on a label) if a selected vote is different from the default
+   * vote.
+   */
   @property({type: Boolean})
   _labelsChanged = false;
 
@@ -1373,7 +1378,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _handleLabelsChanged() {
     this._labelsChanged =
-      Object.keys(this.$.labelScores.getLabelValues()).length !== 0;
+      Object.keys(this.$.labelScores.getLabelValues(false)).length !== 0;
   }
 
   _isState(knownLatestState?: LatestPatchState, value?: LatestPatchState) {

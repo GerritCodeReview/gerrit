@@ -99,6 +99,22 @@ suite('gr-label-scores tests', () => {
     });
   });
 
+  test('getLabelValues includeDefaults', async () => {
+    element.change = {
+      _number: '123',
+      labels: {
+        'Code-Review': {
+          values: {'0': 'meh', '+1': 'good', '-1': 'bad'},
+          default_value: 0,
+        },
+      },
+    };
+    await flush();
+
+    assert.deepEqual(element.getLabelValues(true), {'Code-Review': 0});
+    assert.deepEqual(element.getLabelValues(false), {});
+  });
+
   test('_getVoteForAccount', () => {
     const labelName = 'Code-Review';
     assert.strictEqual(element._getVoteForAccount(

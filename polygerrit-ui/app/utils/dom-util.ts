@@ -211,13 +211,13 @@ export function getEventPath<T extends PolymerEvent>(e?: T) {
 export function descendedFromClass(
   element: Element,
   className: string,
-  opt_stopElement: Element
+  stopElement?: Element
 ) {
   let isDescendant = element.classList.contains(className);
   while (
     !isDescendant &&
     element.parentElement &&
-    (!opt_stopElement || element.parentElement !== opt_stopElement)
+    (!stopElement || element.parentElement !== stopElement)
   ) {
     isDescendant = element.classList.contains(className);
     element = element.parentElement;

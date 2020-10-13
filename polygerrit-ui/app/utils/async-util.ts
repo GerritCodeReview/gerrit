@@ -26,7 +26,7 @@
  */
 export function asyncForeach<T>(
   array: T[],
-  fn: (item: T, stopCallback: () => void) => Promise<T>
+  fn: (item: T, stopCallback: () => void) => Promise<unknown>
 ): Promise<T | void> {
   if (!array.length) {
     return Promise.resolve();

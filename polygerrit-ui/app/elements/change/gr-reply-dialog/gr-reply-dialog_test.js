@@ -283,6 +283,33 @@ suite('gr-reply-dialog tests', () => {
     checkComputeAttention('MERGED', 1, [22, 33], 1, [22, 33], [], [22, 33]);
   });
 
+  test('computeNewAttention when adding reviewers', () => {
+    const user = {_account_id: 1};
+    const reviewers = {base: [
+      {_account_id: 1, _pendingAdd: true},
+      {_account_id: 2, _pendingAdd: true},
+    ]};
+    const change = {
+      owner: {_account_id: 5},
+      status: 'NEW',
+      attention_set: {},
+    };
+    element.change = change;
+    element._reviewers = reviewers.base;
+    flush();
+
+    element._computeNewAttention(user, reviewers, [], change, [], true);
+    assert.sameMembers([...element._newAttentionSet], [1, 2]);
+
+    // If the user votes on the change, then they should not be added to the
+    // attention set, even if they have just added themselves as reviewer.
+    // But voting should also add the owner (5).
+    const labelsChanged = true;
+    element._computeNewAttention(
+        user, reviewers, [], change, [], true, labelsChanged);
+    assert.sameMembers([...element._newAttentionSet], [2, 5]);
+  });
+
   test('computeNewAttentionAccounts', () => {
     element._reviewers = [
       {_account_id: 123, display_name: 'Ernie'},

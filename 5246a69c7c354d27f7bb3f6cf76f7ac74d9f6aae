@@ -22,6 +22,30 @@
       },
       "revId": "5246a69c7c354d27f7bb3f6cf76f7ac74d9f6aae",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0d620e5_cd0f9238",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-13T10:13:11Z",
+      "side": 1,
+      "message": "Yeah, current works. \nAbandoning this change. 😞",
+      "parentUuid": "2b179fe5_51b90950",
+      "range": {
+        "startLine": 9,
+        "startChar": 0,
+        "endLine": 9,
+        "endChar": 52
+      },
+      "revId": "5246a69c7c354d27f7bb3f6cf76f7ac74d9f6aae",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

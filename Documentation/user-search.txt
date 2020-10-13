@@ -453,7 +453,7 @@ for the given number of lines.
 For example, added:>50 will be true for any change which adds at least 50
 lines.
 +
-Valid relations are >=, >, <=, <, or no relation, which will match if the
+Valid relations are >=, >, \<=, <, or no relation, which will match if the
 number of lines is exactly equal.
 
 [[commentby]]
@@ -505,7 +505,7 @@ True if the number of unresolved comments satisfies the given relation for the g
 For example, unresolved:>0 will be true for any change which has at least one unresolved
 comment while unresolved:0 will be true for any change which has all comments resolved.
 +
-Valid relations are >=, >, <=, <, or no relation, which will match if the number of unresolved
+Valid relations are >=, >, \<=, <, or no relation, which will match if the number of unresolved
 comments is exactly equal.
 
 == Argument Quoting
@@ -622,7 +622,7 @@ all changes that have a +2 vote from the change owner.
 Matches changes with a +1 code review where the reviewer is in the
 ldap/linux.workflow group.
 
-`label:Code-Review<=-1`::
+`label:Code-Review\<=-1`::
 +
 Matches changes with either a -1, -2, or any lower score.
 

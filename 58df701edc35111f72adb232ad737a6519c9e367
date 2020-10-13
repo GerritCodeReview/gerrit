@@ -1,0 +1,101 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a1a97955_b4983a02",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-13T20:54:20Z",
+      "side": 1,
+      "message": "This would do updates if allowed by the specified version in Pipenv.\nFor reproducibility better use \n\n pipenv install --dev --deploy\n\nor\n\n pipenv sync --dev",
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0f85fbee_72689277",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-13T20:54:20Z",
+      "side": 1,
+      "message": "I would change that from a named option to a positional argument so that -r isn\u0027t needed similar like in git log [1]\n\n[1] https://git-scm.com/docs/git-log",
+      "range": {
+        "startLine": 18,
+        "startChar": 35,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3be91891_a6d7d803",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-13T20:54:20Z",
+      "side": 1,
+      "message": "compare case insensitive against these patterns to avoid such duplication only differing by case ?",
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f7bac428_b5fb4f20",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-13T20:54:20Z",
+      "side": 1,
+      "message": "use these longer patterns explicitly instead of the very short \"nam\" ?",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "027d40e5_ad570153",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-13T20:54:20Z",
+      "side": 1,
+      "message": "make this a positional argument ?",
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

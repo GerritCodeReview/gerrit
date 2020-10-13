@@ -137,6 +137,7 @@ import {
   ActionNameToActionInfoMap,
   RevisionId,
   GroupName,
+  Hashtag,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1200,11 +1201,11 @@ export class GrRestApiInterface
       );
   }
 
-  getDefaultPreferences() {
+  getDefaultPreferences(): Promise<PreferencesInfo | undefined> {
     return this._fetchSharedCacheURL({
       url: '/config/server/preferences',
       reportUrlAsIs: true,
-    });
+    }) as Promise<PreferencesInfo | undefined>;
   }
 
   getPreferences(): Promise<PreferencesInfo | undefined> {
@@ -2424,7 +2425,10 @@ export class GrRestApiInterface
     });
   }
 
-  saveChangeStarred(changeNum: NumericChangeId, starred: boolean) {
+  saveChangeStarred(
+    changeNum: NumericChangeId,
+    starred: boolean
+  ): Promise<Response> {
     // Some servers may require the project name to be provided
     // alongside the change number, so resolve the project name
     // first.
@@ -3037,26 +3041,32 @@ export class GrRestApiInterface
     });
   }
 
-  setChangeTopic(changeNum: NumericChangeId, topic: string | null) {
-    return this._getChangeURLAndSend({
+  setChangeTopic(
+    changeNum: NumericChangeId,
+    topic: string | null
+  ): Promise<string> {
+    return (this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
       endpoint: '/topic',
       body: {topic},
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<string>;
   }
 
-  setChangeHashtag(changeNum: NumericChangeId, hashtag: HashtagsInput) {
-    return this._getChangeURLAndSend({
+  setChangeHashtag(
+    changeNum: NumericChangeId,
+    hashtag: HashtagsInput
+  ): Promise<Hashtag[]> {
+    return (this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.POST,
       endpoint: '/hashtags',
       body: hashtag,
       parseResponse: true,
       reportUrlAsIs: true,
-    });
+    }) as unknown) as Promise<Hashtag[]>;
   }
 
   deleteAccountHttpPassword() {
@@ -3180,7 +3190,7 @@ export class GrRestApiInterface
     });
   }
 
-  confirmEmail(token: string) {
+  confirmEmail(token: string): Promise<string | null> {
     const req = {
       method: HttpMethod.PUT,
       url: '/config/server/email.confirm',
@@ -3213,17 +3223,21 @@ export class GrRestApiInterface
     });
   }
 
-  setAssignee(changeNum: NumericChangeId, assignee: AssigneeInput) {
+  setAssignee(
+    changeNum: NumericChangeId,
+    assignee: AccountId
+  ): Promise<Response> {
+    const body: AssigneeInput = {assignee};
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.PUT,
       endpoint: '/assignee',
-      body: {assignee},
+      body,
       reportUrlAsIs: true,
     });
   }
 
-  deleteAssignee(changeNum: NumericChangeId) {
+  deleteAssignee(changeNum: NumericChangeId): Promise<Response> {
     return this._getChangeURLAndSend({
       changeNum,
       method: HttpMethod.DELETE,
@@ -3564,11 +3578,12 @@ export class GrRestApiInterface
     });
   }
 
-  deleteDraftComments(query: DeleteDraftCommentsInput) {
+  deleteDraftComments(query: string): Promise<Response> {
+    const body: DeleteDraftCommentsInput = {query};
     return this._restApiHelper.send({
       method: HttpMethod.POST,
       url: '/accounts/self/drafts:delete',
-      body: {query},
+      body,
     });
   }
 }

@@ -40,7 +40,7 @@ import {
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {GrButton} from '../gr-button/gr-button';
-import {getVotingRange} from '../../../utils/label-util';
+import {getVotingRangeOrDefault} from '../../../utils/label-util';
 
 export interface GrLabelInfo {
   $: {
@@ -124,7 +124,7 @@ export class GrLabelInfo extends GestureEventListeners(
     const votes = (labelInfo.all || []).sort(
       (a, b) => (a.value || 0) - (b.value || 0)
     );
-    const votingRange = getVotingRange(labelInfo);
+    const votingRange = getVotingRangeOrDefault(labelInfo);
     for (const label of votes) {
       if (
         label.value &&

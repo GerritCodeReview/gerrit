@@ -91,7 +91,7 @@ export const htmlTemplate = html`
       <div id="emptyOutgoing" slot="empty-outgoing">
         <template is="dom-if" if="[[_showNewUserHelp]]">
           <gr-create-change-help
-            on-create-tap="createChangeTap"
+            on-create-tap="_handleCreateChangeTap"
           ></gr-create-change-help>
         </template>
         <template is="dom-if" if="[[!_showNewUserHelp]]">

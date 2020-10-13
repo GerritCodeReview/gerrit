@@ -52,6 +52,7 @@ import {patchNumEquals} from '../../../utils/patch-set-util';
 import {customElement, property} from '@polymer/decorators';
 import {assertNever} from '../../../utils/common-util';
 import {
+  DashboardId,
   GroupId,
   NumericChangeId,
   PatchSetNum,
@@ -1256,7 +1257,7 @@ export class GrRouter extends GestureEventListeners(
     this._setParams({
       view: GerritView.DASHBOARD,
       project,
-      dashboard: decodeURIComponent(data.params[1]),
+      dashboard: decodeURIComponent(data.params[1]) as DashboardId,
     });
     this.reporting.setRepoName(project);
   }

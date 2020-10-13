@@ -109,6 +109,7 @@ suite('gr-change-list-view tests', () => {
 
   test('_handleNextPage', () => {
     const showStub = sinon.stub(page, 'show');
+    element._changesPerPage = 10;
     element.$.nextArrow.hidden = true;
     element._handleNextPage();
     assert.isFalse(showStub.called);
@@ -119,6 +120,7 @@ suite('gr-change-list-view tests', () => {
 
   test('_handlePreviousPage', () => {
     const showStub = sinon.stub(page, 'show');
+    element._changesPerPage = 10;
     element.$.prevArrow.hidden = true;
     element._handlePreviousPage();
     assert.isFalse(showStub.called);

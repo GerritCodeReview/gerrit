@@ -93,6 +93,9 @@ import {
   ActionNameToActionInfoMap,
   RevisionId,
   GroupName,
+  DashboardId,
+  HashtagsInput,
+  Hashtag,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -766,4 +769,50 @@ export interface RestApiService {
     changeNum: NumericChangeId,
     patchNum: PatchSetNum
   ): Promise<ActionNameToActionInfoMap | undefined>;
+
+  confirmEmail(token: string): Promise<string | null>;
+
+  getDefaultPreferences(): Promise<PreferencesInfo | undefined>;
+
+  addAccountEmail(email: string): Promise<Response>;
+
+  addAccountEmail(
+    email: string,
+    errFn?: ErrorCallback
+  ): Promise<Response | undefined>;
+
+  saveChangeReviewed(
+    changeNum: NumericChangeId,
+    reviewed: boolean
+  ): Promise<Response | undefined>;
+
+  saveChangeStarred(
+    changeNum: NumericChangeId,
+    starred: boolean
+  ): Promise<Response>;
+
+  getDashboard(
+    project: RepoName,
+    dashboard: DashboardId,
+    errFn?: ErrorCallback
+  ): Promise<DashboardInfo | undefined>;
+
+  deleteDraftComments(query: string): Promise<Response>;
+
+  setAssignee(
+    changeNum: NumericChangeId,
+    assignee: AccountId
+  ): Promise<Response>;
+
+  deleteAssignee(changeNum: NumericChangeId): Promise<Response>;
+
+  setChangeHashtag(
+    changeNum: NumericChangeId,
+    hashtag: HashtagsInput
+  ): Promise<Hashtag[]>;
+
+  setChangeTopic(
+    changeNum: NumericChangeId,
+    topic: string | null
+  ): Promise<string>;
 }

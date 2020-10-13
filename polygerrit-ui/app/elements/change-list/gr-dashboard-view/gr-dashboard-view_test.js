@@ -18,7 +18,7 @@
 import '../../../test/common-test-setup-karma.js';
 import './gr-dashboard-view.js';
 import {isHidden} from '../../../test/test-utils.js';
-import {GerritNav} from '../../core/gr-navigation/gr-navigation.js';
+import {GerritNav, GerritView} from '../../core/gr-navigation/gr-navigation.js';
 import {changeIsOpen} from '../../../utils/change-util.js';
 import {ChangeStatus} from '../../../constants/constants.js';
 
@@ -54,32 +54,40 @@ suite('gr-dashboard-view tests', () => {
   suite('drafts banner functionality', () => {
     suite('_maybeShowDraftsBanner', () => {
       test('not dashboard/self', () => {
-        element.params = {user: 'notself'};
-        element._maybeShowDraftsBanner();
+        element._maybeShowDraftsBanner({
+          view: GerritView.DASHBOARD,
+          user: 'notself',
+        });
         assert.isFalse(element._showDraftsBanner);
       });
 
       test('no drafts at all', () => {
-        element.params = {user: 'self'};
         element._results = [];
-        element._maybeShowDraftsBanner();
+        element._maybeShowDraftsBanner({
+          view: GerritView.DASHBOARD,
+          user: 'self',
+        });
         assert.isFalse(element._showDraftsBanner);
       });
 
       test('no drafts on open changes', () => {
-        element.params = {user: 'self'};
         const openChange = {status: ChangeStatus.NEW};
         element._results = [{query: 'has:draft', results: [openChange]}];
-        element._maybeShowDraftsBanner();
+        element._maybeShowDraftsBanner({
+          view: GerritView.DASHBOARD,
+          user: 'self',
+        });
         assert.isFalse(element._showDraftsBanner);
       });
 
       test('no drafts on not open changes', () => {
-        element.params = {user: 'self'};
         const notOpenChange = {status: '_'};
         element._results = [{query: 'has:draft', results: [notOpenChange]}];
         assert.isFalse(changeIsOpen(element._results[0].results[0]));
-        element._maybeShowDraftsBanner();
+        element._maybeShowDraftsBanner({
+          view: GerritView.DASHBOARD,
+          user: 'self',
+        });
         assert.isTrue(element._showDraftsBanner);
       });
     });
@@ -194,7 +202,8 @@ suite('gr-dashboard-view tests', () => {
       };
       return paramsChangedPromise.then(() => {
         assert.isTrue(
-            getChangesStub.calledWith(null, ['1', '2', 'owner:self limit:1']));
+            getChangesStub.calledWith(undefined,
+                ['1', '2', 'owner:self limit:1']));
       });
     });
 
@@ -208,7 +217,7 @@ suite('gr-dashboard-view tests', () => {
         user: 'user',
       };
       return paramsChangedPromise.then(() => {
-        assert.isTrue(getChangesStub.calledWith(null, ['1']));
+        assert.isTrue(getChangesStub.calledWith(undefined, ['1']));
       });
     });
   });
@@ -224,7 +233,7 @@ suite('gr-dashboard-view tests', () => {
     return paramsChangedPromise.then(() => {
       assert.isTrue(getChangesStub.calledOnce);
       assert.deepEqual(
-          getChangesStub.firstCall.args, [null, ['1', '2 suffix']]);
+          getChangesStub.firstCall.args, [undefined, ['1', '2 suffix']]);
     });
   });
 
@@ -329,9 +338,22 @@ suite('gr-dashboard-view tests', () => {
     assert.equal(element._computeUserHeaderClass(undefined), 'hide');
     assert.equal(element._computeUserHeaderClass({}), 'hide');
     assert.equal(element._computeUserHeaderClass({user: 'self'}), 'hide');
-    assert.equal(element._computeUserHeaderClass({user: 'user'}), '');
+    assert.equal(element._computeUserHeaderClass({user: 'user'}), 'hide');
+    assert.equal(
+        element._computeUserHeaderClass({
+          view: GerritView.DASHBOARD,
+          user: 'user',
+        }),
+        '');
     assert.equal(
         element._computeUserHeaderClass({project: 'p', user: 'user'}),
+        'hide');
+    assert.equal(
+        element._computeUserHeaderClass({
+          view: GerritView.DASHBOARD,
+          project: 'p',
+          user: 'user',
+        }),
         'hide');
   });
 

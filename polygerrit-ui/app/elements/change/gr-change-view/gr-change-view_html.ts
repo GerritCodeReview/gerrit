@@ -652,7 +652,7 @@ export const htmlTemplate = html`
         >
         </gr-dropdown-list>
         <gr-thread-list
-          threads="[[_robotCommentThreads]]"
+          threads="[[_draftCommentThreads]]"
           change="[[_change]]"
           change-num="[[_changeNum]]"
           logged-in="[[_loggedIn]]"

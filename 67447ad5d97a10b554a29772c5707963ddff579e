@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d5e97657_b1362eba",
+        "filename": "Documentation/dev-plugins.txt",
+        "patchSetId": 21
+      },
+      "lineNbr": 979,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-13T01:08:06Z",
+      "side": 1,
+      "message": "nit: SSH/REST",
+      "range": {
+        "startLine": 979,
+        "startChar": 64,
+        "endLine": 979,
+        "endChar": 72
+      },
+      "revId": "67447ad5d97a10b554a29772c5707963ddff579e",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

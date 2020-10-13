@@ -6394,8 +6394,9 @@ Actions the caller might be able to perform on this revision. The
 information is a map of view name to link:#action-info[ActionInfo]
 entities.
 |`requirements`             |optional|
-List of the link:rest-api-changes.html#requirement[requirements] to be met before this change
-can be submitted.
+For open change, a list of link:rest-api-changes.html#requirement[requirements] that must be met
+before this change can be submitted. For merged changes, the list of requirements that were present
+at submission.
 |`labels`             |optional|
 The labels of the change as a map that maps the label names to
 link:#label-info[LabelInfo] entries. +

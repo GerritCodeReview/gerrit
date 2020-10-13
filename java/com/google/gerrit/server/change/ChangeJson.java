@@ -331,7 +331,10 @@ public class ChangeJson {
 
   private static Collection<SubmitRequirementInfo> requirementsFor(ChangeData cd) {
     Collection<SubmitRequirementInfo> reqInfos = new ArrayList<>();
-    for (SubmitRecord submitRecord : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
+    for (SubmitRecord submitRecord :
+        cd.change().isClosed()
+            ? cd.submitRecords(SUBMIT_RULE_OPTIONS_LENIENT)
+            : cd.submitRecords(SUBMIT_RULE_OPTIONS_STRICT)) {
       if (submitRecord.requirements == null) {
         continue;
       }

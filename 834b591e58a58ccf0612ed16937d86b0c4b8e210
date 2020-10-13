@@ -16,6 +16,24 @@
       "message": "The code looks good for me.\nHowever, sometimes it doesn\u0027t work as expected - the _labelsChanged is true and hasVote is true too.\nThis happens when this.$.labelScores.getLabelValues() returns one or more items with 0 score (i.e. usually it doesn\u0027t return anything, but after some actions it returns labels with 0 values).\nI haven\u0027t found the exact steps to reproduce it, but this happens quite often. What I did: i added/removed myself as a reviewer, and voted. But still don\u0027t understand how to reproduce it. Page reload doesn\u0027t solve it - once the issue appears for a change it doesn\u0027t disappear after reloading the page.\nHave you noticed anything similar?",
       "revId": "834b591e58a58ccf0612ed16937d86b0c4b8e210",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a96be0c5_61610a28",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-13T21:08:17Z",
+      "side": 1,
+      "message": "I think that is a separate bug somewhat independent to this change. But yeah, should be fixed. Sent https://gerrit-review.googlesource.com/c/gerrit/+/284308 for that.",
+      "parentUuid": "70a40ebb_6dd692de",
+      "revId": "834b591e58a58ccf0612ed16937d86b0c4b8e210",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

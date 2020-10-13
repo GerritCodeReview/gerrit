@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "6c16446a_52c3f5ae",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 6,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T21:46:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a1a97955_b4983a02",
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "0f85fbee_72689277",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-10-13T20:54:20Z",
       "side": 1,
       "message": "I would change that from a named option to a positional argument so that -r isn\u0027t needed similar like in git log [1]\n\n[1] https://git-scm.com/docs/git-log",
+      "range": {
+        "startLine": 18,
+        "startChar": 35,
+        "endLine": 18,
+        "endChar": 50
+      },
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "1ff43520_cde8e223",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T21:46:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0f85fbee_72689277",
       "range": {
         "startLine": 18,
         "startChar": 35,
@@ -58,6 +100,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "924ac9aa_c2c9e72d",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T21:46:28Z",
+      "side": 1,
+      "message": "Case sensitivity was done on purpose, to match \u0027IT\u0027 but not \u0027it\u0027, for example (line 23). This allows for less subjects to be wrongfully excluded. This makes exclusion (thus inclusion) expectations clearer and more deterministic -or accurate.",
+      "parentUuid": "3be91891_a6d7d803",
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f7bac428_b5fb4f20",
@@ -81,6 +141,53 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "5e35cd71_db82e4e2",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 28,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T21:46:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f7bac428_b5fb4f20",
+      "range": {
+        "startLine": 28,
+        "startChar": 14,
+        "endLine": 28,
+        "endChar": 38
+      },
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0a278b64_5d0476d9",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 78,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T21:46:28Z",
+      "side": 1,
+      "message": "Now also shown when user selected that option at runtime.\n\nNit: punctuation fixed in the few printouts as well.",
+      "range": {
+        "startLine": 78,
+        "startChar": 51,
+        "endLine": 78,
+        "endChar": 79
+      },
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "027d40e5_ad570153",
@@ -94,6 +201,24 @@
       "writtenOn": "2020-10-13T20:54:20Z",
       "side": 1,
       "message": "make this a positional argument ?",
+      "revId": "58df701edc35111f72adb232ad737a6519c9e367",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "8be45d48_8a150875",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 81,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-13T21:46:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "027d40e5_ad570153",
       "revId": "58df701edc35111f72adb232ad737a6519c9e367",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

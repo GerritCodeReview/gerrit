@@ -9,9 +9,9 @@
       "updated": "2020-10-13T09:42:42Z"
     },
     "gerritforge:notedb-a6a0e4682515f3521897c5f950d1394f4619d928": {
-      "state": "NOT_STARTED",
+      "state": "SCHEDULED",
       "created": "2020-10-13T09:35:22Z",
-      "updated": "2020-10-13T11:33:22Z"
+      "updated": "2020-10-13T11:35:27Z"
     }
   }
 }

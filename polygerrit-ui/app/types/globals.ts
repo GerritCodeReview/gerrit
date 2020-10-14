@@ -56,6 +56,8 @@ declare global {
       dashboardQuery?: string[];
     };
 
+    VERSION_INFO?: string;
+
     /** Enhancements on Gr elements or utils */
     // TODO(TS): should clean up those and removing them may break certain plugin behaviors
     // TODO(TS): as @brohlfs suggested, to avoid importing anything from elements/ to types/
@@ -115,5 +117,12 @@ declare global {
       totalJSHeapSize: number;
       usedJSHeapSize: number;
     };
+  }
+
+  interface Event {
+    // path is a non-standard property. Actually, this is optional property,
+    // but marking it as optional breaks CustomKeyboardEvent
+    // TODO(TS): replace with composedPath if possible
+    readonly path: EventTarget[];
   }
 }

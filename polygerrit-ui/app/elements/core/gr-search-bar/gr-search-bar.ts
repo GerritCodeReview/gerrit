@@ -23,7 +23,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-search-bar_html';
 import {
-  CustomKeyboardEvent,
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -36,6 +35,7 @@ import {
   GrAutocomplete,
 } from '../../shared/gr-autocomplete/gr-autocomplete';
 import {getDocsBaseUrl} from '../../../utils/url-util';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 // Possible static search options for auto complete, without negations.
 const SEARCH_OPERATORS = [

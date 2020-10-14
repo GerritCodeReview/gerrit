@@ -37,7 +37,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-view_html';
 import {
-  CustomKeyboardEvent,
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -98,11 +97,11 @@ import {CommentSide, DiffViewMode, Side} from '../../../constants/constants';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
-import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {FetchParams} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -344,9 +343,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
       this._loggedIn = loggedIn;
     });
 
-    this.addEventListener('open-fix-preview', e =>
-      this._onOpenFixPreview(e as CustomEvent<CommentEventDetail>)
-    );
+    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.$.cursor.push('diffs', this.$.diffHost);
     this._onRenderHandler = (_: Event) => {
       this.$.cursor.reInitCursor();
@@ -540,7 +537,7 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this.$.cursor.moveToVisibleArea();
   }
 
-  _onOpenFixPreview(e: CustomEvent<CommentEventDetail>) {
+  _onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
   }
 

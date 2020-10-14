@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "60d3bb13_0831208e",
+        "filename": "tools/release_noter/.flake8",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-14T16:16:25Z",
+      "side": 1,
+      "message": "This value came from the reference below, and from pygerrit2. But you\u0027re right, I should have put the one that Gerrit and the Homepage use, which is 100; done.",
+      "parentUuid": "7ba26ac6_b27d0fb8",
+      "revId": "c87918bbb6ccb1ba9e1010f2745fc7404181a7cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3596f39a_1b066b27",
@@ -31,6 +49,24 @@
       "writtenOn": "2020-10-14T16:01:48Z",
       "side": 1,
       "message": "this seems unrelated to introducing flake8",
+      "revId": "c87918bbb6ccb1ba9e1010f2745fc7404181a7cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "35b148d3_a8f2417c",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-14T16:16:25Z",
+      "side": 1,
+      "message": "No, it isn\u0027t. This was necessary to install flake8 locally from before this change. At least for when one installed this pipenv dev environment once, prior to doing it for flake8 this time around. I was able to reproduce this scenario locally while making this change.",
+      "parentUuid": "3596f39a_1b066b27",
       "revId": "c87918bbb6ccb1ba9e1010f2745fc7404181a7cb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

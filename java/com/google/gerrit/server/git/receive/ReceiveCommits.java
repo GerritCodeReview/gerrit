@@ -624,7 +624,7 @@ class ReceiveCommits {
   private void processCommandsUnsafe(
       Collection<ReceiveCommand> commands, MultiProgressMonitor progress) {
     logger.atFine().log("Calling user: %s", user.getLoggableName());
-    logger.atFine().log("Groups: %s", user.getEffectiveGroups().getKnownGroups());
+    logger.atFine().log("Groups: %s", lazy(() -> user.getEffectiveGroups().getKnownGroups()));
 
     if (!projectState.getProject().getState().permitsWrite()) {
       for (ReceiveCommand cmd : commands) {

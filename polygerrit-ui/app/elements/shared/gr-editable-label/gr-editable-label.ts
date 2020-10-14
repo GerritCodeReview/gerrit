@@ -21,15 +21,13 @@ import '../gr-button/gr-button';
 import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
-import {
-  CustomKeyboardEvent,
-  KeyboardShortcutMixin,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {customElement, property} from '@polymer/decorators';
 import {htmlTemplate} from './gr-editable-label_html';
 import {IronDropdownElement} from '@polymer/iron-dropdown/iron-dropdown';
 import {dom, EventApi} from '@polymer/polymer/lib/legacy/polymer.dom';
 import {PaperInputElementExt} from '../../../types/types';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;

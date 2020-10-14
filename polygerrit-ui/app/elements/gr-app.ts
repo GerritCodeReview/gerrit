@@ -15,16 +15,11 @@
  * limitations under the License.
  */
 
-import {safeTypesBridge} from '../utils/safe-types-util.js';
-
-// We need to use goog.declareModuleId internally in google for TS-imports-JS
-// case. To avoid errors when goog is not available, the empty implementation is
-// added.
-window.goog = window.goog || {declareModuleId(name) {}};
-import './gr-app-init.js';
-import './font-roboto-local-loader.js';
+import {safeTypesBridge} from '../utils/safe-types-util';
+import './gr-app-init';
+import './font-roboto-local-loader';
 // Sets up global Polymer variable, because plugins requires it.
-import '../scripts/bundled-polymer.js';
+import '../scripts/bundled-polymer';
 
 /**
  * setCancelSyntheticClickEvents is set to true by
@@ -32,38 +27,37 @@ import '../scripts/bundled-polymer.js';
  * on older touch device.
  * See https://github.com/Polymer/polymer/issues/5289
  */
-import {setPassiveTouchGestures, setCancelSyntheticClickEvents} from '@polymer/polymer/lib/utils/settings.js';
+import {
+  setPassiveTouchGestures,
+  setCancelSyntheticClickEvents,
+} from '@polymer/polymer/lib/utils/settings';
 setCancelSyntheticClickEvents(false);
 setPassiveTouchGestures(true);
 
-import 'polymer-resin/standalone/polymer-resin.js';
-import {initGlobalVariables} from './gr-app-global-var-init.js';
-import './gr-app-element.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-app_html.js';
-import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit.js';
-import {appContext} from '../services/app-context.js';
+import {initGlobalVariables} from './gr-app-global-var-init';
+import './gr-app-element';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-app_html';
+import {initGerritPluginApi} from './shared/gr-js-api-interface/gr-gerrit';
+import {customElement} from '@polymer/decorators';
+import {installPolymerResin} from '../scripts/polymer-resin-install';
 
-security.polymer_resin.install({
-  allowedIdentifierPrefixes: [''],
-  reportHandler: security.polymer_resin.CONSOLE_LOGGING_REPORT_HANDLER,
-  safeTypesBridge,
-});
+installPolymerResin(safeTypesBridge);
 
-/** @extends PolymerElement */
-class GrApp extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  // When you are converting gr-app.js to ts, implement interface AppElement
-  // from the gr-app-types.ts
-  static get template() { return htmlTemplate; }
-
-  static get is() { return 'gr-app'; }
+@customElement('gr-app')
+class GrApp extends GestureEventListeners(LegacyElementMixin(PolymerElement)) {
+  static get template() {
+    return htmlTemplate;
+  }
 }
 
-customElements.define(GrApp.is, GrApp);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-app': GrApp;
+  }
+}
 
 initGlobalVariables();
-initGerritPluginApi(appContext);
+initGerritPluginApi();

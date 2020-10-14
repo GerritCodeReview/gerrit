@@ -144,6 +144,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "3ba14afc_a6f457f5",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-14T16:47:36Z",
+      "side": 1,
+      "message": "\u003e has:draft, label:, is:watched etc. aren\u0027t the same thing: They all just require a single round trip to the index whereas peers would require n round trips where n depends on the number of results in the sub-query.\n\nPre-Lucene those all were multiple round trips to the database (and since we\u0027re running 2.7 still, they continue to be so for us). Yes, having the index is nice and helps us avoid that most of the time. I don\u0027t think it should preclude features that do rely on more than a single round trip. Different operators can have different performance.\n\n\u003e \n\u003e You could try to batch queries together after retrieving the initial set (is:id1 OR id:id2) but there is also a maximum number of terms allowed depending on which index backend is used.",
+      "parentUuid": "66d2ebd9_374bc410",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "821ae05d_461809e5",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2

@@ -950,7 +950,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     '_ccs.*',
     'change',
     'draftCommentThreads',
-    '_includeComments'
+    '_includeComments',
+    '_labelsChanged',
+    'draft'
   )
   _computeNewAttention(
     currentUser?: AccountInfo,
@@ -961,7 +963,9 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     ccs?: PolymerDeepPropertyChange<AccountInfoInput[], AccountInfoInput[]>,
     change?: ChangeInfo,
     draftCommentThreads?: CommentThread[],
-    includeComments?: boolean
+    includeComments?: boolean,
+    _labelsChanged?: boolean,
+    draft?: boolean
   ) {
     if (
       currentUser === undefined ||
@@ -977,6 +981,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     // The draft comments are only relevant for the attention set as long as the
     // user actually plans to publish their drafts.
     draftCommentThreads = includeComments ? draftCommentThreads : [];
+    const hasDraft = draftCommentThreads.length > 0 || !!draft;
+    const hasVote = !!_labelsChanged;
+    const isOwner = this._isOwner(currentUser, change);
+    const isUploader = this._uploader?._account_id === currentUser._account_id;
     this._attentionCcsCount = removeServiceUsers(ccs.base).length;
     this._currentAttentionSet = new Set(
       Object.keys(change.attention_set || {}).map(
@@ -991,24 +999,21 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
       );
       // Remove the current user.
       newAttention.delete(currentUser._account_id);
-      // Add all new reviewers.
+      // Add all new reviewers, but not the current reviewer, if they are also
+      // sending a draft or a label vote.
+      const notIsReviewerAndHasDraftOrLabel = (r: AccountInfo) =>
+        !(r._account_id === currentUser._account_id && (hasDraft || hasVote));
       reviewers.base
         .filter(r => r._pendingAdd && r._account_id)
+        .filter(notIsReviewerAndHasDraftOrLabel)
         .forEach(r => newAttention.add(r._account_id!));
-      // Add the uploader, if someone else replies.
-      if (
-        this._uploader &&
-        this._uploader._account_id !== currentUser._account_id
-      ) {
-        // An uploader must have an _account_id.
-        newAttention.add(this._uploader._account_id!);
-      }
-      // Add the owner, if someone else replies. Also add the owner, if the
-      // attention set would otherwise be empty.
-      if (change.owner) {
-        if (!this._isOwner(currentUser, change)) {
-          // A change owner must have an _account_id.
-          newAttention.add(change.owner._account_id!);
+      // Add owner and uploader, if someone else replies.
+      if (hasDraft || hasVote) {
+        if (this._uploader?._account_id && !isUploader) {
+          newAttention.add(this._uploader._account_id);
+        }
+        if (change.owner?._account_id && !isOwner) {
+          newAttention.add(change.owner._account_id);
         }
       }
     } else {

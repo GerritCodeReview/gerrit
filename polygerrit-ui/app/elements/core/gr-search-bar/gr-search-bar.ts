@@ -124,10 +124,14 @@ const MAX_AUTOCOMPLETE_RESULTS = 10;
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+\s*/g;
 
-type SuggestionProvider = (
+export type SuggestionProvider = (
   predicate: string,
   expression: string
 ) => Promise<AutocompleteSuggestion[]>;
+
+export interface SearchBarHandleSearchDetail {
+  inputVal: string;
+}
 
 export interface GrSearchBar {
   $: {
@@ -254,7 +258,8 @@ export class GrSearchBar extends KeyboardShortcutMixin(
     } else {
       target.blur();
     }
-    const trimmedInput = this._inputVal && this._inputVal.trim();
+    if (!this._inputVal) return;
+    const trimmedInput = this._inputVal.trim();
     if (trimmedInput) {
       const predefinedOpOnlyQuery = [
         ...SEARCH_OPERATORS_WITH_NEGATIONS_SET,
@@ -262,9 +267,12 @@ export class GrSearchBar extends KeyboardShortcutMixin(
       if (predefinedOpOnlyQuery) {
         return;
       }
+      const detail: SearchBarHandleSearchDetail = {
+        inputVal: this._inputVal,
+      };
       this.dispatchEvent(
         new CustomEvent('handle-search', {
-          detail: {inputVal: this._inputVal},
+          detail,
         })
       );
     }

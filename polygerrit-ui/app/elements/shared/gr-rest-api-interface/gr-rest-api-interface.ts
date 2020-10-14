@@ -138,6 +138,7 @@ import {
   RevisionId,
   GroupName,
   Hashtag,
+  TopMenuEntryInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -1603,7 +1604,10 @@ export class GrRestApiInterface
     }) as Promise<string[] | undefined>;
   }
 
-  getChangeOrEditFiles(changeNum: NumericChangeId, patchRange: PatchRange) {
+  getChangeOrEditFiles(
+    changeNum: NumericChangeId,
+    patchRange: PatchRange
+  ): Promise<FileNameToFileInfoMap | undefined> {
     if (patchNumEquals(patchRange.patchNum, EditPatchSetNum)) {
       return this.getChangeEditFiles(changeNum, patchRange).then(
         res => res && res.files
@@ -2086,13 +2090,16 @@ export class GrRestApiInterface
     }) as Promise<ChangeInfo[] | undefined>;
   }
 
-  getReviewedFiles(changeNum: NumericChangeId, patchNum: PatchSetNum) {
+  getReviewedFiles(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<string[] | undefined> {
     return this._getChangeURLAndFetch({
       changeNum,
       endpoint: '/files?reviewed',
       patchNum,
       reportEndpointAsIs: true,
-    });
+    }) as Promise<string[] | undefined>;
   }
 
   saveFileReviewed(
@@ -3215,12 +3222,12 @@ export class GrRestApiInterface
     }) as Promise<CapabilityInfoMap | undefined>;
   }
 
-  getTopMenus(errFn?: ErrorCallback) {
+  getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined> {
     return this._fetchSharedCacheURL({
       url: '/config/server/top-menus',
       errFn,
       reportUrlAsIs: true,
-    });
+    }) as Promise<TopMenuEntryInfo[] | undefined>;
   }
 
   setAssignee(

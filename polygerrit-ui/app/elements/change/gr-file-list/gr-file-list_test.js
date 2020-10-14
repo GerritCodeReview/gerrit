@@ -312,7 +312,7 @@ suite('gr-file-list tests', () => {
 
       for (const bytes in table) {
         if (table.hasOwnProperty(bytes)) {
-          assert.equal(element._formatBytes(bytes), table[bytes]);
+          assert.equal(element._formatBytes(Number(bytes)), table[bytes]);
         }
       }
     });
@@ -1329,15 +1329,23 @@ suite('gr-file-list tests', () => {
 
   suite('size bars', () => {
     test('_computeSizeBarLayout', () => {
-      assert.isUndefined(element._computeSizeBarLayout(null));
-      assert.isUndefined(element._computeSizeBarLayout({}));
-      assert.deepEqual(element._computeSizeBarLayout({base: []}), {
+      const defaultSizeBarLayout = {
         maxInserted: 0,
         maxDeleted: 0,
         maxAdditionWidth: 0,
         maxDeletionWidth: 0,
         deletionOffset: 0,
-      });
+      };
+
+      assert.deepEqual(
+          element._computeSizeBarLayout(null),
+          defaultSizeBarLayout);
+      assert.deepEqual(
+          element._computeSizeBarLayout({}),
+          defaultSizeBarLayout);
+      assert.deepEqual(
+          element._computeSizeBarLayout({base: []}),
+          defaultSizeBarLayout);
 
       const files = [
         {__path: '/COMMIT_MSG', lines_inserted: 10000},

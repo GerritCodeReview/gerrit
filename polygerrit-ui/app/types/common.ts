@@ -43,6 +43,7 @@ import {
   DraftsAction,
   NotifyType,
   EmailFormat,
+  AuthType,
 } from '../constants/constants';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 
@@ -743,10 +744,10 @@ export interface AccountsConfigInfo {
 /**
  * The AuthInfo entity contains information about the authentication
  * configuration of the Gerrit server.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#auth-info
  */
 export interface AuthInfo {
-  type: string;
+  auth_type: AuthType; // docs incorrectly names it 'type'
   use_contributor_agreements: boolean;
   contributor_agreements?: ContributorAgreementInfo;
   editable_account_fields: string;
@@ -1124,17 +1125,17 @@ export interface ThreadSummaryInfo {
 
 /**
  * The TopMenuEntryInfo entity contains information about a top menu entry.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#top-menu-entry-info
  */
 export interface TopMenuEntryInfo {
   name: string;
-  items: string;
+  items: TopMenuItemInfo[];
 }
 
 /**
  * The TopMenuItemInfo entity contains information about a menu item ina top
  * menu entry.
- * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html
+ * https://gerrit-review.googlesource.com/Documentation/rest-api-config.html#top-menu-item-info
  */
 export interface TopMenuItemInfo {
   url: string;

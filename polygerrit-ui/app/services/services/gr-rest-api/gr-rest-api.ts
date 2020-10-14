@@ -96,6 +96,8 @@ import {
   DashboardId,
   HashtagsInput,
   Hashtag,
+  FileNameToFileInfoMap,
+  TopMenuEntryInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -815,4 +817,31 @@ export interface RestApiService {
     changeNum: NumericChangeId,
     topic: string | null
   ): Promise<string>;
+
+  getChangeOrEditFiles(
+    changeNum: NumericChangeId,
+    patchRange: PatchRange
+  ): Promise<FileNameToFileInfoMap | undefined>;
+
+  getReviewedFiles(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<string[] | undefined>;
+
+  saveFileReviewed(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    path: string,
+    reviewed: boolean
+  ): Promise<Response>;
+
+  saveFileReviewed(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum,
+    path: string,
+    reviewed: boolean,
+    errFn: ErrorCallback
+  ): Promise<Response | undefined>;
+
+  getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined>;
 }

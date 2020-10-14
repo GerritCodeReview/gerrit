@@ -140,6 +140,27 @@ def open_git_log(options):
     return subprocess.check_output(git_log, encoding=UTF8)
 
 
+class Component:
+    name = None
+    sentinels = set()
+
+    def __init__(self, name, sentinels):
+        self.name = name
+        self.sentinels = sentinels
+
+
+class Components(Enum):
+    ui = Component(
+        "Polygerrit UI",
+        {"poly", "gwt", "button", "dialog", "icon", "hover", "menu", "ux"},
+    )
+    doc = Component("Documentation", {"document"})
+    jgit = Component("JGit", {"jgit"})
+    elastic = Component("Elasticsearch", {"elastic"})
+    deps = Component("Other Dependency", {"upgrade", "dependenc"})
+    otherwise = Component("Other Core", {})
+
+
 class Change:
     subject = None
     issues = set()
@@ -173,7 +194,7 @@ class Commit:
 
 def parse_log(process, release, gerrit, options):
     commit = Commit()
-    commits = []
+    commits = init_components()
     submodules = dict()
     submodule_change = None
     task = Task.start_commit
@@ -254,16 +275,35 @@ def finish(commit, commits, release, gerrit, options):
         for exclusion in EXCLUDED_SUBJECTS:
             if exclusion in commit.subject:
                 return Commit()
-        for noted_commit in commits:
-            if noted_commit.subject == commit.subject:
-                return Commit()
+        for component in commits:
+            for noted_commit in commits[component]:
+                if noted_commit.subject == commit.subject:
+                    return Commit()
     if newly_released(commit.sha1, release):
+        set_component(commit, commits)
         link_subject(commit, gerrit, options)
         add_backticks(commit)
-        commits.append(commit)
     else:
         print(f"Previously released: commit {commit.sha1}")
     return Commit()
+
+
+def set_component(commit, commits):
+    component_found = False
+    for component in Components:
+        for sentinel in component.value.sentinels:
+            if not component_found and sentinel.lower() in commit.subject.lower():
+                commits[component].append(commit)
+                component_found = True
+    if not component_found:
+        commits[Components.otherwise].append(commit)
+
+
+def init_components():
+    components = dict()
+    for component in Components:
+        components[component] = []
+    return components
 
 
 def link_subject(commit, gerrit, options):
@@ -282,11 +322,12 @@ def add_backticks(in_change):
 
 
 def print_commits(commits, md):
-    md.write("\n## Core Changes\n")
-    for commit in commits:
-        md.write(f"\n* {commit.subject}\n")
-        for issue in sorted(commit.issues):
-            md.write(f"  [Issue {issue}]({ISSUE_URL}{issue})\n")
+    for component in commits:
+        md.write(f"\n## {component.value.name} Changes\n")
+        for commit in commits[component]:
+            md.write(f"\n* {commit.subject}\n")
+            for issue in sorted(commit.issues):
+                md.write(f"  [Issue {issue}]({ISSUE_URL}{issue})\n")
 
 
 def print_submodules(submodules, md):

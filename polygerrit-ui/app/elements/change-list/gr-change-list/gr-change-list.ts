@@ -250,7 +250,7 @@ export class GrChangeList extends ChangeTableMixin(
     const cols = [...visibleColumns];
     const updatedIndex = cols.indexOf('Updated');
     if (section.name === YOUR_TURN.name && updatedIndex !== -1) {
-      cols[updatedIndex] = 'Since';
+      cols[updatedIndex] = 'Waiting';
     }
     if (section.name === CLOSED.name && updatedIndex !== -1) {
       cols[updatedIndex] = 'Submitted';

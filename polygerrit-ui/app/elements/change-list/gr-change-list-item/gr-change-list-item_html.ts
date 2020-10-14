@@ -274,14 +274,14 @@ export const htmlTemplate = html`
     ></gr-date-formatter>
   </td>
   <td
-    class="cell since"
-    hidden$="[[isColumnHidden('Since', visibleChangeTableColumns)]]"
+    class="cell waiting"
+    hidden$="[[isColumnHidden('Waiting', visibleChangeTableColumns)]]"
   >
     <gr-date-formatter
       has-tooltip=""
       force-relative=""
       relative-option-no-ago=""
-      date-str="[[_computeSince(account, change)]]"
+      date-str="[[_computeWaiting(account, change)]]"
     ></gr-date-formatter>
   </td>
   <td

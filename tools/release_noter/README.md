@@ -21,6 +21,7 @@ pipenv run python release_noter.py -h
 pipenv run python release_noter.py v3.2.3..HEAD
 pipenv run python release_noter.py v3.2.3..v3.3.0-rc0
 pipenv run python release_noter.py v3.2.3..v3.3.0-rc0 -c
+pipenv run python release_noter.py v3.2.3..v3.3.0-rc0 -l
 ```
 
 ## Coding

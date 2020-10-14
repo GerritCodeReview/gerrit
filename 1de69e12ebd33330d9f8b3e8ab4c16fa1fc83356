@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "853700b4_1742bb3e",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 163,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-14T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "5b3b52fe_5cfcb12d",
+      "revId": "1de69e12ebd33330d9f8b3e8ab4c16fa1fc83356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f4b0ef64_6d831b03",
@@ -31,6 +49,30 @@
       "writtenOn": "2020-10-14T09:01:37Z",
       "side": 1,
       "message": "Is this equivalent to setting a default value for the parameter in the method signature?\n\n  files: NormalizedFileInfo[] \u003d []",
+      "range": {
+        "startLine": 527,
+        "startChar": 4,
+        "endLine": 529,
+        "endChar": 5
+      },
+      "revId": "1de69e12ebd33330d9f8b3e8ab4c16fa1fc83356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c9fd7eab_52155e02",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 529,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-14T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f4b0ef64_6d831b03",
       "range": {
         "startLine": 527,
         "startChar": 4,
@@ -64,6 +106,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "79bd7c4a_b51c71ad",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1215,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-14T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "af3dd813_d31bbb8a",
+      "range": {
+        "startLine": 1213,
+        "startChar": 24,
+        "endLine": 1215,
+        "endChar": 5
+      },
+      "revId": "1de69e12ebd33330d9f8b3e8ab4c16fa1fc83356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f6d3206b_c3b95e39",
@@ -77,6 +143,30 @@
       "writtenOn": "2020-10-14T09:01:37Z",
       "side": 1,
       "message": "remove",
+      "range": {
+        "startLine": 1776,
+        "startChar": 5,
+        "endLine": 1778,
+        "endChar": 12
+      },
+      "revId": "1de69e12ebd33330d9f8b3e8ab4c16fa1fc83356",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "605adeca_0f4cfc8d",
+        "filename": "polygerrit-ui/app/elements/change/gr-file-list/gr-file-list.ts",
+        "patchSetId": 2
+      },
+      "lineNbr": 1778,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-14T10:29:09Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f6d3206b_c3b95e39",
       "range": {
         "startLine": 1776,
         "startChar": 5,

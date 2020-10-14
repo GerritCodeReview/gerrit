@@ -20,6 +20,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "6f2f65a4_4366aa5b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-14T12:29:19Z",
+      "side": 1,
+      "message": "\u003e some more ideas: \n\u003e \n\u003e Maybe we could use a hashtag to mark noteworthy commits explicitly which should be mentioned in the release notes, this could already be done during code review and would simplify gathering release notes.\n\nIssue 11123, mentioned in this change\u0027s commit message, similarly mentions topics as an alternative, which was discarded (as too much overhead). But please do feel free to add the hashtag suggestion to that tracker\u0027s thread, at will.\n\n\u003e In the Gardener project we use a section for the release note entry in each pull request (not in the commit message, e.g. [1]) which also defines the audience of those release note entries (developer, operator, user). Reviewing the release note entry for a given commit is part of the review of each pull request. Changes which shouldn\u0027t be mentioned in release notes have the release note entry set to NONE [2]. Generation of the release notes is fully automated based on this simple approach. See e.g. [3].\n\u003e \n\u003e If we adopt a similar approach in Gerrit I think the release note text should ideally not be part of the commit message but be stored separately (in a hashtag or in notedb ?) which would allow to e.g. fix typos in release note entries of already submitted changes.\n\u003e \n\u003e [1] https://github.com/gardener/gardener/pull/2945\n\u003e [2] https://github.com/gardener/gardener/pull/2968\n\u003e [3] https://github.com/gardener/gardener/releases/tag/v1.11.0\n\nInteresting. Reminds me of PR templates [4], too. You may also add this suggestion to Issue 11123, yourself using your own words, at will. Thanks @Matthias for this and your review of this change since a few days; it helped.\n\n[4] https://docs.github.com/en/free-pro-team@latest/github/building-a-strong-community/creating-a-pull-request-template-for-your-repository\n\nUntil a more advanced solution is found through Issue 11123\u0027s resolution, I think we still need this release_noter script and its upcoming improvements. This is so that we can generate initial (and often lengthy) release notes skeletons to start from. Otherwise we end up missing items, especially when a release was long due.",
+      "parentUuid": "d3dcd7a9_1bb0c77d",
+      "revId": "b4bf8c60b2ff2dec8482d72d03eda1c3b350a65c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "2efc4430_bc76457f",
         "filename": "tools/release_noter/release_noter.py",
         "patchSetId": 4

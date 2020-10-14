@@ -69,6 +69,30 @@
       },
       "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "c7e7df51_52caf068",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-14T13:27:09Z",
+      "side": 1,
+      "message": "Yes but the initial conversion implies we only support number | undefined and not a string so this is fine I think.",
+      "parentUuid": "d970e5f2_b9261ce9",
+      "range": {
+        "startLine": 429,
+        "startChar": 14,
+        "endLine": 429,
+        "endChar": 73
+      },
+      "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

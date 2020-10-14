@@ -29,6 +29,15 @@ import {
   removeScrollLock,
 } from '@polymer/iron-overlay-behavior/iron-scroll-manager';
 
+interface ShowAlertEventDetail {
+  message: string;
+  dismissOnNavigation?: boolean;
+}
+
+interface ReloadEventDetail {
+  clearPatchset?: boolean;
+}
+
 const HOVER_CLASS = 'hovered';
 const HIDE_CLASS = 'hide';
 
@@ -193,6 +202,19 @@ export const hovercardBehaviorMixin = dedupingMixin(
        * Hovercard elements are created outside of <gr-app>, so if you want to fire
        * events, then you probably want to do that through the target element.
        */
+
+      dispatchEventThroughTarget(eventName: string): void;
+
+      dispatchEventThroughTarget(
+        eventName: 'show-alert',
+        detail: ShowAlertEventDetail
+      ): void;
+
+      dispatchEventThroughTarget(
+        eventName: 'reload',
+        detail: ReloadEventDetail
+      ): void;
+
       dispatchEventThroughTarget(eventName: string, detail?: unknown) {
         if (!detail) detail = {};
         if (this._target)

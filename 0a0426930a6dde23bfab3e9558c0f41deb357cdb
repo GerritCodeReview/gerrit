@@ -16,6 +16,24 @@
       "message": "Nit: For large if blocks I tend to prefer:\n\n  if (!condition) return;\n\nThat avoid long chunks of indentation and deeper indentation levels.",
       "revId": "0a0426930a6dde23bfab3e9558c0f41deb357cdb",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "48b6304e_182c6cdc",
+        "filename": "polygerrit-ui/app/elements/core/gr-search-bar/gr-search-bar.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 261,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-14T10:05:04Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ac8d8bc9_4a974b5c",
+      "revId": "0a0426930a6dde23bfab3e9558c0f41deb357cdb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

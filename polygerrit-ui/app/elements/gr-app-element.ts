@@ -14,147 +14,185 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../styles/shared-styles.js';
-import '../styles/themes/app-theme.js';
-import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme.js';
-import './admin/gr-admin-view/gr-admin-view.js';
-import './documentation/gr-documentation-search/gr-documentation-search.js';
-import './change-list/gr-change-list-view/gr-change-list-view.js';
-import './change-list/gr-dashboard-view/gr-dashboard-view.js';
-import './change/gr-change-view/gr-change-view.js';
-import './core/gr-error-manager/gr-error-manager.js';
-import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog.js';
-import './core/gr-main-header/gr-main-header.js';
-import './core/gr-router/gr-router.js';
-import './core/gr-smart-search/gr-smart-search.js';
-import './diff/gr-diff-view/gr-diff-view.js';
-import './edit/gr-editor-view/gr-editor-view.js';
-import './plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import './plugins/gr-endpoint-param/gr-endpoint-param.js';
-import './plugins/gr-endpoint-slot/gr-endpoint-slot.js';
-import './plugins/gr-external-style/gr-external-style.js';
-import './plugins/gr-plugin-host/gr-plugin-host.js';
-import './settings/gr-cla-view/gr-cla-view.js';
-import './settings/gr-registration-dialog/gr-registration-dialog.js';
-import './settings/gr-settings-view/gr-settings-view.js';
-import './shared/gr-lib-loader/gr-lib-loader.js';
-import './shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-app-element_html.js';
-import {getBaseUrl} from '../utils/url-util.js';
+import '../styles/shared-styles';
+import '../styles/themes/app-theme';
+import {applyTheme as applyDarkTheme} from '../styles/themes/dark-theme';
+import './admin/gr-admin-view/gr-admin-view';
+import './documentation/gr-documentation-search/gr-documentation-search';
+import './change-list/gr-change-list-view/gr-change-list-view';
+import './change-list/gr-dashboard-view/gr-dashboard-view';
+import './change/gr-change-view/gr-change-view';
+import './core/gr-error-manager/gr-error-manager';
+import './core/gr-keyboard-shortcuts-dialog/gr-keyboard-shortcuts-dialog';
+import './core/gr-main-header/gr-main-header';
+import './core/gr-router/gr-router';
+import './core/gr-smart-search/gr-smart-search';
+import './diff/gr-diff-view/gr-diff-view';
+import './edit/gr-editor-view/gr-editor-view';
+import './plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import './plugins/gr-endpoint-param/gr-endpoint-param';
+import './plugins/gr-endpoint-slot/gr-endpoint-slot';
+import './plugins/gr-external-style/gr-external-style';
+import './plugins/gr-plugin-host/gr-plugin-host';
+import './settings/gr-cla-view/gr-cla-view';
+import './settings/gr-registration-dialog/gr-registration-dialog';
+import './settings/gr-settings-view/gr-settings-view';
+import './shared/gr-lib-loader/gr-lib-loader';
+import './shared/gr-rest-api-interface/gr-rest-api-interface';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-app-element_html';
+import {getBaseUrl} from '../utils/url-util';
 import {
   KeyboardShortcutMixin,
   Shortcut,
   SPECIAL_SHORTCUT,
-} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin.js';
-import {GerritNav} from './core/gr-navigation/gr-navigation.js';
-import {appContext} from '../services/app-context.js';
+} from '../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {GerritNav, GerritView} from './core/gr-navigation/gr-navigation';
+import {appContext} from '../services/app-context';
 import {flush} from '@polymer/polymer/lib/utils/flush';
+import {customElement, observe, property} from '@polymer/decorators';
+import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
+import {GrRouter} from './core/gr-router/gr-router';
+import {
+  AccountDetailInfo,
+  ElementPropertyDeepChange,
+  ServerInfo,
+} from '../types/common';
+import {GrErrorManager} from './core/gr-error-manager/gr-error-manager';
+import {GrOverlay} from './shared/gr-overlay/gr-overlay';
+import {GrRegistrationDialog} from './settings/gr-registration-dialog/gr-registration-dialog';
+import {
+  AppElementJustRegisteredParams,
+  AppElementParams,
+  isAppElementJustRegisteredParams,
+} from './gr-app-types';
+import {GrMainHeader} from './core/gr-main-header/gr-main-header';
+import {GrSettingsView} from './settings/gr-settings-view/gr-settings-view';
+import {
+  CustomKeyboardEvent,
+  LocationChangeEvent,
+  PageErrorEventDetail,
+  RpcLogEvent,
+  ShortcutTriggeredEvent,
+  TitleChangeEventDetail,
+} from '../types/events';
+import {ViewState} from '../types/types';
 
-/**
- * @extends PolymerElement
- */
-class GrAppElement extends KeyboardShortcutMixin(
-    GestureEventListeners(
-        LegacyElementMixin(PolymerElement))) {
-  static get template() { return htmlTemplate; }
+interface ErrorInfo {
+  text: string;
+  emoji?: string;
+  moreInfo?: string;
+}
 
-  static get is() { return 'gr-app-element'; }
+export interface GrAppElement {
+  $: {
+    restAPI: RestApiService & Element;
+    router: GrRouter;
+    errorManager: GrErrorManager;
+    errorView: HTMLDivElement;
+    mainHeader: GrMainHeader;
+  };
+}
+
+// TODO(TS): implement AppElement interface from gr-app-types.ts
+@customElement('gr-app-element')
+export class GrAppElement extends KeyboardShortcutMixin(
+  GestureEventListeners(LegacyElementMixin(PolymerElement))
+) {
+  static get template() {
+    return htmlTemplate;
+  }
+
   /**
    * Fired when the URL location changes.
    *
    * @event location-change
    */
 
-  static get properties() {
-    return {
-    /**
-     * @type {{ query: string, view: string, screen: string }}
-     */
-      params: Object,
-      keyEventTarget: {
-        type: Object,
-        value() { return document.body; },
-      },
+  @property({type: Object})
+  params?: AppElementParams;
 
-      _account: {
-        type: Object,
-        observer: '_accountChanged',
-      },
+  @property({type: Object})
+  keyEventTarget = document.body;
 
-      /**
-       * The last time the g key was pressed in milliseconds (or a keydown event
-       * was handled if the key is held down).
-       *
-       * @type {number|null}
-       */
-      _lastGKeyPressTimestamp: {
-        type: Number,
-        value: null,
-      },
+  @property({type: Object, observer: '_accountChanged'})
+  _account?: AccountDetailInfo;
 
-      /**
-       * @type {{ plugin: Object }}
-       */
-      _serverConfig: Object,
-      _version: String,
-      _showChangeListView: Boolean,
-      _showDashboardView: Boolean,
-      _showChangeView: Boolean,
-      _showDiffView: Boolean,
-      _showSettingsView: Boolean,
-      _showAdminView: Boolean,
-      _showCLAView: Boolean,
-      _showEditorView: Boolean,
-      _showPluginScreen: Boolean,
-      _showDocumentationSearch: Boolean,
-      /** @type {?} */
-      _viewState: Object,
-      /** @type {?} */
-      _lastError: Object,
-      _lastSearchPage: String,
-      _path: String,
-      _pluginScreenName: {
-        type: String,
-        computed: '_computePluginScreenName(params)',
-      },
-      _settingsUrl: String,
-      _feedbackUrl: String,
-      // Used to allow searching on mobile
-      mobileSearch: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: Number})
+  _lastGKeyPressTimestamp: number | null = null;
 
-      /**
-       * Other elements in app must open this URL when
-       * user login is required.
-       */
-      _loginUrl: {
-        type: String,
-        value: '/login',
-      },
+  @property({type: Object})
+  _serverConfig?: ServerInfo;
 
-      loadRegistrationDialog: {
-        type: Boolean,
-        value: false,
-      },
+  @property({type: String})
+  _version?: string;
 
-      loadKeyboardShortcutsDialog: {
-        type: Boolean,
-        value: false,
-      },
-    };
-  }
+  @property({type: Boolean})
+  _showChangeListView?: boolean;
 
-  static get observers() {
-    return [
-      '_viewChanged(params.view)',
-      '_paramsChanged(params.*)',
-    ];
-  }
+  @property({type: Boolean})
+  _showDashboardView?: boolean;
+
+  @property({type: Boolean})
+  _showChangeView?: boolean;
+
+  @property({type: Boolean})
+  _showDiffView?: boolean;
+
+  @property({type: Boolean})
+  _showSettingsView?: boolean;
+
+  @property({type: Boolean})
+  _showAdminView?: boolean;
+
+  @property({type: Boolean})
+  _showCLAView?: boolean;
+
+  @property({type: Boolean})
+  _showEditorView?: boolean;
+
+  @property({type: Boolean})
+  _showPluginScreen?: boolean;
+
+  @property({type: Boolean})
+  _showDocumentationSearch?: boolean;
+
+  @property({type: Object})
+  _viewState?: ViewState;
+
+  @property({type: Object})
+  _lastError?: ErrorInfo;
+
+  @property({type: String})
+  _lastSearchPage?: string;
+
+  @property({type: String})
+  _path?: string;
+
+  @property({type: String, computed: '_computePluginScreenName(params)'})
+  _pluginScreenName?: string;
+
+  @property({type: String})
+  _settingsUrl?: string;
+
+  @property({type: String})
+  _feedbackUrl?: string;
+
+  @property({type: Boolean})
+  mobileSearch = false;
+
+  @property({type: String})
+  _loginUrl = '/login';
+
+  @property({type: Boolean})
+  loadRegistrationDialog = false;
+
+  @property({type: Boolean})
+  loadKeyboardShortcutsDialog = false;
+
+  private reporting = appContext.reportingService;
 
   keyboardShortcuts() {
     return {
@@ -167,29 +205,23 @@ class GrAppElement extends KeyboardShortcutMixin(
     };
   }
 
-  constructor() {
-    super();
-    this.reporting = appContext.reportingService;
-  }
-
   /** @override */
   created() {
     super.created();
     this._bindKeyboardShortcuts();
-    this.addEventListener('page-error',
-        e => this._handlePageError(e));
-    this.addEventListener('title-change',
-        e => this._handleTitleChange(e));
-    this.addEventListener('location-change',
-        e => this._handleLocationChange(e));
-    this.addEventListener('rpc-log',
-        e => this._handleRpcLog(e));
-    this.addEventListener('shortcut-triggered',
-        e => this._handleShortcutTriggered(e));
+    this.addEventListener('page-error', e => this._handlePageError(e));
+    this.addEventListener('title-change', e => this._handleTitleChange(e));
+    this.addEventListener('location-change', e =>
+      this._handleLocationChange(e)
+    );
+    this.addEventListener('rpc-log', e => this._handleRpcLog(e));
+    this.addEventListener('shortcut-triggered', e =>
+      this._handleShortcutTriggered(e)
+    );
     // Ideally individual views should handle this event and respond with a soft
     // reload. This is a catch-all for all views that cannot or have not
     // implemented that.
-    this.addEventListener('reload', e => window.location.reload());
+    this.addEventListener('reload', () => window.location.reload());
   }
 
   /** @override */
@@ -247,150 +279,145 @@ class GrAppElement extends KeyboardShortcutMixin(
   }
 
   _bindKeyboardShortcuts() {
-    this.bindShortcut(Shortcut.SEND_REPLY,
-        SPECIAL_SHORTCUT.DOC_ONLY, 'ctrl+enter', 'meta+enter');
-    this.bindShortcut(Shortcut.EMOJI_DROPDOWN,
-        SPECIAL_SHORTCUT.DOC_ONLY, ':');
+    this.bindShortcut(
+      Shortcut.SEND_REPLY,
+      SPECIAL_SHORTCUT.DOC_ONLY,
+      'ctrl+enter',
+      'meta+enter'
+    );
+    this.bindShortcut(Shortcut.EMOJI_DROPDOWN, SPECIAL_SHORTCUT.DOC_ONLY, ':');
 
+    this.bindShortcut(Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
     this.bindShortcut(
-        Shortcut.OPEN_SHORTCUT_HELP_DIALOG, '?');
+      Shortcut.GO_TO_USER_DASHBOARD,
+      SPECIAL_SHORTCUT.GO_KEY,
+      'i'
+    );
     this.bindShortcut(
-        Shortcut.GO_TO_USER_DASHBOARD, SPECIAL_SHORTCUT.GO_KEY, 'i');
+      Shortcut.GO_TO_OPENED_CHANGES,
+      SPECIAL_SHORTCUT.GO_KEY,
+      'o'
+    );
     this.bindShortcut(
-        Shortcut.GO_TO_OPENED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'o');
+      Shortcut.GO_TO_MERGED_CHANGES,
+      SPECIAL_SHORTCUT.GO_KEY,
+      'm'
+    );
     this.bindShortcut(
-        Shortcut.GO_TO_MERGED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'm');
+      Shortcut.GO_TO_ABANDONED_CHANGES,
+      SPECIAL_SHORTCUT.GO_KEY,
+      'a'
+    );
     this.bindShortcut(
-        Shortcut.GO_TO_ABANDONED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'a');
-    this.bindShortcut(
-        Shortcut.GO_TO_WATCHED_CHANGES, SPECIAL_SHORTCUT.GO_KEY, 'w');
+      Shortcut.GO_TO_WATCHED_CHANGES,
+      SPECIAL_SHORTCUT.GO_KEY,
+      'w'
+    );
 
-    this.bindShortcut(
-        Shortcut.CURSOR_NEXT_CHANGE, 'j');
-    this.bindShortcut(
-        Shortcut.CURSOR_PREV_CHANGE, 'k');
-    this.bindShortcut(
-        Shortcut.OPEN_CHANGE, 'o');
-    this.bindShortcut(
-        Shortcut.NEXT_PAGE, 'n', ']');
-    this.bindShortcut(
-        Shortcut.PREV_PAGE, 'p', '[');
-    this.bindShortcut(
-        Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
-    this.bindShortcut(
-        Shortcut.TOGGLE_CHANGE_STAR, 's:keydown');
-    this.bindShortcut(
-        Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
-    this.bindShortcut(
-        Shortcut.EDIT_TOPIC, 't');
+    this.bindShortcut(Shortcut.CURSOR_NEXT_CHANGE, 'j');
+    this.bindShortcut(Shortcut.CURSOR_PREV_CHANGE, 'k');
+    this.bindShortcut(Shortcut.OPEN_CHANGE, 'o');
+    this.bindShortcut(Shortcut.NEXT_PAGE, 'n', ']');
+    this.bindShortcut(Shortcut.PREV_PAGE, 'p', '[');
+    this.bindShortcut(Shortcut.TOGGLE_CHANGE_REVIEWED, 'r:keyup');
+    this.bindShortcut(Shortcut.TOGGLE_CHANGE_STAR, 's:keydown');
+    this.bindShortcut(Shortcut.REFRESH_CHANGE_LIST, 'shift+r:keyup');
+    this.bindShortcut(Shortcut.EDIT_TOPIC, 't');
 
+    this.bindShortcut(Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
+    this.bindShortcut(Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');
+    this.bindShortcut(Shortcut.EXPAND_ALL_MESSAGES, 'x');
+    this.bindShortcut(Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
+    this.bindShortcut(Shortcut.REFRESH_CHANGE, 'shift+r:keyup');
+    this.bindShortcut(Shortcut.UP_TO_DASHBOARD, 'u');
+    this.bindShortcut(Shortcut.UP_TO_CHANGE, 'u');
+    this.bindShortcut(Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
     this.bindShortcut(
-        Shortcut.OPEN_REPLY_DIALOG, 'a:keyup');
-    this.bindShortcut(
-        Shortcut.OPEN_DOWNLOAD_DIALOG, 'd:keyup');
-    this.bindShortcut(
-        Shortcut.EXPAND_ALL_MESSAGES, 'x');
-    this.bindShortcut(
-        Shortcut.COLLAPSE_ALL_MESSAGES, 'z');
-    this.bindShortcut(
-        Shortcut.REFRESH_CHANGE, 'shift+r:keyup');
-    this.bindShortcut(
-        Shortcut.UP_TO_DASHBOARD, 'u');
-    this.bindShortcut(
-        Shortcut.UP_TO_CHANGE, 'u');
-    this.bindShortcut(
-        Shortcut.TOGGLE_DIFF_MODE, 'm:keyup');
-    this.bindShortcut(
-        Shortcut.DIFF_AGAINST_BASE, SPECIAL_SHORTCUT.V_KEY, 'down', 's');
+      Shortcut.DIFF_AGAINST_BASE,
+      SPECIAL_SHORTCUT.V_KEY,
+      'down',
+      's'
+    );
     // this keyboard shortcut is used in toast _displayDiffAgainstLatestToast
     // in gr-diff-view. Any updates here should be reflected there
     this.bindShortcut(
-        Shortcut.DIFF_AGAINST_LATEST, SPECIAL_SHORTCUT.V_KEY, 'up', 'w');
+      Shortcut.DIFF_AGAINST_LATEST,
+      SPECIAL_SHORTCUT.V_KEY,
+      'up',
+      'w'
+    );
     // this keyboard shortcut is used in toast _displayDiffBaseAgainstLeftToast
     // in gr-diff-view. Any updates here should be reflected there
     this.bindShortcut(
-        Shortcut.DIFF_BASE_AGAINST_LEFT,
-        SPECIAL_SHORTCUT.V_KEY, 'left', 'a');
+      Shortcut.DIFF_BASE_AGAINST_LEFT,
+      SPECIAL_SHORTCUT.V_KEY,
+      'left',
+      'a'
+    );
     this.bindShortcut(
-        Shortcut.DIFF_RIGHT_AGAINST_LATEST,
-        SPECIAL_SHORTCUT.V_KEY, 'right', 'd');
+      Shortcut.DIFF_RIGHT_AGAINST_LATEST,
+      SPECIAL_SHORTCUT.V_KEY,
+      'right',
+      'd'
+    );
     this.bindShortcut(
-        Shortcut.DIFF_BASE_AGAINST_LATEST, SPECIAL_SHORTCUT.V_KEY, 'b');
+      Shortcut.DIFF_BASE_AGAINST_LATEST,
+      SPECIAL_SHORTCUT.V_KEY,
+      'b'
+    );
 
-    this.bindShortcut(
-        Shortcut.NEXT_LINE, 'j', 'down');
-    this.bindShortcut(
-        Shortcut.PREV_LINE, 'k', 'up');
+    this.bindShortcut(Shortcut.NEXT_LINE, 'j', 'down');
+    this.bindShortcut(Shortcut.PREV_LINE, 'k', 'up');
     if (this._isCursorManagerSupportMoveToVisibleLine()) {
-      this.bindShortcut(
-          Shortcut.VISIBLE_LINE, '.');
+      this.bindShortcut(Shortcut.VISIBLE_LINE, '.');
     }
+    this.bindShortcut(Shortcut.NEXT_CHUNK, 'n');
+    this.bindShortcut(Shortcut.PREV_CHUNK, 'p');
+    this.bindShortcut(Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
+    this.bindShortcut(Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
+    this.bindShortcut(Shortcut.PREV_COMMENT_THREAD, 'shift+p');
     this.bindShortcut(
-        Shortcut.NEXT_CHUNK, 'n');
+      Shortcut.EXPAND_ALL_COMMENT_THREADS,
+      SPECIAL_SHORTCUT.DOC_ONLY,
+      'e'
+    );
     this.bindShortcut(
-        Shortcut.PREV_CHUNK, 'p');
+      Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
+      SPECIAL_SHORTCUT.DOC_ONLY,
+      'shift+e'
+    );
+    this.bindShortcut(Shortcut.LEFT_PANE, 'shift+left');
+    this.bindShortcut(Shortcut.RIGHT_PANE, 'shift+right');
+    this.bindShortcut(Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
+    this.bindShortcut(Shortcut.NEW_COMMENT, 'c');
     this.bindShortcut(
-        Shortcut.EXPAND_ALL_DIFF_CONTEXT, 'shift+x');
-    this.bindShortcut(
-        Shortcut.NEXT_COMMENT_THREAD, 'shift+n');
-    this.bindShortcut(
-        Shortcut.PREV_COMMENT_THREAD, 'shift+p');
-    this.bindShortcut(
-        Shortcut.EXPAND_ALL_COMMENT_THREADS,
-        SPECIAL_SHORTCUT.DOC_ONLY, 'e');
-    this.bindShortcut(
-        Shortcut.COLLAPSE_ALL_COMMENT_THREADS,
-        SPECIAL_SHORTCUT.DOC_ONLY, 'shift+e');
-    this.bindShortcut(
-        Shortcut.LEFT_PANE, 'shift+left');
-    this.bindShortcut(
-        Shortcut.RIGHT_PANE, 'shift+right');
-    this.bindShortcut(
-        Shortcut.TOGGLE_LEFT_PANE, 'shift+a');
-    this.bindShortcut(
-        Shortcut.NEW_COMMENT, 'c');
-    this.bindShortcut(
-        Shortcut.SAVE_COMMENT,
-        'ctrl+enter', 'meta+enter', 'ctrl+s', 'meta+s');
-    this.bindShortcut(
-        Shortcut.OPEN_DIFF_PREFS, ',');
-    this.bindShortcut(
-        Shortcut.TOGGLE_DIFF_REVIEWED, 'r:keyup');
+      Shortcut.SAVE_COMMENT,
+      'ctrl+enter',
+      'meta+enter',
+      'ctrl+s',
+      'meta+s'
+    );
+    this.bindShortcut(Shortcut.OPEN_DIFF_PREFS, ',');
+    this.bindShortcut(Shortcut.TOGGLE_DIFF_REVIEWED, 'r:keyup');
 
-    this.bindShortcut(
-        Shortcut.NEXT_FILE, ']');
-    this.bindShortcut(
-        Shortcut.PREV_FILE, '[');
-    this.bindShortcut(
-        Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
-    this.bindShortcut(
-        Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
-    this.bindShortcut(
-        Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
-    this.bindShortcut(
-        Shortcut.CURSOR_PREV_FILE, 'k', 'up');
-    this.bindShortcut(
-        Shortcut.OPEN_FILE, 'o', 'enter');
-    this.bindShortcut(
-        Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
-    this.bindShortcut(
-        Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
-    this.bindShortcut(
-        Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
-    this.bindShortcut(
-        Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
-    this.bindShortcut(
-        Shortcut.TOGGLE_BLAME, 'b:keyup');
-    this.bindShortcut(
-        Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
+    this.bindShortcut(Shortcut.NEXT_FILE, ']');
+    this.bindShortcut(Shortcut.PREV_FILE, '[');
+    this.bindShortcut(Shortcut.NEXT_FILE_WITH_COMMENTS, 'shift+j');
+    this.bindShortcut(Shortcut.PREV_FILE_WITH_COMMENTS, 'shift+k');
+    this.bindShortcut(Shortcut.CURSOR_NEXT_FILE, 'j', 'down');
+    this.bindShortcut(Shortcut.CURSOR_PREV_FILE, 'k', 'up');
+    this.bindShortcut(Shortcut.OPEN_FILE, 'o', 'enter');
+    this.bindShortcut(Shortcut.TOGGLE_FILE_REVIEWED, 'r:keyup');
+    this.bindShortcut(Shortcut.NEXT_UNREVIEWED_FILE, 'shift+m');
+    this.bindShortcut(Shortcut.TOGGLE_ALL_INLINE_DIFFS, 'shift+i:keyup');
+    this.bindShortcut(Shortcut.TOGGLE_INLINE_DIFF, 'i:keyup');
+    this.bindShortcut(Shortcut.TOGGLE_BLAME, 'b:keyup');
+    this.bindShortcut(Shortcut.TOGGLE_HIDE_ALL_COMMENT_THREADS, 'h');
 
-    this.bindShortcut(
-        Shortcut.OPEN_FIRST_FILE, ']');
-    this.bindShortcut(
-        Shortcut.OPEN_LAST_FILE, '[');
+    this.bindShortcut(Shortcut.OPEN_FIRST_FILE, ']');
+    this.bindShortcut(Shortcut.OPEN_LAST_FILE, '[');
 
-    this.bindShortcut(
-        Shortcut.SEARCH, '/');
+    this.bindShortcut(Shortcut.SEARCH, '/');
   }
 
   _isCursorManagerSupportMoveToVisibleLine() {
@@ -401,30 +428,35 @@ class GrAppElement extends KeyboardShortcutMixin(
     return 'IntersectionObserver' in window;
   }
 
-  _accountChanged(account) {
-    if (!account) { return; }
+  _accountChanged(account?: AccountDetailInfo) {
+    if (!account) return;
 
     // Preferences are cached when a user is logged in; warm them.
     this.$.restAPI.getPreferences();
     this.$.restAPI.getDiffPreferences();
     this.$.restAPI.getEditPreferences();
     this.$.errorManager.knownAccountId =
-        this._account && this._account._account_id || null;
+      (this._account && this._account._account_id) || null;
   }
 
-  _viewChanged(view) {
+  @observe('params.view')
+  _viewChanged(view?: GerritView) {
     this.$.errorView.classList.remove('show');
-    this.set('_showChangeListView', view === GerritNav.View.SEARCH);
-    this.set('_showDashboardView', view === GerritNav.View.DASHBOARD);
-    this.set('_showChangeView', view === GerritNav.View.CHANGE);
-    this.set('_showDiffView', view === GerritNav.View.DIFF);
-    this.set('_showSettingsView', view === GerritNav.View.SETTINGS);
+    this.set('_showChangeListView', view === GerritView.SEARCH);
+    this.set('_showDashboardView', view === GerritView.DASHBOARD);
+    this.set('_showChangeView', view === GerritView.CHANGE);
+    this.set('_showDiffView', view === GerritView.DIFF);
+    this.set('_showSettingsView', view === GerritView.SETTINGS);
     // _showAdminView must be in sync with the gr-admin-view AdminViewParams type
-    this.set('_showAdminView', view === GerritNav.View.ADMIN ||
-        view === GerritNav.View.GROUP || view === GerritNav.View.REPO);
-    this.set('_showCLAView', view === GerritNav.View.AGREEMENTS);
-    this.set('_showEditorView', view === GerritNav.View.EDIT);
-    const isPluginScreen = view === GerritNav.View.PLUGIN_SCREEN;
+    this.set(
+      '_showAdminView',
+      view === GerritView.ADMIN ||
+        view === GerritView.GROUP ||
+        view === GerritView.REPO
+    );
+    this.set('_showCLAView', view === GerritView.AGREEMENTS);
+    this.set('_showEditorView', view === GerritView.EDIT);
+    const isPluginScreen = view === GerritView.PLUGIN_SCREEN;
     this.set('_showPluginScreen', false);
     // Navigation within plugin screens does not restamp gr-endpoint-decorator
     // because _showPluginScreen value does not change. To force restamp,
@@ -432,15 +464,23 @@ class GrAppElement extends KeyboardShortcutMixin(
     if (isPluginScreen) {
       this.async(() => this.set('_showPluginScreen', true), 1);
     }
-    this.set('_showDocumentationSearch',
-        view === GerritNav.View.DOCUMENTATION_SEARCH);
-    if (this.params.justRegistered) {
+    this.set(
+      '_showDocumentationSearch',
+      view === GerritView.DOCUMENTATION_SEARCH
+    );
+    if (
+      this.params &&
+      isAppElementJustRegisteredParams(this.params) &&
+      this.params.justRegistered
+    ) {
       this.loadRegistrationDialog = true;
       flush();
-      const registrationOverlay =
-        this.shadowRoot.querySelector('#registrationOverlay');
-      const registrationDialog =
-        this.shadowRoot.querySelector('#registrationDialog');
+      const registrationOverlay = this.shadowRoot!.querySelector(
+        '#registrationOverlay'
+      ) as GrOverlay;
+      const registrationDialog = this.shadowRoot!.querySelector(
+        '#registrationDialog'
+      ) as GrRegistrationDialog;
       registrationOverlay.open();
       registrationDialog.loadData().then(() => {
         registrationOverlay.refit();
@@ -448,10 +488,10 @@ class GrAppElement extends KeyboardShortcutMixin(
     }
   }
 
-  _handleShortcutTriggered(event) {
+  _handleShortcutTriggered(event: ShortcutTriggeredEvent) {
     const {event: e, goKey, vKey} = event.detail;
     // eg: {key: "k:keydown", ..., from: "gr-diff-view"}
-    let key = `${e.key}:${e.type}`;
+    let key = `${((e as unknown) as KeyboardEvent).key}:${e.type}`;
     if (goKey) key = 'g+' + key;
     if (vKey) key = 'v+' + key;
     if (e.shiftKey) key = 'shift+' + key;
@@ -460,12 +500,13 @@ class GrAppElement extends KeyboardShortcutMixin(
     if (e.altKey) key = 'alt+' + key;
     this.reporting.reportInteraction('shortcut-triggered', {
       key,
-      from: event.path && event.path[0]
-        && event.path[0].nodeName || 'unknown',
+      from:
+        (event.path && event.path[0] && (event.path[0] as Element).nodeName) ??
+        'unknown',
     });
   }
 
-  _handlePageError(e) {
+  _handlePageError(e: CustomEvent<PageErrorEventDetail>) {
     const props = [
       '_showChangeListView',
       '_showDashboardView',
@@ -480,7 +521,9 @@ class GrAppElement extends KeyboardShortcutMixin(
 
     this.$.errorView.classList.add('show');
     const response = e.detail.response;
-    const err = {text: [response.status, response.statusText].join(' ')};
+    const err: ErrorInfo = {
+      text: [response.status, response.statusText].join(' '),
+    };
     if (response.status === 404) {
       err.emoji = '¯\\_(ツ)_/¯';
       this._lastError = err;
@@ -493,7 +536,7 @@ class GrAppElement extends KeyboardShortcutMixin(
     }
   }
 
-  _handleLocationChange(e) {
+  _handleLocationChange(e: LocationChangeEvent) {
     this._updateLoginUrl();
 
     const hash = e.detail.hash.substring(1);
@@ -509,27 +552,38 @@ class GrAppElement extends KeyboardShortcutMixin(
     if (baseUrl) {
       // Strip the canonical path from the path since needing canonical in
       // the path is unneeded and breaks the url.
-      this._loginUrl = baseUrl + '/login/' + encodeURIComponent(
-          '/' + window.location.pathname.substring(baseUrl.length) +
-          window.location.search +
-          window.location.hash);
+      this._loginUrl =
+        baseUrl +
+        '/login/' +
+        encodeURIComponent(
+          '/' +
+            window.location.pathname.substring(baseUrl.length) +
+            window.location.search +
+            window.location.hash
+        );
     } else {
-      this._loginUrl = '/login/' + encodeURIComponent(
+      this._loginUrl =
+        '/login/' +
+        encodeURIComponent(
           window.location.pathname +
-          window.location.search +
-          window.location.hash);
+            window.location.search +
+            window.location.hash
+        );
     }
   }
 
-  _paramsChanged(paramsRecord) {
+  @observe('params.*')
+  _paramsChanged(
+    paramsRecord: ElementPropertyDeepChange<GrAppElement, 'params'>
+  ) {
     const params = paramsRecord.base;
-    const viewsToCheck = [GerritNav.View.SEARCH, GerritNav.View.DASHBOARD];
-    if (viewsToCheck.includes(params.view)) {
+    const viewsToCheck = [GerritView.SEARCH, GerritView.DASHBOARD];
+    if (params?.view && viewsToCheck.includes(params.view)) {
       this.set('_lastSearchPage', location.pathname);
     }
   }
 
-  _handleTitleChange(e) {
+  _handleTitleChange(e: CustomEvent<TitleChangeEventDetail>) {
     if (e.detail.title) {
       document.title = e.detail.title + ' · Gerrit Code Review';
     } else {
@@ -540,39 +594,48 @@ class GrAppElement extends KeyboardShortcutMixin(
   handleShowKeyboardShortcuts() {
     this.loadKeyboardShortcutsDialog = true;
     flush();
-    this.shadowRoot.querySelector('#keyboardShortcuts').open();
+    (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).open();
   }
 
-  _showKeyboardShortcuts(e) {
+  _showKeyboardShortcuts(e: CustomKeyboardEvent) {
     // same shortcut should close the dialog if pressed again
     // when dialog is open
     this.loadKeyboardShortcutsDialog = true;
     flush();
-    const keyboardShortcuts =
-      this.shadowRoot.querySelector('#keyboardShortcuts');
+    const keyboardShortcuts = this.shadowRoot!.querySelector(
+      '#keyboardShortcuts'
+    ) as GrOverlay;
     if (!keyboardShortcuts) return;
     if (keyboardShortcuts.opened) {
       keyboardShortcuts.close();
       return;
     }
-    if (this.shouldSuppressKeyboardShortcut(e)) { return; }
+    if (this.shouldSuppressKeyboardShortcut(e)) {
+      return;
+    }
     keyboardShortcuts.open();
   }
 
   _handleKeyboardShortcutDialogClose() {
-    this.shadowRoot.querySelector('#keyboardShortcuts').close();
+    (this.shadowRoot!.querySelector('#keyboardShortcuts') as GrOverlay).close();
   }
 
-  _handleAccountDetailUpdate(e) {
+  _handleAccountDetailUpdate() {
     this.$.mainHeader.reload();
-    if (this.params.view === GerritNav.View.SETTINGS) {
-      this.shadowRoot.querySelector('gr-settings-view').reloadAccountDetail();
+    if (this.params?.view === GerritView.SETTINGS) {
+      (this.shadowRoot!.querySelector(
+        'gr-settings-view'
+      ) as GrSettingsView).reloadAccountDetail();
     }
   }
 
-  _handleRegistrationDialogClose(e) {
-    this.params.justRegistered = false;
-    this.shadowRoot.querySelector('#registrationOverlay').close();
+  _handleRegistrationDialogClose() {
+    // The registration dialog is visible only if this.params is
+    // instanceof AppElementJustRegisteredParams
+    (this.params as AppElementJustRegisteredParams).justRegistered = false;
+    (this.shadowRoot!.querySelector(
+      '#registrationOverlay'
+    ) as GrOverlay).close();
   }
 
   _goToOpenedChanges() {
@@ -596,9 +659,10 @@ class GrAppElement extends KeyboardShortcutMixin(
     GerritNav.navigateToSearchQuery('is:watched is:open');
   }
 
-  _computePluginScreenName({plugin, screen}) {
-    if (!plugin || !screen) return '';
-    return `${plugin}-screen-${screen}`;
+  _computePluginScreenName(params: AppElementParams) {
+    if (params.view !== GerritView.PLUGIN_SCREEN) return '';
+    if (!params.plugin || !params.screen) return '';
+    return `${params.plugin}-screen-${params.screen}`;
   }
 
   _logWelcome() {
@@ -619,21 +683,24 @@ class GrAppElement extends KeyboardShortcutMixin(
    * Note: the REST API interface cannot use gr-reporting directly because
    * that would create a cyclic dependency.
    */
-  _handleRpcLog(e) {
-    this.reporting.reportRpcTiming(e.detail.anonymizedUrl,
-        e.detail.elapsed);
+  _handleRpcLog(e: RpcLogEvent) {
+    this.reporting.reportRpcTiming(e.detail.anonymizedUrl, e.detail.elapsed);
   }
 
-  _mobileSearchToggle(e) {
+  _mobileSearchToggle() {
     this.mobileSearch = !this.mobileSearch;
   }
 
   getThemeEndpoint() {
     // For now, we only have dark mode and light mode
-    return window.localStorage.getItem('dark-theme') ?
-      'app-theme-dark' :
-      'app-theme-light';
+    return window.localStorage.getItem('dark-theme')
+      ? 'app-theme-dark'
+      : 'app-theme-light';
   }
 }
 
-customElements.define(GrAppElement.is, GrAppElement);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-app-element': GrAppElement;
+  }
+}

@@ -32,17 +32,15 @@ import {AppElementParams} from '../../gr-app-types';
 import {
   AccountDetailInfo,
   AccountId,
-  ChangeId,
   ChangeInfo,
   EmailAddress,
-  PatchRange,
   PreferencesInput,
 } from '../../../types/common';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
 import {hasOwnProperty} from '../../../utils/common-util';
-import {DiffViewMode} from '../../../constants/constants';
+import {ChangeListViewState} from '../../../types/types';
 
 const LookupQueryPatterns = {
   CHANGE_ID: /^\s*i?[0-9a-f]{7,40}\s*$/i,
@@ -55,19 +53,6 @@ const USER_QUERY_PATTERN = /^owner:\s?("[^"]+"|[^ ]+)$/;
 const REPO_QUERY_PATTERN = /^project:\s?("[^"]+"|[^ ]+)(\sstatus\s?:(open|"open"))?$/;
 
 const LIMIT_OPERATOR_PATTERN = /\blimit:(\d+)/i;
-
-export interface ChangeListViewState {
-  changeNum?: ChangeId;
-  patchRange?: PatchRange;
-  selectedFileIndex?: number;
-  showReplyDialog?: boolean;
-  showDownloadDialog?: boolean;
-  diffMode?: DiffViewMode;
-  numFilesShown?: number;
-  scrollTop?: number;
-  query?: string;
-  offset?: number;
-}
 
 export interface GrChangeListView {
   $: {

@@ -1,0 +1,6 @@
+[flake8]
+max-line-length = 88
+extend-ignore =
+    # https://github.com/PyCQA/pycodestyle/issues/373
+    E203,
+# based on Configuration in https://pypi.org/project/flake8-black

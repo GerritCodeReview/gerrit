@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7ba26ac6_b27d0fb8",
+        "filename": "tools/release_noter/.flake8",
+        "patchSetId": 1
+      },
+      "lineNbr": 2,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-14T16:01:48Z",
+      "side": 1,
+      "message": "how do you end up with this odd max line length ?\nwhat\u0027s the line length we use for Java code ?",
+      "revId": "c87918bbb6ccb1ba9e1010f2745fc7404181a7cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3596f39a_1b066b27",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 1
+      },
+      "lineNbr": 5,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-14T16:01:48Z",
+      "side": 1,
+      "message": "this seems unrelated to introducing flake8",
+      "revId": "c87918bbb6ccb1ba9e1010f2745fc7404181a7cb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

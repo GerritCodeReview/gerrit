@@ -36,7 +36,20 @@ declare global {
     ): void;
     ASSETS_PATH?: string;
     // TODO(TS): define gerrit type
-    Gerrit?: any;
+    Gerrit?: {
+      Nav?: unknown;
+      getRootElement?: unknown;
+      Auth?: unknown;
+      _pluginLoader?: unknown;
+      _endpoints?: unknown;
+      slotToContent?: unknown;
+      rangesEqual?: unknown;
+      SUGGESTIONS_PROVIDERS_USERS_TYPES?: unknown;
+      RevisionInfo?: unknown;
+      CoverageType?: unknown;
+      hiddenscroll?: unknown;
+      flushPreinstalls?: () => void;
+    };
     // TODO(TS): define polymer type
     Polymer?: unknown;
     // TODO(TS): remove page when better workaround is found

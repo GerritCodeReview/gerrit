@@ -299,7 +299,7 @@ export class PluginLoader {
     const url = this._urlFor(pathOrUrl);
     const name = getPluginNameFromUrl(url);
     const Gerrit = window.Gerrit as GerritGlobal;
-    if (name && Gerrit._preloadedPlugins) {
+    if (name && Gerrit?._preloadedPlugins) {
       return hasOwnProperty(Gerrit._preloadedPlugins, name);
     } else {
       return false;

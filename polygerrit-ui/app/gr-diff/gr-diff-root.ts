@@ -15,4 +15,4 @@
  * limitations under the License.
  */
 
-import '../elements/diff/gr-diff/gr-diff.js';
+import '../elements/diff/gr-diff/gr-diff';

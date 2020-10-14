@@ -476,6 +476,9 @@ export interface ActionNameToActionInfoMap {
   revert_submission?: ActionInfo;
   abandon?: ActionInfo;
   submit?: ActionInfo;
+  topic?: ActionInfo;
+  hashtags?: ActionInfo;
+  assignee?: ActionInfo;
 }
 
 /**

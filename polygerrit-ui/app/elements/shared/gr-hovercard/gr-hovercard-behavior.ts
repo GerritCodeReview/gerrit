@@ -206,12 +206,12 @@ export const hovercardBehaviorMixin = dedupingMixin(
       dispatchEventThroughTarget(eventName: string): void;
 
       dispatchEventThroughTarget(
-        eventName: string,
+        eventName: 'show-alert',
         detail: ShowAlertEventDetail
       ): void;
 
       dispatchEventThroughTarget(
-        eventName: string,
+        eventName: 'reload',
         detail: ReloadEventDetail
       ): void;
 

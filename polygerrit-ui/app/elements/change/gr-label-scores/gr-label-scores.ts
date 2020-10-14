@@ -61,7 +61,7 @@ export class GrLabelScores extends GestureEventListeners(
   @property({type: Object})
   _labelValues?: LabelValuesMap;
 
-  getLabelValues(): LabelNameToValuesMap {
+  getLabelValues(includeDefaults = true): LabelNameToValuesMap {
     const labels: LabelNameToValuesMap = {};
     if (this.shadowRoot === null || !this.change) {
       return labels;
@@ -106,8 +106,12 @@ export class GrLabelScores extends GestureEventListeners(
         prevValNum = prevVal;
       }
 
+      const defValNum = this._getDefaultValue(this.change.labels, label);
+
       if (selectedVal !== prevValNum) {
-        labels[label] = selectedVal;
+        if (includeDefaults || !!prevValNum || selectedVal !== defValNum) {
+          labels[label] = selectedVal;
+        }
       }
     }
     return labels;
@@ -124,6 +128,12 @@ export class GrLabelScores extends GestureEventListeners(
       }
     }
     return numberValue;
+  }
+
+  _getDefaultValue(labels?: LabelNameToInfoMap, labelName?: string) {
+    if (!labelName || !labels?.[labelName]) return undefined;
+    const labelInfo = labels[labelName] as DetailedLabelInfo;
+    return labelInfo.default_value;
   }
 
   _getVoteForAccount(

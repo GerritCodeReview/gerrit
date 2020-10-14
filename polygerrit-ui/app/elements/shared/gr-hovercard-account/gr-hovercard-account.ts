@@ -172,9 +172,7 @@ export class GrHovercardAccount extends GestureEventListeners(
     // we want to check before showing reloading toast
     const _accountKey = accountKey(this.account);
     this.dispatchEventThroughTarget('show-alert', {
-      detail: {
-        message: 'Reloading page...',
-      },
+      message: 'Reloading page...',
     });
     const reviewInput: Partial<ReviewInput> = {};
     reviewInput.reviewers = [
@@ -204,9 +202,7 @@ export class GrHovercardAccount extends GestureEventListeners(
     if (!this.change || !(this.account?._account_id || this.account?.email))
       throw new Error('Missing change or account.');
     this.dispatchEventThroughTarget('show-alert', {
-      detail: {
-        message: 'Reloading page...',
-      },
+      message: 'Reloading page...',
     });
     this.$.restAPI
       .removeChangeReviewer(
@@ -241,10 +237,8 @@ export class GrHovercardAccount extends GestureEventListeners(
   _handleClickAddToAttentionSet() {
     if (!this.change || !this.account._account_id) return;
     this.dispatchEventThroughTarget('show-alert', {
-      detail: {
-        message: 'Saving attention set update ...',
-        dismissOnNavigation: true,
-      },
+      message: 'Saving attention set update ...',
+      dismissOnNavigation: true,
     });
 
     // We are deliberately updating the UI before making the API call. It is a
@@ -273,10 +267,8 @@ export class GrHovercardAccount extends GestureEventListeners(
   _handleClickRemoveFromAttentionSet() {
     if (!this.change || !this.account._account_id) return;
     this.dispatchEventThroughTarget('show-alert', {
-      detail: {
-        message: 'Saving attention set update ...',
-        dismissOnNavigation: true,
-      },
+      message: 'Saving attention set update ...',
+      dismissOnNavigation: true,
     });
 
     // We are deliberately updating the UI before making the API call. It is a

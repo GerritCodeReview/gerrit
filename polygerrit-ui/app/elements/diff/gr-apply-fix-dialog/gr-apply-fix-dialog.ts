@@ -38,9 +38,9 @@ import {
   RobotId,
 } from '../../../types/common';
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
-import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {isRobot} from '../../../utils/comment-util';
+import {OpenFixPreviewEvent} from '../../../types/events';
 
 export interface GrApplyFixDialog {
   $: {
@@ -110,7 +110,7 @@ export class GrApplyFixDialog extends GestureEventListeners(
    * @return Promise that resolves either when all
    * preview diffs are fetched or no fix suggestions in custom event detail.
    */
-  open(e: CustomEvent<CommentEventDetail>) {
+  open(e: OpenFixPreviewEvent) {
     const detail = e.detail;
     const comment = detail.comment;
     if (!detail.patchNum || !comment || !isRobot(comment)) {

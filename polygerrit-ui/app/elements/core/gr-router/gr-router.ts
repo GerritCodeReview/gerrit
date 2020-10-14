@@ -66,6 +66,7 @@ import {
   AppElementParams,
   AppElementAgreementParam,
 } from '../../gr-app-types';
+import {LocationChangeEventDetail} from '../../../types/events';
 
 const RoutePattern = {
   ROOT: '/',
@@ -854,12 +855,13 @@ export class GrRouter extends GestureEventListeners(
       // Fire asynchronously so that the URL is changed by the time the event
       // is processed.
       this.async(() => {
+        const detail: LocationChangeEventDetail = {
+          hash: window.location.hash,
+          pathname: window.location.pathname,
+        };
         this.dispatchEvent(
           new CustomEvent('location-change', {
-            detail: {
-              hash: window.location.hash,
-              pathname: window.location.pathname,
-            },
+            detail,
             composed: true,
             bubbles: true,
           })

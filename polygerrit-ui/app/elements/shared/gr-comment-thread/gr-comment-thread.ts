@@ -23,10 +23,7 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-comment-thread_html';
-import {
-  CustomKeyboardEvent,
-  KeyboardShortcutMixin,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
   isDraft,
   isRobot,
@@ -52,6 +49,7 @@ import {
 import {GrComment} from '../gr-comment/gr-comment';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrStorage, StorageLocation} from '../gr-storage/gr-storage';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 const UNRESOLVED_EXPAND_COUNT = 5;
 const NEWLINE_PATTERN = /\n/g;

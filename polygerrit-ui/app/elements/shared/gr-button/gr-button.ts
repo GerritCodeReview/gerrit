@@ -22,13 +22,11 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {customElement, property, computed, observe} from '@polymer/decorators';
 import {htmlTemplate} from './gr-button_html';
 import {TooltipMixin} from '../../../mixins/gr-tooltip-mixin/gr-tooltip-mixin';
-import {
-  KeyboardShortcutMixin,
-  CustomKeyboardEvent,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {PolymerEvent, getEventPath} from '../../../utils/dom-util';
 import {appContext} from '../../../services/app-context';
 import {ReportingService} from '../../../services/gr-reporting/gr-reporting';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 declare global {
   interface HTMLElementTagNameMap {

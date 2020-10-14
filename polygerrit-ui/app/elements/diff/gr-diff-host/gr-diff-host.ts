@@ -407,12 +407,12 @@ export class GrDiffHost extends GestureEventListeners(
     const changeNum = this.changeNum;
     const path = this.path;
     // Coverage providers do not provide data for EDIT and PARENT patch sets.
-    const basePatchNum = isNumber(this.patchRange.basePatchNum)
-      ? this.patchRange.basePatchNum
-      : undefined;
-    const patchNum = isNumber(this.patchRange.patchNum)
-      ? this.patchRange.patchNum
-      : undefined;
+
+    const getPatchNum = (patchNum: PatchSetNum) =>
+      isNumber(patchNum) ? patchNum : undefined;
+
+    const basePatchNum = getPatchNum(this.patchRange.basePatchNum);
+    const patchNum = getPatchNum(this.patchRange.patchNum);
     this.$.jsAPI
       .getCoverageAnnotationApi()
       .then(coverageAnnotationApi => {
@@ -426,8 +426,8 @@ export class GrDiffHost extends GestureEventListeners(
               !coverageRanges ||
               changeNum !== this.changeNum ||
               path !== this.path ||
-              basePatchNum !== this.patchRange.basePatchNum ||
-              patchNum !== this.patchRange.patchNum
+              basePatchNum !== getPatchNum(this.patchRange.basePatchNum) ||
+              patchNum !== getPatchNum(this.patchRange.patchNum)
             ) {
               return;
             }

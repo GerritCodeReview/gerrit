@@ -1,6 +1,69 @@
 {
   "comments": [
     {
+      "unresolved": true,
+      "key": {
+        "uuid": "dc91273f_80c22cab",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-14T16:27:16Z",
+      "side": 1,
+      "message": "use check_output instead ?\n\nhttps://docs.python.org/3/library/subprocess.html#subprocess.check_output",
+      "range": {
+        "startLine": 107,
+        "startChar": 25,
+        "endLine": 107,
+        "endChar": 28
+      },
+      "revId": "b0671b9a77dac3ad3d98280b057f31d32e6d5778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11aea4cf_8ef18d63",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 131,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-14T16:27:16Z",
+      "side": 1,
+      "message": "check_output ?",
+      "range": {
+        "startLine": 131,
+        "startChar": 22,
+        "endLine": 131,
+        "endChar": 25
+      },
+      "revId": "b0671b9a77dac3ad3d98280b057f31d32e6d5778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da950a27_f74ce632",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 277,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-14T16:27:16Z",
+      "side": 1,
+      "message": "closing the file will be skipped if an exception is thrown, better use automatic management of file handle using a with statement:\n\n with open(\"release_noter\", \"w\") as file:\n     \u003cwork with file content\u003e\n\nthe file be automatically closed when leaving the inner block\n\nhttps://www.python.org/dev/peps/pep-0343/",
+      "revId": "b0671b9a77dac3ad3d98280b057f31d32e6d5778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": false,
       "key": {
         "uuid": "9ccb3e57_9bda9abb",

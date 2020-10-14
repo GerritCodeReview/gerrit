@@ -93,6 +93,30 @@
       },
       "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "def50cdb_67e04cfc",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-14T13:51:15Z",
+      "side": 1,
+      "message": "I suppose, the code should drop coverageRanges if patchNum and/or basePatchNum are changed. It seems, the code should work with patchNumEquals too, and toNumberOnly can be removed.",
+      "parentUuid": "c7e7df51_52caf068",
+      "range": {
+        "startLine": 429,
+        "startChar": 14,
+        "endLine": 429,
+        "endChar": 73
+      },
+      "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

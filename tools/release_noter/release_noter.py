@@ -268,11 +268,10 @@ def print_submodules(submodules, md):
 
 
 def print_notes(commits, submodules):
-    md = open("release_noter.md", "w")
-    md.write("# Release Notes\n")
-    print_submodules(submodules, md)
-    print_commits(commits, md)
-    md.close()
+    with open("release_noter.md", "w") as md:
+        md.write("# Release Notes\n")
+        print_submodules(submodules, md)
+        print_commits(commits, md)
 
 
 if __name__ == "__main__":

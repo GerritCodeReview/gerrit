@@ -15,22 +15,21 @@
  * limitations under the License.
  */
 
-// We need to use goog.declareModuleId internally in google for TS-imports-JS
-// case. To avoid errors when goog is not available, the empty implementation is
-// added.
-window.goog = window.goog || {declareModuleId(name) {}};
 // TODO(dmfilippov): remove bundled-polymer.js imports when the following issue
 // https://github.com/Polymer/polymer-resin/issues/9 is resolved.
 // Because gr-diff.js is a shared component, it shouldn' pollute global
 // variables. If an application wants to use Polymer global variable -
 // the app must assign/import it and do not rely on the Polymer variable
 // exposed by shared gr-diff component.
-import '../scripts/bundled-polymer.js';
-import '../elements/diff/gr-diff/gr-diff.js';
-import '../elements/diff/gr-diff-cursor/gr-diff-cursor.js';
-import {initDiffAppContext} from './gr-diff-app-context-init.js';
-import {GrDiffLine, GrDiffLineType} from '../elements/diff/gr-diff/gr-diff-line.js';
-import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation.js';
+import '../scripts/bundled-polymer';
+import '../elements/diff/gr-diff/gr-diff';
+import '../elements/diff/gr-diff-cursor/gr-diff-cursor';
+import {initDiffAppContext} from './gr-diff-app-context-init';
+import {
+  GrDiffLine,
+  GrDiffLineType,
+} from '../elements/diff/gr-diff/gr-diff-line';
+import {GrAnnotation} from '../elements/diff/gr-diff-highlight/gr-annotation';
 
 // Setup appContext for diff.
 // TODO (dmfilippov): find a better solution

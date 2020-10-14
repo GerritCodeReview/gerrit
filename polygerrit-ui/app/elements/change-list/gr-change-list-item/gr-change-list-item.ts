@@ -389,7 +389,7 @@ export class GrChangeListItem extends ChangeTableMixin(
     }
   }
 
-  _computeSince(
+  _computeWaiting(
     account?: AccountInfo,
     change?: ChangeInfo
   ): Timestamp | undefined {

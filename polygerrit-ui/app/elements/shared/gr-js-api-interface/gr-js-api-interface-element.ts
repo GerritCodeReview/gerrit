@@ -26,7 +26,7 @@ import {
   RevisionInfo,
 } from '../../../types/common';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
-import {GrAdminApi} from '../../plugins/gr-admin-api/gr-admin-api';
+import {GrAdminApi, MenuLink} from '../../plugins/gr-admin-api/gr-admin-api';
 import {
   JsApiService,
   EventCallback,
@@ -294,8 +294,8 @@ export class GrJsApiInterface
       );
   }
 
-  getAdminMenuLinks() {
-    const links = [];
+  getAdminMenuLinks(): MenuLink[] {
+    const links: MenuLink[] = [];
     for (const cb of this._getEventCallbacks(EventType.ADMIN_MENU_LINKS)) {
       const adminApi = (cb as unknown) as GrAdminApi;
       links.push(...adminApi.getMenuLinks());

@@ -32,6 +32,7 @@ import {
   RequestPayload,
 } from '../../../../types/common';
 import {HttpMethod} from '../../../../constants/constants';
+import {RpcLogEventDetail} from '../../../../types/events';
 
 const JSON_PREFIX = ")]}'";
 
@@ -270,9 +271,15 @@ s   */
       ].join(' ')
     );
     if (req.anonymizedUrl) {
+      const detail: RpcLogEventDetail = {
+        status,
+        method,
+        elapsed,
+        anonymizedUrl: req.anonymizedUrl,
+      };
       this.dispatchEvent(
         new CustomEvent('rpc-log', {
-          detail: {status, method, elapsed, anonymizedUrl: req.anonymizedUrl},
+          detail,
           composed: true,
           bubbles: true,
         })

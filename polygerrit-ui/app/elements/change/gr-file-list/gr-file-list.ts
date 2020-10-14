@@ -34,7 +34,6 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-file-list_html';
 import {asyncForeach} from '../../../utils/async-util';
 import {
-  CustomKeyboardEvent,
   KeyboardShortcutMixin,
   Modifier,
   Shortcut,
@@ -77,6 +76,7 @@ import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 import {ChangeComments} from '../../diff/gr-comment-api/gr-comment-api';
 import {PatchSetFile, UIDraft} from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 export const DEFAULT_NUM_FILES_SHOWN = 200;
 

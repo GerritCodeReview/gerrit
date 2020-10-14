@@ -74,8 +74,8 @@ export interface AppElementDocSearchParams {
 
 export interface AppElementPluginScreenParams {
   view: GerritView.PLUGIN_SCREEN;
-  plugin: string;
-  screen: string;
+  plugin?: string;
+  screen?: string;
 }
 
 export interface AppElementSearchParam {
@@ -113,7 +113,7 @@ export interface AppElementJustRegisteredParams {
   // Otherwise, the compiler reports an error when the code tries to use
   // the property 'view' of AppElementParams.
   view?: never;
-  justRegistered: true;
+  justRegistered: boolean;
 }
 
 export type AppElementParams =
@@ -126,5 +126,11 @@ export type AppElementParams =
   | AppElementSearchParam
   | AppElementSettingsParam
   | AppElementAgreementParam
-  | AppElementJustRegisteredParams
-  | AppElementDiffViewParam;
+  | AppElementDiffViewParam
+  | AppElementJustRegisteredParams;
+
+export function isAppElementJustRegisteredParams(
+  p: AppElementParams
+): p is AppElementJustRegisteredParams {
+  return (p as AppElementJustRegisteredParams).justRegistered !== undefined;
+}

@@ -85,7 +85,7 @@ module.exports = {
       "capIsNewExceptionPattern": "^.*Mixin$"
     }],
     // https://eslint.org/docs/rules/no-console
-    "no-console": ["error", { allow: ["warn", "error", "info", "assert", "group", "groupEnd"] }],
+    "no-console": ["error", { allow: ["debug", "warn", "error", "info", "assert", "group", "groupEnd"] }],
     // https://eslint.org/docs/rules/no-multiple-empty-lines
     "no-multiple-empty-lines": ["error", {"max": 1}],
     // https://eslint.org/docs/rules/no-prototype-builtins

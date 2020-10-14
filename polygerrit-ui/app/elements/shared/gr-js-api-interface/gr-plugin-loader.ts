@@ -143,7 +143,7 @@ export class PluginLoader {
     });
 
     this.awaitPluginsLoaded().then(() => {
-      console.info('Plugins loaded');
+      console.debug('Plugins loaded');
       this._getReporting().pluginsLoaded(this._getAllInstalledPluginNames());
     });
   }

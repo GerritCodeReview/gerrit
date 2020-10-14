@@ -103,22 +103,22 @@ suite('gr-main-header tests', () => {
 
     // When no admin links are passed, it should use the default.
     assert.deepEqual(element._computeLinks(
-        defaultLinks,
         /* userLinks= */[],
         adminLinks,
         /* topMenus= */[],
-        /* docBaseUrl= */ ''
+        /* docBaseUrl= */ '',
+        defaultLinks
     ),
     defaultLinks.concat({
       title: 'Browse',
       links: adminLinks,
     }));
     assert.deepEqual(element._computeLinks(
-        defaultLinks,
         userLinks,
         adminLinks,
         /* topMenus= */[],
-        /* docBaseUrl= */ ''
+        /* docBaseUrl= */ '',
+        defaultLinks
     ),
     defaultLinks.concat([
       {
@@ -172,11 +172,11 @@ suite('gr-main-header tests', () => {
       }],
     }];
     assert.deepEqual(element._computeLinks(
-        /* defaultLinks= */ [],
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ ''
+        /* baseDocUrl= */ '',
+        /* defaultLinks= */ []
     ), [{
       title: 'Browse',
       links: adminLinks,
@@ -208,11 +208,11 @@ suite('gr-main-header tests', () => {
       }],
     }];
     assert.deepEqual(element._computeLinks(
-        /* defaultLinks= */ [],
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ ''
+        /* baseDocUrl= */ '',
+        /* defaultLinks= */ []
     ), [{
       title: 'Browse',
       links: adminLinks,
@@ -247,11 +247,11 @@ suite('gr-main-header tests', () => {
       }],
     }];
     assert.deepEqual(element._computeLinks(
-        /* defaultLinks= */ [],
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ ''
+        /* baseDocUrl= */ '',
+        /* defaultLinks= */ []
     ), [{
       title: 'Browse',
       links: adminLinks,
@@ -284,11 +284,11 @@ suite('gr-main-header tests', () => {
       }],
     }];
     assert.deepEqual(element._computeLinks(
-        defaultLinks,
         /* userLinks= */ [],
         /* adminLinks= */ [],
         topMenus,
-        /* baseDocUrl= */ ''
+        /* baseDocUrl= */ '',
+        defaultLinks
     ), [{
       title: 'Faves',
       links: defaultLinks[0].links.concat([{
@@ -315,11 +315,11 @@ suite('gr-main-header tests', () => {
       }],
     }];
     assert.deepEqual(element._computeLinks(
-        /* defaultLinks= */ [],
         userLinks,
         /* adminLinks= */ [],
         topMenus,
-        /* baseDocUrl= */ ''
+        /* baseDocUrl= */ '',
+        /* defaultLinks= */ []
     ), [{
       title: 'Your',
       links: userLinks.concat([{
@@ -346,11 +346,11 @@ suite('gr-main-header tests', () => {
       }],
     }];
     assert.deepEqual(element._computeLinks(
-        /* defaultLinks= */ [],
         /* userLinks= */ [],
         adminLinks,
         topMenus,
-        /* baseDocUrl= */ ''
+        /* baseDocUrl= */ '',
+        /* defaultLinks= */ []
     ), [{
       title: 'Browse',
       links: adminLinks.concat([{

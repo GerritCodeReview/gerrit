@@ -138,6 +138,7 @@ import {
   RevisionId,
   GroupName,
   Hashtag,
+  TopMenuEntryInfo,
 } from '../../../types/common';
 import {
   CancelConditionCallback,
@@ -3221,12 +3222,12 @@ export class GrRestApiInterface
     }) as Promise<CapabilityInfoMap | undefined>;
   }
 
-  getTopMenus(errFn?: ErrorCallback) {
+  getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined> {
     return this._fetchSharedCacheURL({
       url: '/config/server/top-menus',
       errFn,
       reportUrlAsIs: true,
-    });
+    }) as Promise<TopMenuEntryInfo[] | undefined>;
   }
 
   setAssignee(

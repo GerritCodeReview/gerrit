@@ -117,6 +117,30 @@
       },
       "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd392b8a_0c75c8d7",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-14T13:58:44Z",
+      "side": 1,
+      "message": "toNumberOnly is required since the coverage provider is expecting type number | undefined and we cannot send the string \"PARENT/EDIT\", I think.",
+      "parentUuid": "def50cdb_67e04cfc",
+      "range": {
+        "startLine": 429,
+        "startChar": 14,
+        "endLine": 429,
+        "endChar": 73
+      },
+      "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -31,7 +31,6 @@ import {ChangeTableMixin} from '../../../mixins/gr-change-table-mixin/gr-change-
 import {
   KeyboardShortcutMixin,
   Shortcut,
-  CustomKeyboardEvent,
   Modifier,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {
@@ -56,6 +55,7 @@ import {
   hasAttention,
   isAttentionSetEnabled,
 } from '../../../utils/attention-set-util';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 const NUMBER_FIXED_COLUMNS = 3;
 const CLOSED_STATUS = ['MERGED', 'ABANDONED'];

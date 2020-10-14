@@ -37,7 +37,6 @@ import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mix
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-diff-view_html';
 import {
-  CustomKeyboardEvent,
   KeyboardShortcutMixin,
   Shortcut,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
@@ -103,6 +102,7 @@ import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revisi
 import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {FetchParams} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';

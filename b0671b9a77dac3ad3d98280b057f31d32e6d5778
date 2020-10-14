@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9ccb3e57_9bda9abb",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 4
+      },
+      "lineNbr": 281,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-14T16:25:14Z",
+      "side": 1,
+      "message": "This was generating a markdown linter warning locally (extra file-trailing blank line); removed.",
+      "range": {
+        "startLine": 281,
+        "startChar": 4,
+        "endLine": 281,
+        "endChar": 18
+      },
+      "revId": "b0671b9a77dac3ad3d98280b057f31d32e6d5778",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

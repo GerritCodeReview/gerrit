@@ -141,6 +141,30 @@
       },
       "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "7cbd8662_f4a76ea9",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 429,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-14T13:58:59Z",
+      "side": 1,
+      "message": "But in\n\n  provider(changeNum, path, basePatchNum, patchNum)\n\nwe want to make sure that the patchNums are not \u0027PARENT\u0027, because in the coverage API the parameters cano only be numbers.\n\nIf we do that (i.e. use toNumberOnly above), then we also have to use it here, because then `undefined` and `PARENT` are \"equal\".",
+      "parentUuid": "def50cdb_67e04cfc",
+      "range": {
+        "startLine": 429,
+        "startChar": 14,
+        "endLine": 429,
+        "endChar": 73
+      },
+      "revId": "01e16e1d4774e61caa958cffead718c474b3ccf0",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

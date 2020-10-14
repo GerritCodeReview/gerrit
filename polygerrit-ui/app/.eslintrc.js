@@ -226,9 +226,6 @@ module.exports = {
     "import/no-unused-modules": 2,
     // https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-default-export.md
     "import/no-default-export": 2,
-    // Custom rule from the //tools/js/eslint-rules directory.
-    // See //tools/js/eslint-rules/README.md for details
-    "goog-module-id": 2,
     // Prevents certain identifiers being used.
     // Prefer flush() over flushAsynchronousOperations().
     "id-blacklist": ["error", "flushAsynchronousOperations"],

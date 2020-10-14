@@ -59,6 +59,7 @@ import {
   UIDraft,
   UIRobot,
 } from '../../../utils/comment-util';
+import {OpenFixPreviewEventDetail} from '../../../types/events';
 
 const STORAGE_DEBOUNCE_INTERVAL = 400;
 const TOAST_DEBOUNCE_INTERVAL = 200;
@@ -101,11 +102,6 @@ export interface GrComment {
     container: HTMLDivElement;
     resolvedCheckbox: HTMLInputElement;
   };
-}
-
-export interface CommentEventDetail {
-  patchNum?: PatchSetNum;
-  comment?: UIComment;
 }
 
 @customElement('gr-comment')
@@ -506,7 +502,7 @@ export class GrComment extends KeyboardShortcutMixin(
     );
   }
 
-  _getEventPayload(): CommentEventDetail {
+  _getEventPayload(): OpenFixPreviewEventDetail {
     return {comment: this.comment, patchNum: this.patchNum};
   }
 

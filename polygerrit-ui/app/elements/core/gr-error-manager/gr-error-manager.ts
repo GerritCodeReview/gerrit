@@ -38,6 +38,7 @@ import {GrAlert} from '../../shared/gr-alert/gr-alert';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {FetchRequest} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {ErrorType, FixIronA11yAnnouncer} from '../../../types/types';
+import {AccountId} from '../../../types/common';
 
 const HIDE_ALERT_TIMEOUT_MS = 5000;
 const CHECK_SIGN_IN_INTERVAL_MS = 60 * 1000;
@@ -86,7 +87,7 @@ export class GrErrorManager extends GestureEventListeners(
    * not set, then there was no account at launch.
    */
   @property({type: Number})
-  knownAccountId?: number;
+  knownAccountId?: AccountId | null;
 
   @property({type: Object})
   _alertElement: GrAlert | null = null;

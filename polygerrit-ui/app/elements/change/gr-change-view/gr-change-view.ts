@@ -51,7 +51,6 @@ import {htmlTemplate} from './gr-change-view_html';
 import {
   KeyboardShortcutMixin,
   Shortcut,
-  CustomKeyboardEvent,
 } from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {GrEditConstants} from '../../edit/gr-edit-constants';
 import {GrCountStringFormatter} from '../../shared/gr-count-string-formatter/gr-count-string-formatter';
@@ -110,7 +109,6 @@ import {
 } from '../../../types/common';
 import {GrReplyDialog, FocusTarget} from '../gr-reply-dialog/gr-reply-dialog';
 import {GrIncludedInDialog} from '../gr-included-in-dialog/gr-included-in-dialog';
-import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {GrDownloadDialog} from '../gr-download-dialog/gr-download-dialog';
 import {GrChangeMetadata} from '../gr-change-metadata/gr-change-metadata';
 import {
@@ -139,7 +137,13 @@ import {
   GrFileList,
   DEFAULT_NUM_FILES_SHOWN,
 } from '../gr-file-list/gr-file-list';
-import {isPolymerSpliceChange} from '../../../types/types';
+import {ChangeViewState, isPolymerSpliceChange} from '../../../types/types';
+import {
+  CustomKeyboardEvent,
+  EditableContentSaveEvent,
+  OpenFixPreviewEvent,
+  SwitchTabEvent,
+} from '../../../types/events';
 
 const CHANGE_ID_ERROR = {
   MISMATCH: 'mismatch',
@@ -187,27 +191,6 @@ const CHANGE_RELOAD_TIMING_LABEL = 'ChangeReloaded';
 const SEND_REPLY_TIMING_LABEL = 'SendReply';
 // Making the tab names more unique in case a plugin adds one with same name
 const ROBOT_COMMENTS_LIMIT = 10;
-
-// Type for the custom event to switch tab.
-interface SwitchTabEventDetail {
-  // name of the tab to set as active, from custom event
-  tab?: string;
-  // index of tab to set as active, from paper-tabs event
-  value?: number;
-  // scroll into the tab afterwards, from custom event
-  scrollIntoView?: boolean;
-}
-
-export interface ChangeViewState {
-  diffMode?: DiffViewMode;
-  scrollTop?: number;
-  showDownloadDialog?: boolean;
-  showReplyDialog?: boolean;
-  changeNum?: NumericChangeId;
-  numFilesShown?: number;
-  patchRange?: PatchRange;
-  diffViewMode?: boolean;
-}
 
 export interface GrChangeView {
   $: {
@@ -271,7 +254,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   params?: AppElementChangeViewParams;
 
   @property({type: Object, notify: true, observer: '_viewStateChanged'})
-  viewState: ChangeViewState = {};
+  viewState: Partial<ChangeViewState> = {};
 
   @property({type: String})
   backPage?: string;
@@ -634,30 +617,27 @@ export class GrChangeView extends KeyboardShortcutMixin(
     );
     this.addEventListener('change-message-deleted', () => this._reload());
     this.addEventListener('editable-content-save', e =>
-      this._handleCommitMessageSave(e as CustomEvent<{content: string}>)
+      this._handleCommitMessageSave(e)
     );
     this.addEventListener('editable-content-cancel', () =>
       this._handleCommitMessageCancel()
     );
-    this.addEventListener('open-fix-preview', e =>
-      this._onOpenFixPreview(e as CustomEvent<CommentEventDetail>)
-    );
+    this.addEventListener('open-fix-preview', e => this._onOpenFixPreview(e));
     this.addEventListener('close-fix-preview', () => this._onCloseFixPreview());
     this.listen(window, 'scroll', '_handleScroll');
     this.listen(document, 'visibilitychange', '_handleVisibilityChange');
 
     this.addEventListener('show-primary-tab', e =>
-      this._setActivePrimaryTab(e as CustomEvent<SwitchTabEventDetail>)
+      this._setActivePrimaryTab(e)
     );
     this.addEventListener('show-secondary-tab', e =>
-      this._setActiveSecondaryTab(e as CustomEvent<SwitchTabEventDetail>)
+      this._setActiveSecondaryTab(e)
     );
     this.addEventListener('reload', e => {
       e.stopPropagation();
-      const evt = e as CustomEvent<{clearPatchset: boolean}>;
       this._reload(
         /* isLocationChange= */ false,
-        /* clearPatchset= */ evt.detail && evt.detail.clearPatchset
+        /* clearPatchset= */ e.detail && e.detail.clearPatchset
       );
     });
   }
@@ -703,7 +683,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
       });
   }
 
-  _onOpenFixPreview(e: CustomEvent<CommentEventDetail>) {
+  _onOpenFixPreview(e: OpenFixPreviewEvent) {
     this.$.applyFixDialog.open(e);
   }
 
@@ -775,7 +755,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   /**
    * Changes active primary tab.
    */
-  _setActivePrimaryTab(e: CustomEvent<SwitchTabEventDetail>) {
+  _setActivePrimaryTab(e: SwitchTabEvent) {
     const primaryTabs = this.shadowRoot!.querySelector(
       '#primaryTabs'
     ) as PaperTabsElement;
@@ -808,7 +788,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   /**
    * Changes active secondary tab.
    */
-  _setActiveSecondaryTab(e: CustomEvent<SwitchTabEventDetail>) {
+  _setActiveSecondaryTab(e: SwitchTabEvent) {
     const secondaryTabs = this.shadowRoot!.querySelector(
       '#secondaryTabs'
     ) as PaperTabsElement;
@@ -827,7 +807,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     this.$.commitMessageEditor.focusTextarea();
   }
 
-  _handleCommitMessageSave(e: CustomEvent<{content: string}>) {
+  _handleCommitMessageSave(e: EditableContentSaveEvent) {
     if (!this._change) throw new Error('missing required change property');
     if (!this._changeNum)
       throw new Error('missing required changeNum property');

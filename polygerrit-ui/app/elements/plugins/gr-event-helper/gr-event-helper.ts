@@ -15,10 +15,6 @@
  * limitations under the License.
  */
 
-export interface EventWithPath extends Event {
-  path?: HTMLElement[];
-}
-
 export interface ListenOptions {
   event?: string;
   capture?: boolean;
@@ -71,11 +67,11 @@ export class GrEventHelper {
   _listen(
     container: HTMLElement,
     callback: (event: Event) => boolean,
-    opt_options?: ListenOptions | null
+    options?: ListenOptions | null
   ) {
-    const capture = opt_options?.capture;
-    const event = opt_options?.event || 'click';
-    const handler = (e: EventWithPath) => {
+    const capture = options?.capture;
+    const event = options?.event || 'click';
+    const handler = (e: Event) => {
       if (!e.path) return;
       if (e.path.indexOf(this.element) !== -1) {
         let mayContinue = true;

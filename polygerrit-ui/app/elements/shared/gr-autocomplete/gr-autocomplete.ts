@@ -24,15 +24,12 @@ import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-l
 import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-autocomplete_html';
-import {
-  KeyboardShortcutMixin,
-  CustomKeyboardEvent,
-} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
+import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {property, customElement, observe} from '@polymer/decorators';
 import {GrAutocompleteDropdown} from '../gr-autocomplete-dropdown/gr-autocomplete-dropdown';
 import {GrCursorManager} from '../gr-cursor-manager/gr-cursor-manager';
-import {EventWithPath} from '../../plugins/gr-event-helper/gr-event-helper';
 import {PaperInputElementExt} from '../../../types/types';
+import {CustomKeyboardEvent} from '../../../types/events';
 
 const TOKENIZE_REGEX = /(?:[^\s"]+|"[^"]*")+/g;
 const DEBOUNCE_WAIT_MS = 200;
@@ -452,7 +449,7 @@ export class GrAutocomplete extends KeyboardShortcutMixin(
     }
   }
 
-  _handleBodyClick(e: EventWithPath) {
+  _handleBodyClick(e: Event) {
     const eventPath = e.path;
     if (!eventPath) return;
     for (let i = 0; i < eventPath.length; i++) {

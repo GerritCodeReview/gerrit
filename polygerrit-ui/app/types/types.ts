@@ -19,7 +19,13 @@ import {IronA11yAnnouncer} from '@polymer/iron-a11y-announcer/iron-a11y-announce
 import {GrDiffLine} from '../elements/diff/gr-diff/gr-diff-line';
 import {FlattenedNodesObserver} from '@polymer/polymer/lib/utils/flattened-nodes-observer';
 import {PaperInputElement} from '@polymer/paper-input/paper-input';
-import {CommitId, NumericChangeId, PatchRange, PatchSetNum} from './common';
+import {
+  ChangeId,
+  CommitId,
+  NumericChangeId,
+  PatchRange,
+  PatchSetNum,
+} from './common';
 import {PolymerSpliceChange} from '@polymer/polymer/interfaces';
 
 export function notUndefined<T>(x: T | undefined): x is T {
@@ -175,13 +181,23 @@ export interface ChangeViewState {
   showDownloadDialog: boolean;
   diffMode: DiffViewMode | null;
   numFilesShown: number | null;
-  scrollTop: number;
+  scrollTop?: number;
+  diffViewMode?: boolean;
 }
 
 export interface ChangeListViewState {
-  query: string | null;
-  offset: number;
-  selectedChangeIndex: number;
+  changeNum?: ChangeId;
+  patchRange?: PatchRange;
+  // TODO(TS): seems only one of 2 selected... is required
+  selectedFileIndex?: number;
+  selectedChangeIndex?: number;
+  showReplyDialog?: boolean;
+  showDownloadDialog?: boolean;
+  diffMode?: DiffViewMode;
+  numFilesShown?: number;
+  scrollTop?: number;
+  query?: string | null;
+  offset?: number;
 }
 
 export interface DashboardViewState {

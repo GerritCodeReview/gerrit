@@ -103,6 +103,10 @@ import {dedupingMixin} from '@polymer/polymer/lib/utils/mixin';
 import {property} from '@polymer/decorators';
 import {PolymerElement} from '@polymer/polymer';
 import {Constructor} from '../../utils/common-util';
+import {
+  CustomKeyboardEvent,
+  ShortcutTriggeredEventDetail,
+} from '../../types/events';
 
 /** Enum for all special shortcuts */
 export enum SPECIAL_SHORTCUT {
@@ -528,24 +532,6 @@ _describe(
 // Must be declared outside behavior implementation to be accessed inside
 // behavior functions.
 
-/**
- * Keyboard events emitted from polymer elements.
- */
-export interface CustomKeyboardEvent extends CustomEvent, EventApi {
-  event: CustomKeyboardEvent;
-  detail: {
-    keyboardEvent?: CustomKeyboardEvent;
-    // TODO(TS): maybe should mark as optional and check before accessing
-    key: string;
-  };
-  readonly altKey: boolean;
-  readonly changedTouches: TouchList;
-  readonly ctrlKey: boolean;
-  readonly metaKey: boolean;
-  readonly shiftKey: boolean;
-  readonly keyCode: number;
-  readonly repeat: boolean;
-}
 function getKeyboardEvent(e: CustomKeyboardEvent): CustomKeyboardEvent {
   const event = dom(e.detail ? e.detail.keyboardEvent : e);
   // TODO(TS): worth checking if this still holds or not, if no, remove this.
@@ -852,14 +838,14 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
             return true;
           }
         }
-
+        const detail: ShortcutTriggeredEventDetail = {
+          event: e,
+          goKey: this._inGoKeyMode(),
+          vKey: this.inVKeyMode(),
+        };
         this.dispatchEvent(
           new CustomEvent('shortcut-triggered', {
-            detail: {
-              event: e,
-              goKey: this._inGoKeyMode(),
-              vKey: this.inVKeyMode(),
-            },
+            detail,
             composed: true,
             bubbles: true,
           })
@@ -994,7 +980,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       private inVKeyMode() {
-        return (
+        return !!(
           this._shortcut_v_key_last_pressed &&
           Date.now() - this._shortcut_v_key_last_pressed <= V_KEY_TIMEOUT_MS
         );
@@ -1030,7 +1016,7 @@ const InternalKeyboardShortcutMixin = dedupingMixin(
       }
 
       _inGoKeyMode() {
-        return (
+        return !!(
           this._shortcut_go_key_last_pressed &&
           Date.now() - this._shortcut_go_key_last_pressed <= GO_KEY_TIMEOUT_MS
         );

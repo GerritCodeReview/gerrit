@@ -57,12 +57,9 @@ import {
 import {GrOverlay} from '../../shared/gr-overlay/gr-overlay';
 import {ChangeListToggleReviewedDetail} from '../gr-change-list-item/gr-change-list-item';
 import {ChangeStarToggleStarDetail} from '../../shared/gr-change-star/gr-change-star';
+import {DashboardViewState} from '../../../types/types';
 
 const PROJECT_PLACEHOLDER_PATTERN = /\$\{project\}/g;
-
-export interface DashboardViewState {
-  selectedChangeIndex: number;
-}
 
 export interface GrDashboardView {
   $: {

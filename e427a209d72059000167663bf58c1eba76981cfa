@@ -126,6 +126,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "66d2ebd9_374bc410",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:43:41Z",
+      "side": 1,
+      "message": "has:draft, label:, is:watched etc. aren\u0027t the same thing: They all just require a single round trip to the index whereas peers would require n round trips where n depends on the number of results in the sub-query.\n\nYou could try to batch queries together after retrieving the initial set (is:id1 OR id:id2) but there is also a maximum number of terms allowed depending on which index backend is used.",
+      "parentUuid": "c6b425b7_6896c029",
+      "revId": "e427a209d72059000167663bf58c1eba76981cfa",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "821ae05d_461809e5",
         "filename": "Documentation/user-search.txt",
         "patchSetId": 2

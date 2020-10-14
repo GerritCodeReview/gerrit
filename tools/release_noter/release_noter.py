@@ -104,12 +104,10 @@ def newly_released(commit_sha1, release):
         "--contains",
         commit_sha1,
     ]
-    process = subprocess.Popen(git_tag, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    process = subprocess.check_output(git_tag, stderr=subprocess.PIPE, encoding=UTF8)
     verdict = True
-    for line in iter(process.stdout.readline, ""):
-        if process.poll() is not None:
-            break
-        line = line.strip().decode(UTF8)
+    for line in process.splitlines():
+        line = line.strip()
         if not re.match(rf"{re.escape(release)}$", line):
             # Wrongfully pushed or malformed tags ignored.
             # Preceding release-candidate (-rcN) tags treated as newly released.
@@ -124,7 +122,7 @@ def open_git_log(options):
         "--no-merges",
         options.range,
     ]
-    return subprocess.Popen(git_log, stdout=subprocess.PIPE)
+    return subprocess.check_output(git_log, encoding=UTF8)
 
 
 class Change:
@@ -164,10 +162,8 @@ def parse_log(process, release):
     submodules = dict()
     submodule_change = None
     task = Task.start_commit
-    for line in iter(process.stdout.readline, ""):
-        if process.poll() is not None:
-            break
-        line = line.strip().decode(UTF8)
+    for line in process.splitlines():
+        line = line.strip()
         if not line:
             continue
         if task == Task.start_commit:

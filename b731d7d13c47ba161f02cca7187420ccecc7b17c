@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "9fbc3263_d35d63e3",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1070860
+      },
+      "writtenOn": "2020-10-14T12:56:41Z",
+      "side": 1,
+      "message": "I tried this, too, but it is still printed - do you know how to control what log level the test prints?",
+      "revId": "b731d7d13c47ba161f02cca7187420ccecc7b17c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -91,16 +91,16 @@ export interface GerritGlobal extends EventEmitterService {
  */
 function flushPreinstalls() {
   const Gerrit = window.Gerrit;
-  if (Gerrit.flushPreinstalls) {
+  if (Gerrit?.flushPreinstalls) {
     Gerrit.flushPreinstalls();
   }
 }
 export const _testOnly_flushPreinstalls = flushPreinstalls;
 
 export function initGerritPluginApi() {
-  window.Gerrit = (window.Gerrit || {}) as GerritGlobal;
+  window.Gerrit = window.Gerrit || {};
   flushPreinstalls();
-  initGerritPluginsMethods(window.Gerrit);
+  initGerritPluginsMethods(window.Gerrit as GerritGlobal);
   // Preloaded plugins should be installed after Gerrit.install() is set,
   // since plugin preloader substitutes Gerrit.install() temporarily.
   // (Gerrit.install() is set in initGerritPluginsMethods)
@@ -108,8 +108,9 @@ export function initGerritPluginApi() {
 }
 
 export function _testOnly_initGerritPluginApi(): GerritGlobal {
+  window.Gerrit = window.Gerrit || {};
   initGerritPluginApi();
-  return window.Gerrit;
+  return window.Gerrit as GerritGlobal;
 }
 
 export function deprecatedDelete(

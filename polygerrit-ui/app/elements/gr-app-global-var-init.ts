@@ -96,7 +96,6 @@ import {rangesEqual} from './diff/gr-diff/gr-diff-utils';
 import {RevisionInfo} from './shared/revision-info/revision-info';
 import {CoverageType} from '../types/types';
 import {_setHiddenScroll, getHiddenScroll} from '../scripts/hiddenscroll';
-import {GerritGlobal} from './shared/gr-js-api-interface/gr-gerrit';
 
 export function initGlobalVariables() {
   window.GrDisplayNameUtils = {
@@ -159,7 +158,7 @@ export function initGlobalVariables() {
     PLUGIN_LOADING_TIMEOUT_MS,
   };
 
-  window.Gerrit = (window.Gerrit || {}) as GerritGlobal;
+  window.Gerrit = window.Gerrit || {};
   window.Gerrit.Nav = GerritNav;
   window.Gerrit.getRootElement = getRootElement;
   window.Gerrit.Auth = appContext.authService;

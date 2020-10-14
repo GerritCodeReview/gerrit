@@ -32,7 +32,6 @@ if (!window.Polymer) {
     lazyRegister: true,
   };
 }
-window.Gerrit = window.Gerrit || {};
 
 initAppContext();
 initVisibilityReporter(appContext);

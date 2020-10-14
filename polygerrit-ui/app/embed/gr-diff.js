@@ -15,7 +15,6 @@
  * limitations under the License.
  */
 
-window.Gerrit = window.Gerrit || {};
 // We need to use goog.declareModuleId internally in google for TS-imports-JS
 // case. To avoid errors when goog is not available, the empty implementation is
 // added.

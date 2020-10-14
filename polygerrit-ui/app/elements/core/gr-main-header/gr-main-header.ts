@@ -14,40 +14,65 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator.js';
-import '../../shared/gr-dropdown/gr-dropdown.js';
-import '../../shared/gr-icons/gr-icons.js';
-import '../../shared/gr-js-api-interface/gr-js-api-interface.js';
-import '../../shared/gr-rest-api-interface/gr-rest-api-interface.js';
-import '../gr-account-dropdown/gr-account-dropdown.js';
-import '../gr-smart-search/gr-smart-search.js';
-import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners.js';
-import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin.js';
-import {PolymerElement} from '@polymer/polymer/polymer-element.js';
-import {htmlTemplate} from './gr-main-header_html.js';
-import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util.js';
-import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader.js';
-import {getAdminLinks} from '../../../utils/admin-nav-util.js';
+import '../../plugins/gr-endpoint-decorator/gr-endpoint-decorator';
+import '../../shared/gr-dropdown/gr-dropdown';
+import '../../shared/gr-icons/gr-icons';
+import '../../shared/gr-js-api-interface/gr-js-api-interface';
+import '../../shared/gr-rest-api-interface/gr-rest-api-interface';
+import '../gr-account-dropdown/gr-account-dropdown';
+import '../gr-smart-search/gr-smart-search';
+import {GestureEventListeners} from '@polymer/polymer/lib/mixins/gesture-event-listeners';
+import {LegacyElementMixin} from '@polymer/polymer/lib/legacy/legacy-element-mixin';
+import {PolymerElement} from '@polymer/polymer/polymer-element';
+import {htmlTemplate} from './gr-main-header_html';
+import {getBaseUrl, getDocsBaseUrl} from '../../../utils/url-util';
+import {getPluginLoader} from '../../shared/gr-js-api-interface/gr-plugin-loader';
+import {getAdminLinks, NavLink} from '../../../utils/admin-nav-util';
+import {customElement, property, observe} from '@polymer/decorators';
+import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
+import {
+  AccountDetailInfo,
+  ServerInfo,
+  TopMenuEntryInfo,
+  TopMenuItemInfo,
+} from '../../../types/common';
+import {JsApiService} from '../../shared/gr-js-api-interface/gr-js-api-types';
+import {AuthType} from '../../../constants/constants';
 
-const DEFAULT_LINKS = [{
-  title: 'Changes',
-  links: [
-    {
-      url: '/q/status:open+-is:wip',
-      name: 'Open',
-    },
-    {
-      url: '/q/status:merged',
-      name: 'Merged',
-    },
-    {
-      url: '/q/status:abandoned',
-      name: 'Abandoned',
-    },
-  ],
-}];
+interface FixedTopMenuItemInfo extends Omit<TopMenuItemInfo, 'target'> {
+  target?: never;
+}
+interface MainHeaderLink {
+  url: string;
+  name: string;
+}
+interface MainHeaderLinkGroup {
+  title: string;
+  links: MainHeaderLink[];
+  class?: string;
+}
 
-const DOCUMENTATION_LINKS = [
+const DEFAULT_LINKS: MainHeaderLinkGroup[] = [
+  {
+    title: 'Changes',
+    links: [
+      {
+        url: '/q/status:open+-is:wip',
+        name: 'Open',
+      },
+      {
+        url: '/q/status:merged',
+        name: 'Merged',
+      },
+      {
+        url: '/q/status:abandoned',
+        name: 'Abandoned',
+      },
+    ],
+  },
+];
+
+const DOCUMENTATION_LINKS: MainHeaderLink[] = [
   {
     url: '/index.html',
     name: 'Table of Contents',
@@ -75,90 +100,68 @@ const DOCUMENTATION_LINKS = [
 ];
 
 // Set of authentication methods that can provide custom registration page.
-const AUTH_TYPES_WITH_REGISTER_URL = new Set([
-  'LDAP',
-  'LDAP_BIND',
-  'CUSTOM_EXTENSION',
+const AUTH_TYPES_WITH_REGISTER_URL: Set<AuthType> = new Set([
+  AuthType.LDAP,
+  AuthType.LDAP_BIND,
+  AuthType.CUSTOM_EXTENSION,
 ]);
 
-/**
- * @extends PolymerElement
- */
-class GrMainHeader extends GestureEventListeners(
-    LegacyElementMixin(
-        PolymerElement)) {
-  static get template() { return htmlTemplate; }
+export interface GrMainHeader {
+  $: {
+    restAPI: RestApiService & Element;
+    jsAPI: JsApiService & Element;
+  };
+}
 
-  static get is() { return 'gr-main-header'; }
-
-  static get properties() {
-    return {
-      searchQuery: {
-        type: String,
-        notify: true,
-      },
-      loggedIn: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
-      loading: {
-        type: Boolean,
-        reflectToAttribute: true,
-      },
-
-      /** @type {?Object} */
-      _account: Object,
-      _adminLinks: {
-        type: Array,
-        value() { return []; },
-      },
-      _defaultLinks: {
-        type: Array,
-        value() {
-          return DEFAULT_LINKS;
-        },
-      },
-      _docBaseUrl: {
-        type: String,
-        value: null,
-      },
-      _links: {
-        type: Array,
-        computed: '_computeLinks(_defaultLinks, _userLinks, _adminLinks, ' +
-          '_topMenus, _docBaseUrl)',
-      },
-      loginUrl: {
-        type: String,
-        value: '/login',
-      },
-      _userLinks: {
-        type: Array,
-        value() { return []; },
-      },
-      _topMenus: {
-        type: Array,
-        value() { return []; },
-      },
-      _registerText: {
-        type: String,
-        value: 'Sign up',
-      },
-      _registerURL: {
-        type: String,
-        value: null,
-      },
-      mobileSearchHidden: {
-        type: Boolean,
-        value: false,
-      },
-    };
+@customElement('gr-main-header')
+export class GrMainHeader extends GestureEventListeners(
+  LegacyElementMixin(PolymerElement)
+) {
+  static get template() {
+    return htmlTemplate;
   }
 
-  static get observers() {
-    return [
-      '_accountLoaded(_account)',
-    ];
-  }
+  @property({type: String, notify: true})
+  searchQuery?: string;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  loggedIn?: boolean;
+
+  @property({type: Boolean, reflectToAttribute: true})
+  loading?: boolean;
+
+  @property({type: Object})
+  _account?: AccountDetailInfo;
+
+  @property({type: Array})
+  _adminLinks: NavLink[] = [];
+
+  @property({type: String})
+  _docBaseUrl: string | null = null;
+
+  @property({
+    type: Array,
+    computed: '_computeLinks(_userLinks, _adminLinks, _topMenus, _docBaseUrl)',
+  })
+  _links?: MainHeaderLinkGroup[];
+
+  @property({type: String})
+  loginUrl = '/login';
+
+  @property({type: Array})
+  _userLinks: FixedTopMenuItemInfo[] = [];
+
+  @property({type: Array})
+  _topMenus?: TopMenuEntryInfo[] = [];
+
+  @property({type: String})
+  _registerText = 'Sign up';
+
+  @property({type: String})
+  _registerURL?: string;
+
+  @property({type: Boolean})
+  mobileSearchHidden = false;
 
   /** @override */
   ready() {
@@ -182,23 +185,29 @@ class GrMainHeader extends GestureEventListeners(
     this._loadAccount();
   }
 
-  _computeRelativeURL(path) {
+  _computeRelativeURL(path: string) {
     return '//' + window.location.host + getBaseUrl() + path;
   }
 
-  _computeLinks(defaultLinks, userLinks, adminLinks, topMenus, docBaseUrl) {
+  _computeLinks(
+    userLinks?: FixedTopMenuItemInfo[],
+    adminLinks?: NavLink[],
+    topMenus?: TopMenuEntryInfo[],
+    docBaseUrl?: string | null,
+    // defaultLinks parameter is used in tests only
+    defaultLinks = DEFAULT_LINKS
+  ) {
     // Polymer 2: check for undefined
-    if ([
-      defaultLinks,
-      userLinks,
-      adminLinks,
-      topMenus,
-      docBaseUrl,
-    ].includes(undefined)) {
+    if (
+      userLinks === undefined ||
+      adminLinks === undefined ||
+      topMenus === undefined ||
+      docBaseUrl === undefined
+    ) {
       return undefined;
     }
 
-    const links = defaultLinks.map(menu => {
+    const links: MainHeaderLinkGroup[] = defaultLinks.map(menu => {
       return {
         title: menu.title,
         links: menu.links.slice(),
@@ -222,15 +231,20 @@ class GrMainHeader extends GestureEventListeners(
       title: 'Browse',
       links: adminLinks.slice(),
     });
-    const topMenuLinks = [];
-    links.forEach(link => { topMenuLinks[link.title] = link.links; });
+    const topMenuLinks: {[name: string]: MainHeaderLink[]} = {};
+    links.forEach(link => {
+      topMenuLinks[link.title] = link.links;
+    });
     for (const m of topMenus) {
-      const items = m.items.map(this._fixCustomMenuItem).filter(link =>
-        // Ignore GWT project links
-        !link.url.includes('${projectName}')
+      const items = m.items.map(this._fixCustomMenuItem).filter(
+        link =>
+          // Ignore GWT project links
+          !link.url.includes('${projectName}')
       );
       if (m.name in topMenuLinks) {
-        items.forEach(link => { topMenuLinks[m.name].push(link); });
+        items.forEach(link => {
+          topMenuLinks[m.name].push(link);
+        });
       } else {
         links.push({
           title: m.name,
@@ -241,8 +255,8 @@ class GrMainHeader extends GestureEventListeners(
     return links;
   }
 
-  _getDocLinks(docBaseUrl, docLinks) {
-    if (!docBaseUrl || !docLinks) {
+  _getDocLinks(docBaseUrl: string | null, docLinks: MainHeaderLink[]) {
+    if (!docBaseUrl) {
       return [];
     }
     return docLinks.map(link => {
@@ -260,47 +274,62 @@ class GrMainHeader extends GestureEventListeners(
 
   _loadAccount() {
     this.loading = true;
-    const promises = [
+
+    return Promise.all([
       this.$.restAPI.getAccount(),
       this.$.restAPI.getTopMenus(),
       getPluginLoader().awaitPluginsLoaded(),
-    ];
-
-    return Promise.all(promises).then(result => {
+    ]).then(result => {
       const account = result[0];
       this._account = account;
       this.loggedIn = !!account;
       this.loading = false;
       this._topMenus = result[1];
 
-      return getAdminLinks(account,
-          params => this.$.restAPI.getAccountCapabilities(params),
-          () => this.$.jsAPI.getAdminMenuLinks())
-          .then(res => {
-            this._adminLinks = res.links;
-          });
+      return getAdminLinks(
+        account,
+        () =>
+          this.$.restAPI.getAccountCapabilities().then(capabilities => {
+            if (!capabilities) {
+              throw new Error('getAccountCapabilities returns undefined');
+            }
+            return capabilities;
+          }),
+        () => this.$.jsAPI.getAdminMenuLinks()
+      ).then(res => {
+        this._adminLinks = res.links;
+      });
     });
   }
 
   _loadConfig() {
-    this.$.restAPI.getConfig()
-        .then(config => {
-          this._retrieveRegisterURL(config);
-          return getDocsBaseUrl(config, this.$.restAPI);
-        })
-        .then(docBaseUrl => { this._docBaseUrl = docBaseUrl; });
+    this.$.restAPI
+      .getConfig()
+      .then(config => {
+        if (!config) {
+          throw new Error('getConfig returned undefined');
+        }
+        this._retrieveRegisterURL(config);
+        return getDocsBaseUrl(config, this.$.restAPI);
+      })
+      .then(docBaseUrl => {
+        this._docBaseUrl = docBaseUrl;
+      });
   }
 
-  _accountLoaded(account) {
-    if (!account) { return; }
+  @observe('_account')
+  _accountLoaded(account?: AccountDetailInfo) {
+    if (!account) {
+      return;
+    }
 
     this.$.restAPI.getPreferences().then(prefs => {
-      this._userLinks = prefs && prefs.my ?
-        prefs.my.map(this._fixCustomMenuItem) : [];
+      this._userLinks =
+        prefs && prefs.my ? prefs.my.map(this._fixCustomMenuItem) : [];
     });
   }
 
-  _retrieveRegisterURL(config) {
+  _retrieveRegisterURL(config: ServerInfo) {
     if (AUTH_TYPES_WITH_REGISTER_URL.has(config.auth.auth_type)) {
       this._registerURL = config.auth.register_url;
       if (config.auth.register_text) {
@@ -309,11 +338,12 @@ class GrMainHeader extends GestureEventListeners(
     }
   }
 
-  _computeIsInvisible(registerURL) {
+  _computeIsInvisible(registerURL?: string) {
     return registerURL ? '' : 'invisible';
   }
 
-  _fixCustomMenuItem(linkObj) {
+  _fixCustomMenuItem(linkObj: TopMenuItemInfo): FixedTopMenuItemInfo {
+    // TODO(TS): make a copy of linkObj instead of modifying the existing one
     // Normalize all urls to PolyGerrit style.
     if (linkObj.url.startsWith('#')) {
       linkObj.url = linkObj.url.slice(1);
@@ -328,30 +358,29 @@ class GrMainHeader extends GestureEventListeners(
     // so we'll just disable it altogether for now.
     delete linkObj.target;
 
-    return linkObj;
+    return (linkObj as unknown) as FixedTopMenuItemInfo;
   }
 
   _generateSettingsLink() {
     return getBaseUrl() + '/settings/';
   }
 
-  _onMobileSearchTap(e) {
+  _onMobileSearchTap(e: Event) {
     e.preventDefault();
     e.stopPropagation();
-    this.dispatchEvent(new CustomEvent('mobile-search', {
-      composed: true, bubbles: false,
-    }));
+    this.dispatchEvent(
+      new CustomEvent('mobile-search', {
+        composed: true,
+        bubbles: false,
+      })
+    );
   }
 
-  _computeLinkGroupClass(linkGroup) {
-    if (linkGroup && linkGroup.class) {
-      return linkGroup.class;
-    }
-
-    return '';
+  _computeLinkGroupClass(linkGroup: MainHeaderLinkGroup) {
+    return linkGroup.class ?? '';
   }
 
-  _computeShowHideAriaLabel(mobileSearchHidden) {
+  _computeShowHideAriaLabel(mobileSearchHidden: boolean) {
     if (mobileSearchHidden) {
       return 'Show Searchbar';
     } else {
@@ -360,4 +389,8 @@ class GrMainHeader extends GestureEventListeners(
   }
 }
 
-customElements.define(GrMainHeader.is, GrMainHeader);
+declare global {
+  interface HTMLElementTagNameMap {
+    'gr-main-header': GrMainHeader;
+  }
+}

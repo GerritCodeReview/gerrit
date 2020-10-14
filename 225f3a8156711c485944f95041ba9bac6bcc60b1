@@ -16,6 +16,127 @@
       "message": "Patrick, can you take another look please?",
       "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e372e005_7c3d92c1",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:02:08Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "6251784d_d3512a1a",
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "e1165215_79e734fb",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 22
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:02:08Z",
+      "side": 1,
+      "message": "Looks good to me minus smaller nits. Happy to approve the change when they are fixed. If you need it faster, Martin could also but a +2 on it.",
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "884b2b64_7975c8cd",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:02:08Z",
+      "side": 1,
+      "message": "naming nit: here you name it ...Bulk... but that is missing from the other tests, yet the also use the bulk factory.",
+      "range": {
+        "startLine": 235,
+        "startChar": 49,
+        "endLine": 235,
+        "endChar": 54
+      },
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cc673791_ad5fbd06",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:02:08Z",
+      "side": 1,
+      "message": "You could use ChangeOperations for creating changes (it\u0027s a new testing API) and then pass a custom commit message instead of fishing for odd/even changes:\n\nChange.Id changeWithNoInfo \u003d changeOperations.create().commitMessage(\"no-info\").create();\nChange.Id changeWithInfo \u003d changeOperations.create().commitMessage(\"info\").create();\n\nand your plugin just does: \"info\".equals(cd.commitMessage()) ? new Info : null;",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 5
+      },
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f273164c_36254e13",
+        "filename": "java/com/google/gerrit/server/change/ChangePluginDefinedInfoFactory.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:02:08Z",
+      "side": 1,
+      "message": "Can we mark the other interface as @Deprecated?",
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a78813c9_1686db9f",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-14T09:02:08Z",
+      "side": 1,
+      "message": "nit: Propagate runtime exceptions as structured API data types so that queries don\u0027t fail.",
+      "range": {
+        "startLine": 95,
+        "startChar": 9,
+        "endLine": 95,
+        "endChar": 12
+      },
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

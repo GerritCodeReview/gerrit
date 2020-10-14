@@ -15,5 +15,4 @@
  * limitations under the License.
  */
 
-window.Gerrit = window.Gerrit || {};
 import '../elements/diff/gr-diff/gr-diff.js';

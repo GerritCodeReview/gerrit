@@ -76,6 +76,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "a53ea262_1d83e3e8",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 235,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-14T17:08:59Z",
+      "side": 1,
+      "message": "Done.",
+      "parentUuid": "884b2b64_7975c8cd",
+      "range": {
+        "startLine": 235,
+        "startChar": 49,
+        "endLine": 235,
+        "endChar": 54
+      },
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "cc673791_ad5fbd06",
@@ -89,6 +113,30 @@
       "writtenOn": "2020-10-14T09:02:08Z",
       "side": 1,
       "message": "You could use ChangeOperations for creating changes (it\u0027s a new testing API) and then pass a custom commit message instead of fishing for odd/even changes:\n\nChange.Id changeWithNoInfo \u003d changeOperations.create().commitMessage(\"no-info\").create();\nChange.Id changeWithInfo \u003d changeOperations.create().commitMessage(\"info\").create();\n\nand your plugin just does: \"info\".equals(cd.commitMessage()) ? new Info : null;",
+      "range": {
+        "startLine": 275,
+        "startChar": 0,
+        "endLine": 285,
+        "endChar": 5
+      },
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43e49ca8_bd018f82",
+        "filename": "java/com/google/gerrit/acceptance/AbstractPluginFieldsTest.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 285,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-14T17:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "cc673791_ad5fbd06",
       "range": {
         "startLine": 275,
         "startChar": 0,
@@ -116,6 +164,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "373d4312_f977fdc2",
+        "filename": "java/com/google/gerrit/server/change/ChangePluginDefinedInfoFactory.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 38,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-14T17:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f273164c_36254e13",
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a78813c9_1686db9f",
@@ -129,6 +195,30 @@
       "writtenOn": "2020-10-14T09:02:08Z",
       "side": 1,
       "message": "nit: Propagate runtime exceptions as structured API data types so that queries don\u0027t fail.",
+      "range": {
+        "startLine": 95,
+        "startChar": 9,
+        "endLine": 95,
+        "endChar": 12
+      },
+      "revId": "225f3a8156711c485944f95041ba9bac6bcc60b1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a6e977b4_6e5cf26b",
+        "filename": "java/com/google/gerrit/server/change/PluginDefinedAttributesFactories.java",
+        "patchSetId": 22
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1105741
+      },
+      "writtenOn": "2020-10-14T17:08:59Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a78813c9_1686db9f",
       "range": {
         "startLine": 95,
         "startChar": 9,

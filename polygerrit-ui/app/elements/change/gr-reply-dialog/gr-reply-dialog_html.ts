@@ -412,6 +412,7 @@ export const htmlTemplate = html`
               data-label="Edit"
               data-action-type="change"
               data-action-key="edit"
+              has-tooltip=""
               title="[[_computeAttentionButtonTitle(_sendDisabled)]]"
               role="button"
               tabindex="0"

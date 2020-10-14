@@ -97,6 +97,7 @@ import {
   HashtagsInput,
   Hashtag,
   FileNameToFileInfoMap,
+  TopMenuEntryInfo,
 } from '../../../types/common';
 import {ParsedChangeInfo} from '../../../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {HttpMethod, IgnoreWhitespaceType} from '../../../constants/constants';
@@ -841,4 +842,6 @@ export interface RestApiService {
     reviewed: boolean,
     errFn: ErrorCallback
   ): Promise<Response | undefined>;
+
+  getTopMenus(errFn?: ErrorCallback): Promise<TopMenuEntryInfo[] | undefined>;
 }

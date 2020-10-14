@@ -18,6 +18,7 @@ import {ActionInfo, ChangeInfo, PatchSetNum} from '../../../types/common';
 import {EventType, TargetElement} from '../../plugins/gr-plugin-types';
 import {DiffLayer} from '../../../types/types';
 import {GrAnnotationActionsInterface} from './gr-annotation-actions-js-api';
+import {MenuLink} from '../../plugins/gr-admin-api/gr-admin-api';
 
 export interface ShowChangeDetail {
   change: ChangeInfo;
@@ -50,5 +51,6 @@ export interface JsApiService {
   getDiffLayers(path: string, changeNum: number): DiffLayer[];
   disposeDiffLayers(path: string): void;
   getCoverageAnnotationApi(): Promise<GrAnnotationActionsInterface | undefined>;
+  getAdminMenuLinks(): MenuLink[];
   // TODO(TS): Add more methods when needed for the TS conversion.
 }

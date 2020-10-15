@@ -16,6 +16,23 @@
       "message": "The change must be updated and submitted after change view migration is complete (minor changes expected)",
       "revId": "699d6fb425842b41cb21ba2d6ffaf1ed162140f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ad1ebdb7_38ad4b43",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T12:52:25Z",
+      "side": 1,
+      "message": "Thank you! I was planning to do exactly the same. :-)",
+      "revId": "699d6fb425842b41cb21ba2d6ffaf1ed162140f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

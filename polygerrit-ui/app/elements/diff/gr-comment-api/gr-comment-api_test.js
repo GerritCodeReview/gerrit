@@ -19,7 +19,7 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
 import {CommentSide} from '../../../constants/constants.js';
-import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads} from '../../../utils/comment-util.js';
+import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads, isDraftThread, isUnresolved} from '../../../utils/comment-util.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -198,7 +198,8 @@ suite('gr-comment-api tests', () => {
             },
             {},
             {},
-            portedComments
+            portedComments,
+            {}
         );
       });
 
@@ -271,7 +272,8 @@ suite('gr-comment-api tests', () => {
                 },
               ],
             },
-            portedComments
+            portedComments,
+            {}
         );
 
         assert.equal(createCommentThreads(changeComments
@@ -279,6 +281,75 @@ suite('gr-comment-api tests', () => {
         assert.equal(changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'}
         ).length, 0);
+      });
+
+      test('drafts are ported over', () => {
+        changeComments = new ChangeComments(
+            {},
+            {},
+            {
+              'karma.conf.js': [
+                {
+
+                  // draft that will be ported over to ps 4
+                  id: 'db977012_e1f13828',
+                  line: 4,
+                  updated: '2018-02-13 22:48:48.018000000',
+                  unresolved: false,
+                  __draft: true,
+                  __draftID: '0.m683trwff68',
+                  patch_set: 2,
+                },
+                {
+                  id: '503008e2_0ab203ee',
+                  line: 5,
+                  updated: '2018-02-13 22:49:48.018000001',
+                  unresolved: true,
+                  __draft: true,
+                  __draftID: '0.m683trwff69',
+                  patch_set: 2,
+                },
+              ],
+            },
+            {},
+            {
+              'karma.conf.js': [
+                {
+                  id: 'db977012_e1f13828',
+                  path: 'karma.conf.js',
+                  line: 5,
+                  updated: '2018-02-13 22:48:48.018000000',
+                  unresolved: false,
+                  __draft: true,
+                  __draftID: '0.m683trwff68',
+                  patch_set: 4,
+                },
+                {
+                  id: '503008e2_0ab203ee',
+                  line: 6,
+                  updated: '2018-02-13 22:49:48.018000001',
+                  unresolved: true,
+                  __draft: true,
+                  __draftID: '0.m683trwff69',
+                  patch_set: 4,
+                },
+              ],
+            }
+        );
+
+        const portedThreads = changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+
+        // resolved draft is ported over
+        assert.equal(portedThreads.length, 2);
+        assert.equal(portedThreads[0].line, 5);
+        assert.isTrue(isDraftThread(portedThreads[0]));
+        assert.isFalse(isUnresolved(portedThreads[0]));
+
+        // unresolved draft is ported over
+        assert.equal(portedThreads[1].line, 6);
+        assert.isTrue(isDraftThread(portedThreads[1]));
+        assert.isTrue(isUnresolved(portedThreads[1]));
       });
     });
 

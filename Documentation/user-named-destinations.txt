@@ -13,6 +13,7 @@ user's destination files are a 2 column tab delimited file.  Each
 row in a destination file represents a single destination in the
 named set.  The left column represents the ref of the destination,
 and the right column represents the project of the destination.
+The named destinations can be publicly accessible by other users.
 
 Example destination file named `destinations/myreviews`:
 

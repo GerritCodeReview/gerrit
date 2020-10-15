@@ -333,6 +333,9 @@ export class GrChangeView extends KeyboardShortcutMixin(
   @property({type: Object})
   _portedComments?: PathToCommentsInfoMap;
 
+  @property({type: Object})
+  _portedDrafts?: PathToCommentsInfoMap;
+
   @property({type: Boolean})
   _isPortingCommentsExperimentEnabled = false;
 
@@ -2147,9 +2150,11 @@ export class GrChangeView extends KeyboardShortcutMixin(
     const portedCommentsPromise = this.$.commentAPI
       .getPortedComments(this._changeNum)
       .then((result: PortedCommentsAndDrafts) => {
-        if (!result.portedComments) return;
-        if (this._isPortingCommentsExperimentEnabled)
+        if (!result.portedComments || !result.portedDrafts) return;
+        if (this._isPortingCommentsExperimentEnabled) {
           this._portedComments = result.portedComments;
+          this._portedDrafts = result.portedDrafts;
+        }
       });
     const commentsPromise = this.$.commentAPI
       .loadAll(this._changeNum)

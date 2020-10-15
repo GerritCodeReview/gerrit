@@ -336,6 +336,9 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Object})
   portedComments?: PathToCommentsInfoMap;
 
+  @property({type: Object})
+  portedDrafts?: PathToCommentsInfoMap;
+
   private readonly reporting = appContext.reportingService;
 
   get keyBindings() {
@@ -1568,12 +1571,14 @@ export class GrFileList extends KeyboardShortcutMixin(
         );
         if (
           this.portedComments &&
+          this.portedDrafts &&
           this.changeComments &&
           this.patchRange &&
           path
         ) {
           diffElem.portedCommentThreads = getPortedCommentThreads(
             this.portedComments,
+            this.portedDrafts,
             path,
             this.changeComments,
             this.patchRange

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "667bf380_736d8c59",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 25
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-15T19:57:10Z",
+      "side": 1,
+      "message": "Looks like flaky replication tests are the only CI failures (working on fixing those https://gerrit-review.googlesource.com/c/plugins/replication/+/284756).\n\n INFO: Elapsed time: 5031.615s, Critical Path: 2076.85s\n INFO: 639 processes: 98 remote cache hit, 541 local.\n INFO: Build completed, 1 test FAILED, 1372 total actions\n //plugins/replication:replication_tests                                  FAILED in 3 out of 3 in 554.5s\n   Stats over 3 runs: max \u003d 554.5s, min \u003d 513.5s, avg \u003d 539.1s, dev \u003d 18.2s\n     FAILED  com.googlesource.gerrit.plugins.replication.ReplicationFanoutIT.shouldReplicateNewBranchToTwoRemotes (9.0s)\n     FAILED  com.googlesource.gerrit.plugins.replication.ReplicationIT.shouldCreateIndividualReplicationTasksForEveryRemoteUrlPair (3.2s)\n Test cases: finished with 7185 passing and 2 failing out of 7187 test cases\n \n Executed 176 out of 181 tests: 180 tests pass and 1 fails locally.\n INFO: Build completed, 1 test FAILED, 1372 total actions\n",
+      "revId": "0ddd3d2071f43ff6e702c34183568cec19f0af45",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

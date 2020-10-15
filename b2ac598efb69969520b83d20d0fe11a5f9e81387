@@ -16,6 +16,24 @@
       "message": "instead of looking up all the change URLs upfront I would render a query link for the commitId and this way defer the communication with Gerrit to the time when the user clicks the link.\nThis doesn\u0027t slow down rendering the release notes and probably reduces the traffic for gerrit a lot since it is unlikely that the user clicks all the links",
       "revId": "b2ac598efb69969520b83d20d0fe11a5f9e81387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "72fe62b6_ffdeba22",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T21:58:04Z",
+      "side": 1,
+      "message": "Then you can also skip adding an option for the adding the links since there\u0027s no performance penalty for that.\n\nI noticed that this only renders links for core but not for the plugins, this should be fixed",
+      "parentUuid": "c51ac8fd_09513750",
+      "revId": "b2ac598efb69969520b83d20d0fe11a5f9e81387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

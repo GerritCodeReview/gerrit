@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8b081d41_a206de7e",
+        "filename": "tools/release_noter/release_noter.md.template",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T22:29:46Z",
+      "side": 1,
+      "message": "I propose to use different file names for this template and the generated markdown document or rename the pythons script since with the current names there are 3 files starting with \"release_noter.\" :\n\nrelease_noter.py\nrelease_noter.md\nrelease_noter.md.template\n\nthis means tab completion always stops at release_noter. which is annoying",
+      "revId": "7e9010a75c799e47721caac528cdada1de70e393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

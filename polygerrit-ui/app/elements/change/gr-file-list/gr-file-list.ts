@@ -80,6 +80,7 @@ import {
   PatchSetFile,
   UIDraft,
   getPortedCommentThreads,
+  getPortedComments,
 } from '../../../utils/comment-util';
 import {ParsedChangeInfo} from '../../shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {KnownExperimentId} from '../../../services/flags/flags';
@@ -340,6 +341,9 @@ export class GrFileList extends KeyboardShortcutMixin(
   @property({type: Object})
   _portedComments?: PathToCommentsInfoMap;
 
+  @property({type: Object})
+  _portedDrafts?: PathToCommentsInfoMap;
+
   @property({type: Boolean})
   _isPortingCommentsExperimentEnabled = false;
 
@@ -522,12 +526,24 @@ export class GrFileList extends KeyboardShortcutMixin(
     if (!this.patchRange || !this.changeNum) {
       throw new Error('changeNum and patchRange expected');
     }
-    return this.$.restAPI
-      .getPortedComments(this.changeNum, this.patchRange.patchNum)
-      .then((portedComments: PathToCommentsInfoMap | undefined) => {
-        if (!portedComments) return;
+    return getPortedComments(
+      this.changeNum,
+      this.patchRange.patchNum,
+      this.$.restAPI
+    ).then(
+      (
+        result: [
+          PathToCommentsInfoMap | undefined,
+          PathToCommentsInfoMap | undefined
+        ]
+      ) => {
+        const portedComments = result[0];
+        const portedDrafts = result[1];
+        if (!portedComments && !portedDrafts) return;
         this._portedComments = portedComments;
-      });
+        this._portedDrafts = portedDrafts;
+      }
+    );
   }
 
   _detectChromiteButler() {
@@ -1596,12 +1612,14 @@ export class GrFileList extends KeyboardShortcutMixin(
         );
         if (
           this._portedComments &&
+          this._portedDrafts &&
           this.changeComments &&
           this.patchRange &&
           path
         ) {
           diffElem.portedCommentThreads = getPortedCommentThreads(
             this._portedComments,
+            this._portedDrafts,
             path,
             this.changeComments,
             this.patchRange

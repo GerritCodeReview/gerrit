@@ -456,6 +456,11 @@ export interface RestApiService {
     patchNum: PatchSetNum
   ): Promise<PathToCommentsInfoMap | undefined>;
 
+  getPortedDrafts(
+    changeNum: NumericChangeId,
+    patchNum: PatchSetNum
+  ): Promise<PathToCommentsInfoMap | undefined>;
+
   getDiffChangeDetail(
     changeNum: NumericChangeId,
     errFn?: ErrorCallback,

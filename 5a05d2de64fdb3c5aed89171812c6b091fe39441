@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "43c7661d_a866ddd8",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-15T06:41:07Z",
+      "side": 1,
+      "message": "replication tests are broken, manually verified",
+      "revId": "5a05d2de64fdb3c5aed89171812c6b091fe39441",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -80,6 +80,13 @@ public class DefaultPermissionBackend extends PermissionBackend {
 
   @Override
   public WithUser absentUser(Account.Id id) {
+    CurrentUser user = currentUser.get();
+    if (user.isIdentifiedUser() && id.equals(user.asIdentifiedUser().getAccountId())) {
+      // What looked liked an absent user is actually the current caller. Use the per-request
+      // singleton IdentifiedUser instead of constructing a new object to leverage caching in member
+      // variables of IdentifiedUser.
+      return new WithUserImpl(user.asIdentifiedUser());
+    }
     IdentifiedUser identifiedUser = identifiedUserFactory.create(requireNonNull(id, "user"));
     return new WithUserImpl(identifiedUser);
   }

@@ -43,6 +43,20 @@ function getUiDevNpmFilePath(importPath) {
   }
 }
 
+function runInIde() {
+  // A simple detection of IDE.
+  // Default browserNoActivityTimeout is 30 seconds. An IDE usually
+  // runs karma in background and send commands when a user wants to
+  // execute test. If interval between user executed tests is bigger than
+  // browserNoActivityTimeout, the IDE reports error and doesn't restart
+  // server.
+  // We want to increase browserNoActivityTimeout when tests run in IDE.
+  // Wd don't want to increase it in other cases, oterhise hanging tests
+  // can slow down CI.
+  return !runUnderBazel &&
+      process.argv.some(arg => arg.toLowerCase().contains('intellij'));
+}
+
 module.exports = function(config) {
   const localDirName = path.resolve(__dirname, '../.ts-out/polygerrit-ui/app');
   const rootDir = runUnderBazel ?
@@ -58,7 +72,10 @@ module.exports = function(config) {
   const testFilesPattern = (typeof config.testFiles == 'string') ?
       testFilesLocationPattern + config.testFiles :
       testFilesLocationPattern + '*_test.js';
+  // Special patch for grep parameters (see details in the grep-patch-karam.js)
+  const additionalFiles = runUnderBazel ? [] : ['polygerrit-ui/grep-patch-karma.js'];
   config.set({
+    browserNoActivityTimeout: runInIde ? 60 * 60 * 1000 : 30 * 1000,
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '../',
     plugins: [
@@ -76,6 +93,8 @@ module.exports = function(config) {
 
     // list of files / patterns to load in the browser
     files: [
+      ...additionalFiles,
+      getUiDevNpmFilePath('source-map-support/browser-source-map-support.js'),
       getUiDevNpmFilePath('accessibility-developer-tools/dist/js/axs_testing.js'),
       getUiDevNpmFilePath('sinon/pkg/sinon.js'),
       { pattern: testFilesPattern, type: 'module' },

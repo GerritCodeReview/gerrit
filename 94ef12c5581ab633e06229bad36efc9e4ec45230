@@ -26,6 +26,30 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "0b925416_1f9df30a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T14:28:55Z",
+      "side": 1,
+      "message": "I guess this is a bug and it should be\n\n  removed.approved._account_id\n\nBut I am just guessing. :-/",
+      "parentUuid": "0accf723_d5495bfc",
+      "range": {
+        "startLine": 1842,
+        "startChar": 45,
+        "endLine": 1842,
+        "endChar": 52
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "d4e58ac0_86c03aba",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 7
@@ -43,6 +67,47 @@
         "endLine": 1932,
         "endChar": 12
       },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "15e5deed_3ad52864",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1932,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T14:28:55Z",
+      "side": 1,
+      "message": "Maybe 2 and define EditRevisionInfo as Partial\u003cRevisionInfo\u003e?",
+      "parentUuid": "d4e58ac0_86c03aba",
+      "range": {
+        "startLine": 1932,
+        "startChar": 6,
+        "endLine": 1932,
+        "endChar": 12
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d27c54e3_1010e475",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2192,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T14:28:55Z",
+      "side": 1,
+      "message": "Maybe define type here as:\n\n  const allDataPromises: Promise\u003cunknown\u003e[] \u003d [];\n\nor\n\n  const allDataPromises: Promise\u003cvoid\u003e[] \u003d [];",
       "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },

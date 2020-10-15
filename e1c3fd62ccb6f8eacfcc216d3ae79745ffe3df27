@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": false,
       "key": {
         "uuid": "63c8e528_fee4321d",
         "filename": "/PATCHSET_LEVEL",
@@ -14,10 +15,10 @@
       "side": 1,
       "message": "Would there be a way to convey the CurrentUser? Barring that, should this pass an account id to uniquely identify the user?",
       "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4eb270c0_43c5b972",
         "filename": "/PATCHSET_LEVEL",
@@ -32,10 +33,10 @@
       "message": "Marking unresolved.",
       "parentUuid": "63c8e528_fee4321d",
       "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "81f7bc8f_563fd594",
         "filename": "/PATCHSET_LEVEL",
@@ -50,10 +51,10 @@
       "message": "I tried using CurrentUser but it isn\u0027t visible from the com.google.gerrit.extensions.validators package. Is there a different user object that is visible that I should use? or should we just go with account id (assuming we can look up the user from plugins)?",
       "parentUuid": "4eb270c0_43c5b972",
       "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "4b9c402b_21e43d68",
         "filename": "/PATCHSET_LEVEL",
@@ -68,10 +69,10 @@
       "message": "ping for help on this",
       "parentUuid": "81f7bc8f_563fd594",
       "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "301bd9f2_e9416e02",
         "filename": "/PATCHSET_LEVEL",
@@ -86,10 +87,27 @@
       "message": "CurrentUser is not visible, but you can just use a primitive \"int accountId\".\n\nPlugins can resolve that.\n\nAlternatively, you don\u0027t loop anything through and get a \"Provider\u003cCurrentUser\u003e\" injected in your service class in the plugin which will then give you the caller of the request which I guess for publishing comments is always the user whose comments are getting published.",
       "parentUuid": "4b9c402b_21e43d68",
       "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "cc43ec8c_b8b6858b",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1011842
+      },
+      "writtenOn": "2020-10-15T03:59:48Z",
+      "side": 1,
+      "message": "What hiesel@ said. I think that should be not too complex and make this a bit more generically useful.",
+      "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "6cf9b5fd_ed5ecbda",
         "filename": "javatests/com/google/gerrit/acceptance/api/change/PostReviewIT.java",
@@ -103,8 +121,7 @@
       "side": 1,
       "message": "Please add a test to this and the other test cases.",
       "revId": "e1c3fd62ccb6f8eacfcc216d3ae79745ffe3df27",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

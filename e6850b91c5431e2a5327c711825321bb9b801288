@@ -1,0 +1,209 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ace101cb_a87b69ef",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 9
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "Awesome! Thanks for doing this large conversion. Just some small comments.",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4c0118cf_4e4b1f5c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "Maybe just\n\n  EditRevisionInfo\n\ninstead of\n\n  RevisionInfo | EditRevisionInfo",
+      "range": {
+        "startLine": 202,
+        "startChar": 37,
+        "endLine": 202,
+        "endChar": 69
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb5ba294_1322d06b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "CommentThread[]\n\ninstead of\n\n  unknown",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8e3d0142_8d9a9ccc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "just remove it",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "35296dcf_a0b5c9c2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "This might be dangerous, because\n\n  undefined \u003d\u003d null\n\nbut\n\n  undefined !\u003d\u003d null\n\nIt looks like `patchRange.patchNum` cannot be null, but it can be undefined.\n\nI think it is safer to change the condition to\n\n  patchRange.patchNum \u003d\u003d\u003d undefined\n\nor just\n\n  !patchRange.patchNum",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "71ff1298_84f8b623",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1939,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "I don\u0027t really expect this to be done as part of the migration, but as a style preference I would like to establish that these guard statements should prefer to be written on a single line. WDYT?",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "321d456a_54205ee3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2022,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "Nit: you can drop this check. You are accessing currentRevision.commit above.",
+      "range": {
+        "startLine": 2022,
+        "startChar": 12,
+        "endLine": 2022,
+        "endChar": 27
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a2fda025_00fb4287",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2164,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "Optional: This can be written as\n\n  .filter(isDraftThread)\n\nusing the common filter function from comment-util.",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ddcf7d38_8896d2d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2173,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "true as boolean\n\nIs that required? I would be interested to learn why. :-)",
+      "range": {
+        "startLine": 2173,
+        "startChar": 43,
+        "endLine": 2173,
+        "endChar": 59
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ab740835_119605d1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2386,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "remove",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6f83fd5_e6a06615",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T20:30:12Z",
+      "side": 1,
+      "message": "I would prefer to revert to what we had before.\n\nutils/ should not depend on polymer.\n\nhasEditPatchsetLoaded() should maybe have PatchRange as a parameter instead of PatchRangeRecord.",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

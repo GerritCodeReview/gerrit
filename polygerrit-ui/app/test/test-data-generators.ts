@@ -60,6 +60,7 @@ import {
   AccountDetailInfo,
   Requirement,
   RequirementType,
+  UrlEncodedCommentId,
 } from '../types/common';
 import {
   AccountsVisibility,
@@ -77,6 +78,7 @@ import {
   SubmitType,
   TimeFormat,
   RequirementStatus,
+  CommentSide,
 } from '../constants/constants';
 import {formatDate} from '../utils/date-util';
 import {GetDiffCommentsOutput} from '../services/services/gr-rest-api/gr-rest-api';
@@ -88,6 +90,7 @@ import {
 } from '../elements/shared/gr-rest-api-interface/gr-reviewer-updates-parser';
 import {CommitInfoWithRequiredCommit} from '../elements/change/gr-change-metadata/gr-change-metadata';
 import {WebLinkInfo} from '../types/diff';
+import {UIComment, UIDraft} from '../utils/comment-util';
 
 export function dateToTimestamp(date: Date): Timestamp {
   const nanosecondSuffix = '.000000000';
@@ -439,5 +442,26 @@ export function createWebLinkInfo(): WebLinkInfo {
     name: 'gitiles',
     url: '#',
     image_url: 'gitiles.jpg',
+  };
+}
+
+export function createComment(): UIComment {
+  return {
+    patch_set: 1 as PatchSetNum,
+    id: '12345' as UrlEncodedCommentId,
+    side: CommentSide.REVISION,
+    line: 1,
+    message: 'hello world',
+    updated: '2018-02-13 22:48:48.018000000' as Timestamp,
+    unresolved: false,
+  };
+}
+
+export function createDraft(): UIDraft {
+  return {
+    ...createComment(),
+    collapsed: false,
+    __draft: true,
+    __editing: false,
   };
 }

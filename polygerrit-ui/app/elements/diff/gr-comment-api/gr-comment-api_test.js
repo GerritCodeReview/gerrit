@@ -19,7 +19,8 @@ import '../../../test/common-test-setup-karma.js';
 import './gr-comment-api.js';
 import {ChangeComments} from './gr-comment-api.js';
 import {CommentSide} from '../../../constants/constants.js';
-import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads} from '../../../utils/comment-util.js';
+import {isInRevisionOfPatchRange, isInBaseOfPatchRange, createCommentThreads, isDraftThread, isUnresolved} from '../../../utils/comment-util.js';
+import {createDraft, createComment} from '../../../test/test-data-generators.js';
 
 const basicFixture = fixtureFromElement('gr-comment-api');
 
@@ -150,55 +151,70 @@ suite('gr-comment-api tests', () => {
     suite('ported comments', () => {
       let portedComments;
       let changeComments;
+      const comment1 = {
+        ...createComment(),
+        unresolved: true,
+        id: 'db977012_e1f13818',
+        line: 136,
+        patch_set: 2,
+        range: {
+          start_line: 1,
+          start_character: 1,
+          end_line: 1,
+          end_character: 1,
+        },
+      };
+
+      const comment2 = {
+        ...createComment(),
+        patch_set: 2,
+        id: 'ecf0b9fa_fe1a5f62',
+        line: 5,
+      };
+
+      const draft1 = {
+        ...createDraft(),
+        id: 'db977012_e1f13828',
+        line: 4,
+        patch_set: 2,
+      };
+      const draft2 = {
+        ...createDraft(),
+        id: '503008e2_0ab203ee',
+        line: 11,
+        unresolved: true,
+        // slightly larger timestamp so it's sorted higher
+        updated: '2018-02-13 22:49:48.018000001',
+        patch_set: 2,
+      };
+
       setup(() => {
         portedComments = {
-          'karma.conf.js': [
-            {
-              unresolved: true,
-              patch_set: 4,
-              id: 'db977012_e1f13818',
-              line: 136,
-              range: {
-                start_line: 136,
-                start_character: 16,
-                end_line: 136,
-                end_character: 29,
-              },
-              updated: '2020-11-19 12:06:48.000000000',
+          'karma.conf.js': [{
+            ...comment1,
+            patchNum: 4,
+            range: {
+              start_line: 136,
+              start_character: 16,
+              end_line: 136,
+              end_character: 29,
             },
-          ],
+          }],
         };
 
         changeComments = new ChangeComments(
-            {
+            {/* comments */
               'karma.conf.js': [
-                {
-                  // resolved comment that will not be ported over
-                  patch_set: 2,
-                  id: 'ecf0b9fa_fe1a5f62',
-                  line: 5,
-                  updated: '2018-02-08 18:49:18.000000000',
-                  unresolved: false,
-                },
-                {
-                  unresolved: true,
-                  // original comment that will be ported over to patchset 4
-                  patch_set: 2,
-                  id: 'db977012_e1f13818',
-                  line: 136,
-                  range: {
-                    start_line: 1,
-                    start_character: 1,
-                    end_line: 1,
-                    end_character: 1,
-                  },
-                  updated: '2020-11-19 12:06:48.000000000',
-                },
+                // resolved comment that will not be ported over
+                comment2,
+                // original comment that will be ported over to patchset 4
+                comment1,
               ],
             },
-            {},
-            {},
-            portedComments
+            {}/* robot comments */,
+            {}/* drafts */,
+            portedComments,
+            {}/* ported drafts */
         );
       });
 
@@ -241,37 +257,18 @@ suite('gr-comment-api tests', () => {
 
       test('threads without any ported comment are filtered out', () => {
         changeComments = new ChangeComments(
-            {
+            {/* comments */
               // comment that is not ported over
-              'karma.conf.js': [
-                {
-                  patch_set: 2,
-                  id: 'ecf0b9fa_fe1a5f62',
-                  line: 5,
-                  updated: '2018-02-08 18:49:18.000000000',
-                  unresolved: false,
-                },
-              ],
+              'karma.conf.js': [comment2],
             },
-            {},
-            {
-              'karma.conf.js': [
-                // comment that is ported over but does not have any thread
-                // that has a comment that matches it
-                {
-                  id: '503008e2_0ab203ee',
-                  path: 'karma.conf.js',
-                  line: 5,
-                  in_reply_to: 'ecf0b9fa_fe1a5f62',
-                  updated: '2018-02-13 22:48:48.018000000',
-                  unresolved: true,
-                  __draft: true,
-                  __draftID: '0.m683trwff68',
-                  patch_set: 2,
-                },
-              ],
+            {}/* robot comments */,
+            {/* drafts */
+              'karma.conf.js': [draft2],
             },
-            portedComments
+            // comment1 that is ported over but does not have any thread
+            // that has a comment that matches it
+            portedComments,
+            {}/* ported drafts */
         );
 
         assert.equal(createCommentThreads(changeComments
@@ -279,6 +276,51 @@ suite('gr-comment-api tests', () => {
         assert.equal(changeComments._getPortedCommentThreads(
             {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'}
         ).length, 0);
+      });
+
+      test('drafts are ported over', () => {
+        changeComments = new ChangeComments(
+            {}/* comments */,
+            {}/* robotComments */,
+            {/* drafts */
+              // draft1: resolved draft that will be ported over to ps 4
+              // draft2: unresolved draft that will be ported over to ps 4
+              'karma.conf.js': [draft1, draft2],
+            },
+            {}/* ported comments */,
+            {/* ported drafts */
+              'karma.conf.js': [
+                {
+                  ...draft1,
+                  line: 5,
+                  patch_set: 4,
+                },
+                {
+                  ...draft2,
+                  line: 31,
+                  patch_set: 4,
+                },
+              ],
+            }
+        );
+
+        const portedThreads = changeComments._getPortedCommentThreads(
+            {path: 'karma.conf.js'}, {patchNum: 4, basePatchNum: 'PARENT'});
+
+        // resolved draft is ported over
+        assert.equal(portedThreads.length, 2);
+        assert.equal(portedThreads[0].line, 5);
+        assert.isTrue(isDraftThread(portedThreads[0]));
+        assert.isFalse(isUnresolved(portedThreads[0]));
+
+        // unresolved draft is ported over
+        assert.equal(portedThreads[1].line, 31);
+        assert.isTrue(isDraftThread(portedThreads[1]));
+        assert.isTrue(isUnresolved(portedThreads[1]));
+
+        assert.equal(createCommentThreads(
+            changeComments.getAllCommentsForPath('karma.conf.js'),
+            {patchNum: 4, basePatchNum: 'PARENT'}).length, 0);
       });
     });
 

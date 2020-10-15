@@ -1,0 +1,84 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4f67e1dd_084a592a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T23:29:41Z",
+      "side": 1,
+      "message": "I\u0027d remove this part which seems to add no important information which can\u0027t be understood from looking at the diff",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 0
+      },
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f08b29cd_b33c1fc2",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T23:29:41Z",
+      "side": 1,
+      "message": "I wouldn\u0027t do this since this risks to remove an earlier generated file which maybe was edited manually.\n\nI\u0027d also consider to always generate a new file to prevent overwriting a maybe manually edited file. If the default file already exists you could append a number.\n\nDeclare all these targets phony ? They do not generate a file with their name.\nSee https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html",
+      "range": {
+        "startLine": 3,
+        "startChar": 5,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "980a494b_592a10d4",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T23:29:41Z",
+      "side": 1,
+      "message": "How about a run target running the script for normal use in dev mode ?\n\nFor normal use I\u0027d recommend to generate a wheel package which can be installed using pip and then run simply by starting the script without pipenv\nhttps://realpython.com/python-wheels/",
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "da45e213_da567fb3",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T23:29:41Z",
+      "side": 1,
+      "message": "This is rather an example than a test since there are no assertions.\nInstead we could use a fixed range e.g. v3.1.0..v3.2.0 and add assertions checking\nthat the rendered document looks like expected.\n\nI recommend to use pytest for tests \nhttps://docs.pytest.org/",
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

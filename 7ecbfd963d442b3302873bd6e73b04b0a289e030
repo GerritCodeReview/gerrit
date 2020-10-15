@@ -1,0 +1,157 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2a76c5bd_edfd6928",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "Maybe you can explain more in the commit message how you are loading and processing ported comments.",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6c59c8fd_b739c508",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "I think it would be helpful to also do the change-view in one change, because it might be easier to find the right abstractions and be less repetitive.",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "413655ae_7ee5067c",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 31
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "Just a first round of high-level comments.\n\nAdding Dmitrii as an additional reviewer, because I think the change is substantial enough that four eyes might be good. Also I am OOO next week.",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c81952cc_0998bed8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "If this is unrelated to gr-diff, then maybe move to comment-util?",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d9838def_033dda34",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "This is unlikely to be the best way to re-render the diff. Let\u0027s discuss this more.\n\nBut maybe it is a bad user experience anyway to load/show the diff with one set of comments and then (suddenly) reload it with another set of (ported) comments. Maybe we should just wait for the ported comments, and only then show the diff.\n\nAlso note that gr-diff has a (weird) _observeNodes() mechanism for listening on newly attached comment threads. Maybe this could be changed to expand collapsed diff chunks, if ported comments are attached to collapsed lines? I mean if we decide to go for that kind of UX.",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a70f0337_37b38541",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "A lot of the content of this method looks like it can be moved to comment-util.",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "88dafb4e_a4d6565d",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "Is it relevant for the diffHost to know about both, comments and portedCommentThreads? Maybe the diffHost can be agnostic about this?",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "91da1fd9_a66c778f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "Is it required to wait for change detail and comments to be loaded before requesting ported comments?\n\nAt least for the !commentId case patchNum can be derived from params, right?",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7cb182d8_d2aa06fd",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-15T21:43:40Z",
+      "side": 1,
+      "message": "add comment",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

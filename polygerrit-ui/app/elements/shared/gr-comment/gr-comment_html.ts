@@ -245,6 +245,9 @@ export const htmlTemplate = html`
     .draft gr-account-label {
       width: unset;
     }
+    .portedMessage {
+      margin: 0 var(--spacing-m);
+    }
   </style>
   <div id="container" class="container">
     <div class="header" id="header" on-click="_handleToggleCollapsed">
@@ -262,7 +265,9 @@ export const htmlTemplate = html`
         </template>
         <template is="dom-if" if="[[showPortedComment]]">
           <a href="[[_getUrlForComment(comment)]]">
-            Ported from patchset [[comment.patch_set]]
+            <span class="portedMessage">
+              Ported from patchset [[comment.patch_set]]
+            </span>
           </a>
         </template>
         <gr-tooltip-content

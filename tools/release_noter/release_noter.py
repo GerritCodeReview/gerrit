@@ -274,7 +274,7 @@ def link_subject(commit, gerrit, options):
         change_number = gerrit_change[0]["_number"]
         short_sha1 = commit.sha1[0:7]
         commit.subject = (
-            f"[{short_sha1}]({GERRIT_URL}{CHANGE_URL}{change_number}) {commit.subject}"
+            f"[{short_sha1}]({GERRIT_URL}{CHANGE_URL}{change_number})\n{commit.subject}"
         )
 
 
@@ -288,7 +288,7 @@ def print_commits(commits, md):
     for commit in commits:
         md.write(f"\n* {commit.subject}\n")
         for issue in sorted(commit.issues):
-            md.write(f"  [Issue {issue}]({ISSUE_URL}{issue})\n")
+            md.write(f"  * [Issue {issue}]({ISSUE_URL}{issue})\n")
 
 
 def print_submodules(submodules, md):
@@ -299,7 +299,7 @@ def print_submodules(submodules, md):
         for submodule_change in submodules[submodule]:
             md.write(f"\n* {submodule_change.subject}\n")
             for issue in sorted(submodule_change.issues):
-                md.write(f"  [Issue {issue}]({ISSUE_URL}{issue})\n")
+                md.write(f"  * [Issue {issue}]({ISSUE_URL}{issue})\n")
 
 
 def print_notes(commits, submodules):

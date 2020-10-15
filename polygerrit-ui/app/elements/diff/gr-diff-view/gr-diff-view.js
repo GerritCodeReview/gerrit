@@ -1212,7 +1212,7 @@ class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _computeModeSelectHideClass(_diff) {
-    return _diff.binary ? 'hide' : '';
+    return (!_diff || _diff.binary) ? 'hide' : '';
   }
 
   _onLineSelected(e, detail) {

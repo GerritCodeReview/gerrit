@@ -1,0 +1,34 @@
+---
+title: "Gerrit {{ data.new }} release (in development)"
+permalink: {{ data.major }}.html
+hide_sidebar: true
+hide_navtoggle: true
+toc: true
+---
+
+Download: **[{{ data.new }}](https://gerrit-releases.storage.googleapis.com/gerrit-{{ data.new }}.war)**
+| [{{ data.previous }}](https://gerrit-releases.storage.googleapis.com/gerrit-{{ data.previous }}.war)
+
+Documentation: **[{{ data.new }}](https://gerrit-documentation.storage.googleapis.com/Documentation/{{ data.doc }}/index.html)**
+| [{{ data.previous }}](https://gerrit-documentation.storage.googleapis.com/Documentation/{{ data.previous }}/index.html)
+
+## Release highlights
+
+## Important notes
+
+### Schema changes
+
+### Breaking changes
+
+## Native packaging
+
+## New features
+
+### REST APIs
+
+* Accounts
+* Changes
+* Groups
+* Projects
+
+## End-to-end tests

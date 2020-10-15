@@ -101,7 +101,11 @@ import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap, getPortedCommentThreads} from '../../../utils/comment-util';
+import {
+  CommentMap,
+  getPortedCommentThreads,
+  getPortedComments,
+} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {KnownExperimentId} from '../../../services/flags/flags';
 
@@ -1040,20 +1044,20 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
-  _processPortedComments(comments: PathToCommentsInfoMap) {
+  _processPortedComments(
+    comments: PathToCommentsInfoMap,
+    drafts: PathToCommentsInfoMap
+  ) {
     if (!this._path || !this._changeComments || !this._patchRange) {
       throw new Error('undefined arguments for getting ported threads');
     }
     this.$.diffHost.portedCommentThreads = getPortedCommentThreads(
       comments,
+      drafts,
       this._path,
       this._changeComments,
       this._patchRange
     );
-  }
-
-  _getPortedComments(changeNum: NumericChangeId, patchNum: PatchSetNum) {
-    return this.$.restAPI.getPortedComments(changeNum, patchNum);
   }
 
   _paramsChanged(value: AppElementParams) {
@@ -1085,11 +1089,15 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
-    let portedCommentsPromise: Promise<PathToCommentsInfoMap | undefined>;
+    let portedCommentsPromise: Promise<[
+      PathToCommentsInfoMap | undefined,
+      PathToCommentsInfoMap | undefined
+    ]>;
     if (value.changeNum && value.patchNum) {
-      portedCommentsPromise = this._getPortedComments(
+      portedCommentsPromise = getPortedComments(
         value.changeNum,
-        value.patchNum
+        value.patchNum,
+        this.$.restAPI
       );
     }
 
@@ -1121,15 +1129,23 @@ export class GrDiffView extends KeyboardShortcutMixin(
           if (!portedCommentsPromise) {
             // _initPatchRange() ensures _patchRange is set
             // AppElementDiffViewParam ensures _changeNum is set
-            portedCommentsPromise = this._getPortedComments(
+            portedCommentsPromise = getPortedComments(
               this._changeNum!,
-              this._patchRange!.patchNum
+              this._patchRange!.patchNum,
+              this.$.restAPI
             );
           }
           portedCommentsPromise.then(
-            (comments: PathToCommentsInfoMap | undefined) => {
-              if (!comments) return;
-              this._processPortedComments(comments);
+            (
+              result: [
+                PathToCommentsInfoMap | undefined,
+                PathToCommentsInfoMap | undefined
+              ]
+            ) => {
+              const comments = result[0];
+              const drafts = result[1];
+              if (!comments || !drafts) return;
+              this._processPortedComments(comments, drafts);
             }
           );
         }

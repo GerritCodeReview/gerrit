@@ -1040,12 +1040,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
-  _processPortedComments(comments: PathToCommentsInfoMap) {
+  _processPortedComments(
+    comments: PathToCommentsInfoMap,
+    drafts: PathToCommentsInfoMap
+  ) {
     if (!this._path || !this._changeComments || !this._patchRange) {
       throw new Error('undefined arguments for getting ported threads');
     }
     this.$.diffHost.portedCommentThreads = getPortedCommentThreads(
       comments,
+      drafts,
       this._path,
       this._changeComments,
       this._patchRange
@@ -1129,12 +1133,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
         portedCommentsPromise.then((result: PortedCommentsAndDrafts) => {
           if (
             !result.portedComments ||
+            !result.portedDrafts ||
             portedCommentsPatchNum !== this._patchRange!.patchNum
           )
             return;
           this.reporting.timeEnd(PORTING_COMMENTS_DIFF_LATENCY_LABEL);
           if (this._isPortingCommentsExperimentEnabled) {
-            this._processPortedComments(result.portedComments);
+            this._processPortedComments(
+              result.portedComments,
+              result.portedDrafts
+            );
           }
         });
         const edit = r[4] as EditInfo | undefined;

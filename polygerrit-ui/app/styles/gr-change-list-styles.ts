@@ -92,7 +92,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
       .assignee,
       .updated,
       .submitted,
-      .since,
+      .waiting,
       .size,
       .status,
       .repo {
@@ -173,7 +173,7 @@ $_documentContainer.innerHTML = `<dom-module id="gr-change-list-styles">
         .branch,
         .updated,
         .submitted,
-        .since,
+        .waiting,
         .label,
         .assignee,
         .groupHeader .star,

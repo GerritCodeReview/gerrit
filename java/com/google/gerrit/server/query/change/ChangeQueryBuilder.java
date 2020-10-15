@@ -199,6 +199,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   public static final String FIELD_CHERRY_PICK_OF_CHANGE = "cherrypickofchange";
   public static final String FIELD_CHERRY_PICK_OF_PATCHSET = "cherrypickofpatchset";
 
+  public static final String ARG_ID_NAME = "name";
   public static final String ARG_ID_USER = "user";
   public static final String ARG_ID_GROUP = "group";
   public static final String ARG_ID_OWNER = "owner";
@@ -1248,19 +1249,46 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> destination(String name) throws QueryParseException {
+  public Predicate<ChangeData> destination(String value) throws QueryParseException {
+    // [name=]<name>[,user=<user>] || [user=<user>,][name=]<name>
+    PredicateArgs inputArgs = new PredicateArgs(value);
+    String name = null;
+    Account.Id account = null;
+
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
-      VersionedAccountDestinations d = VersionedAccountDestinations.forUser(self());
+      // [name=]<name>
+      if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
+        name = inputArgs.keyValue.get(ARG_ID_NAME);
+      } else if (inputArgs.positional.size() == 1) {
+        name = Iterables.getOnlyElement(inputArgs.positional);
+      } else if (inputArgs.positional.size() > 1) {
+        throw new QueryParseException("Error parsing named destination: " + value);
+      }
+
+      // [,user=<user>]
+      if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
+        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER));
+        if (accounts != null && accounts.size() > 1) {
+          throw error(
+              String.format(
+                  "\"%s\" resolves to multiple accounts", inputArgs.keyValue.get(ARG_ID_USER)));
+        }
+        account = (accounts == null ? self() : Iterables.getOnlyElement(accounts));
+      } else {
+        account = self();
+      }
+
+      VersionedAccountDestinations d = VersionedAccountDestinations.forUser(account);
       d.load(args.allUsersName, git);
       Set<BranchNameKey> destinations = d.getDestinationList().getDestinations(name);
       if (destinations != null && !destinations.isEmpty()) {
-        return new DestinationPredicate(destinations, name);
+        return new DestinationPredicate(destinations, value);
       }
     } catch (RepositoryNotFoundException e) {
       throw new QueryParseException(
           "Unknown named destination (no " + args.allUsersName + " repo): " + name, e);
     } catch (IOException | ConfigInvalidException e) {
-      throw new QueryParseException("Error parsing named destination: " + name, e);
+      throw new QueryParseException("Error parsing named destination: " + value, e);
     }
     throw new QueryParseException("Unknown named destination: " + name);
   }

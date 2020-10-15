@@ -3096,6 +3096,8 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
         .hasMessageThat()
         .isEqualTo("Unknown named destination: foo");
 
+    Account.Id anotherUserId =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     String destination1 = "refs/heads/master\trepo1";
     String destination2 = "refs/heads/master\trepo2";
     String destination3 = "refs/heads/master\trepo1\nrefs/heads/master\trepo2";
@@ -3111,8 +3113,32 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
       allUsers.branch(refsUsers).commit().add("destinations/destination4", destination4).create();
       allUsers.branch(refsUsers).commit().add("destinations/destination5", destination5).create();
 
+      String anotherRefsUsers = RefNames.refsUsers(anotherUserId);
+      allUsers
+          .branch(anotherRefsUsers)
+          .commit()
+          .add("destinations/destination6", destination1)
+          .create();
+      allUsers
+          .branch(anotherRefsUsers)
+          .commit()
+          .add("destinations/destination7", destination2)
+          .create();
+      allUsers
+          .branch(anotherRefsUsers)
+          .commit()
+          .add("destinations/destination8", destination3)
+          .create();
+      allUsers
+          .branch(anotherRefsUsers)
+          .commit()
+          .add("destinations/destination9", destination4)
+          .create();
+
       Ref userRef = allUsers.getRepository().exactRef(refsUsers);
+      Ref anotherUserRef = allUsers.getRepository().exactRef(anotherRefsUsers);
       assertThat(userRef).isNotNull();
+      assertThat(anotherUserRef).isNotNull();
     }
 
     assertQuery("destination:destination1", change1);
@@ -3120,6 +3146,15 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     assertQuery("destination:destination3", change2, change1);
     assertQuery("destination:destination4");
     assertQuery("destination:destination5");
+    assertQuery("destination:destination6,user=" + anotherUserId, change1);
+    assertQuery("destination:name=destination6,user=" + anotherUserId, change1);
+    assertQuery("destination:user=" + anotherUserId + ",destination7", change2);
+    assertQuery("destination:user=" + anotherUserId + ",name=destination8", change2, change1);
+    assertQuery("destination:destination9,user=" + anotherUserId);
+
+    assertThatQueryException("destination:destination3,user=" + anotherUserId)
+        .hasMessageThat()
+        .isEqualTo("Unknown named destination: destination3");
   }
 
   @Test

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c51ac8fd_09513750",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T21:26:48Z",
+      "side": 1,
+      "message": "instead of looking up all the change URLs upfront I would render a query link for the commitId and this way defer the communication with Gerrit to the time when the user clicks the link.\nThis doesn\u0027t slow down rendering the release notes and probably reduces the traffic for gerrit a lot since it is unlikely that the user clicks all the links",
+      "revId": "b2ac598efb69969520b83d20d0fe11a5f9e81387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

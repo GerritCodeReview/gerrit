@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d85103c9_2a547fca",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1004034
+      },
+      "writtenOn": "2020-10-15T22:11:54Z",
+      "side": 1,
+      "message": "rendering commit subject and issue link on separate lines wastes a lot of vertical space, how about a more compact format like this:\n\n* commitId (#issueId) subject\n\ncommitId and issueId both rendered as hyperlink",
+      "revId": "6a97e87ea981276e8f7ce22bc65931ce7c768bba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0accf723_d5495bfc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-15T14:11:46Z",
+      "side": 1,
+      "message": "I am confused by this polymerSplice. I understood we get LabelInfo in removed. But that doesn\u0027t have _account_id. I don\u0027t know how to get AccountInfo here.",
+      "range": {
+        "startLine": 1842,
+        "startChar": 45,
+        "endLine": 1842,
+        "endChar": 52
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4e58ac0_86c03aba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1932,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-15T14:11:46Z",
+      "side": 1,
+      "message": "Revision has many required properties. I cannot decide what should I do here: \n\n1, Should I change RevisionInfo to make properties to optional?\n2, should I define change.revision as : (RevisionInfo | EditRevisionInfo)[]\n3, Define type of subset of RevisionInfo?",
+      "range": {
+        "startLine": 1932,
+        "startChar": 6,
+        "endLine": 1932,
+        "endChar": 12
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c19a6521_b4d503e2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 2293,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-15T14:11:46Z",
+      "side": 1,
+      "message": "AllDataPromises contains many different Promise\u003c\u003e types. And this complains that it is not assignable to iterable.",
+      "range": {
+        "startLine": 2293,
+        "startChar": 16,
+        "endLine": 2293,
+        "endChar": 31
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

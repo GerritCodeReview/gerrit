@@ -171,6 +171,7 @@ function convertToFileThread(thread: UICommentThread): UICommentThread {
 
 export function getPortedCommentThreads(
   comments: PathToCommentsInfoMap,
+  drafts: PathToCommentsInfoMap,
   path: string,
   changeComments: ChangeComments,
   patchRange: PatchRange
@@ -179,9 +180,9 @@ export function getPortedCommentThreads(
     [Side.LEFT]: [],
     [Side.RIGHT]: [],
   };
-  if (!comments[path]) return portedCommentThreads;
-  const portedComments = comments[path];
-
+  const portedComments = comments[path] || [];
+  portedComments.push(...(drafts[path] || []));
+  if (!portedComments.length) return portedCommentThreads;
   // when forming threads in diff view, we filter for current patchrange but
   // ported comments will involve comments that may not belong to the
   // current patchrange, so we need to form threads for them using all

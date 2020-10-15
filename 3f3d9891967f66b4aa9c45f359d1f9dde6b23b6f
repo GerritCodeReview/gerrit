@@ -1,0 +1,73 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b8e7605a_c4e26746",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 326,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-15T12:23:17Z",
+      "side": 1,
+      "message": "Did the linter do this?\nWhy get rid of the constructor?",
+      "range": {
+        "startLine": 326,
+        "startChar": 2,
+        "endLine": 326,
+        "endChar": 40
+      },
+      "revId": "3f3d9891967f66b4aa9c45f359d1f9dde6b23b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b729266e_72f2882f",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 477,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-15T12:23:17Z",
+      "side": 1,
+      "message": "throw error possibly?",
+      "range": {
+        "startLine": 475,
+        "startChar": 26,
+        "endLine": 477,
+        "endChar": 53
+      },
+      "revId": "3f3d9891967f66b4aa9c45f359d1f9dde6b23b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dedd4135_3d971b46",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1735,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-15T12:23:17Z",
+      "side": 1,
+      "message": "Maybe throw errors instead of simply returning?\nThese should always be present.\nSame for functions in other places.",
+      "range": {
+        "startLine": 1733,
+        "startChar": 4,
+        "endLine": 1735,
+        "endChar": 33
+      },
+      "revId": "3f3d9891967f66b4aa9c45f359d1f9dde6b23b6f",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

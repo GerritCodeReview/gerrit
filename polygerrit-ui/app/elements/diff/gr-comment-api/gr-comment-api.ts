@@ -64,6 +64,8 @@ export class ChangeComments {
 
   private readonly _portedComments: PathToCommentsInfoMap;
 
+  private readonly _portedDrafts: PathToCommentsInfoMap;
+
   /**
    * Construct a change comments object, which can be data-bound to child
    * elements of that which uses the gr-comment-api.
@@ -72,12 +74,14 @@ export class ChangeComments {
     comments: {[path: string]: UIHuman[]} | undefined,
     robotComments: {[path: string]: UIRobot[]} | undefined,
     drafts: {[path: string]: UIDraft[]} | undefined,
-    portedComments: PathToCommentsInfoMap | undefined
+    portedComments: PathToCommentsInfoMap | undefined,
+    portedDrafts: PathToCommentsInfoMap | undefined
   ) {
     this._comments = this._addPath(comments);
     this._robotComments = this._addPath(robotComments);
     this._drafts = this._addPath(drafts);
     this._portedComments = portedComments || {};
+    this._portedDrafts = portedDrafts || {};
   }
 
   /**
@@ -263,7 +267,8 @@ export class ChangeComments {
       this._comments,
       this._robotComments,
       drafts,
-      this._portedComments
+      this._portedComments,
+      this._portedDrafts
     );
   }
 
@@ -367,10 +372,13 @@ export class ChangeComments {
     file: PatchSetFile,
     patchRange: PatchRange
   ): CommentThread[] {
-    const portedComments = this._portedComments[file.path];
-    if (file.basePath)
-      portedComments.push(...this._portedComments[file.basePath]);
-    if (!portedComments) return [];
+    const portedComments = this._portedComments[file.path] || [];
+    portedComments.push(...(this._portedDrafts[file.path] || []));
+    if (file.basePath) {
+      portedComments.push(...(this._portedComments[file.basePath] || []));
+      portedComments.push(...(this._portedDrafts[file.basePath] || []));
+    }
+    if (!portedComments.length) return [];
 
     // when forming threads in diff view, we filter for current patchrange but
     // ported comments will involve comments that may not belong to the
@@ -541,22 +549,25 @@ export class GrCommentApi extends GestureEventListeners(
       Promise<PathToCommentsInfoMap | undefined>,
       Promise<PathToRobotCommentsInfoMap | undefined>,
       Promise<PathToCommentsInfoMap | undefined>,
+      Promise<PathToCommentsInfoMap | undefined>,
       Promise<PathToCommentsInfoMap | undefined>
     ] = [
       this.restApiService.getDiffComments(changeNum),
       this.restApiService.getDiffRobotComments(changeNum),
       this.restApiService.getDiffDrafts(changeNum),
       this.restApiService.getPortedComments(changeNum, revision),
+      this.restApiService.getPortedDrafts(changeNum, revision),
     ];
 
     return Promise.all(commentsPromise).then(
-      ([comments, robotComments, drafts, portedComments]) => {
+      ([comments, robotComments, drafts, portedComments, portedDrafts]) => {
         this._changeComments = new ChangeComments(
           comments,
           // TS 4.0.5 fails without 'as'
           robotComments as PathToRobotCommentsInfoMap | undefined,
           drafts,
-          portedComments
+          portedComments,
+          portedDrafts
         );
         return this._changeComments;
       }

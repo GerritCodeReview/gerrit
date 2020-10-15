@@ -23,12 +23,14 @@ import {
   UrlEncodedCommentId,
   PathToCommentsInfoMap,
   PatchRange,
+  NumericChangeId,
 } from '../types/common';
 import {CommentSide, Side} from '../constants/constants';
 import {parseDate} from './date-util';
 import {CommentThread as UICommentThread} from '../elements/diff/gr-diff-host/gr-diff-host';
 import {ChangeComments} from '../elements/diff/gr-comment-api/gr-comment-api';
 import {patchNumEquals} from './patch-set-util';
+import {RestApiService} from '../services/services/gr-rest-api/gr-rest-api';
 
 export interface DraftCommentProps {
   __draft?: boolean;
@@ -169,8 +171,22 @@ function convertToFileThread(thread: UICommentThread): UICommentThread {
   return threadCopy;
 }
 
+export function getPortedComments(
+  changeNum: NumericChangeId,
+  patchNum: PatchSetNum,
+  restAPI: RestApiService
+): Promise<
+  [PathToCommentsInfoMap | undefined, PathToCommentsInfoMap | undefined]
+> {
+  return Promise.all([
+    restAPI.getPortedComments(changeNum, patchNum),
+    restAPI.getPortedDrafts(changeNum, patchNum),
+  ]);
+}
+
 export function getPortedCommentThreads(
   comments: PathToCommentsInfoMap,
+  drafts: PathToCommentsInfoMap,
   path: string,
   changeComments: ChangeComments,
   patchRange: PatchRange
@@ -179,9 +195,9 @@ export function getPortedCommentThreads(
     [Side.LEFT]: [],
     [Side.RIGHT]: [],
   };
-  if (!comments[path]) return portedCommentThreads;
-  const portedComments = comments[path];
-
+  const portedComments = comments[path] || [];
+  portedComments.push(...(drafts[path] || []));
+  if (!portedComments) return portedCommentThreads;
   // when forming threads in diff view, we filter for current patchrange but
   // ported comments will involve comments that may not belong to the
   // current patchrange, so we need to form threads for them using all

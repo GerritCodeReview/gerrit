@@ -100,7 +100,11 @@ import {hasOwnProperty} from '../../../utils/common-util';
 import {GrApplyFixDialog} from '../gr-apply-fix-dialog/gr-apply-fix-dialog';
 import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
-import {CommentMap, getPortedCommentThreads} from '../../../utils/comment-util';
+import {
+  CommentMap,
+  getPortedCommentThreads,
+  getPortedComments,
+} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 import {PORTING_COMMENTS_DIFF_LATENCY_LABEL} from '../../../services/gr-reporting/gr-reporting';
@@ -1040,12 +1044,16 @@ export class GrDiffView extends KeyboardShortcutMixin(
     );
   }
 
-  _processPortedComments(comments: PathToCommentsInfoMap) {
+  _processPortedComments(
+    comments: PathToCommentsInfoMap,
+    drafts: PathToCommentsInfoMap
+  ) {
     if (!this._path || !this._changeComments || !this._patchRange) {
       throw new Error('undefined arguments for getting ported threads');
     }
     this.$.diffHost.portedCommentThreads = getPortedCommentThreads(
       comments,
+      drafts,
       this._path,
       this._changeComments,
       this._patchRange
@@ -1081,13 +1089,23 @@ export class GrDiffView extends KeyboardShortcutMixin(
       return;
     }
 
+<<<<<<< HEAD
     let portedCommentsPromise: Promise<PortedCommentsAndDrafts>;
     let portedCommentsPatchNum: PatchSetNum;
     if (value.changeNum && value.patchNum) {
       portedCommentsPatchNum = value.patchNum;
       portedCommentsPromise = this.$.commentAPI.getPortedComments(
+=======
+    let portedCommentsPromise: Promise<[
+      PathToCommentsInfoMap | undefined,
+      PathToCommentsInfoMap | undefined
+    ]>;
+    if (value.changeNum && value.patchNum) {
+      portedCommentsPromise = getPortedComments(
+>>>>>>> 19ae2c112b (Port drafts across patchsets)
         value.changeNum,
-        value.patchNum
+        value.patchNum,
+        this.$.restAPI
       );
     }
 

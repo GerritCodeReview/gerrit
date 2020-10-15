@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6cd210f6_ff6e707e",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-15T08:50:35Z",
+      "side": 1,
+      "message": "The change must be updated and submitted after change view migration is complete (minor changes expected)",
+      "revId": "ff211517e77d3c5926fdcd29a9ba652e255fd183",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

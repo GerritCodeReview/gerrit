@@ -902,8 +902,8 @@ class GrDiffView extends KeyboardShortcutMixin(
    *
    * @param {PathToCommentsInfoMap} comments
    */
-  _processPortedComments(comments) {
-    if (!comments[this._path]) return;
+  _processPortedComments(comments, drafts) {
+    if (!comments[this._path] &&) return;
     const portedCommentThreads = {
       left: [],
       right: [],
@@ -1006,12 +1006,13 @@ class GrDiffView extends KeyboardShortcutMixin(
           this._initPatchRange();
           this._initCommitRange();
           this.$.diffHost.comments = this._commentsForDiff;
-          if (this._isPortingCommentsExperimentEnabled) {
-            this.$.restAPI.getPortedComments(this._changeNum,
-                this._patchRange.patchNum).then(comments => {
-              if (!comments) return;
-              this._processPortedComments(comments);
-            });
+          if (true || this._isPortingCommentsExperimentEnabled) {
+            Promise.all([this.$.restAPI.getPortedComments(this._changeNum,
+              this._patchRange.patchNum),
+              this.$.restAPI.getPortedDrafts(this._changeNum,
+                this._patchRange.patchNum)]).then((comments, drafts) => {
+                  this._processPortedComments(comments, drafts);
+                });
           }
           const edit = r[4];
           if (edit) {

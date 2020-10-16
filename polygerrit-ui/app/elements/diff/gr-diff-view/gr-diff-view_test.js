@@ -1238,42 +1238,42 @@ suite('gr-diff-view tests', () => {
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
       // Does nothing when params specify no cursor address:
-      element._initCursor({});
+      element._initCursor(false);
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
       // Does nothing when params specify side but no number:
-      element._initCursor({leftSide: true});
+      element._initCursor(true);
       assert.isNotOk(element.$.cursor.initialLineNumber);
 
       // Revision hash: specifies lineNum but not side.
 
       element._focusLineNum = 234;
-      element._initCursor({});
+      element._initCursor(false);
       assert.equal(element.$.cursor.initialLineNumber, 234);
       assert.equal(element.$.cursor.side, 'right');
 
       // Base hash: specifies lineNum and side.
       element._focusLineNum = 345;
-      element._initCursor({leftSide: true});
+      element._initCursor(true);
       assert.equal(element.$.cursor.initialLineNumber, 345);
       assert.equal(element.$.cursor.side, 'left');
 
       // Specifies right side:
       element._focusLineNum = 123;
-      element._initCursor({leftSide: false});
+      element._initCursor(false);
       assert.equal(element.$.cursor.initialLineNumber, 123);
       assert.equal(element.$.cursor.side, 'right');
     });
 
     test('_getLineOfInterest', () => {
-      assert.isUndefined(element._getLineOfInterest({}));
+      assert.isUndefined(element._getLineOfInterest(false));
 
       element._focusLineNum = 12;
-      let result = element._getLineOfInterest({});
+      let result = element._getLineOfInterest(false);
       assert.equal(result.number, 12);
       assert.isNotOk(result.leftSide);
 
-      result = element._getLineOfInterest({leftSide: true});
+      result = element._getLineOfInterest(true);
       assert.equal(result.number, 12);
       assert.isOk(result.leftSide);
     });

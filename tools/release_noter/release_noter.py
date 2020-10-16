@@ -10,6 +10,7 @@ from os import path
 from pygerrit2 import Anonymous, GerritRestAPI
 
 EXCLUDED_SUBJECTS = {
+    "assert",
     "AutoValue",
     "avadoc",
     "avaDoc",
@@ -17,6 +18,7 @@ EXCLUDED_SUBJECTS = {
     "baz",  # bazel, bazlet(s)
     "Baz",
     "class",
+    "constructor",
     "efactor",
     "format",
     "Format",
@@ -25,6 +27,8 @@ EXCLUDED_SUBJECTS = {
     "immutab",
     "IT",
     "js",
+    "licence",
+    "license",
     "lint",
     "method",
     "module",

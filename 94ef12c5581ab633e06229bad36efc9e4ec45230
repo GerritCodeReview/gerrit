@@ -72,6 +72,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "340dad27_3a0b2468",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1842,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "f3dd92c1_ac85e3e2",
+      "range": {
+        "startLine": 1842,
+        "startChar": 45,
+        "endLine": 1842,
+        "endChar": 52
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "d4e58ac0_86c03aba",
@@ -133,6 +157,30 @@
       "side": 1,
       "message": "Yes, this will cause many changes everywhere. I will try it in next patchset.",
       "parentUuid": "15e5deed_3ad52864",
+      "range": {
+        "startLine": 1932,
+        "startChar": 6,
+        "endLine": 1932,
+        "endChar": 12
+      },
+      "revId": "94ef12c5581ab633e06229bad36efc9e4ec45230",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66848f42_79a049b3",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 7
+      },
+      "lineNbr": 1932,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0725d052_7b0ef1a8",
       "range": {
         "startLine": 1932,
         "startChar": 6,

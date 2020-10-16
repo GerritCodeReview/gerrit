@@ -424,6 +424,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "7487faff_2e4847af",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1939,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:18:28Z",
+      "side": 1,
+      "message": "I don\u0027t know if I understand, you mean you would like to see it formatted like\n\n```\n_processEdit(change: ChangeInfo | ParsedChangeInfo,\n edit?: EditInfo | false) {\n```",
+      "parentUuid": "71ff1298_84f8b623",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "321d456a_54205ee3",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 9
@@ -568,6 +586,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "78df4ad2_0d7fccad",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2386,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ab740835_119605d1",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "e6f83fd5_e6a06615",
@@ -581,6 +617,24 @@
       "writtenOn": "2020-10-15T20:30:12Z",
       "side": 1,
       "message": "I would prefer to revert to what we had before.\n\nutils/ should not depend on polymer.\n\nhasEditPatchsetLoaded() should maybe have PatchRange as a parameter instead of PatchRangeRecord.",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3933e5a1_bb63c95c",
+        "filename": "polygerrit-ui/app/utils/patch-set-util.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:18:28Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e6f83fd5_e6a06615",
       "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

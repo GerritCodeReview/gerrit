@@ -300,6 +300,7 @@ suite('gr-change-view tests', () => {
       _fetchSharedCacheURL() { return Promise.resolve({}); },
     });
     element = fixture.instantiate();
+    element._changeNum = '1';
     sinon.stub(element.$.actions, 'reload').returns(Promise.resolve());
     getPluginLoader().loadPlugins([]);
     pluginApi.install(
@@ -332,6 +333,11 @@ suite('gr-change-view tests', () => {
     element._patchRange = {
       basePatchNum: 'PARENT',
       patchNum: 1,
+    };
+    element._change = {
+      _number: '1',
+      project: '',
+      change_id: '1',
     };
     const getUrlStub = sinon.stub(GerritNav, 'getUrlForChange');
     const replaceStateStub = sinon.stub(history, 'replaceState');
@@ -414,6 +420,7 @@ suite('gr-change-view tests', () => {
 
   suite('plugins adding to file tab', () => {
     setup(done => {
+      element._changeNum = '1';
       // Resolving it here instead of during setup() as other tests depend
       // on flush() not being called during setup.
       flush(() => done());
@@ -459,6 +466,7 @@ suite('gr-change-view tests', () => {
       queryMap.set('tab', PrimaryTab.FINDINGS);
       // view is required
       element.params = {
+        changeNum: '1',
         view: GerritNav.View.CHANGE,
         ...element.params, queryMap};
       flush(() => {
@@ -473,6 +481,7 @@ suite('gr-change-view tests', () => {
       queryMap.set('tab', 'random');
       // view is required
       element.params = {
+        changeNum: '1',
         view: GerritNav.View.CHANGE,
         ...element.params, queryMap};
       flush(() => {
@@ -783,6 +792,7 @@ suite('gr-change-view tests', () => {
             getAllThreadsForChange: () => ([]),
             computeDraftCount: () => 1,
           }));
+      element._changeNum = '1';
     });
 
     test('drafts are reloaded when reload-drafts fired', done => {
@@ -1415,6 +1425,7 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleCommitMessageSave trims trailing whitespace', () => {
+    element._change = {};
     const putStub = sinon.stub(element.$.restAPI, 'putChangeCommitMessage')
         .returns(Promise.resolve({}));
 
@@ -1609,14 +1620,16 @@ suite('gr-change-view tests', () => {
   });
 
   test('_openReplyDialog called with `ANY` when coming from tap event',
-      () => {
-        const openStub = sinon.stub(element, '_openReplyDialog');
-        element._serverConfig = {};
-        MockInteractions.tap(element.$.replyBtn);
-        assert(openStub.lastCall.calledWithExactly(
-            element.$.replyDialog.FocusTarget.ANY),
-        '_openReplyDialog should have been passed ANY');
-        assert.equal(openStub.callCount, 1);
+      done => {
+        flush(() => {
+          const openStub = sinon.stub(element, '_openReplyDialog');
+          MockInteractions.tap(element.$.replyBtn);
+          assert(openStub.lastCall.calledWithExactly(
+              element.$.replyDialog.FocusTarget.ANY),
+          '_openReplyDialog should have been passed ANY');
+          assert.equal(openStub.callCount, 1);
+          done();
+        });
       });
 
   test('_openReplyDialog called with `BODY` when coming from message reply' +
@@ -1806,10 +1819,13 @@ suite('gr-change-view tests', () => {
     });
   });
 
-  test('reply button is disabled until server config is loaded', () => {
+  test('reply button is disabled until server config is loaded', done => {
     assert.isTrue(element._replyDisabled);
-    element._serverConfig = {};
-    assert.isFalse(element._replyDisabled);
+    // fetches the server config on attached
+    flush(() => {
+      assert.isFalse(element._replyDisabled);
+      done();
+    });
   });
 
   suite('commit message expand/collapse', () => {
@@ -2189,6 +2205,11 @@ suite('gr-change-view tests', () => {
       basePatchNum: 'PARENT',
       patchNum: 1,
     };
+    element._change = {
+      _number: '1',
+      project: '',
+      change_id: '1',
+    };
     const fileList = element.$.fileList;
     const Actions = GrEditConstants.Actions;
     element.$.fileListHeader.editMode = true;
@@ -2371,6 +2392,11 @@ suite('gr-change-view tests', () => {
   });
 
   test('_handleStopEditTap', done => {
+    element._change = {
+      _number: '1',
+      project: '',
+      change_id: '1',
+    };
     sinon.stub(element.$.metadata, '_computeLabelNames');
     navigateToChangeStub.restore();
     sinon.stub(GerritNav, 'navigateToChange').callsFake((...args) => {

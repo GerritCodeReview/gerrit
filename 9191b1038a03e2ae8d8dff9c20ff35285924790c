@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "a068e639_50fcfa98",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-16T09:51:23Z",
+      "side": 1,
+      "message": "Test succeeded locally (minus flakiness in the replication plugin and a Git version test)\n\nExecuted 160 out of 172 tests: 170 tests pass and 2 fail locally.\nINFO: Build completed, 2 tests FAILED, 524 total actions",
+      "revId": "9191b1038a03e2ae8d8dff9c20ff35285924790c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

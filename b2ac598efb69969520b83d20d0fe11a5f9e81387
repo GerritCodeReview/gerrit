@@ -34,6 +34,24 @@
       "parentUuid": "c51ac8fd_09513750",
       "revId": "b2ac598efb69969520b83d20d0fe11a5f9e81387",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "695ceebe_850166ac",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 3
+      },
+      "lineNbr": 271,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "\u003e Then you can also skip adding an option for the adding the links since there\u0027s no performance penalty for that.\n\nUsing a query link or URL lends the download of a json file in the browser. This is different from the gerrit UI which handles that better as a frontend. If this script uses such query links, then the user will be stuck with json to manually check by default.\n\n\u003e I noticed that this only renders links for core but not for the plugins, this should be fixed\n\nYes. I already backlogged the similar lack of -c support in Issue 13517. I just added -l to that tracker, as both options point to the same code areas. They should be fixed consistently together.",
+      "parentUuid": "72fe62b6_ffdeba22",
+      "revId": "b2ac598efb69969520b83d20d0fe11a5f9e81387",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

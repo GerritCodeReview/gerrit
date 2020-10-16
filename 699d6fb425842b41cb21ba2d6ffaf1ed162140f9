@@ -33,6 +33,29 @@
       "message": "Thank you! I was planning to do exactly the same. :-)",
       "revId": "699d6fb425842b41cb21ba2d6ffaf1ed162140f9",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c0728b7f_f05fbbac",
+        "filename": "polygerrit-ui/app/types/events.ts",
+        "patchSetId": 3
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:03:58Z",
+      "side": 1,
+      "message": "Update this file afte gr-change-view.ts submitted",
+      "range": {
+        "startLine": 17,
+        "startChar": 0,
+        "endLine": 17,
+        "endChar": 65
+      },
+      "revId": "699d6fb425842b41cb21ba2d6ffaf1ed162140f9",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

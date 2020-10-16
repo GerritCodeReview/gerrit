@@ -825,6 +825,144 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "ae400b4e_6960b20b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1937,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:57:01Z",
+      "side": 1,
+      "message": "Should be ParsedChangeInfo (can\u0027t be ChangeInfo)",
+      "range": {
+        "startLine": 1937,
+        "startChar": 23,
+        "endLine": 1937,
+        "endChar": 52
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "24a61cde_342f890b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1941,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:57:01Z",
+      "side": 1,
+      "message": "I also can\u0027t find a good solution for this method without touching too much other types.\nMy suggestion: do not add ChangeInfoModifiedWithEdit and EditRevisionInfo interfaces. use \u0027as RevisionInfo\u0027 instead of \u0027as EditRevisionInfo\u0027 and add TODO(TS) in this method.\nWe can update it later, in a separate change that is easier for reviewer.",
+      "range": {
+        "startLine": 1941,
+        "startChar": 33,
+        "endLine": 1941,
+        "endChar": 63
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "01ec3b52_871cedde",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:57:01Z",
+      "side": 1,
+      "message": "JS code throws exceptions if revisions or edit or edit.commit is not set - i prefer to keep excpetions here",
+      "range": {
+        "startLine": 1942,
+        "startChar": 8,
+        "endLine": 1942,
+        "endChar": 49
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b26f2d20_1cb56373",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1942,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:57:01Z",
+      "side": 1,
+      "message": "edit already checked - can\u0027t be undefined/null",
+      "range": {
+        "startLine": 1942,
+        "startChar": 40,
+        "endLine": 1942,
+        "endChar": 41
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "df38ac3c_48b2cee5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1943,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:57:01Z",
+      "side": 1,
+      "message": "seems not required",
+      "range": {
+        "startLine": 1943,
+        "startChar": 49,
+        "endLine": 1943,
+        "endChar": 59
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a8ed8b2e_4b756f7d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1953,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:57:01Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 1953,
+        "startChar": 23,
+        "endLine": 1953,
+        "endChar": 24
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "e5d78fc5_12904f63",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 10

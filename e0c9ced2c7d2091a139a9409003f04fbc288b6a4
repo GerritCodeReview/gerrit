@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "224fcf7f_b43fd274",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-16T10:10:51Z",
+      "side": 1,
+      "message": "Thanks, Ben. Are those changes relevant for the v3.3 as well?",
+      "revId": "e0c9ced2c7d2091a139a9409003f04fbc288b6a4",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

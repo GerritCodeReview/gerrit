@@ -1,0 +1,50 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2bd36edb_30b3767b",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 171,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-16T13:55:09Z",
+      "side": 1,
+      "message": "repo may be null here",
+      "range": {
+        "startLine": 171,
+        "startChar": 64,
+        "endLine": 171,
+        "endChar": 68
+      },
+      "revId": "1894871a304608611242b8f0e664cd04758967c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9d08542f_f007a6bb",
+        "filename": "java/com/google/gerrit/server/permissions/DefaultRefFilter.java",
+        "patchSetId": 2
+      },
+      "lineNbr": 191,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-16T13:55:09Z",
+      "side": 1,
+      "message": "repo may be null here",
+      "range": {
+        "startLine": 191,
+        "startChar": 35,
+        "endLine": 191,
+        "endChar": 39
+      },
+      "revId": "1894871a304608611242b8f0e664cd04758967c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -699,6 +699,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "420609b6_962f9c6b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T12:35:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "9e0c2dc8_771cca7c",
+      "range": {
+        "startLine": 1297,
+        "startChar": 4,
+        "endLine": 1297,
+        "endChar": 55
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "3e6d0409_7c90e590",
@@ -997,6 +1021,30 @@
       "range": {
         "startLine": 1602,
         "startChar": 6,
+        "endLine": 1602,
+        "endChar": 12
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3f3af0ab_9c68966f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T12:35:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2ab570b3_ac26e24d",
+      "range": {
+        "startLine": 1599,
+        "startChar": 19,
         "endLine": 1602,
         "endChar": 12
       },
@@ -1544,6 +1592,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "f681545f_36331578",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T12:35:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "858480c4_72fc2769",
+      "range": {
+        "startLine": 1872,
+        "startChar": 6,
+        "endLine": 1873,
+        "endChar": 31
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "fdd09d96_fa992e51",
@@ -1886,6 +1958,30 @@
       "writtenOn": "2020-10-16T08:25:26Z",
       "side": 1,
       "message": "Maybe keep null in both places and instead add a TODO(TS)?\nThe JS code looks already suspicious, it might be that nulls were assigned to trigger some bindings/computed properties/observers.\nAlso if(!change.change.reviewer_updates) is true only if reviewer_updates is undefined, so the code replaces undefined with null . It might be fix for some bug or just an error.\n\nI would like to fix it in a separate change, so we can test it better.",
+      "range": {
+        "startLine": 1987,
+        "startChar": 8,
+        "endLine": 1993,
+        "endChar": 10
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ece0a00b_f862aa0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T12:35:45Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "e5d78fc5_12904f63",
       "range": {
         "startLine": 1987,
         "startChar": 8,

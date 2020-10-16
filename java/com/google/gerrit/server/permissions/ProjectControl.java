@@ -49,6 +49,7 @@ import com.google.gerrit.server.project.SectionMatcher;
 import com.google.gerrit.server.query.change.ChangeData;
 import com.google.inject.Inject;
 import com.google.inject.assistedinject.Assisted;
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -404,7 +405,11 @@ class ProjectControl {
       if (refFilter == null) {
         refFilter = refFilterFactory.create(ProjectControl.this);
       }
-      return refFilter.filter(refs, repo, opts);
+      try {
+        return refFilter.filter(refs, repo, opts);
+      } catch (IOException e) {
+        throw new PermissionBackendException(e);
+      }
     }
 
     private boolean can(CoreOrPluginProjectPermission perm) throws PermissionBackendException {

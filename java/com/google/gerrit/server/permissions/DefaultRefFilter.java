@@ -45,6 +45,7 @@ import com.google.gerrit.server.CurrentUser;
 import com.google.gerrit.server.IdentifiedUser;
 import com.google.gerrit.server.account.GroupCache;
 import com.google.gerrit.server.config.GerritServerConfig;
+import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.git.SearchingChangeCacheImpl;
 import com.google.gerrit.server.git.TagCache;
 import com.google.gerrit.server.git.TagMatcher;
@@ -81,6 +82,7 @@ class DefaultRefFilter {
   private final ChangeNotes.Factory changeNotesFactory;
   @Nullable private final SearchingChangeCacheImpl changeCache;
   private final GroupCache groupCache;
+  private final GitRepositoryManager repositoryManager;
   private final PermissionBackend permissionBackend;
   private final ProjectControl projectControl;
   private final CurrentUser user;
@@ -98,6 +100,7 @@ class DefaultRefFilter {
       ChangeNotes.Factory changeNotesFactory,
       @Nullable SearchingChangeCacheImpl changeCache,
       GroupCache groupCache,
+      GitRepositoryManager repositoryManager,
       PermissionBackend permissionBackend,
       @GerritServerConfig Config config,
       MetricMaker metricMaker,
@@ -106,6 +109,7 @@ class DefaultRefFilter {
     this.changeNotesFactory = changeNotesFactory;
     this.changeCache = changeCache;
     this.groupCache = groupCache;
+    this.repositoryManager = repositoryManager;
     this.permissionBackend = permissionBackend;
     this.skipFullRefEvaluationIfAllRefsAreVisible =
         config.getBoolean("auth", "skipFullRefEvaluationIfAllRefsAreVisible", true);
@@ -129,8 +133,8 @@ class DefaultRefFilter {
   }
 
   /** Filters given refs and tags by visibility. */
-  Collection<Ref> filter(Collection<Ref> refs, Repository repo, RefFilterOptions opts)
-      throws PermissionBackendException {
+  Collection<Ref> filter(Collection<Ref> refs, @Nullable Repository repo, RefFilterOptions opts)
+      throws PermissionBackendException, IOException {
     logger.atFinest().log(
         "Filter refs for repository %s by visibility (options = %s, refs = %s)",
         projectState.getNameKey(), opts, refs);
@@ -168,7 +172,14 @@ class DefaultRefFilter {
     List<Ref> visibleRefs = initialRefFilter.visibleRefs();
     if (!initialRefFilter.deferredTags().isEmpty()) {
       try (TraceTimer traceTimer = TraceContext.newTimer("Check visibility of deferred tags")) {
-        Result allVisibleBranches = filterRefs(getTaggableRefs(repo), repo, opts);
+        Result allVisibleBranches;
+        if (repo == null) {
+          try (Repository openRepo = repositoryManager.openRepository(projectState.getNameKey())) {
+            allVisibleBranches = filterRefs(getTaggableRefs(openRepo), repo, opts);
+          }
+        } else {
+          allVisibleBranches = filterRefs(getTaggableRefs(repo), repo, opts);
+        }
         checkState(
             allVisibleBranches.deferredTags().isEmpty(),
             "unexpected tags found when filtering refs/heads/* "
@@ -203,7 +214,7 @@ class DefaultRefFilter {
    * compute will be returned as part of {@link Result#visibleRefs()}.
    */
   Result filterRefs(List<Ref> refs, Repository repo, RefFilterOptions opts)
-      throws PermissionBackendException {
+      throws PermissionBackendException, IOException {
     logger.atFinest().log("Filter refs (refs = %s)", refs);
 
     // TODO(hiesel): Remove when optimization is done.
@@ -366,7 +377,8 @@ class DefaultRefFilter {
    * <p>We exclude symbolic refs because their target will be included and this will suffice for
    * computing reachability.
    */
-  private static List<Ref> getTaggableRefs(Repository repo) throws PermissionBackendException {
+  private static List<Ref> getTaggableRefs(@Nullable Repository repo)
+      throws PermissionBackendException {
     try {
       List<Ref> allRefs = repo.getRefDatabase().getRefs();
       return allRefs.stream()
@@ -396,10 +408,17 @@ class DefaultRefFilter {
     return refs;
   }
 
-  private boolean visible(Repository repo, Change.Id changeId) throws PermissionBackendException {
+  private boolean visible(@Nullable Repository repo, Change.Id changeId)
+      throws PermissionBackendException, IOException {
     if (visibleChanges == null) {
       if (changeCache == null) {
-        visibleChanges = visibleChangesByScan(repo);
+        if (repo == null) {
+          try (Repository openRepo = repositoryManager.openRepository(projectState.getNameKey())) {
+            visibleChanges = visibleChangesByScan(repo);
+          }
+        } else {
+          visibleChanges = visibleChangesByScan(repo);
+        }
       } else {
         visibleChanges = visibleChangesBySearch();
       }
@@ -408,7 +427,8 @@ class DefaultRefFilter {
     return visibleChanges.containsKey(changeId);
   }
 
-  private boolean visibleEdit(Repository repo, String name) throws PermissionBackendException {
+  private boolean visibleEdit(Repository repo, String name)
+      throws PermissionBackendException, IOException {
     Change.Id id = Change.Id.fromEditRefPart(name);
     if (id == null) {
       logger.atWarning().log("Couldn't extract change ID from edit ref %s", name);
@@ -525,12 +545,7 @@ class DefaultRefFilter {
   }
 
   private boolean canReadRef(String ref) throws PermissionBackendException {
-    try {
-      permissionBackendForProject.ref(ref).check(RefPermission.READ);
-    } catch (AuthException e) {
-      return false;
-    }
-    return projectState.statePermitsRead();
+    return projectControl.controlForRef(ref).isVisible();
   }
 
   private boolean checkProjectPermission(

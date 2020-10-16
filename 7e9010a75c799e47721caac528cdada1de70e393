@@ -16,6 +16,24 @@
       "message": "I propose to use different file names for this template and the generated markdown document or rename the pythons script since with the current names there are 3 files starting with \"release_noter.\" :\n\nrelease_noter.py\nrelease_noter.md\nrelease_noter.md.template\n\nthis means tab completion always stops at release_noter. which is annoying",
       "revId": "7e9010a75c799e47721caac528cdada1de70e393",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "6564450b_953dd133",
+        "filename": "tools/release_noter/release_noter.md.template",
+        "patchSetId": 3
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "This approach is similar to the one we kept in [1,2] for the plugins homepage. That script is not often run manually but by CI, which I understand is not the case for release_noter here.\n\n[1] https://www.gerritcodereview.com/publishing.html#updating-the-plugins-page\n[2] https://gerrit.googlesource.com/homepage/+/refs/heads/master/tools/\n\nIf you still feel this enough though, please raise a quick issue [3] so we can change this after.\n\n[3] https://bugs.chromium.org/p/gerrit/issues/list?q\u003dcomponent%3Atools%3Erelease_noter",
+      "parentUuid": "8b081d41_a206de7e",
+      "revId": "7e9010a75c799e47721caac528cdada1de70e393",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -16,6 +16,24 @@
       "message": "rendering commit subject and issue link on separate lines wastes a lot of vertical space, how about a more compact format like this:\n\n* commitId (#issueId) subject\n\ncommitId and issueId both rendered as hyperlink",
       "revId": "6a97e87ea981276e8f7ce22bc65931ce7c768bba",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0707f75f_d12eed6a",
+        "filename": "tools/release_noter/release_noter.py",
+        "patchSetId": 1
+      },
+      "lineNbr": 291,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "Done. I ended up choosing this schema: Issue 1; Issue 2; sha1 subject\n\n-Where Issue # gets always linked as before, and linked sha1 present if -l used (as before). That schema is closer to the previous one for manual release notes.",
+      "parentUuid": "d85103c9_2a547fca",
+      "revId": "6a97e87ea981276e8f7ce22bc65931ce7c768bba",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

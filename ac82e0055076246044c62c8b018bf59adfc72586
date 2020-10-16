@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16e5ec89_d29f428c",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 18,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-16T15:19:23Z",
+      "side": 1,
+      "message": "You can add Feature: Issue 13336",
+      "revId": "ac82e0055076246044c62c8b018bf59adfc72586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "aae89a6f_92e9e660",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1002666
+      },
+      "writtenOn": "2020-10-16T15:19:23Z",
+      "side": 1,
+      "message": "Patrick or Marco, would either of you have time to take a look at this? Martin is OOO for the next week.",
+      "revId": "ac82e0055076246044c62c8b018bf59adfc72586",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

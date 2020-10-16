@@ -390,6 +390,11 @@ public class IdentifiedUser extends CurrentUser {
     return effectiveGroups;
   }
 
+  @Override
+  public Object getCacheKey() {
+    return getAccountId();
+  }
+
   public PersonIdent newRefLogIdent() {
     return newRefLogIdent(new Date(), TimeZone.getDefault());
   }

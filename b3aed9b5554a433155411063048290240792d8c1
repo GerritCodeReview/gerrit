@@ -24,6 +24,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80b76106_1f93982a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 2
+      },
+      "lineNbr": 10,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4f67e1dd_084a592a",
+      "range": {
+        "startLine": 7,
+        "startChar": 30,
+        "endLine": 10,
+        "endChar": 0
+      },
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "f08b29cd_b33c1fc2",
@@ -37,6 +61,30 @@
       "writtenOn": "2020-10-15T23:29:41Z",
       "side": 1,
       "message": "I wouldn\u0027t do this since this risks to remove an earlier generated file which maybe was edited manually.\n\nI\u0027d also consider to always generate a new file to prevent overwriting a maybe manually edited file. If the default file already exists you could append a number.\n\nDeclare all these targets phony ? They do not generate a file with their name.\nSee https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html",
+      "range": {
+        "startLine": 3,
+        "startChar": 5,
+        "endLine": 3,
+        "endChar": 10
+      },
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "472dc6b5_6270274c",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 3,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "\u003e I wouldn\u0027t do this since this risks to remove an earlier generated file which maybe was edited manually.\n\nTrue; done.\n\n\u003e I\u0027d also consider to always generate a new file to prevent overwriting a maybe manually edited file. If the default file already exists you could append a number.\n\nGood points. Done, through a follow-up change in this same series.\n\n\u003e Declare all these targets phony ? They do not generate a file with their name.\n\u003e See https://www.gnu.org/software/make/manual/html_node/Phony-Targets.html\n\nDone.",
+      "parentUuid": "f08b29cd_b33c1fc2",
       "range": {
         "startLine": 3,
         "startChar": 5,
@@ -64,6 +112,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "8387b87c_4fc55473",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 22,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "\u003d\u003e Issue 13528; thanks.",
+      "parentUuid": "980a494b_592a10d4",
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "da45e213_da567fb3",
@@ -77,6 +143,24 @@
       "writtenOn": "2020-10-15T23:29:41Z",
       "side": 1,
       "message": "This is rather an example than a test since there are no assertions.\nInstead we could use a fixed range e.g. v3.1.0..v3.2.0 and add assertions checking\nthat the rendered document looks like expected.\n\nI recommend to use pytest for tests \nhttps://docs.pytest.org/",
+      "revId": "b3aed9b5554a433155411063048290240792d8c1",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "14b6195a_3a1fd4f2",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 2
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:41:26Z",
+      "side": 1,
+      "message": "\u003d\u003e Issue 13529; thanks, again.",
+      "parentUuid": "da45e213_da567fb3",
       "revId": "b3aed9b5554a433155411063048290240792d8c1",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

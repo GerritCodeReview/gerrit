@@ -64,4 +64,9 @@ public final class GroupBackedUser extends CurrentUser {
   public String getLoggableName() {
     return "GroupBackedUser with memberships: " + groups.getKnownGroups();
   }
+
+  @Override
+  public Object getCacheKey() {
+    return groups.getKnownGroups();
+  }
 }

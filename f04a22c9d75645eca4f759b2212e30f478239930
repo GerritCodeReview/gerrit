@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a7d3a004_ff1c1a3d",
+        "filename": "tools/release_noter/Makefile",
+        "patchSetId": 3
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:51:52Z",
+      "side": 1,
+      "message": "Introduced in this change by mistake.",
+      "range": {
+        "startLine": 8,
+        "startChar": 20,
+        "endLine": 8,
+        "endChar": 21
+      },
+      "revId": "f04a22c9d75645eca4f759b2212e30f478239930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cd222ac3_22e4652e",
+        "filename": "tools/release_noter/README.md",
+        "patchSetId": 3
+      },
+      "lineNbr": 16,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-16T18:51:52Z",
+      "side": 1,
+      "message": "Diffs introduced in this change by mistake.",
+      "revId": "f04a22c9d75645eca4f759b2212e30f478239930",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -481,6 +481,7 @@ export interface ActionNameToActionInfoMap {
   topic?: ActionInfo;
   hashtags?: ActionInfo;
   assignee?: ActionInfo;
+  ready?: ActionInfo;
 }
 
 /**

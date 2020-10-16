@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "4f808d82_c7940155",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-16T23:07:52Z",
+      "side": 1,
+      "message": "It works! Testing E2E and the off-line reindex is now using the alternative persistent cache implementation.",
+      "revId": "cfab48793a27e13e78bae7f3b84c2f55e93d63e7",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

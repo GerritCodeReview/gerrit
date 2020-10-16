@@ -77,6 +77,121 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "8fd3d3dd_af396608",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T06:05:07Z",
+      "side": 1,
+      "message": "here and below: you can add event types to events.ts and remove e as ...",
+      "range": {
+        "startLine": 643,
+        "startChar": 36,
+        "endLine": 643,
+        "endChar": 70
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "11fbb0d9_c872a8a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T06:05:07Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 649,
+        "startChar": 29,
+        "endLine": 649,
+        "endChar": 64
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2f6cc143_39877d84",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T06:05:07Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 656,
+        "startChar": 32,
+        "endLine": 656,
+        "endChar": 70
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "80f2a79f_d7daa722",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T06:05:07Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 659,
+        "startChar": 34,
+        "endLine": 659,
+        "endChar": 72
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06f4a9cc_a18c9c16",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T06:05:07Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 663,
+        "startChar": 18,
+        "endLine": 663,
+        "endChar": 60
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "35296dcf_a0b5c9c2",
         "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
         "patchSetId": 9

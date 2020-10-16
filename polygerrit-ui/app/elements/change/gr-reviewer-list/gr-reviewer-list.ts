@@ -35,12 +35,14 @@ import {
   Reviewers,
   AccountId,
   DetailedLabelInfo,
+  EmailAddress,
 } from '../../../types/common';
 import {PolymerDeepPropertyChange} from '@polymer/polymer/interfaces';
 import {GrAccountChip} from '../../shared/gr-account-chip/gr-account-chip';
 import {RestApiService} from '../../../services/services/gr-rest-api/gr-rest-api';
 import {hasOwnProperty} from '../../../utils/common-util';
 import {isRemovableReviewer} from '../../../utils/change-util';
+import {ReviewerState} from '../../../constants/constants';
 
 export interface GrReviewerList {
   $: {
@@ -262,7 +264,7 @@ export class GrReviewerList extends GestureEventListeners(
     if (!target.account || !this.change) {
       return;
     }
-    const accountID = target.account._account_id;
+    const accountID = target.account._account_id || target.account.email;
     this.disabled = true;
     if (!accountID) return;
     this._xhrPromise = this._removeReviewer(accountID)
@@ -272,12 +274,15 @@ export class GrReviewerList extends GestureEventListeners(
           return response;
         }
         if (!this.change || !this.change.reviewers) return;
-        const reviewers: {[type: string]: AccountInfo[] | undefined} = this
-          .change!.reviewers;
-        for (const type of ['REVIEWER', 'CC']) {
-          reviewers[type] = reviewers[type] || [];
-          for (let i = 0; i < reviewers[type]!.length; i++) {
-            if (reviewers[type]![i]._account_id === accountID) {
+        const reviewers = this.change.reviewers;
+        for (const type of [ReviewerState.REVIEWER, ReviewerState.CC]) {
+          const reviewerStateByType = reviewers[type] || [];
+          reviewers[type] = reviewerStateByType;
+          for (let i = 0; i < reviewerStateByType.length; i++) {
+            if (
+              reviewerStateByType[i]._account_id === accountID ||
+              reviewerStateByType[i].email === accountID
+            ) {
               this.splice('change.reviewers.' + type, i, 1);
               break;
             }
@@ -316,7 +321,7 @@ export class GrReviewerList extends GestureEventListeners(
     this._displayedReviewers = this._reviewers;
   }
 
-  _removeReviewer(id: AccountId): Promise<Response | undefined> {
+  _removeReviewer(id: AccountId | EmailAddress): Promise<Response | undefined> {
     if (!this.change) return Promise.resolve(undefined);
     return this.$.restAPI.removeChangeReviewer(this.change._number, id);
   }

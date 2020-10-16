@@ -91,7 +91,6 @@ import com.google.gerrit.common.data.GlobalCapability;
 import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.AccountGroup;
 import com.google.gerrit.entities.Address;
-import com.google.gerrit.entities.BranchNameKey;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.LabelFunction;
 import com.google.gerrit.entities.LabelType;
@@ -120,7 +119,6 @@ import com.google.gerrit.extensions.api.changes.ReviewerInfo;
 import com.google.gerrit.extensions.api.changes.RevisionApi;
 import com.google.gerrit.extensions.api.changes.StarsInput;
 import com.google.gerrit.extensions.api.groups.GroupApi;
-import com.google.gerrit.extensions.api.projects.BranchApi;
 import com.google.gerrit.extensions.api.projects.BranchInput;
 import com.google.gerrit.extensions.api.projects.ConfigInput;
 import com.google.gerrit.extensions.api.projects.ProjectInput;
@@ -143,7 +141,6 @@ import com.google.gerrit.extensions.common.GitPerson;
 import com.google.gerrit.extensions.common.LabelInfo;
 import com.google.gerrit.extensions.common.RevisionInfo;
 import com.google.gerrit.extensions.common.TrackingIdInfo;
-import com.google.gerrit.extensions.events.WorkInProgressStateChangedListener;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.extensions.restapi.BadRequestException;
 import com.google.gerrit.extensions.restapi.MethodNotAllowedException;
@@ -3772,7 +3769,7 @@ public class ChangeIT extends AbstractDaemonTest {
         .startsWith(subject);
 
     List<CommentInfo> comments =
-        Iterables.getOnlyElement(gApi.changes().id(id).comments().values());
+        Iterables.getOnlyElement(gApi.changes().id(id).commentsRequest().get().values());
     assertThat(Iterables.getOnlyElement(comments).message).isEqualTo(ci.message);
   }
 
@@ -4303,10 +4300,6 @@ public class ChangeIT extends AbstractDaemonTest {
     return pushTo("refs/for/master%wip");
   }
 
-  private BranchApi createBranch(String branch) throws Exception {
-    return createBranch(BranchNameKey.create(project, branch));
-  }
-
   private ThrowableSubject assertThatQueryException(String query) throws Exception {
     try {
       query(query);
@@ -4319,18 +4312,5 @@ public class ChangeIT extends AbstractDaemonTest {
   @FunctionalInterface
   private interface AddReviewerCaller {
     void call(String changeId, String reviewer) throws RestApiException;
-  }
-
-  private static class TestWorkInProgressStateChangedListener
-      implements WorkInProgressStateChangedListener {
-    boolean invoked;
-    Boolean wip;
-
-    @Override
-    public void onWorkInProgressStateChanged(Event event) {
-      this.invoked = true;
-      this.wip =
-          event.getChange().workInProgress != null ? event.getChange().workInProgress : false;
-    }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d40a6527_0a416930",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 13
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013302
+      },
+      "writtenOn": "2020-10-16T08:57:38Z",
+      "side": 1,
+      "message": "Whoa! I thought I had done a thorough review. Dmitrii, you are the master. Chapeau!\n\nI leave further review rounds to Dmitrii.",
+      "revId": "460a14d6be40aaa48648ab9c0d0223214f8593c6",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

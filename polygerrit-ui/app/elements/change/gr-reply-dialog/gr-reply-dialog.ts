@@ -1040,12 +1040,16 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     this._newAttentionSet = new Set(
       [...newAttention].filter(id => allAccountIds.includes(id))
     );
-    this._attentionExpanded = this._computeShowAttentionTip(
-      currentUser,
-      change.owner,
-      this._currentAttentionSet,
-      this._newAttentionSet
-    );
+    if (
+      this._computeShowAttentionTip(
+        currentUser,
+        change.owner,
+        this._currentAttentionSet,
+        this._newAttentionSet
+      )
+    ) {
+      this._handleAttentionModify();
+    }
   }
 
   _computeShowAttentionTip(

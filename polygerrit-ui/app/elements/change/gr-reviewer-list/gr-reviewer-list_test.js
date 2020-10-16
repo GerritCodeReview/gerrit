@@ -116,6 +116,101 @@ suite('gr-reviewer-list tests', () => {
     }
   });
 
+  suite('_handleRemove', () => {
+    let removeReviewerStub;
+    let reviewersChangedSpy;
+
+    const reviewerWithId = {
+      _account_id: 2,
+      name: 'Some name',
+    };
+
+    const reviewerWithIdAndEmail = {
+      _account_id: 4,
+      name: 'Some other name',
+      email: 'example@',
+    };
+
+    const reviewerWithEmailOnly = {
+      email: 'example2@example',
+    };
+
+    let chips;
+
+    setup(() => {
+      removeReviewerStub = sinon
+          .stub(element, '_removeReviewer')
+          .returns(Promise.resolve(new Response({status: 200})));
+      element.mutable = true;
+
+      const allReviewers = [
+        reviewerWithId,
+        reviewerWithIdAndEmail,
+        reviewerWithEmailOnly,
+      ];
+
+      element.change = {
+        owner: {
+          _account_id: 1,
+        },
+        reviewers: {
+          REVIEWER: allReviewers,
+        },
+        removable_reviewers: allReviewers,
+      };
+      flush();
+      chips = Array.from(element.root.querySelectorAll('gr-account-chip'));
+      assert.equal(chips.length, allReviewers.length);
+      reviewersChangedSpy = sinon.spy(element, '_reviewersChanged');
+    });
+
+    test('_handleRemove for account with accountId only', async () => {
+      const accountChip = chips.find(chip =>
+        chip.account._account_id === reviewerWithId._account_id
+      );
+      accountChip._handleRemoveTap(new MouseEvent('click'));
+      await flush();
+      assert.isTrue(removeReviewerStub.calledOnce);
+      assert.isTrue(removeReviewerStub.calledWith(reviewerWithId._account_id));
+      assert.isTrue(reviewersChangedSpy.called);
+      expect(element.change.reviewers.REVIEWER).to.have.deep.members([
+        reviewerWithIdAndEmail,
+        reviewerWithEmailOnly,
+      ]);
+    });
+
+    test('_handleRemove for account with accountId and email', async () => {
+      const accountChip = chips.find(chip =>
+        chip.account._account_id === reviewerWithIdAndEmail._account_id
+      );
+      accountChip._handleRemoveTap(new MouseEvent('click'));
+      await flush();
+      assert.isTrue(removeReviewerStub.calledOnce);
+      assert.isTrue(
+          removeReviewerStub.calledWith(reviewerWithIdAndEmail._account_id));
+      assert.isTrue(reviewersChangedSpy.called);
+      expect(element.change.reviewers.REVIEWER).to.have.deep.members([
+        reviewerWithId,
+        reviewerWithEmailOnly,
+      ]);
+    });
+
+    test('_handleRemove for account with email only', async () => {
+      const accountChip = chips.find(
+          chip => chip.account.email === reviewerWithEmailOnly.email
+      );
+      accountChip._handleRemoveTap(new MouseEvent('click'));
+      await flush();
+      assert.isTrue(removeReviewerStub.calledOnce);
+      assert.isTrue(removeReviewerStub.calledWith(reviewerWithEmailOnly.email));
+      assert.isTrue(reviewersChangedSpy.called);
+      expect(element.change.reviewers.REVIEWER).to.have.deep.members([
+        reviewerWithId,
+        reviewerWithIdAndEmail,
+      ]);
+    });
+  });
+
   test('tracking reviewers and ccs', () => {
     let counter = 0;
     function makeAccount() {

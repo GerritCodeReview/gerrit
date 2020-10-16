@@ -5,7 +5,7 @@ COMMITS := 10
 all: deploy black flake test
 
 clean:
-	rm -f release_noter.md
+	rm -f release_noter*.md
 
 setup:
 	pipenv install --dev

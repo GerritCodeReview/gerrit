@@ -88,6 +88,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "f36318e3_0ee482a8",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-16T09:04:49Z",
+      "side": 1,
+      "message": "I think the main issue was that ported comments might have significantly higher latency compared to other calls, especially when comparing patchsets that are not Base/Latest, in which case making users wait so long for the comments might make the feature unusable.\nWe can try the better user experience and see if it is fast enough. I am also not sure of just how slow it is(perhaps it is fast enough). WDYT?",
+      "parentUuid": "d9838def_033dda34",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a70f0337_37b38541",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 31

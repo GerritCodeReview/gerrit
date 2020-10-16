@@ -1,0 +1,1171 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f7ce8f54_2fc726ae",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 10
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Awesome huge change!",
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9df9b2f6_4541662d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 340,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "This is ParsedChangeInfo . It might require some updates in other files. Usually, it is enough to write\nChangeInfo | ParsedChangeInfo instead of ChangeInfo",
+      "range": {
+        "startLine": 340,
+        "startChar": 12,
+        "endLine": 340,
+        "endChar": 22
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d766dad3_4f95a0e7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 703,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "It is better to throw an exception, if prefs is undefined:\n- The JS code throws an exception if prefs undefined\n- not sure, that polygerrit works correctly if viewState.diffMode assigned to undefined",
+      "range": {
+        "startLine": 703,
+        "startChar": 41,
+        "endLine": 703,
+        "endChar": 65
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "925a5622_8a6558e8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 917,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "nit: move this type to the last argument:\nthreads.reduce((robotCommentCountMap, thread) \u003d\u003e ..., {} as {[patchset: string]: number})\n\nUsually, the last argument has the same type as the result of reduce, so it can be easier for reader to understand the code.",
+      "range": {
+        "startLine": 917,
+        "startChar": 29,
+        "endLine": 917,
+        "endChar": 57
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46fa4cc2_33875911",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 920,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Use isRobot from comment-util",
+      "range": {
+        "startLine": 920,
+        "startChar": 28,
+        "endLine": 920,
+        "endChar": 58
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f69b6591_349dcb84",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 938,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 938,
+        "startChar": 37,
+        "endLine": 938,
+        "endChar": 42
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "876b1307_13843990",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 965,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "nit: move to the line\nconst patchSet \u003d parseInt(e.detail.value) as PatchSetNum;\n\nSo, patchSet will have correct type",
+      "range": {
+        "startLine": 965,
+        "startChar": 49,
+        "endLine": 965,
+        "endChar": 64
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f4e989_b1a3735b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 986,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "you can use isRobot from the comment-util instead",
+      "range": {
+        "startLine": 986,
+        "startChar": 8,
+        "endLine": 986,
+        "endChar": 41
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "8875cd8d_fac1dd50",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1048,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "nit: one-line return",
+      "range": {
+        "startLine": 1046,
+        "startChar": 39,
+        "endLine": 1048,
+        "endChar": 5
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e9779436_04c5948b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1101,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "It is better to throw an exception instead of \u0027?\u0027",
+      "range": {
+        "startLine": 1101,
+        "startChar": 41,
+        "endLine": 1101,
+        "endChar": 59
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2606748d_e7836677",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1237,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "GerritView.CHANGE",
+      "range": {
+        "startLine": 1237,
+        "startChar": 23,
+        "endLine": 1237,
+        "endChar": 44
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d94267dd_004a6630",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1250,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Can be removed",
+      "range": {
+        "startLine": 1250,
+        "startChar": 23,
+        "endLine": 1250,
+        "endChar": 24
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4179ebb4_bd6799a7",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1251,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "ditto",
+      "range": {
+        "startLine": 1251,
+        "startChar": 24,
+        "endLine": 1251,
+        "endChar": 25
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "eb7ea9b1_3dbc8f11",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1267,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Add\nTODO(TS): define patchRange: PatchRange instead of ... as PatchRange",
+      "range": {
+        "startLine": 1267,
+        "startChar": 23,
+        "endLine": 1267,
+        "endChar": 47
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3291703c_f9eae403",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1272,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Add check for undefined too\nundefined \u003d\u003d null is true",
+      "range": {
+        "startLine": 1272,
+        "startChar": 10,
+        "endLine": 1272,
+        "endChar": 38
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e0c2dc8_771cca7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1297,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "I prefer the opposite types:\nlet primaryTab \u003d PrimaryTab.FILES;\n....\nprimaryTab \u003d params.queryMap.get(\u0027tab\u0027) as PrimaryTab;",
+      "range": {
+        "startLine": 1297,
+        "startChar": 4,
+        "endLine": 1297,
+        "endChar": 55
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3e6d0409_7c90e590",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1320,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception instead - the SHOW_CHANGE event without patchNum looks unusable",
+      "range": {
+        "startLine": 1320,
+        "startChar": 16,
+        "endLine": 1320,
+        "endChar": 32
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "46adb96a_34177738",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1380,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception.\nAs a rule, I prefer to throw an exception if old code already throws exception.\nThat makes future changes easier and gives additional context to a reader.",
+      "range": {
+        "startLine": 1380,
+        "startChar": 6,
+        "endLine": 1380,
+        "endChar": 22
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5761cd95_b3f9d72a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1474,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "change?: ParsedChangeInfo",
+      "range": {
+        "startLine": 1474,
+        "startChar": 25,
+        "endLine": 1474,
+        "endChar": 35
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "330d7ffc_82fad374",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1485,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Add a local const for this._patchRange. Then \u0027?\u0027 here can be removed.",
+      "range": {
+        "startLine": 1485,
+        "startChar": 22,
+        "endLine": 1485,
+        "endChar": 23
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3b48d5db_9823cf7f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1546,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Seems, you can define current_revision: CommitId instead",
+      "range": {
+        "startLine": 1546,
+        "startChar": 26,
+        "endLine": 1546,
+        "endChar": 54
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2ab570b3_ac26e24d",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "To avoid long types like this, you can use\nchangeRecords?: ElementPropertyDeepChange\u003cGrChangeView, \u0027_diffDrafts\u0027\u003e,",
+      "range": {
+        "startLine": 1599,
+        "startChar": 19,
+        "endLine": 1602,
+        "endChar": 12
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "c230b364_7b7aba59",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1602,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "| null is not needed here - the changeRecord can\u0027t be null",
+      "range": {
+        "startLine": 1602,
+        "startChar": 6,
+        "endLine": 1602,
+        "endChar": 12
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ee2f3e61_f03f5b10",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1665,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 1665,
+        "startChar": 39,
+        "endLine": 1665,
+        "endChar": 40
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7b377d50_a8b74604",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1677,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Remove (if exception is thrown)",
+      "range": {
+        "startLine": 1677,
+        "startChar": 61,
+        "endLine": 1677,
+        "endChar": 62
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "32eb4f6c_ec57dd8c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1685,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 1685,
+        "startChar": 39,
+        "endLine": 1685,
+        "endChar": 40
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0d0855c4_77d2d695",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1697,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Remove",
+      "range": {
+        "startLine": 1697,
+        "startChar": 61,
+        "endLine": 1697,
+        "endChar": 62
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "073fcbf3_f553a538",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1706,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 1706,
+        "startChar": 39,
+        "endLine": 1706,
+        "endChar": 40
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dd09502b_444cb78b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1721,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1721,
+        "startChar": 22,
+        "endLine": 1721,
+        "endChar": 23
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b628d62c_53cf25cc",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1731,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 1731,
+        "startChar": 39,
+        "endLine": 1731,
+        "endChar": 40
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "537d718d_255d4255",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1746,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 1746,
+        "startChar": 22,
+        "endLine": 1746,
+        "endChar": 23
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fd18c11c_0893b694",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1757,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 1757,
+        "startChar": 37,
+        "endLine": 1757,
+        "endChar": 38
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a5b6b2b1_2faf3b1f",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1758,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception/Remove",
+      "range": {
+        "startLine": 1758,
+        "startChar": 37,
+        "endLine": 1758,
+        "endChar": 38
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ff0a6871_f4230388",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1844,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Typescript style guide recommends Array\u003c...\u003e for complex types:\nArray\u003cPolymerSplice\u003cApprovalInfo[]\u003e\u003e",
+      "range": {
+        "startLine": 1844,
+        "startChar": 31,
+        "endLine": 1844,
+        "endChar": 63
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "858480c4_72fc2769",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1873,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "You can use type guard to avoid as:\nconst value \u003d changeRecord.value;\nif (isPolymerSpliceChange(value)) {\n\nAdd to types or utils\nexport function isPolymerSpliceChange\u003c\n  T,\n  U extends Array\u003c{} | null | undefined\u003e\n\u003e(x: T | PolymerSpliceChange\u003cU\u003e): x is PolymerSpliceChange\u003cU\u003e {\n  return (x as PolymerSpliceChange\u003cU\u003e).indexSplices !\u003d\u003d undefined;\n}",
+      "range": {
+        "startLine": 1872,
+        "startChar": 6,
+        "endLine": 1873,
+        "endChar": 31
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fdd09d96_fa992e51",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1885,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove opt_",
+      "range": {
+        "startLine": 1885,
+        "startChar": 19,
+        "endLine": 1885,
+        "endChar": 23
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e5d78fc5_12904f63",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 1993,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Maybe keep null in both places and instead add a TODO(TS)?\nThe JS code looks already suspicious, it might be that nulls were assigned to trigger some bindings/computed properties/observers.\nAlso if(!change.change.reviewer_updates) is true only if reviewer_updates is undefined, so the code replaces undefined with null . It might be fix for some bug or just an error.\n\nI would like to fix it in a separate change, so we can test it better.",
+      "range": {
+        "startLine": 1987,
+        "startChar": 8,
+        "endLine": 1993,
+        "endChar": 10
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2e23bf01_87089baf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2013,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove (this._change should be ParsedChangeInfo)",
+      "range": {
+        "startLine": 2013,
+        "startChar": 29,
+        "endLine": 2013,
+        "endChar": 43
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "16d9bcf8_8f51a33b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2016,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove, not required",
+      "range": {
+        "startLine": 2016,
+        "startChar": 27,
+        "endLine": 2016,
+        "endChar": 28
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "2072c7e0_fdccb412",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2017,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove, not required",
+      "range": {
+        "startLine": 2017,
+        "startChar": 41,
+        "endLine": 2017,
+        "endChar": 42
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9eba1176_9681d63e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2075,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "typo: lastPatchNum",
+      "range": {
+        "startLine": 2075,
+        "startChar": 31,
+        "endLine": 2075,
+        "endChar": 43
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9b656256_2d658a0e",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2165,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "use isDraft from comment-util",
+      "range": {
+        "startLine": 2165,
+        "startChar": 10,
+        "endLine": 2165,
+        "endChar": 76
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a85f86ea_1a54c3cf",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 2191,
+        "startChar": 42,
+        "endLine": 2191,
+        "endChar": 46
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f958b719_c6eac1ba",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2191,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 2191,
+        "startChar": 10,
+        "endLine": 2191,
+        "endChar": 14
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e906bb12_3909aa18",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2242,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove, not required",
+      "range": {
+        "startLine": 2242,
+        "startChar": 44,
+        "endLine": 2242,
+        "endChar": 45
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "586f5d76_05ece7d8",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2365,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Both should be ...?: boolean",
+      "range": {
+        "startLine": 2365,
+        "startChar": 33,
+        "endLine": 2365,
+        "endChar": 73
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "ed863e84_478027e1",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2523,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "The update_delay has a wrong type - it must be number. Please update it and remove Number here",
+      "range": {
+        "startLine": 2523,
+        "startChar": 6,
+        "endLine": 2523,
+        "endChar": 52
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4829442e_64235099",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2575,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "remove",
+      "range": {
+        "startLine": 2575,
+        "startChar": 7,
+        "endLine": 2575,
+        "endChar": 13
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "fc0235f3_d662ab8b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2641,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 2641,
+        "startChar": 28,
+        "endLine": 2641,
+        "endChar": 29
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d85ae7c6_35ed25dd",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2702,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "throw an exception",
+      "range": {
+        "startLine": 2702,
+        "startChar": 24,
+        "endLine": 2702,
+        "endChar": 25
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b799f65b_555516c5",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 10
+      },
+      "lineNbr": 2713,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-16T08:25:26Z",
+      "side": 1,
+      "message": "Throw an exception",
+      "range": {
+        "startLine": 2713,
+        "startChar": 61,
+        "endLine": 2713,
+        "endChar": 62
+      },
+      "revId": "42fca2f367ac6810a40f79bb25051fb0fcba0e2a",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

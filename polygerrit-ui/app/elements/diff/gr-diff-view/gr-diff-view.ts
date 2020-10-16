@@ -100,7 +100,6 @@ import {LineOfInterest} from '../gr-diff/gr-diff';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {CommentMap} from '../../../utils/comment-util';
 import {AppElementParams} from '../../gr-app-types';
-import {FetchParams} from '../../shared/gr-rest-api-interface/gr-rest-apis/gr-rest-api-helper';
 import {CustomKeyboardEvent, OpenFixPreviewEvent} from '../../../types/events';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
@@ -873,12 +872,8 @@ export class GrDiffView extends KeyboardShortcutMixin(
   }
 
   _initLineOfInterestAndCursor(leftSide: boolean) {
-    this.$.diffHost.lineOfInterest = this._getLineOfInterest({
-      leftSide,
-    });
-    this._initCursor({
-      leftSide,
-    });
+    this.$.diffHost.lineOfInterest = this._getLineOfInterest(leftSide);
+    this._initCursor(leftSide);
   }
 
   _displayDiffBaseAgainstLeftToast() {
@@ -1194,11 +1189,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
   /**
    * If the params specify a diff address then configure the diff cursor.
    */
-  _initCursor(params: FetchParams) {
+  _initCursor(leftSide: boolean) {
     if (this._focusLineNum === undefined) {
       return;
     }
-    if (params.leftSide) {
+    if (leftSide) {
       this.$.cursor.side = Side.LEFT;
     } else {
       this.$.cursor.side = Side.RIGHT;
@@ -1206,14 +1201,14 @@ export class GrDiffView extends KeyboardShortcutMixin(
     this.$.cursor.initialLineNumber = this._focusLineNum;
   }
 
-  _getLineOfInterest(params: FetchParams): LineOfInterest | undefined {
+  _getLineOfInterest(leftSide: boolean): LineOfInterest | undefined {
     // If there is a line number specified, pass it along to the diff so that
     // it will not get collapsed.
     if (!this._focusLineNum) {
       return undefined;
     }
 
-    return {number: this._focusLineNum, leftSide: !!params.leftSide};
+    return {number: this._focusLineNum, leftSide};
   }
 
   _pathChanged(path: string) {

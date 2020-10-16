@@ -47,6 +47,54 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "edf21605_3a0867a3",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-10-16T13:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "90b6da2c_a4397442",
+      "range": {
+        "startLine": 11,
+        "startChar": 36,
+        "endLine": 11,
+        "endChar": 63
+      },
+      "revId": "4be52f442bae1f8bb0fe45cac8ddb1c924b06a88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "51d8a5fc_bcf4768e",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-10-16T13:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b78956dc_c461e06c",
+      "range": {
+        "startLine": 11,
+        "startChar": 16,
+        "endLine": 11,
+        "endChar": 26
+      },
+      "revId": "4be52f442bae1f8bb0fe45cac8ddb1c924b06a88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "4e4d1cfe_dc60b564",
@@ -70,6 +118,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0e022f0f_9d56acc7",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 12,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-10-16T13:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4e4d1cfe_dc60b564",
+      "range": {
+        "startLine": 12,
+        "startChar": 0,
+        "endLine": 12,
+        "endChar": 22
+      },
+      "revId": "4be52f442bae1f8bb0fe45cac8ddb1c924b06a88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "b2023d21_b4afac47",
@@ -83,6 +155,24 @@
       "writtenOn": "2020-10-15T22:06:37Z",
       "side": 1,
       "message": "You should also specify what is the consequence of using H2 cache during reindex and another at runtime.\n\nIt would work, however, Gerrit would start without caches *and* the off-line reindex won\u0027t be able to use any caching, becoming extremely slow.",
+      "revId": "4be52f442bae1f8bb0fe45cac8ddb1c924b06a88",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "497e1159_c3d89ea6",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 3
+      },
+      "lineNbr": 13,
+      "author": {
+        "id": 1083454
+      },
+      "writtenOn": "2020-10-16T13:21:26Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "b2023d21_b4afac47",
       "revId": "4be52f442bae1f8bb0fe45cac8ddb1c924b06a88",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

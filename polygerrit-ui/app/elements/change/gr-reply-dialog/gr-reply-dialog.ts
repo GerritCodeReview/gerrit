@@ -889,6 +889,10 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
 
   _handleAttentionModify() {
     this._attentionExpanded = true;
+  }
+
+  @observe('_attentionExpanded')
+  _onAttentionExpandedChange() {
     // If the attention-detail section is expanded without dispatching this
     // event, then the dialog may expand beyond the screen's bottom border.
     this.dispatchEvent(

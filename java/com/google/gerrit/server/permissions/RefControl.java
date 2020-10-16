@@ -16,6 +16,7 @@ package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.flogger.FluentLogger;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
@@ -39,6 +40,8 @@ import java.util.Collection;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
+import org.eclipse.jgit.lib.ObjectIdRef;
+import org.eclipse.jgit.lib.Ref;
 
 /** Manages access control for Git references (aka branches, tags). */
 class RefControl {
@@ -591,7 +594,13 @@ class RefControl {
     private boolean can(RefPermission perm) throws PermissionBackendException {
       switch (perm) {
         case READ:
-          return isVisible();
+          Ref ref = new ObjectIdRef.Unpeeled(Ref.Storage.NETWORK, refName, null);
+          Collection<Ref> visibleRefs =
+              projectControl
+                  .asForProject()
+                  .filter(
+                      ImmutableList.of(ref), null, PermissionBackend.RefFilterOptions.defaults());
+          return !visibleRefs.isEmpty();
         case CREATE:
           // TODO This isn't an accurate test.
           return canPerform(refPermissionName(perm));

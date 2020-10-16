@@ -41,6 +41,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "998d60d1_4bd67006",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 202,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4c0118cf_4e4b1f5c",
+      "range": {
+        "startLine": 202,
+        "startChar": 37,
+        "endLine": 202,
+        "endChar": 69
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "eb5ba294_1322d06b",
@@ -54,6 +78,24 @@
       "writtenOn": "2020-10-15T20:30:12Z",
       "side": 1,
       "message": "CommentThread[]\n\ninstead of\n\n  unknown",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "f216fd28_ee627694",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 307,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "eb5ba294_1322d06b",
       "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -75,6 +117,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c68a7c_4f70e4f6",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 358,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "8e3d0142_8d9a9ccc",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "8fd3d3dd_af396608",
@@ -88,6 +148,30 @@
       "writtenOn": "2020-10-16T06:05:07Z",
       "side": 1,
       "message": "here and below: you can add event types to events.ts and remove e as ...",
+      "range": {
+        "startLine": 643,
+        "startChar": 36,
+        "endLine": 643,
+        "endChar": 70
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72fc20f7_f6360b9b",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 643,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Events.ts is not merged yet.\nhttps://gerrit-review.googlesource.com/c/gerrit/+/284458/3/polygerrit-ui/app/types/events.ts#17",
+      "parentUuid": "8fd3d3dd_af396608",
       "range": {
         "startLine": 643,
         "startChar": 36,
@@ -121,6 +205,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ff4bcc82_5faf6351",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 649,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "11fbb0d9_c872a8a7",
+      "range": {
+        "startLine": 649,
+        "startChar": 29,
+        "endLine": 649,
+        "endChar": 64
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2f6cc143_39877d84",
@@ -134,6 +242,30 @@
       "writtenOn": "2020-10-16T06:05:07Z",
       "side": 1,
       "message": "ditto",
+      "range": {
+        "startLine": 656,
+        "startChar": 32,
+        "endLine": 656,
+        "endChar": 70
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "d0564b5b_763d9a7c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 656,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "2f6cc143_39877d84",
       "range": {
         "startLine": 656,
         "startChar": 32,
@@ -167,6 +299,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "aa6dac05_0970fa63",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 659,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "80f2a79f_d7daa722",
+      "range": {
+        "startLine": 659,
+        "startChar": 34,
+        "endLine": 659,
+        "endChar": 72
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "06f4a9cc_a18c9c16",
@@ -190,6 +346,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "32e871fe_2fe82da2",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 663,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Ack",
+      "parentUuid": "06f4a9cc_a18c9c16",
+      "range": {
+        "startLine": 663,
+        "startChar": 18,
+        "endLine": 663,
+        "endChar": 60
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "35296dcf_a0b5c9c2",
@@ -203,6 +383,24 @@
       "writtenOn": "2020-10-15T20:30:12Z",
       "side": 1,
       "message": "This might be dangerous, because\n\n  undefined \u003d\u003d null\n\nbut\n\n  undefined !\u003d\u003d null\n\nIt looks like `patchRange.patchNum` cannot be null, but it can be undefined.\n\nI think it is safer to change the condition to\n\n  patchRange.patchNum \u003d\u003d\u003d undefined\n\nor just\n\n  !patchRange.patchNum",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2466ba34_33522fea",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 1271,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "35296dcf_a0b5c9c2",
       "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -247,6 +445,30 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "0ab26e9b_43a12d64",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2022,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "321d456a_54205ee3",
+      "range": {
+        "startLine": 2022,
+        "startChar": 12,
+        "endLine": 2022,
+        "endChar": 27
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "a2fda025_00fb4287",
@@ -264,6 +486,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "22e311de_03ca902c",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2164,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a2fda025_00fb4287",
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "ddcf7d38_8896d2d1",
@@ -277,6 +517,30 @@
       "writtenOn": "2020-10-15T20:30:12Z",
       "side": 1,
       "message": "true as boolean\n\nIs that required? I would be interested to learn why. :-)",
+      "range": {
+        "startLine": 2173,
+        "startChar": 43,
+        "endLine": 2173,
+        "endChar": 59
+      },
+      "revId": "e6850b91c5431e2a5327c711825321bb9b801288",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "0cd01479_8899e62a",
+        "filename": "polygerrit-ui/app/elements/change/gr-change-view/gr-change-view.ts",
+        "patchSetId": 9
+      },
+      "lineNbr": 2173,
+      "author": {
+        "id": 1085182
+      },
+      "writtenOn": "2020-10-16T08:11:17Z",
+      "side": 1,
+      "message": "Yes, otherwise typescript makes collapsed of type \u0027true\u0027 and it should be boolean. 😊",
+      "parentUuid": "ddcf7d38_8896d2d1",
       "range": {
         "startLine": 2173,
         "startChar": 43,

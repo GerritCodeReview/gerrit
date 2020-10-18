@@ -96,7 +96,7 @@ public class ProjectOperationsImpl implements ProjectOperations {
     args.createEmptyCommit = projectCreation.createEmptyCommit().orElse(true);
     projectCreation.parent().ifPresent(p -> args.newParent = p);
     // ProjectCreator wants non-null owner IDs.
-    args.ownerIds = new ArrayList<>();
+    args.ownerIds = new ArrayList<>(projectCreation.owners());
     projectCreation.submitType().ifPresent(st -> args.submitType = st);
     projectCreator.createProject(args);
     return Project.nameKey(name);

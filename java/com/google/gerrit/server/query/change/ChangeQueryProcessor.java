@@ -19,6 +19,7 @@ import static com.google.gerrit.server.query.change.ChangeQueryBuilder.FIELD_LIM
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableListMultimap;
+import com.google.gerrit.entities.Change;
 import com.google.gerrit.extensions.common.PluginDefinedInfo;
 import com.google.gerrit.extensions.registration.DynamicSet;
 import com.google.gerrit.extensions.registration.Extension;
@@ -33,15 +34,20 @@ import com.google.gerrit.server.DynamicOptions;
 import com.google.gerrit.server.DynamicOptions.DynamicBean;
 import com.google.gerrit.server.account.AccountLimits;
 import com.google.gerrit.server.change.ChangeAttributeFactory;
+import com.google.gerrit.server.change.ChangePluginDefinedInfoFactory;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactories;
 import com.google.gerrit.server.change.PluginDefinedAttributesFactory;
+import com.google.gerrit.server.change.PluginDefinedInfosFactory;
 import com.google.gerrit.server.index.change.ChangeIndexCollection;
 import com.google.gerrit.server.index.change.ChangeIndexRewriter;
 import com.google.gerrit.server.index.change.ChangeSchemaDefinitions;
 import com.google.gerrit.server.index.change.IndexedChangeQuery;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -52,11 +58,13 @@ import java.util.Set;
  * holding on to a single instance.
  */
 public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
-    implements DynamicOptions.BeanReceiver, DynamicOptions.BeanProvider {
+    implements DynamicOptions.BeanReceiver, DynamicOptions.BeanProvider, PluginDefinedInfosFactory {
   private final Provider<CurrentUser> userProvider;
   private final ImmutableListMultimap<String, ChangeAttributeFactory> attributeFactoriesByPlugin;
   private final ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory;
   private final Map<String, DynamicBean> dynamicBeans = new HashMap<>();
+  private final List<Extension<ChangePluginDefinedInfoFactory>>
+      changePluginDefinedInfoFactoriesByPlugin = new ArrayList<>();
 
   static {
     // It is assumed that basic rewrites do not touch visibleto predicates.
@@ -74,7 +82,8 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
       ChangeIndexCollection indexes,
       ChangeIndexRewriter rewriter,
       DynamicSet<ChangeAttributeFactory> attributeFactories,
-      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory) {
+      ChangeIsVisibleToPredicate.Factory changeIsVisibleToPredicateFactory,
+      DynamicSet<ChangePluginDefinedInfoFactory> changePluginDefinedInfoFactories) {
     super(
         metricMaker,
         ChangeSchemaDefinitions.INSTANCE,
@@ -88,10 +97,15 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
 
     ImmutableListMultimap.Builder<String, ChangeAttributeFactory> factoriesBuilder =
         ImmutableListMultimap.builder();
+    ImmutableListMultimap.Builder<String, ChangePluginDefinedInfoFactory> infosFactoriesBuilder =
+        ImmutableListMultimap.builder();
     // Eagerly call Extension#get() rather than storing Extensions, since that method invokes the
     // Provider on every call, which could be expensive if we invoke it once for every change.
     attributeFactories.entries().forEach(e -> factoriesBuilder.put(e.getPluginName(), e.get()));
     attributeFactoriesByPlugin = factoriesBuilder.build();
+    changePluginDefinedInfoFactories
+        .entries()
+        .forEach(e -> changePluginDefinedInfoFactoriesByPlugin.add(e));
   }
 
   @Override
@@ -126,6 +140,17 @@ public class ChangeQueryProcessor extends QueryProcessor<ChangeData>
         this,
         attributeFactoriesByPlugin.entries().stream()
             .map(e -> new Extension<>(e.getKey(), e::getValue)));
+  }
+
+  public PluginDefinedInfosFactory getInfosFactory() {
+    return this::createPluginDefinedInfos;
+  }
+
+  @Override
+  public ImmutableListMultimap<Change.Id, PluginDefinedInfo> createPluginDefinedInfos(
+      Collection<ChangeData> cds) {
+    return PluginDefinedAttributesFactories.createAll(
+        cds, this, changePluginDefinedInfoFactoriesByPlugin.stream());
   }
 
   @Override

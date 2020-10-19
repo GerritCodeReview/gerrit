@@ -1,6 +1,7 @@
 {
   "comments": [
     {
+      "unresolved": true,
       "key": {
         "uuid": "43c121a2_16820ff2",
         "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
@@ -20,10 +21,34 @@
         "endChar": 87
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "e2e1351e_3bea5284",
+        "filename": "java/com/google/gerrit/server/patch/DiffMappings.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "43c121a2_16820ff2",
+      "range": {
+        "startLine": 41,
+        "startChar": 61,
+        "endLine": 41,
+        "endChar": 87
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "80770ad6_ffaab319",
         "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
@@ -43,10 +68,34 @@
         "endChar": 6
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "2342464f_1ab522a1",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Opened because I introduced new sub-packages.\n\nDone as per your recommendation.",
+      "parentUuid": "80770ad6_ffaab319",
+      "range": {
+        "startLine": 49,
+        "startChar": 0,
+        "endLine": 49,
+        "endChar": 6
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1e06ecd5_f37f42b7",
         "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
@@ -66,10 +115,34 @@
         "endChar": 27
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "34874df2_bf9342bb",
+        "filename": "java/com/google/gerrit/server/patch/EditTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 157,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Added a TODO.",
+      "parentUuid": "1e06ecd5_f37f42b7",
+      "range": {
+        "startLine": 157,
+        "startChar": 11,
+        "endLine": 157,
+        "endChar": 27
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "661ee975_bdd6cb6e",
         "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
@@ -89,10 +162,34 @@
         "endChar": 57
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "04e45525_67cc36cb",
+        "filename": "java/com/google/gerrit/server/patch/GitPositionTransformer.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 103,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "661ee975_bdd6cb6e",
+      "range": {
+        "startLine": 103,
+        "startChar": 48,
+        "endLine": 103,
+        "endChar": 57
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
       "key": {
         "uuid": "e2409811_98ffd72e",
         "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
@@ -112,10 +209,10 @@
         "endChar": 76
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": false
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "0fc8dc1a_3099d41f",
         "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
@@ -135,10 +232,34 @@
         "endChar": 58
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "82721dd6_cf6791b0",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 323,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "0fc8dc1a_3099d41f",
+      "range": {
+        "startLine": 323,
+        "startChar": 24,
+        "endLine": 323,
+        "endChar": 58
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "4315cc2f_7c7e672b",
         "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
@@ -158,10 +279,34 @@
         "endChar": 47
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "de312361_0e325476",
+        "filename": "java/com/google/gerrit/server/patch/PatchListLoader.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 418,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "4315cc2f_7c7e672b",
+      "range": {
+        "startLine": 418,
+        "startChar": 8,
+        "endLine": 418,
+        "endChar": 47
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "ca625623_3dfef040",
         "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
@@ -181,10 +326,34 @@
         "endChar": 15
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "ac134913_85a42ab2",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 26,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "ca625623_3dfef040",
+      "range": {
+        "startLine": 25,
+        "startChar": 78,
+        "endLine": 26,
+        "endChar": 15
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "1e911964_9f718310",
         "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
@@ -204,10 +373,34 @@
         "endChar": 79
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "7bcaf6ae_9a17117c",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 27,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Yes, that would be better. \n\nAdded a TODO in EditTransformer but I prefer to do it in a follow up change, when I have the full picture and after adding the new cache entities.",
+      "parentUuid": "1e911964_9f718310",
+      "range": {
+        "startLine": 26,
+        "startChar": 37,
+        "endLine": 27,
+        "endChar": 79
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "2ce69976_4b2d2d8a",
         "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
@@ -227,10 +420,10 @@
         "endChar": 27
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": true,
       "key": {
         "uuid": "be881c06_44297457",
         "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
@@ -250,10 +443,58 @@
         "endChar": 22
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "80815235_18039391",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done.\n\nI created a new Edit class in com.google.gerrit.server.patch.entities but I will move it to another package with the next change, when adding the GitFileDiff and the FileDiff caches so that it\u0027s in the same package as those.",
+      "parentUuid": "2ce69976_4b2d2d8a",
+      "range": {
+        "startLine": 39,
+        "startChar": 23,
+        "endLine": 39,
+        "endChar": 27
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "911476c9_91fb2e2c",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 39,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "be881c06_44297457",
+      "range": {
+        "startLine": 39,
+        "startChar": 18,
+        "endLine": 39,
+        "endChar": 22
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "42cd97e6_b7f222f1",
         "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
@@ -273,10 +514,34 @@
         "endChar": 11
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "db28108e_f915706b",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "42cd97e6_b7f222f1",
+      "range": {
+        "startLine": 41,
+        "startChar": 2,
+        "endLine": 41,
+        "endChar": 11
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
       "key": {
         "uuid": "d9fa3a80_afc756e1",
         "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
@@ -296,8 +561,31 @@
         "endChar": 42
       },
       "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
-      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153",
-      "unresolved": true
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "58c07f8d_a63131ce",
+        "filename": "java/com/google/gerrit/server/patch/entities/FileEdits.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T15:18:36Z",
+      "side": 1,
+      "message": "Yes, that was needed for the FileMapping and its usages in DiffMappings.\n\nI added another factory method (FileMapping#forFile) as per your suggestion. Thanks for the hint.\n\nDone.",
+      "parentUuid": "d9fa3a80_afc756e1",
+      "range": {
+        "startLine": 47,
+        "startChar": 2,
+        "endLine": 48,
+        "endChar": 42
+      },
+      "revId": "43b3681ac1ad5b59317522480467e07777635b0c",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

@@ -7,6 +7,7 @@ junit_tests(
         "//java/com/google/gerrit/common:server",
         "//java/com/google/gerrit/entities",
         "//java/com/google/gerrit/extensions:api",
+        "//java/com/google/gerrit/server",
         "//java/com/google/gerrit/server/cache/serialize",
         "//java/com/google/gerrit/server/cache/serialize/entities",
         "//java/com/google/gerrit/server/cache/testing",

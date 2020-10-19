@@ -69,6 +69,9 @@ import 'polymer-bridges/polymer/polymer-legacy_bridge.js';
 
 // This is needed due to the Polymer.IronFocusablesHelper in gr-overlay.ts
 import 'polymer-bridges/iron-overlay-behavior/iron-focusables-helper_bridge.js';
-import {importHref} from './import-href.js';
 
-window.Polymer.importHref = importHref;
+// We need to use goog.declareModuleId internally in google for TS-imports-JS
+// case. To avoid errors when goog is not available, the empty implementation is
+// added.
+window.goog = window.goog || {declareModuleId(name) {}};
+goog.declareModuleId('polygerrit.bundledPolymerBridges');

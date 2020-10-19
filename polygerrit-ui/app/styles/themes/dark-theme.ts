@@ -15,10 +15,17 @@
  * limitations under the License.
  */
 
+import {
+  createStyle,
+  safeStyleSheet,
+  setInnerHtml,
+} from '../../utils/inner-html-util';
+
 function getStyleEl() {
-  const $_documentContainer = document.createElement('template');
-  $_documentContainer.innerHTML = `
-  <custom-style id="dark-theme"><style is="custom-style">
+  const customStyle = document.createElement('custom-style');
+  customStyle.setAttribute('id', 'dark-theme');
+
+  const styleSheet = safeStyleSheet`
     html {
       /**
        * Sections and variables must stay consistent with app-theme.js.
@@ -157,16 +164,17 @@ function getStyleEl() {
       /* paper and iron component overrides */
       --iron-overlay-backdrop-background-color: white;
 
-      /* rules applied to <html> */
+      /* rules applied to html */
       background-color: var(--view-background-color);
     }
-  </style></custom-style>`;
+  `;
 
-  return $_documentContainer;
+  setInnerHtml(customStyle, createStyle(styleSheet));
+  return customStyle;
 }
 
 export function applyTheme() {
-  document.head.appendChild(getStyleEl().content);
+  document.head.appendChild(getStyleEl());
 }
 
 export function removeTheme() {

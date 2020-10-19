@@ -28,7 +28,7 @@ interface UninitializedPolymer {
 
 if (!window.Polymer) {
   // Without as... it violates internal google rules.
-  (window.Polymer as UninitializedPolymer) = {
+  ((window.Polymer as unknown) as UninitializedPolymer) = {
     lazyRegister: true,
   };
 }

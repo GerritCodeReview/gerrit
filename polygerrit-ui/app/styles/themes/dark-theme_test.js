@@ -15,5 +15,14 @@
  * limitations under the License.
  */
 
-export declare type SafeTypeBridge = (value: unknown, type: string) => unknown;
-export declare function installPolymerResin(bridge: SafeTypeBridge): void;
+import '../../test/common-test-setup-karma.js';
+import {applyTheme, removeTheme} from './dark-theme.js';
+
+suite('dark-theme_test.js', () => {
+  test('apply and remove theme', () => {
+    applyTheme();
+    assert.equal(document.head.querySelectorAll('#dark-theme').length, 1);
+    removeTheme();
+    assert.equal(document.head.querySelectorAll('#dark-theme').length, 0);
+  });
+});

@@ -51,7 +51,7 @@ declare global {
       flushPreinstalls?: () => void;
     };
     // TODO(TS): define polymer type
-    Polymer?: unknown;
+    Polymer?: {importHref?: unknown};
     // TODO(TS): remove page when better workaround is found
     // page shouldn't be exposed in window and it shouldn't be used
     // it's defined because of limitations from typescript, which don't import .mjs

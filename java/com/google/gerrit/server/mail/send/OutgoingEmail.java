@@ -25,7 +25,6 @@ import com.google.gerrit.entities.Account;
 import com.google.gerrit.entities.Address;
 import com.google.gerrit.entities.EmailHeader;
 import com.google.gerrit.entities.EmailHeader.AddressList;
-import com.google.gerrit.entities.UserIdentity;
 import com.google.gerrit.exceptions.EmailException;
 import com.google.gerrit.extensions.api.changes.RecipientType;
 import com.google.gerrit.extensions.client.GeneralPreferencesInfo;
@@ -284,7 +283,7 @@ public abstract class OutgoingEmail {
     setHeader(MailHeader.AUTO_SUBMITTED.fieldName(), "auto-generated");
 
     for (RecipientType recipientType : notify.accounts().keySet()) {
-      add(recipientType, notify.accounts().get(recipientType));
+      notify.accounts().get(recipientType).stream().forEach(a -> add(recipientType, a));
     }
 
     setHeader(MailHeader.MESSAGE_TYPE.fieldName(), messageClass);
@@ -471,37 +470,15 @@ public abstract class OutgoingEmail {
     return true;
   }
 
-  /** Schedule this message for delivery to the listed accounts. */
-  protected void add(RecipientType rt, Collection<Account.Id> list) {
-    add(rt, list, false);
-  }
-
-  /** Schedule this message for delivery to the listed accounts. */
-  protected void add(RecipientType rt, Collection<Account.Id> list, boolean override) {
-    for (final Account.Id id : list) {
-      add(rt, id, override);
-    }
-  }
-
   /** Schedule this message for delivery to the listed address. */
-  protected void addByEmail(RecipientType rt, Collection<Address> list) {
+  protected final void addByEmail(RecipientType rt, Collection<Address> list) {
     addByEmail(rt, list, false);
   }
 
   /** Schedule this message for delivery to the listed address. */
-  protected void addByEmail(RecipientType rt, Collection<Address> list, boolean override) {
+  protected final void addByEmail(RecipientType rt, Collection<Address> list, boolean override) {
     for (final Address id : list) {
       add(rt, id, override);
-    }
-  }
-
-  protected void add(RecipientType rt, UserIdentity who) {
-    add(rt, who, false);
-  }
-
-  protected void add(RecipientType rt, UserIdentity who, boolean override) {
-    if (who != null && who.getAccount() != null) {
-      add(rt, who.getAccount(), override);
     }
   }
 
@@ -531,11 +508,11 @@ public abstract class OutgoingEmail {
   }
 
   /** Schedule delivery of this message to the given account. */
-  protected void add(RecipientType rt, Address addr) {
+  protected final void add(RecipientType rt, Address addr) {
     add(rt, addr, false);
   }
 
-  protected void add(RecipientType rt, Address addr, boolean override) {
+  protected final void add(RecipientType rt, Address addr, boolean override) {
     if (addr != null && addr.email() != null && addr.email().length() > 0) {
       if (!args.validator.isValid(addr.email())) {
         logger.atWarning().log("Not emailing %s (invalid email address)", addr.email());

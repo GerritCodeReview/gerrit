@@ -65,11 +65,11 @@ public abstract class NewChangeSender extends ChangeEmail {
         break;
       case ALL:
       default:
-        add(RecipientType.CC, extraCC);
+        extraCC.stream().forEach(cc -> add(RecipientType.CC, cc));
         extraCCByEmail.stream().forEach(cc -> add(RecipientType.CC, cc));
         // $FALL-THROUGH$
       case OWNER_REVIEWERS:
-        add(RecipientType.TO, reviewers, true);
+        reviewers.stream().forEach(r -> add(RecipientType.TO, r, true));
         addByEmail(RecipientType.TO, reviewersByEmail, true);
         break;
     }

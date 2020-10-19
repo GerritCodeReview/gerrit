@@ -3128,30 +3128,50 @@ public abstract class AbstractQueryChangesTest extends GerritServerTests {
     Change change1 = insert(repo, newChange(repo));
     Change change2 = insert(repo, newChangeForBranch(repo, "stable"));
 
+    Account.Id anotherUserId =
+        accountManager.authenticate(AuthRequest.forUser("anotheruser")).getAccountId();
     String queryListText =
         "query1\tproject:repo\n"
             + "query2\tproject:repo status:open\n"
             + "query3\tproject:repo branch:stable\n"
             + "query4\tproject:repo branch:other";
+    String anotherQueryListText =
+        "query5\tproject:repo\n"
+            + "query6\tproject:repo status:merged\n"
+            + "query7\tproject:repo branch:stable\n"
+            + "query8\tproject:repo branch:other";
 
     try (TestRepository<Repo> allUsers =
             new TestRepository<>(repoManager.openRepository(allUsersName));
-        MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName)) {
+        MetaDataUpdate md = metaDataUpdateFactory.create(allUsersName);
+        MetaDataUpdate anotherMd = metaDataUpdateFactory.create(allUsersName)) {
       VersionedAccountQueries queries = VersionedAccountQueries.forUser(userId);
       queries.load(md);
       queries.setQueryList(queryListText);
       queries.commit(md);
+      VersionedAccountQueries anotherQueries = VersionedAccountQueries.forUser(anotherUserId);
+      anotherQueries.load(anotherMd);
+      anotherQueries.setQueryList(anotherQueryListText);
+      anotherQueries.commit(anotherMd);
     }
 
     assertThatQueryException("query:foo").hasMessageThat().isEqualTo("Unknown named query: foo");
+    assertThatQueryException("query:query1,user=" + anotherUserId)
+        .hasMessageThat()
+        .isEqualTo("Unknown named query: query1");
 
     assertQuery("query:query1", change2, change1);
     assertQuery("query:query2", change2, change1);
+    assertQuery("query:name=query5,user=" + anotherUserId, change2, change1);
+    assertQuery("query:user=" + anotherUserId + ",name=query6");
     gApi.changes().id(change1.getChangeId()).current().review(ReviewInput.approve());
     gApi.changes().id(change1.getChangeId()).current().submit();
     assertQuery("query:query2", change2);
     assertQuery("query:query3", change2);
     assertQuery("query:query4");
+    assertQuery("query:query6,user=" + anotherUserId, change1);
+    assertQuery("query:user=" + anotherUserId + ",query7", change2);
+    assertQuery("query:query8,user=" + anotherUserId);
   }
 
   @Test

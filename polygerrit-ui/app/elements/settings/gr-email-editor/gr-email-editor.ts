@@ -84,7 +84,7 @@ export class GrEmailEditor extends GestureEventListeners(
     if (!(target instanceof Element)) return;
     const indexStr = target.getAttribute('data-index');
     if (indexStr === null) return;
-    const index = parseInt(indexStr, 10);
+    const index = Number(indexStr);
     const email = this._emails[index];
     this.push('_emailsToRemove', email);
     this.splice('_emails', index, 1);

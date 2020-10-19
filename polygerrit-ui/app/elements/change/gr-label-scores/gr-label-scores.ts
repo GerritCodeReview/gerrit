@@ -85,7 +85,7 @@ export class GrLabelScores extends GestureEventListeners(
 
       const selectedVal =
         typeof selectorEl.selectedValue === 'string'
-          ? parseInt(selectorEl.selectedValue, 10)
+          ? Number(selectorEl.selectedValue)
           : selectorEl.selectedValue;
 
       if (selectedVal === undefined) {
@@ -101,7 +101,7 @@ export class GrLabelScores extends GestureEventListeners(
 
       let prevValNum: number | null | undefined;
       if (typeof prevVal === 'string') {
-        prevValNum = parseInt(prevVal, 10);
+        prevValNum = Number(prevVal);
       } else {
         prevValNum = prevVal;
       }
@@ -123,7 +123,7 @@ export class GrLabelScores extends GestureEventListeners(
     numberValue?: number
   ) {
     for (const k in (labels[labelName] as DetailedLabelInfo).values) {
-      if (parseInt(k, 10) === numberValue) {
+      if (Number(k) === numberValue) {
         return k;
       }
     }
@@ -191,7 +191,7 @@ export class GrLabelScores extends GestureEventListeners(
     const values: Set<number> = new Set();
     for (const label of labels) {
       for (const value of permittedLabels[label]) {
-        values.add(parseInt(value, 10));
+        values.add(Number(value));
       }
     }
 

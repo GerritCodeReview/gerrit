@@ -728,7 +728,7 @@ export class GrRouter extends GestureEventListeners(
     }
     return {
       leftSide: !!match[1],
-      lineNum: parseInt(match[2], 10),
+      lineNum: Number(match[2]),
     };
   }
 

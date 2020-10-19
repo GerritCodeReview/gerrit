@@ -996,9 +996,7 @@ export class GrReplyDialog extends KeyboardShortcutMixin(
     const isUploader = this._uploader?._account_id === currentUser._account_id;
     this._attentionCcsCount = removeServiceUsers(ccs.base).length;
     this._currentAttentionSet = new Set(
-      Object.keys(change.attention_set || {}).map(
-        id => parseInt(id) as AccountId
-      )
+      Object.keys(change.attention_set || {}).map(id => Number(id) as AccountId)
     );
     const newAttention = new Set(this._currentAttentionSet);
     if (change.status === ChangeStatus.NEW) {

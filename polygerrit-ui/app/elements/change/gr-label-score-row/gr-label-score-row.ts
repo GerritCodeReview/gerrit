@@ -133,14 +133,12 @@ export class GrLabelScoreRow extends GestureEventListeners(
     ) {
       return [];
     }
-    const startPosition = this.labelValues[
-      parseInt(permittedLabels[label][0], 10)
-    ];
+    const startPosition = this.labelValues[Number(permittedLabels[label][0])];
     if (side === 'start') {
       return new Array(startPosition);
     }
     const endPosition = this.labelValues[
-      parseInt(permittedLabels[label][permittedLabels[label].length - 1], 10)
+      Number(permittedLabels[label][permittedLabels[label].length - 1])
     ];
     return new Array(Object.keys(this.labelValues).length - endPosition - 1);
   }
@@ -159,8 +157,7 @@ export class GrLabelScoreRow extends GestureEventListeners(
       // default_value is an int, convert it to string label, e.g. "+1".
       return permittedLabels[label.name].find(
         value =>
-          parseInt(value, 10) ===
-          (labels[label.name] as QuickLabelInfo).default_value
+          Number(value) === (labels[label.name] as QuickLabelInfo).default_value
       );
     }
     return;

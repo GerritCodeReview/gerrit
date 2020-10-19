@@ -203,9 +203,8 @@ export class GrLabelInfo extends GestureEventListeners(
     }
 
     target.disabled = true;
-    const accountID = parseInt(
-      `${target.getAttribute('data-account-id')}`,
-      10
+    const accountID = Number(
+      `${target.getAttribute('data-account-id')}`
     ) as AccountId;
     this._xhrPromise = this.$.restAPI
       .deleteVote(this.change._number, accountID, this.label)

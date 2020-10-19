@@ -129,7 +129,7 @@ export class GrReviewerList extends GestureEventListeners(
     return Object.keys(labels).map(label => {
       return {
         label,
-        scores: labels[label].map(v => parseInt(v, 10)),
+        scores: labels[label].map(v => Number(v)),
       };
     });
   }

@@ -229,7 +229,7 @@ export class GrChangeListView extends GestureEventListeners(
     if (!match) {
       return defaultLimit;
     }
-    return parseInt(match[1], 10);
+    return Number(match[1]);
   }
 
   _computeNavLink(

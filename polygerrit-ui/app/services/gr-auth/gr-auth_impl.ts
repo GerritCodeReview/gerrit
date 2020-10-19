@@ -201,7 +201,7 @@ export class Auth implements AuthService {
       return false;
     }
 
-    const expiration = new Date(parseInt(token.expires_at, 10) * 1000);
+    const expiration = new Date(Number(token.expires_at) * 1000);
     if (Date.now() >= expiration.getTime()) {
       return false;
     }

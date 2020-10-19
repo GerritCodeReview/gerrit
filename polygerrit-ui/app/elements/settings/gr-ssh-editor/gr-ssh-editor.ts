@@ -93,7 +93,7 @@ export class GrSshEditor extends GestureEventListeners(
 
   _showKey(e: Event) {
     const el = (dom(e) as EventApi).localTarget as GrButton;
-    const index = parseInt(el.getAttribute('data-index')!, 10);
+    const index = Number(el.getAttribute('data-index')!);
     this._keyToView = this._keys[index];
     this.$.viewKeyOverlay.open();
   }
@@ -104,7 +104,7 @@ export class GrSshEditor extends GestureEventListeners(
 
   _handleDeleteKey(e: Event) {
     const el = (dom(e) as EventApi).localTarget as GrButton;
-    const index = parseInt(el.getAttribute('data-index')!, 10);
+    const index = Number(el.getAttribute('data-index')!);
     this.push('_keysToRemove', this._keys[index]);
     this.splice('_keys', index, 1);
     this.hasUnsavedChanges = true;

@@ -65,7 +65,8 @@ public class ReplacePatchSetSender extends ReplyToChangeSender {
       if (notify.handling() == NotifyHandling.ALL
           || notify.handling() == NotifyHandling.OWNER_REVIEWERS) {
         add(RecipientType.TO, reviewers);
-        add(RecipientType.CC, extraCC);
+        reviewers.stream().forEach(r -> add(RecipientType.TO, r));
+        extraCC.stream().forEach(cc -> add(RecipientType.CC, cc));
       }
       rcptToAuthors(RecipientType.CC);
     }

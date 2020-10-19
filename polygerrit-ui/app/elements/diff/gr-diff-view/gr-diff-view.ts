@@ -1769,7 +1769,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
     GerritNav.navigateToDiff(
       this._change,
       this._path,
-      this._patchRange.basePatchNum
+      this._patchRange.basePatchNum,
+      'PARENT' as PatchSetNum,
+      this.params?.view === GerritView.DIFF && this.params?.commentLink
+        ? this._focusLineNum
+        : undefined
     );
   }
 

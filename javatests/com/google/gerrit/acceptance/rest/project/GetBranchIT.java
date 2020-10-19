@@ -149,6 +149,9 @@ public class GetBranchIT extends AbstractDaemonTest {
 
     // every user can see their own change edit refs
     String changeEditRef = RefNames.refsEdit(user.id(), changeId, PatchSet.id(changeId, 1));
+    // TODO(hiesel,ekempin): This test passes when run in isolation, but fails when run with other
+    // tests?
+    // It seems ref = null in BranchesCollection
     assertBranchFound(project, changeEditRef);
 
     // a user without the 'Access Database' capability cannot see the change edit ref of another

@@ -123,9 +123,11 @@ ownerin:'GROUP'::
 Changes originally submitted by a user in 'GROUP'.
 
 [[query]]
-query:'NAME'::
+query:'[name=]NAME[,user=USER]'::
 +
-Changes which match the current user's query named 'NAME'
+Changes which match the specified USER's query named 'NAME'. If 'USER'
+is unspecified, the current user is used. The named queries can be
+publicly accessible by other users.
 (see link:user-named-queries.html[Named Queries]).
 
 [[reviewer]]

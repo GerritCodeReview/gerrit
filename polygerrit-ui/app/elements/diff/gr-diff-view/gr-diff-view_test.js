@@ -461,14 +461,36 @@ suite('gr-diff-view tests', () => {
         patchNum: 3,
         basePatchNum: 1,
       };
+      element.params = {};
       sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
       const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
       element._handleDiffBaseAgainstLeft(new CustomEvent(''));
       assert(diffNavStub.called);
       const args = diffNavStub.getCall(0).args;
       assert.equal(args[2], 1);
-      assert.isNotOk(args[3]);
+      assert.equal(args[3], 'PARENT');
+      assert.isNotOk(args[4]);
     });
+
+    test('_handleDiffBaseAgainstLeft when initially navigating to a comment',
+        () => {
+          element._change = generateChange({revisionsCount: 10});
+          element._patchRange = {
+            patchNum: 3,
+            basePatchNum: 1,
+          };
+          sinon.stub(element, '_paramsChanged');
+          element.params = {commentLink: true, view: GerritView.DIFF};
+          element._focusLineNum = 10;
+          sinon.stub(element, 'shouldSuppressKeyboardShortcut').returns(false);
+          const diffNavStub = sinon.stub(GerritNav, 'navigateToDiff');
+          element._handleDiffBaseAgainstLeft(new CustomEvent(''));
+          assert(diffNavStub.called);
+          const args = diffNavStub.getCall(0).args;
+          assert.equal(args[2], 1);
+          assert.equal(args[3], 'PARENT');
+          assert.equal(args[4], 10);
+        });
 
     test('_handleDiffRightAgainstLatest', () => {
       element._change = generateChange({revisionsCount: 10});

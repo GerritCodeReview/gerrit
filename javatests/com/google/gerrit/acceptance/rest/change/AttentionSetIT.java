@@ -1461,6 +1461,35 @@ public class AttentionSetIT extends AbstractDaemonTest {
   }
 
   @Test
+  public void attentionSetWithEmailFilterFiltersNewPatchsets() throws Exception {
+    PushOneCommit.Result r = createChange();
+
+    // Add preference for the user such that they only receive an email on changes that require
+    // their attention.
+    requestScopeOperations.setApiUser(user.id());
+    GeneralPreferencesInfo prefs = gApi.accounts().self().getPreferences();
+    prefs.emailStrategy = EmailStrategy.ATTENTION_SET_ONLY;
+    gApi.accounts().self().setPreferences(prefs);
+    requestScopeOperations.setApiUser(admin.id());
+
+    // Add user to reviewers but not to the attention set
+    change(r)
+        .current()
+        .review(
+            ReviewInput.create()
+                .reviewer(user.email())
+                .removeUserFromAttentionSet(user.email(), "reason"));
+    change(r)
+        .current()
+        .review(ReviewInput.create().removeUserFromAttentionSet(user.email(), "reason"));
+    sender.clear();
+
+    // amending a change doesn't send an email when user is not in the attention set.
+    amendChange(r.getChangeId());
+    assertThat(sender.getMessages()).isEmpty();
+  }
+
+  @Test
   public void attentionSetWithEmailFilterImpactingOnlyChangeEmails() throws Exception {
     // Add preference for the user such that they only receive an email on changes that require
     // their attention.

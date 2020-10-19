@@ -16,10 +16,12 @@ package com.google.gerrit.server.patch.gitdiff;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.ModifiedFileProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import com.google.gerrit.server.cache.serialize.entities.Weighable;
+import com.google.protobuf.Descriptors.FieldDescriptor;
 import java.util.Optional;
-import org.apache.commons.lang.NotImplementedException;
 
 /**
  * An entity representing a Modified file due to a diff between 2 git trees. This entity contains
@@ -75,18 +77,49 @@ public abstract class ModifiedFile implements Weighable {
     public abstract ModifiedFile build();
   }
 
-  // TODO(ghareeb): Implement protobuf serialization
   enum Serializer implements CacheSerializer<ModifiedFile> {
     INSTANCE;
 
+    private static final FieldDescriptor oldPathDescriptor =
+        ModifiedFileProto.getDescriptor().findFieldByName("old_path");
+
+    private static final FieldDescriptor newPathDescriptor =
+        ModifiedFileProto.getDescriptor().findFieldByName("new_path");
+
     @Override
-    public byte[] serialize(ModifiedFile object) {
-      throw new NotImplementedException("This method is not yet implemented");
+    public byte[] serialize(ModifiedFile modifiedFile) {
+      return Protos.toByteArray(toProto(modifiedFile));
+    }
+
+    public ModifiedFileProto toProto(ModifiedFile modifiedFile) {
+      ModifiedFileProto.Builder builder = ModifiedFileProto.newBuilder();
+      builder.setChangeType(modifiedFile.changeType().toString());
+      if (modifiedFile.oldPath().isPresent()) {
+        builder.setOldPath(modifiedFile.oldPath().get());
+      }
+      if (modifiedFile.newPath().isPresent()) {
+        builder.setNewPath(modifiedFile.newPath().get());
+      }
+      return builder.build();
     }
 
     @Override
     public ModifiedFile deserialize(byte[] in) {
-      throw new NotImplementedException("This method is not yet implemented");
+      ModifiedFileProto modifiedFileProto = Protos.parseUnchecked(ModifiedFileProto.parser(), in);
+      return fromProto(modifiedFileProto);
+    }
+
+    public ModifiedFile fromProto(ModifiedFileProto modifiedFileProto) {
+      ModifiedFile.Builder builder = ModifiedFile.builder();
+      builder.changeType(ChangeType.valueOf(modifiedFileProto.getChangeType()));
+
+      if (modifiedFileProto.hasField(oldPathDescriptor)) {
+        builder.oldPath(Optional.of(modifiedFileProto.getOldPath()));
+      }
+      if (modifiedFileProto.hasField(newPathDescriptor)) {
+        builder.newPath(Optional.of(modifiedFileProto.getNewPath()));
+      }
+      return builder.build();
     }
   }
 }

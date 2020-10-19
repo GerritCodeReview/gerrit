@@ -15,8 +15,10 @@
 package com.google.gerrit.server.permissions;
 
 import static com.google.common.base.Preconditions.checkArgument;
+import static java.util.Objects.requireNonNull;
 
 import com.google.common.flogger.FluentLogger;
+import com.google.gerrit.common.Nullable;
 import com.google.gerrit.entities.Change;
 import com.google.gerrit.entities.Permission;
 import com.google.gerrit.entities.PermissionRange;
@@ -28,6 +30,8 @@ import com.google.gerrit.exceptions.StorageException;
 import com.google.gerrit.extensions.conditions.BooleanCondition;
 import com.google.gerrit.extensions.restapi.AuthException;
 import com.google.gerrit.server.CurrentUser;
+import com.google.gerrit.server.IdentifiedUser;
+import com.google.gerrit.server.group.InternalGroup;
 import com.google.gerrit.server.logging.CallerFinder;
 import com.google.gerrit.server.logging.LoggingContext;
 import com.google.gerrit.server.notedb.ChangeNotes;
@@ -45,6 +49,7 @@ class RefControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData.Factory changeDataFactory;
+  private final RefVisibilityControl refVisibilityControl;
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -58,14 +63,16 @@ class RefControl {
   private Boolean owner;
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
-  private Boolean isVisible;
+  private Boolean hasReadPermissionOnRef;
 
   RefControl(
       ChangeData.Factory changeDataFactory,
+      RefVisibilityControl refVisibilityControl,
       ProjectControl projectControl,
       String ref,
       PermissionCollection relevant) {
     this.changeDataFactory = changeDataFactory;
+    this.refVisibilityControl = refVisibilityControl;
     this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;
@@ -99,12 +106,17 @@ class RefControl {
     return owner;
   }
 
-  /** Can this user see this reference exists? */
-  boolean isVisible() {
-    if (isVisible == null) {
-      isVisible = getUser().isInternalUser() || canPerform(Permission.READ);
+  /**
+   * Returns {@code true} if the user has permission to read the ref. This method evaluates {@link
+   * RefPermission#READ} only. Hence, it is not authoritative. For example, it does not tell if the
+   * user can see NoteDb refs such as {@code refs/meta/external-ids} which requires {@link
+   * GlobalPermission#ACCESS_DATABASE}.
+   */
+  boolean hasReadPermissionOnRef() {
+    if (hasReadPermissionOnRef == null) {
+      hasReadPermissionOnRef = getUser().isInternalUser() || canPerform(Permission.READ);
     }
-    return isVisible;
+    return hasReadPermissionOnRef;
   }
 
   /** @return true if this user can add a new patch set to this ref */
@@ -447,6 +459,17 @@ class RefControl {
     return false;
   }
 
+  private boolean isGroupOwner(
+      InternalGroup group, @Nullable IdentifiedUser user, boolean isAdmin) {
+    requireNonNull(group);
+
+    // Keep this logic in sync with GroupControl#isOwner().
+    boolean isGroupOwner =
+        isAdmin || (user != null && user.getEffectiveGroups().contains(group.getOwnerGroupUUID()));
+    logger.atFinest().log("User is owner of group %s = %s", group.getGroupUUID(), isGroupOwner);
+    return isGroupOwner;
+  }
+
   private class ForRefImpl extends ForRef {
     private String resourcePath;
 
@@ -591,7 +614,7 @@ class RefControl {
     private boolean can(RefPermission perm) throws PermissionBackendException {
       switch (perm) {
         case READ:
-          return isVisible();
+          return refVisibilityControl.isVisible(projectControl, refName);
         case CREATE:
           // TODO This isn't an accurate test.
           return canPerform(refPermissionName(perm));

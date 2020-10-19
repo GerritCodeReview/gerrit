@@ -241,13 +241,13 @@ export class GrDiffSelection extends GestureEventListeners(
         range.endContainer.classList.contains('right'));
     const startLineDataValue = startLineEl.getAttribute('data-value');
     if (!startLineDataValue) return;
-    const startLineNum = parseInt(startLineDataValue, 10);
+    const startLineNum = Number(startLineDataValue);
     let endLineNum;
     if (endsAtOtherEmptySide) {
       endLineNum = startLineNum + 1;
     } else if (endLineEl) {
       const endLineDataValue = endLineEl.getAttribute('data-value');
-      if (endLineDataValue) endLineNum = parseInt(endLineDataValue, 10);
+      if (endLineDataValue) endLineNum = Number(endLineDataValue);
     }
 
     return this._getRangeFromDiff(

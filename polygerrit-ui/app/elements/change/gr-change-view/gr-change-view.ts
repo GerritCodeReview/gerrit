@@ -2043,7 +2043,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
               if (thePatchNum === 'edit') {
                 return revision._number === thePatchNum;
               }
-              return revision._number === parseInt(`${thePatchNum}`, 10);
+              return revision._number === Number(`${thePatchNum}`);
             }
           );
         }
@@ -2672,7 +2672,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (patchNumStr === 'edit') {
       patchNum = EditPatchSetNum;
     } else {
-      patchNum = parseInt(`${patchNumStr}`, 10) as PatchSetNum;
+      patchNum = Number(`${patchNumStr}`) as PatchSetNum;
     }
 
     if (patchNum === this._selectedRevision._number) {

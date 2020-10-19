@@ -84,7 +84,7 @@ export class GrCoverageLayer
     let elementLineNumber;
     const dataValue = lineNumberEl.getAttribute('data-value');
     if (dataValue) {
-      elementLineNumber = parseInt(dataValue, 10);
+      elementLineNumber = Number(dataValue);
     }
     if (!elementLineNumber || elementLineNumber < 1) return;
 

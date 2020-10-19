@@ -308,7 +308,7 @@ export class GrPermission extends GestureEventListeners(
     const valuesArr: ComputedLabelValue[] = [];
     const keys = Object.keys(values).sort(
       // TODO(TS): change parseInto to Number(...) according to typescript style guide
-      (a, b) => parseInt(a, 10) - parseInt(b, 10)
+      (a, b) => Number(a) - Number(b)
     );
 
     for (const key of keys) {
@@ -318,7 +318,7 @@ export class GrPermission extends GestureEventListeners(
       }
       // The value from the server being used to choose which item is
       // selected is in integer form, so this must be converted.
-      valuesArr.push({value: parseInt(key, 10), text});
+      valuesArr.push({value: Number(key), text});
     }
     return valuesArr;
   }

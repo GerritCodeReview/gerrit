@@ -21,6 +21,7 @@ import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {htmlTemplate} from './gr-overlay_html';
 import {IronOverlayMixin} from '../../../mixins/iron-overlay-mixin/iron-overlay-mixin';
 import {customElement, property} from '@polymer/decorators';
+import {IronOverlayBehavior} from '@polymer/iron-overlay-behavior/iron-overlay-behavior';
 
 const AWAIT_MAX_ITERS = 10;
 const AWAIT_STEP = 5;
@@ -34,7 +35,8 @@ declare global {
 
 @customElement('gr-overlay')
 export class GrOverlay extends IronOverlayMixin(
-  GestureEventListeners(LegacyElementMixin(PolymerElement))
+  GestureEventListeners(LegacyElementMixin(PolymerElement)),
+  IronOverlayBehavior as IronOverlayBehavior
 ) {
   static get template() {
     return htmlTemplate;

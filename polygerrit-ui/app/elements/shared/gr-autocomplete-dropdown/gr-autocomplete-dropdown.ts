@@ -25,6 +25,7 @@ import {htmlTemplate} from './gr-autocomplete-dropdown_html';
 import {KeyboardShortcutMixin} from '../../../mixins/keyboard-shortcut-mixin/keyboard-shortcut-mixin';
 import {IronFitMixin} from '../../../mixins/iron-fit-mixin/iron-fit-mixin';
 import {customElement, property, observe} from '@polymer/decorators';
+import {IronFitBehavior} from '@polymer/iron-fit-behavior/iron-fit-behavior';
 
 // TODO(TS): Update once GrCursorManager is upated
 export interface GrAutocompleteDropdown {
@@ -55,7 +56,8 @@ interface Item {
 export class GrAutocompleteDropdown extends IronFitMixin(
   KeyboardShortcutMixin(
     GestureEventListeners(LegacyElementMixin(PolymerElement))
-  )
+  ),
+  IronFitBehavior as IronFitBehavior
 ) {
   static get template() {
     return htmlTemplate;

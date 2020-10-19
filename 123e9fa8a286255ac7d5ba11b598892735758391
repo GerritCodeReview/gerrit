@@ -1,0 +1,637 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "6224bdb7_71fe4433",
+        "filename": "java/com/google/gerrit/server/patch/DiffNotAvailableException.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 17,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Please add javadoc since this is a public class.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f51f339a_d3a54cbc",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Please add javadoc.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "de3da5d9_2c994f14",
+        "filename": "java/com/google/gerrit/server/patch/DiffUtil.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "I feel this comment doesn\u0027t add much beyond the object\u0027s type.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "3bbb3050_22710129",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "nit: stray *-s",
+      "range": {
+        "startLine": 30,
+        "startChar": 50,
+        "endLine": 30,
+        "endChar": 51
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "89fd64af_1703d3c9",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 41,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Can you mention in the API docs when this is thrown?",
+      "range": {
+        "startLine": 41,
+        "startChar": 66,
+        "endLine": 41,
+        "endChar": 98
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "4ae79219_ad06c0a6",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Can we share this implementation? (Maybe extract an interface for Key.weight().)",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "012f8b71_54a55f1d",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Maybe add a link to the ModifiedFilesCache?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "7417bb42_f95d7f69",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 23,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Can you explain in the comment why the indirection through this interface is needed?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5d27d7da_ba9951ec",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "I think common style is to not have bare @foo docs w/o the general description part. Personally I don\u0027t mind, but maybe we should still stick to that convention.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "5401d642_a156667a",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCache.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 31,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Can you add @throws with info on when this is thrown?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "74d55fa8_1c91fd25",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 48,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "This already follows from \"implements GitModifiedFilesCache\". Maybe instead say whether this is the only implementation?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "59d5b102_acbee57b",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 63,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Comment how this value was calculated/estimated.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "31456144_e02e034e",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 65,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Why isn\u0027t this cache persisted on disk?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "cb6c26c1_36b2f931",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 94,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "I guess there is no need to diff multiple sets of trees, right?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "721785d2_85b3b485",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 95,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "opt: inline?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5395bf2_9cfa7abd",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 107,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "I think it warrants a comment why it\u0027s OK to use DiffFormatter here and discard its output. To the unenlightened reader this looks like massive computation overhead. Unfortunately the docs in DiffFormatter itself don\u0027t address this use case. I\u0027m guilty of the same sin in FileCountValidator. Now that we\u0027re adding another use case of DiffFormatter as a changed file detector, WDYT about taking the opportunity to add to its documentation the reasoning for this use case? This is non-obvious even to the trained eye, as evidenced by the discussion on b/151064182 :-)",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "29c616df_b52330c3",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 111,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "If this value is just a proxy I think its doc should link to DiffFormatter.",
+      "range": {
+        "startLine": 111,
+        "startChar": 48,
+        "endLine": 111,
+        "endChar": 63
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a0cb7a25_112e0e64",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 128,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "How about doing this via a static final map?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "b53d7391_cce68cd5",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 150,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "opt: Personally I feel it helps readability when dependencies are declared first. How about moving this up somewhere before where it\u0027s used?",
+      "range": {
+        "startLine": 150,
+        "startChar": 31,
+        "endLine": 150,
+        "endChar": 34
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "41fad937_c8b2b38f",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 156,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "nit: What happens here is the computation of the diff, the evaluation is done by the human looking at the change, right?",
+      "range": {
+        "startLine": 156,
+        "startChar": 7,
+        "endLine": 156,
+        "endChar": 16
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e8ab78bb_3fd2f930",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 167,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Why the quotes? That makes it sound like we\u0027re not talking about a real rename.",
+      "range": {
+        "startLine": 167,
+        "startChar": 53,
+        "endLine": 167,
+        "endChar": 61
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d4b9dfb0_5a67af5b",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 168,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "How about saying \"This value is only available if {@link renameDetectionEnabled()} is true\"?",
+      "range": {
+        "startLine": 167,
+        "startChar": 62,
+        "endLine": 168,
+        "endChar": 77
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "9e4b75fc_ed39602e",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 170,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Out of curiosity, how do we ensure that there aren\u0027t different thresholds in Gerrit resulting in contradicting classification?",
+      "range": {
+        "startLine": 170,
+        "startChar": 24,
+        "endLine": 170,
+        "endChar": 35
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "76291437_d05f4316",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 172,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "nit: renameDetection?",
+      "range": {
+        "startLine": 172,
+        "startChar": 19,
+        "endLine": 172,
+        "endChar": 35
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "a61a1d92_90300022",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesCacheImpl.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 214,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "KeySerializer to distinguish it from ValueSerializer below?",
+      "range": {
+        "startLine": 214,
+        "startChar": 7,
+        "endLine": 214,
+        "endChar": 19
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "dbd4eedf_7e466421",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/GitModifiedFilesWeigher.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 25,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "opt: return modifiedFiles.stream().mapToInt(ModifiedFile::weight).sum() + key.weight();",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "0e1c1034_c17c478b",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Please add javadoc for all public methods.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d79e5c3d_690ddc16",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 30,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Why is this optional?",
+      "range": {
+        "startLine": 30,
+        "startChar": 18,
+        "endLine": 30,
+        "endChar": 26
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "62a3230c_aa3fa1d6",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 33,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "I think for simple getters the convention is to just put \"Returns the old name...\" and not use @return.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e41aa14a_79095095",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 34,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "That sounds unreliable :-)",
+      "range": {
+        "startLine": 34,
+        "startChar": 80,
+        "endLine": 34,
+        "endChar": 86
+      },
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f00aaaf4_a65693e3",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 49,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "nit: comment that this represents the change type.",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "d2e2e7bf_9fb056fa",
+        "filename": "java/com/google/gerrit/server/patch/gitdiff/ModifiedFile.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 77,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Maybe throw an exception here to be safe?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e820b248_426c93e2",
+        "filename": "javatests/com/google/gerrit/acceptance/api/revision/RevisionDiffIT.java",
+        "patchSetId": 4
+      },
+      "lineNbr": 126,
+      "author": {
+        "id": 1083042
+      },
+      "writtenOn": "2020-10-19T13:16:00Z",
+      "side": 1,
+      "message": "Should this be implemented in this change?",
+      "revId": "123e9fa8a286255ac7d5ba11b598892735758391",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

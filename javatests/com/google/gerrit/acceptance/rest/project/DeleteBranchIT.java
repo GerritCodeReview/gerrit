@@ -164,13 +164,13 @@ public class DeleteBranchIT extends AbstractDaemonTest {
         .add(allow(Permission.PUSH).ref(RefNames.REFS_GROUPS + "*").group(REGISTERED_USERS))
         .update();
 
-    ResourceConflictException thrown =
+    ResourceNotFoundException thrown =
         assertThrows(
-            ResourceConflictException.class,
+            ResourceNotFoundException.class,
             () ->
                 branch(BranchNameKey.create(allUsers, RefNames.refsGroups(adminGroupUuid())))
                     .delete());
-    assertThat(thrown).hasMessageThat().contains("Not allowed to delete group branch.");
+    assertThat(thrown).hasMessageThat().contains("Not found");
   }
 
   @Test

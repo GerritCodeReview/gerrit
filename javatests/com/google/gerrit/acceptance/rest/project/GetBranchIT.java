@@ -67,6 +67,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     Change.Id changeId = changeOperations.newChange().create();
 
     // a user without the 'Access Database' capability cannot see the change ref
+    // TODO(hiesel, ekempin): why would they not?
     requestScopeOperations.setApiUser(user.id());
     String changeRef = RefNames.patchSetRef(PatchSet.id(changeId, 1));
     assertBranchNotFound(project, changeRef);
@@ -110,6 +111,9 @@ public class GetBranchIT extends AbstractDaemonTest {
 
     // every user can see their own change edit refs
     String changeEditRef = RefNames.refsEdit(user.id(), changeId, PatchSet.id(changeId, 1));
+    // TODO(hiesel,ekempin): This test passes when run in isolation, but fails when run with other
+    // tests?
+    // It seems ref = null in BranchesCollection
     assertBranchFound(project, changeEditRef);
 
     // a user without the 'Access Database' capability cannot see the change edit ref of another
@@ -127,6 +131,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     Change.Id changeId = changeOperations.newChange().create();
 
     // a user without the 'Access Database' capability cannot see the change meta ref
+    // TODO(hiesel,ekempin): Doesn't appear to be true in today's code.
     requestScopeOperations.setApiUser(user.id());
     String changeMetaRef = RefNames.changeMetaRef(changeId);
     assertBranchNotFound(project, changeMetaRef);
@@ -189,6 +194,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     assertBranchFound(allUsers, RefNames.refsUsers(user.id()));
 
     // every user can see the own user ref via the magic ref/users/self ref
+    // TODO(ekempin,hiesel): The current logic doesn't look like the prior statement is true
     requestScopeOperations.setApiUser(user.id());
     assertBranchFound(allUsers, RefNames.REFS_USERS_SELF);
   }
@@ -258,6 +264,7 @@ public class GetBranchIT extends AbstractDaemonTest {
     }
 
     // a user without the 'Access Database' capability cannot see the deleted group ref
+    // TODO(hiesel, ekempin): This seems to not be handled in today's code.
     requestScopeOperations.setApiUser(user.id());
     assertBranchNotFound(allUsers, deletedGroupRef);
 
@@ -410,6 +417,7 @@ public class GetBranchIT extends AbstractDaemonTest {
   @Test
   public void getVersionMetaRef() throws Exception {
     // a user without the 'Access Database' capability cannot see the refs/meta/version ref
+    // TODO(hiesel, ekempin): Does not seem to be true in today's code
     requestScopeOperations.setApiUser(user.id());
     assertBranchNotFound(allProjects, RefNames.REFS_VERSION);
 

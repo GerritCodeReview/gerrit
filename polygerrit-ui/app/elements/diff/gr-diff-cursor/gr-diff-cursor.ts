@@ -449,11 +449,12 @@ export class GrDiffCursor extends GestureEventListeners(
 
   _isFirstRowOfChunk(row: HTMLElement) {
     const parentClassList = (row.parentNode as HTMLElement).classList;
-    return (
-      parentClassList.contains('section') &&
-      parentClassList.contains('delta') &&
-      !row.previousSibling
-    );
+    const isInChunk =
+      parentClassList.contains('section') && parentClassList.contains('delta');
+    const previousRow = row.previousSibling as HTMLElement;
+    const firstContentRow =
+      !previousRow || previousRow.classList.contains('moveControls');
+    return isInChunk && firstContentRow;
   }
 
   _rowHasThread(row: HTMLElement): boolean {

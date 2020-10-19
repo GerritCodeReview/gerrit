@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "618be9f9_0a702460",
+        "filename": "java/com/google/gerrit/server/patch/diff/ModifiedFilesCacheImpl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 228,
+      "author": {
+        "id": 1091982
+      },
+      "writtenOn": "2020-10-19T14:30:18Z",
+      "side": 1,
+      "message": "This small change here and for the other #disableRenameDetection method are not related to the protobuf serialization.\nI just added them here so that the key of this cache is similar to the GitModifiedFilesCacheImpl#Key.",
+      "range": {
+        "startLine": 226,
+        "startChar": 4,
+        "endLine": 228,
+        "endChar": 5
+      },
+      "revId": "9e77bd2c8dc17cf80c224c4e11bcf4aee28786eb",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

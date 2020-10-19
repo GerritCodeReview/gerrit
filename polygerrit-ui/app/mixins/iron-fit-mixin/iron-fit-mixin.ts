@@ -20,10 +20,14 @@ import {mixinBehaviors} from '@polymer/polymer/lib/legacy/class';
 import {PolymerElement} from '@polymer/polymer/polymer-element';
 import {Constructor} from '../../utils/common-util';
 
+// https://github.com/microsoft/TypeScript/issues/15870
+// https://github.com/microsoft/TypeScript/issues/9944
+
 // The mixinBehaviors clears all type information about superClass.
 // As a workaround, we define IronFitMixin with correct type.
 export const IronFitMixin = <T extends Constructor<PolymerElement>>(
-  superClass: T
+  superClass: T,
+  _: IronFitBehavior
 ): T & Constructor<IronFitBehavior> =>
   // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
   // which will fail the type check due to missing IronFitBehavior interface

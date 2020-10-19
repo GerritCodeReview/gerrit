@@ -23,8 +23,10 @@ import {Constructor} from '../../utils/common-util';
 // The mixinBehaviors clears all type information about superClass.
 // As a workaround, we define IronOverlayMixin with correct type.
 export const IronOverlayMixin = <T extends Constructor<PolymerElement>>(
-  superClass: T
+  superClass: T,
+  _: IronOverlayBehavior
 ): T & Constructor<IronOverlayBehavior> =>
-  // TODO(TS): mixinBehaviors in some lib is returning: `new () => T` instead
-  // which will fail the type check due to missing IronOverlayBehavior interface
+  // TODO(TS): mixinBehaviors in some lib is returning: `new () => T`
+  // instead which will fail the type check due to missing
+  // IronOverlayBehavior interface
   mixinBehaviors([IronOverlayBehavior], superClass) as any;

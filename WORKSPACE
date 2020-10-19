@@ -119,7 +119,7 @@ local_repository(
 
 java_dependencies()
 
-CAFFEINE_GUAVA_SHA256 = "a7ce6d29c40bccd688815a6734070c55b20cd326351a06886a6144005aa32299"
+CAFFEINE_GUAVA_SHA256 = "6e48965614557ba4d3c55a197e20c38f23a20032ef8aace37e95ed64d2ebc9a6"
 
 # TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential
 # naming collision between caffeine guava adapter and guava library itself.

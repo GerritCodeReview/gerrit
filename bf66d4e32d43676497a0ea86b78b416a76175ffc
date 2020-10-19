@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "2a9622f7_202e1aab",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-19T19:09:22Z",
+      "side": 1,
+      "message": "The CI check failure is likely unrelated to this change. I already asked some advice from Matthias in the base change review.",
+      "revId": "bf66d4e32d43676497a0ea86b78b416a76175ffc",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

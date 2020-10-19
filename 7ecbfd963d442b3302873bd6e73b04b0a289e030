@@ -18,6 +18,24 @@
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "c5032c2b_531a3a45",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "2a76c5bd_edfd6928",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "6c59c8fd_b739c508",
@@ -55,6 +73,24 @@
     {
       "unresolved": false,
       "key": {
+        "uuid": "8e2e85bd_cae17f65",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 31
+      },
+      "lineNbr": 11,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "d0294a9a_c7b351a8",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
         "uuid": "413655ae_7ee5067c",
         "filename": "/PATCHSET_LEVEL",
         "patchSetId": 31
@@ -83,6 +119,24 @@
       "writtenOn": "2020-10-15T21:43:40Z",
       "side": 1,
       "message": "If this is unrelated to gr-diff, then maybe move to comment-util?",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "66c8ae52_7225b599",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 133,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "c81952cc_0998bed8",
       "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -142,6 +196,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "546f4be8_e0f35fea",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-host/gr-diff-host.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 774,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Hope for the best prepare for the worst.\nI like the idea of tracking the latency by sending the API call. I will send a change for it.\nI guess we can start using the experiment for now and see how bad the latency is and decide after that.\nIf it\u0027s very slow, then we probably need something like a loader to denote the comments are loading. Waiting to display all comments is probably not the best option.",
+      "parentUuid": "3dc2de25_12e169ad",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "a70f0337_37b38541",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 31
@@ -153,6 +225,24 @@
       "writtenOn": "2020-10-15T21:43:40Z",
       "side": 1,
       "message": "A lot of the content of this method looks like it can be moved to comment-util.",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "72918080_fe95af81",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1082,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "a70f0337_37b38541",
       "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -176,6 +266,24 @@
     {
       "unresolved": true,
       "key": {
+        "uuid": "fb1a8802_9f18db08",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1129,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "currently diff-host is forming the threads so I guess we can move the thread-formation logic to diff-host, although I prefer keeping it in diff-view.",
+      "parentUuid": "88dafb4e_a4d6565d",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
         "uuid": "91da1fd9_a66c778f",
         "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
         "patchSetId": 31
@@ -187,6 +295,24 @@
       "writtenOn": "2020-10-15T21:43:40Z",
       "side": 1,
       "message": "Is it required to wait for change detail and comments to be loaded before requesting ported comments?\n\nAt least for the !commentId case patchNum can be derived from params, right?",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "ffb73d9c_deb7b5c6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 1188,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "91da1fd9_a66c778f",
       "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     },
@@ -204,6 +330,24 @@
       "writtenOn": "2020-10-15T21:43:40Z",
       "side": 1,
       "message": "add comment",
+      "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "3a4b5695_8f4f21f5",
+        "filename": "polygerrit-ui/app/utils/comment-util.ts",
+        "patchSetId": 31
+      },
+      "lineNbr": 52,
+      "author": {
+        "id": 1083225
+      },
+      "writtenOn": "2020-10-19T19:30:51Z",
+      "side": 1,
+      "message": "Done",
+      "parentUuid": "7cb182d8_d2aa06fd",
       "revId": "7ecbfd963d442b3302873bd6e73b04b0a289e030",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }

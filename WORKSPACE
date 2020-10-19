@@ -219,15 +219,15 @@ maven_jar(
     sha1 = GUAVA_BIN_SHA1,
 )
 
-CAFFEINE_VERS = "2.8.5"
+CAFFEINE_VERS = "2.8.6"
 
 maven_jar(
     name = "caffeine",
     artifact = "com.github.ben-manes.caffeine:caffeine:" + CAFFEINE_VERS,
-    sha1 = "f0eafef6e1529a44e36549cd9d1fc06d3a57f384",
+    sha1 = "4a5b7001467bac95e593322f800d353280a75eff",
 )
 
-CAFFEINE_GUAVA_SHA256 = "a7ce6d29c40bccd688815a6734070c55b20cd326351a06886a6144005aa32299"
+CAFFEINE_GUAVA_SHA256 = "1c7f51a89e0f25989fa6527d0e5f507853f4ada05aa1879ce519efb72225286f"
 
 # TODO(davido): Rename guava.jar to caffeine-guava.jar on fetch to prevent potential
 # naming collision between caffeine guava adapter and guava library itself.

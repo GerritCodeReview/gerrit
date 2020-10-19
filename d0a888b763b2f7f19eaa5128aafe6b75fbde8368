@@ -1,0 +1,27 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "e6e1bd46_d566f7e6",
+        "filename": "polygerrit-ui/app/elements/diff/gr-diff-view/gr-diff-view.ts",
+        "patchSetId": 1
+      },
+      "lineNbr": 1774,
+      "author": {
+        "id": 1085901
+      },
+      "writtenOn": "2020-10-19T14:27:38Z",
+      "side": 1,
+      "message": "It is better to use typeguard instead of ...as... type casting:\nthis.params \u003d\u003d\u003d GerritView.Diff \u0026\u0026 this.params.commentLink ?....\n\nFrom the typescript style guide:\nyou should not use type and non-nullability assertions without an obvious or explicit reason for doing so. (also there is more explanation about it in typescript style guide)",
+      "range": {
+        "startLine": 1774,
+        "startChar": 6,
+        "endLine": 1774,
+        "endChar": 58
+      },
+      "revId": "d0a888b763b2f7f19eaa5128aafe6b75fbde8368",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

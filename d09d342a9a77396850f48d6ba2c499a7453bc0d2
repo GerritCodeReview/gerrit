@@ -56,6 +56,24 @@
       "message": "Please add test/tests for the new functionalities.",
       "revId": "d09d342a9a77396850f48d6ba2c499a7453bc0d2",
       "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "28c6febf_5a318da2",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 4
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1088862
+      },
+      "writtenOn": "2020-10-19T12:03:19Z",
+      "side": 1,
+      "message": "I will submit a further changes with tests - I\u0027m working already on it.",
+      "parentUuid": "90d88ffe_98897b5f",
+      "revId": "d09d342a9a77396850f48d6ba2c499a7453bc0d2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
     }
   ]
 }

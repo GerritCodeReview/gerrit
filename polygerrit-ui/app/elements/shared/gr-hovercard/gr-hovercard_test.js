@@ -63,7 +63,7 @@ suite('gr-hovercard tests', () => {
     const targetTop = targetRect.top - parentRect.top;
 
     const pixelCompare = pixel =>
-      Math.round(parseInt(pixel.substring(0, pixel.length - 1)), 10);
+      Math.round(parseInt(pixel.substring(0, pixel.length - 1)));
 
     assert.equal(
         pixelCompare(element.style.left),

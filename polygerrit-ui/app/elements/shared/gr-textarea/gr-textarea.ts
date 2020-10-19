@@ -288,7 +288,7 @@ export class GrTextarea extends KeyboardShortcutMixin(
 
   _getFontSize() {
     const fontSizePx = getComputedStyle(this).fontSize || '12px';
-    return parseInt(fontSizePx.substr(0, fontSizePx.length - 2), 10);
+    return Number(fontSizePx.substr(0, fontSizePx.length - 2));
   }
 
   _getScrollTop() {

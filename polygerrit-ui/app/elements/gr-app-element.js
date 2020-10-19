@@ -498,7 +498,7 @@ class GrAppElement extends KeyboardShortcutMixin(
 
     const hash = e.detail.hash.substring(1);
     let pathname = e.detail.pathname;
-    if (pathname.startsWith('/c/') && parseInt(hash, 10) > 0) {
+    if (pathname.startsWith('/c/') && Number(hash) > 0) {
       pathname += '@' + hash;
     }
     this.set('_path', pathname);

@@ -321,5 +321,5 @@ export function findSortedIndex(
  */
 
 export function getParentIndex(rangeBase: PatchSetNum) {
-  return -parseInt(`${rangeBase}`, 10);
+  return -Number(`${rangeBase}`);
 }

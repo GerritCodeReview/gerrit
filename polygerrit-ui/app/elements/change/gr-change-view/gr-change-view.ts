@@ -950,7 +950,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
   }
 
   _handleRobotCommentPatchSetChanged(e: CustomEvent<{value: string}>) {
-    const patchSet = parseInt(e.detail.value) as PatchSetNum;
+    const patchSet = Number(e.detail.value) as PatchSetNum;
     if (patchSet === this._currentRobotCommentsPatchSet) return;
     this._currentRobotCommentsPatchSet = patchSet;
   }
@@ -2016,10 +2016,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
         const lineHeight = getComputedStyle(this).lineHeight;
 
         // Slice returns a number as a string, convert to an int.
-        this._lineHeight = parseInt(
-          lineHeight.slice(0, lineHeight.length - 2),
-          10
-        );
+        this._lineHeight = Number(lineHeight.slice(0, lineHeight.length - 2));
 
         this._change = change;
         if (
@@ -2043,7 +2040,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
               if (thePatchNum === 'edit') {
                 return revision._number === thePatchNum;
               }
-              return revision._number === parseInt(`${thePatchNum}`, 10);
+              return revision._number === Number(`${thePatchNum}`);
             }
           );
         }
@@ -2672,7 +2669,7 @@ export class GrChangeView extends KeyboardShortcutMixin(
     if (patchNumStr === 'edit') {
       patchNum = EditPatchSetNum;
     } else {
-      patchNum = parseInt(`${patchNumStr}`, 10) as PatchSetNum;
+      patchNum = Number(`${patchNumStr}`) as PatchSetNum;
     }
 
     if (patchNum === this._selectedRevision._number) {

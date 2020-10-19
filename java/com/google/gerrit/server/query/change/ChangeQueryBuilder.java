@@ -1225,9 +1225,36 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
   }
 
   @Operator
-  public Predicate<ChangeData> query(String name) throws QueryParseException {
+  public Predicate<ChangeData> query(String value) throws QueryParseException {
+    // [name=]<name>[,user=<user>] || [user=<user>,][name=]<name>
+    PredicateArgs inputArgs = new PredicateArgs(value);
+    String name = null;
+    Account.Id account = null;
+
     try (Repository git = args.repoManager.openRepository(args.allUsersName)) {
-      VersionedAccountQueries q = VersionedAccountQueries.forUser(self());
+      // [name=]<name>
+      if (inputArgs.keyValue.containsKey(ARG_ID_NAME)) {
+        name = inputArgs.keyValue.get(ARG_ID_NAME);
+      } else if (inputArgs.positional.size() == 1) {
+        name = Iterables.getOnlyElement(inputArgs.positional);
+      } else if (inputArgs.positional.size() > 1) {
+        throw new QueryParseException("Error parsing named query: " + value);
+      }
+
+      // [,user=<user>]
+      if (inputArgs.keyValue.containsKey(ARG_ID_USER)) {
+        Set<Account.Id> accounts = parseAccount(inputArgs.keyValue.get(ARG_ID_USER));
+        if (accounts != null && accounts.size() > 1) {
+          throw error(
+              String.format(
+                  "\"%s\" resolves to multiple accounts", inputArgs.keyValue.get(ARG_ID_USER)));
+        }
+        account = (accounts == null ? self() : Iterables.getOnlyElement(accounts));
+      } else {
+        account = self();
+      }
+
+      VersionedAccountQueries q = VersionedAccountQueries.forUser(account);
       q.load(args.allUsersName, git);
       String query = q.getQueryList().getQuery(name);
       if (query != null) {
@@ -1237,7 +1264,7 @@ public class ChangeQueryBuilder extends QueryBuilder<ChangeData, ChangeQueryBuil
       throw new QueryParseException(
           "Unknown named query (no " + args.allUsersName + " repo): " + name, e);
     } catch (IOException | ConfigInvalidException e) {
-      throw new QueryParseException("Error parsing named query: " + name, e);
+      throw new QueryParseException("Error parsing named query: " + value, e);
     }
     throw new QueryParseException("Unknown named query: " + name);
   }

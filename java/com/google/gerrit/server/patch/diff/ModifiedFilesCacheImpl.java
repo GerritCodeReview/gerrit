@@ -216,13 +216,15 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
     /** @return the new commit ID used in the git tree diff */
     public abstract ObjectId bCommit();
 
-    public abstract boolean renameDetectionFlag();
-
     /**
      * Percentage score used to identify a file as a "rename". A special value of -1 means that the
      * computation will ignore renames and rename detection will be disabled.
      */
     public abstract int renameScore();
+
+    public boolean renameDetectionEnabled() {
+      return renameScore() != -1;
+    }
 
     public int weight() {
       return project().get().length() + 20 * 2 + 4;
@@ -241,25 +243,46 @@ public class ModifiedFilesCacheImpl implements ModifiedFilesCache {
 
       public abstract Builder bCommit(ObjectId value);
 
-      public abstract Builder renameDetectionFlag(boolean value);
+      public Builder disableRenameDetection() {
+        renameScore(-1);
+        return this;
+      }
 
       public abstract Builder renameScore(int value);
 
       public abstract Key build();
     }
 
-    enum Serializer implements CacheSerializer<Key> {
+    public enum Serializer implements CacheSerializer<Key> {
       INSTANCE;
 
       @Override
-      public byte[] serialize(Key object) {
-        // TODO(ghareeb): implement protobuf serialization
-        return new byte[0];
+      public byte[] serialize(Key key) {
+        // We are reusing the serializer of the GitModifiedFilesCacheImpl#Key since both classes
+        // contain exactly the same fields, with the difference that the Object Ids here refer
+        // to the commit SHA-1s instead of the tree SHA-1s, but they are still can be serialized
+        // and deserialized in the same way.
+        GitModifiedFilesCacheImpl.Key gitKey =
+            GitModifiedFilesCacheImpl.Key.builder()
+                .project(key.project())
+                .aTree(key.aCommit())
+                .bTree(key.bCommit())
+                .renameScore(key.renameScore())
+                .build();
+
+        return GitModifiedFilesCacheImpl.Key.KeySerializer.INSTANCE.serialize(gitKey);
       }
 
       @Override
       public Key deserialize(byte[] in) {
-        return null;
+        GitModifiedFilesCacheImpl.Key gitKey =
+            GitModifiedFilesCacheImpl.Key.KeySerializer.INSTANCE.deserialize(in);
+        return Key.builder()
+            .project(gitKey.project())
+            .aCommit(gitKey.aTree())
+            .bCommit(gitKey.bTree())
+            .renameScore(gitKey.renameScore())
+            .build();
       }
     }
   }

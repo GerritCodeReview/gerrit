@@ -101,7 +101,7 @@ import {LineOfInterest} from '../gr-diff/gr-diff';
 import {CommentEventDetail} from '../../shared/gr-comment/gr-comment';
 import {RevisionInfo as RevisionInfoObj} from '../../shared/revision-info/revision-info';
 import {CommentMap} from '../../../utils/comment-util';
-import {AppElementParams} from '../../gr-app-types';
+import {AppElementParams, AppElementDiffViewParam} from '../../gr-app-types';
 
 const ERR_REVIEW_STATUS = 'Couldn’t change file review status.';
 const MSG_LOADING_BLAME = 'Loading blame...';
@@ -1769,7 +1769,11 @@ export class GrDiffView extends KeyboardShortcutMixin(
     GerritNav.navigateToDiff(
       this._change,
       this._path,
-      this._patchRange.basePatchNum
+      this._patchRange.basePatchNum,
+      'PARENT' as PatchSetNum,
+      (this.params as AppElementDiffViewParam).commentLink
+        ? this._focusLineNum
+        : undefined
     );
   }
 

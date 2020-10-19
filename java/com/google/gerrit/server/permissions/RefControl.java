@@ -45,6 +45,7 @@ class RefControl {
   private static final FluentLogger logger = FluentLogger.forEnclosingClass();
 
   private final ChangeData.Factory changeDataFactory;
+  private final RefVisibilityControl refVisibilityControl;
   private final ProjectControl projectControl;
   private final String refName;
 
@@ -58,14 +59,16 @@ class RefControl {
   private Boolean owner;
   private Boolean canForgeAuthor;
   private Boolean canForgeCommitter;
-  private Boolean isVisible;
+  private Boolean hasReadPermissionOnRef;
 
   RefControl(
       ChangeData.Factory changeDataFactory,
+      RefVisibilityControl refVisibilityControl,
       ProjectControl projectControl,
       String ref,
       PermissionCollection relevant) {
     this.changeDataFactory = changeDataFactory;
+    this.refVisibilityControl = refVisibilityControl;
     this.projectControl = projectControl;
     this.refName = ref;
     this.relevant = relevant;
@@ -99,12 +102,17 @@ class RefControl {
     return owner;
   }
 
-  /** Can this user see this reference exists? */
-  boolean isVisible() {
-    if (isVisible == null) {
-      isVisible = getUser().isInternalUser() || canPerform(Permission.READ);
+  /**
+   * Returns {@code true} if the user has permission to read the ref. This method evaluates {@link
+   * RefPermission#READ} only. Hence, it is not authoritative. For example, it does not tell if the
+   * user can see NoteDb refs such as {@code refs/meta/external-ids} which requires {@link
+   * GlobalPermission#ACCESS_DATABASE}.
+   */
+  boolean hasReadPermissionOnRef() {
+    if (hasReadPermissionOnRef == null) {
+      hasReadPermissionOnRef = getUser().isInternalUser() || canPerform(Permission.READ);
     }
-    return isVisible;
+    return hasReadPermissionOnRef;
   }
 
   /** @return true if this user can add a new patch set to this ref */
@@ -591,7 +599,7 @@ class RefControl {
     private boolean can(RefPermission perm) throws PermissionBackendException {
       switch (perm) {
         case READ:
-          return isVisible();
+          return refVisibilityControl.isVisible(projectControl, refName);
         case CREATE:
           // TODO This isn't an accurate test.
           return canPerform(refPermissionName(perm));

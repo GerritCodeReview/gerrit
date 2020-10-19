@@ -397,6 +397,11 @@ public abstract class ChangeEmail extends NotificationEmail {
 
   @Override
   protected void add(RecipientType rt, Account.Id to) {
+    add(rt, to, false);
+  }
+
+  @Override
+  protected void add(RecipientType rt, Account.Id to, boolean override) {
     Optional<AccountState> accountState = args.accountCache.get(to);
     if (!accountState.isPresent()) {
       return;

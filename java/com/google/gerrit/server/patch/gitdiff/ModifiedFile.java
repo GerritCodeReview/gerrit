@@ -16,6 +16,8 @@ package com.google.gerrit.server.patch.gitdiff;
 
 import com.google.auto.value.AutoValue;
 import com.google.gerrit.entities.Patch.ChangeType;
+import com.google.gerrit.proto.Protos;
+import com.google.gerrit.server.cache.proto.Cache.ModifiedFileProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
 import java.io.Serializable;
 import java.util.Optional;
@@ -68,18 +70,46 @@ public abstract class ModifiedFile implements Serializable {
     public abstract ModifiedFile build();
   }
 
-  // TODO(ghareeb): Implement protobuf serialization
   enum Serializer implements CacheSerializer<ModifiedFile> {
     INSTANCE;
 
     @Override
-    public byte[] serialize(ModifiedFile object) {
-      return null;
+    public byte[] serialize(ModifiedFile modifiedFile) {
+      return Protos.toByteArray(toProto(modifiedFile));
+    }
+
+    public ModifiedFileProto toProto(ModifiedFile modifiedFile) {
+      ModifiedFileProto.Builder builder = ModifiedFileProto.newBuilder();
+      if (modifiedFile.changeType().isPresent()) {
+        builder.setChangeType(modifiedFile.changeType().get().toString());
+      }
+      if (modifiedFile.oldPath().isPresent()) {
+        builder.setOldPath(modifiedFile.oldPath().get());
+      }
+      if (modifiedFile.newPath().isPresent()) {
+        builder.setNewPath(modifiedFile.newPath().get());
+      }
+      return builder.build();
     }
 
     @Override
     public ModifiedFile deserialize(byte[] in) {
-      return null;
+      ModifiedFileProto modifiedFileProto = Protos.parseUnchecked(ModifiedFileProto.parser(), in);
+      return fromProto(modifiedFileProto);
+    }
+
+    public ModifiedFile fromProto(ModifiedFileProto modifiedFileProto) {
+      ModifiedFile.Builder builder = ModifiedFile.builder();
+      if (!modifiedFileProto.getChangeType().isEmpty()) {
+        builder.changeType(Optional.of(ChangeType.valueOf(modifiedFileProto.getChangeType())));
+      }
+      if (!modifiedFileProto.getOldPath().isEmpty()) {
+        builder.oldPath(Optional.of(modifiedFileProto.getOldPath()));
+      }
+      if (!modifiedFileProto.getNewPath().isEmpty()) {
+        builder.newPath(Optional.of(modifiedFileProto.getNewPath()));
+      }
+      return builder.build();
     }
   }
 }

@@ -1,6 +1,23 @@
 {
   "comments": [
     {
+      "unresolved": false,
+      "key": {
+        "uuid": "612e6ef7_dc57ab52",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 2
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1026112
+      },
+      "writtenOn": "2020-10-19T11:56:28Z",
+      "side": 1,
+      "message": "Current problems with this approach:\n\n1) Creating a ref like we do here smells\n2) DefaultRefFilter would search for changes using the index. For single change refs, we should rather check the visibility using PermissionBackend#ForChange",
+      "revId": "1894871a304608611242b8f0e664cd04758967c3",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
       "unresolved": true,
       "key": {
         "uuid": "2bd36edb_30b3767b",

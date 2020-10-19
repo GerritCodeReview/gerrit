@@ -1,0 +1,44 @@
+{
+  "comments": [
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "06c4a610_e6aa488e",
+        "filename": "java/com/google/gerrit/server/permissions/RefControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 462,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-19T08:49:23Z",
+      "side": 1,
+      "message": "unused?",
+      "revId": "a81d1109e7eafa67272570b002e3eced277c0f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    },
+    {
+      "unresolved": true,
+      "key": {
+        "uuid": "f5f0b801_cb96358b",
+        "filename": "java/com/google/gerrit/server/permissions/RefVisibilityControl.java",
+        "patchSetId": 1
+      },
+      "lineNbr": 62,
+      "author": {
+        "id": 1003935
+      },
+      "writtenOn": "2020-10-19T08:49:23Z",
+      "side": 1,
+      "message": "\"can\u0027t check tags\"?",
+      "range": {
+        "startLine": 62,
+        "startChar": 11,
+        "endLine": 62,
+        "endChar": 27
+      },
+      "revId": "a81d1109e7eafa67272570b002e3eced277c0f80",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

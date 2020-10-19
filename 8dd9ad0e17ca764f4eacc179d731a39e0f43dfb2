@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "88f5da48_d44cef7a",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1012732
+      },
+      "writtenOn": "2020-10-19T18:13:47Z",
+      "side": 1,
+      "message": "@Matthias, could you please check the latest CI error [1,2] (unrelated to this change)? -Looks like this previously available artifact disappeared.\n\n[1] \"javadoc: error - Error fetching URL: https://download.eclipse.org/jgit/site/5.3.7.202002110540-r/apidocs/\"\n\n[2] https://gerrit-ci.gerritforge.com/job/Gerrit-verifier-bazel/94831/console",
+      "revId": "8dd9ad0e17ca764f4eacc179d731a39e0f43dfb2",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

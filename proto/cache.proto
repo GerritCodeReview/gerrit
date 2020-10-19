@@ -526,3 +526,28 @@ message AllCommentContextProto {
   }
   repeated CommentContextProto context = 1;
 }
+
+// Serialized key for
+// com.google.gerrit.server.patch.gitdiff.GitModifiedCacheImpl.Key
+// Next ID: 5
+message GitModifiedFilesKeyProto {
+  string project = 1;
+  bytes a_tree = 2; // SHA-1 hash of the left git tree ID in the diff
+  bytes b_tree = 3; // SHA-1 hash of the right git tree ID in the diff
+  int32 rename_score = 4;
+}
+
+// Serialized form of com.google.gerrit.server.patch.gitdiff.ModifiedFile
+// Next ID: 4
+message ModifiedFileProto {
+  string change_type = 1; // ENUM as string
+  string old_path = 2;
+  string new_path = 3;
+}
+
+// Serialized form of a collection of
+// com.google.gerrit.server.patch.gitdiff.ModifiedFile
+// Next ID: 2
+message ModifiedFilesProto {
+  repeated ModifiedFileProto modifiedFile = 1;
+}

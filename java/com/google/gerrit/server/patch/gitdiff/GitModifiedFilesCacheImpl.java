@@ -24,8 +24,13 @@ import com.google.common.collect.ImmutableMap;
 import com.google.gerrit.entities.Patch;
 import com.google.gerrit.entities.Project;
 import com.google.gerrit.entities.Project.NameKey;
+import com.google.gerrit.proto.Protos;
 import com.google.gerrit.server.cache.CacheModule;
+import com.google.gerrit.server.cache.proto.Cache;
+import com.google.gerrit.server.cache.proto.Cache.GitModifiedFilesKeyProto;
+import com.google.gerrit.server.cache.proto.Cache.ModifiedFilesProto;
 import com.google.gerrit.server.cache.serialize.CacheSerializer;
+import com.google.gerrit.server.cache.serialize.ObjectIdConverter;
 import com.google.gerrit.server.cache.serialize.entities.Weighable;
 import com.google.gerrit.server.git.GitRepositoryManager;
 import com.google.gerrit.server.patch.DiffNotAvailableException;
@@ -226,34 +231,56 @@ public class GitModifiedFilesCacheImpl implements GitModifiedFilesCache {
       public abstract Key build();
     }
 
-    // TODO(ghareeb): Implement protobuf serialization
-    enum KeySerializer implements CacheSerializer<Key> {
+    public enum KeySerializer implements CacheSerializer<Key> {
       INSTANCE;
 
       @Override
-      public byte[] serialize(Key object) {
-        return null;
+      public byte[] serialize(Key key) {
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return Protos.toByteArray(
+            GitModifiedFilesKeyProto.newBuilder()
+                .setProject(key.project().get())
+                .setATree(idConverter.toByteString(key.aTree()))
+                .setBTree(idConverter.toByteString(key.bTree()))
+                .setRenameScore(key.renameScore())
+                .build());
       }
 
       @Override
       public Key deserialize(byte[] in) {
-        return null;
+        GitModifiedFilesKeyProto proto =
+            Protos.parseUnchecked(GitModifiedFilesKeyProto.parser(), in);
+        ObjectIdConverter idConverter = ObjectIdConverter.create();
+        return Key.builder()
+            .project(Project.NameKey.parse(proto.getProject()))
+            .aTree(idConverter.fromByteString(proto.getATree()))
+            .bTree(idConverter.fromByteString(proto.getBTree()))
+            .renameScore(proto.getRenameScore())
+            .build();
       }
     }
   }
 
-  // TODO(ghareeb): Implement protobuf serialization
   public enum ValueSerializer implements CacheSerializer<ImmutableList<ModifiedFile>> {
     INSTANCE;
 
     @Override
     public byte[] serialize(ImmutableList<ModifiedFile> modifiedFiles) {
-      return new byte[0];
+      ModifiedFilesProto.Builder builder = ModifiedFilesProto.newBuilder();
+      modifiedFiles.forEach(
+          f -> builder.addModifiedFile(ModifiedFile.Serializer.INSTANCE.toProto(f)));
+      return Protos.toByteArray(builder.build());
     }
 
     @Override
     public ImmutableList<ModifiedFile> deserialize(byte[] in) {
-      return null;
+      ImmutableList.Builder<ModifiedFile> modifiedFiles = ImmutableList.builder();
+      ModifiedFilesProto modifiedFilesProto =
+          Protos.parseUnchecked(ModifiedFilesProto.parser(), in);
+      for (Cache.ModifiedFileProto modifiedFileProto : modifiedFilesProto.getModifiedFileList()) {
+        modifiedFiles.add(ModifiedFile.Serializer.INSTANCE.fromProto(modifiedFileProto));
+      }
+      return modifiedFiles.build();
     }
   }
 }

@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "unresolved": false,
+      "key": {
+        "uuid": "80170108_ec816c4f",
+        "filename": "/PATCHSET_LEVEL",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1006192
+      },
+      "writtenOn": "2020-10-19T21:50:24Z",
+      "side": 1,
+      "message": "Setting this as Verified, as the follow-up that set the version to 3.3.0-SNAPSHOT has been verified as well.",
+      "revId": "53922edcf5432ca203f06081499727ccddb27861",
+      "serverId": "173816e5-2b9a-37c3-8a2e-48639d4f1153"
+    }
+  ]
+}

@@ -326,9 +326,8 @@ public class GetBranchIT extends AbstractDaemonTest {
           .create();
     }
 
-    // TODO: a user without the 'Access Database' capability cannot see the deleted group ref
-    // requestScopeOperations.setApiUser(user.id());
-    // assertBranchNotFound(allUsers, deletedGroupRef);
+    requestScopeOperations.setApiUser(user.id());
+    assertBranchNotFound(allUsers, deletedGroupRef);
 
     // a user with the 'Access Database' capability can see the deleted group ref
     testGetRefWithAccessDatabase(allUsers, deletedGroupRef);
